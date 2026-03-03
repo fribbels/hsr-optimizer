@@ -38,6 +38,12 @@ import {
   Relic,
   Stat,
 } from 'types/relic'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 // FIXME HIGH
 
@@ -343,7 +349,7 @@ export function importOptimizerBuild() {
 }
 
 export function relicSetIndexToNames(relicSetIndex: number) {
-  const numSetsR = Object.values(Constants.SetsRelics).length
+  const numSetsR = Object.values(SetsRelics).length
   const s1 = relicSetIndex % numSetsR
   const s2 = ((relicSetIndex - s1) / numSetsR) % numSetsR
   const s3 = ((relicSetIndex - s2 * numSetsR - s1) / (numSetsR * numSetsR)) % numSetsR
@@ -353,7 +359,7 @@ export function relicSetIndexToNames(relicSetIndex: number) {
 }
 
 export function ornamentSetIndexToName(ornamentSetIndex: number) {
-  const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
+  const ornamentSetCount = Object.values(SetsOrnaments).length
   const os1 = ornamentSetIndex % ornamentSetCount
   const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
   return calculateOrnamentSets([os1, os2], false)
@@ -416,7 +422,7 @@ export function calculateRelicSets(relicSets: (string | number)[], nameProvided 
   while (relicSets.length > 0) {
     const value = relicSets[0]
     if (relicSets.lastIndexOf(value)) {
-      const setName = nameProvided ? value : Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
+      const setName = nameProvided ? value : Object.entries(RelicSetToIndex).find((x) => x[1] == value)![0]
       relicSetNames.push(setName as string)
 
       const otherIndex = relicSets.lastIndexOf(value)
@@ -433,7 +439,7 @@ export function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = tr
     return (
       nameProvided
         ? ornamentSets[1] as string
-        : Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
+        : Object.entries(OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
     )
   }
   return undefined

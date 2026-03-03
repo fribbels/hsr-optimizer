@@ -10,10 +10,14 @@ import {
 import {
   Constants,
   Sets,
+} from 'lib/constants/constants'
+import {
   SetsOrnaments,
   SetsRelics,
+  SetsRelicsNames,
+  setToConditionalKey,
   setToId,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -185,7 +189,7 @@ function isRelicProps(props: ConditionalSetOptionsProps): props is RelicConditio
 }
 
 function isRelicSet(set: Sets): set is SetsRelics {
-  return (Constants.SetsRelicsNames as Array<Sets>).includes(set)
+  return (SetsRelicsNames as Array<Sets>).includes(set)
 }
 
 export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
@@ -254,75 +258,3 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
   )
 }
 
-export function setToConditionalKey(set: Sets) {
-  switch (set) {
-    case Sets.HunterOfGlacialForest:
-      return 'Conditionals.Hunter'
-    case Sets.ChampionOfStreetwiseBoxing:
-      return 'Conditionals.Streetwise'
-    case Sets.FiresmithOfLavaForging:
-      return 'Conditionals.Firesmith'
-    case Sets.GeniusOfBrilliantStars:
-      return 'Conditionals.Genius'
-    case Sets.BandOfSizzlingThunder:
-      return 'Conditionals.Thunder'
-    case Sets.WastelanderOfBanditryDesert:
-      return 'Conditionals.Wastelander'
-    case Sets.LongevousDisciple:
-      return 'Conditionals.Longevous'
-    case Sets.MessengerTraversingHackerspace:
-      return 'Conditionals.Messenger'
-    case Sets.TheAshblazingGrandDuke:
-      return 'Conditionals.Ashblazing'
-    case Sets.PrisonerInDeepConfinement:
-      return 'Conditionals.Prisoner'
-    case Sets.PioneerDiverOfDeadWaters:
-      return 'Conditionals.Diver'
-    case Sets.WatchmakerMasterOfDreamMachinations:
-      return 'Conditionals.Watchmaker'
-    case Sets.TheWindSoaringValorous:
-      return 'Conditionals.Valorous'
-    case Sets.SacerdosRelivedOrdeal:
-      return 'Conditionals.Sacerdos'
-    case Sets.ScholarLostInErudition:
-      return 'Conditionals.Scholar'
-    case Sets.HeroOfTriumphantSong:
-      return 'Conditionals.Hero'
-    case Sets.WarriorGoddessOfSunAndThunder:
-      return 'Conditionals.WarriorGoddess'
-    case Sets.WavestriderCaptain:
-      return 'Conditionals.Wavestrider'
-    case Sets.WorldRemakingDeliverer:
-      return 'Conditionals.Deliverer'
-    case Sets.SelfEnshroudedRecluse:
-      return 'Conditionals.Recluse'
-    case Sets.EverGloriousMagicalGirl:
-      return 'Conditionals.MagicalGirl'
-    case Sets.DivinerOfDistantReach:
-      return 'Conditionals.Diviner'
-    case Sets.CelestialDifferentiator:
-      return 'Conditionals.Differentiator'
-    case Sets.PenaconyLandOfTheDreams:
-      return 'Conditionals.Penacony'
-    case Sets.SigoniaTheUnclaimedDesolation:
-      return 'Conditionals.Sigonia'
-    case Sets.IzumoGenseiAndTakamaDivineRealm:
-      return 'Conditionals.Izumo'
-    case Sets.DuranDynastyOfRunningWolves:
-      return 'Conditionals.Duran'
-    case Sets.ForgeOfTheKalpagniLantern:
-      return 'Conditionals.Kalpagni'
-    case Sets.LushakaTheSunkenSeas:
-      return 'Conditionals.Lushaka'
-    case Sets.TheWondrousBananAmusementPark:
-      return 'Conditionals.Banana'
-    case Sets.ArcadiaOfWovenDreams:
-      return 'Conditionals.Arcadia'
-    case Sets.AmphoreusTheEternalLand:
-      return 'Conditionals.Amphoreus'
-    case Sets.TengokuLivestream:
-      return 'Conditionals.Tengoku'
-    default:
-      return 'Conditionals.DefaultMessage'
-  }
-}

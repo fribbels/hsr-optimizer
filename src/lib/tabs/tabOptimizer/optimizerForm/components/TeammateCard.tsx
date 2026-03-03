@@ -17,6 +17,7 @@ import {
   SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
 } from 'lib/constants/constants'
+import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -177,80 +178,21 @@ export type OptionRender = {
 
 export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
   return () => {
-    return [
-      {
-        value: Sets.MessengerTraversingHackerspace,
-        desc: t('TeammateSets.Messenger.Desc'), // `4 Piece: ${Sets.MessengerTraversingHackerspace} (+12% SPD)`,
-        label: labelRender(Sets.MessengerTraversingHackerspace, t('TeammateSets.Messenger.Text')), // labelRender(Sets.MessengerTraversingHackerspace, '12% SPD'),
-      },
-      {
-        value: Sets.WatchmakerMasterOfDreamMachinations,
-        desc: t('TeammateSets.Watchmaker.Desc'), // `4 Piece: ${Sets.WatchmakerMasterOfDreamMachinations} (+30% BE)`,
-        label: labelRender(Sets.WatchmakerMasterOfDreamMachinations, t('TeammateSets.Watchmaker.Text')), // labelRender(Sets.WatchmakerMasterOfDreamMachinations, '30% BE'),
-      },
-      {
-        value: SACERDOS_RELIVED_ORDEAL_1_STACK,
-        desc: t('TeammateSets.Sacerdos1Stack.Desc'), // `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 1 stack (+20% CD)`,
-        label: labelRender(Sets.SacerdosRelivedOrdeal, t('TeammateSets.Sacerdos1Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '20% CD'),
-      },
-      {
-        value: SACERDOS_RELIVED_ORDEAL_2_STACK,
-        desc: t('TeammateSets.Sacerdos2Stack.Desc'), // `4 Piece: ${Sets.SacerdosRelivedOrdeal} - 2 stack (+40% CD)`,
-        label: labelRender(Sets.SacerdosRelivedOrdeal, t('TeammateSets.Sacerdos2Stack.Text')), // labelRender(Sets.SacerdosRelivedOrdeal, '40% CD'),
-      },
-      {
-        value: Sets.WarriorGoddessOfSunAndThunder,
-        desc: t('TeammateSets.Warrior.Desc'), // `4 Piece: ${Sets.WarriorGoddessOfSunAndThunder} (+15% CD)`,
-        label: labelRender(Sets.WarriorGoddessOfSunAndThunder, t('TeammateSets.Warrior.Text')), // labelRender(Sets.WarriorGoddessOfSunAndThunder, '15% CD'),
-      },
-      {
-        value: Sets.WorldRemakingDeliverer,
-        desc: t('TeammateSets.WorldRemaking.Desc'), // '4 Piece: World-Remaking Deliverer (+15% DMG)',
-        label: labelRender(Sets.WorldRemakingDeliverer, t('TeammateSets.WorldRemaking.Text')), // labelRender(Sets.WorldRemakingDeliverer, '15% DMG'),
-      },
-      {
-        value: Sets.SelfEnshroudedRecluse,
-        desc: t('TeammateSets.SelfEnshrouded.Desc'), // '4 Piece: Self-Enshrouded Recluse (+15% CD)',
-        label: labelRender(Sets.SelfEnshroudedRecluse, t('TeammateSets.SelfEnshrouded.Text')), // labelRender(Sets.SelfEnshroudedRecluse, '15% CD'),
-      },
-      {
-        value: Sets.DivinerOfDistantReach,
-        desc: t('TeammateSets.Diviner.Desc'), // '4 Piece: Diviner of Distant Reach (+10% Elation)',
-        label: labelRender(Sets.DivinerOfDistantReach, t('TeammateSets.Diviner.Text')), // labelRender(Sets.DivinerOfDistantReach, '10% Elation'),
-      },
-    ]
+    return teammateRelicOptions.map((option) => ({
+      value: option.value,
+      desc: option.desc(t),
+      label: labelRender(option.value, option.label(t)),
+    }))
   }
 }
 
 export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
   return () => {
-    return [
-      {
-        value: Sets.BrokenKeel,
-        desc: t('TeammateSets.Keel.Desc'), // `${Sets.BrokenKeel} (+10% CD)`,
-        label: labelRender(Sets.BrokenKeel, t('TeammateSets.Keel.Text')), // labelRender(Sets.BrokenKeel, '10% CD'),
-      },
-      {
-        value: Sets.FleetOfTheAgeless,
-        desc: t('TeammateSets.Ageless.Desc'), // `${Sets.FleetOfTheAgeless} (+8% ATK)`,
-        label: labelRender(Sets.FleetOfTheAgeless, t('TeammateSets.Ageless.Text')), // labelRender(Sets.FleetOfTheAgeless, '8% ATK'),
-      },
-      {
-        value: Sets.PenaconyLandOfTheDreams,
-        desc: t('TeammateSets.Penacony.Desc'), // `${Sets.PenaconyLandOfTheDreams} (+10% DMG for same element)`,
-        label: labelRender(Sets.PenaconyLandOfTheDreams, t('TeammateSets.Penacony.Text')), // labelRender(Sets.PenaconyLandOfTheDreams, '10% DMG'),
-      },
-      {
-        value: Sets.LushakaTheSunkenSeas,
-        desc: t('TeammateSets.Lushaka.Desc'), // `${Sets.LushakaTheSunkenSeas} (+12% ATK)`,
-        label: labelRender(Sets.LushakaTheSunkenSeas, t('TeammateSets.Lushaka.Text')), // labelRender(Sets.LushakaTheSunkenSeas, '12% ATK'),
-      },
-      {
-        value: Sets.AmphoreusTheEternalLand,
-        desc: t('TeammateSets.Amphoreus.Desc'), // `${Sets.AmphoreusTheEternalLand} (+8% SPD)`,
-        label: labelRender(Sets.AmphoreusTheEternalLand, t('TeammateSets.Amphoreus.Text')), // labelRender(Sets.AmphoreusTheEternalLand, '8% SPD'),
-      },
-    ]
+    return teammateOrnamentOptions.map((option) => ({
+      value: option.value,
+      desc: option.desc(t),
+      label: labelRender(option.value, option.label(t)),
+    }))
   }
 }
 

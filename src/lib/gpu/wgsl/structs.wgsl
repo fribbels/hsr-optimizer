@@ -54,8 +54,8 @@ struct BasicStats {
 }
 
 struct Sets {
-  relicMatch2: u32,   // bit N set = relic set N has >= 2 pieces
-  relicMatch4: u32,   // bit N set = relic set N has 4 pieces
+  relicMatch2: u32,    // bit N set = relic set N has >= 2 pieces
+  relicMatch4: u32,    // bit N set = relic set N has 4 pieces
   ornamentMatch2: u32, // bit N set = ornament set N has 2 pieces
 }
 
@@ -64,40 +64,11 @@ fn relic2p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch2 >> bit) & 1u); 
 fn relic4p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch4 >> bit) & 1u); }
 fn ornament2p(s: Sets, bit: u32) -> f32 { return f32((s.ornamentMatch2 >> bit) & 1u); }
 
-struct SetConditionals {
-  enabledHunterOfGlacialForest: bool,
-  enabledFiresmithOfLavaForging: bool,
-  enabledGeniusOfBrilliantStars: bool,
-  enabledBandOfSizzlingThunder: bool,
-  enabledMessengerTraversingHackerspace: bool,
-  enabledCelestialDifferentiator: bool,
-  enabledWatchmakerMasterOfDreamMachinations: bool,
-  enabledPenaconyLandOfTheDreams: bool,
-  enabledIzumoGenseiAndTakamaDivineRealm: bool,
-  enabledForgeOfTheKalpagniLantern: bool,
-  enabledTheWindSoaringValorous: bool,
-  enabledTheWondrousBananAmusementPark: bool,
-  enabledScholarLostInErudition: bool,
-  enabledHeroOfTriumphantSong: bool,
-  enabledWarriorGoddessOfSunAndThunder: bool,
-  enabledWavestriderCaptain: bool,
-  enabledWorldRemakingDeliverer: bool,
-  enabledSelfEnshroudedRecluse: bool,
-  enabledDivinerOfDistantReach: bool,
-  enabledAmphoreusTheEternalLand: bool,
-  enabledTengokuLivestream: bool,
-  valueChampionOfStreetwiseBoxing: i32,
-  valueWastelanderOfBanditryDesert: i32,
-  valueLongevousDisciple: i32,
-  valueTheAshblazingGrandDuke: i32,
-  valuePrisonerInDeepConfinement: i32,
-  valuePioneerDiverOfDeadWaters: i32,
-  valueSigoniaTheUnclaimedDesolation: i32,
-  valueDuranDynastyOfRunningWolves: i32,
-  valueSacerdosRelivedOrdeal: i32,
-  valueArcadiaOfWovenDreams: i32,
-  valueEverGloriousMagicalGirl: i32
-}
+// START SET_CONDITIONALS_STRUCT
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+/* INJECT SET_CONDITIONALS_STRUCT */
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+// END SET_CONDITIONALS_STRUCT
 
 struct Action {
   setConditionals: SetConditionals,

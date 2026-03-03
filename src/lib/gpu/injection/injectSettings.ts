@@ -5,6 +5,10 @@ import {
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 export function injectSettings(wgsl: string, context: OptimizerContext, request: Form, relics: RelicsByPart) {
   const merged: Record<string, number> = {}
@@ -24,8 +28,8 @@ export function injectSettings(wgsl: string, context: OptimizerContext, request:
 
 function generateConsts(context: OptimizerContext, relics: RelicsByPart) {
   const wgsl = `
-const relicSetCount = ${Object.keys(Constants.SetsRelics).length};
-const ornamentSetCount = ${Object.keys(Constants.SetsOrnaments).length};
+const relicSetCount = ${Object.keys(SetsRelics).length};
+const ornamentSetCount = ${Object.keys(SetsOrnaments).length};
 
 const lSize = ${relics.LinkRope.length};
 const pSize = ${relics.PlanarSphere.length};

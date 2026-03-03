@@ -23,11 +23,15 @@ import {
   Constants,
   MainStats,
   Parts,
-  setToId,
   Stats,
   SubStats,
   UnreleasedSets,
 } from 'lib/constants/constants'
+import {
+  SetsOrnaments,
+  SetsRelics,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
 import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import {
@@ -202,7 +206,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
       label: ReactElement,
       value: string,
     }[] = []
-    for (const entry of Object.entries(Constants.SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
+    for (const entry of Object.entries(SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
       setOptions.push({
         label: (
           <Flex align='center' gap={10}>
@@ -221,7 +225,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
       label: ReactElement,
       value: string,
     }[] = []
-    for (const entry of Object.entries(Constants.SetsOrnaments).filter((x) => !UnreleasedSets[x[1]])) {
+    for (const entry of Object.entries(SetsOrnaments).filter((x) => !UnreleasedSets[x[1]])) {
       setOptions.push({
         label: (
           <Flex align='center' gap={10}>
@@ -351,11 +355,11 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
       const defaultSet = getSetOptions(part)[0].value
       if (part === Parts.PlanarSphere || part === Parts.LinkRope) {
         // @ts-ignore
-        if (!Object.values(Constants.SetsOrnaments).includes(formValues.set)) {
+        if (!Object.values(SetsOrnaments).includes(formValues.set)) {
           relicForm.setFieldValue('set', defaultSet)
         }
         // @ts-ignore
-      } else if (!Object.values(Constants.SetsRelics).includes(formValues.set)) {
+      } else if (!Object.values(SetsRelics).includes(formValues.set)) {
         relicForm.setFieldValue('set', defaultSet)
       }
     }

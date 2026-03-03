@@ -1,10 +1,4 @@
-import {
-  OrnamentSetToIndex,
-  RelicSetToIndex,
-  SetsOrnaments,
-  SetsRelics,
-  SetsRelicsNames,
-} from 'lib/constants/constants'
+
 import {
   GpuExecutionContext,
   RelicsByPart,
@@ -12,6 +6,13 @@ import {
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import { StringToNumberMap } from 'types/common'
 import { Relic } from 'types/relic'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+  SetsRelicsNames,
+} from 'lib/sets/setConfigRegistry'
 
 export function generateParamsMatrix(
   offset: number,

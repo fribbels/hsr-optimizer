@@ -1,16 +1,14 @@
-import { countTeamPath } from 'lib/conditionals/conditionalUtils'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   ConditionalDataType,
-  SACERDOS_RELIVED_ORDEAL_1_STACK,
-  SACERDOS_RELIVED_ORDEAL_2_STACK,
-  Sets,
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  getTeammateOption,
+  orderedSetConditionalFields,
+  setConfigRegistry,
+} from 'lib/sets/setConfigRegistry'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import {
   AbilityKind,
@@ -42,8 +40,6 @@ import {
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
-
-const SUNDAY_ID = '1313'
 
 export function transformComboState(request: Form, context: OptimizerContext) {
   // console.log('transformComboState')
@@ -100,7 +96,7 @@ export function defineAction(
 
   action.characterConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.lightConeConditionals)
-  action.setConditionals = transformSetConditionals(conditionalIndex, comboState.comboCharacter.setConditionals) as SetConditional
+  action.setConditionals = transformSetConditionals(conditionalIndex, comboState.comboCharacter.setConditionals)
   action.setConditionals = overrideSetConditionals(action.setConditionals, context)
 
   if (comboState.comboTeammate0) {
@@ -220,62 +216,17 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
       } else {
         continue
       }
-      switch (key) {
-        case Sets.BrokenKeel:
-          x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
-          break
-        case Sets.FleetOfTheAgeless:
-          x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))
-          break
-        case Sets.PenaconyLandOfTheDreams:
-          if (comboState.comboCharacter.metadata.element != teammateRequest.metadata.element) break
-          x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
-          break
-        case Sets.LushakaTheSunkenSeas:
-          x.buff(StatKey.ATK_P, 0.12, x.source(Source.LushakaTheSunkenSeas))
-          break
-        case Sets.MessengerTraversingHackerspace:
-          if (teammateSetEffects[Sets.MessengerTraversingHackerspace]) break
-          x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
-          break
-        case Sets.WatchmakerMasterOfDreamMachinations:
-          if (teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) break
-          x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
-          break
-        case SACERDOS_RELIVED_ORDEAL_1_STACK:
-          if (teammateAction.actorId == SUNDAY_ID) {
-            x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
-          } else {
-            x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
-          }
-          break
-        case SACERDOS_RELIVED_ORDEAL_2_STACK:
-          if (teammateAction.actorId == SUNDAY_ID) {
-            x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
-          } else {
-            x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
-          }
-          break
-        case Sets.WarriorGoddessOfSunAndThunder:
-          if (teammateSetEffects[Sets.WarriorGoddessOfSunAndThunder]) break
-          x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
-          break
-        case Sets.WorldRemakingDeliverer:
-          x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
-          break
-        case Sets.SelfEnshroudedRecluse:
-          x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
-          break
-        case Sets.AmphoreusTheEternalLand:
-          if (teammateSetEffects[Sets.AmphoreusTheEternalLand]) break
-          x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
-          break
-        case Sets.DivinerOfDistantReach:
-          if (teammateSetEffects[Sets.DivinerOfDistantReach]) break
-          x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
-          break
-        default:
-      }
+
+      const teammateOption = getTeammateOption(key)
+      if (!teammateOption) continue
+      if (teammateOption.nonstackable && teammateSetEffects[key]) continue
+
+      teammateOption.effect({
+        x,
+        characterElement: comboState.comboCharacter.metadata.element,
+        teammateElement: teammateRequest.metadata.element,
+        teammateActorId: teammateAction.actorId,
+      })
 
       // Track unique buffs
       teammateSetEffects[key] = true
@@ -311,41 +262,13 @@ function transformConditional(category: ComboConditionalCategory, actionIndex: n
   return 0
 }
 
-function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals) {
-  return {
-    enabledHunterOfGlacialForest: transformConditional(conditionals[Sets.HunterOfGlacialForest], actionIndex),
-    enabledFiresmithOfLavaForging: transformConditional(conditionals[Sets.FiresmithOfLavaForging], actionIndex),
-    enabledGeniusOfBrilliantStars: transformConditional(conditionals[Sets.GeniusOfBrilliantStars], actionIndex),
-    enabledBandOfSizzlingThunder: transformConditional(conditionals[Sets.BandOfSizzlingThunder], actionIndex),
-    enabledMessengerTraversingHackerspace: transformConditional(conditionals[Sets.MessengerTraversingHackerspace], actionIndex),
-    enabledCelestialDifferentiator: transformConditional(conditionals[Sets.CelestialDifferentiator], actionIndex),
-    enabledWatchmakerMasterOfDreamMachinations: transformConditional(conditionals[Sets.WatchmakerMasterOfDreamMachinations], actionIndex),
-    enabledPenaconyLandOfTheDreams: transformConditional(conditionals[Sets.PenaconyLandOfTheDreams], actionIndex),
-    enabledIzumoGenseiAndTakamaDivineRealm: transformConditional(conditionals[Sets.IzumoGenseiAndTakamaDivineRealm], actionIndex),
-    enabledForgeOfTheKalpagniLantern: transformConditional(conditionals[Sets.ForgeOfTheKalpagniLantern], actionIndex),
-    enabledTheWindSoaringValorous: transformConditional(conditionals[Sets.TheWindSoaringValorous], actionIndex),
-    enabledTheWondrousBananAmusementPark: transformConditional(conditionals[Sets.TheWondrousBananAmusementPark], actionIndex),
-    enabledScholarLostInErudition: transformConditional(conditionals[Sets.ScholarLostInErudition], actionIndex),
-    enabledHeroOfTriumphantSong: transformConditional(conditionals[Sets.HeroOfTriumphantSong], actionIndex),
-    enabledWarriorGoddessOfSunAndThunder: transformConditional(conditionals[Sets.WarriorGoddessOfSunAndThunder], actionIndex),
-    enabledWavestriderCaptain: transformConditional(conditionals[Sets.WavestriderCaptain], actionIndex),
-    enabledWorldRemakingDeliverer: transformConditional(conditionals[Sets.WorldRemakingDeliverer], actionIndex),
-    enabledSelfEnshroudedRecluse: transformConditional(conditionals[Sets.SelfEnshroudedRecluse], actionIndex),
-    enabledDivinerOfDistantReach: transformConditional(conditionals[Sets.DivinerOfDistantReach], actionIndex),
-    enabledAmphoreusTheEternalLand: transformConditional(conditionals[Sets.AmphoreusTheEternalLand], actionIndex),
-    enabledTengokuLivestream: transformConditional(conditionals[Sets.TengokuLivestream], actionIndex),
-    valueChampionOfStreetwiseBoxing: transformConditional(conditionals[Sets.ChampionOfStreetwiseBoxing], actionIndex),
-    valueWastelanderOfBanditryDesert: transformConditional(conditionals[Sets.WastelanderOfBanditryDesert], actionIndex),
-    valueLongevousDisciple: transformConditional(conditionals[Sets.LongevousDisciple], actionIndex),
-    valueTheAshblazingGrandDuke: transformConditional(conditionals[Sets.TheAshblazingGrandDuke], actionIndex),
-    valuePrisonerInDeepConfinement: transformConditional(conditionals[Sets.PrisonerInDeepConfinement], actionIndex),
-    valuePioneerDiverOfDeadWaters: transformConditional(conditionals[Sets.PioneerDiverOfDeadWaters], actionIndex),
-    valueSigoniaTheUnclaimedDesolation: transformConditional(conditionals[Sets.SigoniaTheUnclaimedDesolation], actionIndex),
-    valueDuranDynastyOfRunningWolves: transformConditional(conditionals[Sets.DuranDynastyOfRunningWolves], actionIndex),
-    valueSacerdosRelivedOrdeal: transformConditional(conditionals[Sets.SacerdosRelivedOrdeal], actionIndex),
-    valueArcadiaOfWovenDreams: transformConditional(conditionals[Sets.ArcadiaOfWovenDreams], actionIndex),
-    valueEverGloriousMagicalGirl: transformConditional(conditionals[Sets.EverGloriousMagicalGirl], actionIndex),
+function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals): SetConditional {
+  const result: Record<string, boolean | number> = {}
+  for (const field of orderedSetConditionalFields) {
+    const comboEntry = conditionals[field.setKey]
+    result[field.fieldName] = transformConditional(comboEntry, actionIndex)
   }
+  return result as SetConditional
 }
 
 export enum ComboType {
@@ -373,10 +296,17 @@ export function getComboTypeAbilities(form: OptimizerForm) {
 }
 
 function overrideSetConditionals(setConditionals: SetConditional, context: OptimizerContext): SetConditional {
-  return {
-    ...setConditionals,
-    enabledIzumoGenseiAndTakamaDivineRealm: setConditionals.enabledIzumoGenseiAndTakamaDivineRealm && countTeamPath(context, context.path) >= 2,
+  const record = setConditionals as Record<string, boolean | number>
+  for (const config of setConfigRegistry.values()) {
+    if (config.conditionals.overrideConditional) {
+      const prefix = config.display.conditionalType === ConditionalDataType.BOOLEAN ? 'enabled' : 'value'
+      const fieldName = `${prefix}${config.id}`
+      if (record[fieldName] !== undefined) {
+        record[fieldName] = config.conditionals.overrideConditional(record[fieldName], context)
+      }
+    }
   }
+  return setConditionals
 }
 
 export function countDotAbilities(actions: OptimizerAction[]) {

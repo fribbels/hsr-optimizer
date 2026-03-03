@@ -1,7 +1,4 @@
-import {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/constants/constants'
+
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -29,6 +26,10 @@ import {
   MemoDisplay,
   StatDisplay,
 } from 'types/store'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 export type Teammate = {
   characterId: CharacterId,

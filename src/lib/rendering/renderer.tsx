@@ -32,6 +32,12 @@ import {
   Relic,
   Stat,
 } from 'types/relic'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 export const Renderer = {
   floor: (x: ValueFormatterParams<any, number>) => {
@@ -53,7 +59,7 @@ export const Renderer = {
     if (x?.value == undefined || isNaN(x.value)) return ''
     const i = x.value
 
-    const count = Object.values(Constants.SetsRelics).length
+    const count = Object.values(SetsRelics).length
     const setImages: string[] = []
 
     const s1 = i % count
@@ -66,7 +72,7 @@ export const Renderer = {
     while (relicSets.length > 0) {
       const value = relicSets[0]
       if (relicSets.lastIndexOf(value)) {
-        const setName = Object.entries(Constants.RelicSetToIndex).find((x) => x[1] == value)![0]
+        const setName = Object.entries(RelicSetToIndex).find((x) => x[1] == value)![0]
         const assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
         setImages.push(assetValue)
 
@@ -90,14 +96,14 @@ export const Renderer = {
     if (x?.value == undefined) return ''
     const i = x.value
 
-    const ornamentSetCount = Object.values(Constants.SetsOrnaments).length
+    const ornamentSetCount = Object.values(SetsOrnaments).length
     let setImage: string
 
     const s1 = i % ornamentSetCount
     const s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
 
     if (s1 == s2) {
-      const setName = Object.entries(Constants.OrnamentSetToIndex).find((x) => x[1] == s1)![0]
+      const setName = Object.entries(OrnamentSetToIndex).find((x) => x[1] == s1)![0]
       setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
       return (
         <Flex justify='center' style={{ marginTop: -1 }}>

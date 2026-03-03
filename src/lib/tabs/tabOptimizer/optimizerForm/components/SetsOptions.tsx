@@ -3,9 +3,12 @@ import i18next from 'i18next'
 import {
   Constants,
   RelicSetFilterOptions,
-  setToId,
   UnreleasedSets,
 } from 'lib/constants/constants'
+import {
+  SetsRelics,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'types/components'
 
@@ -46,7 +49,7 @@ const GenerateSetsOptions = () => {
     },
   ]
 
-  const tier2Children = Object.entries(Constants.SetsRelics)
+  const tier2Children = Object.entries(SetsRelics)
     .filter((x) => !UnreleasedSets[x[1]])
     .map((set) => ({ value: set[1], label: set[1] }))
 
@@ -62,7 +65,7 @@ const GenerateSetsOptions = () => {
     )
   }
 
-  for (const set of Object.entries(Constants.SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
+  for (const set of Object.entries(SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
     result[0].children.push({
       value: set[1],
       label: GenerateLabel(set[1], '(4) ', tGameData(`${setToId[set[1]]}.Name`)),
@@ -91,7 +94,7 @@ const GenerateSetsOptions = () => {
 // This should be memoised with either the t function or resolved language as a dependency
 export const GenerateBasicSetsOptions = (): { value: string, label: JSX.Element }[] => {
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
-  return Object.values(Constants.SetsRelics)
+  return Object.values(SetsRelics)
     .filter((x) => !UnreleasedSets[x])
     .map((x) => {
       return {

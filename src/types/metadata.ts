@@ -3,13 +3,16 @@ import {
   MainStats,
   Parts,
   PathName,
+  SetKey,
   Sets,
-  SetsOrnaments,
-  SetsRelics,
   ShowcaseColorMode,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { statConversion } from 'lib/importer/characterConverter'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
@@ -121,11 +124,11 @@ export type DBMetadataLightCone = {
   unreleased: boolean,
   superimpositions: Record<number, Record<string, number>>,
   displayName: string,
-  imageOffset: { x: number; y: number; s: number },
+  imageOffset: { x: number, y: number, s: number },
 }
 
 export type DBMetadataSets = {
-  id: keyof typeof Sets,
+  id: SetKey,
   name: Sets,
 }
 

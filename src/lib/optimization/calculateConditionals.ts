@@ -3,7 +3,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
+import { getAllSetDynamicConditionals } from 'lib/sets/setConfigRegistry'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -27,7 +27,7 @@ export function calculateContextConditionalRegistry(
 
   registerConditionals(conditionalRegistry, lightConeConditionals.dynamicConditionals ?? [])
   registerConditionals(conditionalRegistry, characterConditionals.dynamicConditionals ?? [])
-  registerConditionals(conditionalRegistry, ConditionalSets || [])
+  registerConditionals(conditionalRegistry, getAllSetDynamicConditionals())
 
   registerTeammateConditionals(conditionalRegistry, context.teammate0Metadata, action, 0)
   registerTeammateConditionals(conditionalRegistry, context.teammate1Metadata, action, 1)

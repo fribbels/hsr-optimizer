@@ -386,7 +386,8 @@ export const PartsMainStats = {
   [Parts.LinkRope]: [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.BE, Stats.ERR],
 }
 
-export const SetsRelics = {
+export const Sets = {
+  // Relics
   PasserbyOfWanderingCloud: 'Passerby of Wandering Cloud',
   MusketeerOfWildWheat: 'Musketeer of Wild Wheat',
   KnightOfPurityPalace: 'Knight of Purity Palace',
@@ -417,9 +418,8 @@ export const SetsRelics = {
   SelfEnshroudedRecluse: 'Self-Enshrouded Recluse',
   EverGloriousMagicalGirl: 'Ever-Glorious Magical Girl',
   DivinerOfDistantReach: 'Diviner of Distant Reach',
-} as const
 
-export const SetsOrnaments = {
+  // Ornaments
   SpaceSealingStation: 'Space Sealing Station',
   FleetOfTheAgeless: 'Fleet of the Ageless',
   PanCosmicCommercialEnterprise: 'Pan-Cosmic Commercial Enterprise',
@@ -445,6 +445,8 @@ export const SetsOrnaments = {
   AmphoreusTheEternalLand: 'Amphoreus, The Eternal Land',
   TengokuLivestream: 'Tengoku@Livestream',
 } as const
+export type SetKey = keyof typeof Sets
+export type Sets = typeof Sets[SetKey]
 
 // Delete unreleased data
 export const officialOnly = false
@@ -453,15 +455,6 @@ const lightCones = gameData.lightCones
 export const UnreleasedSets: Partial<Record<Sets, boolean>> = {}
 
 if (officialOnly) {
-  // UnreleasedSets[SetsRelics.SacerdosRelivedOrdeal] = true
-  // UnreleasedSets[SetsRelics.ScholarLostInErudition] = true
-
-  // Delete unreleased sets
-  // @ts-ignore
-  // delete SetsRelics.SacerdosRelivedOrdeal
-  // @ts-ignore
-  // delete SetsRelics.ScholarLostInErudition
-
   // Delete unreleased characters
   for (const character of Object.values(characters)) {
     if (character.unreleased) {
@@ -476,31 +469,6 @@ if (officialOnly) {
     }
   }
 }
-
-export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
-export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
-
-export const Sets = {
-  ...SetsRelics,
-  ...SetsOrnaments,
-}
-export type Sets = typeof Sets[keyof typeof Sets]
-
-export const SetsRelicsNames = Object.values(SetsRelics)
-export const SetsOrnamentsNames = Object.values(SetsOrnaments)
-
-export const OrnamentSetToIndex: Record<SetsOrnaments, number> = {} as Record<SetsOrnaments, number>
-for (let i = 0; i < SetsOrnamentsNames.length; i++) {
-  OrnamentSetToIndex[SetsOrnamentsNames[i]] = i
-}
-
-export const RelicSetToIndex: Record<SetsRelics, number> = {} as Record<SetsRelics, number>
-for (let i = 0; i < SetsRelicsNames.length; i++) {
-  RelicSetToIndex[SetsRelicsNames[i]] = i
-}
-
-export const RelicSetCount = Object.values(SetsRelics).length
-export const OrnamentSetCount = Object.values(SetsOrnaments).length
 
 export const PathNames = {
   Abundance: 'Abundance',
@@ -563,15 +531,9 @@ export const Constants = {
   MainStats,
   MainStatsValues,
   SubStats,
-  SetsOrnaments,
-  SetsRelics,
-  SetsRelicsNames,
-  SetsOrnamentsNames,
   StatsToReadable,
   PartsToReadable,
   PartsMainStats,
-  RelicSetToIndex,
-  OrnamentSetToIndex,
   // StatMaxes,
   MAX_INT: 2147483647,
   THREAD_BUFFER_LENGTH: 150000,
@@ -673,64 +635,6 @@ export const CombatBuffs = {
     percent: true,
   },
 } as const
-
-export const setToId = {
-  [Sets.PasserbyOfWanderingCloud]: '101',
-  [Sets.MusketeerOfWildWheat]: '102',
-  [Sets.KnightOfPurityPalace]: '103',
-  [Sets.HunterOfGlacialForest]: '104',
-  [Sets.ChampionOfStreetwiseBoxing]: '105',
-  [Sets.GuardOfWutheringSnow]: '106',
-  [Sets.FiresmithOfLavaForging]: '107',
-  [Sets.GeniusOfBrilliantStars]: '108',
-  [Sets.BandOfSizzlingThunder]: '109',
-  [Sets.EagleOfTwilightLine]: '110',
-  [Sets.ThiefOfShootingMeteor]: '111',
-  [Sets.WastelanderOfBanditryDesert]: '112',
-  [Sets.LongevousDisciple]: '113',
-  [Sets.MessengerTraversingHackerspace]: '114',
-  [Sets.TheAshblazingGrandDuke]: '115',
-  [Sets.PrisonerInDeepConfinement]: '116',
-  [Sets.PioneerDiverOfDeadWaters]: '117',
-  [Sets.WatchmakerMasterOfDreamMachinations]: '118',
-  [Sets.IronCavalryAgainstTheScourge]: '119',
-  [Sets.TheWindSoaringValorous]: '120',
-  [Sets.SacerdosRelivedOrdeal]: '121',
-  [Sets.ScholarLostInErudition]: '122',
-  [Sets.HeroOfTriumphantSong]: '123',
-  [Sets.PoetOfMourningCollapse]: '124',
-  [Sets.WarriorGoddessOfSunAndThunder]: '125',
-  [Sets.WavestriderCaptain]: '126',
-  [Sets.WorldRemakingDeliverer]: '127',
-  [Sets.SelfEnshroudedRecluse]: '128',
-  [Sets.EverGloriousMagicalGirl]: '129',
-  [Sets.DivinerOfDistantReach]: '130',
-
-  [Sets.SpaceSealingStation]: '301',
-  [Sets.FleetOfTheAgeless]: '302',
-  [Sets.PanCosmicCommercialEnterprise]: '303',
-  [Sets.BelobogOfTheArchitects]: '304',
-  [Sets.CelestialDifferentiator]: '305',
-  [Sets.InertSalsotto]: '306',
-  [Sets.TaliaKingdomOfBanditry]: '307',
-  [Sets.SprightlyVonwacq]: '308',
-  [Sets.RutilantArena]: '309',
-  [Sets.BrokenKeel]: '310',
-  [Sets.FirmamentFrontlineGlamoth]: '311',
-  [Sets.PenaconyLandOfTheDreams]: '312',
-  [Sets.SigoniaTheUnclaimedDesolation]: '313',
-  [Sets.IzumoGenseiAndTakamaDivineRealm]: '314',
-  [Sets.DuranDynastyOfRunningWolves]: '315',
-  [Sets.ForgeOfTheKalpagniLantern]: '316',
-  [Sets.LushakaTheSunkenSeas]: '317',
-  [Sets.TheWondrousBananAmusementPark]: '318',
-  [Sets.BoneCollectionsSereneDemesne]: '319',
-  [Sets.GiantTreeOfRaptBrooding]: '320',
-  [Sets.ArcadiaOfWovenDreams]: '321',
-  [Sets.RevelryByTheSea]: '322',
-  [Sets.AmphoreusTheEternalLand]: '323',
-  [Sets.TengokuLivestream]: '324',
-} as const satisfies Record<Sets, string>
 
 export const ABILITY_LIMIT = 12
 

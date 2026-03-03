@@ -1,9 +1,6 @@
-import { Constants } from 'lib/constants/constants'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
+import { SetType } from 'types/setConfig'
 
-const { SetsRelics, SetsOrnaments } = Constants
-
-const relicSetKeys = Object.keys(SetsRelics)
-const ornamentSetKeys = Object.keys(SetsOrnaments)
 /**
  * Generate WGSL constant declarations for set bit indices.
  * These map each set name to its bit position in the bitmask registers.
@@ -11,13 +8,28 @@ const ornamentSetKeys = Object.keys(SetsOrnaments)
  * Ornament sets use bits 0..M in ornamentMatch2.
  */
 export function generateSetBitConstants(): string {
+  const relics: { id: string; index: number }[] = []
+  const ornaments: { id: string; index: number }[] = []
+
+  for (const config of setConfigRegistry.values()) {
+    const entry = { id: config.id, index: config.info.index }
+    if (config.info.setType === SetType.RELIC) {
+      relics.push(entry)
+    } else {
+      ornaments.push(entry)
+    }
+  }
+
+  relics.sort((a, b) => a.index - b.index)
+  ornaments.sort((a, b) => a.index - b.index)
+
   let wgsl = '\n// Relic set bit indices\n'
-  for (let i = 0; i < relicSetKeys.length; i++) {
-    wgsl += `const SET_${relicSetKeys[i]}: u32 = ${i}u;\n`
+  for (const { id, index } of relics) {
+    wgsl += `const SET_${id}: u32 = ${index}u;\n`
   }
   wgsl += '\n// Ornament set bit indices\n'
-  for (let i = 0; i < ornamentSetKeys.length; i++) {
-    wgsl += `const SET_${ornamentSetKeys[i]}: u32 = ${i}u;\n`
+  for (const { id, index } of ornaments) {
+    wgsl += `const SET_${id}: u32 = ${index}u;\n`
   }
   return wgsl
 }

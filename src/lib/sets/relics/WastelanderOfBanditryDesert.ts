@@ -1,5 +1,6 @@
 import {
   ConditionalDataType,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -26,6 +27,7 @@ const info = {
   index: 11,
   setType: SetType.RELIC,
   ingameId: '112',
+  name: Sets.WastelanderOfBanditryDesert,
 } as const satisfies SetInfo
 
 const display = {

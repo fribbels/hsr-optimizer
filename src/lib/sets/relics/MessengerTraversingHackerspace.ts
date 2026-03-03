@@ -26,6 +26,7 @@ const info = {
   index: 13,
   setType: SetType.RELIC,
   ingameId: '114',
+  name: Sets.MessengerTraversingHackerspace,
 } as const satisfies SetInfo
 
 const display = {

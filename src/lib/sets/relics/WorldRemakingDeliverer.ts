@@ -26,6 +26,7 @@ const info = {
   index: 26,
   setType: SetType.RELIC,
   ingameId: '127',
+  name: Sets.WorldRemakingDeliverer,
 } as const satisfies SetInfo
 
 const display = {

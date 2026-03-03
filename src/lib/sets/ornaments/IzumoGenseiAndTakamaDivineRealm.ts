@@ -1,5 +1,8 @@
 import { countTeamPath } from 'lib/conditionals/conditionalUtils'
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
@@ -22,6 +25,7 @@ const info = {
   index: 13,
   setType: SetType.ORNAMENT,
   ingameId: '314',
+  name: Sets.IzumoGenseiAndTakamaDivineRealm,
 } as const satisfies SetInfo
 
 const display = {

@@ -27,6 +27,7 @@ const info = {
   index: 29,
   setType: SetType.RELIC,
   ingameId: '130',
+  name: Sets.DivinerOfDistantReach,
 } as const satisfies SetInfo
 
 const display = {

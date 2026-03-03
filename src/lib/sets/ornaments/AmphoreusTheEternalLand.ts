@@ -26,6 +26,7 @@ const info = {
   index: 22,
   setType: SetType.ORNAMENT,
   ingameId: '323',
+  name: Sets.AmphoreusTheEternalLand,
 } as const satisfies SetInfo
 
 const display = {

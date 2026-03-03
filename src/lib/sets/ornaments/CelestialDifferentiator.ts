@@ -1,4 +1,7 @@
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import {
   BasicKey,
   BasicStatsArray,
@@ -24,6 +27,7 @@ const info = {
   index: 4,
   setType: SetType.ORNAMENT,
   ingameId: '305',
+  name: Sets.CelestialDifferentiator,
 } as const satisfies SetInfo
 
 const display = {

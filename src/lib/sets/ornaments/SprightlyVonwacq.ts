@@ -1,4 +1,7 @@
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import {
@@ -16,6 +19,7 @@ const info = {
   index: 7,
   setType: SetType.ORNAMENT,
   ingameId: '308',
+  name: Sets.SprightlyVonwacq,
 } as const satisfies SetInfo
 
 const display = {

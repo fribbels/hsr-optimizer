@@ -1,5 +1,6 @@
 import {
   ConditionalDataType,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -26,6 +27,7 @@ const info = {
   index: 4,
   setType: SetType.RELIC,
   ingameId: '105',
+  name: Sets.ChampionOfStreetwiseBoxing,
 } as const satisfies SetInfo
 
 const display = {

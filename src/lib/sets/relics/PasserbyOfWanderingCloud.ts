@@ -1,4 +1,7 @@
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import {
@@ -16,6 +19,7 @@ const info = {
   index: 0,
   setType: SetType.RELIC,
   ingameId: '101',
+  name: Sets.PasserbyOfWanderingCloud,
 } as const satisfies SetInfo
 
 const display = {

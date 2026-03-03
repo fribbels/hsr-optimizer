@@ -72,6 +72,7 @@ const info = {
   index: 1,
   setType: SetType.ORNAMENT,
   ingameId: '302',
+  name: Sets.FleetOfTheAgeless,
 } as const satisfies SetInfo
 
 const display = {

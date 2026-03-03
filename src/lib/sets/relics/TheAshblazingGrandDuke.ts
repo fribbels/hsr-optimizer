@@ -1,4 +1,7 @@
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
@@ -24,6 +27,7 @@ const info = {
   index: 14,
   setType: SetType.RELIC,
   ingameId: '115',
+  name: Sets.TheAshblazingGrandDuke,
 } as const satisfies SetInfo
 
 const display = {

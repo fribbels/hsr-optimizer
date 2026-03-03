@@ -71,6 +71,7 @@ const info = {
   index: 9,
   setType: SetType.ORNAMENT,
   ingameId: '310',
+  name: Sets.BrokenKeel,
 } as const satisfies SetInfo
 
 const display = {

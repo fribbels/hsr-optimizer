@@ -22,6 +22,7 @@ const info = {
   index: 11,
   setType: SetType.ORNAMENT,
   ingameId: '312',
+  name: Sets.PenaconyLandOfTheDreams,
 } as const satisfies SetInfo
 
 const display = {

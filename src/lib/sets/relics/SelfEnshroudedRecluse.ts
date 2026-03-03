@@ -28,6 +28,7 @@ const info = {
   index: 27,
   setType: SetType.RELIC,
   ingameId: '128',
+  name: Sets.SelfEnshroudedRecluse,
 } as const satisfies SetInfo
 
 const display = {

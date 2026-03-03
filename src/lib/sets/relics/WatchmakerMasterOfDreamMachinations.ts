@@ -26,6 +26,7 @@ const info = {
   index: 17,
   setType: SetType.RELIC,
   ingameId: '118',
+  name: Sets.WatchmakerMasterOfDreamMachinations,
 } as const satisfies SetInfo
 
 const display = {

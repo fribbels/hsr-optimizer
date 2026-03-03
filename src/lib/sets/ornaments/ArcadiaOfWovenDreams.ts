@@ -1,4 +1,7 @@
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
@@ -34,6 +37,7 @@ const info = {
   index: 20,
   setType: SetType.ORNAMENT,
   ingameId: '321',
+  name: Sets.ArcadiaOfWovenDreams,
 } as const satisfies SetInfo
 
 const display = {

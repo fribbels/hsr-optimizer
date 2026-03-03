@@ -2,6 +2,7 @@ import {
   ConditionalDataType,
   SACERDOS_RELIVED_ORDEAL_1_STACK,
   SACERDOS_RELIVED_ORDEAL_2_STACK,
+  Sets,
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
@@ -28,6 +29,7 @@ const info = {
   index: 20,
   setType: SetType.RELIC,
   ingameId: '121',
+  name: Sets.SacerdosRelivedOrdeal,
 } as const satisfies SetInfo
 
 const display = {

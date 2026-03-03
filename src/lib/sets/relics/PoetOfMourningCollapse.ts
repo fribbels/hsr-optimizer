@@ -1,5 +1,6 @@
 import {
   ConditionalDataType,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -26,6 +27,7 @@ const info = {
   index: 23,
   setType: SetType.RELIC,
   ingameId: '124',
+  name: Sets.PoetOfMourningCollapse,
 } as const satisfies SetInfo
 
 const display = {

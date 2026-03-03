@@ -2,6 +2,7 @@ import {
   ConditionalActivation,
   ConditionalDataType,
   ConditionalType,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -103,6 +104,7 @@ const info = {
   index: 19,
   setType: SetType.ORNAMENT,
   ingameId: '320',
+  name: Sets.GiantTreeOfRaptBrooding,
 } as const satisfies SetInfo
 
 const display = {

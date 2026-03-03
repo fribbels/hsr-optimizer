@@ -26,6 +26,7 @@ const info = {
   index: 24,
   setType: SetType.RELIC,
   ingameId: '125',
+  name: Sets.WarriorGoddessOfSunAndThunder,
 } as const satisfies SetInfo
 
 const display = {

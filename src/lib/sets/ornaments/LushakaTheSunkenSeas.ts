@@ -17,6 +17,7 @@ const info = {
   index: 16,
   setType: SetType.ORNAMENT,
   ingameId: '317',
+  name: Sets.LushakaTheSunkenSeas,
 } as const satisfies SetInfo
 
 const display = {

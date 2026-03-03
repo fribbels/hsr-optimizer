@@ -1,4 +1,7 @@
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
@@ -25,6 +28,7 @@ const info = {
   index: 14,
   setType: SetType.ORNAMENT,
   ingameId: '315',
+  name: Sets.DuranDynastyOfRunningWolves,
 } as const satisfies SetInfo
 
 const display = {

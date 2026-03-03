@@ -2,6 +2,7 @@ import {
   ConditionalActivation,
   ConditionalDataType,
   ConditionalType,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -70,6 +71,7 @@ const info = {
   index: 18,
   setType: SetType.ORNAMENT,
   ingameId: '319',
+  name: Sets.BoneCollectionsSereneDemesne,
 } as const satisfies SetInfo
 
 const display = {

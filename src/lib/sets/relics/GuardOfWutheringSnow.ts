@@ -1,4 +1,7 @@
-import { ConditionalDataType } from 'lib/constants/constants'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
@@ -21,6 +24,7 @@ const info = {
   index: 5,
   setType: SetType.RELIC,
   ingameId: '106',
+  name: Sets.GuardOfWutheringSnow,
 } as const satisfies SetInfo
 
 const display = {

@@ -9955,6 +9955,8 @@ function getScoringMetadata(): Record<string, ScoringMetadata> {
         ],
         ornamentSets: [
           Sets.TengokuLivestream,
+          Sets.RutilantArena,
+          Sets.IzumoGenseiAndTakamaDivineRealm,
           ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
         ],
         teammates: [

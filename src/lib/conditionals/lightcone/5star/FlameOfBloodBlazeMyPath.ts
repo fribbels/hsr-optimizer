@@ -17,7 +17,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlameOfBloodBlazeMyPath.Content')
-  const { SOURCE_LC } = Source.lightCone('23039')
+  const { SOURCE_LC } = Source.lightCone(FlameOfBloodBlazeMyPath.id)
 
   const sValuesSkillUltDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
   const sValuesHpDrain = [0.06, 0.065, 0.07, 0.075, 0.08]

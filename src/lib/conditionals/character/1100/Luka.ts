@@ -15,6 +15,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   DEFAULT_DOT,
   DEFAULT_SKILL,
@@ -24,21 +25,16 @@ import {
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
-  MATCH_2P_WEIGHT,
   RELICS_2P_BREAK_EFFECT_SPEED,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  FUGUE,
-  LINGSHA,
-  LONG_ROAD_LEADS_HOME,
-  PAST_SELF_IN_MIRROR,
-  PERMANSOR_TERRAE,
-  RUAN_MEI,
-  SCENT_ALONE_STAYS_TRUE,
-  THOUGH_WORLDS_APART,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -52,7 +48,13 @@ import {
 } from 'types/optimizer'
 
 export const LukaEntities = createEnum('Luka')
-export const LukaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
+export const LukaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luka')
@@ -69,7 +71,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1111')
+  } = Source.character(Luka.id)
 
   const basicEnhancedHitValue = basic(e, 0.20, 0.22)
   const targetUltDebuffDmgTakenValue = ult(e, 0.20, 0.216)
@@ -150,7 +152,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(LukaAbilities),
+    actionDeclaration: () => [...LukaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -159,7 +161,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         : basicScaling
 
       return {
-        [LukaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -168,7 +170,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [LukaAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -177,7 +179,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [LukaAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -186,7 +188,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [LukaAbilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .damageElement(ElementTag.Physical)
@@ -195,7 +197,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [LukaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -224,7 +226,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -275,27 +277,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FUGUE,
-      lightCone: LONG_ROAD_LEADS_HOME,
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: RUAN_MEI,
-      lightCone: PAST_SELF_IN_MIRROR,
+      characterId: RuanMei.id,
+      lightCone: PastSelfInTheMirror.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
     [Stats.ATK_P]: 1,
@@ -328,17 +330,6 @@ const scoring: ScoringMetadata = {
       Stats.BE,
     ],
   },
-  sets: {
-    [Sets.PrisonerInDeepConfinement]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-    [Sets.ChampionOfStreetwiseBoxing]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.RevelryByTheSea]: 1,
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.PanCosmicCommercialEnterprise]: 1,
-    [Sets.SpaceSealingStation]: 1,
-  },
   presets: [
     PresetEffects.PRISONER_SET,
   ],
@@ -346,8 +337,8 @@ const scoring: ScoringMetadata = {
   hiddenColumns: [
     SortOption.FUA,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -361,7 +352,7 @@ const display = {
 export const Luka: CharacterConfig = {
   id: '1111',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

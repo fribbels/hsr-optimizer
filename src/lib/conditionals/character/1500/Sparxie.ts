@@ -4,7 +4,6 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  getYaoguangAhaPunchlineValue,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversionContainer,
@@ -29,6 +28,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   DEFAULT_SKILL,
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
@@ -39,18 +39,14 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import {
-  BUT_THE_BATTLE_ISNT_OVER,
-  HUOHUO,
-  NIGHT_OF_FRIGHT,
-  SPARKLE_B1,
-  SPARXIE,
-  WHEN_SHE_DECIDED_TO_SEE,
-  YAO_GUANG,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { getYaoguangAhaPunchlineValue, Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -65,7 +61,12 @@ import {
 } from 'types/optimizer'
 
 export const SparxieEntities = createEnum('Sparxie')
-export const SparxieAbilities = createEnum('BASIC', 'ULT', 'ELATION_SKILL', 'BREAK')
+export const SparxieAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.ELATION_SKILL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
@@ -82,7 +83,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_ELATION_SKILL,
-  } = Source.character(SPARXIE)
+  } = Source.character(Sparxie.id)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
@@ -232,7 +233,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(SparxieAbilities),
+    actionDeclaration: () => [...SparxieAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -305,10 +306,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const breakHit = HitDefinitionBuilder.standardBreak(ElementTag.Fire).build()
 
       return {
-        [SparxieAbilities.BASIC]: { hits: basicHits },
-        [SparxieAbilities.ULT]: { hits: ultHits },
-        [SparxieAbilities.ELATION_SKILL]: { hits: [elationSkillHit] },
-        [SparxieAbilities.BREAK]: { hits: [breakHit] },
+        [AbilityKind.BASIC]: { hits: basicHits },
+        [AbilityKind.ULT]: { hits: ultHits },
+        [AbilityKind.ELATION_SKILL]: { hits: [elationSkillHit] },
+        [AbilityKind.BREAK]: { hits: [breakHit] },
       }
     },
     actionModifiers: () => [],
@@ -386,7 +387,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -433,27 +434,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SPARKLE_B1,
-      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterId: SparkleB1.id,
+      lightCone: ButTheBattleIsntOver.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: YAO_GUANG,
-      lightCone: WHEN_SHE_DECIDED_TO_SEE,
+      characterId: Yaoguang.id,
+      lightCone: WhenSheDecidedToSee.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HUOHUO,
-      lightCone: NIGHT_OF_FRIGHT,
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -486,18 +487,11 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.EverGloriousMagicalGirl]: 1,
-
-    [Sets.DivinerOfDistantReach]: 1,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  },
   presets: [],
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -511,7 +505,7 @@ const display = {
 export const Sparxie: CharacterConfig = {
   id: '1501',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

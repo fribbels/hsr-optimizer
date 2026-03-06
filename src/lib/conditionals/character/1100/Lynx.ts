@@ -22,6 +22,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -30,10 +31,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -47,7 +44,13 @@ import {
 } from 'types/optimizer'
 
 export const LynxEntities = createEnum('Lynx')
-export const LynxAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'TALENT_HEAL', 'BREAK')
+export const LynxAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.TALENT_HEAL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
@@ -65,7 +68,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1110')
+  } = Source.character(Lynx.id)
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
   const skillHpFlatBuff = skill(e, 200, 223)
@@ -147,9 +150,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(LynxAbilities),
+    actionDeclaration: () => [...LynxAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [LynxAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Quantum)
@@ -158,12 +161,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LynxAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
         ],
       },
-      [LynxAbilities.SKILL_HEAL]: {
+      [AbilityKind.SKILL_HEAL]: {
         hits: [
           HitDefinitionBuilder.skillHeal()
             .hpScaling(skillHealScaling)
@@ -171,7 +174,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LynxAbilities.ULT_HEAL]: {
+      [AbilityKind.ULT_HEAL]: {
         hits: [
           HitDefinitionBuilder.ultHeal()
             .hpScaling(ultHealScaling)
@@ -179,7 +182,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LynxAbilities.TALENT_HEAL]: {
+      [AbilityKind.TALENT_HEAL]: {
         hits: [
           HitDefinitionBuilder.talentHeal()
             .hpScaling(talentHealScaling)
@@ -271,7 +274,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -303,13 +306,6 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.PasserbyOfWanderingCloud]: 1,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [
     PresetEffects.WARRIOR_SET,
   ],
@@ -323,7 +319,7 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-}
+})
 
 const display = {
   imageCenter: {
@@ -337,7 +333,7 @@ const display = {
 export const Lynx: CharacterConfig = {
   id: '1110',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

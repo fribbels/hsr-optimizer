@@ -20,7 +20,7 @@ import {
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ScentAloneStaysTrue')
-  const { SOURCE_LC } = Source.lightCone('23032')
+  const { SOURCE_LC } = Source.lightCone(ScentAloneStaysTrue.id)
 
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
   const sValuesVulnerabilityAdditional = [0.08, 0.10, 0.12, 0.14, 0.16]

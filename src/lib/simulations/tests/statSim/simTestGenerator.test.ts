@@ -11,16 +11,14 @@ import {
   testSets,
   testStatSpread,
 } from 'lib/simulations/tests/simTestUtils'
-import {
-  A_GROUNDED_ASCENT,
-  ANAXA,
-  FLOWING_NIGHTGLOW,
-  HUOHUO,
-  LIFE_SHOULD_BE_CAST_TO_FLAMES,
-  NIGHT_OF_FRIGHT,
-  ROBIN,
-  SUNDAY,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 
@@ -33,10 +31,10 @@ test('generateTest', () => {
   Metadata.initialize()
 
   const input = generateE6S5Test({
-    character: testCharacter(ANAXA, LIFE_SHOULD_BE_CAST_TO_FLAMES),
-    teammate0: testCharacter(SUNDAY, A_GROUNDED_ASCENT),
-    teammate1: testCharacter(ROBIN, FLOWING_NIGHTGLOW),
-    teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+    character: testCharacter(Anaxa.id, LifeShouldBeCastToFlames.id),
+    teammate0: testCharacter(Sunday.id, AGroundedAscent.id),
+    teammate1: testCharacter(Robin.id, FlowingNightglow.id),
+    teammate2: testCharacter(Huohuo.id, NightOfFright.id),
     sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
     mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
     stats: testStatSpread(),

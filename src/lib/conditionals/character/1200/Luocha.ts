@@ -30,8 +30,15 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const LuochaEntities = createEnum('Luocha')
-export const LuochaAbilities = createEnum('BASIC', 'ULT', 'SKILL_HEAL', 'TALENT_HEAL', 'BREAK')
+export const LuochaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.TALENT_HEAL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luocha')
@@ -106,9 +113,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(LuochaAbilities),
+    actionDeclaration: () => [...LuochaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [LuochaAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Imaginary)
@@ -117,7 +124,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LuochaAbilities.ULT]: {
+      [AbilityKind.ULT]: {
         hits: [
           HitDefinitionBuilder.standardUlt()
             .damageElement(ElementTag.Imaginary)
@@ -126,7 +133,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LuochaAbilities.SKILL_HEAL]: {
+      [AbilityKind.SKILL_HEAL]: {
         hits: [
           HitDefinitionBuilder.skillHeal()
             .atkScaling(skillHealScaling)
@@ -134,7 +141,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LuochaAbilities.TALENT_HEAL]: {
+      [AbilityKind.TALENT_HEAL]: {
         hits: [
           HitDefinitionBuilder.talentHeal()
             .atkScaling(talentHealScaling)
@@ -142,7 +149,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LuochaAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
         ],
@@ -169,7 +176,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
     [Stats.ATK_P]: 1,
@@ -204,14 +211,6 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.PasserbyOfWanderingCloud]: 1,
-    [Sets.MusketeerOfWildWheat]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [
     PresetEffects.WASTELANDER_SET,
     PresetEffects.WARRIOR_SET,
@@ -219,7 +218,7 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.SPD,
   addedColumns: [SortOption.OHB],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
-}
+})
 
 const display = {
   imageCenter: {
@@ -233,7 +232,7 @@ const display = {
 export const Luocha: CharacterConfig = {
   id: '1203',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

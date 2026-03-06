@@ -1,4 +1,9 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -26,18 +31,22 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   WHOLE_SKILL,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  FUGUE,
-  LINGSHA,
-  THE_DAHLIA,
-  LONG_ROAD_LEADS_HOME,
-  NEVER_FORGET_HER_FLAME,
-  SCENT_ALONE_STAYS_TRUE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 
 export const SushangEntities = createEnum('Sushang')
-export const SushangAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const SushangAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sushang')
@@ -126,7 +135,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(SushangAbilities),
+    actionDeclaration: () => [...SushangAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -136,7 +145,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 3) ? skillExtraHitScaling * 0.5 : 0
 
       return {
-        [SushangAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -145,7 +154,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [SushangAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -164,7 +173,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [SushangAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -173,7 +182,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [SushangAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -209,7 +218,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -258,27 +267,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FUGUE,
-      lightCone: LONG_ROAD_LEADS_HOME,
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: THE_DAHLIA,
-      lightCone: NEVER_FORGET_HER_FLAME,
+      characterId: TheDahlia.id,
+      lightCone: NeverForgetHerFlame.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -312,21 +321,11 @@ const scoring: ScoringMetadata = {
       Stats.BE,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
-    [Sets.ChampionOfStreetwiseBoxing]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
-  },
   presets: [],
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -340,7 +339,7 @@ const display = {
 export const Sushang: CharacterConfig = {
   id: '1206',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

@@ -8,6 +8,7 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
@@ -30,7 +31,10 @@ import {
 } from 'types/optimizer'
 
 export const RuanMeiEntities = createEnum('RuanMei')
-export const RuanMeiAbilities = createEnum('BASIC', 'BREAK')
+export const RuanMeiAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RuanMei')
@@ -47,7 +51,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1303')
+  } = Source.character(RuanMei.id)
 
   const fieldResPenValue = ult(e, 0.25, 0.27)
   const basicScaling = basic(e, 1.00, 1.10)
@@ -143,9 +147,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(RuanMeiAbilities),
+    actionDeclaration: () => [...RuanMeiAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [RuanMeiAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Ice)
@@ -154,7 +158,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [RuanMeiAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
         ],
@@ -222,7 +226,7 @@ ${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -246,15 +250,6 @@ const scoring: ScoringMetadata = {
       Stats.BE,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.WatchmakerMasterOfDreamMachinations]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [],
   sortOption: SortOption.BE,
   hiddenColumns: [
@@ -263,7 +258,7 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-}
+})
 
 const display = {
   imageCenter: {
@@ -277,7 +272,7 @@ const display = {
 export const RuanMei: CharacterConfig = {
   id: '1303',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

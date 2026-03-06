@@ -9,6 +9,7 @@ import { DamageTag, ElementTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   DEFAULT_FUA,
@@ -21,17 +22,15 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_FUA,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
+
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  FUGUE,
-  LONG_ROAD_LEADS_HOME,
-  THE_DAHLIA,
-  NEVER_FORGET_HER_FLAME,
-  LINGSHA,
-  SCENT_ALONE_STAYS_TRUE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { NumberToNumberMap } from 'types/common'
@@ -41,7 +40,14 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const HimekoEntities = createEnum('Himeko')
-export const HimekoAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK')
+export const HimekoAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Himeko')
@@ -58,7 +64,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1003')
+  } = Source.character(Himeko.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
@@ -131,14 +137,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(HimekoAbilities),
+    actionDeclaration: () => [...HimekoAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e6UltScaling = (e >= 6) ? r.e6UltExtraHits * ultScaling * 0.40 : 0
 
       return {
-        [HimekoAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Fire)
@@ -147,7 +153,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HimekoAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Fire)
@@ -156,7 +162,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HimekoAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Fire)
@@ -165,7 +171,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HimekoAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Fire)
@@ -174,7 +180,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HimekoAbilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(0.50)
@@ -183,7 +189,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HimekoAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
@@ -212,7 +218,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -258,27 +264,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FUGUE,
-      lightCone: LONG_ROAD_LEADS_HOME,
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: THE_DAHLIA,
-      lightCone: NEVER_FORGET_HER_FLAME,
+      characterId: TheDahlia.id,
+      lightCone: NeverForgetHerFlame.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -311,15 +317,6 @@ const scoring: ScoringMetadata = {
       Stats.ATK_P,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.TheAshblazingGrandDuke]: 1,
-    [Sets.FiresmithOfLavaForging]: T2_WEIGHT,
-
-    [Sets.SigoniaTheUnclaimedDesolation]: 1,
-    [Sets.DuranDynastyOfRunningWolves]: 1,
-    [Sets.InertSalsotto]: 1,
-  },
   presets: [
     PresetEffects.fnAshblazingSet(8),
     PresetEffects.fnPioneerSet(4),
@@ -327,8 +324,8 @@ const scoring: ScoringMetadata = {
   ],
   sortOption: SortOption.FUA,
   hiddenColumns: [],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -342,7 +339,7 @@ const display = {
 export const Himeko: CharacterConfig = {
   id: '1003',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

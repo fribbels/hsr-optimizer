@@ -14,7 +14,7 @@ import {
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const { SOURCE_LC } = Source.lightCone('21039')
+  const { SOURCE_LC } = Source.lightCone(DestinysThreadsForewoven.id)
 
   const sValues = [0.008, 0.009, 0.01, 0.011, 0.012]
   const sValuesMax = [0.32, 0.36, 0.40, 0.44, 0.48]

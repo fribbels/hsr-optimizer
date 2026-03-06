@@ -6,7 +6,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { THIS_LOVE_FOREVER } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -18,7 +17,7 @@ import {
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisLoveForever.Content')
-  const { SOURCE_LC } = Source.lightCone(THIS_LOVE_FOREVER)
+  const { SOURCE_LC } = Source.lightCone(ThisLoveForever.id)
 
   const sValuesVulnerability = [0.10, 0.12, 0.14, 0.16, 0.18]
   const sValuesCd = [0.16, 0.19, 0.22, 0.25, 0.28]

@@ -10,6 +10,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   DEFAULT_FUA,
@@ -24,17 +25,14 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  MATCH_2P_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  TOPAZ_NUMBY,
-  WORRISOME_BLISSFUL,
-  ROBIN,
-  FLOWING_NIGHTGLOW,
-  FEIXIAO,
-  I_VENTURE_FORTH_TO_HUNT,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Topaz } from 'lib/conditionals/character/1100/Topaz'
+import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -43,7 +41,13 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const AventurineEntities = createEnum('Aventurine')
-export const AventurineAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
+export const AventurineAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.SKILL_SHIELD,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
@@ -60,7 +64,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1304')
+  } = Source.character(Aventurine.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.70, 2.916)
@@ -166,12 +170,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(AventurineAbilities),
+    actionDeclaration: () => [...AventurineAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [AventurineAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -180,7 +184,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AventurineAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Imaginary)
@@ -189,7 +193,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AventurineAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             // FUA damage hit (multiplied scaling based on fuaHitsOnTarget)
             HitDefinitionBuilder.standardFua()
@@ -204,7 +208,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AventurineAbilities.SKILL_SHIELD]: {
+        [AbilityKind.SKILL_SHIELD]: {
           hits: [
             HitDefinitionBuilder.skillShield()
               .defScaling(skillShieldScaling)
@@ -212,7 +216,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AventurineAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],
@@ -282,7 +286,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -339,27 +343,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: TOPAZ_NUMBY,
-      lightCone: WORRISOME_BLISSFUL,
+      characterId: Topaz.id,
+      lightCone: WorrisomeBlissful.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: ROBIN,
-      lightCone: FLOWING_NIGHTGLOW,
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: FEIXIAO,
-      lightCone: I_VENTURE_FORTH_TO_HUNT,
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -393,18 +397,6 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
-    [Sets.WastelanderOfBanditryDesert]: MATCH_2P_WEIGHT,
-    [Sets.KnightOfPurityPalace]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-    [Sets.DuranDynastyOfRunningWolves]: 1,
-    [Sets.InertSalsotto]: 1,
-  },
   presets: [
     PresetEffects.VALOROUS_SET,
     PresetEffects.fnPioneerSet(4),
@@ -415,8 +407,8 @@ const scoring: ScoringMetadata = {
     SortOption.SKILL,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -430,7 +422,7 @@ const display = {
 export const Aventurine: CharacterConfig = {
   id: '1304',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

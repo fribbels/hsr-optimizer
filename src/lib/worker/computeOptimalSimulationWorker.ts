@@ -14,7 +14,7 @@ import {
   Simulation,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
-import { HYSILENS } from 'lib/simulations/tests/testMetadataConstants'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   ComputeOptimalSimulationWorkerInput,
@@ -47,7 +47,7 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
 function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   // Manual adjustment for Hysilens scoring - Using non-EHR light cones forces the benchmark to be unable to hit 120%
   // EHR due to diminishing returns. To fix, relax diminishing returns on non-EHR LC builds
-  if (input.context.characterId == HYSILENS) {
+  if (input.context.characterId == Hysilens.id) {
     const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
     if (!ehrLightCone) {
       return (rolls: number, stat: string, sim: Simulation) =>

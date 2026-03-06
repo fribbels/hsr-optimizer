@@ -7,7 +7,7 @@ import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const { SOURCE_LC } = Source.lightCone('21009')
+  const { SOURCE_LC } = Source.lightCone(LandausChoice.id)
 
   const sValues = [0.16, 0.18, 0.20, 0.22, 0.24]
 

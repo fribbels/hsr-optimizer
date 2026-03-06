@@ -14,7 +14,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LongRoadLeadsHome')
-  const { SOURCE_LC } = Source.lightCone('23035')
+  const { SOURCE_LC } = Source.lightCone(LongRoadLeadsHome.id)
 
   const sValuesBreakVulnerability = [0.18, 0.21, 0.24, 0.27, 0.30]
 

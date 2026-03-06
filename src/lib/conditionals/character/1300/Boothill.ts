@@ -30,6 +30,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   DEFAULT_ULT,
@@ -44,14 +45,12 @@ import {
   RELICS_2P_BREAK_EFFECT_SPEED,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import {
-  FUGUE,
-  LONG_ROAD_LEADS_HOME,
-  THE_DAHLIA,
-  NEVER_FORGET_HER_FLAME,
-  LINGSHA,
-  SCENT_ALONE_STAYS_TRUE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
@@ -67,7 +66,11 @@ import {
 } from 'types/optimizer'
 
 export const BoothillEntities = createEnum('Boothill')
-export const BoothillAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const BoothillAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Boothill')
@@ -84,7 +87,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1315')
+  } = Source.character(Boothill.id)
 
   const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
 
@@ -180,7 +183,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(BoothillAbilities),
+    actionDeclaration: () => [...BoothillAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -229,8 +232,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [BoothillAbilities.BASIC]: r.standoffActive ? enhancedBasic : normalBasic,
-        [BoothillAbilities.ULT]: {
+        [AbilityKind.BASIC]: r.standoffActive ? enhancedBasic : normalBasic,
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -239,7 +242,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [BoothillAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -346,7 +349,7 @@ ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, action.
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -392,27 +395,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FUGUE,
-      lightCone: LONG_ROAD_LEADS_HOME,
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: THE_DAHLIA,
-      lightCone: NEVER_FORGET_HER_FLAME,
+      characterId: TheDahlia.id,
+      lightCone: NeverForgetHerFlame.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.25,
     [Stats.ATK_P]: 0.25,
@@ -437,16 +440,6 @@ const scoring: ScoringMetadata = {
       Stats.BE,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
-  },
   presets: [],
   sortOption: SortOption.BASIC,
   hiddenColumns: [
@@ -454,8 +447,8 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -469,7 +462,7 @@ const display = {
 export const Boothill: CharacterConfig = {
   id: '1315',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

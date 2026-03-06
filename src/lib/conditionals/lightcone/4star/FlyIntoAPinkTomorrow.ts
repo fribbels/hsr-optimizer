@@ -6,11 +6,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  CAELUS_REMEMBRANCE,
-  FLY_INTO_A_PINK_TOMORROW,
-  STELLE_REMEMBRANCE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { TrailblazerRemembranceCaelus, TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { LightConeConditionalsController } from 'types/conditionals'
@@ -20,12 +16,12 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlyIntoAPinkTomorrow')
-  const { SOURCE_LC } = Source.lightCone(FLY_INTO_A_PINK_TOMORROW)
+  const { SOURCE_LC } = Source.lightCone(FlyIntoAPinkTomorrow.id)
 
   const sValuesDmg = [0.08, 0.10, 0.12, 0.14, 0.16]
   const sValuesEnhancedBasicDmg = [0.60, 0.70, 0.80, 0.90, 1.00]
 
-  const isValidWearer = characterId == STELLE_REMEMBRANCE || characterId == CAELUS_REMEMBRANCE
+  const isValidWearer = characterId == TrailblazerRemembranceStelle.id || characterId == TrailblazerRemembranceCaelus.id
 
   const defaults = {
     dmgBoost: isValidWearer,
@@ -66,14 +62,14 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, { character
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      if (context.characterId == STELLE_REMEMBRANCE || context.characterId == CAELUS_REMEMBRANCE) {
+      if (context.characterId == TrailblazerRemembranceStelle.id || context.characterId == TrailblazerRemembranceCaelus.id) {
         x.buff(StatKey.DMG_BOOST, (r.enhancedBasicBoost) ? sValuesEnhancedBasicDmg[s] : 0, x.damageType(DamageTag.BASIC).source(SOURCE_LC))
       }
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      if (characterId === STELLE_REMEMBRANCE || characterId === CAELUS_REMEMBRANCE) {
+      if (characterId === TrailblazerRemembranceStelle.id || characterId === TrailblazerRemembranceCaelus.id) {
         x.buff(StatKey.DMG_BOOST, (m.dmgBoost) ? sValuesDmg[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
       }
     },

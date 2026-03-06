@@ -6,8 +6,6 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
@@ -27,17 +25,15 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Evernight } from 'lib/conditionals/character/1400/Evernight'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
-  CASTORICE,
-  CYRENE,
-  EVERNIGHT,
-  HYACINE,
-  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
-  MAKE_FAREWELLS_MORE_BEAUTIFUL,
-  THIS_LOVE_FOREVER,
-  TO_EVERNIGHTS_STARS,
-} from 'lib/simulations/tests/testMetadataConstants'
-import {
+  AbilityKind,
   DEFAULT_MEMO_SKILL,
   DEFAULT_MEMO_TALENT,
   DEFAULT_ULT,
@@ -61,13 +57,13 @@ export const CastoriceEntities = createEnum(
   'Netherwing',
 )
 
-export const CastoriceAbilities = createEnum(
-  'BASIC',
-  'SKILL',
-  'MEMO_SKILL',
-  'MEMO_TALENT',
-  'BREAK',
-)
+export const CastoriceAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.MEMO_TALENT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Castorice.Content')
@@ -244,7 +240,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
     },
 
-    actionDeclaration: () => Object.values(CastoriceAbilities),
+    actionDeclaration: () => [...CastoriceAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -294,7 +290,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [CastoriceAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Quantum)
@@ -303,8 +299,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CastoriceAbilities.SKILL]: r.memospriteActive ? enhancedSkillAbility : normalSkillAbility,
-        [CastoriceAbilities.MEMO_SKILL]: {
+        [AbilityKind.SKILL]: r.memospriteActive ? enhancedSkillAbility : normalSkillAbility,
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             // Netherwing's skill - scales off Castorice's HP
             HitDefinitionBuilder.crit()
@@ -318,7 +314,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CastoriceAbilities.MEMO_TALENT]: {
+        [AbilityKind.MEMO_TALENT]: {
           hits: [
             // Netherwing's talent bounces - scales off Castorice's HP
             // Combined into single hit with total scaling
@@ -333,7 +329,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CastoriceAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
           ],
@@ -389,7 +385,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -436,27 +432,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: CYRENE,
-      lightCone: THIS_LOVE_FOREVER,
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: EVERNIGHT,
-      lightCone: TO_EVERNIGHTS_STARS,
+      characterId: Evernight.id,
+      lightCone: ToEvernightsStars.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HYACINE,
-      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -488,18 +484,6 @@ const scoring: ScoringMetadata = {
       Stats.HP_P,
     ],
   },
-  sets: {
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.ScholarLostInErudition]: T2_WEIGHT,
-    [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
-    [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
-
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-    [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
-    [Sets.FleetOfTheAgeless]: T2_WEIGHT,
-    [Sets.RutilantArena]: T2_WEIGHT,
-    [Sets.InertSalsotto]: T2_WEIGHT,
-  },
   presets: [
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,
@@ -507,8 +491,8 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.MEMO_SKILL,
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -522,7 +506,7 @@ const display = {
 export const Castorice: CharacterConfig = {
   id: '1407',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

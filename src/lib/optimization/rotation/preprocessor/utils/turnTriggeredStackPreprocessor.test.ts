@@ -23,7 +23,7 @@ import {
   WHOLE_BASIC,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ANAXA } from 'lib/simulations/tests/testMetadataConstants'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
   ComboBooleanConditional,
@@ -43,7 +43,7 @@ const processSequence = (
   preprocessor: TurnTriggeredStackPreprocessor,
   abilityNames: TurnAbilityName[],
 ): ComboState => {
-  const form = getDefaultForm({ id: ANAXA })
+  const form = getDefaultForm({ id: Anaxa.id })
   const displayFormValues = OptimizerTabController.formToDisplay(form)
   const request = OptimizerTabController.displayToForm(displayFormValues)
   const comboState = initializeComboState(request, true)

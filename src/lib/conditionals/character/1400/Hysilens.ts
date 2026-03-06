@@ -3,9 +3,8 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
@@ -28,6 +27,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
+  AbilityKind,
   DEFAULT_DOT,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -42,15 +42,12 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
-import {
-  BLACK_SWAN_B1,
-  HYSILENS,
-  KAFKA_B1,
-  PATIENCE_IS_ALL_YOU_NEED,
-  PERMANSOR_TERRAE,
-  REFORGED_REMEMBRANCE,
-  THOUGH_WORLDS_APART,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -64,17 +61,15 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export const HysilensAbilities = createEnum(
-  'BASIC',
-  'SKILL',
-  'ULT',
-  'DOT',
-  'BREAK',
-)
+export const HysilensAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
-export const HysilensEntities = createEnum(
-  'Hysilens',
-)
+export const HysilensEntities = createEnum('Hysilens')
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
@@ -90,7 +85,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character(HYSILENS)
+  } = Source.character(Hysilens.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -213,7 +208,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(HysilensEntities),
-    actionDeclaration: () => Object.values(HysilensAbilities),
+    actionDeclaration: () => [...HysilensAbilities],
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
         [HysilensEntities.Hysilens]: {
@@ -246,7 +241,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [HysilensAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -255,7 +250,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HysilensAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -264,7 +259,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HysilensAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -273,7 +268,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HysilensAbilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
@@ -302,7 +297,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HysilensAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -319,7 +314,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
         : 0
-      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.source(Source.odeTo(HYSILENS)))
+      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.source(Source.odeTo(Hysilens.id)))
     },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -361,7 +356,7 @@ if (${wgslTrue(r.ehrToDmg)}) {
   }
 }
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.EHR,
@@ -412,27 +407,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: KAFKA_B1,
-      lightCone: PATIENCE_IS_ALL_YOU_NEED,
+      characterId: KafkaB1.id,
+      lightCone: PatienceIsAllYouNeed.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: BLACK_SWAN_B1,
-      lightCone: REFORGED_REMEMBRANCE,
+      characterId: BlackSwanB1.id,
+      lightCone: ReforgedRemembrance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
     [Stats.ATK_P]: 1,
@@ -465,23 +460,14 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.PrisonerInDeepConfinement]: 1,
-    [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
-
-    [Sets.RevelryByTheSea]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
-  },
   presets: [
     PresetEffects.PRISONER_SET,
     PresetEffects.fnPioneerSet(4),
   ],
   sortOption: SortOption.DOT,
   hiddenColumns: [SortOption.FUA],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -495,7 +481,7 @@ const display = {
 export const Hysilens: CharacterConfig = {
   id: '1410',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

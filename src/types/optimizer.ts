@@ -114,7 +114,7 @@ export type OptimizerContext = CharacterMetadata & {
   maxStatsArrayLength: number, // Maximum stats array size (without registers)
   maxEntitiesCount: number, // Maximum entities across all actions
   maxHitsCount: number, // Maximum hits across all actions
-  actionDeclarations: string[],
+  actionDeclarations: AbilityKind[],
   actionModifiers: ActionModifier[],
   characterController: CharacterConditionalsController,
   teammateControllers: CharacterConditionalsController[],

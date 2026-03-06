@@ -1,5 +1,6 @@
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ActionModifier } from 'lib/optimization/context/calculateActions'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
@@ -27,9 +28,9 @@ export interface ConditionalsController {
   teammateDefaults?: () => ConditionalValueMap
   entityDeclaration?: () => string[]
   entityDefinition?: (action: OptimizerAction, context: OptimizerContext) => Record<string, EntityDefinition>
-  actionDeclaration?: () => string[]
+  actionDeclaration?: () => AbilityKind[]
   actionModifiers?: () => ActionModifier[]
-  actionDefinition?: (action: OptimizerAction, context: OptimizerContext) => Record<string, AbilityDefinition>
+  actionDefinition?: (action: OptimizerAction, context: OptimizerContext) => Partial<Record<AbilityKind, AbilityDefinition>>
 
   // Configuration changes to the character & combat environment executed before the precompute steps
   // This can include things like ability damage type switches, weakness break overrides, etc
@@ -88,9 +89,9 @@ export interface LightConeConditionalsController extends ConditionalsController 
 export interface CharacterConditionalsController extends ConditionalsController {
   entityDeclaration: () => string[]
   entityDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, EntityDefinition>
-  actionDeclaration: () => string[]
+  actionDeclaration: () => AbilityKind[]
   actionModifiers: () => ActionModifier[]
-  actionDefinition: (action: OptimizerAction, context: OptimizerContext) => Record<string, AbilityDefinition>
+  actionDefinition: (action: OptimizerAction, context: OptimizerContext) => Partial<Record<AbilityKind, AbilityDefinition>>
   precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
   finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 }

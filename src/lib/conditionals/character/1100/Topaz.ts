@@ -1,3 +1,6 @@
+import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   ASHBLAZING_ATK_STACK,
   DamageType,
@@ -13,7 +16,14 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import {
+  Parts,
+  Sets,
+  Stats
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -22,47 +32,45 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SortOption } from 'lib/optimization/sortOptions'
 import {
   AbilityKind,
-  NULL_TURN_ABILITY_NAME,
   DEFAULT_FUA,
   END_BASIC,
+  NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_BASIC,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  MATCH_2P_WEIGHT,
-  SPREAD_ORNAMENTS_2P_FUA,
-  SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
-  FEIXIAO,
-  I_VENTURE_FORTH_TO_HUNT,
-  IF_TIME_WERE_A_FLOWER,
-  PERMANSOR_TERRAE,
-  THOUGH_WORLDS_APART,
-  TRIBBIE,
-} from 'lib/simulations/tests/testMetadataConstants'
+  SPREAD_ORNAMENTS_2P_FUA,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import {
+  ScoringMetadata,
+  SimulationMetadata
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const TopazEntities = createEnum('Topaz', 'Numby')
-export const TopazAbilities = createEnum('BASIC', 'SKILL', 'FUA', 'BREAK')
+export const TopazAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
+
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Topaz')
@@ -79,7 +87,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1112')
+  } = Source.character(Topaz.id)
 
   const proofOfDebtFuaVulnerability = skill(e, 0.50, 0.55)
   const enhancedStateFuaScalingBoost = ult(e, 1.50, 1.65)
@@ -166,12 +174,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(TopazAbilities),
+    actionDeclaration: () => [...TopazAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [TopazAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Fire)
@@ -181,7 +189,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TopazAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .sourceEntity(TopazEntities.Numby)
@@ -192,7 +200,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TopazAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .sourceEntity(TopazEntities.Numby)
@@ -202,7 +210,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TopazAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
@@ -256,7 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -309,27 +317,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FEIXIAO,
-      lightCone: I_VENTURE_FORTH_TO_HUNT,
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TRIBBIE,
-      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -363,16 +371,6 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
-    [Sets.TheAshblazingGrandDuke]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-    [Sets.DuranDynastyOfRunningWolves]: 1,
-    [Sets.TheWondrousBananAmusementPark]: 1,
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-  },
   presets: [
     PresetEffects.fnAshblazingSet(0),
     PresetEffects.BANANA_SET,
@@ -384,8 +382,8 @@ const scoring: ScoringMetadata = {
     SortOption.ULT,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -399,7 +397,7 @@ const display = {
 export const Topaz: CharacterConfig = {
   id: '1112',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

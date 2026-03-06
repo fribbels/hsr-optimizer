@@ -46,18 +46,22 @@ import {
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  DANCE_DANCE_DANCE,
-  HUOHUO,
-  MEMORIES_OF_THE_PAST,
-  NIGHT_OF_FRIGHT,
-  SPARKLE_B1,
-  TINGYUN,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
+import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 
 export const YunliEntities = createEnum('Yunli')
-export const YunliAbilities = createEnum('BASIC', 'SKILL', 'FUA', 'BREAK')
+export const YunliAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
@@ -197,7 +201,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(YunliAbilities),
+    actionDeclaration: () => [...YunliAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -226,7 +230,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [YunliAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -235,7 +239,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YunliAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -244,7 +248,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YunliAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageType(fuaDamageType)
@@ -254,7 +258,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YunliAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -299,7 +303,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -343,27 +347,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SPARKLE_B1,
-      lightCone: DANCE_DANCE_DANCE,
+      characterId: SparkleB1.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 5,
     },
     {
-      characterId: TINGYUN,
-      lightCone: MEMORIES_OF_THE_PAST,
+      characterId: Tingyun.id,
+      lightCone: MemoriesOfThePast.id,
       characterEidolon: 6,
       lightConeSuperimposition: 5,
     },
     {
-      characterId: HUOHUO,
-      lightCone: NIGHT_OF_FRIGHT,
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -397,15 +401,6 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.ChampionOfStreetwiseBoxing]: MATCH_2P_WEIGHT,
-    [Sets.TheWindSoaringValorous]: 1,
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.TheAshblazingGrandDuke]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-  },
   presets: [
     PresetEffects.VALOROUS_SET,
     PresetEffects.fnPioneerSet(4),
@@ -413,8 +408,8 @@ const scoring: ScoringMetadata = {
   ],
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.ULT, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -428,7 +423,7 @@ const display = {
 export const Yunli: CharacterConfig = {
   id: '1221',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

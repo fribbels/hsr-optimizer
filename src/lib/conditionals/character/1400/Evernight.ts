@@ -5,8 +5,6 @@ import {
   ContentDefinition,
   countTeamPath,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
@@ -33,6 +31,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   DEFAULT_MEMO_SKILL,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -47,15 +46,12 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
-import {
-  CASTORICE,
-  CYRENE,
-  EVERNIGHT,
-  HYACINE,
-  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
-  MAKE_FAREWELLS_MORE_BEAUTIFUL,
-  THIS_LOVE_FOREVER,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -74,12 +70,12 @@ export const EvernightEntities = createEnum(
   'Evey',
 )
 
-export const EvernightAbilities = createEnum(
-  'BASIC',
-  'ULT',
-  'MEMO_SKILL',
-  'BREAK',
-)
+export const EvernightAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evernight')
@@ -298,7 +294,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
     },
 
-    actionDeclaration: () => Object.values(EvernightAbilities),
+    actionDeclaration: () => [...EvernightAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -309,7 +305,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const memoSkillToughness = r.memoriaStacks >= 16 ? 10 : 30
 
       return {
-        [EvernightAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -318,7 +314,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [EvernightAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .sourceEntity(EvernightEntities.Evey)
@@ -329,7 +325,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [EvernightAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(EvernightEntities.Evey)
@@ -341,7 +337,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [EvernightAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],
@@ -383,7 +379,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(
         StatKey.DMG_BOOST,
         (r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0,
-        x.actionKind(EvernightAbilities.MEMO_SKILL).target(EvernightEntities.Evey).source(Source.odeTo(EVERNIGHT)),
+        x.actionKind(AbilityKind.MEMO_SKILL).target(EvernightEntities.Evey).source(Source.odeTo(Evernight.id)),
       )
     },
 
@@ -432,12 +428,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         x.buff(
           StatKey.CD,
           t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0,
-          x.targets(TargetTag.Memosprite).source(Source.odeTo(EVERNIGHT)),
+          x.targets(TargetTag.Memosprite).source(Source.odeTo(Evernight.id)),
         )
         x.buff(
           StatKey.UNCONVERTIBLE_CD_BUFF,
           t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0,
-          x.targets(TargetTag.Memosprite).source(Source.odeTo(EVERNIGHT)),
+          x.targets(TargetTag.Memosprite).source(Source.odeTo(Evernight.id)),
         )
       }
     },
@@ -488,10 +484,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const odeFinalBuffCd = Math.max(0, odeBuffCD - (stateValue ? odeStateBuffCD : 0))
 
           x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, ownFinalBuffCd, x.targets(TargetTag.Memosprite).source(SOURCE_SKILL))
-          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, odeFinalBuffCd, x.targets(TargetTag.Memosprite).source(Source.odeTo(EVERNIGHT)))
+          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, odeFinalBuffCd, x.targets(TargetTag.Memosprite).source(Source.odeTo(Evernight.id)))
 
           x.buffDynamic(StatKey.CD, ownFinalBuffCd, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_SKILL))
-          x.buffDynamic(StatKey.CD, odeFinalBuffCd, action, context, x.targets(TargetTag.Memosprite).source(Source.odeTo(EVERNIGHT)))
+          x.buffDynamic(StatKey.CD, odeFinalBuffCd, action, context, x.targets(TargetTag.Memosprite).source(Source.odeTo(Evernight.id)))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -534,7 +530,7 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
   }
 }
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -585,27 +581,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: CYRENE,
-      lightCone: THIS_LOVE_FOREVER,
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: CASTORICE,
-      lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HYACINE,
-      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -638,27 +634,14 @@ const scoring: ScoringMetadata = {
       Stats.HP_P,
     ],
   },
-  sets: {
-    [Sets.WorldRemakingDeliverer]: 1,
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.ScholarLostInErudition]: T2_WEIGHT,
-    [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
-    [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
-
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-    [Sets.ArcadiaOfWovenDreams]: 1,
-    [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
-    [Sets.RutilantArena]: T2_WEIGHT,
-    [Sets.InertSalsotto]: T2_WEIGHT,
-  },
   presets: [
     PresetEffects.BANANA_SET,
   ],
   sortOption: SortOption.MEMO_SKILL,
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -672,7 +655,7 @@ const display = {
 export const Evernight: CharacterConfig = {
   id: '1413',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

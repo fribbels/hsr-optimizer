@@ -14,7 +14,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AThanklessCoronation.Content')
-  const { SOURCE_LC } = Source.lightCone('23045')
+  const { SOURCE_LC } = Source.lightCone(AThanklessCoronation.id)
 
   const sValuesUltAtk = [0.40, 0.50, 0.60, 0.70, 0.80]
   const sValuesEnergyAtk = [0.40, 0.50, 0.60, 0.70, 0.80]

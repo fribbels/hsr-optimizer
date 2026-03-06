@@ -3,7 +3,6 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
-  MATCH_2P_WEIGHT,
   SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   SPREAD_RELICS_2P_SPEED_WEIGHTS,
 } from 'lib/scoring/scoringConstants'
@@ -16,11 +15,17 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
-export const TrailblazerPreservationAbilities = createEnum('BASIC', 'ULT', 'TALENT_SHIELD', 'BREAK')
+export const TrailblazerPreservationAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.TALENT_SHIELD,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
@@ -37,7 +42,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8004')
+  } = Source.character(TrailblazerPreservationStelle.id)
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
 
@@ -111,7 +116,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(TrailblazerPreservationAbilities),
+    actionDeclaration: () => [...TrailblazerPreservationAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -120,7 +125,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const basicToughness = r.enhancedBasic ? 20 : 10
 
       return {
-        [TrailblazerPreservationAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -130,7 +135,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -140,7 +145,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.TALENT_SHIELD]: {
+        [AbilityKind.TALENT_SHIELD]: {
           hits: [
             HitDefinitionBuilder.shield()
               .defScaling(talentShieldScaling)
@@ -148,7 +153,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -184,7 +189,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -215,18 +220,11 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
-    [Sets.KnightOfPurityPalace]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [],
   sortOption: SortOption.TALENT_SHIELD,
   addedColumns: [],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
-}
+})
 
 const displayCaelus = {
   imageCenter: {
@@ -249,15 +247,15 @@ const displayStelle = {
 export const TrailblazerPreservationCaelus: CharacterConfig = {
   id: '8003',
   info: { displayName: 'Caelus (Preservation)' },
-  conditionals,
-  scoring,
   display: displayCaelus,
+  conditionals,
+  get scoring() { return scoring() },
 }
 
 export const TrailblazerPreservationStelle: CharacterConfig = {
   id: '8004',
   info: { displayName: 'Stelle (Preservation)' },
-  conditionals,
-  scoring,
   display: displayStelle,
+  conditionals,
+  get scoring() { return scoring() },
 }

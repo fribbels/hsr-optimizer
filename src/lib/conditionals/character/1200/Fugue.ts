@@ -31,15 +31,14 @@ import {
   DEFAULT_BASIC,
   END_BREAK,
   START_BASIC,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  FIREFLY,
-  THE_DAHLIA,
-  LINGSHA,
-  WHEREABOUTS_SHOULD_DREAMS_REST,
-  NEVER_FORGET_HER_FLAME,
-  SCENT_ALONE_STAYS_TRUE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -53,7 +52,11 @@ import {
 } from 'types/optimizer'
 
 export const FugueEntities = createEnum('Fugue')
-export const FugueAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const FugueAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
@@ -174,9 +177,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(FugueAbilities),
+    actionDeclaration: () => [...FugueAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [FugueAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Fire)
@@ -184,7 +187,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [FugueAbilities.ULT]: {
+      [AbilityKind.ULT]: {
         hits: [
           HitDefinitionBuilder.standardUlt()
             .damageElement(ElementTag.Fire)
@@ -192,7 +195,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [FugueAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
         ],
@@ -251,7 +254,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -307,27 +310,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FIREFLY,
-      lightCone: WHEREABOUTS_SHOULD_DREAMS_REST,
+      characterId: Firefly.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: THE_DAHLIA,
-      lightCone: NEVER_FORGET_HER_FLAME,
+      characterId: TheDahlia.id,
+      lightCone: NeverForgetHerFlame.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -353,17 +356,6 @@ const scoring: ScoringMetadata = {
       Stats.BE,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.SprightlyVonwacq]: 1,
-    [Sets.LushakaTheSunkenSeas]: 1,
-  },
   presets: [],
   sortOption: SortOption.BASIC,
   hiddenColumns: [
@@ -371,8 +363,8 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -386,7 +378,7 @@ const display = {
 export const Fugue: CharacterConfig = {
   id: '1225',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

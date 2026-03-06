@@ -8,7 +8,7 @@ import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const { SOURCE_LC } = Source.lightCone('21008')
+  const { SOURCE_LC } = Source.lightCone(EyesOfThePrey.id)
 
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 

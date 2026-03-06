@@ -33,7 +33,6 @@ export type ScoringMetadata = {
   /*      stat score      */ characterId?: CharacterId,
   /*      stat score      */ modified?: boolean,
   /*      stat score      */ parts: Record<Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>, MainStats[]>,
-  /*      stat score      */ sets: Partial<Record<Sets, number>>,
   /* stat score/optimizer */ stats: Record<SubStats, number> & Partial<Record<'headHands' | 'bodyFeet' | 'sphereRope', number>>,
   /*      optimizer       */ presets: PresetDefinition[],
   /*      optimizer       */ sortOption: SortOptionProperties,

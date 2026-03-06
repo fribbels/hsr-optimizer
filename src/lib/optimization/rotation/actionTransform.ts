@@ -43,7 +43,7 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     const action = defineAction(false, index, comboState, actionDeclaration as TurnAbilityName, request, context)
 
     const actionDefinitions = context.characterController.actionDefinition(action, context)
-    const actionDef = actionDefinitions[actionDeclaration]
+    const actionDef = actionDefinitions[actionDeclaration]!
     actionDef.actionKind = actionDeclaration
     // @ts-ignore
     action.actionType = actionDeclaration

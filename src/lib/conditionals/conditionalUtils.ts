@@ -4,10 +4,6 @@ import {
   PathName,
 } from 'lib/constants/constants'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
-import {
-  CYRENE,
-  YAO_GUANG,
-} from 'lib/simulations/tests/testMetadataConstants'
 import { ContentItem } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
 import {
@@ -168,31 +164,12 @@ export function mainIsPath(context: OptimizerContext, path: PathName) {
   return context.path == path
 }
 
-export function getCyreneAction(action: OptimizerAction) {
-  const cyreneAction = [
-    action.teammate0,
-    action.teammate1,
-    action.teammate2,
-    action,
-  ].find((x) => x && x.actorId == CYRENE)
-
-  return cyreneAction
+export function findTeamAction(action: OptimizerAction, actorId: string) {
+  return [action.teammate0, action.teammate1, action.teammate2, action].find((x) => x && x.actorId == actorId)
 }
 
-export function cyreneActionExists(action: OptimizerAction) {
-  return getCyreneAction(action) ? true : false
-}
-
-// Assumes cyreneTeammateSpecialEffectActive returned true
-export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
-  const cyreneAction = [
-    action.teammate0,
-    action.teammate1,
-    action.teammate2,
-    action,
-  ].find((x) => x && x.actorId == CYRENE)!
-
-  return cyreneAction.actorEidolon >= 3
+export function findTeamMeta(context: OptimizerContext, characterId: string) {
+  return [context.teammate0Metadata, context.teammate1Metadata, context.teammate2Metadata, context].find((t) => t?.characterId == characterId)
 }
 
 type Sanitize<S extends string> = S extends `${infer Start}${' ' | '-' | '/' | '.'}${infer Rest}` ? Sanitize<`${Start}_${Rest}`>
@@ -217,26 +194,6 @@ export function teammateConditionalActive(action: OptimizerAction, teammateId: s
   return teammateAction.characterConditionals[conditionalId]
 }
 
-export function getYaoguangAhaPunchlineValue(action: OptimizerAction, context: OptimizerContext): number | undefined {
-  const yaoguangAction = [
-    action.teammate0,
-    action.teammate1,
-    action.teammate2,
-    action,
-  ].find((x) => x && x.actorId == YAO_GUANG)
-
-  if (!yaoguangAction) return undefined
-  if (!yaoguangAction.characterConditionals.yaoguangAhaInstant) return undefined
-
-  const yaoguangEidolon = [
-    context.teammate0Metadata,
-    context.teammate1Metadata,
-    context.teammate2Metadata,
-    context,
-  ].find((t) => t?.characterId == YAO_GUANG)?.characterEidolon ?? 0
-
-  return (yaoguangEidolon >= 1) ? 40 : 20
-}
 
 // Returns the entity index of the memosprite, or -1 if not found
 export function findMemospriteIndex(action: OptimizerAction): number {

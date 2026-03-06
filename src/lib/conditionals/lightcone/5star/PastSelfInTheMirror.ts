@@ -14,7 +14,7 @@ import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PastSelfInTheMirror')
-  const { SOURCE_LC } = Source.lightCone('23019')
+  const { SOURCE_LC } = Source.lightCone(PastSelfInTheMirror.id)
 
   const sValues = [0.24, 0.28, 0.32, 0.36, 0.40]
 

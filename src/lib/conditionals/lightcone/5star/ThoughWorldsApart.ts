@@ -6,7 +6,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { THOUGH_WORLDS_APART } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -18,7 +17,7 @@ import {
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThoughWorldsApart.Content')
-  const { SOURCE_LC } = Source.lightCone(THOUGH_WORLDS_APART)
+  const { SOURCE_LC } = Source.lightCone(ThoughWorldsApart.id)
 
   const sValuesDmgBoost = [0.24, 0.30, 0.36, 0.42, 0.48]
   const sValuesDmgBoostSummons = [0.12, 0.15, 0.18, 0.21, 0.24]

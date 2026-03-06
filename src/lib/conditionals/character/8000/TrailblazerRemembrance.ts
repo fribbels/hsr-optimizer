@@ -18,15 +18,16 @@ import { PresetEffects } from 'lib/scoring/presetEffects'
 import { CharacterConfig } from 'types/characterConfig'
 import { ScoringMetadata } from 'types/metadata'
 import { Eidolon } from 'types/character'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export const TrailblazerRemembranceAbilities = createEnum(
-  'BASIC',
-  'ULT',
-  'MEMO_SKILL',
-  'BREAK',
-)
+export const TrailblazerRemembranceAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
 export const TrailblazerRemembranceEntities = createEnum(
   'Trailblazer',
@@ -49,7 +50,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8008')
+  } = Source.character(TrailblazerRemembranceStelle.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const enhancedBasicScaling = basic(e, 1.20, 1.32)
@@ -189,7 +190,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     entityDeclaration: () => Object.values(TrailblazerRemembranceEntities),
-    actionDeclaration: () => Object.values(TrailblazerRemembranceAbilities),
+    actionDeclaration: () => [...TrailblazerRemembranceAbilities],
 
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -244,8 +245,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [TrailblazerRemembranceAbilities.BASIC]: r.enhancedBasic ? enhancedBasicAbility : basicAbility,
-        [TrailblazerRemembranceAbilities.ULT]: {
+        [AbilityKind.BASIC]: r.enhancedBasic ? enhancedBasicAbility : basicAbility,
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .sourceEntity(TrailblazerRemembranceEntities.Mem)
@@ -256,7 +257,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerRemembranceAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(TrailblazerRemembranceEntities.Mem)
@@ -268,7 +269,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerRemembranceAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],
@@ -399,7 +400,7 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -429,14 +430,6 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    [Sets.HeroOfTriumphantSong]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,
@@ -444,7 +437,7 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.CD,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   addedColumns: [SortOption.MEMO_SKILL],
-}
+})
 
 const displayCaelus = {
   imageCenter: {
@@ -467,15 +460,15 @@ const displayStelle = {
 export const TrailblazerRemembranceCaelus: CharacterConfig = {
   id: '8007',
   info: { displayName: 'Caelus (Remembrance)' },
-  conditionals,
-  scoring,
   display: displayCaelus,
+  conditionals,
+  get scoring() { return scoring() },
 }
 
 export const TrailblazerRemembranceStelle: CharacterConfig = {
   id: '8008',
   info: { displayName: 'Stelle (Remembrance)' },
-  conditionals,
-  scoring,
   display: displayStelle,
+  conditionals,
+  get scoring() { return scoring() },
 }

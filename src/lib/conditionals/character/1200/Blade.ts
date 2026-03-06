@@ -29,15 +29,14 @@ import {
   END_BASIC,
   DEFAULT_FUA,
   WHOLE_BASIC,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  TRIBBIE,
-  CASTORICE,
-  HYACINE,
-  IF_TIME_WERE_A_FLOWER,
-  MAKE_FAREWELLS_MORE_BEAUTIFUL,
-  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -51,7 +50,12 @@ import {
 } from 'types/optimizer'
 
 export const BladeEntities = createEnum('Blade')
-export const BladeAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
+export const BladeAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
@@ -134,7 +138,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(BladeAbilities),
+    actionDeclaration: () => [...BladeAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -149,7 +153,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const fuaTotalHpScaling = fuaHpScaling + ((e >= 6) ? 0.50 : 0)
 
       return {
-        [BladeAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -159,7 +163,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [BladeAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Wind)
@@ -169,7 +173,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [BladeAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Wind)
@@ -179,7 +183,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [BladeAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
@@ -210,7 +214,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -259,27 +263,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: TRIBBIE,
-      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: CASTORICE,
-      lightCone: MAKE_FAREWELLS_MORE_BEAUTIFUL,
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HYACINE,
-      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.25,
     [Stats.ATK_P]: 0.25,
@@ -311,17 +315,6 @@ const scoring: ScoringMetadata = {
       Stats.HP_P,
     ],
   },
-  sets: {
-    [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
-    [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
-    [Sets.LongevousDisciple]: 1,
-    [Sets.MusketeerOfWildWheat]: T2_WEIGHT,
-
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.InertSalsotto]: 1,
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-  },
   presets: [
     PresetEffects.VALOROUS_SET,
     PresetEffects.fnSacerdosSet(1),
@@ -331,8 +324,8 @@ const scoring: ScoringMetadata = {
     SortOption.SKILL,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -346,7 +339,7 @@ const display = {
 export const Blade: CharacterConfig = {
   id: '1205',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

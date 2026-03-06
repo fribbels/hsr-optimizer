@@ -1,6 +1,9 @@
-import { ScoringMetadata } from 'types/metadata'
-import { CharacterId, Eidolon } from 'types/character'
+import {
+  CharacterId,
+  Eidolon
+} from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 
 export type CharacterInfo = {
   displayName?: string
@@ -18,7 +21,8 @@ export type CharacterDisplay = {
 export type CharacterConfig = {
   id: CharacterId
   info: CharacterInfo
-  conditionals: (e: Eidolon, withContent: boolean) => CharacterConditionalsController
-  scoring: ScoringMetadata
   display: CharacterDisplay
+  conditionals: (e: Eidolon, withContent: boolean) => CharacterConditionalsController
+  /** Getter — defers evaluation to avoid circular imports between config files */
+  scoring: ScoringMetadata
 }

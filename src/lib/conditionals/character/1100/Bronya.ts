@@ -24,6 +24,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -33,7 +34,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -48,7 +48,11 @@ import {
 } from 'types/optimizer'
 
 export const BronyaEntities = createEnum('Bronya')
-export const BronyaAbilities = createEnum('BASIC', 'FUA', 'BREAK')
+export const BronyaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bronya')
@@ -65,7 +69,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1101')
+  } = Source.character(Bronya.id)
 
   const skillDmgBoostValue = skill(e, 0.66, 0.726)
   const ultAtkBoostValue = ult(e, 0.55, 0.594)
@@ -173,9 +177,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(BronyaAbilities),
+    actionDeclaration: () => [...BronyaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [BronyaAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Wind)
@@ -184,7 +188,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [BronyaAbilities.FUA]: {
+      [AbilityKind.FUA]: {
         hits: (e >= 4)
           ? [
             HitDefinitionBuilder.standardFua()
@@ -195,7 +199,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           ]
           : [],
       },
-      [BronyaAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
         ],
@@ -268,7 +272,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -295,12 +299,6 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [],
   sortOption: SortOption.CD,
   hiddenColumns: [
@@ -308,7 +306,7 @@ const scoring: ScoringMetadata = {
     SortOption.ULT,
     SortOption.DOT,
   ],
-}
+})
 
 const display = {
   imageCenter: {
@@ -322,7 +320,7 @@ const display = {
 export const Bronya: CharacterConfig = {
   id: '1101',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

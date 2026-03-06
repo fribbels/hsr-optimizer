@@ -22,6 +22,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   DEFAULT_SKILL,
@@ -37,14 +38,12 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  CIPHER,
-  LIES_DANCE_ON_THE_BREEZE,
-  ROBIN,
-  FLOWING_NIGHTGLOW,
-  AVENTURINE,
-  INHERENTLY_UNJUST_DESTINY,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -57,7 +56,13 @@ import {
 } from 'types/optimizer'
 
 export const DrRatioEntities = createEnum('DrRatio')
-export const DrRatioAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const DrRatioAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DrRatio')
@@ -74,7 +79,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1305')
+  } = Source.character(DrRatio.id)
 
   const debuffStacksMax = 5
   const summationStacksMax = (e >= 1) ? 10 : 6
@@ -143,14 +148,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(DrRatioAbilities),
+    actionDeclaration: () => [...DrRatioAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e2AdditionalScaling = (e >= 2) ? 0.20 * Math.min(4, r.enemyDebuffStacks) : 0
 
       return {
-        [DrRatioAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -159,7 +164,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [DrRatioAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Imaginary)
@@ -168,7 +173,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [DrRatioAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Imaginary)
@@ -177,7 +182,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [DrRatioAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Imaginary)
@@ -196,7 +201,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [DrRatioAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],
@@ -227,7 +232,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -276,27 +281,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: CIPHER,
-      lightCone: LIES_DANCE_ON_THE_BREEZE,
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: ROBIN,
-      lightCone: FLOWING_NIGHTGLOW,
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: AVENTURINE,
-      lightCone: INHERENTLY_UNJUST_DESTINY,
+      characterId: Aventurine.id,
+      lightCone: InherentlyUnjustDestiny.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -329,15 +334,6 @@ const scoring: ScoringMetadata = {
       Stats.ATK_P,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.WastelanderOfBanditryDesert]: 1,
-    [Sets.TheAshblazingGrandDuke]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-  },
   presets: [
     PresetEffects.fnAshblazingSet(1),
     PresetEffects.fnPioneerSet(4),
@@ -348,8 +344,8 @@ const scoring: ScoringMetadata = {
   hiddenColumns: [
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -363,7 +359,7 @@ const display = {
 export const DrRatio: CharacterConfig = {
   id: '1305',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

@@ -3,7 +3,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { NEVER_FORGET_HER_FLAME } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -12,7 +11,7 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NeverForgetHerFlame.Content')
-  const { SOURCE_LC } = Source.lightCone(NEVER_FORGET_HER_FLAME)
+  const { SOURCE_LC } = Source.lightCone(NeverForgetHerFlame.id)
 
   const sValuesBreakDmg = [0.32, 0.42, 0.52, 0.62, 0.72]
 

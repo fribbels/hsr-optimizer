@@ -3,9 +3,9 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
@@ -36,7 +36,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   weights,
 } from 'lib/scoring/scoringConstants'
-import { CERYDRA } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -48,7 +47,11 @@ import {
 } from 'types/optimizer'
 
 export const CerydraEntities = createEnum('Cerydra')
-export const CerydraAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const CerydraAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cerydra')
@@ -64,7 +67,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_MEMO,
-  } = Source.character(CERYDRA)
+  } = Source.character(Cerydra.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillCdScaling = skill(e, 0.72, 0.792)
@@ -191,14 +194,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(CerydraAbilities),
+    actionDeclaration: () => [...CerydraAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e4UltScaling = (e >= 4 && r.e4UltDmg) ? 2.40 : 0
 
       return {
-        [CerydraAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -207,7 +210,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CerydraAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Wind)
@@ -216,7 +219,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CerydraAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
@@ -292,7 +295,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Cyrene special effect: CD buff
       if (cyreneActionExists(originalCharacterAction!)) {
         const cdBuff = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.33 : 0.30
-        x.buff(StatKey.CD, t.cyreneSpecialEffect ? cdBuff : 0, x.targets(TargetTag.SingleTarget).source(Source.odeTo(CERYDRA)))
+        x.buff(StatKey.CD, t.cyreneSpecialEffect ? cdBuff : 0, x.targets(TargetTag.SingleTarget).source(Source.odeTo(Cerydra.id)))
       }
     },
 
@@ -343,7 +346,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
     [Stats.ATK_P]: 1,
@@ -375,16 +378,10 @@ const scoring: ScoringMetadata = {
       Stats.ERR,
     ],
   },
-  sets: {
-    ...weights([...RELICS_2P_SPEED, ...RELICS_2P_ATK], 1),
-    [Sets.SacerdosRelivedOrdeal]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [],
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
-}
+})
 
 const display = {
   imageCenter: {
@@ -398,7 +395,7 @@ const display = {
 export const Cerydra: CharacterConfig = {
   id: '1412',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

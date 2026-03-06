@@ -48,14 +48,12 @@ import {
   START_ULT,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  PERMANSOR_TERRAE,
-  ROBIN,
-  SUNDAY,
-  A_GROUNDED_ASCENT,
-  FLOWING_NIGHTGLOW,
-  THOUGH_WORLDS_APART,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 
 export const JingYuanEntities = createEnum('JingYuan', 'LightningLord')
 export const JingYuanAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
@@ -262,7 +260,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -313,27 +311,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SUNDAY,
-      lightCone: A_GROUNDED_ASCENT,
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: ROBIN,
-      lightCone: FLOWING_NIGHTGLOW,
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -382,8 +380,8 @@ const scoring: ScoringMetadata = {
   ],
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -397,7 +395,7 @@ const display = {
 export const JingYuan: CharacterConfig = {
   id: '1204',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

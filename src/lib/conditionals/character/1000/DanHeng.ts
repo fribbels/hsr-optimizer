@@ -19,14 +19,12 @@ import {
   MATCH_2P_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  BRONYA,
-  BUT_THE_BATTLE_ISNT_OVER,
-  ROBIN,
-  FLOWING_NIGHTGLOW,
-  HUOHUO,
-  NIGHT_OF_FRIGHT,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Bronya } from 'lib/conditionals/character/1100/Bronya'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -169,7 +167,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -212,27 +210,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: BRONYA,
-      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterId: Bronya.id,
+      lightCone: ButTheBattleIsntOver.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: ROBIN,
-      lightCone: FLOWING_NIGHTGLOW,
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HUOHUO,
-      lightCone: NIGHT_OF_FRIGHT,
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -285,8 +283,8 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -300,7 +298,7 @@ const display = {
 export const DanHeng: CharacterConfig = {
   id: '1002',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

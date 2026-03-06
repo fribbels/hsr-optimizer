@@ -109,14 +109,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: { [Stats.ATK]: 0, [Stats.ATK_P]: 0, [Stats.DEF]: 0, [Stats.DEF_P]: 0, [Stats.HP]: 0, [Stats.HP_P]: 0, [Stats.SPD]: 0, [Stats.CR]: 0, [Stats.CD]: 0, [Stats.EHR]: 0, [Stats.RES]: 0, [Stats.BE]: 0 },
   parts: { [Parts.Body]: [], [Parts.Feet]: [], [Parts.PlanarSphere]: [], [Parts.LinkRope]: [] },
   sets: {},
   presets: [],
   sortOption: SortOption.BASIC,
   hiddenColumns: [],
-}
+})
 
 const display = {
   showcaseColor: '#999999',
@@ -125,7 +125,7 @@ const display = {
 export const Ashveil: CharacterConfig = {
   id: '1504' as CharacterId,
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

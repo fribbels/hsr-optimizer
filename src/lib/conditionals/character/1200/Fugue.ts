@@ -32,14 +32,12 @@ import {
   END_BREAK,
   START_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  FIREFLY,
-  THE_DAHLIA,
-  LINGSHA,
-  WHEREABOUTS_SHOULD_DREAMS_REST,
-  NEVER_FORGET_HER_FLAME,
-  SCENT_ALONE_STAYS_TRUE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -251,7 +249,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -307,27 +305,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FIREFLY,
-      lightCone: WHEREABOUTS_SHOULD_DREAMS_REST,
+      characterId: Firefly.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: THE_DAHLIA,
-      lightCone: NEVER_FORGET_HER_FLAME,
+      characterId: TheDahlia.id,
+      lightCone: NeverForgetHerFlame.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -371,8 +369,8 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -386,7 +384,7 @@ const display = {
 export const Fugue: CharacterConfig = {
   id: '1225',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

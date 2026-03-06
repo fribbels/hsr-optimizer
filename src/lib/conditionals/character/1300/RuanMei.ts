@@ -222,7 +222,7 @@ ${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -263,7 +263,7 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-}
+})
 
 const display = {
   imageCenter: {
@@ -277,7 +277,7 @@ const display = {
 export const RuanMei: CharacterConfig = {
   id: '1303',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

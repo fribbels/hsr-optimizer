@@ -356,7 +356,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1.00,
     [Stats.ATK_P]: 1.00,
@@ -415,7 +415,7 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.FUA_HEAL,
   addedColumns: [SortOption.OHB],
   hiddenColumns: [SortOption.DOT],
-}
+})
 
 const display = {
   imageCenter: {
@@ -429,7 +429,7 @@ const display = {
 export const Lingsha: CharacterConfig = {
   id: '1222',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

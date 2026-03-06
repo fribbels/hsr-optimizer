@@ -40,20 +40,17 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  ANAXA,
-  BOOTHILL,
-  FIREFLY,
-  PHAINON,
-  SILVER_WOLF,
-  THE_DAHLIA,
-  FUGUE,
-  LONG_ROAD_LEADS_HOME,
-  NEVER_FORGET_HER_FLAME,
-  LINGSHA,
-  SCENT_ALONE_STAYS_TRUE,
-  WHEREABOUTS_SHOULD_DREAMS_REST,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { Boothill } from 'lib/conditionals/character/1300/Boothill'
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -84,7 +81,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character(THE_DAHLIA)
+  } = Source.character(TheDahlia.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -379,11 +376,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const IMPLANT_CHARACTERS = [
-        FIREFLY,
-        BOOTHILL,
-        PHAINON,
-        ANAXA,
-        SILVER_WOLF,
+        Firefly.id,
+        Boothill.id,
+        Phainon.id,
+        Anaxa.id,
+        SilverWolf.id,
       ]
       if (IMPLANT_CHARACTERS.includes(context.characterId)) {
         x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_TRACE))
@@ -404,7 +401,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -457,27 +454,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FIREFLY,
-      lightCone: WHEREABOUTS_SHOULD_DREAMS_REST,
+      characterId: Firefly.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: FUGUE,
-      lightCone: LONG_ROAD_LEADS_HOME,
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -521,8 +518,8 @@ const scoring: ScoringMetadata = {
   hiddenColumns: [
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -536,7 +533,7 @@ const display = {
 export const TheDahlia: CharacterConfig = {
   id: '1321',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

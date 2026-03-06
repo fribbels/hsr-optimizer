@@ -28,14 +28,12 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  HYSILENS,
-  KAFKA_B1,
-  PATIENCE_IS_ALL_YOU_NEED,
-  PERMANSOR_TERRAE,
-  THOUGH_WORLDS_APART,
-  WHY_DOES_THE_OCEAN_SING,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -198,7 +196,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -243,27 +241,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: KAFKA_B1,
-      lightCone: PATIENCE_IS_ALL_YOU_NEED,
+      characterId: KafkaB1.id,
+      lightCone: PatienceIsAllYouNeed.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HYSILENS,
-      lightCone: WHY_DOES_THE_OCEAN_SING,
+      characterId: Hysilens.id,
+      lightCone: WhyDoesTheOceanSing.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
     [Stats.ATK_P]: 1,
@@ -314,8 +312,8 @@ const scoring: ScoringMetadata = {
   hiddenColumns: [
     SortOption.FUA,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -329,7 +327,7 @@ const display = {
 export const Sampo: CharacterConfig = {
   id: '1108',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

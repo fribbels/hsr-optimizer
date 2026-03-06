@@ -4,8 +4,6 @@ import {
   ContentDefinition,
   countTeamPath,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, PathNames, Sets, Stats } from 'lib/constants/constants'
@@ -26,15 +24,12 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  ANAXA,
-  CERYDRA,
-  CYRENE,
-  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
-  PERMANSOR_TERRAE,
-  THIS_LOVE_FOREVER,
-  THOUGH_WORLDS_APART,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   DEFAULT_SKILL,
   END_SKILL,
@@ -282,12 +277,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const cyreneSkillDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
         : 0
-      x.buff(StatKey.DMG_BOOST, cyreneBuffActive ? cyreneSkillDmgBuff : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.SelfAndPet).source(Source.odeTo(ANAXA)))
+      x.buff(StatKey.DMG_BOOST, cyreneBuffActive ? cyreneSkillDmgBuff : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.SelfAndPet).source(Source.odeTo(Anaxa.id)))
 
       const cyreneAtkBuff = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.66 : 0.60)
         : 0
-      x.buff(StatKey.ATK_P, cyreneBuffActive ? cyreneAtkBuff : 0, x.targets(TargetTag.SelfAndPet).source(Source.odeTo(ANAXA)))
+      x.buff(StatKey.ATK_P, cyreneBuffActive ? cyreneAtkBuff : 0, x.targets(TargetTag.SelfAndPet).source(Source.odeTo(Anaxa.id)))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -300,7 +295,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -353,27 +348,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: CYRENE,
-      lightCone: THIS_LOVE_FOREVER,
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: CERYDRA,
-      lightCone: EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+      characterId: Cerydra.id,
+      lightCone: EpochEtchedInGoldenBlood.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
     [Stats.ATK_P]: 1,
@@ -425,8 +420,8 @@ const scoring: ScoringMetadata = {
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -440,7 +435,7 @@ const display = {
 export const Anaxa: CharacterConfig = {
   id: '1405',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

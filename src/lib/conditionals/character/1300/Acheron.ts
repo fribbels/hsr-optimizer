@@ -29,14 +29,12 @@ import {
   T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SILVER_WOLF_B1,
-  BEFORE_THE_TUTORIAL_MISSION_STARTS,
-  CIPHER,
-  LIES_DANCE_ON_THE_BREEZE,
-  PERMANSOR_TERRAE,
-  THOUGH_WORLDS_APART,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { BeforeTheTutorialMissionStarts } from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -258,7 +256,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -300,27 +298,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SILVER_WOLF_B1,
-      lightCone: BEFORE_THE_TUTORIAL_MISSION_STARTS,
+      characterId: SilverWolfB1.id,
+      lightCone: BeforeTheTutorialMissionStarts.id,
       characterEidolon: 0,
       lightConeSuperimposition: 5,
     },
     {
-      characterId: CIPHER,
-      lightCone: LIES_DANCE_ON_THE_BREEZE,
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -373,8 +371,8 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -388,7 +386,7 @@ const display = {
 export const Acheron: CharacterConfig = {
   id: '1308',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

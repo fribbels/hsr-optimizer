@@ -35,14 +35,12 @@ import {
   START_SKILL,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  BRONYA,
-  HUOHUO,
-  RUAN_MEI,
-  BUT_THE_BATTLE_ISNT_OVER,
-  NIGHT_OF_FRIGHT,
-  PAST_SELF_IN_MIRROR,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Bronya } from 'lib/conditionals/character/1100/Bronya'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 
 export const JingliuEntities = createEnum('Jingliu')
 export const JingliuAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
@@ -198,7 +196,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CD,
@@ -243,27 +241,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: BRONYA,
-      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterId: Bronya.id,
+      lightCone: ButTheBattleIsntOver.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: RUAN_MEI,
-      lightCone: PAST_SELF_IN_MIRROR,
+      characterId: RuanMei.id,
+      lightCone: PastSelfInTheMirror.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HUOHUO,
-      lightCone: NIGHT_OF_FRIGHT,
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -312,8 +310,8 @@ const scoring: ScoringMetadata = {
   presets: [],
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -327,7 +325,7 @@ const display = {
 export const Jingliu: CharacterConfig = {
   id: '1212',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

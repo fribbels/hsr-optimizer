@@ -240,7 +240,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -286,7 +286,7 @@ const scoring: ScoringMetadata = {
   presets: [],
   sortOption: SortOption.SPD,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
-}
+})
 
 const display = {
   imageCenter: {
@@ -300,7 +300,7 @@ const display = {
 export const Tingyun: CharacterConfig = {
   id: '1202',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

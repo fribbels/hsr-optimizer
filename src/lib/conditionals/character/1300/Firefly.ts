@@ -27,14 +27,12 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
-import {
-  THE_DAHLIA,
-  FUGUE,
-  LONG_ROAD_LEADS_HOME,
-  NEVER_FORGET_HER_FLAME,
-  LINGSHA,
-  SCENT_ALONE_STAYS_TRUE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -161,7 +159,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // The Dahlia E1 adds fixed toughness damage
-      const dahliaFixedToughnessDmg = teammateMatchesId(context, THE_DAHLIA) ? 20 : 0
+      const dahliaFixedToughnessDmg = teammateMatchesId(context, TheDahlia.id) ? 20 : 0
 
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Fire)
@@ -316,7 +314,7 @@ if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.60) {
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -358,27 +356,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: FUGUE,
-      lightCone: LONG_ROAD_LEADS_HOME,
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: THE_DAHLIA,
-      lightCone: NEVER_FORGET_HER_FLAME,
+      characterId: TheDahlia.id,
+      lightCone: NeverForgetHerFlame.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.5,
     [Stats.ATK_P]: 0.5,
@@ -423,8 +421,8 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -438,7 +436,7 @@ const display = {
 export const Firefly: CharacterConfig = {
   id: '1310',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

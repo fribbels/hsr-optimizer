@@ -26,15 +26,12 @@ import {
   DEFAULT_FUA,
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  BLADE_B1,
-  TRIBBIE,
-  SUNDAY,
-  HYACINE,
-  IF_TIME_WERE_A_FLOWER,
-  A_GROUNDED_ASCENT,
-  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -63,7 +60,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character(BLADE_B1)
+  } = Source.character(BladeB1.id)
 
   const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
   const hpPercentLostTotalMax = 0.90
@@ -212,7 +209,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -260,27 +257,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: TRIBBIE,
-      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SUNDAY,
-      lightCone: A_GROUNDED_ASCENT,
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HYACINE,
-      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -332,8 +329,8 @@ const scoring: ScoringMetadata = {
     SortOption.SKILL,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -347,7 +344,7 @@ const display = {
 export const BladeB1: CharacterConfig = {
   id: '1205b1',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

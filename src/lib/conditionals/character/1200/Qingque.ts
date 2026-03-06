@@ -44,14 +44,12 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  CIPHER,
-  PERMANSOR_TERRAE,
-  SPARKLE_B1,
-  A_GROUNDED_ASCENT,
-  LIES_DANCE_ON_THE_BREEZE,
-  THOUGH_WORLDS_APART,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 
 export const QingqueEntities = createEnum('Qingque')
 export const QingqueAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
@@ -209,7 +207,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -259,27 +257,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: CIPHER,
-      lightCone: LIES_DANCE_ON_THE_BREEZE,
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SPARKLE_B1,
-      lightCone: A_GROUNDED_ASCENT,
+      characterId: SparkleB1.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -329,8 +327,8 @@ const scoring: ScoringMetadata = {
   ],
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -344,7 +342,7 @@ const display = {
 export const Qingque: CharacterConfig = {
   id: '1201',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

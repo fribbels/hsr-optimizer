@@ -4,8 +4,6 @@ import {
   ContentDefinition,
   countTeamPath,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -27,16 +25,13 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  CERYDRA,
-  CYRENE,
-  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
-  HYACINE,
-  PHAINON,
-  SUNDAY,
-  A_GROUNDED_ASCENT,
-  THIS_LOVE_FOREVER,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
   DEFAULT_BASIC,
   DEFAULT_SKILL,
@@ -74,7 +69,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_MEMO,
-  } = Source.character(PHAINON)
+  } = Source.character(Phainon.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 3.00, 3.30)
@@ -351,7 +346,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, r.atkBuffStacks * 0.50, x.source(SOURCE_TRACE))
 
       // Sustain DMG boost
-      const hasSustain = teammateMatchesId(context, HYACINE)
+      const hasSustain = teammateMatchesId(context, Hyacine.id)
         + countTeamPath(context, PathNames.Abundance)
         + countTeamPath(context, PathNames.Preservation)
       x.buff(StatKey.DMG_BOOST, (r.sustainDmgBuff && hasSustain) ? 0.45 : 0, x.source(SOURCE_TRACE))
@@ -376,7 +371,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         const cyreneCrBuff = cyreneActionExists(action)
           ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.176 : 0.16)
           : 0
-        x.buff(StatKey.CR, r.cyreneSpecialEffect ? cyreneCrBuff : 0, x.source(Source.odeTo(PHAINON)))
+        x.buff(StatKey.CR, r.cyreneSpecialEffect ? cyreneCrBuff : 0, x.source(Source.odeTo(Phainon.id)))
       }
     },
 
@@ -395,7 +390,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -443,27 +438,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SUNDAY,
-      lightCone: A_GROUNDED_ASCENT,
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: CERYDRA,
-      lightCone: EPOCH_ETCHED_IN_GOLDEN_BLOOD,
+      characterId: Cerydra.id,
+      lightCone: EpochEtchedInGoldenBlood.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: CYRENE,
-      lightCone: THIS_LOVE_FOREVER,
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -511,8 +506,8 @@ const scoring: ScoringMetadata = {
   presets: [],
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -526,7 +521,7 @@ const display = {
 export const Phainon: CharacterConfig = {
   id: '1408',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

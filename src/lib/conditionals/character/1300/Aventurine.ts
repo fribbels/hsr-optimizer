@@ -27,14 +27,12 @@ import {
   MATCH_2P_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  TOPAZ_NUMBY,
-  WORRISOME_BLISSFUL,
-  ROBIN,
-  FLOWING_NIGHTGLOW,
-  FEIXIAO,
-  I_VENTURE_FORTH_TO_HUNT,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Topaz } from 'lib/conditionals/character/1100/Topaz'
+import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -282,7 +280,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -339,27 +337,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: TOPAZ_NUMBY,
-      lightCone: WORRISOME_BLISSFUL,
+      characterId: Topaz.id,
+      lightCone: WorrisomeBlissful.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: ROBIN,
-      lightCone: FLOWING_NIGHTGLOW,
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: FEIXIAO,
-      lightCone: I_VENTURE_FORTH_TO_HUNT,
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -415,8 +413,8 @@ const scoring: ScoringMetadata = {
     SortOption.SKILL,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -430,7 +428,7 @@ const display = {
 export const Aventurine: CharacterConfig = {
   id: '1304',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

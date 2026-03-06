@@ -18,14 +18,12 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
-import {
-  SUNDAY,
-  A_GROUNDED_ASCENT,
-  TINGYUN,
-  DANCE_DANCE_DANCE,
-  HUOHUO,
-  NIGHT_OF_FRIGHT,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -261,7 +259,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -307,27 +305,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SUNDAY,
-      lightCone: A_GROUNDED_ASCENT,
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TINGYUN,
-      lightCone: DANCE_DANCE_DANCE,
+      characterId: Tingyun.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 6,
       lightConeSuperimposition: 5,
     },
     {
-      characterId: HUOHUO,
-      lightCone: NIGHT_OF_FRIGHT,
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -376,8 +374,8 @@ const scoring: ScoringMetadata = {
   hiddenColumns: [
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -391,7 +389,7 @@ const display = {
 export const Saber: CharacterConfig = {
   id: '1014',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

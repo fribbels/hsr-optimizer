@@ -399,7 +399,7 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -444,7 +444,7 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.CD,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   addedColumns: [SortOption.MEMO_SKILL],
-}
+})
 
 const displayCaelus = {
   imageCenter: {
@@ -467,15 +467,15 @@ const displayStelle = {
 export const TrailblazerRemembranceCaelus: CharacterConfig = {
   id: '8007',
   info: { displayName: 'Caelus (Remembrance)' },
-  conditionals,
-  scoring,
   display: displayCaelus,
+  conditionals,
+  get scoring() { return scoring() },
 }
 
 export const TrailblazerRemembranceStelle: CharacterConfig = {
   id: '8008',
   info: { displayName: 'Stelle (Remembrance)' },
-  conditionals,
-  scoring,
   display: displayStelle,
+  conditionals,
+  get scoring() { return scoring() },
 }

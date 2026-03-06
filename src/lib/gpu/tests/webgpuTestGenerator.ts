@@ -7,30 +7,28 @@ import {
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  A_THANKLESS_CORONATION,
-  ANAXA,
-  ARCHER,
-  CERYDRA,
-  CIPHER,
-  CYRENE,
-  EPOCH_ETCHED_IN_GOLDEN_BLOOD,
-  EVERNIGHT,
-  HYACINE,
-  HYSILENS,
-  LIES_DANCE_ON_THE_BREEZE,
-  LIFE_SHOULD_BE_CAST_TO_FLAMES,
-  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
-  PERMANSOR_TERRAE,
-  PHAINON,
-  SABER,
-  THE_HELL_WHERE_IDEALS_BURN,
-  THIS_LOVE_FOREVER,
-  THOUGH_WORLDS_APART,
-  THUS_BURNS_THE_DAWN,
-  TO_EVERNIGHTS_STARS,
-  WHY_DOES_THE_OCEAN_SING,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Archer } from 'lib/conditionals/character/1000/Archer'
+import { Saber } from 'lib/conditionals/character/1000/Saber'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { Evernight } from 'lib/conditionals/character/1400/Evernight'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { AThanklessCoronation } from 'lib/conditionals/lightcone/5star/AThanklessCoronation'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import DB from 'lib/state/db'
@@ -130,17 +128,17 @@ const baseCharacterLightConeMappings: Array<{ characterId: CharacterId, lightCon
   { characterId: '1404', lightConeId: '23039' }, // Mydei
   { characterId: '1405', lightConeId: '23041' }, // Anaxa
   { characterId: '1407', lightConeId: '23040' }, // Castorice
-  { characterId: CIPHER, lightConeId: LIES_DANCE_ON_THE_BREEZE },
-  { characterId: ANAXA, lightConeId: LIFE_SHOULD_BE_CAST_TO_FLAMES },
-  { characterId: HYACINE, lightConeId: LONG_MAY_RAINBOWS_ADORN_THE_SKY },
-  { characterId: PHAINON, lightConeId: THUS_BURNS_THE_DAWN },
-  { characterId: SABER, lightConeId: A_THANKLESS_CORONATION },
-  { characterId: ARCHER, lightConeId: THE_HELL_WHERE_IDEALS_BURN },
-  { characterId: HYSILENS, lightConeId: WHY_DOES_THE_OCEAN_SING },
-  { characterId: CERYDRA, lightConeId: EPOCH_ETCHED_IN_GOLDEN_BLOOD },
-  { characterId: EVERNIGHT, lightConeId: TO_EVERNIGHTS_STARS },
-  { characterId: PERMANSOR_TERRAE, lightConeId: THOUGH_WORLDS_APART },
-  { characterId: CYRENE, lightConeId: THIS_LOVE_FOREVER },
+  { characterId: Cipher.id, lightConeId: LiesAflutterInTheWind.id },
+  { characterId: Anaxa.id, lightConeId: LifeShouldBeCastToFlames.id },
+  { characterId: Hyacine.id, lightConeId: MayRainbowsRemainInTheSky.id },
+  { characterId: Phainon.id, lightConeId: ThusBurnsTheDawn.id },
+  { characterId: Saber.id, lightConeId: AThanklessCoronation.id },
+  { characterId: Archer.id, lightConeId: TheHellWhereIdealsBurn.id },
+  { characterId: Hysilens.id, lightConeId: WhyDoesTheOceanSing.id },
+  { characterId: Cerydra.id, lightConeId: EpochEtchedInGoldenBlood.id },
+  { characterId: Evernight.id, lightConeId: ToEvernightsStars.id },
+  { characterId: PermansorTerrae.id, lightConeId: ThoughWorldsApart.id },
+  { characterId: Cyrene.id, lightConeId: ThisLoveForever.id },
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer

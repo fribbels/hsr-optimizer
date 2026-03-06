@@ -9,23 +9,21 @@ import {
   TurnAbility,
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  ANAXA,
-  ARCHER,
-  CASTORICE,
-  CYRENE,
-  HOOK,
-  HYSILENS,
-  JINGLIU_B1,
-  PHAINON,
-  SABER,
-  THE_HERTA,
-  YUNLI,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Archer } from 'lib/conditionals/character/1000/Archer'
+import { Saber } from 'lib/conditionals/character/1000/Saber'
+import { Hook } from 'lib/conditionals/character/1100/Hook'
+import { JingliuB1 } from 'lib/conditionals/character/1200/JingliuB1'
+import { Yunli } from 'lib/conditionals/character/1200/Yunli'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
-  id = CASTORICE
+  id = Castorice.id
   defaultState = { memoSkillEnhances: 3, memoDmgStacks: 0, e2Activated: false }
   state = { ...this.defaultState }
 
@@ -70,7 +68,7 @@ export class CastoricePreprocessor extends AbilityPreprocessorBase {
 }
 
 export class TheHertaPreprocessor extends AbilityPreprocessorBase {
-  id = THE_HERTA
+  id = TheHerta.id
   defaultState = { enhancedSkillCount: 0, postUltEnhancement: false }
   state = { ...this.defaultState }
 
@@ -108,7 +106,7 @@ export class TheHertaPreprocessor extends AbilityPreprocessorBase {
 export class YunliPreprocessor extends AbilityTriggeredStackPreprocessor {
   constructor() {
     super(
-      YUNLI,
+      Yunli.id,
       {
         triggerKinds: [AbilityKind.ULT],
         consumeKinds: [AbilityKind.FUA],
@@ -122,7 +120,7 @@ export class YunliPreprocessor extends AbilityTriggeredStackPreprocessor {
 export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
   constructor() {
     super(
-      HOOK,
+      Hook.id,
       {
         triggerKinds: [AbilityKind.ULT],
         consumeKinds: [AbilityKind.SKILL],
@@ -134,7 +132,7 @@ export class HookPreprocessor extends AbilityTriggeredStackPreprocessor {
 }
 
 export class PhainonPreprocessor extends AbilityPreprocessorBase {
-  id = PHAINON
+  id = Phainon.id
   defaultState = { transformedState: false }
   state = { ...this.defaultState }
 
@@ -160,7 +158,7 @@ export class PhainonPreprocessor extends AbilityPreprocessorBase {
 }
 
 export class SaberPreprocessor extends AbilityPreprocessorBase {
-  id = SABER
+  id = Saber.id
   defaultState = { enhancedSkill: false }
   state = { ...this.defaultState }
 
@@ -186,7 +184,7 @@ export class SaberPreprocessor extends AbilityPreprocessorBase {
 }
 
 export class ArcherPreprocessor extends AbilityPreprocessorBase {
-  id = ARCHER
+  id = Archer.id
   defaultState = { skillEnhances: 0 }
   state = { ...this.defaultState }
 
@@ -216,7 +214,7 @@ export class ArcherPreprocessor extends AbilityPreprocessorBase {
 export class JingliuB1E2Preprocessor extends AbilityTriggeredStackPreprocessor {
   constructor() {
     super(
-      JINGLIU_B1,
+      JingliuB1.id,
       {
         triggerKinds: [AbilityKind.ULT],
         consumeKinds: [AbilityKind.SKILL],
@@ -230,7 +228,7 @@ export class JingliuB1E2Preprocessor extends AbilityTriggeredStackPreprocessor {
 export class JingliuB1DefPenPreprocessor extends AbilityTriggeredStackPreprocessor {
   constructor() {
     super(
-      JINGLIU_B1,
+      JingliuB1.id,
       {
         triggerKinds: [AbilityKind.ULT],
         consumeKinds: [AbilityKind.SKILL],
@@ -242,7 +240,7 @@ export class JingliuB1DefPenPreprocessor extends AbilityTriggeredStackPreprocess
 }
 
 export class HysilensE1Preprocessor extends AbilityPreprocessorBase {
-  id = HYSILENS
+  id = Hysilens.id
   defaultState = { ultActivated: false }
   state = { ...this.defaultState }
 
@@ -271,7 +269,7 @@ export class HysilensE1Preprocessor extends AbilityPreprocessorBase {
 }
 
 export class AnaxaCyreneEffectPreprocessor extends AbilityPreprocessorBase {
-  id = ANAXA
+  id = Anaxa.id
   defaultState = { cyreneSpecialEffect: false }
   state = { ...this.defaultState }
 
@@ -294,7 +292,7 @@ export class AnaxaCyreneEffectPreprocessor extends AbilityPreprocessorBase {
 }
 
 export class CyrenePreprocessor extends AbilityPreprocessorBase {
-  id = CYRENE
+  id = Cyrene.id
   defaultState = { memoSkillCounter: 3 }
   state = { ...this.defaultState }
 

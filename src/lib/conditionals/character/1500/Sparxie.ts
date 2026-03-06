@@ -4,7 +4,6 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  getYaoguangAhaPunchlineValue,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversionContainer,
@@ -42,15 +41,12 @@ import {
   SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import {
-  BUT_THE_BATTLE_ISNT_OVER,
-  HUOHUO,
-  NIGHT_OF_FRIGHT,
-  SPARKLE_B1,
-  SPARXIE,
-  WHEN_SHE_DECIDED_TO_SEE,
-  YAO_GUANG,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { getYaoguangAhaPunchlineValue, Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -82,7 +78,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_ELATION_SKILL,
-  } = Source.character(SPARXIE)
+  } = Source.character(Sparxie.id)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
@@ -386,7 +382,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -433,27 +429,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SPARKLE_B1,
-      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterId: SparkleB1.id,
+      lightCone: ButTheBattleIsntOver.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: YAO_GUANG,
-      lightCone: WHEN_SHE_DECIDED_TO_SEE,
+      characterId: Yaoguang.id,
+      lightCone: WhenSheDecidedToSee.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HUOHUO,
-      lightCone: NIGHT_OF_FRIGHT,
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -496,8 +492,8 @@ const scoring: ScoringMetadata = {
   presets: [],
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -511,7 +507,7 @@ const display = {
 export const Sparxie: CharacterConfig = {
   id: '1501',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

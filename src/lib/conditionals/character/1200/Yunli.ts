@@ -47,14 +47,12 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  DANCE_DANCE_DANCE,
-  HUOHUO,
-  MEMORIES_OF_THE_PAST,
-  NIGHT_OF_FRIGHT,
-  SPARKLE_B1,
-  TINGYUN,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
+import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 
 export const YunliEntities = createEnum('Yunli')
 export const YunliAbilities = createEnum('BASIC', 'SKILL', 'FUA', 'BREAK')
@@ -299,7 +297,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -343,27 +341,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SPARKLE_B1,
-      lightCone: DANCE_DANCE_DANCE,
+      characterId: SparkleB1.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 5,
     },
     {
-      characterId: TINGYUN,
-      lightCone: MEMORIES_OF_THE_PAST,
+      characterId: Tingyun.id,
+      lightCone: MemoriesOfThePast.id,
       characterEidolon: 6,
       lightConeSuperimposition: 5,
     },
     {
-      characterId: HUOHUO,
-      lightCone: NIGHT_OF_FRIGHT,
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -413,8 +411,8 @@ const scoring: ScoringMetadata = {
   ],
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.ULT, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -428,7 +426,7 @@ const display = {
 export const Yunli: CharacterConfig = {
   id: '1221',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

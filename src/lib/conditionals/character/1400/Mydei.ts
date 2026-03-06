@@ -3,8 +3,6 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversionContainer,
@@ -44,15 +42,12 @@ import {
   T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  CYRENE,
-  HYACINE,
-  IF_TIME_WERE_A_FLOWER,
-  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
-  MYDEI,
-  THIS_LOVE_FOREVER,
-  TRIBBIE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -242,7 +237,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const cyreneSkillCdBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 2.20 : 2.00)
         : 0
-      x.buff(StatKey.CD, (r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, x.damageType(DamageTag.SKILL).source(Source.odeTo(MYDEI)))
+      x.buff(StatKey.CD, (r.skillEnhances > 0 && r.cyreneSpecialEffect) ? cyreneSkillCdBuff : 0, x.damageType(DamageTag.SKILL).source(Source.odeTo(Mydei.id)))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -311,7 +306,7 @@ if (${wgslTrue(r.vendettaState)}) {
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CD,
@@ -353,27 +348,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: CYRENE,
-      lightCone: THIS_LOVE_FOREVER,
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TRIBBIE,
-      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HYACINE,
-      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -420,8 +415,8 @@ const scoring: ScoringMetadata = {
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -435,7 +430,7 @@ const display = {
 export const Mydei: CharacterConfig = {
   id: '1404',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

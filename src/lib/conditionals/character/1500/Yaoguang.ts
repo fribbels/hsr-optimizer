@@ -4,7 +4,8 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  getYaoguangAhaPunchlineValue,
+  findTeamAction,
+  findTeamMeta,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversionContainer,
@@ -47,15 +48,12 @@ import {
   SPREAD_RELICS_2P_SPEED_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import {
-  BUT_THE_BATTLE_ISNT_OVER,
-  DAZZLED_BY_A_FLOWERY_WORLD,
-  HUOHUO,
-  NIGHT_OF_FRIGHT,
-  SPARKLE_B1,
-  SPARXIE,
-  YAO_GUANG,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -87,7 +85,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_ELATION_SKILL,
-  } = Source.character(YAO_GUANG)
+  } = Source.character(Yaoguang.id)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
@@ -453,7 +451,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -508,27 +506,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SPARXIE,
-      lightCone: DAZZLED_BY_A_FLOWERY_WORLD,
+      characterId: Sparxie.id,
+      lightCone: DazzledByAFloweryWorld.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SPARKLE_B1,
-      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterId: SparkleB1.id,
+      lightCone: ButTheBattleIsntOver.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HUOHUO,
-      lightCone: NIGHT_OF_FRIGHT,
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -568,8 +566,8 @@ const scoring: ScoringMetadata = {
   presets: [],
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -580,11 +578,19 @@ const display = {
   showcaseColor: '#c3d7d8',
 }
 
+export function getYaoguangAhaPunchlineValue(action: OptimizerAction, context: OptimizerContext): number | undefined {
+  const yaoguangAction = findTeamAction(action, Yaoguang.id)
+  if (!yaoguangAction?.characterConditionals.yaoguangAhaInstant) return undefined
+
+  const yaoguangEidolon = findTeamMeta(context, Yaoguang.id)?.characterEidolon ?? 0
+  return (yaoguangEidolon >= 1) ? 40 : 20
+}
+
 export const Yaoguang: CharacterConfig = {
   id: '1502',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }
 

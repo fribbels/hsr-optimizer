@@ -1,20 +1,8 @@
-import { SetKey, Sets } from 'lib/constants/constants'
+import { ChrysosHeirId } from 'lib/conditionals/character/1400/Cyrene'
 import {
-  AGLAEA,
-  ANAXA,
-  CAELUS_REMEMBRANCE,
-  CASTORICE,
-  CERYDRA,
-  CIPHER,
-  CYRENE,
-  EVERNIGHT,
-  HYSILENS,
-  MYDEI,
-  PERMANSOR_TERRAE,
-  PHAINON,
-  STELLE_REMEMBRANCE,
-  TRIBBIE,
-} from 'lib/simulations/tests/testMetadataConstants'
+  SetKey,
+  Sets,
+} from 'lib/constants/constants'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
 
@@ -86,24 +74,8 @@ type NoneBuffSource = {
   buffType: BUFF_TYPE.NONE,
 }
 
-type CHRYSOS_HEIRS =
-  | typeof AGLAEA
-  | typeof ANAXA
-  | typeof CASTORICE
-  | typeof CERYDRA
-  | typeof CIPHER
-  | typeof CYRENE
-  | typeof EVERNIGHT
-  | typeof HYSILENS
-  | typeof MYDEI
-  | typeof PERMANSOR_TERRAE
-  | typeof PHAINON
-  | typeof TRIBBIE
-  | typeof CAELUS_REMEMBRANCE
-  | typeof STELLE_REMEMBRANCE
-
 type CyreneSpecialBuffSource = {
-  id: CHRYSOS_HEIRS,
+  id: ChrysosHeirId,
   label: `${BUFF_ABILITY.CYRENE_ODE_TO}_${CharacterId}`,
   ability: BUFF_ABILITY.CYRENE_ODE_TO,
   buffType: BUFF_TYPE.CHARACTER,
@@ -145,7 +117,7 @@ export const Source = {
       },
     }
   },
-  odeTo(id: CHRYSOS_HEIRS): CyreneSpecialBuffSource {
+  odeTo(id: ChrysosHeirId): CyreneSpecialBuffSource {
     return {
       id: id,
       label: `${BUFF_ABILITY.CYRENE_ODE_TO}_${id}`,

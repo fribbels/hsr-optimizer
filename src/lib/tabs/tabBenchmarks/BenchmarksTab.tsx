@@ -27,16 +27,14 @@ import {
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import {
-  INTO_THE_UNREACHABLE_VEIL,
-  JADE,
-  LINGSHA,
-  SCENT_ALONE_STAYS_TRUE,
-  STELLE_REMEMBRANCE,
-  THE_HERTA,
-  VICTORY_IN_A_BLINK,
-  YET_HOPE_IS_PRICELESS,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Jade } from 'lib/conditionals/character/1300/Jade'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
+import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
+import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
@@ -80,27 +78,27 @@ const MID_PANEL_WIDTH = 250
 const RIGHT_PANEL_WIDTH = 250
 
 const defaultForm: Partial<BenchmarkForm> = {
-  characterId: THE_HERTA,
-  lightCone: INTO_THE_UNREACHABLE_VEIL,
+  characterId: TheHerta.id,
+  lightCone: IntotheUnreachableVeil.id,
   simRelicSet1: Sets.ScholarLostInErudition,
   simRelicSet2: Sets.ScholarLostInErudition,
   simOrnamentSet: Sets.IzumoGenseiAndTakamaDivineRealm,
   basicSpd: undefined,
   teammate0: {
-    characterId: JADE,
-    lightCone: YET_HOPE_IS_PRICELESS,
+    characterId: Jade.id,
+    lightCone: YetHopeIsPriceless.id,
     characterEidolon: 0,
     lightConeSuperimposition: 1,
   },
   teammate1: {
-    characterId: STELLE_REMEMBRANCE,
-    lightCone: VICTORY_IN_A_BLINK,
+    characterId: TrailblazerRemembranceStelle.id,
+    lightCone: VictoryInABlink.id,
     characterEidolon: 6,
     lightConeSuperimposition: 5,
   },
   teammate2: {
-    characterId: LINGSHA,
-    lightCone: SCENT_ALONE_STAYS_TRUE,
+    characterId: Lingsha.id,
+    lightCone: ScentAloneStaysTrue.id,
     characterEidolon: 0,
     lightConeSuperimposition: 1,
   },

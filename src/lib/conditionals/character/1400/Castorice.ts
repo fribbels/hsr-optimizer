@@ -6,8 +6,6 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
@@ -27,16 +25,13 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  CASTORICE,
-  CYRENE,
-  EVERNIGHT,
-  HYACINE,
-  LONG_MAY_RAINBOWS_ADORN_THE_SKY,
-  MAKE_FAREWELLS_MORE_BEAUTIFUL,
-  THIS_LOVE_FOREVER,
-  TO_EVERNIGHTS_STARS,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Evernight } from 'lib/conditionals/character/1400/Evernight'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   DEFAULT_MEMO_SKILL,
   DEFAULT_MEMO_TALENT,
@@ -389,7 +384,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -436,27 +431,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: CYRENE,
-      lightCone: THIS_LOVE_FOREVER,
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: EVERNIGHT,
-      lightCone: TO_EVERNIGHTS_STARS,
+      characterId: Evernight.id,
+      lightCone: ToEvernightsStars.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: HYACINE,
-      lightCone: LONG_MAY_RAINBOWS_ADORN_THE_SKY,
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -507,8 +502,8 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.MEMO_SKILL,
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -522,7 +517,7 @@ const display = {
 export const Castorice: CharacterConfig = {
   id: '1407',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

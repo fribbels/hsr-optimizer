@@ -184,7 +184,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -226,7 +226,7 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.TALENT_SHIELD,
   addedColumns: [],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
-}
+})
 
 const displayCaelus = {
   imageCenter: {
@@ -249,15 +249,15 @@ const displayStelle = {
 export const TrailblazerPreservationCaelus: CharacterConfig = {
   id: '8003',
   info: { displayName: 'Caelus (Preservation)' },
-  conditionals,
-  scoring,
   display: displayCaelus,
+  conditionals,
+  get scoring() { return scoring() },
 }
 
 export const TrailblazerPreservationStelle: CharacterConfig = {
   id: '8004',
   info: { displayName: 'Stelle (Preservation)' },
-  conditionals,
-  scoring,
   display: displayStelle,
+  conditionals,
+  get scoring() { return scoring() },
 }

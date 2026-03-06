@@ -187,7 +187,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -232,7 +232,7 @@ const scoring: ScoringMetadata = {
   ],
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
-}
+})
 
 const display = {
   imageCenter: {
@@ -246,7 +246,7 @@ const display = {
 export const Yukong: CharacterConfig = {
   id: '1207',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

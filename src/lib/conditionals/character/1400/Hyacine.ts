@@ -460,7 +460,7 @@ if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
@@ -508,7 +508,7 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.SKILL_HEAL,
   addedColumns: [SortOption.OHB, SortOption.MEMO_SKILL],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
-}
+})
 
 const display = {
   imageCenter: {
@@ -522,7 +522,7 @@ const display = {
 export const Hyacine: CharacterConfig = {
   id: '1409',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

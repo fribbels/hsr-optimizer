@@ -27,14 +27,12 @@ import {
   T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  PERMANSOR_TERRAE,
-  SPARKLE_B1,
-  BUT_THE_BATTLE_ISNT_OVER,
-  THOUGH_WORLDS_APART,
-  TRIBBIE,
-  IF_TIME_WERE_A_FLOWER,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -196,7 +194,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -241,27 +239,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SPARKLE_B1,
-      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterId: SparkleB1.id,
+      lightCone: ButTheBattleIsntOver.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TRIBBIE,
-      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -310,8 +308,8 @@ const scoring: ScoringMetadata = {
   hiddenColumns: [
     SortOption.FUA,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -325,7 +323,7 @@ const display = {
 export const Hook: CharacterConfig = {
   id: '1109',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

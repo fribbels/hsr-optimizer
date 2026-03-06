@@ -169,7 +169,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
     [Stats.ATK_P]: 1,
@@ -219,7 +219,7 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.SPD,
   addedColumns: [SortOption.OHB],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
-}
+})
 
 const display = {
   imageCenter: {
@@ -233,7 +233,7 @@ const display = {
 export const Luocha: CharacterConfig = {
   id: '1203',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

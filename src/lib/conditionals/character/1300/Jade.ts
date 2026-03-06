@@ -37,14 +37,12 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  THE_HERTA,
-  INTO_THE_UNREACHABLE_VEIL,
-  TRIBBIE,
-  IF_TIME_WERE_A_FLOWER,
-  LINGSHA,
-  SCENT_ALONE_STAYS_TRUE,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -255,7 +253,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -306,27 +304,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: THE_HERTA,
-      lightCone: INTO_THE_UNREACHABLE_VEIL,
+      characterId: TheHerta.id,
+      lightCone: IntotheUnreachableVeil.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TRIBBIE,
-      lightCone: IF_TIME_WERE_A_FLOWER,
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: LINGSHA,
-      lightCone: SCENT_ALONE_STAYS_TRUE,
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -379,8 +377,8 @@ const scoring: ScoringMetadata = {
     SortOption.SKILL,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -394,7 +392,7 @@ const display = {
 export const Jade: CharacterConfig = {
   id: '1314',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

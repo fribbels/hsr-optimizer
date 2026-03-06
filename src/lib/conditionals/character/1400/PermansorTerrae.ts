@@ -13,9 +13,8 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
@@ -36,7 +35,6 @@ import {
   SPREAD_RELICS_2P_ATK_WEIGHTS,
   SPREAD_RELICS_2P_SPEED_WEIGHTS,
 } from 'lib/scoring/scoringConstants'
-import { PERMANSOR_TERRAE } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -275,7 +273,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
-      x.buff(StatKey.DMG_BOOST, (t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, x.targets(TargetTag.SingleTarget).source(Source.odeTo(PERMANSOR_TERRAE)))
+      x.buff(StatKey.DMG_BOOST, (t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, x.targets(TargetTag.SingleTarget).source(Source.odeTo(PermansorTerrae.id)))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -290,7 +288,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
     [Stats.ATK_P]: 1,
@@ -340,7 +338,7 @@ const scoring: ScoringMetadata = {
   sortOption: SortOption.ATK,
   addedColumns: [],
   hiddenColumns: [SortOption.DOT, SortOption.SKILL],
-}
+})
 
 const display = {
   imageCenter: {
@@ -354,7 +352,7 @@ const display = {
 export const PermansorTerrae: CharacterConfig = {
   id: '1414',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

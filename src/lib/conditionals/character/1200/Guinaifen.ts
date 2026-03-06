@@ -213,7 +213,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.5,
     [Stats.ATK_P]: 0.5,
@@ -263,7 +263,7 @@ const scoring: ScoringMetadata = {
   hiddenColumns: [
     SortOption.FUA,
   ],
-}
+})
 
 const display = {
   imageCenter: {
@@ -277,7 +277,7 @@ const display = {
 export const Guinaifen: CharacterConfig = {
   id: '1210',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

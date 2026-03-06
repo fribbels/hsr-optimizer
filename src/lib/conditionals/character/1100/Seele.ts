@@ -24,14 +24,12 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  BUT_THE_BATTLE_ISNT_OVER,
-  LIES_DANCE_ON_THE_BREEZE,
-  PERMANSOR_TERRAE,
-  SILVER_WOLF_B1,
-  SPARKLE_B1,
-  THOUGH_WORLDS_APART,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -199,7 +197,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 
-const simulation: SimulationMetadata = {
+const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -244,27 +242,27 @@ const simulation: SimulationMetadata = {
   ],
   teammates: [
     {
-      characterId: SILVER_WOLF_B1,
-      lightCone: LIES_DANCE_ON_THE_BREEZE,
+      characterId: SilverWolfB1.id,
+      lightCone: LiesAflutterInTheWind.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SPARKLE_B1,
-      lightCone: BUT_THE_BATTLE_ISNT_OVER,
+      characterId: SparkleB1.id,
+      lightCone: ButTheBattleIsntOver.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PERMANSOR_TERRAE,
-      lightCone: THOUGH_WORLDS_APART,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
   ],
-}
+})
 
-const scoring: ScoringMetadata = {
+const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
     [Stats.ATK_P]: 0.75,
@@ -314,8 +312,8 @@ const scoring: ScoringMetadata = {
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation,
-}
+  simulation: simulation(),
+})
 
 const display = {
   imageCenter: {
@@ -329,7 +327,7 @@ const display = {
 export const Seele: CharacterConfig = {
   id: '1102',
   info: {},
-  conditionals,
-  scoring,
   display,
+  conditionals,
+  get scoring() { return scoring() },
 }

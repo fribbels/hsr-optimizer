@@ -1,4 +1,3 @@
-import { ChrysosHeirId } from 'lib/conditionals/character/1400/Cyrene'
 import {
   SetKey,
   Sets,
@@ -75,7 +74,7 @@ type NoneBuffSource = {
 }
 
 type CyreneSpecialBuffSource = {
-  id: ChrysosHeirId,
+  id: CharacterId,
   label: `${BUFF_ABILITY.CYRENE_ODE_TO}_${CharacterId}`,
   ability: BUFF_ABILITY.CYRENE_ODE_TO,
   buffType: BUFF_TYPE.CHARACTER,
@@ -117,7 +116,7 @@ export const Source = {
       },
     }
   },
-  odeTo(id: ChrysosHeirId): CyreneSpecialBuffSource {
+  odeTo(id: CharacterId): CyreneSpecialBuffSource {
     return {
       id: id,
       label: `${BUFF_ABILITY.CYRENE_ODE_TO}_${id}`,

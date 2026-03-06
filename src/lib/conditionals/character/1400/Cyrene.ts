@@ -536,7 +536,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.HP_P,
     ],
   },
-  sets: {},
   presets: [
     PresetEffects.BANANA_SET,
   ],

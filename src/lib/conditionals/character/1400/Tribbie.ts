@@ -446,18 +446,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.LongevousDisciple]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-  },
   presets: [
     PresetEffects.VALOROUS_SET,
   ],

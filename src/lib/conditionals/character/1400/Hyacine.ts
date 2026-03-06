@@ -498,16 +498,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.HP_P,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.WarriorGoddessOfSunAndThunder]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.PasserbyOfWanderingCloud]: T2_WEIGHT,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.TheWondrousBananAmusementPark]: 1,
-    [Sets.GiantTreeOfRaptBrooding]: 1,
-  },
   presets: [
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,

@@ -356,15 +356,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.HunterOfGlacialForest]: T2_WEIGHT,
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SigoniaTheUnclaimedDesolation]: 1,
-  },
   presets: [],
   sortOption: SortOption.SKILL,
   hiddenColumns: [

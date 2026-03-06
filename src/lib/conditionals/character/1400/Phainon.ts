@@ -499,17 +499,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.WavestriderCaptain]: 1,
-    [Sets.ScholarLostInErudition]: T2_WEIGHT,
-
-    [Sets.ArcadiaOfWovenDreams]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: T2_WEIGHT,
-    [Sets.SpaceSealingStation]: T2_WEIGHT,
-  },
   presets: [],
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.DOT],

@@ -460,15 +460,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.PrisonerInDeepConfinement]: 1,
-    [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
-
-    [Sets.RevelryByTheSea]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
-  },
   presets: [
     PresetEffects.PRISONER_SET,
     PresetEffects.fnPioneerSet(4),

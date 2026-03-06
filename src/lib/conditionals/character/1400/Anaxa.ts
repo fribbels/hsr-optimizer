@@ -409,17 +409,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.EagleOfTwilightLine]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-    [Sets.RutilantArena]: 1,
-  },
   presets: [
     PresetEffects.fnPioneerSet(4),
     PresetEffects.GENIUS_SET,

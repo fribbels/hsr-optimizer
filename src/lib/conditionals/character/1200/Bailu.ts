@@ -230,15 +230,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
-    [Sets.SacerdosRelivedOrdeal]: MATCH_2P_WEIGHT,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.PasserbyOfWanderingCloud]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.GiantTreeOfRaptBrooding]: 1,
-  },
   presets: [
     PresetEffects.WARRIOR_SET,
   ],

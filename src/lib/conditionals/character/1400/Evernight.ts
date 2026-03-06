@@ -634,19 +634,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.HP_P,
     ],
   },
-  sets: {
-    [Sets.WorldRemakingDeliverer]: 1,
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.ScholarLostInErudition]: T2_WEIGHT,
-    [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
-    [Sets.GeniusOfBrilliantStars]: MATCH_2P_WEIGHT,
-
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-    [Sets.ArcadiaOfWovenDreams]: 1,
-    [Sets.TheWondrousBananAmusementPark]: T2_WEIGHT,
-    [Sets.RutilantArena]: T2_WEIGHT,
-    [Sets.InertSalsotto]: T2_WEIGHT,
-  },
   presets: [
     PresetEffects.BANANA_SET,
   ],

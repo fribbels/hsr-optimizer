@@ -327,16 +327,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
     ],
   },
-  sets: {
-    [Sets.SelfEnshroudedRecluse]: 1,
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.MusketeerOfWildWheat]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [
     PresetEffects.BANANA_SET,
     PresetEffects.fnAshblazingSet(8),

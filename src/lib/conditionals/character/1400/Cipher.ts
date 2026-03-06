@@ -535,15 +535,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [
     PresetEffects.fnAshblazingSet(4),
     PresetEffects.fnPioneerSet(4),

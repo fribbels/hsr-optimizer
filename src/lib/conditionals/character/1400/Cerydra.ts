@@ -378,12 +378,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    ...weights([...RELICS_2P_SPEED, ...RELICS_2P_ATK], 1),
-    [Sets.SacerdosRelivedOrdeal]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  },
   presets: [],
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],

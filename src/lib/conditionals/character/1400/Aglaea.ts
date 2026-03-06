@@ -550,16 +550,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.BandOfSizzlingThunder]: MATCH_2P_WEIGHT,
-    [Sets.HeroOfTriumphantSong]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-
-    [Sets.TheWondrousBananAmusementPark]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-  },
   presets: [
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,

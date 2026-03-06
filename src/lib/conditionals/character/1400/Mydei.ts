@@ -407,15 +407,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.HP_P,
     ],
   },
-  sets: {
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.LongevousDisciple]: T2_WEIGHT,
-    [Sets.WastelanderOfBanditryDesert]: MATCH_2P_WEIGHT,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-    [Sets.RutilantArena]: 1,
-  },
   presets: [
     PresetEffects.WASTELANDER_SET,
   ],

@@ -36,6 +36,7 @@ import {
   DEFAULT_SKILL,
   END_FUA,
   DEFAULT_FUA,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -56,7 +57,7 @@ import {
 } from 'types/optimizer'
 
 export const FeixiaoEntities = createEnum('Feixiao')
-export const FeixiaoAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const FeixiaoAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Feixiao')
@@ -169,12 +170,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(FeixiaoAbilities),
+    actionDeclaration: () => [...FeixiaoAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [FeixiaoAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -183,7 +184,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [FeixiaoAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Wind)
@@ -192,7 +193,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [FeixiaoAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageType(DamageTag.ULT | DamageTag.FUA)
@@ -202,7 +203,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [FeixiaoAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageType((e >= 6 && r.e6Buffs) ? DamageTag.ULT | DamageTag.FUA : DamageTag.FUA)
@@ -212,7 +213,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [FeixiaoAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],

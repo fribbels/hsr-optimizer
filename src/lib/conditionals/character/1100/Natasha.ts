@@ -9,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
@@ -32,7 +33,7 @@ import {
 } from 'types/optimizer'
 
 export const NatashaEntities = createEnum('Natasha')
-export const NatashaAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'BREAK')
+export const NatashaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL_HEAL, AbilityKind.ULT_HEAL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
@@ -72,10 +73,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(NatashaAbilities),
+    actionDeclaration: () => [...NatashaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
-        [NatashaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -85,7 +86,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [NatashaAbilities.SKILL_HEAL]: {
+        [AbilityKind.SKILL_HEAL]: {
           hits: [
             HitDefinitionBuilder.skillHeal()
               .hpScaling(skillHealScaling)
@@ -93,7 +94,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [NatashaAbilities.ULT_HEAL]: {
+        [AbilityKind.ULT_HEAL]: {
           hits: [
             HitDefinitionBuilder.ultHeal()
               .hpScaling(ultHealScaling)
@@ -101,7 +102,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [NatashaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

@@ -29,8 +29,9 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const YukongEntities = createEnum('Yukong')
-export const YukongAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const YukongAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yukong')
@@ -125,10 +126,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(YukongAbilities),
+    actionDeclaration: () => [...YukongAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
-        [YukongAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -137,7 +138,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YukongAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Imaginary)
@@ -146,7 +147,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YukongAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],

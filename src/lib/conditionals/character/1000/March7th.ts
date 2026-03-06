@@ -6,6 +6,7 @@ import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
@@ -19,7 +20,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const March7thEntities = createEnum('March7th')
-export const March7thAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
+export const March7thAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.SKILL_SHIELD, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -59,13 +60,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(March7thAbilities),
+    actionDeclaration: () => [...March7thAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       // E4: FUA gains DEF scaling
       const fuaDefScaling = (e >= 4) ? 0.30 : 0
 
       return {
-        [March7thAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -74,7 +75,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [March7thAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Ice)
@@ -83,7 +84,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [March7thAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Ice)
@@ -93,7 +94,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [March7thAbilities.SKILL_SHIELD]: {
+        [AbilityKind.SKILL_SHIELD]: {
           hits: [
             HitDefinitionBuilder.skillShield()
               .defScaling(skillShieldScaling)
@@ -101,7 +102,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [March7thAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],

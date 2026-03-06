@@ -47,6 +47,7 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_SKILL,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
@@ -56,7 +57,7 @@ import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightg
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 
 export const JingYuanEntities = createEnum('JingYuan', 'LightningLord')
-export const JingYuanAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const JingYuanAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingYuan')
@@ -175,7 +176,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(JingYuanAbilities),
+    actionDeclaration: () => [...JingYuanAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -183,7 +184,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const talentAttacks = r.talentAttacks
 
       return {
-        [JingYuanAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Lightning)
@@ -192,7 +193,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingYuanAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Lightning)
@@ -201,7 +202,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingYuanAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Lightning)
@@ -210,7 +211,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingYuanAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .sourceEntity(JingYuanEntities.LightningLord)
@@ -220,7 +221,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingYuanAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],

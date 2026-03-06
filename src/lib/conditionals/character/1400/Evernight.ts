@@ -31,6 +31,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   DEFAULT_MEMO_SKILL,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -69,12 +70,7 @@ export const EvernightEntities = createEnum(
   'Evey',
 )
 
-export const EvernightAbilities = createEnum(
-  'BASIC',
-  'ULT',
-  'MEMO_SKILL',
-  'BREAK',
-)
+export const EvernightAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evernight')
@@ -293,7 +289,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
     },
 
-    actionDeclaration: () => Object.values(EvernightAbilities),
+    actionDeclaration: () => [...EvernightAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -304,7 +300,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const memoSkillToughness = r.memoriaStacks >= 16 ? 10 : 30
 
       return {
-        [EvernightAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -313,7 +309,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [EvernightAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .sourceEntity(EvernightEntities.Evey)
@@ -324,7 +320,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [EvernightAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(EvernightEntities.Evey)
@@ -336,7 +332,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [EvernightAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],
@@ -378,7 +374,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(
         StatKey.DMG_BOOST,
         (r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0,
-        x.actionKind(EvernightAbilities.MEMO_SKILL).target(EvernightEntities.Evey).source(Source.odeTo(Evernight.id)),
+        x.actionKind(AbilityKind.MEMO_SKILL).target(EvernightEntities.Evey).source(Source.odeTo(Evernight.id)),
       )
     },
 

@@ -15,6 +15,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   END_SKILL,
   START_ULT,
@@ -46,7 +47,7 @@ import {
 } from 'types/optimizer'
 
 export const HookEntities = createEnum('Hook')
-export const HookAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
+export const HookAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hook')
@@ -106,12 +107,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(HookAbilities),
+    actionDeclaration: () => [...HookAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [HookAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Fire)
@@ -128,7 +129,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [HookAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Fire)
@@ -145,7 +146,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [HookAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Fire)
@@ -162,7 +163,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [HookAbilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .damageElement(ElementTag.Fire)
@@ -171,7 +172,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HookAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],

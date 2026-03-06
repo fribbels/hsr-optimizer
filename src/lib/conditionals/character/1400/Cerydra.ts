@@ -4,6 +4,7 @@ import {
   ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import {
   dynamicStatConversionContainer,
@@ -46,7 +47,7 @@ import {
 } from 'types/optimizer'
 
 export const CerydraEntities = createEnum('Cerydra')
-export const CerydraAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const CerydraAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cerydra')
@@ -189,14 +190,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(CerydraAbilities),
+    actionDeclaration: () => [...CerydraAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e4UltScaling = (e >= 4 && r.e4UltDmg) ? 2.40 : 0
 
       return {
-        [CerydraAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -205,7 +206,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CerydraAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Wind)
@@ -214,7 +215,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CerydraAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],

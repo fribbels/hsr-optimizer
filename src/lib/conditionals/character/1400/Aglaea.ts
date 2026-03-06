@@ -54,6 +54,7 @@ import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscen
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
+  AbilityKind,
   DEFAULT_MEMO_SKILL,
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
@@ -71,11 +72,7 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export const AglaeaAbilities = createEnum(
-  'BASIC',
-  'MEMO_SKILL',
-  'BREAK',
-)
+export const AglaeaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
 
 export const AglaeaEntities = createEnum(
   'Aglaea',
@@ -204,7 +201,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     entityDeclaration: () => Object.values(AglaeaEntities),
-    actionDeclaration: () => Object.values(AglaeaAbilities),
+    actionDeclaration: () => [...AglaeaAbilities],
 
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -266,8 +263,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [AglaeaAbilities.BASIC]: (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
-        [AglaeaAbilities.MEMO_SKILL]: {
+        [AbilityKind.BASIC]: (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(AglaeaEntities.Garmentmaker)
@@ -279,7 +276,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AglaeaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],

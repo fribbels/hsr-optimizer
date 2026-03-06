@@ -10,6 +10,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   DEFAULT_FUA,
@@ -41,7 +42,7 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const AventurineEntities = createEnum('Aventurine')
-export const AventurineAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
+export const AventurineAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.SKILL_SHIELD, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
@@ -164,12 +165,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(AventurineAbilities),
+    actionDeclaration: () => [...AventurineAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [AventurineAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -178,7 +179,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AventurineAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Imaginary)
@@ -187,7 +188,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AventurineAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             // FUA damage hit (multiplied scaling based on fuaHitsOnTarget)
             HitDefinitionBuilder.standardFua()
@@ -202,7 +203,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AventurineAbilities.SKILL_SHIELD]: {
+        [AbilityKind.SKILL_SHIELD]: {
           hits: [
             HitDefinitionBuilder.skillShield()
               .defScaling(skillShieldScaling)
@@ -210,7 +211,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AventurineAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],

@@ -49,6 +49,7 @@ import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAF
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
+  AbilityKind,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
@@ -66,7 +67,7 @@ import {
 } from 'types/optimizer'
 
 export const MydeiEntities = createEnum('Mydei')
-export const MydeiAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const MydeiAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Mydei.Content')
@@ -176,7 +177,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(MydeiAbilities),
+    actionDeclaration: () => [...MydeiAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -191,7 +192,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [MydeiAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -200,7 +201,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [MydeiAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Imaginary)
@@ -209,7 +210,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [MydeiAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Imaginary)
@@ -218,7 +219,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [MydeiAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],

@@ -31,6 +31,7 @@ import {
   DEFAULT_BASIC,
   END_BREAK,
   START_BASIC,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Firefly } from 'lib/conditionals/character/1300/Firefly'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
@@ -51,7 +52,7 @@ import {
 } from 'types/optimizer'
 
 export const FugueEntities = createEnum('Fugue')
-export const FugueAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const FugueAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
@@ -172,9 +173,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(FugueAbilities),
+    actionDeclaration: () => [...FugueAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [FugueAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Fire)
@@ -182,7 +183,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [FugueAbilities.ULT]: {
+      [AbilityKind.ULT]: {
         hits: [
           HitDefinitionBuilder.standardUlt()
             .damageElement(ElementTag.Fire)
@@ -190,7 +191,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [FugueAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
         ],

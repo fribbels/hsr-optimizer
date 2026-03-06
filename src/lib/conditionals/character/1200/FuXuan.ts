@@ -1,4 +1,9 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
@@ -23,8 +28,9 @@ import { ScoringMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const FuXuanEntities = createEnum('FuXuan')
-export const FuXuanAbilities = createEnum('BASIC', 'ULT', 'TALENT_HEAL', 'BREAK')
+export const FuXuanAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.TALENT_HEAL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.FuXuan')
@@ -121,7 +127,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(FuXuanAbilities),
+    actionDeclaration: () => [...FuXuanAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -129,7 +135,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const e6UltBonus = (e >= 6) ? 2.00 * r.e6TeamHpLostPercent : 0
 
       return {
-        [FuXuanAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Quantum)
@@ -138,7 +144,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [FuXuanAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Quantum)
@@ -147,7 +153,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [FuXuanAbilities.TALENT_HEAL]: {
+        [AbilityKind.TALENT_HEAL]: {
           hits: [
             HitDefinitionBuilder.talentHeal()
               .hpScaling(ultHealScaling)
@@ -155,7 +161,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [FuXuanAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
           ],

@@ -36,6 +36,7 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   WHOLE_SKILL,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
@@ -45,7 +46,7 @@ import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAF
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 
 export const JingliuB1Entities = createEnum('JingliuB1')
-export const JingliuB1Abilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const JingliuB1Abilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingliuB1.Content')
@@ -146,7 +147,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(JingliuB1Abilities),
+    actionDeclaration: () => [...JingliuB1Abilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -155,7 +156,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const e1UltBonus = (e >= 1 && r.e1Buffs) ? 0.80 : 0
 
       return {
-        [JingliuB1Abilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -164,7 +165,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingliuB1Abilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Ice)
@@ -173,7 +174,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingliuB1Abilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Ice)
@@ -182,7 +183,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingliuB1Abilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],

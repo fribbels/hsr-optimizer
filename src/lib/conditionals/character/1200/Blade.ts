@@ -29,6 +29,7 @@ import {
   END_BASIC,
   DEFAULT_FUA,
   WHOLE_BASIC,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
@@ -49,7 +50,7 @@ import {
 } from 'types/optimizer'
 
 export const BladeEntities = createEnum('Blade')
-export const BladeAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
+export const BladeAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
@@ -132,7 +133,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(BladeAbilities),
+    actionDeclaration: () => [...BladeAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -147,7 +148,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const fuaTotalHpScaling = fuaHpScaling + ((e >= 6) ? 0.50 : 0)
 
       return {
-        [BladeAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -157,7 +158,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [BladeAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Wind)
@@ -167,7 +168,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [BladeAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Wind)
@@ -177,7 +178,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [BladeAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],

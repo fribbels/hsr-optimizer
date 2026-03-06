@@ -28,6 +28,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   DEFAULT_SKILL,
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
@@ -61,7 +62,7 @@ import {
 } from 'types/optimizer'
 
 export const SparxieEntities = createEnum('Sparxie')
-export const SparxieAbilities = createEnum('BASIC', 'ULT', 'ELATION_SKILL', 'BREAK')
+export const SparxieAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.ELATION_SKILL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
@@ -228,7 +229,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(SparxieAbilities),
+    actionDeclaration: () => [...SparxieAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -301,10 +302,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const breakHit = HitDefinitionBuilder.standardBreak(ElementTag.Fire).build()
 
       return {
-        [SparxieAbilities.BASIC]: { hits: basicHits },
-        [SparxieAbilities.ULT]: { hits: ultHits },
-        [SparxieAbilities.ELATION_SKILL]: { hits: [elationSkillHit] },
-        [SparxieAbilities.BREAK]: { hits: [breakHit] },
+        [AbilityKind.BASIC]: { hits: basicHits },
+        [AbilityKind.ULT]: { hits: ultHits },
+        [AbilityKind.ELATION_SKILL]: { hits: [elationSkillHit] },
+        [AbilityKind.BREAK]: { hits: [breakHit] },
       }
     },
     actionModifiers: () => [],

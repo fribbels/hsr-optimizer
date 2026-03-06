@@ -20,6 +20,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   END_BASIC,
@@ -51,7 +52,7 @@ import {
 } from 'types/optimizer'
 
 export const RappaEntities = createEnum('Rappa')
-export const RappaAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
+export const RappaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Rappa')
@@ -175,7 +176,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     }),
 
     // Action declarations
-    actionDeclaration: () => Object.values(RappaAbilities),
+    actionDeclaration: () => [...RappaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -217,8 +218,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       return {
         // Super break only happens in sealform (enhancedBasic)
-        [RappaAbilities.BASIC]: r.sealformActive ? enhancedBasic : normalBasic,
-        [RappaAbilities.SKILL]: {
+        [AbilityKind.BASIC]: r.sealformActive ? enhancedBasic : normalBasic,
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Imaginary)
@@ -227,7 +228,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [RappaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],

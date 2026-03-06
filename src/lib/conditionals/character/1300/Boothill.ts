@@ -30,6 +30,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   DEFAULT_ULT,
@@ -65,7 +66,7 @@ import {
 } from 'types/optimizer'
 
 export const BoothillEntities = createEnum('Boothill')
-export const BoothillAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const BoothillAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Boothill')
@@ -178,7 +179,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(BoothillAbilities),
+    actionDeclaration: () => [...BoothillAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -227,8 +228,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [BoothillAbilities.BASIC]: r.standoffActive ? enhancedBasic : normalBasic,
-        [BoothillAbilities.ULT]: {
+        [AbilityKind.BASIC]: r.standoffActive ? enhancedBasic : normalBasic,
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -237,7 +238,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [BoothillAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

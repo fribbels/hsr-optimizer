@@ -1,5 +1,6 @@
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -22,7 +23,7 @@ import { ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const RobinEntities = createEnum('Robin')
-export const RobinAbilities = createEnum('BASIC', 'BREAK')
+export const RobinAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Robin')
@@ -162,7 +163,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(RobinAbilities),
+    actionDeclaration: () => [...RobinAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -170,7 +171,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ultAdditionalCdOverride = (e >= 6 && r.concertoActive && r.e6UltCDBoost) ? 6.00 : 1.50
 
       return {
-        [RobinAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -192,7 +193,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [RobinAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

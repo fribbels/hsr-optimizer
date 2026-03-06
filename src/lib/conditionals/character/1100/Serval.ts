@@ -12,6 +12,7 @@ import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   END_SKILL,
   START_ULT,
@@ -45,7 +46,7 @@ import {
 } from 'types/optimizer'
 
 export const ServalEntities = createEnum('Serval')
-export const ServalAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
+export const ServalAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Serval')
@@ -99,12 +100,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(ServalAbilities),
+    actionDeclaration: () => [...ServalAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [ServalAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Lightning)
@@ -121,7 +122,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [ServalAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Lightning)
@@ -138,7 +139,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [ServalAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Lightning)
@@ -155,7 +156,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [ServalAbilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .damageElement(ElementTag.Lightning)
@@ -164,7 +165,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [ServalAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],

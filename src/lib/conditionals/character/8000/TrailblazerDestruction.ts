@@ -20,6 +20,7 @@ import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBat
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import {
+  AbilityKind,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
@@ -41,7 +42,7 @@ import {
 } from 'types/optimizer'
 
 export const TrailblazerDestructionEntities = createEnum('TrailblazerDestruction')
-export const TrailblazerDestructionAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const TrailblazerDestructionAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
@@ -103,12 +104,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         memosprite: false,
       },
     }),
-    actionDeclaration: () => Object.values(TrailblazerDestructionAbilities),
+    actionDeclaration: () => [...TrailblazerDestructionAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [TrailblazerDestructionAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -117,7 +118,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerDestructionAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -126,7 +127,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerDestructionAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -135,7 +136,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerDestructionAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

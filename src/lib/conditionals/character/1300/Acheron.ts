@@ -17,6 +17,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   END_SKILL,
@@ -46,7 +47,7 @@ import {
 } from 'types/optimizer'
 
 export const AcheronEntities = createEnum('Acheron')
-export const AcheronAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const AcheronAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Acheron')
@@ -174,7 +175,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(AcheronAbilities),
+    actionDeclaration: () => [...AcheronAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -189,7 +190,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const e6Active = e >= 6 && r.e6UltBuffs
 
       return {
-        [AcheronAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageType(e6Active ? DamageTag.BASIC | DamageTag.ULT : DamageTag.BASIC)
@@ -199,7 +200,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AcheronAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageType(e6Active ? DamageTag.SKILL | DamageTag.ULT : DamageTag.SKILL)
@@ -209,7 +210,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AcheronAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Lightning)
@@ -218,7 +219,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AcheronAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],

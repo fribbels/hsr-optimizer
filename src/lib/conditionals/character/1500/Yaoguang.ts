@@ -68,7 +68,7 @@ import {
 } from 'types/optimizer'
 
 export const YaoguangEntities = createEnum('Yaoguang')
-export const YaoguangAbilities = createEnum('BASIC', 'ELATION_SKILL', 'BREAK')
+export const YaoguangAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ELATION_SKILL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
@@ -252,7 +252,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(YaoguangAbilities),
+    actionDeclaration: () => [...YaoguangAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
@@ -264,7 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const combinedToughness = 20 + 5 * elationSkillBounceCount / context.enemyCount
 
       return {
-        [YaoguangAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -273,7 +273,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YaoguangAbilities.ELATION_SKILL]: {
+        [AbilityKind.ELATION_SKILL]: {
           hits: [
             HitDefinitionBuilder.elation()
               .damageType(DamageTag.ELATION)
@@ -284,7 +284,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YaoguangAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

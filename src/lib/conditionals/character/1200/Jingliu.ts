@@ -34,6 +34,7 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   WHOLE_SKILL,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
@@ -43,7 +44,7 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 
 export const JingliuEntities = createEnum('Jingliu')
-export const JingliuAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const JingliuAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
@@ -122,7 +123,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(JingliuAbilities),
+    actionDeclaration: () => [...JingliuAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const singleTarget = context.enemyCount == 1
@@ -136,7 +137,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ultAtkScaling = ultScaling + ((e >= 1 && singleTarget) ? 1 : 0)
 
       return {
-        [JingliuAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -145,7 +146,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingliuAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Ice)
@@ -154,7 +155,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingliuAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Ice)
@@ -163,7 +164,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [JingliuAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],

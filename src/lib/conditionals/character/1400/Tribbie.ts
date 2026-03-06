@@ -21,6 +21,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  AbilityKind,
   DEFAULT_FUA,
   DEFAULT_ULT,
   END_ULT,
@@ -61,7 +62,7 @@ import {
 } from 'types/optimizer'
 
 export const TribbieEntities = createEnum('Tribbie')
-export const TribbieAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
+export const TribbieAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tribbie.Content')
@@ -200,7 +201,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(TribbieAbilities),
+    actionDeclaration: () => [...TribbieAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -216,7 +217,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const totalAdditionalScaling = additionalScaling + cyreneAdditionalScaling
 
       return {
-        [TribbieAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Quantum)
@@ -236,7 +237,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [TribbieAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Quantum)
@@ -256,7 +257,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [TribbieAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Quantum)
@@ -276,7 +277,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [TribbieAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
           ],

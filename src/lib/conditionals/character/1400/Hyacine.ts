@@ -3,7 +3,8 @@ import {
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum } from 'lib/conditionals/conditionalUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -29,7 +30,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const HyacineEntities = createEnum('Hyacine', 'Ica')
-export const HyacineAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'MEMO_SKILL', 'BREAK')
+export const HyacineAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL_HEAL, AbilityKind.ULT_HEAL, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine.Content')
@@ -223,7 +224,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     // Action declarations
-    actionDeclaration: () => Object.values(HyacineAbilities),
+    actionDeclaration: () => [...HyacineAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -233,7 +234,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const healDamageType = r.healAbility === SKILL_DMG_TYPE ? DamageTag.SKILL : DamageTag.ULT
 
       return {
-        [HyacineAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -242,7 +243,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HyacineAbilities.SKILL_HEAL]: {
+        [AbilityKind.SKILL_HEAL]: {
           hits: [
             HitDefinitionBuilder.skillHeal()
               .hpScaling(skillHealScaling)
@@ -250,7 +251,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HyacineAbilities.ULT_HEAL]: {
+        [AbilityKind.ULT_HEAL]: {
           hits: [
             HitDefinitionBuilder.ultHeal()
               .hpScaling(ultHealScaling)
@@ -258,7 +259,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HyacineAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             // Fake heal hit - computes heal value with all buffs, stores to register, but doesn't add to comboHeal
             HitDefinitionBuilder.heal()
@@ -278,7 +279,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HyacineAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],

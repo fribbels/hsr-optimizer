@@ -16,11 +16,12 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
-export const TrailblazerPreservationAbilities = createEnum('BASIC', 'ULT', 'TALENT_SHIELD', 'BREAK')
+export const TrailblazerPreservationAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.TALENT_SHIELD, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
@@ -111,7 +112,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(TrailblazerPreservationAbilities),
+    actionDeclaration: () => [...TrailblazerPreservationAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -120,7 +121,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const basicToughness = r.enhancedBasic ? 20 : 10
 
       return {
-        [TrailblazerPreservationAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -130,7 +131,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -140,7 +141,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.TALENT_SHIELD]: {
+        [AbilityKind.TALENT_SHIELD]: {
           hits: [
             HitDefinitionBuilder.shield()
               .defScaling(talentShieldScaling)
@@ -148,7 +149,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

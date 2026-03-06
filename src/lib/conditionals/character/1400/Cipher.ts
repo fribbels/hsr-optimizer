@@ -52,6 +52,7 @@ import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightg
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
+  AbilityKind,
   DEFAULT_FUA,
   NULL_TURN_ABILITY_NAME,
   DEFAULT_ULT,
@@ -69,7 +70,7 @@ import {
 } from 'types/optimizer'
 
 export const CipherEntities = createEnum('Cipher')
-export const CipherAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const CipherAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cipher.Content')
@@ -200,14 +201,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(CipherAbilities),
+    actionDeclaration: () => [...CipherAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e4AdditionalScaling = (e >= 4 && r.e4AdditionalDmg) ? 0.50 : 0
 
       return {
-        [CipherAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Quantum)
@@ -224,7 +225,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [CipherAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Quantum)
@@ -241,7 +242,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [CipherAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Quantum)
@@ -258,7 +259,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [CipherAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Quantum)
@@ -275,7 +276,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [CipherAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
           ],

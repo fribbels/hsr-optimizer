@@ -11,6 +11,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   OptimizerAction,
@@ -18,7 +19,7 @@ import {
 } from 'types/optimizer'
 
 export const AshveilEntities = createEnum('Ashveil')
-export const AshveilAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const AshveilAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Ashveil')
@@ -64,10 +65,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(AshveilAbilities),
+    actionDeclaration: () => [...AshveilAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
-        [AshveilAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Lightning)
@@ -76,13 +77,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AshveilAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [],
         },
-        [AshveilAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [],
         },
-        [AshveilAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],

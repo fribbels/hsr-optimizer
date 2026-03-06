@@ -17,6 +17,7 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
+  AbilityKind,
   END_ULT,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
@@ -43,7 +44,7 @@ import {
 } from 'types/optimizer'
 
 export const TheHertaEntities = createEnum('TheHerta')
-export const TheHertaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const TheHertaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheHerta')
@@ -165,7 +166,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         memosprite: false,
       },
     }),
-    actionDeclaration: () => Object.values(TheHertaAbilities),
+    actionDeclaration: () => [...TheHertaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -184,7 +185,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         : skillScaling * 3
 
       return {
-        [TheHertaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -193,7 +194,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TheHertaAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Ice)
@@ -202,7 +203,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TheHertaAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Ice)
@@ -211,7 +212,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TheHertaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],

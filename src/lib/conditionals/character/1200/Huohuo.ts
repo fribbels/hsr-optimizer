@@ -1,4 +1,9 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -18,8 +23,9 @@ import { ScoringMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const HuohuoEntities = createEnum('Huohuo')
-export const HuohuoAbilities = createEnum('BASIC', 'BREAK', 'SKILL_HEAL', 'TALENT_HEAL')
+export const HuohuoAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK, AbilityKind.SKILL_HEAL, AbilityKind.TALENT_HEAL]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Huohuo')
@@ -103,9 +109,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(HuohuoAbilities),
+    actionDeclaration: () => [...HuohuoAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [HuohuoAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Wind)
@@ -114,12 +120,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [HuohuoAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
         ],
       },
-      [HuohuoAbilities.SKILL_HEAL]: {
+      [AbilityKind.SKILL_HEAL]: {
         hits: [
           HitDefinitionBuilder.skillHeal()
             .hpScaling(skillHealScaling)
@@ -127,7 +133,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [HuohuoAbilities.TALENT_HEAL]: {
+      [AbilityKind.TALENT_HEAL]: {
         hits: [
           HitDefinitionBuilder.talentHeal()
             .hpScaling(talentHealScaling)

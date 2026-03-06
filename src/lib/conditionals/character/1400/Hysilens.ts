@@ -27,6 +27,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
+  AbilityKind,
   DEFAULT_DOT,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -60,17 +61,9 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export const HysilensAbilities = createEnum(
-  'BASIC',
-  'SKILL',
-  'ULT',
-  'DOT',
-  'BREAK',
-)
+export const HysilensAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
 
-export const HysilensEntities = createEnum(
-  'Hysilens',
-)
+export const HysilensEntities = createEnum('Hysilens')
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
@@ -209,7 +202,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(HysilensEntities),
-    actionDeclaration: () => Object.values(HysilensAbilities),
+    actionDeclaration: () => [...HysilensAbilities],
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
         [HysilensEntities.Hysilens]: {
@@ -242,7 +235,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [HysilensAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -251,7 +244,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HysilensAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -260,7 +253,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HysilensAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -269,7 +262,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HysilensAbilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
@@ -298,7 +291,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [HysilensAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

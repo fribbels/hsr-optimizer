@@ -22,6 +22,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -47,7 +48,7 @@ import {
 } from 'types/optimizer'
 
 export const LynxEntities = createEnum('Lynx')
-export const LynxAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'TALENT_HEAL', 'BREAK')
+export const LynxAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL_HEAL, AbilityKind.ULT_HEAL, AbilityKind.TALENT_HEAL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
@@ -147,9 +148,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(LynxAbilities),
+    actionDeclaration: () => [...LynxAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [LynxAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Quantum)
@@ -158,12 +159,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LynxAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
         ],
       },
-      [LynxAbilities.SKILL_HEAL]: {
+      [AbilityKind.SKILL_HEAL]: {
         hits: [
           HitDefinitionBuilder.skillHeal()
             .hpScaling(skillHealScaling)
@@ -171,7 +172,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LynxAbilities.ULT_HEAL]: {
+      [AbilityKind.ULT_HEAL]: {
         hits: [
           HitDefinitionBuilder.ultHeal()
             .hpScaling(ultHealScaling)
@@ -179,7 +180,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [LynxAbilities.TALENT_HEAL]: {
+      [AbilityKind.TALENT_HEAL]: {
         hits: [
           HitDefinitionBuilder.talentHeal()
             .hpScaling(talentHealScaling)

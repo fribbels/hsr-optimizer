@@ -33,6 +33,7 @@ import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayR
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
+  AbilityKind,
   DEFAULT_MEMO_SKILL,
   DEFAULT_MEMO_TALENT,
   DEFAULT_ULT,
@@ -56,13 +57,7 @@ export const CastoriceEntities = createEnum(
   'Netherwing',
 )
 
-export const CastoriceAbilities = createEnum(
-  'BASIC',
-  'SKILL',
-  'MEMO_SKILL',
-  'MEMO_TALENT',
-  'BREAK',
-)
+export const CastoriceAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.MEMO_SKILL, AbilityKind.MEMO_TALENT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Castorice.Content')
@@ -239,7 +234,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
     },
 
-    actionDeclaration: () => Object.values(CastoriceAbilities),
+    actionDeclaration: () => [...CastoriceAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -289,7 +284,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [CastoriceAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Quantum)
@@ -298,8 +293,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CastoriceAbilities.SKILL]: r.memospriteActive ? enhancedSkillAbility : normalSkillAbility,
-        [CastoriceAbilities.MEMO_SKILL]: {
+        [AbilityKind.SKILL]: r.memospriteActive ? enhancedSkillAbility : normalSkillAbility,
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             // Netherwing's skill - scales off Castorice's HP
             HitDefinitionBuilder.crit()
@@ -313,7 +308,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CastoriceAbilities.MEMO_TALENT]: {
+        [AbilityKind.MEMO_TALENT]: {
           hits: [
             // Netherwing's talent bounces - scales off Castorice's HP
             // Combined into single hit with total scaling
@@ -328,7 +323,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CastoriceAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
           ],

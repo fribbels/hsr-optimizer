@@ -33,6 +33,7 @@ import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscen
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
+  AbilityKind,
   DEFAULT_BASIC,
   DEFAULT_SKILL,
   END_ULT,
@@ -53,7 +54,7 @@ export enum PhainonEnhancedSkillType {
 }
 
 export const PhainonEntities = createEnum('Phainon')
-export const PhainonAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const PhainonAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
@@ -207,7 +208,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(PhainonAbilities),
+    actionDeclaration: () => [...PhainonAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -233,7 +234,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       if (r.transformedState) {
         // Transformed state abilities
         return {
-          [PhainonAbilities.BASIC]: {
+          [AbilityKind.BASIC]: {
             hits: [
               HitDefinitionBuilder.standardBasic()
                 .damageElement(ElementTag.Physical)
@@ -243,7 +244,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.SKILL]: {
+          [AbilityKind.SKILL]: {
             hits: r.enhancedSkillType === PhainonEnhancedSkillType.FOUNDATION
               ? [
                   HitDefinitionBuilder.standardSkill()
@@ -256,7 +257,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
                 ]
               : [], // Calamity mode has no skill damage
           },
-          [PhainonAbilities.ULT]: {
+          [AbilityKind.ULT]: {
             hits: [
               HitDefinitionBuilder.standardUlt()
                 .damageElement(ElementTag.Physical)
@@ -266,7 +267,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.FUA]: {
+          [AbilityKind.FUA]: {
             hits: [
               HitDefinitionBuilder.standardFua()
                 .damageType(DamageTag.SKILL | DamageTag.FUA)
@@ -277,7 +278,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.BREAK]: {
+          [AbilityKind.BREAK]: {
             hits: [
               HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
             ],
@@ -286,7 +287,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       } else {
         // Non-transformed state abilities
         return {
-          [PhainonAbilities.BASIC]: {
+          [AbilityKind.BASIC]: {
             hits: [
               HitDefinitionBuilder.standardBasic()
                 .damageElement(ElementTag.Physical)
@@ -296,7 +297,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.SKILL]: {
+          [AbilityKind.SKILL]: {
             hits: [
               HitDefinitionBuilder.standardSkill()
                 .damageElement(ElementTag.Physical)
@@ -306,18 +307,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.ULT]: {
+          [AbilityKind.ULT]: {
             hits: [
               // Non-transformed ULT has no damage
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.FUA]: {
+          [AbilityKind.FUA]: {
             hits: [
               // Non-transformed FUA has no damage
             ],
           },
-          [PhainonAbilities.BREAK]: {
+          [AbilityKind.BREAK]: {
             hits: [
               HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
             ],

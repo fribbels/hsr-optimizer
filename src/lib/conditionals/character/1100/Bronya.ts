@@ -24,6 +24,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -48,7 +49,7 @@ import {
 } from 'types/optimizer'
 
 export const BronyaEntities = createEnum('Bronya')
-export const BronyaAbilities = createEnum('BASIC', 'FUA', 'BREAK')
+export const BronyaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bronya')
@@ -173,9 +174,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(BronyaAbilities),
+    actionDeclaration: () => [...BronyaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [BronyaAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Wind)
@@ -184,7 +185,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [BronyaAbilities.FUA]: {
+      [AbilityKind.FUA]: {
         hits: (e >= 4)
           ? [
             HitDefinitionBuilder.standardFua()
@@ -195,7 +196,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           ]
           : [],
       },
-      [BronyaAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
         ],

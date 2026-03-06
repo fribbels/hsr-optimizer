@@ -6,6 +6,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -33,7 +34,7 @@ import {
 } from 'types/optimizer'
 
 export const PelaEntities = createEnum('Pela')
-export const PelaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const PelaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pela')
@@ -123,14 +124,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(PelaAbilities),
+    actionDeclaration: () => [...PelaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e6Active = e >= 6 && r.enemyDebuffed
 
       return {
-        [PelaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -145,7 +146,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [PelaAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Ice)
@@ -160,7 +161,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [PelaAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Ice)
@@ -175,7 +176,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [PelaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],

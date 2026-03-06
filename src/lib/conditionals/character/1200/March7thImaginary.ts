@@ -42,6 +42,7 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_BASIC,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
@@ -51,7 +52,7 @@ import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForge
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 
 export const March7thImaginaryEntities = createEnum('March7thImaginary')
-export const March7thImaginaryAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
+export const March7thImaginaryAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.March7thImaginary')
@@ -174,7 +175,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(March7thImaginaryAbilities),
+    actionDeclaration: () => [...March7thImaginaryAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -194,7 +195,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         : basicExtraScalingMasterBuff
 
       return {
-        [March7thImaginaryAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -213,7 +214,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [March7thImaginaryAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Imaginary)
@@ -222,7 +223,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [March7thImaginaryAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             ...(
               (e >= 2)
@@ -237,7 +238,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [March7thImaginaryAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],

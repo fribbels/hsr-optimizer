@@ -18,15 +18,11 @@ import { PresetEffects } from 'lib/scoring/presetEffects'
 import { CharacterConfig } from 'types/characterConfig'
 import { ScoringMetadata } from 'types/metadata'
 import { Eidolon } from 'types/character'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export const TrailblazerRemembranceAbilities = createEnum(
-  'BASIC',
-  'ULT',
-  'MEMO_SKILL',
-  'BREAK',
-)
+export const TrailblazerRemembranceAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
 
 export const TrailblazerRemembranceEntities = createEnum(
   'Trailblazer',
@@ -189,7 +185,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     entityDeclaration: () => Object.values(TrailblazerRemembranceEntities),
-    actionDeclaration: () => Object.values(TrailblazerRemembranceAbilities),
+    actionDeclaration: () => [...TrailblazerRemembranceAbilities],
 
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -244,8 +240,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [TrailblazerRemembranceAbilities.BASIC]: r.enhancedBasic ? enhancedBasicAbility : basicAbility,
-        [TrailblazerRemembranceAbilities.ULT]: {
+        [AbilityKind.BASIC]: r.enhancedBasic ? enhancedBasicAbility : basicAbility,
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .sourceEntity(TrailblazerRemembranceEntities.Mem)
@@ -256,7 +252,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerRemembranceAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(TrailblazerRemembranceEntities.Mem)
@@ -268,7 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [TrailblazerRemembranceAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],

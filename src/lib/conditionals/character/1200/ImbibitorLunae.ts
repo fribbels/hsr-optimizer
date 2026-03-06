@@ -22,6 +22,7 @@ import {
   START_ULT,
   END_BASIC,
   WHOLE_BASIC,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
@@ -42,7 +43,7 @@ import {
 } from 'types/optimizer'
 
 export const ImbibitorLunaeEntities = createEnum('ImbibitorLunae')
-export const ImbibitorLunaeAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const ImbibitorLunaeAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.ImbibitorLunae')
@@ -132,7 +133,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(ImbibitorLunaeAbilities),
+    actionDeclaration: () => [...ImbibitorLunaeAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -148,7 +149,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const basicToughnessDmg = 10 + 10 * r.basicEnhanced
 
       return {
-        [ImbibitorLunaeAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -157,7 +158,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [ImbibitorLunaeAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Imaginary)
@@ -166,7 +167,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [ImbibitorLunaeAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],

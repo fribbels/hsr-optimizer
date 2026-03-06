@@ -43,6 +43,7 @@ import {
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
@@ -52,7 +53,7 @@ import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflu
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 
 export const QingqueEntities = createEnum('Qingque')
-export const QingqueAbilities = createEnum('BASIC', 'ULT', 'FUA', 'BREAK')
+export const QingqueAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Qingque')
@@ -135,7 +136,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(QingqueAbilities),
+    actionDeclaration: () => [...QingqueAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -143,7 +144,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const basicToughness = (r.basicEnhanced) ? 20 : 10
 
       return {
-        [QingqueAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Quantum)
@@ -152,7 +153,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [QingqueAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Quantum)
@@ -161,7 +162,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [QingqueAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             ...(
               (e >= 4)
@@ -176,7 +177,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [QingqueAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
           ],

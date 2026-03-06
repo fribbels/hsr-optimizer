@@ -46,6 +46,7 @@ import {
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
@@ -55,7 +56,7 @@ import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfTh
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 
 export const YunliEntities = createEnum('Yunli')
-export const YunliAbilities = createEnum('BASIC', 'SKILL', 'FUA', 'BREAK')
+export const YunliAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.FUA, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
@@ -195,7 +196,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(YunliAbilities),
+    actionDeclaration: () => [...YunliAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -224,7 +225,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
 
       return {
-        [YunliAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -233,7 +234,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YunliAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -242,7 +243,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YunliAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageType(fuaDamageType)
@@ -252,7 +253,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [YunliAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

@@ -1,4 +1,9 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -26,6 +31,7 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   WHOLE_SKILL,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
@@ -35,7 +41,7 @@ import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForge
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 
 export const SushangEntities = createEnum('Sushang')
-export const SushangAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const SushangAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sushang')
@@ -124,7 +130,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(SushangAbilities),
+    actionDeclaration: () => [...SushangAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -134,7 +140,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       stanceSkillScaling += (r.ultBuffedState && r.skillExtraHits >= 3) ? skillExtraHitScaling * 0.5 : 0
 
       return {
-        [SushangAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -143,7 +149,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [SushangAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -162,7 +168,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
-        [SushangAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -171,7 +177,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [SushangAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],

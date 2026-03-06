@@ -42,6 +42,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
+  AbilityKind,
   DEFAULT_MEMO_SKILL,
   DEFAULT_ULT,
   NULL_TURN_ABILITY_NAME,
@@ -92,7 +93,7 @@ export type ChrysosHeirId = (typeof CHRYSOS_HEIR_IDS)[number]
 const chrysosHeirs = new Set<CharacterId>(CHRYSOS_HEIR_IDS)
 
 export const CyreneEntities = createEnum('Cyrene', 'Demiurge')
-export const CyreneAbilities = createEnum('BASIC', 'MEMO_SKILL', 'BREAK')
+export const CyreneAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
 
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -300,7 +301,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
     },
 
-    actionDeclaration: () => Object.values(CyreneAbilities),
+    actionDeclaration: () => [...CyreneAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -318,7 +319,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         + (e >= 1 ? 5 / 3 * r.e1ExtraBounces : 0)
 
       return {
-        [CyreneAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -327,7 +328,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CyreneAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(CyreneEntities.Demiurge)
@@ -339,7 +340,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [CyreneAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],

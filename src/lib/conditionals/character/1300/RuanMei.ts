@@ -8,6 +8,7 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
@@ -30,7 +31,7 @@ import {
 } from 'types/optimizer'
 
 export const RuanMeiEntities = createEnum('RuanMei')
-export const RuanMeiAbilities = createEnum('BASIC', 'BREAK')
+export const RuanMeiAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RuanMei')
@@ -143,9 +144,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(RuanMeiAbilities),
+    actionDeclaration: () => [...RuanMeiAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [RuanMeiAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Ice)
@@ -154,7 +155,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [RuanMeiAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
         ],

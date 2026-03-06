@@ -17,6 +17,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -40,7 +41,7 @@ import {
 } from 'types/optimizer'
 
 export const SparkleB1Entities = createEnum('SparkleB1')
-export const SparkleB1Abilities = createEnum('BASIC', 'BREAK')
+export const SparkleB1Abilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SparkleB1')
@@ -162,9 +163,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(SparkleB1Abilities),
+    actionDeclaration: () => [...SparkleB1Abilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [SparkleB1Abilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Quantum)
@@ -173,7 +174,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [SparkleB1Abilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
         ],

@@ -17,6 +17,7 @@ import { DamageTag, ElementTag, SELF_ENTITY_INDEX, } from 'lib/optimization/engi
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
+  AbilityKind,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   DEFAULT_SKILL,
@@ -43,7 +44,7 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const FireflyEntities = createEnum('Firefly')
-export const FireflyAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
+export const FireflyAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
@@ -154,7 +155,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(FireflyAbilities),
+    actionDeclaration: () => [...FireflyAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -179,7 +180,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const addSuperBreak = r.superBreakDmg && r.enhancedStateActive
 
       return {
-        [FireflyAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             basicHit,
             ...(addSuperBreak
@@ -191,7 +192,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [FireflyAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             skillHit,
             ...(addSuperBreak
@@ -203,7 +204,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               : []),
           ],
         },
-        [FireflyAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],

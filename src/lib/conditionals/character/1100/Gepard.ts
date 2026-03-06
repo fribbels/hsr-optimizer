@@ -16,6 +16,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -40,7 +41,7 @@ import {
 } from 'types/optimizer'
 
 export const GepardEntities = createEnum('Gepard')
-export const GepardAbilities = createEnum('BASIC', 'SKILL', 'ULT_SHIELD', 'BREAK')
+export const GepardAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT_SHIELD, AbilityKind.BREAK]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gepard')
@@ -101,9 +102,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => Object.values(GepardAbilities),
+    actionDeclaration: () => [...GepardAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [GepardAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Ice)
@@ -112,7 +113,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [GepardAbilities.SKILL]: {
+      [AbilityKind.SKILL]: {
         hits: [
           HitDefinitionBuilder.standardSkill()
             .damageElement(ElementTag.Ice)
@@ -121,7 +122,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [GepardAbilities.ULT_SHIELD]: {
+      [AbilityKind.ULT_SHIELD]: {
         hits: [
           HitDefinitionBuilder.ultShield()
             .defScaling(ultShieldScaling)
@@ -129,7 +130,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         ],
       },
-      [GepardAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
         ],

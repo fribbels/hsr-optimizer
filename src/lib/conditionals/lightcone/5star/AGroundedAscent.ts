@@ -19,7 +19,7 @@ import {
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
-  const { SOURCE_LC } = Source.lightCone('23034')
+  const { SOURCE_LC } = Source.lightCone(AGroundedAscent.id)
 
   const sValuesDmg = [0.15, 0.1725, 0.195, 0.2175, 0.24]
 

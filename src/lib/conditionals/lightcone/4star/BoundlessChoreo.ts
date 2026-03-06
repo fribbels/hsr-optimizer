@@ -16,7 +16,7 @@ import {
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.BoundlessChoreo')
-  const { SOURCE_LC } = Source.lightCone('21044')
+  const { SOURCE_LC } = Source.lightCone(BoundlessChoreo.id)
 
   const sValuesCd = [0.24, 0.30, 0.36, 0.42, 0.48]
 

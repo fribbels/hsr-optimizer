@@ -17,7 +17,7 @@ import {
   SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
+
 } from 'lib/scoring/scoringConstants'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
@@ -33,7 +33,12 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SaberEntities = createEnum('Saber')
-export const SaberAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const SaberAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Saber.Content')
@@ -48,7 +53,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1014')
+  } = Source.character(Saber.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 1.50, 1.65)
@@ -360,15 +365,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.WavestriderCaptain]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-
-    [Sets.InertSalsotto]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.SpaceSealingStation]: T2_WEIGHT,
   },
   presets: [],
   sortOption: SortOption.ULT,

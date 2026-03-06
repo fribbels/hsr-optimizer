@@ -26,7 +26,6 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
@@ -44,7 +43,11 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const FireflyEntities = createEnum('Firefly')
-export const FireflyAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.BREAK]
+export const FireflyAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
@@ -61,7 +64,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1310')
+  } = Source.character(Firefly.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.00, 2.20)
@@ -407,13 +410,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.BE,
     ],
-  },
-  sets: {
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: T2_WEIGHT,
-
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
-    [Sets.TaliaKingdomOfBanditry]: 1,
   },
   presets: [],
   sortOption: SortOption.SKILL,

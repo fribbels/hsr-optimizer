@@ -22,7 +22,12 @@ import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export const TrailblazerRemembranceAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
+export const TrailblazerRemembranceAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
 export const TrailblazerRemembranceEntities = createEnum(
   'Trailblazer',
@@ -45,7 +50,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8008')
+  } = Source.character(TrailblazerRemembranceStelle.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const enhancedBasicScaling = basic(e, 1.20, 1.32)
@@ -424,14 +429,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    [Sets.HeroOfTriumphantSong]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [
     PresetEffects.BANANA_SET,

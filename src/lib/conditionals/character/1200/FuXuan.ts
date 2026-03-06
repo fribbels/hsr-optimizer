@@ -30,7 +30,12 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const FuXuanEntities = createEnum('FuXuan')
-export const FuXuanAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.TALENT_HEAL, AbilityKind.BREAK]
+export const FuXuanAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.TALENT_HEAL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.FuXuan')
@@ -278,13 +283,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.DEF_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.LongevousDisciple]: 1,
-    [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [
     PresetEffects.WARRIOR_SET,

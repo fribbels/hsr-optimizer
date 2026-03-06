@@ -31,10 +31,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -48,7 +44,13 @@ import {
 } from 'types/optimizer'
 
 export const LynxEntities = createEnum('Lynx')
-export const LynxAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL_HEAL, AbilityKind.ULT_HEAL, AbilityKind.TALENT_HEAL, AbilityKind.BREAK]
+export const LynxAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.TALENT_HEAL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
@@ -66,7 +68,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1110')
+  } = Source.character(Lynx.id)
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
   const skillHpFlatBuff = skill(e, 200, 223)
@@ -303,13 +305,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.HP_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.PasserbyOfWanderingCloud]: 1,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [
     PresetEffects.WARRIOR_SET,

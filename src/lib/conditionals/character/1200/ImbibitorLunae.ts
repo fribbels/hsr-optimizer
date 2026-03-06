@@ -43,7 +43,11 @@ import {
 } from 'types/optimizer'
 
 export const ImbibitorLunaeEntities = createEnum('ImbibitorLunae')
-export const ImbibitorLunaeAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
+export const ImbibitorLunaeAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.ImbibitorLunae')
@@ -296,16 +300,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.WastelanderOfBanditryDesert]: 1,
-    [Sets.MusketeerOfWildWheat]: 1,
-
-    [Sets.RutilantArena]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [
     PresetEffects.WASTELANDER_SET,

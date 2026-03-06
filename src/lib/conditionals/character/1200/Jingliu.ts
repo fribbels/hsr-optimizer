@@ -44,7 +44,12 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 
 export const JingliuEntities = createEnum('Jingliu')
-export const JingliuAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const JingliuAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jingliu')
@@ -295,18 +300,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.HunterOfGlacialForest]: T2_WEIGHT,
-
-    [Sets.RutilantArena]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
-    [Sets.InertSalsotto]: 1,
   },
   presets: [],
   sortOption: SortOption.SKILL,

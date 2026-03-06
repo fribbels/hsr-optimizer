@@ -41,7 +41,12 @@ import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForge
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 
 export const SushangEntities = createEnum('Sushang')
-export const SushangAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const SushangAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sushang')
@@ -315,16 +320,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
-    [Sets.ChampionOfStreetwiseBoxing]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [],
   sortOption: SortOption.SKILL,

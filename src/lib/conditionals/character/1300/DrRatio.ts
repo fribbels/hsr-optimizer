@@ -56,7 +56,13 @@ import {
 } from 'types/optimizer'
 
 export const DrRatioEntities = createEnum('DrRatio')
-export const DrRatioAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const DrRatioAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DrRatio')
@@ -73,7 +79,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1305')
+  } = Source.character(DrRatio.id)
 
   const debuffStacksMax = 5
   const summationStacksMax = (e >= 1) ? 10 : 6
@@ -327,15 +333,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.WastelanderOfBanditryDesert]: 1,
-    [Sets.TheAshblazingGrandDuke]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
   },
   presets: [
     PresetEffects.fnAshblazingSet(1),

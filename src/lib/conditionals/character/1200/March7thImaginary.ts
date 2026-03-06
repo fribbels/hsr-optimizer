@@ -52,7 +52,12 @@ import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForge
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 
 export const March7thImaginaryEntities = createEnum('March7thImaginary')
-export const March7thImaginaryAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const March7thImaginaryAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.March7thImaginary')
@@ -378,14 +383,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.BE,
     ],
-  },
-  sets: {
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
   },
   presets: [
     PresetEffects.fnAshblazingSet(2),

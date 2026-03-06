@@ -56,7 +56,12 @@ import {
 } from 'types/optimizer'
 
 export const JadeEntities = createEnum('Jade')
-export const JadeAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const JadeAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jade')
@@ -73,7 +78,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1314')
+  } = Source.character(Jade.id)
 
   const basicScaling = basic(e, 0.90, 0.99)
   // Assuming jade is not the debt collector - skill disabled
@@ -357,17 +362,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.TheAshblazingGrandDuke]: 1,
-    [Sets.TheWindSoaringValorous]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
   },
   presets: [
     PresetEffects.VALOROUS_SET,

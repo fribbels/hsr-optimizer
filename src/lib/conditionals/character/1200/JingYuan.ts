@@ -57,7 +57,13 @@ import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightg
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 
 export const JingYuanEntities = createEnum('JingYuan', 'LightningLord')
-export const JingYuanAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const JingYuanAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingYuan')
@@ -364,15 +370,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.TheAshblazingGrandDuke]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
-
-    [Sets.TheWondrousBananAmusementPark]: 1,
-    [Sets.InertSalsotto]: 1,
   },
   presets: [
     PresetEffects.fnAshblazingSet(8),

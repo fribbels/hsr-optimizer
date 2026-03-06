@@ -57,7 +57,13 @@ export const CastoriceEntities = createEnum(
   'Netherwing',
 )
 
-export const CastoriceAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.MEMO_SKILL, AbilityKind.MEMO_TALENT, AbilityKind.BREAK]
+export const CastoriceAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.MEMO_TALENT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Castorice.Content')

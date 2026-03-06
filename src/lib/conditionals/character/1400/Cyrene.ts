@@ -93,7 +93,11 @@ export type ChrysosHeirId = (typeof CHRYSOS_HEIR_IDS)[number]
 const chrysosHeirs = new Set<CharacterId>(CHRYSOS_HEIR_IDS)
 
 export const CyreneEntities = createEnum('Cyrene', 'Demiurge')
-export const CyreneAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
+export const CyreneAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {

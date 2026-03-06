@@ -31,7 +31,11 @@ import {
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const YukongEntities = createEnum('Yukong')
-export const YukongAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
+export const YukongAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yukong')
@@ -220,12 +224,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [
     PresetEffects.WASTELANDER_SET,

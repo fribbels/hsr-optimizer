@@ -36,7 +36,6 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  MATCH_2P_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
@@ -57,7 +56,13 @@ import {
 } from 'types/optimizer'
 
 export const BlackSwanEntities = createEnum('BlackSwan')
-export const BlackSwanAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
+export const BlackSwanAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwan')
@@ -74,7 +79,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1307')
+  } = Source.character(BlackSwan.id)
 
   const arcanaStackMultiplier = talent(e, 0.12, 0.132)
   const epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
@@ -366,17 +371,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    [Sets.PrisonerInDeepConfinement]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.MusketeerOfWildWheat]: MATCH_2P_WEIGHT,
-    [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
-
-    [Sets.RevelryByTheSea]: 1,
-    [Sets.PanCosmicCommercialEnterprise]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [
     PresetEffects.PRISONER_SET,

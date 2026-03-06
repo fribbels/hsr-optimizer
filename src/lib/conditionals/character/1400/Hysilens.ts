@@ -61,7 +61,13 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export const HysilensAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
+export const HysilensAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 export const HysilensEntities = createEnum('Hysilens')
 

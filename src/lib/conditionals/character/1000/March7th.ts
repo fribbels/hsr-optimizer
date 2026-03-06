@@ -20,7 +20,13 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const March7thEntities = createEnum('March7th')
-export const March7thAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.SKILL_SHIELD, AbilityKind.BREAK]
+export const March7thAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.SKILL_SHIELD,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -36,7 +42,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1001')
+  } = Source.character(March7th.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 1.50, 1.62)
@@ -152,12 +158,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.DEF_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.KnightOfPurityPalace]: 1,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.BelobogOfTheArchitects]: 1,
   },
   presets: [
     PresetEffects.VALOROUS_SET,

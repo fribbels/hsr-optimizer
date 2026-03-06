@@ -72,7 +72,11 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export const AglaeaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
+export const AglaeaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
 export const AglaeaEntities = createEnum(
   'Aglaea',

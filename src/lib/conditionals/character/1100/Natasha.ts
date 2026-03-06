@@ -15,11 +15,6 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  MATCH_2P_WEIGHT,
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -33,7 +28,12 @@ import {
 } from 'types/optimizer'
 
 export const NatashaEntities = createEnum('Natasha')
-export const NatashaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL_HEAL, AbilityKind.ULT_HEAL, AbilityKind.BREAK]
+export const NatashaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
@@ -41,7 +41,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_TRACE,
-  } = Source.character('1105')
+  } = Source.character(Natasha.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -152,14 +152,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.HP_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.LongevousDisciple]: MATCH_2P_WEIGHT,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.PasserbyOfWanderingCloud]: 1,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.GiantTreeOfRaptBrooding]: 1,
   },
   presets: [
     PresetEffects.WARRIOR_SET,

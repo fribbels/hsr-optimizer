@@ -30,13 +30,9 @@ import {
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
-  MATCH_2P_WEIGHT,
   SPREAD_ORNAMENTS_2P_FUA,
-  SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
@@ -58,7 +54,12 @@ import {
 } from 'types/optimizer'
 
 export const ClaraEntities = createEnum('Clara')
-export const ClaraAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.FUA, AbilityKind.BREAK]
+export const ClaraAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Clara')
@@ -75,7 +76,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1107')
+  } = Source.character(Clara.id)
 
   const ultDmgReductionValue = ult(e, 0.25, 0.27)
   const ultFuaExtraScaling = ult(e, 1.60, 1.728)
@@ -309,14 +310,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.TheAshblazingGrandDuke]: MATCH_2P_WEIGHT,
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.ChampionOfStreetwiseBoxing]: 1,
-    [Sets.LongevousDisciple]: T2_WEIGHT,
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
   },
   presets: [
     PresetEffects.fnAshblazingSet(2),

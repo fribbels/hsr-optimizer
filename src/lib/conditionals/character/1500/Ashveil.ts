@@ -17,26 +17,32 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { Source } from 'lib/optimization/buffSource'
 
 export const AshveilEntities = createEnum('Ashveil')
-export const AshveilAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const AshveilAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Ashveil')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
-  // const {
-  //   SOURCE_BASIC,
-  //   SOURCE_SKILL,
-  //   SOURCE_ULT,
-  //   SOURCE_TALENT,
-  //   SOURCE_TECHNIQUE,
-  //   SOURCE_TRACE,
-  //   SOURCE_MEMO,
-  //   SOURCE_E1,
-  //   SOURCE_E2,
-  //   SOURCE_E4,
-  //   SOURCE_E6,
-  // } = Source.character(ASHVEIL)
+  const {
+    SOURCE_BASIC,
+    SOURCE_SKILL,
+    SOURCE_ULT,
+    SOURCE_TALENT,
+    SOURCE_TECHNIQUE,
+    SOURCE_TRACE,
+    SOURCE_MEMO,
+    SOURCE_E1,
+    SOURCE_E2,
+    SOURCE_E4,
+    SOURCE_E6,
+  } = Source.character(Ashveil.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0, 0)
@@ -113,7 +119,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 const scoring = (): ScoringMetadata => ({
   stats: { [Stats.ATK]: 0, [Stats.ATK_P]: 0, [Stats.DEF]: 0, [Stats.DEF_P]: 0, [Stats.HP]: 0, [Stats.HP_P]: 0, [Stats.SPD]: 0, [Stats.CR]: 0, [Stats.CD]: 0, [Stats.EHR]: 0, [Stats.RES]: 0, [Stats.BE]: 0 },
   parts: { [Parts.Body]: [], [Parts.Feet]: [], [Parts.PlanarSphere]: [], [Parts.LinkRope]: [] },
-  sets: {},
   presets: [],
   sortOption: SortOption.BASIC,
   hiddenColumns: [],

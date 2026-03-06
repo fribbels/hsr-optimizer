@@ -52,7 +52,13 @@ import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightg
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 
 export const YanqingEntities = createEnum('Yanqing')
-export const YanqingAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const YanqingAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yanqing')
@@ -367,16 +373,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.HunterOfGlacialForest]: 1,
-
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [
     PresetEffects.VALOROUS_SET,

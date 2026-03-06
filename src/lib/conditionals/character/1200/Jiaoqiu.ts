@@ -48,7 +48,13 @@ import {
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const JiaoqiuEntities = createEnum('Jiaoqiu')
-export const JiaoqiuAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
+export const JiaoqiuAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Jiaoqiu')
@@ -321,14 +327,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [
     PresetEffects.PRISONER_SET,

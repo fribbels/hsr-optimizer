@@ -31,7 +31,10 @@ import {
 } from 'types/optimizer'
 
 export const RuanMeiEntities = createEnum('RuanMei')
-export const RuanMeiAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK]
+export const RuanMeiAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RuanMei')
@@ -48,7 +51,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1303')
+  } = Source.character(RuanMei.id)
 
   const fieldResPenValue = ult(e, 0.25, 0.27)
   const basicScaling = basic(e, 1.00, 1.10)
@@ -246,15 +249,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.WatchmakerMasterOfDreamMachinations]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [],
   sortOption: SortOption.BE,

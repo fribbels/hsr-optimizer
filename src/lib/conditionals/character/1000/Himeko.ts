@@ -22,7 +22,7 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_FUA,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
+
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
@@ -40,7 +40,14 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const HimekoEntities = createEnum('Himeko')
-export const HimekoAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.DOT, AbilityKind.BREAK]
+export const HimekoAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Himeko')
@@ -57,7 +64,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1003')
+  } = Source.character(Himeko.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
@@ -309,15 +316,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.TheAshblazingGrandDuke]: 1,
-    [Sets.FiresmithOfLavaForging]: T2_WEIGHT,
-
-    [Sets.SigoniaTheUnclaimedDesolation]: 1,
-    [Sets.DuranDynastyOfRunningWolves]: 1,
-    [Sets.InertSalsotto]: 1,
   },
   presets: [
     PresetEffects.fnAshblazingSet(8),

@@ -50,7 +50,12 @@ import {
 } from 'types/optimizer'
 
 export const BladeEntities = createEnum('Blade')
-export const BladeAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const BladeAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
@@ -309,17 +314,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.HP_P,
     ],
-  },
-  sets: {
-    [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
-    [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
-    [Sets.LongevousDisciple]: 1,
-    [Sets.MusketeerOfWildWheat]: T2_WEIGHT,
-
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.InertSalsotto]: 1,
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
   },
   presets: [
     PresetEffects.VALOROUS_SET,

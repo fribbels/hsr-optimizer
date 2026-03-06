@@ -54,7 +54,13 @@ import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAF
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 
 export const MozeEntities = createEnum('Moze')
-export const MozeAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const MozeAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Moze')
@@ -365,15 +371,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.TheAshblazingGrandDuke]: 1,
-
-    [Sets.DuranDynastyOfRunningWolves]: 1,
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-    [Sets.InertSalsotto]: T2_WEIGHT,
   },
   presets: [
     PresetEffects.fnPioneerSet(4),

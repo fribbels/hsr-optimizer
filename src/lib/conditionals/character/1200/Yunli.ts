@@ -56,7 +56,12 @@ import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfTh
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 
 export const YunliEntities = createEnum('Yunli')
-export const YunliAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.FUA, AbilityKind.BREAK]
+export const YunliAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
@@ -395,15 +400,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.ChampionOfStreetwiseBoxing]: MATCH_2P_WEIGHT,
-    [Sets.TheWindSoaringValorous]: 1,
-    [Sets.PoetOfMourningCollapse]: 1,
-    [Sets.TheAshblazingGrandDuke]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
   },
   presets: [
     PresetEffects.VALOROUS_SET,

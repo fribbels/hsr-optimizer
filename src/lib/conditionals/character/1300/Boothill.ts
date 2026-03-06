@@ -66,7 +66,11 @@ import {
 } from 'types/optimizer'
 
 export const BoothillEntities = createEnum('Boothill')
-export const BoothillAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
+export const BoothillAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Boothill')
@@ -83,7 +87,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1315')
+  } = Source.character(Boothill.id)
 
   const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
 
@@ -435,16 +439,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
   },
   presets: [],
   sortOption: SortOption.BASIC,

@@ -1,42 +1,65 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
-import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  AbilityKind,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  START_SKILL,
-  DEFAULT_SKILL,
-  END_SKILL,
-  DEFAULT_FUA,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
-} from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  AbilityKind,
+  DEFAULT_FUA,
+  DEFAULT_SKILL,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const ArcherEntities = createEnum('Archer')
-export const ArcherAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const ArcherAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Archer.Content')
@@ -50,7 +73,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1015')
+  } = Source.character(Archer.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -201,7 +224,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -308,15 +330,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-
-    [Sets.RutilantArena]: 1,
-    [Sets.InertSalsotto]: 1,
-    [Sets.SpaceSealingStation]: T2_WEIGHT,
-  },
   presets: [
     PresetEffects.fnPioneerSet(4),
     PresetEffects.TENGOKU_SET,
@@ -342,5 +355,7 @@ export const Archer: CharacterConfig = {
   info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

@@ -40,7 +40,10 @@ import {
 } from 'types/optimizer'
 
 export const SparkleEntities = createEnum('Sparkle')
-export const SparkleAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK]
+export const SparkleAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparkle')
@@ -57,7 +60,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1306')
+  } = Source.character(Sparkle.id)
 
   const skillCdBuffScaling = skill(e, 0.24, 0.264)
   const skillCdBuffBase = skill(e, 0.45, 0.486)
@@ -303,13 +306,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ERR,
     ],
-  },
-  sets: {
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [],
   sortOption: SortOption.CD,

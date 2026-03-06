@@ -40,7 +40,10 @@ import {
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const TingyunEntities = createEnum('Tingyun')
-export const TingyunAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK]
+export const TingyunAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tingyun')
@@ -274,15 +277,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.MusketeerOfWildWheat]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [],
   sortOption: SortOption.SPD,

@@ -19,9 +19,7 @@ import {
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
-  MATCH_2P_WEIGHT,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -44,7 +42,12 @@ import {
 } from 'types/optimizer'
 
 export const SeeleEntities = createEnum('Seele')
-export const SeeleAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const SeeleAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Seele')
@@ -54,7 +57,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_TALENT,
     SOURCE_TRACE,
     SOURCE_E1,
-  } = Source.character('1102')
+  } = Source.character(Seele.id)
 
   const buffedStateDmgBuff = talent(e, 0.80, 0.88)
   const speedBoostStacksMax = e >= 2 ? 2 : 1
@@ -295,15 +298,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.InertSalsotto]: 1,
   },
   presets: [
     PresetEffects.TENGOKU_SET,

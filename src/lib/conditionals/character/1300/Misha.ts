@@ -25,7 +25,6 @@ import {
   SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
@@ -46,7 +45,12 @@ import {
 } from 'types/optimizer'
 
 export const MishaEntities = createEnum('Misha')
-export const MishaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const MishaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Misha')
@@ -63,7 +67,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1312')
+  } = Source.character(Misha.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
@@ -308,15 +312,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.HunterOfGlacialForest]: T2_WEIGHT,
-
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.InertSalsotto]: 1,
   },
   presets: [
     PresetEffects.fnPioneerSet(4),

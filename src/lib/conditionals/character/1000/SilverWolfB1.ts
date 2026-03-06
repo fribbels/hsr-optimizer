@@ -25,7 +25,7 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
+
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
@@ -43,7 +43,12 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SilverWolfB1Entities = createEnum('SilverWolfB1')
-export const SilverWolfB1Abilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const SilverWolfB1Abilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolfB1.Content')
@@ -60,7 +65,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1006b1')
+  } = Source.character(SilverWolfB1.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.96, 2.156)
@@ -401,20 +406,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN_WEIGHTS,
-    [Sets.InertSalsotto]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.PanCosmicCommercialEnterprise]: T2_WEIGHT,
   },
   presets: [
     PresetEffects.fnPioneerSet(4),

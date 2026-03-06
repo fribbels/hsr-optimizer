@@ -39,7 +39,6 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
@@ -62,7 +61,12 @@ import {
 } from 'types/optimizer'
 
 export const SparxieEntities = createEnum('Sparxie')
-export const SparxieAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.ELATION_SKILL, AbilityKind.BREAK]
+export const SparxieAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.ELATION_SKILL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
@@ -482,13 +486,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.EverGloriousMagicalGirl]: 1,
-
-    [Sets.DivinerOfDistantReach]: 1,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   },
   presets: [],
   sortOption: SortOption.BASIC,

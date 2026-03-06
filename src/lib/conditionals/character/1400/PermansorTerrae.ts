@@ -48,7 +48,13 @@ import {
 } from 'types/optimizer'
 
 export const PermansorTerraeEntities = createEnum('PermansorTerrae', 'Souldragon')
-export const PermansorTerraeAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.SKILL_SHIELD, AbilityKind.BREAK]
+export const PermansorTerraeAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.SKILL_SHIELD,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.PermansorTerrae.TeammateContent')

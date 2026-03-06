@@ -57,7 +57,13 @@ import {
 } from 'types/optimizer'
 
 export const FeixiaoEntities = createEnum('Feixiao')
-export const FeixiaoAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const FeixiaoAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Feixiao')
@@ -372,16 +378,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.TheWindSoaringValorous]: 1,
-    [Sets.TheAshblazingGrandDuke]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
   },
   presets: [
     PresetEffects.fnAshblazingSet(1),

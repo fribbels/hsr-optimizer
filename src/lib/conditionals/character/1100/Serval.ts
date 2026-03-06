@@ -22,9 +22,7 @@ import {
   SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -46,7 +44,13 @@ import {
 } from 'types/optimizer'
 
 export const ServalEntities = createEnum('Serval')
-export const ServalAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
+export const ServalAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Serval')
@@ -58,7 +62,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_TALENT,
     SOURCE_TRACE,
     SOURCE_E6,
-  } = Source.character('1103')
+  } = Source.character(Serval.id)
 
   const talentExtraDmgScaling = talent(e, 0.72, 0.792)
 
@@ -290,16 +294,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.InertSalsotto]: 1,
   },
   presets: [
     PresetEffects.fnPioneerSet(4),

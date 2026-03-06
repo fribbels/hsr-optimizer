@@ -48,7 +48,13 @@ import {
 } from 'types/optimizer'
 
 export const GallagherEntities = createEnum('Gallagher')
-export const GallagherAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.SKILL_HEAL, AbilityKind.TALENT_HEAL, AbilityKind.BREAK]
+export const GallagherAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.TALENT_HEAL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gallagher')
@@ -66,7 +72,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1301')
+  } = Source.character(Gallagher.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.50, 2.75)
@@ -300,18 +306,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.GiantTreeOfRaptBrooding]: 1,
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
-    [Sets.TaliaKingdomOfBanditry]: 1,
   },
   presets: [
     PresetEffects.WARRIOR_SET,

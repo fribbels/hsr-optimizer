@@ -70,7 +70,12 @@ export const EvernightEntities = createEnum(
   'Evey',
 )
 
-export const EvernightAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.MEMO_SKILL, AbilityKind.BREAK]
+export const EvernightAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evernight')

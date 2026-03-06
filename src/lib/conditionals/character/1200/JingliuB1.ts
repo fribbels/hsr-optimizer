@@ -46,7 +46,12 @@ import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAF
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 
 export const JingliuB1Entities = createEnum('JingliuB1')
-export const JingliuB1Abilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const JingliuB1Abilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.JingliuB1.Content')
@@ -331,17 +336,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.HP_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.HunterOfGlacialForest]: T2_WEIGHT,
-
-    [Sets.BoneCollectionsSereneDemesne]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.InertSalsotto]: T2_WEIGHT,
   },
   presets: [],
   sortOption: SortOption.SKILL,

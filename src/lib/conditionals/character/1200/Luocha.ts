@@ -32,7 +32,13 @@ import {
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const LuochaEntities = createEnum('Luocha')
-export const LuochaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.SKILL_HEAL, AbilityKind.TALENT_HEAL, AbilityKind.BREAK]
+export const LuochaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.TALENT_HEAL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luocha')
@@ -204,14 +210,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.PasserbyOfWanderingCloud]: 1,
-    [Sets.MusketeerOfWildWheat]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [
     PresetEffects.WASTELANDER_SET,

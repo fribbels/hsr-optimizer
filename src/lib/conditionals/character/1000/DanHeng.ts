@@ -1,41 +1,62 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
-import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  AbilityKind,
-  NULL_TURN_ABILITY_NAME,
-  START_SKILL,
-  END_ULT,
-  WHOLE_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  MATCH_2P_WEIGHT,
-} from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
-import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  AbilityKind,
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const DanHengEntities = createEnum('DanHeng')
-export const DanHengAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const DanHengAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DanHeng')
@@ -52,7 +73,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1002')
+  } = Source.character(DanHeng.id)
 
   const extraPenValue = talent(e, 0.36, 0.396)
 
@@ -167,7 +188,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -264,18 +284,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
     ],
   },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
-
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-
-    [Sets.RutilantArena]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
-    [Sets.InertSalsotto]: 1,
-  },
   presets: [
     PresetEffects.fnPioneerSet(4),
   ],
@@ -301,5 +309,7 @@ export const DanHeng: CharacterConfig = {
   info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

@@ -25,7 +25,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  MATCH_2P_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Topaz } from 'lib/conditionals/character/1100/Topaz'
@@ -42,7 +41,13 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const AventurineEntities = createEnum('Aventurine')
-export const AventurineAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.SKILL_SHIELD, AbilityKind.BREAK]
+export const AventurineAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.SKILL_SHIELD,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aventurine')
@@ -59,7 +64,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1304')
+  } = Source.character(Aventurine.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.70, 2.916)
@@ -391,18 +396,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.DEF_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.ScholarLostInErudition]: MATCH_2P_WEIGHT,
-    [Sets.WastelanderOfBanditryDesert]: MATCH_2P_WEIGHT,
-    [Sets.KnightOfPurityPalace]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    ...SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
-    [Sets.DuranDynastyOfRunningWolves]: 1,
-    [Sets.InertSalsotto]: 1,
   },
   presets: [
     PresetEffects.VALOROUS_SET,

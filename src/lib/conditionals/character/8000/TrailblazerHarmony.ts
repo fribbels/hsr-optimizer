@@ -29,7 +29,11 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerHarmonyEntities = createEnum('TrailblazerHarmony')
-export const TrailblazerHarmonyAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.BREAK]
+export const TrailblazerHarmonyAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerHarmony')
@@ -46,7 +50,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8006')
+  } = Source.character(TrailblazerHarmonyStelle.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.50, 0.55)
@@ -240,16 +244,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.BE,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.WatchmakerMasterOfDreamMachinations]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
   },
   presets: [],
   sortOption: SortOption.BE,

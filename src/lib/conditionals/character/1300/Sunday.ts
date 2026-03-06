@@ -28,7 +28,10 @@ import { ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SundayEntities = createEnum('Sunday')
-export const SundayAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK]
+export const SundayAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
@@ -45,7 +48,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1313')
+  } = Source.character(Sunday.id)
 
   const skillDmgBoostValue = skill(e, 0.30, 0.33)
   const skillDmgBoostSummonValue = skill(e, 0.50, 0.55)
@@ -392,13 +395,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ERR,
     ],
-  },
-  sets: {
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [],
   sortOption: SortOption.CD,

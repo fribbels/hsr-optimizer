@@ -3,7 +3,6 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
-  MATCH_2P_WEIGHT,
   SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   SPREAD_RELICS_2P_SPEED_WEIGHTS,
 } from 'lib/scoring/scoringConstants'
@@ -21,7 +20,12 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
-export const TrailblazerPreservationAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.TALENT_SHIELD, AbilityKind.BREAK]
+export const TrailblazerPreservationAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.TALENT_SHIELD,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
@@ -38,7 +42,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8004')
+  } = Source.character(TrailblazerPreservationStelle.id)
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
 
@@ -215,13 +219,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.DEF_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.GuardOfWutheringSnow]: MATCH_2P_WEIGHT,
-    [Sets.KnightOfPurityPalace]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [],
   sortOption: SortOption.TALENT_SHIELD,

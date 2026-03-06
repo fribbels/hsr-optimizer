@@ -62,7 +62,13 @@ import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForge
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 
 export const XueyiEntities = createEnum('Xueyi')
-export const XueyiAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK]
+export const XueyiAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Xueyi')
@@ -350,17 +356,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.WatchmakerMasterOfDreamMachinations]: MATCH_2P_WEIGHT,
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.ThiefOfShootingMeteor]: T2_WEIGHT,
-
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.SpaceSealingStation]: 1,
-    [Sets.InertSalsotto]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
   },
   presets: [
     PresetEffects.fnAshblazingSet(3),

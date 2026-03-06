@@ -27,7 +27,6 @@ import {
   SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
@@ -47,7 +46,12 @@ import {
 } from 'types/optimizer'
 
 export const AcheronEntities = createEnum('Acheron')
-export const AcheronAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const AcheronAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Acheron')
@@ -64,7 +68,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1308')
+  } = Source.character(Acheron.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -352,17 +356,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
-
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-    [Sets.InertSalsotto]: 1,
-    [Sets.SpaceSealingStation]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
   },
   presets: [
     PresetEffects.fnPioneerSet(4),

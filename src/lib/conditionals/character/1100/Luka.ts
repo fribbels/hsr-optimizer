@@ -25,7 +25,6 @@ import {
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
-  MATCH_2P_WEIGHT,
   RELICS_2P_BREAK_EFFECT_SPEED,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
@@ -49,7 +48,13 @@ import {
 } from 'types/optimizer'
 
 export const LukaEntities = createEnum('Luka')
-export const LukaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
+export const LukaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luka')
@@ -66,7 +71,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1111')
+  } = Source.character(Luka.id)
 
   const basicEnhancedHitValue = basic(e, 0.20, 0.22)
   const targetUltDebuffDmgTakenValue = ult(e, 0.20, 0.216)
@@ -324,17 +329,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.BE,
     ],
-  },
-  sets: {
-    [Sets.PrisonerInDeepConfinement]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-    [Sets.ChampionOfStreetwiseBoxing]: 1,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.RevelryByTheSea]: 1,
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.PanCosmicCommercialEnterprise]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [
     PresetEffects.PRISONER_SET,

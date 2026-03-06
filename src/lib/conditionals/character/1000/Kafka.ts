@@ -21,8 +21,7 @@ import {
 import {
   SPREAD_RELICS_2P_ATK_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  MATCH_2P_WEIGHT,
-  T2_WEIGHT,
+
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
@@ -40,7 +39,14 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const KafkaEntities = createEnum('Kafka')
-export const KafkaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.DOT, AbilityKind.BREAK]
+export const KafkaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Kafka')
@@ -57,7 +63,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1005')
+  } = Source.character(Kafka.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -295,16 +301,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.PrisonerInDeepConfinement]: 1,
-    [Sets.BandOfSizzlingThunder]: T2_WEIGHT,
-
-    [Sets.RevelryByTheSea]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [
     PresetEffects.PRISONER_SET,

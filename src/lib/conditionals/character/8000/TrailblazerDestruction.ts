@@ -9,9 +9,7 @@ import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
@@ -42,7 +40,12 @@ import {
 } from 'types/optimizer'
 
 export const TrailblazerDestructionEntities = createEnum('TrailblazerDestruction')
-export const TrailblazerDestructionAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const TrailblazerDestructionAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
@@ -59,7 +62,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8002')
+  } = Source.character(TrailblazerDestructionStelle.id)
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
 
@@ -264,17 +267,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
-    [Sets.PioneerDiverOfDeadWaters]: T2_WEIGHT,
-
-    [Sets.RutilantArena]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.InertSalsotto]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [],
   sortOption: SortOption.SKILL,

@@ -20,7 +20,12 @@ import { ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SilverWolfEntities = createEnum('SilverWolf')
-export const SilverWolfAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const SilverWolfAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
@@ -37,7 +42,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1006')
+  } = Source.character(SilverWolf.id)
 
   const skillResShredValue = skill(e, 0.10, 0.105)
   const talentDefShredDebuffValue = talent(e, 0.08, 0.088)
@@ -232,16 +237,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.BE,
     ],
-  },
-  sets: {
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-
-    [Sets.GeniusOfBrilliantStars]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.PanCosmicCommercialEnterprise]: 1,
   },
   presets: [
     PresetEffects.fnPioneerSet(4),

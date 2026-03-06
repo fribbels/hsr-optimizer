@@ -52,7 +52,11 @@ import {
 } from 'types/optimizer'
 
 export const RappaEntities = createEnum('Rappa')
-export const RappaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.BREAK]
+export const RappaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Rappa')
@@ -69,7 +73,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1317')
+  } = Source.character(Rappa.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.00, 2.32)
@@ -398,14 +402,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.BE,
     ],
-  },
-  sets: {
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
   },
   presets: [
     PresetEffects.WASTELANDER_SET,

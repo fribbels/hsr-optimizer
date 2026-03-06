@@ -25,7 +25,12 @@ import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const HuohuoEntities = createEnum('Huohuo')
-export const HuohuoAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.BREAK, AbilityKind.SKILL_HEAL, AbilityKind.TALENT_HEAL]
+export const HuohuoAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.BREAK,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.TALENT_HEAL,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Huohuo')
@@ -195,13 +200,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.HP_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    [Sets.PasserbyOfWanderingCloud]: 1,
-    [Sets.MessengerTraversingHackerspace]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [
     PresetEffects.WARRIOR_SET,

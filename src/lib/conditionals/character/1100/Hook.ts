@@ -23,9 +23,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
@@ -47,7 +45,13 @@ import {
 } from 'types/optimizer'
 
 export const HookEntities = createEnum('Hook')
-export const HookAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
+export const HookAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hook')
@@ -64,7 +68,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1109')
+  } = Source.character(Hook.id)
 
   const targetBurnedExtraScaling = talent(e, 1.00, 1.10)
 
@@ -292,15 +296,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.FiresmithOfLavaForging]: T2_WEIGHT,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [
     PresetEffects.fnPioneerSet(4),

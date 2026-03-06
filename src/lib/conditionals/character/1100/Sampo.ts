@@ -24,8 +24,6 @@ import {
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
-  MATCH_2P_WEIGHT,
-  SPREAD_RELICS_2P_ATK_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -48,7 +46,13 @@ import {
 } from 'types/optimizer'
 
 export const SampoEntities = createEnum('Sampo')
-export const SampoAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
+export const SampoAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sampo')
@@ -56,7 +60,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const {
     SOURCE_ULT,
     SOURCE_TRACE,
-  } = Source.character('1108')
+  } = Source.character(Sampo.id)
 
   const dotVulnerabilityValue = ult(e, 0.30, 0.32)
 
@@ -295,16 +299,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.EagleOfTwilightLine]: MATCH_2P_WEIGHT,
-    [Sets.PrisonerInDeepConfinement]: 1,
-    [Sets.RevelryByTheSea]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.PanCosmicCommercialEnterprise]: 1,
-    [Sets.SpaceSealingStation]: 1,
   },
   presets: [
     PresetEffects.PRISONER_SET,

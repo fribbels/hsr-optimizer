@@ -34,7 +34,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -49,7 +48,11 @@ import {
 } from 'types/optimizer'
 
 export const BronyaEntities = createEnum('Bronya')
-export const BronyaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.FUA, AbilityKind.BREAK]
+export const BronyaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bronya')
@@ -66,7 +69,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1101')
+  } = Source.character(Bronya.id)
 
   const skillDmgBoostValue = skill(e, 0.66, 0.726)
   const ultAtkBoostValue = ult(e, 0.55, 0.594)
@@ -295,12 +298,6 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [
       Stats.ERR,
     ],
-  },
-  sets: {
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.SacerdosRelivedOrdeal]: 1,
-    [Sets.EagleOfTwilightLine]: 1,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
   },
   presets: [],
   sortOption: SortOption.CD,

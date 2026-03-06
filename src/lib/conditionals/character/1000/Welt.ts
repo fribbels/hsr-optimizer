@@ -34,7 +34,12 @@ import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const WeltEntities = createEnum('Welt')
-export const WeltAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const WeltAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Welt')
@@ -51,7 +56,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1004')
+  } = Source.character(Welt.id)
 
   const skillExtraHitsMax = (e >= 6) ? 3 : 2
 
@@ -316,17 +321,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: 1,
-    [Sets.WastelanderOfBanditryDesert]: 1,
-
-    [Sets.IzumoGenseiAndTakamaDivineRealm]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
-    [Sets.RutilantArena]: 1,
-    [Sets.PanCosmicCommercialEnterprise]: 1,
-    [Sets.InertSalsotto]: 1,
   },
   presets: [
     PresetEffects.WASTELANDER_SET,

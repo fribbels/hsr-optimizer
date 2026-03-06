@@ -52,7 +52,11 @@ import {
 } from 'types/optimizer'
 
 export const FugueEntities = createEnum('Fugue')
-export const FugueAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.ULT, AbilityKind.BREAK]
+export const FugueAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Fugue')
@@ -351,17 +355,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
       Stats.BE,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
-    [Sets.TaliaKingdomOfBanditry]: 1,
-    [Sets.SprightlyVonwacq]: 1,
-    [Sets.LushakaTheSunkenSeas]: 1,
   },
   presets: [],
   sortOption: SortOption.BASIC,

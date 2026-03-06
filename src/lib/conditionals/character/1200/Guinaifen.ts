@@ -35,7 +35,13 @@ import {
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const GuinaifenEntities = createEnum('Guinaifen')
-export const GuinaifenAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.DOT, AbilityKind.BREAK]
+export const GuinaifenAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Guinaifen')
@@ -245,17 +251,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_ATK_WEIGHTS,
-    [Sets.PioneerDiverOfDeadWaters]: MATCH_2P_WEIGHT,
-    [Sets.FiresmithOfLavaForging]: MATCH_2P_WEIGHT,
-    [Sets.MessengerTraversingHackerspace]: 1,
-    [Sets.PrisonerInDeepConfinement]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.FleetOfTheAgeless]: 1,
   },
   presets: [
     PresetEffects.PRISONER_SET,

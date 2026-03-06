@@ -56,7 +56,16 @@ import {
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
-export const LingshaAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.FUA, AbilityKind.BREAK, AbilityKind.SKILL_HEAL, AbilityKind.ULT_HEAL, AbilityKind.FUA_HEAL]
+export const LingshaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.FUA_HEAL,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
@@ -394,18 +403,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
       Stats.ATK_P,
     ],
-  },
-  sets: {
-    ...SPREAD_RELICS_2P_SPEED_WEIGHTS,
-    ...SPREAD_RELICS_2P_BREAK_WEIGHTS,
-    [Sets.PasserbyOfWanderingCloud]: MATCH_2P_WEIGHT,
-    [Sets.IronCavalryAgainstTheScourge]: 1,
-    [Sets.ThiefOfShootingMeteor]: 1,
-
-    ...SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-    [Sets.GiantTreeOfRaptBrooding]: 1,
-    [Sets.ForgeOfTheKalpagniLantern]: 1,
-    [Sets.TaliaKingdomOfBanditry]: 1,
   },
   presets: [
     PresetEffects.BANANA_SET,

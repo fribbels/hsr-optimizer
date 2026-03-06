@@ -73,16 +73,6 @@ export default function MetadataTab(): ReactElement {
             label: 'Substat weight dashboard',
             children: <SubstatWeightDashboard />,
           },
-          {
-            key: '6',
-            label: 'Relic set weight dashboard',
-            children: <RelicSetWeightDashboard />,
-          },
-          {
-            key: '7',
-            label: 'Ornament set weight dashboard',
-            children: <OrnamentSetWeightDashboard />,
-          },
         ]}
       />
     </Flex>
@@ -360,62 +350,6 @@ function generateSubstatWeightGrid(characters: DBMetadataCharacter[]) {
   }
 
   return assetByCharacterThenStat
-}
-
-// =========================================== RelicSetWeightDashboard ===========================================
-
-function RelicSetWeightDashboard() {
-  const sets = gameData.relics.toReversed()
-  const characters = Object.values(DB.getMetadata().characters)
-
-  sets.forEach((set, idx) => setToIndex[set.name] = idx)
-
-  const ornamentSets = sets.filter((x) => x.id.startsWith('1'))
-
-  return (
-    <Flex vertical gap={10}>
-      {Object.values(PathNames).map((x, idx) => {
-        return <GridDisplay key={idx} grid={generateSetWeightGrid(filterByPath(characters, x), ornamentSets)} />
-      })}
-    </Flex>
-  )
-}
-
-function generateSetWeightGrid(characters: DBMetadataCharacter[], sets: typeof gameData.relics) {
-  const assetByCharacterThenSet: ReactElement[][] = [setsTopRow(sets, characters[0].path)]
-
-  characters.forEach((character) => {
-    const rowAssets: ReactElement[] = Array.from({ length: sets.length + 1 })
-    rowAssets[0] = <Icon src={Assets.getCharacterAvatarById(character.id)} />
-    sets.forEach((set, idx) => {
-      const weight = character.scoringMetadata.sets[set.name as Sets]
-      if (weight) {
-        rowAssets[idx + 1] = <>{weight}</>
-      }
-    })
-    assetByCharacterThenSet.push(rowAssets)
-  })
-
-  return assetByCharacterThenSet
-}
-
-// =========================================== OrnamentSetWeightDashboard ===========================================
-
-function OrnamentSetWeightDashboard() {
-  const sets = gameData.relics.toReversed()
-  const characters = Object.values(DB.getMetadata().characters)
-
-  sets.forEach((set, idx) => setToIndex[set.name] = idx)
-
-  const ornamentSets = sets.filter((x) => x.id.startsWith('3'))
-
-  return (
-    <Flex vertical gap={10}>
-      {Object.values(PathNames).map((x, idx) => {
-        return <GridDisplay key={idx} grid={generateSetWeightGrid(filterByPath(characters, x), ornamentSets)} />
-      })}
-    </Flex>
-  )
 }
 
 // =========================================== Utils ===========================================

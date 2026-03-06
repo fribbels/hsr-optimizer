@@ -24,7 +24,6 @@ import {
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
@@ -44,7 +43,12 @@ import {
 } from 'types/optimizer'
 
 export const ArgentiEntities = createEnum('Argenti')
-export const ArgentiAbilities: AbilityKind[] = [AbilityKind.BASIC, AbilityKind.SKILL, AbilityKind.ULT, AbilityKind.BREAK]
+export const ArgentiAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Argenti')
@@ -61,7 +65,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1302')
+  } = Source.character(Argenti.id)
 
   const talentMaxStacks = (e >= 4) ? 12 : 10
 
@@ -311,14 +315,6 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
       Stats.ERR,
     ],
-  },
-  sets: {
-    [Sets.ScholarLostInErudition]: 1,
-    [Sets.ChampionOfStreetwiseBoxing]: T2_WEIGHT,
-
-    [Sets.InertSalsotto]: 1,
-    [Sets.SigoniaTheUnclaimedDesolation]: 1,
-    [Sets.FirmamentFrontlineGlamoth]: 1,
   },
   presets: [],
   sortOption: SortOption.ULT,

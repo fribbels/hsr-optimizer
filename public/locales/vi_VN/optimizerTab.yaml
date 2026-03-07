@@ -546,7 +546,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Lá Chắn
       SHIELD_VALUE_P: Δ% Lá Chắn
   DamageSplits:
-    Title: Phân Loại Sát Thương
     Legend:
       abilityDmg: Kỹ năng
       breakDmg: Kích Phá

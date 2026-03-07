@@ -2,9 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -44,7 +44,7 @@ const conditionals = {
       x.buff(StatKey.CD, 0.32, x.source(Source.TengokuLivestream))
     }
   },
-  gpuBasic: () => basicSetEffect('CD', 0.16, 'ornament2p', 'TengokuLivestream'),
+  gpuBasic: () => basicP2(WgslStatName.CD, 0.16, 'TengokuLivestream', info.setType),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_TengokuLivestream) >= 1

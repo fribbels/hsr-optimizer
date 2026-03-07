@@ -2,9 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -50,7 +50,7 @@ const conditionals = {
     x.buff(StatKey.DEF_PEN, 0.10 + 0.01 * setConditionals.valueEverGloriousMagicalGirl,
       x.damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).source(Source.EverGloriousMagicalGirl))
   },
-  gpuBasic: () => basicSetEffect('CD', 0.16, 'relic2p', 'EverGloriousMagicalGirl'),
+  gpuBasic: () => basicP2(WgslStatName.CD, 0.16, 'EverGloriousMagicalGirl', info.setType),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_EverGloriousMagicalGirl) >= 1) {
       ${buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}

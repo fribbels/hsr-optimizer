@@ -2,9 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2, basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   OptimizerContext,
 } from 'types/optimizer'
@@ -36,8 +36,8 @@ const conditionals = {
     c.BE.buff(0.16, Source.ThiefOfShootingMeteor)
   },
   gpuBasic: () => [
-    basicSetEffect('BE', 0.16, 'relic2p', 'ThiefOfShootingMeteor'),
-    basicSetEffect('BE', 0.16, 'relic4p', 'ThiefOfShootingMeteor'),
+    basicP2(WgslStatName.BE, 0.16, 'ThiefOfShootingMeteor', info.setType),
+    basicP4(WgslStatName.BE, 0.16, 'ThiefOfShootingMeteor'),
   ].join('\n'),
 } as const satisfies SetConditionals
 

@@ -5,7 +5,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import {
   DynamicConditional,
   newConditionalWgslWrapper,
@@ -13,7 +13,7 @@ import {
 import {
   containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -84,7 +84,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.BoneCollectionsSereneDemesne)
   },
-  gpuBasic: () => basicSetEffect('HP_P', 0.12, 'ornament2p', 'BoneCollectionsSereneDemesne'),
+  gpuBasic: () => basicP2(WgslStatName.HP_P, 0.12, 'BoneCollectionsSereneDemesne', info.setType),
   dynamicConditionals: [BoneCollectionsSereneDemesneConditional],
 } as const satisfies SetConditionals
 

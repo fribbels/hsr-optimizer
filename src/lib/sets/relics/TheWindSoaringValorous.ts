@@ -2,9 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2, basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -49,8 +49,8 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicSetEffect('ATK_P', 0.12, 'relic2p', 'TheWindSoaringValorous'),
-    basicSetEffect('CR', 0.06, 'relic4p', 'TheWindSoaringValorous'),
+    basicP2(WgslStatName.ATK_P, 0.12, 'TheWindSoaringValorous', info.setType),
+    basicP4(WgslStatName.CR, 0.06, 'TheWindSoaringValorous'),
   ].join('\n'),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_TheWindSoaringValorous) >= 1) {

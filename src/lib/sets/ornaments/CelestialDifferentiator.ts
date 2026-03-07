@@ -5,9 +5,10 @@ import {
 import {
   BasicKey,
   BasicStatsArray,
+  WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -47,7 +48,7 @@ const conditionals = {
       x.buff(StatKey.CR, 0.60, x.source(Source.CelestialDifferentiator))
     }
   },
-  gpuBasic: () => basicSetEffect('CD', 0.16, 'ornament2p', 'CelestialDifferentiator'),
+  gpuBasic: () => basicP2(WgslStatName.CD, 0.16, 'CelestialDifferentiator', info.setType),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_CelestialDifferentiator) >= 1

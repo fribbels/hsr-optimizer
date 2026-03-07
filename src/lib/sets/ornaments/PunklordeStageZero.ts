@@ -13,8 +13,8 @@ import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
@@ -117,7 +117,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ELATION.buff(0.08, Source.PunklordeStageZero)
   },
-  gpuBasic: () => basicSetEffect('ELATION', 0.08, 'ornament2p', 'PunklordeStageZero'),
+  gpuBasic: () => basicP2(WgslStatName.ELATION, 0.08, 'PunklordeStageZero', info.setType),
   dynamicConditionals: [PunklordeStageZeroConditional40, PunklordeStageZeroConditional80],
 } as const satisfies SetConditionals
 

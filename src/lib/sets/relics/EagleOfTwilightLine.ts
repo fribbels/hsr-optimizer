@@ -3,9 +3,9 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   OptimizerContext,
 } from 'types/optimizer'
@@ -35,7 +35,7 @@ const conditionals = {
       c.WIND_DMG_BOOST.buff(0.10, Source.EagleOfTwilightLine)
     }
   },
-  gpuBasic: () => basicSetEffect('WIND_DMG_BOOST', 0.10, 'relic2p', 'EagleOfTwilightLine'),
+  gpuBasic: () => basicP2(WgslStatName.WIND_DMG_BOOST, 0.10, 'EagleOfTwilightLine', info.setType),
 } as const satisfies SetConditionals
 
 export const EagleOfTwilightLine = {

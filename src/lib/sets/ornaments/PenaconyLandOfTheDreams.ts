@@ -1,7 +1,7 @@
 import { ConditionalDataType, Sets } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -42,7 +42,7 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.Memosprite).source(Source.PenaconyLandOfTheDreams))
     }
   },
-  gpuBasic: () => basicSetEffect('ERR', 0.05, 'ornament2p', 'PenaconyLandOfTheDreams'),
+  gpuBasic: () => basicP2(WgslStatName.ERR, 0.05, 'PenaconyLandOfTheDreams', info.setType),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_PenaconyLandOfTheDreams) >= 1

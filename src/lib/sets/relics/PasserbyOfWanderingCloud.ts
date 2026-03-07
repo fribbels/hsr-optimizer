@@ -2,9 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   OptimizerContext,
 } from 'types/optimizer'
@@ -32,7 +32,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.OHB.buff(0.10, Source.PasserbyOfWanderingCloud)
   },
-  gpuBasic: () => basicSetEffect('OHB', 0.10, 'relic2p', 'PasserbyOfWanderingCloud'),
+  gpuBasic: () => basicP2(WgslStatName.OHB, 0.10, 'PasserbyOfWanderingCloud', info.setType),
 } as const satisfies SetConditionals
 
 export const PasserbyOfWanderingCloud = {

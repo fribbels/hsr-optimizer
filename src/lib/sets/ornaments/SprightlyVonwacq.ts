@@ -2,9 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   OptimizerContext,
 } from 'types/optimizer'
@@ -32,7 +32,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.SprightlyVonwacq)
   },
-  gpuBasic: () => basicSetEffect('ERR', 0.05, 'ornament2p', 'SprightlyVonwacq'),
+  gpuBasic: () => basicP2(WgslStatName.ERR, 0.05, 'SprightlyVonwacq', info.setType),
 } as const satisfies SetConditionals
 
 export const SprightlyVonwacq = {

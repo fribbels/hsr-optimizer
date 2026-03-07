@@ -3,10 +3,9 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
-import { BasicKey } from 'lib/optimization/basicStatsArray'
+import { BasicKey, BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2, basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -51,8 +50,8 @@ const conditionals = {
     x.buff(StatKey.CR, (spd < 110 ? 0.20 : 0) + (spd < 95 ? 0.12 : 0), x.targets(TargetTag.SelfAndMemosprite).source(Source.PoetOfMourningCollapse))
   },
   gpuBasic: () => [
-    basicSetEffect('QUANTUM_DMG_BOOST', 0.10, 'relic2p', 'PoetOfMourningCollapse'),
-    basicSetEffect('SPD_P', -0.08, 'relic4p', 'PoetOfMourningCollapse'),
+    basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, 'PoetOfMourningCollapse', info.setType),
+    basicP4(WgslStatName.SPD_P, -0.08, 'PoetOfMourningCollapse'),
   ].join('\n'),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_PoetOfMourningCollapse) >= 1) {

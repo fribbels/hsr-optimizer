@@ -5,7 +5,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import {
   DynamicConditional,
   newConditionalWgslWrapper,
@@ -13,7 +13,7 @@ import {
 import {
   containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -117,7 +117,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
   },
-  gpuBasic: () => basicSetEffect('SPD_P', 0.06, 'ornament2p', 'GiantTreeOfRaptBrooding'),
+  gpuBasic: () => basicP2(WgslStatName.SPD_P, 0.06, 'GiantTreeOfRaptBrooding', info.setType),
   dynamicConditionals: [GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional],
 } as const satisfies SetConditionals
 

@@ -5,7 +5,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import {
   DynamicConditional,
   newConditionalWgslWrapper,
@@ -14,7 +14,7 @@ import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -82,7 +82,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.DEF_P.buff(0.15, Source.BelobogOfTheArchitects)
   },
-  gpuBasic: () => basicSetEffect('DEF_P', 0.15, 'ornament2p', 'BelobogOfTheArchitects'),
+  gpuBasic: () => basicP2(WgslStatName.DEF_P, 0.15, 'BelobogOfTheArchitects', info.setType),
   dynamicConditionals: [BelobogOfTheArchitectsConditional],
 } as const satisfies SetConditionals
 

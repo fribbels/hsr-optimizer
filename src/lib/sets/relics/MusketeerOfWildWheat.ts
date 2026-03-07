@@ -2,9 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
+import { basicP2, basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -45,8 +45,8 @@ const conditionals = {
     x.buff(StatKey.DMG_BOOST, 0.10, x.damageType(DamageTag.BASIC).source(Source.MusketeerOfWildWheat))
   },
   gpuBasic: () => [
-    basicSetEffect('ATK_P', 0.12, 'relic2p', 'MusketeerOfWildWheat'),
-    basicSetEffect('SPD_P', 0.06, 'relic4p', 'MusketeerOfWildWheat'),
+    basicP2(WgslStatName.ATK_P, 0.12, 'MusketeerOfWildWheat', info.setType),
+    basicP4(WgslStatName.SPD_P, 0.06, 'MusketeerOfWildWheat'),
   ].join('\n'),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_MusketeerOfWildWheat) >= 1) {

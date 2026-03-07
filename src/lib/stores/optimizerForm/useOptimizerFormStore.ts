@@ -6,6 +6,7 @@ import {
   MainStatPart,
   OptimizerFormState,
   RatingFilterState,
+  RelicFilterFields,
   StatFilterState,
   TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
@@ -44,10 +45,10 @@ type OptimizerFormActions = {
   setResultSort: (sort: keyof typeof SortOption | undefined) => void
   setResultsLimit: (limit: number) => void
   setStatSim: (sim: OptimizerFormState['statSim']) => void
-  setTeammateField: <K extends keyof TeammateState>(index: number, key: K, value: TeammateState[K]) => void
+  setTeammateField: <K extends keyof TeammateState>(index: 0 | 1 | 2, key: K, value: TeammateState[K]) => void
 
   // Complex actions (Task 10)
-  setRelicFilterField: <K extends keyof OptimizerFormState>(key: K, value: OptimizerFormState[K]) => void
+  setRelicFilterField: <K extends keyof RelicFilterFields>(key: K, value: RelicFilterFields[K]) => void
   setMainStats: (part: MainStatPart, stats: string[]) => void
   setRelicSets: (sets: RelicSetFilters) => void
   setOrnamentSets: (sets: OrnamentSetFilters) => void
@@ -58,8 +59,8 @@ type OptimizerFormActions = {
   setCharacterConditionals: (conds: ConditionalValueMap) => void
   setLightConeConditionals: (conds: ConditionalValueMap) => void
   setSetConditionals: (conds: SetConditionals) => void
-  clearTeammate: (index: number) => void
-  clearTeammateLightCone: (index: number) => void
+  clearTeammate: (index: 0 | 1 | 2) => void
+  clearTeammateLightCone: (index: 0 | 1 | 2) => void
   resetFilters: () => void
   applySuggestionFixes: (fixes: SuggestionFixes) => void
 }

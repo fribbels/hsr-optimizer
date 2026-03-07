@@ -17,6 +17,8 @@ import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
+import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { Utils } from 'lib/utils/utils'
@@ -256,7 +258,8 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
       <Button
         onClick={() => {
           fixes.applyFix()
-          window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
+          syncFormToStore(window.optimizerForm.getFieldsValue())
+          recalculatePermutations()
           Message.success(t(fixes.successMessageKey), 2)
         }}
         style={{ width: 350 }}

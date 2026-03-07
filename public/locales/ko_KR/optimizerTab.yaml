@@ -598,7 +598,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ 실드
       SHIELD_VALUE_P: Δ% 실드
   DamageSplits:
-    Title: 데미지 유형 분포
     Legend:
       abilityDmg: 능력
       breakDmg: 격파

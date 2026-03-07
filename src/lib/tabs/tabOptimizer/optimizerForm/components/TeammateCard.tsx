@@ -2,13 +2,12 @@ import { SyncOutlined } from '@ant-design/icons'
 import {
   Button,
   Flex,
-  Form as AntDForm,
   Select,
   Typography,
 } from 'antd'
 import { TFunction } from 'i18next'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
-import { applyTeamAwareSetConditionalPresetsToOptimizerFormInstance } from 'lib/conditionals/evaluation/applyPresets'
+import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -28,11 +27,8 @@ import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import {
-  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -71,9 +67,9 @@ const cardHeight = 490
 export function optionRenderer() {
   return (option: {
     data: {
-      value: string,
-      desc: string,
-    },
+      value: string;
+      desc: string;
+    };
   }) => (
     option.data.value
       ? (
@@ -104,10 +100,6 @@ export const labelRender = (set: string, text: string) => (
   </Flex>
 )
 
-function getTeammateProperty(index: number) {
-  return `teammate${index}` as TeammateProperty
-}
-
 function getDefaultTeammateForm() {
   return {
     characterEidolon: 0,
@@ -137,8 +129,8 @@ const teammateOrnamentSets = [
 function calculateTeammateSets(teammateCharacter: Character) {
   const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter(ArrayFilters.nonNullable)
   const activeTeammateSets: {
-    teamRelicSet?: string,
-    teamOrnamentSet?: string,
+    teamRelicSet?: string;
+    teamOrnamentSet?: string;
   } = {}
   for (const set of teammateRelicSets) {
     if (relics.filter((relic) => relic.set == set).length == 4) {
@@ -173,9 +165,9 @@ function countTeammates() {
 }
 
 export type OptionRender = {
-  value: string,
-  desc: string,
-  label: ReactElement,
+  value: string;
+  desc: string;
+  label: ReactElement;
 }
 
 export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
@@ -199,16 +191,19 @@ export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'T
 }
 
 const TeammateCard = (props: {
-  index: number,
-  dbMetadata: DBMetadata,
+  index: number;
+  dbMetadata: DBMetadata;
 }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
-  const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
-  const teammateCharacterId = useOptimizerFormStore((s) => s.teammates[props.index as 0 | 1 | 2].characterId) as CharacterId
-  const teammateEidolon = useOptimizerFormStore((s) => s.teammates[props.index as 0 | 1 | 2].characterEidolon)
+  const tmIndex = props.index as 0 | 1 | 2
+  const teammateCharacterId = useOptimizerFormStore((s) => s.teammates[tmIndex].characterId) as CharacterId
+  const teammateEidolon = useOptimizerFormStore((s) => s.teammates[tmIndex].characterEidolon)
 
-  const teammateLightConeId = useOptimizerFormStore((s) => s.teammates[props.index as 0 | 1 | 2].lightCone) as LightConeId
-  const teammateSuperimposition = useOptimizerFormStore((s) => s.teammates[props.index as 0 | 1 | 2].lightConeSuperimposition) as SuperImpositionLevel
+  const teammateLightConeId = useOptimizerFormStore((s) => s.teammates[tmIndex].lightCone) as LightConeId
+  const teammateSuperimposition = useOptimizerFormStore((s) => s.teammates[tmIndex].lightConeSuperimposition) as SuperImpositionLevel
+
+  const teammateTeamRelicSet = useOptimizerFormStore((s) => s.teammates[tmIndex].teamRelicSet)
+  const teammateTeamOrnamentSet = useOptimizerFormStore((s) => s.teammates[tmIndex].teamOrnamentSet)
 
   const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
 
@@ -221,8 +216,8 @@ const TeammateCard = (props: {
 
   const superimpositionOptions = useMemo(() => {
     const options: {
-      value: number,
-      label: string,
+      value: number;
+      label: string;
     }[] = []
     for (let i = 1; i <= 5; i++) {
       options.push({ value: i, label: t('SuperimpositionN', { superimposition: i }) })
@@ -232,8 +227,8 @@ const TeammateCard = (props: {
 
   const eidolonOptions = useMemo(() => {
     const options: {
-      value: number,
-      label: string,
+      value: number;
+      label: string;
     }[] = []
     for (let i = 0; i <= 6; i++) {
       options.push({ value: i, label: t('EidolonN', { eidolon: i }) })
@@ -245,14 +240,20 @@ const TeammateCard = (props: {
     <FormCard size='medium' height={cardHeight} style={{ overflow: 'auto' }}>
       <Flex vertical gap={5}>
         <Flex gap={5}>
-          <AntDForm.Item name={[teammateProperty, `characterId`]} style={{ flex: 1 }}>
-            <CharacterSelect
-              value={null}
-              selectStyle={{}}
-              externalOpen={teammateSelectModalOpen}
-              setExternalOpen={setTeammateSelectModalOpen}
-            />
-          </AntDForm.Item>
+          <CharacterSelect
+            value={teammateCharacterId}
+            onChange={(id) => {
+              if (id) {
+                useOptimizerFormStore.getState().setTeammateField(tmIndex, 'characterId', id)
+                updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: id } })
+              } else {
+                updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: null } })
+              }
+            }}
+            selectStyle={{}}
+            externalOpen={teammateSelectModalOpen}
+            setExternalOpen={setTeammateSelectModalOpen}
+          />
 
           <Button
             icon={<SyncOutlined />}
@@ -264,15 +265,15 @@ const TeammateCard = (props: {
             }}
           />
 
-          <AntDForm.Item name={[teammateProperty, `characterEidolon`]}>
-            <Select
-              showSearch
-              style={{ width: 110 }}
-              options={eidolonOptions}
-              placeholder={t('EidolonPlaceholder')} // 'Eidolon'
-              disabled={disabled}
-            />
-          </AntDForm.Item>
+          <Select
+            showSearch
+            style={{ width: 110 }}
+            options={eidolonOptions}
+            value={teammateEidolon}
+            onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'characterEidolon', val)}
+            placeholder={t('EidolonPlaceholder')} // 'Eidolon'
+            disabled={disabled}
+          />
         </Flex>
 
         <Flex>
@@ -302,56 +303,62 @@ const TeammateCard = (props: {
               />
             </div>
 
-            <AntDForm.Item name={[teammateProperty, `teamRelicSet`]}>
-              <Select
-                className='teammate-set-select'
-                style={{ width: 110 }}
-                options={teammateRelicSetOptions}
-                placeholder={t('RelicsPlaceholder')} // 'Relics'
-                allowClear
-                popupMatchSelectWidth={false}
-                optionLabelProp='label'
-                optionRender={optionRenderer()}
-                disabled={disabled}
-              />
-            </AntDForm.Item>
+            <Select
+              className='teammate-set-select'
+              style={{ width: 110 }}
+              options={teammateRelicSetOptions}
+              value={teammateTeamRelicSet}
+              onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val)}
+              placeholder={t('RelicsPlaceholder')} // 'Relics'
+              allowClear
+              popupMatchSelectWidth={false}
+              optionLabelProp='label'
+              optionRender={optionRenderer()}
+              disabled={disabled}
+            />
 
-            <AntDForm.Item name={[teammateProperty, `teamOrnamentSet`]}>
-              <Select
-                className='teammate-set-select'
-                style={{ width: 110 }}
-                options={teammateOrnamentSetOptions}
-                placeholder={t('OrnamentsPlaceholder')} // 'Ornaments'
-                allowClear
-                popupMatchSelectWidth={false}
-                optionLabelProp='label'
-                optionRender={optionRenderer()}
-                disabled={disabled}
-              />
-            </AntDForm.Item>
+            <Select
+              className='teammate-set-select'
+              style={{ width: 110 }}
+              options={teammateOrnamentSetOptions}
+              value={teammateTeamOrnamentSet}
+              onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val)}
+              placeholder={t('OrnamentsPlaceholder')} // 'Ornaments'
+              allowClear
+              popupMatchSelectWidth={false}
+              optionLabelProp='label'
+              optionRender={optionRenderer()}
+              disabled={disabled}
+            />
           </Flex>
         </Flex>
 
         <Flex gap={5}>
-          <AntDForm.Item name={[teammateProperty, `lightCone`]}>
-            <LightConeSelect
-              value={null}
-              selectStyle={{ width: 258 }}
-              characterId={teammateCharacterId}
-              externalOpen={teammateLightConeSelectOpen}
-              setExternalOpen={setTeammateLightConeSelectOpen}
-            />
-          </AntDForm.Item>
+          <LightConeSelect
+            value={teammateLightConeId ?? null}
+            onChange={(id) => {
+              if (id) {
+                useOptimizerFormStore.getState().setTeammateField(tmIndex, 'lightCone', id)
+                updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { lightCone: id } })
+              } else {
+                updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { lightCone: null } })
+              }
+            }}
+            selectStyle={{ width: 258 }}
+            characterId={teammateCharacterId}
+            externalOpen={teammateLightConeSelectOpen}
+            setExternalOpen={setTeammateLightConeSelectOpen}
+          />
 
-          <AntDForm.Item name={[teammateProperty, `lightConeSuperimposition`]}>
-            <Select
-              showSearch
-              style={{ width: 110 }}
-              options={superimpositionOptions}
-              placeholder={t('SuperimpositionPlaceholder')} // 'Superimposition'
-              disabled={disabled}
-            />
-          </AntDForm.Item>
+          <Select
+            showSearch
+            style={{ width: 110 }}
+            options={superimpositionOptions}
+            value={teammateSuperimposition}
+            onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', val)}
+            placeholder={t('SuperimpositionPlaceholder')} // 'Superimposition'
+            disabled={disabled}
+          />
         </Flex>
 
         <Flex>
@@ -398,54 +405,65 @@ export function updateTeammate(changedValues: Partial<Form>) {
   window.store.getState().setTeammateCount(countTeammates())
 
   if (updatedTeammate.lightCone) {
-    const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-    const teammate = displayFormValues[property]
-    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate, DB.getMetadata())
+    const store = useOptimizerFormStore.getState()
+    const teammate = store.teammates[teammateIndex]
+    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate as any, DB.getMetadata())
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
 
     if (!controller.teammateDefaults) return
 
-    const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[property].lightConeConditionals)
+    const mergedConditionals = Object.assign({}, controller.teammateDefaults(), teammate.lightConeConditionals)
     useOptimizerFormStore.getState().setTeammateField(teammateIndex, 'lightConeConditionals', mergedConditionals)
-    window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], mergedConditionals)
   } else if (updatedTeammate.characterId) {
     const teammateCharacterId = updatedTeammate.characterId
 
-    const displayFormValues = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-    const teammateValues = displayFormValues[property]
+    const store = useOptimizerFormStore.getState()
+    const currentTeammate = store.teammates[teammateIndex]
     const teammateCharacter = DB.getCharacterById(teammateCharacterId)
+
+    let lightCone = currentTeammate.lightCone
+    let lightConeSuperimposition = currentTeammate.lightConeSuperimposition
+    let characterEidolon = currentTeammate.characterEidolon
+    let teamRelicSet = currentTeammate.teamRelicSet
+    let teamOrnamentSet = currentTeammate.teamOrnamentSet
 
     if (teammateCharacter) {
       // Fill out fields based on the teammate's form
-      teammateValues.lightCone = teammateCharacter.form.lightCone
-      teammateValues.lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
-      teammateValues.characterEidolon = teammateCharacter.form.characterEidolon
+      lightCone = teammateCharacter.form.lightCone
+      lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
+      characterEidolon = teammateCharacter.form.characterEidolon
       const activeTeammateSets = calculateTeammateSets(teammateCharacter)
-      teammateValues.teamRelicSet = activeTeammateSets.teamRelicSet
-      teammateValues.teamOrnamentSet = activeTeammateSets.teamOrnamentSet
+      teamRelicSet = activeTeammateSets.teamRelicSet
+      teamOrnamentSet = activeTeammateSets.teamOrnamentSet
     } else {
-      teammateValues.lightConeSuperimposition = 1
-      teammateValues.characterEidolon = 0
+      lightConeSuperimposition = 1
+      characterEidolon = 0
     }
 
     const characterConditionals = CharacterConditionalsResolver.get({
       characterId: teammateCharacterId,
-      characterEidolon: teammateValues.characterEidolon,
+      characterEidolon: characterEidolon,
     })
 
+    let characterConditionalsValues = currentTeammate.characterConditionals
     if (characterConditionals.teammateDefaults) {
-      teammateValues.characterConditionals = Object.assign({}, characterConditionals.teammateDefaults(), teammateValues.characterConditionals)
+      characterConditionalsValues = Object.assign({}, characterConditionals.teammateDefaults(), characterConditionalsValues)
     }
 
-    applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(window.optimizerForm)
-    window.optimizerForm.setFieldValue(property, teammateValues)
-    syncFormToStore(window.optimizerForm.getFieldsValue())
+    // Update all teammate fields at once
+    const storeActions = useOptimizerFormStore.getState()
+    storeActions.setTeammateField(teammateIndex, 'characterId', teammateCharacterId)
+    storeActions.setTeammateField(teammateIndex, 'characterEidolon', characterEidolon)
+    storeActions.setTeammateField(teammateIndex, 'lightCone', lightCone)
+    storeActions.setTeammateField(teammateIndex, 'lightConeSuperimposition', lightConeSuperimposition)
+    storeActions.setTeammateField(teammateIndex, 'teamRelicSet', teamRelicSet)
+    storeActions.setTeammateField(teammateIndex, 'teamOrnamentSet', teamOrnamentSet)
+    storeActions.setTeammateField(teammateIndex, 'characterConditionals', characterConditionalsValues)
+
+    applyTeamAwareSetConditionalPresetsToStore()
   } else if (updatedTeammate.characterId === null) {
     useOptimizerFormStore.getState().clearTeammate(teammateIndex)
-    window.optimizerForm.setFieldValue(property, getDefaultTeammateForm())
   } else if (updatedTeammate.lightCone === null) {
     useOptimizerFormStore.getState().clearTeammateLightCone(teammateIndex)
-    window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], {})
-    window.optimizerForm.setFieldValue([property, 'lightConeSuperimposition'], 1)
   }
 }

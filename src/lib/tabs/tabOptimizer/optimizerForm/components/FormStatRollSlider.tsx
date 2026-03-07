@@ -1,6 +1,5 @@
 import {
   Flex,
-  Form,
   InputNumber,
   Slider,
   Typography,
@@ -10,16 +9,15 @@ import {
   Parts,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import React, {
   ReactElement,
-  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { OptimizerForm } from 'types/form'
 
 const Text = styled(Typography)`
     white-space: pre-line;
@@ -37,6 +35,28 @@ const StatSliders = [
   { text: 'BEFilterText', name: Constants.Stats.BE },
 ] as const
 
+function WeightSlider(props: { stat: string }) {
+  const value = useOptimizerFormStore((s) => s.weights[props.stat as keyof typeof s.weights])
+
+  return (
+    <Slider
+      min={0}
+      max={1}
+      step={0.25}
+      style={{
+        width: '100%',
+        marginTop: 0,
+        marginBottom: 0,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }}
+      value={value as number ?? 0}
+      onChange={(val) => useOptimizerFormStore.getState().setWeight(props.stat as keyof OptimizerFormState['weights'], val)}
+      onChangeComplete={() => recalculatePermutations()}
+    />
+  )
+}
+
 export function FormStatRollSliders() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
   const labels: ReactElement[] = []
@@ -48,21 +68,9 @@ export function FormStatRollSliders() {
       </span>,
     )
     sliders.push(
-      <Form.Item name={['weights', stat.name]} style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }} key={stat.name}>
-        <Slider
-          min={0}
-          max={1}
-          step={0.25}
-          style={{
-            width: '100%',
-            marginTop: 0,
-            marginBottom: 0,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-          onChangeComplete={() => recalculatePermutations()}
-        />
-      </Form.Item>,
+      <div style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }} key={stat.name}>
+        <WeightSlider stat={stat.name} />
+      </div>,
     )
   }
   return (
@@ -105,10 +113,7 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
   const parts = partsPerSlotIndex[index]
   const name = formNamePerSlotIndex[index]
 
-  const [inputValue, setInputValue] = useState<number | null>(1)
-  const onChange = (newValue: number | null) => {
-    setInputValue(newValue)
-  }
+  const value = useOptimizerFormStore((s) => s.weights[name as keyof typeof s.weights] as number ?? 0)
 
   return (
     <Flex gap={5} style={{ marginBottom: 0 }} align='center'>
@@ -118,46 +123,45 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
       </Flex>
 
       <Flex align='center' justify='flex-start' gap={10}>
-        <Form.Item name={['weights', name]}>
-          <Slider
-            min={0}
-            max={MAX_ROLLS}
-            step={0.5}
-            style={{
-              minWidth: 105,
-              marginTop: 0,
-              marginBottom: 0,
-              marginLeft: 0,
-              marginRight: 5,
-            }}
-            keyboard={false}
-            tooltip={{
-              formatter: (value) => `${Utils.precisionRound(value)}`,
-            }}
-            value={typeof inputValue === 'number' ? inputValue : 0}
-            onChange={onChange}
-            onChangeComplete={() => recalculatePermutations()}
-          />
-        </Form.Item>
-      </Flex>
-
-      <Form.Item name={['weights', name]}>
-        <InputNumber
-          size='small'
-          className='center-input-text'
-          style={{
-            width: 40,
-          }}
-          controls={false}
+        <Slider
           min={0}
           max={MAX_ROLLS}
-          variant='borderless'
-          onChange={(x: number | null) => {
-            onChange(x)
-            recalculatePermutations()
+          step={0.5}
+          style={{
+            minWidth: 105,
+            marginTop: 0,
+            marginBottom: 0,
+            marginLeft: 0,
+            marginRight: 5,
           }}
+          keyboard={false}
+          tooltip={{
+            formatter: (value) => `${Utils.precisionRound(value)}`,
+          }}
+          value={value}
+          onChange={(val) => useOptimizerFormStore.getState().setWeight(name as keyof OptimizerFormState['weights'], val)}
+          onChangeComplete={() => recalculatePermutations()}
         />
-      </Form.Item>
+      </Flex>
+
+      <InputNumber
+        size='small'
+        className='center-input-text'
+        style={{
+          width: 40,
+        }}
+        controls={false}
+        min={0}
+        max={MAX_ROLLS}
+        variant='borderless'
+        value={value}
+        onChange={(x: number | null) => {
+          if (x != null) {
+            useOptimizerFormStore.getState().setWeight(name as keyof OptimizerFormState['weights'], x)
+          }
+          recalculatePermutations()
+        }}
+      />
     </Flex>
   )
 }

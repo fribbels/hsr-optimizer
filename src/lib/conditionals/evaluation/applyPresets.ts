@@ -1,4 +1,6 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
@@ -159,6 +161,15 @@ export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formI
   applyTeamAwareSetConditionalPresets(form)
 
   formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+}
+
+export function applyTeamAwareSetConditionalPresetsToStore() {
+  const state = useOptimizerFormStore.getState()
+  const form = displayToInternal(state) as Form
+  applyTeamAwareSetConditionalPresets(form)
+
+  // Update the store with the modified set conditionals
+  useOptimizerFormStore.getState().setSetConditionals(form.setConditionals)
 }
 
 export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(

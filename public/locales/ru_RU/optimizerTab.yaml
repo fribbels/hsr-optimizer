@@ -586,7 +586,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Щит
       SHIELD_VALUE_P: Δ% Щит
   DamageSplits:
-    Title: Распределение урона по типам
     Legend:
       abilityDmg: Умения
       breakDmg: Пробитие

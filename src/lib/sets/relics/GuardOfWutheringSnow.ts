@@ -24,7 +24,6 @@ const info = {
   index: 5,
   setType: SetType.RELIC,
   ingameId: '106',
-  name: Sets.GuardOfWutheringSnow,
 } as const satisfies SetInfo
 
 const display = {
@@ -32,7 +31,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
   },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
@@ -43,10 +42,11 @@ const conditionals = {
       ${buff.actionMultiplicativeComplement(AKey.DMG_RED, 0.08).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const GuardOfWutheringSnow = {
-  id: 'GuardOfWutheringSnow',
+  id: Sets.GuardOfWutheringSnow,
+  setKey: 'GuardOfWutheringSnow',
   info,
   display,
   conditionals,

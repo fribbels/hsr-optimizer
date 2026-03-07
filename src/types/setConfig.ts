@@ -1,3 +1,4 @@
+import { BasicSetEffectEntry } from 'lib/gpu/injection/generateBasicSetEffects'
 import { TFunction } from 'i18next'
 import {
   ConditionalDataType,
@@ -28,7 +29,6 @@ export type SetInfo = {
   index: number
   setType: SetType
   ingameId: string
-  name: Sets
 }
 
 export type SetConditionals = {
@@ -43,6 +43,7 @@ export type SetConditionals = {
   dynamicConditionals?: readonly DynamicConditional[]
   gpu?: (action: OptimizerAction, context: OptimizerContext) => string
   gpuTerminal?: (action: OptimizerAction, context: OptimizerContext) => string
+  gpuBasic?: () => BasicSetEffectEntry[]
 }
 
 export type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
@@ -71,7 +72,8 @@ export type TeammateOption = {
 }
 
 export type SetConfig = {
-  id: SetKey
+  id: Sets
+  setKey: SetKey
   info: SetInfo
   conditionals: SetConditionals
   display: SetDisplay

@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -26,7 +27,6 @@ const info = {
   index: 26,
   setType: SetType.RELIC,
   ingameId: '127',
-  name: Sets.WorldRemakingDeliverer,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +36,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.WorldRemakingDeliverer)
   },
@@ -48,6 +48,9 @@ const conditionals = {
       }
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.CR, 0.08, WorldRemakingDeliverer),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WorldRemakingDeliverer) >= 1
@@ -68,10 +71,11 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const WorldRemakingDeliverer = {
-  id: 'WorldRemakingDeliverer',
+  id: Sets.WorldRemakingDeliverer,
+  setKey: 'WorldRemakingDeliverer',
   info,
   display,
   conditionals,

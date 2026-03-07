@@ -70,6 +70,11 @@ export const BasicKey: Record<BasicKeyType, number> = Object.keys(baseCharacterS
   {} as Record<BasicKeyType, number>,
 )
 
+export const WgslStatName = Object.keys(BasicKey).reduce(
+  (acc, key) => { acc[key as BasicKeyType] = key as BasicKeyType; return acc },
+  {} as Record<BasicKeyType, BasicKeyType>,
+) as { readonly [K in BasicKeyType]: K }
+
 export const BasicStatToKey: Record<StatsValues, number> = {
   [Stats.ATK_P]: BasicKey.ATK_P,
   [Stats.ATK]: BasicKey.ATK,

@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -26,7 +27,6 @@ const info = {
   index: 15,
   setType: SetType.RELIC,
   ingameId: '116',
-  name: Sets.PrisonerInDeepConfinement,
 } as const satisfies SetInfo
 
 const display = {
@@ -37,19 +37,22 @@ const display = {
   defaultValue: 0,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.PrisonerInDeepConfinement)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.DEF_PEN, 0.06 * setConditionals.valuePrisonerInDeepConfinement, x.source(Source.PrisonerInDeepConfinement))
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, PrisonerInDeepConfinement),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_PrisonerInDeepConfinement) >= 1) {
       ${buff.action(AKey.DEF_PEN, `0.06 * f32(setConditionals.valuePrisonerInDeepConfinement)`).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 4 }).map((_val, i) => ({
@@ -60,7 +63,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const PrisonerInDeepConfinement = {
-  id: 'PrisonerInDeepConfinement',
+  id: Sets.PrisonerInDeepConfinement,
+  setKey: 'PrisonerInDeepConfinement',
   info,
   display,
   conditionals,

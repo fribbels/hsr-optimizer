@@ -3,8 +3,9 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -25,7 +26,6 @@ const info = {
   index: 8,
   setType: SetType.RELIC,
   ingameId: '109',
-  name: Sets.BandOfSizzlingThunder,
 } as const satisfies SetInfo
 
 const display = {
@@ -35,7 +35,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Lightning_DMG) {
       c.LIGHTNING_DMG_BOOST.buff(0.10, Source.BandOfSizzlingThunder)
@@ -46,6 +46,9 @@ const conditionals = {
       x.buff(StatKey.ATK_P, 0.20, x.source(Source.BandOfSizzlingThunder))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.LIGHTNING_DMG_BOOST, 0.10, BandOfSizzlingThunder),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_BandOfSizzlingThunder) >= 1
@@ -54,10 +57,11 @@ const conditionals = {
       ${buff.action(AKey.ATK_P, 0.20).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const BandOfSizzlingThunder = {
-  id: 'BandOfSizzlingThunder',
+  id: Sets.BandOfSizzlingThunder,
+  setKey: 'BandOfSizzlingThunder',
   info,
   display,
   conditionals,

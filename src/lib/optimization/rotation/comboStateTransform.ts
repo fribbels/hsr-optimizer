@@ -300,7 +300,7 @@ function overrideSetConditionals(setConditionals: SetConditional, context: Optim
   for (const config of setConfigRegistry.values()) {
     if (config.conditionals.overrideConditional) {
       const prefix = config.display.conditionalType === ConditionalDataType.BOOLEAN ? 'enabled' : 'value'
-      const fieldName = `${prefix}${config.id}`
+      const fieldName = `${prefix}${config.setKey}`
       if (record[fieldName] !== undefined) {
         record[fieldName] = config.conditionals.overrideConditional(record[fieldName], context)
       }

@@ -3,8 +3,9 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   OptimizerContext,
 } from 'types/optimizer'
@@ -20,7 +21,6 @@ const info = {
   index: 9,
   setType: SetType.RELIC,
   ingameId: '110',
-  name: Sets.EagleOfTwilightLine,
 } as const satisfies SetInfo
 
 const display = {
@@ -28,16 +28,20 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Wind_DMG) {
       c.WIND_DMG_BOOST.buff(0.10, Source.EagleOfTwilightLine)
     }
   },
-} as const satisfies SetConditionals
+  gpuBasic: () => [
+    basicP2(WgslStatName.WIND_DMG_BOOST, 0.10, EagleOfTwilightLine),
+  ],
+}
 
 export const EagleOfTwilightLine = {
-  id: 'EagleOfTwilightLine',
+  id: Sets.EagleOfTwilightLine,
+  setKey: 'EagleOfTwilightLine',
   info,
   display,
   conditionals,

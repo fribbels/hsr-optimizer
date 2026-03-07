@@ -5,16 +5,17 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import {
   DynamicConditional,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
-  containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+  BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
@@ -22,6 +23,10 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  ornament2p,
+  SetKeys,
+} from 'lib/optimization/setMatching'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -33,6 +38,17 @@ import {
   SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 1,
+  setType: SetType.ORNAMENT,
+  ingameId: '302',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const FleetOfTheAgelessConditional: DynamicConditional = {
   id: 'FleetOfTheAgelessConditional',
@@ -68,22 +84,13 @@ if (
   },
 }
 
-const info = {
-  index: 1,
-  setType: SetType.ORNAMENT,
-  ingameId: '302',
-  name: Sets.FleetOfTheAgeless,
-} as const satisfies SetInfo
-
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.FleetOfTheAgeless)
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.HP_P, 0.12, FleetOfTheAgeless),
+  ],
   dynamicConditionals: [FleetOfTheAgelessConditional],
   teammate: [{
     value: Sets.FleetOfTheAgeless,
@@ -94,10 +101,11 @@ const conditionals = {
       x.buff(StatKey.ATK_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.FleetOfTheAgeless))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const FleetOfTheAgeless = {
-  id: 'FleetOfTheAgeless',
+  id: Sets.FleetOfTheAgeless,
+  setKey: 'FleetOfTheAgeless',
   info,
   display,
   conditionals,

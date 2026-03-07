@@ -3,8 +3,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -25,7 +26,6 @@ const info = {
   index: 13,
   setType: SetType.ORNAMENT,
   ingameId: '314',
-  name: Sets.IzumoGenseiAndTakamaDivineRealm,
 } as const satisfies SetInfo
 
 const display = {
@@ -35,7 +35,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.IzumoGenseiAndTakamaDivineRealm)
   },
@@ -47,6 +47,9 @@ const conditionals = {
   overrideConditional: (value, context) => {
     return (value as boolean) && countTeamPath(context, context.path) >= 2
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, IzumoGenseiAndTakamaDivineRealm),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_IzumoGenseiAndTakamaDivineRealm) >= 1
@@ -55,10 +58,11 @@ const conditionals = {
       ${buff.action(AKey.CR, 0.12).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const IzumoGenseiAndTakamaDivineRealm = {
-  id: 'IzumoGenseiAndTakamaDivineRealm',
+  id: Sets.IzumoGenseiAndTakamaDivineRealm,
+  setKey: 'IzumoGenseiAndTakamaDivineRealm',
   info,
   display,
   conditionals,

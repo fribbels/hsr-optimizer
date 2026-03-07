@@ -4,6 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -48,6 +49,7 @@ const conditionals = {
       }
     }
   },
+  gpuBasic: () => basicSetEffect('SPD_P', 0.06, 'relic2p', 'WarriorGoddessOfSunAndThunder'),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WarriorGoddessOfSunAndThunder) >= 1

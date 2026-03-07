@@ -4,6 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -61,6 +62,7 @@ const conditionals = {
       x.buff(StatKey.CR, 0.04, x.source(Source.PioneerDiverOfDeadWaters))
     }
   },
+  gpuBasic: () => basicSetEffect('CR', 0.04, 'relic4p', 'PioneerDiverOfDeadWaters'),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
       ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 2)}

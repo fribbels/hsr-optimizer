@@ -4,6 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -46,6 +47,7 @@ const conditionals = {
       }
     }
   },
+  gpuBasic: () => basicSetEffect('BE', 0.16, 'relic2p', 'IronCavalryAgainstTheScourge'),
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     relic4p(*p_sets, SET_IronCavalryAgainstTheScourge) >= 1

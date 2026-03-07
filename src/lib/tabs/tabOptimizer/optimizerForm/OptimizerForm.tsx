@@ -1,19 +1,12 @@
-import {
-  Flex,
-  Form as AntDForm,
-} from 'antd'
+import { Flex } from 'antd'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
-import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { SaveState } from 'lib/state/saveState'
-import {
-  generateConditionalResolverMetadata,
-  updateConditionalChange,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import { AdvancedOptionsPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/AdvancedOptionsPanel'
@@ -31,7 +24,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/SubstatWeightFilters'
-import TeammateCard, { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
+import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
@@ -41,10 +34,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import {
-  useEffect,
-  useMemo,
-} from 'react'
+import { useEffect, useMemo } from 'react'
 import { Form } from 'types/form'
 import { DBMetadata } from 'types/metadata'
 
@@ -52,8 +42,6 @@ export const optimizerFormCache: Record<string, Form> = {}
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
-  const [optimizerForm] = AntDForm.useForm<Form>()
-  window.optimizerForm = optimizerForm
 
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
@@ -63,103 +51,6 @@ export default function OptimizerForm() {
   }, [])
 
   const dbMetadata = useMemo(() => DB.getMetadata(), [])
-
-  const onValuesChange = (changedValues: Form, allValues: Form, bypass: boolean = false) => {
-    if (!changedValues || !allValues?.characterId) return
-
-    // Sync to Zustand store
-    syncFormToStore(allValues)
-
-    const keys = Object.keys(changedValues)
-
-    console.debug(keys, changedValues)
-
-    const firstKey = keys[0] as string | undefined
-
-    if (
-      keys.length == 1
-      && firstKey?.startsWith('teammate')
-    ) {
-      updateTeammate(changedValues)
-    }
-
-    if (
-      keys.length == 1 && (
-        firstKey == 'characterConditionals'
-        || firstKey == 'lightConeConditionals'
-        || firstKey == 'setConditionals'
-        || firstKey!.startsWith('teammate')
-      )
-    ) {
-      updateConditionalChange(changedValues)
-    }
-
-    if (bypass) {
-      // Only allow certain values to refresh permutations.
-      // Sliders should only update at the end of the drag
-    } else if (
-      keys.length == 1 && (
-        keys[0].startsWith('min')
-        || keys[0].startsWith('max')
-        || keys[0].startsWith('buff')
-        || keys[0].startsWith('statDisplay')
-        || keys[0].startsWith('statSim')
-        || keys[0].startsWith('teammate')
-        || keys[0].startsWith('combatBuffs')
-        || keys[0] == 'characterConditionals'
-        || keys[0] == 'lightConeConditionals'
-      )
-    ) {
-      return
-    }
-
-    const request = allValues
-    // console.log('@onValuesChange', request, changedValues)
-
-    if (keys[0] === 'characterId') {
-      window.store.getState().setOptimizerTabFocusCharacter(changedValues.characterId)
-      OptimizerTabController.updateCharacter(changedValues.characterId)
-      SaveState.delayedSave()
-    }
-
-    // Add any new characters to the list only if the user changed any value other than the characterId
-    if (!DB.getCharacterById(allValues.characterId) && keys[0] != 'characterId') {
-      DB.addFromForm(allValues)
-    }
-
-    // If the rank changes, re-order the characters priority list
-    if (changedValues.rank != null && DB.getCharacterById(allValues.characterId)!.rank != allValues.rank) {
-      DB.insertCharacter(allValues.characterId, allValues.rank)
-    }
-
-    // Update permutation counts
-    const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request)
-
-    const permutationDetails = {
-      Head: relics.Head.length,
-      Hands: relics.Hands.length,
-      Body: relics.Body.length,
-      Feet: relics.Feet.length,
-      PlanarSphere: relics.PlanarSphere.length,
-      LinkRope: relics.LinkRope.length,
-      HeadTotal: preFilteredRelicsByPart.Head.length,
-      HandsTotal: preFilteredRelicsByPart.Hands.length,
-      BodyTotal: preFilteredRelicsByPart.Body.length,
-      FeetTotal: preFilteredRelicsByPart.Feet.length,
-      PlanarSphereTotal: preFilteredRelicsByPart.PlanarSphere.length,
-      LinkRopeTotal: preFilteredRelicsByPart.LinkRope.length,
-    }
-    window.store.getState().setPermutationDetails(permutationDetails)
-    window.store.getState().setPermutations(
-      relics.Head.length
-        * relics.Hands.length
-        * relics.Body.length
-        * relics.Feet.length
-        * relics.PlanarSphere.length
-        * relics.LinkRope.length,
-    )
-  }
-  window.onOptimizerFormValuesChange = onValuesChange
 
   function startClicked() {
     console.log('Start clicked')
@@ -198,71 +89,65 @@ export default function OptimizerForm() {
 
   return (
     <div style={{ position: 'relative' }}>
-      <AntDForm
-        form={optimizerForm}
-        layout='vertical'
-        onValuesChange={onValuesChange}
-      >
-        <FormSetConditionals id={OpenCloseIDs.OPTIMIZER_SETS_DRAWER} />
+      <FormSetConditionals id={OpenCloseIDs.OPTIMIZER_SETS_DRAWER} />
 
-        <FilterContainer>
-          <FormRow id={OptimizerMenuIds.characterOptions}>
-            <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
-              <OptimizerTabCharacterPanel />
-            </FormCard>
+      <FilterContainer>
+        <FormRow id={OptimizerMenuIds.characterOptions}>
+          <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
+            <OptimizerTabCharacterPanel />
+          </FormCard>
 
-            <FormCard>
-              <CharacterSelectorDisplay />
-            </FormCard>
+          <FormCard>
+            <CharacterSelectorDisplay />
+          </FormCard>
 
-            <FormCard>
-              <CharacterConditionalDisplayWrapper />
-            </FormCard>
+          <FormCard>
+            <CharacterConditionalDisplayWrapper />
+          </FormCard>
 
-            <FormCard justify='space-between'>
-              <LightConeConditionalDisplayWrapper metadata={dbMetadata} />
-            </FormCard>
+          <FormCard justify='space-between'>
+            <LightConeConditionalDisplayWrapper metadata={dbMetadata} />
+          </FormCard>
 
-            <FormCard>
-              <OptimizerOptionsDisplay />
-            </FormCard>
-          </FormRow>
+          <FormCard>
+            <OptimizerOptionsDisplay />
+          </FormCard>
+        </FormRow>
 
-          <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
-            <FormCard>
-              <RelicMainSetFilters />
-            </FormCard>
+        <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
+          <FormCard>
+            <RelicMainSetFilters />
+          </FormCard>
 
-            <FormCard>
-              <SubstatWeightFilters />
-            </FormCard>
+          <FormCard>
+            <SubstatWeightFilters />
+          </FormCard>
 
-            <FormCard>
-              <MinMaxStatFilters />
-            </FormCard>
+          <FormCard>
+            <MinMaxStatFilters />
+          </FormCard>
 
-            <FormCard>
-              <MinMaxRatingFilters />
-            </FormCard>
+          <FormCard>
+            <MinMaxRatingFilters />
+          </FormCard>
 
-            <FormCard>
-              <ComboFilters />
-              <CombatBuffsDrawer />
-              <EnemyConfigurationsDrawer />
-            </FormCard>
-          </FormRow>
+          <FormCard>
+            <ComboFilters />
+            <CombatBuffsDrawer />
+            <EnemyConfigurationsDrawer />
+          </FormCard>
+        </FormRow>
 
-          <TeammateFormRow id={OptimizerMenuIds.teammates}>
-            <TeammateCard index={0} dbMetadata={dbMetadata} />
-            <TeammateCard index={1} dbMetadata={dbMetadata} />
-            <TeammateCard index={2} dbMetadata={dbMetadata} />
-          </TeammateFormRow>
+        <TeammateFormRow id={OptimizerMenuIds.teammates}>
+          <TeammateCard index={0} dbMetadata={dbMetadata} />
+          <TeammateCard index={1} dbMetadata={dbMetadata} />
+          <TeammateCard index={2} dbMetadata={dbMetadata} />
+        </TeammateFormRow>
 
-          <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
-            <StatSimulationDisplay />
-          </FormRow>
-        </FilterContainer>
-      </AntDForm>
+        <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
+          <StatSimulationDisplay />
+        </FormRow>
+      </FilterContainer>
     </div>
   )
 }
@@ -299,10 +184,7 @@ function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
     const lightConeForm = DB.getCharacterById(charId!)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 
-    // console.log('Loaded light cone conditional values', defaults)
-
     useOptimizerFormStore.getState().setLightConeConditionals(defaults)
-    window.optimizerForm.setFieldValue('lightConeConditionals', defaults)
   }, [lcId, superimposition, charId])
 
   return (

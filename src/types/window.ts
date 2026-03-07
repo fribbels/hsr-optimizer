@@ -26,7 +26,6 @@ import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { Utils } from 'lib/utils/utils'
 import { WorkerPool } from 'lib/worker/workerPool'
@@ -35,7 +34,6 @@ import {
   Build,
   Character,
 } from 'types/character'
-import { Form } from 'types/form'
 import { HsrOptimizerStore } from 'types/store'
 import {
   StoreApi,
@@ -77,10 +75,7 @@ declare global {
 
     showcaseTabForm: FormInstance<ShowcaseTabForm>
 
-    // TODO see OptimizerForm
-    onOptimizerFormValuesChange: (changedValues: Form, allValues: Form, bypass?: boolean) => void
     optimizerStartClicked: () => void
-    optimizerForm: FormInstance<Form>
 
     showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>
 

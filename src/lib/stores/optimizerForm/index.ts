@@ -23,4 +23,3 @@ export {
   buildSaveForm,
   patchComboConditionalDefault,
 } from 'lib/stores/optimizerForm/optimizerFormConversions'
-export { syncFormToStore, verifySync } from 'lib/stores/optimizerForm/optimizerFormSync'

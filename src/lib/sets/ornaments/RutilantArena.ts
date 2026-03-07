@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'RutilantArena',
   index: 8,
   setType: SetType.ORNAMENT,
   ingameId: '309',
-  name: Sets.RutilantArena,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.RutilantArena)
   },
@@ -46,7 +44,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CR, 0.08, info),
+    basicP2(WgslStatName.CR, 0.08, RutilantArena),
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
@@ -56,10 +54,11 @@ const conditionals = {
     ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 2)}
   }
 `,
-} as const satisfies SetConditionals
+}
 
 export const RutilantArena = {
-  id: 'RutilantArena',
+  id: Sets.RutilantArena,
+  setKey: 'RutilantArena',
   info,
   display,
   conditionals,

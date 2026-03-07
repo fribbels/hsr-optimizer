@@ -22,11 +22,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'ForgeOfTheKalpagniLantern',
   index: 15,
   setType: SetType.ORNAMENT,
   ingameId: '316',
-  name: Sets.ForgeOfTheKalpagniLantern,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.ForgeOfTheKalpagniLantern)
   },
@@ -46,7 +44,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.SPD_P, 0.06, info),
+    basicP2(WgslStatName.SPD_P, 0.06, ForgeOfTheKalpagniLantern),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -56,10 +54,11 @@ const conditionals = {
       ${buff.action(AKey.BE, 0.40).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const ForgeOfTheKalpagniLantern = {
-  id: 'ForgeOfTheKalpagniLantern',
+  id: Sets.ForgeOfTheKalpagniLantern,
+  setKey: 'ForgeOfTheKalpagniLantern',
   info,
   display,
   conditionals,

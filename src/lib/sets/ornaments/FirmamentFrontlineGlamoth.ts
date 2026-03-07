@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'FirmamentFrontlineGlamoth',
   index: 10,
   setType: SetType.ORNAMENT,
   ingameId: '311',
-  name: Sets.FirmamentFrontlineGlamoth,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.FirmamentFrontlineGlamoth)
   },
@@ -47,7 +45,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ATK_P, 0.12, info),
+    basicP2(WgslStatName.ATK_P, 0.12, FirmamentFrontlineGlamoth),
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
@@ -57,10 +55,11 @@ const conditionals = {
     ${buff.action(AKey.DMG_BOOST, `select(0.12, 0.18, ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 160.0)`).wgsl(action, 2)}
   }
 `,
-} as const satisfies SetConditionals
+}
 
 export const FirmamentFrontlineGlamoth = {
-  id: 'FirmamentFrontlineGlamoth',
+  id: Sets.FirmamentFrontlineGlamoth,
+  setKey: 'FirmamentFrontlineGlamoth',
   info,
   display,
   conditionals,

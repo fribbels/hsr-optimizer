@@ -17,11 +17,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'PasserbyOfWanderingCloud',
   index: 0,
   setType: SetType.RELIC,
   ingameId: '101',
-  name: Sets.PasserbyOfWanderingCloud,
 } as const satisfies SetInfo
 
 const display = {
@@ -29,17 +27,18 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.OHB.buff(0.10, Source.PasserbyOfWanderingCloud)
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.OHB, 0.10, info),
+    basicP2(WgslStatName.OHB, 0.10, PasserbyOfWanderingCloud),
   ],
-} as const satisfies SetConditionals
+}
 
 export const PasserbyOfWanderingCloud = {
-  id: 'PasserbyOfWanderingCloud',
+  id: Sets.PasserbyOfWanderingCloud,
+  setKey: 'PasserbyOfWanderingCloud',
   info,
   display,
   conditionals,

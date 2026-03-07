@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'WorldRemakingDeliverer',
   index: 26,
   setType: SetType.RELIC,
   ingameId: '127',
-  name: Sets.WorldRemakingDeliverer,
 } as const satisfies SetInfo
 
 const display = {
@@ -38,7 +36,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.WorldRemakingDeliverer)
   },
@@ -51,7 +49,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CR, 0.08, info),
+    basicP2(WgslStatName.CR, 0.08, WorldRemakingDeliverer),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -73,10 +71,11 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const WorldRemakingDeliverer = {
-  id: 'WorldRemakingDeliverer',
+  id: Sets.WorldRemakingDeliverer,
+  setKey: 'WorldRemakingDeliverer',
   info,
   display,
   conditionals,

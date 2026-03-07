@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'WarriorGoddessOfSunAndThunder',
   index: 24,
   setType: SetType.RELIC,
   ingameId: '125',
-  name: Sets.WarriorGoddessOfSunAndThunder,
 } as const satisfies SetInfo
 
 const display = {
@@ -38,7 +36,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.WarriorGoddessOfSunAndThunder)
   },
@@ -51,7 +49,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.SPD_P, 0.06, info),
+    basicP2(WgslStatName.SPD_P, 0.06, WarriorGoddessOfSunAndThunder),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -73,10 +71,11 @@ const conditionals = {
       x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const WarriorGoddessOfSunAndThunder = {
-  id: 'WarriorGoddessOfSunAndThunder',
+  id: Sets.WarriorGoddessOfSunAndThunder,
+  setKey: 'WarriorGoddessOfSunAndThunder',
   info,
   display,
   conditionals,

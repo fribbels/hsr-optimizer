@@ -23,11 +23,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'ScholarLostInErudition',
   index: 21,
   setType: SetType.RELIC,
   ingameId: '122',
-  name: Sets.ScholarLostInErudition,
 } as const satisfies SetInfo
 
 const display = {
@@ -37,7 +35,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.ScholarLostInErudition)
   },
@@ -48,7 +46,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CR, 0.08, info),
+    basicP2(WgslStatName.CR, 0.08, ScholarLostInErudition),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_ScholarLostInErudition) >= 1) {
@@ -58,10 +56,11 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const ScholarLostInErudition = {
-  id: 'ScholarLostInErudition',
+  id: Sets.ScholarLostInErudition,
+  setKey: 'ScholarLostInErudition',
   info,
   display,
   conditionals,

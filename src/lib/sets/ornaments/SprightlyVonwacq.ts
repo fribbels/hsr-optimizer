@@ -17,11 +17,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'SprightlyVonwacq',
   index: 7,
   setType: SetType.ORNAMENT,
   ingameId: '308',
-  name: Sets.SprightlyVonwacq,
 } as const satisfies SetInfo
 
 const display = {
@@ -29,17 +27,18 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.SprightlyVonwacq)
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ERR, 0.05, info),
+    basicP2(WgslStatName.ERR, 0.05, SprightlyVonwacq),
   ],
-} as const satisfies SetConditionals
+}
 
 export const SprightlyVonwacq = {
-  id: 'SprightlyVonwacq',
+  id: Sets.SprightlyVonwacq,
+  setKey: 'SprightlyVonwacq',
   info,
   display,
   conditionals,

@@ -26,11 +26,9 @@ export enum SetType {
 }
 
 export type SetInfo = {
-  id: SetKey
   index: number
   setType: SetType
   ingameId: string
-  name: Sets
 }
 
 export type SetConditionals = {
@@ -74,7 +72,8 @@ export type TeammateOption = {
 }
 
 export type SetConfig = {
-  id: SetKey
+  id: Sets
+  setKey: SetKey
   info: SetInfo
   conditionals: SetConditionals
   display: SetDisplay

@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'InertSalsotto',
   index: 5,
   setType: SetType.ORNAMENT,
   ingameId: '306',
-  name: Sets.InertSalsotto,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.InertSalsotto)
   },
@@ -46,7 +44,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CR, 0.08, info),
+    basicP2(WgslStatName.CR, 0.08, InertSalsotto),
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
@@ -56,10 +54,11 @@ const conditionals = {
     ${buff.hit(HKey.DMG_BOOST, 0.15).damageType(DamageTag.ULT | DamageTag.FUA).wgsl(action, 2)}
   }
 `,
-} as const satisfies SetConditionals
+}
 
 export const InertSalsotto = {
-  id: 'InertSalsotto',
+  id: Sets.InertSalsotto,
+  setKey: 'InertSalsotto',
   info,
   display,
   conditionals,

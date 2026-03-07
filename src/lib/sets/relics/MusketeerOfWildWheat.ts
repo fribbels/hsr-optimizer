@@ -23,11 +23,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'MusketeerOfWildWheat',
   index: 1,
   setType: SetType.RELIC,
   ingameId: '102',
-  name: Sets.MusketeerOfWildWheat,
 } as const satisfies SetInfo
 
 const display = {
@@ -35,7 +33,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.MusketeerOfWildWheat)
   },
@@ -46,18 +44,19 @@ const conditionals = {
     x.buff(StatKey.DMG_BOOST, 0.10, x.damageType(DamageTag.BASIC).source(Source.MusketeerOfWildWheat))
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ATK_P, 0.12, info),
-    basicP4(WgslStatName.SPD_P, 0.06, info),
+    basicP2(WgslStatName.ATK_P, 0.12, MusketeerOfWildWheat),
+    basicP4(WgslStatName.SPD_P, 0.06, MusketeerOfWildWheat),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_MusketeerOfWildWheat) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, 0.10).damageType(DamageTag.BASIC).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const MusketeerOfWildWheat = {
-  id: 'MusketeerOfWildWheat',
+  id: Sets.MusketeerOfWildWheat,
+  setKey: 'MusketeerOfWildWheat',
   info,
   display,
   conditionals,

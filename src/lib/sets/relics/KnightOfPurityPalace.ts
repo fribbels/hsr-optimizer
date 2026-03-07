@@ -23,11 +23,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'KnightOfPurityPalace',
   index: 2,
   setType: SetType.RELIC,
   ingameId: '103',
-  name: Sets.KnightOfPurityPalace,
 } as const satisfies SetInfo
 
 const display = {
@@ -35,7 +33,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.DEF_P.buff(0.15, Source.KnightOfPurityPalace)
   },
@@ -43,17 +41,18 @@ const conditionals = {
     x.buff(StatKey.DMG_BOOST, 0.20, x.outputType(OutputTag.SHIELD).source(Source.KnightOfPurityPalace))
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.DEF_P, 0.15, info),
+    basicP2(WgslStatName.DEF_P, 0.15, KnightOfPurityPalace),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_KnightOfPurityPalace) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, 0.20).outputType(OutputTag.SHIELD).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const KnightOfPurityPalace = {
-  id: 'KnightOfPurityPalace',
+  id: Sets.KnightOfPurityPalace,
+  setKey: 'KnightOfPurityPalace',
   info,
   display,
   conditionals,

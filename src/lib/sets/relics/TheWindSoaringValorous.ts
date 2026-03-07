@@ -23,11 +23,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'TheWindSoaringValorous',
   index: 19,
   setType: SetType.RELIC,
   ingameId: '120',
-  name: Sets.TheWindSoaringValorous,
 } as const satisfies SetInfo
 
 const display = {
@@ -37,7 +35,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.TheWindSoaringValorous)
   },
@@ -50,18 +48,19 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ATK_P, 0.12, info),
-    basicP4(WgslStatName.CR, 0.06, info),
+    basicP2(WgslStatName.ATK_P, 0.12, TheWindSoaringValorous),
+    basicP4(WgslStatName.CR, 0.06, TheWindSoaringValorous),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_TheWindSoaringValorous) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const TheWindSoaringValorous = {
-  id: 'TheWindSoaringValorous',
+  id: Sets.TheWindSoaringValorous,
+  setKey: 'TheWindSoaringValorous',
   info,
   display,
   conditionals,

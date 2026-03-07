@@ -23,11 +23,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'HunterOfGlacialForest',
   index: 3,
   setType: SetType.RELIC,
   ingameId: '104',
-  name: Sets.HunterOfGlacialForest,
 } as const satisfies SetInfo
 
 const display = {
@@ -37,7 +35,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Ice_DMG) {
       c.ICE_DMG_BOOST.buff(0.10, Source.HunterOfGlacialForest)
@@ -49,7 +47,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ICE_DMG_BOOST, 0.10, info),
+    basicP2(WgslStatName.ICE_DMG_BOOST, 0.10, HunterOfGlacialForest),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -59,10 +57,11 @@ const conditionals = {
       ${buff.action(AKey.CD, 0.25).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const HunterOfGlacialForest = {
-  id: 'HunterOfGlacialForest',
+  id: Sets.HunterOfGlacialForest,
+  setKey: 'HunterOfGlacialForest',
   info,
   display,
   conditionals,

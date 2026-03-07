@@ -27,11 +27,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'SacerdosRelivedOrdeal',
   index: 20,
   setType: SetType.RELIC,
   ingameId: '121',
-  name: Sets.SacerdosRelivedOrdeal,
 } as const satisfies SetInfo
 
 const display = {
@@ -42,7 +40,7 @@ const display = {
   defaultValue: 0,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.SacerdosRelivedOrdeal)
   },
@@ -50,7 +48,7 @@ const conditionals = {
     x.buff(StatKey.CD, 0.18 * setConditionals.valueSacerdosRelivedOrdeal, x.source(Source.SacerdosRelivedOrdeal))
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.SPD_P, 0.06, info),
+    basicP2(WgslStatName.SPD_P, 0.06, SacerdosRelivedOrdeal),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
@@ -87,7 +85,7 @@ const conditionals = {
       },
     },
   ],
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 3 }).map((_val, i) => ({
@@ -98,7 +96,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const SacerdosRelivedOrdeal = {
-  id: 'SacerdosRelivedOrdeal',
+  id: Sets.SacerdosRelivedOrdeal,
+  setKey: 'SacerdosRelivedOrdeal',
   info,
   display,
   conditionals,

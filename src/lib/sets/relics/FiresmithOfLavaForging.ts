@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'FiresmithOfLavaForging',
   index: 6,
   setType: SetType.RELIC,
   ingameId: '107',
-  name: Sets.FiresmithOfLavaForging,
 } as const satisfies SetInfo
 
 const display = {
@@ -38,7 +36,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Fire_DMG) {
       c.FIRE_DMG_BOOST.buff(0.10, Source.FiresmithOfLavaForging)
@@ -51,7 +49,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.FIRE_DMG_BOOST, 0.10, info),
+    basicP2(WgslStatName.FIRE_DMG_BOOST, 0.10, FiresmithOfLavaForging),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_FiresmithOfLavaForging) >= 1) {
@@ -61,10 +59,11 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const FiresmithOfLavaForging = {
-  id: 'FiresmithOfLavaForging',
+  id: Sets.FiresmithOfLavaForging,
+  setKey: 'FiresmithOfLavaForging',
   info,
   display,
   conditionals,

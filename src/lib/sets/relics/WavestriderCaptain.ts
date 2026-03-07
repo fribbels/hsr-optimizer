@@ -22,11 +22,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'WavestriderCaptain',
   index: 25,
   setType: SetType.RELIC,
   ingameId: '126',
-  name: Sets.WavestriderCaptain,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.WavestriderCaptain)
   },
@@ -46,7 +44,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CD, 0.16, info),
+    basicP2(WgslStatName.CD, 0.16, WavestriderCaptain),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -56,10 +54,11 @@ const conditionals = {
       ${buff.action(AKey.ATK_P, 0.48).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const WavestriderCaptain = {
-  id: 'WavestriderCaptain',
+  id: Sets.WavestriderCaptain,
+  setKey: 'WavestriderCaptain',
   info,
   display,
   conditionals,

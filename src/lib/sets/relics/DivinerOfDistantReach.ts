@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'DivinerOfDistantReach',
   index: 29,
   setType: SetType.RELIC,
   ingameId: '130',
-  name: Sets.DivinerOfDistantReach,
 } as const satisfies SetInfo
 
 const display = {
@@ -38,7 +36,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.DivinerOfDistantReach)
   },
@@ -51,7 +49,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.SPD_P, 0.06, info),
+    basicP2(WgslStatName.SPD_P, 0.06, DivinerOfDistantReach),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_DivinerOfDistantReach) >= 1) {
@@ -71,10 +69,11 @@ const conditionals = {
       x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const DivinerOfDistantReach = {
-  id: 'DivinerOfDistantReach',
+  id: Sets.DivinerOfDistantReach,
+  setKey: 'DivinerOfDistantReach',
   info,
   display,
   conditionals,

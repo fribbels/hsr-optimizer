@@ -12,7 +12,7 @@ export function generateSetBitConstants(): string {
   const ornaments: { id: string; index: number }[] = []
 
   for (const config of setConfigRegistry.values()) {
-    const entry = { id: config.id, index: config.info.index }
+    const entry = { id: config.setKey, index: config.info.index }
     if (config.info.setType === SetType.RELIC) {
       relics.push(entry)
     } else {

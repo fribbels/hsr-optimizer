@@ -23,11 +23,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'BandOfSizzlingThunder',
   index: 8,
   setType: SetType.RELIC,
   ingameId: '109',
-  name: Sets.BandOfSizzlingThunder,
 } as const satisfies SetInfo
 
 const display = {
@@ -37,7 +35,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Lightning_DMG) {
       c.LIGHTNING_DMG_BOOST.buff(0.10, Source.BandOfSizzlingThunder)
@@ -49,7 +47,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.LIGHTNING_DMG_BOOST, 0.10, info),
+    basicP2(WgslStatName.LIGHTNING_DMG_BOOST, 0.10, BandOfSizzlingThunder),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -59,10 +57,11 @@ const conditionals = {
       ${buff.action(AKey.ATK_P, 0.20).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const BandOfSizzlingThunder = {
-  id: 'BandOfSizzlingThunder',
+  id: Sets.BandOfSizzlingThunder,
+  setKey: 'BandOfSizzlingThunder',
   info,
   display,
   conditionals,

@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'SigoniaTheUnclaimedDesolation',
   index: 12,
   setType: SetType.ORNAMENT,
   ingameId: '313',
-  name: Sets.SigoniaTheUnclaimedDesolation,
 } as const satisfies SetInfo
 
 const display = {
@@ -39,7 +37,7 @@ const display = {
   defaultValue: 4,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.04, Source.SigoniaTheUnclaimedDesolation)
   },
@@ -47,14 +45,14 @@ const conditionals = {
     x.buff(StatKey.CD, 0.04 * setConditionals.valueSigoniaTheUnclaimedDesolation, x.source(Source.SigoniaTheUnclaimedDesolation))
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CR, 0.04, info),
+    basicP2(WgslStatName.CR, 0.04, SigoniaTheUnclaimedDesolation),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (ornament2p(*p_sets, SET_SigoniaTheUnclaimedDesolation) >= 1) {
       ${buff.action(AKey.CD, `0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation)`).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 11 }).map((_val, i) => ({
@@ -65,7 +63,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const SigoniaTheUnclaimedDesolation = {
-  id: 'SigoniaTheUnclaimedDesolation',
+  id: Sets.SigoniaTheUnclaimedDesolation,
+  setKey: 'SigoniaTheUnclaimedDesolation',
   info,
   display,
   conditionals,

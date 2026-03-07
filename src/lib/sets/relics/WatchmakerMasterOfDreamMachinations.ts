@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'WatchmakerMasterOfDreamMachinations',
   index: 17,
   setType: SetType.RELIC,
   ingameId: '118',
-  name: Sets.WatchmakerMasterOfDreamMachinations,
 } as const satisfies SetInfo
 
 const display = {
@@ -38,7 +36,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.WatchmakerMasterOfDreamMachinations)
   },
@@ -48,7 +46,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.BE, 0.16, info),
+    basicP2(WgslStatName.BE, 0.16, WatchmakerMasterOfDreamMachinations),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -68,10 +66,11 @@ const conditionals = {
       x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const WatchmakerMasterOfDreamMachinations = {
-  id: 'WatchmakerMasterOfDreamMachinations',
+  id: Sets.WatchmakerMasterOfDreamMachinations,
+  setKey: 'WatchmakerMasterOfDreamMachinations',
   info,
   display,
   conditionals,

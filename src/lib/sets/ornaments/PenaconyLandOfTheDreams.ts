@@ -20,11 +20,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'PenaconyLandOfTheDreams',
   index: 11,
   setType: SetType.ORNAMENT,
   ingameId: '312',
-  name: Sets.PenaconyLandOfTheDreams,
 } as const satisfies SetInfo
 
 const display = {
@@ -34,7 +32,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.PenaconyLandOfTheDreams)
   },
@@ -44,7 +42,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ERR, 0.05, info),
+    basicP2(WgslStatName.ERR, 0.05, PenaconyLandOfTheDreams),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -64,10 +62,11 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const PenaconyLandOfTheDreams = {
-  id: 'PenaconyLandOfTheDreams',
+  id: Sets.PenaconyLandOfTheDreams,
+  setKey: 'PenaconyLandOfTheDreams',
   info,
   display,
   conditionals,

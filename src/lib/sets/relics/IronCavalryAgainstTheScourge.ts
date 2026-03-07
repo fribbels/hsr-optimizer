@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'IronCavalryAgainstTheScourge',
   index: 18,
   setType: SetType.RELIC,
   ingameId: '119',
-  name: Sets.IronCavalryAgainstTheScourge,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.IronCavalryAgainstTheScourge)
   },
@@ -49,7 +47,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.BE, 0.16, info),
+    basicP2(WgslStatName.BE, 0.16, IronCavalryAgainstTheScourge),
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
@@ -60,10 +58,11 @@ const conditionals = {
     ${buff.hit(HKey.DEF_PEN, `select(0.0, 0.15, ${containerActionVal(SELF_ENTITY_INDEX, AKey.BE, action.config)} >= 2.50)`).damageType(DamageTag.SUPER_BREAK).wgsl(action, 2)}
   }
 `,
-} as const satisfies SetConditionals
+}
 
 export const IronCavalryAgainstTheScourge = {
-  id: 'IronCavalryAgainstTheScourge',
+  id: Sets.IronCavalryAgainstTheScourge,
+  setKey: 'IronCavalryAgainstTheScourge',
   info,
   display,
   conditionals,

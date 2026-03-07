@@ -28,11 +28,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'EverGloriousMagicalGirl',
   index: 28,
   setType: SetType.RELIC,
   ingameId: '129',
-  name: Sets.EverGloriousMagicalGirl,
 } as const satisfies SetInfo
 
 const display = {
@@ -43,7 +41,7 @@ const display = {
   defaultValue: 10,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.EverGloriousMagicalGirl)
   },
@@ -52,14 +50,14 @@ const conditionals = {
       x.damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).source(Source.EverGloriousMagicalGirl))
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CD, 0.16, info),
+    basicP2(WgslStatName.CD, 0.16, EverGloriousMagicalGirl),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_EverGloriousMagicalGirl) >= 1) {
       ${buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 11 }).map((_val, i) => ({
@@ -70,7 +68,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const EverGloriousMagicalGirl = {
-  id: 'EverGloriousMagicalGirl',
+  id: Sets.EverGloriousMagicalGirl,
+  setKey: 'EverGloriousMagicalGirl',
   info,
   display,
   conditionals,

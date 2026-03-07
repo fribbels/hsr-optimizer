@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'LongevousDisciple',
   index: 12,
   setType: SetType.RELIC,
   ingameId: '113',
-  name: Sets.LongevousDisciple,
 } as const satisfies SetInfo
 
 const display = {
@@ -39,7 +37,7 @@ const display = {
   defaultValue: 2,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.LongevousDisciple)
   },
@@ -47,14 +45,14 @@ const conditionals = {
     x.buff(StatKey.CR, 0.08 * setConditionals.valueLongevousDisciple, x.source(Source.LongevousDisciple))
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.HP_P, 0.12, info),
+    basicP2(WgslStatName.HP_P, 0.12, LongevousDisciple),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_LongevousDisciple) >= 1) {
       ${buff.action(AKey.CR, `0.08 * f32(setConditionals.valueLongevousDisciple)`).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 3 }).map((_val, i) => ({
@@ -65,7 +63,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const LongevousDisciple = {
-  id: 'LongevousDisciple',
+  id: Sets.LongevousDisciple,
+  setKey: 'LongevousDisciple',
   info,
   display,
   conditionals,

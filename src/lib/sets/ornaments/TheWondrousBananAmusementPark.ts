@@ -22,11 +22,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'TheWondrousBananAmusementPark',
   index: 17,
   setType: SetType.ORNAMENT,
   ingameId: '318',
-  name: Sets.TheWondrousBananAmusementPark,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.TheWondrousBananAmusementPark)
   },
@@ -46,7 +44,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CD, 0.16, info),
+    basicP2(WgslStatName.CD, 0.16, TheWondrousBananAmusementPark),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -56,10 +54,11 @@ const conditionals = {
       ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const TheWondrousBananAmusementPark = {
-  id: 'TheWondrousBananAmusementPark',
+  id: Sets.TheWondrousBananAmusementPark,
+  setKey: 'TheWondrousBananAmusementPark',
   info,
   display,
   conditionals,

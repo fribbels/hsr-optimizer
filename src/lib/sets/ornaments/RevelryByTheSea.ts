@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'RevelryByTheSea',
   index: 21,
   setType: SetType.ORNAMENT,
   ingameId: '322',
-  name: Sets.RevelryByTheSea,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.RevelryByTheSea)
   },
@@ -49,7 +47,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ATK_P, 0.12, info),
+    basicP2(WgslStatName.ATK_P, 0.12, RevelryByTheSea),
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (ornament2p(*p_sets, SET_RevelryByTheSea) >= 1) {
@@ -60,10 +58,11 @@ const conditionals = {
     }
   }
 `,
-} as const satisfies SetConditionals
+}
 
 export const RevelryByTheSea = {
-  id: 'RevelryByTheSea',
+  id: Sets.RevelryByTheSea,
+  setKey: 'RevelryByTheSea',
   info,
   display,
   conditionals,

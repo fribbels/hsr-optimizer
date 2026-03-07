@@ -1,7 +1,7 @@
 import { SetKey } from 'lib/constants/constants'
 import { BasicKeyType, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
-import { SetInfo, SetType } from 'types/setConfig'
+import { SetConfig, SetType } from 'types/setConfig'
 
 export enum GpuSetMatcher {
   RELIC_2P = 'relic2p',
@@ -23,12 +23,12 @@ const WGSL_BASE_VARIABLE: Record<string, string> = {
   SPD_P: 'baseSPD',
 }
 
-export function basicP2(stat: BasicKeyType, value: number, info: SetInfo): BasicSetEffectEntry {
-  return { stat, value, matchFn: info.setType === SetType.RELIC ? GpuSetMatcher.RELIC_2P : GpuSetMatcher.ORNAMENT_2P, setId: info.id }
+export function basicP2(stat: BasicKeyType, value: number, set: SetConfig): BasicSetEffectEntry {
+  return { stat, value, matchFn: set.info.setType === SetType.RELIC ? GpuSetMatcher.RELIC_2P : GpuSetMatcher.ORNAMENT_2P, setId: set.setKey }
 }
 
-export function basicP4(stat: BasicKeyType, value: number, info: SetInfo): BasicSetEffectEntry {
-  return { stat, value, matchFn: GpuSetMatcher.RELIC_4P, setId: info.id }
+export function basicP4(stat: BasicKeyType, value: number, set: SetConfig): BasicSetEffectEntry {
+  return { stat, value, matchFn: GpuSetMatcher.RELIC_4P, setId: set.setKey }
 }
 
 function formatTerm(entry: BasicSetEffectEntry): string {

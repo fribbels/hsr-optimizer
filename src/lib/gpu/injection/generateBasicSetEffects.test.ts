@@ -4,13 +4,13 @@ import { WgslStatName } from 'lib/optimization/basicStatsArray'
 import { SetType } from 'types/setConfig'
 import { Sets } from 'lib/constants/constants'
 
-const mockRelicInfo = { id: 'MusketeerOfWildWheat' as const, index: 1, setType: SetType.RELIC, ingameId: '102', name: Sets.MusketeerOfWildWheat }
-const mockOrnamentInfo = { id: 'InertSalsotto' as const, index: 5, setType: SetType.ORNAMENT, ingameId: '306', name: Sets.InertSalsotto }
-const mockPoetInfo = { id: 'PoetOfMourningCollapse' as const, index: 23, setType: SetType.RELIC, ingameId: '124', name: Sets.PoetOfMourningCollapse }
+const mockRelicConfig = { id: Sets.MusketeerOfWildWheat, setKey: 'MusketeerOfWildWheat' as const, info: { index: 1, setType: SetType.RELIC, ingameId: '102', set: Sets.MusketeerOfWildWheat }, conditionals: {}, display: { conditionalType: 0, defaultValue: true } }
+const mockOrnamentConfig = { id: Sets.InertSalsotto, setKey: 'InertSalsotto' as const, info: { index: 5, setType: SetType.ORNAMENT, ingameId: '306', set: Sets.InertSalsotto }, conditionals: {}, display: { conditionalType: 0, defaultValue: true } }
+const mockPoetConfig = { id: Sets.PoetOfMourningCollapse, setKey: 'PoetOfMourningCollapse' as const, info: { index: 23, setType: SetType.RELIC, ingameId: '124', set: Sets.PoetOfMourningCollapse }, conditionals: {}, display: { conditionalType: 0, defaultValue: true } }
 
 describe('basicP2', () => {
   it('returns relic 2p entry for relic set type', () => {
-    const entry = basicP2(WgslStatName.ATK_P, 0.12, mockRelicInfo)
+    const entry = basicP2(WgslStatName.ATK_P, 0.12, mockRelicConfig as any)
     expect(entry).toEqual({
       stat: 'ATK_P',
       value: 0.12,
@@ -20,7 +20,7 @@ describe('basicP2', () => {
   })
 
   it('returns ornament 2p entry for ornament set type', () => {
-    const entry = basicP2(WgslStatName.CR, 0.08, mockOrnamentInfo)
+    const entry = basicP2(WgslStatName.CR, 0.08, mockOrnamentConfig as any)
     expect(entry).toEqual({
       stat: 'CR',
       value: 0.08,
@@ -32,7 +32,7 @@ describe('basicP2', () => {
 
 describe('basicP4', () => {
   it('returns relic 4p entry', () => {
-    const entry = basicP4(WgslStatName.SPD_P, -0.08, mockPoetInfo)
+    const entry = basicP4(WgslStatName.SPD_P, -0.08, mockPoetConfig as any)
     expect(entry).toEqual({
       stat: 'SPD_P',
       value: -0.08,

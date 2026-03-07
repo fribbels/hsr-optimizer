@@ -25,11 +25,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'SelfEnshroudedRecluse',
   index: 27,
   setType: SetType.RELIC,
   ingameId: '128',
-  name: Sets.SelfEnshroudedRecluse,
 } as const satisfies SetInfo
 
 const display = {
@@ -39,7 +37,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.DMG_BOOST, 0.10, x.outputType(OutputTag.SHIELD).source(Source.SelfEnshroudedRecluse))
   },
@@ -69,10 +67,11 @@ const conditionals = {
       x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const SelfEnshroudedRecluse = {
-  id: 'SelfEnshroudedRecluse',
+  id: Sets.SelfEnshroudedRecluse,
+  setKey: 'SelfEnshroudedRecluse',
   info,
   display,
   conditionals,

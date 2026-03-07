@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'TheAshblazingGrandDuke',
   index: 14,
   setType: SetType.RELIC,
   ingameId: '115',
-  name: Sets.TheAshblazingGrandDuke,
 } as const satisfies SetInfo
 
 const display = {
@@ -39,7 +37,7 @@ const display = {
   defaultValue: 0,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
   },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
@@ -56,7 +54,7 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 9 }).map((_val, i) => ({
@@ -67,7 +65,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const TheAshblazingGrandDuke = {
-  id: 'TheAshblazingGrandDuke',
+  id: Sets.TheAshblazingGrandDuke,
+  setKey: 'TheAshblazingGrandDuke',
   info,
   display,
   conditionals,

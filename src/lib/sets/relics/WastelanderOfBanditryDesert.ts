@@ -25,11 +25,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'WastelanderOfBanditryDesert',
   index: 11,
   setType: SetType.RELIC,
   ingameId: '112',
-  name: Sets.WastelanderOfBanditryDesert,
 } as const satisfies SetInfo
 
 const display = {
@@ -40,7 +38,7 @@ const display = {
   defaultValue: 1,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Imaginary_DMG) {
       c.IMAGINARY_DMG_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
@@ -53,7 +51,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.IMAGINARY_DMG_BOOST, 0.10, info),
+    basicP2(WgslStatName.IMAGINARY_DMG_BOOST, 0.10, WastelanderOfBanditryDesert),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_WastelanderOfBanditryDesert) >= 1) {
@@ -65,7 +63,7 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
@@ -88,7 +86,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const WastelanderOfBanditryDesert = {
-  id: 'WastelanderOfBanditryDesert',
+  id: Sets.WastelanderOfBanditryDesert,
+  setKey: 'WastelanderOfBanditryDesert',
   info,
   display,
   conditionals,

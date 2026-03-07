@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'MessengerTraversingHackerspace',
   index: 13,
   setType: SetType.RELIC,
   ingameId: '114',
-  name: Sets.MessengerTraversingHackerspace,
 } as const satisfies SetInfo
 
 const display = {
@@ -38,7 +36,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.MessengerTraversingHackerspace)
   },
@@ -48,7 +46,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.SPD_P, 0.06, info),
+    basicP2(WgslStatName.SPD_P, 0.06, MessengerTraversingHackerspace),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -68,10 +66,11 @@ const conditionals = {
       x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const MessengerTraversingHackerspace = {
-  id: 'MessengerTraversingHackerspace',
+  id: Sets.MessengerTraversingHackerspace,
+  setKey: 'MessengerTraversingHackerspace',
   info,
   display,
   conditionals,

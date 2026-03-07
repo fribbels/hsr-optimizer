@@ -26,11 +26,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'CelestialDifferentiator',
   index: 4,
   setType: SetType.ORNAMENT,
   ingameId: '305',
-  name: Sets.CelestialDifferentiator,
 } as const satisfies SetInfo
 
 const display = {
@@ -40,7 +38,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.CelestialDifferentiator)
   },
@@ -50,7 +48,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CD, 0.16, info),
+    basicP2(WgslStatName.CD, 0.16, CelestialDifferentiator),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -61,10 +59,11 @@ const conditionals = {
       ${buff.action(AKey.CR, 0.60).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const CelestialDifferentiator = {
-  id: 'CelestialDifferentiator',
+  id: Sets.CelestialDifferentiator,
+  setKey: 'CelestialDifferentiator',
   info,
   display,
   conditionals,

@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'AmphoreusTheEternalLand',
   index: 22,
   setType: SetType.ORNAMENT,
   ingameId: '323',
-  name: Sets.AmphoreusTheEternalLand,
 } as const satisfies SetInfo
 
 const display = {
@@ -38,7 +36,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.AmphoreusTheEternalLand)
   },
@@ -48,7 +46,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CR, 0.08, info),
+    basicP2(WgslStatName.CR, 0.08, AmphoreusTheEternalLand),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -69,10 +67,11 @@ const conditionals = {
       x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const AmphoreusTheEternalLand = {
-  id: 'AmphoreusTheEternalLand',
+  id: Sets.AmphoreusTheEternalLand,
+  setKey: 'AmphoreusTheEternalLand',
   info,
   display,
   conditionals,

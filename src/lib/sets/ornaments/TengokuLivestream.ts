@@ -22,11 +22,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'TengokuLivestream',
   index: 23,
   setType: SetType.ORNAMENT,
   ingameId: '324',
-  name: Sets.TengokuLivestream,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +34,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CD.buff(0.16, Source.TengokuLivestream)
   },
@@ -46,7 +44,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.CD, 0.16, info),
+    basicP2(WgslStatName.CD, 0.16, TengokuLivestream),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -56,10 +54,11 @@ const conditionals = {
       ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const TengokuLivestream = {
-  id: 'TengokuLivestream',
+  id: Sets.TengokuLivestream,
+  setKey: 'TengokuLivestream',
   info,
   display,
   conditionals,

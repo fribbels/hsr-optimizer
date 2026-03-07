@@ -24,11 +24,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'PoetOfMourningCollapse',
   index: 23,
   setType: SetType.RELIC,
   ingameId: '124',
-  name: Sets.PoetOfMourningCollapse,
 } as const satisfies SetInfo
 
 const display = {
@@ -37,7 +35,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Quantum_DMG) {
       c.QUANTUM_DMG_BOOST.buff(0.10, Source.PoetOfMourningCollapse)
@@ -51,8 +49,8 @@ const conditionals = {
     x.buff(StatKey.CR, (spd < 110 ? 0.20 : 0) + (spd < 95 ? 0.12 : 0), x.targets(TargetTag.SelfAndMemosprite).source(Source.PoetOfMourningCollapse))
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, info),
-    basicP4(WgslStatName.SPD_P, -0.08, info),
+    basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, PoetOfMourningCollapse),
+    basicP4(WgslStatName.SPD_P, -0.08, PoetOfMourningCollapse),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_PoetOfMourningCollapse) >= 1) {
@@ -60,10 +58,11 @@ const conditionals = {
       ${buff.action(AKey.CR, 'crValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const PoetOfMourningCollapse = {
-  id: 'PoetOfMourningCollapse',
+  id: Sets.PoetOfMourningCollapse,
+  setKey: 'PoetOfMourningCollapse',
   info,
   display,
   conditionals,

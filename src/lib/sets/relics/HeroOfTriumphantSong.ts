@@ -23,11 +23,9 @@ import {
 } from 'types/setConfig'
 
 const info = {
-  id: 'HeroOfTriumphantSong',
   index: 22,
   setType: SetType.RELIC,
   ingameId: '123',
-  name: Sets.HeroOfTriumphantSong,
 } as const satisfies SetInfo
 
 const display = {
@@ -37,7 +35,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.HeroOfTriumphantSong)
   },
@@ -48,7 +46,7 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ATK_P, 0.12, info),
+    basicP2(WgslStatName.ATK_P, 0.12, HeroOfTriumphantSong),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
@@ -59,10 +57,11 @@ const conditionals = {
       ${buff.action(AKey.CD, 0.30).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const HeroOfTriumphantSong = {
-  id: 'HeroOfTriumphantSong',
+  id: Sets.HeroOfTriumphantSong,
+  setKey: 'HeroOfTriumphantSong',
   info,
   display,
   conditionals,

@@ -4,6 +4,7 @@ import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
+import { generateBasicSetEffectsWgsl } from 'lib/gpu/injection/generateBasicSetEffects'
 import { generateSetBitConstants } from 'lib/gpu/injection/setIndexMap'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import {
@@ -120,9 +121,11 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
 
 function injectComputeShader(wgsl: string) {
   wgsl += generateSetBitConstants()
+  const basicSetEffects = generateBasicSetEffectsWgsl()
+  const injectedComputeShader = computeShader.replace('/* INJECT BASIC SET EFFECTS */', basicSetEffects)
   const injectedStructs = structs.replace('/* INJECT SET_CONDITIONALS_STRUCT */', generateSetConditionalsStruct())
   wgsl += `
-${computeShader}
+${injectedComputeShader}
 
 ${injectedStructs}
   `

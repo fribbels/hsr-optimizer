@@ -30,6 +30,8 @@ import {
   SortOptionProperties,
 } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
+import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
@@ -110,8 +112,7 @@ export const OptimizerTabController = {
 
   // Get a form that's ready for optimizer submission
   getForm: () => {
-    const form = window.optimizerForm.getFieldsValue()
-    return OptimizerTabController.displayToForm(form)
+    return displayToInternal(useOptimizerFormStore.getState())
   },
 
   // Convert a form to its visual representation

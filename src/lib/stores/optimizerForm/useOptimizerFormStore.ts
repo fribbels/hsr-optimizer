@@ -10,11 +10,12 @@ import {
   StatFilterState,
   TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Eidolon } from 'types/character'
 import { ConditionalValueMap } from 'types/conditionals'
-import { OrnamentSetFilters, RelicSetFilters } from 'types/form'
+import { Form, OrnamentSetFilters, RelicSetFilters } from 'types/form'
 import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
 import { MemoDisplay, StatDisplay } from 'types/store'
 import { create } from 'zustand'
@@ -64,6 +65,7 @@ type OptimizerFormActions = {
   resetFilters: () => void
   applySuggestionFixes: (fixes: SuggestionFixes) => void
   setConditionalValue: (itemName: (string | number)[], value: unknown) => void
+  loadForm: (form: Form) => void
 }
 
 type OptimizerFormStore = OptimizerFormState & OptimizerFormActions
@@ -198,6 +200,18 @@ export const useOptimizerFormStore = create<OptimizerFormStore>()((set, get) => 
     if (fixes.mainPlanarSphere !== undefined) patch.mainPlanarSphere = fixes.mainPlanarSphere
     if (fixes.mainLinkRope !== undefined) patch.mainLinkRope = fixes.mainLinkRope
     set(patch)
+  },
+
+  loadForm: (form) => {
+    const defaults = createDefaultFormState()
+    const converted = internalFormToState(form)
+    const merged = { ...defaults }
+    for (const [key, value] of Object.entries(converted)) {
+      if (value !== undefined) {
+        (merged as Record<string, unknown>)[key] = value
+      }
+    }
+    set(merged)
   },
 
   setConditionalValue: (itemName, value) => set((state) => {

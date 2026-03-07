@@ -28,6 +28,7 @@ import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import {
@@ -386,10 +387,13 @@ export default TeammateCard
 
 const TEAMMATE_PROPERTIES: TeammateProperty[] = ['teammate0', 'teammate1', 'teammate2']
 
+const PROPERTY_TO_INDEX: Record<string, 0 | 1 | 2> = { teammate0: 0, teammate1: 1, teammate2: 2 }
+
 export function updateTeammate(changedValues: Partial<Form>) {
   const property = TEAMMATE_PROPERTIES.find((p) => changedValues[p])
   const updatedTeammate = property && changedValues[property]
   if (!updatedTeammate) return
+  const teammateIndex = PROPERTY_TO_INDEX[property]
 
   window.store.getState().setTeammateCount(countTeammates())
 
@@ -402,6 +406,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
     if (!controller.teammateDefaults) return
 
     const mergedConditionals = Object.assign({}, controller.teammateDefaults(), displayFormValues[property].lightConeConditionals)
+    useOptimizerFormStore.getState().setTeammateField(teammateIndex, 'lightConeConditionals', mergedConditionals)
     window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], mergedConditionals)
   } else if (updatedTeammate.characterId) {
     const teammateCharacterId = updatedTeammate.characterId
@@ -434,9 +439,12 @@ export function updateTeammate(changedValues: Partial<Form>) {
 
     applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(window.optimizerForm)
     window.optimizerForm.setFieldValue(property, teammateValues)
+    syncFormToStore(window.optimizerForm.getFieldsValue())
   } else if (updatedTeammate.characterId === null) {
+    useOptimizerFormStore.getState().clearTeammate(teammateIndex)
     window.optimizerForm.setFieldValue(property, getDefaultTeammateForm())
   } else if (updatedTeammate.lightCone === null) {
+    useOptimizerFormStore.getState().clearTeammateLightCone(teammateIndex)
     window.optimizerForm.setFieldValue([property, 'lightConeConditionals'], {})
     window.optimizerForm.setFieldValue([property, 'lightConeSuperimposition'], 1)
   }

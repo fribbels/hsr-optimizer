@@ -1352,6 +1352,9 @@ function assignRanks(characters: Character[]) {
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
   const optimizerCharacterRank = characters.findIndex((c) => c.id == window.store.getState().optimizerTabFocusCharacter!)
   if (optimizerCharacterRank >= 0) {
+    void import('lib/stores/optimizerForm/useOptimizerFormStore').then(({ useOptimizerFormStore }) => {
+      useOptimizerFormStore.getState().setRelicFilterField('rank', optimizerCharacterRank)
+    })
     window.optimizerForm.setFieldValue('rank', optimizerCharacterRank)
   }
 

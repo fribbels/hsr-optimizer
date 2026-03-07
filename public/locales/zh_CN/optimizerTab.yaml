@@ -700,7 +700,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ护盾值
       SHIELD_VALUE_P: Δ%护盾值
   DamageSplits:
-    Title: 伤害类型分布
     Legend:
       abilityDmg: 技能
       breakDmg: 击破

@@ -332,7 +332,9 @@ export const DB = {
     characters.splice(index, 0, removed[0])
     DB.setCharacters(characters)
 
-    window.onOptimizerFormValuesChange({} as Form, OptimizerTabController.getForm())
+    void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => {
+      recalculatePermutations()
+    })
   },
 
   getRelics: () => window.store.getState().relics,
@@ -1227,8 +1229,12 @@ export const DB = {
     DB.setCharacters(cleanedCharacters)
 
     // TODO this probably shouldn't be in this file
-    const fieldValues = OptimizerTabController.getForm()
-    window.onOptimizerFormValuesChange({} as Form, fieldValues)
+    void import('lib/stores/optimizerForm/optimizerFormSync').then(({ syncFormToStore }) => {
+      syncFormToStore(window.optimizerForm.getFieldsValue())
+    })
+    void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => {
+      recalculatePermutations()
+    })
   },
 
   /*

@@ -31,7 +31,9 @@ import {
 } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
@@ -370,10 +372,7 @@ export const OptimizerTabController = {
   },
 
   updateFilters: () => {
-    if (window.optimizerForm && window.onOptimizerFormValuesChange) {
-      const fieldValues = OptimizerTabController.getForm()
-      window.onOptimizerFormValuesChange({} as Form, fieldValues)
-    }
+    recalculatePermutations()
   },
 
   resetFilters: () => {
@@ -443,7 +442,8 @@ export const OptimizerTabController = {
       generateContext(request)
       calculateCurrentlyEquippedRow(request)
 
-      window.onOptimizerFormValuesChange({} as Form, displayFormValues)
+      syncFormToStore(window.optimizerForm.getFieldsValue())
+      recalculatePermutations()
     }, 50)
   },
 

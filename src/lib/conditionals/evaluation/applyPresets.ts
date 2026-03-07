@@ -1,4 +1,6 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
+import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   Constants,
   ElementNames,
@@ -61,7 +63,8 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   setSortColumn(sortOption.combatGridColumn)
 
   window.optimizerForm.setFieldsValue(form)
-  window.onOptimizerFormValuesChange({} as Form, form)
+  syncFormToStore(window.optimizerForm.getFieldsValue())
+  recalculatePermutations()
 }
 
 export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {

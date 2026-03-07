@@ -10,6 +10,7 @@ import {
   Parts,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import React, {
@@ -59,7 +60,7 @@ export function FormStatRollSliders() {
             marginLeft: 'auto',
             marginRight: 'auto',
           }}
-          onChangeComplete={() => window.onOptimizerFormValuesChange({} as OptimizerForm, OptimizerTabController.getForm(), true)}
+          onChangeComplete={() => recalculatePermutations()}
         />
       </Form.Item>,
     )
@@ -135,7 +136,7 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
             }}
             value={typeof inputValue === 'number' ? inputValue : 0}
             onChange={onChange}
-            onChangeComplete={() => window.onOptimizerFormValuesChange({} as OptimizerForm, OptimizerTabController.getForm(), true)}
+            onChangeComplete={() => recalculatePermutations()}
           />
         </Form.Item>
       </Flex>
@@ -153,7 +154,7 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
           variant='borderless'
           onChange={(x: number | null) => {
             onChange(x)
-            window.onOptimizerFormValuesChange({} as OptimizerForm, OptimizerTabController.getForm(), true)
+            recalculatePermutations()
           }}
         />
       </Form.Item>

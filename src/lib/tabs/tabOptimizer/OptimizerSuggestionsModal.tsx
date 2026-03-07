@@ -17,7 +17,6 @@ import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -64,7 +63,6 @@ const ZeroPermRootCauseFixes = {
     buttonTextKey: '0Perms.RootCauses.RELIC_SETS.ButtonText', // Clear Relic set filters
     applyFix: () => {
       useOptimizerFormStore.getState().setRelicSets([])
-      window.optimizerForm.setFieldValue('relicSets', [])
       // Message.success('Cleared relic set filters', 2)
     },
     successMessageKey: '0Perms.RootCauses.RELIC_SETS.SuccessMessage',
@@ -74,7 +72,6 @@ const ZeroPermRootCauseFixes = {
     buttonTextKey: '0Perms.RootCauses.ORNAMENT_SETS.ButtonText', // 'Clear Ornament set filters',
     applyFix: () => {
       useOptimizerFormStore.getState().setOrnamentSets([])
-      window.optimizerForm.setFieldValue('ornamentSets', [])
       // Message.success('Cleared ornament set filters', 2)
     },
     successMessageKey: '0Perms.RootCauses.ORNAMENT_SETS.SuccessMessage',
@@ -84,7 +81,6 @@ const ZeroPermRootCauseFixes = {
     buttonTextKey: '0Perms.RootCauses.KEEP_CURRENT.ButtonText', // 'Disable "Keep current relics"',
     applyFix: () => {
       useOptimizerFormStore.getState().setRelicFilterField('keepCurrentRelics', false)
-      window.optimizerForm.setFieldValue('keepCurrentRelics', false)
       // Message.success('Disabled "Keep current relics"', 2)
     },
     successMessageKey: '0Perms.RootCauses.KEEP_CURRENT.SuccessMessage',
@@ -103,7 +99,6 @@ const ZeroPermRootCauseFixes = {
     buttonTextKey: '0Perms.RootCauses.EXCLUDE_ENABLED.ButtonText', // 'Clear excluded characters',
     applyFix: () => {
       useOptimizerFormStore.getState().setRelicFilterField('exclude', [])
-      window.optimizerForm.setFieldValue('exclude', [])
       // Message.success('Cleared excluded characters', 2)
     },
     successMessageKey: '0Perms.RootCauses.EXCLUDE_ENABLED.SuccessMessage',
@@ -113,7 +108,6 @@ const ZeroPermRootCauseFixes = {
     buttonTextKey: '0Perms.RootCauses.EQUIPPED_DISABLED.ButtonText', // 'Enable "Include equipped relics"',
     applyFix: () => {
       useOptimizerFormStore.getState().setRelicFilterField('includeEquippedRelics', true)
-      window.optimizerForm.setFieldValue('includeEquippedRelics', true)
       // Message.success('Enabled "Include equipped relics"', 2)
     },
     successMessageKey: '0Perms.RootCauses.EQUIPPED_DISABLED.SuccessMessage',
@@ -125,9 +119,6 @@ const ZeroPermRootCauseFixes = {
       useOptimizerFormStore.getState().setWeight('headHands', 0)
       useOptimizerFormStore.getState().setWeight('bodyFeet', 0)
       useOptimizerFormStore.getState().setWeight('sphereRope', 0)
-      window.optimizerForm.setFieldValue(['weights', 'headHands'], 0)
-      window.optimizerForm.setFieldValue(['weights', 'bodyFeet'], 0)
-      window.optimizerForm.setFieldValue(['weights', 'sphereRope'], 0)
       // Message.success('Set minimum rolls to 0', 2)
     },
     successMessageKey: '0Perms.RootCauses.MINIMUM_ROLLS.SuccessMessage',
@@ -140,7 +131,6 @@ function mainStatFixes(part: Exclude<Parts, typeof Parts.Head | typeof Parts.Han
     buttonTextKey: `0Perms.RootCauses.${part}_MAIN.ButtonText` as const, // `Clear ${PartsToReadable[part]} main stat filters`,
     applyFix: () => {
       useOptimizerFormStore.getState().setMainStats(`main${part}` as MainStatPart, [])
-      window.optimizerForm.setFieldValue(`main${part}`, [])
     },
     successMessageKey: `0Perms.RootCauses.${part}_MAIN.SuccessMessage` as const,
     // Message.success(`Cleared ${PartsToReadable[part]} main stat filters`, 2)
@@ -258,7 +248,6 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
       <Button
         onClick={() => {
           fixes.applyFix()
-          syncFormToStore(window.optimizerForm.getFieldsValue())
           recalculatePermutations()
           Message.success(t(fixes.successMessageKey), 2)
         }}
@@ -419,7 +408,6 @@ function filterFixes(filter: ZeroResultRootCause) {
       } else if (formAddress in store.ratingFilters) {
         store.setRatingFilter(formAddress as keyof RatingFilterState, undefined)
       }
-      window.optimizerForm.setFieldValue(formAddress as keyof Form, undefined)
     },
     successMessageKey: `0Results.RootCauses.${filter}.SuccessMessage` as const,
     // Message.success(`Reset min/max {{field name}} filter`, 2)

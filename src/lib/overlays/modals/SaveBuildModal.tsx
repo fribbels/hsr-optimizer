@@ -19,6 +19,7 @@ import DB, {
   AppPages,
   SavedBuildSource,
 } from 'lib/state/db'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { SaveState } from 'lib/state/saveState'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import {
@@ -145,24 +146,23 @@ export function SaveBuildModal(props: {
       case AppPages.CHARACTERS:
         return null
       case AppPages.OPTIMIZER:
-        const form = window.optimizerForm
+        const storeState = useOptimizerFormStore.getState()
         return {
           name: '',
           optimizerMetadata: null,
-          deprioritizeBuffs: form.getFieldValue('deprioritizeBuffs'),
-          characterId: form.getFieldValue('characterId'),
-          eidolon: form.getFieldValue('characterEidolon'),
-          lightConeId: form.getFieldValue('lightCone'),
-          superimposition: form.getFieldValue('lightConeSuperimposition'),
-          team: ([form.getFieldValue('teammate0'), form.getFieldValue('teammate1'), form.getFieldValue('teammate2')] as Array<Teammate>)
-            .map((t) => ({
-              characterId: t.characterId,
-              eidolon: t.characterEidolon,
-              lightConeId: t.lightCone,
-              superimposition: t.lightConeSuperimposition,
-              relicSet: t.teamRelicSet,
-              ornamentSet: t.teamOrnamentSet,
-            })),
+          deprioritizeBuffs: storeState.deprioritizeBuffs,
+          characterId: storeState.characterId!,
+          eidolon: storeState.characterEidolon,
+          lightConeId: storeState.lightCone!,
+          superimposition: storeState.lightConeSuperimposition,
+          team: storeState.teammates.map((t) => ({
+            characterId: t.characterId!,
+            eidolon: t.characterEidolon,
+            lightConeId: t.lightCone!,
+            superimposition: t.lightConeSuperimposition,
+            relicSet: t.teamRelicSet,
+            ornamentSet: t.teamOrnamentSet,
+          })),
           equipped: window.store.getState().optimizerBuild ?? {},
         }
     }

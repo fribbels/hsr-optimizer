@@ -825,18 +825,17 @@ export function updateAbilityRotation(index: number, turnAbilityName: TurnAbilit
 export function updateFormState(comboState: ComboState) {
   console.log('updateFormState')
   comboState.version = COMBO_STATE_JSON_VERSION
-  window.optimizerForm.setFieldValue('comboStateJson', JSON.stringify(comboState))
-  window.optimizerForm.setFieldValue('comboTurnAbilities', comboState.comboTurnAbilities)
+
+  // Update store directly
+  void import('lib/stores/optimizerForm/useOptimizerFormStore').then(({ useOptimizerFormStore }) => {
+    useOptimizerFormStore.getState().setComboStateJson(JSON.stringify(comboState))
+    useOptimizerFormStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
+  })
 
   const form = OptimizerTabController.getForm()
   DB.replaceCharacterForm(form)
 
   SaveState.delayedSave(1000)
-
-  // Lazy import to avoid circular dependency (comboDrawerController ↔ optimizerFormSync ↔ useOptimizerFormStore)
-  void import('lib/stores/optimizerForm/optimizerFormSync').then(({ syncFormToStore }) => {
-    syncFormToStore(window.optimizerForm.getFieldsValue())
-  })
 }
 
 function change(

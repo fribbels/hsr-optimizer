@@ -113,7 +113,6 @@ export function SimulatedBuildsGrid() {
         [statSim.simType]: cloneRequest,
       })
     }
-    window.optimizerForm.setFieldValue(['statSim', statSim.simType as Exclude<StatSimTypes, StatSimTypes.Disabled>], cloneRequest)
     window.store.getState().setStatSimulationDisplay(statSim.simType)
   }
 

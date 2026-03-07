@@ -285,7 +285,6 @@ export function setFormStatSimulations(simulations: Simulation[]) {
     ...useOptimizerFormStore.getState().statSim!,
     simulations,
   })
-  window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 
 export function startOptimizerStatSimulation() {

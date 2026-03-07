@@ -320,6 +320,14 @@ SetConditionals:
     Arcadia:
       Display: '{{allyCount}}x'
       Label: '{{allyCount}} союзников (+{{buffValue}}% урона)'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Выкл.'
+        Label: 'Выкл.'
+      AtkOnly:
+        Display: Сила атаки
+      CdOnly:
+        Display: КУ
   Conditionals:
     DefaultMessage: Включено по умолчанию - эффекты будут учитываться в расчетах статов в бою.
     Hunter: Когда включено, к расчету статов в бою применяется бафф крит. урона.

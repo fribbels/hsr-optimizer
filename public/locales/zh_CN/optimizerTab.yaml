@@ -400,6 +400,14 @@ SetConditionals:
     Arcadia:
       Display: '{{allyCount}}层'
       Label: '{{allyCount}}个队友（+{{buffValue}}%爆伤）'
+    CityOfConvergingStars:
+      Off:
+        Display: '关闭'
+        Label: '关闭'
+      AtkOnly:
+        Display: 攻击力
+      CdOnly:
+        Display: 暴击伤害
   Conditionals:
     DefaultMessage: 默认启用 - 效果将应用于战斗计算。
     Hunter: 启用后，暴击伤害增益将应用于战斗属性计算。

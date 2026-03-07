@@ -151,6 +151,18 @@ function teammateStateToTeammate(ts: TeammateState): Teammate {
   } as Teammate
 }
 
+function convertCombatBuffsToDisplay(buffs: Record<string, number> | undefined): Record<string, number> {
+  const result: Record<string, number> = {}
+  if (!buffs) return result
+  for (const buff of Object.values(CombatBuffs)) {
+    const value = buffs[buff.key]
+    if (value != null) {
+      result[buff.key] = buff.percent ? value * 100 : value
+    }
+  }
+  return result
+}
+
 function convertCombatBuffsToInternal(buffs: Record<string, number>): Record<string, number> {
   const result: Record<string, number> = {}
   for (const buff of Object.values(CombatBuffs)) {
@@ -174,6 +186,89 @@ export function buildOptimizerRequest(state: OptimizerFormState): OptimizerReque
  */
 export function buildSaveForm(state: OptimizerFormState): Form {
   return displayToInternal(state)
+}
+
+/**
+ * Convert an internal-format Form (as stored in DB) to a full OptimizerFormState.
+ * Replaces formToDisplay() — outputs store state instead of antd form values.
+ */
+export function internalFormToState(form: Form): Partial<OptimizerFormState> {
+  const { statFilters, ratingFilters, teammates } = internalToDisplay(form)
+
+  return {
+    characterId: form.characterId,
+    characterEidolon: form.characterEidolon,
+    characterLevel: form.characterLevel ?? 80,
+    lightCone: form.lightCone,
+    lightConeLevel: form.lightConeLevel ?? 80,
+    lightConeSuperimposition: form.lightConeSuperimposition ?? 1,
+
+    // Enemy config
+    enemyCount: form.enemyCount,
+    enemyLevel: form.enemyLevel,
+    enemyResistance: form.enemyResistance,
+    enemyEffectResistance: form.enemyEffectResistance,
+    enemyMaxToughness: form.enemyMaxToughness,
+    enemyElementalWeak: form.enemyElementalWeak,
+    enemyWeaknessBroken: form.enemyWeaknessBroken,
+
+    // Conditionals
+    characterConditionals: form.characterConditionals ?? {},
+    lightConeConditionals: form.lightConeConditionals ?? {},
+    setConditionals: form.setConditionals,
+
+    // Relic filters
+    enhance: form.enhance,
+    grade: form.grade,
+    rank: form.rank,
+    exclude: form.exclude ?? [],
+    includeEquippedRelics: form.includeEquippedRelics ?? true,
+    keepCurrentRelics: form.keepCurrentRelics ?? false,
+    mainBody: form.mainBody ?? [],
+    mainFeet: form.mainFeet ?? [],
+    mainHands: form.mainHands ?? [],
+    mainHead: form.mainHead ?? [],
+    mainLinkRope: form.mainLinkRope ?? [],
+    mainPlanarSphere: form.mainPlanarSphere ?? [],
+    mainStatUpscaleLevel: form.mainStatUpscaleLevel ?? 15,
+    rankFilter: form.rankFilter,
+    relicSets: form.relicSets,
+    ornamentSets: form.ornamentSets,
+    statDisplay: form.statDisplay,
+    memoDisplay: form.memoDisplay,
+
+    // Weights
+    weights: form.weights,
+
+    // Combat buffs (internal → display: multiply percent buffs by 100)
+    combatBuffs: convertCombatBuffsToDisplay(form.combatBuffs),
+
+    // Combo
+    comboStateJson: form.comboStateJson ?? '{}',
+    comboTurnAbilities: form.comboTurnAbilities,
+    comboPreprocessor: form.comboPreprocessor ?? true,
+    comboType: form.comboType,
+    comboDot: form.comboDot,
+
+    // Scoring / display
+    resultSort: form.resultSort,
+    resultsLimit: form.resultsLimit ?? 1024,
+
+    // Team sets
+    teamRelicSet: form.teamRelicSet,
+    teamOrnamentSet: form.teamOrnamentSet,
+
+    // Options
+    deprioritizeBuffs: form.deprioritizeBuffs ?? false,
+
+    // Stat sim
+    statSim: form.statSim,
+
+    // Filters
+    statFilters,
+    ratingFilters,
+    teammates,
+  }
 }
 
 /**

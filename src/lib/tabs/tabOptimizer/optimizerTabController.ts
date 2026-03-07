@@ -401,6 +401,7 @@ export const OptimizerTabController = {
       relicSets: [],
     }
 
+    useOptimizerFormStore.getState().resetFilters()
     window.optimizerForm.setFieldsValue(OptimizerTabController.formToDisplay(newForm as Form))
     OptimizerTabController.updateFilters()
   },

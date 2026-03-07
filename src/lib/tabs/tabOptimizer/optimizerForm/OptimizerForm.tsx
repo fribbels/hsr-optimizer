@@ -301,6 +301,7 @@ function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
 
     // console.log('Loaded light cone conditional values', defaults)
 
+    useOptimizerFormStore.getState().setLightConeConditionals(defaults)
     window.optimizerForm.setFieldValue('lightConeConditionals', defaults)
   }, [lcId, superimposition, charId])
 

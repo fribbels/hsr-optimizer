@@ -117,7 +117,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ELATION.buff(0.08, Source.PunklordeStageZero)
   },
-  gpuBasic: () => basicP2(WgslStatName.ELATION, 0.08, 'PunklordeStageZero', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.ELATION, 0.08, 'PunklordeStageZero', info.setType)],
   dynamicConditionals: [PunklordeStageZeroConditional40, PunklordeStageZeroConditional80],
 } as const satisfies SetConditionals
 

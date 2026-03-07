@@ -117,7 +117,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
   },
-  gpuBasic: () => basicP2(WgslStatName.SPD_P, 0.06, 'GiantTreeOfRaptBrooding', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.SPD_P, 0.06, 'GiantTreeOfRaptBrooding', info.setType)],
   dynamicConditionals: [GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional],
 } as const satisfies SetConditionals
 

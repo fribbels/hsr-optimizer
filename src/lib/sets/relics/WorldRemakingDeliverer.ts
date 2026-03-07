@@ -49,7 +49,7 @@ const conditionals = {
       }
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.CR, 0.08, 'WorldRemakingDeliverer', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.CR, 0.08, 'WorldRemakingDeliverer', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WorldRemakingDeliverer) >= 1

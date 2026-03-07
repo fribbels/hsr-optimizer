@@ -48,7 +48,7 @@ const conditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.ATK_P, 0.05 * setConditionals.valueChampionOfStreetwiseBoxing, x.source(Source.ChampionOfStreetwiseBoxing))
   },
-  gpuBasic: () => basicP2(WgslStatName.PHYSICAL_DMG_BOOST, 0.10, 'ChampionOfStreetwiseBoxing', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.PHYSICAL_DMG_BOOST, 0.10, 'ChampionOfStreetwiseBoxing', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_ChampionOfStreetwiseBoxing) >= 1) {
       ${buff.action(AKey.ATK_P, `0.05 * f32(setConditionals.valueChampionOfStreetwiseBoxing)`).wgsl(action, 2)}

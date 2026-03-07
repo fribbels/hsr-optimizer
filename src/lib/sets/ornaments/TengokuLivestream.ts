@@ -44,7 +44,7 @@ const conditionals = {
       x.buff(StatKey.CD, 0.32, x.source(Source.TengokuLivestream))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.CD, 0.16, 'TengokuLivestream', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.CD, 0.16, 'TengokuLivestream', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_TengokuLivestream) >= 1

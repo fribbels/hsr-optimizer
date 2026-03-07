@@ -44,7 +44,7 @@ const conditionals = {
       x.buff(StatKey.ATK_P, 0.48, x.source(Source.WavestriderCaptain))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.CD, 0.16, 'WavestriderCaptain', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.CD, 0.16, 'WavestriderCaptain', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WavestriderCaptain) >= 1

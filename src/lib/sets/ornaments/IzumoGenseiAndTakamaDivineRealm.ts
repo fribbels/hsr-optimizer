@@ -48,7 +48,7 @@ const conditionals = {
   overrideConditional: (value, context) => {
     return (value as boolean) && countTeamPath(context, context.path) >= 2
   },
-  gpuBasic: () => basicP2(WgslStatName.ATK_P, 0.12, 'IzumoGenseiAndTakamaDivineRealm', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.ATK_P, 0.12, 'IzumoGenseiAndTakamaDivineRealm', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_IzumoGenseiAndTakamaDivineRealm) >= 1

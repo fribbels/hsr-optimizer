@@ -47,7 +47,7 @@ const conditionals = {
       }
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.BE, 0.16, 'IronCavalryAgainstTheScourge', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.BE, 0.16, 'IronCavalryAgainstTheScourge', info.setType)],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     relic4p(*p_sets, SET_IronCavalryAgainstTheScourge) >= 1

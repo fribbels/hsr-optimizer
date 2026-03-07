@@ -46,7 +46,7 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.25, x.damageType(DamageTag.SKILL).source(Source.ScholarLostInErudition))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.CR, 0.08, 'ScholarLostInErudition', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.CR, 0.08, 'ScholarLostInErudition', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_ScholarLostInErudition) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}

@@ -51,7 +51,7 @@ const conditionals = {
   gpuBasic: () => [
     basicP2(WgslStatName.ATK_P, 0.12, 'TheWindSoaringValorous', info.setType),
     basicP4(WgslStatName.CR, 0.06, 'TheWindSoaringValorous'),
-  ].join('\n'),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_TheWindSoaringValorous) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 2)}

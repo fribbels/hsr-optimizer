@@ -46,7 +46,7 @@ const conditionals = {
       x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.CR, 0.08, 'AmphoreusTheEternalLand', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.CR, 0.08, 'AmphoreusTheEternalLand', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_AmphoreusTheEternalLand) >= 1

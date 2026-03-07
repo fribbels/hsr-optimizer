@@ -32,7 +32,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.OHB.buff(0.10, Source.PasserbyOfWanderingCloud)
   },
-  gpuBasic: () => basicP2(WgslStatName.OHB, 0.10, 'PasserbyOfWanderingCloud', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.OHB, 0.10, 'PasserbyOfWanderingCloud', info.setType)],
 } as const satisfies SetConditionals
 
 export const PasserbyOfWanderingCloud = {

@@ -1,5 +1,5 @@
 import { SetKey } from 'lib/constants/constants'
-import { BasicKeyType } from 'lib/optimization/basicStatsArray'
+import { BasicKeyType, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { SetType } from 'types/setConfig'
 
@@ -9,6 +9,13 @@ export enum GpuSetMatcher {
   ORNAMENT_2P = 'ornament2p',
 }
 
+export type BasicSetEffectEntry = {
+  stat: BasicKeyType
+  value: number
+  matchFn: GpuSetMatcher
+  setId: SetKey
+}
+
 const PERCENTAGE_STATS: Record<string, string> = {
   HP_P: 'baseHP',
   ATK_P: 'baseATK',
@@ -16,30 +23,84 @@ const PERCENTAGE_STATS: Record<string, string> = {
   SPD_P: 'baseSPD',
 }
 
-export function basicSetEffect(stat: BasicKeyType, value: number, matchFn: GpuSetMatcher, setId: SetKey): string {
-  const match = `${matchFn}(sets, SET_${setId})`
-  const base = PERCENTAGE_STATS[stat]
-  if (base) {
-    const targetStat = stat.replace('_P', '')
-    return `    c.${targetStat} += ${base} * ${value} * ${match};`
-  }
-  return `    c.${stat} += ${value} * ${match};`
+export function basicP2(stat: BasicKeyType, value: number, setId: SetKey, setType: SetType): BasicSetEffectEntry {
+  return { stat, value, matchFn: setType === SetType.RELIC ? GpuSetMatcher.RELIC_2P : GpuSetMatcher.ORNAMENT_2P, setId }
 }
 
-export function basicP2(stat: BasicKeyType, value: number, setId: SetKey, setType: SetType): string {
-  return basicSetEffect(stat, value, setType === SetType.RELIC ? GpuSetMatcher.RELIC_2P : GpuSetMatcher.ORNAMENT_2P, setId)
+export function basicP4(stat: BasicKeyType, value: number, setId: SetKey): BasicSetEffectEntry {
+  return { stat, value, matchFn: GpuSetMatcher.RELIC_4P, setId }
 }
 
-export function basicP4(stat: BasicKeyType, value: number, setId: SetKey): string {
-  return basicSetEffect(stat, value, GpuSetMatcher.RELIC_4P, setId)
+function formatTerm(entry: BasicSetEffectEntry): string {
+  return `${entry.value} * ${entry.matchFn}(sets, SET_${entry.setId})`
 }
+
+const STAT_ORDER: BasicKeyType[] = [
+  WgslStatName.SPD_P,
+  WgslStatName.HP_P,
+  WgslStatName.ATK_P,
+  WgslStatName.DEF_P,
+  WgslStatName.CR,
+  WgslStatName.CD,
+  WgslStatName.EHR,
+  WgslStatName.RES,
+  WgslStatName.BE,
+  WgslStatName.ERR,
+  WgslStatName.OHB,
+  WgslStatName.PHYSICAL_DMG_BOOST,
+  WgslStatName.FIRE_DMG_BOOST,
+  WgslStatName.ICE_DMG_BOOST,
+  WgslStatName.LIGHTNING_DMG_BOOST,
+  WgslStatName.WIND_DMG_BOOST,
+  WgslStatName.QUANTUM_DMG_BOOST,
+  WgslStatName.IMAGINARY_DMG_BOOST,
+  WgslStatName.ELATION,
+]
 
 export function generateBasicSetEffectsWgsl(): string {
-  let wgsl = '\n    // Generated basic set effects\n'
+  const effects: BasicSetEffectEntry[] = []
   for (const config of setConfigRegistry.values()) {
     if (config.conditionals.gpuBasic) {
-      wgsl += config.conditionals.gpuBasic() + '\n'
+      effects.push(...config.conditionals.gpuBasic())
     }
   }
+
+  const groups = new Map<BasicKeyType, BasicSetEffectEntry[]>()
+  for (const effect of effects) {
+    const list = groups.get(effect.stat) ?? []
+    list.push(effect)
+    groups.set(effect.stat, list)
+  }
+
+  let wgsl = '\n    // Generated basic set effects\n\n'
+  for (const stat of STAT_ORDER) {
+    const entries = groups.get(stat)
+    if (!entries || entries.length === 0) continue
+
+    const base = PERCENTAGE_STATS[stat]
+    const terms = entries.map(formatTerm)
+
+    if (base) {
+      const target = stat.replace('_P', '')
+      if (terms.length === 1) {
+        wgsl += `    c.${target} += (${base}) * (${terms[0]});\n`
+      } else {
+        wgsl += `    c.${target} += (${base}) * (\n`
+        wgsl += terms.map((t, i) => `      ${t}${i < terms.length - 1 ? ' +' : ''}`).join('\n') + '\n'
+        wgsl += '    );\n'
+      }
+    } else {
+      if (terms.length === 1) {
+        wgsl += `    c.${stat} += ${terms[0]};\n`
+      } else {
+        wgsl += `    c.${stat} += (\n`
+        wgsl += terms.map((t, i) => `      ${t}${i < terms.length - 1 ? ' +' : ''}`).join('\n') + '\n'
+        wgsl += '    );\n'
+      }
+    }
+
+    wgsl += '\n'
+  }
+
   return wgsl
 }

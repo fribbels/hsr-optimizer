@@ -51,7 +51,7 @@ const conditionals = {
       x.buff(StatKey.CR_BOOST, 0.10, x.source(Source.WastelanderOfBanditryDesert))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.IMAGINARY_DMG_BOOST, 0.10, 'WastelanderOfBanditryDesert', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.IMAGINARY_DMG_BOOST, 0.10, 'WastelanderOfBanditryDesert', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_WastelanderOfBanditryDesert) >= 1) {
       if (setConditionals.valueWastelanderOfBanditryDesert > 0) {

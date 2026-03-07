@@ -49,7 +49,7 @@ const conditionals = {
       }
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.SPD_P, 0.06, 'WarriorGoddessOfSunAndThunder', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.SPD_P, 0.06, 'WarriorGoddessOfSunAndThunder', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WarriorGoddessOfSunAndThunder) >= 1

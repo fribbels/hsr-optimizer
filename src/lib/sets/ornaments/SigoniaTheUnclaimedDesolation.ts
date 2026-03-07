@@ -45,7 +45,7 @@ const conditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.CD, 0.04 * setConditionals.valueSigoniaTheUnclaimedDesolation, x.source(Source.SigoniaTheUnclaimedDesolation))
   },
-  gpuBasic: () => basicP2(WgslStatName.CR, 0.04, 'SigoniaTheUnclaimedDesolation', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.CR, 0.04, 'SigoniaTheUnclaimedDesolation', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (ornament2p(*p_sets, SET_SigoniaTheUnclaimedDesolation) >= 1) {
       ${buff.action(AKey.CD, `0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation)`).wgsl(action, 2)}

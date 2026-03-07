@@ -47,7 +47,7 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.12, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.ATK_P, 0.12, 'RevelryByTheSea', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.ATK_P, 0.12, 'RevelryByTheSea', info.setType)],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (ornament2p(*p_sets, SET_RevelryByTheSea) >= 1) {
     if (${containerActionVal(SELF_ENTITY_INDEX, AKey.ATK, action.config)} >= 3600.0) {

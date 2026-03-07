@@ -31,7 +31,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.LushakaTheSunkenSeas)
   },
-  gpuBasic: () => basicP2(WgslStatName.ERR, 0.05, 'LushakaTheSunkenSeas', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.ERR, 0.05, 'LushakaTheSunkenSeas', info.setType)],
   teammate: [{
     value: Sets.LushakaTheSunkenSeas,
     label: (t) => t('TeammateSets.Lushaka.Text'),

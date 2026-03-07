@@ -47,7 +47,7 @@ const conditionals = {
       x.buff(StatKey.CD, 0.25, x.source(Source.HunterOfGlacialForest))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.ICE_DMG_BOOST, 0.10, 'HunterOfGlacialForest', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.ICE_DMG_BOOST, 0.10, 'HunterOfGlacialForest', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_HunterOfGlacialForest) >= 1

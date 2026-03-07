@@ -47,7 +47,7 @@ const conditionals = {
       x.buff(StatKey.ATK_P, 0.20, x.source(Source.BandOfSizzlingThunder))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.LIGHTNING_DMG_BOOST, 0.10, 'BandOfSizzlingThunder', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.LIGHTNING_DMG_BOOST, 0.10, 'BandOfSizzlingThunder', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_BandOfSizzlingThunder) >= 1

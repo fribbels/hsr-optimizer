@@ -49,7 +49,7 @@ const conditionals = {
       x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.SPD_P, 0.06, 'DivinerOfDistantReach', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.SPD_P, 0.06, 'DivinerOfDistantReach', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_DivinerOfDistantReach) >= 1) {
       let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);

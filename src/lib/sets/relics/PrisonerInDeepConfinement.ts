@@ -45,7 +45,7 @@ const conditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.DEF_PEN, 0.06 * setConditionals.valuePrisonerInDeepConfinement, x.source(Source.PrisonerInDeepConfinement))
   },
-  gpuBasic: () => basicP2(WgslStatName.ATK_P, 0.12, 'PrisonerInDeepConfinement', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.ATK_P, 0.12, 'PrisonerInDeepConfinement', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_PrisonerInDeepConfinement) >= 1) {
       ${buff.action(AKey.DEF_PEN, `0.06 * f32(setConditionals.valuePrisonerInDeepConfinement)`).wgsl(action, 2)}

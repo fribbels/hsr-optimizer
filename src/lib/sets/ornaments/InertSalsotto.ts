@@ -44,7 +44,7 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.15, x.damageType(DamageTag.ULT | DamageTag.FUA).source(Source.InertSalsotto))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.CR, 0.08, 'InertSalsotto', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.CR, 0.08, 'InertSalsotto', info.setType)],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     ornament2p(*p_sets, SET_InertSalsotto) >= 1

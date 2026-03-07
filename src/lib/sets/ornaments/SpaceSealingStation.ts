@@ -82,7 +82,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.SpaceSealingStation)
   },
-  gpuBasic: () => basicP2(WgslStatName.ATK_P, 0.12, 'SpaceSealingStation', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.ATK_P, 0.12, 'SpaceSealingStation', info.setType)],
   dynamicConditionals: [SpaceSealingStationConditional],
 } as const satisfies SetConditionals
 

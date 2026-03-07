@@ -44,7 +44,7 @@ const conditionals = {
       x.buff(StatKey.CD, 0.32, x.source(Source.TheWondrousBananAmusementPark))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.CD, 0.16, 'TheWondrousBananAmusementPark', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.CD, 0.16, 'TheWondrousBananAmusementPark', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_TheWondrousBananAmusementPark) >= 1

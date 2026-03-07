@@ -46,7 +46,7 @@ const conditionals = {
       x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.SPD_P, 0.06, 'MessengerTraversingHackerspace', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.SPD_P, 0.06, 'MessengerTraversingHackerspace', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_MessengerTraversingHackerspace) >= 1

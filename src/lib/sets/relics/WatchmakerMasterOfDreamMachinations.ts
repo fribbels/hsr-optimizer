@@ -46,7 +46,7 @@ const conditionals = {
       x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.BE, 0.16, 'WatchmakerMasterOfDreamMachinations', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.BE, 0.16, 'WatchmakerMasterOfDreamMachinations', info.setType)],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WatchmakerMasterOfDreamMachinations) >= 1

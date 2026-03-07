@@ -84,7 +84,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.RES.buff(0.10, Source.BrokenKeel)
   },
-  gpuBasic: () => basicP2(WgslStatName.RES, 0.10, 'BrokenKeel', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.RES, 0.10, 'BrokenKeel', info.setType)],
   dynamicConditionals: [BrokenKeelConditional],
   teammate: [{
     value: Sets.BrokenKeel,

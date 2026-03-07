@@ -35,7 +35,7 @@ const conditionals = {
       c.WIND_DMG_BOOST.buff(0.10, Source.EagleOfTwilightLine)
     }
   },
-  gpuBasic: () => basicP2(WgslStatName.WIND_DMG_BOOST, 0.10, 'EagleOfTwilightLine', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.WIND_DMG_BOOST, 0.10, 'EagleOfTwilightLine', info.setType)],
 } as const satisfies SetConditionals
 
 export const EagleOfTwilightLine = {

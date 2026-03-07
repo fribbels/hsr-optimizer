@@ -62,7 +62,7 @@ const conditionals = {
       x.buff(StatKey.CR, 0.04, x.source(Source.PioneerDiverOfDeadWaters))
     }
   },
-  gpuBasic: () => basicP4(WgslStatName.CR, 0.04, 'PioneerDiverOfDeadWaters'),
+  gpuBasic: () => [basicP4(WgslStatName.CR, 0.04, 'PioneerDiverOfDeadWaters')],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
       ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 2)}

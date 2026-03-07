@@ -81,7 +81,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.TaliaKingdomOfBanditry)
   },
-  gpuBasic: () => basicP2(WgslStatName.BE, 0.16, 'TaliaKingdomOfBanditry', info.setType),
+  gpuBasic: () => [basicP2(WgslStatName.BE, 0.16, 'TaliaKingdomOfBanditry', info.setType)],
   dynamicConditionals: [TaliaKingdomOfBanditryConditional],
 } as const satisfies SetConditionals
 

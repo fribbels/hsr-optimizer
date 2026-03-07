@@ -52,7 +52,7 @@ const conditionals = {
   gpuBasic: () => [
     basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, 'PoetOfMourningCollapse', info.setType),
     basicP4(WgslStatName.SPD_P, -0.08, 'PoetOfMourningCollapse'),
-  ].join('\n'),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_PoetOfMourningCollapse) >= 1) {
       let crValue = select(0.0, 0.20, (*p_c).SPD < 110.0) + select(0.0, 0.12, (*p_c).SPD < 95.0);

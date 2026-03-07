@@ -47,7 +47,7 @@ const conditionals = {
   gpuBasic: () => [
     basicP2(WgslStatName.ATK_P, 0.12, 'MusketeerOfWildWheat', info.setType),
     basicP4(WgslStatName.SPD_P, 0.06, 'MusketeerOfWildWheat'),
-  ].join('\n'),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_MusketeerOfWildWheat) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, 0.10).damageType(DamageTag.BASIC).wgsl(action, 2)}

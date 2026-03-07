@@ -38,7 +38,7 @@ const conditionals = {
   gpuBasic: () => [
     basicP2(WgslStatName.BE, 0.16, 'ThiefOfShootingMeteor', info.setType),
     basicP4(WgslStatName.BE, 0.16, 'ThiefOfShootingMeteor'),
-  ].join('\n'),
+  ],
 } as const satisfies SetConditionals
 
 export const ThiefOfShootingMeteor = {

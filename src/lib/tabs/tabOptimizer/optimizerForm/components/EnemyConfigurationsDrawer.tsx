@@ -5,7 +5,6 @@ import {
 import {
   Drawer,
   Flex,
-  Form,
   Select,
   Switch,
   Typography,
@@ -15,6 +14,7 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
@@ -28,8 +28,16 @@ export const EnemyConfigurationsDrawer = () => {
 
   const { close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
 
+  const enemyLevel = useOptimizerFormStore((s) => s.enemyLevel)
+  const enemyResistance = useOptimizerFormStore((s) => s.enemyResistance)
+  const enemyEffectResistance = useOptimizerFormStore((s) => s.enemyEffectResistance)
+  const enemyMaxToughness = useOptimizerFormStore((s) => s.enemyMaxToughness)
+  const enemyCount = useOptimizerFormStore((s) => s.enemyCount)
+  const enemyElementalWeak = useOptimizerFormStore((s) => s.enemyElementalWeak)
+  const enemyWeaknessBroken = useOptimizerFormStore((s) => s.enemyWeaknessBroken)
+
   const enemyLevelOptions = useMemo(() => {
-    const options: { value: number, label: string }[] = []
+    const options: { value: number; label: string }[] = []
     for (let i = 100; i >= 1; i--) {
       options.push({
         value: i,
@@ -41,7 +49,7 @@ export const EnemyConfigurationsDrawer = () => {
   }, [t])
 
   const enemyCountOptions = useMemo(() => {
-    const options: { value: number, label: string }[] = []
+    const options: { value: number; label: string }[] = []
     for (let i = 1; i <= 5; i += 2) {
       options.push({
         value: i,
@@ -53,7 +61,7 @@ export const EnemyConfigurationsDrawer = () => {
   }, [t])
 
   const enemyResistanceOptions = useMemo(() => {
-    const options: { value: number, label: string }[] = []
+    const options: { value: number; label: string }[] = []
     for (let i = 20; i <= 60; i += 20) {
       options.push({
         value: i / 100,
@@ -65,7 +73,7 @@ export const EnemyConfigurationsDrawer = () => {
   }, [t])
 
   const enemyEffectResistanceOptions = useMemo(() => {
-    const options: { value: number, label: string }[] = []
+    const options: { value: number; label: string }[] = []
     for (let i = 0; i <= 40; i += 10) {
       options.push({
         value: i / 100,
@@ -77,7 +85,7 @@ export const EnemyConfigurationsDrawer = () => {
   }, [t])
 
   const enemyMaxToughnessOptions = useMemo(() => {
-    const options: { value: number, label: string }[] = []
+    const options: { value: number; label: string }[] = []
     for (let i = 720; i >= 1; i -= 30) {
       options.push({
         value: i,
@@ -103,73 +111,68 @@ export const EnemyConfigurationsDrawer = () => {
           <TooltipImage type={Hint.enemyOptions()} />
         </Flex>
 
-        <Form.Item name={enemyFormItemName('enemyLevel')}>
-          <Select
-            showSearch
-            filterOption={Utils.labelFilterOption}
-            options={enemyLevelOptions}
-          />
-        </Form.Item>
+        <Select
+          showSearch
+          filterOption={Utils.labelFilterOption}
+          options={enemyLevelOptions}
+          value={enemyLevel}
+          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyLevel', val)}
+        />
 
-        <Form.Item name={enemyFormItemName('enemyResistance')}>
-          <Select
-            showSearch
-            filterOption={Utils.labelFilterOption}
-            options={enemyResistanceOptions}
-          />
-        </Form.Item>
+        <Select
+          showSearch
+          filterOption={Utils.labelFilterOption}
+          options={enemyResistanceOptions}
+          value={enemyResistance}
+          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyResistance', val)}
+        />
 
-        <Form.Item name={enemyFormItemName('enemyEffectResistance')}>
-          <Select
-            showSearch
-            filterOption={Utils.labelFilterOption}
-            options={enemyEffectResistanceOptions}
-          />
-        </Form.Item>
+        <Select
+          showSearch
+          filterOption={Utils.labelFilterOption}
+          options={enemyEffectResistanceOptions}
+          value={enemyEffectResistance}
+          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyEffectResistance', val)}
+        />
 
-        <Form.Item name={enemyFormItemName('enemyMaxToughness')}>
-          <Select
-            showSearch
-            filterOption={Utils.labelFilterOption}
-            options={enemyMaxToughnessOptions}
-          />
-        </Form.Item>
+        <Select
+          showSearch
+          filterOption={Utils.labelFilterOption}
+          options={enemyMaxToughnessOptions}
+          value={enemyMaxToughness}
+          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyMaxToughness', val)}
+        />
 
-        <Form.Item name={enemyFormItemName('enemyCount')}>
-          <Select
-            showSearch
-            filterOption={Utils.labelFilterOption}
-            options={enemyCountOptions}
-          />
-        </Form.Item>
+        <Select
+          showSearch
+          filterOption={Utils.labelFilterOption}
+          options={enemyCountOptions}
+          value={enemyCount}
+          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyCount', val)}
+        />
 
         <Flex align='center'>
-          <Form.Item name={enemyFormItemName('enemyElementalWeak')} valuePropName='checked'>
-            <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
-              defaultChecked
-              style={{ width: 45, marginRight: 5 }}
-            />
-          </Form.Item>
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            checked={enemyElementalWeak}
+            onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyElementalWeak', val)}
+            style={{ width: 45, marginRight: 5 }}
+          />
           <Text>{t('WeaknessLabel') /* Elemental weakness */}</Text>
         </Flex>
 
         <Flex align='center'>
-          <Form.Item name={enemyFormItemName('enemyWeaknessBroken')} valuePropName='checked'>
-            <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
-              style={{ width: 45, marginRight: 5 }}
-            />
-          </Form.Item>
+          <Switch
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            checked={enemyWeaknessBroken}
+            onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyWeaknessBroken', val)}
+            style={{ width: 45, marginRight: 5 }}
+          />
           <Text>{t('BrokenLabel') /* Weakness broken */}</Text>
         </Flex>
       </Flex>
     </Drawer>
   )
-}
-
-function enemyFormItemName(name: string) {
-  return name
 }

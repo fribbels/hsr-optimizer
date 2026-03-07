@@ -196,7 +196,28 @@ describe('displayToInternal', () => {
     expect(form.characterEidolon).toBe(4)
     expect(form.enemyLevel).toBe(90)
     expect(form.enemyCount).toBe(3)
-    expect(form.combatBuffs).toEqual({ ATK: 100 })
+    // ATK is a flat combat buff, stays as-is
+    expect(form.combatBuffs['ATK']).toBe(100)
+  })
+
+  it('converts percentage combat buffs to internal format', () => {
+    const state = makeState({
+      combatBuffs: { ATK: 100, ATK_P: 50, DEF_P: 25 },
+    })
+
+    const form = displayToInternal(state)
+
+    // Flat buffs stay as-is
+    expect(form.combatBuffs['ATK']).toBe(100)
+    // Percentage buffs divided by 100
+    expect(form.combatBuffs['ATK_P']).toBeCloseTo(0.5)
+    expect(form.combatBuffs['DEF_P']).toBeCloseTo(0.25)
+  })
+
+  it('handles empty combat buffs', () => {
+    const state = makeState({ combatBuffs: {} })
+    const form = displayToInternal(state)
+    expect(form.combatBuffs).toEqual({})
   })
 
   it('should not mutate the input state', () => {

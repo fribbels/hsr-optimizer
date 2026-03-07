@@ -1,4 +1,4 @@
-import { ConditionalDataType, Constants } from 'lib/constants/constants'
+import { CombatBuffs, ConditionalDataType, Constants } from 'lib/constants/constants'
 import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
   OptimizerFormState,
@@ -100,8 +100,8 @@ export function displayToInternal(state: OptimizerFormState): Form {
     // Weights
     weights: state.weights,
 
-    // Combat buffs (pass through for now)
-    combatBuffs: state.combatBuffs,
+    // Combat buffs (percentage buffs ÷ 100)
+    combatBuffs: convertCombatBuffsToInternal(state.combatBuffs),
 
     // Combo
     comboStateJson: state.comboStateJson,
@@ -149,6 +149,17 @@ function teammateStateToTeammate(ts: TeammateState): Teammate {
     characterConditionals: ts.characterConditionals,
     lightConeConditionals: ts.lightConeConditionals,
   } as Teammate
+}
+
+function convertCombatBuffsToInternal(buffs: Record<string, number>): Record<string, number> {
+  const result: Record<string, number> = {}
+  for (const buff of Object.values(CombatBuffs)) {
+    const value = buffs[buff.key]
+    if (value != null) {
+      result[buff.key] = buff.percent ? value / 100 : value
+    }
+  }
+  return result
 }
 
 /**

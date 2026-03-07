@@ -334,7 +334,6 @@ const simulation = (): SimulationMetadata => ({
     ],
     [Parts.LinkRope]: [
       Stats.ATK_P,
-      Stats.ERR,
     ],
   },
   substats: [

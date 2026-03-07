@@ -139,9 +139,12 @@ export function initializeGpuPipeline(
     device.createBindGroup({
       layout: computePipeline.getBindGroupLayout(2),
       entries: [
-        ...(DEBUG ? [{ binding: 0, resource: { buffer: resultMatrixBuffers[i] } }] : []),
-        { binding: 1, resource: { buffer: compactCountBuffers[i] } },
-        { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
+        ...(DEBUG
+          ? [{ binding: 0, resource: { buffer: resultMatrixBuffers[i] } }]
+          : [
+            { binding: 1, resource: { buffer: compactCountBuffers[i] } },
+            { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
+          ]),
       ],
     })
   ) as [GPUBindGroup, GPUBindGroup]
@@ -222,8 +225,10 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
 
   const commandEncoder = device.createCommandEncoder()
 
-  // Clear the atomic counter to 0 before dispatch
-  commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
+  if (!gpuContext.DEBUG) {
+    // Clear the atomic counter to 0 before dispatch
+    commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
+  }
 
   const passEncoder = commandEncoder.beginComputePass()
   passEncoder.setPipeline(computePipeline)
@@ -233,9 +238,11 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   passEncoder.dispatchWorkgroups(gpuContext.NUM_WORKGROUPS)
   passEncoder.end()
 
-  // Copy compact count + results into merged read buffer: [count(4B) | results(N*8B)]
-  commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactReadBuffer, 0, 4)
-  commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactReadBuffer, 4, gpuContext.compactResultsBufferSize)
+  if (!gpuContext.DEBUG) {
+    // Copy compact count + results into merged read buffer: [count(4B) | results(N*8B)]
+    commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactReadBuffer, 0, 4)
+    commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactReadBuffer, 4, gpuContext.compactResultsBufferSize)
+  }
 
   if (gpuContext.DEBUG) {
     // DEBUG mode: also copy the full results buffer

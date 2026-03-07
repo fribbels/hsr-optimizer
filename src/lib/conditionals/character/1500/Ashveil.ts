@@ -357,8 +357,9 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboDot: 0,
   relicSets: [
-    [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+    [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
@@ -412,6 +413,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnAshblazingSet(1),
+    PresetEffects.fnPioneerSet(4),
     PresetEffects.VALOROUS_SET,
   ],
   sortOption: SortOption.FUA,
@@ -420,7 +422,7 @@ const scoring = (): ScoringMetadata => ({
 })
 
 const display = {
-  showcaseColor: '#999999',
+  showcaseColor: '#d7a6aa',
 }
 
 export const Ashveil: CharacterConfig = {

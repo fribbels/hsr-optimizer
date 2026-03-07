@@ -4,13 +4,14 @@ import {
 } from '@ant-design/icons'
 import {
   Flex,
-  Form,
   Switch,
   Typography,
 } from 'antd'
 import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
+import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import WithPopover from 'lib/ui/WithPopover'
 import {
   ComponentProps,
@@ -94,26 +95,25 @@ export interface FormSwitchProps {
 export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
   const itemName = getItemName(props)
 
-  const internalSwitch = (
-    <Switch
-      checkedChildren={<CheckOutlined />}
-      unCheckedChildren={<CloseOutlined />}
-      disabled={props.disabled}
-      style={{ width: 45, marginRight: 5 }}
-      onChange={props.onChange}
-      defaultChecked={props.value ?? undefined}
-    />
+  const storeValue = useOptimizerFormStore((s) =>
+    props.removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as boolean | undefined,
   )
+
+  const checked = props.removeForm ? props.value : storeValue
+  const onChange = props.removeForm
+    ? props.onChange
+    : (val: boolean) => handleConditionalChange(itemName as (string | number)[], val)
 
   return (
     <Flex justify={justify} align={align}>
-      {props.removeForm
-        ? internalSwitch
-        : (
-          <Form.Item name={itemName} valuePropName='checked'>
-            {internalSwitch}
-          </Form.Item>
-        )}
+      <Switch
+        checkedChildren={<CheckOutlined />}
+        unCheckedChildren={<CloseOutlined />}
+        disabled={props.disabled}
+        style={{ width: 45, marginRight: 5 }}
+        onChange={onChange}
+        checked={checked}
+      />
       <Text>{props.text}</Text>
     </Flex>
   )

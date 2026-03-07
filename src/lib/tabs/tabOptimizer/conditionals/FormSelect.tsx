@@ -1,16 +1,16 @@
 import {
   Flex,
-  Form,
   Select,
   Typography,
 } from 'antd'
 import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
-import { getItemName } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
+import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import WithPopover from 'lib/ui/WithPopover'
 import {
   ComponentProps,
   ComponentType,
-  useState,
 } from 'react'
 import styled from 'styled-components'
 
@@ -36,9 +36,16 @@ export interface FormSelectProps {
 }
 
 export const FormSelect: ComponentType<FormSelectProps> = (props) => {
-  const [state, setState] = useState(props.value ?? undefined)
-
   const itemName = getItemName(props)
+
+  const storeValue = useOptimizerFormStore((s) =>
+    props.removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined,
+  )
+
+  const currentValue = props.removeForm ? props.value : storeValue
+  const handleChange = props.removeForm
+    ? props.onChange
+    : (val: number) => handleConditionalChange(itemName as (string | number)[], val)
 
   const internalSelect = (
     <Select
@@ -50,28 +57,17 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
       dropdownStyle={{ width: 'fit-content' }}
       options={props.options}
       onChange={(newValue) => {
-        if (props.onChange) {
-          setState(newValue ?? 0)
+        if (handleChange) {
+          handleChange(newValue ?? 0)
         }
       }}
-      onBlur={() => {
-        if (props.onChange) {
-          props.onChange(state ?? 0)
-        }
-      }}
-      value={props.value == null ? undefined : state}
+      value={currentValue}
     />
   )
 
   return (
     <Flex justify={justify} align={align} style={{ width: props.fullWidth ? '100%' : undefined }}>
-      {props.removeForm
-        ? internalSelect
-        : (
-          <Form.Item name={itemName} style={{ width: props.fullWidth ? '100%' : undefined }}>
-            {internalSelect}
-          </Form.Item>
-        )}
+      {internalSelect}
       <Text>{props.fullWidth ? null : props.text}</Text>
     </Flex>
   )

@@ -1,4 +1,7 @@
 import i18next from 'i18next'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -11,10 +14,14 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   CURRENT_DATA_VERSION,
   Parts,
-  Stats
+  Sets,
+  Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -24,15 +31,28 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
 import {
-  CharacterId,
-  Eidolon
-} from 'types/character'
+  AbilityKind,
+  DEFAULT_FUA,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_FUA,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { ScoringMetadata } from 'types/metadata'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -66,11 +86,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
   const basicScaling = basic(e, 1.00, 1.10)
+
   const skillScaling = skill(e, 2.00, 2.20)
   const skillAdditionalScaling = skill(e, 1.00, 1.10)
   const skillDefPenValue = skill(e, 0.40, 0.44)
+
   const ultScaling = ult(e, 4.00, 4.40)
   const ultBonusFuaScaling = ult(e, 2.00, 2.20)
+
   const talentFuaScaling = talent(e, 2.00, 2.20)
 
   const maxGluttonyStacks = (e >= 2) ? 18 : 12
@@ -101,7 +124,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     targetBait: {
       id: 'targetBait',
       formItem: 'switch',
-      text: 'Target is Bait',
+      text: 'Target Bait',
       content: betaContent,
     },
     gluttonyStacks: {
@@ -136,7 +159,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e6GluttonyGainedStacks: {
       id: 'e6GluttonyGainedStacks',
       formItem: 'slider',
-      text: 'E6 Gluttony gained stacks',
+      text: 'E6 Gluttony stacks',
       content: betaContent,
       min: 0,
       max: 30,
@@ -257,7 +280,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, (m.baitActive) ? skillDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
       // E1: Enemy vulnerability (+24%, or +36% if HP <= 50%)
-      x.buff(StatKey.VULNERABILITY,
+      x.buff(
+        StatKey.VULNERABILITY,
         (e >= 1) ? (m.e1TargetHpBelow50 ? 0.36 : (m.e1DmgVulnerability ? 0.24 : 0)) : 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_E1),
       )
@@ -279,7 +303,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, (t.baitActive) ? skillDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
       // E1: Enemy vulnerability (+24%, or +36% if HP <= 50%)
-      x.buff(StatKey.VULNERABILITY,
+      x.buff(
+        StatKey.VULNERABILITY,
         (e >= 1) ? (t.e1TargetHpBelow50 ? 0.36 : (t.e1DmgVulnerability ? 0.24 : 0)) : 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_E1),
       )
@@ -298,6 +323,76 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
   }
 }
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Lightning_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_SKILL,
+    DEFAULT_FUA,
+    DEFAULT_FUA,
+    DEFAULT_FUA,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
+    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.CityOfConvergingStars,
+    Sets.DuranDynastyOfRunningWolves,
+    ...SPREAD_ORNAMENTS_2P_FUA,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: SparkleB1.id,
+      lightCone: ButTheBattleIsntOver.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -320,9 +415,13 @@ const scoring = (): ScoringMetadata => ({
     [Parts.PlanarSphere]: [Stats.ATK_P, Stats.Lightning_DMG],
     [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnAshblazingSet(1),
+    PresetEffects.VALOROUS_SET,
+  ],
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
+  simulation: simulation(),
 })
 
 const display = {
@@ -330,9 +429,11 @@ const display = {
 }
 
 export const Ashveil: CharacterConfig = {
-  id: '1504' as CharacterId,
+  id: '1504',
   info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

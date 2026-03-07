@@ -1,4 +1,5 @@
 import { applyPreset } from 'lib/conditionals/evaluation/applyPresets'
+import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -832,6 +833,7 @@ export function updateFormState(comboState: ComboState) {
   DB.replaceCharacterForm(form)
 
   SaveState.delayedSave(1000)
+  syncFormToStore(window.optimizerForm.getFieldsValue())
 }
 
 function change(

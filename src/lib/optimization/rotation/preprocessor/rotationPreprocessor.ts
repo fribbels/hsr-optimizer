@@ -1,6 +1,7 @@
 import {
   AnaxaCyreneEffectPreprocessor,
   ArcherPreprocessor,
+  AshveilPreprocessor,
   CastoricePreprocessor,
   CyrenePreprocessor,
   HookPreprocessor,
@@ -27,6 +28,7 @@ import { Form } from 'types/form'
 import { ThusBurnsTheDawnPreprocessor } from './preprocessLightCones'
 
 export const characterPreprocessors: AbilityPreprocessorBase[] = [
+  new AshveilPreprocessor(),
   new CastoricePreprocessor(),
   new TheHertaPreprocessor(),
   new YunliPreprocessor(),

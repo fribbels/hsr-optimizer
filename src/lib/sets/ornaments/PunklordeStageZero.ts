@@ -13,12 +13,15 @@ import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
+import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  ornament2p,
+  SetKeys,
+} from 'lib/optimization/setMatching'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -37,13 +40,13 @@ const PunklordeStageZeroConditional40: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.Elation],
   chainsTo: [Stats.CD],
-  condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
     return ornament2p(SetKeys.PunklordeStageZero, x.c.sets) && x.getActionValueByIndex(StatKey.ELATION, SELF_ENTITY_INDEX) >= 0.40
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.20, action, context, x.source(Source.PunklordeStageZero))
   },
-  gpu: function (action: OptimizerAction, context: OptimizerContext) {
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
     const config = action.config
 
     return newConditionalWgslWrapper(
@@ -70,13 +73,13 @@ const PunklordeStageZeroConditional80: DynamicConditional = {
   activation: ConditionalActivation.SINGLE,
   dependsOn: [Stats.Elation],
   chainsTo: [Stats.CD],
-  condition: function (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+  condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
     return ornament2p(SetKeys.PunklordeStageZero, x.c.sets) && x.getActionValueByIndex(StatKey.ELATION, SELF_ENTITY_INDEX) >= 0.80
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.12, action, context, x.source(Source.PunklordeStageZero))
   },
-  gpu: function (action: OptimizerAction, context: OptimizerContext) {
+  gpu: function(action: OptimizerAction, context: OptimizerContext) {
     const config = action.config
 
     return newConditionalWgslWrapper(
@@ -110,8 +113,8 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals = {
-  p2x: (x: ComputedStatsContainer, context: OptimizerContext) => {
-    x.buff(StatKey.ELATION, 0.08, x.source(Source.PunklordeStageZero))
+  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
+    c.ELATION.buff(0.08, Source.PunklordeStageZero)
   },
   dynamicConditionals: [PunklordeStageZeroConditional40, PunklordeStageZeroConditional80],
 } as const satisfies SetConditionals

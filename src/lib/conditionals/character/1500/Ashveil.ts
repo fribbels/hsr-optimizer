@@ -101,6 +101,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     baitActive: true,
     targetBait: true,
+    enhancedFua: false,
     gluttonyStacks: maxGluttonyStacks,
     e1DmgVulnerability: true,
     e1TargetHpBelow50: true,
@@ -125,6 +126,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'targetBait',
       formItem: 'switch',
       text: 'Target Bait',
+      content: betaContent,
+    },
+    enhancedFua: {
+      id: 'enhancedFua',
+      formItem: 'switch',
+      text: 'Enhanced Fua',
       content: betaContent,
     },
     gluttonyStacks: {
@@ -213,23 +220,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         [AbilityKind.ULT]: {
           hits: [
-            // Main ULT hit
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Lightning)
               .atkScaling(ultScaling)
               .toughnessDmg(30)
-              .build(),
-            // Enhanced FUA base hit (always)
-            HitDefinitionBuilder.standardFua()
-              .damageElement(ElementTag.Lightning)
-              .atkScaling(talentFuaScaling)
-              .toughnessDmg(0)
-              .build(),
-            // Bonus Gluttony hit (if stacks >= 4, max 1 on primary target)
-            HitDefinitionBuilder.standardFua()
-              .damageElement(ElementTag.Lightning)
-              .atkScaling(r.gluttonyStacks >= 4 ? ultBonusFuaScaling : 0)
-              .toughnessDmg(0)
               .build(),
           ],
         },
@@ -237,7 +231,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Lightning)
-              .atkScaling(talentFuaScaling)
+              .atkScaling(talentFuaScaling + (r.enhancedFua ? Math.floor(r.gluttonyStacks / 4) * ultBonusFuaScaling : 0))
               .toughnessDmg(5)
               .build(),
           ],
@@ -353,12 +347,13 @@ const simulation = (): SimulationMetadata => ({
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
+    DEFAULT_FUA,
     END_SKILL,
     DEFAULT_FUA,
-    DEFAULT_FUA,
+    WHOLE_SKILL,
     DEFAULT_FUA,
     WHOLE_SKILL,
-    WHOLE_SKILL,
+    DEFAULT_FUA,
   ],
   comboDot: 0,
   relicSets: [

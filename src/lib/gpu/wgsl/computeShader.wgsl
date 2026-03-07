@@ -263,6 +263,10 @@ fn main(
       0.10 * relic2p(sets, SET_PasserbyOfWanderingCloud)
     );
 
+    c.ELATION += (
+      0.08 * relic2p(sets, SET_PunklordeStageZero)
+    );
+
     // Basic filters here
 
     // START BASIC STAT FILTERS

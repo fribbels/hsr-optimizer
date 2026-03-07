@@ -4,9 +4,9 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
-import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -55,7 +55,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
 
       x.buff(StatKey.ELATION, (r.elationBuff) ? sValuesElation[s] : 0, x.source(SOURCE_LC))
     },
-    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.ELATION, (t.elationBuff) ? sValuesElation[s] : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_LC))

@@ -573,7 +573,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Escudo
       SHIELD_VALUE_P: Δ% Escudo
   DamageSplits:
-    Title: Distribuição do Tipo de Dano
     Legend:
       abilityDmg: Habilidade
       breakDmg: Quebra

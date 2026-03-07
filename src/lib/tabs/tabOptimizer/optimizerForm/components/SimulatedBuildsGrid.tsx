@@ -7,6 +7,7 @@ import {
   TableColumnsType,
 } from 'antd'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import {
   deleteStatSimulationBuild,
   renderDefaultSimulationName,
@@ -105,6 +106,13 @@ export function SimulatedBuildsGrid() {
     // Update the form with selected sim
     const cloneRequest = TsUtils.clone(statSim.request)
     zeroesToNull(cloneRequest.stats)
+    const currentStatSim = useOptimizerFormStore.getState().statSim
+    if (currentStatSim) {
+      useOptimizerFormStore.getState().setStatSim({
+        ...currentStatSim,
+        [statSim.simType]: cloneRequest,
+      })
+    }
     window.optimizerForm.setFieldValue(['statSim', statSim.simType as Exclude<StatSimTypes, StatSimTypes.Disabled>], cloneRequest)
     window.store.getState().setStatSimulationDisplay(statSim.simType)
   }

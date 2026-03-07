@@ -281,6 +281,10 @@ export function deleteAllStatSimulationBuilds() {
 }
 
 export function setFormStatSimulations(simulations: Simulation[]) {
+  useOptimizerFormStore.getState().setStatSim({
+    ...useOptimizerFormStore.getState().statSim!,
+    simulations,
+  })
   window.optimizerForm.setFieldValue(['statSim', 'simulations'], simulations)
 }
 

@@ -444,6 +444,8 @@ export const Sets = {
   RevelryByTheSea: 'Revelry by the Sea',
   AmphoreusTheEternalLand: 'Amphoreus, The Eternal Land',
   TengokuLivestream: 'Tengoku@Livestream',
+  PunklordeStageZero: 'Punklorde Stage Zero',
+  CityOfConvergingStars: 'City of Converging Stars',
 } as const
 export type SetKey = keyof typeof Sets
 export type Sets = typeof Sets[SetKey]

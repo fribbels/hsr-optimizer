@@ -6359,6 +6359,24 @@ interface Resources {
         "Arcadia": {
           "Display": "{{allyCount}}x",
           "Label": "{{allyCount}} allies (+{{buffValue}}% DMG)"
+        },
+        "CityOfConvergingStars": {
+          "Off": {
+            "Display": "Off",
+            "Label": "Off"
+          },
+          "AtkOnly": {
+            "Display": "ATK",
+            "Label": "ATK only (+24% ATK)"
+          },
+          "CdOnly": {
+            "Display": "CD",
+            "Label": "CD only (+12% CD)"
+          },
+          "Both": {
+            "Display": "ATK + CD",
+            "Label": "ATK + CD (+24% ATK | +12% CD)"
+          }
         }
       },
       "Conditionals": {
@@ -6395,7 +6413,8 @@ interface Resources {
         "Banana": "When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.",
         "Arcadia": "The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.",
         "Amphoreus": "When enabled, if the wearer possesses a memosprite then the SPD% buff is applied to combat stat calculations.",
-        "Tengoku": "When enabled, the additional CRIT Damage buff is applied to combat stat calculations."
+        "Tengoku": "When enabled, the additional CRIT Damage buff is applied to combat stat calculations.",
+        "CityOfConvergingStars": "Applies the selected buffs to combat stat calculations. ATK buff from using Follow-Up ATK, CD buff from defeating an enemy."
       }
     },
     "Presets": {
@@ -6631,6 +6650,11 @@ interface Resources {
           "Desc": "$t(gameData:RelicSets.323.Name) (+8% SPD)",
           "Set": "$t(gameData:RelicSets.323.Name)",
           "Text": "8% SPD"
+        },
+        "CityOfConvergingStars": {
+          "Desc": "$t(gameData:RelicSets.326.Name) (+12% CD)",
+          "Set": "$t(gameData:RelicSets.326.Name)",
+          "Text": "12% CD"
         }
       }
     },

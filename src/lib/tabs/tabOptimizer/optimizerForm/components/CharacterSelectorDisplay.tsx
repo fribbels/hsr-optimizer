@@ -19,6 +19,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -30,8 +31,7 @@ export default function CharacterSelectorDisplay() {
   const optimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.optimizerTabFocusCharacterSelectModalOpen)
   const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
 
-  const form = Form.useFormInstance()
-  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
 
   const eidolonOptions = useMemo(() => {
     const options: { value: number, label: string }[] = []

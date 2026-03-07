@@ -43,6 +43,7 @@ import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/compone
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -171,7 +172,7 @@ function SimulationInputs() {
   const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
 
   // Hook into changes to the sim to calculate roll sum
-  const statSimFormValues = AntDForm.useWatch((values: Form) => values.statSim, window.optimizerForm)
+  const statSimFormValues = useOptimizerFormStore((s) => s.statSim)
   const substatRollsTotal = useMemo(() => {
     if (!statSimFormValues) return 0
 

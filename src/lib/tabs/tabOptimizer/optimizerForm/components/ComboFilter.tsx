@@ -40,6 +40,7 @@ import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -56,9 +57,9 @@ export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tCommon } = useTranslation('common')
   const form = Form.useFormInstance<OptimizerForm>()
-  const comboType = Form.useWatch('comboType', form)
-  const characterId = Form.useWatch('characterId', form)
-  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const comboType = useOptimizerFormStore((s) => s.comboType)
+  const characterId = useOptimizerFormStore((s) => s.characterId)
+  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
   const comboOptions = useMemo(() => {
     if (characterId == null || characterEidolon == null) return []
 

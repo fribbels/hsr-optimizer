@@ -21,6 +21,7 @@ import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfi
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
@@ -202,11 +203,11 @@ const TeammateCard = (props: {
 }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const teammateProperty = useMemo(() => getTeammateProperty(props.index), [props.index])
-  const teammateCharacterId: CharacterId = AntDForm.useWatch([teammateProperty, 'characterId'], window.optimizerForm)
-  const teammateEidolon: number = AntDForm.useWatch([teammateProperty, 'characterEidolon'], window.optimizerForm)
+  const teammateCharacterId = useOptimizerFormStore((s) => s.teammates[props.index as 0 | 1 | 2].characterId) as CharacterId
+  const teammateEidolon = useOptimizerFormStore((s) => s.teammates[props.index as 0 | 1 | 2].characterEidolon)
 
-  const teammateLightConeId: LightConeId = AntDForm.useWatch([teammateProperty, 'lightCone'], window.optimizerForm)
-  const teammateSuperimposition: SuperImpositionLevel = AntDForm.useWatch([teammateProperty, 'lightConeSuperimposition'], window.optimizerForm)
+  const teammateLightConeId = useOptimizerFormStore((s) => s.teammates[props.index as 0 | 1 | 2].lightCone) as LightConeId
+  const teammateSuperimposition = useOptimizerFormStore((s) => s.teammates[props.index as 0 | 1 | 2].lightConeSuperimposition) as SuperImpositionLevel
 
   const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
 

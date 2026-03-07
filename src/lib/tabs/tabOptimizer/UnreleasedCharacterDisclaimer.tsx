@@ -1,10 +1,7 @@
-import {
-  Alert,
-  Form as AntDForm,
-} from 'antd'
+import { Alert } from 'antd'
 import DB from 'lib/state/db'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useMemo } from 'react'
-import { CharacterId } from 'types/character'
 import { LightCone } from 'types/lightCone'
 
 const UNRELEASED_CHARACTER_IDS = new Set<string>([
@@ -23,14 +20,14 @@ const UNRELEASED_LIGHT_CONE_IDS = new Set<string>([
 ])
 
 export function UnreleasedCharacterDisclaimer() {
-  const characterId: CharacterId = AntDForm.useWatch(['characterId'], window.optimizerForm)
-  const lightConeId: string = AntDForm.useWatch(['lightCone'], window.optimizerForm)
-  const teammate0CharId: CharacterId = AntDForm.useWatch(['teammate0', 'characterId'], window.optimizerForm)
-  const teammate1CharId: CharacterId = AntDForm.useWatch(['teammate1', 'characterId'], window.optimizerForm)
-  const teammate2CharId: CharacterId = AntDForm.useWatch(['teammate2', 'characterId'], window.optimizerForm)
-  const teammate0LcId: string = AntDForm.useWatch(['teammate0', 'lightCone'], window.optimizerForm)
-  const teammate1LcId: string = AntDForm.useWatch(['teammate1', 'lightCone'], window.optimizerForm)
-  const teammate2LcId: string = AntDForm.useWatch(['teammate2', 'lightCone'], window.optimizerForm)
+  const characterId = useOptimizerFormStore((s) => s.characterId)
+  const lightConeId = useOptimizerFormStore((s) => s.lightCone)
+  const teammate0CharId = useOptimizerFormStore((s) => s.teammates[0].characterId)
+  const teammate1CharId = useOptimizerFormStore((s) => s.teammates[1].characterId)
+  const teammate2CharId = useOptimizerFormStore((s) => s.teammates[2].characterId)
+  const teammate0LcId = useOptimizerFormStore((s) => s.teammates[0].lightCone)
+  const teammate1LcId = useOptimizerFormStore((s) => s.teammates[1].lightCone)
+  const teammate2LcId = useOptimizerFormStore((s) => s.teammates[2].lightCone)
 
   const unreleasedNames = useMemo(() => {
     const metadata = DB.getMetadata()

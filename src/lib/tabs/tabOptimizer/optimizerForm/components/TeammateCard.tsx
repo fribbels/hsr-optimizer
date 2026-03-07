@@ -167,8 +167,8 @@ function calculateTeammateSets(teammateCharacter: Character) {
 }
 
 function countTeammates() {
-  const fieldsValue = window.optimizerForm.getFieldsValue()
-  return [fieldsValue.teammate0, fieldsValue.teammate1, fieldsValue.teammate2].filter((teammate) => teammate?.characterId).length
+  const state = useOptimizerFormStore.getState()
+  return state.teammates.filter((teammate) => teammate?.characterId).length
 }
 
 export type OptionRender = {

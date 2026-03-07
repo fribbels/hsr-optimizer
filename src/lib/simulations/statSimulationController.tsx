@@ -25,6 +25,7 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -48,7 +49,8 @@ import {
 // FIXME HIGH
 
 export function saveStatSimulationBuildFromForm(startSim = true) {
-  const form: Form = window.optimizerForm.getFieldsValue()
+  const storeState = useOptimizerFormStore.getState()
+  const form = { statSim: storeState.statSim } as Form
   console.log('Save statSim', form.statSim)
 
   const simType: StatSimTypes = window.store.getState().statSimulationDisplay

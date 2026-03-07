@@ -1,6 +1,7 @@
 import { Flex } from 'antd'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -27,10 +28,10 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
 
   const { id, superImposition, teammateIndex } = props
 
+  const storeState = useOptimizerFormStore.getState()
   const wearerId: CharacterId = teammateIndex == undefined
-    ? window.optimizerForm.getFieldValue('characterId')
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    : window.optimizerForm.getFieldValue(`teammate${teammateIndex as 0 | 1 | 2}`)?.characterId
+    ? storeState.characterId!
+    : storeState.teammates[teammateIndex as 0 | 1 | 2].characterId!
 
   const conditionalResolverMetadata = generateConditionalResolverMetadata({
     characterId: wearerId,

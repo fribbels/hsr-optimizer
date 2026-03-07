@@ -8,6 +8,7 @@ import {
   Switch,
   Typography,
 } from 'antd'
+import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import WithPopover from 'lib/ui/WithPopover'
@@ -45,6 +46,37 @@ export function getItemName(props: FormSwitchProps | FormSliderProps | FormSelec
   }
 
   return itemName
+}
+
+const teammateKeyToIndex: Record<string, 0 | 1 | 2> = {
+  teammate0: 0,
+  teammate1: 1,
+  teammate2: 2,
+}
+
+export function resolveConditionalValue(
+  state: OptimizerFormState,
+  itemName: (string | number)[],
+): unknown {
+  // itemName is like ['characterConditionals', 'id'] or ['teammate0', 'lightConeConditionals', 'id'] or ['setConditionals', 'id', 1]
+  const [first, ...rest] = itemName
+  const tmIndex = teammateKeyToIndex[first as string]
+  if (tmIndex != null) {
+    // Teammate path: resolve from state.teammates[N]
+    let current: unknown = state.teammates[tmIndex]
+    for (const key of rest) {
+      if (current == null) return undefined
+      current = (current as Record<string | number, unknown>)[key]
+    }
+    return current
+  }
+  // Main character path: resolve from state directly
+  let current: unknown = state
+  for (const key of itemName) {
+    if (current == null) return undefined
+    current = (current as Record<string | number, unknown>)[key]
+  }
+  return current
 }
 
 export interface FormSwitchProps {

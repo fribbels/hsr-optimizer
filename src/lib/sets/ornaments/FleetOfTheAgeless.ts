@@ -13,6 +13,7 @@ import {
 import {
   containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -84,6 +85,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.FleetOfTheAgeless)
   },
+  gpuBasic: () => basicSetEffect('HP_P', 0.12, 'ornament2p', 'FleetOfTheAgeless'),
   dynamicConditionals: [FleetOfTheAgelessConditional],
   teammate: [{
     value: Sets.FleetOfTheAgeless,

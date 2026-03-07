@@ -13,6 +13,7 @@ import {
 import {
   containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -116,6 +117,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
   },
+  gpuBasic: () => basicSetEffect('SPD_P', 0.06, 'ornament2p', 'GiantTreeOfRaptBrooding'),
   dynamicConditionals: [GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional],
 } as const satisfies SetConditionals
 

@@ -4,6 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -44,6 +45,7 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
     }
   },
+  gpuBasic: () => basicSetEffect('ATK_P', 0.12, 'ornament2p', 'FirmamentFrontlineGlamoth'),
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     ornament2p(*p_sets, SET_FirmamentFrontlineGlamoth) >= 1

@@ -1,6 +1,7 @@
 import { ConditionalDataType, Sets } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   OptimizerContext,
@@ -30,6 +31,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.LushakaTheSunkenSeas)
   },
+  gpuBasic: () => basicSetEffect('ERR', 0.05, 'ornament2p', 'LushakaTheSunkenSeas'),
   teammate: [{
     value: Sets.LushakaTheSunkenSeas,
     label: (t) => t('TeammateSets.Lushaka.Text'),

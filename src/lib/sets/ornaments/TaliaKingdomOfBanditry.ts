@@ -14,6 +14,7 @@ import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -80,6 +81,7 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.TaliaKingdomOfBanditry)
   },
+  gpuBasic: () => basicSetEffect('BE', 0.16, 'ornament2p', 'TaliaKingdomOfBanditry'),
   dynamicConditionals: [TaliaKingdomOfBanditryConditional],
 } as const satisfies SetConditionals
 

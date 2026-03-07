@@ -5,6 +5,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -47,6 +48,7 @@ const conditionals = {
   overrideConditional: (value, context) => {
     return (value as boolean) && countTeamPath(context, context.path) >= 2
   },
+  gpuBasic: () => basicSetEffect('ATK_P', 0.12, 'ornament2p', 'IzumoGenseiAndTakamaDivineRealm'),
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_IzumoGenseiAndTakamaDivineRealm) >= 1

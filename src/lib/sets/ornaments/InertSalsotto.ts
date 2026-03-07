@@ -4,6 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicSetEffect } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -43,6 +44,7 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.15, x.damageType(DamageTag.ULT | DamageTag.FUA).source(Source.InertSalsotto))
     }
   },
+  gpuBasic: () => basicSetEffect('CR', 0.08, 'ornament2p', 'InertSalsotto'),
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     ornament2p(*p_sets, SET_InertSalsotto) >= 1

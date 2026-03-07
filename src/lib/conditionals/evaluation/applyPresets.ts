@@ -1,7 +1,6 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   Constants,
@@ -64,8 +63,9 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)
 
-  window.optimizerForm.setFieldsValue(form)
-  syncFormToStore(window.optimizerForm.getFieldsValue())
+  // Convert display-format form back to internal and load into store
+  const internalForm = OptimizerTabController.displayToForm(form)
+  useOptimizerFormStore.getState().loadForm(internalForm)
   recalculatePermutations()
 }
 

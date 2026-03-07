@@ -580,7 +580,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Bouclier
       SHIELD_VALUE_P: Δ% Bouclier
   DamageSplits:
-    Title: Répartition des dégâts
     Legend:
       abilityDmg: Capacité
       breakDmg: Rupture

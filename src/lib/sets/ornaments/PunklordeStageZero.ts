@@ -102,6 +102,7 @@ if (
 }
 
 const info = {
+  id: 'PunklordeStageZero',
   index: 24,
   setType: SetType.ORNAMENT,
   ingameId: '325',
@@ -117,7 +118,9 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ELATION.buff(0.08, Source.PunklordeStageZero)
   },
-  gpuBasic: () => [basicP2(WgslStatName.ELATION, 0.08, 'PunklordeStageZero', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.ELATION, 0.08, info),
+  ],
   dynamicConditionals: [PunklordeStageZeroConditional40, PunklordeStageZeroConditional80],
 } as const satisfies SetConditionals
 

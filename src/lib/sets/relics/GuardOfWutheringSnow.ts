@@ -21,6 +21,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'GuardOfWutheringSnow',
   index: 5,
   setType: SetType.RELIC,
   ingameId: '106',

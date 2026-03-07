@@ -18,6 +18,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'EagleOfTwilightLine',
   index: 9,
   setType: SetType.RELIC,
   ingameId: '110',
@@ -35,7 +36,9 @@ const conditionals = {
       c.WIND_DMG_BOOST.buff(0.10, Source.EagleOfTwilightLine)
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.WIND_DMG_BOOST, 0.10, 'EagleOfTwilightLine', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.WIND_DMG_BOOST, 0.10, info),
+  ],
 } as const satisfies SetConditionals
 
 export const EagleOfTwilightLine = {

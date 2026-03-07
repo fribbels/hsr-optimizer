@@ -23,6 +23,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'HeroOfTriumphantSong',
   index: 22,
   setType: SetType.RELIC,
   ingameId: '123',
@@ -46,7 +47,9 @@ const conditionals = {
       x.buff(StatKey.CD, 0.30, x.targets(TargetTag.SelfAndMemosprite).source(Source.HeroOfTriumphantSong))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.ATK_P, 0.12, 'HeroOfTriumphantSong', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_HeroOfTriumphantSong) >= 1

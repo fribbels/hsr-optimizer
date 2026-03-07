@@ -28,6 +28,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'EverGloriousMagicalGirl',
   index: 28,
   setType: SetType.RELIC,
   ingameId: '129',
@@ -50,7 +51,9 @@ const conditionals = {
     x.buff(StatKey.DEF_PEN, 0.10 + 0.01 * setConditionals.valueEverGloriousMagicalGirl,
       x.damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).source(Source.EverGloriousMagicalGirl))
   },
-  gpuBasic: () => [basicP2(WgslStatName.CD, 0.16, 'EverGloriousMagicalGirl', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.CD, 0.16, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_EverGloriousMagicalGirl) >= 1) {
       ${buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}

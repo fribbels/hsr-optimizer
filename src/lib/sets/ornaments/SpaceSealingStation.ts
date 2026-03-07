@@ -67,6 +67,7 @@ if (
 }
 
 const info = {
+  id: 'SpaceSealingStation',
   index: 0,
   setType: SetType.ORNAMENT,
   ingameId: '301',
@@ -82,7 +83,9 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.SpaceSealingStation)
   },
-  gpuBasic: () => [basicP2(WgslStatName.ATK_P, 0.12, 'SpaceSealingStation', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, info),
+  ],
   dynamicConditionals: [SpaceSealingStationConditional],
 } as const satisfies SetConditionals
 

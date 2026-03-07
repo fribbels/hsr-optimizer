@@ -23,6 +23,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'TheWindSoaringValorous',
   index: 19,
   setType: SetType.RELIC,
   ingameId: '120',
@@ -49,8 +50,8 @@ const conditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ATK_P, 0.12, 'TheWindSoaringValorous', info.setType),
-    basicP4(WgslStatName.CR, 0.06, 'TheWindSoaringValorous'),
+    basicP2(WgslStatName.ATK_P, 0.12, info),
+    basicP4(WgslStatName.CR, 0.06, info),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_TheWindSoaringValorous) >= 1) {

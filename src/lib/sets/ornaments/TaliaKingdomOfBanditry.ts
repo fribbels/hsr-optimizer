@@ -66,6 +66,7 @@ if (
 }
 
 const info = {
+  id: 'TaliaKingdomOfBanditry',
   index: 6,
   setType: SetType.ORNAMENT,
   ingameId: '307',
@@ -81,7 +82,9 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.TaliaKingdomOfBanditry)
   },
-  gpuBasic: () => [basicP2(WgslStatName.BE, 0.16, 'TaliaKingdomOfBanditry', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.BE, 0.16, info),
+  ],
   dynamicConditionals: [TaliaKingdomOfBanditryConditional],
 } as const satisfies SetConditionals
 

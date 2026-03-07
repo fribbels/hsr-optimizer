@@ -24,6 +24,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'PoetOfMourningCollapse',
   index: 23,
   setType: SetType.RELIC,
   ingameId: '124',
@@ -50,8 +51,8 @@ const conditionals = {
     x.buff(StatKey.CR, (spd < 110 ? 0.20 : 0) + (spd < 95 ? 0.12 : 0), x.targets(TargetTag.SelfAndMemosprite).source(Source.PoetOfMourningCollapse))
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, 'PoetOfMourningCollapse', info.setType),
-    basicP4(WgslStatName.SPD_P, -0.08, 'PoetOfMourningCollapse'),
+    basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, info),
+    basicP4(WgslStatName.SPD_P, -0.08, info),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_PoetOfMourningCollapse) >= 1) {

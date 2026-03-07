@@ -70,6 +70,7 @@ if (
 }
 
 const info = {
+  id: 'FleetOfTheAgeless',
   index: 1,
   setType: SetType.ORNAMENT,
   ingameId: '302',
@@ -85,7 +86,9 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.FleetOfTheAgeless)
   },
-  gpuBasic: () => [basicP2(WgslStatName.HP_P, 0.12, 'FleetOfTheAgeless', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.HP_P, 0.12, info),
+  ],
   dynamicConditionals: [FleetOfTheAgelessConditional],
   teammate: [{
     value: Sets.FleetOfTheAgeless,

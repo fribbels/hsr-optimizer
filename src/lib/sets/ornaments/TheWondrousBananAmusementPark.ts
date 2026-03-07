@@ -22,6 +22,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'TheWondrousBananAmusementPark',
   index: 17,
   setType: SetType.ORNAMENT,
   ingameId: '318',
@@ -44,7 +45,9 @@ const conditionals = {
       x.buff(StatKey.CD, 0.32, x.source(Source.TheWondrousBananAmusementPark))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.CD, 0.16, 'TheWondrousBananAmusementPark', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.CD, 0.16, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_TheWondrousBananAmusementPark) >= 1

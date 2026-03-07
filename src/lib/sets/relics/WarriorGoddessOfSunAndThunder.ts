@@ -24,6 +24,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'WarriorGoddessOfSunAndThunder',
   index: 24,
   setType: SetType.RELIC,
   ingameId: '125',
@@ -49,7 +50,9 @@ const conditionals = {
       }
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.SPD_P, 0.06, 'WarriorGoddessOfSunAndThunder', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.SPD_P, 0.06, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WarriorGoddessOfSunAndThunder) >= 1

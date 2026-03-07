@@ -23,6 +23,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'IzumoGenseiAndTakamaDivineRealm',
   index: 13,
   setType: SetType.ORNAMENT,
   ingameId: '314',
@@ -48,7 +49,9 @@ const conditionals = {
   overrideConditional: (value, context) => {
     return (value as boolean) && countTeamPath(context, context.path) >= 2
   },
-  gpuBasic: () => [basicP2(WgslStatName.ATK_P, 0.12, 'IzumoGenseiAndTakamaDivineRealm', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_IzumoGenseiAndTakamaDivineRealm) >= 1

@@ -22,6 +22,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'WavestriderCaptain',
   index: 25,
   setType: SetType.RELIC,
   ingameId: '126',
@@ -44,7 +45,9 @@ const conditionals = {
       x.buff(StatKey.ATK_P, 0.48, x.source(Source.WavestriderCaptain))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.CD, 0.16, 'WavestriderCaptain', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.CD, 0.16, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WavestriderCaptain) >= 1

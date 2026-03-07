@@ -67,6 +67,7 @@ if (
 }
 
 const info = {
+  id: 'BelobogOfTheArchitects',
   index: 3,
   setType: SetType.ORNAMENT,
   ingameId: '304',
@@ -82,7 +83,9 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.DEF_P.buff(0.15, Source.BelobogOfTheArchitects)
   },
-  gpuBasic: () => [basicP2(WgslStatName.DEF_P, 0.15, 'BelobogOfTheArchitects', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.DEF_P, 0.15, info),
+  ],
   dynamicConditionals: [BelobogOfTheArchitectsConditional],
 } as const satisfies SetConditionals
 

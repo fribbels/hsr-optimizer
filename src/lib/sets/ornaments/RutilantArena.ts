@@ -24,6 +24,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'RutilantArena',
   index: 8,
   setType: SetType.ORNAMENT,
   ingameId: '309',
@@ -44,7 +45,9 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(Source.RutilantArena))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.CR, 0.08, 'RutilantArena', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.CR, 0.08, info),
+  ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     ornament2p(*p_sets, SET_RutilantArena) >= 1

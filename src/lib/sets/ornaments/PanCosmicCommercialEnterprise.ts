@@ -76,6 +76,7 @@ if (
 }
 
 const info = {
+  id: 'PanCosmicCommercialEnterprise',
   index: 2,
   setType: SetType.ORNAMENT,
   ingameId: '303',
@@ -91,7 +92,9 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.EHR.buff(0.10, Source.PanCosmicCommercialEnterprise)
   },
-  gpuBasic: () => [basicP2(WgslStatName.EHR, 0.10, 'PanCosmicCommercialEnterprise', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.EHR, 0.10, info),
+  ],
   dynamicConditionals: [PanCosmicCommercialEnterpriseConditional],
 } as const satisfies SetConditionals
 

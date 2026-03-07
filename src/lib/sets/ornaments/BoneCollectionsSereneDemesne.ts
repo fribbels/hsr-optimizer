@@ -69,6 +69,7 @@ if (
 }
 
 const info = {
+  id: 'BoneCollectionsSereneDemesne',
   index: 18,
   setType: SetType.ORNAMENT,
   ingameId: '319',
@@ -84,7 +85,9 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.HP_P.buff(0.12, Source.BoneCollectionsSereneDemesne)
   },
-  gpuBasic: () => [basicP2(WgslStatName.HP_P, 0.12, 'BoneCollectionsSereneDemesne', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.HP_P, 0.12, info),
+  ],
   dynamicConditionals: [BoneCollectionsSereneDemesneConditional],
 } as const satisfies SetConditionals
 

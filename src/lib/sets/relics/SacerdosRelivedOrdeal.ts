@@ -27,6 +27,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'SacerdosRelivedOrdeal',
   index: 20,
   setType: SetType.RELIC,
   ingameId: '121',
@@ -48,7 +49,9 @@ const conditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.CD, 0.18 * setConditionals.valueSacerdosRelivedOrdeal, x.source(Source.SacerdosRelivedOrdeal))
   },
-  gpuBasic: () => [basicP2(WgslStatName.SPD_P, 0.06, 'SacerdosRelivedOrdeal', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.SPD_P, 0.06, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
       ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}

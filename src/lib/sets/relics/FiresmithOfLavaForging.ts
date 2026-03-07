@@ -24,6 +24,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'FiresmithOfLavaForging',
   index: 6,
   setType: SetType.RELIC,
   ingameId: '107',
@@ -49,7 +50,9 @@ const conditionals = {
       x.buff(StatKey.FIRE_DMG_BOOST, 0.12, x.source(Source.FiresmithOfLavaForging))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.FIRE_DMG_BOOST, 0.10, 'FiresmithOfLavaForging', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.FIRE_DMG_BOOST, 0.10, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_FiresmithOfLavaForging) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, 0.12).damageType(DamageTag.SKILL).wgsl(action, 2)}

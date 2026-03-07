@@ -17,6 +17,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'ThiefOfShootingMeteor',
   index: 10,
   setType: SetType.RELIC,
   ingameId: '111',
@@ -36,8 +37,8 @@ const conditionals = {
     c.BE.buff(0.16, Source.ThiefOfShootingMeteor)
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.BE, 0.16, 'ThiefOfShootingMeteor', info.setType),
-    basicP4(WgslStatName.BE, 0.16, 'ThiefOfShootingMeteor'),
+    basicP2(WgslStatName.BE, 0.16, info),
+    basicP4(WgslStatName.BE, 0.16, info),
   ],
 } as const satisfies SetConditionals
 

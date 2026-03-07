@@ -24,6 +24,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'WorldRemakingDeliverer',
   index: 26,
   setType: SetType.RELIC,
   ingameId: '127',
@@ -49,7 +50,9 @@ const conditionals = {
       }
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.CR, 0.08, 'WorldRemakingDeliverer', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.CR, 0.08, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_WorldRemakingDeliverer) >= 1

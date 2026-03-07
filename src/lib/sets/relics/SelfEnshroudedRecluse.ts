@@ -25,6 +25,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'SelfEnshroudedRecluse',
   index: 27,
   setType: SetType.RELIC,
   ingameId: '128',

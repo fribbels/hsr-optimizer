@@ -26,6 +26,7 @@ export enum SetType {
 }
 
 export type SetInfo = {
+  id: SetKey
   index: number
   setType: SetType
   ingameId: string

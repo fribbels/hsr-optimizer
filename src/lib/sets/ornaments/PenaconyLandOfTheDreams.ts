@@ -20,6 +20,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'PenaconyLandOfTheDreams',
   index: 11,
   setType: SetType.ORNAMENT,
   ingameId: '312',
@@ -42,7 +43,9 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.Memosprite).source(Source.PenaconyLandOfTheDreams))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.ERR, 0.05, 'PenaconyLandOfTheDreams', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.ERR, 0.05, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_PenaconyLandOfTheDreams) >= 1

@@ -29,6 +29,7 @@ import {
 // 3 = ATK + CD (both active)
 
 const info = {
+  id: 'CityOfConvergingStars',
   index: 25,
   setType: SetType.ORNAMENT,
   ingameId: '326',

@@ -23,6 +23,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'HunterOfGlacialForest',
   index: 3,
   setType: SetType.RELIC,
   ingameId: '104',
@@ -47,7 +48,9 @@ const conditionals = {
       x.buff(StatKey.CD, 0.25, x.source(Source.HunterOfGlacialForest))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.ICE_DMG_BOOST, 0.10, 'HunterOfGlacialForest', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.ICE_DMG_BOOST, 0.10, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_HunterOfGlacialForest) >= 1

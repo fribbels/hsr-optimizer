@@ -26,6 +26,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'CelestialDifferentiator',
   index: 4,
   setType: SetType.ORNAMENT,
   ingameId: '305',
@@ -48,7 +49,9 @@ const conditionals = {
       x.buff(StatKey.CR, 0.60, x.source(Source.CelestialDifferentiator))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.CD, 0.16, 'CelestialDifferentiator', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.CD, 0.16, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_CelestialDifferentiator) >= 1

@@ -15,6 +15,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'LushakaTheSunkenSeas',
   index: 16,
   setType: SetType.ORNAMENT,
   ingameId: '317',
@@ -31,7 +32,9 @@ const conditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.LushakaTheSunkenSeas)
   },
-  gpuBasic: () => [basicP2(WgslStatName.ERR, 0.05, 'LushakaTheSunkenSeas', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.ERR, 0.05, info),
+  ],
   teammate: [{
     value: Sets.LushakaTheSunkenSeas,
     label: (t) => t('TeammateSets.Lushaka.Text'),

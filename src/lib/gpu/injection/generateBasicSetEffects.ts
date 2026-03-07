@@ -1,7 +1,7 @@
 import { SetKey } from 'lib/constants/constants'
 import { BasicKeyType, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
-import { SetType } from 'types/setConfig'
+import { SetInfo, SetType } from 'types/setConfig'
 
 export enum GpuSetMatcher {
   RELIC_2P = 'relic2p',
@@ -16,19 +16,19 @@ export type BasicSetEffectEntry = {
   setId: SetKey
 }
 
-const PERCENTAGE_STATS: Record<string, string> = {
+const WGSL_BASE_VARIABLE: Record<string, string> = {
   HP_P: 'baseHP',
   ATK_P: 'baseATK',
   DEF_P: 'baseDEF',
   SPD_P: 'baseSPD',
 }
 
-export function basicP2(stat: BasicKeyType, value: number, setId: SetKey, setType: SetType): BasicSetEffectEntry {
-  return { stat, value, matchFn: setType === SetType.RELIC ? GpuSetMatcher.RELIC_2P : GpuSetMatcher.ORNAMENT_2P, setId }
+export function basicP2(stat: BasicKeyType, value: number, info: SetInfo): BasicSetEffectEntry {
+  return { stat, value, matchFn: info.setType === SetType.RELIC ? GpuSetMatcher.RELIC_2P : GpuSetMatcher.ORNAMENT_2P, setId: info.id }
 }
 
-export function basicP4(stat: BasicKeyType, value: number, setId: SetKey): BasicSetEffectEntry {
-  return { stat, value, matchFn: GpuSetMatcher.RELIC_4P, setId }
+export function basicP4(stat: BasicKeyType, value: number, info: SetInfo): BasicSetEffectEntry {
+  return { stat, value, matchFn: GpuSetMatcher.RELIC_4P, setId: info.id }
 }
 
 function formatTerm(entry: BasicSetEffectEntry): string {
@@ -77,7 +77,7 @@ export function generateBasicSetEffectsWgsl(): string {
     const entries = groups.get(stat)
     if (!entries || entries.length === 0) continue
 
-    const base = PERCENTAGE_STATS[stat]
+    const base = WGSL_BASE_VARIABLE[stat]
     const terms = entries.map(formatTerm)
 
     if (base) {

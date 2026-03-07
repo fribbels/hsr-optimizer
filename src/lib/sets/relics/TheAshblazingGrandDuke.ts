@@ -24,6 +24,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'TheAshblazingGrandDuke',
   index: 14,
   setType: SetType.RELIC,
   ingameId: '115',

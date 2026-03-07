@@ -34,6 +34,7 @@ const arcadiaSetIndexToDmg: Record<number, number> = {
 }
 
 const info = {
+  id: 'ArcadiaOfWovenDreams',
   index: 20,
   setType: SetType.ORNAMENT,
   ingameId: '321',

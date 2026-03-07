@@ -24,6 +24,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'FirmamentFrontlineGlamoth',
   index: 10,
   setType: SetType.ORNAMENT,
   ingameId: '311',
@@ -45,7 +46,9 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.ATK_P, 0.12, 'FirmamentFrontlineGlamoth', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, info),
+  ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     ornament2p(*p_sets, SET_FirmamentFrontlineGlamoth) >= 1

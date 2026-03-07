@@ -23,6 +23,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'GeniusOfBrilliantStars',
   index: 7,
   setType: SetType.RELIC,
   ingameId: '108',
@@ -45,7 +46,9 @@ const conditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.DEF_PEN, setConditionals.enabledGeniusOfBrilliantStars ? 0.20 : 0.10, x.source(Source.GeniusOfBrilliantStars))
   },
-  gpuBasic: () => [basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, 'GeniusOfBrilliantStars', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_GeniusOfBrilliantStars) >= 1) {
       ${buff.action(AKey.DEF_PEN, `select(0.10, 0.20, setConditionals.enabledGeniusOfBrilliantStars == true)`).wgsl(action, 2)}

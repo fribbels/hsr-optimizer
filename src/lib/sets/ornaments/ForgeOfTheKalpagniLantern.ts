@@ -22,6 +22,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'ForgeOfTheKalpagniLantern',
   index: 15,
   setType: SetType.ORNAMENT,
   ingameId: '316',
@@ -44,7 +45,9 @@ const conditionals = {
       x.buff(StatKey.BE, 0.40, x.source(Source.ForgeOfTheKalpagniLantern))
     }
   },
-  gpuBasic: () => [basicP2(WgslStatName.SPD_P, 0.06, 'ForgeOfTheKalpagniLantern', info.setType)],
+  gpuBasic: () => [
+    basicP2(WgslStatName.SPD_P, 0.06, info),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_ForgeOfTheKalpagniLantern) >= 1

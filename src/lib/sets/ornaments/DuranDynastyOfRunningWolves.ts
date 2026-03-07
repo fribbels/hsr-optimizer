@@ -25,6 +25,7 @@ import {
 } from 'types/setConfig'
 
 const info = {
+  id: 'DuranDynastyOfRunningWolves',
   index: 14,
   setType: SetType.ORNAMENT,
   ingameId: '315',

@@ -1,91 +1,113 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH, } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
-
-export type DamageBreakdown = {
-  name: string,
-  abilityDmg: number,
-  additionalDmg: number,
-  breakDmg: number,
-  superBreakDmg: number,
-  jointDmg: number,
-  trueDmg: number,
-  dotDmg: number,
-  memoDmg: number,
-}
+import {
+  DamageSplitEntry,
+  getDamageTypeColor,
+} from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Bar, BarChart, LabelList, Legend, Tooltip, XAxis, YAxis, } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  LabelList,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
-type DamageBreakdownKeys = Exclude<keyof DamageBreakdown, 'name'>
-
-const keys: DamageBreakdownKeys[] = [
-  'abilityDmg',
-  'dotDmg',
-  'superBreakDmg',
-  'jointDmg',
-  'memoDmg',
-  'additionalDmg',
-  'breakDmg',
-  'trueDmg',
-]
-
-type SummedDamageBreakdown = DamageBreakdown & { sum: number }
+export const DAMAGE_SPLITS_CHART_WIDTH = 730
+const BAR_HEIGHT = 65
+const CHART_PADDING = 80
 
 const chartColor = '#DDD'
 
-export function DamageSplitsChart(props: {
-  data: DamageBreakdown[],
-}) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits' })
-  const [barHovered, setBarHovered] = useState<string | null>(null)
+type FlattenedBar = {
+  key: string
+  damageType: number
+  label: string
+  color: string
+  isLast: boolean
+}
 
-  const data = props.data
-  const filteredData: SummedDamageBreakdown[] = data.filter((row) => keys.some((key) => row[key] !== 0) // Keep only rows with non-zero values
-  ).map((item) => {
-    const summed = item as SummedDamageBreakdown
-    let sum = 0
-    for (const key of keys) {
-      sum += item[key] ?? 0
+type FlatRow = Record<string, number | string> & {
+  name: string
+  total: number
+}
+
+function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: FlattenedBar[] } {
+  const bars: FlattenedBar[] = []
+  const rows: FlatRow[] = []
+
+  for (let entryIdx = 0; entryIdx < data.length; entryIdx++) {
+    const entry = data[entryIdx]
+    const row: FlatRow = { name: entry.name, total: entry.total }
+
+    for (let segIdx = 0; segIdx < entry.segments.length; segIdx++) {
+      const seg = entry.segments[segIdx]
+      const key = `${entryIdx}_${segIdx}`
+      row[key] = seg.damage
+
+      bars.push({
+        key,
+        damageType: seg.damageType,
+        label: seg.label,
+        color: getDamageTypeColor(seg.damageType),
+        isLast: segIdx === entry.segments.length - 1,
+      })
     }
-    summed.sum = sum
-    return summed
+
+    rows.push(row)
+  }
+
+  const seen = new Set<string>()
+  const uniqueBars = bars.filter((b) => {
+    if (seen.has(b.key)) return false
+    seen.add(b.key)
+    return true
   })
 
-  let maxValue = 0
-  filteredData.sort((a, b) => {
-    const sumA = Object.values(a)
-      .filter((value): value is number => typeof value === 'number')
-      .reduce((n, store) => n + store, 0)
+  return { rows, bars: uniqueBars }
+}
 
-    const sumB = Object.values(b)
-      .filter((value): value is number => typeof value === 'number')
-      .reduce((n, store) => n + store, 0)
+const SEGMENT_GAP = 3
 
-    if (sumA > maxValue) maxValue = sumA
-    if (sumB > maxValue) maxValue = sumB
+function GapBar(color: string) {
+  return (props: { x: number; y: number; width: number; height: number }) => (
+    <rect
+      x={props.x + SEGMENT_GAP}
+      y={props.y}
+      width={Math.max(0, props.width - SEGMENT_GAP)}
+      height={props.height}
+      fill={color}
+    />
+  )
+}
 
-    return sumB - sumA
-  })
+export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits' })
+  const [hoveredBar, setHoveredBar] = useState<string | null>(null)
+
+  const { rows, bars } = useMemo(() => flattenData(props.data), [props.data])
+
+  if (rows.length === 0) {
+    return null
+  }
+
+  const chartHeight = Math.max(200, rows.length * BAR_HEIGHT + CHART_PADDING)
 
   return (
     <Flex justify='center' className='pre-font'>
       <span style={{ position: 'absolute', marginTop: 20, fontSize: 14 }}>
-        {t('Title') /* Damage Type Distribution */}
+        {t('Title')}
       </span>
       <BarChart
         layout='vertical'
-        data={filteredData}
-        margin={{
-          top: 50,
-          right: 60,
-          bottom: 20,
-          left: 70,
-        }}
+        data={rows}
+        margin={{ top: 50, right: 60, bottom: 20, left: 70 }}
         barCategoryGap='25%'
         width={DAMAGE_SPLITS_CHART_WIDTH}
-        height={DAMAGE_SPLITS_CHART_HEIGHT}
+        height={chartHeight}
       >
         <XAxis
           type='number'
@@ -99,84 +121,64 @@ export function DamageSplitsChart(props: {
           axisLine={false}
           tickLine={false}
           tick={{ fill: chartColor }}
-          // tickFormatter={(key: keyof DefaultActionDamageValues) => t(`YAxisLabel.${key}`)}
           tickMargin={10}
           width={20}
         />
         <Tooltip
           cursor={false}
           isAnimationActive={false}
-          // @ts-ignore
-          content={<CustomTooltip bar={barHovered} />}
-        />
-        <Legend
-          formatter={(s: DamageBreakdownKeys) => t(`Legend.${s}`)}
-          wrapperStyle={{ paddingTop: 10, paddingRight: 40, paddingLeft: 40 }}
+          content={<CustomTooltip hoveredBar={hoveredBar} bars={bars} />}
         />
 
-        {renderBar('abilityDmg', '#85c1e9', setBarHovered)}
-        {renderBar('jointDmg', '#2980b9', setBarHovered)}
-        {renderBar('superBreakDmg', '#e59866', setBarHovered)}
-        {renderBar('additionalDmg', '#bb8fce', setBarHovered)}
-        {renderBar('dotDmg', '#45b39d', setBarHovered)}
-        {renderBar('memoDmg', '#cd6155', setBarHovered)}
-        {renderBar('breakDmg', '#f8c471', setBarHovered)}
-        {renderBar('trueDmg', '#cacfd2', setBarHovered, true)}
+        {bars.map((bar) => (
+          <Bar
+            key={bar.key}
+            dataKey={bar.key}
+            stackId='a'
+            fill={bar.color}
+            // @ts-ignore recharts shape typing
+            shape={GapBar(bar.color)}
+            activeBar={false}
+            isAnimationActive={false}
+            onMouseEnter={() => setHoveredBar(bar.key)}
+            onMouseLeave={() => setHoveredBar(null)}
+          >
+            {bar.isLast && (
+              <LabelList dataKey='total' position='right' formatter={renderThousandsK} />
+            )}
+          </Bar>
+        ))}
       </BarChart>
     </Flex>
   )
 }
 
-function renderBar(
-  dataKey: string,
-  color: string,
-  setBarHovered: (s: string | null) => void,
-  label: boolean = false,
-) {
-  return (
-    <Bar
-      key={dataKey}
-      dataKey={dataKey}
-      stackId='a'
-      fill={color}
-      activeBar={false}
-      isAnimationActive={false}
-      onMouseEnter={() => setBarHovered(dataKey)}
-      onMouseLeave={() => setBarHovered(null)}
-    >
-      {label && <LabelList dataKey='sum' position='right' formatter={renderThousandsK} />}
-    </Bar>
-  )
+type TooltipPayloadItem = {
+  dataKey: string
+  value: number
 }
 
-type BarsTooltipData = {
-  dataKey: string,
-  value: number,
-  payload: DamageBreakdown,
-}
+function CustomTooltip(props: {
+  active?: boolean
+  payload?: TooltipPayloadItem[]
+  hoveredBar: string | null
+  bars: FlattenedBar[]
+}) {
+  const { active, payload, hoveredBar, bars } = props
+  if (!active || !payload || !hoveredBar) return null
 
-const CustomTooltip = (props: { active: boolean, payload: BarsTooltipData[], label: string, bar: DamageBreakdownKeys | null }) => {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits.TooltipText' })
-  const { active, payload, bar } = props
-  if (!bar || !payload || !active) {
-    return null
-  }
-
-  const damageItem = payload.find((x) => x.dataKey == bar)
-  if (!damageItem) return null
+  const barDef = bars.find((b) => b.key === hoveredBar)
+  const dataItem = payload.find((p) => p.dataKey === hoveredBar)
+  if (!barDef || !dataItem) return null
 
   return (
     <Flex
       vertical
       className='pre-font'
-      style={{
-        background: 'rgb(69,93,154)',
-        padding: 8,
-        borderRadius: 3,
-      }}
+      style={{ background: 'rgb(69,93,154)', padding: 8, borderRadius: 3 }}
     >
-      <span style={{ fontSize: 14, fontWeight: 'bold' }}>{t(bar)}</span>
-      <span>{localeNumberComma(Math.floor(damageItem.value))}</span>
+      <span style={{ fontSize: 14, fontWeight: 'bold' }}>{barDef.label}</span>
+      <span>{localeNumberComma(Math.floor(dataItem.value))}</span>
     </Flex>
   )
 }

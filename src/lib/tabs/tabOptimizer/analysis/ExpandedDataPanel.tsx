@@ -12,6 +12,7 @@ import {
   mismatchedCharacter,
   OptimizerResultAnalysis,
 } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
@@ -82,6 +83,7 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
           <Flex vertical gap={10}>
             <StatsDiffCard analysis={analysis} />
             <DamageUpgrades analysis={analysis} />
+            <DamageSplits analysis={analysis} />
           </Flex>
 
           <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true} />

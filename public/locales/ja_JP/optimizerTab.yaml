@@ -582,7 +582,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: シールド量変化量
       SHIELD_VALUE_P: シールド量変化率
   DamageSplits:
-    Title: ダメージ種類別分布
     Legend:
       abilityDmg: アビリティ
       breakDmg: 撃破

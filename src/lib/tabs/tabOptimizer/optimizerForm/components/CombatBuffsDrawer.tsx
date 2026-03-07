@@ -1,7 +1,6 @@
 import {
   Drawer,
   Flex,
-  Form,
   Typography,
 } from 'antd'
 import { CombatBuffs } from 'lib/constants/constants'
@@ -10,6 +9,7 @@ import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useMemo } from 'react'
@@ -47,15 +47,20 @@ export const CombatBuffsDrawer = () => {
   )
 }
 
-function CombatBuff(props: { title: string, name: string }) {
+function CombatBuff(props: { title: string; name: string }) {
+  const value = useOptimizerFormStore((s) => s.combatBuffs[props.name])
+
   return (
     <Flex justify='space-between'>
       <Text>
         {props.title}
       </Text>
-      <Form.Item name={['combatBuffs', props.name]}>
-        <InputNumberStyled size='small' controls={false} />
-      </Form.Item>
+      <InputNumberStyled
+        size='small'
+        controls={false}
+        value={value}
+        onChange={(val) => useOptimizerFormStore.getState().setCombatBuff(props.name, (val as number) ?? 0)}
+      />
     </Flex>
   )
 }

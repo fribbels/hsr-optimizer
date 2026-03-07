@@ -15,16 +15,16 @@ export const MinMaxStatFilters = () => {
         <TooltipImage type={Hint.statFilters()} />
       </Flex>
       <Flex vertical gap={7}>
-        <FilterRow name='Atk' label={t('ATKLabel')} />
-        <FilterRow name='Hp' label={t('HPLabel')} />
-        <FilterRow name='Def' label={t('DEFLabel')} />
-        <FilterRow name='Spd' label={t('SPDLabel')} />
-        <FilterRow name='Cr' label={t('CRLabel')} />
-        <FilterRow name='Cd' label={t('CDLabel')} />
-        <FilterRow name='Ehr' label={t('EHRLabel')} />
-        <FilterRow name='Res' label={t('RESLabel')} />
-        <FilterRow name='Be' label={t('BELabel')} />
-        <FilterRow name='Err' label={t('ERRLabel')} />
+        <FilterRow name='Atk' label={t('ATKLabel')} type='stat' />
+        <FilterRow name='Hp' label={t('HPLabel')} type='stat' />
+        <FilterRow name='Def' label={t('DEFLabel')} type='stat' />
+        <FilterRow name='Spd' label={t('SPDLabel')} type='stat' />
+        <FilterRow name='Cr' label={t('CRLabel')} type='stat' />
+        <FilterRow name='Cd' label={t('CDLabel')} type='stat' />
+        <FilterRow name='Ehr' label={t('EHRLabel')} type='stat' />
+        <FilterRow name='Res' label={t('RESLabel')} type='stat' />
+        <FilterRow name='Be' label={t('BELabel')} type='stat' />
+        <FilterRow name='Err' label={t('ERRLabel')} type='stat' />
       </Flex>
     </Flex>
   )
@@ -40,14 +40,14 @@ export const MinMaxRatingFilters = () => {
       </Flex>
 
       <Flex vertical gap={7}>
-        <FilterRow name='Ehp' label={t('EHPLabel')} />
-        <FilterRow name='Basic' label={t('BASICLabel')} />
-        <FilterRow name='Skill' label={t('SKILLLabel')} />
-        <FilterRow name='Ult' label={t('ULTLabel')} />
-        <FilterRow name='Fua' label={t('FUALabel')} />
-        <FilterRow name='MemoSkill' label={t('MEMOSKILLLabel')} />
-        <FilterRow name='Dot' label={t('DOTLabel')} />
-        <FilterRow name='Break' label={t('BREAKLabel')} />
+        <FilterRow name='Ehp' label={t('EHPLabel')} type='rating' />
+        <FilterRow name='Basic' label={t('BASICLabel')} type='rating' />
+        <FilterRow name='Skill' label={t('SKILLLabel')} type='rating' />
+        <FilterRow name='Ult' label={t('ULTLabel')} type='rating' />
+        <FilterRow name='Fua' label={t('FUALabel')} type='rating' />
+        <FilterRow name='MemoSkill' label={t('MEMOSKILLLabel')} type='rating' />
+        <FilterRow name='Dot' label={t('DOTLabel')} type='rating' />
+        <FilterRow name='Break' label={t('BREAKLabel')} type='rating' />
       </Flex>
     </Flex>
   )

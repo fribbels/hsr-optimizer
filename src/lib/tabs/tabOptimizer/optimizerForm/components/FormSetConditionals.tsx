@@ -1,7 +1,6 @@
 import {
   Drawer,
   Flex,
-  Form,
   Popover,
   Select,
   Switch,
@@ -28,6 +27,8 @@ import {
   SetMetadata,
 } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -58,6 +59,13 @@ type ConditionalSetOptionsProps = OrnamentConditionalSetOptionProps | RelicCondi
 
 function ConditionalSetOption(props: ConditionalSetOptionsProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
+
+  const itemName = ['setConditionals', props.set, 1] as (string | number)[]
+  const value = useOptimizerFormStore((s) => {
+    const setData = (s.setConditionals as Record<string, [undefined, boolean | number]>)[props.set]
+    return setData?.[1]
+  })
+
   const content = (
     <Flex vertical gap={10}>
       <Flex vertical>
@@ -76,112 +84,65 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
     </Flex>
   )
 
-  if (isRelicProps(props)) {
-    // Relics
-    let inputType = <Switch disabled={props.p4Checked} />
-    if (props.selectOptions) {
-      inputType = (
-        <Select
-          optionLabelProp='display'
-          listHeight={500}
-          size='small'
-          style={{ width: setConditionalsWidth }}
-          dropdownStyle={{ width: 'fit-content' }}
-          options={props.selectOptions}
-        />
-      )
-    }
+  const isDisabled = isRelicProps(props) ? !props.p4Checked === false : !props.p2Checked === false
+  const disabled = isRelicProps(props) ? !props.p4Checked : !props.p2Checked
 
-    return (
-      <Popover
-        content={content}
-        title={t('SetName', { id: setToId[props.set] })}
-        mouseEnterDelay={0.5}
-        overlayStyle={{
-          width: 600,
-        }}
-      >
-        <Flex gap={defaultGap} align='center' justify='flex-start'>
-          <Flex style={{ width: setConditionalsIconWidth }}>
-            <img
-              src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
-              style={{ width: 36, height: 36 }}
-            />
-          </Flex>
-          <Text
-            style={{
-              width: setConditionalsNameWidth,
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {t('SetName', { id: setToId[props.set] })}
-          </Text>
-          <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
-            <Form.Item
-              name={['setConditionals', props.set, 1]}
-              valuePropName={props.selectOptions ? 'value' : 'checked'}
-            >
-              {inputType}
-            </Form.Item>
-          </Flex>
-        </Flex>
-      </Popover>
+  let inputType
+  if (props.selectOptions) {
+    inputType = (
+      <Select
+        optionLabelProp='display'
+        listHeight={500}
+        size='small'
+        style={{ width: setConditionalsWidth }}
+        dropdownStyle={{ width: 'fit-content' }}
+        options={props.selectOptions}
+        value={value as number}
+        onChange={(val) => handleConditionalChange(itemName, val)}
+      />
     )
   } else {
-    // Ornaments
-    let inputType = <Switch disabled={props.p2Checked} />
-    if (props.selectOptions) {
-      inputType = (
-        <Select
-          optionLabelProp='display'
-          listHeight={500}
-          size='small'
-          style={{ width: setConditionalsWidth }}
-          dropdownStyle={{ width: 'fit-content' }}
-          options={props.selectOptions}
-        />
-      )
-    }
-    return (
-      <Popover
-        content={content}
-        title={t('SetName', { id: setToId[props.set] })}
-        mouseEnterDelay={0.5}
-        overlayStyle={{
-          width: 600,
-        }}
-      >
-        <Flex gap={defaultGap} align='center' justify='flex-start'>
-          <Flex style={{ width: setConditionalsIconWidth }}>
-            <img
-              src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
-              style={{ width: 36, height: 36 }}
-            />
-          </Flex>
-          <Text
-            style={{
-              width: setConditionalsNameWidth,
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {t('SetName', { id: setToId[props.set] })}
-          </Text>
-          <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
-            <Form.Item
-              name={['setConditionals', props.set, 1]}
-              valuePropName={props.selectOptions ? 'value' : 'checked'}
-            >
-              {inputType}
-            </Form.Item>
-          </Flex>
-        </Flex>
-      </Popover>
+    inputType = (
+      <Switch
+        disabled={disabled}
+        checked={value as boolean}
+        onChange={(val) => handleConditionalChange(itemName, val)}
+      />
     )
   }
+
+  return (
+    <Popover
+      content={content}
+      title={t('SetName', { id: setToId[props.set] })}
+      mouseEnterDelay={0.5}
+      overlayStyle={{
+        width: 600,
+      }}
+    >
+      <Flex gap={defaultGap} align='center' justify='flex-start'>
+        <Flex style={{ width: setConditionalsIconWidth }}>
+          <img
+            src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
+            style={{ width: 36, height: 36 }}
+          />
+        </Flex>
+        <Text
+          style={{
+            width: setConditionalsNameWidth,
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {t('SetName', { id: setToId[props.set] })}
+        </Text>
+        <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
+          {inputType}
+        </Flex>
+      </Flex>
+    </Popover>
+  )
 }
 
 function isRelicProps(props: ConditionalSetOptionsProps): props is RelicConditionalSetOptionProps {
@@ -257,4 +218,3 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
     </Drawer>
   )
 }
-

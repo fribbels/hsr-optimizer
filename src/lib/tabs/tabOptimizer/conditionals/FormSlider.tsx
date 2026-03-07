@@ -5,7 +5,8 @@ import {
   Slider,
   Typography,
 } from 'antd'
-import { getItemName } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import WithPopover from 'lib/ui/WithPopover'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
@@ -58,7 +59,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   useEffect(() => {
     // @ts-ignore fixing this would involve a large amount of typing across the entire combo pipeline
     // e.g. replacing usage of string|number with a more explicit/restrained types TODO?
-    const fieldValue = window.optimizerForm.getFieldValue(itemName)
+    const fieldValue = resolveConditionalValue(useOptimizerFormStore.getState(), itemName as (string | number)[]) as number
     if (fieldValue >= props.max || fieldValue == maxRef.current) {
       // @ts-ignore
       window.optimizerForm.setFieldValue(itemName, props.max)

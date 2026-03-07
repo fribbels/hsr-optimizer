@@ -11,7 +11,7 @@ import {
   TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Eidolon } from 'types/character'
 import { ConditionalValueMap } from 'types/conditionals'
 import { OrnamentSetFilters, RelicSetFilters } from 'types/form'

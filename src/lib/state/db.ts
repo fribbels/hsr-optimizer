@@ -19,7 +19,6 @@ import {
   getDefaultForm,
 } from 'lib/optimization/defaultForm'
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
-import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { SortOption } from 'lib/optimization/sortOptions'
 
 import {
@@ -1580,5 +1579,9 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
   window.store.getState().setActiveKey(AppPages.OPTIMIZER)
   window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
   SaveState.delayedSave()
-  syncFormToStore(window.optimizerForm.getFieldsValue())
+
+  // Lazy import to avoid circular dependency (db ↔ comboStateTransform ↔ optimizerFormDefaults ↔ optimizerFormSync)
+  void import('lib/stores/optimizerForm/optimizerFormSync').then(({ syncFormToStore }) => {
+    syncFormToStore(window.optimizerForm.getFieldsValue())
+  })
 }

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
-import { describe, expect, it, beforeEach } from 'vitest'
-import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
+import { describe, expect, it, beforeEach, vi } from 'vitest'
+import { syncFormToStore, verifySync } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { Constants } from 'lib/constants/constants'
 import { Form } from 'types/form'
@@ -207,5 +207,37 @@ describe('syncFormToStore', () => {
 
     // Should not throw
     expect(() => syncFormToStore(sparseForm)).not.toThrow()
+  })
+})
+
+describe('verifySync', () => {
+  beforeEach(() => {
+    useOptimizerFormStore.setState(useOptimizerFormStore.getInitialState())
+  })
+
+  it('does not throw when in sync', () => {
+    // Sync first, then verify
+    const form = createTestForm({ characterId: '1205' as any })
+    syncFormToStore(form)
+
+    // Mock window.optimizerForm
+    ;(window as any).optimizerForm = { getFieldsValue: () => form }
+
+    expect(() => verifySync()).not.toThrow()
+  })
+
+  it('warns when out of sync (characterId differs)', () => {
+    const form = createTestForm({ characterId: '1205' as any })
+    syncFormToStore(form)
+
+    // Change store but not form
+    useOptimizerFormStore.setState({ characterId: '9999' as any })
+
+    ;(window as any).optimizerForm = { getFieldsValue: () => form }
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    verifySync()
+    expect(warnSpy).toHaveBeenCalled()
+    warnSpy.mockRestore()
   })
 })

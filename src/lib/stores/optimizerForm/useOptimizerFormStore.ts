@@ -63,6 +63,7 @@ type OptimizerFormActions = {
   clearTeammateLightCone: (index: 0 | 1 | 2) => void
   resetFilters: () => void
   applySuggestionFixes: (fixes: SuggestionFixes) => void
+  setConditionalValue: (itemName: (string | number)[], value: unknown) => void
 }
 
 type OptimizerFormStore = OptimizerFormState & OptimizerFormActions
@@ -198,4 +199,42 @@ export const useOptimizerFormStore = create<OptimizerFormStore>()((set, get) => 
     if (fixes.mainLinkRope !== undefined) patch.mainLinkRope = fixes.mainLinkRope
     set(patch)
   },
+
+  setConditionalValue: (itemName, value) => set((state) => {
+    const teammateKeyToIndex: Record<string, 0 | 1 | 2> = { teammate0: 0, teammate1: 1, teammate2: 2 }
+    const [first, ...rest] = itemName
+    const tmIndex = teammateKeyToIndex[first as string]
+
+    if (tmIndex != null) {
+      // Teammate path: ['teammate0', 'characterConditionals', 'key']
+      const [condType, key] = rest as [string, string]
+      const teammates = [...state.teammates] as [TeammateState, TeammateState, TeammateState]
+      const tm = { ...teammates[tmIndex] }
+      tm[condType as 'characterConditionals' | 'lightConeConditionals'] = {
+        ...tm[condType as 'characterConditionals' | 'lightConeConditionals'],
+        [key]: value as boolean | number,
+      }
+      teammates[tmIndex] = tm
+      return { teammates }
+    }
+
+    if (first === 'setConditionals') {
+      // Set conditional: ['setConditionals', 'SetName', 1]
+      const [setName, idx] = rest as [string, number]
+      const setConditionals = { ...state.setConditionals } as Record<string, [undefined, boolean | number]>
+      const tuple = [...setConditionals[setName]] as [undefined, boolean | number]
+      tuple[idx] = value as boolean | number
+      setConditionals[setName] = tuple
+      return { setConditionals }
+    }
+
+    // Main character: ['characterConditionals', 'key'] or ['lightConeConditionals', 'key']
+    const [condType, key] = itemName as [string, string]
+    return {
+      [condType]: {
+        ...(state[condType as 'characterConditionals' | 'lightConeConditionals'] as Record<string, unknown>),
+        [key]: value,
+      },
+    }
+  }),
 }))

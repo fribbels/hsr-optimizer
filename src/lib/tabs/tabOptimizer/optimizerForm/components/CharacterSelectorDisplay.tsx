@@ -1,6 +1,5 @@
 import {
   Flex,
-  Form,
   Select,
 } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
@@ -10,6 +9,8 @@ import {
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { SaveState } from 'lib/state/saveState'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -17,9 +18,9 @@ import {
   optimizerTabDefaultGap,
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -31,10 +32,15 @@ export default function CharacterSelectorDisplay() {
   const optimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.optimizerTabFocusCharacterSelectModalOpen)
   const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
 
+  const characterId = useOptimizerFormStore((s) => s.characterId)
   const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
+  const lightCone = useOptimizerFormStore((s) => s.lightCone)
+  const lightConeSuperimposition = useOptimizerFormStore((s) => s.lightConeSuperimposition)
+  const resultsLimit = useOptimizerFormStore((s) => s.resultsLimit)
+  const resultSort = useOptimizerFormStore((s) => s.resultSort)
 
   const eidolonOptions = useMemo(() => {
-    const options: { value: number, label: string }[] = []
+    const options: { value: number; label: string }[] = []
     for (let i = 0; i <= 6; i++) {
       options.push({ value: i, label: t('common:EidolonNShort', { eidolon: i }) })
     }
@@ -42,7 +48,7 @@ export default function CharacterSelectorDisplay() {
   }, [t])
 
   const superimpositionOptions = useMemo(() => {
-    const options: { value: number, label: string }[] = []
+    const options: { value: number; label: string }[] = []
     for (let i = 1; i <= 5; i++) {
       options.push({ value: i, label: t('common:SuperimpositionNShort', { superimposition: i }) })
     }
@@ -50,7 +56,7 @@ export default function CharacterSelectorDisplay() {
   }, [t])
 
   const resultLimitOptions = useMemo(() => {
-    const options: { value: number, label: string }[] = []
+    const options: { value: number; label: string }[] = []
     for (let i = 64; i <= 65536; i = i * 2) {
       // `Find top ${limit} results`
       options.push({ value: i, label: t('ResultLimitN', { limit: i }) })
@@ -70,7 +76,7 @@ export default function CharacterSelectorDisplay() {
     }
 
     // Build damage options: COMBO always first, then character-specific actions, then EHP
-    const damageOptions: { value: string, label: string }[] = [
+    const damageOptions: { value: string; label: string }[] = [
       { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
     ]
 
@@ -117,24 +123,29 @@ export default function CharacterSelectorDisplay() {
         <TooltipImage type={Hint.character()} />
       </Flex>
       <Flex gap={optimizerTabDefaultGap}>
-        <Form.Item name='characterId'>
-          <CharacterSelect
-            value={null}
-            selectStyle={{ width: 151 }}
-            externalOpen={optimizerTabFocusCharacterSelectModalOpen}
-            setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
-          />
-        </Form.Item>
-        <Form.Item name='characterEidolon'>
-          <Select
-            showSearch
-            style={{ width: 55 }}
-            options={eidolonOptions}
-            placeholder={t('CharacterSelector.EidolonPlaceholder')} // E
-            popupMatchSelectWidth={55}
-            suffixIcon={null}
-          />
-        </Form.Item>
+        <CharacterSelect
+          value={characterId}
+          onChange={(id) => {
+            if (id) {
+              window.store.getState().setOptimizerTabFocusCharacter(id)
+              OptimizerTabController.updateCharacter(id)
+              SaveState.delayedSave()
+            }
+          }}
+          selectStyle={{ width: 151 }}
+          externalOpen={optimizerTabFocusCharacterSelectModalOpen}
+          setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
+        />
+        <Select
+          showSearch
+          style={{ width: 55 }}
+          options={eidolonOptions}
+          value={characterEidolon}
+          onChange={(val) => useOptimizerFormStore.getState().setEidolon(val)}
+          placeholder={t('CharacterSelector.EidolonPlaceholder')} // E
+          popupMatchSelectWidth={55}
+          suffixIcon={null}
+        />
       </Flex>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('CharacterSelector.Lightcone') /* Light cone */}</HeaderText>
@@ -142,23 +153,22 @@ export default function CharacterSelectorDisplay() {
       </Flex>
       <Flex vertical gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
-          <Form.Item name='lightCone'>
-            <LightConeSelect
-              value={null}
-              selectStyle={{ width: 151 }}
-              characterId={optimizerTabFocusCharacter}
-            />
-          </Form.Item>
-          <Form.Item name='lightConeSuperimposition'>
-            <Select
-              showSearch
-              style={{ width: 55 }}
-              options={superimpositionOptions}
-              placeholder={t('CharacterSelector.SuperimpositionPlaceholder')} // S
-              popupMatchSelectWidth={55}
-              suffixIcon={null}
-            />
-          </Form.Item>
+          <LightConeSelect
+            value={lightCone ?? null}
+            onChange={(id) => useOptimizerFormStore.getState().setLightCone(id ?? undefined)}
+            selectStyle={{ width: 151 }}
+            characterId={optimizerTabFocusCharacter}
+          />
+          <Select
+            showSearch
+            style={{ width: 55 }}
+            options={superimpositionOptions}
+            value={lightConeSuperimposition}
+            onChange={(val) => useOptimizerFormStore.getState().setLightConeSuperimposition(val)}
+            placeholder={t('CharacterSelector.SuperimpositionPlaceholder')} // S
+            popupMatchSelectWidth={55}
+            suffixIcon={null}
+          />
         </Flex>
       </Flex>
 
@@ -172,27 +182,27 @@ export default function CharacterSelectorDisplay() {
         <HeaderText>{t('CharacterSelector.Target') /* Optimization target */}</HeaderText>
       </Flex>
 
-      <Form.Item name='resultsLimit'>
-        <Select
-          showSearch
-          style={{ width: panelWidth }}
-          options={resultLimitOptions}
-          placeholder={t('CharacterSelector.ResultsPlaceholder')} // 'Find top results'
-          listHeight={800}
-        />
-      </Form.Item>
+      <Select
+        showSearch
+        style={{ width: panelWidth }}
+        options={resultLimitOptions}
+        value={resultsLimit}
+        onChange={(val) => useOptimizerFormStore.getState().setResultsLimit(val)}
+        placeholder={t('CharacterSelector.ResultsPlaceholder')} // 'Find top results'
+        listHeight={800}
+      />
 
-      <Form.Item name='resultSort'>
-        <Select
-          showSearch
-          style={{ width: panelWidth }}
-          options={resultSortOptions}
-          listHeight={900}
-          popupMatchSelectWidth={250}
-          placeholder={t('CharacterSelector.TargetPlaceholder')} // 'Sorted by'
-          filterOption={Utils.labelFilterOption}
-        />
-      </Form.Item>
+      <Select
+        showSearch
+        style={{ width: panelWidth }}
+        options={resultSortOptions}
+        value={resultSort}
+        onChange={(val) => useOptimizerFormStore.getState().setResultSort(val)}
+        listHeight={900}
+        popupMatchSelectWidth={250}
+        placeholder={t('CharacterSelector.TargetPlaceholder')} // 'Sorted by'
+        filterOption={Utils.labelFilterOption}
+      />
     </Flex>
   )
 }

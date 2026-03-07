@@ -1,16 +1,18 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
 import {
+  chartColor,
   DamageSplitEntry,
+  decodeDamageTypeLabel,
   getDamageTypeColor,
 } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import React, { useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import {
   Bar,
   BarChart,
   LabelList,
+  LabelProps,
   Tooltip,
   XAxis,
   YAxis,
@@ -20,14 +22,18 @@ export const DAMAGE_SPLITS_CHART_WIDTH = 730
 const BAR_HEIGHT = 65
 const CHART_PADDING = 80
 
-const chartColor = '#DDD'
-
 type FlattenedBar = {
   key: string
   damageType: number
   label: string
   color: string
-  isLast: boolean
+  shape: (props: { x: number; y: number; width: number; height: number }) => React.ReactNode
+}
+
+type LegendItem = {
+  damageType: number
+  color: string
+  label: string
 }
 
 type FlatRow = Record<string, number | string> & {
@@ -35,9 +41,11 @@ type FlatRow = Record<string, number | string> & {
   total: number
 }
 
-function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: FlattenedBar[] } {
+function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: FlattenedBar[]; legendItems: LegendItem[] } {
   const bars: FlattenedBar[] = []
   const rows: FlatRow[] = []
+  const seenDamageTypes = new Set<number>()
+  const legendItems: LegendItem[] = []
 
   for (let entryIdx = 0; entryIdx < data.length; entryIdx++) {
     const entry = data[entryIdx]
@@ -48,47 +56,129 @@ function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: Flatten
       const key = `${entryIdx}_${segIdx}`
       row[key] = seg.damage
 
+      const isFirst = segIdx === 0
+      const isLast = segIdx === entry.segments.length - 1
+      const color = getDamageTypeColor(seg.damageType)
       bars.push({
         key,
         damageType: seg.damageType,
         label: seg.label,
-        color: getDamageTypeColor(seg.damageType),
-        isLast: segIdx === entry.segments.length - 1,
+        color,
+        shape: GapBar(color, isFirst, isLast),
       })
+
+      if (!seenDamageTypes.has(seg.damageType)) {
+        seenDamageTypes.add(seg.damageType)
+        legendItems.push({
+          damageType: seg.damageType,
+          color,
+          label: decodeDamageTypeLabel(seg.damageType),
+        })
+      }
     }
 
     rows.push(row)
   }
 
-  const seen = new Set<string>()
-  const uniqueBars = bars.filter((b) => {
-    if (seen.has(b.key)) return false
-    seen.add(b.key)
-    return true
-  })
-
-  return { rows, bars: uniqueBars }
+  return { rows, bars, legendItems }
 }
 
-const SEGMENT_GAP = 3
+const SEGMENT_GAP = 2
 
-function GapBar(color: string) {
-  return (props: { x: number; y: number; width: number; height: number }) => (
-    <rect
-      x={props.x + SEGMENT_GAP}
-      y={props.y}
-      width={Math.max(0, props.width - SEGMENT_GAP)}
-      height={props.height}
-      fill={color}
-    />
+function renderBarLabel(props: LabelProps) {
+  const x = Number(props.x ?? 0)
+  const y = Number(props.y ?? 0)
+  const width = Number(props.width ?? 0)
+  const height = Number(props.height ?? 0)
+  const value = Number(props.value ?? 0)
+  if (!value) return null
+  return (
+    <text
+      x={x + width + 8}
+      y={y + height / 2}
+      fill={chartColor}
+      dominantBaseline='central'
+      textRendering='geometricPrecision'
+      fontWeight={300}
+      fontSize={14}
+    >
+      {renderThousandsK(value)}
+    </text>
+  )
+}
+
+function GapBar(color: string, isFirst: boolean, isLast: boolean) {
+  return (props: { x: number; y: number; width: number; height: number }) => {
+    if (props.width <= 0) return null
+    if (isFirst || isLast) {
+      return (
+        <rect
+          x={props.x}
+          y={props.y}
+          width={props.width}
+          height={props.height}
+          fill={color}
+          stroke='none'
+          shapeRendering='crispEdges'
+        />
+      )
+    }
+    return (
+      <g>
+        <rect
+          x={props.x}
+          y={props.y}
+          width={SEGMENT_GAP}
+          height={props.height}
+          fill='rgba(128, 128, 128, 0.4)'
+          stroke='none'
+          shapeRendering='crispEdges'
+        />
+        <rect
+          x={props.x + SEGMENT_GAP}
+          y={props.y}
+          width={Math.max(0, props.width - SEGMENT_GAP)}
+          height={props.height}
+          fill={color}
+          stroke='none'
+          shapeRendering='crispEdges'
+        />
+      </g>
+    )
+  }
+}
+
+function parseLabel(name: string): { num: string; label: string } {
+  const match = name.match(/^(\d+)\.\s*(.+)$/)
+  if (match) return { num: match[1], label: match[2] }
+  return { num: '', label: name }
+}
+
+function dimNumberLeftTick(props: { x: number; y: number; payload: { value: string } }) {
+  const { x, y, payload } = props
+  const tx = x - 70
+  const { num, label } = parseLabel(payload.value)
+
+  if (!num) {
+    return (
+      <text x={tx} y={y} textAnchor='start' fill={chartColor} fontSize={13} fontWeight={300} dominantBaseline='central'>
+        {payload.value}
+      </text>
+    )
+  }
+
+  return (
+    <text x={tx} y={y} textAnchor='start' fontSize={13} fontWeight={300} dominantBaseline='central'>
+      <tspan fill='#667'>{num}. </tspan>
+      <tspan fill={chartColor}>{label}</tspan>
+    </text>
   )
 }
 
 export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits' })
   const [hoveredBar, setHoveredBar] = useState<string | null>(null)
 
-  const { rows, bars } = useMemo(() => flattenData(props.data), [props.data])
+  const { rows, bars, legendItems } = useMemo(() => flattenData(props.data), [props.data])
 
   if (rows.length === 0) {
     return null
@@ -97,21 +187,18 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
   const chartHeight = Math.max(200, rows.length * BAR_HEIGHT + CHART_PADDING)
 
   return (
-    <Flex justify='center' className='pre-font'>
-      <span style={{ position: 'absolute', marginTop: 20, fontSize: 14 }}>
-        {t('Title')}
-      </span>
+    <Flex vertical align='center' className='pre-font'>
       <BarChart
         layout='vertical'
         data={rows}
-        margin={{ top: 50, right: 60, bottom: 20, left: 70 }}
+        margin={{ top: 15, right: 60, bottom: 20, left: 30 }}
         barCategoryGap='25%'
         width={DAMAGE_SPLITS_CHART_WIDTH}
         height={chartHeight}
       >
         <XAxis
           type='number'
-          tick={{ fill: chartColor }}
+          tick={{ fill: chartColor, textRendering: 'geometricPrecision', fontWeight: 300, fontSize: 13 }}
           tickFormatter={renderThousandsK}
           width={100}
         />
@@ -120,9 +207,9 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
           type='category'
           axisLine={false}
           tickLine={false}
-          tick={{ fill: chartColor }}
+          tick={dimNumberLeftTick}
           tickMargin={10}
-          width={20}
+          width={80}
         />
         <Tooltip
           cursor={false}
@@ -130,25 +217,38 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
           content={<CustomTooltip hoveredBar={hoveredBar} bars={bars} />}
         />
 
-        {bars.map((bar) => (
+        {bars.map((bar, i) => (
           <Bar
             key={bar.key}
             dataKey={bar.key}
             stackId='a'
             fill={bar.color}
             // @ts-ignore recharts shape typing
-            shape={GapBar(bar.color)}
+            shape={bar.shape}
             activeBar={false}
             isAnimationActive={false}
             onMouseEnter={() => setHoveredBar(bar.key)}
             onMouseLeave={() => setHoveredBar(null)}
           >
-            {bar.isLast && (
-              <LabelList dataKey='total' position='right' formatter={renderThousandsK} />
+            {i === bars.length - 1 && (
+              <LabelList dataKey='total' position='right' content={renderBarLabel} />
             )}
           </Bar>
         ))}
       </BarChart>
+      <Flex wrap='wrap' justify='center' gap={16} style={{ marginTop: -10 }}>
+        {legendItems.map((item) => (
+          <Flex key={item.damageType} align='center' gap={6}>
+            <div style={{
+              width: 12,
+              height: 12,
+              borderRadius: 2,
+              backgroundColor: item.color,
+            }} />
+            <span style={{ fontSize: 13, color: chartColor }}>{item.label}</span>
+          </Flex>
+        ))}
+      </Flex>
     </Flex>
   )
 }

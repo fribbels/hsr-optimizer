@@ -1,10 +1,47 @@
-import { Flex, Radio, RadioChangeEvent } from 'antd'
+import { Flex } from 'antd'
 import { extractDamageSplits } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { DamageSplitsChart } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import React, { useMemo, useState } from 'react'
 
 type SplitMode = 'default' | 'rotation'
+
+function ModeToggle(props: {
+  mode: SplitMode
+  onModeChange: (mode: SplitMode) => void
+}) {
+  const { mode, onModeChange } = props
+  const modes: { key: SplitMode; label: string }[] = [
+    { key: 'default', label: 'Default' },
+    { key: 'rotation', label: 'Rotation' },
+  ]
+
+  return (
+    <Flex gap={6} align='center' style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      {modes.map((m) => (
+        <span
+          key={m.key}
+          onClick={() => onModeChange(m.key)}
+          style={{
+            fontSize: 12,
+            color: mode === m.key ? '#DDD' : '#8899aa',
+            cursor: 'pointer',
+            fontWeight: 400,
+            background: mode === m.key ? '#354b7d' : 'transparent',
+            padding: '3px 16px',
+            borderRadius: 12,
+            transition: 'all 0.15s',
+            minWidth: 70,
+            textAlign: 'center',
+          }}
+        >
+          {m.label}
+        </span>
+      ))}
+    </Flex>
+  )
+}
 
 export function DamageSplits(props: {
   analysis: OptimizerResultAnalysis,
@@ -21,23 +58,23 @@ export function DamageSplits(props: {
     [newX, actions, mode],
   )
 
-  const handleModeChange = (e: RadioChangeEvent) => {
-    setMode(e.target.value as SplitMode)
-  }
-
   return (
-    <Flex vertical align='center' gap={8}>
-      <Radio.Group
-        value={mode}
-        onChange={handleModeChange}
-        optionType='button'
-        buttonStyle='solid'
-        size='small'
-        options={[
-          { label: 'Default', value: 'default' },
-          { label: 'Rotation', value: 'rotation' },
-        ]}
-      />
+    <Flex
+      vertical
+      align='center'
+      gap={8}
+      style={{
+        background: '#243356',
+        border: '1px solid #354b7d',
+        boxShadow: cardShadowNonInset,
+        borderRadius: 5,
+        padding: '10px 0',
+      }}
+    >
+      <span style={{ fontSize: 14, borderBottom: '1px solid #354b7d', paddingBottom: 4 }}>
+        Combo Breakdown
+      </span>
+      <ModeToggle mode={mode} onModeChange={setMode} />
       <DamageSplitsChart data={data} />
     </Flex>
   )

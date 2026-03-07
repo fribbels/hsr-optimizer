@@ -708,6 +708,10 @@ a {
     margin-right: 20px !important;
 }
 
+.recharts-wrapper *:focus:not(:focus-visible) {
+    outline: none !important;
+}
+
 .rerun-segmented .ant-segmented-item-label {
     height: 32px;
     line-height: 32px;

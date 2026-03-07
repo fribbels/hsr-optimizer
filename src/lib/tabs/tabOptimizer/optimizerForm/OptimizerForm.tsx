@@ -7,6 +7,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
+import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { SaveState } from 'lib/state/saveState'
 import {
   generateConditionalResolverMetadata,
@@ -64,6 +65,10 @@ export default function OptimizerForm() {
 
   const onValuesChange = (changedValues: Form, allValues: Form, bypass: boolean = false) => {
     if (!changedValues || !allValues?.characterId) return
+
+    // Sync to Zustand store
+    syncFormToStore(allValues)
+
     const keys = Object.keys(changedValues)
 
     console.debug(keys, changedValues)

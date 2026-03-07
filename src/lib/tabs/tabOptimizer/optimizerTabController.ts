@@ -31,7 +31,6 @@ import {
 } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { SaveState } from 'lib/state/saveState'
@@ -401,14 +400,14 @@ export const OptimizerTabController = {
     }
 
     useOptimizerFormStore.getState().resetFilters()
-    window.optimizerForm.setFieldsValue(OptimizerTabController.formToDisplay(newForm as Form))
+    useOptimizerFormStore.getState().loadForm(newForm as Form)
     OptimizerTabController.updateFilters()
   },
 
   // Manually set the selected character
   setCharacter: (id: CharacterId) => {
     window.store.getState().setOptimizerTabFocusCharacter(id)
-    window.optimizerForm.setFieldValue('characterId', id)
+    useOptimizerFormStore.getState().setCharacterId(id)
 
     SaveState.delayedSave()
   },
@@ -423,10 +422,11 @@ export const OptimizerTabController = {
     const character = DB.getCharacterById(characterId)
 
     const form = character ? character.form : getDefaultForm({ id: characterId })
-    const displayFormValues = OptimizerTabController.formToDisplay(form)
-    window.optimizerForm.setFieldsValue(displayFormValues)
 
-    const request = OptimizerTabController.displayToForm(displayFormValues)
+    // Load form into store (replaces formToDisplay + setFieldsValue)
+    useOptimizerFormStore.getState().loadForm(form)
+
+    const request = displayToInternal(useOptimizerFormStore.getState())
     const comboState = initializeComboState(request, true)
     window.store.getState().setComboState(comboState)
 
@@ -437,12 +437,11 @@ export const OptimizerTabController = {
       window.store.getState().setStatSimulations(form.statSim?.simulations ?? [])
       window.store.getState().setOptimizerSelectedRowData(null)
       window.optimizerGrid.current?.api?.deselectAll()
-      // console.log('@updateForm', displayFormValues, character)
 
-      generateContext(request)
-      calculateCurrentlyEquippedRow(request)
+      const currentRequest = displayToInternal(useOptimizerFormStore.getState())
+      generateContext(currentRequest)
+      calculateCurrentlyEquippedRow(currentRequest)
 
-      syncFormToStore(window.optimizerForm.getFieldsValue())
       recalculatePermutations()
     }, 50)
   },

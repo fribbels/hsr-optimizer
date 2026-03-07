@@ -13,7 +13,7 @@ import {
 import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { Eidolon } from 'types/character'
+import { CharacterId, Eidolon } from 'types/character'
 import { ConditionalValueMap } from 'types/conditionals'
 import { Form, OrnamentSetFilters, RelicSetFilters } from 'types/form'
 import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
@@ -64,6 +64,7 @@ type OptimizerFormActions = {
   clearTeammateLightCone: (index: 0 | 1 | 2) => void
   resetFilters: () => void
   applySuggestionFixes: (fixes: SuggestionFixes) => void
+  setCharacterId: (id: CharacterId | undefined) => void
   setConditionalValue: (itemName: (string | number)[], value: unknown) => void
   loadForm: (form: Form) => void
 }
@@ -201,6 +202,8 @@ export const useOptimizerFormStore = create<OptimizerFormStore>()((set, get) => 
     if (fixes.mainLinkRope !== undefined) patch.mainLinkRope = fixes.mainLinkRope
     set(patch)
   },
+
+  setCharacterId: (id) => set({ characterId: id }),
 
   loadForm: (form) => {
     const defaults = createDefaultFormState()

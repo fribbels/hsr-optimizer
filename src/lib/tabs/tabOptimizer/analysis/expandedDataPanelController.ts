@@ -26,6 +26,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { OptimizerForm } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 export type OptimizerResultAnalysis = {
   oldRowData: OptimizerDisplayData,
@@ -35,6 +36,7 @@ export type OptimizerResultAnalysis = {
   request: OptimizerForm,
   oldX: ComputedStatsContainer,
   newX: ComputedStatsContainer,
+  context: OptimizerContext,
   buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>,
   elementalDmgValue: StatsValues,
   extraRows: StatsValues[],
@@ -120,6 +122,7 @@ export function generateAnalysisData(
     request,
     oldX,
     newX,
+    context: contextNew,
     buffGroups,
     elementalDmgValue,
     extraRows,

@@ -715,7 +715,7 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Shield
       SHIELD_VALUE_P: Δ% Shield
   DamageSplits:
-    Title: Damage Type Distribution
+    Title: Combo Breakdown
     Legend:
       abilityDmg: Ability
       breakDmg: Break

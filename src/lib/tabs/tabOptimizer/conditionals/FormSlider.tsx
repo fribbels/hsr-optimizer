@@ -1,12 +1,12 @@
 import {
   Flex,
-  Form as AntdForm,
   InputNumber,
   Slider,
   Typography,
 } from 'antd'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
+import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import WithPopover from 'lib/ui/WithPopover'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
@@ -44,7 +44,14 @@ export interface FormSliderProps {
 }
 
 export const FormSlider: ComponentType<FormSliderProps> = (props) => {
-  const [state, setState] = useState(props?.value ?? undefined)
+  const itemName = getItemName(props)
+
+  const storeValue = useOptimizerFormStore((s) =>
+    props.removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined,
+  )
+
+  const currentValue = props.removeForm ? props.value : storeValue
+  const [dragState, setDragState] = useState<number | undefined>(undefined)
 
   const multiplier = props.percent ? 100 : 1
   const step = props.percent ? 0.01 : 1
@@ -53,25 +60,26 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   const minRef = useRef(props.min)
   const maxRef = useRef(props.max)
 
-  const itemName = getItemName(props)
-
-  // Update the min and max values of the slider if eidolons change their bounds.
+  // Update the value if eidolons change the slider bounds.
   useEffect(() => {
-    // @ts-ignore fixing this would involve a large amount of typing across the entire combo pipeline
-    // e.g. replacing usage of string|number with a more explicit/restrained types TODO?
-    const fieldValue = resolveConditionalValue(useOptimizerFormStore.getState(), itemName as (string | number)[]) as number
+    if (props.removeForm) return
+    const fieldValue = (storeValue ?? props.min) as number
     if (fieldValue >= props.max || fieldValue == maxRef.current) {
-      // @ts-ignore
-      window.optimizerForm.setFieldValue(itemName, props.max)
+      handleConditionalChange(itemName as (string | number)[], props.max)
     }
     if (fieldValue <= props.min || fieldValue == minRef.current) {
-      // @ts-ignore
-      window.optimizerForm.setFieldValue(itemName, props.min)
+      handleConditionalChange(itemName as (string | number)[], props.min)
     }
 
     minRef.current = props.min
     maxRef.current = props.max
   }, [props.min, props.max])
+
+  const displayValue = dragState ?? currentValue
+
+  const handleChange = props.removeForm
+    ? props.onChange
+    : (val: number) => handleConditionalChange(itemName as (string | number)[], val)
 
   const internalInputNumber = (
     <InputNumber
@@ -86,16 +94,11 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       formatter={(value) => `${TsUtils.precisionRound((value ?? 0) * multiplier)}${symbol}`}
       disabled={props.disabled}
       onChange={(newValue) => {
-        if (props.onChange) {
-          props.onChange(state ?? 0)
+        if (handleChange && newValue != null) {
+          handleChange(newValue)
         }
       }}
-      onBlur={() => {
-        if (props.onChange) {
-          props.onChange(state ?? 0)
-        }
-      }}
-      value={props.value == null ? undefined : state}
+      value={displayValue}
     />
   )
 
@@ -115,16 +118,15 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       }}
       disabled={props.disabled}
       onChange={(newValue) => {
-        if (props.onChange) {
-          setState(newValue)
-        }
+        setDragState(newValue)
       }}
       onChangeComplete={(newValue) => {
-        if (props.onChange) {
-          props.onChange(newValue)
+        setDragState(undefined)
+        if (handleChange) {
+          handleChange(newValue)
         }
       }}
-      value={props.value == null ? undefined : state}
+      value={displayValue}
     />
   )
 
@@ -132,13 +134,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
     <Flex vertical gap={0} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
-          {props.removeForm
-            ? internalInputNumber
-            : (
-              <AntdForm.Item name={itemName}>
-                {internalInputNumber}
-              </AntdForm.Item>
-            )}
+          {internalInputNumber}
         </div>
         <Text style={{ lineHeight: '16px' }}>
           {props.text}
@@ -146,13 +142,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
       </Flex>
 
       <Flex align='center' justify='flex-start' gap={5} style={{ height: 14 }}>
-        {props.removeForm
-          ? internalSlider
-          : (
-            <AntdForm.Item name={itemName}>
-              {internalSlider}
-            </AntdForm.Item>
-          )}
+        {internalSlider}
         <Text
           style={{
             minWidth: 20,

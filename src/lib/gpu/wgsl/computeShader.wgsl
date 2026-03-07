@@ -174,13 +174,13 @@ fn main(
     c.BE  += baseBE + traceBE;
     c.ERR += baseERR + traceERR;
     c.OHB += baseOHB + traceOHB;
-    c.PHYSICAL_DMG_BOOST  += tracePhysical_DMG + 0.10 * relic2p(sets, SET_ChampionOfStreetwiseBoxing);
-    c.FIRE_DMG_BOOST      += traceFire_DMG + 0.10 * relic2p(sets, SET_FiresmithOfLavaForging);
-    c.ICE_DMG_BOOST       += traceIce_DMG + 0.10 * relic2p(sets, SET_HunterOfGlacialForest);
-    c.LIGHTNING_DMG_BOOST += traceLightning_DMG + 0.10 * relic2p(sets, SET_BandOfSizzlingThunder);
-    c.WIND_DMG_BOOST      += traceWind_DMG + 0.10 * relic2p(sets, SET_EagleOfTwilightLine);
-    c.QUANTUM_DMG_BOOST   += traceQuantum_DMG + 0.10 * relic2p(sets, SET_GeniusOfBrilliantStars) + 0.10 * relic2p(sets, SET_PoetOfMourningCollapse);
-    c.IMAGINARY_DMG_BOOST += traceImaginary_DMG + 0.10 * relic2p(sets, SET_WastelanderOfBanditryDesert);
+    c.PHYSICAL_DMG_BOOST  += basePhysical_DMG + tracePhysical_DMG + 0.10 * relic2p(sets, SET_ChampionOfStreetwiseBoxing);
+    c.FIRE_DMG_BOOST      += baseFire_DMG + traceFire_DMG + 0.10 * relic2p(sets, SET_FiresmithOfLavaForging);
+    c.ICE_DMG_BOOST       += baseIce_DMG + traceIce_DMG + 0.10 * relic2p(sets, SET_HunterOfGlacialForest);
+    c.LIGHTNING_DMG_BOOST += baseLightning_DMG + traceLightning_DMG + 0.10 * relic2p(sets, SET_BandOfSizzlingThunder);
+    c.WIND_DMG_BOOST      += baseWind_DMG + traceWind_DMG + 0.10 * relic2p(sets, SET_EagleOfTwilightLine);
+    c.QUANTUM_DMG_BOOST   += baseQuantum_DMG + traceQuantum_DMG + 0.10 * relic2p(sets, SET_GeniusOfBrilliantStars) + 0.10 * relic2p(sets, SET_PoetOfMourningCollapse);
+    c.IMAGINARY_DMG_BOOST += baseImaginary_DMG + traceImaginary_DMG + 0.10 * relic2p(sets, SET_WastelanderOfBanditryDesert);
     c.ELATION += traceElation + baseElation;
 
     // Calculate set effects
@@ -261,6 +261,10 @@ fn main(
 
     c.OHB += (
       0.10 * relic2p(sets, SET_PasserbyOfWanderingCloud)
+    );
+
+    c.ELATION += (
+      0.08 * ornament2p(sets, SET_PunklordeStageZero)
     );
 
     // Basic filters here

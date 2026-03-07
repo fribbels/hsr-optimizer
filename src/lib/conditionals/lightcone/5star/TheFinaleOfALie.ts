@@ -4,9 +4,9 @@ import {
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { Source } from 'lib/optimization/buffSource'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
@@ -17,32 +17,33 @@ import {
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const { SOURCE_LC } = Source.lightCone(ElationBrimmingWithBlessings.id)
+  const { SOURCE_LC } = Source.lightCone(TheFinaleOfALie.id)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
-  const sValuesElation = [0.12, 0.15, 0.18, 0.21, 0.24]
+  const sValuesAtk = [0.40, 0.50, 0.60, 0.70, 0.80]
+  const sValuesVulnerability = [0.20, 0.225, 0.25, 0.275, 0.30]
 
   const defaults = {
-    elationBuff: false,
+    umbraDevourerBuff: true,
   }
 
   const teammateDefaults = {
-    elationBuff: true,
+    umbraDevourerBuff: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    elationBuff: {
+    umbraDevourerBuff: {
       lc: true,
-      id: 'elationBuff',
+      id: 'umbraDevourerBuff',
       formItem: 'switch',
-      text: 'Elation buff',
+      text: 'Umbra Devourer',
       content: betaContent,
     },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    elationBuff: content.elationBuff,
+    umbraDevourerBuff: content.umbraDevourerBuff,
   }
 
   return {
@@ -53,17 +54,17 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ELATION, (r.elationBuff) ? sValuesElation[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.ATK_P, (r.umbraDevourerBuff) ? sValuesAtk[s] : 0, x.source(SOURCE_LC))
     },
-    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
+    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.ELATION, (t.elationBuff) ? sValuesElation[s] : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_LC))
+      x.buff(StatKey.VULNERABILITY, (m.umbraDevourerBuff) ? sValuesVulnerability[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }
 
-export const ElationBrimmingWithBlessings: LightConeConfig = {
-  id: '24006',
+export const TheFinaleOfALie: LightConeConfig = {
+  id: '23056',
   conditionals,
 }

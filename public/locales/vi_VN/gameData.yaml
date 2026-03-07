@@ -473,10 +473,10 @@ RelicSets:
     Description2pc: Khiến Sát Thương Bạo Kích của người trang bị tăng 16%. Nếu trong cùng một hiệp tiêu hao từ 3 Điểm Chiến Kỹ trở lên, sẽ khiến Sát Thương Bạo Kích của người trang bị tăng thêm 32%, duy trì 3 hiệp.
   "325":
     Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by <unbreak>10%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in battle, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>30%</unbreak>.
+    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%.
   "326":
-    Name: City of Myriad Forms
-    Description2pc: When the wearer uses a Follow-Up ATK, their ATK increases by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> for the rest of the current battle. This effect cannot stack.
+    Name: City of Converging Stars
+    Description2pc: When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Mũi Tên

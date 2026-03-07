@@ -19,6 +19,7 @@ import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
@@ -288,6 +289,20 @@ export class AnaxaCyreneEffectPreprocessor extends AbilityPreprocessorBase {
       }
     }
     setComboBooleanCategoryCharacterActivation(comboState, 'cyreneSpecialEffect', index, this.state.cyreneSpecialEffect)
+  }
+}
+
+export class AshveilPreprocessor extends AbilityTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      Ashveil.id,
+      {
+        triggerKinds: [AbilityKind.ULT],
+        consumeKinds: [AbilityKind.FUA],
+        activationFn: setComboBooleanCategoryCharacterActivation,
+        key: 'enhancedFua',
+      },
+    )
   }
 }
 

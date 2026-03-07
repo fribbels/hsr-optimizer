@@ -39,6 +39,8 @@ import { SpaceSealingStation } from './ornaments/SpaceSealingStation'
 import { SprightlyVonwacq } from './ornaments/SprightlyVonwacq'
 import { TaliaKingdomOfBanditry } from './ornaments/TaliaKingdomOfBanditry'
 import { TengokuLivestream } from './ornaments/TengokuLivestream'
+import { PunklordeStageZero } from './ornaments/PunklordeStageZero'
+import { CityOfConvergingStars } from './ornaments/CityOfConvergingStars'
 import { TheWondrousBananAmusementPark } from './ornaments/TheWondrousBananAmusementPark'
 import { BandOfSizzlingThunder } from './relics/BandOfSizzlingThunder'
 import { ChampionOfStreetwiseBoxing } from './relics/ChampionOfStreetwiseBoxing'
@@ -129,6 +131,8 @@ const ALL_ORNAMENT_CONFIGS = [
   RevelryByTheSea,
   AmphoreusTheEternalLand,
   TengokuLivestream,
+  PunklordeStageZero,
+  CityOfConvergingStars,
 ] as const
 
 const ALL_CONFIGS = [...ALL_RELIC_CONFIGS, ...ALL_ORNAMENT_CONFIGS] as const

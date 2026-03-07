@@ -5,6 +5,7 @@ import {
 } from 'antd'
 import { TFunction } from 'i18next'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { CharacterId } from 'types/character'
 import {
   AbilityKind,
@@ -110,9 +111,8 @@ export function generateAbilityOptions(t: TFunction<'optimizerTab', 'ComboFilter
 
 export function TurnAbilitySelector({ formName, disabled }: { formName: (string | number)[], disabled: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const form = Form.useFormInstance<OptimizerForm>()
-  const characterId = Form.useWatch('characterId', form)
-  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const characterId = useOptimizerFormStore((s) => s.characterId)
+  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
   const options = useMemo(() => generateAbilityOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (
@@ -142,7 +142,7 @@ export function TurnAbilitySelector({ formName, disabled }: { formName: (string 
           disabled={disabled}
           onChange={(value: string[]) => {
             if (value && value.length == 1) {
-              form.setFieldValue(
+              window.optimizerForm.setFieldValue(
                 // @ts-ignore Using formName as path
                 formName,
                 createAbility(value[0] as AbilityKind, TurnMarker.DEFAULT).name,
@@ -197,9 +197,8 @@ export function ControlledTurnAbilitySelector({
   style?: React.CSSProperties,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const form = Form.useFormInstance<OptimizerForm>()
-  const characterId = Form.useWatch('characterId', form)
-  const characterEidolon = Form.useWatch('characterEidolon', form)
+  const characterId = useOptimizerFormStore((s) => s.characterId)
+  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
   const options = useMemo(() => generateAbilityOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (

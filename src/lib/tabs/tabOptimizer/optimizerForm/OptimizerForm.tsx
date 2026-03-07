@@ -8,6 +8,7 @@ import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
 import { syncFormToStore } from 'lib/stores/optimizerForm/optimizerFormSync'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { SaveState } from 'lib/state/saveState'
 import {
   generateConditionalResolverMetadata,
@@ -268,8 +269,8 @@ export default function OptimizerForm() {
 
 // Wrap these and use local state to limit rerenders
 function CharacterConditionalDisplayWrapper() {
-  const charId = AntDForm.useWatch(['characterId'], window.optimizerForm)
-  const eidolon = AntDForm.useWatch(['characterEidolon'], window.optimizerForm)
+  const charId = useOptimizerFormStore((s) => s.characterId)
+  const eidolon = useOptimizerFormStore((s) => s.characterEidolon)
 
   return (
     <CharacterConditionalsDisplay
@@ -281,21 +282,21 @@ function CharacterConditionalDisplayWrapper() {
 
 function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
   const { metadata } = props
-  const lcId = AntDForm.useWatch('lightCone', window.optimizerForm)
-  const superimposition = AntDForm.useWatch('lightConeSuperimposition', window.optimizerForm)
-  const charId = AntDForm.useWatch('characterId', window.optimizerForm)
+  const lcId = useOptimizerFormStore((s) => s.lightCone)
+  const superimposition = useOptimizerFormStore((s) => s.lightConeSuperimposition)
+  const charId = useOptimizerFormStore((s) => s.characterId)
 
   // Hook into light cone changes to set defaults
   useEffect(() => {
     const conditionalResolverMetadata = generateConditionalResolverMetadata({
-      characterId: charId,
+      characterId: charId!,
       characterEidolon: 0, // Assuming eidolon is not needed for light cone metadata
-      lightCone: lcId,
+      lightCone: lcId!,
       lightConeSuperimposition: superimposition,
     }, metadata)
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
     const defaults = controller.defaults()
-    const lightConeForm = DB.getCharacterById(charId)?.form.lightConeConditionals || {}
+    const lightConeForm = DB.getCharacterById(charId!)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 
     // console.log('Loaded light cone conditional values', defaults)

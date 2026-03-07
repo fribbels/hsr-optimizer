@@ -5,6 +5,7 @@ import {
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import DB, { AppPages } from 'lib/state/db'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import {
   generateAnalysisData,
   getCachedForm,
@@ -27,8 +28,8 @@ export function ExpandedDataPanel() {
   const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
 
   // For triggering updates
-  const characterId = AntDForm.useWatch(['characterId'], window.optimizerForm)
-  const lightConeId = AntDForm.useWatch(['lightCone'], window.optimizerForm)
+  const characterId = useOptimizerFormStore((s) => s.characterId)
+  const lightConeId = useOptimizerFormStore((s) => s.lightCone)
 
   if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
     return <></>

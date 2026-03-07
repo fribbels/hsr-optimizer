@@ -15,6 +15,8 @@ import {
 import { Message } from 'lib/interactions/message'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { Utils } from 'lib/utils/utils'
@@ -59,6 +61,7 @@ const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.RELIC_SETS.Description', // The selected relic set filters might be too restrictive
     buttonTextKey: '0Perms.RootCauses.RELIC_SETS.ButtonText', // Clear Relic set filters
     applyFix: () => {
+      useOptimizerFormStore.getState().setRelicSets([])
       window.optimizerForm.setFieldValue('relicSets', [])
       // Message.success('Cleared relic set filters', 2)
     },
@@ -68,6 +71,7 @@ const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.ORNAMENT_SETS.Description', // 'The selected ornament set filters might be too restrictive',
     buttonTextKey: '0Perms.RootCauses.ORNAMENT_SETS.ButtonText', // 'Clear Ornament set filters',
     applyFix: () => {
+      useOptimizerFormStore.getState().setOrnamentSets([])
       window.optimizerForm.setFieldValue('ornamentSets', [])
       // Message.success('Cleared ornament set filters', 2)
     },
@@ -77,6 +81,7 @@ const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.KEEP_CURRENT.Description', // 'The "Keep current relics" option is enabled, which forces any currently equipped relics on the character to be unchanged in the search',
     buttonTextKey: '0Perms.RootCauses.KEEP_CURRENT.ButtonText', // 'Disable "Keep current relics"',
     applyFix: () => {
+      useOptimizerFormStore.getState().setRelicFilterField('keepCurrentRelics', false)
       window.optimizerForm.setFieldValue('keepCurrentRelics', false)
       // Message.success('Disabled "Keep current relics"', 2)
     },
@@ -95,6 +100,7 @@ const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.EXCLUDE_ENABLED.Description', // 'The "Exclude" filter has some selected characters, which means this character cannot take relics from the selected characters',
     buttonTextKey: '0Perms.RootCauses.EXCLUDE_ENABLED.ButtonText', // 'Clear excluded characters',
     applyFix: () => {
+      useOptimizerFormStore.getState().setRelicFilterField('exclude', [])
       window.optimizerForm.setFieldValue('exclude', [])
       // Message.success('Cleared excluded characters', 2)
     },
@@ -104,6 +110,7 @@ const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.EQUIPPED_DISABLED.Description', // 'The "Include equipped relics" filter is disabled, which means this character cannot take any relics belonging to other characters',
     buttonTextKey: '0Perms.RootCauses.EQUIPPED_DISABLED.ButtonText', // 'Enable "Include equipped relics"',
     applyFix: () => {
+      useOptimizerFormStore.getState().setRelicFilterField('includeEquippedRelics', true)
       window.optimizerForm.setFieldValue('includeEquippedRelics', true)
       // Message.success('Enabled "Include equipped relics"', 2)
     },
@@ -113,6 +120,9 @@ const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.MINIMUM_ROLLS.Description', // 'The substat weight filter has a minimum roll threshold that might be too high',
     buttonTextKey: '0Perms.RootCauses.MINIMUM_ROLLS.ButtonText', // 'Set minimum rolls to 0',
     applyFix: () => {
+      useOptimizerFormStore.getState().setWeight('headHands', 0)
+      useOptimizerFormStore.getState().setWeight('bodyFeet', 0)
+      useOptimizerFormStore.getState().setWeight('sphereRope', 0)
       window.optimizerForm.setFieldValue(['weights', 'headHands'], 0)
       window.optimizerForm.setFieldValue(['weights', 'bodyFeet'], 0)
       window.optimizerForm.setFieldValue(['weights', 'sphereRope'], 0)
@@ -127,6 +137,7 @@ function mainStatFixes(part: Exclude<Parts, typeof Parts.Head | typeof Parts.Han
     descriptionKey: `0Perms.RootCauses.${part}_MAIN.Description` as const, // `The main stat for the ${PartsToReadable[part]} filter might be too restrictive`,
     buttonTextKey: `0Perms.RootCauses.${part}_MAIN.ButtonText` as const, // `Clear ${PartsToReadable[part]} main stat filters`,
     applyFix: () => {
+      useOptimizerFormStore.getState().setMainStats(`main${part}` as MainStatPart, [])
       window.optimizerForm.setFieldValue(`main${part}`, [])
     },
     successMessageKey: `0Perms.RootCauses.${part}_MAIN.SuccessMessage` as const,
@@ -399,6 +410,12 @@ function filterFixes(filter: ZeroResultRootCause) {
     descriptionKey: `0Results.RootCauses.${filter}.Description` as const, // `The minimum/maximum {{field name}} may be too high/low`,
     buttonTextKey: `0Results.RootCauses.${filter}.ButtonText` as const, // `Reset min/max {{field name}} filter`,
     applyFix: () => {
+      const store = useOptimizerFormStore.getState()
+      if (formAddress in store.statFilters) {
+        store.setStatFilter(formAddress as keyof StatFilterState, undefined)
+      } else if (formAddress in store.ratingFilters) {
+        store.setRatingFilter(formAddress as keyof RatingFilterState, undefined)
+      }
       window.optimizerForm.setFieldValue(formAddress as keyof Form, undefined)
     },
     successMessageKey: `0Results.RootCauses.${filter}.SuccessMessage` as const,

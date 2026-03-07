@@ -43,6 +43,7 @@ export type SetConditionals = {
   dynamicConditionals?: readonly DynamicConditional[]
   gpu?: (action: OptimizerAction, context: OptimizerContext) => string
   gpuTerminal?: (action: OptimizerAction, context: OptimizerContext) => string
+  gpuBasic?: () => string
 }
 
 export type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>

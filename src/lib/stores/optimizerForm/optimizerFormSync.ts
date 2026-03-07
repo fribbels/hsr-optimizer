@@ -93,3 +93,31 @@ export function syncFormToStore(form: Form): void {
 
   useOptimizerFormStore.setState(storeState)
 }
+
+/**
+ * Dev-mode assertion: verify antd Form and Zustand store are in sync.
+ * Logs a console.warn with differing fields. No-op in production.
+ * Call on setTimeout(0) after syncFormToStore so the form has settled.
+ */
+export function verifySync(): void {
+  if (!import.meta.env.DEV) return
+
+  const form = window.optimizerForm?.getFieldsValue?.()
+  if (!form) return
+
+  const state = useOptimizerFormStore.getState()
+
+  const diffs: string[] = []
+
+  // Check a representative subset of fields
+  if (form.characterId !== state.characterId) diffs.push(`characterId: form=${form.characterId} store=${state.characterId}`)
+  if (form.characterEidolon !== state.characterEidolon) diffs.push(`characterEidolon: form=${form.characterEidolon} store=${state.characterEidolon}`)
+  if (form.lightCone !== state.lightCone) diffs.push(`lightCone: form=${form.lightCone} store=${state.lightCone}`)
+  if (form.enhance !== state.enhance) diffs.push(`enhance: form=${form.enhance} store=${state.enhance}`)
+  if (form.grade !== state.grade) diffs.push(`grade: form=${form.grade} store=${state.grade}`)
+  if (form.enemyLevel !== state.enemyLevel) diffs.push(`enemyLevel: form=${form.enemyLevel} store=${state.enemyLevel}`)
+
+  if (diffs.length > 0) {
+    console.warn('[syncFormToStore] Form/Store divergence detected:', diffs)
+  }
+}

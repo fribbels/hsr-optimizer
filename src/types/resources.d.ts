@@ -6763,7 +6763,9 @@ interface Resources {
           "E2": "E2",
           "E4": "E4",
           "E6": "E6",
-          "ElationSkill": "Elation Skill"
+          "ElationSkill": "Elation Skill",
+          "LightCone": "Light Cone",
+          "Set": "Set"
         },
         "DamageTags": {
           "ALL": "ALL",
@@ -6779,7 +6781,6 @@ interface Resources {
           "ELATION": "ELATION"
         },
         "ActionLabel": "COMBO ACTION",
-        "FilterLabel": "FILTER BY ABILITY",
         "DefaultAction": "Default",
         "SummaryLabel": "BUFF TOTALS",
         "Stats": {

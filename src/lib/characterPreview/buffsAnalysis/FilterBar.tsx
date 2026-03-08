@@ -1,17 +1,17 @@
 import { Flex } from 'antd'
-import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import { ABILITY_COLORS, DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { Buff } from 'lib/optimization/basicStatsArray'
+import i18next from 'i18next'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
 export function computeRelevantTags(allBuffs: Buff[]): Set<DamageTag> {
   const tags = new Set<DamageTag>()
   for (const buff of allBuffs) {
     if (buff.damageTags == null) continue
     for (const entry of DAMAGE_TAG_ENTRIES) {
-      if (buff.damageTags & entry.tag) {
+      if ((buff.damageTags & entry.tag) !== 0) {
         tags.add(entry.tag)
       }
     }
@@ -31,18 +31,18 @@ export function FilterBar(props: {
   onFilterChange: (f: DamageTag | null) => void
   relevantTags: Set<DamageTag>
 }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
+  const tTags = i18next.getFixedT(null, 'optimizerTab', 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageTags')
   const visibleEntries = DAMAGE_TAG_ENTRIES.filter((e) => props.relevantTags.has(e.tag))
   if (visibleEntries.length <= 1) return null
 
   return (
     <Flex justify='center' style={{ padding: '4px 0' }}>
       <Flex gap={4} wrap='wrap' justify='center'>
-        <FilterButton label={t('DamageTags.ALL')} color='#8c8c8c' isActive={props.selectedFilter === null} onClick={() => props.onFilterChange(null)} />
+        <FilterButton label={tTags('ALL')} color={ABILITY_COLORS.ALL} isActive={props.selectedFilter === null} onClick={() => props.onFilterChange(null)} />
         {visibleEntries.map((entry) => (
           <FilterButton
             key={entry.tag}
-            label={t(`DamageTags.${entry.key}`)}
+            label={tTags(entry.key)}
             color={entry.color}
             isActive={props.selectedFilter === entry.tag}
             onClick={() => props.onFilterChange(entry.tag)}

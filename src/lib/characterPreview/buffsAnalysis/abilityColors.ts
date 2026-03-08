@@ -1,14 +1,12 @@
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 
-export type TagColorEntry = { key: string; color: string }
-export type DamageTagEntry = TagColorEntry & { tag: DamageTag }
-
 /**
- * Single source of truth for ability-type colors used across both
- * damage-tag pills and action selector tabs.
+ * Single source of truth for ability-type colors used across
+ * damage-tag pills, action selector tabs, and filter bar.
  */
-const ABILITY_COLORS: Record<string, string> = {
+export const ABILITY_COLORS = {
+  ALL: '#8c8c8c',
   BASIC: '#91caff',
   SKILL: '#b37feb',
   ULT: '#5cdbd3',
@@ -19,7 +17,11 @@ const ABILITY_COLORS: Record<string, string> = {
   MEMO: '#adc6ff',
   ADDITIONAL: '#d3adf7',
   ELATION: '#ffadd2',
-}
+} as const
+
+export type AbilityColorKey = keyof typeof ABILITY_COLORS
+export type TagColorEntry = { key: AbilityColorKey; color: string }
+export type DamageTagEntry = TagColorEntry & { tag: DamageTag }
 
 export const DAMAGE_TAG_ENTRIES: DamageTagEntry[] = [
   { tag: DamageTag.BASIC, key: 'BASIC', color: ABILITY_COLORS.BASIC },

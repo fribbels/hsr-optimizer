@@ -1,5 +1,6 @@
 import { Flex } from 'antd'
-import { ACTION_COLORS } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import { ABILITY_COLORS, ACTION_COLORS } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import { sectionLabelStyle } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { RotationStepEntry } from 'lib/simulations/combatBuffsAnalysis'
 import React from 'react'
@@ -17,24 +18,29 @@ export function ActionSelector(props: {
 
   if (props.rotationSteps.length <= 1) return null
 
-  const items: ActionItem[] = [
-    { label: t('DefaultAction'), color: '#8c8c8c', isActive: props.selectedAction === null, onClick: () => props.onActionChange(null), index: -1 },
-    ...props.rotationSteps.map((step, index) => {
-      const meta = AbilityMeta[step.actionType as AbilityKind]
-      const label = meta?.label ? tCombo(meta.label) : step.actionType
-      return {
-        label: `${index + 1}. ${label}`,
-        color: ACTION_COLORS[step.actionType] ?? '#8c8c8c',
-        isActive: props.selectedAction === index,
-        onClick: () => props.onActionChange(index),
-        index,
-      }
-    }),
-  ]
+  const defaultItem: ActionItem = {
+    label: t('DefaultAction'),
+    color: ABILITY_COLORS.ALL,
+    isActive: props.selectedAction === null,
+    onClick: () => props.onActionChange(null),
+    index: -1,
+  }
+  const stepItems: ActionItem[] = props.rotationSteps.map((step, index) => {
+    const meta = AbilityMeta[step.actionType as AbilityKind]
+    const label = meta?.label ? tCombo(meta.label) : step.actionType
+    return {
+      label: `${index + 1}. ${label}`,
+      color: ACTION_COLORS[step.actionType] ?? '#8c8c8c',
+      isActive: props.selectedAction === index,
+      onClick: () => props.onActionChange(index),
+      index,
+    }
+  })
+  const items = [defaultItem, ...stepItems]
 
   return (
     <Flex vertical gap={4}>
-      <span style={{ fontSize: 11, color: '#ffffff73', letterSpacing: 1, fontWeight: 600 }}>
+      <span style={sectionLabelStyle}>
         {t('ActionLabel')}
       </span>
       <Flex align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>

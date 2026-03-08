@@ -8,8 +8,10 @@ import { BuffRow } from 'lib/characterPreview/buffsAnalysis/BuffRow'
 import { Assets } from 'lib/rendering/assets'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
+import { LightConeId } from 'types/lightCone'
 
-export function getBuffSourceIcon(id: string, buffType: BUFF_TYPE) {
+function getBuffSourceIcon(id: string, buffType: BUFF_TYPE) {
   if (buffType === BUFF_TYPE.PRIMARY || buffType === BUFF_TYPE.CHARACTER) return Assets.getCharacterAvatarById(id)
   if (buffType === BUFF_TYPE.LIGHTCONE) return Assets.getLightConeIconById(id)
   if (buffType === BUFF_TYPE.SETS) return Assets.getSetImage(Sets[id as SetKey])
@@ -25,9 +27,9 @@ export function BuffGroup(props: { id: string; buffs: Buff[]; buffType: BUFF_TYP
   const src = getBuffSourceIcon(id, buffType)
   let name: string
   if (buffType === BUFF_TYPE.PRIMARY || buffType === BUFF_TYPE.CHARACTER) {
-    name = tGameData(`Characters.${id}.Name`)
+    name = tGameData(`Characters.${id as CharacterId}.Name`)
   } else if (buffType === BUFF_TYPE.LIGHTCONE) {
-    name = tGameData(`Lightcones.${id}.Name`)
+    name = tGameData(`Lightcones.${id as LightConeId}.Name`)
   } else if (buffType === BUFF_TYPE.SETS) {
     name = tGameData(`RelicSets.${setToId[Sets[id as SetKey]]}.Name`)
   } else {

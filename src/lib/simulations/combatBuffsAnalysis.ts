@@ -48,17 +48,15 @@ function groupSnapshot(snapshot: ActionBuffSnapshot, buffsBasic: Buff[], hasMemo
     buffs: snapshot.buffs,
     buffsMemo: hasMemo ? snapshot.buffsMemo : [],
   }
-  return groupCombatBuffs(combatBuffs, request, hasMemo)
+  return groupCombatBuffs(combatBuffs, request)
 }
 
-function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm, hasMemo?: boolean): BuffGroups {
+function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm): BuffGroups {
   const buffGroups = Object.fromEntries(
     Object.values(BUFF_TYPE).map((type) => [type, {}]),
   ) as BuffGroups
 
-  const includeMemo = hasMemo ?? DB.getMetadata().characters[request.characterId].path === PathNames.Remembrance
-
-  for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...(includeMemo ? combatBuffs.buffsMemo : [])]) {
+  for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...combatBuffs.buffsMemo]) {
     const id = buff.source.id
     const buffType = request.characterId === id ? BUFF_TYPE.PRIMARY : buff.source.buffType
 

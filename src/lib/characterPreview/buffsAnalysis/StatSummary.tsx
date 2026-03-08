@@ -1,25 +1,17 @@
 import { Flex, theme } from 'antd'
-import { DAMAGE_TAG_ENTRIES, TagColorEntry } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import { ABILITY_COLORS, DAMAGE_TAG_ENTRIES, TagColorEntry } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { CardHeader } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
 import { DesignContext, ellipsisStyle, getCardStyle, getIconStyle } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
-import { getStatConfig, renderPill, translatedLabel } from 'lib/characterPreview/buffsAnalysis/BuffRow'
-import { BUFF_TYPE } from 'lib/optimization/buffSource'
+import { formatBuffValue, getStatConfig, renderPill, translatedLabel } from 'lib/characterPreview/buffsAnalysis/buffUtils'
+import { GROUP_ORDER } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { Buff } from 'lib/optimization/basicStatsArray'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
-import { currentLocale } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import i18next from 'i18next'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const GROUP_ORDER: BUFF_TYPE[] = [
-  BUFF_TYPE.PRIMARY,
-  BUFF_TYPE.SETS,
-  BUFF_TYPE.CHARACTER,
-  BUFF_TYPE.LIGHTCONE,
-]
 
 const STAT_ORDER = new Map(Object.keys(newStatsConfig).map((key, i) => [key, i]))
 
@@ -48,8 +40,6 @@ export function collectAllBuffs(buffGroups: BuffGroups): Buff[] {
   }
   return all
 }
-
-export { GROUP_ORDER }
 
 function getBuffStatKey(buff: Buff): string {
   return buff.memo ? `memo:${buff.stat}` : buff.stat
@@ -112,13 +102,13 @@ function getContributionTagPills(contributions: StatSumContribution[]): TagColor
   for (const c of contributions) {
     if (c.damageTags != null) {
       for (const entry of DAMAGE_TAG_ENTRIES) {
-        if (c.damageTags & entry.tag) specificTags.add(entry.tag)
+        if ((c.damageTags & entry.tag) !== 0) specificTags.add(entry.tag)
       }
     }
   }
 
   const pills: TagColorEntry[] = []
-  if (hasAll) pills.push({ color: '#8c8c8c', key: 'ALL' })
+  if (hasAll) pills.push({ color: ABILITY_COLORS.ALL, key: 'ALL' })
   for (const entry of DAMAGE_TAG_ENTRIES) {
     if (specificTags.has(entry.tag)) pills.push({ color: entry.color, key: entry.key })
   }
@@ -126,20 +116,17 @@ function getContributionTagPills(contributions: StatSumContribution[]): TagColor
 }
 
 function formatStatSum(sum: StatSum): string {
-  if (sum.percent) {
-    return TsUtils.precisionRound(sum.total * 100, 2).toLocaleString(currentLocale()) + ' %'
-  }
-  return TsUtils.precisionRound(sum.total, 0).toLocaleString(currentLocale())
+  return formatBuffValue(sum.total, sum.percent)
 }
 
 function SummaryTagPills(props: { contributions: StatSumContribution[] }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageTags' })
+  const tTags = i18next.getFixedT(null, 'optimizerTab', 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageTags')
   const pills = getContributionTagPills(props.contributions)
   if (pills.length === 0) return null
 
   return (
     <Flex gap={2} style={{ flexShrink: 0 }}>
-      {pills.map((p) => renderPill(p.key, p.color, t(p.key)))}
+      {pills.map((p) => renderPill(p.key, p.color, tTags(p.key)))}
     </Flex>
   )
 }

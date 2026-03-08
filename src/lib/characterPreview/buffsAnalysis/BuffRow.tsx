@@ -1,63 +1,16 @@
 import { Flex } from 'antd'
-import i18next from 'i18next'
-import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
-import { DesignContext, ellipsisStyle, FilterContext, PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
+import { ABILITY_COLORS, DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import { formatBuffValue, getStatConfig, getPrimaryDamageTagColor, renderPill, translatedLabel } from 'lib/characterPreview/buffsAnalysis/buffUtils'
+import { DesignContext, ellipsisStyle, FilterContext } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
 import {
   BUFF_ABILITY,
   BUFF_TYPE,
 } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/basicStatsArray'
-import { AKeyType } from 'lib/optimization/engine/config/keys'
-import { newStatsConfig, StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
-import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { currentLocale } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import i18next from 'i18next'
 import React, { ReactElement, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-export function getStatConfig(stat: string): StatConfigEntry | undefined {
-  return newStatsConfig[stat as AKeyType]
-}
-
-export function getPrimaryDamageTagColor(damageTags?: number): string {
-  if (damageTags == null) return 'transparent'
-  for (const entry of DAMAGE_TAG_ENTRIES) {
-    if (damageTags & entry.tag) return entry.color
-  }
-  return 'transparent'
-}
-
-export function translatedLabel(stat: string, isMemo = false): string {
-  const config = getStatConfig(stat)
-  if (!config) return stat
-
-  const label = config.label
-  if (typeof label === 'string') {
-    return isMemo ? i18next.t('MemospriteLabel', { label }) as string : label
-  }
-
-  const typedLabel = label as { ns: string; key: string; args?: Record<string, unknown> }
-  const finalLabel: string = i18next.t(`${typedLabel.ns}:${typedLabel.key}`, typedLabel.args) as string
-  return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) as string : finalLabel
-}
-
-export function renderPill(key: string, color: string, label: string): ReactElement {
-  return (
-    <span key={key} style={{
-      padding: PILL_SIZE.padding,
-      borderRadius: 3,
-      fontSize: PILL_SIZE.fontSize,
-      fontWeight: 600,
-      lineHeight: PILL_SIZE.lineHeight,
-      color,
-      whiteSpace: 'nowrap',
-      border: `1px solid ${color}`,
-    }}>
-      {label}
-    </span>
-  )
-}
 
 export function BuffRow(props: { buff: Buff; isLast: boolean }) {
   const { buff, isLast } = props
@@ -93,14 +46,9 @@ export function BuffRow(props: { buff: Buff; isLast: boolean }) {
       sourceLabel = source.label
   }
 
-  let value: string
-  if (bool) {
-    value = tOptimizerTab(`Values.${buff.value ? 'BoolTrue' : 'BoolFalse'}`)
-  } else if (percent) {
-    value = TsUtils.precisionRound(buff.value * 100, 2).toLocaleString(currentLocale()) + ' %'
-  } else {
-    value = TsUtils.precisionRound(buff.value, 0).toLocaleString(currentLocale())
-  }
+  const value = bool
+    ? tOptimizerTab(`Values.${buff.value ? 'BoolTrue' : 'BoolFalse'}`)
+    : formatBuffValue(buff.value, percent)
 
   let rowBackground: string | undefined
   const tintColor = getPrimaryDamageTagColor(buff.damageTags)
@@ -150,16 +98,16 @@ export function BuffRow(props: { buff: Buff; isLast: boolean }) {
 }
 
 function DamageTagPills(props: { damageTags?: number }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageTags' })
+  const t = i18next.getFixedT(null, 'optimizerTab', 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageTags')
 
   const pills = useMemo(() => {
     if (props.damageTags == null) {
-      return [renderPill('ALL', '#8c8c8c', t('ALL'))]
+      return [renderPill('ALL', ABILITY_COLORS.ALL, t('ALL'))]
     }
 
     const result: ReactElement[] = []
     for (const entry of DAMAGE_TAG_ENTRIES) {
-      if (props.damageTags & entry.tag) {
+      if ((props.damageTags & entry.tag) !== 0) {
         result.push(renderPill(String(entry.tag), entry.color, t(entry.key)))
       }
     }

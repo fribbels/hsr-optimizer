@@ -52,6 +52,16 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+function startTrace(x: ComputedStatsContainer, action: OptimizerAction) {
+  x.enableTracing()
+  x.mergePrecomputedTraces(action.precomputedStats)
+}
+
+function captureSnapshot(x: ComputedStatsContainer): ActionBuffSnapshot {
+  x.trace = false
+  return { buffs: [...x.buffs], buffsMemo: [...x.buffsMemo] }
+}
+
 // To use after combo state and context has been initialized
 export function simulateBuild(
   relics: SimulationRelicByPart,
@@ -108,8 +118,8 @@ export function simulateBuild(
 
   // Store trace request - when tracing, we trace each action separately
   const shouldTrace = trace
-  const actionBuffSnapshots: Record<string, ActionBuffSnapshot> = {}
-  const rotationBuffSteps: RotationBuffStep[] = []
+  const actionBuffSnapshots: Record<string, ActionBuffSnapshot> | undefined = shouldTrace ? {} : undefined
+  const rotationBuffSteps: RotationBuffStep[] | undefined = shouldTrace ? [] : undefined
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
@@ -119,24 +129,14 @@ export function simulateBuild(
 
     x.setPrecompute(action.precomputedStats.a)
 
-    if (shouldTrace) {
-      x.enableTracing()
-      x.mergePrecomputedTraces(action.precomputedStats)
-    }
+    if (shouldTrace) startTrace(x, action)
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
     if (shouldTrace) {
-      x.trace = false
-      rotationBuffSteps.push({
-        actionType: action.actionType,
-        snapshot: {
-          buffs: [...x.buffs],
-          buffsMemo: [...x.buffsMemo],
-        },
-      })
+      rotationBuffSteps!.push({ actionType: action.actionType, snapshot: captureSnapshot(x) })
     }
 
     const dotComboMultiplier = getDotComboMultiplier(action, context)
@@ -175,22 +175,14 @@ export function simulateBuild(
 
     x.setPrecompute(action.precomputedStats.a)
 
-    // Trace buffs for each action separately when tracing is enabled
-    if (shouldTrace) {
-      x.enableTracing()
-      x.mergePrecomputedTraces(action.precomputedStats)
-    }
+    if (shouldTrace) startTrace(x, action)
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
     if (shouldTrace) {
-      x.trace = false
-      actionBuffSnapshots[action.actionName] = {
-        buffs: [...x.buffs],
-        buffsMemo: [...x.buffsMemo],
-      }
+      actionBuffSnapshots![action.actionName] = captureSnapshot(x)
     }
 
     // Capture stats for the primary scoring action (from scoringMetadata.sortOption.key)
@@ -241,8 +233,8 @@ export function simulateBuild(
     x,
     primaryActionStats,
     actionDamage,
-    actionBuffSnapshots: shouldTrace ? actionBuffSnapshots : undefined,
-    rotationBuffSteps: shouldTrace ? rotationBuffSteps : undefined,
+    actionBuffSnapshots,
+    rotationBuffSteps,
   }
 }
 

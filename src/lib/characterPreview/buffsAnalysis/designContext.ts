@@ -1,4 +1,5 @@
 import React, { createContext } from 'react'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 
@@ -16,6 +17,13 @@ export type DesignOptions = {
 
 export const BORDER_RADIUS = 5
 export const GROUP_SPACING = 10
+
+export const GROUP_ORDER: BUFF_TYPE[] = [
+  BUFF_TYPE.PRIMARY,
+  BUFF_TYPE.SETS,
+  BUFF_TYPE.CHARACTER,
+  BUFF_TYPE.LIGHTCONE,
+]
 export const PILL_SIZE = { padding: '0 4px', fontSize: 9, lineHeight: '16px' } as const
 
 export const DEFAULT_OPTIONS: DesignOptions = {
@@ -32,6 +40,13 @@ export const DEFAULT_OPTIONS: DesignOptions = {
 
 export const DesignContext = createContext<DesignOptions>(DEFAULT_OPTIONS)
 export const FilterContext = createContext<DamageTag | null>(null)
+
+export const sectionLabelStyle: React.CSSProperties = {
+  fontSize: 11,
+  color: '#ffffff73',
+  letterSpacing: 1,
+  fontWeight: 600,
+}
 
 export const ellipsisStyle = (fontSize: number): React.CSSProperties => ({
   overflow: 'hidden',

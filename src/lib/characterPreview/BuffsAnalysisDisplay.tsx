@@ -2,8 +2,8 @@ import { Flex } from 'antd'
 import { ActionSelector } from 'lib/characterPreview/buffsAnalysis/ActionSelector'
 import { FilterBar, computeRelevantTags } from 'lib/characterPreview/buffsAnalysis/FilterBar'
 import { BuffGroup } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
-import { DEFAULT_OPTIONS, DesignContext, FilterContext, GROUP_SPACING } from 'lib/characterPreview/buffsAnalysis/designContext'
-import { collectAllBuffs, computeStatSums, GROUP_ORDER, StatSummaryTable } from 'lib/characterPreview/buffsAnalysis/StatSummary'
+import { DEFAULT_OPTIONS, DesignContext, FilterContext, GROUP_ORDER, GROUP_SPACING } from 'lib/characterPreview/buffsAnalysis/designContext'
+import { collectAllBuffs, computeStatSums, StatSummaryTable } from 'lib/characterPreview/buffsAnalysis/StatSummary'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { generateContext } from 'lib/optimization/context/calculateContext'
@@ -15,7 +15,6 @@ import {
 import { aggregatePerActionBuffs, BuffGroups, PerActionBuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import React, { ReactElement, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 type BuffsAnalysisProps = {
   result?: SimulationScore
@@ -29,7 +28,6 @@ export enum BuffDisplaySize {
 }
 
 export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const perActionBuffGroups = useMemo(
     () => props.perActionBuffGroups ?? rerunSim(props.result),
     [props.perActionBuffGroups, props.result],
@@ -70,7 +68,6 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
         <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
 
         <GroupedLayout buffGroups={buffGroups} />
-        <span style={{ fontSize: 11, color: '#ffffff73', letterSpacing: 1, fontWeight: 600 }}>{t('SummaryLabel')}</span>
         <StatSummaryTable sums={statSums} avatarSrc={summaryAvatarSrc} />
       </Flex>
     </FilterContext.Provider>

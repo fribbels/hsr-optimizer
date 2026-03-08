@@ -320,6 +320,14 @@ SetConditionals:
     Arcadia:
       Display: '{{allyCount}}x'
       Label: '{{allyCount}} allié(s) (+{{buffValue}}% DGT)'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Inactif'
+        Label: 'Inactif'
+      AtkOnly:
+        Display: ATQ
+      CdOnly:
+        Display: DC
   Conditionals:
     DefaultMessage: Activé par défaut - les effets s'appliqueront aux calculs de combat.
     Hunter: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat.
@@ -572,7 +580,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Bouclier
       SHIELD_VALUE_P: Δ% Bouclier
   DamageSplits:
-    Title: Répartition des dégâts
     Legend:
       abilityDmg: Capacité
       breakDmg: Rupture

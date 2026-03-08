@@ -362,6 +362,19 @@ SetConditionals:
     Arcadia:
       Display: 'crwdns45706:0{{allyCount}}crwdne45706:0'
       Label: 'crwdns45708:0{{allyCount}}crwdnd45708:0{{buffValue}}crwdne45708:0'
+    CityOfConvergingStars:
+      Off:
+        Display: 'crwdns46498:0crwdne46498:0'
+        Label: 'crwdns46500:0crwdne46500:0'
+      AtkOnly:
+        Display: crwdns46502:0crwdne46502:0
+        Label: crwdns46504:0crwdne46504:0
+      CdOnly:
+        Display: crwdns46506:0crwdne46506:0
+        Label: crwdns46508:0crwdne46508:0
+      Both:
+        Display: crwdns46510:0crwdne46510:0
+        Label: crwdns46512:0crwdne46512:0
   Conditionals:
     DefaultMessage: crwdns43054:0crwdne43054:0
     Hunter: crwdns43056:0crwdne43056:0
@@ -399,6 +412,7 @@ SetConditionals:
     Arcadia: crwdns45710:0crwdne45710:0
     Amphoreus: crwdns46392:0crwdne46392:0
     Tengoku: crwdns46394:0crwdne46394:0
+    CityOfConvergingStars: crwdns46514:0crwdne46514:0
 Presets:
   SpdValues:
     SPD0: crwdns43098:0crwdne43098:0
@@ -606,6 +620,10 @@ TeammateCard:
       Desc: 'crwdns45996:0$t(gameData:RelicSets.323.Name)crwdne45996:0'
       Set: 'crwdns45998:0$t(gameData:RelicSets.323.Name)crwdne45998:0'
       Text: crwdns46000:0crwdne46000:0
+    CityOfConvergingStars:
+      Desc: 'crwdns46516:0$t(gameData:RelicSets.326.Name)crwdne46516:0'
+      Set: 'crwdns46518:0$t(gameData:RelicSets.326.Name)crwdne46518:0'
+      Text: crwdns46520:0crwdne46520:0
 StatSimulation:
   DuplicateSimMessage: crwdns43360:0crwdne43360:0
   MissingMainstatsMessage: crwdns43362:0crwdne43362:0
@@ -654,7 +672,7 @@ ExpandedDataPanel:
       SHIELD_VALUE: crwdns44694:0crwdne44694:0
       SHIELD_VALUE_P: crwdns44696:0crwdne44696:0
   DamageSplits:
-    Title: crwdns44698:0crwdne44698:0
+    Title: crwdns46522:0crwdne46522:0
     Legend:
       abilityDmg: crwdns44700:0crwdne44700:0
       breakDmg: crwdns44702:0crwdne44702:0

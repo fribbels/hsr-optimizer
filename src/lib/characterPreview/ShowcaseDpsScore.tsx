@@ -3,11 +3,9 @@ import {
   IconRefresh,
   IconSettings,
 } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, SegmentedControl } from '@mantine/core'
 import {
-  Card,
   ConfigProvider,
-  Segmented,
 } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterCardCombatStats'
@@ -210,15 +208,14 @@ function CharacterPreviewScoringTeammate(props: {
   const formTeammate = getTeammate(index, simForm)
 
   return (
-    <Card.Grid
+    <div
       style={{
         width: '33.3333%',
         textAlign: 'center',
         padding: 1,
         boxShadow: 'none',
-        // background: token.colorBgLayout,
+        cursor: readonly ? 'default' : 'pointer',
       }}
-      hoverable={true}
       onClick={() => {
         if (readonly) return
         setCharacterModalInitialCharacter({ form: teammate } as Character)
@@ -285,7 +282,7 @@ function CharacterPreviewScoringTeammate(props: {
           />
         </div>
       </Flex>
-    </Card.Grid>
+    </div>
   )
 }
 
@@ -393,7 +390,7 @@ function ShowcaseTeamSelectPanel(props: {
   }
 
   const tabsDisplay = (
-    <Segmented
+    <SegmentedControl
       disabled={readonly}
       style={{ marginLeft: 10, marginRight: 10, marginTop: 2, marginBottom: 0, alignItems: 'center' }}
       onChange={(selection) => {
@@ -453,8 +450,8 @@ function ShowcaseTeamSelectPanel(props: {
         }
       }}
       value={teamSelection}
-      block
-      options={[
+      fullWidth
+      data={[
         {
           value: DEFAULT_TEAM,
           label: (
@@ -466,7 +463,6 @@ function ShowcaseTeamSelectPanel(props: {
         {
           label: <IconSettings />,
           value: SETTINGS_TEAM,
-          className: 'short-segmented',
         },
         {
           value: CUSTOM_TEAM,

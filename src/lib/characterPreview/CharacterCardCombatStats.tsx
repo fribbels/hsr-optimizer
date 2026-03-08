@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Divider,
-} from 'antd'
+import { Divider, Flex } from '@mantine/core'
 import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
@@ -76,7 +73,7 @@ export function CharacterCardCombatStats(props: {
           </StatTextSm>
           {upgraded && <Arrow />}
         </Flex>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
         <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
       </Flex>,
     )

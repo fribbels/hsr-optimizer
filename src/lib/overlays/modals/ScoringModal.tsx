@@ -1,9 +1,8 @@
 import {
-  Divider,
   Form,
 } from 'antd'
 import { PopConfirm } from 'lib/ui/PopConfirm'
-import { Button, Flex, Modal, MultiSelect, NumberInput, Text } from '@mantine/core'
+import { Button, Divider, Flex, Modal, MultiSelect, NumberInput, Text } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
 import {
   Constants,
@@ -34,8 +33,8 @@ import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
 
 const TitleDivider = styled(Divider)`
-    margin-top: 10px !important;
-    margin-bottom: 10px !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
 `
 
 const InputNumberStyled = styled(NumberInput)`
@@ -237,7 +236,7 @@ export default function ScoringModal() {
         preserve={false}
         layout='vertical'
       >
-        <TitleDivider>{t('Scoring.StatWeightsHeader') /* Stat weights */}</TitleDivider>
+        <TitleDivider label={t('Scoring.StatWeightsHeader') /* Stat weights */} labelPosition='center' />
 
         <Flex gap={20}>
           <Flex direction="column" gap={5}>
@@ -485,13 +484,17 @@ export default function ScoringModal() {
           </Flex>
         </Flex>
 
-        <Divider style={{ marginTop: 10, marginBottom: 40 }}>
-          <ColorizedLinkWithIcon
-            text={t('Scoring.WeightMethodology.Header')}
-            linkIcon={true}
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
-          />
-        </Divider>
+        <Divider
+          style={{ marginTop: 10, marginBottom: 40 }}
+          label={
+            <ColorizedLinkWithIcon
+              text={t('Scoring.WeightMethodology.Header')}
+              linkIcon={true}
+              url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+            />
+          }
+          labelPosition='center'
+        />
       </Form>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
         <Button key='back' variant="default" onClick={closeScoringModal}>

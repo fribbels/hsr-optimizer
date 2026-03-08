@@ -6,11 +6,9 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import {
-  Card,
   Form as AntDForm,
-  Radio,
 } from 'antd'
-import { Button, Flex, NumberInput, Select } from '@mantine/core'
+import { Button, Flex, NumberInput, Paper, SegmentedControl, Select } from '@mantine/core'
 import {
   OverlayText,
   showcaseOutline,
@@ -142,7 +140,7 @@ export default function BenchmarksTab(): ReactElement {
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Card style={{ width: 900 }}>
+      <Paper p="xs" withBorder style={{ width: 900 }}>
         <AntDForm
           form={benchmarkForm}
           initialValues={initialForm}
@@ -150,7 +148,7 @@ export default function BenchmarksTab(): ReactElement {
         >
           <BenchmarkInputs />
         </AntDForm>
-      </Card>
+      </Paper>
 
       <DPSScoreDisclaimer />
 
@@ -256,24 +254,26 @@ function RightPanel() {
 
         <SpdBenchmarkSetting />
         <BenchmarkSetting label='ERR' itemName='errRope'>
-          <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
-            <Radio.Button value={true}>
-              <IconCheck />
-            </Radio.Button>
-            <Radio.Button value={false}>
-              <IconX />
-            </Radio.Button>
-          </Radio.Group>
+          <SegmentedControl
+            size='xs'
+            fullWidth
+            style={{ width: INPUT_WIDTH }}
+            data={[
+              { label: <IconCheck />, value: 'true' },
+              { label: <IconX />, value: 'false' },
+            ]}
+          />
         </BenchmarkSetting>
         <BenchmarkSetting label='SubDPS' itemName='subDps'>
-          <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
-            <Radio.Button value={true}>
-              <IconCheck />
-            </Radio.Button>
-            <Radio.Button value={false}>
-              <IconX />
-            </Radio.Button>
-          </Radio.Group>
+          <SegmentedControl
+            size='xs'
+            fullWidth
+            style={{ width: INPUT_WIDTH }}
+            data={[
+              { label: <IconCheck />, value: 'true' },
+              { label: <IconX />, value: 'false' },
+            ]}
+          />
         </BenchmarkSetting>
 
         <CustomHorizontalDivider height={8} />
@@ -399,15 +399,15 @@ function Teammate({ index }: { index: number }) {
   const lightConeSuperimposition = teammate?.lightConeSuperimposition ?? 1
 
   return (
-    <Card.Grid
+    <div
       style={{
         width: '33.3333%',
         textAlign: 'center',
         padding: 1,
         boxShadow: 'none',
+        cursor: 'pointer',
       }}
       className='custom-grid'
-      hoverable={true}
       onClick={() => {
         setCharacterModalInitialCharacter(teammate)
         setCharacterModalOpen(true)
@@ -475,7 +475,7 @@ function Teammate({ index }: { index: number }) {
           top={-18}
         />
       </Flex>
-    </Card.Grid>
+    </div>
   )
 }
 

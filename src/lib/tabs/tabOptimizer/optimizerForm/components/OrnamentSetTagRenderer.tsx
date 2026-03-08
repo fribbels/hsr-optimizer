@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Tag,
-} from 'antd'
+import { Badge, Flex } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import React, { ReactNode } from 'react'
@@ -20,26 +17,21 @@ export function OrnamentSetTagRenderer(props: {
 
   if (!value) {
     return (
-      <Tag
-        closable={closable}
-        onClose={onClose}
-      >
+      <Badge>
         <Flex>
           {processedLabel}
         </Flex>
-      </Tag>
+      </Badge>
     )
   }
 
   return (
-    <Tag
-      closable={closable}
-      onClose={onClose}
+    <Badge
       style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 21, alignItems: 'center', overflow: 'hidden' }}
     >
       <Flex>
         <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} style={{ width: 24, height: 24 }}></img>
       </Flex>
-    </Tag>
+    </Badge>
   )
 }

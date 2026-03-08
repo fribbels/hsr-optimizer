@@ -1,9 +1,4 @@
-import { Flex, Tooltip } from '@mantine/core'
-import {
-  Table,
-  TableProps,
-} from 'antd'
-import { AnyObject } from 'antd/es/_util/type'
+import { Flex, Table, Tooltip } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { SubstatUpgradeItem } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import {
@@ -27,9 +22,11 @@ import {
   localeNumber_0,
   localeNumber_00,
 } from 'lib/utils/i18nUtils'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type MainStatUpgradeItem = {
+  key: string,
   stat: MainStats,
   part: Parts,
   setUpgradeRequest?: SimulationRequest,
@@ -68,57 +65,60 @@ export function DpsScoreMainStatUpgradesTable(props: {
     } as unknown as MainStatUpgradeItem)
   }
 
-  const columns: TableProps<MainStatUpgradeItem>['columns'] = [
-    {
-      title: t('MainStatUpgrade'), // Main Stat Upgrade
-      dataIndex: 'stat',
-      align: 'center',
-      width: 200,
-      rowScope: 'row',
-      render: (stat: MainStats, upgrade: MainStatUpgradeItem) => (
-        upgrade.setUpgradeRequest
-          ? (
-            <Flex align='center' gap={3}>
-              {upgrade.setUpgradeRequest.simRelicSet1 === upgrade.setUpgradeRequest.simRelicSet2
-                ? (
-                  <>
-                    <RelicDoubleImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
-                  </>
-                )
-                : (
-                  <>
-                    <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
-                    <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet2} height={iconSize} width={iconSize} />
-                  </>
-                )}
-              <span></span>
-              <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simOrnamentSet} height={iconSize} width={iconSize} />
-            </Flex>
-          )
-          : (
-            <Flex align='center' gap={5}>
-              <img src={Assets.getPart(upgrade.part)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
-              <span>➔</span>
-              <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize }} />
-              <span>{`${tCommon(`ShortReadableStats.${stat}`)}`}</span>
-            </Flex>
-          )
-      ),
-    },
-    // @ts-ignore
-    ...sharedScoreUpgradeColumns(t),
-  ]
+  const sharedCols = sharedScoreUpgradeColumns(t)
 
   return (
-    <Table<MainStatUpgradeItem>
+    <Table
       className='remove-table-bottom-border'
-      columns={columns}
-      dataSource={dataSource}
-      pagination={false}
-      size='small'
       style={tableStyle}
-      locale={{ emptyText: '' }}
-    />
+    >
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('MainStatUpgrade')}</Table.Th>
+          {sharedCols.map((col) => (
+            <Table.Th key={col.key} style={{ textAlign: 'center' }}>{col.title}</Table.Th>
+          ))}
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        {dataSource.map((upgrade) => (
+          <Table.Tr key={upgrade.key}>
+            <Table.Td style={{ textAlign: 'center' }}>
+              {upgrade.setUpgradeRequest
+                ? (
+                  <Flex align='center' gap={3}>
+                    {upgrade.setUpgradeRequest.simRelicSet1 === upgrade.setUpgradeRequest.simRelicSet2
+                      ? (
+                        <RelicDoubleImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
+                      )
+                      : (
+                        <>
+                          <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
+                          <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet2} height={iconSize} width={iconSize} />
+                        </>
+                      )}
+                    <span></span>
+                    <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simOrnamentSet} height={iconSize} width={iconSize} />
+                  </Flex>
+                )
+                : (
+                  <Flex align='center' gap={5}>
+                    <img src={Assets.getPart(upgrade.part)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
+                    <span>➔</span>
+                    <img src={Assets.getStatIcon(upgrade.stat)} style={{ width: iconSize, height: iconSize }} />
+                    <span>{`${tCommon(`ShortReadableStats.${upgrade.stat}`)}`}</span>
+                  </Flex>
+                )}
+            </Table.Td>
+            {sharedCols.map((col) => (
+              <Table.Td key={col.key} style={{ textAlign: 'center' }}>
+                {col.render(upgrade[col.dataIndex as keyof MainStatUpgradeItem] as number, upgrade)}
+              </Table.Td>
+            ))}
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
   )
 }
 
@@ -171,13 +171,20 @@ export function sharedSimResultComparator(simScore: SimulationScore, upgrade: Si
   }
 }
 
-export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): TableProps['columns'] {
+export type SharedScoreColumn = {
+  key: string
+  title: string
+  dataIndex: string
+  render: (value: number, record: any) => React.ReactNode
+}
+
+export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): SharedScoreColumn[] {
   return [
     {
+      key: 'scorePercentUpgrade',
       title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
       dataIndex: 'scorePercentUpgrade',
-      align: 'center',
-      render: (n: number, record: AnyObject) => (
+      render: (n: number, record: unknown) => (
         (record as SubstatUpgradeItem)?.stat == Stats.SPD ? <>-</> : (
           <Flex align='center' justify='center' gap={5}>
             <Arrow up={n >= 0} />
@@ -187,9 +194,9 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       ),
     },
     {
+      key: 'damagePercentUpgrade',
       title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
       dataIndex: 'damagePercentUpgrade',
-      align: 'center',
       render: (n: number) => (
         <Flex align='center' justify='center' gap={5}>
           <Arrow up={n >= 0} />
@@ -198,10 +205,10 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       ),
     },
     {
+      key: 'scoreValueUpgrade',
       title: t('UpgradedDpsScore'), // Upgraded DPS Score
       dataIndex: 'scoreValueUpgrade',
-      align: 'center',
-      render: (n: number, record: AnyObject) => (
+      render: (n: number, record: unknown) => (
         (record as SubstatUpgradeItem)?.stat == Stats.SPD ? <>-</> : (
           <>
             {`${localeNumber_0(Math.max(0, n))}%`}
@@ -210,9 +217,9 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       ),
     },
     {
+      key: 'damageValueUpgrade',
       title: t('ComboDmgUpgrade'), // Combo DMG Δ
       dataIndex: 'damageValueUpgrade',
-      align: 'center',
       render: (n: number) => (
         <>
           {localeNumber_0(n)}

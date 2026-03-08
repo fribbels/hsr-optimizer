@@ -3,12 +3,10 @@ import {
   IconUpload,
 } from '@tabler/icons-react'
 import {
-  Collapse,
-  Divider,
   Steps,
   Upload,
 } from 'antd'
-import { Alert, Button, Checkbox, Flex, Switch, Text, TextInput, Tooltip } from '@mantine/core'
+import { Accordion, Alert, Button, Checkbox, Divider, Flex, Switch, Text, TextInput, Tooltip } from '@mantine/core'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import {
   HoyolabData,
@@ -278,9 +276,7 @@ export function ScannerImportSubmenu() {
                 }}
               />
             </Flex>
-            <Divider>
-              {t('Import.LiveImport.Title') /* Live Import Controls */}
-            </Divider>
+            <Divider label={t('Import.LiveImport.Title') /* Live Import Controls */} labelPosition='center' />
             <Flex direction="column" gap={10}>
               <Text>
                 {
@@ -333,7 +329,7 @@ export function ScannerImportSubmenu() {
 
                 <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
 
-                <Divider dashed style={{ margin: 0, flex: 1, minWidth: 0 }} />
+                <Divider variant="dashed" style={{ margin: 0, flex: 1, minWidth: 0 }} />
 
                 <Tooltip
                   position='top-end'
@@ -373,12 +369,10 @@ export function ScannerImportSubmenu() {
                 <Text>{t('Import.LiveImport.UpdateWarpResources') /* Enable importing Warp resources (jades, passes, pity) */}</Text>
               </Flex>
 
-              <Collapse
-                size='small'
-                items={[{
-                  key: '1',
-                  label: t('Import.LiveImport.AdvancedSettings.Title'), /* Advanced Settings */
-                  children: (
+              <Accordion>
+                <Accordion.Item value="1">
+                  <Accordion.Control>{t('Import.LiveImport.AdvancedSettings.Title') /* Advanced Settings */}</Accordion.Control>
+                  <Accordion.Panel>
                     <Flex direction="column" gap={10}>
                       <Flex direction="column">
                         <Text>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</Text>
@@ -394,9 +388,9 @@ export function ScannerImportSubmenu() {
                         </Flex>
                       </Flex>
                     </Flex>
-                  ),
-                }]}
-              />
+                  </Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
             </Flex>
           </Flex>
         </Flex>
@@ -437,9 +431,7 @@ export function ScannerImportSubmenu() {
             {t('Import.Stage2.RelicsImport.ButtonText', { relicCount: currentRelics.length ?? 0 })}
           </Button>
 
-          <Divider>
-            <Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text>
-          </Divider>
+          <Divider label={<Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text>} labelPosition='center' />
           <Text>
             {t('Import.Stage2.CharactersImport.Label', {
               relicCount: currentRelics.length ?? 0,

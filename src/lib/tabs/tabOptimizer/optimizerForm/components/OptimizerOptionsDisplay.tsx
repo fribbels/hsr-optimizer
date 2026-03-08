@@ -2,10 +2,7 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, MultiSelect, Select, Switch, Text } from '@mantine/core'
-import {
-  Radio,
-} from 'antd'
+import { Flex, MultiSelect, SegmentedControl, Select, Switch, Text } from '@mantine/core'
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
@@ -244,28 +241,16 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             <HeaderText>
               {t('DPSMode.Header') /* DPS Mode */}
             </HeaderText>
-            <Radio.Group
-              size='small'
-              optionType='button'
-              buttonStyle='solid'
-              style={{ width: '100%', display: 'flex' }}
-              value={deprioritizeBuffs}
-              onChange={(e) => useOptimizerFormStore.getState().setDeprioritizeBuffs(e.target.value)}
-            >
-              <Radio
-                style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-                value={false}
-              >
-                {t('DPSMode.Main') /* Main */}
-              </Radio>
-              <Radio
-                style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-                value={true}
-                defaultChecked
-              >
-                {t('DPSMode.Sub') /* Sub */}
-              </Radio>
-            </Radio.Group>
+            <SegmentedControl
+              size='xs'
+              fullWidth
+              value={String(deprioritizeBuffs)}
+              onChange={(value) => useOptimizerFormStore.getState().setDeprioritizeBuffs(value === 'true')}
+              data={[
+                { label: t('DPSMode.Main') /* Main */, value: 'false' },
+                { label: t('DPSMode.Sub') /* Sub */, value: 'true' },
+              ]}
+            />
           </Flex>
         </Flex>
       </Flex>

@@ -1,8 +1,4 @@
-import {
-  Card,
-  Divider,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Divider, Flex, Paper } from '@mantine/core'
 import i18next from 'i18next'
 import {
   showcaseShadow,
@@ -105,9 +101,9 @@ export function RelicPreview(props: {
   const fillerStats = Array.from<RelicSubstatMetadata>({ length: 4 - relic.substats.length - relic.previewSubstats.length })
 
   return (
-    <Card
-      size='small'
-      hoverable={source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL && !unhoverable}
+    <Paper
+      p="xs"
+      withBorder
       onClick={cardClicked}
       style={{
         width: 200,
@@ -118,6 +114,7 @@ export function RelicPreview(props: {
         transition: showcaseTransition(),
         borderRadius: 6,
         boxShadow: source == null ? undefined : showcaseShadow + showcaseShadowInsetAddition,
+        cursor: (source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
       }}
     >
       <RelicStatText language={i18next.resolvedLanguage as Languages}>
@@ -168,7 +165,7 @@ export function RelicPreview(props: {
           {scoringType != ScoringType.NONE && <ScoreFooter score={score} />}
         </Flex>
       </RelicStatText>
-    </Card>
+    </Paper>
   )
 }
 

@@ -1,7 +1,4 @@
-import {
-  Collapse,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Accordion, Flex } from '@mantine/core'
 import gameData from 'data/game_data.json'
 import { TFunction } from 'i18next'
 import {
@@ -46,35 +43,28 @@ export default function MetadataTab(): ReactElement {
       <h1 style={{ marginLeft: 20 }}>
         Metadata viewer
       </h1>
-      <Collapse
-        items={[
-          {
-            key: '1',
-            label: 'Simulation sets',
-            children: <SimulationEquivalentSetsDashboard />,
-          },
-          {
-            key: '2',
-            label: 'Simulation teams',
-            children: <SimulationTeamDashboard />,
-          },
-          {
-            key: '3',
-            label: 'Simulation combo',
-            children: <SimulationComboDashboard />,
-          },
-          {
-            key: '4',
-            label: 'Conditional sets presets',
-            children: <ConditionalSetsPresetsDashboard />,
-          },
-          {
-            key: '5',
-            label: 'Substat weight dashboard',
-            children: <SubstatWeightDashboard />,
-          },
-        ]}
-      />
+      <Accordion multiple>
+        <Accordion.Item value="1">
+          <Accordion.Control>Simulation sets</Accordion.Control>
+          <Accordion.Panel><SimulationEquivalentSetsDashboard /></Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item value="2">
+          <Accordion.Control>Simulation teams</Accordion.Control>
+          <Accordion.Panel><SimulationTeamDashboard /></Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item value="3">
+          <Accordion.Control>Simulation combo</Accordion.Control>
+          <Accordion.Panel><SimulationComboDashboard /></Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item value="4">
+          <Accordion.Control>Conditional sets presets</Accordion.Control>
+          <Accordion.Panel><ConditionalSetsPresetsDashboard /></Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item value="5">
+          <Accordion.Control>Substat weight dashboard</Accordion.Control>
+          <Accordion.Panel><SubstatWeightDashboard /></Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
     </Flex>
   )
 }

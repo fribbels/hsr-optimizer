@@ -8,11 +8,10 @@ import {
 } from '@tabler/icons-react'
 import {
   Form as AntDForm,
-  Radio,
   Select as AntdSelect,
 } from 'antd'
 import { PopConfirm } from 'lib/ui/PopConfirm'
-import { Button, Flex, NumberInput, Select, Text, TextInput } from '@mantine/core'
+import { Button, Flex, NumberInput, SegmentedControl, Select, Text, TextInput } from '@mantine/core'
 import {
   Parts,
   Stats,
@@ -80,29 +79,16 @@ export function StatSimulationDisplay() {
     <FormCard style={{ overflow: 'hidden' }} size='large' height={STAT_SIMULATION_ROW_HEIGHT}>
       <Flex gap={15} style={{ height: '100%' }}>
         <Flex direction="column" gap={15} align='center'>
-          <Radio.Group
-            onChange={(e) => {
-              const { target: { value } } = e
-              setStatSimulationDisplay(value as StatSimTypes)
-            }}
-            optionType='button'
-            buttonStyle='solid'
+          <SegmentedControl
+            onChange={(value) => setStatSimulationDisplay(value as StatSimTypes)}
             value={statSimulationDisplay}
-            style={{ width: `${STAT_SIMULATION_GRID_WIDTH}px`, display: 'flex' }}
-          >
-            <Radio
-              style={{ display: 'flex', flex: 0.3, justifyContent: 'center', paddingInline: 0 }}
-              value={StatSimTypes.Disabled}
-            >
-              {t('ModeSelector.Off') /* Off */}
-            </Radio>
-            <Radio
-              style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-              value={StatSimTypes.SubstatRolls}
-            >
-              {t('ModeSelector.RollCount') /* Simulate custom substat rolls */}
-            </Radio>
-          </Radio.Group>
+            fullWidth
+            style={{ width: `${STAT_SIMULATION_GRID_WIDTH}px` }}
+            data={[
+              { label: t('ModeSelector.Off') /* Off */, value: StatSimTypes.Disabled },
+              { label: t('ModeSelector.RollCount') /* Simulate custom substat rolls */, value: StatSimTypes.SubstatRolls },
+            ]}
+          />
 
           <Flex style={{ minHeight: 302 }}>
             <SimulatedBuildsGrid />

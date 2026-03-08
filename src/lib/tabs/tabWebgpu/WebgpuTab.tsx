@@ -3,20 +3,12 @@ import {
   IconCircleXFilled,
   IconQuestionMark,
 } from '@tabler/icons-react'
-import {
-  Collapse,
-  Table,
-  TableProps,
-} from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Accordion, Button, Flex, Table } from '@mantine/core'
 import {
   generateAllTests,
   WebgpuTest,
 } from 'lib/gpu/tests/webgpuTestGenerator'
-import {
-  StatDelta,
-  StatDeltas,
-} from 'lib/gpu/tests/webgpuTestUtils'
+import { StatDelta } from 'lib/gpu/tests/webgpuTestUtils'
 import { AppPages } from 'lib/state/db'
 import React, { useState } from 'react'
 
@@ -71,11 +63,17 @@ function WebgpuDashboard() {
         {done ? 'Tests complete' : 'Run all WebGPU tests'}
       </Button>
 
-      <Collapse
-        items={tests.map(RenderTest)}
-        expandIconPosition='end'
-        size='small'
-      />
+      <Accordion multiple chevronPosition='right'>
+        {tests.map((test) => {
+          const item = RenderTest(test)
+          return (
+            <Accordion.Item key={item.key} value={item.key}>
+              <Accordion.Control>{item.label}</Accordion.Control>
+              <Accordion.Panel>{item.children}</Accordion.Panel>
+            </Accordion.Item>
+          )
+        })}
+      </Accordion>
     </Flex>
   )
 }
@@ -103,49 +101,6 @@ function RenderTest(test: WebgpuTest) {
   }
 }
 
-const columns: TableProps<StatDeltas>['columns'] = [
-  {
-    title: '',
-    dataIndex: 'pass',
-    render: (pass) => (
-      <Flex style={{ color: pass ? '#83ec66' : '#ef7979', width: '100%' }} justify='space-around'>
-        {pass ? <IconCircleCheckFilled /> : <IconCircleXFilled />}
-      </Flex>
-    ),
-    width: 20,
-  },
-  {
-    title: 'Stat',
-    dataIndex: 'key',
-    render: (text) => <RenderText text={text} />,
-    width: 80,
-  },
-  {
-    title: 'CPU',
-    dataIndex: 'cpu',
-    render: (text) => <RenderText text={text} />,
-    width: 120,
-  },
-  {
-    title: 'GPU',
-    dataIndex: 'gpu',
-    render: (text) => <RenderText text={text} />,
-    width: 120,
-  },
-  {
-    title: 'Delta',
-    dataIndex: 'deltaString',
-    render: (text) => <RenderText text={text} />,
-    width: 120,
-  },
-  {
-    title: 'Precision',
-    dataIndex: 'precision',
-    render: (text) => <RenderText text={text} />,
-    width: 120,
-  },
-]
-
 function TestRow(props: { test: WebgpuTest }) {
   const { test } = props
   if (!test.result) return <></>
@@ -155,13 +110,34 @@ function TestRow(props: { test: WebgpuTest }) {
   deltaArray.sort((a: StatDelta, b: StatDelta) => Number(a.pass) - Number(b.pass))
 
   return (
-    <Table
-      // @ts-ignore
-      columns={columns}
-      dataSource={deltaArray}
-      size='small'
-      pagination={false}
-    />
+    <Table>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th style={{ width: 20 }} />
+          <Table.Th style={{ width: 80 }}>Stat</Table.Th>
+          <Table.Th style={{ width: 120 }}>CPU</Table.Th>
+          <Table.Th style={{ width: 120 }}>GPU</Table.Th>
+          <Table.Th style={{ width: 120 }}>Delta</Table.Th>
+          <Table.Th style={{ width: 120 }}>Precision</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        {deltaArray.map((delta) => (
+          <Table.Tr key={delta.key}>
+            <Table.Td>
+              <Flex style={{ color: delta.pass ? '#83ec66' : '#ef7979', width: '100%' }} justify='space-around'>
+                {delta.pass ? <IconCircleCheckFilled /> : <IconCircleXFilled />}
+              </Flex>
+            </Table.Td>
+            <Table.Td><RenderText text={delta.key} /></Table.Td>
+            <Table.Td><RenderText text={delta.cpu} /></Table.Td>
+            <Table.Td><RenderText text={delta.gpu} /></Table.Td>
+            <Table.Td><RenderText text={delta.deltaString} /></Table.Td>
+            <Table.Td><RenderText text={String(delta.precision)} /></Table.Td>
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
   )
 }
 

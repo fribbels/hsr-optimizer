@@ -7,16 +7,13 @@ import {
   Alert,
   Form,
   Image,
-  Input,
-  InputNumber,
-  InputRef,
   Modal,
   Radio,
   Select,
   theme,
   Tooltip,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, NumberInput, TextInput } from '@mantine/core'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
@@ -565,7 +562,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
                 </Form.Item>
 
                 <Form.Item name='mainStatValue'>
-                  <InputNumber controls={false} disabled style={{ width: 80 }} />
+                  <NumberInput hideControls disabled style={{ width: 80 }} />
                 </Form.Item>
               </Flex>
             </Flex>
@@ -656,7 +653,7 @@ function SubstatInput(props: {
   resetUpgradeValues: () => void,
   plusThree: () => void,
 }) {
-  const inputRef = useRef<InputRef>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const [hovered, setHovered] = React.useState(false)
   const statTypeField = `substatType${props.index}` as `substatType${typeof props.index}`
   const statValueField = `substatValue${props.index}` as `substatValue${typeof props.index}`
@@ -791,7 +788,7 @@ function SubstatInput(props: {
           placement='top'
         >
           <Form.Item name={statValueField}>
-            <Input
+            <TextInput
               disabled={Boolean(isPreview)}
               ref={inputRef}
               onFocus={handleFocus}

@@ -5,15 +5,13 @@ import {
 } from '@tabler/icons-react'
 import {
   Form,
-  Input,
   Modal,
   Radio,
   RadioChangeEvent,
-  Slider,
   Spin,
   Steps,
 } from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, Slider, Text, TextInput } from '@mantine/core'
 import { RcFile } from 'antd/es/upload'
 import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
@@ -553,7 +551,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               style={{ margin: '0 20px' }}
               rules={[{ required: true, message: t('Upload.Url.Rule') /* Please input a valid image URL */ }]}
             >
-              <Input autoComplete='off' />
+              <TextInput autoComplete='off' />
             </Form.Item>
           )}
 
@@ -611,9 +609,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               min={MIN_ZOOM}
               max={MAX_ZOOM}
               step={0.1}
-              tooltip={{
-                formatter: null,
-              }}
+              label={null}
               onChange={setZoom}
               value={zoom}
             />
@@ -634,7 +630,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 {t('Edit.ArtBy') /* (Optional) Art by: */}
               </Text>
               <Form.Item name='artistName'>
-                <Input
+                <TextInput
                   style={{ flex: 1, marginTop: 3 }}
                   placeholder={t('Edit.CreditPlaceholder') /* Credit the artist if possible */}
                   autoComplete='off'

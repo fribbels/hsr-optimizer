@@ -1,9 +1,8 @@
-import { Flex, Text } from '@mantine/core'
+import { Flex, Switch, Text } from '@mantine/core'
 import {
   Drawer,
   Popover,
   Select,
-  Switch,
 } from 'antd'
 import {
   Constants,
@@ -103,7 +102,7 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
       <Switch
         disabled={disabled}
         checked={value as boolean}
-        onChange={(val) => handleConditionalChange(itemName, val)}
+        onChange={(event) => handleConditionalChange(itemName, event.currentTarget.checked)}
       />
     )
   }

@@ -2,11 +2,10 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, Text } from '@mantine/core'
+import { Flex, Switch, Text } from '@mantine/core'
 import {
   Drawer,
   Select,
-  Switch,
 } from 'antd'
 import {
   OpenCloseIDs,
@@ -150,10 +149,10 @@ export const EnemyConfigurationsDrawer = () => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<IconCheck />}
-            unCheckedChildren={<IconX />}
+            onLabel={<IconCheck />}
+            offLabel={<IconX />}
             checked={enemyElementalWeak}
-            onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyElementalWeak', val)}
+            onChange={(event) => useOptimizerFormStore.getState().setEnemyField('enemyElementalWeak', event.currentTarget.checked)}
             style={{ width: 45, marginRight: 5 }}
           />
           <Text>{t('WeaknessLabel') /* Elemental weakness */}</Text>
@@ -161,10 +160,10 @@ export const EnemyConfigurationsDrawer = () => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<IconCheck />}
-            unCheckedChildren={<IconX />}
+            onLabel={<IconCheck />}
+            offLabel={<IconX />}
             checked={enemyWeaknessBroken}
-            onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyWeaknessBroken', val)}
+            onChange={(event) => useOptimizerFormStore.getState().setEnemyField('enemyWeaknessBroken', event.currentTarget.checked)}
             style={{ width: 45, marginRight: 5 }}
           />
           <Text>{t('BrokenLabel') /* Weakness broken */}</Text>

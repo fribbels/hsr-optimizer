@@ -24,16 +24,16 @@ const FilterRow = (props: { name: string; label: string; type?: 'stat' | 'rating
   return (
     <Flex justify='space-between' style={{ margin: 0 }}>
       <InputNumberStyled
-        size='small'
-        controls={false}
+        size='xs'
+        hideControls
         style={{ margin: 0, width: 63 }}
         value={minValue}
         onChange={(val) => setFilter(minKey as never, (val as number) ?? undefined)}
       />
       <FormStatTextStyled>{props.label}</FormStatTextStyled>
       <InputNumberStyled
-        size='small'
-        controls={false}
+        size='xs'
+        hideControls
         style={{ margin: 0, width: 63 }}
         value={maxValue}
         onChange={(val) => setFilter(maxKey as never, (val as number) ?? undefined)}

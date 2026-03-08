@@ -7,10 +7,9 @@ import {
   IconSun,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, NumberInput } from '@mantine/core'
 import {
   ColorPicker,
-  InputNumber,
   Segmented,
   Select,
 } from 'antd'
@@ -356,12 +355,12 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                   {tScoring('BenchmarkSpd.Header') /* SPD benchmark */}
                 </HeaderText>
 
-                <InputNumber
-                  size='small'
-                  controls={false}
+                <NumberInput
+                  size='xs'
+                  hideControls
                   style={{ width: '100%' }}
                   value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
-                  addonAfter={
+                  rightSection={
                     <SelectSpdPresets
                       spdFilter={simScoringExecution?.result?.originalSpd}
                       onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
@@ -372,7 +371,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                   placeholder='...'
                   min={0}
                   onBlur={onShowcaseSpdBenchmarkChangeEvent}
-                  onPressEnter={onShowcaseSpdBenchmarkChangeEvent}
+                  onKeyDown={(e) => { if (e.key === 'Enter') onShowcaseSpdBenchmarkChangeEvent(e as unknown as React.FocusEvent<HTMLInputElement>) }}
                 />
               </>
             )}

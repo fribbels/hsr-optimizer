@@ -1,6 +1,6 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Card, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect } from 'antd'
-import { Button, Flex, Text, Title as MantineTitle } from '@mantine/core'
+import { Card, Form as AntDForm, Form, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect } from 'antd'
+import { Button, Flex, NumberInput, Text, TextInput, Title as MantineTitle } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -116,12 +116,12 @@ function Inputs() {
                   <Flex direction="column">
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
-                      <InputNumber
+                      <NumberInput
                         placeholder='0'
                         min={0}
                         style={{ width: '100%' }}
-                        controls={false}
-                        addonBefore={<img src={Assets.getJade()} style={{ height: 24 }}/>}
+                        hideControls
+                        leftSection={<img src={Assets.getJade()} style={{ height: 24 }}/>}
                       />
                     </Form.Item>
                   </Flex>
@@ -143,12 +143,12 @@ function Inputs() {
                   <Flex direction="column">
                     <HeaderText>{t('Passes')/* Passes */}</HeaderText>
                     <Form.Item name='passes'>
-                      <InputNumber
+                      <NumberInput
                         placeholder='0'
                         min={0}
                         style={{ width: '100%' }}
-                        controls={false}
-                        addonBefore={<img src={Assets.getPass()} style={{ height: 24 }}/>}
+                        hideControls
+                        leftSection={<img src={Assets.getPass()} style={{ height: 24 }}/>}
                       />
                     </Form.Item>
                   </Flex>
@@ -169,7 +169,7 @@ function Inputs() {
                   <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
 
                   <Space.Compact style={{ display: 'flex' }}>
-                    <Input
+                    <TextInput
                       disabled
                       style={{
                         width: 36,
@@ -416,10 +416,10 @@ function PityInputs(props: { banner: string }) {
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
         <Form.Item name={`pity${props.banner}`}>
-          <InputNumber
+          <NumberInput
             placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79}
             style={{ width: '100%' }}
-            controls={false}
+            hideControls
           />
         </Form.Item>
       </Flex>

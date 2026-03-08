@@ -1,7 +1,4 @@
-import {
-  Input,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, TextInput } from '@mantine/core'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   generateElementTags,
@@ -25,9 +22,8 @@ export function FilterBar() {
       style={{ width: '100%', marginBottom: 0, alignItems: 'center' }}
       justify='space-between'
     >
-      <Input
-        allowClear
-        size='large'
+      <TextInput
+        size='lg'
         // Revisit width of search + filters with Remembrance path
         style={{ height: 40, fontSize: 14, width: 200, borderRadius: 8 }}
         placeholder={t('SearchPlaceholder') /* Search */}

@@ -260,9 +260,8 @@ function NumberXInput(props: {
 }) {
   return (
     <InputNumberStyled
-      addonBefore='⨯'
-      size='small'
-      controls={true}
+      leftSection='⨯'
+      size='xs'
       disabled={props.disabled}
       value={props.disabled ? props.defaultValue : props.value}
       onChange={(val) => {
@@ -271,7 +270,7 @@ function NumberXInput(props: {
         }
       }}
       style={{ width: '100%' }}
-      rootClassName='comboInputNumber'
+      className='comboInputNumber'
     />
   )
 }

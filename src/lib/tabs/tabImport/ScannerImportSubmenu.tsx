@@ -4,17 +4,14 @@ import {
 } from '@tabler/icons-react'
 import {
   Alert,
-  Checkbox,
   Collapse,
   Divider,
-  Input,
   Popconfirm,
   Steps,
-  Switch,
   Tooltip,
   Upload,
 } from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Checkbox, Flex, Switch, Text, TextInput } from '@mantine/core'
 import {
   HoyolabData,
   hoyolabParser,
@@ -266,7 +263,7 @@ export function ScannerImportSubmenu() {
 
               {t('Import.Stage1.Or')}
 
-              <Input
+              <TextInput
                 style={{ width: importerTabButtonWidth }}
                 className='centered-placeholder'
                 placeholder={t('Import.Stage1.Placeholder')}
@@ -334,7 +331,7 @@ export function ScannerImportSubmenu() {
               <Flex gap={10} align='center' flex='1 0'>
                 <Switch
                   checked={ingest}
-                  onChange={(checked) => setIngest(checked)}
+                  onChange={(event) => setIngest(event.currentTarget.checked)}
                 />
 
                 <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
@@ -364,7 +361,7 @@ export function ScannerImportSubmenu() {
               <Flex gap={10} align='center'>
                 <Switch
                   checked={ingestCharacters}
-                  onChange={(checked) => setIngestCharacters(checked)}
+                  onChange={(event) => setIngestCharacters(event.currentTarget.checked)}
                 />
 
                 <Text>{t('Import.LiveImport.UpdateCharacters') /* Enable updating characters' equipped relics and lightcones */}</Text>
@@ -373,7 +370,7 @@ export function ScannerImportSubmenu() {
               <Flex gap={10} align='center'>
                 <Switch
                   checked={ingestWarpResources}
-                  onChange={(checked) => setIngestWarpResources(checked)}
+                  onChange={(event) => setIngestWarpResources(event.currentTarget.checked)}
                 />
 
                 <Text>{t('Import.LiveImport.UpdateWarpResources') /* Enable importing Warp resources (jades, passes, pity) */}</Text>
@@ -389,7 +386,7 @@ export function ScannerImportSubmenu() {
                       <Flex direction="column">
                         <Text>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</Text>
                         <Flex gap={10}>
-                          <Input
+                          <TextInput
                             id='websocket-url'
                             value={websocketUrl}
                             onChange={(e) => setWebsocketUrl(e.target.value)}
@@ -456,10 +453,9 @@ export function ScannerImportSubmenu() {
           <Checkbox
             checked={onlyImportExisting}
             disabled={loading2 || !DB.getCharacters().length}
-            onChange={(e) => setOnlyImportExisting(e.target.checked)}
-          >
-            {t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}
-          </Checkbox>
+            onChange={(e) => setOnlyImportExisting(e.currentTarget.checked)}
+            label={t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}
+          />
 
           <Popconfirm
             title={t('Import.Stage2.CharactersImport.WarningTitle')}

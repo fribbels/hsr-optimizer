@@ -1,12 +1,11 @@
 import {
   Divider,
   Form,
-  InputNumber,
   Modal,
   Popconfirm,
   Select,
 } from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, NumberInput, Text } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
 import {
   Constants,
@@ -41,7 +40,7 @@ const TitleDivider = styled(Divider)`
     margin-bottom: 10px !important;
 `
 
-const InputNumberStyled = styled(InputNumber)`
+const InputNumberStyled = styled(NumberInput)`
     width: 62px
 `
 
@@ -146,7 +145,7 @@ export default function ScoringModal() {
     return (
       <Flex justify='flex-start' style={{ width: panelWidth }} align='center' gap={5}>
         <Form.Item name={['stats', props.stat]}>
-          <InputNumberStyled controls={false} size='small' min={0} max={1} />
+          <InputNumberStyled hideControls size='xs' min={0} max={1} />
         </Form.Item>
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
@@ -437,7 +436,7 @@ export default function ScoringModal() {
                               <Form.Item
                                 name={[field.name, 1]}
                               >
-                                <InputNumberStyled controls={false} size='small' min={0} max={1} />
+                                <InputNumberStyled hideControls size='xs' min={0} max={1} />
                               </Form.Item>
                             </Flex>
                           )
@@ -494,7 +493,7 @@ export default function ScoringModal() {
                               <Form.Item
                                 name={[field.name, 1]}
                               >
-                                <InputNumberStyled controls={false} size='small' min={0} max={1} />
+                                <InputNumberStyled hideControls size='xs' min={0} max={1} />
                               </Form.Item>
                             </Flex>
                           )

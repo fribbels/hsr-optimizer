@@ -53,8 +53,8 @@ function CombatBuff(props: { title: string; name: string }) {
         {props.title}
       </Text>
       <InputNumberStyled
-        size='small'
-        controls={false}
+        size='xs'
+        hideControls
         value={value}
         onChange={(val) => useOptimizerFormStore.getState().setCombatBuff(props.name, (val as number) ?? 0)}
       />

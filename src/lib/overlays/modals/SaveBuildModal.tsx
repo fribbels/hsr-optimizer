@@ -2,11 +2,10 @@ import { IconAlertCircle } from '@tabler/icons-react'
 import {
   Divider,
   Form,
-  Input,
   Modal,
   Tooltip,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, TextInput } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import {
@@ -194,7 +193,7 @@ export function SaveBuildModal(props: {
               label={t('Label') /* Build name */}
               rules={[{ required: true, message: t('Rule') /* Please input a name */ }]}
             >
-              <Input />
+              <TextInput />
             </Form.Item>
           </Form>
           <Divider style={{ margin: '6px 0px 6px 0px' }} />

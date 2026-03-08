@@ -1,5 +1,5 @@
-import { Flex } from '@mantine/core'
-import { Card, Input, InputRef, Modal, Select, } from 'antd'
+import { Flex, TextInput } from '@mantine/core'
+import { Card, Modal, Select, } from 'antd'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
@@ -67,7 +67,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
     }
   }, [characterId, initialPath])
 
-  const inputRef = useRef<InputRef>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
   const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
 
@@ -156,16 +156,18 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
         <Flex direction="column" gap={12}>
           <Flex gap={12} wrap='wrap'>
             <Flex direction="column" wrap='wrap' style={{ minWidth: 300, flexGrow: 1 }}>
-              <Input
-                size='large'
+              <TextInput
+                size='lg'
                 style={{ height: 40 }}
                 placeholder={t('Placeholder') /* Select a lightcone */}
                 ref={inputRef}
                 onChange={setNameFilter}
-                onPressEnter={() => {
-                  const first = lightConeOptions.find(applyFilters)
-                  if (first) {
-                    handleClick(first.id)
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const first = lightConeOptions.find(applyFilters)
+                    if (first) {
+                      handleClick(first.id)
+                    }
                   }
                 }}
               />

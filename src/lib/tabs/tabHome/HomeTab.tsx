@@ -7,11 +7,9 @@ import {
   Card,
   Collapse,
   Divider,
-  Input,
-  InputRef,
   Space,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, TextInput } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
@@ -297,10 +295,10 @@ function Header() {
 function SearchBar() {
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
-  const inputRef = useRef<InputRef>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   function handleSearchSubmit() {
-    const uuid = inputRef?.current?.input?.value
+    const uuid = inputRef?.current?.value
     if (!uuid) return
 
     const validated = TsUtils.validateUuid(uuid)
@@ -340,16 +338,15 @@ function SearchBar() {
           style={{ width: 60 }}
           onClick={handleSearchSubmit}
         />
-        <Input
+        <TextInput
           ref={inputRef}
           placeholder={t('Placeholder') /* 'UID' */}
           style={{
             width: '100%',
           }}
-          allowClear
-          size='large'
+          size='lg'
           defaultValue={scorerId ?? ''}
-          onPressEnter={handleSearchSubmit}
+          onKeyDown={(e) => { if (e.key === 'Enter') handleSearchSubmit() }}
         />
       </Space.Compact>
     </Flex>

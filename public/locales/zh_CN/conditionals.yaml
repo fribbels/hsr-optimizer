@@ -2249,6 +2249,14 @@ Characters:
       teammateCDValue:
         text: 花火战斗中暴击伤害值
         content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续2回合。
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: 强化普攻
+      e1PunchlineResPen:
+        text: 1魂抗性穿透
+      e6ResPen:
+        text: 6魂属性抗性穿透
   Sunday:
     Content:
       skillDmgBuff:

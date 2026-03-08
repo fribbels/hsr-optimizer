@@ -49,14 +49,11 @@ import {
   SimulationRequest,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
-import {
-  CAELUS_HARMONY,
-  FUGUE,
-  KAFKA_B1,
-  PERMANSOR_TERRAE,
-  STELLE_HARMONY,
-  THE_DAHLIA,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { TrailblazerHarmonyCaelus, TrailblazerHarmonyStelle } from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
@@ -134,10 +131,10 @@ export class BenchmarkSimulationOrchestrator {
     // Add break if the harmony trailblazer | fugue is on the team
     if (
       metadata.teammates.find((x) =>
-        x.characterId == CAELUS_HARMONY
-        || x.characterId == STELLE_HARMONY
-        || x.characterId == FUGUE
-        || x.characterId == THE_DAHLIA
+        x.characterId == TrailblazerHarmonyCaelus.id
+        || x.characterId == TrailblazerHarmonyStelle.id
+        || x.characterId == Fugue.id
+        || x.characterId == TheDahlia.id
       )
     ) {
       addBreakEffect = true
@@ -162,12 +159,12 @@ export class BenchmarkSimulationOrchestrator {
     }
 
     // Add banana if DH PT is on the team
-    if (!metadata.ornamentSets.find((set) => set == Sets.TheWondrousBananAmusementPark) && metadata.teammates.find((x) => x.characterId == PERMANSOR_TERRAE)) {
+    if (!metadata.ornamentSets.find((set) => set == Sets.TheWondrousBananAmusementPark) && metadata.teammates.find((x) => x.characterId == PermansorTerrae.id)) {
       metadata.ornamentSets.push(Sets.TheWondrousBananAmusementPark)
     }
 
     // Add ehr if kafka is on the team
-    if (metadata.teammates.find((x) => x.characterId == KAFKA_B1)) {
+    if (metadata.teammates.find((x) => x.characterId == KafkaB1.id)) {
       addEffectHitRate = true
     }
     if (addEffectHitRate && !substats.includes(Stats.EHR)) {

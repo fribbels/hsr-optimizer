@@ -13,13 +13,14 @@ import { usePublish } from 'hooks/usePublish'
 import {
   Constants,
   Parts,
-  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import {
   SetsOrnaments,
   SetsOrnamentsNames,
   SetsRelics,
   SetsRelicsNames,
-  Stats,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -48,10 +49,7 @@ const InputNumberStyled = styled(InputNumber)`
     width: 62px
 `
 
-type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'characterId' | 'sets'> & {
-  relicsList: [Sets, number][],
-  ornamentsList: [Sets, number][],
-}
+type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'characterId'>
 
 function SetPicker(props: {
   placeholder: string,
@@ -114,32 +112,23 @@ export default function ScoringModal() {
   // Cleans up 0's to not show up on the form
   function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata) {
     scoringMetadata = TsUtils.clone(scoringMetadata)
-    const sets = Object.entries(scoringMetadata.sets ?? {}) as [Sets, number][]
 
-    const scoringMetadataWithSetsList: ScoringAlgorithmForm = {
+    const scoringMetadataForForm: ScoringAlgorithmForm = {
       ...scoringMetadata,
-      relicsList: sets.filter((set) => SetsRelicsNames.includes(set[0] as SetsRelics)),
-      ornamentsList: sets.filter((set) => SetsOrnamentsNames.includes(set[0] as SetsOrnaments)),
     }
 
-    for (const x of Object.entries(scoringMetadataWithSetsList.stats)) {
+    for (const x of Object.entries(scoringMetadataForForm.stats)) {
       if (x[1] == 0) {
         // @ts-ignore
-        scoringMetadataWithSetsList.stats[x[0]] = null
+        scoringMetadataForForm.stats[x[0]] = null
       }
     }
 
-    return scoringMetadataWithSetsList
+    return scoringMetadataForForm
   }
 
   function getScoringValuesForOverrides(scoringMetadata: ScoringAlgorithmForm) {
-    // Merge the setsList into the sets object
-    scoringMetadata.sets = Object.fromEntries(scoringMetadata.relicsList.concat(scoringMetadata.ornamentsList))
-
-    // don't want to pollute the metadata object with the set lists
-    const { relicsList, ornamentsList, ...metadataToMerge } = scoringMetadata
-
-    return metadataToMerge
+    return scoringMetadata
   }
 
   useEffect(() => {
@@ -202,7 +191,6 @@ export default function ScoringModal() {
     const scoringMetadataToMerge: Partial<ScoringMetadata> = {
       stats: defaultScoringMetadata.stats,
       parts: defaultScoringMetadata.parts,
-      sets: defaultScoringMetadata.sets,
     }
 
     scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
@@ -218,7 +206,6 @@ export default function ScoringModal() {
         const scoringMetadataToMerge: Partial<ScoringMetadata> = {
           stats: defaultScoringMetadata.stats,
           parts: defaultScoringMetadata.parts,
-          sets: defaultScoringMetadata.sets,
         }
         DB.updateCharacterScoreOverrides(character, scoringMetadataToMerge)
       }

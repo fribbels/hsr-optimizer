@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import {
   MainStats,
   Parts,
@@ -7,7 +8,7 @@ import {
   probabilityOfCorrectSlot,
   probabilityOfCorrectStat,
 } from 'lib/relics/estTbp/estTbp'
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Relic,

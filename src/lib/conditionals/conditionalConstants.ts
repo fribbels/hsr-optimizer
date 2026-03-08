@@ -1,6 +1,5 @@
-import { Sets } from 'lib/constants/constants'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
-import { ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
+import { SetKey, Sets } from 'lib/constants/constants'
+import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 export const ASHBLAZING_ATK_STACK = 0.06
 
@@ -44,21 +43,13 @@ export const MEMO_DMG_TYPE: number = DamageType.MEMO
 export const ADDITIONAL_DMG_TYPE: number = DamageType.ADDITIONAL
 export const ELATION_DMG_TYPE: number = DamageType.ELATION
 
-export const BASIC_ABILITY_TYPE: number = AbilityType.BASIC
-export const SKILL_ABILITY_TYPE: number = AbilityType.SKILL
-export const ULT_ABILITY_TYPE: number = AbilityType.ULT
-export const FUA_ABILITY_TYPE: number = AbilityType.FUA
-export const DOT_ABILITY_TYPE: number = AbilityType.DOT
-export const BREAK_ABILITY_TYPE: number = AbilityType.BREAK
-export const MEMO_SKILL_ABILITY_TYPE: number = AbilityType.MEMO_SKILL
-export const MEMO_TALENT_ABILITY_TYPE: number = AbilityType.MEMO_TALENT
-export const ELATION_SKILL_ABILITY_TYPE: number = AbilityType.ELATION_SKILL
-
-export const BUFF_PRIORITY_SELF = 0
-export const BUFF_PRIORITY_MEMO = 1
+export enum BuffPriority {
+  SELF = 0,
+  MEMO = 1,
+}
 
 export type SetsType = {
-  [K in keyof typeof Sets]: number
+  [K in SetKey]: number
 }
 
 export type BasicStatsObject = {
@@ -94,5 +85,5 @@ export type BasicStatsObject = {
   'id': number,
 
   'sets': SetsType,
-  'x': ComputedStatsObject | ComputedStatsObjectExternal,
+  'x': ComputedStatsObjectExternal,
 }

@@ -1,41 +1,83 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
+import { BuffPriority } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   countTeamPath,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, PathNames, Stats, } from 'lib/constants/constants'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Parts,
+  PathNames,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
 import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { EVERNIGHT } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  AbilityKind,
+  DEFAULT_MEMO_SKILL,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const EvernightEntities = createEnum(
   'Evernight',
   'Evey',
 )
 
-export const EvernightAbilities = createEnum(
-  'BASIC',
-  'ULT',
-  'MEMO_SKILL',
-  'BREAK',
-)
+export const EvernightAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evernight')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
@@ -70,7 +112,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoTalentDmgBoost = memoTalent(e, 0.50, 0.55)
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_MEMO,
+    buffPriority: BuffPriority.MEMO,
     memoTalentDmgBuff: true,
     traceCritBuffs: true,
     skillMemoCdBuff: true,
@@ -101,8 +143,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -225,31 +267,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.MEMO_SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(EvernightEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [EvernightEntities.Evernight]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [EvernightEntities.Evey]: {
-        memoBaseSpdFlat: 160,
-        memoBaseHpScaling: 0.50,
-        memoBaseAtkScaling: 1,
-        memoBaseDefScaling: 1,
-        primary: false,
-        summon: true,
-        memosprite: true,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [EvernightEntities.Evernight]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
+        },
+        [EvernightEntities.Evey]: {
+          memoBaseSpdFlat: 160,
+          memoBaseHpScaling: 0.50,
+          memoBaseAtkScaling: 1,
+          memoBaseDefScaling: 1,
+          primary: false,
+          summon: true,
+          memosprite: true,
+        },
+      }
+    },
 
-    actionDeclaration: () => Object.values(EvernightAbilities),
+    actionDeclaration: () => [...EvernightAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -260,7 +305,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const memoSkillToughness = r.memoriaStacks >= 16 ? 10 : 30
 
       return {
-        [EvernightAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -269,7 +314,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [EvernightAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .sourceEntity(EvernightEntities.Evey)
@@ -280,7 +325,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [EvernightAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(EvernightEntities.Evey)
@@ -292,7 +337,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [EvernightAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],
@@ -303,10 +348,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -329,7 +370,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.CD, (e >= 2 && r.e2CdBuff) ? 0.40 : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
 
       // E4 Break Efficiency (memosprite only)
-      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && r.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E4))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && r.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E4))
 
       // Cyrene special effect - MEMO_SKILL DMG boost
       const cyreneMemoSkillDmgBuff = cyreneActionExists(action)
@@ -338,7 +379,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(
         StatKey.DMG_BOOST,
         (r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0,
-        x.actionKind(EvernightAbilities.MEMO_SKILL).target(EvernightEntities.Evey).source(Source.odeTo(EVERNIGHT)),
+        x.actionKind(AbilityKind.MEMO_SKILL).target(EvernightEntities.Evey).source(Source.odeTo(Evernight.id)),
       )
     },
 
@@ -349,17 +390,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.VULNERABILITY, (m.enhancedState) ? ultVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
       // E1 Final DMG boost (memosprites only, team-wide)
-      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E1))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E1))
 
       // E4 Break Efficiency (memosprites only, team-wide)
-      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && m.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E4))
+      x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && m.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E4))
 
       // Trace: Team memosprite CD buff based on Remembrance path count
       const memosprites = countTeamPath(context, PathNames.Remembrance)
-      if (memosprites == 1) x.buff(StatKey.CD, 0.05, x.targets(TargetTag.MemospritesOnly).source(SOURCE_TRACE))
-      if (memosprites == 2) x.buff(StatKey.CD, 0.15, x.targets(TargetTag.MemospritesOnly).source(SOURCE_TRACE))
-      if (memosprites == 3) x.buff(StatKey.CD, 0.50, x.targets(TargetTag.MemospritesOnly).source(SOURCE_TRACE))
-      if (memosprites == 4) x.buff(StatKey.CD, 0.65, x.targets(TargetTag.MemospritesOnly).source(SOURCE_TRACE))
+      if (memosprites == 1) x.buff(StatKey.CD, 0.05, x.targets(TargetTag.Memosprite).source(SOURCE_TRACE))
+      if (memosprites == 2) x.buff(StatKey.CD, 0.15, x.targets(TargetTag.Memosprite).source(SOURCE_TRACE))
+      if (memosprites == 3) x.buff(StatKey.CD, 0.50, x.targets(TargetTag.Memosprite).source(SOURCE_TRACE))
+      if (memosprites == 4) x.buff(StatKey.CD, 0.65, x.targets(TargetTag.Memosprite).source(SOURCE_TRACE))
 
       // E6 RES PEN (full team)
       x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
@@ -374,11 +415,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Skill CD buff to teammate's memosprite
-      x.buff(StatKey.CD, t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL))
+      x.buff(StatKey.CD, t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0, x.targets(TargetTag.Memosprite).source(SOURCE_SKILL))
       x.buff(
         StatKey.UNCONVERTIBLE_CD_BUFF,
         t.skillMemoCdBuff ? skillCdScaling * t.evernightCombatCD : 0,
-        x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL),
+        x.targets(TargetTag.Memosprite).source(SOURCE_SKILL),
       )
 
       // Cyrene additional CD buff
@@ -387,12 +428,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         x.buff(
           StatKey.CD,
           t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0,
-          x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)),
+          x.targets(TargetTag.Memosprite).source(Source.odeTo(Evernight.id)),
         )
         x.buff(
           StatKey.UNCONVERTIBLE_CD_BUFF,
           t.skillMemoCdBuff ? cyreneAdditionalCdScaling * t.evernightCombatCD : 0,
-          x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)),
+          x.targets(TargetTag.Memosprite).source(Source.odeTo(Evernight.id)),
         )
       }
     },
@@ -417,8 +458,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             return
           }
 
-          const memosprite = x.getActionValue(StatKey.MEMOSPRITE, EvernightEntities.Evernight)
-          if (!memosprite) {
+          if (!action.config.hasMemosprite) {
             return
           }
 
@@ -443,11 +483,11 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const ownFinalBuffCd = Math.max(0, ownBuffCD - (stateValue ? ownStateBuffCD : 0))
           const odeFinalBuffCd = Math.max(0, odeBuffCD - (stateValue ? odeStateBuffCD : 0))
 
-          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, ownFinalBuffCd, x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL))
-          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, odeFinalBuffCd, x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)))
+          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, ownFinalBuffCd, x.targets(TargetTag.Memosprite).source(SOURCE_SKILL))
+          x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, odeFinalBuffCd, x.targets(TargetTag.Memosprite).source(Source.odeTo(Evernight.id)))
 
-          x.buffDynamic(StatKey.CD, ownFinalBuffCd, action, context, x.targets(TargetTag.MemospritesOnly).source(SOURCE_SKILL))
-          x.buffDynamic(StatKey.CD, odeFinalBuffCd, action, context, x.targets(TargetTag.MemospritesOnly).source(Source.odeTo(EVERNIGHT)))
+          x.buffDynamic(StatKey.CD, ownFinalBuffCd, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_SKILL))
+          x.buffDynamic(StatKey.CD, odeFinalBuffCd, action, context, x.targets(TargetTag.Memosprite).source(Source.odeTo(Evernight.id)))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -488,4 +528,134 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
       },
     ],
   }
+}
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+      Stats.ERR,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+  ],
+  comboDot: 0,
+  deprioritizeBuffs: true,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+    [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.BoneCollectionsSereneDemesne,
+    Sets.ArcadiaOfWovenDreams,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+  ],
+  sortOption: SortOption.MEMO_SKILL,
+  addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+  hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 985,
+    y: 985,
+    z: 1.075,
+  },
+  showcaseColor: '#f2a8e5',
+}
+
+export const Evernight: CharacterConfig = {
+  id: '1413',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

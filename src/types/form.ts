@@ -1,7 +1,4 @@
-import {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/constants/constants'
+
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -29,6 +26,10 @@ import {
   MemoDisplay,
   StatDisplay,
 } from 'types/store'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 export type Teammate = {
   characterId: CharacterId,
@@ -39,7 +40,7 @@ export type Teammate = {
   teamRelicSet?: string,
   characterConditionals?: ConditionalValueMap,
   lightConeConditionals?: ConditionalValueMap,
-} & Form
+}
 
 export type OptimizerForm = Form
 
@@ -160,10 +161,6 @@ export type RatingFilters = {
   maxDot: number,
   minBreak: number,
   maxBreak: number,
-  minHeal: number,
-  maxHeal: number,
-  minShield: number,
-  maxShield: number,
   minEhp: number,
   maxEhp: number,
   minFua: number,

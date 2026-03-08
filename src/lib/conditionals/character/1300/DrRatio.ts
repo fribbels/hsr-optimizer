@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
@@ -13,26 +12,59 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  DEFAULT_SKILL,
+  END_FUA,
+  DEFAULT_FUA,
+  START_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_FUA,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const DrRatioEntities = createEnum('DrRatio')
-export const DrRatioAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const DrRatioAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.DrRatio')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -47,7 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1305')
+  } = Source.character(DrRatio.id)
 
   const debuffStacksMax = 5
   const summationStacksMax = (e >= 1) ? 10 : 6
@@ -104,7 +136,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
 
@@ -117,14 +148,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(DrRatioAbilities),
+    actionDeclaration: () => [...DrRatioAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e2AdditionalScaling = (e >= 2) ? 0.20 * Math.min(4, r.enemyDebuffStacks) : 0
 
       return {
-        [DrRatioAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -133,7 +164,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [DrRatioAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Imaginary)
@@ -142,7 +173,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [DrRatioAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Imaginary)
@@ -151,7 +182,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [DrRatioAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Imaginary)
@@ -170,7 +201,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             ),
           ],
         },
-        [DrRatioAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],
@@ -198,4 +229,137 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Imaginary_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_FUA,
+    DEFAULT_FUA,
+    START_SKILL,
+    END_FUA,
+    DEFAULT_FUA,
+    START_SKILL,
+    END_FUA,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.DuranDynastyOfRunningWolves,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
+    ...SPREAD_ORNAMENTS_2P_FUA,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Aventurine.id,
+      lightCone: InherentlyUnjustDestiny.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Imaginary_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  presets: [
+    PresetEffects.fnAshblazingSet(1),
+    PresetEffects.fnPioneerSet(4),
+    PresetEffects.VALOROUS_SET,
+    PresetEffects.WASTELANDER_SET,
+  ],
+  sortOption: SortOption.FUA,
+  hiddenColumns: [
+    SortOption.DOT,
+  ],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 965,
+    y: 840,
+    z: 1.15,
+  },
+  showcaseColor: '#3151c7',
+}
+
+export const DrRatio: CharacterConfig = {
+  id: '1305',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

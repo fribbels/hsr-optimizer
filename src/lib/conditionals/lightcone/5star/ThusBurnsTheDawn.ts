@@ -8,14 +8,15 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThusBurnsTheDawn.Content')
-  const { SOURCE_LC } = Source.lightCone('23044')
+  const { SOURCE_LC } = Source.lightCone(ThusBurnsTheDawn.id)
 
   const sValuesDefPen = [0.18, 0.225, 0.27, 0.315, 0.36]
   const sValuesDmgBuff = [0.60, 0.78, 0.96, 1.14, 1.132]
@@ -52,4 +53,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (r.dmgBuff) ? sValuesDmgBuff[s] : 0, x.source(SOURCE_LC))
     },
   }
+}
+
+export const ThusBurnsTheDawn: LightConeConfig = {
+  id: '23044',
+  conditionals,
 }

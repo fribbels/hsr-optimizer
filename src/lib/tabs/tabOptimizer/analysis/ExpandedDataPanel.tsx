@@ -12,6 +12,8 @@ import {
   mismatchedCharacter,
   OptimizerResultAnalysis,
 } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
+import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
@@ -52,8 +54,9 @@ export function ExpandedDataPanel() {
   }
 
   const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
-  if (!analysis) return <></>
   console.log('Optimizer result', analysis)
+
+  if (!analysis) return null
 
   return <MemoizedExpandedDataPanel analysis={analysis} />
 }
@@ -80,7 +83,11 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
         <Flex justify='space-between' style={{ width: '100%', paddingTop: 4 }} gap={10}>
           <Flex vertical gap={10}>
             <StatsDiffCard analysis={analysis} />
-            <DamageUpgrades analysis={analysis} />
+            <DamageSplits analysis={analysis} />
+            <Flex gap={10} align='start'>
+              <DamageTagPieChart analysis={analysis} />
+              <DamageUpgrades analysis={analysis} />
+            </Flex>
           </Flex>
 
           <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true} />

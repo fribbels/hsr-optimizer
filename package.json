@@ -17,6 +17,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "vitest": "vitest --dir src/lib --no-watch --pool=threads",
+    "vitest:fast": "vitest --dir src/lib --no-watch --pool=threads --exclude '**/simulations/tests/**/*Orchestrator*'",
     "vitest:silent": "vitest --dir src/lib --no-watch --pool=threads --silent",
     "vitest:watch": "vitest --dir src/lib --watch",
     "test": "npx playwright test --config tests/playwright.config.ts --trace on",
@@ -24,9 +25,12 @@
     "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",
     "typecheck": "npm run update-resources && tsc --noEmit -p ./tsconfig.json",
+    "typecheck:fast": "tsc --noEmit -p ./tsconfig.fast.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"
+    "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts",
+    "knip": "knip",
+    "knip:compact": "knip --reporter compact"
   },
   "browserslist": {
     "production": [
@@ -73,14 +77,12 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "@types/chroma-js": "^2.4.4",
     "@types/js-yaml": "^4.0.9",
     "@types/json-stable-stringify": "^1.0.36",
     "@types/node": "^22.2.0",
     "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.7",
     "@types/semver": "^7.7.0",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react-swc": "^3.8.1",
@@ -90,6 +92,7 @@
     "globals": "^15.0.0",
     "i18next-resources-for-ts": "^1.5.0",
     "jsdom": "^24.0.0",
+    "knip": "^5.85.0",
     "oxlint": "^1.39.0",
     "terser": "^5.27.0",
     "typescript": "^5.9.3",

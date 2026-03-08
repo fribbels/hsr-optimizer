@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -6,12 +5,14 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   wgsl,
   wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import {
   AKey,
   StatKey,
@@ -24,19 +25,46 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  END_SKILL,
+  DEFAULT_DOT,
+  WHOLE_BASIC,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const BlackSwanB1Entities = createEnum('BlackSwanB1')
-export const BlackSwanB1Abilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
+export const BlackSwanB1Abilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwanB1')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -51,7 +79,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1307b1')
+  } = Source.character(BlackSwanB1.id)
 
   const arcanaStackMultiplier = talent(e, 0.12, 0.132)
   const epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
@@ -148,7 +176,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.DOT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -163,12 +190,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(BlackSwanB1Abilities),
+    actionDeclaration: () => [...BlackSwanB1Abilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [BlackSwanB1Abilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -177,7 +204,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [BlackSwanB1Abilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Wind)
@@ -186,7 +213,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [BlackSwanB1Abilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Wind)
@@ -195,7 +222,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [BlackSwanB1Abilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(dotChance)
@@ -207,7 +234,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [BlackSwanB1Abilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
@@ -239,7 +266,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.DMG_BOOST, t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -259,4 +286,136 @@ if (${wgslTrue(r.ehrToDmgBoost)}) {
       `
     },
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.EHR,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.EHR,
+    Stats.ATK,
+    Stats.CR,
+    Stats.CD,
+  ],
+  breakpoints: {
+    [Stats.EHR]: 1.20,
+  },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_SKILL,
+    DEFAULT_DOT,
+    WHOLE_BASIC,
+    DEFAULT_DOT,
+    WHOLE_SKILL,
+    DEFAULT_DOT,
+    WHOLE_BASIC,
+    DEFAULT_DOT,
+  ],
+  comboDot: 8,
+  relicSets: [
+    [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RevelryByTheSea,
+    Sets.FirmamentFrontlineGlamoth,
+    Sets.PanCosmicCommercialEnterprise,
+  ],
+  teammates: [
+    {
+      characterId: KafkaB1.id,
+      lightCone: PatienceIsAllYouNeed.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hysilens.id,
+      lightCone: WhyDoesTheOceanSing.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 1,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Wind_DMG,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  presets: [
+    PresetEffects.PRISONER_SET,
+  ],
+  sortOption: SortOption.DOT,
+  hiddenColumns: [
+    SortOption.FUA,
+  ],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 950,
+    y: 925,
+    z: 1.25,
+  },
+  showcaseColor: '#a37df4',
+}
+
+export const BlackSwanB1: CharacterConfig = {
+  id: '1307b1',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

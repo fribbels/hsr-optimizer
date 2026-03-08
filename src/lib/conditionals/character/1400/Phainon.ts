@@ -1,16 +1,22 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   countTeamPath,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { PathNames } from 'lib/constants/constants'
+import { Parts, PathNames, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -19,10 +25,21 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
-  HYACINE,
-  PHAINON,
-} from 'lib/simulations/tests/testMetadataConstants'
+  AbilityKind,
+  DEFAULT_BASIC,
+  DEFAULT_SKILL,
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -37,9 +54,15 @@ export enum PhainonEnhancedSkillType {
 }
 
 export const PhainonEntities = createEnum('Phainon')
-export const PhainonAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const PhainonAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Phainon.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -53,7 +76,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_MEMO,
-  } = Source.character(PHAINON)
+  } = Source.character(Phainon.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 3.00, 3.30)
@@ -177,7 +200,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -192,7 +214,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(PhainonAbilities),
+    actionDeclaration: () => [...PhainonAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -218,7 +240,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       if (r.transformedState) {
         // Transformed state abilities
         return {
-          [PhainonAbilities.BASIC]: {
+          [AbilityKind.BASIC]: {
             hits: [
               HitDefinitionBuilder.standardBasic()
                 .damageElement(ElementTag.Physical)
@@ -228,7 +250,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.SKILL]: {
+          [AbilityKind.SKILL]: {
             hits: r.enhancedSkillType === PhainonEnhancedSkillType.FOUNDATION
               ? [
                   HitDefinitionBuilder.standardSkill()
@@ -241,7 +263,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
                 ]
               : [], // Calamity mode has no skill damage
           },
-          [PhainonAbilities.ULT]: {
+          [AbilityKind.ULT]: {
             hits: [
               HitDefinitionBuilder.standardUlt()
                 .damageElement(ElementTag.Physical)
@@ -251,7 +273,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.FUA]: {
+          [AbilityKind.FUA]: {
             hits: [
               HitDefinitionBuilder.standardFua()
                 .damageType(DamageTag.SKILL | DamageTag.FUA)
@@ -262,7 +284,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.BREAK]: {
+          [AbilityKind.BREAK]: {
             hits: [
               HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
             ],
@@ -271,7 +293,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       } else {
         // Non-transformed state abilities
         return {
-          [PhainonAbilities.BASIC]: {
+          [AbilityKind.BASIC]: {
             hits: [
               HitDefinitionBuilder.standardBasic()
                 .damageElement(ElementTag.Physical)
@@ -281,7 +303,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.SKILL]: {
+          [AbilityKind.SKILL]: {
             hits: [
               HitDefinitionBuilder.standardSkill()
                 .damageElement(ElementTag.Physical)
@@ -291,18 +313,18 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.ULT]: {
+          [AbilityKind.ULT]: {
             hits: [
               // Non-transformed ULT has no damage
               ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
             ],
           },
-          [PhainonAbilities.FUA]: {
+          [AbilityKind.FUA]: {
             hits: [
               // Non-transformed FUA has no damage
             ],
           },
-          [PhainonAbilities.BREAK]: {
+          [AbilityKind.BREAK]: {
             hits: [
               HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
             ],
@@ -331,7 +353,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.ATK_P, r.atkBuffStacks * 0.50, x.source(SOURCE_TRACE))
 
       // Sustain DMG boost
-      const hasSustain = teammateMatchesId(context, HYACINE)
+      const hasSustain = teammateMatchesId(context, Hyacine.id)
         + countTeamPath(context, PathNames.Abundance)
         + countTeamPath(context, PathNames.Preservation)
       x.buff(StatKey.DMG_BOOST, (r.sustainDmgBuff && hasSustain) ? 0.45 : 0, x.source(SOURCE_TRACE))
@@ -356,7 +378,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         const cyreneCrBuff = cyreneActionExists(action)
           ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.176 : 0.16)
           : 0
-        x.buff(StatKey.CR, r.cyreneSpecialEffect ? cyreneCrBuff : 0, x.source(Source.odeTo(PHAINON)))
+        x.buff(StatKey.CR, r.cyreneSpecialEffect ? cyreneCrBuff : 0, x.source(Source.odeTo(Phainon.id)))
       }
     },
 
@@ -372,4 +394,130 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    DEFAULT_BASIC,
+    DEFAULT_SKILL,
+    DEFAULT_BASIC,
+    DEFAULT_BASIC,
+    DEFAULT_SKILL,
+    DEFAULT_BASIC,
+    END_ULT,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RutilantArena,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cerydra.id,
+      lightCone: EpochEtchedInGoldenBlood.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [SortOption.DOT],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 935,
+    y: 975,
+    z: 1.05,
+  },
+  showcaseColor: '#97c2fa',
+}
+
+export const Phainon: CharacterConfig = {
+  id: '1408',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

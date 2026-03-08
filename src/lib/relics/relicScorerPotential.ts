@@ -684,8 +684,8 @@ export class RelicScorer {
           bestUpgradedStats.push(stat)
         }
       }
-      bestAddedStats.forEach((s, i) => bestAddedStats[i] = i18next.t(`common:Stats.${s}`))
-      bestUpgradedStats.forEach((s, i) => bestUpgradedStats[i] = i18next.t(`common:Stats.${s}`))
+      bestAddedStats.forEach((s, i) => bestAddedStats[i] = i18next.t(`common:Stats.${s}`) as SubStats)
+      bestUpgradedStats.forEach((s, i) => bestUpgradedStats[i] = i18next.t(`common:Stats.${s}`) as SubStats)
       levelupMetadata = {
         bestAddedStats: bestAddedStats,
         bestUpgradedStats: bestUpgradedStats,
@@ -714,8 +714,11 @@ export class RelicScorer {
 
         rerollAvg += value * (1 + totalRolls / 4)
 
-        if (stat === blockedStat) continue
-        blockerAvg += value * (1 + totalRolls / 3)
+        if (stat === blockedStat) {
+          blockerAvg += value
+        } else {
+          blockerAvg += value * (1 + totalRolls / 3)
+        }
       }
 
       // These are reroll max potentials - Disabled for now

@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -7,24 +6,34 @@ import {
   findMemospriteIndex,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SundayEntities = createEnum('Sunday')
-export const SundayAbilities = createEnum('BASIC', 'BREAK')
+export const SundayAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sunday')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -39,7 +48,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1313')
+  } = Source.character(Sunday.id)
 
   const skillDmgBoostValue = skill(e, 0.30, 0.33)
   const skillDmgBoostSummonValue = skill(e, 0.50, 0.55)
@@ -154,7 +163,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -169,9 +177,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(SundayAbilities),
+    actionDeclaration: () => [...SundayAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [SundayAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Imaginary)
@@ -180,7 +188,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [SundayAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
         ],
@@ -194,7 +202,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
-      const hasSummons = x.getActionValueByIndex(StatKey.SUMMONS, SELF_ENTITY_INDEX) > 0
+      const hasSummons = action.config.hasSummons
 
       // Talent CR buff
       x.buff(StatKey.CR, m.talentCrBuffStacks * talentCrBuffValue, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TALENT))
@@ -216,7 +224,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(
         StatKey.DEF_PEN,
         (e >= 1 && m.e1DefPen && m.skillDmgBuff && hasSummons) ? 0.24 : 0,
-        x.targets(TargetTag.SummonsOnly).deferrable().source(SOURCE_E1),
+        x.targets(TargetTag.Summon).deferrable().source(SOURCE_E1),
       )
 
       // E2 DMG buff
@@ -247,8 +255,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const deprioritize = x.getActionValueByIndex(StatKey.DEPRIORITIZE_BUFFS, SELF_ENTITY_INDEX)
-          if (!(e >= 6 && r.e6CrToCdConversion && !deprioritize)) {
+          if (!(e >= 6 && r.e6CrToCdConversion && !context.deprioritizeBuffs)) {
             return
           }
 
@@ -262,8 +269,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           const buffValue = Math.floor((memoCr - memoUnconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E6))
-          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.MemospritesOnly).source(SOURCE_E6))
+          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
+          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -283,7 +290,7 @@ if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
   return;
 }
 
-if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEPRIORITIZE_BUFFS, config)} > 0) {
+if (${wgslTrue(action.config.deprioritizeBuffs)}) {
   return;
 }
 
@@ -313,8 +320,7 @@ if (cr > 1.00) {
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const deprioritize = x.getActionValueByIndex(StatKey.DEPRIORITIZE_BUFFS, SELF_ENTITY_INDEX)
-          if (!(e >= 6 && r.e6CrToCdConversion && !deprioritize)) {
+          if (!(e >= 6 && r.e6CrToCdConversion && !context.deprioritizeBuffs)) {
             return
           }
 
@@ -341,7 +347,7 @@ if (${wgslFalse(e >= 6 && r.e6CrToCdConversion)}) {
   return;
 }
 
-if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEPRIORITIZE_BUFFS, config)} > 0) {
+if (${wgslTrue(action.config.deprioritizeBuffs)}) {
   return;
 }
 
@@ -362,4 +368,57 @@ if (cr > 1.00) {
       },
     ],
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+    ],
+    [Parts.Feet]: [],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.CD,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+})
+
+const display = {
+  imageCenter: {
+    x: 1000,
+    y: 950,
+    z: 1.075,
+  },
+  showcaseColor: '#7e95e9',
+}
+
+export const Sunday: CharacterConfig = {
+  id: '1313',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

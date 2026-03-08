@@ -1,28 +1,21 @@
 import { aKeyToConvertibleStat } from 'lib/conditionals/evaluation/statConversionConfig'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { Stats } from 'lib/constants/constants'
+import { Stats, StatsValues } from 'lib/constants/constants'
 import {
   BasicStatsArray,
   BasicStatsArrayCore,
+  Buff,
 } from 'lib/optimization/basicStatsArray'
 import { BuffSource } from 'lib/optimization/buffSource'
-import {
-  Buff,
-  ComputedStatsObjectExternal,
-} from 'lib/optimization/computedStatsArray'
-import {
-  ComputedStatsConfigBaseType,
-  ComputedStatsConfigType,
-} from 'lib/optimization/config/computedStatsConfig'
 import {
   ACTION_STATS_LENGTH,
   AKeyType,
   AKeyValue,
   AToHKey,
+  GLOBAL_REGISTERS_LENGTH,
   getAKeyName,
   HIT_STATS_LENGTH,
   HKeyValue,
-  isHitStat,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
@@ -52,16 +45,12 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-enum StatCategory {
-  CD,
-  NONE,
-}
-
 export enum Operator {
   ADD,
   SET,
   MULTIPLY,
   MULTIPLICATIVE_COMPLEMENT,
+  MULTIPLICATIVE_BOOST,
 }
 
 type Operation = (a: Float32Array, index: number, value: number) => void
@@ -82,35 +71,32 @@ const OPERATOR_MAP: Record<Operator, Operation> = {
     // Two 8% + 10% reductions: 1 - (1-0)*(1-0.08) = 0.08, then 1 - (1-0.08)*(1-0.10) = 0.172
     a[i] = 1 - (1 - a[i]) * (1 - v)
   },
+  [Operator.MULTIPLICATIVE_BOOST]: (a, i, v) => {
+    // Composes damage boosts multiplicatively: (1 + current) * (1 + new) - 1
+    // Default 0 means no boost. 0.20 means 20% boost.
+    // Two 20% boosts: (1+0)*(1+0.20)-1 = 0.20, then (1+0.20)*(1+0.20)-1 = 0.44
+    a[i] = (1 + a[i]) * (1 + v) - 1
+  },
 }
 
 // Shared entity matching logic for target tags
 function entityMatchesTargetTag(
   entity: OptimizerEntity,
   targetTags: number,
-  entityRegistry: NamedArray<OptimizerEntity>,
-  entitiesLength: number,
+  entities: OptimizerEntity[],
 ): boolean {
-  if (targetTags & TargetTag.Self) return entity.primary
-  else if (targetTags & TargetTag.SelfAndPet) return entity.primary || (entity.pet ?? false)
-  else if (targetTags & TargetTag.FullTeam) return true
-  else if (targetTags & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
-  else if (targetTags & TargetTag.SummonsOnly) return entity.summon
-  else if (targetTags & TargetTag.SelfAndSummon) return entity.primary || entity.summon
-  else if (targetTags & TargetTag.MemospritesOnly) return entity.memosprite
-  else if (targetTags & TargetTag.SingleTarget) {
-    const primaryEntity = entityRegistry.get(SELF_ENTITY_INDEX)!
-    const hasMemosprite = Array.from({ length: entitiesLength }, (_, i) => entityRegistry.get(i)!).some((e) => e.memosprite)
-    if (primaryEntity.memoBuffPriority && hasMemosprite) return entity.memosprite
-    else return entity.primary || (entity.pet ?? false)
-  } else if (targetTags === TargetTag.None) return false
-  return false
+  if (targetTags & TargetTag.FullTeam) return true
+  if (targetTags & TargetTag.SingleTarget) {
+    const primaryEntity = entities[SELF_ENTITY_INDEX]
+    if (primaryEntity.memoBuffPriority && entities.some((e) => e.memosprite)) return entity.memosprite
+    return entity.primary || (entity.pet ?? false)
+  }
+  return (targetTags & entity.targetMask) !== 0
 }
 
 // Precompute all actionBuff/actionSet indices
 function buildActionBuffIndexCache(
-  entityRegistry: NamedArray<OptimizerEntity>,
-  entitiesLength: number,
+  entities: OptimizerEntity[],
   actionStatsLength: number,
   hitStatsLength: number,
   hitsLength: number,
@@ -124,9 +110,8 @@ function buildActionBuffIndexCache(
     for (let statKey = 0; statKey < actionStatsLength; statKey++) {
       const indices: number[] = []
 
-      for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
-        const entity = entityRegistry.get(entityIndex)!
-        if (entityMatchesTargetTag(entity, targetTags, entityRegistry, entitiesLength)) {
+      for (let entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+        if (entityMatchesTargetTag(entities[entityIndex], targetTags, entities)) {
           indices.push(entityIndex * entityStride + statKey)
         }
       }
@@ -139,48 +124,30 @@ function buildActionBuffIndexCache(
   return cache
 }
 
-// Precompute entity base offsets per TargetTag for loop-flipped stat writes
-function buildEntityBaseOffsets(
-  entityRegistry: NamedArray<OptimizerEntity>,
-  entitiesLength: number,
+// Precompute per-TargetTag entity indices and base offsets
+function buildEntityTargetCaches(
+  entities: OptimizerEntity[],
   entityStride: number,
-): Record<number, number[]> {
+): { indices: Record<number, number[]>; offsets: Record<number, number[]> } {
+  const indices: Record<number, number[]> = {}
   const offsets: Record<number, number[]> = {}
   const allTargetTags = Object.values(TargetTag).filter((v): v is number => typeof v === 'number')
 
   for (const targetTags of allTargetTags) {
-    const matched: number[] = []
-    for (let entityIndex = 0; entityIndex < entitiesLength; entityIndex++) {
-      const entity = entityRegistry.get(entityIndex)!
-      if (entityMatchesTargetTag(entity, targetTags, entityRegistry, entitiesLength)) {
-        matched.push(entityIndex * entityStride)
+    const matchedIndices: number[] = []
+    const matchedOffsets: number[] = []
+    for (let entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+      if (entityMatchesTargetTag(entities[entityIndex], targetTags, entities)) {
+        matchedIndices.push(entityIndex)
+        matchedOffsets.push(entityIndex * entityStride)
       }
     }
-    offsets[targetTags] = matched
+    indices[targetTags] = matchedIndices
+    offsets[targetTags] = matchedOffsets
   }
 
-  return offsets
+  return { indices, offsets }
 }
-
-export const FullStatsConfig: ComputedStatsConfigType = Object.fromEntries(
-  Object.entries(newStatsConfig).map(([key, value], index) => {
-    const baseValue = value as ComputedStatsConfigBaseType
-
-    return [
-      key,
-      {
-        name: key,
-        index: index,
-        default: baseValue.default ?? 0,
-        flat: baseValue.flat ?? false,
-        whole: baseValue.whole ?? false,
-        bool: baseValue.bool ?? false,
-        category: baseValue.category ?? StatCategory.NONE,
-        label: baseValue.label,
-      },
-    ]
-  }),
-) as ComputedStatsConfigType
 
 export class ComputedStatsContainerConfig {
   public entityRegistry: NamedArray<OptimizerEntity>
@@ -197,15 +164,21 @@ export class ComputedStatsContainerConfig {
   public entityStride: number // actionStatsLength + (hitsLength * hitStatsLength)
   public arrayLength: number
 
-  // Register layout: [Stats...][Action Registers][Hit Registers]
+  // Register layout: [Stats...][Action Registers][Global Registers][Hit Registers]
   public registersOffset: number // Where registers start in array
   public actionRegistersLength: number // Number of action registers
+  public globalRegistersLength: number // Number of global registers (e.g., COMBO_DMG)
   public hitRegistersLength: number // Number of hit registers
-  public totalRegistersLength: number // action + hit registers
+  public totalRegistersLength: number // action + global + hit registers
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
   public entityBaseOffsets: Record<number, number[]> // Per-TargetTag entity base offsets for loop-flipped stat writes
+  public targetEntityIndices: Record<number, number[]> // Per-TargetTag entity indices for internalBuff
   public deprioritizeBuffs: boolean
+  public hasMemosprite: boolean
+  public hasSummons: boolean
+  public enemyWeaknessBroken: boolean
+  public teammateSetEffects: Record<string, boolean> = {}
 
   constructor(
     action: OptimizerAction,
@@ -232,34 +205,39 @@ export class ComputedStatsContainerConfig {
     // Stats section: each entity has action stats + hit stats per hit
     const statsArrayLength = this.entitiesLength * this.entityStride
 
-    // Registers section: [Action Registers][Hit Registers]
+    // Registers section: [Action Registers][Hit Registers][Global Registers]
     // Action registers: 1 per action (default + rotation)
     // Hit registers: 1 per hit across all actions
+    // Global registers: fixed-size section for cross-action aggregates (e.g., COMBO_DMG)
     this.registersOffset = statsArrayLength
     this.actionRegistersLength = context.allActions.length
+    this.globalRegistersLength = GLOBAL_REGISTERS_LENGTH
     this.hitRegistersLength = context.outputRegistersLength
-    this.totalRegistersLength = this.actionRegistersLength + this.hitRegistersLength
+    this.totalRegistersLength = this.actionRegistersLength + this.globalRegistersLength + this.hitRegistersLength
 
     // Total array length includes stats + registers
     this.arrayLength = statsArrayLength + this.totalRegistersLength
 
     // Precompute actionBuff indices for performance
     this.actionBuffIndices = buildActionBuffIndexCache(
-      entityRegistry,
-      this.entitiesLength,
+      this.entitiesArray,
       this.actionStatsLength,
       this.hitStatsLength,
       this.hitsLength,
     )
 
-    // Precompute entity base offsets per TargetTag for loop-flipped stat writes
-    this.entityBaseOffsets = buildEntityBaseOffsets(
-      entityRegistry,
-      this.entitiesLength,
+    // Precompute per-TargetTag entity indices and base offsets
+    const entityCaches = buildEntityTargetCaches(
+      this.entitiesArray,
       this.entityStride,
     )
+    this.targetEntityIndices = entityCaches.indices
+    this.entityBaseOffsets = entityCaches.offsets
 
     this.deprioritizeBuffs = context.deprioritizeBuffs
+    this.hasMemosprite = this.entitiesArray.some((e) => e.memosprite)
+    this.hasSummons = this.entitiesArray.some((e) => e.summon)
+    this.enemyWeaknessBroken = context.enemyWeaknessBroken
   }
 }
 
@@ -350,7 +328,7 @@ export class ComputedStatsContainer {
     this.a = new Float32Array(maxArrayLength)
 
     // Create empty registers array for efficient clearing
-    const totalRegistersLength = context.allActions.length + context.outputRegistersLength
+    const totalRegistersLength = context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength
     this.emptyRegisters = new Float32Array(totalRegistersLength)
     this.registersOffset = maxArrayLength - totalRegistersLength
   }
@@ -502,6 +480,24 @@ export class ComputedStatsContainer {
     )
   }
 
+  multiplicativeBoost(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+    this.internalBuff(
+      key,
+      value,
+      Operator.MULTIPLICATIVE_BOOST,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+      config._deferrable,
+    )
+  }
+
   buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
@@ -535,11 +531,10 @@ export class ComputedStatsContainer {
   }
 
   public actionBuff(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
-    // Optimization temporarily disabled
-    // if (this.config.entitiesLength === 1) {
-    //   this.a[key as number] += value
-    //   return
-    // }
+    if (this.config.entitiesLength === 1) {
+      this.a[key as number] += value
+      return
+    }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -549,11 +544,10 @@ export class ComputedStatsContainer {
   }
 
   public actionSet(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
-    // Optimization temporarily disabled
-    // if (this.config.entitiesLength === 1) {
-    //   this.a[key as number] = value
-    //   return
-    // }
+    if (this.config.entitiesLength === 1) {
+      this.a[key as number] = value
+      return
+    }
     const cacheKey = (targetTags << 8) | (key as number)
     const indices = this.config.actionBuffIndices[cacheKey]
 
@@ -577,7 +571,7 @@ export class ComputedStatsContainer {
     actionKind: string | undefined,
     deferrable: boolean = false,
   ): void {
-    if (value == 0 && operator == Operator.ADD) return
+    if (value === 0 && operator === Operator.ADD) return
 
     // Deferrable buffs are skipped when the character deprioritizes buffs (subdps)
     if (deferrable && this.config.deprioritizeBuffs) return
@@ -650,7 +644,7 @@ export class ComputedStatsContainer {
     damageTags: DamageTag,
     outputTags: OutputTag,
   ): void {
-    if (value == 0 && operator == Operator.ADD) return
+    if (value === 0 && operator === Operator.ADD) return
 
     for (const conditional of action.conditionalRegistry[aKeyToConvertibleStat[key]] || []) {
       evaluateConditional(conditional, this, action, context)
@@ -662,14 +656,7 @@ export class ComputedStatsContainer {
       return [target]
     }
 
-    const targets: number[] = []
-    for (let i = 0; i < this.config.entitiesLength; i++) {
-      const entity = this.config.entitiesArray[i]
-      if (this.matchesTargetTags(entity, i, targetTags)) {
-        targets.push(i)
-      }
-    }
-    return targets
+    return this.config.targetEntityIndices[targetTags]
   }
 
   private applyToMatchingHits(
@@ -701,24 +688,8 @@ export class ComputedStatsContainer {
     }
   }
 
-  private matchesTargetTags(entity: OptimizerEntity, entityIndex: number, targetTags: TargetTag): boolean {
-    if (targetTags & TargetTag.Self) return entity.primary
-    if (targetTags & TargetTag.SelfAndPet) return entity.primary || (entity.pet ?? false)
-    if (targetTags & TargetTag.FullTeam) return true
-    if (targetTags & TargetTag.SelfAndMemosprite) return entity.primary || entity.memosprite
-    if (targetTags & TargetTag.SummonsOnly) return entity.summon
-    if (targetTags & TargetTag.SelfAndSummon) return entity.primary || entity.summon
-    if (targetTags & TargetTag.MemospritesOnly) return entity.memosprite
-    if (targetTags & TargetTag.SingleTarget) {
-      const primaryEntity = this.config.entitiesArray[SELF_ENTITY_INDEX]
-      if (primaryEntity.memoBuffPriority && this.config.entitiesArray.some((e) => e.memosprite)) return entity.memosprite
-      return entity.primary || (entity.pet ?? false)
-    }
-    return false
-  }
-
   // ============== Registers ==============
-  // Layout: [Stats...][Action Registers][Hit Registers]
+  // Layout: [Stats...][Action Registers][Hit Registers][Global Registers]
   // Indexed from end of array (using maxArrayLength for stability across actions)
 
   setActionRegisterValue(index: number, value: number) {
@@ -726,7 +697,11 @@ export class ComputedStatsContainer {
   }
 
   setHitRegisterValue(index: number, value: number) {
-    this.a[this.registersOffset + this.emptyRegisters.length - this.config.hitRegistersLength + index] = value
+    this.a[this.registersOffset + this.config.actionRegistersLength + index] = value
+  }
+
+  setGlobalRegisterValue(index: number, value: number) {
+    this.a[this.registersOffset + this.config.actionRegistersLength + this.config.hitRegistersLength + index] = value
   }
 
   getActionRegisterValue(index: number) {
@@ -734,7 +709,11 @@ export class ComputedStatsContainer {
   }
 
   getHitRegisterValue(index: number) {
-    return this.a[this.registersOffset + this.emptyRegisters.length - this.config.hitRegistersLength + index]
+    return this.a[this.registersOffset + this.config.actionRegistersLength + index]
+  }
+
+  getGlobalRegisterValue(index: number) {
+    return this.a[this.registersOffset + this.config.actionRegistersLength + this.config.hitRegistersLength + index]
   }
 
   clearRegisters() {
@@ -862,31 +841,40 @@ export class ComputedStatsContainer {
   }
 }
 
+export type ComputedStatsObjectExternal = Record<StatsValues | AKeyType, number>
+
 // Mapping from new AKey names to ComputedStatsObjectExternal keys
-const ContainerKeyToExternal: Partial<Record<AKeyType, keyof ComputedStatsObjectExternal>> = {
-  ATK_P: Stats.ATK_P as keyof ComputedStatsObjectExternal,
-  ATK: Stats.ATK as keyof ComputedStatsObjectExternal,
-  BE: Stats.BE as keyof ComputedStatsObjectExternal,
-  CD: Stats.CD as keyof ComputedStatsObjectExternal,
-  CR: Stats.CR as keyof ComputedStatsObjectExternal,
-  DEF_P: Stats.DEF_P as keyof ComputedStatsObjectExternal,
-  DEF: Stats.DEF as keyof ComputedStatsObjectExternal,
-  EHR: Stats.EHR as keyof ComputedStatsObjectExternal,
-  ERR: Stats.ERR as keyof ComputedStatsObjectExternal,
-  FIRE_DMG_BOOST: Stats.Fire_DMG as keyof ComputedStatsObjectExternal,
-  HP_P: Stats.HP_P as keyof ComputedStatsObjectExternal,
-  HP: Stats.HP as keyof ComputedStatsObjectExternal,
-  ICE_DMG_BOOST: Stats.Ice_DMG as keyof ComputedStatsObjectExternal,
-  IMAGINARY_DMG_BOOST: Stats.Imaginary_DMG as keyof ComputedStatsObjectExternal,
-  LIGHTNING_DMG_BOOST: Stats.Lightning_DMG as keyof ComputedStatsObjectExternal,
-  OHB: Stats.OHB as keyof ComputedStatsObjectExternal,
-  PHYSICAL_DMG_BOOST: Stats.Physical_DMG as keyof ComputedStatsObjectExternal,
-  QUANTUM_DMG_BOOST: Stats.Quantum_DMG as keyof ComputedStatsObjectExternal,
-  RES: Stats.RES as keyof ComputedStatsObjectExternal,
-  SPD_P: Stats.SPD_P as keyof ComputedStatsObjectExternal,
-  SPD: Stats.SPD as keyof ComputedStatsObjectExternal,
-  WIND_DMG_BOOST: Stats.Wind_DMG as keyof ComputedStatsObjectExternal,
-  ELATION: Stats.Elation as keyof ComputedStatsObjectExternal,
+const ContainerKeyToExternal: Partial<Record<AKeyType, StatsValues>> = {
+  ATK_P: Stats.ATK_P,
+  ATK: Stats.ATK,
+  BE: Stats.BE,
+  CD: Stats.CD,
+  CR: Stats.CR,
+  DEF_P: Stats.DEF_P,
+  DEF: Stats.DEF,
+  EHR: Stats.EHR,
+  ERR: Stats.ERR,
+  FIRE_DMG_BOOST: Stats.Fire_DMG,
+  HP_P: Stats.HP_P,
+  HP: Stats.HP,
+  ICE_DMG_BOOST: Stats.Ice_DMG,
+  IMAGINARY_DMG_BOOST: Stats.Imaginary_DMG,
+  LIGHTNING_DMG_BOOST: Stats.Lightning_DMG,
+  OHB: Stats.OHB,
+  PHYSICAL_DMG_BOOST: Stats.Physical_DMG,
+  QUANTUM_DMG_BOOST: Stats.Quantum_DMG,
+  RES: Stats.RES,
+  SPD_P: Stats.SPD_P,
+  SPD: Stats.SPD,
+  WIND_DMG_BOOST: Stats.Wind_DMG,
+  ELATION: Stats.Elation,
 }
 
-export type OptimizerEntity = EntityDefinition & { name: string }
+export type OptimizerEntity = EntityDefinition & {
+  name: string
+  targetMask: number
+  baseAtk: number
+  baseDef: number
+  baseHp: number
+  baseSpd: number
+}

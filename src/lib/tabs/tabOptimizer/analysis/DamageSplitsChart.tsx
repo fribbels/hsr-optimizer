@@ -1,84 +1,204 @@
 import { Flex } from 'antd'
 import i18next from 'i18next'
-import { DamageBreakdown } from 'lib/optimization/computedStatsArray'
-import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH, } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
+import {
+  chartColor,
+  DamageSplitEntry,
+  decodeDamageTypeLabel,
+  getDamageTypeColor,
+} from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Bar, BarChart, LabelList, Legend, Tooltip, XAxis, YAxis, } from 'recharts'
+import React, { useMemo, useState } from 'react'
+import {
+  Bar,
+  BarChart,
+  LabelList,
+  LabelProps,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
-type DamageBreakdownKeys = Exclude<keyof DamageBreakdown, 'name'>
+export const DAMAGE_SPLITS_CHART_WIDTH = 730
+const BAR_HEIGHT = 65
+const CHART_PADDING = 80
 
-const keys: DamageBreakdownKeys[] = [
-  'abilityDmg',
-  'dotDmg',
-  'superBreakDmg',
-  'jointDmg',
-  'memoDmg',
-  'additionalDmg',
-  'breakDmg',
-  'trueDmg',
-]
+type FlattenedBar = {
+  key: string
+  damageType: number
+  label: string
+  color: string
+  shape: (props: { x: number; y: number; width: number; height: number }) => React.ReactNode
+}
 
-type SummedDamageBreakdown = DamageBreakdown & { sum: number }
+type LegendItem = {
+  damageType: number
+  color: string
+  label: string
+}
 
-const chartColor = '#DDD'
+type FlatRow = Record<string, number | string> & {
+  name: string
+  total: number
+}
 
-export function DamageSplitsChart(props: {
-  data: DamageBreakdown[],
-}) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits' })
-  const [barHovered, setBarHovered] = useState<string | null>(null)
+function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: FlattenedBar[]; legendItems: LegendItem[] } {
+  const bars: FlattenedBar[] = []
+  const rows: FlatRow[] = []
+  const seenDamageTypes = new Set<number>()
+  const legendItems: LegendItem[] = []
 
-  const data = props.data
-  const filteredData: SummedDamageBreakdown[] = data.filter((row) => keys.some((key) => row[key] !== 0) // Keep only rows with non-zero values
-  ).map((item) => {
-    const summed = item as SummedDamageBreakdown
-    let sum = 0
-    for (const key of keys) {
-      sum += item[key] ?? 0
+  for (let entryIdx = 0; entryIdx < data.length; entryIdx++) {
+    const entry = data[entryIdx]
+    const row: FlatRow = { name: entry.name, total: entry.total }
+
+    for (let segIdx = 0; segIdx < entry.segments.length; segIdx++) {
+      const seg = entry.segments[segIdx]
+      const key = `${entryIdx}_${segIdx}`
+      row[key] = seg.damage
+
+      const isFirst = segIdx === 0
+      const isLast = segIdx === entry.segments.length - 1
+      const color = getDamageTypeColor(seg.damageType)
+      bars.push({
+        key,
+        damageType: seg.damageType,
+        label: seg.label,
+        color,
+        shape: GapBar(color, isFirst, isLast),
+      })
+
+      if (!seenDamageTypes.has(seg.damageType)) {
+        seenDamageTypes.add(seg.damageType)
+        legendItems.push({
+          damageType: seg.damageType,
+          color,
+          label: decodeDamageTypeLabel(seg.damageType),
+        })
+      }
     }
-    summed.sum = sum
-    return summed
-  })
 
-  let maxValue = 0
-  filteredData.sort((a, b) => {
-    const sumA = Object.values(a)
-      .filter((value): value is number => typeof value === 'number')
-      .reduce((n, store) => n + store, 0)
+    rows.push(row)
+  }
 
-    const sumB = Object.values(b)
-      .filter((value): value is number => typeof value === 'number')
-      .reduce((n, store) => n + store, 0)
+  return { rows, bars, legendItems }
+}
 
-    if (sumA > maxValue) maxValue = sumA
-    if (sumB > maxValue) maxValue = sumB
+const SEGMENT_GAP = 2
 
-    return sumB - sumA
-  })
+function renderBarLabel(props: LabelProps) {
+  const x = Number(props.x ?? 0)
+  const y = Number(props.y ?? 0)
+  const width = Number(props.width ?? 0)
+  const height = Number(props.height ?? 0)
+  const value = Number(props.value ?? 0)
+  if (!value) return null
+  return (
+    <text
+      x={x + width + 8}
+      y={y + height / 2}
+      fill={chartColor}
+      dominantBaseline='central'
+      textRendering='geometricPrecision'
+      fontWeight={300}
+      fontSize={14}
+    >
+      {renderThousandsK(value)}
+    </text>
+  )
+}
+
+function GapBar(color: string, isFirst: boolean, isLast: boolean) {
+  return (props: { x: number; y: number; width: number; height: number }) => {
+    if (props.width <= 0) return null
+    if (isFirst || isLast) {
+      return (
+        <rect
+          x={props.x}
+          y={props.y}
+          width={props.width}
+          height={props.height}
+          fill={color}
+          stroke='none'
+          shapeRendering='crispEdges'
+        />
+      )
+    }
+    return (
+      <g>
+        <rect
+          x={props.x}
+          y={props.y}
+          width={SEGMENT_GAP}
+          height={props.height}
+          fill='rgba(128, 128, 128, 0.4)'
+          stroke='none'
+          shapeRendering='crispEdges'
+        />
+        <rect
+          x={props.x + SEGMENT_GAP}
+          y={props.y}
+          width={Math.max(0, props.width - SEGMENT_GAP)}
+          height={props.height}
+          fill={color}
+          stroke='none'
+          shapeRendering='crispEdges'
+        />
+      </g>
+    )
+  }
+}
+
+function parseLabel(name: string): { num: string; label: string } {
+  const match = name.match(/^(\d+)\.\s*(.+)$/)
+  if (match) return { num: match[1], label: match[2] }
+  return { num: '', label: name }
+}
+
+function dimNumberLeftTick(props: { x: number; y: number; payload: { value: string } }) {
+  const { x, y, payload } = props
+  const tx = x - 70
+  const { num, label } = parseLabel(payload.value)
+
+  if (!num) {
+    return (
+      <text x={tx} y={y} textAnchor='start' fill={chartColor} fontSize={13} fontWeight={300} dominantBaseline='central'>
+        {payload.value}
+      </text>
+    )
+  }
 
   return (
-    <Flex justify='center' className='pre-font'>
-      <span style={{ position: 'absolute', marginTop: 20, fontSize: 14 }}>
-        {t('Title') /* Damage Type Distribution */}
-      </span>
+    <text x={tx} y={y} textAnchor='start' fontSize={13} fontWeight={300} dominantBaseline='central'>
+      <tspan fill='#667'>{num}. </tspan>
+      <tspan fill={chartColor}>{label}</tspan>
+    </text>
+  )
+}
+
+export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
+  const [hoveredBar, setHoveredBar] = useState<string | null>(null)
+
+  const { rows, bars, legendItems } = useMemo(() => flattenData(props.data), [props.data])
+
+  if (rows.length === 0) {
+    return null
+  }
+
+  const chartHeight = Math.max(200, rows.length * BAR_HEIGHT + CHART_PADDING)
+
+  return (
+    <Flex vertical align='center' className='pre-font'>
       <BarChart
         layout='vertical'
-        data={filteredData}
-        margin={{
-          top: 50,
-          right: 60,
-          bottom: 20,
-          left: 70,
-        }}
+        data={rows}
+        margin={{ top: 15, right: 60, bottom: 20, left: 30 }}
         barCategoryGap='25%'
         width={DAMAGE_SPLITS_CHART_WIDTH}
-        height={DAMAGE_SPLITS_CHART_HEIGHT}
+        height={chartHeight}
       >
         <XAxis
           type='number'
-          tick={{ fill: chartColor }}
+          tick={{ fill: chartColor, textRendering: 'geometricPrecision', fontWeight: 300, fontSize: 13 }}
           tickFormatter={renderThousandsK}
           width={100}
         />
@@ -87,85 +207,78 @@ export function DamageSplitsChart(props: {
           type='category'
           axisLine={false}
           tickLine={false}
-          tick={{ fill: chartColor }}
-          // tickFormatter={(key: keyof DefaultActionDamageValues) => t(`YAxisLabel.${key}`)}
+          tick={dimNumberLeftTick}
           tickMargin={10}
-          width={20}
+          width={80}
         />
         <Tooltip
           cursor={false}
           isAnimationActive={false}
-          // @ts-ignore
-          content={<CustomTooltip bar={barHovered} />}
-        />
-        <Legend
-          formatter={(s: DamageBreakdownKeys) => t(`Legend.${s}`)}
-          wrapperStyle={{ paddingTop: 10, paddingRight: 40, paddingLeft: 40 }}
+          content={<CustomTooltip hoveredBar={hoveredBar} bars={bars} />}
         />
 
-        {renderBar('abilityDmg', '#85c1e9', setBarHovered)}
-        {renderBar('jointDmg', '#2980b9', setBarHovered)}
-        {renderBar('superBreakDmg', '#e59866', setBarHovered)}
-        {renderBar('additionalDmg', '#bb8fce', setBarHovered)}
-        {renderBar('dotDmg', '#45b39d', setBarHovered)}
-        {renderBar('memoDmg', '#cd6155', setBarHovered)}
-        {renderBar('breakDmg', '#f8c471', setBarHovered)}
-        {renderBar('trueDmg', '#cacfd2', setBarHovered, true)}
+        {bars.map((bar, i) => (
+          <Bar
+            key={bar.key}
+            dataKey={bar.key}
+            stackId='a'
+            fill={bar.color}
+            // @ts-ignore recharts shape typing
+            shape={bar.shape}
+            activeBar={false}
+            isAnimationActive={false}
+            onMouseEnter={() => setHoveredBar(bar.key)}
+            onMouseLeave={() => setHoveredBar(null)}
+          >
+            {i === bars.length - 1 && (
+              <LabelList dataKey='total' position='right' content={renderBarLabel} />
+            )}
+          </Bar>
+        ))}
       </BarChart>
+      <Flex wrap='wrap' justify='center' gap={16} style={{ marginTop: -10 }}>
+        {legendItems.map((item) => (
+          <Flex key={item.damageType} align='center' gap={6}>
+            <div style={{
+              width: 12,
+              height: 12,
+              borderRadius: 2,
+              backgroundColor: item.color,
+            }} />
+            <span style={{ fontSize: 13, color: chartColor }}>{item.label}</span>
+          </Flex>
+        ))}
+      </Flex>
     </Flex>
   )
 }
 
-function renderBar(
-  dataKey: string,
-  color: string,
-  setBarHovered: (s: string | null) => void,
-  label: boolean = false,
-) {
-  return (
-    <Bar
-      key={dataKey}
-      dataKey={dataKey}
-      stackId='a'
-      fill={color}
-      activeBar={false}
-      isAnimationActive={false}
-      onMouseEnter={() => setBarHovered(dataKey)}
-      onMouseLeave={() => setBarHovered(null)}
-    >
-      {label && <LabelList dataKey='sum' position='right' formatter={renderThousandsK} />}
-    </Bar>
-  )
+type TooltipPayloadItem = {
+  dataKey: string
+  value: number
 }
 
-type BarsTooltipData = {
-  dataKey: string,
-  value: number,
-  payload: DamageBreakdown,
-}
+function CustomTooltip(props: {
+  active?: boolean
+  payload?: TooltipPayloadItem[]
+  hoveredBar: string | null
+  bars: FlattenedBar[]
+}) {
+  const { active, payload, hoveredBar, bars } = props
+  if (!active || !payload || !hoveredBar) return null
 
-const CustomTooltip = (props: { active: boolean, payload: BarsTooltipData[], label: string, bar: DamageBreakdownKeys | null }) => {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits.TooltipText' })
-  const { active, payload, bar } = props
-  if (!bar || !payload || !active) {
-    return null
-  }
-
-  const damageItem = payload.find((x) => x.dataKey == bar)
-  if (!damageItem) return null
+  const barDef = bars.find((b) => b.key === hoveredBar)
+  const dataItem = payload.find((p) => p.dataKey === hoveredBar)
+  if (!barDef || !dataItem) return null
 
   return (
     <Flex
       vertical
       className='pre-font'
-      style={{
-        background: 'rgb(69,93,154)',
-        padding: 8,
-        borderRadius: 3,
-      }}
+      style={{ background: 'rgb(69,93,154)', padding: 8, borderRadius: 3 }}
     >
-      <span style={{ fontSize: 14, fontWeight: 'bold' }}>{t(bar)}</span>
-      <span>{localeNumberComma(Math.floor(damageItem.value))}</span>
+      <span style={{ fontSize: 14, fontWeight: 'bold' }}>{barDef.label}</span>
+      <span>{localeNumberComma(Math.floor(dataItem.value))}</span>
     </Flex>
   )
 }

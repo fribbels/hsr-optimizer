@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
@@ -11,13 +10,14 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import {
@@ -34,7 +34,33 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { CIPHER } from 'lib/simulations/tests/testMetadataConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_FUA,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import {
+  AbilityKind,
+  DEFAULT_FUA,
+  NULL_TURN_ABILITY_NAME,
+  DEFAULT_ULT,
+  WHOLE_BASIC,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -44,9 +70,15 @@ import {
 } from 'types/optimizer'
 
 export const CipherEntities = createEnum('Cipher')
-export const CipherAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const CipherAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cipher.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -161,7 +193,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     * (1 * 0.20 + 2 * 0.10 + 3 * 0.10 + 4 * 0.60)
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     defaults: () => defaults,
     teammateContent: () => Object.values(teammateContent),
@@ -176,14 +207,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(CipherAbilities),
+    actionDeclaration: () => [...CipherAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e4AdditionalScaling = (e >= 4 && r.e4AdditionalDmg) ? 0.50 : 0
 
       return {
-        [CipherAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Quantum)
@@ -200,7 +231,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               : []),
           ],
         },
-        [CipherAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Quantum)
@@ -217,7 +248,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               : []),
           ],
         },
-        [CipherAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Quantum)
@@ -234,7 +265,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               : []),
           ],
         },
-        [CipherAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Quantum)
@@ -251,7 +282,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               : []),
           ],
         },
-        [CipherAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
           ],
@@ -282,7 +313,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
         : 0
-      x.buff(StatKey.DMG_BOOST, r.cyreneSpecialEffect ? cyreneDmgBuff : 0, x.source(Source.odeTo(CIPHER)))
+      x.buff(StatKey.DMG_BOOST, r.cyreneSpecialEffect ? cyreneDmgBuff : 0, x.source(Source.odeTo(Cipher.id)))
     },
 
     precomputeMutualEffectsContainer: (
@@ -303,7 +334,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDefPen = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.22 : 0.20)
         : 0
-      x.buff(StatKey.DEF_PEN, m.cyreneSpecialEffect ? cyreneDefPen : 0, x.targets(TargetTag.FullTeam).source(Source.odeTo(CIPHER)))
+      x.buff(StatKey.DEF_PEN, m.cyreneSpecialEffect ? cyreneDefPen : 0, x.targets(TargetTag.FullTeam).source(Source.odeTo(Cipher.id)))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -391,4 +422,142 @@ if (
       },
     ],
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Quantum_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.CR,
+    Stats.CD,
+    Stats.ATK,
+    Stats.EHR,
+  ],
+  breakpoints: {
+    [Stats.EHR]: 0.19,
+  },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_ULT,
+    WHOLE_SKILL,
+    DEFAULT_FUA,
+    WHOLE_SKILL,
+    DEFAULT_FUA,
+    WHOLE_BASIC,
+    DEFAULT_FUA,
+  ],
+  deprioritizeBuffs: true,
+  comboDot: 0,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.InertSalsotto,
+    Sets.DuranDynastyOfRunningWolves,
+    Sets.FirmamentFrontlineGlamoth,
+    ...SPREAD_ORNAMENTS_2P_FUA,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0.50,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Quantum_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [
+    PresetEffects.fnAshblazingSet(4),
+    PresetEffects.fnPioneerSet(4),
+    PresetEffects.VALOROUS_SET,
+  ],
+  sortOption: SortOption.FUA,
+  hiddenColumns: [SortOption.DOT],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 1050,
+    y: 900,
+    z: 1,
+  },
+  showcaseColor: '#5962ff',
+}
+
+export const Cipher: CharacterConfig = {
+  id: '1406',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

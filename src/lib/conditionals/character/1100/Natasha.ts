@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
@@ -9,29 +8,40 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const NatashaEntities = createEnum('Natasha')
-export const NatashaAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'BREAK')
+export const NatashaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Natasha')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_TRACE,
-  } = Source.character('1105')
+  } = Source.character(Natasha.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -51,7 +61,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     defaults: () => defaults,
 
@@ -64,10 +73,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(NatashaAbilities),
+    actionDeclaration: () => [...NatashaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
-        [NatashaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -77,7 +86,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [NatashaAbilities.SKILL_HEAL]: {
+        [AbilityKind.SKILL_HEAL]: {
           hits: [
             HitDefinitionBuilder.skillHeal()
               .hpScaling(skillHealScaling)
@@ -85,7 +94,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [NatashaAbilities.ULT_HEAL]: {
+        [AbilityKind.ULT_HEAL]: {
           hits: [
             HitDefinitionBuilder.ultHeal()
               .hpScaling(ultHealScaling)
@@ -93,7 +102,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [NatashaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -109,4 +118,69 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.HP_P,
+      Stats.OHB,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.ULT_HEAL,
+  addedColumns: [
+    SortOption.OHB,
+  ],
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+})
+
+const display = {
+  imageCenter: {
+    x: 1040,
+    y: 1024,
+    z: 1,
+  },
+  showcaseColor: '#82b5e9',
+}
+
+export const Natasha: CharacterConfig = {
+  id: '1105',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

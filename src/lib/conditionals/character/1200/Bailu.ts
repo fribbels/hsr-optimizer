@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -6,13 +5,22 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -20,10 +28,17 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const BailuEntities = createEnum('Bailu')
-export const BailuAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'TALENT_HEAL', 'BREAK')
+export const BailuAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.TALENT_HEAL,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bailu')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
@@ -103,7 +118,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -118,10 +132,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(BailuAbilities),
+    actionDeclaration: () => [...BailuAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
-        [BailuAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Lightning)
@@ -130,7 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [BailuAbilities.SKILL_HEAL]: {
+        [AbilityKind.SKILL_HEAL]: {
           hits: [
             HitDefinitionBuilder.skillHeal()
               .hpScaling(skillHealScaling)
@@ -138,7 +152,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [BailuAbilities.ULT_HEAL]: {
+        [AbilityKind.ULT_HEAL]: {
           hits: [
             HitDefinitionBuilder.ultHeal()
               .hpScaling(ultHealScaling)
@@ -146,7 +160,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [BailuAbilities.TALENT_HEAL]: {
+        [AbilityKind.TALENT_HEAL]: {
           hits: [
             HitDefinitionBuilder.heal()
               .hpScaling(talentHealScaling)
@@ -154,7 +168,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [BailuAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],
@@ -182,4 +196,66 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.OHB,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.HP_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.TALENT_HEAL,
+  addedColumns: [SortOption.OHB],
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+})
+
+const display = {
+  imageCenter: {
+    x: 1050,
+    y: 950,
+    z: 1.05,
+  },
+  showcaseColor: '#5f9ce2',
+}
+
+export const Bailu: CharacterConfig = {
+  id: '1211',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

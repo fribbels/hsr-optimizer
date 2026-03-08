@@ -1,31 +1,59 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
-import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import {
+  dynamicStatConversionContainer,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { CERYDRA } from 'lib/simulations/tests/testMetadataConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  RELICS_2P_ATK,
+  RELICS_2P_SPEED,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  weights,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import { ScoringMetadata } from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const CerydraEntities = createEnum('Cerydra')
-export const CerydraAbilities = createEnum('BASIC', 'ULT', 'BREAK')
+export const CerydraAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cerydra')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -39,7 +67,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_MEMO,
-  } = Source.character(CERYDRA)
+  } = Source.character(Cerydra.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillCdScaling = skill(e, 0.72, 0.792)
@@ -152,7 +180,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.DOT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -167,14 +194,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(CerydraAbilities),
+    actionDeclaration: () => [...CerydraAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const e4UltScaling = (e >= 4 && r.e4UltDmg) ? 2.40 : 0
 
       return {
-        [CerydraAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -183,7 +210,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [CerydraAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Wind)
@@ -192,7 +219,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [CerydraAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
@@ -268,7 +295,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Cyrene special effect: CD buff
       if (cyreneActionExists(originalCharacterAction!)) {
         const cdBuff = cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.33 : 0.30
-        x.buff(StatKey.CD, t.cyreneSpecialEffect ? cdBuff : 0, x.targets(TargetTag.SingleTarget).source(Source.odeTo(CERYDRA)))
+        x.buff(StatKey.CD, t.cyreneSpecialEffect ? cdBuff : 0, x.targets(TargetTag.SingleTarget).source(Source.odeTo(Cerydra.id)))
       }
     },
 
@@ -317,4 +344,58 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0.75,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.ULT,
+  hiddenColumns: [SortOption.DOT],
+})
+
+const display = {
+  imageCenter: {
+    x: 1050,
+    y: 950,
+    z: 1.05,
+  },
+  showcaseColor: '#7d83d7',
+}
+
+export const Cerydra: CharacterConfig = {
+  id: '1412',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

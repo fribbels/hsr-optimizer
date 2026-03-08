@@ -1,22 +1,54 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
 import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  DEFAULT_DOT,
+  DEFAULT_SKILL,
+  END_DOT,
+  DEFAULT_FUA,
+  START_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const KafkaEntities = createEnum('Kafka')
-export const KafkaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK')
+export const KafkaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Kafka')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -31,7 +63,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1005')
+  } = Source.character(Kafka.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -76,7 +108,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -91,10 +122,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(KafkaAbilities),
+    actionDeclaration: () => [...KafkaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       return {
-        [KafkaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Lightning)
@@ -103,7 +134,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [KafkaAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Lightning)
@@ -112,7 +143,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [KafkaAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Lightning)
@@ -121,7 +152,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [KafkaAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Lightning)
@@ -130,7 +161,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [KafkaAbilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.30)
@@ -139,7 +170,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [KafkaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],
@@ -164,4 +195,136 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Lightning_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.EHR,
+    Stats.CR,
+    Stats.CD,
+  ],
+  breakpoints: {
+    [Stats.EHR]: 0.282,
+  },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_DOT,
+    DEFAULT_SKILL,
+    END_DOT,
+    DEFAULT_FUA,
+    START_SKILL,
+    END_DOT,
+    DEFAULT_FUA,
+    START_SKILL,
+    END_DOT,
+    DEFAULT_FUA,
+  ],
+  comboDot: 16,
+  relicSets: [
+    [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.FirmamentFrontlineGlamoth,
+    Sets.RevelryByTheSea,
+  ],
+  teammates: [
+    {
+      characterId: BlackSwanB1.id,
+      lightCone: ReforgedRemembrance.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hysilens.id,
+      lightCone: WhyDoesTheOceanSing.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0.5,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Lightning_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  presets: [
+    PresetEffects.PRISONER_SET,
+    PresetEffects.fnAshblazingSet(6),
+    PresetEffects.VALOROUS_SET,
+  ],
+  sortOption: SortOption.DOT,
+  hiddenColumns: [],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 1000,
+    y: 950,
+    z: 1.1,
+  },
+  showcaseColor: '#ea8abc',
+}
+
+export const Kafka: CharacterConfig = {
+  id: '1005',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

@@ -2,12 +2,13 @@ import {
   Constants,
   Stats,
 } from 'lib/constants/constants'
-import { indent } from 'lib/gpu/injection/wgslUtils'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 export function injectSettings(wgsl: string, context: OptimizerContext, request: Form, relics: RelicsByPart) {
   const merged: Record<string, number> = {}
@@ -18,7 +19,6 @@ export function injectSettings(wgsl: string, context: OptimizerContext, request:
   wgsl += generateCharacterStats(context.characterStatsBreakdown.traces, 'trace')
   wgsl += generateElement(context)
   wgsl += generateRequest(request)
-  wgsl += generateActions(context)
   wgsl += generateConsts(context, relics)
 
   wgsl += '\n'
@@ -28,54 +28,24 @@ export function injectSettings(wgsl: string, context: OptimizerContext, request:
 
 function generateConsts(context: OptimizerContext, relics: RelicsByPart) {
   const wgsl = `
-const relicSetCount = ${Object.keys(Constants.SetsRelics).length};
-const ornamentSetCount = ${Object.keys(Constants.SetsOrnaments).length};
+const relicSetCount = ${Object.keys(SetsRelics).length};
+const ornamentSetCount = ${Object.keys(SetsOrnaments).length};
+
 const lSize = ${relics.LinkRope.length};
 const pSize = ${relics.PlanarSphere.length};
 const fSize = ${relics.Feet.length};
 const bSize = ${relics.Body.length};
 const gSize = ${relics.Hands.length};
 const hSize = ${relics.Head.length};
+
+const handsOffset = hSize;
+const bodyOffset = hSize + gSize;
+const feetOffset = hSize + gSize + bSize;
+const planarOffset = hSize + gSize + bSize + fSize;
+const ropeOffset = hSize + gSize + bSize + fSize + pSize;
 `
 
   return wgsl
-}
-
-function generateActions(context: OptimizerContext) {
-  const actionLength = context.resultSort == SortOption.COMBO.key ? context.defaultActions.length + context.rotationActions.length : 1
-  const computedStatsLength = context.maxContainerArrayLength / STATS_LENGTH
-  let actionSwitcher = ``
-  for (let i = 0; i < actionLength; i++) {
-    const label = i == 0
-      ? 'Action Stats'
-      : (
-        i < context.defaultActions.length
-          ? context.defaultActions[i].actionName
-          : context.rotationActions[i - context.defaultActions.length].actionName
-      )
-    actionSwitcher += indent(
-      `
-case ${i}: { 
-(*outAction) = action${i}; // ${i == 0 ? 'Action Stats' : label}
-(*outX) = computedStatsX${i}; 
-}
-  `,
-      0,
-    )
-  }
-
-  const wgsl = `
-fn getAction(actionIndex: i32, outAction: ptr<function, Action>, outX: ptr<function, array<f32, ${context.maxContainerArrayLength}>>) {
-  switch (actionIndex) {
-    ${actionSwitcher}
-    default: { 
-      (*outAction) = action0; 
-    }
-  }
-}
-  `
-
-  return ''
 }
 
 function generateRequest(request: Form) {
@@ -130,11 +100,18 @@ function generateElement(context: OptimizerContext) {
   return wgsl
 }
 
+const EPSILON = 0.00000001
+const EPSILON_STATS = new Set(['HP', 'ATK', 'DEF', 'SPD', 'CR', 'CD', 'EHR', 'RES', 'BE', 'ERR', 'OHB'])
+
 function generateCharacterStats(characterStats: { [key: string]: number }, prefix: string) {
   let wgsl = '\n'
 
   for (const [name, stat] of Object.entries(paramStatNames)) {
-    wgsl += `const ${prefix}${name}: f32 = ${characterStats[stat]};\n`
+    let value = characterStats[stat] ?? 0
+    if (prefix === 'trace' && EPSILON_STATS.has(name)) {
+      value += EPSILON
+    }
+    wgsl += `const ${prefix}${name}: f32 = ${value};\n`
   }
 
   return wgsl

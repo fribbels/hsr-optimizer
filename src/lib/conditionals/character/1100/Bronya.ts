@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
 import {
@@ -20,9 +19,12 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -31,21 +33,28 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import { AbilityDefinition } from 'types/hitConditionalTypes'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const BronyaEntities = createEnum('Bronya')
-export const BronyaAbilities = createEnum('BASIC', 'FUA', 'BREAK')
+export const BronyaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Bronya')
   const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
@@ -60,7 +69,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1101')
+  } = Source.character(Bronya.id)
 
   const skillDmgBoostValue = skill(e, 0.66, 0.726)
   const ultAtkBoostValue = ult(e, 0.55, 0.594)
@@ -154,7 +163,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -169,9 +177,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(BronyaAbilities),
+    actionDeclaration: () => [...BronyaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [BronyaAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Wind)
@@ -180,7 +188,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [BronyaAbilities.FUA]: {
+      [AbilityKind.FUA]: {
         hits: (e >= 4)
           ? [
             HitDefinitionBuilder.standardFua()
@@ -191,7 +199,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           ]
           : [],
       },
-      [BronyaAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
         ],
@@ -261,4 +269,58 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.CD,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.ULT,
+    SortOption.DOT,
+  ],
+})
+
+const display = {
+  imageCenter: {
+    x: 950,
+    y: 1200,
+    z: 1.1,
+  },
+  showcaseColor: '#375ee1',
+}
+
+export const Bronya: CharacterConfig = {
+  id: '1101',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

@@ -7,32 +7,24 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TheSeriousnessOfBreakfast')
-  const { SOURCE_LC } = Source.lightCone('21027')
+  const { SOURCE_LC } = Source.lightCone(TheSeriousnessOfBreakfast.id)
 
-  const sValuesDmgBoost = [0.12, 0.15, 0.18, 0.21, 0.24]
   const sValuesStacks = [0.04, 0.05, 0.06, 0.07, 0.08]
 
   const defaults = {
-    dmgBoost: true,
     defeatedEnemyAtkStacks: 3,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    dmgBoost: {
-      lc: true,
-      id: 'dmgBoost',
-      formItem: 'switch',
-      text: t('Content.dmgBoost.text'),
-      content: t('Content.dmgBoost.content', { DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoost[s]) }),
-    },
     defeatedEnemyAtkStacks: {
       lc: true,
       id: 'defeatedEnemyAtkStacks',
@@ -51,7 +43,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, r.defeatedEnemyAtkStacks * sValuesStacks[s], x.source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (r.dmgBoost) ? sValuesDmgBoost[s] : 0, x.source(SOURCE_LC))
     },
   }
+}
+
+export const TheSeriousnessOfBreakfast: LightConeConfig = {
+  id: '21027',
+  conditionals,
 }

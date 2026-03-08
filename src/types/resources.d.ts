@@ -4356,6 +4356,10 @@ interface Resources {
         "Name": "Yao Guang",
         "LongName": "Yao Guang"
       },
+      "1504": {
+        "Name": "Ashveil",
+        "LongName": "Ashveil"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -4659,6 +4663,14 @@ interface Resources {
       "324": {
         "Name": "Tengoku@Livestream",
         "Description2pc": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32%, lasting for 3 turns."
+      },
+      "325": {
+        "Name": "Punklorde Stage Zero",
+        "Description2pc": "Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%."
+      },
+      "326": {
+        "Name": "City of Converging Stars",
+        "Description2pc": "When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack."
       }
     },
     "Lightcones": {
@@ -5112,6 +5124,9 @@ interface Resources {
       "23054": {
         "Name": "When She Decided to See"
       },
+      "23056": {
+        "Name": "The Finale of a Lie"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -5129,6 +5144,9 @@ interface Resources {
       },
       "24005": {
         "Name": "Memory's Curtain Never Falls"
+      },
+      "24006": {
+        "Name": "Elation Brimming With Blessings"
       }
     },
     "Paths": {
@@ -5140,8 +5158,7 @@ interface Resources {
       "Knight": "Preservation",
       "Priest": "Abundance",
       "Memory": "Remembrance",
-      "Elation": "Elation",
-      "Unknown": "General"
+      "Elation": "Elation"
     },
     "Elements": {
       "Physical": "Physical",
@@ -6342,6 +6359,24 @@ interface Resources {
         "Arcadia": {
           "Display": "{{allyCount}}x",
           "Label": "{{allyCount}} allies (+{{buffValue}}% DMG)"
+        },
+        "CityOfConvergingStars": {
+          "Off": {
+            "Display": "Off",
+            "Label": "Off"
+          },
+          "AtkOnly": {
+            "Display": "ATK",
+            "Label": "ATK only (+24% ATK)"
+          },
+          "CdOnly": {
+            "Display": "CD",
+            "Label": "CD only (+12% CD)"
+          },
+          "Both": {
+            "Display": "ATK + CD",
+            "Label": "ATK + CD (+24% ATK | +12% CD)"
+          }
         }
       },
       "Conditionals": {
@@ -6378,7 +6413,8 @@ interface Resources {
         "Banana": "When enabled, the additional 32% CRIT DMG is applied to Combat stat calculations.",
         "Arcadia": "The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.",
         "Amphoreus": "When enabled, if the wearer possesses a memosprite then the SPD% buff is applied to combat stat calculations.",
-        "Tengoku": "When enabled, the additional CRIT Damage buff is applied to combat stat calculations."
+        "Tengoku": "When enabled, the additional CRIT Damage buff is applied to combat stat calculations.",
+        "CityOfConvergingStars": "Applies the selected buffs to combat stat calculations. ATK buff from using Follow-Up ATK, CD buff from defeating an enemy."
       }
     },
     "Presets": {
@@ -6614,6 +6650,11 @@ interface Resources {
           "Desc": "$t(gameData:RelicSets.323.Name) (+8% SPD)",
           "Set": "$t(gameData:RelicSets.323.Name)",
           "Text": "8% SPD"
+        },
+        "CityOfConvergingStars": {
+          "Desc": "$t(gameData:RelicSets.326.Name) (+12% CD)",
+          "Set": "$t(gameData:RelicSets.326.Name)",
+          "Text": "12% CD"
         }
       }
     },

@@ -1,15 +1,21 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   countTeamPath,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { PathNames } from 'lib/constants/constants'
+import { Parts, PathNames, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -18,7 +24,22 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { ANAXA } from 'lib/simulations/tests/testMetadataConstants'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import {
+  AbilityKind,
+  DEFAULT_SKILL,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -28,9 +49,14 @@ import {
 } from 'types/optimizer'
 
 export const AnaxaEntities = createEnum('Anaxa')
-export const AnaxaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const AnaxaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Anaxa.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -149,7 +175,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -164,7 +189,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(AnaxaAbilities),
+    actionDeclaration: () => [...AnaxaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -177,7 +202,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const skillToughness = 10 + addedSkillHits * 5
 
       return {
-        [AnaxaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -186,7 +211,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [AnaxaAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Wind)
@@ -195,7 +220,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [AnaxaAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Wind)
@@ -204,7 +229,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [AnaxaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
@@ -232,7 +257,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.ATK_P, (e >= 4) ? r.e4AtkBuffStacks * 0.30 : 0, x.source(SOURCE_E4))
 
       // E6: Final DMG boost
-      x.buff(StatKey.FINAL_DMG_BOOST, (e >= 6 && r.e6Buffs) ? 0.30 : 0, x.source(SOURCE_E6))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 6 && r.e6Buffs) ? 0.30 : 0, x.source(SOURCE_E6))
 
       // Trace: CD buff when solo Erudition or E6 active
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
@@ -244,10 +269,10 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
       // Trace: DMG boost when 2+ Erudition members or E6 active
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
-      x.buff(StatKey.DMG_BOOST, (m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.50 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E1: DEF PEN
-      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen) ? 0.16 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       // E2: RES PEN (full team)
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
@@ -258,12 +283,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneSkillDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
         : 0
-      x.buff(StatKey.DMG_BOOST, cyreneBuffActive ? cyreneSkillDmgBuff : 0, x.damageType(DamageTag.SKILL).source(Source.odeTo(ANAXA)))
+      x.buff(StatKey.DMG_BOOST, cyreneBuffActive ? cyreneSkillDmgBuff : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.SelfAndPet).source(Source.odeTo(Anaxa.id)))
 
       const cyreneAtkBuff = cyreneActionExists(originalCharacterAction!)
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.66 : 0.60)
         : 0
-      x.buff(StatKey.ATK_P, cyreneBuffActive ? cyreneAtkBuff : 0, x.source(Source.odeTo(ANAXA)))
+      x.buff(StatKey.ATK_P, cyreneBuffActive ? cyreneAtkBuff : 0, x.targets(TargetTag.SelfAndPet).source(Source.odeTo(Anaxa.id)))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -273,4 +298,139 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_SKILL,
+    START_SKILL,
+    END_SKILL,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  deprioritizeBuffs: false,
+  relicSets: [
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RutilantArena,
+    Sets.FirmamentFrontlineGlamoth,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
+    Sets.SpaceSealingStation,
+    Sets.FirmamentFrontlineGlamoth,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cerydra.id,
+      lightCone: EpochEtchedInGoldenBlood.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [
+    PresetEffects.fnPioneerSet(4),
+    PresetEffects.GENIUS_SET,
+  ],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [SortOption.FUA, SortOption.DOT],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 1235,
+    y: 1025,
+    z: 0.90,
+  },
+  showcaseColor: '#93d4c2',
+}
+
+export const Anaxa: CharacterConfig = {
+  id: '1405',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

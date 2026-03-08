@@ -8,13 +8,13 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PatienceIsAllYouNeed')
-  const { SOURCE_LC } = Source.lightCone('23006')
+  const { SOURCE_LC } = Source.lightCone(PatienceIsAllYouNeed.id)
 
-  const sValuesDmg = [0.24, 0.28, 0.32, 0.36, 0.40]
   const sValuesSpd = [0.048, 0.056, 0.064, 0.072, 0.08]
   const sValuesErode = [0.6, 0.7, 0.8, 0.9, 1]
 
@@ -49,7 +49,11 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.SPD_P, r.spdStacks * sValuesSpd[s], x.source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, sValuesDmg[s], x.source(SOURCE_LC))
     },
   }
+}
+
+export const PatienceIsAllYouNeed: LightConeConfig = {
+  id: '23006',
+  conditionals,
 }

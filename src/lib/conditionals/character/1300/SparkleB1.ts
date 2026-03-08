@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -13,30 +12,41 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
-
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const SparkleB1Entities = createEnum('SparkleB1')
-export const SparkleB1Abilities = createEnum('BASIC', 'BREAK')
+export const SparkleB1Abilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SparkleB1')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -51,7 +61,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1306b1')
+  } = Source.character(SparkleB1.id)
 
   const skillCdBuffScaling = skill(e, 0.24, 0.264)
   const skillCdBuffBase = skill(e, 0.45, 0.486)
@@ -142,7 +152,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -157,9 +166,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(SparkleB1Abilities),
+    actionDeclaration: () => [...SparkleB1Abilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [SparkleB1Abilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Quantum)
@@ -168,7 +177,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [SparkleB1Abilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
         ],
@@ -197,7 +206,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.ATK_P, (e >= 1 && m.cipherBuff) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       // B1: RES_PEN self buff when skillBuffs (unique to B1)
-      x.buff(StatKey.RES_PEN, m.skillBuffs ? 0.10 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, m.skillBuffs ? 0.10 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_TRACE))
 
       // B1: VULNERABILITY team (vs DMG_BOOST in migrated Sparkle)
       x.buff(
@@ -271,4 +280,59 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.CD,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+})
+
+const display = {
+  imageCenter: {
+    x: 1050,
+    y: 1050,
+    z: 1,
+  },
+  showcaseColor: '#5866bc',
+}
+
+export const SparkleB1: CharacterConfig = {
+  id: '1306b1',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

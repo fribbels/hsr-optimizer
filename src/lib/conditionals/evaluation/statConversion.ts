@@ -11,12 +11,12 @@ import {
   getActionIndex,
 } from 'lib/gpu/injection/injectUtils'
 import { BuffSource } from 'lib/optimization/buffSource'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   OptimizerAction,

@@ -402,6 +402,19 @@ SetConditionals:
     Arcadia:
       Display: '{{allyCount}}x'
       Label: '{{allyCount}} allies (+{{buffValue}}% DMG)'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      AtkOnly:
+        Display: ATK
+        Label: ATK only (+24% ATK)
+      CdOnly:
+        Display: CD
+        Label: CD only (+12% CD)
+      Both:
+        Display: ATK + CD
+        Label: ATK + CD (+24% ATK | +12% CD)
   Conditionals:
     DefaultMessage: Enabled by default - effects will apply to combat calculations.
     Hunter: When enabled, CRIT DMG buff is applied to Combat stat calculations.
@@ -442,6 +455,7 @@ SetConditionals:
     Arcadia: The selected buff is applied to Combat stat calculations. Updates automatically when team selection changes.
     Amphoreus: When enabled, if the wearer possesses a memosprite then the SPD% buff is applied to combat stat calculations.
     Tengoku: When enabled, the additional CRIT Damage buff is applied to combat stat calculations.
+    CityOfConvergingStars: Applies the selected buffs to combat stat calculations. ATK buff from using Follow-Up ATK, CD buff from defeating an enemy.
 Presets:
   SpdValues:
     SPD0: No minimum speed
@@ -649,6 +663,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.323.Name) (+8% SPD)'
       Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% SPD
+    CityOfConvergingStars:
+      Desc: '$t(gameData:RelicSets.326.Name) (+12% CD)'
+      Set: '$t(gameData:RelicSets.326.Name)'
+      Text: 12% CD
 StatSimulation:
   DuplicateSimMessage: Identical stat simulation already exists
   MissingMainstatsMessage: Missing simulation main stats
@@ -697,7 +715,7 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Shield
       SHIELD_VALUE_P: Δ% Shield
   DamageSplits:
-    Title: Damage Type Distribution
+    Title: Combo Breakdown
     Legend:
       abilityDmg: Ability
       breakDmg: Break

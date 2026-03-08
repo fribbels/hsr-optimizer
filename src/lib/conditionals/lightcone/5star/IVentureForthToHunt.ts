@@ -9,11 +9,12 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IVentureForthToHunt')
-  const { SOURCE_LC } = Source.lightCone('23031')
+  const { SOURCE_LC } = Source.lightCone(IVentureForthToHunt.id)
 
   const sValuesDefShred = [0.27, 0.30, 0.33, 0.36, 0.39]
 
@@ -42,4 +43,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DEF_PEN, r.luminfluxUltStacks * sValuesDefShred[s], x.damageType(DamageTag.ULT).source(SOURCE_LC))
     },
   }
+}
+
+export const IVentureForthToHunt: LightConeConfig = {
+  id: '23031',
+  conditionals,
 }

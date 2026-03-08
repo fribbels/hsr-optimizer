@@ -1,7 +1,7 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
+import { BuffPriority, } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
 import { wgsl, wgslFalse, } from 'lib/gpu/injection/wgslUtils'
@@ -10,23 +10,31 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 import { Eidolon } from 'types/character'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export const TrailblazerRemembranceAbilities = createEnum(
-  'BASIC',
-  'ULT',
-  'MEMO_SKILL',
-  'BREAK',
-)
+export const TrailblazerRemembranceAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
 export const TrailblazerRemembranceEntities = createEnum(
   'Trailblazer',
   'Mem',
 )
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerRemembrance')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
@@ -42,7 +50,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8008')
+  } = Source.character(TrailblazerRemembranceStelle.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const enhancedBasicScaling = basic(e, 1.20, 1.32)
@@ -63,7 +71,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   // additionally increases the multiplier of the True DMG dealt via "Mem's Support" by 2%, up to a max increase of 20%.
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_SELF,
+    buffPriority: BuffPriority.SELF,
     enhancedBasic: false,
     memoSkillHits: 4,
     teamCdBuff: true,
@@ -90,8 +98,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -177,20 +185,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.MEMO_SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     entityDeclaration: () => Object.values(TrailblazerRemembranceEntities),
-    actionDeclaration: () => Object.values(TrailblazerRemembranceAbilities),
+    actionDeclaration: () => [...TrailblazerRemembranceAbilities],
 
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
       return {
         [TrailblazerRemembranceEntities.Trailblazer]: {
           primary: true,
           summon: false,
           memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
         },
         [TrailblazerRemembranceEntities.Mem]: {
           memoBaseHpScaling: memoHpScaling,
@@ -236,8 +245,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
 
       return {
-        [TrailblazerRemembranceAbilities.BASIC]: r.enhancedBasic ? enhancedBasicAbility : basicAbility,
-        [TrailblazerRemembranceAbilities.ULT]: {
+        [AbilityKind.BASIC]: r.enhancedBasic ? enhancedBasicAbility : basicAbility,
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .sourceEntity(TrailblazerRemembranceEntities.Mem)
@@ -248,7 +257,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerRemembranceAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(TrailblazerRemembranceEntities.Mem)
@@ -260,7 +269,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerRemembranceAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],
@@ -275,9 +284,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -389,4 +397,78 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
       },
     ],
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+      Stats.OHB,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.CD,
+  hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  addedColumns: [SortOption.MEMO_SKILL],
+})
+
+const displayCaelus = {
+  imageCenter: {
+    x: 955,
+    y: 975,
+    z: 0.95,
+  },
+  showcaseColor: '#f0a1fa',
+}
+
+const displayStelle = {
+  imageCenter: {
+    x: 955,
+    y: 975,
+    z: 0.95,
+  },
+  showcaseColor: '#f0a1fa',
+}
+
+export const TrailblazerRemembranceCaelus: CharacterConfig = {
+  id: '8007',
+  info: { displayName: 'Caelus (Remembrance)' },
+  display: displayCaelus,
+  conditionals,
+  get scoring() { return scoring() },
+}
+
+export const TrailblazerRemembranceStelle: CharacterConfig = {
+  id: '8008',
+  info: { displayName: 'Stelle (Remembrance)' },
+  display: displayStelle,
+  conditionals,
+  get scoring() { return scoring() },
 }

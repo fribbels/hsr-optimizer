@@ -30,7 +30,7 @@ export function getAKeyName(key: AKeyValue): AKeyType {
 // ============== HKey ==============
 
 const hitStatEntries = Object.entries(newStatsConfig)
-  .filter(([_, value]) => (value as { hit?: boolean }).hit === true)
+  .filter(([_, value]) => (value as { hit?: boolean }).hit)
 
 // HKeyType is the subset of AKeyType that has hit: true
 export type HKeyType = (typeof hitStatEntries)[number][0]
@@ -80,10 +80,14 @@ export function isHitStat(key: AKeyValue): boolean {
 export const ACTION_STATS_LENGTH = Object.keys(newStatsConfig).length
 export const HIT_STATS_LENGTH = hitStatEntries.length
 
+// ============== Global Registers ==============
+
+export const GlobalRegister = { COMBO_DMG: 0 } as const
+export const GLOBAL_REGISTERS_LENGTH = 1
+
 // ============== Legacy aliases ==============
 
 export const StatKey = AKey
 export type StatKeyType = AKeyType
 export type StatKeyValue = AKeyValue
 export const getStatKeyName = getAKeyName
-

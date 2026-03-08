@@ -34,7 +34,7 @@ export default defineConfig({
     port: 3000,
   },
   test: {
-    environment: 'jsdom',
+    environment: 'node',
     slowTestThreshold: 500,
   },
   worker: {

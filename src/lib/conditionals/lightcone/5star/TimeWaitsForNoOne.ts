@@ -3,10 +3,11 @@ import { Source } from 'lib/optimization/buffSource'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TimeWaitsForNoOne')
-  const { SOURCE_LC } = Source.lightCone('23013')
+  const { SOURCE_LC } = Source.lightCone(TimeWaitsForNoOne.id)
 
   const sValuesBonusMultiplier = [0.36, 0.42, 0.48, 0.54, 0.6]
 
@@ -28,4 +29,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     content: () => Object.values(content),
     defaults: () => defaults,
   }
+}
+
+export const TimeWaitsForNoOne: LightConeConfig = {
+  id: '23013',
+  conditionals,
 }

@@ -9,6 +9,7 @@ import {
   DEFAULT_STAT_DISPLAY,
   Sets,
 } from 'lib/constants/constants'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
@@ -136,60 +137,12 @@ export function defaultEnemyOptions() {
   }
 }
 
-export const defaultSetConditionals = {
-  [Sets.PasserbyOfWanderingCloud]: [undefined, true],
-  [Sets.MusketeerOfWildWheat]: [undefined, true],
-  [Sets.KnightOfPurityPalace]: [undefined, true],
-  [Sets.HunterOfGlacialForest]: [undefined, true],
-  [Sets.ChampionOfStreetwiseBoxing]: [undefined, 5],
-  [Sets.GuardOfWutheringSnow]: [undefined, true],
-  [Sets.FiresmithOfLavaForging]: [undefined, true],
-  [Sets.GeniusOfBrilliantStars]: [undefined, true],
-  [Sets.BandOfSizzlingThunder]: [undefined, true],
-  [Sets.EagleOfTwilightLine]: [undefined, true],
-  [Sets.ThiefOfShootingMeteor]: [undefined, true],
-  [Sets.WastelanderOfBanditryDesert]: [undefined, 1],
-  [Sets.LongevousDisciple]: [undefined, 2],
-  [Sets.MessengerTraversingHackerspace]: [undefined, false],
-  [Sets.TheAshblazingGrandDuke]: [undefined, 0],
-  [Sets.PrisonerInDeepConfinement]: [undefined, 0],
-  [Sets.PioneerDiverOfDeadWaters]: [undefined, 2],
-  [Sets.WatchmakerMasterOfDreamMachinations]: [undefined, false],
-  [Sets.IronCavalryAgainstTheScourge]: [undefined, true],
-  [Sets.TheWindSoaringValorous]: [undefined, false],
-  [Sets.SacerdosRelivedOrdeal]: [undefined, 0],
-  [Sets.ScholarLostInErudition]: [undefined, true],
-  [Sets.HeroOfTriumphantSong]: [undefined, false],
-  [Sets.PoetOfMourningCollapse]: [undefined, true],
-  [Sets.WarriorGoddessOfSunAndThunder]: [undefined, false],
-  [Sets.WavestriderCaptain]: [undefined, true],
-  [Sets.WorldRemakingDeliverer]: [undefined, true],
-  [Sets.SelfEnshroudedRecluse]: [undefined, true],
-  [Sets.EverGloriousMagicalGirl]: [undefined, 10],
-  [Sets.DivinerOfDistantReach]: [undefined, true],
-
-  [Sets.SpaceSealingStation]: [undefined, true],
-  [Sets.FleetOfTheAgeless]: [undefined, true],
-  [Sets.PanCosmicCommercialEnterprise]: [undefined, true],
-  [Sets.BelobogOfTheArchitects]: [undefined, true],
-  [Sets.CelestialDifferentiator]: [undefined, false],
-  [Sets.InertSalsotto]: [undefined, true],
-  [Sets.TaliaKingdomOfBanditry]: [undefined, true],
-  [Sets.SprightlyVonwacq]: [undefined, true],
-  [Sets.RutilantArena]: [undefined, true],
-  [Sets.BrokenKeel]: [undefined, true],
-  [Sets.FirmamentFrontlineGlamoth]: [undefined, true],
-  [Sets.PenaconyLandOfTheDreams]: [undefined, true],
-  [Sets.SigoniaTheUnclaimedDesolation]: [undefined, 4],
-  [Sets.IzumoGenseiAndTakamaDivineRealm]: [undefined, true],
-  [Sets.DuranDynastyOfRunningWolves]: [undefined, 5],
-  [Sets.ForgeOfTheKalpagniLantern]: [undefined, false],
-  [Sets.LushakaTheSunkenSeas]: [undefined, false],
-  [Sets.TheWondrousBananAmusementPark]: [undefined, false],
-  [Sets.BoneCollectionsSereneDemesne]: [undefined, true],
-  [Sets.GiantTreeOfRaptBrooding]: [undefined, true],
-  [Sets.ArcadiaOfWovenDreams]: [undefined, 4],
-  [Sets.RevelryByTheSea]: [undefined, true],
-  [Sets.AmphoreusTheEternalLand]: [undefined, false],
-  [Sets.TengokuLivestream]: [undefined, false],
+function buildDefaultSetConditionals(): Record<Sets, [undefined, boolean | number]> {
+  const result = {} as Record<Sets, [undefined, boolean | number]>
+  for (const [id, config] of setConfigRegistry) {
+    result[Sets[id]] = [undefined, config.display.defaultValue]
+  }
+  return result
 }
+
+export const defaultSetConditionals = buildDefaultSetConditionals()

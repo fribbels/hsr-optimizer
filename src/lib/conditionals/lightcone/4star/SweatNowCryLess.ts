@@ -9,14 +9,15 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.SweatNowCryLess')
-  const { SOURCE_LC } = Source.lightCone('21052')
+  const { SOURCE_LC } = Source.lightCone(SweatNowCryLess.id)
 
   const sValues = [0.24, 0.27, 0.30, 0.33, 0.36]
 
@@ -43,4 +44,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (r.dmgBoost) ? sValues[s] : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_LC))
     },
   }
+}
+
+export const SweatNowCryLess: LightConeConfig = {
+  id: '21052',
+  conditionals,
 }

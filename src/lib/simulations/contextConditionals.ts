@@ -13,8 +13,8 @@ import {
 } from 'types/optimizer'
 
 export function initializeContextConditionals(context: OptimizerContext) {
-  context.characterConditionalController = CharacterConditionalsResolver.get(context)
-  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
+  context.characterController = CharacterConditionalsResolver.get(context)
+  context.lightConeController = LightConeConditionalsResolver.get(context)
 
   for (const action of [...context.rotationActions, ...context.defaultActions]) {
     action.teammateDynamicConditionals = []
@@ -30,7 +30,7 @@ export function initializeContextConditionals(context: OptimizerContext) {
       rebuildEntityRegistry(action.config)
     }
 
-    calculateContextConditionalRegistry(action, context, context.characterConditionalController, context.lightConeConditionalController)
+    calculateContextConditionalRegistry(action, context, context.characterController, context.lightConeController)
   }
 }
 

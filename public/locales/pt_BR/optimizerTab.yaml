@@ -319,6 +319,14 @@ SetConditionals:
       Label: '{{stackCount}} acúmulos (+{{buffValue}}% CD)'
     Arcadia:
       Display: '{{allyCount}}x'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Desligado'
+        Label: 'Desligado'
+      AtkOnly:
+        Display: ATQ
+      CdOnly:
+        Display: CD
   Conditionals:
     DefaultMessage: Habilitado por padrão — efeitos serão aplicados nos cálculos de combate
     Hunter: "Quando habilitado, buff de dano crítico é aplicado aos cálculos de atributos de combate.\n"
@@ -565,7 +573,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Escudo
       SHIELD_VALUE_P: Δ% Escudo
   DamageSplits:
-    Title: Distribuição do Tipo de Dano
     Legend:
       abilityDmg: Habilidade
       breakDmg: Quebra

@@ -8,11 +8,12 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.EternalCalculus')
-  const { SOURCE_LC } = Source.lightCone('24004')
+  const { SOURCE_LC } = Source.lightCone(EternalCalculus.id)
 
   const sValuesAtkBuff = [0.04, 0.05, 0.06, 0.07, 0.08]
   const sValuesSpdBuff = [0.08, 0.10, 0.12, 0.14, 0.16]
@@ -51,4 +52,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.SPD_P, (r.spdBuff) ? sValuesSpdBuff[s] : 0, x.source(SOURCE_LC))
     },
   }
+}
+
+export const EternalCalculus: LightConeConfig = {
+  id: '24004',
+  conditionals,
 }

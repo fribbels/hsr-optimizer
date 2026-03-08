@@ -12,18 +12,18 @@ import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   BufferPacker,
   ElementToBasicKeyDmgBoost,
   OptimizerDisplayData,
 } from 'lib/optimization/bufferPacker'
-import { Key } from 'lib/optimization/computedStatsArray'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { OutputTag } from 'lib/optimization/engine/config/tag'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
+  bitpackBooleanArray,
   generateOrnamentSetSolutions,
   generateRelicSetSolutions,
 } from 'lib/optimization/relicSetSolver'
@@ -92,9 +92,9 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
 }
 
 export const Optimizer = {
-  cancel: (id: string) => {
+  cancel: () => {
     CANCEL = true
-    WorkerPool.cancel(id)
+    WorkerPool.cancel()
   },
 
   getFilteredRelics: (request: Form) => {
@@ -178,7 +178,11 @@ export const Optimizer = {
     let results = []
 
     const sortOption = SortOption[request.resultSort!]
-    const gridSortColumn = (request.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn) as keyof OptimizerDisplayData
+    const showMemo = request.memoDisplay === 'memo'
+    const gridSortColumn = (request.statDisplay == 'combat'
+      ? (showMemo ? sortOption.memoCombatGridColumn : sortOption.combatGridColumn)
+      : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)
+    ) as keyof OptimizerDisplayData
     const resultsLimit = request.resultsLimit ?? 1024
     const queueResults = new FixedSizePriorityQueue<OptimizerDisplayData>(
       resultsLimit,
@@ -242,8 +246,8 @@ export const Optimizer = {
             WIDTH: run.runSize,
             skip: run.skip,
             permutations: permutations,
-            relicSetSolutions: relicSetSolutions,
-            ornamentSetSolutions: ornamentSetSolutions,
+            relicSetSolutions: bitpackBooleanArray(relicSetSolutions),
+            ornamentSetSolutions: bitpackBooleanArray(ornamentSetSolutions),
             workerType: WorkerType.OPTIMIZER,
           },
           getMinFilter: (): number => {
@@ -320,17 +324,17 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   const a = x.a
 
   // Use direct array access for robustness (c may be deserialized plain object)
-  d[Stats.HP] = c.a[Key.HP]
-  d[Stats.ATK] = c.a[Key.ATK]
-  d[Stats.DEF] = c.a[Key.DEF]
-  d[Stats.SPD] = c.a[Key.SPD]
-  d[Stats.CR] = c.a[Key.CR]
-  d[Stats.CD] = c.a[Key.CD]
-  d[Stats.EHR] = c.a[Key.EHR]
-  d[Stats.RES] = c.a[Key.RES]
-  d[Stats.BE] = c.a[Key.BE]
-  d[Stats.ERR] = c.a[Key.ERR]
-  d[Stats.OHB] = c.a[Key.OHB]
+  d.HP = c.a[BasicKey.HP]
+  d.ATK = c.a[BasicKey.ATK]
+  d.DEF = c.a[BasicKey.DEF]
+  d.SPD = c.a[BasicKey.SPD]
+  d.CR = c.a[BasicKey.CR]
+  d.CD = c.a[BasicKey.CD]
+  d.EHR = c.a[BasicKey.EHR]
+  d.RES = c.a[BasicKey.RES]
+  d.BE = c.a[BasicKey.BE]
+  d.ERR = c.a[BasicKey.ERR]
+  d.OHB = c.a[BasicKey.OHB]
 
   // TODO
   // d.BASIC = a[StatKey.BASIC_DMG]
@@ -341,7 +345,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   // d.MEMO_TALENT = a[StatKey.MEMO_TALENT_DMG]
   // d.DOT = a[StatKey.DOT_DMG]
   // d.BREAK = a[StatKey.BREAK_DMG]
-  d.COMBO = a[StatKey.COMBO_DMG]
+  d.COMBO = x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
   d.EHP = a[StatKey.EHP]
 
   d.xHP = a[StatKey.HP]
@@ -359,24 +363,8 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
 
   if (context) {
     const basicElementalBoostKey = ElementToBasicKeyDmgBoost[context.element]
-    d.ED = c.a[basicElementalBoostKey]
+    d.ELEMENTAL_DMG = c.a[basicElementalBoostKey]
     d.mELEMENTAL_DMG = c.a[basicElementalBoostKey]
-    let heal = 0
-    let shield = 0
-    for (const action of context.rotationActions) {
-      if (action.hits) {
-        for (const hit of action.hits) {
-          const hitValue = x.getHitRegisterValue(hit.registerIndex)
-          if (hit.outputTag === OutputTag.HEAL) {
-            heal += hitValue
-          } else if (hit.outputTag === OutputTag.SHIELD) {
-            shield += hitValue
-          }
-        }
-      }
-    }
-    d.HEAL = heal
-    d.SHIELD = shield
 
     switch (context.elementalDamageType) {
       case Stats.Physical_DMG:
@@ -423,17 +411,17 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
     const ca = c.a
 
     // Memosprite basic stats (scaled from summoner's basic stats)
-    d.mHP = (memoEntityConfig.memoBaseHpScaling ?? 0) * ca[Key.HP] + (memoEntityConfig.memoBaseHpFlat ?? 0)
-    d.mATK = (memoEntityConfig.memoBaseAtkScaling ?? 0) * ca[Key.ATK] + (memoEntityConfig.memoBaseAtkFlat ?? 0)
-    d.mDEF = (memoEntityConfig.memoBaseDefScaling ?? 0) * ca[Key.DEF] + (memoEntityConfig.memoBaseDefFlat ?? 0)
-    d.mSPD = (memoEntityConfig.memoBaseSpdScaling ?? 0) * ca[Key.SPD] + (memoEntityConfig.memoBaseSpdFlat ?? 0)
-    d.mCR = ca[Key.CR]
-    d.mCD = ca[Key.CD]
-    d.mEHR = ca[Key.EHR]
-    d.mRES = ca[Key.RES]
-    d.mBE = ca[Key.BE]
-    d.mERR = ca[Key.ERR]
-    d.mOHB = ca[Key.OHB]
+    d.mHP = (memoEntityConfig.memoBaseHpScaling ?? 0) * ca[BasicKey.HP] + (memoEntityConfig.memoBaseHpFlat ?? 0)
+    d.mATK = (memoEntityConfig.memoBaseAtkScaling ?? 0) * ca[BasicKey.ATK] + (memoEntityConfig.memoBaseAtkFlat ?? 0)
+    d.mDEF = (memoEntityConfig.memoBaseDefScaling ?? 0) * ca[BasicKey.DEF] + (memoEntityConfig.memoBaseDefFlat ?? 0)
+    d.mSPD = (memoEntityConfig.memoBaseSpdScaling ?? 0) * ca[BasicKey.SPD] + (memoEntityConfig.memoBaseSpdFlat ?? 0)
+    d.mCR = ca[BasicKey.CR]
+    d.mCD = ca[BasicKey.CD]
+    d.mEHR = ca[BasicKey.EHR]
+    d.mRES = ca[BasicKey.RES]
+    d.mBE = ca[BasicKey.BE]
+    d.mERR = ca[BasicKey.ERR]
+    d.mOHB = ca[BasicKey.OHB]
 
     // Memosprite combat stats
     d.mxHP = x.getActionValue(StatKey.HP, memoEntity)

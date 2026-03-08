@@ -9,14 +9,15 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TheStorysNextPage.Content')
-  const { SOURCE_LC } = Source.lightCone('21054')
+  const { SOURCE_LC } = Source.lightCone(TheStorysNextPage.id)
 
   const sValuesOhb = [0.12, 0.15, 0.18, 0.21, 0.24]
 
@@ -43,4 +44,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.OHB, r.ohbBuff ? sValuesOhb[s] : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_LC))
     },
   }
+}
+
+export const TheStorysNextPage: LightConeConfig = {
+  id: '21054',
+  conditionals,
 }

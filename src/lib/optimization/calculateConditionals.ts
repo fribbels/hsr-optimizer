@@ -3,7 +3,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ConditionalSets } from 'lib/gpu/conditionals/setConditionals'
+import { getAllSetDynamicConditionals } from 'lib/sets/setConfigRegistry'
 import {
   CharacterConditionalsController,
   LightConeConditionalsController,
@@ -17,17 +17,17 @@ import {
 export function calculateContextConditionalRegistry(
   action: OptimizerAction,
   context: OptimizerContext,
-  characterConditionalController?: CharacterConditionalsController,
-  lightConeConditionalController?: LightConeConditionalsController,
+  characterController?: CharacterConditionalsController,
+  lightConeController?: LightConeConditionalsController,
 ) {
-  const characterConditionals: CharacterConditionalsController = characterConditionalController ?? CharacterConditionalsResolver.get(context)
-  const lightConeConditionals: LightConeConditionalsController = lightConeConditionalController ?? LightConeConditionalsResolver.get(context)
+  const characterConditionals: CharacterConditionalsController = characterController ?? CharacterConditionalsResolver.get(context)
+  const lightConeConditionals: LightConeConditionalsController = lightConeController ?? LightConeConditionalsResolver.get(context)
 
   const conditionalRegistry: ConditionalRegistry = emptyRegistry()
 
   registerConditionals(conditionalRegistry, lightConeConditionals.dynamicConditionals ?? [])
   registerConditionals(conditionalRegistry, characterConditionals.dynamicConditionals ?? [])
-  registerConditionals(conditionalRegistry, ConditionalSets || [])
+  registerConditionals(conditionalRegistry, getAllSetDynamicConditionals())
 
   registerTeammateConditionals(conditionalRegistry, context.teammate0Metadata, action, 0)
   registerTeammateConditionals(conditionalRegistry, context.teammate1Metadata, action, 1)

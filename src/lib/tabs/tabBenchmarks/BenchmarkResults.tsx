@@ -19,12 +19,14 @@ import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotation
 import { tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import {
+  ElementName,
   ElementToDamage,
   SubStats,
 } from 'lib/constants/constants'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
-import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
+import { getElementalDmgFromContainer } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { Simulation } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
@@ -203,14 +205,14 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const simulation = row.simulation
   const orchestrator = row.orchestrator
   const result = simulation.result!
+  const x = result.x ?? ComputedStatsContainer.fromArrays(result.xa, result.ca)
   const characterId = orchestrator.form!.characterId
   const basicStats = toBasicStatsObject(result.ca)
-  const combatStats = toComputedStatsObject(result.xa)
-  const element = DB.getMetadata().characters[characterId].element
+  const combatStats = x.toComputedStatsObject()
+  const element = DB.getMetadata().characters[characterId].element as ElementName
   const elementalDmgValue = ElementToDamage[element]
 
-  basicStats[elementalDmgValue] = basicStats.ELEMENTAL_DMG
-  combatStats[elementalDmgValue] = combatStats.ELEMENTAL_DMG
+  combatStats[elementalDmgValue] = getElementalDmgFromContainer(x, element)
 
   return (
     <Flex style={{ margin: 8 }} gap={10} justify='space-around'>

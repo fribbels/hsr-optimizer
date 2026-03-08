@@ -8,12 +8,13 @@ import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PastAndFuture')
-  const { SOURCE_LC } = Source.lightCone('21025')
+  const { SOURCE_LC } = Source.lightCone(PastAndFuture.id)
 
   const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
 
@@ -42,4 +43,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (t.postSkillDmgBuff) ? sValues[s] : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_LC))
     },
   }
+}
+
+export const PastAndFuture: LightConeConfig = {
+  id: '21025',
+  conditionals,
 }

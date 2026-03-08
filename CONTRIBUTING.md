@@ -12,6 +12,28 @@ We'd love your input! We want to make contributing to this project as easy and t
 
 We use the #dev channel on discord https://discord.gg/rDmB4Un7qg for communication/questions. Responses on discord will generally be faster than Issues or comments.
 
+## Setup
+
+#### Install NodeJS & NPM
+
+Currently, the best balance between legacy dependencies and future direction is `node v22.6.0` - if this changes, it will be reflected in the `.node-version` file in the root directory.
+We suggest using a Node version manager such as [NVM](https://github.com/nvm-sh/nvm) or [FNM](https://github.com/Schniz/fnm) to quickly switch between this project and any other node/js project you are working in.
+
+#### Install project dependencies
+
+`npm install`
+If you see install failures due to depedency graph failures, try:
+`npm install --legacy-peer-deps`
+If you still see failures, please report an [issue](https://github.com/fribbels/hsr-optimizer/issues/new)!
+
+#### Formatter & Linter
+
+See Instructions at https://github.com/fribbels/hsr-optimizer/pull/1185 for setup
+
+#### Confirm your environment is stable and working
+
+`npm start` from the root directory. In a moment, your default browser should open to the local server and HSR Optimizer will load after a few moments.
+
 ## We use [Github Flow](https://docs.github.com/en/get-started/using-github/github-flow), so all code changes happen through pull requests
 
 Pull requests are the best way to propose changes to the codebase. Steps to create a pull request:

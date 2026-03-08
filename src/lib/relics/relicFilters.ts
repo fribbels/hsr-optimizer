@@ -2,15 +2,20 @@ import {
   Constants,
   Parts,
   RelicSetFilterOptions,
-  SetsOrnaments,
-  SetsRelics,
+  StatsValues,
   SubStatValues,
 } from 'lib/constants/constants'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import {
   RelicsByPart,
   SingleRelicByPart,
 } from 'lib/gpu/webgpuTypes'
-import { StatToKey } from 'lib/optimization/computedStatsArray'
+import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import DB from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -163,26 +168,26 @@ export const RelicFilters = {
       if (!request.relicSets || request.relicSets.length == 0) {
         return relics
       }
-      let allowedSets = Utils.arrayOfZeroes(Object.values(Constants.SetsRelics).length)
+      let allowedSets = Utils.arrayOfZeroes(Object.values(SetsRelics).length)
 
       for (const relicSet of request.relicSets) {
         if (relicSet[0] == RelicSetFilterOptions.relic4Piece) {
           if (relicSet.length == 2) {
-            const index = Constants.RelicSetToIndex[relicSet[1]]
+            const index = RelicSetToIndex[relicSet[1]]
             allowedSets[index] = 1
           }
         }
 
         if (relicSet[0] == RelicSetFilterOptions.relic2PlusAny) {
-          allowedSets = Utils.arrayOfValue(Object.values(Constants.SetsRelics).length, 1)
+          allowedSets = Utils.arrayOfValue(Object.values(SetsRelics).length, 1)
         }
 
         if (relicSet[0] == RelicSetFilterOptions.relic2Plus2Piece) {
           if (relicSet.length == 3) {
-            const index1 = Constants.RelicSetToIndex[relicSet[1]]
+            const index1 = RelicSetToIndex[relicSet[1]]
             allowedSets[index1] = 1
 
-            const index2 = Constants.RelicSetToIndex[relicSet[2]]
+            const index2 = RelicSetToIndex[relicSet[2]]
             allowedSets[index2] = 1
           }
         }
@@ -195,7 +200,7 @@ export const RelicFilters = {
           || relic.part == Constants.Parts.Body
           || relic.part == Constants.Parts.Feet
         ) {
-          return allowedSets[Constants.RelicSetToIndex[relic.set as SetsRelics]] == 1
+          return allowedSets[RelicSetToIndex[relic.set as SetsRelics]] == 1
         } else {
           return true
         }
@@ -206,10 +211,10 @@ export const RelicFilters = {
       if (!request.ornamentSets || request.ornamentSets.length == 0) {
         return relics
       }
-      const allowedSets = Utils.arrayOfZeroes(Object.values(Constants.SetsOrnaments).length)
+      const allowedSets = Utils.arrayOfZeroes(Object.values(SetsOrnaments).length)
 
       for (const ornamentSet of request.ornamentSets) {
-        const index = Constants.OrnamentSetToIndex[ornamentSet]
+        const index = OrnamentSetToIndex[ornamentSet]
         allowedSets[index] = 1
       }
 
@@ -218,7 +223,7 @@ export const RelicFilters = {
           relic.part == Constants.Parts.PlanarSphere
           || relic.part == Constants.Parts.LinkRope
         ) {
-          return allowedSets[Constants.OrnamentSetToIndex[relic.set as SetsOrnaments]] == 1
+          return allowedSets[OrnamentSetToIndex[relic.set as SetsOrnaments]] == 1
         } else {
           return true
         }
@@ -298,13 +303,13 @@ export const RelicFilters = {
       relic.condensedStats = []
       for (const substat of relic.substats) {
         const stat = substat.stat
-        const key = StatToKey[stat]
+        const key = BasicStatToKey[stat]
         const value = getValueByStatType(stat, substat.value)
 
         relic.condensedStats.push([key, value])
       }
       // Use augmented main value for maxed main stat filter
-      relic.condensedStats.push([StatToKey[relic.augmentedStats!.mainStat], relic.augmentedStats!.mainValue])
+      relic.condensedStats.push([BasicStatToKey[relic.augmentedStats!.mainStat as StatsValues], relic.augmentedStats!.mainValue])
     }
   },
 

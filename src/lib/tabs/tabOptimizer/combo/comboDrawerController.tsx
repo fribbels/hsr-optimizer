@@ -6,11 +6,13 @@ import {
   ConditionalDataType,
   ElementName,
   PathName,
+} from 'lib/constants/constants'
+import {
   SetsOrnaments,
   SetsOrnamentsNames,
   SetsRelics,
   SetsRelicsNames,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import {
   defaultSetConditionals,
   getDefaultForm,
@@ -775,7 +777,7 @@ type NestedObject = {
 
 function shiftAllActivations(obj: NestedObject, index: number): void {
   for (const key in obj) {
-    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
+    if (!Object.hasOwn(obj, key)) continue
 
     if (key === 'activations' && Array.isArray(obj[key])) {
       shiftLeft(obj[key] as boolean[], index)
@@ -789,7 +791,7 @@ function shiftAllActivations(obj: NestedObject, index: number): void {
 
 function setActivationIndexToDefault(obj: NestedObject, index: number): void {
   for (const key in obj) {
-    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
+    if (!Object.hasOwn(obj, key)) continue
 
     if (key === 'activations' && Array.isArray(obj[key])) {
       obj[key][index] = (obj[key] as boolean[])[0]

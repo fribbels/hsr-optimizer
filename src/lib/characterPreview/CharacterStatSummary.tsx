@@ -6,13 +6,10 @@ import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { PathNames, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
-import { ComputedStatsObjectExternal } from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import {
-  ScoringType,
-  SimulationResult,
-} from 'lib/scoring/simScoringUtils'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -23,7 +20,7 @@ const epsilon = 0.001
 
 export const CharacterStatSummary = (props: {
   characterId: CharacterId,
-  finalStats: BasicStatsObject | SimulationResult | ComputedStatsObjectExternal,
+  finalStats: BasicStatsObject | ComputedStatsObjectExternal,
   elementalDmgValue: string,
   asyncSimScoringExecution: AsyncSimScoringExecution | null,
   scoringType?: ScoringType,

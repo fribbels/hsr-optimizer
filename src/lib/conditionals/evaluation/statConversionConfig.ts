@@ -1,6 +1,5 @@
 import { Stats } from 'lib/constants/constants'
-import { AKey, AKeyValue } from 'lib/optimization/engine/config/keys'
-import { ComputedStatsObject } from 'lib/optimization/config/computedStatsConfig'
+import { AKey, AKeyType, AKeyValue } from 'lib/optimization/engine/config/keys'
 
 type StatConversionConfigEntry = {
   stat: string,
@@ -34,7 +33,7 @@ const statToStatProperty = {
 
 export type StatProperty = (typeof statToStatProperty)[keyof typeof statToStatProperty]
 
-const statToUnconvertibleProperty: Record<string, keyof ComputedStatsObject> = {
+const statToUnconvertibleProperty: Record<string, AKeyType> = {
   [Stats.HP]: 'UNCONVERTIBLE_HP_BUFF',
   [Stats.ATK]: 'UNCONVERTIBLE_ATK_BUFF',
   [Stats.DEF]: 'UNCONVERTIBLE_DEF_BUFF',

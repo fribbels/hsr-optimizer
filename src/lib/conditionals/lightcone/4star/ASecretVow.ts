@@ -7,15 +7,16 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ASecretVow')
-  const { SOURCE_LC } = Source.lightCone('21012')
+  const { SOURCE_LC } = Source.lightCone(ASecretVow.id)
 
   const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
 
@@ -39,8 +40,12 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, sValues[s], x.source(SOURCE_LC))
       x.buff(StatKey.DMG_BOOST, (r.enemyHpHigherDmgBoost) ? sValues[s] : 0, x.source(SOURCE_LC))
     },
   }
+}
+
+export const ASecretVow: LightConeConfig = {
+  id: '21012',
+  conditionals,
 }

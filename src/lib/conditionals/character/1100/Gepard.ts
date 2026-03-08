@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -13,8 +12,11 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -22,19 +24,27 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const GepardEntities = createEnum('Gepard')
-export const GepardAbilities = createEnum('BASIC', 'SKILL', 'ULT_SHIELD', 'BREAK')
+export const GepardAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT_SHIELD,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gepard')
   const { basic, skill, ult } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
@@ -49,7 +59,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1104')
+  } = Source.character(Gepard.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.00, 2.20)
@@ -79,7 +89,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -94,9 +103,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(GepardAbilities),
+    actionDeclaration: () => [...GepardAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [GepardAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Ice)
@@ -105,7 +114,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [GepardAbilities.SKILL]: {
+      [AbilityKind.SKILL]: {
         hits: [
           HitDefinitionBuilder.standardSkill()
             .damageElement(ElementTag.Ice)
@@ -114,7 +123,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [GepardAbilities.ULT_SHIELD]: {
+      [AbilityKind.ULT_SHIELD]: {
         hits: [
           HitDefinitionBuilder.ultShield()
             .defScaling(ultShieldScaling)
@@ -122,7 +131,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [GepardAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
         ],
@@ -162,4 +171,63 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 1,
+    [Stats.DEF_P]: 1,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0.75,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.DEF_P,
+    ],
+    [Parts.Feet]: [
+      Stats.DEF_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.DEF_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.DEF_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.ULT_SHIELD,
+  addedColumns: [],
+  hiddenColumns: [
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+})
+
+const display = {
+  imageCenter: {
+    x: 1150,
+    y: 1110,
+    z: 1,
+  },
+  showcaseColor: '#0f4eef',
+}
+
+export const Gepard: CharacterConfig = {
+  id: '1104',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

@@ -1,4 +1,5 @@
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
+import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import React from 'react'
 
@@ -6,25 +7,34 @@ export function CenteredImage(props: {
   src: string,
   containerW: number,
   containerH: number,
-  zoom?: number, // Optional zoom factor, defaults to 1.0
-  centerY?: number, // Vertical point to center (in px from top of original image)
-  relativeHeight?: number, // Original height that centerY is relative to
+  imageOffset?: { x: number; y: number; s: number },
 }) {
   const {
     src,
     containerW,
     containerH,
-    zoom = 1.0,
-    centerY,
-    relativeHeight,
+    imageOffset,
   } = props
 
-  // Determine where to position the image vertically
-  let yPosition = '50%' // Default to center
+  let imageStyle: React.CSSProperties
 
-  if (centerY != null && relativeHeight != null) {
-    // Convert the centerY position to a percentage of the original image height
-    yPosition = `${(centerY / relativeHeight) * 100}%`
+  if (imageOffset) {
+    const { dy, scale } = computeLcTransform(imageOffset, containerW, containerH)
+    imageStyle = {
+      width: '100%',
+      height: 'auto',
+      transform: `translateY(${dy}px) scale(${scale})`,
+    }
+  } else {
+    imageStyle = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      width: '100%',
+      height: 'auto',
+      objectFit: 'cover',
+      transform: 'translate(-50%, -50%)',
+    }
   }
 
   return (
@@ -37,30 +47,15 @@ export function CenteredImage(props: {
         width: containerW,
         height: containerH,
         position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-      >
-        <img
-          src={src}
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '100%',
-            height: 'auto',
-            objectFit: 'cover',
-            transform: `translate(-50%, -${yPosition}) scale(${zoom})`,
-            transformOrigin: `center ${yPosition}`,
-          }}
-        />
-      </div>
+      <img
+        src={src}
+        style={imageStyle}
+      />
     </div>
   )
 }

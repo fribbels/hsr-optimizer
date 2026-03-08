@@ -1,84 +1,65 @@
-import { Sets, Stats, StatsValues, } from 'lib/constants/constants'
+import { Stats, StatsValues, } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  BelobogOfTheArchitectsConditional,
-  BoneCollectionsSereneDemesneConditional,
-  BrokenKeelConditional,
-  FleetOfTheAgelessConditional,
-  GiantTreeOfRaptBrooding135Conditional,
-  GiantTreeOfRaptBrooding180Conditional,
-  PanCosmicCommercialEnterpriseConditional,
-  SpaceSealingStationConditional,
-  TaliaKingdomOfBanditryConditional,
-} from 'lib/gpu/conditionals/setConditionals'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
-import { Source } from 'lib/optimization/buffSource'
-import { Key, StatToKey, } from 'lib/optimization/computedStatsArray'
-import { OrnamentSetsConfig, RelicSetsConfig, SetKeys, SetKeyType, } from 'lib/optimization/config/setsConfig'
+import { BasicKey, BasicStatsArray, BasicStatToKey } from 'lib/optimization/basicStatsArray'
+import { SetCounts } from 'lib/optimization/setMatching'
+import { getAllSetDynamicConditionals, ornamentIndexToSetConfig, relicIndexToSetConfig } from 'lib/sets/setConfigRegistry'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import { OptimizerAction, OptimizerContext, SetConditional, } from 'types/optimizer'
 
 const SET_EFFECTS = new Map()
 
-const ornamentIndexToSetConfig = Object.entries(OrnamentSetsConfig)
-  .sort((a, b) => a[1].index - b[1].index)
-  .map((entry) => entry[1])
-
-const ornamentIndexToSetKey = Object.entries(OrnamentSetsConfig)
-  .sort((a, b) => a[1].index - b[1].index)
-  .map((entry) => entry[0]) as (keyof typeof Sets)[]
-
-const relicIndexToSetConfig = Object.entries(RelicSetsConfig)
-  .sort((a, b) => a[1].index - b[1].index)
-  .map((entry) => entry[1])
-
-const relicIndexToSetKey = Object.entries(RelicSetsConfig)
-  .sort((a, b) => a[1].index - b[1].index)
-  .map((entry) => entry[0]) as (keyof typeof Sets)[]
-
-export type SetCounts = Record<keyof typeof Sets, number>
-
 export function calculateSetCounts(
   sets: number[],
-) {
-  const setCounts: Record<keyof typeof Sets, number> = Object.create(null)
+): SetCounts {
+  const maskH = 1 << sets[0]
+  const maskG = 1 << sets[1]
+  const maskB = 1 << sets[2]
+  const maskF = 1 << sets[3]
 
-  for (let i = 0; i < 4; i++) {
-    const key = relicIndexToSetKey[sets[i]]
-    setCounts[key] = (setCounts[key] ?? 0) + 1
+  return {
+    relicMatch2: (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
+               | (maskG & maskB) | (maskG & maskF) | (maskB & maskF),
+    relicMatch4: maskH & maskG & maskB & maskF,
+    ornamentMatch2: (1 << sets[4]) & (1 << sets[5]),
   }
+}
 
-  if (sets[4] == sets[5]) {
-    setCounts[ornamentIndexToSetKey[sets[4]]] = 2
-  }
+export function calculateSetCountsInPlace(
+  setCounts: SetCounts,
+  sets: number[],
+): void {
+  const maskH = 1 << sets[0]
+  const maskG = 1 << sets[1]
+  const maskB = 1 << sets[2]
+  const maskF = 1 << sets[3]
 
-  return setCounts
+  setCounts.relicMatch2 = (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
+                        | (maskG & maskB) | (maskG & maskF) | (maskB & maskF)
+  setCounts.relicMatch4 = maskH & maskG & maskB & maskF
+  setCounts.ornamentMatch2 = (1 << sets[4]) & (1 << sets[5])
 }
 
 export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, setCounts: SetCounts, sets: number[]) {
-  const processed: Record<number, boolean> = {}
   for (let i = 0; i < 4; i++) {
     const set = sets[i]
 
-    if (processed[set]) continue
-    processed[set] = true
+    // Skip if this set was already processed by an earlier slot
+    if ((i > 0 && sets[0] === set) || (i > 1 && sets[1] === set) || (i > 2 && sets[2] === set)) continue
 
-    const key = relicIndexToSetKey[set]
-    const count = setCounts[key] ?? 0
-    if (count >= 2) {
-      const config = relicIndexToSetConfig[set]
+    const bit = 1 << set
+    if (setCounts.relicMatch2 & bit) {
+      const conditionals = relicIndexToSetConfig[set].conditionals
 
-      if (count >= 2 && config.p2c) config.p2c(c, context)
-      if (count >= 4 && config.p4c) config.p4c(c, context)
+      if (conditionals.p2c) conditionals.p2c(c, context)
+      if ((setCounts.relicMatch4 & bit) && conditionals.p4c) conditionals.p4c(c, context)
     }
   }
 
   if (sets[4] == sets[5]) {
-    const config = ornamentIndexToSetConfig[sets[4]]
-    config.p2c?.(c, context)
+    ornamentIndexToSetConfig[sets[4]].conditionals.p2c?.(c, context)
   }
 }
 
@@ -91,33 +72,33 @@ export function calculateElementalStats(c: BasicStatsArray, context: OptimizerCo
 
   // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
   // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
-  a[Key.ELEMENTAL_DMG] = 0
+  a[BasicKey.ELEMENTAL_DMG] = 0
   switch (context.elementalDamageType) {
     case Stats.Physical_DMG:
-      a[Key.PHYSICAL_DMG_BOOST] = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0)
+      a[BasicKey.PHYSICAL_DMG_BOOST] = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0)
       break
     case Stats.Fire_DMG:
-      a[Key.FIRE_DMG_BOOST] = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0)
+      a[BasicKey.FIRE_DMG_BOOST] = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0)
       break
     case Stats.Ice_DMG:
-      a[Key.ICE_DMG_BOOST] = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0)
+      a[BasicKey.ICE_DMG_BOOST] = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0)
       break
     case Stats.Lightning_DMG:
-      a[Key.LIGHTNING_DMG_BOOST] = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0)
+      a[BasicKey.LIGHTNING_DMG_BOOST] = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0)
       break
     case Stats.Wind_DMG:
-      a[Key.WIND_DMG_BOOST] = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0)
+      a[BasicKey.WIND_DMG_BOOST] = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0)
       break
     case Stats.Quantum_DMG:
-      a[Key.QUANTUM_DMG_BOOST] = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0)
+      a[BasicKey.QUANTUM_DMG_BOOST] = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0)
       break
     case Stats.Imaginary_DMG:
-      a[Key.IMAGINARY_DMG_BOOST] = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0)
+      a[BasicKey.IMAGINARY_DMG_BOOST] = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0)
       break
   }
 
   // Elation DMG is calculated independently of character element - it comes from traces/LC only (not relics)
-  a[Key.ELATION] = sumPercentStat(Stats.Elation, base, lc, trace, c, 0)
+  a[BasicKey.ELATION] = sumPercentStat(Stats.Elation, base, lc, trace, c, 0)
 }
 
 export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext) {
@@ -126,25 +107,25 @@ export function calculateBaseStats(c: BasicStatsArray, context: OptimizerContext
   const trace = context.characterStatsBreakdown.traces
   const a = c.a
 
-  a[Key.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c, 0)
-  a[Key.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c, 0)
-  a[Key.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, context.baseATK, lc, trace, c, 0)
-  a[Key.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c, 0)
-  a[Key.CR] = sumPercentStat(Stats.CR, base, lc, trace, c, 0)
-  a[Key.CD] = sumPercentStat(Stats.CD, base, lc, trace, c, 0)
-  a[Key.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c, 0)
-  a[Key.RES] = sumPercentStat(Stats.RES, base, lc, trace, c, 0)
-  a[Key.BE] = sumPercentStat(Stats.BE, base, lc, trace, c, 0)
-  a[Key.ERR] = sumPercentStat(Stats.ERR, base, lc, trace, c, 0)
-  a[Key.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c, 0)
+  a[BasicKey.SPD] = sumFlatStat(Stats.SPD, Stats.SPD_P, context.baseSPD, lc, trace, c, 0)
+  a[BasicKey.HP] = sumFlatStat(Stats.HP, Stats.HP_P, context.baseHP, lc, trace, c, 0)
+  a[BasicKey.ATK] = sumFlatStat(Stats.ATK, Stats.ATK_P, context.baseATK, lc, trace, c, 0)
+  a[BasicKey.DEF] = sumFlatStat(Stats.DEF, Stats.DEF_P, context.baseDEF, lc, trace, c, 0)
+  a[BasicKey.CR] = sumPercentStat(Stats.CR, base, lc, trace, c, 0)
+  a[BasicKey.CD] = sumPercentStat(Stats.CD, base, lc, trace, c, 0)
+  a[BasicKey.EHR] = sumPercentStat(Stats.EHR, base, lc, trace, c, 0)
+  a[BasicKey.RES] = sumPercentStat(Stats.RES, base, lc, trace, c, 0)
+  a[BasicKey.BE] = sumPercentStat(Stats.BE, base, lc, trace, c, 0)
+  a[BasicKey.ERR] = sumPercentStat(Stats.ERR, base, lc, trace, c, 0)
+  a[BasicKey.OHB] = sumPercentStat(Stats.OHB, base, lc, trace, c, 0)
 }
 
 export function calculateBasicEffects(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-  const lightConeConditionalController = context.lightConeConditionalController
-  const characterConditionalController = context.characterConditionalController
+  const lightConeController = context.lightConeController
+  const characterController = context.characterController
 
-  if (lightConeConditionalController.newCalculateBasicEffects) lightConeConditionalController.newCalculateBasicEffects(x, action, context)
-  if (characterConditionalController.newCalculateBasicEffects) characterConditionalController.newCalculateBasicEffects(x, action, context)
+  if (lightConeController.newCalculateBasicEffects) lightConeController.newCalculateBasicEffects(x, action, context)
+  if (characterController.newCalculateBasicEffects) characterController.newCalculateBasicEffects(x, action, context)
 }
 
 export function calculateComputedStats(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
@@ -197,20 +178,15 @@ function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicS
     a[o + StatKey.OHB] += ca[StatKey.OHB]
 
     // Elemental damage boosts
-    a[o + StatKey.PHYSICAL_DMG_BOOST] += ca[Key.PHYSICAL_DMG_BOOST]
-    a[o + StatKey.FIRE_DMG_BOOST] += ca[Key.FIRE_DMG_BOOST]
-    a[o + StatKey.ICE_DMG_BOOST] += ca[Key.ICE_DMG_BOOST]
-    a[o + StatKey.LIGHTNING_DMG_BOOST] += ca[Key.LIGHTNING_DMG_BOOST]
-    a[o + StatKey.WIND_DMG_BOOST] += ca[Key.WIND_DMG_BOOST]
-    a[o + StatKey.QUANTUM_DMG_BOOST] += ca[Key.QUANTUM_DMG_BOOST]
-    a[o + StatKey.IMAGINARY_DMG_BOOST] += ca[Key.IMAGINARY_DMG_BOOST]
-    a[o + StatKey.ELATION] += ca[Key.ELATION]
+    a[o + StatKey.PHYSICAL_DMG_BOOST] += ca[BasicKey.PHYSICAL_DMG_BOOST]
+    a[o + StatKey.FIRE_DMG_BOOST] += ca[BasicKey.FIRE_DMG_BOOST]
+    a[o + StatKey.ICE_DMG_BOOST] += ca[BasicKey.ICE_DMG_BOOST]
+    a[o + StatKey.LIGHTNING_DMG_BOOST] += ca[BasicKey.LIGHTNING_DMG_BOOST]
+    a[o + StatKey.WIND_DMG_BOOST] += ca[BasicKey.WIND_DMG_BOOST]
+    a[o + StatKey.QUANTUM_DMG_BOOST] += ca[BasicKey.QUANTUM_DMG_BOOST]
+    a[o + StatKey.IMAGINARY_DMG_BOOST] += ca[BasicKey.IMAGINARY_DMG_BOOST]
+    a[o + StatKey.ELATION] += ca[BasicKey.ELATION]
 
-    // Base stats (actionSet = semantics)
-    a[o + StatKey.BASE_ATK] = context.baseATK
-    a[o + StatKey.BASE_DEF] = context.baseDEF
-    a[o + StatKey.BASE_HP] = context.baseHP
-    a[o + StatKey.BASE_SPD] = context.baseSPD
   }
 }
 
@@ -219,12 +195,6 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
     const entity = x.config.entitiesArray[entityIndex]
 
     if (!entity.memosprite) continue
-
-    // Set BASE_* stats using raw base stats with scaling only (no flat)
-    a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)] = (entity.memoBaseAtkScaling ?? 0) * context.baseATK
-    a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)] = (entity.memoBaseDefScaling ?? 0) * context.baseDEF
-    a[x.getActionIndex(entityIndex, StatKey.BASE_HP)] = (entity.memoBaseHpScaling ?? 0) * context.baseHP
-    a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)] = (entity.memoBaseSpdScaling ?? 0) * context.baseSPD
 
     // Calculate memosprite stats from primary entity's total stats (scaling * total + flat)
     a[x.getActionIndex(entityIndex, StatKey.ATK)] += (entity.memoBaseAtkScaling ?? 0) * c.a[StatKey.ATK] + (entity.memoBaseAtkFlat ?? 0)
@@ -241,14 +211,14 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
     a[x.getActionIndex(entityIndex, StatKey.ERR)] += c.a[StatKey.ERR]
     a[x.getActionIndex(entityIndex, StatKey.OHB)] += c.a[StatKey.OHB]
 
-    a[x.getActionIndex(entityIndex, StatKey.PHYSICAL_DMG_BOOST)] += c.a[Key.PHYSICAL_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.FIRE_DMG_BOOST)] += c.a[Key.FIRE_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.ICE_DMG_BOOST)] += c.a[Key.ICE_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.LIGHTNING_DMG_BOOST)] += c.a[Key.LIGHTNING_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.WIND_DMG_BOOST)] += c.a[Key.WIND_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.QUANTUM_DMG_BOOST)] += c.a[Key.QUANTUM_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.IMAGINARY_DMG_BOOST)] += c.a[Key.IMAGINARY_DMG_BOOST]
-    a[x.getActionIndex(entityIndex, StatKey.ELATION)] += c.a[Key.ELATION]
+    a[x.getActionIndex(entityIndex, StatKey.PHYSICAL_DMG_BOOST)] += c.a[BasicKey.PHYSICAL_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.FIRE_DMG_BOOST)] += c.a[BasicKey.FIRE_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.ICE_DMG_BOOST)] += c.a[BasicKey.ICE_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.LIGHTNING_DMG_BOOST)] += c.a[BasicKey.LIGHTNING_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.WIND_DMG_BOOST)] += c.a[BasicKey.WIND_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.QUANTUM_DMG_BOOST)] += c.a[BasicKey.QUANTUM_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.IMAGINARY_DMG_BOOST)] += c.a[BasicKey.IMAGINARY_DMG_BOOST]
+    a[x.getActionIndex(entityIndex, StatKey.ELATION)] += c.a[BasicKey.ELATION]
   }
 }
 
@@ -289,12 +259,14 @@ function applyPercentStats(x: ComputedStatsContainer, a: Float32Array, context: 
 
     if (!entity.memosprite) continue
 
-    a[x.getActionIndex(entityIndex, StatKey.SPD)] += a[x.getActionIndex(entityIndex, StatKey.SPD_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_SPD)]
-    a[x.getActionIndex(entityIndex, StatKey.ATK)] += a[x.getActionIndex(entityIndex, StatKey.ATK_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_ATK)]
-    a[x.getActionIndex(entityIndex, StatKey.DEF)] += a[x.getActionIndex(entityIndex, StatKey.DEF_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_DEF)]
-    a[x.getActionIndex(entityIndex, StatKey.HP)] += a[x.getActionIndex(entityIndex, StatKey.HP_P)] * a[x.getActionIndex(entityIndex, StatKey.BASE_HP)]
+    a[x.getActionIndex(entityIndex, StatKey.SPD)] += a[x.getActionIndex(entityIndex, StatKey.SPD_P)] * entity.baseSpd
+    a[x.getActionIndex(entityIndex, StatKey.ATK)] += a[x.getActionIndex(entityIndex, StatKey.ATK_P)] * entity.baseAtk
+    a[x.getActionIndex(entityIndex, StatKey.DEF)] += a[x.getActionIndex(entityIndex, StatKey.DEF_P)] * entity.baseDef
+    a[x.getActionIndex(entityIndex, StatKey.HP)] += a[x.getActionIndex(entityIndex, StatKey.HP_P)] * entity.baseHp
   }
 }
+
+const setDynamicConditionals = getAllSetDynamicConditionals()
 
 function evaluateDynamicSetConditionals(
   x: ComputedStatsContainer,
@@ -304,27 +276,30 @@ function evaluateDynamicSetConditionals(
   context: OptimizerContext,
 ) {
   if (setsArray[4] == setsArray[5]) {
-    p2(SetKeys.SpaceSealingStation, sets) && evaluateConditional(SpaceSealingStationConditional, x, action, context)
-   p2(SetKeys.FleetOfTheAgeless, sets) && evaluateConditional(FleetOfTheAgelessConditional, x, action, context)
-   p2(SetKeys.BelobogOfTheArchitects, sets) && evaluateConditional(BelobogOfTheArchitectsConditional, x, action, context)
-   p2(SetKeys.PanCosmicCommercialEnterprise, sets) && evaluateConditional(PanCosmicCommercialEnterpriseConditional, x, action, context)
-   p2(SetKeys.BrokenKeel, sets) && evaluateConditional(BrokenKeelConditional, x, action, context)
-   p2(SetKeys.TaliaKingdomOfBanditry, sets) && evaluateConditional(TaliaKingdomOfBanditryConditional, x, action, context)
-   p2(SetKeys.BoneCollectionsSereneDemesne, sets) && evaluateConditional(BoneCollectionsSereneDemesneConditional, x, action, context)
-   p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding135Conditional, x, action, context)
-   p2(SetKeys.GiantTreeOfRaptBrooding, sets) && evaluateConditional(GiantTreeOfRaptBrooding180Conditional, x, action, context)
+    for (let i = 0; i < setDynamicConditionals.length; i++) {
+      evaluateConditional(setDynamicConditionals[i], x, action, context)
+    }
   }
 }
 
 function evaluateDynamicConditionals(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-  for (const conditional of context.characterConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const characterConditionals = context.characterController.dynamicConditionals
+  if (characterConditionals) {
+    for (let i = 0; i < characterConditionals.length; i++) {
+      evaluateConditional(characterConditionals[i], x, action, context)
+    }
   }
-  for (const conditional of context.lightConeConditionalController.dynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const lightConeConditionals = context.lightConeController.dynamicConditionals
+  if (lightConeConditionals) {
+    for (let i = 0; i < lightConeConditionals.length; i++) {
+      evaluateConditional(lightConeConditionals[i], x, action, context)
+    }
   }
-  for (const conditional of action.teammateDynamicConditionals ?? []) {
-    evaluateConditional(conditional, x, action, context)
+  const teammateConditionals = action.teammateDynamicConditionals
+  if (teammateConditionals) {
+    for (let i = 0; i < teammateConditionals.length; i++) {
+      evaluateConditional(teammateConditionals[i], x, action, context)
+    }
   }
 }
 
@@ -336,38 +311,16 @@ function evaluateTerminalSetConditionals(
   action: OptimizerAction,
   context: OptimizerContext,
 ) {
+  const setConditionals = action.setConditionals
+
   // Terminal ornament set conditionals
   if (setsArray[4] == setsArray[5]) {
-    if (p2(SetKeys.FirmamentFrontlineGlamoth, sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135) {
-      const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
-      x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
-    }
-
-    if (p2(SetKeys.RutilantArena, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.70) {
-      x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(Source.RutilantArena))
-    }
-
-    if (p2(SetKeys.InertSalsotto, sets) && x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.50) {
-      x.buff(StatKey.DMG_BOOST, 0.15, x.damageType(DamageTag.ULT | DamageTag.FUA).source(Source.InertSalsotto))
-    }
-
-    if (p2(SetKeys.RevelryByTheSea, sets)) {
-      const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
-      if (atk >= 3600) {
-        x.buff(StatKey.DMG_BOOST, 0.24, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
-      } else if (atk >= 2400) {
-        x.buff(StatKey.DMG_BOOST, 0.12, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
-      }
-    }
+    ornamentIndexToSetConfig[setsArray[4]].conditionals.p2t?.(x, context, setConditionals)
   }
 
   // Terminal relic set conditionals
-  if (p4(SetKeys.IronCavalryAgainstTheScourge, sets) && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50) {
-    const be = x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX)
-    x.buff(StatKey.DEF_PEN, 0.10, x.damageType(DamageTag.BREAK).source(Source.IronCavalryAgainstTheScourge))
-    if (be >= 2.50) {
-      x.buff(StatKey.DEF_PEN, 0.15, x.damageType(DamageTag.SUPER_BREAK).source(Source.IronCavalryAgainstTheScourge))
-    }
+  if (setsArray[0] === setsArray[1] && setsArray[1] === setsArray[2] && setsArray[2] === setsArray[3]) {
+    relicIndexToSetConfig[setsArray[0]].conditionals.p4t?.(x, context, setConditionals)
   }
 }
 
@@ -381,39 +334,28 @@ function executeNonDynamicCombatSets(
   const [set0, set1, set2, set3, set4, set5] = setsArray
 
   if (set4 == set5) {
-    const config = ornamentIndexToSetConfig[set4]
-    config.p2x?.(x, context, setConditionals)
+    const conditionals = ornamentIndexToSetConfig[set4].conditionals
+    conditionals.p2x?.(x, context, setConditionals)
   }
 
   if (set0 === set1 && set1 === set2 && set2 === set3) {
-    const config = relicIndexToSetConfig[set0]
-    config.p2x?.(x, context, setConditionals)
-    config.p4x?.(x, context, setConditionals)
+    const conditionals = relicIndexToSetConfig[set0].conditionals
+    conditionals.p2x?.(x, context, setConditionals)
+    conditionals.p4x?.(x, context, setConditionals)
     return
   }
 
   if (set0 === set1 || set0 === set2 || set0 === set3) {
-    const config = relicIndexToSetConfig[set0]
-    config.p2x?.(x, context, setConditionals)
+    relicIndexToSetConfig[set0].conditionals.p2x?.(x, context, setConditionals)
   }
 
   if ((set1 === set2 || set1 === set3) && set1 !== set0) {
-    const config = relicIndexToSetConfig[set1]
-    config.p2x?.(x, context, setConditionals)
+    relicIndexToSetConfig[set1].conditionals.p2x?.(x, context, setConditionals)
   }
 
   if (set2 === set3 && set2 !== set0 && set2 !== set1) {
-    const config = relicIndexToSetConfig[set2]
-    config.p2x?.(x, context, setConditionals)
+    relicIndexToSetConfig[set2].conditionals.p2x?.(x, context, setConditionals)
   }
-}
-
-export function p2(key: SetKeyType, sets: SetCounts) {
-  return sets[key] >> 1
-}
-
-export function p4(key: SetKeyType, sets: SetCounts) {
-  return sets[key] >> 2
 }
 
 export function calculateRelicStats(
@@ -454,7 +396,7 @@ function sumPercentStat(
   relicSum: BasicStatsArray,
   setEffects: number,
 ): number {
-  return base[stat] + lc[stat] + relicSum.a[StatToKey[stat]] + trace[stat] + setEffects
+  return base[stat] + lc[stat] + relicSum.a[BasicStatToKey[stat]] + trace[stat] + setEffects
 }
 
 function sumFlatStat(
@@ -466,7 +408,7 @@ function sumFlatStat(
   relicSum: BasicStatsArray,
   setEffects: number,
 ): number {
-  return baseValue * (1 + setEffects + relicSum.a[StatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[StatToKey[stat]] + trace[stat]
+  return baseValue * (1 + setEffects + relicSum.a[BasicStatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[BasicStatToKey[stat]] + trace[stat]
 }
 
 const pioneerSetIndexToCd: Record<number, number> = {

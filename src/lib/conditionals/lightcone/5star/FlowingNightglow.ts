@@ -9,11 +9,12 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlowingNightglow')
-  const { SOURCE_LC } = Source.lightCone('23026')
+  const { SOURCE_LC } = Source.lightCone(FlowingNightglow.id)
 
   const sValuesErr = [0.03, 0.035, 0.04, 0.045, 0.05]
   const sValuesAtkBuff = [0.48, 0.60, 0.72, 0.84, 0.96]
@@ -76,4 +77,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (t.cadenzaActive) ? sValuesDmgBuff[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const FlowingNightglow: LightConeConfig = {
+  id: '23026',
+  conditionals,
 }

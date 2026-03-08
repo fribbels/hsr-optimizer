@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -6,6 +5,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -13,20 +13,50 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  DEFAULT_DOT,
+  DEFAULT_SKILL,
+  END_BREAK,
+  END_DOT,
+  START_BASIC,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  RELICS_2P_BREAK_EFFECT_SPEED,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const LukaEntities = createEnum('Luka')
-export const LukaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'DOT', 'BREAK')
+export const LukaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.DOT,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luka')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -41,7 +71,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1111')
+  } = Source.character(Luka.id)
 
   const basicEnhancedHitValue = basic(e, 0.20, 0.22)
   const targetUltDebuffDmgTakenValue = ult(e, 0.20, 0.216)
@@ -108,7 +138,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.DOT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -123,7 +152,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(LukaAbilities),
+    actionDeclaration: () => [...LukaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -132,7 +161,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         : basicScaling
 
       return {
-        [LukaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -141,7 +170,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LukaAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -150,7 +179,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LukaAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -159,7 +188,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LukaAbilities.DOT]: {
+        [AbilityKind.DOT]: {
           hits: [
             HitDefinitionBuilder.standardDot()
               .damageElement(ElementTag.Physical)
@@ -168,7 +197,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LukaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -194,4 +223,136 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.BE,
+    ],
+  },
+  substats: [
+    Stats.BE,
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.EHR,
+    Stats.CR,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_BREAK,
+    DEFAULT_DOT,
+    START_BASIC,
+    END_DOT,
+    DEFAULT_DOT,
+    START_BASIC,
+    END_DOT,
+    DEFAULT_DOT,
+  ],
+  comboDot: 5,
+  relicSets: [
+    [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    RELICS_2P_BREAK_EFFECT_SPEED,
+  ],
+  ornamentSets: [
+    Sets.TaliaKingdomOfBanditry,
+    Sets.FirmamentFrontlineGlamoth,
+    Sets.RevelryByTheSea,
+  ],
+  teammates: [
+    {
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: RuanMei.id,
+      lightCone: PastSelfInTheMirror.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 1,
+    [Stats.RES]: 0,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.BE,
+    ],
+  },
+  presets: [
+    PresetEffects.PRISONER_SET,
+  ],
+  sortOption: SortOption.DOT,
+  hiddenColumns: [
+    SortOption.FUA,
+  ],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 930,
+    y: 1000,
+    z: 1,
+  },
+  showcaseColor: '#5d8ce2',
+}
+
+export const Luka: CharacterConfig = {
+  id: '1111',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

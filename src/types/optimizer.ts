@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   ElementName,
   PathName,
@@ -23,7 +22,6 @@ import {
   ElementalResPenType,
 } from 'types/metadata'
 import {
-  AbilityDefinition,
   Hit,
 } from './hitConditionalTypes'
 
@@ -59,7 +57,6 @@ export type OptimizerAction = {
   teammateDynamicConditionals: DynamicConditional[],
   // Teammate data all gets precomputed, only the non-precomputable values go in here
 
-  registerIndices: number[],
   registerIndex: number,
 }
 
@@ -71,38 +68,8 @@ export type TeammateAction = {
 }
 
 export type SetConditional = {
-  enabledHunterOfGlacialForest: boolean,
-  enabledFiresmithOfLavaForging: boolean,
-  enabledGeniusOfBrilliantStars: boolean,
-  enabledBandOfSizzlingThunder: boolean,
-  enabledMessengerTraversingHackerspace: boolean,
-  enabledCelestialDifferentiator: boolean,
-  enabledWatchmakerMasterOfDreamMachinations: boolean,
-  enabledPenaconyLandOfTheDreams: boolean,
-  enabledIzumoGenseiAndTakamaDivineRealm: boolean,
-  enabledForgeOfTheKalpagniLantern: boolean,
-  enabledTheWindSoaringValorous: boolean,
-  enabledTheWondrousBananAmusementPark: boolean,
-  enabledScholarLostInErudition: boolean,
-  enabledHeroOfTriumphantSong: boolean,
-  enabledWarriorGoddessOfSunAndThunder: boolean,
-  enabledWavestriderCaptain: boolean,
-  enabledWorldRemakingDeliverer: boolean,
-  enabledSelfEnshroudedRecluse: boolean,
-  enabledDivinerOfDistantReach: boolean,
-  enabledAmphoreusTheEternalLand: boolean,
-  enabledTengokuLivestream: boolean,
-  valueChampionOfStreetwiseBoxing: number,
-  valueWastelanderOfBanditryDesert: number,
-  valueLongevousDisciple: number,
-  valueTheAshblazingGrandDuke: number,
-  valuePrisonerInDeepConfinement: number,
-  valuePioneerDiverOfDeadWaters: number,
-  valueSigoniaTheUnclaimedDesolation: number,
-  valueDuranDynastyOfRunningWolves: number,
-  valueSacerdosRelivedOrdeal: number,
-  valueArcadiaOfWovenDreams: number,
-  valueEverGloriousMagicalGirl: number,
+  [key: `enabled${string}`]: boolean
+  [key: `value${string}`]: number
 }
 
 export type CharacterStatsBreakdown = {
@@ -147,7 +114,7 @@ export type OptimizerContext = CharacterMetadata & {
   maxStatsArrayLength: number, // Maximum stats array size (without registers)
   maxEntitiesCount: number, // Maximum entities across all actions
   maxHitsCount: number, // Maximum hits across all actions
-  actionDeclarations: string[],
+  actionDeclarations: AbilityKind[],
   actionModifiers: ActionModifier[],
   characterController: CharacterConditionalsController,
   teammateControllers: CharacterConditionalsController[],
@@ -165,7 +132,6 @@ export type OptimizerContext = CharacterMetadata & {
   teammate2Metadata: CharacterMetadata,
 
   // Optimizer environment
-  resultsLimit: number,
   resultSort: string,
   primaryAbilityKey: string, // Primary ability from scoringMetadata.sortOption.key (e.g., 'BASIC', 'SKILL')
   combatBuffs: OptimizerCombatBuffs,
@@ -192,16 +158,11 @@ export type OptimizerContext = CharacterMetadata & {
   enemyEffectResistance: number,
   enemyElementalWeak: boolean,
   enemyWeaknessBroken: boolean,
-  weaknessBrokenMultiplier: number,
 
-  activeAbilities: AbilityType[],
-  activeAbilityFlags: number,
-  hitActions?: AbilityDefinition[],
   comboDot: number,
   dotAbilities: number,
 
-  characterConditionalController: CharacterConditionalsController,
-  lightConeConditionalController: LightConeConditionalsController,
+  lightConeController: LightConeConditionalsController,
 }
 
 export type OptimizerCombatBuffs = {

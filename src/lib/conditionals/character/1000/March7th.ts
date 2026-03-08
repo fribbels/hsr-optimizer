@@ -1,19 +1,34 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
 import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
 import { AbilityEidolon, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Eidolon } from 'types/character'
-
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const March7thEntities = createEnum('March7th')
-export const March7thAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
+export const March7thAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.SKILL_SHIELD,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -27,7 +42,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1001')
+  } = Source.character(March7th.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 1.50, 1.62)
@@ -39,7 +54,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const skillShieldFlat = skill(e, 760, 845.5)
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA, AbilityType.DOT],
     content: () => [],
     defaults: () => ({}),
 
@@ -52,13 +66,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(March7thAbilities),
+    actionDeclaration: () => [...March7thAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       // E4: FUA gains DEF scaling
       const fuaDefScaling = (e >= 4) ? 0.30 : 0
 
       return {
-        [March7thAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -67,7 +81,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [March7thAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Ice)
@@ -76,7 +90,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [March7thAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Ice)
@@ -86,7 +100,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [March7thAbilities.SKILL_SHIELD]: {
+        [AbilityKind.SKILL_SHIELD]: {
           hits: [
             HitDefinitionBuilder.skillShield()
               .defScaling(skillShieldScaling)
@@ -94,7 +108,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [March7thAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],
@@ -111,4 +125,65 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkContainer(hitMulti, action),
   }
+}
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 1,
+    [Stats.DEF_P]: 1,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 1,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.DEF_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.DEF_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.DEF_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.DEF_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [
+    PresetEffects.VALOROUS_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.SKILL_SHIELD,
+  addedColumns: [],
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.DOT,
+  ],
+})
+
+const display = {
+  imageCenter: {
+    x: 985,
+    y: 1075,
+    z: 1.05,
+  },
+  showcaseColor: '#718fe5',
+}
+
+export const March7th: CharacterConfig = {
+  id: '1001',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

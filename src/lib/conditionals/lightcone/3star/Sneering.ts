@@ -5,13 +5,13 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SNEERING } from 'lib/simulations/tests/testMetadataConstants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const { SOURCE_LC } = Source.lightCone(SNEERING)
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+  const { SOURCE_LC } = Source.lightCone(Sneering.id)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
@@ -40,4 +40,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.ELATION, (r.elationBuff) ? sValues[s] : 0, x.actionKind(AbilityKind.ELATION_SKILL).source(SOURCE_LC))
     },
   }
+}
+
+export const Sneering: LightConeConfig = {
+  id: '20023',
+  conditionals,
 }

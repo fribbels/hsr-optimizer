@@ -1,13 +1,12 @@
 import {
-  AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
+  BuffPriority,
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum } from 'lib/conditionals/conditionalUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
 import { wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
@@ -16,15 +15,30 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const HyacineEntities = createEnum('Hyacine', 'Ica')
-export const HyacineAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'MEMO_SKILL', 'BREAK')
+export const HyacineAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hyacine.Content')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
@@ -59,7 +73,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
   const defaults = {
     healAbility: SKILL_DMG_TYPE,
-    buffPriority: BUFF_PRIORITY_MEMO,
+    buffPriority: BuffPriority.MEMO,
     clearSkies: true,
     healTargetHp50: true,
     resBuff: true,
@@ -86,8 +100,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -185,7 +199,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.MEMO_SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -193,27 +206,31 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     // Entity declarations
     entityDeclaration: () => Object.values(HyacineEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [HyacineEntities.Hyacine]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [HyacineEntities.Ica]: {
-        primary: false,
-        summon: false,
-        memosprite: true,
-        memoBaseAtkScaling: 1.00,
-        memoBaseDefScaling: 1.00,
-        memoBaseHpScaling: 0.50,
-        memoBaseHpFlat: 0,
-        memoBaseSpdScaling: 0,
-        memoBaseSpdFlat: 0,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [HyacineEntities.Hyacine]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
+        },
+        [HyacineEntities.Ica]: {
+          primary: false,
+          summon: true,
+          memosprite: true,
+          memoBaseAtkScaling: 1.00,
+          memoBaseDefScaling: 1.00,
+          memoBaseHpScaling: 0.50,
+          memoBaseHpFlat: 0,
+          memoBaseSpdScaling: 0,
+          memoBaseSpdFlat: 0,
+        },
+      }
+    },
 
     // Action declarations
-    actionDeclaration: () => Object.values(HyacineAbilities),
+    actionDeclaration: () => [...HyacineAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -223,7 +240,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const healDamageType = r.healAbility === SKILL_DMG_TYPE ? DamageTag.SKILL : DamageTag.ULT
 
       return {
-        [HyacineAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Wind)
@@ -232,7 +249,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [HyacineAbilities.SKILL_HEAL]: {
+        [AbilityKind.SKILL_HEAL]: {
           hits: [
             HitDefinitionBuilder.skillHeal()
               .hpScaling(skillHealScaling)
@@ -240,7 +257,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [HyacineAbilities.ULT_HEAL]: {
+        [AbilityKind.ULT_HEAL]: {
           hits: [
             HitDefinitionBuilder.ultHeal()
               .hpScaling(ultHealScaling)
@@ -248,7 +265,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [HyacineAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             // Fake heal hit - computes heal value with all buffs, stores to register, but doesn't add to comboHeal
             HitDefinitionBuilder.heal()
@@ -268,7 +285,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [HyacineAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
@@ -281,9 +298,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority === BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -335,9 +351,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
           return r.spd200HpBuff && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 200
         },
         effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-          const selfBaseHp = x.getActionValueByIndex(StatKey.BASE_HP, SELF_ENTITY_INDEX)
+          const selfBaseHp = action.config.selfEntity.baseHp
           const memoEntityIndex = action.config.entityRegistry.getIndex(HyacineEntities.Ica)
-          const memoBaseHp = x.getActionValueByIndex(StatKey.BASE_HP, memoEntityIndex)
+          const memoBaseHp = action.config.entitiesArray[memoEntityIndex].baseHp
 
           x.buffDynamic(StatKey.HP, 0.20 * selfBaseHp, action, context, x.source(SOURCE_TRACE))
           x.buffDynamic(StatKey.HP, 0.20 * memoBaseHp, action, context, x.target(HyacineEntities.Ica).source(SOURCE_TRACE))
@@ -358,8 +374,8 @@ if (
   ${wgslTrue(r.spd200HpBuff)}
 ) {
   (*p_state).HyacineSpdActivation${action.actionIdentifier} = 1.0;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} += 0.20 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BASE_HP, config)};
-  ${p_containerActionVal(memoEntityIndex, StatKey.HP, config)} += 0.20 * ${containerActionVal(memoEntityIndex, StatKey.BASE_HP, config)};
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} += 0.20 * ${config.selfEntity.baseHp};
+  ${p_containerActionVal(memoEntityIndex, StatKey.HP, config)} += 0.20 * ${config.entitiesArray[memoEntityIndex].baseHp};
 }
     `,
           )
@@ -448,4 +464,62 @@ if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
       },
     ],
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0.50,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.OHB,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.HP_P,
+    ],
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.SKILL_HEAL,
+  addedColumns: [SortOption.OHB, SortOption.MEMO_SKILL],
+  hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
+})
+
+const display = {
+  imageCenter: {
+    x: 1215,
+    y: 1025,
+    z: 1.05,
+  },
+  showcaseColor: '#a8ffde',
+}
+
+export const Hyacine: CharacterConfig = {
+  id: '1409',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

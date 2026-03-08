@@ -111,7 +111,8 @@ export default function OptimizerForm() {
     // console.log('@onValuesChange', request, changedValues)
 
     if (keys[0] === 'characterId') {
-      window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, changedValues.characterId)
+      window.store.getState().setOptimizerTabFocusCharacter(changedValues.characterId)
+      OptimizerTabController.updateCharacter(changedValues.characterId)
       SaveState.delayedSave()
     }
 

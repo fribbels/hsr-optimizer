@@ -13,7 +13,6 @@ import { ElementToDamage, MainStats, PathNames, Parts, Stats } from 'lib/constan
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
-import { toComputedStatsObject } from 'lib/optimization/computedStatsArray'
 import { ElementName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -141,13 +140,10 @@ export const CharacterScoringSummary = (props: {
     const simResult = simulation.result!
 
     const basicStats = toBasicStatsObject(simResult.ca)
-    const combatStats = toComputedStatsObject(simResult.xa)
+    const combatStats = props.originalSimResult.x.toComputedStatsObject()
 
     const highlight = props.type == 'Character'
     const color = 'rgb(225, 165, 100)'
-    // Basic stats: toBasicStatsObject already reads element-specific DMG from correct Key index
-    // Combat stats: combine DMG_BOOST + element-specific boost using Container accessor
-    // Use originalSimResult.x (non-cloned) because TsUtils.clone strips Container methods
     combatStats[elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, element)
 
     if (characterMetadata.path === PathNames.Elation) {

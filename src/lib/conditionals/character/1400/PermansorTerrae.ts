@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   ASHBLAZING_ATK_STACK,
   NONE_TYPE,
   SKILL_DMG_TYPE,
@@ -14,10 +13,15 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -25,20 +29,34 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { PERMANSOR_TERRAE } from 'lib/simulations/tests/testMetadataConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const PermansorTerraeEntities = createEnum('PermansorTerrae', 'Souldragon')
-export const PermansorTerraeAbilities = createEnum('BASIC', 'ULT', 'FUA', 'SKILL_SHIELD', 'BREAK')
+export const PermansorTerraeAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.SKILL_SHIELD,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.PermansorTerrae.TeammateContent')
   const tShield = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.ShieldAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
@@ -141,7 +159,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -163,7 +180,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(PermansorTerraeAbilities),
+    actionDeclaration: () => [...PermansorTerraeAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -176,7 +193,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
 
       return {
-        [PermansorTerraeAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -185,7 +202,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [PermansorTerraeAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -198,7 +215,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [PermansorTerraeAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Physical)
@@ -211,7 +228,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [PermansorTerraeAbilities.SKILL_SHIELD]: {
+        [AbilityKind.SKILL_SHIELD]: {
           hits: [
             HitDefinitionBuilder.skillShield()
               .atkScaling(talentShieldScaling * 2)
@@ -219,7 +236,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [PermansorTerraeAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -229,19 +246,25 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionModifiers: () => [],
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
     },
     initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.SUMMONS, (t.bondmate) ? 1 : 0, x.source(SOURCE_SKILL))
+      if (t.bondmate) {
+        action.config.hasSummons = true
+      }
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       // No self-buffs to apply - scaling is handled in actionDefinition
     },
 
-    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+    precomputeTeammateEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const atkBuff = t.sourceAtk * 0.15
@@ -257,7 +280,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const cyreneDmgBoost = cyreneActionExists(originalCharacterAction!)
         ? cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.264 : 0.24
         : 0
-      x.buff(StatKey.DMG_BOOST, (t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, x.source(Source.odeTo(PERMANSOR_TERRAE)))
+      x.buff(StatKey.DMG_BOOST, (t.cyreneSpecialEffect) ? cyreneDmgBoost : 0, x.targets(TargetTag.SingleTarget).source(Source.odeTo(PermansorTerrae.id)))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -270,4 +293,63 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
     },
   }
+}
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 1,
+    [Stats.ATK_P]: 1,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.fnAshblazingSet(8),
+    PresetEffects.VALOROUS_SET,
+  ],
+  sortOption: SortOption.ATK,
+  addedColumns: [],
+  hiddenColumns: [SortOption.DOT, SortOption.SKILL],
+})
+
+const display = {
+  imageCenter: {
+    x: 975,
+    y: 1024,
+    z: 1.05,
+  },
+  showcaseColor: '#aefcf3',
+}
+
+export const PermansorTerrae: CharacterConfig = {
+  id: '1414',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

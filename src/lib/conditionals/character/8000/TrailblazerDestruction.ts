@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -6,8 +5,28 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { Bronya } from 'lib/conditionals/character/1100/Bronya'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import {
+  AbilityKind,
+  END_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { Source } from 'lib/optimization/buffSource'
-import { Key } from 'lib/optimization/computedStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -21,9 +40,14 @@ import {
 } from 'types/optimizer'
 
 export const TrailblazerDestructionEntities = createEnum('TrailblazerDestruction')
-export const TrailblazerDestructionAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'BREAK')
+export const TrailblazerDestructionAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerDestruction')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -38,7 +62,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8002')
+  } = Source.character(TrailblazerDestructionStelle.id)
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
 
@@ -75,7 +99,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT],
     entityDeclaration: () => Object.values(TrailblazerDestructionEntities),
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
       [TrailblazerDestructionEntities.TrailblazerDestruction]: {
@@ -84,12 +107,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         memosprite: false,
       },
     }),
-    actionDeclaration: () => Object.values(TrailblazerDestructionAbilities),
+    actionDeclaration: () => [...TrailblazerDestructionAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [TrailblazerDestructionAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -98,7 +121,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerDestructionAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Physical)
@@ -107,7 +130,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerDestructionAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -116,7 +139,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerDestructionAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -137,11 +160,150 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       // Stats
       x.buff(StatKey.ATK_P, r.talentStacks * talentAtkScalingValue, x.source(SOURCE_TALENT))
       x.buff(StatKey.DEF_P, r.talentStacks * 0.10, x.source(SOURCE_TRACE))
-      x.buff(StatKey.CR, (e >= 4 && x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, TrailblazerDestructionEntities.TrailblazerDestruction)) ? 0.25 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.CR, (e >= 4 && action.config.enemyWeaknessBroken) ? 0.25 : 0, x.source(SOURCE_E4))
 
       // Boost
       x.buff(StatKey.DMG_BOOST, 0.25, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
       x.buff(StatKey.DMG_BOOST, (r.enhancedUlt) ? 0.25 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
     },
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.BE,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_SKILL,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RutilantArena,
+    Sets.FirmamentFrontlineGlamoth,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: Bronya.id,
+      lightCone: ButTheBattleIsntOver.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: RuanMei.id,
+      lightCone: PastSelfInTheMirror.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0.5,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Physical_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.BE,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [SortOption.FUA, SortOption.DOT],
+  simulation: simulation(),
+})
+
+const displayCaelus = {
+  imageCenter: {
+    x: 1024,
+    y: 1100,
+    z: 1,
+  },
+  showcaseColor: '#5f81f4',
+}
+
+const displayStelle = {
+  imageCenter: {
+    x: 1024,
+    y: 1024,
+    z: 1,
+  },
+  showcaseColor: '#5f81f4',
+}
+
+export const TrailblazerDestructionCaelus: CharacterConfig = {
+  id: '8001',
+  info: { displayName: 'Caelus (Destruction)' },
+  conditionals,
+  get scoring() { return scoring() },
+  display: displayCaelus,
+}
+
+export const TrailblazerDestructionStelle: CharacterConfig = {
+  id: '8002',
+  info: { displayName: 'Stelle (Destruction)' },
+  conditionals,
+  get scoring() { return scoring() },
+  display: displayStelle,
 }

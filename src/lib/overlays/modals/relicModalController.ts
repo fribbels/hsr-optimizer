@@ -3,12 +3,14 @@ import {
   MainStats,
   Parts,
   Sets,
-  SetsOrnamentsNames,
-  SetsRelicsNames,
   Stats,
   SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
+import {
+  SetsOrnamentsNames,
+  SetsRelicsNames,
+} from 'lib/sets/setConfigRegistry'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'

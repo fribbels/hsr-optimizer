@@ -1,9 +1,10 @@
-import { Metadata } from 'lib/state/metadata'
+// @vitest-environment jsdom
+import { Metadata } from 'lib/state/metadataInitializer'
 import {
   BannerRotation,
+  calculateWarps,
   EidolonLevel,
   NONE_WARP_INCOME_OPTION,
-  simulateWarps,
   StarlightRefund,
   SuperimpositionLevel,
   WarpRequest,
@@ -32,14 +33,14 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
 Metadata.initialize()
 
 test('base options', () => {
-  const result = simulateWarps({ ...DEFAULT_WARP_REQUEST })
+  const result = calculateWarps({ ...DEFAULT_WARP_REQUEST })
   for (const milestone of Object.values(result.milestoneResults)) {
     expect(milestone.wins).toBe(0)
   }
 })
 
 test('strategies e0', () => {
-  const e0Result = simulateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.E0 })
+  const e0Result = calculateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.E0 })
 
   expect(Object.keys(e0Result.milestoneResults)).toEqual([
     'E0S0',
@@ -58,7 +59,7 @@ test('strategies e0', () => {
 })
 
 test('strategies s1', () => {
-  const s1Result = simulateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.S1 })
+  const s1Result = calculateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.S1 })
   expect(Object.keys(s1Result.milestoneResults)).toEqual([
     'S1',
     'E0S1',
@@ -76,7 +77,7 @@ test('strategies s1', () => {
 })
 
 test('strategies e6', () => {
-  const e6Result = simulateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.E6 })
+  const e6Result = calculateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.E6 })
   expect(Object.keys(e6Result.milestoneResults)).toEqual([
     'E0S0',
     'E1S0',
@@ -94,7 +95,7 @@ test('strategies e6', () => {
 })
 
 test('expected base values', () => {
-  const result = simulateWarps({ ...DEFAULT_WARP_REQUEST, passes: 1000 })
+  const result = calculateWarps({ ...DEFAULT_WARP_REQUEST, passes: 1000 })
   const m = result.milestoneResults
   expectWithin3(m.E0S0.warps, 89)
   expectWithin3(m.E0S1.warps, 154)
@@ -124,7 +125,7 @@ test('expected base values', () => {
 })
 
 test('expected pity values', () => {
-  const result = simulateWarps({
+  const result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
     passes: 200,
     guaranteedCharacter: true,
@@ -162,7 +163,7 @@ test('expected pity values', () => {
 })
 
 test('expected current eidolon and lightcone values', () => {
-  const result = simulateWarps({
+  const result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
     passes: 300,
     bannerRotation: BannerRotation.RERUN,

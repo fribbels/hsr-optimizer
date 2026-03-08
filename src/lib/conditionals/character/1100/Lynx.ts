@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   NONE_TYPE,
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
@@ -18,9 +17,12 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -28,19 +30,29 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
 export const LynxEntities = createEnum('Lynx')
-export const LynxAbilities = createEnum('BASIC', 'SKILL_HEAL', 'ULT_HEAL', 'TALENT_HEAL', 'BREAK')
+export const LynxAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.TALENT_HEAL,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lynx')
   const tHeal = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.HealAbility')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
@@ -56,7 +68,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1110')
+  } = Source.character(Lynx.id)
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
   const skillHpFlatBuff = skill(e, 200, 223)
@@ -124,7 +136,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -139,9 +150,9 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(LynxAbilities),
+    actionDeclaration: () => [...LynxAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [LynxAbilities.BASIC]: {
+      [AbilityKind.BASIC]: {
         hits: [
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Quantum)
@@ -150,12 +161,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [LynxAbilities.BREAK]: {
+      [AbilityKind.BREAK]: {
         hits: [
           HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
         ],
       },
-      [LynxAbilities.SKILL_HEAL]: {
+      [AbilityKind.SKILL_HEAL]: {
         hits: [
           HitDefinitionBuilder.skillHeal()
             .hpScaling(skillHealScaling)
@@ -163,7 +174,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [LynxAbilities.ULT_HEAL]: {
+      [AbilityKind.ULT_HEAL]: {
         hits: [
           HitDefinitionBuilder.ultHeal()
             .hpScaling(ultHealScaling)
@@ -171,7 +182,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             .build(),
         ],
       },
-      [LynxAbilities.TALENT_HEAL]: {
+      [AbilityKind.TALENT_HEAL]: {
         hits: [
           HitDefinitionBuilder.talentHeal()
             .hpScaling(talentHealScaling)
@@ -260,4 +271,69 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.HP_P,
+      Stats.OHB,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.TALENT_HEAL,
+  addedColumns: [
+    SortOption.OHB,
+  ],
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+})
+
+const display = {
+  imageCenter: {
+    x: 1180,
+    y: 1050,
+    z: 1.05,
+  },
+  showcaseColor: '#53b1e1',
+}
+
+export const Lynx: CharacterConfig = {
+  id: '1110',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

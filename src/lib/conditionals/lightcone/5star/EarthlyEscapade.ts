@@ -9,11 +9,12 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.EarthlyEscapade')
-  const { SOURCE_LC } = Source.lightCone('23021')
+  const { SOURCE_LC } = Source.lightCone(EarthlyEscapade.id)
 
   const sValuesCr = [0.10, 0.11, 0.12, 0.13, 0.14]
   const sValuesCd = [0.28, 0.35, 0.42, 0.49, 0.56]
@@ -55,4 +56,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.CD, (t.maskActive) ? sValuesCd[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const EarthlyEscapade: LightConeConfig = {
+  id: '23021',
+  conditionals,
 }

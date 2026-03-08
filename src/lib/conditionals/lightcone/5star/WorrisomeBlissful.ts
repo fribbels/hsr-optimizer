@@ -9,14 +9,15 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.WorrisomeBlissful')
-  const { SOURCE_LC } = Source.lightCone('23016')
+  const { SOURCE_LC } = Source.lightCone(WorrisomeBlissful.id)
 
   const sValuesFuaDmg = [0.30, 0.35, 0.40, 0.45, 0.50]
   const sValuesCd = [0.12, 0.14, 0.16, 0.18, 0.20]
@@ -59,4 +60,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.CD, m.targetTameStacks * sValuesCd[s], x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const WorrisomeBlissful: LightConeConfig = {
+  id: '23016',
+  conditionals,
 }

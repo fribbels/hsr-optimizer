@@ -22,7 +22,6 @@ We're happy to have new contributors! Please reach out on the discord server #de
 features.
 
 - Contributing information: https://github.com/fribbels/hsr-optimizer/blob/main/CONTRIBUTING.md
-- Getting started with the codebase: https://github.com/fribbels/hsr-optimizer/blob/main/GETTING_STARTED.md
 
 # Credits
 

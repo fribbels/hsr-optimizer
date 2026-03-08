@@ -7630,6 +7630,103 @@
       },
       "unreleased": false
     },
+    "1504": {
+      "id": "1504",
+      "name": "Ashveil",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Lightning",
+      "traces": {
+        "ATK%": 0.1,
+        "CRIT DMG": 0.373,
+        "Lightning DMG Boost": 0.144
+      },
+      "traceTree": [
+        {
+          "id": "1504201_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1504202_4.1v4",
+          "stat": "Lightning DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1504203_4.1v4",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1504202_4.1v4",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1504204_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1504205_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1504206_4.1v4",
+              "stat": "Lightning DMG Boost",
+              "value": 0.048,
+              "pre": "1504205_4.1v4",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1504207_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1504208_4.1v4",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1504209_4.1v4",
+              "stat": "Lightning DMG Boost",
+              "value": 0.064,
+              "pre": "1504208_4.1v4",
+              "children": []
+            },
+            {
+              "id": "1504210_4.1v4",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "1504208_4.1v4",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 150,
+      "stats": {
+        "HP": 853.776,
+        "ATK": 776.16,
+        "DEF": 388.08,
+        "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "8001": {
       "id": "8001",
       "name": "Trailblazer",
@@ -9017,6 +9114,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -71,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20001": {
@@ -9029,6 +9132,12 @@
         "ATK": 264.6,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -92,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20002": {
@@ -9041,6 +9150,12 @@
         "ATK": 370.44,
         "DEF": 198.45
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -78,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20003": {
@@ -9052,6 +9167,28 @@
         "HP": 846.72,
         "ATK": 264.6,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": 20,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "DefenceAddedRatio": 0.16
+        },
+        "2": {
+          "DefenceAddedRatio": 0.2
+        },
+        "3": {
+          "DefenceAddedRatio": 0.24
+        },
+        "4": {
+          "DefenceAddedRatio": 0.28
+        },
+        "5": {
+          "DefenceAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9065,6 +9202,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -163,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20005": {
@@ -9077,6 +9220,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -130,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20006": {
@@ -9089,6 +9238,12 @@
         "ATK": 370.44,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -186,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20007": {
@@ -9101,6 +9256,12 @@
         "ATK": 370.44,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 190,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20008": {
@@ -9113,6 +9274,12 @@
         "ATK": 317.52,
         "DEF": 198.45
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -4,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20009": {
@@ -9125,6 +9292,12 @@
         "ATK": 370.44,
         "DEF": 198.45
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -90,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20010": {
@@ -9137,6 +9310,12 @@
         "ATK": 264.6,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 90,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20011": {
@@ -9149,6 +9328,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 105,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20012": {
@@ -9161,6 +9346,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 0,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20013": {
@@ -9173,6 +9364,12 @@
         "ATK": 370.44,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 150,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20014": {
@@ -9185,6 +9382,12 @@
         "ATK": 370.44,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -51,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20015": {
@@ -9197,6 +9400,12 @@
         "ATK": 317.52,
         "DEF": 198.45
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -20,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20016": {
@@ -9209,6 +9418,12 @@
         "ATK": 370.44,
         "DEF": 198.45
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 114,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20017": {
@@ -9221,6 +9436,12 @@
         "ATK": 264.6,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 85,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20018": {
@@ -9233,6 +9454,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -90,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20019": {
@@ -9245,6 +9472,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 20,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20020": {
@@ -9257,6 +9490,12 @@
         "ATK": 370.44,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 30,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20021": {
@@ -9269,6 +9508,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 12,
+        "y": 115,
+        "s": 1.1
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20022": {
@@ -9281,6 +9526,12 @@
         "ATK": 423.36,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": -6,
+        "y": -9,
+        "s": 1.05
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20023": {
@@ -9293,6 +9544,12 @@
         "ATK": 370.44,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 2,
+        "y": 36,
+        "s": 1.05
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "20024": {
@@ -9305,6 +9562,12 @@
         "ATK": 317.52,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 5,
+        "y": -146,
+        "s": 1.1
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21000": {
@@ -9316,6 +9579,28 @@
         "HP": 1058.4,
         "ATK": 423.36,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -128,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "SPRatioBase": 0.08
+        },
+        "2": {
+          "SPRatioBase": 0.1
+        },
+        "3": {
+          "SPRatioBase": 0.12
+        },
+        "4": {
+          "SPRatioBase": 0.14
+        },
+        "5": {
+          "SPRatioBase": 0.16
+        }
       },
       "unreleased": false
     },
@@ -9329,6 +9614,12 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 10,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21002": {
@@ -9340,6 +9631,28 @@
         "HP": 952.56,
         "ATK": 370.44,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -150,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "DefenceAddedRatio": 0.16
+        },
+        "2": {
+          "DefenceAddedRatio": 0.18
+        },
+        "3": {
+          "DefenceAddedRatio": 0.2
+        },
+        "4": {
+          "DefenceAddedRatio": 0.22
+        },
+        "5": {
+          "DefenceAddedRatio": 0.24
+        }
       },
       "unreleased": false
     },
@@ -9353,6 +9666,28 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -90,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.16
+        },
+        "2": {
+          "AttackAddedRatio": 0.2
+        },
+        "3": {
+          "AttackAddedRatio": 0.24
+        },
+        "4": {
+          "AttackAddedRatio": 0.28
+        },
+        "5": {
+          "AttackAddedRatio": 0.32
+        }
+      },
       "unreleased": false
     },
     "21004": {
@@ -9364,6 +9699,28 @@
         "HP": 952.56,
         "ATK": 423.36,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -12,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.28
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.35
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.42
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.49
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 0.56
+        }
       },
       "unreleased": false
     },
@@ -9377,6 +9734,12 @@
         "ATK": 476.28,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -30,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21006": {
@@ -9389,6 +9752,12 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -130,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21007": {
@@ -9400,6 +9769,28 @@
         "HP": 952.56,
         "ATK": 423.36,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -62,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "HealRatioBase": 0.1
+        },
+        "2": {
+          "HealRatioBase": 0.125
+        },
+        "3": {
+          "HealRatioBase": 0.15
+        },
+        "4": {
+          "HealRatioBase": 0.175
+        },
+        "5": {
+          "HealRatioBase": 0.2
+        }
       },
       "unreleased": false
     },
@@ -9413,6 +9804,28 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -132,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "StatusProbabilityBase": 0.2
+        },
+        "2": {
+          "StatusProbabilityBase": 0.25
+        },
+        "3": {
+          "StatusProbabilityBase": 0.3
+        },
+        "4": {
+          "StatusProbabilityBase": 0.35
+        },
+        "5": {
+          "StatusProbabilityBase": 0.4
+        }
+      },
       "unreleased": false
     },
     "21009": {
@@ -9425,6 +9838,12 @@
         "ATK": 423.36,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -139,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21010": {
@@ -9437,6 +9856,12 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -139,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21011": {
@@ -9449,6 +9874,12 @@
         "ATK": 423.36,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -146,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21012": {
@@ -9460,6 +9891,28 @@
         "HP": 1058.4,
         "ATK": 476.28,
         "DEF": 264.6
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -132,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AllDamageTypeAddedRatio": 0.2
+        },
+        "2": {
+          "AllDamageTypeAddedRatio": 0.25
+        },
+        "3": {
+          "AllDamageTypeAddedRatio": 0.3
+        },
+        "4": {
+          "AllDamageTypeAddedRatio": 0.35
+        },
+        "5": {
+          "AllDamageTypeAddedRatio": 0.4
+        }
       },
       "unreleased": false
     },
@@ -9473,6 +9926,12 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -92,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21014": {
@@ -9484,6 +9943,28 @@
         "HP": 952.56,
         "ATK": 423.36,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": -69,
+        "y": -188,
+        "s": 1.5
+      },
+      "superimpositions": {
+        "1": {
+          "StatusResistanceBase": 0.16
+        },
+        "2": {
+          "StatusResistanceBase": 0.2
+        },
+        "3": {
+          "StatusResistanceBase": 0.24
+        },
+        "4": {
+          "StatusResistanceBase": 0.28
+        },
+        "5": {
+          "StatusResistanceBase": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9497,6 +9978,12 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": -22,
+        "y": -163,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21016": {
@@ -9508,6 +9995,28 @@
         "HP": 1058.4,
         "ATK": 370.44,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -129,
+        "s": 1.2
+      },
+      "superimpositions": {
+        "1": {
+          "DefenceAddedRatio": 0.16
+        },
+        "2": {
+          "DefenceAddedRatio": 0.2
+        },
+        "3": {
+          "DefenceAddedRatio": 0.24
+        },
+        "4": {
+          "DefenceAddedRatio": 0.28
+        },
+        "5": {
+          "DefenceAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9521,6 +10030,12 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -151,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21018": {
@@ -9533,6 +10048,12 @@
         "ATK": 423.36,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -75,
+        "s": 1
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21019": {
@@ -9544,6 +10065,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -10,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.16
+        },
+        "2": {
+          "AttackAddedRatio": 0.2
+        },
+        "3": {
+          "AttackAddedRatio": 0.24
+        },
+        "4": {
+          "AttackAddedRatio": 0.28
+        },
+        "5": {
+          "AttackAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9557,6 +10100,28 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 79,
+        "y": -94,
+        "s": 1.5
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.16
+        },
+        "2": {
+          "AttackAddedRatio": 0.2
+        },
+        "3": {
+          "AttackAddedRatio": 0.24
+        },
+        "4": {
+          "AttackAddedRatio": 0.28
+        },
+        "5": {
+          "AttackAddedRatio": 0.32
+        }
+      },
       "unreleased": false
     },
     "21021": {
@@ -9569,6 +10134,12 @@
         "ATK": 423.36,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -78,
+        "s": 1.01
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21022": {
@@ -9580,6 +10151,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": 3,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.16
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.2
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.24
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.28
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9593,6 +10186,12 @@
         "ATK": 476.28,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -34,
+        "s": 1.01
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21024": {
@@ -9605,6 +10204,12 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 27,
+        "y": -204,
+        "s": 1.5
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21025": {
@@ -9617,6 +10222,12 @@
         "ATK": 423.36,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 46,
+        "y": -200,
+        "s": 1.41
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21026": {
@@ -9628,6 +10239,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -142,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.1
+        },
+        "2": {
+          "AttackAddedRatio": 0.125
+        },
+        "3": {
+          "AttackAddedRatio": 0.15
+        },
+        "4": {
+          "AttackAddedRatio": 0.175
+        },
+        "5": {
+          "AttackAddedRatio": 0.2
+        }
       },
       "unreleased": false
     },
@@ -9641,6 +10274,28 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -78,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AllDamageTypeAddedRatio": 0.12
+        },
+        "2": {
+          "AllDamageTypeAddedRatio": 0.15
+        },
+        "3": {
+          "AllDamageTypeAddedRatio": 0.18
+        },
+        "4": {
+          "AllDamageTypeAddedRatio": 0.21
+        },
+        "5": {
+          "AllDamageTypeAddedRatio": 0.24
+        }
+      },
       "unreleased": false
     },
     "21028": {
@@ -9652,6 +10307,28 @@
         "HP": 1058.4,
         "ATK": 370.44,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -64,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.16
+        },
+        "2": {
+          "HPAddedRatio": 0.2
+        },
+        "3": {
+          "HPAddedRatio": 0.24
+        },
+        "4": {
+          "HPAddedRatio": 0.28
+        },
+        "5": {
+          "HPAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9665,6 +10342,12 @@
         "ATK": 529.2,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -100,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21030": {
@@ -9676,6 +10359,28 @@
         "HP": 846.72,
         "ATK": 370.44,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -18,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "DefenceAddedRatio": 0.16
+        },
+        "2": {
+          "DefenceAddedRatio": 0.2
+        },
+        "3": {
+          "DefenceAddedRatio": 0.24
+        },
+        "4": {
+          "DefenceAddedRatio": 0.28
+        },
+        "5": {
+          "DefenceAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9689,6 +10394,28 @@
         "ATK": 529.2,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -89,
+        "s": 1.01
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.12
+        },
+        "2": {
+          "CriticalChanceBase": 0.15
+        },
+        "3": {
+          "CriticalChanceBase": 0.18
+        },
+        "4": {
+          "CriticalChanceBase": 0.21
+        },
+        "5": {
+          "CriticalChanceBase": 0.24
+        }
+      },
       "unreleased": false
     },
     "21032": {
@@ -9701,6 +10428,12 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -58,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21033": {
@@ -9712,6 +10445,28 @@
         "HP": 952.56,
         "ATK": 529.2,
         "DEF": 264.6
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -124,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.24
+        },
+        "2": {
+          "AttackAddedRatio": 0.3
+        },
+        "3": {
+          "AttackAddedRatio": 0.36
+        },
+        "4": {
+          "AttackAddedRatio": 0.42
+        },
+        "5": {
+          "AttackAddedRatio": 0.48
+        }
       },
       "unreleased": false
     },
@@ -9725,6 +10480,12 @@
         "ATK": 529.2,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -77,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21035": {
@@ -9736,6 +10497,28 @@
         "HP": 1058.4,
         "ATK": 423.36,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": 11,
+        "s": 1.05
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.24
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.3
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.36
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.42
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 0.48
+        }
       },
       "unreleased": false
     },
@@ -9749,6 +10532,12 @@
         "ATK": 423.36,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 63,
+        "s": 1.02
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21037": {
@@ -9760,6 +10549,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 29,
+        "y": -80,
+        "s": 1.2
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.12
+        },
+        "2": {
+          "AttackAddedRatio": 0.14
+        },
+        "3": {
+          "AttackAddedRatio": 0.16
+        },
+        "4": {
+          "AttackAddedRatio": 0.18
+        },
+        "5": {
+          "AttackAddedRatio": 0.2
+        }
       },
       "unreleased": false
     },
@@ -9773,6 +10584,12 @@
         "ATK": 476.28,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": -45,
+        "y": -177,
+        "s": 1.3
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21039": {
@@ -9784,6 +10601,28 @@
         "HP": 952.56,
         "ATK": 370.44,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": -90,
+        "y": -94,
+        "s": 1.6
+      },
+      "superimpositions": {
+        "1": {
+          "StatusResistanceBase": 0.12
+        },
+        "2": {
+          "StatusResistanceBase": 0.14
+        },
+        "3": {
+          "StatusResistanceBase": 0.16
+        },
+        "4": {
+          "StatusResistanceBase": 0.18
+        },
+        "5": {
+          "StatusResistanceBase": 0.2
+        }
       },
       "unreleased": false
     },
@@ -9797,6 +10636,28 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -85,
+        "s": 1.06
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.16
+        },
+        "2": {
+          "AttackAddedRatio": 0.18
+        },
+        "3": {
+          "AttackAddedRatio": 0.2
+        },
+        "4": {
+          "AttackAddedRatio": 0.22
+        },
+        "5": {
+          "AttackAddedRatio": 0.24
+        }
+      },
       "unreleased": false
     },
     "21041": {
@@ -9809,6 +10670,12 @@
         "ATK": 476.28,
         "DEF": 264.6
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 83,
+        "s": 1.1
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21042": {
@@ -9820,6 +10687,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -54,
+        "s": 1.02
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.28
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.35
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.42
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.49
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 0.56
+        }
       },
       "unreleased": false
     },
@@ -9833,6 +10722,28 @@
         "ATK": 370.44,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 45,
+        "y": -30,
+        "s": 1.3
+      },
+      "superimpositions": {
+        "1": {
+          "DefenceAddedRatio": 0.16
+        },
+        "2": {
+          "DefenceAddedRatio": 0.2
+        },
+        "3": {
+          "DefenceAddedRatio": 0.24
+        },
+        "4": {
+          "DefenceAddedRatio": 0.28
+        },
+        "5": {
+          "DefenceAddedRatio": 0.32
+        }
+      },
       "unreleased": false
     },
     "21044": {
@@ -9844,6 +10755,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": -45,
+        "y": -200,
+        "s": 1.6
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.08
+        },
+        "2": {
+          "CriticalChanceBase": 0.1
+        },
+        "3": {
+          "CriticalChanceBase": 0.12
+        },
+        "4": {
+          "CriticalChanceBase": 0.14
+        },
+        "5": {
+          "CriticalChanceBase": 0.16
+        }
       },
       "unreleased": false
     },
@@ -9857,6 +10790,28 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": -66,
+        "y": -164,
+        "s": 1.44
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.28
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.35
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.42
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.49
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 0.56
+        }
+      },
       "unreleased": false
     },
     "21046": {
@@ -9868,6 +10823,28 @@
         "HP": 952.56,
         "ATK": 423.36,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 8,
+        "y": -126,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.16
+        },
+        "2": {
+          "AttackAddedRatio": 0.2
+        },
+        "3": {
+          "AttackAddedRatio": 0.24
+        },
+        "4": {
+          "AttackAddedRatio": 0.28
+        },
+        "5": {
+          "AttackAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9881,6 +10858,28 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": -28,
+        "y": -147,
+        "s": 1.4
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.28
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.35
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.42
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.49
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 0.56
+        }
+      },
       "unreleased": false
     },
     "21048": {
@@ -9892,6 +10891,28 @@
         "HP": 952.56,
         "ATK": 423.36,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -25,
+        "s": 1.05
+      },
+      "superimpositions": {
+        "1": {
+          "SpeedAddedRatio": 0.08
+        },
+        "2": {
+          "SpeedAddedRatio": 0.09
+        },
+        "3": {
+          "SpeedAddedRatio": 0.1
+        },
+        "4": {
+          "SpeedAddedRatio": 0.11
+        },
+        "5": {
+          "SpeedAddedRatio": 0.12
+        }
       },
       "unreleased": false
     },
@@ -9905,6 +10926,28 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": -11,
+        "y": -4,
+        "s": 1.2
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.12
+        },
+        "2": {
+          "CriticalDamageBase": 0.15
+        },
+        "3": {
+          "CriticalDamageBase": 0.18
+        },
+        "4": {
+          "CriticalDamageBase": 0.21
+        },
+        "5": {
+          "CriticalDamageBase": 0.24
+        }
+      },
       "unreleased": false
     },
     "21051": {
@@ -9916,6 +10959,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": -9,
+        "y": -95,
+        "s": 1.1
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.16
+        },
+        "2": {
+          "AttackAddedRatio": 0.2
+        },
+        "3": {
+          "AttackAddedRatio": 0.24
+        },
+        "4": {
+          "AttackAddedRatio": 0.28
+        },
+        "5": {
+          "AttackAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9929,6 +10994,28 @@
         "ATK": 529.2,
         "DEF": 198.45
       },
+      "imageOffset": {
+        "x": 68,
+        "y": -114,
+        "s": 1.45
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.12
+        },
+        "2": {
+          "CriticalChanceBase": 0.14
+        },
+        "3": {
+          "CriticalChanceBase": 0.16
+        },
+        "4": {
+          "CriticalChanceBase": 0.18
+        },
+        "5": {
+          "CriticalChanceBase": 0.2
+        }
+      },
       "unreleased": false
     },
     "21053": {
@@ -9941,6 +11028,12 @@
         "ATK": 370.44,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": 2,
+        "y": -57,
+        "s": 1.05
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21054": {
@@ -9952,6 +11045,28 @@
         "HP": 1058.4,
         "ATK": 370.44,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 14,
+        "y": -102,
+        "s": 1.2
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.16
+        },
+        "2": {
+          "HPAddedRatio": 0.2
+        },
+        "3": {
+          "HPAddedRatio": 0.24
+        },
+        "4": {
+          "HPAddedRatio": 0.28
+        },
+        "5": {
+          "HPAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -9965,6 +11080,28 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 2,
+        "y": -92,
+        "s": 1.02
+      },
+      "superimpositions": {
+        "1": {
+          "HealRatioBase": 0.12
+        },
+        "2": {
+          "HealRatioBase": 0.15
+        },
+        "3": {
+          "HealRatioBase": 0.18
+        },
+        "4": {
+          "HealRatioBase": 0.21
+        },
+        "5": {
+          "HealRatioBase": 0.24
+        }
+      },
       "unreleased": false
     },
     "21056": {
@@ -9977,6 +11114,12 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -52,
+        "s": 1.02
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "21057": {
@@ -9988,6 +11131,28 @@
         "HP": 1058.4,
         "ATK": 529.2,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 21,
+        "y": 27,
+        "s": 1.28
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.24
+        },
+        "2": {
+          "CriticalDamageBase": 0.28
+        },
+        "3": {
+          "CriticalDamageBase": 0.32
+        },
+        "4": {
+          "CriticalDamageBase": 0.36
+        },
+        "5": {
+          "CriticalDamageBase": 0.4
+        }
       },
       "unreleased": false
     },
@@ -10001,6 +11166,28 @@
         "ATK": 529.2,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": 16,
+        "y": -98,
+        "s": 1.12
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.12
+        },
+        "2": {
+          "CriticalChanceBase": 0.14
+        },
+        "3": {
+          "CriticalChanceBase": 0.16
+        },
+        "4": {
+          "CriticalChanceBase": 0.18
+        },
+        "5": {
+          "CriticalChanceBase": 0.2
+        }
+      },
       "unreleased": false
     },
     "21060": {
@@ -10012,6 +11199,28 @@
         "HP": 952.56,
         "ATK": 529.2,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -62,
+        "s": 1.02
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.12
+        },
+        "2": {
+          "CriticalChanceBase": 0.14
+        },
+        "3": {
+          "CriticalChanceBase": 0.16
+        },
+        "4": {
+          "CriticalChanceBase": 0.18
+        },
+        "5": {
+          "CriticalChanceBase": 0.2
+        }
       },
       "unreleased": false
     },
@@ -10025,6 +11234,28 @@
         "ATK": 529.2,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": -18,
+        "y": -96,
+        "s": 1.13
+      },
+      "superimpositions": {
+        "1": {
+          "AllDamageTypeAddedRatio": 0.16
+        },
+        "2": {
+          "AllDamageTypeAddedRatio": 0.2
+        },
+        "3": {
+          "AllDamageTypeAddedRatio": 0.24
+        },
+        "4": {
+          "AllDamageTypeAddedRatio": 0.28
+        },
+        "5": {
+          "AllDamageTypeAddedRatio": 0.32
+        }
+      },
       "unreleased": false
     },
     "21062": {
@@ -10036,6 +11267,28 @@
         "HP": 952.56,
         "ATK": 529.2,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": -89,
+        "y": -145,
+        "s": 1.58
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.24
+        },
+        "2": {
+          "CriticalDamageBase": 0.28
+        },
+        "3": {
+          "CriticalDamageBase": 0.32
+        },
+        "4": {
+          "CriticalDamageBase": 0.36
+        },
+        "5": {
+          "CriticalDamageBase": 0.4
+        }
       },
       "unreleased": false
     },
@@ -10049,6 +11302,28 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": -6,
+        "y": -28,
+        "s": 1.1
+      },
+      "superimpositions": {
+        "1": {
+          "ElationDamageAddedRatioBase": 0.12
+        },
+        "2": {
+          "ElationDamageAddedRatioBase": 0.14
+        },
+        "3": {
+          "ElationDamageAddedRatioBase": 0.16
+        },
+        "4": {
+          "ElationDamageAddedRatioBase": 0.18
+        },
+        "5": {
+          "ElationDamageAddedRatioBase": 0.2
+        }
+      },
       "unreleased": false
     },
     "21065": {
@@ -10060,6 +11335,28 @@
         "HP": 952.56,
         "ATK": 529.2,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 22,
+        "y": -6,
+        "s": 1.3
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.12
+        },
+        "2": {
+          "CriticalChanceBase": 0.14
+        },
+        "3": {
+          "CriticalChanceBase": 0.16
+        },
+        "4": {
+          "CriticalChanceBase": 0.18
+        },
+        "5": {
+          "CriticalChanceBase": 0.2
+        }
       },
       "unreleased": false
     },
@@ -10073,6 +11370,28 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": -18,
+        "y": -20,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "StatusProbabilityBase": 0.2
+        },
+        "2": {
+          "StatusProbabilityBase": 0.25
+        },
+        "3": {
+          "StatusProbabilityBase": 0.3
+        },
+        "4": {
+          "StatusProbabilityBase": 0.35
+        },
+        "5": {
+          "StatusProbabilityBase": 0.4
+        }
+      },
       "unreleased": false
     },
     "22001": {
@@ -10084,6 +11403,28 @@
         "HP": 952.56,
         "ATK": 423.36,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -47,
+        "s": 1.1
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.08
+        },
+        "2": {
+          "HPAddedRatio": 0.09
+        },
+        "3": {
+          "HPAddedRatio": 0.1
+        },
+        "4": {
+          "HPAddedRatio": 0.11
+        },
+        "5": {
+          "HPAddedRatio": 0.12
+        }
       },
       "unreleased": false
     },
@@ -10097,6 +11438,28 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": -15,
+        "y": -184,
+        "s": 1.8
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.16
+        },
+        "2": {
+          "AttackAddedRatio": 0.2
+        },
+        "3": {
+          "AttackAddedRatio": 0.24
+        },
+        "4": {
+          "AttackAddedRatio": 0.28
+        },
+        "5": {
+          "AttackAddedRatio": 0.32
+        }
+      },
       "unreleased": false
     },
     "22003": {
@@ -10108,6 +11471,28 @@
         "HP": 1058.4,
         "ATK": 476.28,
         "DEF": 264.6
+      },
+      "imageOffset": {
+        "x": 19,
+        "y": -117,
+        "s": 1.2
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.12
+        },
+        "2": {
+          "HPAddedRatio": 0.15
+        },
+        "3": {
+          "HPAddedRatio": 0.18
+        },
+        "4": {
+          "HPAddedRatio": 0.21
+        },
+        "5": {
+          "HPAddedRatio": 0.24
+        }
       },
       "unreleased": false
     },
@@ -10121,6 +11506,28 @@
         "ATK": 476.28,
         "DEF": 330.75
       },
+      "imageOffset": {
+        "x": -3,
+        "y": 126,
+        "s": 1.05
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.08
+        },
+        "2": {
+          "AttackAddedRatio": 0.1
+        },
+        "3": {
+          "AttackAddedRatio": 0.12
+        },
+        "4": {
+          "AttackAddedRatio": 0.14
+        },
+        "5": {
+          "AttackAddedRatio": 0.16
+        }
+      },
       "unreleased": false
     },
     "22005": {
@@ -10132,6 +11539,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": -46,
+        "y": -106,
+        "s": 1.3
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.16
+        },
+        "2": {
+          "AttackAddedRatio": 0.2
+        },
+        "3": {
+          "AttackAddedRatio": 0.24
+        },
+        "4": {
+          "AttackAddedRatio": 0.28
+        },
+        "5": {
+          "AttackAddedRatio": 0.32
+        }
       },
       "unreleased": false
     },
@@ -10145,6 +11574,28 @@
         "ATK": 476.28,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 2,
+        "y": 3,
+        "s": 1.02
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.12
+        },
+        "2": {
+          "CriticalDamageBase": 0.15
+        },
+        "3": {
+          "CriticalDamageBase": 0.18
+        },
+        "4": {
+          "CriticalDamageBase": 0.21
+        },
+        "5": {
+          "CriticalDamageBase": 0.24
+        }
+      },
       "unreleased": false
     },
     "23000": {
@@ -10157,6 +11608,12 @@
         "ATK": 582.12,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -158,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "23001": {
@@ -10168,6 +11625,28 @@
         "HP": 1058.4,
         "ATK": 582.12,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -133,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.18
+        },
+        "2": {
+          "CriticalChanceBase": 0.21
+        },
+        "3": {
+          "CriticalChanceBase": 0.24
+        },
+        "4": {
+          "CriticalChanceBase": 0.27
+        },
+        "5": {
+          "CriticalChanceBase": 0.3
+        }
       },
       "unreleased": false
     },
@@ -10181,6 +11660,28 @@
         "ATK": 582.12,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -126,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.24
+        },
+        "2": {
+          "AttackAddedRatio": 0.28
+        },
+        "3": {
+          "AttackAddedRatio": 0.32
+        },
+        "4": {
+          "AttackAddedRatio": 0.36
+        },
+        "5": {
+          "AttackAddedRatio": 0.4
+        }
+      },
       "unreleased": false
     },
     "23003": {
@@ -10192,6 +11693,28 @@
         "HP": 1164.24,
         "ATK": 529.2,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -50,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "SPRatioBase": 0.1
+        },
+        "2": {
+          "SPRatioBase": 0.12
+        },
+        "3": {
+          "SPRatioBase": 0.14
+        },
+        "4": {
+          "SPRatioBase": 0.16
+        },
+        "5": {
+          "SPRatioBase": 0.18
+        }
       },
       "unreleased": false
     },
@@ -10205,6 +11728,12 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -168,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "23005": {
@@ -10216,6 +11745,33 @@
         "HP": 1058.4,
         "ATK": 476.28,
         "DEF": 595.35
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -145,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "DefenceAddedRatio": 0.24,
+          "StatusProbabilityBase": 0.24
+        },
+        "2": {
+          "DefenceAddedRatio": 0.28,
+          "StatusProbabilityBase": 0.28
+        },
+        "3": {
+          "DefenceAddedRatio": 0.32,
+          "StatusProbabilityBase": 0.32
+        },
+        "4": {
+          "DefenceAddedRatio": 0.36,
+          "StatusProbabilityBase": 0.36
+        },
+        "5": {
+          "DefenceAddedRatio": 0.4,
+          "StatusProbabilityBase": 0.4
+        }
       },
       "unreleased": false
     },
@@ -10229,6 +11785,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -76,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AllDamageTypeAddedRatio": 0.24
+        },
+        "2": {
+          "AllDamageTypeAddedRatio": 0.28
+        },
+        "3": {
+          "AllDamageTypeAddedRatio": 0.32
+        },
+        "4": {
+          "AllDamageTypeAddedRatio": 0.36
+        },
+        "5": {
+          "AllDamageTypeAddedRatio": 0.4
+        }
+      },
       "unreleased": false
     },
     "23007": {
@@ -10240,6 +11818,28 @@
         "HP": 1058.4,
         "ATK": 582.12,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -68,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "StatusProbabilityBase": 0.24
+        },
+        "2": {
+          "StatusProbabilityBase": 0.28
+        },
+        "3": {
+          "StatusProbabilityBase": 0.32
+        },
+        "4": {
+          "StatusProbabilityBase": 0.36
+        },
+        "5": {
+          "StatusProbabilityBase": 0.4
+        }
       },
       "unreleased": false
     },
@@ -10253,6 +11853,28 @@
         "ATK": 582.12,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -120,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.24
+        },
+        "2": {
+          "AttackAddedRatio": 0.28
+        },
+        "3": {
+          "AttackAddedRatio": 0.32
+        },
+        "4": {
+          "AttackAddedRatio": 0.36
+        },
+        "5": {
+          "AttackAddedRatio": 0.4
+        }
+      },
       "unreleased": false
     },
     "23009": {
@@ -10264,6 +11886,33 @@
         "HP": 1270.08,
         "ATK": 582.12,
         "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -175,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.18,
+          "HPAddedRatio": 0.18
+        },
+        "2": {
+          "CriticalChanceBase": 0.21,
+          "HPAddedRatio": 0.21
+        },
+        "3": {
+          "CriticalChanceBase": 0.24,
+          "HPAddedRatio": 0.24
+        },
+        "4": {
+          "CriticalChanceBase": 0.27,
+          "HPAddedRatio": 0.27
+        },
+        "5": {
+          "CriticalChanceBase": 0.3,
+          "HPAddedRatio": 0.3
+        }
       },
       "unreleased": false
     },
@@ -10277,6 +11926,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -126,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.36
+        },
+        "2": {
+          "CriticalDamageBase": 0.42
+        },
+        "3": {
+          "CriticalDamageBase": 0.48
+        },
+        "4": {
+          "CriticalDamageBase": 0.54
+        },
+        "5": {
+          "CriticalDamageBase": 0.6
+        }
+      },
       "unreleased": false
     },
     "23011": {
@@ -10288,6 +11959,33 @@
         "HP": 1270.08,
         "ATK": 423.36,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -106,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.24,
+          "SPRatioBase": 0.12
+        },
+        "2": {
+          "HPAddedRatio": 0.28,
+          "SPRatioBase": 0.14
+        },
+        "3": {
+          "HPAddedRatio": 0.32,
+          "SPRatioBase": 0.16
+        },
+        "4": {
+          "HPAddedRatio": 0.36,
+          "SPRatioBase": 0.18
+        },
+        "5": {
+          "HPAddedRatio": 0.4,
+          "SPRatioBase": 0.2
+        }
       },
       "unreleased": false
     },
@@ -10301,6 +11999,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 0,
+        "y": 15,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.3
+        },
+        "2": {
+          "CriticalDamageBase": 0.35
+        },
+        "3": {
+          "CriticalDamageBase": 0.4
+        },
+        "4": {
+          "CriticalDamageBase": 0.45
+        },
+        "5": {
+          "CriticalDamageBase": 0.5
+        }
+      },
       "unreleased": false
     },
     "23013": {
@@ -10312,6 +12032,33 @@
         "HP": 1270.08,
         "ATK": 476.28,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -115,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.18,
+          "HealRatioBase": 0.12
+        },
+        "2": {
+          "HPAddedRatio": 0.21,
+          "HealRatioBase": 0.14
+        },
+        "3": {
+          "HPAddedRatio": 0.24,
+          "HealRatioBase": 0.16
+        },
+        "4": {
+          "HPAddedRatio": 0.27,
+          "HealRatioBase": 0.18
+        },
+        "5": {
+          "HPAddedRatio": 0.3,
+          "HealRatioBase": 0.2
+        }
       },
       "unreleased": false
     },
@@ -10325,6 +12072,28 @@
         "ATK": 582.12,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": -37,
+        "y": -260,
+        "s": 1.8
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.2
+        },
+        "2": {
+          "CriticalDamageBase": 0.23
+        },
+        "3": {
+          "CriticalDamageBase": 0.26
+        },
+        "4": {
+          "CriticalDamageBase": 0.29
+        },
+        "5": {
+          "CriticalDamageBase": 0.32
+        }
+      },
       "unreleased": false
     },
     "23015": {
@@ -10336,6 +12105,28 @@
         "HP": 1058.4,
         "ATK": 635.04,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -75,
+        "s": 1
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.18
+        },
+        "2": {
+          "CriticalChanceBase": 0.21
+        },
+        "3": {
+          "CriticalChanceBase": 0.24
+        },
+        "4": {
+          "CriticalChanceBase": 0.27
+        },
+        "5": {
+          "CriticalChanceBase": 0.3
+        }
       },
       "unreleased": false
     },
@@ -10349,6 +12140,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 14,
+        "y": -210,
+        "s": 1.6
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.18
+        },
+        "2": {
+          "CriticalChanceBase": 0.21
+        },
+        "3": {
+          "CriticalChanceBase": 0.24
+        },
+        "4": {
+          "CriticalChanceBase": 0.27
+        },
+        "5": {
+          "CriticalChanceBase": 0.3
+        }
+      },
       "unreleased": false
     },
     "23017": {
@@ -10360,6 +12173,28 @@
         "HP": 1164.24,
         "ATK": 476.28,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": -12,
+        "y": -88,
+        "s": 1.1
+      },
+      "superimpositions": {
+        "1": {
+          "SPRatioBase": 0.12
+        },
+        "2": {
+          "SPRatioBase": 0.14
+        },
+        "3": {
+          "SPRatioBase": 0.16
+        },
+        "4": {
+          "SPRatioBase": 0.18
+        },
+        "5": {
+          "SPRatioBase": 0.2
+        }
       },
       "unreleased": false
     },
@@ -10373,6 +12208,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": -1,
+        "y": -111,
+        "s": 1.03
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.36
+        },
+        "2": {
+          "CriticalDamageBase": 0.42
+        },
+        "3": {
+          "CriticalDamageBase": 0.48
+        },
+        "4": {
+          "CriticalDamageBase": 0.54
+        },
+        "5": {
+          "CriticalDamageBase": 0.6
+        }
+      },
       "unreleased": false
     },
     "23019": {
@@ -10384,6 +12241,28 @@
         "HP": 1058.4,
         "ATK": 529.2,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": 18,
+        "s": 1.01
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.6
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.7
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.8
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.9
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 1
+        }
       },
       "unreleased": false
     },
@@ -10397,6 +12276,28 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -62,
+        "s": 1.02
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.2
+        },
+        "2": {
+          "CriticalDamageBase": 0.23
+        },
+        "3": {
+          "CriticalDamageBase": 0.26
+        },
+        "4": {
+          "CriticalDamageBase": 0.29
+        },
+        "5": {
+          "CriticalDamageBase": 0.32
+        }
+      },
       "unreleased": false
     },
     "23021": {
@@ -10408,6 +12309,28 @@
         "HP": 1164.24,
         "ATK": 529.2,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 16,
+        "y": -162,
+        "s": 1.35
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.32
+        },
+        "2": {
+          "CriticalDamageBase": 0.39
+        },
+        "3": {
+          "CriticalDamageBase": 0.46
+        },
+        "4": {
+          "CriticalDamageBase": 0.53
+        },
+        "5": {
+          "CriticalDamageBase": 0.6
+        }
       },
       "unreleased": false
     },
@@ -10421,6 +12344,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 12,
+        "y": -128,
+        "s": 1.4
+      },
+      "superimpositions": {
+        "1": {
+          "StatusProbabilityBase": 0.4
+        },
+        "2": {
+          "StatusProbabilityBase": 0.45
+        },
+        "3": {
+          "StatusProbabilityBase": 0.5
+        },
+        "4": {
+          "StatusProbabilityBase": 0.55
+        },
+        "5": {
+          "StatusProbabilityBase": 0.6
+        }
+      },
       "unreleased": false
     },
     "23023": {
@@ -10432,6 +12377,28 @@
         "HP": 1058.4,
         "ATK": 423.36,
         "DEF": 661.5
+      },
+      "imageOffset": {
+        "x": 4,
+        "y": -130,
+        "s": 1.1
+      },
+      "superimpositions": {
+        "1": {
+          "DefenceAddedRatio": 0.4
+        },
+        "2": {
+          "DefenceAddedRatio": 0.46
+        },
+        "3": {
+          "DefenceAddedRatio": 0.52
+        },
+        "4": {
+          "DefenceAddedRatio": 0.58
+        },
+        "5": {
+          "DefenceAddedRatio": 0.64
+        }
       },
       "unreleased": false
     },
@@ -10445,6 +12412,28 @@
         "ATK": 635.04,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 8,
+        "y": 273,
+        "s": 1.9
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.36
+        },
+        "2": {
+          "CriticalDamageBase": 0.42
+        },
+        "3": {
+          "CriticalDamageBase": 0.48
+        },
+        "4": {
+          "CriticalDamageBase": 0.54
+        },
+        "5": {
+          "CriticalDamageBase": 0.6
+        }
+      },
       "unreleased": false
     },
     "23025": {
@@ -10456,6 +12445,28 @@
         "HP": 1164.24,
         "ATK": 476.28,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 3,
+        "y": -118,
+        "s": 1.05
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.6
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.7
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.8
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.9
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 1
+        }
       },
       "unreleased": false
     },
@@ -10469,6 +12480,12 @@
         "ATK": 635.04,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -78,
+        "s": 1
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "23027": {
@@ -10480,6 +12497,28 @@
         "HP": 1058.4,
         "ATK": 582.12,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 15,
+        "y": -145,
+        "s": 1.25
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.6
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.7
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.8
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.9
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 1
+        }
       },
       "unreleased": false
     },
@@ -10493,6 +12532,28 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": 4,
+        "y": -147,
+        "s": 1.17
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.16
+        },
+        "2": {
+          "CriticalChanceBase": 0.19
+        },
+        "3": {
+          "CriticalChanceBase": 0.22
+        },
+        "4": {
+          "CriticalChanceBase": 0.25
+        },
+        "5": {
+          "CriticalChanceBase": 0.28
+        }
+      },
       "unreleased": false
     },
     "23029": {
@@ -10504,6 +12565,28 @@
         "HP": 952.56,
         "ATK": 582.12,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": -16,
+        "y": -218,
+        "s": 1.7
+      },
+      "superimpositions": {
+        "1": {
+          "StatusProbabilityBase": 0.6
+        },
+        "2": {
+          "StatusProbabilityBase": 0.7
+        },
+        "3": {
+          "StatusProbabilityBase": 0.8
+        },
+        "4": {
+          "StatusProbabilityBase": 0.9
+        },
+        "5": {
+          "StatusProbabilityBase": 1
+        }
       },
       "unreleased": false
     },
@@ -10517,6 +12600,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": -62,
+        "y": -149,
+        "s": 1.9
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.36
+        },
+        "2": {
+          "CriticalDamageBase": 0.42
+        },
+        "3": {
+          "CriticalDamageBase": 0.48
+        },
+        "4": {
+          "CriticalDamageBase": 0.54
+        },
+        "5": {
+          "CriticalDamageBase": 0.6
+        }
+      },
       "unreleased": false
     },
     "23031": {
@@ -10528,6 +12633,28 @@
         "HP": 952.56,
         "ATK": 635.04,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 74,
+        "y": -186,
+        "s": 1.65
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.15
+        },
+        "2": {
+          "CriticalChanceBase": 0.175
+        },
+        "3": {
+          "CriticalChanceBase": 0.2
+        },
+        "4": {
+          "CriticalChanceBase": 0.225
+        },
+        "5": {
+          "CriticalChanceBase": 0.25
+        }
       },
       "unreleased": false
     },
@@ -10541,6 +12668,28 @@
         "ATK": 529.2,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": -33,
+        "y": -121,
+        "s": 1.23
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.6
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.7
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.8
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.9
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 1
+        }
+      },
       "unreleased": false
     },
     "23033": {
@@ -10552,6 +12701,28 @@
         "HP": 952.56,
         "ATK": 582.12,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 7,
+        "y": -158,
+        "s": 1.4
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.6
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.7
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.8
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.9
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 1
+        }
       },
       "unreleased": false
     },
@@ -10565,6 +12736,12 @@
         "ATK": 476.28,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": -6,
+        "y": -83,
+        "s": 1.1
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "23035": {
@@ -10576,6 +12753,28 @@
         "HP": 952.56,
         "ATK": 476.28,
         "DEF": 661.5
+      },
+      "imageOffset": {
+        "x": -5,
+        "y": -189,
+        "s": 1.9
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.6
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.7
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.8
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.9
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 1
+        }
       },
       "unreleased": false
     },
@@ -10589,6 +12788,28 @@
         "ATK": 635.04,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 11,
+        "y": -94,
+        "s": 1.2
+      },
+      "superimpositions": {
+        "1": {
+          "BaseSpeed": 12
+        },
+        "2": {
+          "BaseSpeed": 14
+        },
+        "3": {
+          "BaseSpeed": 16
+        },
+        "4": {
+          "BaseSpeed": 18
+        },
+        "5": {
+          "BaseSpeed": 20
+        }
+      },
       "unreleased": false
     },
     "23037": {
@@ -10600,6 +12821,28 @@
         "HP": 952.56,
         "ATK": 635.04,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 52,
+        "y": -145,
+        "s": 1.5
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.12
+        },
+        "2": {
+          "CriticalChanceBase": 0.14
+        },
+        "3": {
+          "CriticalChanceBase": 0.16
+        },
+        "4": {
+          "CriticalChanceBase": 0.18
+        },
+        "5": {
+          "CriticalChanceBase": 0.2
+        }
       },
       "unreleased": false
     },
@@ -10613,6 +12856,28 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 2,
+        "y": -86,
+        "s": 1.3
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.36
+        },
+        "2": {
+          "CriticalDamageBase": 0.42
+        },
+        "3": {
+          "CriticalDamageBase": 0.48
+        },
+        "4": {
+          "CriticalDamageBase": 0.54
+        },
+        "5": {
+          "CriticalDamageBase": 0.6
+        }
+      },
       "unreleased": false
     },
     "23039": {
@@ -10624,6 +12889,33 @@
         "HP": 1375.92,
         "ATK": 476.28,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 38,
+        "y": -148,
+        "s": 1.4
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.18,
+          "HealTakenRatio": 0.2
+        },
+        "2": {
+          "HPAddedRatio": 0.21,
+          "HealTakenRatio": 0.25
+        },
+        "3": {
+          "HPAddedRatio": 0.24,
+          "HealTakenRatio": 0.3
+        },
+        "4": {
+          "HPAddedRatio": 0.27,
+          "HealTakenRatio": 0.35
+        },
+        "5": {
+          "HPAddedRatio": 0.3,
+          "HealTakenRatio": 0.4
+        }
       },
       "unreleased": false
     },
@@ -10637,6 +12929,28 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 3,
+        "y": -68,
+        "s": 1.03
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.3
+        },
+        "2": {
+          "HPAddedRatio": 0.375
+        },
+        "3": {
+          "HPAddedRatio": 0.45
+        },
+        "4": {
+          "HPAddedRatio": 0.525
+        },
+        "5": {
+          "HPAddedRatio": 0.6
+        }
+      },
       "unreleased": false
     },
     "23041": {
@@ -10649,6 +12963,12 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": -3,
+        "y": -79,
+        "s": 1.07
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "23042": {
@@ -10660,6 +12980,28 @@
         "HP": 1164.24,
         "ATK": 476.28,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": -64,
+        "y": -102,
+        "s": 1.45
+      },
+      "superimpositions": {
+        "1": {
+          "SpeedAddedRatio": 0.18
+        },
+        "2": {
+          "SpeedAddedRatio": 0.21
+        },
+        "3": {
+          "SpeedAddedRatio": 0.24
+        },
+        "4": {
+          "SpeedAddedRatio": 0.27
+        },
+        "5": {
+          "SpeedAddedRatio": 0.3
+        }
       },
       "unreleased": false
     },
@@ -10673,6 +13015,28 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": -8,
+        "y": 77,
+        "s": 1.17
+      },
+      "superimpositions": {
+        "1": {
+          "SpeedAddedRatio": 0.18
+        },
+        "2": {
+          "SpeedAddedRatio": 0.21
+        },
+        "3": {
+          "SpeedAddedRatio": 0.24
+        },
+        "4": {
+          "SpeedAddedRatio": 0.27
+        },
+        "5": {
+          "SpeedAddedRatio": 0.3
+        }
+      },
       "unreleased": false
     },
     "23044": {
@@ -10684,6 +13048,28 @@
         "HP": 952.56,
         "ATK": 687.96,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 23,
+        "y": -67,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "BaseSpeed": 12
+        },
+        "2": {
+          "BaseSpeed": 14
+        },
+        "3": {
+          "BaseSpeed": 16
+        },
+        "4": {
+          "BaseSpeed": 18
+        },
+        "5": {
+          "BaseSpeed": 20
+        }
       },
       "unreleased": false
     },
@@ -10697,6 +13083,28 @@
         "ATK": 582.12,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": 40,
+        "y": -101,
+        "s": 1.27
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.36
+        },
+        "2": {
+          "CriticalDamageBase": 0.45
+        },
+        "3": {
+          "CriticalDamageBase": 0.54
+        },
+        "4": {
+          "CriticalDamageBase": 0.63
+        },
+        "5": {
+          "CriticalDamageBase": 0.72
+        }
+      },
       "unreleased": false
     },
     "23046": {
@@ -10708,6 +13116,28 @@
         "HP": 952.56,
         "ATK": 582.12,
         "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 26,
+        "y": -120,
+        "s": 1.57
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.16
+        },
+        "2": {
+          "CriticalChanceBase": 0.2
+        },
+        "3": {
+          "CriticalChanceBase": 0.24
+        },
+        "4": {
+          "CriticalChanceBase": 0.28
+        },
+        "5": {
+          "CriticalChanceBase": 0.32
+        }
       },
       "unreleased": false
     },
@@ -10721,6 +13151,28 @@
         "ATK": 635.04,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 38,
+        "y": -144,
+        "s": 1.33
+      },
+      "superimpositions": {
+        "1": {
+          "StatusProbabilityBase": 0.4
+        },
+        "2": {
+          "StatusProbabilityBase": 0.45
+        },
+        "3": {
+          "StatusProbabilityBase": 0.5
+        },
+        "4": {
+          "StatusProbabilityBase": 0.55
+        },
+        "5": {
+          "StatusProbabilityBase": 0.6
+        }
+      },
       "unreleased": false
     },
     "23048": {
@@ -10732,6 +13184,28 @@
         "HP": 952.56,
         "ATK": 635.04,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": -3,
+        "y": -80,
+        "s": 1.38
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.64
+        },
+        "2": {
+          "AttackAddedRatio": 0.8
+        },
+        "3": {
+          "AttackAddedRatio": 0.96
+        },
+        "4": {
+          "AttackAddedRatio": 1.12
+        },
+        "5": {
+          "AttackAddedRatio": 1.28
+        }
       },
       "unreleased": false
     },
@@ -10745,6 +13219,28 @@
         "ATK": 529.2,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 34.5,
+        "y": 27,
+        "s": 1.3
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.3
+        },
+        "2": {
+          "HPAddedRatio": 0.375
+        },
+        "3": {
+          "HPAddedRatio": 0.45
+        },
+        "4": {
+          "HPAddedRatio": 0.525
+        },
+        "5": {
+          "HPAddedRatio": 0.6
+        }
+      },
       "unreleased": false
     },
     "23050": {
@@ -10756,6 +13252,28 @@
         "HP": 1164.24,
         "ATK": 529.2,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": -27,
+        "y": -108,
+        "s": 1.18
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.6
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.75
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.9
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 1.05
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 1.2
+        }
       },
       "unreleased": false
     },
@@ -10769,6 +13287,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 16,
+        "y": -117,
+        "s": 1.14
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.64
+        },
+        "2": {
+          "AttackAddedRatio": 0.8
+        },
+        "3": {
+          "AttackAddedRatio": 0.96
+        },
+        "4": {
+          "AttackAddedRatio": 1.12
+        },
+        "5": {
+          "AttackAddedRatio": 1.28
+        }
+      },
       "unreleased": false
     },
     "23052": {
@@ -10780,6 +13320,28 @@
         "HP": 1270.08,
         "ATK": 476.28,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -78,
+        "s": 1.02
+      },
+      "superimpositions": {
+        "1": {
+          "SpeedAddedRatio": 0.18
+        },
+        "2": {
+          "SpeedAddedRatio": 0.21
+        },
+        "3": {
+          "SpeedAddedRatio": 0.24
+        },
+        "4": {
+          "SpeedAddedRatio": 0.27
+        },
+        "5": {
+          "SpeedAddedRatio": 0.3
+        }
       },
       "unreleased": false
     },
@@ -10793,6 +13355,28 @@
         "ATK": 582.12,
         "DEF": 463.05
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -53,
+        "s": 1.1
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.48
+        },
+        "2": {
+          "CriticalDamageBase": 0.56
+        },
+        "3": {
+          "CriticalDamageBase": 0.64
+        },
+        "4": {
+          "CriticalDamageBase": 0.72
+        },
+        "5": {
+          "CriticalDamageBase": 0.8
+        }
+      },
       "unreleased": false
     },
     "23054": {
@@ -10805,7 +13389,63 @@
         "ATK": 529.2,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -30,
+        "s": 1
+      },
+      "superimpositions": {
+        "1": {
+          "SpeedAddedRatio": 0.18
+        },
+        "2": {
+          "SpeedAddedRatio": 0.21
+        },
+        "3": {
+          "SpeedAddedRatio": 0.24
+        },
+        "4": {
+          "SpeedAddedRatio": 0.27
+        },
+        "5": {
+          "SpeedAddedRatio": 0.3
+        }
+      },
       "unreleased": false
+    },
+    "23056": {
+      "id": "23056",
+      "name": "The Finale of a Lie",
+      "rarity": 5,
+      "path": "Hunt",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 635.04,
+        "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -16,
+        "s": 1
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.18
+        },
+        "2": {
+          "CriticalChanceBase": 0.21
+        },
+        "3": {
+          "CriticalChanceBase": 0.24
+        },
+        "4": {
+          "CriticalChanceBase": 0.27
+        },
+        "5": {
+          "CriticalChanceBase": 0.3
+        }
+      },
+      "unreleased": true
     },
     "24000": {
       "id": "24000",
@@ -10817,6 +13457,12 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -122,
+        "s": 1.15
+      },
+      "superimpositions": {},
       "unreleased": false
     },
     "24001": {
@@ -10828,6 +13474,28 @@
         "HP": 952.56,
         "ATK": 529.2,
         "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 20,
+        "y": -9,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.08
+        },
+        "2": {
+          "CriticalChanceBase": 0.1
+        },
+        "3": {
+          "CriticalChanceBase": 0.12
+        },
+        "4": {
+          "CriticalChanceBase": 0.14
+        },
+        "5": {
+          "CriticalChanceBase": 0.16
+        }
       },
       "unreleased": false
     },
@@ -10841,6 +13509,28 @@
         "ATK": 423.36,
         "DEF": 529.2
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -55,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "StatusResistanceBase": 0.08
+        },
+        "2": {
+          "StatusResistanceBase": 0.1
+        },
+        "3": {
+          "StatusResistanceBase": 0.12
+        },
+        "4": {
+          "StatusResistanceBase": 0.14
+        },
+        "5": {
+          "StatusResistanceBase": 0.16
+        }
+      },
       "unreleased": false
     },
     "24003": {
@@ -10852,6 +13542,28 @@
         "HP": 1058.4,
         "ATK": 529.2,
         "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -47,
+        "s": 1
+      },
+      "superimpositions": {
+        "1": {
+          "BreakDamageAddedRatioBase": 0.2
+        },
+        "2": {
+          "BreakDamageAddedRatioBase": 0.25
+        },
+        "3": {
+          "BreakDamageAddedRatioBase": 0.3
+        },
+        "4": {
+          "BreakDamageAddedRatioBase": 0.35
+        },
+        "5": {
+          "BreakDamageAddedRatioBase": 0.4
+        }
       },
       "unreleased": false
     },
@@ -10865,6 +13577,28 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 0,
+        "y": -2.5,
+        "s": 1.01
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.08
+        },
+        "2": {
+          "AttackAddedRatio": 0.09
+        },
+        "3": {
+          "AttackAddedRatio": 0.1
+        },
+        "4": {
+          "AttackAddedRatio": 0.11
+        },
+        "5": {
+          "AttackAddedRatio": 0.12
+        }
+      },
       "unreleased": false
     },
     "24005": {
@@ -10877,7 +13611,63 @@
         "ATK": 529.2,
         "DEF": 396.9
       },
+      "imageOffset": {
+        "x": 1,
+        "y": -86,
+        "s": 1.1
+      },
+      "superimpositions": {
+        "1": {
+          "SpeedAddedRatio": 0.06
+        },
+        "2": {
+          "SpeedAddedRatio": 0.075
+        },
+        "3": {
+          "SpeedAddedRatio": 0.09
+        },
+        "4": {
+          "SpeedAddedRatio": 0.105
+        },
+        "5": {
+          "SpeedAddedRatio": 0.12
+        }
+      },
       "unreleased": false
+    },
+    "24006": {
+      "id": "24006",
+      "name": "Elation Brimming With Blessings",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 529.2,
+        "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": 69,
+        "s": 1.05
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.2
+        },
+        "2": {
+          "AttackAddedRatio": 0.25
+        },
+        "3": {
+          "AttackAddedRatio": 0.3
+        },
+        "4": {
+          "AttackAddedRatio": 0.35
+        },
+        "5": {
+          "AttackAddedRatio": 0.4
+        }
+      },
+      "unreleased": true
     }
   },
   "relics": [
@@ -11150,6 +13940,16 @@
       "id": "324",
       "name": "Tengoku@Livestream",
       "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. If <b>3</b> or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by <b>32%</b>, lasting for <b>3</b> turns."
+    },
+    {
+      "id": "325",
+      "name": "Punklorde Stage Zero",
+      "skills": "Increases the wearer's Elation by <b>8%</b>. When Elation reaches <b>40%</b>/<b>80%</b> for the first time in battle, increases the wearer's CRIT DMG by <b>20%</b>/<b>32%</b>."
+    },
+    {
+      "id": "326",
+      "name": "City of Converging Stars",
+      "skills": "When the wearer uses a Follow-Up ATK, increases their ATK by <b>24%</b> for <b>2</b> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <b>12%</b> for the rest of the current battle. This effect cannot stack."
     }
   ]
 }

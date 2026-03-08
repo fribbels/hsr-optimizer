@@ -8,11 +8,12 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IndeliblePromise')
-  const { SOURCE_LC } = Source.lightCone('21042')
+  const { SOURCE_LC } = Source.lightCone(IndeliblePromise.id)
 
   const sValues = [0.15, 0.1875, 0.225, 0.2625, 0.3]
 
@@ -39,4 +40,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.CR, (r.crBuff) ? sValues[s] : 0, x.source(SOURCE_LC))
     },
   }
+}
+
+export const IndeliblePromise: LightConeConfig = {
+  id: '21042',
+  conditionals,
 }

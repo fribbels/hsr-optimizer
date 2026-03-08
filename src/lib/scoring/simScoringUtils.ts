@@ -8,6 +8,7 @@ import {
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import {
   AKeyValue,
+  GlobalRegister,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -287,7 +288,7 @@ export function simSorter(a: Simulation, b: Simulation) {
 export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true, user = false) {
   if (!result) return
 
-  const unpenalizedSimScore = result.x.getSelfValue(StatKey.COMBO_DMG)
+  const unpenalizedSimScore = result.x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }

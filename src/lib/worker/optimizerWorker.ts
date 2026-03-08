@@ -1,12 +1,12 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { Constants } from 'lib/constants/constants'
 import {
-  Constants,
   OrnamentSetToIndex,
   RelicSetToIndex,
   SetsOrnaments,
   SetsRelics,
-} from 'lib/constants/constants'
+} from 'lib/sets/setConfigRegistry'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   BasicStatsArray,
@@ -25,13 +25,11 @@ import {
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
-  calculateSetCounts,
+  calculateSetCountsInPlace,
 } from 'lib/optimization/calculateStats'
-import {
-  Key,
-  KeysType,
-} from 'lib/optimization/computedStatsArray'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SetCounts } from 'lib/optimization/setMatching'
+import { BasicKey, BasicKeyType } from 'lib/optimization/basicStatsArray'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
 import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
@@ -98,11 +96,7 @@ export function optimizerWorker(e: MessageEvent) {
   const summonerDisplay = !memoDisplay
   let passCount = 0
 
-  const {
-    failsBasicThresholdFilter,
-    failsCombatThresholdFilter,
-    // @ts-ignore
-  } = generateResultMinFilter(request, combatDisplay, memoDisplay)
+  const { failsBasicThresholdFilter, failsComputedThresholdFilter } = generateResultMinFilter(request, context)
 
   // Calculate conditional registry for all actions
   for (const action of context.rotationActions) {
@@ -112,8 +106,8 @@ export function optimizerWorker(e: MessageEvent) {
     calculateContextConditionalRegistry(action, context)
   }
 
-  context.characterConditionalController = CharacterConditionalsResolver.get(context)
-  context.lightConeConditionalController = LightConeConditionalsResolver.get(context)
+  context.characterController = CharacterConditionalsResolver.get(context)
+  context.lightConeController = LightConeConditionalsResolver.get(context)
 
   function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
     if (teammateMetadata?.characterId) {
@@ -181,6 +175,10 @@ export function optimizerWorker(e: MessageEvent) {
   const failsCombatStatsFilter = combatStatsFilter(request)
   const failsBasicStatsFilter = basicStatsFilter(request)
   const failsEhpFilter = ehpFilter(request)
+  const failsRatingFilter = ratingFilter(request, context)
+
+  const sets = new Array(6)
+  const setCounts: SetCounts = { relicMatch2: 0, relicMatch4: 0, ornamentMatch2: 0 }
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -216,12 +214,20 @@ export function optimizerWorker(e: MessageEvent) {
     const ornamentSetIndex = setP + setL * ornamentSetCount
 
     // Exit early if sets don't match
-    if (relicSetSolutions[relicSetIndex] != 1 || ornamentSetSolutions[ornamentSetIndex] != 1) {
+    const relicValid = ((relicSetSolutions[relicSetIndex >> 5] >> (relicSetIndex & 31)) & 1) === 1
+    const ornamentValid = ((ornamentSetSolutions[ornamentSetIndex >> 5] >> (ornamentSetIndex & 31)) & 1) === 1
+    if (!relicValid || !ornamentValid) {
       continue
     }
 
-    const sets = [setH, setG, setB, setF, setP, setL]
-    const setCounts = calculateSetCounts(sets)
+    sets[0] = setH
+    sets[1] = setG
+    sets[2] = setB
+    sets[3] = setF
+    sets[4] = setP
+    sets[5] = setL
+
+    calculateSetCountsInPlace(setCounts, sets)
     c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, col)
 
     calculateBasicSetEffects(c, context, setCounts, sets)
@@ -267,8 +273,6 @@ export function optimizerWorker(e: MessageEvent) {
     }
 
     // Calculate default actions for display stats and store in registers
-    calculateComputedStats(x, context.defaultActions[0], context)
-
     for (let i = 0; i < context.defaultActions.length; i++) {
       const action = context.defaultActions[i]
       x.setConfig(action.config)
@@ -295,7 +299,7 @@ export function optimizerWorker(e: MessageEvent) {
 
     calculateEhp(x, context)
 
-    x.a[StatKey.COMBO_DMG] = comboDmg
+    x.setGlobalRegisterValue(GlobalRegister.COMBO_DMG, comboDmg)
 
     // Display mode filtering using entity-aware filters
     const displayEntityIndex = (memoDisplay && memospriteEntityIndex >= 0) ? memospriteEntityIndex : 0
@@ -307,6 +311,16 @@ export function optimizerWorker(e: MessageEvent) {
 
     // EHP filtering
     if (failsEhpFilter(x)) {
+      continue
+    }
+
+    // Rating filters (BASIC, SKILL, ULT, FUA, DOT, BREAK, MEMO_SKILL, MEMO_TALENT)
+    if (failsRatingFilter(x)) {
+      continue
+    }
+
+    // Computed rating threshold filter (rising floor from priority queue)
+    if (failsComputedThresholdFilter(x)) {
       continue
     }
 
@@ -410,31 +424,68 @@ function ehpFilter(request: Form) {
   }
 }
 
-function generateResultMinFilter(request: Form, combatDisplay: string) {
-  const filter = request.resultMinFilter
-  // @ts-ignore
-  const sortOption = SortOption[request.resultSort] as SortOptionProperties
-  const isComputedRating = sortOption.isComputedRating
+function ratingFilter(request: Form, context: OptimizerContext) {
+  const conditions: ((x: ComputedStatsContainer) => boolean)[] = []
 
-  // Combat and basic filters apply at different places in the loop
-  // Computed ratings (EHP, DMG, WEIGHT) only apply to the computed x values independent of the stat display
-  if (combatDisplay || isComputedRating) {
-    const key = sortOption.optimizerKey
+  for (const sortOption of Object.values(SortOption)) {
+    if (!sortOption.minFilterKey || !sortOption.maxFilterKey) continue
+
+    const min = request[sortOption.minFilterKey as keyof Form] as number
+    const max = request[sortOption.maxFilterKey as keyof Form] as number
+    if (min === 0 && max === Constants.MAX_INT) continue
+
+    const action = context.defaultActions.find((a) => a.actionName === sortOption.key)
+    if (!action) continue
+
+    const registerIndex = action.registerIndex
+    conditions.push((x) => {
+      const value = x.getActionRegisterValue(registerIndex)
+      return value < min || value > max
+    })
+  }
+
+  if (conditions.length === 0) {
+    return () => false
+  }
+
+  return (x: ComputedStatsContainer) => conditions.some((condition) => condition(x))
+}
+
+// Returns threshold filters that skip builds whose sort value is below the rising min floor.
+// Basic stats can be checked before simulation (early exit), computed ratings only after.
+function generateResultMinFilter(request: Form, context: OptimizerContext) {
+  const threshold = request.resultMinFilter
+  const sortOption = SortOption[request.resultSort!] as SortOptionProperties
+  const pass = () => false
+
+  if (!sortOption.isComputedRating) {
+    const key = BasicKey[sortOption.key as BasicKeyType]
     return {
-      failsBasicThresholdFilter: () => false,
-      failsCombatThresholdFilter: (candidate: Float32Array) => {
-        return candidate[key] < filter
-      },
+      failsBasicThresholdFilter: (c: Float32Array) => c[key] < threshold,
+      failsComputedThresholdFilter: pass,
     }
+  }
+
+  let getComputedValue: (x: ComputedStatsContainer) => number
+
+  if (sortOption.statKey != null) {
+    const statKey = sortOption.statKey
+    getComputedValue = (x) => x.a[statKey]
+  } else if (sortOption.globalRegisterIndex != null) {
+    const globalRegisterIndex = sortOption.globalRegisterIndex
+    getComputedValue = (x) => x.getGlobalRegisterValue(globalRegisterIndex)
   } else {
-    const property = sortOption.gpuProperty as KeysType
-    const key = Key[property]
-    return {
-      failsBasicThresholdFilter: (candidate: Float32Array) => {
-        return candidate[key] < filter
-      },
-      failsCombatThresholdFilter: () => false,
+    const action = context.defaultActions.find((a) => a.actionName === sortOption.key)
+    if (!action) {
+      return { failsBasicThresholdFilter: pass, failsComputedThresholdFilter: pass }
     }
+    const registerIndex = action.registerIndex
+    getComputedValue = (x) => x.getActionRegisterValue(registerIndex)
+  }
+
+  return {
+    failsBasicThresholdFilter: pass,
+    failsComputedThresholdFilter: (x: ComputedStatsContainer) => getComputedValue(x) < threshold,
   }
 }
 

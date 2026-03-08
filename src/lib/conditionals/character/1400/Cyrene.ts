@@ -1,19 +1,38 @@
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Evernight } from 'lib/conditionals/character/1400/Evernight'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import {
-  AbilityType,
-  BUFF_PRIORITY_MEMO,
-  BUFF_PRIORITY_SELF,
-} from 'lib/conditionals/conditionalConstants'
+  TrailblazerRemembranceCaelus,
+  TrailblazerRemembranceStelle
+} from 'lib/conditionals/character/8000/TrailblazerRemembrance'
+import { BuffPriority, } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   createEnum,
+  findTeamAction,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
+import {
+  Parts,
+  Sets,
+  Stats
+} from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import {
+  wgsl,
+  wgslTrue
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  HKey,
+  StatKey
+} from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
@@ -23,34 +42,65 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
-  AGLAEA,
-  ANAXA,
-  CAELUS_REMEMBRANCE,
-  CASTORICE,
-  CERYDRA,
-  CIPHER,
-  CYRENE,
-  EVERNIGHT,
-  HYACINE,
-  HYSILENS,
-  MYDEI,
-  PERMANSOR_TERRAE,
-  PHAINON,
-  STELLE_REMEMBRANCE,
-  TRIBBIE,
-} from 'lib/simulations/tests/testMetadataConstants'
+  AbilityKind,
+  DEFAULT_MEMO_SKILL,
+  DEFAULT_ULT,
+  NULL_TURN_ABILITY_NAME,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  RELICS_2P_SPEED,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Eidolon } from 'types/character'
+import {
+  CharacterId,
+  Eidolon
+} from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
+import {
+  ScoringMetadata,
+  SimulationMetadata
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export const CyreneEntities = createEnum('Cyrene', 'Demiurge')
-export const CyreneAbilities = createEnum('BASIC', 'MEMO_SKILL', 'BREAK')
+export const CHRYSOS_HEIR_IDS = [
+  '1402', // Aglaea
+  '1403', // Tribbie
+  '1404', // Mydei
+  '1405', // Anaxa
+  '1406', // Cipher
+  '1407', // Castorice
+  '1408', // Phainon
+  '1409', // Hyacine
+  '1410', // Hysilens
+  '1412', // Cerydra
+  '1413', // Evernight
+  '1414', // PermansorTerrae
+  '1415', // Cyrene
+  '8007', // TrailblazerRemembranceCaelus
+  '8008', // TrailblazerRemembranceStelle
+] as const satisfies readonly CharacterId[]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+export type ChrysosHeirId = (typeof CHRYSOS_HEIR_IDS)[number]
+const chrysosHeirs = new Set<CharacterId>(CHRYSOS_HEIR_IDS)
+
+export const CyreneEntities = createEnum('Cyrene', 'Demiurge')
+export const CyreneAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
+
+
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cyrene')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
 
@@ -84,26 +134,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSkillTrailblazerAtkScaling = memoSkill(e, 0.16, 0.176)
   const memoSkillTrailblazerCrScaling = memoSkill(e, 0.72, 0.792)
 
-  const chrysosHeirs: Record<string, boolean> = {
-    [CYRENE]: true,
-    [MYDEI]: true,
-    [PHAINON]: true,
-    [CASTORICE]: true,
-    [ANAXA]: true,
-    [CIPHER]: true,
-    [AGLAEA]: true,
-    [HYACINE]: true,
-    [TRIBBIE]: true,
-    [HYSILENS]: true,
-    [CERYDRA]: true,
-    [PERMANSOR_TERRAE]: true,
-    [EVERNIGHT]: true,
-    [CAELUS_REMEMBRANCE]: true,
-    [STELLE_REMEMBRANCE]: true,
-  }
-
   const defaults = {
-    buffPriority: BUFF_PRIORITY_SELF,
+    buffPriority: BuffPriority.SELF,
     memospriteActive: true,
     zoneActive: true,
     talentDmgBuff: true,
@@ -133,8 +165,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -246,31 +278,34 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.MEMO_SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
 
     entityDeclaration: () => Object.values(CyreneEntities),
-    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
-      [CyreneEntities.Cyrene]: {
-        primary: true,
-        summon: false,
-        memosprite: false,
-      },
-      [CyreneEntities.Demiurge]: {
-        memoBaseSpdFlat: 0,
-        memoBaseHpScaling: 1.00,
-        memoBaseAtkScaling: 1,
-        memoBaseDefScaling: 1,
-        primary: false,
-        summon: true,
-        memosprite: true,
-      },
-    }),
+    entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return {
+        [CyreneEntities.Cyrene]: {
+          primary: true,
+          summon: false,
+          memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
+        },
+        [CyreneEntities.Demiurge]: {
+          memoBaseSpdFlat: 0,
+          memoBaseHpScaling: 1.00,
+          memoBaseAtkScaling: 1,
+          memoBaseDefScaling: 1,
+          primary: false,
+          summon: true,
+          memosprite: true,
+        },
+      }
+    },
 
-    actionDeclaration: () => Object.values(CyreneAbilities),
+    actionDeclaration: () => [...CyreneAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -288,7 +323,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         + (e >= 1 ? 5 / 3 * r.e1ExtraBounces : 0)
 
       return {
-        [CyreneAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Ice)
@@ -297,7 +332,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [CyreneAbilities.MEMO_SKILL]: {
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(CyreneEntities.Demiurge)
@@ -309,7 +344,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [CyreneAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
           ],
@@ -321,9 +356,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -356,13 +390,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace SPD-based DMG buff
-      x.buff(StatKey.DMG_BOOST, t.cyreneSpdDmg ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, t.cyreneSpdDmg ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       if (t.specialEffect) {
-        if (!chrysosHeirs[context.characterId]) {
+        if (!chrysosHeirs.has(context.characterId)) {
           // Non-chrysosHeirs get DMG buff to single target (follows memo buff priority)
           x.buff(StatKey.DMG_BOOST, t.specialEffect ? memoSkillDmgBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_MEMO))
-        } else if (context.characterId == STELLE_REMEMBRANCE || context.characterId == CAELUS_REMEMBRANCE) {
+        } else if (context.characterId == TrailblazerRemembranceStelle.id || context.characterId == TrailblazerRemembranceCaelus.id) {
           // Trailblazers get ATK and CR conversion buffs (self + memosprite)
           const atkBuff = memoSkillTrailblazerAtkScaling * t.cyreneHp
           x.buff(StatKey.ATK, atkBuff, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(context.characterId)))
@@ -398,3 +432,153 @@ if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 180.
     },
   }
 }
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.HP_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+    Stats.SPD,
+  ],
+  breakpoints: { [Stats.SPD]: 180 },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_ULT,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_BASIC,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_BASIC,
+    DEFAULT_MEMO_SKILL,
+  ],
+  comboDot: 0,
+  deprioritizeBuffs: true,
+  relicSets: [
+    [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+    RELICS_2P_SPEED,
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.BoneCollectionsSereneDemesne,
+    Sets.AmphoreusTheEternalLand,
+    Sets.ArcadiaOfWovenDreams,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Evernight.id,
+      lightCone: ToEvernightsStars.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 1,
+    [Stats.HP_P]: 1,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.HP_P,
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Ice_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+  ],
+  sortOption: SortOption.MEMO_SKILL,
+  hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.FUA,
+    SortOption.ULT,
+    SortOption.DOT,
+  ],
+  addedColumns: [
+    SortOption.MEMO_SKILL,
+  ],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 1030,
+    y: 1225,
+    z: 1.60,
+  },
+  showcaseColor: '#8a88e4',
+}
+
+export function getCyreneAction(action: OptimizerAction) {
+  return findTeamAction(action, Cyrene.id)
+}
+
+export function cyreneActionExists(action: OptimizerAction) {
+  return !!getCyreneAction(action)
+}
+
+export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
+  return getCyreneAction(action)!.actorEidolon >= 3
+}
+
+export const Cyrene: CharacterConfig = {
+  id: '1415',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
+}
+
+

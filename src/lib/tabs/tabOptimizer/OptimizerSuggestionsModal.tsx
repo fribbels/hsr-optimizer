@@ -333,10 +333,6 @@ enum ZeroResultRootCause {
   MAX_DOT = 'MAX_DOT',
   MIN_BREAK = 'MIN_BREAK',
   MAX_BREAK = 'MAX_BREAK',
-  MIN_HEAL = 'MIN_HEAL',
-  MAX_HEAL = 'MAX_HEAL',
-  MIN_SHIELD = 'MIN_SHIELD',
-  MAX_SHIELD = 'MAX_SHIELD',
   MIN_COMBO = 'MIN_COMBO',
   MAX_COMBO = 'MAX_COMBO',
   STAT_VIEW = 'STAT_VIEW',
@@ -381,10 +377,6 @@ const ZeroResultRootCauseFixes = {
   [ZeroResultRootCause.MAX_MEMO_SKILL]: filterFixes(ZeroResultRootCause.MAX_MEMO_SKILL),
   [ZeroResultRootCause.MIN_MEMO_TALENT]: filterFixes(ZeroResultRootCause.MIN_MEMO_TALENT),
   [ZeroResultRootCause.MAX_MEMO_TALENT]: filterFixes(ZeroResultRootCause.MAX_MEMO_TALENT),
-  [ZeroResultRootCause.MAX_HEAL]: filterFixes(ZeroResultRootCause.MAX_HEAL),
-  [ZeroResultRootCause.MIN_HEAL]: filterFixes(ZeroResultRootCause.MIN_HEAL),
-  [ZeroResultRootCause.MAX_SHIELD]: filterFixes(ZeroResultRootCause.MAX_SHIELD),
-  [ZeroResultRootCause.MIN_SHIELD]: filterFixes(ZeroResultRootCause.MIN_SHIELD),
   [ZeroResultRootCause.MAX_COMBO]: filterFixes(ZeroResultRootCause.MAX_COMBO),
   [ZeroResultRootCause.MIN_COMBO]: filterFixes(ZeroResultRootCause.MIN_COMBO),
   [ZeroResultRootCause.STAT_VIEW]: {
@@ -456,11 +448,6 @@ export function activateZeroResultSuggestionsModal(request: Form) {
   if (request.maxDot < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_DOT)
   if (request.minBreak) rootCauses.push(ZeroResultRootCause.MIN_BREAK)
   if (request.maxBreak < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_BREAK)
-  if (request.minHeal) rootCauses.push(ZeroResultRootCause.MIN_HEAL)
-  if (request.maxHeal < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_HEAL)
-  if (request.minShield) rootCauses.push(ZeroResultRootCause.MIN_SHIELD)
-  if (request.maxShield < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_SHIELD)
-
   setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
 }
 

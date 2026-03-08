@@ -1,6 +1,13 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
@@ -8,13 +15,19 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
-export const TrailblazerPreservationAbilities = createEnum('BASIC', 'ULT', 'TALENT_SHIELD', 'BREAK')
+export const TrailblazerPreservationAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.TALENT_SHIELD,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerPreservation')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -29,7 +42,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8004')
+  } = Source.character(TrailblazerPreservationStelle.id)
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
 
@@ -89,7 +102,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -104,7 +116,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(TrailblazerPreservationAbilities),
+    actionDeclaration: () => [...TrailblazerPreservationAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -113,7 +125,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const basicToughness = r.enhancedBasic ? 20 : 10
 
       return {
-        [TrailblazerPreservationAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Physical)
@@ -123,7 +135,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Physical)
@@ -133,7 +145,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.TALENT_SHIELD]: {
+        [AbilityKind.TALENT_SHIELD]: {
           hits: [
             HitDefinitionBuilder.shield()
               .defScaling(talentShieldScaling)
@@ -141,7 +153,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerPreservationAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
@@ -174,4 +186,76 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 1,
+    [Stats.DEF_P]: 1,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0.75,
+    [Stats.RES]: 0.5,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.DEF_P,
+    ],
+    [Parts.Feet]: [
+      Stats.DEF_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.DEF_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.DEF_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.TALENT_SHIELD,
+  addedColumns: [],
+  hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+})
+
+const displayCaelus = {
+  imageCenter: {
+    x: 980,
+    y: 1024,
+    z: 1.05,
+  },
+  showcaseColor: '#756d96',
+}
+
+const displayStelle = {
+  imageCenter: {
+    x: 1050,
+    y: 1024,
+    z: 1.05,
+  },
+  showcaseColor: '#756d96',
+}
+
+export const TrailblazerPreservationCaelus: CharacterConfig = {
+  id: '8003',
+  info: { displayName: 'Caelus (Preservation)' },
+  display: displayCaelus,
+  conditionals,
+  get scoring() { return scoring() },
+}
+
+export const TrailblazerPreservationStelle: CharacterConfig = {
+  id: '8004',
+  info: { displayName: 'Stelle (Preservation)' },
+  display: displayStelle,
+  conditionals,
+  get scoring() { return scoring() },
 }

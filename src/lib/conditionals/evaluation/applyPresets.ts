@@ -14,13 +14,11 @@ import {
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  ANAXA,
-  CYRENE,
-  MOZE,
-  PHAINON,
-  THE_DAHLIA,
-} from 'lib/simulations/tests/testMetadataConstants'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { Moze } from 'lib/conditionals/character/1200/Moze'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import DB from 'lib/state/db'
 import {
   BenchmarkForm,
@@ -110,7 +108,7 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   const element = characterMetadata?.element
   form.setConditionals[Sets.GeniusOfBrilliantStars][1] = element == ElementNames.Quantum
   form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = element == ElementNames.Fire || [
-    ANAXA,
+    Anaxa.id,
   ].includes(form.characterId)
 
   const path = characterMetadata?.path
@@ -142,13 +140,13 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
   // Demiurge is out-of-bounds and therefore not a target
   const targetableMemosprites = allyIds.filter((id) => (
     id
-    && id != CYRENE
+    && id != Cyrene.id
     && metadataCharacters[id].path == PathNames.Remembrance
   )).length
-  const mozes = allyIds.filter((id) => id == MOZE).length
-  form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == PHAINON ? 1 : 4 + targetableMemosprites - mozes
+  const mozes = allyIds.filter((id) => id == Moze.id).length
+  form.setConditionals[Sets.ArcadiaOfWovenDreams][1] = form.characterId == Phainon.id ? 1 : 4 + targetableMemosprites - mozes
 
-  if (allyIds.includes(THE_DAHLIA)) {
+  if (allyIds.includes(TheDahlia.id)) {
     form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = true
   }
 }

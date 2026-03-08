@@ -9,11 +9,12 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.InPursuitOfTheWind.Content')
-  const { SOURCE_LC } = Source.lightCone('21056')
+  const { SOURCE_LC } = Source.lightCone(InPursuitOfTheWind.id)
 
   const sValuesBreakDmg = [0.16, 0.18, 0.20, 0.22, 0.24]
 
@@ -50,4 +51,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, m.breakDmgBoost ? sValuesBreakDmg[s] : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const InPursuitOfTheWind: LightConeConfig = {
+  id: '21056',
+  conditionals,
 }

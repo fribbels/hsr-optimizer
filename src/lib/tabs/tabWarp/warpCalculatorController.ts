@@ -11,7 +11,6 @@ import {
 
 const characterWarpCap = 90
 const lightConeWarpCap = 80
-const simulations = 100000
 const character5050 = 0.5625
 const lightCone5050 = 0.78125
 
@@ -167,8 +166,6 @@ type WarpMilestone = {
   label: string,
   pity: number,
   guaranteed: boolean,
-  redistributedCumulative: number[],
-  redistributedCumulativeNonPity?: number[],
   warpCap: number,
 }
 
@@ -187,64 +184,51 @@ function generateOptionKey(version: string, phase: number, type: WarpIncomeType)
 }
 
 export function handleWarpRequest(originalRequest: WarpRequest) {
-  console.log('simulate Warps', originalRequest)
+  console.log('calculate Warps', originalRequest)
   useWarpCalculatorStore.getState().setRequest(originalRequest)
 
-  const warpResult = simulateWarps(originalRequest)
+  const warpResult = calculateWarps(originalRequest)
 
   useWarpCalculatorStore.getState().setResult(warpResult)
   SaveState.delayedSave()
 }
 
-export function simulateWarps(originalRequest: WarpRequest) {
+export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult, null> {
   const request = enrichWarpRequest(originalRequest)
   const milestones = generateWarpMilestones(request)
 
-  const milestoneResults: Record<string, WarpMilestoneResult> = Object.fromEntries(
-    milestones.map(({ label }) => [label, { warps: 0, wins: 0 }]),
-  )
+  const freshStartCharDist = pityAdjustedPmf(characterDistribution, 0, characterWarpCap)
+  const freshStartLcDist = pityAdjustedPmf(lightConeDistribution, 0, lightConeWarpCap)
 
-  for (let i = 0; i < simulations; i++) {
-    let count = 0
-
-    for (const milestone of milestones) {
-      const {
-        warpType,
-        label,
-        pity,
-        guaranteed,
-        redistributedCumulative,
-        redistributedCumulativeNonPity,
-        warpCap,
-      } = milestone
-
-      const rate = warpType == WarpType.CHARACTER ? character5050 : lightCone5050
-      const index = getNextSuccessIndex(redistributedCumulative, warpCap, pity) - pity + 1
-      if (Math.random() < rate || guaranteed) {
-        count += index
-      } else {
-        const index2 = getNextSuccessIndex(redistributedCumulativeNonPity ?? redistributedCumulative, warpCap, 0) + 1
-        count += index + index2
-      }
-
-      milestoneResults[label].warps += count
-      if (count <= request.warps) {
-        milestoneResults[label].wins++
-      }
-    }
-  }
+  const milestoneResults: Record<string, WarpMilestoneResult> = {}
+  let cumulativePmf: number[] = [1] // P(total cost = 0) = 1 before any milestones
 
   for (const milestone of milestones) {
-    milestoneResults[milestone.label].warps /= simulations
-    milestoneResults[milestone.label].wins /= simulations
+    const { warpType, label, pity, guaranteed } = milestone
+    const isChar = warpType === WarpType.CHARACTER
+    const baseDistribution = isChar ? characterDistribution : lightConeDistribution
+    const warpCap = isChar ? characterWarpCap : lightConeWarpCap
+    const rate = isChar ? character5050 : lightCone5050
+    const freshStartDist = isChar ? freshStartCharDist : freshStartLcDist
+
+    const milestoneStartDist = pityAdjustedPmf(baseDistribution, pity, warpCap)
+    const milestoneDist = milestoneCostPmf(milestoneStartDist, guaranteed, rate, freshStartDist)
+
+    cumulativePmf = convolveArrays(cumulativePmf, milestoneDist)
+
+    // Expected warps = Σ k * P(total cost = k)
+    const expectedWarps = cumulativePmf.reduce((sum, p, k) => sum + k * p, 0)
+
+    // Win probability = P(total cost <= budget)
+    let winProb = 0
+    for (let k = 0; k <= request.warps && k < cumulativePmf.length; k++) {
+      winProb += cumulativePmf[k]
+    }
+
+    milestoneResults[label] = { warps: expectedWarps, wins: winProb }
   }
 
-  const warpResult: WarpResult = {
-    milestoneResults: milestoneResults,
-    request: request,
-  }
-
-  return warpResult
+  return { milestoneResults, request }
 }
 
 function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
@@ -258,31 +242,25 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
     currentSuperimpositionLevel,
   } = enrichedRequest
 
-  const e0CharacterDistribution = redistributePityCumulative(pityCharacter, characterWarpCap, characterDistribution)
-  const e0CharacterDistributionNonPity = redistributePityCumulative(0, characterWarpCap, characterDistribution)
-  const s1LightConeDistribution = redistributePityCumulative(pityLightCone, lightConeWarpCap, lightConeDistribution)
-  const s1LightConeDistributionNonPity = redistributePityCumulative(0, lightConeWarpCap, lightConeDistribution)
   let milestones: WarpMilestone[] = [
     {
       warpType: WarpType.CHARACTER,
       label: 'E0',
       guaranteed: guaranteedCharacter,
       pity: pityCharacter,
-      redistributedCumulative: e0CharacterDistribution,
-      redistributedCumulativeNonPity: e0CharacterDistributionNonPity,
       warpCap: characterWarpCap,
     },
-    { warpType: WarpType.CHARACTER, label: 'E1', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
-    { warpType: WarpType.CHARACTER, label: 'E2', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
-    { warpType: WarpType.CHARACTER, label: 'E3', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
-    { warpType: WarpType.CHARACTER, label: 'E4', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
-    { warpType: WarpType.CHARACTER, label: 'E5', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
-    { warpType: WarpType.CHARACTER, label: 'E6', guaranteed: false, pity: 0, redistributedCumulative: characterCumulative, warpCap: characterWarpCap },
+    { warpType: WarpType.CHARACTER, label: 'E1', guaranteed: false, pity: 0, warpCap: characterWarpCap },
+    { warpType: WarpType.CHARACTER, label: 'E2', guaranteed: false, pity: 0, warpCap: characterWarpCap },
+    { warpType: WarpType.CHARACTER, label: 'E3', guaranteed: false, pity: 0, warpCap: characterWarpCap },
+    { warpType: WarpType.CHARACTER, label: 'E4', guaranteed: false, pity: 0, warpCap: characterWarpCap },
+    { warpType: WarpType.CHARACTER, label: 'E5', guaranteed: false, pity: 0, warpCap: characterWarpCap },
+    { warpType: WarpType.CHARACTER, label: 'E6', guaranteed: false, pity: 0, warpCap: characterWarpCap },
 
-    { warpType: WarpType.LIGHTCONE, label: 'S2', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    { warpType: WarpType.LIGHTCONE, label: 'S3', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    { warpType: WarpType.LIGHTCONE, label: 'S4', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
-    { warpType: WarpType.LIGHTCONE, label: 'S5', guaranteed: false, pity: 0, redistributedCumulative: lightConeCumulative, warpCap: lightConeWarpCap },
+    { warpType: WarpType.LIGHTCONE, label: 'S2', guaranteed: false, pity: 0, warpCap: lightConeWarpCap },
+    { warpType: WarpType.LIGHTCONE, label: 'S3', guaranteed: false, pity: 0, warpCap: lightConeWarpCap },
+    { warpType: WarpType.LIGHTCONE, label: 'S4', guaranteed: false, pity: 0, warpCap: lightConeWarpCap },
+    { warpType: WarpType.LIGHTCONE, label: 'S5', guaranteed: false, pity: 0, warpCap: lightConeWarpCap },
   ]
 
   const s1Milestone: WarpMilestone = {
@@ -290,8 +268,6 @@ function generateWarpMilestones(enrichedRequest: EnrichedWarpRequest) {
     label: 'S1',
     guaranteed: guaranteedLightCone,
     pity: pityLightCone,
-    redistributedCumulative: s1LightConeDistribution,
-    redistributedCumulativeNonPity: s1LightConeDistributionNonPity,
     warpCap: lightConeWarpCap,
   }
 
@@ -362,25 +338,16 @@ function filterRemapMilestones(milestones: WarpMilestone[], enrichRequest: Enric
   })
 
   // Remap the new starting milestone
-  const e0CharacterDistribution = redistributePityCumulative(enrichRequest.pityCharacter, characterWarpCap, characterDistribution)
-  const e0CharacterDistributionNonPity = redistributePityCumulative(0, characterWarpCap, characterDistribution)
-  const s1LightConeDistribution = redistributePityCumulative(enrichRequest.pityLightCone, lightConeWarpCap, lightConeDistribution)
-  const s1LightConeDistributionNonPity = redistributePityCumulative(0, lightConeWarpCap, lightConeDistribution)
-
   const firstNewCharacterIndex: number = filteredMilestones.findIndex((milestone) => milestone.warpType === WarpType.CHARACTER)
   if (firstNewCharacterIndex >= 0) {
     filteredMilestones[firstNewCharacterIndex].pity = enrichRequest.pityCharacter
     filteredMilestones[firstNewCharacterIndex].guaranteed = enrichRequest.guaranteedCharacter
-    filteredMilestones[firstNewCharacterIndex].redistributedCumulative = e0CharacterDistribution
-    filteredMilestones[firstNewCharacterIndex].redistributedCumulativeNonPity = e0CharacterDistributionNonPity
   }
 
   const firstNewLightConeIndex: number = filteredMilestones.findIndex((milestone) => milestone.warpType === WarpType.LIGHTCONE)
   if (firstNewLightConeIndex >= 0) {
     filteredMilestones[firstNewLightConeIndex].pity = enrichRequest.pityLightCone
     filteredMilestones[firstNewLightConeIndex].guaranteed = enrichRequest.guaranteedLightCone
-    filteredMilestones[firstNewLightConeIndex].redistributedCumulative = s1LightConeDistribution
-    filteredMilestones[firstNewLightConeIndex].redistributedCumulativeNonPity = s1LightConeDistributionNonPity
   }
 
   return filteredMilestones
@@ -436,44 +403,45 @@ function enrichWarpRequest(request: WarpRequest) {
   return enrichedRequest
 }
 
-// We have the cumulative distribution of warp results for 0 pity counter.
-// To compute the with-pity distribution, redistribute the probability mass from before the pity among the remaining possibilities
-function redistributePityCumulative(pity: number, warpCap: number, distribution: number[]) {
-  const redistributedCumulative: number[] = []
-
-  for (let i = 0; i < pity; i++) {
-    redistributedCumulative[i] = 0
-  }
-  for (let i = pity; i < warpCap; i++) {
-    redistributedCumulative[i] = i == 0 ? distribution[i] : redistributedCumulative[i - 1] + distribution[i]
-  }
-  const diff = 1 - redistributedCumulative[warpCap - 1]
-  for (let i = pity; i < warpCap; i++) {
-    redistributedCumulative[i] += diff * (redistributedCumulative[i])
-  }
-
-  return redistributedCumulative
+// PMF (probability mass function) for cost starting at pity position.
+// Result is 1-indexed: result[0] = 0, result[k] = P(costs k warps from pity position).
+function pityAdjustedPmf(distribution: number[], pity: number, warpCap: number): number[] {
+  const slice = distribution.slice(pity, warpCap)
+  const total = slice.reduce((sum, p) => sum + p, 0)
+  return [0, ...slice.map((p) => p / total)]
 }
 
-// Adjust the random number to account for pity counter since anything before the pity is impossible
-function getNextSuccessIndex(cumulative: number[], warpCap: number, pity: number) {
-  const rand = Math.random() * cumulative[warpCap - 1]
-  return getIndex(rand, cumulative, pity)
-}
-
-// Binary search the index of random number within the distribution
-function getIndex(random: number, cumulativeDistribution: number[], pity: number) {
-  let left = pity
-  let right = cumulativeDistribution.length - 1
-
-  while (left < right) {
-    const mid = Math.floor((left + right) / 2)
-    if (random > cumulativeDistribution[mid]) {
-      left = mid + 1
-    } else {
-      right = mid
+// Discrete convolution: (a ⊗ b)[k] = Σᵢ a[i] * b[k-i]
+function convolveArrays(a: number[], b: number[]): number[] {
+  const result = Array.from({ length: a.length + b.length - 1 }, () => 0)
+  for (let i = 0; i < a.length; i++) {
+    for (let j = 0; j < b.length; j++) {
+      result[i + j] += a[i] * b[j]
     }
   }
+  return result
+}
 
-  return left
+// PMF for a single milestone cost.
+// For 50/50: rate * milestoneStartDist + (1 - rate) * convolve(milestoneStartDist, freshStartDist)
+// For guaranteed: milestoneStartDist
+function milestoneCostPmf(
+  milestoneStartDist: number[],
+  guaranteed: boolean,
+  rate: number,
+  freshStartDist: number[],
+): number[] {
+  if (guaranteed) return milestoneStartDist
+
+  const winBranch = milestoneStartDist.map((p) => p * rate)
+  const loseBranch = convolveArrays(milestoneStartDist, freshStartDist).map((p) => p * (1 - rate))
+
+  const result = Array.from({ length: Math.max(winBranch.length, loseBranch.length) }, () => 0)
+  for (let i = 0; i < winBranch.length; i++) {
+    result[i] += winBranch[i]
+  }
+  for (let i = 0; i < loseBranch.length; i++) {
+    result[i] += loseBranch[i]
+  }
+  return result
 }

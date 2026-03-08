@@ -17,6 +17,8 @@
     "isolatedModules": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
     "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": false,
@@ -31,10 +33,16 @@
       "@webgpu/types"
     ]
   },
+  "include": [
+    "src"
+  ],
   "exclude": [
     "dist",
     "build",
     "misc",
-    "node_modules"
+    "node_modules",
+    "playwright-report",
+    "test-results",
+    "tests"
   ]
 }

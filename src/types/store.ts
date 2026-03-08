@@ -19,7 +19,6 @@ import {
   Build,
   Character,
   CharacterId,
-  Eidolon,
 } from 'types/character'
 import { Form } from 'types/form'
 import {

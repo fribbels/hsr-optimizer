@@ -1,11 +1,6 @@
 import { ElementNames } from 'lib/constants/constants'
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
-import {
-  ComputedStatsObjectExternal,
-  InternalKeyToExternal,
-  Key,
-  KeysType,
-} from 'lib/optimization/computedStatsArray'
+import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import {
@@ -18,14 +13,6 @@ import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
-
-export function logIterationTimer(i: number, gpuContext: GpuExecutionContext) {
-  const endTime = new Date().getTime()
-  const timeTaken = (endTime - gpuContext.startTime) / 1000
-  const permsCompleted = i * gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
-  const perSec = Math.floor(permsCompleted / timeTaken)
-  console.log(`Iteration: ${i}, Time: ${timeTaken}s, Completed: ${permsCompleted}, Per sec: ${perSec.toLocaleString()}`)
-}
 
 export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: ArrayBuffer) {
   const array = new Float32Array(arrayBuffer)
@@ -219,14 +206,7 @@ export function debugPinOptimizerWebgpuArray(array: Float32Array) {
 }
 
 export function debugWebgpuComputedStats(array: Float32Array): ComputedStatsObjectExternal {
-  const result: Partial<ComputedStatsObjectExternal> = {}
-
-  for (const key in Key) {
-    const externalKey = InternalKeyToExternal[key] ?? key
-    const numericKey = Key[key as KeysType]
-    result[externalKey] = array[numericKey]
-  }
-  return result as ComputedStatsObjectExternal
+  return ComputedStatsContainer.fromArrays(array, new Float32Array(0)).toComputedStatsObject()
 }
 
 // export type WebgpuComputedStats = ReturnType<typeof debugWebgpuComputedStats>

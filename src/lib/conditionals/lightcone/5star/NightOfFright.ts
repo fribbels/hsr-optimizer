@@ -9,11 +9,12 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.NightOfFright')
-  const { SOURCE_LC } = Source.lightCone('23017')
+  const { SOURCE_LC } = Source.lightCone(NightOfFright.id)
 
   const sValues = [0.024, 0.028, 0.032, 0.036, 0.04]
 
@@ -52,4 +53,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.ATK_P, m.atkBuffStacks * sValues[s], x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const NightOfFright: LightConeConfig = {
+  id: '23017',
+  conditionals,
 }

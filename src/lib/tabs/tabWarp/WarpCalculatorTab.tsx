@@ -10,6 +10,7 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from '../tabImport/ScannerWebsocketClient'
@@ -322,7 +323,7 @@ function Results() {
       dataIndex: 'wins',
       width: 250,
       align: 'center',
-      render: (n: number) => `${Utils.truncate10ths(n * 100).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
+      render: (n: number) => `${TsUtils.precisionRound(n * 100, 1).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1,
       })}%`,

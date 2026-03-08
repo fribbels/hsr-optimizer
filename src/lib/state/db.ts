@@ -252,7 +252,11 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   },
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setFormValues: (x) => set(() => ({ formValues: x })),
-  setOptimizerTabFocusCharacter: (characterId) => set(() => ({ optimizerTabFocusCharacter: characterId })),
+  setOptimizerTabFocusCharacter: (characterId) =>
+    set((s) => ({
+      optimizerTabFocusCharacter: characterId,
+      savedSession: { ...s.savedSession, optimizerCharacterId: characterId ?? null },
+    })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
   setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
   setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
@@ -1461,6 +1465,8 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
 
   const teammateIndices = [0, 1, 2] as const
 
+  const metadata = DB.getMetadata()
+
   for (const i of teammateIndices) {
     const key = `teammate${i}` as `teammate${typeof teammateIndices[number]}`
     const teammate = build.team[i] as BuildTeammate | undefined
@@ -1479,14 +1485,13 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
       // No saved conditionals - try to preserve conditionals from the DB form for the same teammate character
       const dbCharForm = DB.getCharacterById(characterId)?.form
       const dbTeammates = [dbCharForm?.teammate0, dbCharForm?.teammate1, dbCharForm?.teammate2]
-      const matchingDbTeammate = dbTeammates.find((t) => t?.characterId === teammate.characterId)
+      const matchingDbTeammate = dbTeammates.find((t) => t?.characterId === teammate.characterId && t?.lightCone === teammate.lightConeId)
 
       if (matchingDbTeammate) {
         form.setFieldValue([key, 'characterConditionals'], matchingDbTeammate.characterConditionals)
         form.setFieldValue([key, 'lightConeConditionals'], matchingDbTeammate.lightConeConditionals)
       } else {
         // Otherwise set to defaults
-        const metadata = DB.getMetadata()
         const lightConePath = metadata.lightCones[teammate.lightConeId].path
         const path = metadata.characters[teammate.characterId].path
         const element = metadata.characters[teammate.characterId].element
@@ -1505,7 +1510,6 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
             characterId: teammate.characterId,
           })
           .defaults()
-
         form.setFieldValue([key, 'characterConditionals'], characterConditionals)
         form.setFieldValue([key, 'lightConeConditionals'], lightConeConditionals)
       }

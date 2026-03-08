@@ -1,9 +1,11 @@
 import {
   COMPUTE_ENGINE_GPU_STABLE,
-  SetsOrnaments,
-  SetsRelics,
   Stats,
 } from 'lib/constants/constants'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import {
   destroyPipeline,
@@ -47,9 +49,9 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
     true,
   )
 
-  const gpuReadBuffer = generateExecutionPass(gpuContext, 0)
-  await gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 10000)
-  const arrayBuffer = gpuReadBuffer.getMappedRange(0, 10000)
+  const passResult = generateExecutionPass(gpuContext, 0)
+  await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 10000)
+  const arrayBuffer = passResult.gpuReadBuffer.getMappedRange(0, 10000)
   const array = new Float32Array(arrayBuffer)
 
   const relicsByPart = {
@@ -70,8 +72,8 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
 
   const deltas = arrayDelta(cpuContainer, gpuContainer, context)
 
-  gpuReadBuffer.unmap()
-  gpuReadBuffer.destroy()
+  passResult.gpuReadBuffer.unmap()
+  passResult.gpuReadBuffer.destroy()
   destroyPipeline(gpuContext)
 
   return deltas
@@ -144,10 +146,6 @@ const StatKeyToStat: Record<number, string> = {
 }
 
 const ignoredStats: Record<number, boolean> = {
-  [StatKey.BASE_ATK]: true,
-  [StatKey.BASE_DEF]: true,
-  [StatKey.BASE_HP]: true,
-  [StatKey.BASE_SPD]: true,
   [StatKey.PHYSICAL_DMG_BOOST]: true,
   [StatKey.FIRE_DMG_BOOST]: true,
   [StatKey.ICE_DMG_BOOST]: true,
@@ -155,8 +153,6 @@ const ignoredStats: Record<number, boolean> = {
   [StatKey.WIND_DMG_BOOST]: true,
   [StatKey.IMAGINARY_DMG_BOOST]: true,
   [StatKey.QUANTUM_DMG_BOOST]: true,
-  // COMBO_DMG is written to registers, not the stat position - use COMBO_REGISTER instead
-  [StatKey.COMBO_DMG]: true,
 }
 
 const overridePrecision: Record<number, number> = {

@@ -1,11 +1,15 @@
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ElementName, PathName, } from 'lib/constants/constants'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { CYRENE } from 'lib/simulations/tests/testMetadataConstants'
 import { ContentItem } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 /**
  * Helper methods used in conditional files
@@ -21,16 +25,6 @@ export type ContentDefinition<T extends Record<string, unknown>> = {
 
 export type Conditionals<T extends ContentDefinition<T>> = {
   [K in keyof T]: number
-}
-
-export const calculateAshblazingSetP = (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, hitMulti: number): number => {
-  if (x.c.sets.TheAshblazingGrandDuke >> 2) {
-    const valueTheAshblazingGrandDuke = action.setConditionals.valueTheAshblazingGrandDuke
-    const ashblazingAtk = 0.06 * valueTheAshblazingGrandDuke
-    return hitMulti - ashblazingAtk
-  } else {
-    return 0
-  }
 }
 
 export const ability = (upgradeEidolon: number) => {
@@ -170,31 +164,12 @@ export function mainIsPath(context: OptimizerContext, path: PathName) {
   return context.path == path
 }
 
-export function getCyreneAction(action: OptimizerAction) {
-  const cyreneAction = [
-    action.teammate0,
-    action.teammate1,
-    action.teammate2,
-    action,
-  ].find((x) => x && x.actorId == CYRENE)
-
-  return cyreneAction
+export function findTeamAction(action: OptimizerAction, actorId: string) {
+  return [action.teammate0, action.teammate1, action.teammate2, action].find((x) => x && x.actorId == actorId)
 }
 
-export function cyreneActionExists(action: OptimizerAction) {
-  return getCyreneAction(action) ? true : false
-}
-
-// Assumes cyreneTeammateSpecialEffectActive returned true
-export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
-  const cyreneAction = [
-    action.teammate0,
-    action.teammate1,
-    action.teammate2,
-    action,
-  ].find((x) => x && x.actorId == CYRENE)!
-
-  return cyreneAction.actorEidolon >= 3
+export function findTeamMeta(context: OptimizerContext, characterId: string) {
+  return [context.teammate0Metadata, context.teammate1Metadata, context.teammate2Metadata, context].find((t) => t?.characterId == characterId)
 }
 
 type Sanitize<S extends string> = S extends `${infer Start}${' ' | '-' | '/' | '.'}${infer Rest}` ? Sanitize<`${Start}_${Rest}`>
@@ -218,6 +193,7 @@ export function teammateConditionalActive(action: OptimizerAction, teammateId: s
 
   return teammateAction.characterConditionals[conditionalId]
 }
+
 
 // Returns the entity index of the memosprite, or -1 if not found
 export function findMemospriteIndex(action: OptimizerAction): number {

@@ -25,18 +25,27 @@ export enum ElementTag {
 
 export enum TargetTag {
   None = 0,
+
+  // Atomic entity flags
   Self = 1,
-  SelfAndPet = 2,
-  FullTeam = 4,
-  TargetAndMemosprite = 8,
-  SelfAndMemosprite = 16,
-  SummonsOnly = 32,
-  SelfAndSummon = 64,
-  MemospritesOnly = 128,
-  SingleTarget = 256,
+  Pet = 2,
+  Memosprite = 4,
+  Summon = 8,
+  FullTeam = 16,
+  SingleTarget = 32,
+
+  // Composed
+  SelfAndPet = Self | Pet,
+  SelfAndMemosprite = Self | Memosprite,
+  SelfAndSummon = Self | Summon,
 }
 
-export type Tag = ElementTag | DamageTag
+export function computeTargetMask(entity: { primary: boolean; pet?: boolean; memosprite: boolean; summon: boolean }): number {
+  return (entity.primary ? TargetTag.Self : 0)
+    | (entity.pet ? TargetTag.Pet : 0)
+    | (entity.memosprite ? TargetTag.Memosprite : 0)
+    | (entity.summon ? TargetTag.Summon : 0)
+}
 
 export const SELF_ENTITY_INDEX = 0
 
@@ -55,10 +64,6 @@ export enum OutputTag {
   HEAL = 2,
   SHIELD = 4,
 }
-
-export const ALL_OUTPUT_TAGS = Object.values(OutputTag)
-  .filter((v): v is number => typeof v === 'number')
-  .reduce((acc, val) => acc | val, 0)
 
 // DirectnessTag classifies whether an action is "direct" (player-initiated attacks)
 // or "indirect" (automatic damage like DOT/Break). 

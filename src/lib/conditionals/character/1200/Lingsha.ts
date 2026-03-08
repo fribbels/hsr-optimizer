@@ -1,5 +1,4 @@
 import {
-  AbilityType,
   ASHBLAZING_ATK_STACK,
   BREAK_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
@@ -21,9 +20,12 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   ConditionalActivation,
   ConditionalType,
+  Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -33,9 +35,18 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -43,10 +54,20 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
-export const LingshaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK', 'SKILL_HEAL', 'ULT_HEAL', 'FUA_HEAL')
+export const LingshaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+  AbilityKind.SKILL_HEAL,
+  AbilityKind.ULT_HEAL,
+  AbilityKind.FUA_HEAL,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Lingsha')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
@@ -145,7 +166,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -166,12 +186,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(LingshaAbilities),
+    actionDeclaration: () => [...LingshaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [LingshaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Fire)
@@ -180,7 +200,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LingshaAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Fire)
@@ -189,7 +209,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LingshaAbilities.SKILL_HEAL]: {
+        [AbilityKind.SKILL_HEAL]: {
           hits: [
             HitDefinitionBuilder.skillHeal()
               .atkScaling(skillHealScaling)
@@ -197,7 +217,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LingshaAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Fire)
@@ -206,7 +226,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LingshaAbilities.ULT_HEAL]: {
+        [AbilityKind.ULT_HEAL]: {
           hits: [
             HitDefinitionBuilder.ultHeal()
               .atkScaling(ultHealScaling)
@@ -214,7 +234,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LingshaAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .sourceEntity(LingshaEntities.Fuyuan)
@@ -224,7 +244,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LingshaAbilities.FUA_HEAL]: {
+        [AbilityKind.FUA_HEAL]: {
           hits: [
             HitDefinitionBuilder.talentHeal()
               .atkScaling(talentHealScaling)
@@ -232,7 +252,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [LingshaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
@@ -242,7 +262,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     actionModifiers: () => [],
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -253,7 +272,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // E1 DEF shred when enemy is weakness broken
-      const isWeaknessBroken = x.getSelfValue(StatKey.ENEMY_WEAKNESS_BROKEN)
+      const isWeaknessBroken = action.config.enemyWeaknessBroken
       x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefShred && isWeaknessBroken) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       x.buff(StatKey.VULNERABILITY, (m.befogState) ? ultBreakVulnerability : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_ULT))
@@ -344,4 +363,71 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 1.00,
+    [Stats.ATK_P]: 1.00,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.50,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.OHB,
+      Stats.DEF_P,
+      Stats.HP_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.DEF_P,
+      Stats.HP_P,
+      Stats.Fire_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.fnAshblazingSet(6),
+    PresetEffects.VALOROUS_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.FUA_HEAL,
+  addedColumns: [SortOption.OHB],
+  hiddenColumns: [SortOption.DOT],
+})
+
+const display = {
+  imageCenter: {
+    x: 1110,
+    y: 1000,
+    z: 1.1,
+  },
+  showcaseColor: '#ffeef5',
+}
+
+export const Lingsha: CharacterConfig = {
+  id: '1222',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   addSuperBreakHits,
@@ -7,6 +6,15 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata } from 'types/metadata'
 import { Source } from 'lib/optimization/buffSource'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -16,13 +24,18 @@ import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerHarmonyEntities = createEnum('TrailblazerHarmony')
-export const TrailblazerHarmonyAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
+export const TrailblazerHarmonyAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerHarmony')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
@@ -37,7 +50,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('8006')
+  } = Source.character(TrailblazerHarmonyStelle.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.50, 0.55)
@@ -109,7 +122,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     entityDeclaration: () => Object.values(TrailblazerHarmonyEntities),
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
       [TrailblazerHarmonyEntities.TrailblazerHarmony]: {
@@ -118,12 +130,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         memosprite: false,
       },
     }),
-    actionDeclaration: () => Object.values(TrailblazerHarmonyAbilities),
+    actionDeclaration: () => [...TrailblazerHarmonyAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       return {
-        [TrailblazerHarmonyAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Imaginary)
@@ -132,7 +144,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerHarmonyAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Imaginary)
@@ -141,7 +153,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TrailblazerHarmonyAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],
@@ -169,13 +181,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
-        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_ULT))
+        action.config.enemyWeaknessBroken = true
       }
     },
     initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       if (r.superBreakDmg) {
-        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_ULT))
+        action.config.enemyWeaknessBroken = true
       }
     },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -204,4 +216,61 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.buff(StatKey.UNCONVERTIBLE_BE_BUFF, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
   }
+}
+
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0.25,
+    [Stats.DEF_P]: 0.25,
+    [Stats.HP]: 0.25,
+    [Stats.HP_P]: 0.25,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0.25,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.BE,
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.BE,
+  hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+})
+
+const display = {
+  imageCenter: {
+    x: 1040,
+    y: 1000,
+    z: 1.1,
+  },
+  showcaseColor: '#8d7abc',
+}
+
+export const TrailblazerHarmonyCaelus: CharacterConfig = {
+  id: '8005',
+  info: { displayName: 'Caelus (Harmony)' },
+  display,
+  conditionals,
+  get scoring() { return scoring() },
+}
+
+export const TrailblazerHarmonyStelle: CharacterConfig = {
+  id: '8006',
+  info: { displayName: 'Stelle (Harmony)' },
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

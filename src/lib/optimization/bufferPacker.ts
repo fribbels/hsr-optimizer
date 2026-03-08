@@ -1,19 +1,22 @@
-import { ElementName, ElementToStatKeyDmgBoost, } from 'lib/constants/constants'
-import { Key, } from 'lib/optimization/computedStatsArray'
+import {
+  ElementName,
+  ElementToStatKeyDmgBoost,
+} from 'lib/constants/constants'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
-import { StatKey } from './engine/config/keys'
+import { GlobalRegister, StatKey } from './engine/config/keys'
 
 const SIZE = 76
 
 export const ElementToBasicKeyDmgBoost: Record<string, number> = {
-  Physical: Key.PHYSICAL_DMG_BOOST,
-  Fire: Key.FIRE_DMG_BOOST,
-  Ice: Key.ICE_DMG_BOOST,
-  Lightning: Key.LIGHTNING_DMG_BOOST,
-  Wind: Key.WIND_DMG_BOOST,
-  Quantum: Key.QUANTUM_DMG_BOOST,
-  Imaginary: Key.IMAGINARY_DMG_BOOST,
+  Physical: BasicKey.PHYSICAL_DMG_BOOST,
+  Fire: BasicKey.FIRE_DMG_BOOST,
+  Ice: BasicKey.ICE_DMG_BOOST,
+  Lightning: BasicKey.LIGHTNING_DMG_BOOST,
+  Wind: BasicKey.WIND_DMG_BOOST,
+  Quantum: BasicKey.QUANTUM_DMG_BOOST,
+  Imaginary: BasicKey.IMAGINARY_DMG_BOOST,
 }
 
 export type OptimizerDisplayData = {
@@ -23,19 +26,17 @@ export type OptimizerDisplayData = {
   'ATK': number,
   'DEF': number,
   'SPD': number,
-  'CRIT Rate': number,
-  'CRIT DMG': number,
-  'Effect Hit Rate': number,
-  'Effect RES': number,
-  'Break Effect': number,
-  'Energy Regeneration Rate': number,
-  'Outgoing Healing Boost': number,
+  'CR': number,
+  'CD': number,
+  'EHR': number,
+  'RES': number,
+  'BE': number,
+  'ERR': number,
+  'OHB': number,
 
-  'ED': number,
+  'ELEMENTAL_DMG': number,
   'WEIGHT': number,
   'EHP': number,
-  'HEAL': number,
-  'SHIELD': number,
   'BASIC': number,
   'SKILL': number,
   'ULT': number,
@@ -140,11 +141,9 @@ export const BufferPacker = {
     arr[offset + 12] = ca[basicElementalBoostKey]
     arr[offset + 13] = c.weight
 
-    // [14-16] Computed values (EHP, HEAL, SHIELD)
+    // [14] EHP
     const primaryEntity = x.config.entitiesArray[0].name
     arr[offset + 14] = x.getActionValue(StatKey.EHP, primaryEntity)
-    arr[offset + 15] = 0 // HEAL_VALUE - TODO: calculate from hit registers
-    arr[offset + 16] = 0 // SHIELD_VALUE - TODO: calculate from hit registers
 
     // [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
     const actionNameToOffset: Record<string, number> = {
@@ -178,7 +177,7 @@ export const BufferPacker = {
     }
 
     // [25] COMBO
-    arr[offset + 25] = x.a[StatKey.COMBO_DMG]
+    arr[offset + 25] = x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
 
     // [26-37] Combat stats from primary entity (index 0)
     arr[offset + 26] = x.getActionValue(StatKey.HP, primaryEntity)
@@ -249,18 +248,16 @@ export const BufferPacker = {
       'ATK': arr[offset + 2],
       'DEF': arr[offset + 3],
       'SPD': arr[offset + 4],
-      'CRIT Rate': arr[offset + 5],
-      'CRIT DMG': arr[offset + 6],
-      'Effect Hit Rate': arr[offset + 7],
-      'Effect RES': arr[offset + 8],
-      'Break Effect': arr[offset + 9],
-      'Energy Regeneration Rate': arr[offset + 10], // 10
-      'Outgoing Healing Boost': arr[offset + 11],
-      'ED': arr[offset + 12],
+      'CR': arr[offset + 5],
+      'CD': arr[offset + 6],
+      'EHR': arr[offset + 7],
+      'RES': arr[offset + 8],
+      'BE': arr[offset + 9],
+      'ERR': arr[offset + 10], // 10
+      'OHB': arr[offset + 11],
+      'ELEMENTAL_DMG': arr[offset + 12],
       'WEIGHT': arr[offset + 13], // DELETE
       'EHP': arr[offset + 14],
-      'HEAL': arr[offset + 15],
-      'SHIELD': arr[offset + 16],
       'BASIC': arr[offset + 17],
       'SKILL': arr[offset + 18],
       'ULT': arr[offset + 19],

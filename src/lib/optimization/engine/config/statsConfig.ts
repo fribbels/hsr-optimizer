@@ -7,9 +7,7 @@ interface tInput {
   args?: Record<string, string>
 }
 
-interface SimpleLabel extends tInput {
-  composite?: false
-}
+interface SimpleLabel extends tInput {}
 
 export interface StatConfigEntry {
   hit?: boolean
@@ -28,11 +26,8 @@ const keyPrefix = 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats'
 type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDisplay']['Stats']
 
 const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStats']>('common', 'ReadableStats')
-const commonStat = createI18nKey<keyof Resources['common']['Stats']>('common', 'Stats')
 const optimizerTabMisc = createI18nKey<keyof Prefixed['Misc']>('optimizerTab', `${keyPrefix}.Misc`)
-const optimizerTabDmgTypes = createI18nKey<keyof Prefixed['DmgTypes']>('optimizerTab', `${keyPrefix}.DmgTypes`)
 const optimizerTabCompositeSuffix = createI18nKey<keyof Prefixed['CompositeLabels']['Suffix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Suffix`)
-const optimizerTabCompositePrefix = createI18nKey<keyof Prefixed['CompositeLabels']['Prefix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Prefix`)
 const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats']>('optimizerTab', `${keyPrefix}.Unconvertible`, 'stat')
 const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>('optimizerTab', `${keyPrefix}.ResPen`, 'element')
 
@@ -77,12 +72,6 @@ export const newStatsConfig = {
   ELATION: { label: 'Elation' },
   MERRYMAKING: { label: 'Merrymaking' },
 
-  // Base
-  BASE_HP: { flat: true, label: optimizerTabMisc('Base HP') }, // Remove
-  BASE_ATK: { flat: true, label: optimizerTabMisc('Base ATK') }, // Remove
-  BASE_DEF: { flat: true, label: optimizerTabMisc('Base DEF') }, // Remove
-  BASE_SPD: { flat: true, label: optimizerTabMisc('Base SPD') }, // Remove
-
   // Secondary conversions
   UNCONVERTIBLE_HP_BUFF: { flat: true, label: optimizerTabUnconvertible('HP') },
   UNCONVERTIBLE_ATK_BUFF: { flat: true, label: optimizerTabUnconvertible('ATK') },
@@ -101,17 +90,8 @@ export const newStatsConfig = {
   DMG_RED: { label: optimizerTabMisc('DMG reduction') }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction), uses MULTIPLICATIVE_COMPLEMENT operator
   EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
-  // Misc configs
-  SUMMONS: { flat: true, label: optimizerTabMisc('Summons') }, // Remove
-  MEMOSPRITE: { bool: true, label: optimizerTabMisc('Memosprite') }, // Remove
-  ENEMY_WEAKNESS_BROKEN: { bool: true, label: optimizerTabMisc('Enemy weakness broken') }, // Remove
-  MEMO_BUFF_PRIORITY: { bool: true, label: optimizerTabMisc('Prioritize memosprite buffs') }, // Remove
-  DEPRIORITIZE_BUFFS: { bool: true, label: optimizerTabMisc('Deprioritize buffs') }, // Remove
-  COMBO_DMG: { flat: true, label: optimizerTabMisc('Combo DMG') }, // Remove
-
   EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },
 
-  ATK_P_BOOST: { label: optimizerTabCompositeSuffix('ATK % boost') },
   CR_BOOST: { label: optimizerTabCompositeSuffix('Crit Rate boost') },
   CD_BOOST: { label: optimizerTabCompositeSuffix('Crit DMG boost') },
 

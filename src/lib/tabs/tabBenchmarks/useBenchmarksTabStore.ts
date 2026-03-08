@@ -1,13 +1,14 @@
-import {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/constants/constants'
+
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { LightConeId } from 'types/lightCone'
 import { create } from 'zustand'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 export type BenchmarkForm = {
   characterId: CharacterId,

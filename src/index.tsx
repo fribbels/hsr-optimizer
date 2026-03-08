@@ -18,7 +18,7 @@ import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Themes } from 'lib/rendering/theme'
 import { DB } from 'lib/state/db'
-import { Metadata } from 'lib/state/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
 
 import { WorkerPool } from 'lib/worker/workerPool'
@@ -26,7 +26,6 @@ import { OverlayScrollbars } from 'overlayscrollbars'
 import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
 import 'style/style.css'
-import 'style/hsro.css'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants
@@ -54,14 +53,12 @@ void verifyWebgpuSupport(false)
 
 const defaultErrorRender = ({ error }: { error: { message: string } }) => <Typography>Something went wrong: {error.message}</Typography>
 
-document.addEventListener('DOMContentLoaded', function() {
-  const root = ReactDOM.createRoot(document.getElementById('root')!)
+const root = ReactDOM.createRoot(document.getElementById('root')!)
 
-  OverlayScrollbars(document.body, {})
+OverlayScrollbars(document.body, {})
 
-  root.render(
-    <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <WrappedApp />
-    </ErrorBoundary>,
-  )
-})
+root.render(
+  <ErrorBoundary fallbackRender={defaultErrorRender}>
+    <WrappedApp />
+  </ErrorBoundary>,
+)

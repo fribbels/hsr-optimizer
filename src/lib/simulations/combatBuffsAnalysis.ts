@@ -1,6 +1,6 @@
 import { PathNames } from 'lib/constants/constants'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { Buff } from 'lib/optimization/computedStatsArray'
+import { Buff } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import DB from 'lib/state/db'
 import { OptimizerForm } from 'types/form'

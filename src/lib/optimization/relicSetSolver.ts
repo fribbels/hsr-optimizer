@@ -4,11 +4,19 @@ import {
 } from 'lib/constants/constants'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsOrnamentsNames,
+  SetsRelics,
+  SetsRelicsNames,
+} from 'lib/sets/setConfigRegistry'
 
 // Here be dragons
 export function generateRelicSetSolutions(request: Form) {
   // Init
-  const len = Constants.SetsRelicsNames.length
+  const len = SetsRelicsNames.length
   const setRequest = request.relicSets || []
   const setIndices: number[][] = []
 
@@ -16,7 +24,7 @@ export function generateRelicSetSolutions(request: Form) {
     if (setArr[0] == RelicSetFilterOptions.relic4Piece) {
       if (setArr.length == 2) {
         // Specific 4 piece
-        const index = Constants.RelicSetToIndex[setArr[1]]
+        const index = RelicSetToIndex[setArr[1]]
         const arr: number[] = Utils.arrayOfZeroes(len)
         arr[index] = 4
         const indices = relicSetAllowListToIndices(arr)
@@ -26,7 +34,7 @@ export function generateRelicSetSolutions(request: Form) {
 
     if (setArr[0] == RelicSetFilterOptions.relic2PlusAny) {
       if (setArr.length == 2) {
-        const index = Constants.RelicSetToIndex[setArr[1]]
+        const index = RelicSetToIndex[setArr[1]]
         for (let i = 0; i < len; i++) {
           const arr: number[] = Utils.arrayOfZeroes(len)
           arr[index] = 2
@@ -47,8 +55,8 @@ export function generateRelicSetSolutions(request: Form) {
     if (setArr[0] == RelicSetFilterOptions.relic2Plus2Piece) {
       if (setArr.length == 3) {
         const arr: number[] = Utils.arrayOfZeroes(len)
-        const index1 = Constants.RelicSetToIndex[setArr[1]]
-        const index2 = Constants.RelicSetToIndex[setArr[2]]
+        const index1 = RelicSetToIndex[setArr[1]]
+        const index2 = RelicSetToIndex[setArr[2]]
         arr[index1] += 2
         arr[index2] += 2
         const indices = relicSetAllowListToIndices(arr)
@@ -62,7 +70,7 @@ export function generateRelicSetSolutions(request: Form) {
 
 export function generateOrnamentSetSolutions(request: Form) {
   const setRequest = request.ornamentSets || []
-  const len = Constants.SetsOrnamentsNames.length
+  const len = SetsOrnamentsNames.length
 
   if (setRequest.length == 0) {
     return Utils.arrayOfValue(len * len, 1)
@@ -70,7 +78,7 @@ export function generateOrnamentSetSolutions(request: Form) {
 
   const arr = Utils.arrayOfZeroes(len * len)
   for (const set of setRequest) {
-    const setIndex = Constants.OrnamentSetToIndex[set]
+    const setIndex = OrnamentSetToIndex[set]
     const index1D = setIndex + setIndex * len
     arr[index1D] = 1
   }
@@ -111,7 +119,7 @@ function fillRelicSetArrPossibilities(arr: number[], len: number) {
 
 // [[5,5,0,0], [5,5,0,1], [5,5,1,1], [5,5,1,2], ...] => [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0..]
 function convertRelicSetIndicesTo1D(setIndices: number[][]) {
-  const len = Constants.SetsRelicsNames.length
+  const len = SetsRelicsNames.length
   if (setIndices.length == 0) {
     return Utils.arrayOfValue(Math.pow(len, 4), 1)
   }
@@ -128,6 +136,26 @@ function convertRelicSetIndicesTo1D(setIndices: number[][]) {
   }
 
   return arr
+}
+
+export function bitpackBooleanArray(arr: number[]) {
+  const paddedLength = Math.ceil(arr.length / 32) * 32
+  const result: number[] = []
+  for (let i = 0; i < paddedLength; i += 32) {
+    let packedValue = 0
+    for (let j = 0; j < 32; j++) {
+      const val = i + j < arr.length ? arr[i + j] : 0
+      packedValue |= (val << j)
+    }
+    result.push(packedValue >>> 0)
+  }
+  return result
+}
+
+export function isSetSolutionValid(bitpackedArray: number[], index: number): boolean {
+  const packedIndex = index >> 5
+  const bitIndex = index & 31
+  return ((bitpackedArray[packedIndex] >> bitIndex) & 1) === 1
 }
 
 const permutator = (inputArr: number[]) => {

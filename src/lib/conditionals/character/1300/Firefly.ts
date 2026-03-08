@@ -1,4 +1,3 @@
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -8,27 +7,49 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgsl, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { AKey, StatKey, } from 'lib/optimization/engine/config/keys'
 import { DamageTag, ElementTag, SELF_ENTITY_INDEX, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  DEFAULT_SKILL,
+  END_BREAK,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-import { THE_DAHLIA } from 'lib/simulations/tests/testMetadataConstants'
-
 export const FireflyEntities = createEnum('Firefly')
-export const FireflyAbilities = createEnum('BASIC', 'SKILL', 'BREAK')
+export const FireflyAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -43,7 +64,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1310')
+  } = Source.character(Firefly.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.00, 2.20)
@@ -125,7 +146,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL],
     content: () => Object.values(content),
     defaults: () => defaults,
 
@@ -138,12 +158,12 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(FireflyAbilities),
+    actionDeclaration: () => [...FireflyAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // The Dahlia E1 adds fixed toughness damage
-      const dahliaFixedToughnessDmg = teammateMatchesId(context, THE_DAHLIA) ? 20 : 0
+      const dahliaFixedToughnessDmg = teammateMatchesId(context, TheDahlia.id) ? 20 : 0
 
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Fire)
@@ -163,7 +183,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const addSuperBreak = r.superBreakDmg && r.enhancedStateActive
 
       return {
-        [FireflyAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             basicHit,
             ...(addSuperBreak
@@ -175,7 +195,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               : []),
           ],
         },
-        [FireflyAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             skillHit,
             ...(addSuperBreak
@@ -187,7 +207,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               : []),
           ],
         },
-        [FireflyAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
@@ -200,7 +220,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TRACE))
+        action.config.enemyWeaknessBroken = true
       }
     },
 
@@ -213,7 +233,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       x.multiplicativeComplement(StatKey.DMG_RED, (r.enhancedStateActive && r.talentDmgReductionBuff) ? talentDmgReductionBuff : 0, x.source(SOURCE_TALENT))
 
       // Break vulnerability (only to weakness-broken enemies)
-      const isWeaknessBroken = x.getActionValue(StatKey.ENEMY_WEAKNESS_BROKEN, FireflyEntities.Firefly)
+      const isWeaknessBroken = action.config.enemyWeaknessBroken
       x.buff(
         StatKey.VULNERABILITY,
         (r.enhancedStateActive && isWeaknessBroken) ? ultWeaknessBrokenBreakVulnerability : 0,
@@ -295,4 +315,125 @@ if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.60) {
       },
     ],
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+    ],
+  },
+  substats: [
+    Stats.BE,
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.CR,
+    Stats.CD,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_BREAK,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+    WHOLE_SKILL,
+  ],
+  comboDot: 0,
+  relicSets: [
+    [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.ForgeOfTheKalpagniLantern,
+  ],
+  teammates: [
+    {
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: TheDahlia.id,
+      lightCone: NeverForgetHerFlame.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0.5,
+    [Stats.ATK_P]: 0.5,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.SKILL,
+  hiddenColumns: [
+    SortOption.ULT,
+    SortOption.FUA,
+    SortOption.DOT,
+  ],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 930,
+    y: 1075,
+    z: 1.25,
+  },
+  showcaseColor: '#a0efec',
+}
+
+export const Firefly: CharacterConfig = {
+  id: '1310',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

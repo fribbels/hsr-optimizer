@@ -1,4 +1,4 @@
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { OptimizerContext } from 'types/optimizer'
@@ -83,7 +83,7 @@ export function logRegisters(x: ComputedStatsContainer, context: OptimizerContex
   lines.push('')
   lines.push('           SUMMARY')
   lines.push('='.repeat(50))
-  lines.push(`Combo DMG: ${x.a[StatKey.COMBO_DMG]?.toFixed(2) ?? 0}`)
+  lines.push(`Combo DMG: ${x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)?.toFixed(2) ?? 0}`)
   lines.push('')
 
   console.log(lines.join('\n'))

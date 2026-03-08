@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./.tsbuildinfo.fast"
+  },
+  "exclude": [
+    "dist",
+    "build",
+    "misc",
+    "node_modules",
+    "playwright-report",
+    "test-results",
+    "tests",
+    "src/types/i18next.ts"
+  ]
+}

@@ -6,18 +6,18 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { WHY_DOES_THE_OCEAN_SING } from 'lib/simulations/tests/testMetadataConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.WhyDoesTheOceanSing.Content')
-  const { SOURCE_LC } = Source.lightCone(WHY_DOES_THE_OCEAN_SING)
+  const { SOURCE_LC } = Source.lightCone(WhyDoesTheOceanSing.id)
 
   const sValuesDotVuln = [0.05, 0.0625, 0.075, 0.0875, 0.10]
   const sValuesSpd = [0.10, 0.125, 0.15, 0.175, 0.20]
@@ -68,4 +68,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.SPD_P, (m.spdBuff) ? sValuesSpd[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const WhyDoesTheOceanSing: LightConeConfig = {
+  id: '23047',
+  conditionals,
 }

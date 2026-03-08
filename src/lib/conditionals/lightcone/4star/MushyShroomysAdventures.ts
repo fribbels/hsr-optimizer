@@ -5,13 +5,13 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { MUSHY_SHROOMYS_ADVENTURES } from 'lib/simulations/tests/testMetadataConstants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const { SOURCE_LC } = Source.lightCone(MUSHY_SHROOMYS_ADVENTURES)
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+  const { SOURCE_LC } = Source.lightCone(MushyShroomysAdventures.id)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
@@ -50,4 +50,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.VULNERABILITY, (m.elationVulnerability) ? sValues[s] : 0, x.damageType(DamageTag.ELATION).targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
+}
+
+export const MushyShroomysAdventures: LightConeConfig = {
+  id: '21064',
+  conditionals,
 }

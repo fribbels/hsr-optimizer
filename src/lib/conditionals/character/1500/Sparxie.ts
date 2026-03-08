@@ -1,24 +1,74 @@
 import i18next from 'i18next'
-import { AbilityType } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversionContainer,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
-import { ConditionalActivation, ConditionalType, CURRENT_DATA_VERSION, Stats, } from 'lib/constants/constants'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  CURRENT_DATA_VERSION,
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SPARXIE } from 'lib/simulations/tests/testMetadataConstants'
+import {
+  AbilityKind,
+  DEFAULT_SKILL,
+  END_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+  WHOLE_ELATION_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { getYaoguangAhaPunchlineValue, Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { HitDefinition } from 'types/hitConditionalTypes'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const SparxieEntities = createEnum('Sparxie')
-export const SparxieAbilities = createEnum('BASIC', 'ULT', 'ELATION_SKILL', 'BREAK')
+export const SparxieAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.ULT,
+  AbilityKind.ELATION_SKILL,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -33,7 +83,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_ELATION_SKILL,
-  } = Source.character(SPARXIE)
+  } = Source.character(Sparxie.id)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
@@ -49,14 +99,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const elationSkillAoeScaling = elationSkill(e, 0.50, 0.525, 0.55)
   const elationSkillBounceScaling = elationSkill(e, 0.25, 0.2625, 0.275)
 
-  let defaultPunchlines = 35
-  if (e >= 1) defaultPunchlines += 5
-  if (e >= 2) defaultPunchlines += 4
-  if (e >= 4) defaultPunchlines += 5
+  let additionalStacks = 0
+  if (e >= 1) additionalStacks += 5
+  if (e >= 2) additionalStacks += 4
+  if (e >= 4) additionalStacks += 5
 
   const defaults = {
     enhancedBasic: true,
-    punchlineStacks: defaultPunchlines,
+    punchlineStacks: 30 + additionalStacks,
+    certifiedBangerStacks: 60 + additionalStacks,
     engagementFarmingStacks: 20,
     certifiedBanger: true,
     atkToElation: true,
@@ -68,7 +119,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   const teammateDefaults = {
-    punchlineStacks: defaultPunchlines,
+    punchlineStacks: 30 + additionalStacks,
     e1PunchlineResPen: true,
     punchlineCritDmg: true,
   }
@@ -84,6 +135,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       id: 'punchlineStacks',
       formItem: 'slider',
       text: 'Punchline stacks',
+      content: betaContent,
+      min: 0,
+      max: 100,
+    },
+    certifiedBangerStacks: {
+      id: 'certifiedBangerStacks',
+      formItem: 'slider',
+      text: 'Certified Banger stacks',
       content: betaContent,
       min: 0,
       max: 200,
@@ -153,14 +212,13 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: 'Punchline stacks',
       content: betaContent,
       min: 0,
-      max: 200,
+      max: 100,
     },
     e1PunchlineResPen: content.e1PunchlineResPen,
     punchlineCritDmg: content.punchlineCritDmg,
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.ULT, AbilityType.ELATION_SKILL],
     content: () => Object.values(content),
     defaults: () => defaults,
     teammateContent: () => Object.values(teammateContent),
@@ -175,13 +233,15 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(SparxieAbilities),
+    actionDeclaration: () => [...SparxieAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const punchline = r.punchlineStacks
+
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
+      const certifiedBangerStacks = r.certifiedBangerStacks
       const engagementStacks = r.enhancedBasic ? r.engagementFarmingStacks : 0
 
-      const e6ExtraBounces = (e >= 6 && r.e6ResPen) ? Math.min(20, punchline) : 0
+      const e6ExtraBounces = (e >= 6 && r.e6ResPen) ? Math.min(20, punchlineStacks) : 0
       const totalBounces = 20 + e6ExtraBounces
 
       // ============== BASIC ==============
@@ -198,7 +258,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
         .elationScaling(talentMainElationScaling + talentEngagementElationScaling * engagementStacks / context.enemyCount)
-        .punchlineStacks(punchline)
+        .punchlineStacks(certifiedBangerStacks)
         .toughnessDmg(5)
         .build()
 
@@ -215,7 +275,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
         .elationScaling(talentUltElationScaling)
-        .punchlineStacks(punchline)
+        .punchlineStacks(certifiedBangerStacks)
         .toughnessDmg(0)
         .build()
 
@@ -239,17 +299,17 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
         .elationScaling(elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount)
-        .punchlineStacks(punchline)
+        .punchlineStacks(punchlineStacks)
         .toughnessDmg(6.67 + 1.67 * totalBounces / context.enemyCount)
         .build()
 
       const breakHit = HitDefinitionBuilder.standardBreak(ElementTag.Fire).build()
 
       return {
-        [SparxieAbilities.BASIC]: { hits: basicHits },
-        [SparxieAbilities.ULT]: { hits: ultHits },
-        [SparxieAbilities.ELATION_SKILL]: { hits: [elationSkillHit] },
-        [SparxieAbilities.BREAK]: { hits: [breakHit] },
+        [AbilityKind.BASIC]: { hits: basicHits },
+        [AbilityKind.ULT]: { hits: ultHits },
+        [AbilityKind.ELATION_SKILL]: { hits: [elationSkillHit] },
+        [AbilityKind.BREAK]: { hits: [breakHit] },
       }
     },
     actionModifiers: () => [],
@@ -266,14 +326,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const punchline = r.punchlineStacks
+      const punchlineStacks = r.punchlineStacks
 
       // Per Punchline, +8% CRIT DMG to all allies (max 80%)
-      const cdBuff = r.punchlineCritDmg ? Math.min(0.80, punchline * 0.08) : 0
+      const cdBuff = r.punchlineCritDmg ? Math.min(0.80, punchlineStacks * 0.08) : 0
       x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E1: Per Punchline, +1.5% All-Type RES PEN to all allies (max 15%)
-      const resPenBuff = (e >= 1 && r.e1PunchlineResPen) ? Math.min(0.15, punchline * 0.015) : 0
+      const resPenBuff = (e >= 1 && r.e1PunchlineResPen) ? Math.min(0.15, punchlineStacks * 0.015) : 0
       x.buff(StatKey.RES_PEN, resPenBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
 
@@ -325,4 +385,129 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     ],
   }
+}
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Fire_DMG,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_BASIC,
+    WHOLE_ELATION_SKILL,
+    START_SKILL,
+    END_BASIC,
+    WHOLE_ELATION_SKILL,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.TengokuLivestream,
+    Sets.RutilantArena,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: SparkleB1.id,
+      lightCone: ButTheBattleIsntOver.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Yaoguang.id,
+      lightCone: WhenSheDecidedToSee.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Fire_DMG,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  sortOption: SortOption.BASIC,
+  hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 1015,
+    y: 1050,
+    z: 1.10,
+  },
+  showcaseColor: '#b4a8e8',
+}
+
+export const Sparxie: CharacterConfig = {
+  id: '1501',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

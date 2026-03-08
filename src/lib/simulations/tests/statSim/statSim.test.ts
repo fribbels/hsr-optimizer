@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import {
   Sets,
   Stats,
@@ -10,25 +11,23 @@ import {
   testStatSpread,
 } from 'lib/simulations/tests/simTestUtils'
 import { expectSimResultsToMatch } from 'lib/simulations/tests/statSim/statSimTestUtils'
-import {
-  A_GROUNDED_ASCENT,
-  ACHERON,
-  ALONG_THE_PASSING_SHORE,
-  ANAXA,
-  EARTHLY_ESCAPADE,
-  FLOWING_NIGHTGLOW,
-  FU_XUAN,
-  HUOHUO,
-  JIAOQIU,
-  LIFE_SHOULD_BE_CAST_TO_FLAMES,
-  NIGHT_OF_FRIGHT,
-  ROBIN,
-  SHE_ALREADY_SHUT_HER_EYES,
-  SPARKLE,
-  SUNDAY,
-  THOSE_MANY_SPRINGS,
-} from 'lib/simulations/tests/testMetadataConstants'
-import { Metadata } from 'lib/state/metadata'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { FuXuan } from 'lib/conditionals/character/1200/FuXuan'
+import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Sparkle } from 'lib/conditionals/character/1300/Sparkle'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { SheAlreadyShutHerEyes } from 'lib/conditionals/lightcone/5star/SheAlreadyShutHerEyes'
+import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
+import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 
 Metadata.initialize()
@@ -36,10 +35,10 @@ Metadata.initialize()
 test('Anaxa sim', () => {
   expectSimResultsToMatch(
     generateE6S5Test({
-      character: testCharacter(ANAXA, LIFE_SHOULD_BE_CAST_TO_FLAMES),
-      teammate0: testCharacter(SUNDAY, A_GROUNDED_ASCENT),
-      teammate1: testCharacter(ROBIN, FLOWING_NIGHTGLOW),
-      teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+      character: testCharacter(Anaxa.id, LifeShouldBeCastToFlames.id),
+      teammate0: testCharacter(Sunday.id, AGroundedAscent.id),
+      teammate1: testCharacter(Robin.id, FlowingNightglow.id),
+      teammate2: testCharacter(Huohuo.id, NightOfFright.id),
       sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
@@ -90,10 +89,10 @@ test('Anaxa sim', () => {
 test('Acheron sim', () => {
   expectSimResultsToMatch(
     generateE6S5Test({
-      character: testCharacter(ACHERON, ALONG_THE_PASSING_SHORE),
-      teammate0: testCharacter(JIAOQIU, THOSE_MANY_SPRINGS),
-      teammate1: testCharacter(SPARKLE, EARTHLY_ESCAPADE),
-      teammate2: testCharacter(FU_XUAN, SHE_ALREADY_SHUT_HER_EYES),
+      character: testCharacter(Acheron.id, AlongThePassingShore.id),
+      teammate0: testCharacter(Jiaoqiu.id, ThoseManySprings.id),
+      teammate1: testCharacter(Sparkle.id, EarthlyEscapade.id),
+      teammate2: testCharacter(FuXuan.id, SheAlreadyShutHerEyes.id),
       sets: testSets(Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters, Sets.IzumoGenseiAndTakamaDivineRealm),
       mains: testMains(Stats.CD, Stats.ATK_P, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
@@ -147,7 +146,7 @@ test('Acheron sim', () => {
 //       character: testCharacter(JINGLIU, I_SHALL_BE_MY_OWN_SWORD),
 //       teammate0: testCharacter(BRONYA, BUT_THE_BATTLE_ISNT_OVER),
 //       teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
-//       teammate2: testCharacter(HUOHUO, NIGHT_OF_FRIGHT),
+//       teammate2: testCharacter(Huohuo.id, NightOfFright.id),
 //       sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
 //       mains: testMains(Stats.CD, Stats.ATK_P, Stats.Ice_DMG, Stats.ATK_P),
 //       stats: testStatSpread(),

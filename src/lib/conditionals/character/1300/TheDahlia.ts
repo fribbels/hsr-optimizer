@@ -1,5 +1,10 @@
-import { AbilityType, ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
-import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
+import {
+  ASHBLAZING_ATK_STACK,
+} from 'lib/conditionals/conditionalConstants'
+import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   addSuperBreakHits,
@@ -8,30 +13,67 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  ANAXA,
-  BOOTHILL,
-  FIREFLY,
-  PHAINON,
-  SILVER_WOLF,
-  THE_DAHLIA,
-} from 'lib/simulations/tests/testMetadataConstants'
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  DEFAULT_SKILL,
+  END_BREAK,
+  DEFAULT_FUA,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
+  RELICS_2P_BREAK_EFFECT_SPEED,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { Boothill } from 'lib/conditionals/character/1300/Boothill'
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const TheDahliaEntities = createEnum('TheDahlia')
-export const TheDahliaAbilities = createEnum('BASIC', 'SKILL', 'ULT', 'FUA', 'BREAK')
+export const TheDahliaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.SKILL,
+  AbilityKind.ULT,
+  AbilityKind.FUA,
+  AbilityKind.BREAK,
+]
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TheDahlia')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -46,7 +88,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character(THE_DAHLIA)
+  } = Source.character(TheDahlia.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -188,7 +230,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.SKILL, AbilityType.ULT, AbilityType.FUA],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
@@ -203,7 +244,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       },
     }),
 
-    actionDeclaration: () => Object.values(TheDahliaAbilities),
+    actionDeclaration: () => [...TheDahliaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -214,7 +255,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         .build()
 
       return {
-        [TheDahliaAbilities.BASIC]: {
+        [AbilityKind.BASIC]: {
           hits: [
             HitDefinitionBuilder.standardBasic()
               .damageElement(ElementTag.Fire)
@@ -223,7 +264,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TheDahliaAbilities.SKILL]: {
+        [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Fire)
@@ -232,7 +273,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TheDahliaAbilities.ULT]: {
+        [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Fire)
@@ -242,7 +283,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [TheDahliaAbilities.FUA]: {
+        [AbilityKind.FUA]: {
           hits: [
             fuaHit,
             // FUA-specific super break hit
@@ -258,7 +299,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
             ),
           ],
         },
-        [TheDahliaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
@@ -301,14 +342,14 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TALENT))
+        action.config.enemyWeaknessBroken = true
       }
     },
     initializeTeammateConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       if (r.superBreakDmg) {
-        x.set(StatKey.ENEMY_WEAKNESS_BROKEN, 1, x.source(SOURCE_TALENT))
+        action.config.enemyWeaknessBroken = true
       }
     },
 
@@ -327,40 +368,29 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       if (m.superBreakDmg) {
         if (e >= 1 && m.e1Buffs) {
           x.buff(StatKey.SUPER_BREAK_MODIFIER, superBreakScaling, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
-          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? 0.40 : 0, x.source(SOURCE_E1))
+          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
         } else {
-          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? superBreakScaling : 0, x.source(SOURCE_TALENT))
+          x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.dancePartner) ? superBreakScaling : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_TALENT))
         }
       }
 
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vuln) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
-      x.buff(StatKey.BE, (e >= 6 && m.e6BeBuff && m.dancePartner) ? 1.50 : 0, x.source(SOURCE_E6))
-
-      // E1: Fixed toughness damage buff for dance partner
-      if (e >= 1 && m.e1Buffs && m.dancePartner) {
-        const e1ToughnessDmg = Math.max(10, Math.min(300, context.enemyMaxToughness / 30 * 0.25))
-        // x.buff(StatKey.BASIC_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-        // x.buff(StatKey.SKILL_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-        // x.buff(StatKey.ULT_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-        // x.buff(StatKey.FUA_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-        // x.buff(StatKey.MEMO_SKILL_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-        // x.buff(StatKey.MEMO_TALENT_FIXED_TOUGHNESS_DMG, e1ToughnessDmg, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-      }
+      x.buff(StatKey.BE, (e >= 6 && m.e6BeBuff && m.dancePartner) ? 1.50 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_E6))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const IMPLANT_CHARACTERS = [
-        FIREFLY,
-        BOOTHILL,
-        PHAINON,
-        ANAXA,
-        SILVER_WOLF,
+        Firefly.id,
+        Boothill.id,
+        Phainon.id,
+        Anaxa.id,
+        SilverWolf.id,
       ]
       if (IMPLANT_CHARACTERS.includes(context.characterId)) {
-        x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.source(SOURCE_TRACE))
+        x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_TRACE))
       }
 
       const beBuff = (t.beConversion) ? t.teammateBeValue * 0.24 + 0.50 : 0
@@ -375,4 +405,131 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
     },
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Fire_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.BE,
+    ],
+  },
+  substats: [
+    Stats.BE,
+    Stats.ATK_P,
+    Stats.CR,
+    Stats.CD,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    END_BREAK,
+    DEFAULT_FUA,
+    WHOLE_BASIC,
+    DEFAULT_FUA,
+    WHOLE_BASIC,
+    DEFAULT_FUA,
+    WHOLE_BASIC,
+  ],
+  comboDot: 0,
+  deprioritizeBuffs: true,
+  relicSets: [
+    [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+    [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
+    RELICS_2P_BREAK_EFFECT_SPEED,
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.ForgeOfTheKalpagniLantern,
+    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Firefly.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 0,
+    [Stats.CD]: 0,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 1,
+  },
+  parts: {
+    [Parts.Body]: [],
+    [Parts.Feet]: [
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.BE,
+    ],
+  },
+  presets: [
+    PresetEffects.fnAshblazingSet(5),
+  ],
+  sortOption: SortOption.FUA,
+  hiddenColumns: [
+    SortOption.DOT,
+  ],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 950,
+    y: 950,
+    z: 1.025,
+  },
+  showcaseColor: '#586bec',
+}
+
+export const TheDahlia: CharacterConfig = {
+  id: '1321',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

@@ -128,6 +128,7 @@ export interface EntityDefinition {
   summon: boolean
   memosprite: boolean
   pet?: boolean
+  targetMask?: number
 
   teammate?: boolean
 
@@ -142,4 +143,11 @@ export interface EntityDefinition {
   memoBaseHpScaling?: number
   memoBaseDefScaling?: number
   memoBaseSpdScaling?: number
+
+  // Precomputed base stats (set during entity preparation via precomputeEntityBaseStats)
+  // Primary: context.baseXxx, Memosprite: memoBaseXxxScaling * context.baseXxx
+  baseAtk?: number
+  baseDef?: number
+  baseHp?: number
+  baseSpd?: number
 }

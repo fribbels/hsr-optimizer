@@ -4,13 +4,13 @@ import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TODAYS_GOOD_LUCK } from 'lib/simulations/tests/testMetadataConstants'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const { SOURCE_LC } = Source.lightCone(TODAYS_GOOD_LUCK)
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+  const { SOURCE_LC } = Source.lightCone(TodaysGoodLuck.id)
 
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
@@ -41,4 +41,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.ELATION, r.elationStacks * sValues[s], x.source(SOURCE_LC))
     },
   }
+}
+
+export const TodaysGoodLuck: LightConeConfig = {
+  id: '21065',
+  conditionals,
 }

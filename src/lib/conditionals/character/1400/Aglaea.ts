@@ -1,42 +1,89 @@
-import { AbilityType, BUFF_PRIORITY_MEMO, BUFF_PRIORITY_SELF, } from 'lib/conditionals/conditionalConstants'
+import {
+  BuffPriority,
+} from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   createEnum,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/conditionalUtils'
-import { ConditionalActivation, ConditionalType, Stats, } from 'lib/constants/constants'
-import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { wgsl, wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
-import { Source } from 'lib/optimization/buffSource'
-import { TsUtils } from 'lib/utils/TsUtils'
 
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
-import { HKey, StatKey, } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
+import {
+  wgsl,
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import {
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { AGLAEA } from 'lib/simulations/tests/testMetadataConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import {
+  AbilityKind,
+  DEFAULT_MEMO_SKILL,
+  END_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { AbilityDefinition } from 'types/hitConditionalTypes'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
-export const AglaeaAbilities = createEnum(
-  'BASIC',
-  'MEMO_SKILL',
-  'BREAK',
-)
+export const AglaeaAbilities: AbilityKind[] = [
+  AbilityKind.BASIC,
+  AbilityKind.MEMO_SKILL,
+  AbilityKind.BREAK,
+]
 
 export const AglaeaEntities = createEnum(
   'Aglaea',
   'Garmentmaker',
 )
 
-export default (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Aglaea')
   const tBuff = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_BASIC_MEMO_TALENT_3_ULT_TALENT_MEMO_SKILL_5
@@ -69,7 +116,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   const memoSpdStacksMax = e >= 4 ? 7 : 6
 
   const defaults = {
-    buffPriority: BUFF_PRIORITY_SELF,
+    buffPriority: BuffPriority.SELF,
     supremeStanceState: true,
     seamStitch: true,
     memoSpdStacks: memoSpdStacksMax,
@@ -91,8 +138,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       text: tBuff('Text'),
       content: tBuff('Content'),
       options: [
-        { display: tBuff('Self'), value: BUFF_PRIORITY_SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BUFF_PRIORITY_MEMO, label: tBuff('Memo') },
+        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
+        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
       ],
       fullWidth: true,
     },
@@ -153,23 +200,21 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
   }
 
   return {
-    activeAbilities: [AbilityType.BASIC, AbilityType.MEMO_SKILL],
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     entityDeclaration: () => Object.values(AglaeaEntities),
-    actionDeclaration: () => Object.values(AglaeaAbilities),
+    actionDeclaration: () => [...AglaeaAbilities],
 
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => {
-      // x.set(StatKey.MEMO_BASE_HP_SCALING, memoBaseHpScaling, x.source(SOURCE_MEMO))
-      // x.MEMO_BASE_HP_FLAT.buff(memoBaseHpFlat, SOURCE_MEMO)
-      // x.MEMO_BASE_SPD_SCALING.buff(0.35, SOURCE_MEMO)
+      const r = action.characterConditionals as Conditionals<typeof content>
       return {
         [AglaeaEntities.Aglaea]: {
           primary: true,
           summon: false,
           memosprite: false,
+          memoBuffPriority: r.buffPriority !== BuffPriority.SELF,
         },
         [AglaeaEntities.Garmentmaker]: {
           memoBaseHpScaling,
@@ -222,8 +267,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
       }
 
       return {
-        [AglaeaAbilities.BASIC]: (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
-        [AglaeaAbilities.MEMO_SKILL]: {
+        [AbilityKind.BASIC]: (r.supremeStanceState) ? enhancedBasicAbility : basicAbility,
+        [AbilityKind.MEMO_SKILL]: {
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(AglaeaEntities.Garmentmaker)
@@ -235,7 +280,7 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
               .build(),
           ],
         },
-        [AglaeaAbilities.BREAK]: {
+        [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],
@@ -248,9 +293,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.set(StatKey.SUMMONS, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMOSPRITE, 1, x.source(SOURCE_TALENT))
-      x.set(StatKey.MEMO_BUFF_PRIORITY, r.buffPriority == BUFF_PRIORITY_SELF ? BUFF_PRIORITY_SELF : BUFF_PRIORITY_MEMO, x.source(SOURCE_TALENT))
+
+
     },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -274,8 +318,8 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
         : 0
 
-      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(AGLAEA)))
-      x.buff(StatKey.DEF_PEN, (r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(AGLAEA)))
+      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(Aglaea.id)))
+      x.buff(StatKey.DEF_PEN, (r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(Aglaea.id)))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -303,9 +347,6 @@ export default (e: Eidolon, withContent: boolean): CharacterConditionalsControll
 
         x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
       }
-
-      // TODO
-      // x.buff(StatKey.ATK, 3436, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -345,22 +386,6 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
   }
 }
       `
-      //       return `
-      // if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
-      //   if (x.SPD > 320 || m.SPD > 320) {
-      //     x.BASIC_DMG_BOOST += 0.60;
-      //     m.BASIC_DMG_BOOST += 0.60;
-      //   } else if (x.SPD > 240 || m.SPD > 240) {
-      //     x.BASIC_DMG_BOOST += 0.30;
-      //     m.BASIC_DMG_BOOST += 0.30;
-      //   } else if (x.SPD > 160 || m.SPD > 160) {
-      //     x.BASIC_DMG_BOOST += 0.10;
-      //     m.BASIC_DMG_BOOST += 0.10;
-      //   }
-      // }
-      //
-      // ${gpuBasicAdditionalDmgAtkFinalizer()}
-      // `
     },
     dynamicConditionals: [
       {
@@ -417,4 +442,137 @@ ${p_containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_ATK_BUFF, config)}
       },
     ],
   }
+}
+
+
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Lightning_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_BASIC,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_BASIC,
+    WHOLE_BASIC,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    DEFAULT_MEMO_SKILL,
+    WHOLE_BASIC,
+  ],
+  comboDot: 0,
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.TheWondrousBananAmusementPark,
+    Sets.RutilantArena,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0.5,
+    [Stats.ATK_P]: 0.5,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Lightning_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.WARRIOR_SET,
+  ],
+  sortOption: SortOption.BASIC,
+  hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
+  addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
+  simulation: simulation(),
+})
+
+const display = {
+  imageCenter: {
+    x: 1200,
+    y: 750,
+    z: 1.10,
+  },
+  showcaseColor: '#86bdf1',
+}
+
+export const Aglaea: CharacterConfig = {
+  id: '1402',
+  info: {},
+  display,
+  conditionals,
+  get scoring() { return scoring() },
 }

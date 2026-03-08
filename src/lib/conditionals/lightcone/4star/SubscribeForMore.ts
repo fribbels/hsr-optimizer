@@ -8,15 +8,16 @@ import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
+import { LightConeConfig } from 'types/lightConeConfig'
 import { SuperImpositionLevel } from 'types/lightCone'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.SubscribeForMore')
-  const { SOURCE_LC } = Source.lightCone('21017')
+  const { SOURCE_LC } = Source.lightCone(SubscribeForMore.id)
 
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]
 
@@ -44,4 +45,9 @@ export default (s: SuperImpositionLevel, withContent: boolean): LightConeConditi
       x.buff(StatKey.DMG_BOOST, (r.maxEnergyDmgBoost) ? sValues[s] : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(SOURCE_LC))
     },
   }
+}
+
+export const SubscribeForMore: LightConeConfig = {
+  id: '21017',
+  conditionals,
 }

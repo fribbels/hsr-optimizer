@@ -1,6 +1,3 @@
-import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
   AbilityEidolon,
   Conditionals,
@@ -8,14 +5,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
-import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -24,29 +14,32 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
 import {
   AbilityKind,
+  NULL_TURN_ABILITY_NAME,
   DEFAULT_DOT,
   END_SKILL,
-  NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -207,6 +200,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -327,9 +321,8 @@ const display = {
 
 export const Sampo: CharacterConfig = {
   id: '1108',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

@@ -1,10 +1,3 @@
-import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
-import { Robin } from 'lib/conditionals/character/1300/Robin'
-import {
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
-} from 'lib/conditionals/character/1400/Cyrene'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
@@ -18,10 +11,8 @@ import {
   ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
-import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -43,30 +34,36 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  DEFAULT_FUA,
-  DEFAULT_ULT,
-  NULL_TURN_ABILITY_NAME,
-  WHOLE_BASIC,
-  WHOLE_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_FUA,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import {
+  AbilityKind,
+  DEFAULT_FUA,
+  NULL_TURN_ABILITY_NAME,
+  DEFAULT_ULT,
+  WHOLE_BASIC,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -427,6 +424,7 @@ if (
   }
 }
 
+
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -558,9 +556,8 @@ const display = {
 
 export const Cipher: CharacterConfig = {
   id: '1406',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

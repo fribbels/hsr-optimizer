@@ -1,6 +1,3 @@
-import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import {
   AbilityEidolon,
   Conditionals,
@@ -8,24 +5,12 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
-import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
-import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
-import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import {
-  wgsl,
-  wgslTrue,
-} from 'lib/gpu/injection/wgslUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  HKey,
-  StatKey,
-} from 'lib/optimization/engine/config/keys'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
@@ -36,29 +21,31 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   AbilityKind,
-  END_BASIC,
-  END_BREAK,
   NULL_TURN_ABILITY_NAME,
-  START_BASIC,
   START_ULT,
+  END_BASIC,
   WHOLE_BASIC,
+  START_BASIC,
+  END_BREAK,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { Hit } from 'types/hitConditionalTypes'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -324,6 +311,7 @@ if (${wgslTrue(r.atkToBreakVulnerability)}) {
   }
 }
 
+
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -438,9 +426,8 @@ const display = {
 
 export const Rappa: CharacterConfig = {
   id: '1317',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

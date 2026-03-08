@@ -66,10 +66,8 @@ import {
   CharacterId,
   SavedBuild,
 } from 'types/character'
-import { ConditionalValueMap } from 'types/conditionals'
 import { CustomImageConfig } from 'types/customImage'
 import { Form } from 'types/form'
-import { LightConeId } from 'types/lightCone'
 import {
   DBMetadata,
   ScoringMetadata,
@@ -608,24 +606,7 @@ export const DB = {
       // TODO: Temporary migration from old to new format, remove once appropriate
       const scoringMetadata = DB.getScoringMetadata(character.id)
       character.builds = character.builds?.map((savedBuild) => {
-        if (savedBuild.optimizerMetadata !== undefined) {
-          if (savedBuild.characterConditionals !== undefined) return savedBuild
-          // sub-migration to where conditionals are saved
-          // build format is otherwise correct, so relocate conditionals and return
-          const updatedBuild = { ...savedBuild }
-          // @ts-ignore
-          const oldConditionals: Record<CharacterId | LightConeId, ConditionalValueMap> | undefined = savedBuild.optimizerMetadata?.conditionals
-          updatedBuild.characterConditionals = oldConditionals?.[character.id]
-          updatedBuild.lightConeConditionals = oldConditionals?.[savedBuild.lightConeId!]
-          updatedBuild.team = savedBuild.team.map((x) => ({
-            ...x,
-            characterConditionals: oldConditionals?.[x.characterId],
-            lightConeConditionals: oldConditionals?.[x.lightConeId!],
-          }))
-          // @ts-ignore
-          if (updatedBuild.optimizerMetadata) delete updatedBuild.optimizerMetadata.conditionals
-          return updatedBuild
-        }
+        if (savedBuild.optimizerMetadata !== undefined) return savedBuild
         const build = savedBuild as unknown as { build: string[], name: string, score: { score: string, rating: string } }
         const migratedBuild: SavedBuild = {
           characterId: character.id,
@@ -645,13 +626,9 @@ export const DB = {
             superimposition: x.lightConeSuperimposition,
             relicSet: x.teamRelicSet,
             ornamentSet: x.teamOrnamentSet,
-            characterConditionals: undefined,
-            lightConeConditionals: undefined,
           })) ?? [],
           optimizerMetadata: null,
           deprioritizeBuffs: scoringMetadata.simulation?.deprioritizeBuffs ?? false,
-          characterConditionals: undefined,
-          lightConeConditionals: undefined,
         }
         return migratedBuild
       }) ?? []
@@ -854,6 +831,7 @@ export const DB = {
       case SavedBuildSource.OPTIMIZER:
         const formData = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
         const optimizerMetadata: BuildOptimizerMetadata = {
+          conditionals: {},
           setFilters: {
             relics: TsUtils.clone(formData.relicSets),
             ornaments: TsUtils.clone(formData.ornamentSets),
@@ -863,6 +841,8 @@ export const DB = {
           setConditionals: TsUtils.clone(formData.setConditionals),
           presets: formData.comboPreprocessor,
         }
+        optimizerMetadata.conditionals[formData.characterId] = TsUtils.clone(formData.characterConditionals)
+        optimizerMetadata.conditionals[formData.lightCone] = TsUtils.clone(formData.lightConeConditionals)
         ;[formData.teammate0, formData.teammate1, formData.teammate2].forEach((teammate) => {
           team.push({
             characterId: teammate.characterId,
@@ -871,9 +851,9 @@ export const DB = {
             superimposition: teammate.lightConeSuperimposition,
             relicSet: teammate.teamRelicSet,
             ornamentSet: teammate.teamOrnamentSet,
-            characterConditionals: TsUtils.clone(teammate.characterConditionals),
-            lightConeConditionals: TsUtils.clone(teammate.lightConeConditionals),
           })
+          if (teammate.characterId) optimizerMetadata.conditionals[teammate.characterId] = TsUtils.clone(teammate.characterConditionals)
+          if (teammate.lightCone) optimizerMetadata.conditionals[teammate.lightCone] = TsUtils.clone(teammate.lightConeConditionals)
         })
 
         build = {
@@ -886,8 +866,6 @@ export const DB = {
           optimizerMetadata,
           team,
           deprioritizeBuffs: formData.deprioritizeBuffs ?? false,
-          characterConditionals: TsUtils.clone(formData.characterConditionals),
-          lightConeConditionals: TsUtils.clone(formData.lightConeConditionals),
         }
         break
       case SavedBuildSource.SHOWCASE:
@@ -903,8 +881,6 @@ export const DB = {
               superimposition: teammate.lightConeSuperimposition,
               relicSet: teammate.teamRelicSet,
               ornamentSet: teammate.teamOrnamentSet,
-              characterConditionals: undefined,
-              lightConeConditionals: undefined,
             })
           })
         }
@@ -918,8 +894,6 @@ export const DB = {
           optimizerMetadata: null,
           team,
           deprioritizeBuffs: simulation?.deprioritizeBuffs ?? false,
-          characterConditionals: undefined,
-          lightConeConditionals: undefined,
         }
         break
       default:
@@ -1486,8 +1460,6 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
   form.setFieldValue('characterEidolon', build.eidolon)
   form.setFieldValue('lightCone', build.lightConeId)
   form.setFieldValue('lightConeSuperimposition', build.superimposition)
-  form.setFieldValue('characterConditionals', TsUtils.clone(build.characterConditionals))
-  form.setFieldValue('lightConeConditionals', TsUtils.clone(build.lightConeConditionals))
 
   form.setFieldValue('deprioritizeBuffs', build.deprioritizeBuffs)
 
@@ -1505,8 +1477,6 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
       form.setFieldValue([key, 'lightConeSuperimposition'], teammate.superimposition)
       form.setFieldValue([key, 'teamOrnamentSet'], teammate.ornamentSet)
       form.setFieldValue([key, 'teamRelicSet'], teammate.relicSet)
-      form.setFieldValue([key, 'characterConditionals'], TsUtils.clone(teammate.characterConditionals))
-      form.setFieldValue([key, 'lightConeConditionals'], TsUtils.clone(teammate.lightConeConditionals))
     } else {
       form.setFieldsValue({ [key]: defaultTeammate() })
       continue
@@ -1522,6 +1492,7 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
         form.setFieldValue([key, 'lightConeConditionals'], matchingDbTeammate.lightConeConditionals)
       } else {
         // Otherwise set to defaults
+        const lightConePath = metadata.lightCones[teammate.lightConeId].path
         const path = metadata.characters[teammate.characterId].path
         const element = metadata.characters[teammate.characterId].element
 
@@ -1529,23 +1500,18 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
           .get({ characterId: teammate.characterId, characterEidolon: teammate.eidolon })
           .defaults()
 
-        if (teammate.lightConeId) {
-          const lightConePath = metadata.lightCones[teammate.lightConeId].path
-          const lightConeConditionals = LightConeConditionalsResolver
-            .get({
-              lightCone: teammate.lightConeId,
-              lightConeSuperimposition: teammate.superimposition,
-              lightConePath,
-              path,
-              element,
-              characterId: teammate.characterId,
-            })
-            .defaults()
-          form.setFieldValue([key, 'lightConeConditionals'], lightConeConditionals)
-        } else {
-          form.setFieldValue([key, 'lightConeConditionals'], defaultTeammate().lightConeConditionals)
-        }
+        const lightConeConditionals = LightConeConditionalsResolver
+          .get({
+            lightCone: teammate.lightConeId,
+            lightConeSuperimposition: teammate.superimposition,
+            lightConePath,
+            path,
+            element,
+            characterId: teammate.characterId,
+          })
+          .defaults()
         form.setFieldValue([key, 'characterConditionals'], characterConditionals)
+        form.setFieldValue([key, 'lightConeConditionals'], lightConeConditionals)
       }
     }
   }
@@ -1573,8 +1539,44 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
     form.setFieldValue('relicSets', TsUtils.clone(meta.setFilters.relics))
     form.setFieldValue('ornamentSets', TsUtils.clone(meta.setFilters.ornaments))
     form.setFieldValue('setConditionals', TsUtils.clone(meta.setConditionals))
+    definedEntries(meta.conditionals)
+      .forEach(([id, conditionalValueMap]) => {
+        if (id === build.characterId) {
+          form.setFieldValue('characterConditionals', TsUtils.clone(conditionalValueMap))
+          return
+        }
+        if (id === build.lightConeId) {
+          form.setFieldValue('lightConeConditionals', TsUtils.clone(conditionalValueMap))
+          return
+        }
+
+        let teammateIdx = build.team.findIndex((x) => x.characterId === id)
+        switch (teammateIdx) {
+          case 0:
+          case 1:
+          case 2:
+            form.setFieldValue([`teammate${teammateIdx}`, 'characterConditionals'], TsUtils.clone(conditionalValueMap))
+            return
+          default:
+            break
+        }
+
+        teammateIdx = build.team.findIndex((x) => x.lightConeId === id)
+        switch (teammateIdx) {
+          case 0:
+          case 1:
+          case 2:
+            form.setFieldValue([`teammate${teammateIdx}`, 'lightConeConditionals'], TsUtils.clone(conditionalValueMap))
+            return
+          default:
+            break
+        }
+
+        console.error('Found orphaned conditional while loading build')
+      })
   }
 
   window.store.getState().setActiveKey(AppPages.OPTIMIZER)
+  window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
   SaveState.delayedSave()
 }

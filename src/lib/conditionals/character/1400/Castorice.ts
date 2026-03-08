@@ -1,11 +1,4 @@
 import {
-  Cyrene,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
-} from 'lib/conditionals/character/1400/Cyrene'
-import { Evernight } from 'lib/conditionals/character/1400/Evernight'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import {
   BuffPriority,
 } from 'lib/conditionals/conditionalConstants'
 import {
@@ -15,14 +8,15 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
-import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
-import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+  MATCH_2P_WEIGHT,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -31,6 +25,13 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Evernight } from 'lib/conditionals/character/1400/Evernight'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   AbilityKind,
   DEFAULT_MEMO_SKILL,
@@ -39,18 +40,9 @@ import {
   NULL_TURN_ABILITY_NAME,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterConfig } from 'types/characterConfig'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -253,11 +245,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Compute memo skill scaling based on enhances
-      const memoSkillHpScaling = r.memoSkillEnhances === 1
-        ? memoSkillScaling1
-        : r.memoSkillEnhances === 2
-        ? memoSkillScaling2
-        : memoSkillScaling3
+      const memoSkillHpScaling = r.memoSkillEnhances === 1 ? memoSkillScaling1
+        : r.memoSkillEnhances === 2 ? memoSkillScaling2
+          : memoSkillScaling3
 
       // Compute memo talent total scaling (includes Cyrene buff)
       const cyreneOverflowPercentAssumption = 30 // Assumes 130% overflow
@@ -350,6 +340,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+
+
+
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -390,6 +383,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }
+
 
 const simulation = (): SimulationMetadata => ({
   parts: {
@@ -511,9 +505,8 @@ const display = {
 
 export const Castorice: CharacterConfig = {
   id: '1407',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

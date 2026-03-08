@@ -1,8 +1,4 @@
 import {
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
-} from 'lib/conditionals/character/1400/Cyrene'
-import {
   ASHBLAZING_ATK_STACK,
   NONE_TYPE,
   SKILL_DMG_TYPE,
@@ -18,9 +14,12 @@ import {
   ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -30,9 +29,13 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -345,9 +348,8 @@ const display = {
 
 export const PermansorTerrae: CharacterConfig = {
   id: '1414',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

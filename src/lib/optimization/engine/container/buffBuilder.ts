@@ -15,9 +15,8 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainerConfig } from 'lib/optimization/engine/container/computedStatsContainer'
 
-export class BuffBuilder<_Completed extends boolean = false, _HasHitFilter extends boolean = false> {
+export class BuffBuilder<_Completed extends boolean = false> {
   private readonly _completionBrand!: _Completed
-  declare readonly _hitFilterBrand: _HasHitFilter
 
   _actionKind: string | undefined = undefined
   _elementTags = ALL_ELEMENT_TAGS
@@ -32,11 +31,13 @@ export class BuffBuilder<_Completed extends boolean = false, _HasHitFilter exten
 
   private config!: ComputedStatsContainerConfig
 
+  constructor() {}
+
   setConfig(config: ComputedStatsContainerConfig): void {
     this.config = config
   }
 
-  reset(): IncompleteActionBuff {
+  reset(): IncompleteBuffBuilder {
     this._actionKind = undefined
     this._elementTags = ALL_ELEMENT_TAGS
     this._damageTags = ALL_DAMAGE_TAGS
@@ -47,67 +48,63 @@ export class BuffBuilder<_Completed extends boolean = false, _HasHitFilter exten
     this._targetTags = TargetTag.SelfAndPet
     this._deferrable = false
     this._source = Source.NONE
-    return this as IncompleteActionBuff
+    return this as IncompleteBuffBuilder
   }
 
-  // Hit-filter methods - mark _HasHitFilter as true
-  elements(e: ElementTag): IncompleteHitBuff {
+  elements(e: ElementTag): IncompleteBuffBuilder {
     this._elementTags = e
-    return this as IncompleteHitBuff
+    return this as IncompleteBuffBuilder
   }
 
-  damageType(d: DamageTag): IncompleteHitBuff {
+  damageType(d: DamageTag): IncompleteBuffBuilder {
     // BREAK buffs should also affect SUPER_BREAK hits
     if (d & DamageTag.BREAK) d |= DamageTag.SUPER_BREAK
     this._damageTags = d
-    return this as IncompleteHitBuff
+    return this as IncompleteBuffBuilder
   }
 
-  outputType(o: OutputTag): IncompleteHitBuff {
+  outputType(o: OutputTag): IncompleteBuffBuilder {
     this._outputTags = o
-    return this as IncompleteHitBuff
+    return this as IncompleteBuffBuilder
   }
 
-  directness(d: DirectnessTag): IncompleteHitBuff {
+  directness(d: DirectnessTag): IncompleteBuffBuilder {
     this._directnessTag = d
-    return this as IncompleteHitBuff
+    return this as IncompleteBuffBuilder
   }
 
-  // Non-filter methods - propagate _HasHitFilter
-  actionKind(k: string): BuffBuilder<false, _HasHitFilter> {
+  actionKind(k: string): IncompleteBuffBuilder {
     this._actionKind = k
-    return this as BuffBuilder<false, _HasHitFilter>
+    return this as IncompleteBuffBuilder
   }
 
-  origin(e: string): BuffBuilder<false, _HasHitFilter> {
+  origin(e: string): IncompleteBuffBuilder {
     this._origin = this.config.entityRegistry.getIndex(e)
-    return this as BuffBuilder<false, _HasHitFilter>
+    return this as IncompleteBuffBuilder
   }
 
-  target(e: string): BuffBuilder<false, _HasHitFilter> {
+  target(e: string): IncompleteBuffBuilder {
     this._target = this.config.entityRegistry.getIndex(e)
     this._targetTags = TargetTag.None
-    return this as BuffBuilder<false, _HasHitFilter>
+    return this as IncompleteBuffBuilder
   }
 
-  targets(t: TargetTag): BuffBuilder<false, _HasHitFilter> {
+  targets(t: TargetTag): IncompleteBuffBuilder {
     this._targetTags = t
     if (t & TargetTag.SingleTarget) this._deferrable = true
-    return this as BuffBuilder<false, _HasHitFilter>
+    return this as IncompleteBuffBuilder
   }
 
-  deferrable(): BuffBuilder<false, _HasHitFilter> {
+  deferrable(): IncompleteBuffBuilder {
     this._deferrable = true
-    return this as BuffBuilder<false, _HasHitFilter>
+    return this as IncompleteBuffBuilder
   }
 
-  source(s: BuffSource): BuffBuilder<true, _HasHitFilter> {
+  source(s: BuffSource): CompleteBuffBuilder {
     this._source = s
-    return this as BuffBuilder<true, _HasHitFilter>
+    return this as CompleteBuffBuilder
   }
 }
 
-export type IncompleteActionBuff = BuffBuilder<false, false>
-export type IncompleteHitBuff = BuffBuilder<false, true>
-export type CompleteActionBuff = BuffBuilder<true, false>
-export type CompleteHitBuff = BuffBuilder<true, true>
+export type IncompleteBuffBuilder = BuffBuilder<false>
+export type CompleteBuffBuilder = BuffBuilder<true>

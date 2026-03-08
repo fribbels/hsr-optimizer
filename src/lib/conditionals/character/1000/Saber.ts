@@ -1,52 +1,36 @@
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag, } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  END_BASIC,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+
+} from 'lib/scoring/scoringConstants'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
-import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
-import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-} from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  END_BASIC,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  WHOLE_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const SaberEntities = createEnum('Saber')
 export const SaberAbilities: AbilityKind[] = [
@@ -280,6 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -400,9 +385,8 @@ const display = {
 
 export const Saber: CharacterConfig = {
   id: '1014',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

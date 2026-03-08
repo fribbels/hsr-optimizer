@@ -1,3 +1,12 @@
+
+import {
+  generateTestRelics,
+  StatDeltaAnalysis,
+  testWrapper,
+} from 'lib/gpu/tests/webgpuTestUtils'
+import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
+import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Archer } from 'lib/conditionals/character/1000/Archer'
 import { Saber } from 'lib/conditionals/character/1000/Saber'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
@@ -20,20 +29,7 @@ import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorlds
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
-import {
-  generateTestRelics,
-  StatDeltaAnalysis,
-  testWrapper,
-} from 'lib/gpu/tests/webgpuTestUtils'
-import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { SortOption } from 'lib/optimization/sortOptions'
 
-import i18next from 'i18next'
-import {
-  SetsOrnamentsNames,
-  SetsRelicsNames,
-} from 'lib/sets/setConfigRegistry'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import DB from 'lib/state/db'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -44,6 +40,10 @@ import {
   DBMetadata,
   DBMetadataLightCone,
 } from 'types/metadata'
+import {
+  SetsOrnamentsNames,
+  SetsRelicsNames,
+} from 'lib/sets/setConfigRegistry'
 
 export type WebgpuTest = {
   name: string,
@@ -246,7 +246,7 @@ export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId:
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return testWrapper(
-    `E0S1 ${i18next.t(`gameData:Characters.${characterId}.LongName`)} — ${i18next.t(`gameData:Lightcones.${lightConeId}.Name`)}`,
+    `E0S1 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`,
     request,
     relics,
     device,
@@ -264,7 +264,7 @@ export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId:
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return testWrapper(
-    `E6S5 ${i18next.t(`gameData:Characters.${characterId}.LongName`)} — ${i18next.t(`gameData:Lightcones.${lightConeId}.Name`)}`,
+    `E6S5 ${cache.metadata.characters[characterId].displayName} — ${cache.metadata.lightCones[lightConeId].displayName}`,
     request,
     relics,
     device,

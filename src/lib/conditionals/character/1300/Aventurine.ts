@@ -1,65 +1,44 @@
-import { Topaz } from 'lib/conditionals/character/1100/Topaz'
-import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
-import { Robin } from 'lib/conditionals/character/1300/Robin'
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
-import {
-  dynamicStatConversionContainer,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import { dynamicStatConversionContainer, gpuDynamicStatConversion, } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
-import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
-import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
-import {
-  ConditionalActivation,
-  ConditionalType,
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  ElementTag,
-  SELF_ENTITY_INDEX,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
-  DEFAULT_FUA,
-  END_BASIC,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
+  DEFAULT_FUA,
+  END_BASIC,
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
   SPREAD_ORNAMENTS_2P_FUA,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { Topaz } from 'lib/conditionals/character/1100/Topaz'
+import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const AventurineEntities = createEnum('Aventurine')
 export const AventurineAbilities: AbilityKind[] = [
@@ -306,6 +285,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -441,9 +421,8 @@ const display = {
 
 export const Aventurine: CharacterConfig = {
   id: '1304',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   collectResults,
   TestInput,
@@ -28,7 +27,7 @@ function expectSingleResultsToMatch(actual: TestResultByName, expected: TestResu
       // @ts-ignore
       const message = error.message
       throw new Error(`
-${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} ${key} ${view}
+${DB.getMetadata().characters[input.character.characterId].displayName} ${key} ${view}
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

@@ -7,28 +7,19 @@ export type AKeyType = keyof typeof newStatsConfig
 // Branded types for type safety
 declare const AKeyBrand: unique symbol
 declare const HKeyBrand: unique symbol
-declare const HitAKeyBrand: unique symbol
 
 export type AKeyValue = number & { readonly [AKeyBrand]: true }
 export type HKeyValue = number & { readonly [HKeyBrand]: true }
 
-// HitAKeyValue extends AKeyValue: hit stat indices are a subtype of action stat indices
-export type HitAKeyValue = AKeyValue & { readonly [HitAKeyBrand]: true }
-
 // ============== AKey ==============
 
-// Hit stats map to HitAKeyValue, action-only stats to AKeyValue
-export type AKeyRecord = {
-  [K in AKeyType]: typeof newStatsConfig[K] extends { hit: true } ? HitAKeyValue : AKeyValue
-}
-
-export const AKey = Object.keys(newStatsConfig).reduce(
+export const AKey: Record<AKeyType, AKeyValue> = Object.keys(newStatsConfig).reduce(
   (acc, key, index) => {
     acc[key as AKeyType] = index as AKeyValue
     return acc
   },
   {} as Record<AKeyType, AKeyValue>,
-) as AKeyRecord  // narrowing: AKeyRecord extends Record<AKeyType, AKeyValue> since HitAKeyValue extends AKeyValue
+)
 
 const AKeyNames = Object.keys(newStatsConfig) as AKeyType[]
 
@@ -41,6 +32,7 @@ export function getAKeyName(key: AKeyValue): AKeyType {
 const hitStatEntries = Object.entries(newStatsConfig)
   .filter(([_, value]) => (value as { hit?: boolean }).hit)
 
+// HKeyType is the subset of AKeyType that has hit: true
 export type HKeyType = (typeof hitStatEntries)[number][0]
 
 export const HKey = hitStatEntries.reduce(

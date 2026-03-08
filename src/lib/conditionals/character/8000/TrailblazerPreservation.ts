@@ -1,33 +1,23 @@
-import {
-  AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
+import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  Parts,
-  Stats,
-} from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  ElementTag,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
-import { Eidolon } from 'types/character'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { CharacterConfig } from 'types/characterConfig'
 import { ScoringMetadata } from 'types/metadata'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { Eidolon } from 'types/character'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
 export const TrailblazerPreservationAbilities: AbilityKind[] = [
@@ -198,6 +188,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -255,18 +246,16 @@ const displayStelle = {
 
 export const TrailblazerPreservationCaelus: CharacterConfig = {
   id: '8003',
+  info: { displayName: 'Caelus (Preservation)' },
   display: displayCaelus,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }
 
 export const TrailblazerPreservationStelle: CharacterConfig = {
   id: '8004',
+  info: { displayName: 'Stelle (Preservation)' },
   display: displayStelle,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

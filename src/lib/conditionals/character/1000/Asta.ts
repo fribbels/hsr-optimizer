@@ -236,6 +236,7 @@ const display = {
 
 export const Asta: CharacterConfig = {
   id: '1009',
+  info: {},
   display,
   conditionals,
   get scoring() {

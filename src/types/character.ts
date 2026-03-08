@@ -41,6 +41,7 @@ export type SavedBuild = Prettify<
 >
 
 export type BuildOptimizerMetadata = {
+  conditionals: Partial<Record<CharacterId | LightConeId, ConditionalValueMap>>,
   comboStateJson: string | null,
   statFilters: StatFilters | null,
   setFilters: {
@@ -58,6 +59,4 @@ export type BuildTeammate = {
   superimposition: number,
   relicSet?: string,
   ornamentSet?: string,
-  characterConditionals: ConditionalValueMap | undefined,
-  lightConeConditionals: ConditionalValueMap | undefined,
 }

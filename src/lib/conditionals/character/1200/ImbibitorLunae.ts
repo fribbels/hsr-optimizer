@@ -1,6 +1,3 @@
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
-import { Cipher } from 'lib/conditionals/character/1400/Cipher'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
   AbilityEidolon,
   Conditionals,
@@ -8,42 +5,36 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  END_BASIC,
+  WHOLE_BASIC,
+  AbilityKind,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-} from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  END_BASIC,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  WHOLE_BASIC,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -202,7 +193,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DMG_BOOST, r.talentRighteousHeartStacks * righteousHeartDmgValue, x.source(SOURCE_TALENT))
 
       // E6 - RES PEN for enhanced basic 3
-      x.buff(StatKey.RES_PEN, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, x.damageType(DamageTag.BASIC).source(SOURCE_E6))
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0,
+        x.damageType(DamageTag.BASIC).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -210,6 +202,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }
+
 
 const simulation = (): SimulationMetadata => ({
   parts: {
@@ -332,9 +325,8 @@ const display = {
 
 export const ImbibitorLunae: CharacterConfig = {
   id: '1213',
+  info: { displayName: 'Imbibitor Lunae' },
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

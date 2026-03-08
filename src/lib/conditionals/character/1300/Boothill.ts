@@ -1,6 +1,3 @@
-import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import {
   AbilityEidolon,
   Conditionals,
@@ -8,9 +5,6 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
-import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
-import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -34,32 +28,38 @@ import {
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  DEFAULT_BASIC,
-  DEFAULT_ULT,
-  END_BREAK,
-  NULL_TURN_ABILITY_NAME,
-  START_BASIC,
-  START_SKILL,
-  WHOLE_BASIC,
-} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  DEFAULT_ULT,
+  DEFAULT_BASIC,
+  END_BREAK,
+  WHOLE_BASIC,
+  START_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
   RELICS_2P_BREAK_EFFECT_SPEED,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { TsUtils } from 'lib/utils/TsUtils'
 
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { HitDefinition } from 'types/hitConditionalTypes'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -348,6 +348,7 @@ ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, action.
   }
 }
 
+
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -460,9 +461,8 @@ const display = {
 
 export const Boothill: CharacterConfig = {
   id: '1315',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

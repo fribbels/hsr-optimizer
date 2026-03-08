@@ -278,6 +278,7 @@ const display = {
 
 export const Arlan: CharacterConfig = {
   id: '1008',
+  info: {},
   display,
   conditionals,
   get scoring() {

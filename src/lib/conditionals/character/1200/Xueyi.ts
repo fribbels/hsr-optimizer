@@ -12,18 +12,12 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  AKey,
-  StatKey,
-} from 'lib/optimization/engine/config/keys'
+import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
@@ -31,42 +25,41 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
+  MATCH_2P_WEIGHT,
   SPREAD_ORNAMENTS_2P_FUA,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_2P_ATK_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
-import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
-import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
+import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
+import { NumberToNumberMap } from 'types/common'
+import { CharacterConditionalsController } from 'types/conditionals'
 import {
-  AbilityKind,
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
+import {
   DEFAULT_BREAK,
   DEFAULT_FUA,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_SKILL,
+  AbilityKind,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import { NumberToNumberMap } from 'types/common'
-import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 
 export const XueyiEntities = createEnum('Xueyi')
 export const XueyiAbilities: AbilityKind[] = [
@@ -256,6 +249,7 @@ if (${wgslTrue(r.beToDmgBoost)}) {
   }
 }
 
+
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -383,9 +377,8 @@ const display = {
 
 export const Xueyi: CharacterConfig = {
   id: '1214',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

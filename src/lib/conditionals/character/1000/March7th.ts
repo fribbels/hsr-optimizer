@@ -1,31 +1,23 @@
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
-import {
-  boostAshblazingAtkContainer,
-  gpuBoostAshblazingAtkContainer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
-  AbilityEidolon,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
+import { ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
+import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
+import { AbilityEidolon, createEnum, } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  Parts,
-  Stats,
-} from 'lib/constants/constants'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
+} from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
 import { ScoringMetadata } from 'types/metadata'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
+import { CharacterConditionalsController } from 'types/conditionals'
+import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
 
 export const March7thEntities = createEnum('March7th')
 export const March7thAbilities: AbilityKind[] = [
@@ -190,9 +182,8 @@ const display = {
 
 export const March7th: CharacterConfig = {
   id: '1001',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

@@ -1,6 +1,3 @@
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { Firefly } from 'lib/conditionals/character/1300/Firefly'
-import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import {
   AbilityEidolon,
   addSuperBreakHits,
@@ -9,16 +6,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
-import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
-import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
-import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
 import { ModifierContext } from 'lib/optimization/context/calculateActions'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -27,30 +18,34 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  AbilityKind,
-  DEFAULT_BASIC,
-  END_BREAK,
-  NULL_TURN_ABILITY_NAME,
-  START_BASIC,
-  START_ULT,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import {
   RELICS_2P_BREAK_EFFECT_SPEED,
   SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
   SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_2P_BREAK_WEIGHTS,
+  SPREAD_RELICS_2P_SPEED_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import {
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  DEFAULT_BASIC,
+  END_BREAK,
+  START_BASIC,
+  AbilityKind,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { HitDefinition } from 'types/hitConditionalTypes'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -245,11 +240,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.superBreakDmg) ? superBreakScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
       x.buff(StatKey.DEF_PEN, (m.defReduction) ? skillDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(
-        StatKey.DMG_BOOST,
-        (e >= 4 && m.foxianPrayer && m.e4BreakDmg) ? 0.20 : 0,
-        x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).source(SOURCE_E4),
-      )
+      x.buff(StatKey.DMG_BOOST, (e >= 4 && m.foxianPrayer && m.e4BreakDmg) ? 0.20 : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).source(SOURCE_E4))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -261,6 +252,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
   }
 }
+
 
 const simulation = (): SimulationMetadata => ({
   parts: {
@@ -385,9 +377,8 @@ const display = {
 
 export const Fugue: CharacterConfig = {
   id: '1225',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

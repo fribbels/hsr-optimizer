@@ -295,7 +295,6 @@ export function BuildList(props: BuildListProps) {
         overflowY: 'auto',
         marginBottom: 20,
         width: '100%',
-        minWidth: 400,
         height: 840,
         ...style,
       }}
@@ -392,19 +391,7 @@ function BuildCard(props: BuildCardProps) {
       <Flex vertical gap={8}>
         <Flex justify='space-between' gap={8} align='center'>
           <Flex vertical align='flex-start'>
-            <HeaderText
-              style={{
-                flex: 1,
-                fontSize: 16,
-                fontWeight: 600,
-                maxWidth: preview ? 350 : 85,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {build.name}
-            </HeaderText>
+            <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600, maxWidth: preview ? 350 : 85, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{build.name}</HeaderText>
           </Flex>
           {!preview && (
             <Flex gap={5}>

@@ -89,6 +89,7 @@ export const Metadata = {
 
     for (const lightCone of Object.values(lightCones)) {
       lightCone.superimpositions = convertLcSuperimpositions(lightCone)
+      lightCone.displayName = lightCone.name
       applyLightConeDisplayConfig(lightConeConfigs, lightCone)
     }
 
@@ -159,11 +160,13 @@ function applyCharacterConfig(
 ) {
   const config = characterConfigs.get(characterId as CharacterId)
   const imageCenter = config?.display.imageCenter ?? DEFAULT_IMAGE_CENTER
+  const displayName = config?.info.displayName ?? characters[characterId].name
   const metadata = config?.scoring
 
   characters[characterId].traces = dbMetadataCharacter.traces
   characters[characterId].traceTree = dbMetadataCharacter.traceTree
   characters[characterId].imageCenter = imageCenter
+  characters[characterId].displayName = displayName
 
   if (metadata) {
     for (const part of [Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope]) {

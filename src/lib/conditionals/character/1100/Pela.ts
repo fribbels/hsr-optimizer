@@ -5,10 +5,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
-  Parts,
-  Stats,
-} from 'lib/constants/constants'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -17,7 +15,6 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -143,12 +140,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(10)
               .build(),
             ...(e6Active
-              ? [
-                HitDefinitionBuilder.standardAdditional()
+              ? [HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Ice)
                   .atkScaling(e6AdditionalDmgScaling)
-                  .build(),
-              ]
+                  .build()]
               : []),
           ],
         },
@@ -160,12 +155,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(20)
               .build(),
             ...(e6Active
-              ? [
-                HitDefinitionBuilder.standardAdditional()
+              ? [HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Ice)
                   .atkScaling(e6AdditionalDmgScaling)
-                  .build(),
-              ]
+                  .build()]
               : []),
           ],
         },
@@ -177,12 +170,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(20)
               .build(),
             ...(e6Active
-              ? [
-                HitDefinitionBuilder.standardAdditional()
+              ? [HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Ice)
                   .atkScaling(e6AdditionalDmgScaling)
-                  .build(),
-              ]
+                  .build()]
               : []),
           ],
         },
@@ -201,7 +192,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0, x.source(SOURCE_E2))
 
       // DMG boost for Basic/Skill/Ult when buff removed
-      x.buff(StatKey.DMG_BOOST, (r.skillRemovedBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (r.skillRemovedBuff) ? 0.20 : 0,
+        x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
 
       // DMG boost when enemy debuffed
       x.buff(StatKey.DMG_BOOST, (r.enemyDebuffed) ? 0.20 : 0, x.source(SOURCE_TRACE))
@@ -213,13 +205,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.EHR, (m.teamEhrBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       x.buff(StatKey.DEF_PEN, (m.ultDefPenDebuff) ? ultDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
-      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4SkillResShred) ? 0.12 : 0, x.elements(ElementTag.Ice).targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4SkillResShred) ? 0.12 : 0,
+        x.elements(ElementTag.Ice).targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }
+
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -275,9 +269,8 @@ const display = {
 
 export const Pela: CharacterConfig = {
   id: '1106',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

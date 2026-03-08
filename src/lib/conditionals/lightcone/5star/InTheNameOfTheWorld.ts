@@ -55,7 +55,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.DMG_BOOST, (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
-      x.buff(StatKey.ATK, (r.skillAtkBoost) ? sValuesAtk[s] * context.baseATK : 0, x.damageType(DamageTag.SKILL).source(SOURCE_LC))
+      x.buff(StatKey.ATK_P, (r.skillAtkBoost) ? sValuesAtk[s] : 0, x.damageType(DamageTag.SKILL).source(SOURCE_LC))
     },
   }
 }

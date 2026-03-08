@@ -1,10 +1,3 @@
-import { Castorice } from 'lib/conditionals/character/1400/Castorice'
-import {
-  Cyrene,
-  cyreneActionExists,
-  cyreneSpecialEffectEidolonUpgraded,
-} from 'lib/conditionals/character/1400/Cyrene'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { BuffPriority } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -14,9 +7,6 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
-import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -51,9 +41,17 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
+  MATCH_2P_WEIGHT,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  T2_WEIGHT,
 } from 'lib/scoring/scoringConstants'
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -392,11 +390,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.VULNERABILITY, (m.enhancedState) ? ultVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
       // E1 Final DMG boost (memosprites only, team-wide)
-      x.multiplicativeBoost(
-        StatKey.FINAL_DMG_BOOST,
-        (e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0,
-        x.targets(TargetTag.Memosprite).source(SOURCE_E1),
-      )
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1FinalDmg) ? e1FinalDmgMap[context.enemyCount] : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E1))
 
       // E4 Break Efficiency (memosprites only, team-wide)
       x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (e >= 4 && m.e4Buffs) ? 0.25 : 0, x.targets(TargetTag.Memosprite).source(SOURCE_E4))
@@ -660,9 +654,8 @@ const display = {
 
 export const Evernight: CharacterConfig = {
   id: '1413',
+  info: {},
   display,
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
 }

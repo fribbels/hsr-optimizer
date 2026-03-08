@@ -9,7 +9,6 @@ import {
 import { setToId } from 'lib/sets/setConfigRegistry'
 import { BASE_PATH } from 'lib/state/db'
 import { Languages } from 'lib/utils/i18nUtils'
-import { Nullable } from 'types/common'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;
 // const baseUrl = 'https://d28ecrnsw8u0fj.cloudfront.net'
@@ -78,12 +77,12 @@ export const Assets = {
     if (!lightCone) return Assets.getBlank()
     return getImageUrl(`/image/light_cone_portrait/${lightCone.id}.webp`)
   },
-  getLightConePortraitById: (lightConeId: Nullable<string>) => {
+  getLightConePortraitById: (lightConeId: string) => {
     if (!lightConeId) return Assets.getBlank()
     return getImageUrl(`/image/light_cone_portrait/${lightConeId}.webp`)
   },
 
-  getLightConeIconById: (lightConeId: Nullable<string>) => {
+  getLightConeIconById: (lightConeId?: string) => {
     if (!lightConeId) return Assets.getBlankLightCone()
     return getImageUrl(`/icon/light_cone/${lightConeId}.webp`)
   },

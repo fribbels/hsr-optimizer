@@ -24,7 +24,6 @@ NoTeamConditionals: crwdns42666:0crwdne42666:0
 ResultLimitN: 'crwdns42668:0{{limit}}crwdne42668:0'
 MainStats: crwdns42670:0crwdne42670:0
 Sets: crwdns42672:0crwdne42672:0
-UnreleasedDisclaimer: crwdns46524:0{{nameList}}crwdne46524:0
 RelicSetSelector:
   Placeholder: crwdns42674:0crwdne42674:0
   4pcLabel: crwdns42676:0crwdne42676:0

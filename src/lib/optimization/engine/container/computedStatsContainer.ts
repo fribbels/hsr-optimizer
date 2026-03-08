@@ -1,9 +1,6 @@
 import { aKeyToConvertibleStat } from 'lib/conditionals/evaluation/statConversionConfig'
-import {
-  Stats,
-  StatsValues,
-} from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { Stats, StatsValues } from 'lib/constants/constants'
 import {
   BasicStatsArray,
   BasicStatsArrayCore,
@@ -15,10 +12,9 @@ import {
   AKeyType,
   AKeyValue,
   AToHKey,
-  getAKeyName,
   GLOBAL_REGISTERS_LENGTH,
+  getAKeyName,
   HIT_STATS_LENGTH,
-  HitAKeyValue,
   HKeyValue,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
@@ -36,10 +32,8 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import {
   BuffBuilder,
-  CompleteActionBuff,
-  CompleteHitBuff,
-  IncompleteActionBuff,
-  IncompleteHitBuff,
+  CompleteBuffBuilder,
+  IncompleteBuffBuilder,
 } from 'lib/optimization/engine/container/buffBuilder'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
@@ -134,7 +128,7 @@ function buildActionBuffIndexCache(
 function buildEntityTargetCaches(
   entities: OptimizerEntity[],
   entityStride: number,
-): { indices: Record<number, number[]>, offsets: Record<number, number[]> } {
+): { indices: Record<number, number[]>; offsets: Record<number, number[]> } {
   const indices: Record<number, number[]> = {}
   const offsets: Record<number, number[]> = {}
   const allTargetTags = Object.values(TargetTag).filter((v): v is number => typeof v === 'number')
@@ -414,9 +408,7 @@ export class ComputedStatsContainer {
 
   // ============== Buffs ==============
 
-  set(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
-  set(key: AKeyValue, value: number, config: CompleteActionBuff): void
-  set(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
+  set(key: AKeyValue, value: number, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -434,9 +426,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  buff(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
-  buff(key: AKeyValue, value: number, config: CompleteActionBuff): void
-  buff(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
+  buff(key: AKeyValue, value: number, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -454,9 +444,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  multiply(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
-  multiply(key: AKeyValue, value: number, config: CompleteActionBuff): void
-  multiply(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
+  multiply(key: AKeyValue, value: number, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -474,9 +462,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  multiplicativeComplement(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
-  multiplicativeComplement(key: AKeyValue, value: number, config: CompleteActionBuff): void
-  multiplicativeComplement(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
+  multiplicativeComplement(key: AKeyValue, value: number, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -494,9 +480,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  multiplicativeBoost(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
-  multiplicativeBoost(key: AKeyValue, value: number, config: CompleteActionBuff): void
-  multiplicativeBoost(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
+  multiplicativeBoost(key: AKeyValue, value: number, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -514,9 +498,7 @@ export class ComputedStatsContainer {
     )
   }
 
-  buffDynamic(key: HitAKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff | CompleteHitBuff): void
-  buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff): void
-  buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff | CompleteHitBuff) {
+  buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: BuffBuilder<true>) {
     this.internalBuff(
       key,
       value,
@@ -799,43 +781,43 @@ export class ComputedStatsContainer {
 
   // ============== Buff Builder ==============
 
-  elements(e: ElementTag): IncompleteHitBuff {
+  elements(e: ElementTag): IncompleteBuffBuilder {
     return this.builder.reset().elements(e)
   }
 
-  damageType(d: DamageTag): IncompleteHitBuff {
+  damageType(d: DamageTag): IncompleteBuffBuilder {
     return this.builder.reset().damageType(d)
   }
 
-  origin(o: string): IncompleteActionBuff {
+  origin(o: string): IncompleteBuffBuilder {
     return this.builder.reset().origin(o)
   }
 
-  target(e: string): IncompleteActionBuff {
+  target(e: string): IncompleteBuffBuilder {
     return this.builder.reset().target(e)
   }
 
-  targets(t: TargetTag): IncompleteActionBuff {
+  targets(t: TargetTag): IncompleteBuffBuilder {
     return this.builder.reset().targets(t)
   }
 
-  outputType(o: OutputTag): IncompleteHitBuff {
+  outputType(o: OutputTag): IncompleteBuffBuilder {
     return this.builder.reset().outputType(o)
   }
 
-  directness(d: DirectnessTag): IncompleteHitBuff {
+  directness(d: DirectnessTag): IncompleteBuffBuilder {
     return this.builder.reset().directness(d)
   }
 
-  actionKind(k: string): IncompleteActionBuff {
+  actionKind(k: string): IncompleteBuffBuilder {
     return this.builder.reset().actionKind(k)
   }
 
-  deferrable(): IncompleteActionBuff {
+  deferrable(): IncompleteBuffBuilder {
     return this.builder.reset().deferrable()
   }
 
-  source(s: BuffSource): CompleteActionBuff {
+  source(s: BuffSource): CompleteBuffBuilder {
     return this.builder.reset().source(s)
   }
 
@@ -889,10 +871,10 @@ const ContainerKeyToExternal: Partial<Record<AKeyType, StatsValues>> = {
 }
 
 export type OptimizerEntity = EntityDefinition & {
-  name: string,
-  targetMask: number,
-  baseAtk: number,
-  baseDef: number,
-  baseHp: number,
-  baseSpd: number,
+  name: string
+  targetMask: number
+  baseAtk: number
+  baseDef: number
+  baseHp: number
+  baseSpd: number
 }

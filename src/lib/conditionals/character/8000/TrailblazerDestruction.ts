@@ -1,6 +1,3 @@
-import { Bronya } from 'lib/conditionals/character/1100/Bronya'
-import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
-import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import {
   AbilityEidolon,
   Conditionals,
@@ -8,21 +5,18 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { Bronya } from 'lib/conditionals/character/1100/Bronya'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
-import {
-  Parts,
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-} from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
   END_SKILL,
@@ -30,18 +24,14 @@ import {
   START_ULT,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
+import { CharacterConfig } from 'types/characterConfig'
+import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
 
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -179,6 +169,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -303,18 +294,16 @@ const displayStelle = {
 
 export const TrailblazerDestructionCaelus: CharacterConfig = {
   id: '8001',
+  info: { displayName: 'Caelus (Destruction)' },
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
   display: displayCaelus,
 }
 
 export const TrailblazerDestructionStelle: CharacterConfig = {
   id: '8002',
+  info: { displayName: 'Stelle (Destruction)' },
   conditionals,
-  get scoring() {
-    return scoring()
-  },
+  get scoring() { return scoring() },
   display: displayStelle,
 }

@@ -23,6 +23,7 @@ import { SaveState } from 'lib/state/saveState'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import {
   ReactNode,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -161,12 +162,8 @@ export function SaveBuildModal(props: {
               superimposition: t.lightConeSuperimposition,
               relicSet: t.teamRelicSet,
               ornamentSet: t.teamOrnamentSet,
-              characterConditionals: t.characterConditionals,
-              lightConeConditionals: t.lightConeConditionals,
             })),
           equipped: window.store.getState().optimizerBuild ?? {},
-          characterConditionals: form.getFieldValue('characterConditionals'),
-          lightConeConditionals: form.getFieldValue('lightConeConditionals'),
         }
     }
   }, [selectedBuild, source, character])
@@ -183,7 +180,7 @@ export function SaveBuildModal(props: {
     >
       {contextHolder}
       <Flex gap={10} style={{ height: 856 }}>
-        <Flex vertical>
+        <Flex vertical style={{ width: 400 }}>
           <Form
             form={characterForm}
             preserve={false}

@@ -15,6 +15,11 @@ import {
  * Helper methods used in conditional files
  */
 
+export type Mutual<S, T> = {
+  [K in keyof S]: K extends keyof T ? S[K] extends T[K] ? T[K] : never
+    : never
+}
+
 export type ContentDefinition<T extends Record<string, unknown>> = {
   [K in keyof T]:
     & ContentItem
@@ -193,7 +198,6 @@ export function teammateConditionalActive(action: OptimizerAction, teammateId: s
 
   return teammateAction.characterConditionals[conditionalId]
 }
-
 
 // Returns the entity index of the memosprite, or -1 if not found
 export function findMemospriteIndex(action: OptimizerAction): number {

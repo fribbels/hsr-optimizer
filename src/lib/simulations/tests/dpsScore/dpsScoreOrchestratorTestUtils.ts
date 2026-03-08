@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { runDpsScoreBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import {
   generateTestSingleRelicsByPart,
@@ -45,7 +46,7 @@ export async function expectDpsScoreResultsToMatch(
     // @ts-ignore
     const message = error.message
     throw new Error(`
-${DB.getMetadata().characters[input.character.characterId].displayName} BENCHMARK
+${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} BENCHMARK
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

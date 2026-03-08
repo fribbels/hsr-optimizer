@@ -4,9 +4,7 @@ import {
 } from '@tabler/icons-react'
 import { Button, Divider, Flex, Menu, Modal, Progress, SegmentedControl, Text, useMantineTheme } from '@mantine/core'
 import { IRowNode } from 'ag-grid-community'
-import {
-  Grid,
-} from 'antd'
+import { useMediaQuery } from '@mantine/hooks'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import i18next from 'i18next'
 import {
@@ -45,8 +43,6 @@ import {
   MemoDisplay,
   StatDisplay,
 } from 'types/store'
-
-const { useBreakpoint } = Grid
 
 const SCROLLBAR_WIDTH = 5 // px
 const RESERVED_SPACE = 2 // px
@@ -105,7 +101,9 @@ function PermutationDisplay(props: { total?: number, right: number, left: string
 const defaultGap = 5
 
 export default function Sidebar() {
-  const { lg, xl, xxl } = useBreakpoint()
+  const lg = useMediaQuery('(min-width: 992px)')
+  const xl = useMediaQuery('(min-width: 1200px)')
+  const xxl = useMediaQuery('(min-width: 1600px)')
 
   const breakpointNoShow = DB.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.NoShow
   const breakpointShowXL = DB.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.ShowXL

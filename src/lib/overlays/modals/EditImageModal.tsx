@@ -7,8 +7,7 @@ import {
   Form,
 } from 'antd'
 import { Button, Flex, Loader, Modal, SegmentedControl, Slider, Stepper, Text, TextInput } from '@mantine/core'
-import { RcFile } from 'antd/es/upload'
-import Dragger from 'antd/es/upload/Dragger'
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import * as React from 'react'
@@ -51,7 +50,7 @@ const MAX_IMAGE_SIZE_MB = 20
 const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024
 
 // Validates file size against limit
-function validateFileSize(file: RcFile, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): { valid: boolean; error?: string } {
+function validateFileSize(file: File, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): { valid: boolean; error?: string } {
   if (file.size > maxSizeBytes) {
     return {
       valid: false,
@@ -235,7 +234,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   // Verifies that the uploaded file is actually an image
-  async function isValidImageFile(file: RcFile): Promise<boolean> {
+  async function isValidImageFile(file: File): Promise<boolean> {
     setIsVerificationLoading(true)
 
     return new Promise((resolve) => {
@@ -340,7 +339,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
   }
 
-  const uploadToImgurByFile = async (file: RcFile): Promise<string | null> => {
+  const uploadToImgurByFile = async (file: File): Promise<string | null> => {
     const formData = new FormData()
     formData.append('image', file)
 
@@ -377,7 +376,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
   }
 
-  const handleBeforeUpload = async (file: RcFile) => {
+  const handleBeforeUpload = async (file: File) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
 
     // Check file size first
@@ -516,13 +515,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
           {radio === 'upload' && (
             <>
-              <Dragger
-                name='file'
-                multiple={false}
-                accept='image/png, image/jpeg, image/jpg, image/gif'
-                beforeUpload={handleBeforeUpload}
+              <Dropzone
+                accept={IMAGE_MIME_TYPE}
+                onDrop={(files) => void handleBeforeUpload(files[0])}
                 disabled={isVerificationLoading}
-                showUploadList={false}
+                multiple={false}
               >
                 {isVerificationLoading
                   ? (
@@ -532,14 +529,14 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                   )
                   : (
                     <Flex style={{ height: '300px' }} justify='center' align='center' direction="column">
-                      <p className='ant-upload-drag-icon'>
+                      <p>
                         <IconInbox />
                       </p>
-                      <p className='ant-upload-text'>{t('Upload.Upload.Method') /* Click or drag image file to this area to upload */}</p>
-                      <p className='ant-upload-hint'>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif (Max: 20MB) */}</p>
+                      <p>{t('Upload.Upload.Method') /* Click or drag image file to this area to upload */}</p>
+                      <p style={{ color: 'var(--mantine-color-dimmed)' }}>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif (Max: 20MB) */}</p>
                     </Flex>
                   )}
-              </Dragger>
+              </Dropzone>
             </>
           )}
 

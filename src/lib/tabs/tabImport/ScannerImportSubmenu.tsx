@@ -2,9 +2,6 @@ import {
   IconRefresh,
   IconUpload,
 } from '@tabler/icons-react'
-import {
-  Upload,
-} from 'antd'
 import { Accordion, Alert, Button, Checkbox, Divider, Flex, Stepper, Switch, Text, TextInput, Tooltip } from '@mantine/core'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import {
@@ -27,7 +24,7 @@ import {
 } from 'lib/tabs/tabImport/importerTabUiConstants'
 import { ReliquaryDescription } from 'lib/tabs/tabImport/ReliquaryDescription'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
@@ -70,6 +67,7 @@ export function ScannerImportSubmenu() {
     websocketUrl,
     setWebsocketUrl,
   } = useScannerState()
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const isLiveImporting = connected && ingest
 
   function beforeUpload(file: Blob): Promise<any> {
@@ -238,23 +236,32 @@ export function ScannerImportSubmenu() {
           </Text>
           <Flex direction="column" align='flex-start'>
             <Flex gap={10} align='center'>
-              <Upload
-                accept='.json'
-                name='file'
-                beforeUpload={beforeUpload}
+              <input
+                type="file"
+                accept=".json"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) {
+                    void beforeUpload(file)
+                  }
+                  e.target.value = ''
+                }}
+              />
+              <Button
                 disabled={isLiveImporting}
+                style={{ width: importerTabButtonWidth }}
+                leftSection={<IconUpload size={16} />}
+                loading={loading1}
+                onClick={() => {
+                  setCurrentStage(Stages.LOAD_FILE)
+                  fileInputRef.current?.click()
+                }}
+                variant="default"
               >
-                <Button
-                  disabled={isLiveImporting}
-                  style={{ width: importerTabButtonWidth }}
-                  leftSection={<IconUpload size={16} />}
-                  loading={loading1}
-                  onClick={() => setCurrentStage(Stages.LOAD_FILE)}
-                  variant="default"
-                >
-                  {t('Import.Stage1.ButtonText')}
-                </Button>
-              </Upload>
+                {t('Import.Stage1.ButtonText')}
+              </Button>
 
               {t('Import.Stage1.Or')}
 

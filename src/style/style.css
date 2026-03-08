@@ -180,9 +180,7 @@ body {
     min-height: 22px !important;
 }
 
-.relic-sets-cascader .ant-cascader-menus ul:first-child {
-    width: 170px;
-}
+/* relic-sets-cascader styles removed (migrated to Mantine MultiSelect) */
 
 .rc-virtual-list-scrollbar-show {
     display: block !important;
@@ -781,22 +779,7 @@ a {
     inset-inline-end: 7px !important;
 }
 
-.turn-ability-cascader-filter .ant-select-selection-item {
-    font-size:  12px !important;
-}
-.turn-ability-cascader-filter .ant-select-selector {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-}
-
-.turn-ability-cascader-filter .ant-select-arrow,
-.turn-ability-cascader-filter .ant-select-clear {
-    inset-inline-end: 0px !important;
-}
-
-.turn-ability-cascader-drawer .ant-select-selection-item {
-    font-size:  12px !important;
-}
+/* turn-ability-cascader styles removed (migrated to Mantine Select) */
 
 .comboDrawer .ant-drawer-body {
     padding-top: 0px !important;

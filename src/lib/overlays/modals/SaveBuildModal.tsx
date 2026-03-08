@@ -1,9 +1,8 @@
-import { IconAlertCircle } from '@tabler/icons-react'
 import {
   Form,
-  Modal as AntdModal,
 } from 'antd'
 import { Button, Divider, Flex, Modal, TextInput, Tooltip } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import {
@@ -50,8 +49,6 @@ export function SaveBuildModal(props: {
     close,
   } = props
   const [characterForm] = Form.useForm<CharacterForm>()
-  const [confirmationModal, contextHolder] = AntdModal.useModal()
-
   const [selectedBuild, setSelectedBuild] = useState<number | null>(null)
   const [inputName, setInputName] = useState<string>('')
 
@@ -73,13 +70,15 @@ export function SaveBuildModal(props: {
   const { t: tCommon } = useTranslation('common')
 
   async function confirm(content: ReactNode) {
-    return confirmationModal.confirm({
-      title: tCommon('Confirm'), /* Confirm */
-      icon: <IconAlertCircle />,
-      content: content,
-      okText: tCommon('Confirm'), /* Confirm */
-      cancelText: tCommon('Cancel'), /* Cancel */
-      centered: true,
+    return new Promise<boolean>((resolve) => {
+      modals.openConfirmModal({
+        title: tCommon('Confirm'),
+        children: content,
+        labels: { confirm: tCommon('Confirm'), cancel: tCommon('Cancel') },
+        centered: true,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+      })
     })
   }
 
@@ -171,7 +170,6 @@ export function SaveBuildModal(props: {
       centered
       onClose={handleCancel}
     >
-      {contextHolder}
       <Flex gap={10} style={{ height: 856 }}>
         <Flex direction="column" style={{ width: 400 }}>
           <Form

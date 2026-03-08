@@ -1,13 +1,10 @@
 import {
-  IconAlertCircle,
   IconCamera,
   IconDownload,
   IconTrash,
 } from '@tabler/icons-react'
-import {
-  Modal as AntdModal,
-} from 'antd'
 import { Button, Flex, Modal, useMantineTheme } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
@@ -46,7 +43,6 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
     close,
   } = props
   const { t } = useTranslation(['modals', 'gameData', 'common'])
-  const [confirmationModal, contextHolder] = AntdModal.useModal()
   const [selectedBuild, setSelectedBuild] = useState<null | number>(null)
 
   const [loading, setLoading] = useState(false)
@@ -69,19 +65,20 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
         centered
       >
         {t('Builds.NoBuilds.NoneSaved') /* No saved builds */}
-        {contextHolder}
       </Modal>
     )
   }
 
   async function confirm(content: ReactNode) {
-    return confirmationModal.confirm({
-      title: t('common:Confirm'), /* Confirm */
-      icon: <IconAlertCircle />,
-      content: content,
-      okText: t('common:Confirm'), /* Confirm */
-      cancelText: t('common:Cancel'), /* Cancel */
-      centered: true,
+    return new Promise<boolean>((resolve) => {
+      modals.openConfirmModal({
+        title: t('common:Confirm'),
+        children: content,
+        labels: { confirm: t('common:Confirm'), cancel: t('common:Cancel') },
+        centered: true,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+      })
     })
   }
 
@@ -194,7 +191,6 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
           closeModal={close}
         />
 
-        {contextHolder}
         <BuildPreview character={selectedCharacter} build={build} />
       </Flex>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>

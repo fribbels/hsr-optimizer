@@ -1,9 +1,5 @@
-import { IconChevronDown } from '@tabler/icons-react'
-import {
-  Tree,
-  TreeProps,
-} from 'antd'
-import { Button, Drawer, Flex } from '@mantine/core'
+import { IconChevronDown, IconChevronRight } from '@tabler/icons-react'
+import { Button, Checkbox, Collapse, Drawer, Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -16,11 +12,80 @@ import { SaveState } from 'lib/state/saveState'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import React, {
+  useCallback,
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TraceNode } from 'types/metadata'
+
+const TraceTreeNode = ({
+  node,
+  checkedKeys,
+  onToggle,
+  tCommon,
+  level,
+}: {
+  node: TraceNode
+  checkedKeys: React.Key[]
+  onToggle: (node: TraceNode, checked: boolean) => void
+  tCommon: (key: string) => string
+  level: number
+}) => {
+  const [expanded, setExpanded] = useState(true)
+  const hasChildren = node.children.length > 0
+  const isChecked = checkedKeys.includes(node.id)
+
+  return (
+    <div style={{ paddingLeft: level > 0 ? 20 : 0 }}>
+      <Flex gap={4} align="center" style={{ padding: '2px 0' }}>
+        {hasChildren
+          ? (
+            <div
+              onClick={() => setExpanded(!expanded)}
+              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', width: 18, flexShrink: 0 }}
+            >
+              {expanded ? <IconChevronDown size={16} /> : <IconChevronRight size={16} />}
+            </div>
+            )
+          : <div style={{ width: 18, flexShrink: 0 }} />}
+
+        <Checkbox
+          size="xs"
+          checked={isChecked}
+          onChange={(e) => onToggle(node, e.currentTarget.checked)}
+          styles={{ input: { cursor: 'pointer' } }}
+        />
+
+        <Flex gap={0} align="center" style={{ cursor: 'pointer' }} onClick={() => onToggle(node, !isChecked)}>
+          <img src={Assets.getStatIcon(node.stat)} style={{ height: 20, marginLeft: -2, marginRight: 4 }} />
+          <div style={{ whiteSpace: 'pre-wrap' }}>
+            {`${
+              Utils.isFlat(node.stat)
+                ? node.value
+                : Utils.precisionRound(node.value * 100) + '%'
+            } - ${tCommon(`Stats.${node.stat}`)}`}
+          </div>
+        </Flex>
+      </Flex>
+
+      {hasChildren && (
+        <Collapse in={expanded}>
+          {node.children.map((child) => (
+            <TraceTreeNode
+              key={child.id}
+              node={child}
+              checkedKeys={checkedKeys}
+              onToggle={onToggle}
+              tCommon={tCommon}
+              level={level + 1}
+            />
+          ))}
+        </Collapse>
+      )}
+    </div>
+  )
+}
 
 export const StatTracesDrawer = () => {
   const { t: tCommon } = useTranslation('common')
@@ -30,7 +95,6 @@ export const StatTracesDrawer = () => {
   const statTraceDrawerFocusCharacter = window.store.getState().statTracesDrawerFocusCharacter
   const scoringMetadata = useScoringMetadata(statTraceDrawerFocusCharacter)
 
-  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -38,23 +102,19 @@ export const StatTracesDrawer = () => {
     if (statTraceDrawerFocusCharacter) {
       const tree = DB.getMetadata().characters[statTraceDrawerFocusCharacter].traceTree
       const stack = [...tree]
-      const expanded: string[] = []
+      const allIds: string[] = []
       while (stack.length) {
         const current = stack.pop()!
         for (const child of current.children) stack.push(child)
-
-        expanded.push(current.id)
+        allIds.push(current.id)
       }
-
-      setExpandedKeys(expanded)
 
       if (scoringMetadata?.traces) {
         const deactivated = scoringMetadata.traces.deactivated ?? []
-
-        const active = expanded.filter((x) => !deactivated.includes(x))
+        const active = allIds.filter((x) => !deactivated.includes(x))
         setCheckedKeys(active)
       } else {
-        setCheckedKeys(expanded)
+        setCheckedKeys(allIds)
       }
 
       return tree
@@ -70,48 +130,44 @@ export const StatTracesDrawer = () => {
     nodesById[current.id] = current
   }
 
-  const onCheck: TreeProps['onCheck'] = (checkedKeysValue, info) => {
-    let checked = (checkedKeysValue as { checked: React.Key[] }).checked
-    const node = nodesById[info.node.key as string]
-    if (!node) return
+  const onToggle = useCallback((node: TraceNode, checked: boolean) => {
+    setCheckedKeys((prev) => {
+      let updated = [...prev]
 
-    if (info.checked) {
-      // Check ancestors if checked
-      let currentId = node.id
-      while (currentId) {
-        const node = nodesById[currentId]
-        if (!node) break
+      if (checked) {
+        // Check the node, its ancestors, and its descendants
+        let currentId = node.id
+        while (currentId) {
+          const n = nodesById[currentId]
+          if (!n) break
+          if (!updated.includes(n.id)) updated.push(n.id)
+          currentId = n.pre
+        }
 
-        checked = Array.from(new Set([...checked, node.id]))
-        currentId = node.pre
+        const descStack = [node]
+        while (descStack.length) {
+          const n = descStack.pop()!
+          if (!updated.includes(n.id)) updated.push(n.id)
+          for (const child of n.children) descStack.push(child)
+        }
+      } else {
+        // Uncheck the node and its descendants
+        const descStack = [node]
+        while (descStack.length) {
+          const n = descStack.pop()!
+          updated = updated.filter((key) => key !== n.id)
+          for (const child of n.children) descStack.push(child)
+        }
       }
 
-      // Check descendents if checked
-      const stack = [node]
-      while (stack.length) {
-        const node = stack.pop()!
-        checked = Array.from(new Set([...checked, node.id]))
-
-        for (const child of node.children) stack.push(child)
-      }
-    } else {
-      // Uncheck descendents if unchecked
-      const stack = [node]
-      while (stack.length) {
-        const node = stack.pop()!
-        checked = checked.filter((key) => key !== node.id)
-
-        for (const child of node.children) stack.push(child)
-      }
-    }
-
-    setCheckedKeys(checked)
-  }
+      return updated
+    })
+  }, [nodesById])
 
   return (
     <Drawer
       title={t('Title')} // 'Custom stat traces'
-      position='right'
+      position="right"
       onClose={closeTracesDrawer}
       opened={isOpenTracesDrawer}
       size={400}
@@ -121,36 +177,18 @@ export const StatTracesDrawer = () => {
           {t('Header') /* Activated stat traces (all enabled by default) */}
         </HeaderText>
 
-        <Tree
-          checkable
-          checkStrictly
-          showLine
-          expandedKeys={expandedKeys}
-          selectable={false}
-          onCheck={onCheck}
-          checkedKeys={checkedKeys}
-          fieldNames={{ title: 'stat', key: 'id', children: 'children' }}
-          defaultExpandParent
-          defaultExpandAll
-          switcherIcon={<IconChevronDown />}
-          // @ts-ignore
-          treeData={treeData}
-          // @ts-ignore
-          titleRender={(traceNode: TraceNode) => (
-            <Flex gap={0} align='center'>
-              <img src={Assets.getStatIcon(traceNode.stat)} style={{ height: 20, marginLeft: -6, marginRight: 4 }} />
-
-              <div style={{ whiteSpace: 'pre-wrap' }}>
-                {`${
-                  Utils.isFlat(traceNode.stat)
-                    ? traceNode.value
-                    : Utils.precisionRound(traceNode.value * 100) + '%'
-                } - ${tCommon(`Stats.${traceNode.stat}`)}`}
-              </div>
-            </Flex>
-          )}
-          style={{ padding: 8 }}
-        />
+        <div style={{ padding: 8 }}>
+          {treeData.map((node) => (
+            <TraceTreeNode
+              key={node.id}
+              node={node}
+              checkedKeys={checkedKeys}
+              onToggle={onToggle}
+              tCommon={tCommon}
+              level={0}
+            />
+          ))}
+        </div>
 
         <Button
           fullWidth

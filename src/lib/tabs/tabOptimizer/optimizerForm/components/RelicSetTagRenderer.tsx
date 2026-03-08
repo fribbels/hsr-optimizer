@@ -4,41 +4,28 @@ import {
   RelicSetFilterOptions,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { ReactElement } from 'types/components'
+import { decodeRelicSetValue } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet
-export function RelicSetTagRenderer(props: {
-  value: string,
-  label: ReactNode,
-  closable: boolean,
-  onClose: () => void,
-}): ReactElement {
-  const { value, label, closable, onClose } = props
-
+export function RelicSetTagRenderer(encodedValue: string): ReactElement {
   /*
-   * The value comes in as:
-   * "2 PieceBand of Sizzling Thunder__RC_CASCADER_SPLIT__Guard of Wuthering Snow"
-   */
-  /*
-   * ['4 Piece', 'Passerby of Wandering Cloud']
-   * ['2 + 2 Piece', 'Knight of Purity Palace', 'Hunter of Glacial Forest']
-   * ['2 + Any', 'Knight of Purity Palace']
+   * The encoded value format is:
+   * "4 Piece||SetName"
+   * "2 + 2 Piece||Set1||Set2"
+   * "2 + Any||SetName"
    */
 
-  if (!value) {
-    const processedLabel = typeof label === 'string' ? label.replace(/[^0-9+]/g, '') : null
-
+  if (!encodedValue) {
     return (
       <Badge>
-        <Flex>
-          {processedLabel}
-        </Flex>
+        <Flex />
       </Badge>
     )
   }
 
-  const pieces = value.split('__RC_CASCADER_SPLIT__')
+  const pieces = decodeRelicSetValue(encodedValue)
   let inner
 
   if (pieces[0] == RelicSetFilterOptions.relic4Piece) {

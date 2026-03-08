@@ -1,26 +1,47 @@
-import { BuffPriority, } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import { BuffPriority } from 'lib/conditionals/conditionalConstants'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslFalse, } from 'lib/gpu/injection/wgslUtils'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
+import {
+  wgsl,
+  wgslFalse,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
-import { SortOption } from 'lib/optimization/sortOptions'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
-import { CharacterConfig } from 'types/characterConfig'
-import { ScoringMetadata } from 'types/metadata'
-import { Eidolon } from 'types/character'
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import { ScoringMetadata } from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const TrailblazerRemembranceAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -283,9 +304,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-
-
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -399,7 +417,6 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
   }
 }
 
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -459,16 +476,18 @@ const displayStelle = {
 
 export const TrailblazerRemembranceCaelus: CharacterConfig = {
   id: '8007',
-  info: { displayName: 'Caelus (Remembrance)' },
   display: displayCaelus,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }
 
 export const TrailblazerRemembranceStelle: CharacterConfig = {
   id: '8008',
-  info: { displayName: 'Stelle (Remembrance)' },
   display: displayStelle,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

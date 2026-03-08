@@ -418,7 +418,6 @@ const display = {
 
 export const Herta: CharacterConfig = {
   id: '1013',
-  info: {},
   display,
   conditionals,
   get scoring() {

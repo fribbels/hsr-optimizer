@@ -5,23 +5,28 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
-import { ScoringMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import { ScoringMetadata } from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const HuohuoEntities = createEnum('Huohuo')
@@ -168,7 +173,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -225,8 +229,9 @@ const display = {
 
 export const Huohuo: CharacterConfig = {
   id: '1217',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

@@ -12,6 +12,7 @@ import {
   Conditionals,
   ContentDefinition,
   createEnum,
+  Mutual,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
@@ -118,7 +119,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e1TargetHpBelow50: true,
   }
 
-  const content: ContentDefinition<typeof defaults> = {
+  type Content = ContentDefinition<typeof defaults>
+
+  const content: Content = {
     baitActive: {
       id: 'baitActive',
       formItem: 'switch',
@@ -177,11 +180,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
   }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+  type TeammateContent = ContentDefinition<typeof teammateDefaults>
+
+  const teammateContent: TeammateContent = {
     baitActive: content.baitActive,
     e1DmgVulnerability: content.e1DmgVulnerability,
     e1TargetHpBelow50: content.e1TargetHpBelow50,
   }
+
+  type MutualContent = Mutual<Content, TeammateContent>
 
   return {
     content: () => Object.values(content),
@@ -200,7 +207,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     actionDeclaration: () => [...AshveilAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+      const r = action.characterConditionals as Conditionals<Content>
 
       return {
         [AbilityKind.BASIC]: {
@@ -249,7 +256,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionModifiers: () => [],
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+      const r = action.characterConditionals as Conditionals<Content>
 
       // FUA DMG +80%
       x.buff(StatKey.DMG_BOOST, 0.80, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
@@ -265,7 +272,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
+      const m = action.characterConditionals as Conditionals<MutualContent>
 
       // Team CRIT DMG +40%
       x.buff(StatKey.CD, 0.40, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
@@ -404,7 +411,6 @@ const display = {
 
 export const Ashveil: CharacterConfig = {
   id: '1504',
-  info: {},
   display,
   conditionals,
   get scoring() {

@@ -1,5 +1,5 @@
 import { CombatBuffs, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
-import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import {

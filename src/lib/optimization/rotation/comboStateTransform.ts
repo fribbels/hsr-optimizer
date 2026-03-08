@@ -1,3 +1,4 @@
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -269,11 +270,6 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
     result[field.fieldName] = transformConditional(comboEntry, actionIndex)
   }
   return result as SetConditional
-}
-
-export enum ComboType {
-  SIMPLE = 'simple',
-  ADVANCED = 'advanced',
 }
 
 export function getDefaultComboTurnAbilities(characterId: CharacterId, characterEidolon: number) {

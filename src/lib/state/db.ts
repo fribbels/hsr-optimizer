@@ -18,8 +18,8 @@ import {
   defaultTeammate,
   getDefaultForm,
 } from 'lib/optimization/defaultForm'
-import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
-import { TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { ComboType } from 'lib/optimization/rotation/comboType'
+import type { TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
 
 import {

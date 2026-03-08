@@ -1,6 +1,5 @@
 import {
   Flex,
-  Layout,
   theme,
 } from 'antd'
 import {
@@ -12,14 +11,13 @@ import MenuDrawer from 'lib/overlays/drawers/MenuDrawer'
 import { useScrollLockState } from 'lib/rendering/scrollController'
 
 const { useToken } = theme
-const { Sider } = Layout
 
 export function LayoutSider() {
   const { token } = useToken()
-
   const { isLocked, offset } = useScrollLockState()
-
   const { isOpen: isOpenMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
+
+  const siderWidth = isOpenMenuSidebar ? 170 : 48
 
   return (
     <Flex
@@ -28,32 +26,30 @@ export function LayoutSider() {
         top: isLocked && offset > HEADER_HEIGHT ? offset - HEADER_HEIGHT : 0,
       }}
     >
-      <Sider
-        width={170}
+      <div
         style={{
+          width: siderWidth,
+          minWidth: siderWidth,
           background: token.colorBgContainer,
           height: '100vh',
           position: 'sticky',
           top: 0,
           overflow: 'hidden',
+          transition: 'width 0.2s',
         }}
-        collapsible
-        collapsedWidth={48}
-        collapsed={!isOpenMenuSidebar}
-        trigger={null}
       >
         <div
           style={{
             height: '100%',
             overflowY: 'auto',
-            scrollbarWidth: 'none', // Firefox
-            msOverflowStyle: 'none', // IE/Edge
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
           }}
           className='layout-sider-scroll'
         >
           <MenuDrawer />
         </div>
-      </Sider>
+      </div>
     </Flex>
   )
 }

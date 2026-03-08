@@ -2,7 +2,6 @@ import { MantineProvider } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
 import {
   ConfigProvider,
-  Layout,
   theme,
 } from 'antd'
 import { ConfirmModalProvider } from 'lib/interactions/confirmModal'
@@ -19,7 +18,6 @@ import Tabs from 'lib/tabs/Tabs'
 import React, { useEffect } from 'react'
 
 const { getDesignToken } = theme
-const { Content } = Layout
 
 const App = () => {
   const colorTheme = window.store((s) => s.colorTheme)
@@ -41,11 +39,11 @@ const App = () => {
       <Notifications position="top-right" />
       <ConfirmModalProvider>
         <ConfigProvider theme={globalThemeConfig}>
-          <Layout style={{ minHeight: '100%' }}>
+          <div style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
             <LayoutHeader />
-            <Layout hasSider>
+            <div style={{ display: 'flex', flex: 1 }}>
               <LayoutSider />
-              <Content
+              <div
                 style={{
                   padding: '10px 10px 0 10px',
                   margin: 0,
@@ -59,12 +57,12 @@ const App = () => {
                 }}
               >
                 <Tabs />
-              </Content>
+              </div>
               <SettingsDrawer />
               <GettingStartedDrawer />
               <StatTracesDrawer />
-            </Layout>
-          </Layout>
+            </div>
+          </div>
         </ConfigProvider>
       </ConfirmModalProvider>
     </MantineProvider>

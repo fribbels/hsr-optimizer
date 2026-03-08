@@ -2,10 +2,9 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Flex, Text as MantineText } from '@mantine/core'
 import {
   Switch,
-  Typography,
 } from 'antd'
 import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
@@ -22,7 +21,8 @@ import styled from 'styled-components'
 const justify = 'flex-start'
 const align = 'center'
 
-const Text = styled(Typography)`
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+const Text = styled(MantineText as any)`
     white-space: pre-line;
 `
 

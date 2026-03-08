@@ -2,12 +2,11 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   Radio,
   Select,
   Switch,
-  Typography,
 } from 'antd'
 
 import { Hint } from 'lib/interactions/hint'
@@ -26,8 +25,6 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 const OptimizerOptionsDisplay = (): JSX.Element => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })

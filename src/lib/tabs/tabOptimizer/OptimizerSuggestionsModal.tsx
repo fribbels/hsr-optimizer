@@ -1,8 +1,7 @@
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   Button,
   Modal,
-  Typography,
 } from 'antd'
 import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants/constants'
@@ -25,8 +24,6 @@ import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
-
-const { Text } = Typography
 
 enum ZeroPermRootCause {
   IMPORT = 'IMPORT',

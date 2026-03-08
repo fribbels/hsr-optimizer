@@ -1,7 +1,6 @@
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   Drawer,
-  Typography,
 } from 'antd'
 import { CombatBuffs } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
@@ -14,8 +13,6 @@ import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/In
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 export const CombatBuffsDrawer = () => {
   const { close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)

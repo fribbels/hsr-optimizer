@@ -1,7 +1,6 @@
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   theme,
-  Typography,
 } from 'antd'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import {
@@ -14,8 +13,6 @@ import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'react'
 
 const { useToken } = theme
-
-const { Paragraph } = Typography
 
 const parentW = 100
 const parentH = 150
@@ -36,8 +33,8 @@ export const CardGridItemContent = (props: {
           transform: `translate(${(props.innerW - parentW) / 2 / props.innerW * -100}%, ${(props.innerH - parentH) / 2 / props.innerH * -100}%)`,
         }}
       />
-      <Paragraph
-        ellipsis={{ rows: props.rows }}
+      <Text
+        lineClamp={props.rows}
         style={{
           position: 'absolute',
           bottom: 0,
@@ -68,7 +65,7 @@ export const CardGridItemContent = (props: {
         >
           {props.text}
         </div>
-      </Paragraph>
+      </Text>
     </div>
   )
 }

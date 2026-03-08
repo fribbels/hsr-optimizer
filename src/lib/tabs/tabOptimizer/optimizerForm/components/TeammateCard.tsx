@@ -2,9 +2,8 @@ import { IconRefresh } from '@tabler/icons-react'
 import {
   Button,
   Select,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
@@ -47,8 +46,6 @@ import {
   SuperImpositionLevel,
 } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
-
-const { Text } = Typography
 
 const rightPanelWidth = 110
 

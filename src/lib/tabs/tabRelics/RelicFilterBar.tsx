@@ -3,9 +3,8 @@ import {
   Button,
   Select,
   Tooltip,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -42,8 +41,6 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
-
-const { Text } = Typography
 
 const tagHeight = 34
 const imgWidth = 34

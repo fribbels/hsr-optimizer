@@ -6,9 +6,8 @@ import {
   Modal,
   Popconfirm,
   Select,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
 import {
   Constants,
@@ -37,8 +36,6 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
-
-const { Text } = Typography
 
 const TitleDivider = styled(Divider)`
     margin-top: 10px !important;

@@ -14,9 +14,8 @@ import {
   Popconfirm,
   Radio,
   Select,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   Parts,
   Stats,
@@ -48,8 +47,6 @@ import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
-
-const { Text } = Typography
 
 export const STAT_SIMULATION_ROW_HEIGHT = 425
 export const STAT_SIMULATION_GRID_WIDTH = 680

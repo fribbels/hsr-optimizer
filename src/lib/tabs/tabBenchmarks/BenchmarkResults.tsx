@@ -8,9 +8,8 @@ import {
   Tabs,
   TabsProps,
   Tag,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next, { TFunction } from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
@@ -41,8 +40,6 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 type BenchmarkRow = {
   key: string,

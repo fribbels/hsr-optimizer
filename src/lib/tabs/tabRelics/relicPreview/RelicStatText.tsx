@@ -1,10 +1,9 @@
-import { Typography } from 'antd'
+import { Text } from '@mantine/core'
+import { ComponentType } from 'react'
 import { Languages } from 'lib/utils/i18nUtils'
 import styled from 'styled-components'
 
-const { Text } = Typography
-
-const RelicStatText = styled(Text)<{ language?: Languages }>`
+const RelicStatText = styled(Text as ComponentType<any>)<{ language?: Languages }>`
     ${(props) => generateStyling(props.language)}
 `
 

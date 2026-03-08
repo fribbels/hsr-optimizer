@@ -3,7 +3,6 @@ import { Flex } from '@mantine/core'
 import {
   Button,
   ConfigProvider,
-  Typography,
 } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
 import {

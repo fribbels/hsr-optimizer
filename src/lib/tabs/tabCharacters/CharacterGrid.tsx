@@ -5,10 +5,7 @@ import {
   IRowNode,
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import {
-  Typography,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -21,8 +18,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
-
-const { Text } = Typography
 
 const defaultColDef: ColDef<Character> = {
   sortable: false,

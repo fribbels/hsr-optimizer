@@ -1,9 +1,8 @@
-import { Typography } from 'antd'
+import { Text } from '@mantine/core'
+import { ComponentType } from 'react'
 import styled from 'styled-components'
 
-const { Text } = Typography
-
-export const HeaderText = styled(Text)`
+export const HeaderText = styled(Text as ComponentType<any>)`
     text-decoration: underline;
     text-decoration-color: #6d97ffb3;
     text-underline-offset: 2px;

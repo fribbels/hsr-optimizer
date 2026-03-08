@@ -1,13 +1,11 @@
 import {
   Popover,
-  Typography,
 } from 'antd'
+import { Text } from '@mantine/core'
 import React, {
   ComponentType,
   ReactNode,
 } from 'react'
-
-const { Text } = Typography
 
 export type WithPopoverProps<T> = {
   title: string,

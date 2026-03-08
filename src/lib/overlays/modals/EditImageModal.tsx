@@ -13,9 +13,8 @@ import {
   Slider,
   Spin,
   Steps,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { RcFile } from 'antd/es/upload'
 import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
@@ -30,8 +29,6 @@ import {
   CustomImagePayload,
   ImageDimensions,
 } from 'types/customImage'
-
-const { Text } = Typography
 
 interface EditImageModalProps {
   existingConfig: CustomImageConfig | undefined // currently existing custom image

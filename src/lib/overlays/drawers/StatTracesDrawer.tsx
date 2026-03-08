@@ -4,7 +4,6 @@ import {
   Drawer,
   Tree,
   TreeProps,
-  Typography,
 } from 'antd'
 import { Flex } from '@mantine/core'
 import {
@@ -24,8 +23,6 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TraceNode } from 'types/metadata'
-
-const { Text } = Typography
 
 export const StatTracesDrawer = () => {
   const { t: tCommon } = useTranslation('common')

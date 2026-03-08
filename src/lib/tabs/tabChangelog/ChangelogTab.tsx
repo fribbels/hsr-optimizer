@@ -1,9 +1,8 @@
 import {
   List,
   theme,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text, Title } from '@mantine/core'
 import {
   CURRENT_DATA_VERSION,
   officialOnly,
@@ -17,7 +16,6 @@ import React, {
 } from 'react'
 
 const { useToken } = theme
-const { Text } = Typography
 
 type ChangelogContent = { title: string, date: string, content: string[] }
 
@@ -72,11 +70,11 @@ export default function ChangelogTab(): React.JSX.Element {
 
     return (
       <Flex direction="column">
-        <Typography.Title style={{ marginLeft: 20 }}>
+        <Title style={{ marginLeft: 20 }}>
           <u>
             {headerText}
           </u>
-        </Typography.Title>
+        </Title>
         <ul>
           {display}
         </ul>

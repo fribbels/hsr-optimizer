@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Typography,
-} from 'antd'
+import { Flex, Text } from '@mantine/core'
 import {
   showcaseBackdropFilter,
   showcaseOutline,
@@ -17,8 +14,6 @@ import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
-
-const { Text } = Typography
 
 type ShowcaseLightConeProps = {
   character: Character,

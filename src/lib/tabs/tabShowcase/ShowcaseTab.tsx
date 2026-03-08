@@ -15,9 +15,8 @@ import {
   Form,
   Input,
   Segmented,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -62,8 +61,6 @@ import { SettingOptions } from '../../overlays/drawers/SettingsDrawer'
 
 const RERUN_PRESET_SIZE = 45
 const PRESET_SIZE = 95
-
-const { Text } = Typography
 
 export default function ShowcaseTab() {
   const [showcaseForm] = Form.useForm<ShowcaseTabForm>()

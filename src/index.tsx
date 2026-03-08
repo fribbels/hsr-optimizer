@@ -1,4 +1,4 @@
-import { Typography } from 'antd'
+import { Text } from '@mantine/core'
 import WrappedApp from 'App'
 import 'lib/i18n/i18n'
 import { Constants } from 'lib/constants/constants'
@@ -53,7 +53,7 @@ Metadata.initialize()
 SaveState.load(false, false)
 void verifyWebgpuSupport(false)
 
-const defaultErrorRender = ({ error }: { error: { message: string } }) => <Typography>Something went wrong: {error.message}</Typography>
+const defaultErrorRender = ({ error }: { error: { message: string } }) => <Text>Something went wrong: {error.message}</Text>
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 

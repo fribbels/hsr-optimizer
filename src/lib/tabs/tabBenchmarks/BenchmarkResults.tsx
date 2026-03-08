@@ -3,15 +3,12 @@ import {
   IconChevronRight,
 } from '@tabler/icons-react'
 import {
-  Table,
-  TableProps,
   Tabs,
   TabsProps,
-  Tag,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Badge, Flex, Table, Text } from '@mantine/core'
 import chroma from 'chroma-js'
-import i18next, { TFunction } from 'i18next'
+import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
@@ -38,7 +35,7 @@ import {
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type BenchmarkRow = {
@@ -59,56 +56,7 @@ type BenchmarkRow = {
   orchestrator: BenchmarkSimulationOrchestrator,
 }
 
-function generateColumns(t: TFunction<'benchmarksTab', 'ResultsGrid'>): TableProps<BenchmarkRow>['columns'] {
-  const tCommon = i18next.getFixedT(null, 'common', 'Parts')
-  return [
-    {
-      title: t('Combo'), // 'Combo DMG'
-      dataIndex: 'comboDmg',
-      align: 'center',
-      render: renderComboDmg(),
-      width: 200,
-    },
-    {
-      title: t('Delta'), // 'Delta'
-      dataIndex: 'deltaPercent',
-      align: 'center',
-      render: renderDeltaPercent(),
-      width: 100,
-    },
-    {
-      title: tCommon('Body'), // 'Body'
-      dataIndex: 'simBody',
-      align: 'center',
-      render: renderStat(),
-    },
-    {
-      title: tCommon('Feet'), // 'Feet'
-      dataIndex: 'simFeet',
-      align: 'center',
-      render: renderStat(),
-    },
-    {
-      title: tCommon('PlanarSphere'), // 'Planar Sphere'
-      dataIndex: 'simPlanarSphere',
-      align: 'center',
-      render: renderStat(),
-    },
-    {
-      title: tCommon('LinkRope'), // 'Link Rope'
-      dataIndex: 'simLinkRope',
-      align: 'center',
-      render: renderStat(),
-    },
-    {
-      title: t('Sets'), // 'Sets'
-      dataIndex: 'simRelicSet1',
-      align: 'center',
-      render: renderSets(),
-      width: 150,
-    },
-  ]
-}
+const PAGE_SIZE = 25
 
 export function BenchmarkResults() {
   const { orchestrators } = useBenchmarksTabStore()
@@ -123,10 +71,27 @@ export function BenchmarkResults() {
 }
 
 function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
-  const { loading } = useBenchmarksTabStore()
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'ResultsGrid' })
+  const tCommon = useMemo(() => i18next.getFixedT(null, 'common', 'Parts'), [])
+  const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set())
+  const [page, setPage] = useState(0)
 
-  const columns = useMemo(() => generateColumns(t), [t])
+  const pagedData = dataSource.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+  const totalPages = Math.ceil(dataSource.length / PAGE_SIZE)
+
+  const toggleExpand = (key: string) => {
+    setExpandedKeys((prev) => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }
+
+  const statRenderer = renderStat()
+  const setsRenderer = renderSets()
+  const comboDmgRenderer = renderComboDmg()
+  const deltaPercentRenderer = renderDeltaPercent()
 
   return (
     <div
@@ -137,34 +102,88 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
         borderTop: 'none',
       }}
     >
-      <Table<BenchmarkRow>
+      <Table
         className='remove-table-bottom-border'
-        columns={columns}
-        dataSource={dataSource}
-        pagination={{
-          position: ['bottomCenter'],
-          pageSize: 25,
-          showSizeChanger: false,
-        }}
-        size='small'
         style={benchmarkTableStyle}
-        loading={loading}
-        locale={{ emptyText: '' }}
-        expandable={{
-          expandedRowRender: (row) => <ExpandedRow row={row} />,
-          expandIcon: ({ expanded, onExpand, record }) => {
-            return expanded
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              ? <IconChevronDown onClick={(e) => onExpand(record, e as any)} />
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              : <IconChevronRight onClick={(e) => onExpand(record, e as any)} />
-          },
-          expandRowByClick: true,
-        }}
-        onRow={() => ({
-          style: { cursor: 'pointer' },
-        })}
-      />
+      >
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th style={{ width: 30 }} />
+            <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('Combo')}</Table.Th>
+            <Table.Th style={{ textAlign: 'center', width: 100 }}>{t('Delta')}</Table.Th>
+            <Table.Th style={{ textAlign: 'center' }}>{tCommon('Body')}</Table.Th>
+            <Table.Th style={{ textAlign: 'center' }}>{tCommon('Feet')}</Table.Th>
+            <Table.Th style={{ textAlign: 'center' }}>{tCommon('PlanarSphere')}</Table.Th>
+            <Table.Th style={{ textAlign: 'center' }}>{tCommon('LinkRope')}</Table.Th>
+            <Table.Th style={{ textAlign: 'center', width: 150 }}>{t('Sets')}</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {pagedData.map((row) => {
+            const expanded = expandedKeys.has(row.key)
+            return (
+              <React.Fragment key={row.key}>
+                <Table.Tr
+                  onClick={() => toggleExpand(row.key)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <Table.Td>
+                    {expanded ? <IconChevronDown /> : <IconChevronRight />}
+                  </Table.Td>
+                  <Table.Td style={{ textAlign: 'center', position: 'relative' }}>
+                    {comboDmgRenderer(row.comboDmg, row)}
+                  </Table.Td>
+                  <Table.Td style={{ textAlign: 'center' }}>
+                    {deltaPercentRenderer(row.deltaPercent)}
+                  </Table.Td>
+                  <Table.Td style={{ textAlign: 'center' }}>
+                    {statRenderer(row.simBody as SubStats)}
+                  </Table.Td>
+                  <Table.Td style={{ textAlign: 'center' }}>
+                    {statRenderer(row.simFeet as SubStats)}
+                  </Table.Td>
+                  <Table.Td style={{ textAlign: 'center' }}>
+                    {statRenderer(row.simPlanarSphere as SubStats)}
+                  </Table.Td>
+                  <Table.Td style={{ textAlign: 'center' }}>
+                    {statRenderer(row.simLinkRope as SubStats)}
+                  </Table.Td>
+                  <Table.Td style={{ textAlign: 'center' }}>
+                    {setsRenderer(row.simRelicSet1, row)}
+                  </Table.Td>
+                </Table.Tr>
+                {expanded && (
+                  <Table.Tr>
+                    <Table.Td colSpan={8} style={{ padding: 0 }}>
+                      <ExpandedRow row={row} />
+                    </Table.Td>
+                  </Table.Tr>
+                )}
+              </React.Fragment>
+            )
+          })}
+        </Table.Tbody>
+      </Table>
+      {totalPages > 1 && (
+        <Flex justify='center' gap={8} style={{ padding: 8 }}>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(i)}
+              style={{
+                padding: '4px 10px',
+                cursor: 'pointer',
+                background: i === page ? '#1668dc' : '#243356',
+                color: '#fff',
+                border: '1px solid #354b7d',
+                borderRadius: 4,
+              }}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </Flex>
+      )}
     </div>
   )
 }
@@ -314,11 +333,11 @@ function renderComboDmg() {
       />
 
       <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
-        <Tag color='#000000aa' style={{ opacity: 1, border: 0, padding: '1px 12px 1px 12px' }}>
+        <Badge color='#000000aa' style={{ opacity: 1, border: 0, padding: '1px 12px 1px 12px' }}>
           <Text style={{ margin: 0, alignItems: 'center' }}>
             {`${localeNumber_0(n / 1000)}K`}
           </Text>
-        </Tag>
+        </Badge>
       </Flex>
     </Flex>
   )

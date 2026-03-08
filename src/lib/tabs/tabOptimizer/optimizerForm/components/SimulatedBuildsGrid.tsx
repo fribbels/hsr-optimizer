@@ -1,11 +1,6 @@
 import { IconX } from '@tabler/icons-react'
 import { IRowNode } from 'ag-grid-community'
-import {
-  Empty,
-  Table,
-  TableColumnsType,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Table } from '@mantine/core'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import {
@@ -30,40 +25,6 @@ interface DataType {
   request: object
   hash: string
 }
-
-const columns: TableColumnsType<DataType> = [
-  {
-    title: <Flex style={{ marginLeft: 5 }}>Simulation details</Flex>,
-    dataIndex: 'name',
-    fixed: 'left',
-    width: '560',
-    render: (_, record) => {
-      // Show the custom name, otherwise generate one
-      return renderDefaultSimulationName(record as Simulation)
-    },
-    key: 'y',
-    ellipsis: true,
-  },
-  {
-    title: '',
-    dataIndex: '',
-    key: 'x',
-    render: (_, record) => {
-      return (
-        <a
-          onClick={() => {
-            deleteStatSimulationBuild(record)
-          }}
-          style={{ display: 'flex', justifyContent: 'center' }}
-        >
-          <IconX />
-        </a>
-      )
-    },
-    width: 36,
-    fixed: 'right',
-  },
-]
 
 function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: T): T {
   for (const [key, value] of Object.entries(obj)) {
@@ -122,36 +83,59 @@ export function SimulatedBuildsGrid() {
     }
   }, [selectedStatSimulations])
 
+  const data = statSimulations as DataType[]
+
   return (
-    <Table
-      showHeader={false}
-      locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('NoStatSimulations')} /* 'No custom stat simulations selected' */ /> }}
-      rowSelection={{
-        selectedRowKeys: selectedStatSimulations as string[],
-        type: 'radio',
-        columnWidth: 0,
-        renderCell: () => '', // Render nothing for the selection column
-      }}
-      columns={columns}
-      dataSource={statSimulations as DataType[]}
-      onRow={(record) => ({
-        onClick: () => {
-          setSelectedStatSimulations(record.key != null ? [record.key] : [])
-        },
-      })}
-      pagination={false}
-      size='small'
+    <div
       style={{
         flex: 1,
         width: STAT_SIMULATION_GRID_WIDTH,
-        // borderRadius: 8,
         height: '100%',
         backgroundColor: '#0000001a',
         border: '1px solid rgba(255, 255, 255, 0.15)',
+        overflowY: 'auto',
+        maxHeight: 300,
       }}
-      scroll={{
-        y: 300,
-      }}
-    />
+    >
+      {data.length === 0
+        ? (
+          <Flex justify='center' align='center' style={{ padding: 16, opacity: 0.5 }}>
+            {t('NoStatSimulations') /* 'No custom stat simulations selected' */}
+          </Flex>
+        )
+        : (
+          <Table>
+            <Table.Tbody>
+              {data.map((record) => (
+                <Table.Tr
+                  key={record.key}
+                  onClick={() => {
+                    setSelectedStatSimulations(record.key != null ? [record.key] : [])
+                  }}
+                  style={{
+                    cursor: 'pointer',
+                    backgroundColor: selectedStatSimulations[0] === record.key ? 'rgba(22, 104, 220, 0.3)' : undefined,
+                  }}
+                >
+                  <Table.Td style={{ width: 560, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {renderDefaultSimulationName(record as Simulation)}
+                  </Table.Td>
+                  <Table.Td style={{ width: 36 }}>
+                    <a
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        deleteStatSimulationBuild(record)
+                      }}
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <IconX />
+                    </a>
+                  </Table.Td>
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
+        )}
+    </div>
   )
 }

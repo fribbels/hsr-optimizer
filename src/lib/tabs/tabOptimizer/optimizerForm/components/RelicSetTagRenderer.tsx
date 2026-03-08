@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Tag,
-} from 'antd'
+import { Badge, Flex } from '@mantine/core'
 import {
   Constants,
   RelicSetFilterOptions,
@@ -33,14 +30,11 @@ export function RelicSetTagRenderer(props: {
     const processedLabel = typeof label === 'string' ? label.replace(/[^0-9+]/g, '') : null
 
     return (
-      <Tag
-        closable={closable}
-        onClose={onClose}
-      >
+      <Badge>
         <Flex>
           {processedLabel}
         </Flex>
-      </Tag>
+      </Badge>
     )
   }
 
@@ -74,14 +68,12 @@ export function RelicSetTagRenderer(props: {
   }
 
   return (
-    <Tag
-      closable={false}
-      onClose={onClose}
+    <Badge
       style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 22, alignItems: 'center', overflow: 'hidden' }}
     >
       <Flex>
         {inner}
       </Flex>
-    </Tag>
+    </Badge>
   )
 }

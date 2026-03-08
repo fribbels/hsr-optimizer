@@ -5,12 +5,10 @@ import {
 } from '@tabler/icons-react'
 import {
   Form,
-  Radio,
-  RadioChangeEvent,
   Spin,
   Steps,
 } from 'antd'
-import { Button, Flex, Modal, Slider, Text, TextInput } from '@mantine/core'
+import { Button, Flex, Modal, SegmentedControl, Slider, Text, TextInput } from '@mantine/core'
 import { RcFile } from 'antd/es/upload'
 import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
@@ -499,7 +497,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   const prev = () => setCurrent(current - 1)
-  const onRadioChange = (e: RadioChangeEvent) => setRadio(e.target.value)
+  const onRadioChange = (value: string) => setRadio(value as 'upload' | 'url' | 'default')
 
   const steps = [
     {
@@ -507,11 +505,15 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       content: (
         <>
           <Flex justify='center' style={{ marginBottom: 16 }}>
-            <Radio.Group onChange={onRadioChange} value={radio} buttonStyle='solid'>
-              <Radio.Button value='upload'>{t('Upload.Radio.Upload') /* Upload image */}</Radio.Button>
-              <Radio.Button value='url'>{t('Upload.Radio.Url') /* Enter image URL */}</Radio.Button>
-              {defaultImageUrl && <Radio.Button value='default'>{t('Upload.Radio.Default') /* Use default image */}</Radio.Button>}
-            </Radio.Group>
+            <SegmentedControl
+              onChange={onRadioChange}
+              value={radio}
+              data={[
+                { label: t('Upload.Radio.Upload') /* Upload image */, value: 'upload' },
+                { label: t('Upload.Radio.Url') /* Enter image URL */, value: 'url' },
+                ...(defaultImageUrl ? [{ label: t('Upload.Radio.Default') /* Use default image */, value: 'default' }] : []),
+              ]}
+            />
           </Flex>
 
           {radio === 'upload' && (

@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Collapse,
-} from 'antd'
+import { Accordion, Flex } from '@mantine/core'
 import {
   ReactElement,
   useMemo,
@@ -21,37 +18,10 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
   const optimizerMenuState = window.store((s) => s.optimizerMenuState)
   const setOptimizerMenuState = window.store((s) => s.setOptimizerMenuState)
 
-  function onChange(event: string[]) {
-    optimizerMenuState[props.id] = event.length > 0
+  function onChange(value: string[]) {
+    optimizerMenuState[props.id] = value.length > 0
     setOptimizerMenuState(optimizerMenuState)
   }
-
-  const items = [
-    {
-      key: props.id,
-      label: (
-        <Flex style={{ paddingTop: 6 }}>
-          {
-            // @ts-ignore
-            props.label ?? t(`${props.id}`)
-          }
-        </Flex>
-      ),
-      forceRender: true,
-      children: (
-        <Flex
-          style={{
-            paddingLeft: 10,
-            marginTop: 5,
-            paddingRight: 10,
-          }}
-          gap={10}
-        >
-          {props.children}
-        </Flex>
-      ),
-    },
-  ]
 
   return (
     <Flex
@@ -62,14 +32,36 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
         minWidth: '100%',
       }}
     >
-      <Collapse
-        defaultActiveKey={optimizerMenuState[props.id] ? props.id : undefined}
-        items={items}
-        // collapsible='icon'
+      <Accordion
+        multiple
+        defaultValue={optimizerMenuState[props.id] ? [props.id] : []}
         onChange={onChange}
-        expandIconPosition='end'
-        ghost
-      />
+        chevronPosition='right'
+        variant='default'
+      >
+        <Accordion.Item value={props.id}>
+          <Accordion.Control>
+            <Flex style={{ paddingTop: 6 }}>
+              {
+                // @ts-ignore
+                props.label ?? t(`${props.id}`)
+              }
+            </Flex>
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Flex
+              style={{
+                paddingLeft: 10,
+                marginTop: 5,
+                paddingRight: 10,
+              }}
+              gap={10}
+            >
+              {props.children}
+            </Flex>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
     </Flex>
   )
 }

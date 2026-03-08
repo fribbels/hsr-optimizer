@@ -1,7 +1,4 @@
-import {
-  Tag,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Badge, Flex } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -227,11 +224,11 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
       {renderArray.map((x) => {
         return (
           <Flex key={x.stat}>
-            <Tag
+            <Badge
               style={{ paddingInline: '5px', marginInlineEnd: '5px' }}
             >
               {renderStat(x)}
-            </Tag>
+            </Badge>
           </Flex>
         )
       })}

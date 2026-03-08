@@ -6,10 +6,9 @@ import {
 import {
   Form,
   Image,
-  Radio,
   theme,
 } from 'antd'
-import { Alert, Button, Flex, Modal, NumberInput, Select, TextInput, Tooltip } from '@mantine/core'
+import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select, TextInput, Tooltip } from '@mantine/core'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
@@ -60,16 +59,17 @@ import { Relic } from 'types/relic'
 
 const { useToken } = theme
 
-function RadioIcon(props: { value: string, src: string }) {
-  return (
-    <Radio.Button value={props.value} style={{ height: 35, width: 50, paddingLeft: 10 }}>
+function partSegmentData(value: string, src: string) {
+  return {
+    value,
+    label: (
       <Image
         preview={false}
         width={30}
-        src={props.src}
+        src={src}
       />
-    </Radio.Button>
-  )
+    ),
+  }
 }
 
 function defaultSubstatValues(relic: Relic): SubstatValues {
@@ -448,14 +448,16 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
               <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
 
               <Form.Item name='part'>
-                <Radio.Group buttonStyle='solid'>
-                  <RadioIcon value={Constants.Parts.Head} src={Assets.getPart(Constants.Parts.Head)} />
-                  <RadioIcon value={Constants.Parts.Hands} src={Assets.getPart(Constants.Parts.Hands)} />
-                  <RadioIcon value={Constants.Parts.Body} src={Assets.getPart(Constants.Parts.Body)} />
-                  <RadioIcon value={Constants.Parts.Feet} src={Assets.getPart(Constants.Parts.Feet)} />
-                  <RadioIcon value={Constants.Parts.PlanarSphere} src={Assets.getPart(Constants.Parts.PlanarSphere)} />
-                  <RadioIcon value={Constants.Parts.LinkRope} src={Assets.getPart(Constants.Parts.LinkRope)} />
-                </Radio.Group>
+                <SegmentedControl
+                  data={[
+                    partSegmentData(Constants.Parts.Head, Assets.getPart(Constants.Parts.Head)),
+                    partSegmentData(Constants.Parts.Hands, Assets.getPart(Constants.Parts.Hands)),
+                    partSegmentData(Constants.Parts.Body, Assets.getPart(Constants.Parts.Body)),
+                    partSegmentData(Constants.Parts.Feet, Assets.getPart(Constants.Parts.Feet)),
+                    partSegmentData(Constants.Parts.PlanarSphere, Assets.getPart(Constants.Parts.PlanarSphere)),
+                    partSegmentData(Constants.Parts.LinkRope, Assets.getPart(Constants.Parts.LinkRope)),
+                  ]}
+                />
               </Form.Item>
 
               <HeaderText>{t('Relic.Set') /* Set */}</HeaderText>

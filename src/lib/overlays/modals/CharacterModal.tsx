@@ -1,8 +1,7 @@
 import {
   Form as AntDForm,
-  Radio,
 } from 'antd'
-import { Button, Flex, Modal, Select } from '@mantine/core'
+import { Button, Flex, Modal, SegmentedControl, Select } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -114,20 +113,23 @@ export default function CharacterModal(props: {
                 }}
               />
             </AntDForm.Item>
-            <AntDForm.Item name='characterEidolon'>
-              <Radio.Group
-                value={eidolon}
-                buttonStyle='solid'
-                style={{ width: '100%', display: 'flex' }}
-              >
-                <RadioButton text={t('EidolonButton', { eidolon: 0 })} value={0} />
-                <RadioButton text={t('EidolonButton', { eidolon: 1 })} value={1} />
-                <RadioButton text={t('EidolonButton', { eidolon: 2 })} value={2} />
-                <RadioButton text={t('EidolonButton', { eidolon: 3 })} value={3} />
-                <RadioButton text={t('EidolonButton', { eidolon: 4 })} value={4} />
-                <RadioButton text={t('EidolonButton', { eidolon: 5 })} value={5} />
-                <RadioButton text={t('EidolonButton', { eidolon: 6 })} value={6} />
-              </Radio.Group>
+            <AntDForm.Item
+              name='characterEidolon'
+              getValueFromEvent={(val: string) => Number(val)}
+              getValueProps={(val) => ({ value: String(val ?? 0) })}
+            >
+              <SegmentedControl
+                fullWidth
+                data={[
+                  { label: t('EidolonButton', { eidolon: 0 }), value: '0' },
+                  { label: t('EidolonButton', { eidolon: 1 }), value: '1' },
+                  { label: t('EidolonButton', { eidolon: 2 }), value: '2' },
+                  { label: t('EidolonButton', { eidolon: 3 }), value: '3' },
+                  { label: t('EidolonButton', { eidolon: 4 }), value: '4' },
+                  { label: t('EidolonButton', { eidolon: 5 }), value: '5' },
+                  { label: t('EidolonButton', { eidolon: 6 }), value: '6' },
+                ]}
+              />
             </AntDForm.Item>
           </Flex>
 
@@ -143,19 +145,24 @@ export default function CharacterModal(props: {
                 }}
               />
             </AntDForm.Item>
-            <AntDForm.Item name='lightConeSuperimposition'>
-              <Radio.Group
-                value={superimposition}
-                onChange={(e) => setSuperimposition(e.target.value as number)}
-                buttonStyle='solid'
-                style={{ width: '100%', display: 'flex' }}
-              >
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 1 })} value={1} />
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 2 })} value={2} />
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 3 })} value={3} />
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 4 })} value={4} />
-                <RadioButton text={t('SuperimpositionButton', { superimposition: 5 })} value={5} />
-              </Radio.Group>
+            <AntDForm.Item
+              name='lightConeSuperimposition'
+              getValueFromEvent={(val: string) => {
+                setSuperimposition(Number(val))
+                return Number(val)
+              }}
+              getValueProps={(val) => ({ value: String(val ?? 1) })}
+            >
+              <SegmentedControl
+                fullWidth
+                data={[
+                  { label: t('SuperimpositionButton', { superimposition: 1 }), value: '1' },
+                  { label: t('SuperimpositionButton', { superimposition: 2 }), value: '2' },
+                  { label: t('SuperimpositionButton', { superimposition: 3 }), value: '3' },
+                  { label: t('SuperimpositionButton', { superimposition: 4 }), value: '4' },
+                  { label: t('SuperimpositionButton', { superimposition: 5 }), value: '5' },
+                ]}
+              />
             </AntDForm.Item>
           </Flex>
 
@@ -224,11 +231,4 @@ export default function CharacterModal(props: {
   )
 }
 
-// Full width radio buttons
-function RadioButton(props: {
-  text: string,
-  value: number,
-}) {
-  return <Radio.Button value={props.value} style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
-}
 

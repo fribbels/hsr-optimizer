@@ -8,13 +8,10 @@ import {
   IconSettings,
 } from '@tabler/icons-react'
 import {
-  Collapse,
-  ConfigProvider,
   Dropdown,
   Form,
-  Segmented,
 } from 'antd'
-import { Button, Flex, Text, TextInput } from '@mantine/core'
+import { Accordion, Button, Flex, SegmentedControl, Text, TextInput } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -301,11 +298,11 @@ function CharacterPreviewSelection() {
         {(availableCharacters?.length != undefined && availableCharacters.length > 0)
           && <DPSScoreDisclaimer />}
 
-        <Segmented
+        <SegmentedControl
           style={{ width: '100%', overflow: 'hidden' }}
-          options={options}
-          block
-          onChange={useShowcaseTabStore.getState().onSelectionChanged}
+          data={options}
+          fullWidth
+          onChange={(value) => useShowcaseTabStore.getState().onSelectionChanged(value as any)}
           value={selectedCharacter?.id}
         />
 
@@ -448,58 +445,44 @@ export function DPSScoreDisclaimer() {
   if (showComboDmgWarning != SettingOptions.ShowComboDmgWarning.Show) return null
 
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Collapse: {
-            headerBg: '#8a1717',
-          },
-        },
-      }}
-    >
-      <Collapse
-        style={{ width: '100%' }}
-        items={[
-          {
-            key: '1',
-            label: (
-              <div style={{ fontSize: 14 }}>
-                <Trans t={t} i18nKey='Disclaimer'>
-                  Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
-                  be used to compare different teams / LCs / eidolons!
-                </Trans>
-              </div>
-            ),
-            children: (
-              <Flex direction="column" style={{ padding: 12 }} gap={10}>
-                <Trans t={t} i18nKey='DisclaimerDescription'>
-                  Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team.
+    <Accordion style={{ width: '100%' }} styles={{ control: { backgroundColor: '#8a1717' } }}>
+      <Accordion.Item value="1">
+        <Accordion.Control>
+          <div style={{ fontSize: 14 }}>
+            <Trans t={t} i18nKey='Disclaimer'>
+              Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
+              be used to compare different teams / LCs / eidolons!
+            </Trans>
+          </div>
+        </Accordion.Control>
+        <Accordion.Panel>
+          <Flex direction="column" style={{ padding: 12 }} gap={10}>
+            <Trans t={t} i18nKey='DisclaimerDescription'>
+              Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team.
 
-                  Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc.
+              Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc.
 
-                  This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between
-                  eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.
-                </Trans>
+              This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between
+              eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.
+            </Trans>
 
-                <Button
-                  size='lg'
-                  fullWidth
-                  leftSection={<IconEyeOff size={16} />}
-                  onClick={() => {
-                    window.store.getState().setSettings({
-                      ...window.store.getState().settings,
-                      ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Hide,
-                    })
-                    SaveState.delayedSave()
-                  }}
-                >
-                  {tSettings('ShowComboDmgWarning.Hide')}
-                </Button>
-              </Flex>
-            ),
-          },
-        ]}
-      />
-    </ConfigProvider>
+            <Button
+              size='lg'
+              fullWidth
+              leftSection={<IconEyeOff size={16} />}
+              onClick={() => {
+                window.store.getState().setSettings({
+                  ...window.store.getState().settings,
+                  ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Hide,
+                })
+                SaveState.delayedSave()
+              }}
+            >
+              {tSettings('ShowComboDmgWarning.Hide')}
+            </Button>
+          </Flex>
+        </Accordion.Panel>
+      </Accordion.Item>
+    </Accordion>
   )
 }

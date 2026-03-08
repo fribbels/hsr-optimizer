@@ -1,10 +1,9 @@
 import { IconAlertCircle } from '@tabler/icons-react'
 import {
-  Divider,
   Form,
   Modal as AntdModal,
 } from 'antd'
-import { Button, Flex, Modal, TextInput, Tooltip } from '@mantine/core'
+import { Button, Divider, Flex, Modal, TextInput, Tooltip } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import {

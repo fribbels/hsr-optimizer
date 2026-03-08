@@ -2,10 +2,7 @@ import {
   IconCircleMinus,
   IconCirclePlus,
 } from '@tabler/icons-react'
-import { Button, Drawer, Flex, MultiSelect } from '@mantine/core'
-import {
-  Divider,
-} from 'antd'
+import { Button, Divider, Drawer, Flex, MultiSelect } from '@mantine/core'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -246,9 +243,7 @@ function GroupDivider(props: {
   text: string,
 }) {
   return (
-    <Divider plain>
-      {props.text}
-    </Divider>
+    <Divider label={props.text} labelPosition='center' />
   )
 }
 

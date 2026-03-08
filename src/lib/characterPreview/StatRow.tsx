@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Divider,
-} from 'antd'
+import { Divider, Flex } from '@mantine/core'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   Constants,
@@ -100,7 +97,7 @@ export function StatRow(props: {
     <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ filter: props.loading ? 'blur(2px)' : 'none' }}>
       <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
       {props.loading
         ? '...'
         : `${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}${stat == 'simScore' ? t('ThousandsSuffix') : ''}`}

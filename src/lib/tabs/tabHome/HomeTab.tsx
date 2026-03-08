@@ -3,13 +3,7 @@ import {
   IconExternalLink,
   IconSearch,
 } from '@tabler/icons-react'
-import {
-  Card,
-  Collapse,
-  Divider,
-  Space,
-} from 'antd'
-import { Button, Flex, TextInput } from '@mantine/core'
+import { Accordion, Button, Divider, Flex, Paper, TextInput } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
@@ -54,12 +48,12 @@ export default function HomeTab() {
 
 const collapseItems = [
   {
-    key: '1',
+    value: '1',
     label: <CollapseLabel i18nkey='Explore' /* Explore the features */ />,
     children: <FeaturesCollapse />,
   },
   {
-    key: '2',
+    value: '2',
     label: <CollapseLabel i18nkey='Join' /* Join the community */ />,
     children: <CommunityCollapse />,
   },
@@ -71,9 +65,11 @@ function CollapseLabel(props: { i18nkey: CollapseLabelI18nKey }) {
   const { t } = useTranslation('hometab', { keyPrefix: 'CollapseLabels' })
   return (
     <div style={{ marginRight: 38, textAlign: 'center' }}>
-      <Divider style={{ fontSize: 24, paddingInline: 30, marginBlock: 0 }}>
-        {t(props.i18nkey)}
-      </Divider>
+      <Divider
+        style={{ fontSize: 24, paddingInline: 30, marginBlock: 0 }}
+        label={t(props.i18nkey)}
+        labelPosition='center'
+      />
     </div>
   )
 }
@@ -113,16 +109,23 @@ function CommunityCollapse() {
 
 function ContentCollapse() {
   return (
-    <Collapse
-      ghost
+    <Accordion
+      multiple
+      variant='default'
       style={{
         width: '100%',
         maxWidth: headerWidth,
       }}
-      expandIcon={({ isActive }) => <IconChevronRight style={{ marginLeft: 10 }} rotate={isActive ? 90 : 0} />}
-      items={collapseItems}
-      defaultActiveKey={collapseItems.map((x) => x.key)}
-    />
+      chevronPosition='left'
+      defaultValue={collapseItems.map((x) => x.value)}
+    >
+      {collapseItems.map((item) => (
+        <Accordion.Item key={item.value} value={item.value}>
+          <Accordion.Control>{item.label}</Accordion.Control>
+          <Accordion.Panel>{item.children}</Accordion.Panel>
+        </Accordion.Item>
+      ))}
+    </Accordion>
   )
 }
 
@@ -175,36 +178,37 @@ function CardImage(props: { id: string }) {
 function FeatureCard(props: { title: string, id: string, content: string, url: string }) {
   const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
   return (
-    <Card
-      title={
-        <span style={{ fontSize: 20 }}>
-          {props.title}
-        </span>
-      }
+    <Paper
+      p="xs"
+      withBorder
       style={{
         flex: 1,
         cursor: 'default',
         fontSize: 16,
         minWidth: 500,
       }}
-      hoverable={true}
-      cover={<CardImage id={props.id} />}
     >
-      <Flex align='center' gap={10} justify='space-between'>
-        <span>
-          {props.content}
-        </span>
-        <Button
-          size='lg'
-          component='a'
-          href={props.url}
-          target='_blank'
-          leftSection={<IconExternalLink size={16} />}
-        >
-          {t('LearnMore') /* Learn more */}
-        </Button>
-      </Flex>
-    </Card>
+      <CardImage id={props.id} />
+      <div style={{ padding: '12px 0 0 0' }}>
+        <div style={{ fontSize: 20, fontWeight: 500, marginBottom: 8 }}>
+          {props.title}
+        </div>
+        <Flex align='center' gap={10} justify='space-between'>
+          <span>
+            {props.content}
+          </span>
+          <Button
+            size='lg'
+            component='a'
+            href={props.url}
+            target='_blank'
+            leftSection={<IconExternalLink size={16} />}
+          >
+            {t('LearnMore') /* Learn more */}
+          </Button>
+        </Flex>
+      </div>
+    </Paper>
   )
 }
 
@@ -331,24 +335,25 @@ function SearchBar() {
           <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
         </Flex>
       </Flex>
-      <Space.Compact style={{ width: '100%' }}>
+      <Flex gap={0} style={{ width: '100%' }}>
         <Button
           size='lg'
           leftSection={<IconSearch size={16} />}
-          style={{ width: 60 }}
+          style={{ width: 60, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
           onClick={handleSearchSubmit}
         />
         <TextInput
           ref={inputRef}
           placeholder={t('Placeholder') /* 'UID' */}
           style={{
-            width: '100%',
+            flex: 1,
           }}
+          styles={{ input: { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 } }}
           size='lg'
           defaultValue={scorerId ?? ''}
           onKeyDown={(e) => { if (e.key === 'Enter') handleSearchSubmit() }}
         />
-      </Space.Compact>
+      </Flex>
     </Flex>
   )
 }

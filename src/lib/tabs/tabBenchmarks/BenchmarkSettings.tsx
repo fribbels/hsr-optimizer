@@ -14,10 +14,23 @@ interface BenchmarkSettingProps {
 
 export function BenchmarkSetting({ label, itemName, children }: BenchmarkSettingProps) {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'RightPanel.Settings' })
+
+  // Boolean fields (ERR, SubDPS) need string<->boolean conversion for SegmentedControl
+  const isBooleanField = itemName === 'errRope' || itemName === 'subDps'
+
   return (
     <Flex align='center' gap={10} justify='space-between'>
       {t(label)}
-      <AntDForm.Item name={itemName} noStyle>
+      <AntDForm.Item
+        name={itemName}
+        noStyle
+        {...(isBooleanField
+          ? {
+            getValueFromEvent: (val: string) => val === 'true',
+            getValueProps: (val: unknown) => ({ value: String(val ?? false) }),
+          }
+          : {})}
+      >
         {children}
       </AntDForm.Item>
     </Flex>

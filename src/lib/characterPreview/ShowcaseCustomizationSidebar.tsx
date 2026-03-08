@@ -7,10 +7,9 @@ import {
   IconSun,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex, NumberInput, Select } from '@mantine/core'
+import { Button, Flex, NumberInput, SegmentedControl, Select } from '@mantine/core'
 import {
   ColorPicker,
-  Segmented,
 } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
@@ -320,11 +319,11 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             {tScoring('SpdPrecision.Header') /* SPD precision */}
           </HeaderText>
 
-          <Segmented
-            options={spdPrecisionOptions}
-            block
-            value={showcasePreciseSpd}
-            onChange={onShowcasePreciseSpdChange}
+          <SegmentedControl
+            data={spdPrecisionOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
+            fullWidth
+            value={String(showcasePreciseSpd)}
+            onChange={(value) => onShowcasePreciseSpdChange(value === 'true')}
           />
 
           {scoringType != ScoringType.NONE
@@ -336,11 +335,11 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                   {tScoring('SpdWeight.Header') /* SPD weight */}
                 </HeaderText>
 
-                <Segmented
-                  options={spdWeightOptions}
-                  block
-                  value={spdValue}
-                  onChange={onShowcaseSpdValueChange}
+                <SegmentedControl
+                  data={spdWeightOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
+                  fullWidth
+                  value={String(spdValue)}
+                  onChange={(value) => onShowcaseSpdValueChange(Number(value))}
                 />
               </>
             )}
@@ -384,11 +383,11 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                   {tScoring('BuffPriority.Header') /* Buff priority */}
                 </HeaderText>
 
-                <Segmented
-                  options={buffPriorityOptions}
-                  block
-                  value={deprioritizeBuffs}
-                  onChange={onShowcaseDeprioritizeBuffsChange}
+                <SegmentedControl
+                  data={buffPriorityOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
+                  fullWidth
+                  value={String(deprioritizeBuffs)}
+                  onChange={(value) => onShowcaseDeprioritizeBuffsChange(value === 'true')}
                 />
               </>
             )}
@@ -425,27 +424,27 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
           <HorizontalDivider />
 
-          <Segmented
-            vertical
-            options={[
+          <SegmentedControl
+            orientation="vertical"
+            data={[
               { value: ShowcaseColorMode.AUTO, label: tCustomization('Modes.Auto') },
               { value: ShowcaseColorMode.CUSTOM, label: tCustomization('Modes.Custom') },
               { value: ShowcaseColorMode.STANDARD, label: tCustomization('Modes.Standard') },
             ]}
             value={colorMode}
-            onChange={onColorModeChange}
+            onChange={(value) => onColorModeChange(value as ShowcaseColorMode)}
           />
 
           <HorizontalDivider />
 
-          <Segmented
-            options={[
-              { value: false, label: <IconSun /> },
-              { value: true, label: <IconMoon /> },
+          <SegmentedControl
+            data={[
+              { value: 'false', label: <IconSun /> },
+              { value: 'true', label: <IconMoon /> },
             ]}
-            block
-            value={showcaseDarkMode}
-            onChange={onBrightnessModeChange}
+            fullWidth
+            value={String(showcaseDarkMode)}
+            onChange={(value) => onBrightnessModeChange(value === 'true')}
           />
 
           {source == ShowcaseSource.SHOWCASE_TAB
@@ -457,14 +456,14 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                   {tCustomization('ShowUID') /* Show UID */}
                 </HeaderText>
 
-                <Segmented
-                  options={[
-                    { value: true, label: <IconCheck /> },
-                    { value: false, label: <IconX /> },
+                <SegmentedControl
+                  data={[
+                    { value: 'true', label: <IconCheck /> },
+                    { value: 'false', label: <IconX /> },
                   ]}
-                  block
-                  value={showcaseUID}
-                  onChange={onShowUIDChange}
+                  fullWidth
+                  value={String(showcaseUID)}
+                  onChange={(value) => onShowUIDChange(value === 'true')}
                 />
               </>
             )}

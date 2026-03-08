@@ -1,6 +1,6 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Card, Form as AntDForm, Form, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect } from 'antd'
-import { Button, Flex, NumberInput, Text, TextInput, Title as MantineTitle } from '@mantine/core'
+import { Card, Form as AntDForm, Form, Radio, Select, SelectProps, Space, Tag, TreeSelect } from 'antd'
+import { Button, Flex, NumberInput, Table, Text, TextInput, Title as MantineTitle } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -274,83 +274,6 @@ function Results() {
 
   console.log(warpResult)
 
-  const columns: TableProps<WarpMilestoneResult>['columns'] = [
-    {
-      title: t('ColumnTitles.Goal'),
-      dataIndex: 'key',
-      key: 'key',
-      align: 'center',
-      width: 200,
-      render: (key: string, record: WarpMilestoneResult) => (
-        <Flex style={{ position: 'relative', marginLeft: 5, height: '100%' }} align='center'>
-          <div
-            style={{
-              display: record.wins < chanceThreshold ? 'none' : 'block',
-              width: `${record.wins * 100}%`,
-              borderRadius: 4,
-              position: 'absolute',
-              height: '100%',
-              backgroundColor: chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])(record.wins).hex(),
-              zIndex: 1,
-            }}
-          />
-
-          <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
-            <Tag color='#000000aa' style={{ opacity: opacity(record.wins), border: 0, padding: '2px 12px 2px 12px' }}>
-              <Text style={{ margin: 0, alignItems: 'center' }}>
-                {translateLabel(key)}
-              </Text>
-            </Tag>
-          </Flex>
-        </Flex>
-      ),
-    },
-    {
-      title: (
-        <Flex justify='center' align='center' gap={5}>
-          <Trans
-            t={t}
-            i18nKey='ColumnTitles.Chance'
-            values={{ ticketCount: warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0]) }}
-          >
-            Success chance with [[ticketCount]]
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
-          </Trans>
-        </Flex>
-      ),
-      dataIndex: 'wins',
-      width: 250,
-      align: 'center',
-      render: (n: number) => `${TsUtils.precisionRound(n * 100, 1).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-      })}%`,
-    },
-    {
-      // title: 'Average # of warps required',
-      title: (
-        <Flex justify='center' align='center' gap={5}>
-          <Trans t={t} i18nKey='ColumnTitles.Average'>
-            Average # of
-            <img style={{ height: 18 }} src={Assets.getPass()}/>
-            required
-          </Trans>
-        </Flex>
-      ),
-      dataIndex: 'warps',
-      align: 'center',
-      width: 250,
-      render: (n: number, record: WarpMilestoneResult) => (
-        <Flex align='center' justify='center' gap={4}>
-          <>
-            {`${Math.ceil(n)}`}
-            <img style={{ height: 16, opacity: opacity(record.wins) }} src={Assets.getPass()}/>
-          </>
-        </Flex>
-      ),
-    },
-  ]
-
   return (
     <Flex direction="column" gap={20} style={{}} align='center'>
       <Flex justify='space-around' style={{ marginTop: 15 }}>
@@ -381,16 +304,77 @@ function Results() {
       </Text>
 
       <Flex direction="column" gap={10} style={{ width: '100%' }}>
-        <Table<WarpMilestoneResult>
-          style={{ width: '100%' }}
-          columns={columns}
-          dataSource={warpTableData}
-          pagination={false}
-          rowClassName={(record) => `
-            warp-table-row
-            ${record.wins < chanceThreshold ? 'warp-table-row-disabled' : ''}
-          `}
-        />
+        <Table style={{ width: '100%' }}>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('ColumnTitles.Goal')}</Table.Th>
+              <Table.Th style={{ textAlign: 'center', width: 250 }}>
+                <Flex justify='center' align='center' gap={5}>
+                  <Trans
+                    t={t}
+                    i18nKey='ColumnTitles.Chance'
+                    values={{ ticketCount: warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0]) }}
+                  >
+                    Success chance with [[ticketCount]]
+                    <img style={{ height: 18 }} src={Assets.getPass()}/>
+                  </Trans>
+                </Flex>
+              </Table.Th>
+              <Table.Th style={{ textAlign: 'center', width: 250 }}>
+                <Flex justify='center' align='center' gap={5}>
+                  <Trans t={t} i18nKey='ColumnTitles.Average'>
+                    Average # of
+                    <img style={{ height: 18 }} src={Assets.getPass()}/>
+                    required
+                  </Trans>
+                </Flex>
+              </Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {warpTableData.map((record) => (
+              <Table.Tr
+                key={record.key}
+                className={`warp-table-row ${record.wins < chanceThreshold ? 'warp-table-row-disabled' : ''}`}
+              >
+                <Table.Td style={{ textAlign: 'center', position: 'relative' }}>
+                  <Flex style={{ position: 'relative', marginLeft: 5, height: '100%' }} align='center'>
+                    <div
+                      style={{
+                        display: record.wins < chanceThreshold ? 'none' : 'block',
+                        width: `${record.wins * 100}%`,
+                        borderRadius: 4,
+                        position: 'absolute',
+                        height: '100%',
+                        backgroundColor: chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])(record.wins).hex(),
+                        zIndex: 1,
+                      }}
+                    />
+                    <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
+                      <Tag color='#000000aa' style={{ opacity: opacity(record.wins), border: 0, padding: '2px 12px 2px 12px' }}>
+                        <Text style={{ margin: 0, alignItems: 'center' }}>
+                          {translateLabel(record.key)}
+                        </Text>
+                      </Tag>
+                    </Flex>
+                  </Flex>
+                </Table.Td>
+                <Table.Td style={{ textAlign: 'center' }}>
+                  {`${TsUtils.precisionRound(record.wins * 100, 1).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                  })}%`}
+                </Table.Td>
+                <Table.Td style={{ textAlign: 'center' }}>
+                  <Flex align='center' justify='center' gap={4}>
+                    {`${Math.ceil(record.warps)}`}
+                    <img style={{ height: 16, opacity: opacity(record.wins) }} src={Assets.getPass()}/>
+                  </Flex>
+                </Table.Td>
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
       </Flex>
     </Flex>
   )

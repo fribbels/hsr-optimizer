@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Table,
-} from 'antd'
+import { Flex, Table } from '@mantine/core'
 import i18next from 'i18next'
 import { SetKey, Sets } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'
@@ -128,30 +125,6 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
   const { t: tGameData } = useTranslation('gameData')
   const size = props.size ?? BuffDisplaySize.SMALL
 
-  const columns = [
-    {
-      dataIndex: 'value',
-      key: 'value',
-      width: 70,
-      minWidth: 70,
-      render: (value: string) => <span style={{ textWrap: 'nowrap' }}>{value}</span>,
-    },
-    {
-      dataIndex: 'stat',
-      key: 'stat',
-      render: (_: string, record: BuffTableItem) => (
-        <Flex justify='space-between'>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', marginRight: 10, minWidth: 130 }}>
-            {record.statLabel}
-          </span>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', textAlign: 'end' }}>
-            {record.sourceLabel}
-          </span>
-        </Flex>
-      ),
-    },
-  ]
-
   const data = buffs.map((buff, i) => {
     const stat = buff.stat
     const config = getStatConfig(stat)
@@ -196,14 +169,8 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
   })
 
   return (
-    <Table<BuffTableItem>
-      columns={columns}
-      dataSource={data}
-      pagination={false}
-      size='small'
+    <Table
       className='buff-table remove-table-bottom-border'
-      rowClassName='buff-row'
-      tableLayout='fixed'
       style={{
         width: size,
         border: '1px solid #354b7d',
@@ -211,8 +178,29 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
         borderRadius: 5,
         overflow: 'hidden',
         fontSize: 14,
+        tableLayout: 'fixed',
       }}
-    />
+    >
+      <Table.Tbody>
+        {data.map((row) => (
+          <Table.Tr key={row.key} className='buff-row'>
+            <Table.Td style={{ width: 70, minWidth: 70 }}>
+              <span style={{ textWrap: 'nowrap' }}>{row.value}</span>
+            </Table.Td>
+            <Table.Td>
+              <Flex justify='space-between'>
+                <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', marginRight: 10, minWidth: 130 }}>
+                  {row.statLabel}
+                </span>
+                <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', textAlign: 'end' }}>
+                  {row.sourceLabel}
+                </span>
+              </Flex>
+            </Table.Td>
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
   )
 }
 

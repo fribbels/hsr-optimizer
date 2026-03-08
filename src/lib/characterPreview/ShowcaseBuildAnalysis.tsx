@@ -1,7 +1,4 @@
-import { Flex, Text } from '@mantine/core'
-import {
-  Segmented,
-} from 'antd'
+import { Flex, SegmentedControl, Text } from '@mantine/core'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
@@ -81,33 +78,33 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           <Text style={{ width: 150 }}>
             {t('CharacterPreview.AlgorithmSlider.Title') /* Scoring algorithm: */}
           </Text>
-          <Segmented
+          <SegmentedControl
             style={{ width: 354, height: 30 }}
             onChange={(selection) => {
-              setScoringType(selection)
-              window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, selection)
+              const value = Number(selection) as ScoringType
+              setScoringType(value)
+              window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, value)
               SaveState.delayedSave()
             }}
-            value={scoringType}
-            block
-            options={[
+            value={String(scoringType)}
+            fullWidth
+            data={[
               {
                 label: characterMetadata.scoringMetadata.simulation == null
                   ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD') /* Combat Score (TBD) */
                   : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
-                value: ScoringType.COMBAT_SCORE,
+                value: String(ScoringType.COMBAT_SCORE),
                 disabled: characterMetadata.scoringMetadata.simulation == null,
               },
               {
                 label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
-                value: ScoringType.SUBSTAT_SCORE,
+                value: String(ScoringType.SUBSTAT_SCORE),
                 disabled: false,
               },
               {
                 label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), /* None Score */
-                value: ScoringType.NONE,
+                value: String(ScoringType.NONE),
                 disabled: false,
-                className: 'noneScoreLabel',
               },
             ]}
           />

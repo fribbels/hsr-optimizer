@@ -1,7 +1,4 @@
-import {
-  Collapse,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Accordion, Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -46,16 +43,12 @@ export default function RelicsTab() {
         <RelicFilterBar />
 
         {recentRelics.length > 0 && (
-          <Collapse
-            defaultActiveKey={['1']}
-            items={[
-              {
-                key: '1',
-                label: t('RecentlyUpdatedRelics.Header'), /* Recently Updated Relics */
-                children: <RecentRelics />,
-              },
-            ]}
-          />
+          <Accordion defaultValue={['1']} multiple>
+            <Accordion.Item value="1">
+              <Accordion.Control>{t('RecentlyUpdatedRelics.Header') /* Recently Updated Relics */}</Accordion.Control>
+              <Accordion.Panel><RecentRelics /></Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
         )}
 
         <RelicsGrid />

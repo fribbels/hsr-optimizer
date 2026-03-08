@@ -3,10 +3,7 @@ import {
   IconSettings,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
-import {
-  Radio,
-} from 'antd'
+import { Button, Flex, SegmentedControl } from '@mantine/core'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
@@ -39,12 +36,6 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterConditionalsController } from 'types/conditionals'
 
-const radioStyle = {
-  display: 'flex',
-  flex: 1,
-  justifyContent: 'center',
-  paddingInline: 0,
-}
 
 export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
@@ -73,22 +64,16 @@ export const ComboFilters = () => {
         <HeaderText>{t('Header') /* Rotation COMBO formula */}</HeaderText>
         <TooltipImage type={Hint.comboFilters()} />
       </Flex>
-      <Radio.Group
-        size='small'
-        buttonStyle='solid'
-        style={{ width: '100%' }}
+      <SegmentedControl
+        size='xs'
+        fullWidth
         value={comboType}
-        onChange={(e) => useOptimizerFormStore.getState().setComboType(e.target.value)}
-      >
-        <Flex align='center'>
-          <Radio.Button style={radioStyle} value={ComboType.SIMPLE}>
-            {t('ModeSelector.Simple')}
-          </Radio.Button>
-          <Radio.Button style={radioStyle} value={ComboType.ADVANCED}>
-            {t('ModeSelector.Advanced')}
-          </Radio.Button>
-        </Flex>
-      </Radio.Group>
+        onChange={(value) => useOptimizerFormStore.getState().setComboType(value as ComboType)}
+        data={[
+          { label: t('ModeSelector.Simple'), value: ComboType.SIMPLE },
+          { label: t('ModeSelector.Advanced'), value: ComboType.ADVANCED },
+        ]}
+      />
 
       <ComboBasicDefinition comboOptions={comboOptions} />
 
@@ -218,21 +203,17 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
 
         <Flex direction="column" style={{ width: '100%' }} gap={5}>
           <HeaderText>{t('RowControls.PresetsHeader') /*Presets*/}</HeaderText>
-          <Radio.Group
-            buttonStyle='solid'
-            block
-            size='small'
+          <SegmentedControl
+            size='xs'
+            fullWidth
             disabled={disabled}
-            value={comboPreprocessor}
-            onChange={(e) => useOptimizerFormStore.getState().setComboPreprocessor(e.target.value)}
-          >
-            <Radio.Button value={true}>
-              <IconCheck />
-            </Radio.Button>
-            <Radio.Button value={false}>
-              <IconX />
-            </Radio.Button>
-          </Radio.Group>
+            value={String(comboPreprocessor)}
+            onChange={(value) => useOptimizerFormStore.getState().setComboPreprocessor(value === 'true')}
+            data={[
+              { label: <IconCheck />, value: 'true' },
+              { label: <IconX />, value: 'false' },
+            ]}
+          />
         </Flex>
 
         <Flex direction="column" gap={5}>

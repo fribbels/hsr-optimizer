@@ -1,5 +1,4 @@
-import { Flex, Modal, Select, TextInput } from '@mantine/core'
-import { Card, } from 'antd'
+import { Flex, Modal, Paper, Select, TextInput } from '@mantine/core'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
@@ -195,19 +194,19 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
               .sort(Utils.sortRarityDesc)
               .filter(applyFilters)
               .map((option) => (
-                <Card
+                <Paper
                   key={option.id}
-                  hoverable
                   style={{
                     background: rarityToBg[option.rarity],
                     overflow: 'hidden',
                     height: `${parentH}px`,
+                    cursor: 'pointer',
+                    padding: 1,
                   }}
                   onMouseDown={() => handleClick(option.id)}
-                  styles={{ body: { padding: 1 } }}
                 >
                   <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={2} />
-                </Card>
+                </Paper>
               ))}
           </div>
         </Flex>

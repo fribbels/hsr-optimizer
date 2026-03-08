@@ -1,5 +1,4 @@
-import { Button, Flex, Modal, MultiSelect, Select, TextInput } from '@mantine/core'
-import { Card, } from 'antd'
+import { Button, Flex, Modal, MultiSelect, Paper, Select, TextInput } from '@mantine/core'
 import { ElementName, PathName, } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { CharacterOptions, generateCharacterOptions, } from 'lib/rendering/optionGenerator'
@@ -267,13 +266,14 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
               .sort(Utils.sortRarityDesc)
               .filter(applyFilters)
               .map((option) => (
-                <Card
+                <Paper
                   key={option.id}
-                  hoverable
                   style={{
                     background: option.rarity === 5 ? goldBg : purpleBg,
                     overflow: 'hidden',
                     height: `${parentH}px`,
+                    cursor: 'pointer',
+                    padding: 1,
                     ...(selected.get(option.id)
                       ? {
                         opacity: 0.25,
@@ -281,11 +281,10 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
                       }
                       : {}),
                   }}
-                  styles={{ body: { padding: 1 } }}
                   onMouseDown={() => handleClick(option.id)}
                 >
                   <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={1} />
-                </Card>
+                </Paper>
               ))}
           </div>
         </Flex>

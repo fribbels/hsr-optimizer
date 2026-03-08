@@ -1,9 +1,8 @@
 import {
-  Divider,
   Progress,
   theme,
 } from 'antd'
-import { Flex, Text, Tooltip } from '@mantine/core'
+import { Divider, Flex, Text, Tooltip } from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'

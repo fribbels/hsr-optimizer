@@ -1,8 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Table,
-  TableProps,
-} from 'antd'
+import { Flex, Table } from '@mantine/core'
 import {
   sharedScoreUpgradeColumns,
   sharedSimResultComparator,
@@ -12,10 +8,10 @@ import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export type SubstatUpgradeItem = {
+  key: string,
   stat: SubStats,
   scorePercentUpgrade: number,
   scoreValueUpgrade: number,
@@ -40,35 +36,40 @@ export function DpsScoreSubstatUpgradesTable(props: {
     }
   })
 
-  const columns: TableProps<SubstatUpgradeItem>['columns'] = [
-    {
-      title: t('SubStatUpgrade'), // Substat Upgrade
-      dataIndex: 'stat',
-      align: 'center',
-      width: 200,
-      rowScope: 'row',
-      render: (text: SubStats, upgrade: SubstatUpgradeItem) => (
-        <Flex>
-          <img src={Assets.getStatIcon(text)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
-          <span style={{ marginRight: 10 }}>
-            {t('AddedRoll', { stat: tCommon(text) }) /* +1x roll {{stat}} */}
-          </span>
-        </Flex>
-      ),
-    },
-    // @ts-ignore
-    ...sharedScoreUpgradeColumns(t),
-  ]
+  const sharedCols = sharedScoreUpgradeColumns(t)
 
   return (
-    <Table<SubstatUpgradeItem>
+    <Table
       className='remove-table-bottom-border'
-      columns={columns}
-      dataSource={dataSource}
-      pagination={false}
-      size='small'
       style={tableStyle}
-      locale={{ emptyText: '' }}
-    />
+    >
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('SubStatUpgrade')}</Table.Th>
+          {sharedCols.map((col) => (
+            <Table.Th key={col.key} style={{ textAlign: 'center' }}>{col.title}</Table.Th>
+          ))}
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        {dataSource.map((upgrade) => (
+          <Table.Tr key={upgrade.key}>
+            <Table.Td style={{ textAlign: 'center' }}>
+              <Flex>
+                <img src={Assets.getStatIcon(upgrade.stat)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
+                <span style={{ marginRight: 10 }}>
+                  {t('AddedRoll', { stat: tCommon(upgrade.stat) })}
+                </span>
+              </Flex>
+            </Table.Td>
+            {sharedCols.map((col) => (
+              <Table.Td key={col.key} style={{ textAlign: 'center' }}>
+                {col.render(upgrade[col.dataIndex as keyof SubstatUpgradeItem] as number, upgrade)}
+              </Table.Td>
+            ))}
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
   )
 }

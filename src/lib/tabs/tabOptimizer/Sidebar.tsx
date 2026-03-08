@@ -2,14 +2,12 @@ import {
   IconBoltFilled,
   IconChevronDown,
 } from '@tabler/icons-react'
-import { Button, Flex, Modal, Text } from '@mantine/core'
+import { Button, Divider, Flex, Modal, SegmentedControl, Text } from '@mantine/core'
 import { IRowNode } from 'ag-grid-community'
 import {
-  Divider,
   Dropdown,
   Grid,
   Progress,
-  Radio,
   theme,
 } from 'antd'
 import { PopConfirm } from 'lib/ui/PopConfirm'
@@ -100,7 +98,7 @@ function PermutationDisplay(props: { total?: number, right: number, left: string
       <Text style={{ lineHeight: '24px' }}>
         {props.left}
       </Text>
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} dashed />
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
       <Text style={{ lineHeight: '24px' }}>
         {rightText}
       </Text>
@@ -585,27 +583,15 @@ function StatsViewSelect() {
   const setStatDisplay = window.store((s) => s.setStatDisplay)
 
   return (
-    <Radio.Group
-      onChange={(e) => {
-        const { target: { value } } = e
-        setStatDisplay(value as StatDisplay)
-      }}
-      optionType='button'
-      buttonStyle='solid'
+    <SegmentedControl
+      onChange={(value) => setStatDisplay(value as StatDisplay)}
       value={statDisplay}
-      style={{ width: '100%', display: 'flex' }}
-    >
-      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='combat'>
-        {t('StatViewGroup.CombatStats') /* Combat stats */}
-      </Radio>
-      <Radio
-        style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-        value='base'
-        defaultChecked
-      >
-        {t('StatViewGroup.BasicStats') /* Basic stats */}
-      </Radio>
-    </Radio.Group>
+      fullWidth
+      data={[
+        { label: t('StatViewGroup.CombatStats') /* Combat stats */, value: 'combat' },
+        { label: t('StatViewGroup.BasicStats') /* Basic stats */, value: 'base' },
+      ]}
+    />
   )
 }
 
@@ -619,28 +605,17 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
   const hasMemo = isRemembrance(optimizerTabFocusCharacter)
 
   return (
-    <Radio.Group
-      onChange={(e) => {
-        const { target: { value } } = e
-        setMemoDisplay(value as MemoDisplay)
-      }}
-      optionType='button'
-      buttonStyle='solid'
+    <SegmentedControl
+      onChange={(value) => setMemoDisplay(value as MemoDisplay)}
       disabled={!hasMemo}
       value={hasMemo ? memoDisplay : 'summoner'}
-      style={{ width: '100%', display: hasMemo || !props.isFullSize ? 'flex' : 'none' }}
-    >
-      <Radio style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }} value='summoner'>
-        {t('SummonerStats') /* Summoner */}
-      </Radio>
-      <Radio
-        style={{ display: 'flex', flex: 1, justifyContent: 'center', paddingInline: 0 }}
-        value='memo'
-        defaultChecked
-      >
-        {t('MemospriteStats') /* Memosprite */}
-      </Radio>
-    </Radio.Group>
+      fullWidth
+      style={{ display: hasMemo || !props.isFullSize ? 'flex' : 'none' }}
+      data={[
+        { label: t('SummonerStats') /* Summoner */, value: 'summoner' },
+        { label: t('MemospriteStats') /* Memosprite */, value: 'memo' },
+      ]}
+    />
   )
 }
 

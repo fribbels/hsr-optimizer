@@ -1,7 +1,4 @@
-import {
-  Flex,
-  Form as AntDForm,
-} from 'antd'
+import { Flex } from 'antd'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import DB, { AppPages } from 'lib/state/db'

@@ -1,8 +1,5 @@
 import { IconRefresh } from '@tabler/icons-react'
-import {
-  Select,
-} from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, Select, Text } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
@@ -263,11 +260,11 @@ const TeammateCard = (props: {
           />
 
           <Select
-            showSearch
+            searchable
             style={{ width: 110 }}
-            options={eidolonOptions}
-            value={teammateEidolon}
-            onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'characterEidolon', val)}
+            data={eidolonOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+            value={teammateEidolon != null ? String(teammateEidolon) : null}
+            onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setTeammateField(tmIndex, 'characterEidolon', Number(val)) }}
             placeholder={t('EidolonPlaceholder')} // 'Eidolon'
             disabled={disabled}
           />
@@ -303,28 +300,24 @@ const TeammateCard = (props: {
             <Select
               className='teammate-set-select'
               style={{ width: 110 }}
-              options={teammateRelicSetOptions}
+              data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
               value={teammateTeamRelicSet}
-              onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val)}
+              onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
               placeholder={t('RelicsPlaceholder')} // 'Relics'
-              allowClear
-              popupMatchSelectWidth={false}
-              optionLabelProp='label'
-              optionRender={optionRenderer()}
+              clearable
+              comboboxProps={{ width: 'auto' }}
               disabled={disabled}
             />
 
             <Select
               className='teammate-set-select'
               style={{ width: 110 }}
-              options={teammateOrnamentSetOptions}
+              data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
               value={teammateTeamOrnamentSet}
-              onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val)}
+              onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
               placeholder={t('OrnamentsPlaceholder')} // 'Ornaments'
-              allowClear
-              popupMatchSelectWidth={false}
-              optionLabelProp='label'
-              optionRender={optionRenderer()}
+              clearable
+              comboboxProps={{ width: 'auto' }}
               disabled={disabled}
             />
           </Flex>
@@ -348,11 +341,11 @@ const TeammateCard = (props: {
           />
 
           <Select
-            showSearch
+            searchable
             style={{ width: 110 }}
-            options={superimpositionOptions}
-            value={teammateSuperimposition}
-            onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', val)}
+            data={superimpositionOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+            value={teammateSuperimposition != null ? String(teammateSuperimposition) : null}
+            onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', Number(val)) }}
             placeholder={t('SuperimpositionPlaceholder')} // 'Superimposition'
             disabled={disabled}
           />

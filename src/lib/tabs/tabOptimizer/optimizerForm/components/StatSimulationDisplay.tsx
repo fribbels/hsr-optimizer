@@ -10,9 +10,9 @@ import {
   Form as AntDForm,
   Popconfirm,
   Radio,
-  Select,
+  Select as AntdSelect,
 } from 'antd'
-import { Button, Flex, NumberInput, Text, TextInput } from '@mantine/core'
+import { Button, Flex, NumberInput, Select, Text, TextInput } from '@mantine/core'
 import {
   Parts,
   Stats,
@@ -256,43 +256,37 @@ function OptimizerSetsSection(props: { simType: string }) {
   return (
     <>
       <Select
-        dropdownStyle={{ width: 250 }}
+        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
-        listHeight={700}
-        allowClear
-        options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
-        tagRender={OrnamentSetTagRenderer}
+        maxDropdownHeight={700}
+        clearable
+        data={useMemo(() => GenerateBasicSetsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [i18n.resolvedLanguage])}
         value={simRelicSet1}
-        onChange={handleRelicSet1Change}
+        onChange={(value) => handleRelicSet1Change(value ?? '')}
         placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
-        maxTagCount='responsive'
-        showSearch
+        searchable
       />
       <Select
-        dropdownStyle={{ width: 250 }}
+        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
-        listHeight={700}
-        allowClear
-        options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
-        tagRender={OrnamentSetTagRenderer}
+        maxDropdownHeight={700}
+        clearable
+        data={useMemo(() => GenerateBasicSetsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [i18n.resolvedLanguage])}
         value={simRelicSet2}
-        onChange={(value) => updateField(simType, 'simRelicSet2', value)}
+        onChange={(value) => updateField(simType, 'simRelicSet2', value ?? '')}
         placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
-        maxTagCount='responsive'
-        showSearch
+        searchable
       />
       <Select
-        dropdownStyle={{ width: 250 }}
+        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
-        listHeight={600}
-        allowClear
-        options={useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])}
-        tagRender={OrnamentSetTagRenderer}
+        maxDropdownHeight={600}
+        clearable
+        data={useMemo(() => GenerateOrnamentsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [i18n.resolvedLanguage])}
         value={simOrnamentSet}
-        onChange={(value) => updateField(simType, 'simOrnamentSet', value)}
+        onChange={(value) => updateField(simType, 'simOrnamentSet', value ?? '')}
         placeholder={t('SetSelection.OrnamentPlaceholder')} // 'Ornament set'
-        maxTagCount='responsive'
-        showSearch
+        searchable
       />
     </>
   )
@@ -313,7 +307,7 @@ export function SetsSection(props: { simType: string }) {
   return (
     <>
       <AntDForm.Item name={formName(props.simType, 'simRelicSet1')} style={{ maxHeight: 32 }}>
-        <Select
+        <AntdSelect
           dropdownStyle={{
             width: 250,
           }}
@@ -326,10 +320,10 @@ export function SetsSection(props: { simType: string }) {
           maxTagCount='responsive'
           showSearch
         >
-        </Select>
+        </AntdSelect>
       </AntDForm.Item>
       <AntDForm.Item name={formName(props.simType, 'simRelicSet2')} style={{ maxHeight: 32 }}>
-        <Select
+        <AntdSelect
           dropdownStyle={{
             width: 250,
           }}
@@ -341,11 +335,11 @@ export function SetsSection(props: { simType: string }) {
           maxTagCount='responsive'
           showSearch
         >
-        </Select>
+        </AntdSelect>
       </AntDForm.Item>
 
       <AntDForm.Item name={formName(props.simType, 'simOrnamentSet')} style={{ maxHeight: 32 }}>
-        <Select
+        <AntdSelect
           dropdownStyle={{
             width: 250,
           }}
@@ -357,7 +351,7 @@ export function SetsSection(props: { simType: string }) {
           maxTagCount='responsive'
           showSearch
         >
-        </Select>
+        </AntdSelect>
       </AntDForm.Item>
     </>
   )
@@ -445,16 +439,14 @@ function MainStatSelector(props: { simType: string, placeholder: string, part: s
     <Select
       placeholder={props.placeholder}
       style={{ flex: 1 }}
-      allowClear
-      optionLabelProp='short'
-      maxTagCount='responsive'
-      suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(props.part)} />}
-      options={props.options}
+      clearable
+      rightSection={<img style={{ width: 16 }} src={Assets.getPart(props.part)} />}
+      data={props.options.map((opt) => ({ value: opt.value, label: opt.short }))}
       value={value}
       onChange={(val) => useOptimizerFormStore.getState().updateStatSimField(props.simType, field, val)}
-      listHeight={750}
-      popupMatchSelectWidth={200}
-      showSearch
+      maxDropdownHeight={750}
+      comboboxProps={{ width: 200 }}
+      searchable
     />
   )
 }

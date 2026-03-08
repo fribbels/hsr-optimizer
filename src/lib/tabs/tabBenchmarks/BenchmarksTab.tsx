@@ -9,9 +9,8 @@ import {
   Card,
   Form as AntDForm,
   Radio,
-  Select,
 } from 'antd'
-import { Button, Flex, NumberInput } from '@mantine/core'
+import { Button, Flex, NumberInput, Select } from '@mantine/core'
 import {
   OverlayText,
   showcaseOutline,
@@ -331,14 +330,13 @@ function SpdBenchmarkSetting() {
     const { categories } = generateSpdPresets(tOptimizerTab)
     return categories.map((category) => {
       const presetOptions = Object.values(category.presets).map((preset) => ({
-        ...preset,
         // Optimizer tab has SPD0 as undefined for filters, we want to set it to 0
-        value: preset.value ?? 0,
-        label: <div>{preset.label}</div>,
+        value: String(preset.value ?? 0),
+        label: String(preset.label),
       }))
       return {
-        label: <span>{category.label}</span>,
-        options: presetOptions,
+        group: category.label,
+        items: presetOptions,
       }
     })
   }, [tOptimizerTab])
@@ -352,14 +350,13 @@ function SpdBenchmarkSetting() {
         rightSection={
           <Select
             style={{ width: 34 }}
-            labelRender={() => <></>}
-            dropdownStyle={{ width: 'fit-content' }}
-            popupClassName='spd-preset-dropdown'
-            options={options}
-            placement='bottomRight'
-            listHeight={800}
+            comboboxProps={{ width: 'fit-content' }}
+            data={options}
+            maxDropdownHeight={800}
             value={null}
-            onChange={(value: number) => benchmarkForm.setFieldValue('basicSpd', value)}
+            onChange={(value) => {
+              if (value != null) benchmarkForm.setFieldValue('basicSpd', Number(value))
+            }}
           />
         }
       />

@@ -1,8 +1,7 @@
-import { Flex, Switch, Text } from '@mantine/core'
+import { Flex, Select, Switch, Text } from '@mantine/core'
 import {
   Drawer,
   Popover,
-  Select,
 } from 'antd'
 import {
   Constants,
@@ -85,16 +84,19 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
 
   let inputType
   if (props.selectOptions) {
+    const stringSelectOptions = props.selectOptions?.map((opt) => ({
+      label: opt.display || opt.label,
+      value: String(opt.value),
+    }))
     inputType = (
       <Select
-        optionLabelProp='display'
-        listHeight={500}
-        size='small'
+        maxDropdownHeight={500}
+        size='xs'
         style={{ width: setConditionalsWidth }}
-        dropdownStyle={{ width: 'fit-content' }}
-        options={props.selectOptions}
-        value={value as number}
-        onChange={(val) => handleConditionalChange(itemName, val)}
+        comboboxProps={{ styles: { dropdown: { width: 'fit-content' } } }}
+        data={stringSelectOptions}
+        value={value != null ? String(value) : null}
+        onChange={(val) => handleConditionalChange(itemName, val != null ? Number(val) : val)}
       />
     )
   } else {

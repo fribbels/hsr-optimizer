@@ -2,10 +2,9 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, Switch, Text } from '@mantine/core'
+import { Flex, MultiSelect, Select, Switch, Text } from '@mantine/core'
 import {
   Radio,
-  Select,
 } from 'antd'
 
 import { Hint } from 'lib/interactions/hint'
@@ -21,7 +20,6 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -131,45 +129,41 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             </HeaderText>
             <Select
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
-              options={characterPriorityOptions}
-              value={rank}
+              data={characterPriorityOptions.map((opt) => ({ value: String(opt.value), label: opt.name }))}
+              value={rank != null ? String(rank) : null}
               onChange={(val) => {
-                useOptimizerFormStore.getState().setRelicFilterField('rank', val)
+                if (val == null) return
+                const numVal = Number(val)
+                useOptimizerFormStore.getState().setRelicFilterField('rank', numVal)
                 const characterId = useOptimizerFormStore.getState().characterId
                 if (characterId && DB.getCharacterById(characterId)) {
-                  DB.insertCharacter(characterId, val)
+                  DB.insertCharacter(characterId, numVal)
                 }
                 recalculatePermutations()
               }}
-              popupMatchSelectWidth={225}
-              listHeight={500}
-              optionLabelProp='name'
+              comboboxProps={{ width: 225 }}
+              maxDropdownHeight={500}
               placeholder={t('Priority.Header') /* Priority */}
-              showSearch
-              filterOption={Utils.nameFilterOption}
+              searchable
             />
           </Flex>
           <Flex direction="column" gap={2}>
             <HeaderText>
               {t('Exclude') /* Exclude */}
             </HeaderText>
-            <Select
+            <MultiSelect
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2, height: 32 }}
-              mode='multiple'
-              maxTagCount='responsive'
-              popupMatchSelectWidth={250}
-              listHeight={500}
-              allowClear
-              showSearch
-              optionLabelProp='title'
+              comboboxProps={{ width: 250 }}
+              maxDropdownHeight={500}
+              clearable
+              searchable
               placeholder={t('Exclude') /* Exclude */}
-              options={characterExcludeOptions}
+              data={characterExcludeOptions.map((opt) => ({ value: opt.value, label: opt.title }))}
               value={exclude}
               onChange={(val) => {
-                useOptimizerFormStore.getState().setRelicFilterField('exclude', val)
+                useOptimizerFormStore.getState().setRelicFilterField('exclude', val as typeof exclude)
                 recalculatePermutations()
               }}
-              filterOption={Utils.titleFilterOption}
             />
           </Flex>
         </Flex>
@@ -181,18 +175,19 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             </HeaderText>
             <Select
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
-              value={enhance}
+              value={enhance != null ? String(enhance) : null}
               onChange={(val) => {
-                useOptimizerFormStore.getState().setRelicFilterField('enhance', val)
+                if (val == null) return
+                useOptimizerFormStore.getState().setRelicFilterField('enhance', Number(val))
                 recalculatePermutations()
               }}
-              options={[
-                { value: 0, label: t('MinEnhance.Label0') }, // '+0'
-                { value: 3, label: t('MinEnhance.Label3') }, // '+3'
-                { value: 6, label: t('MinEnhance.Label6') }, // '+6'
-                { value: 9, label: t('MinEnhance.Label9') }, // '+9'
-                { value: 12, label: t('MinEnhance.Label12') }, // '+12'
-                { value: 15, label: t('MinEnhance.Label15') }, // '+15'
+              data={[
+                { value: '0', label: t('MinEnhance.Label0') }, // '+0'
+                { value: '3', label: t('MinEnhance.Label3') }, // '+3'
+                { value: '6', label: t('MinEnhance.Label6') }, // '+6'
+                { value: '9', label: t('MinEnhance.Label9') }, // '+9'
+                { value: '12', label: t('MinEnhance.Label12') }, // '+12'
+                { value: '15', label: t('MinEnhance.Label15') }, // '+15'
               ]}
             />
           </Flex>
@@ -203,16 +198,17 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             </HeaderText>
             <Select
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
-              value={grade}
+              value={grade != null ? String(grade) : null}
               onChange={(val) => {
-                useOptimizerFormStore.getState().setRelicFilterField('grade', val)
+                if (val == null) return
+                useOptimizerFormStore.getState().setRelicFilterField('grade', Number(val))
                 recalculatePermutations()
               }}
-              options={[
-                { value: 2, label: t('MinRarity.Label2') }, // '2 ★ +'
-                { value: 3, label: t('MinRarity.Label3') }, // '3 ★ +'
-                { value: 4, label: t('MinRarity.Label4') }, // '4 ★ +'
-                { value: 5, label: t('MinRarity.Label5') }, // '5 ★'
+              data={[
+                { value: '2', label: t('MinRarity.Label2') }, // '2 ★ +'
+                { value: '3', label: t('MinRarity.Label3') }, // '3 ★ +'
+                { value: '4', label: t('MinRarity.Label4') }, // '4 ★ +'
+                { value: '5', label: t('MinRarity.Label5') }, // '5 ★'
               ]}
             />
           </Flex>
@@ -225,18 +221,19 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             </HeaderText>
             <Select
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
-              value={mainStatUpscaleLevel}
+              value={mainStatUpscaleLevel != null ? String(mainStatUpscaleLevel) : null}
               onChange={(val) => {
-                useOptimizerFormStore.getState().setRelicFilterField('mainStatUpscaleLevel', val)
+                if (val == null) return
+                useOptimizerFormStore.getState().setRelicFilterField('mainStatUpscaleLevel', Number(val))
                 recalculatePermutations()
               }}
-              options={[
-                { value: 0, label: t('BoostMain.Label0') }, // '+0'
-                { value: 3, label: t('BoostMain.Label3') }, // '+3'
-                { value: 6, label: t('BoostMain.Label6') }, // '+6'
-                { value: 9, label: t('BoostMain.Label9') }, // '+9'
-                { value: 12, label: t('BoostMain.Label12') }, // '+12'
-                { value: 15, label: t('BoostMain.Label15') }, // '+15'
+              data={[
+                { value: '0', label: t('BoostMain.Label0') }, // '+0'
+                { value: '3', label: t('BoostMain.Label3') }, // '+3'
+                { value: '6', label: t('BoostMain.Label6') }, // '+6'
+                { value: '9', label: t('BoostMain.Label9') }, // '+9'
+                { value: '12', label: t('BoostMain.Label12') }, // '+12'
+                { value: '15', label: t('BoostMain.Label15') }, // '+15'
               ]}
             />
           </Flex>

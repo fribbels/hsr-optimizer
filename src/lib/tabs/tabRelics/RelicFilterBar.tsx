@@ -1,9 +1,8 @@
 import { IconEraser } from '@tabler/icons-react'
 import {
-  Select,
   Tooltip,
 } from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, MultiSelect, Text } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -230,16 +229,17 @@ export default function RelicFilterBar() {
               <TooltipImage type={Hint.valueColumns()} />
             </Flex>
             <Flex gap={10}>
-              <Select
-                mode='multiple'
-                allowClear
+              <MultiSelect
+                clearable
                 value={valueColumns}
-                onChange={setValueColumns}
-                options={valueColumnOptions}
-                maxTagCount='responsive'
+                onChange={(values) => setValueColumns(values as typeof valueColumns)}
+                data={valueColumnOptions.map((group) => ({
+                  group: group.label,
+                  items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
+                }))}
                 style={{ flex: 1 }}
-                listHeight={750}
-                dropdownStyle={{ width: 'fit-content' }}
+                maxDropdownHeight={750}
+                comboboxProps={{ width: 'fit-content' }}
               />
             </Flex>
           </Flex>

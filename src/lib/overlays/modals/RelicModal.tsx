@@ -9,11 +9,10 @@ import {
   Image,
   Modal,
   Radio,
-  Select,
   theme,
   Tooltip,
 } from 'antd'
-import { Button, Flex, NumberInput, TextInput } from '@mantine/core'
+import { Button, Flex, NumberInput, Select, TextInput } from '@mantine/core'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
@@ -51,7 +50,6 @@ import { isFlat } from 'lib/utils/statUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, {
-  ReactElement,
   useEffect,
   useMemo,
   useRef,
@@ -156,7 +154,7 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
 }
 
 type MainStatOption = {
-  label: ReactElement | string,
+  label: string,
   value: string,
 }
 
@@ -199,17 +197,12 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
 
   const relicOptions = useMemo(() => {
     const setOptions: {
-      label: ReactElement,
+      label: string,
       value: string,
     }[] = []
     for (const entry of Object.entries(SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
       setOptions.push({
-        label: (
-          <Flex align='center' gap={10}>
-            <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])} />
-            {t(`gameData:RelicSets.${setToId[entry[1]]}.Name`)}
-          </Flex>
-        ),
+        label: t(`gameData:RelicSets.${setToId[entry[1]]}.Name`),
         value: entry[1],
       })
     }
@@ -218,17 +211,12 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
 
   const planarOptions = useMemo(() => {
     const setOptions: {
-      label: ReactElement,
+      label: string,
       value: string,
     }[] = []
     for (const entry of Object.entries(SetsOrnaments).filter((x) => !UnreleasedSets[x[1]])) {
       setOptions.push({
-        label: (
-          <Flex align='center' gap={10}>
-            <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(entry[1])} />
-            {t(`gameData:RelicSets.${setToId[entry[1]]}.Name`)}
-          </Flex>
-        ),
+        label: t(`gameData:RelicSets.${setToId[entry[1]]}.Name`),
         value: entry[1],
       })
     }
@@ -287,12 +275,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
     const part = selectedRelic?.part ?? selectedPart
     if (part) {
       mainStatOptions = Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
-        label: (
-          <Flex align='center' gap={10}>
-            <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }} />
-            {t(`common:Stats.${entry[1]}`)}
-          </Flex>
-        ),
+        label: t(`common:Stats.${entry[1]}`),
         value: entry[1],
       }))
     }
@@ -337,12 +320,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
     if (formValues.part) {
       const part = formValues.part
       mainStatOptions = Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
-        label: (
-          <Flex align='center' gap={10}>
-            <img src={Assets.getStatIcon(entry[1], true)} style={{ width: 22, height: 22 }} />
-            {t(`common:Stats.${entry[1]}`)}
-          </Flex>
-        ),
+        label: t(`common:Stats.${entry[1]}`),
         value: entry[1],
       }))
       setMainStatOptions(mainStatOptions)
@@ -411,15 +389,15 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
   }
 
   const enhanceOptions: {
-    value: number,
+    value: string,
     label: string,
   }[] = useMemo(() => {
     const ret: {
-      value: number,
+      value: string,
       label: string,
     }[] = []
     for (let i = 15; i >= 0; i--) {
-      ret.push({ value: i, label: '+' + i })
+      ret.push({ value: String(i), label: '+' + i })
     }
     return ret
   }, [])
@@ -503,17 +481,21 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
               <HeaderText>{t('Relic.Set') /* Set */}</HeaderText>
               <Form.Item name='set'>
                 <Select
-                  showSearch
-                  allowClear
+                  searchable
+                  clearable
                   style={{
                     width: 300,
                   }}
-                  listHeight={350}
+                  maxDropdownHeight={350}
                   placeholder={t('Relic.Set') /* Set */}
-                  options={setOptions}
-                  maxTagCount='responsive'
-                >
-                </Select>
+                  data={setOptions}
+                  renderOption={({ option }) => (
+                    <Flex align='center' gap={10}>
+                      <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(option.value)} />
+                      {option.label}
+                    </Flex>
+                  )}
+                />
               </Form.Item>
 
               <HeaderText>{t('Relic.Enhance') /* Enhance / Grade */}</HeaderText>
@@ -521,9 +503,9 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
               <Flex gap={10}>
                 <Form.Item name='enhance'>
                   <Select
-                    showSearch
+                    searchable
                     style={{ width: 115 }}
-                    options={enhanceOptions}
+                    data={enhanceOptions}
                   />
                 </Form.Item>
 
@@ -533,13 +515,13 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
 
                 <Form.Item name='grade'>
                   <Select
-                    showSearch
+                    searchable
                     style={{ width: 115 }}
-                    options={[
-                      { value: 2, label: '2 ★' },
-                      { value: 3, label: '3 ★' },
-                      { value: 4, label: '4 ★' },
-                      { value: 5, label: '5 ★' },
+                    data={[
+                      { value: '2', label: '2 ★' },
+                      { value: '3', label: '3 ★' },
+                      { value: '4', label: '4 ★' },
+                      { value: '5', label: '5 ★' },
                     ]}
                     onChange={resetUpgradeValues}
                   />
@@ -551,12 +533,17 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
               <Flex gap={10}>
                 <Form.Item name='mainStatType'>
                   <Select
-                    showSearch
+                    searchable
                     style={{
                       width: 210,
                     }}
-                    maxTagCount='responsive'
-                    options={mainStatOptions}
+                    data={mainStatOptions}
+                    renderOption={({ option }) => (
+                      <Flex align='center' gap={10}>
+                        <img src={Assets.getStatIcon(option.value, true)} style={{ width: 22, height: 22 }} />
+                        {option.label}
+                      </Flex>
+                    )}
                     disabled={mainStatOptions.length <= 1}
                   />
                 </Form.Item>
@@ -573,11 +560,13 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
               <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
               <Form.Item name='equippedBy'>
                 <Select
-                  showSearch
-                  filterOption={Utils.titleFilterOption}
+                  searchable
                   style={{ height: 35 }}
-                  options={characterOptions}
-                  optionLabelProp='title'
+                  data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
+                  renderOption={({ option }) => {
+                    const match = characterOptions.find((o) => o.value === option.value)
+                    return match?.label ?? option.label
+                  }}
                 />
               </Form.Item>
 
@@ -687,19 +676,12 @@ function SubstatInput(props: {
 
   const substatOptionsMemoized = useMemo(() => {
     const output: {
-      label: ReactElement,
+      label: string,
       value: string,
     }[] = []
     for (const entry of Object.entries(Constants.SubStats)) {
       output.push({
-        label: (() => {
-          return (
-            <Flex align='center' gap={10}>
-              <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(entry[1], true)} />
-              {tStats(entry[1])}
-            </Flex>
-          )
-        })(),
+        label: tStats(entry[1]),
         value: entry[1],
       })
     }
@@ -761,15 +743,20 @@ function SubstatInput(props: {
       <Flex gap={10}>
         <Form.Item name={statTypeField}>
           <Select
-            showSearch
-            allowClear
+            searchable
+            clearable
             style={{
               width: 210,
             }}
             placeholder={t('SubstatPlaceholder')}
-            maxTagCount='responsive'
-            options={substatOptionsMemoized}
-            listHeight={750}
+            data={substatOptionsMemoized}
+            maxDropdownHeight={750}
+            renderOption={({ option }) => (
+              <Flex align='center' gap={10}>
+                <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(option.value, true)} />
+                {option.label}
+              </Flex>
+            )}
             onChange={() => {
               if (props.relicForm.getFieldValue(statTypeField)) {
                 props.relicForm.setFieldValue(statValueField, 0)

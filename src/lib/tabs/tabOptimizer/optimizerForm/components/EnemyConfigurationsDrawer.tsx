@@ -2,10 +2,9 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, Switch, Text } from '@mantine/core'
+import { Flex, Select, Switch, Text } from '@mantine/core'
 import {
   Drawer,
-  Select,
 } from 'antd'
 import {
   OpenCloseIDs,
@@ -15,7 +14,6 @@ import { Hint } from 'lib/interactions/hint'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -108,43 +106,38 @@ export const EnemyConfigurationsDrawer = () => {
         </Flex>
 
         <Select
-          showSearch
-          filterOption={Utils.labelFilterOption}
-          options={enemyLevelOptions}
-          value={enemyLevel}
-          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyLevel', val)}
+          searchable
+          data={enemyLevelOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+          value={enemyLevel != null ? String(enemyLevel) : null}
+          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyLevel', Number(val)) }}
         />
 
         <Select
-          showSearch
-          filterOption={Utils.labelFilterOption}
-          options={enemyResistanceOptions}
-          value={enemyResistance}
-          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyResistance', val)}
+          searchable
+          data={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+          value={enemyResistance != null ? String(enemyResistance) : null}
+          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyResistance', Number(val)) }}
         />
 
         <Select
-          showSearch
-          filterOption={Utils.labelFilterOption}
-          options={enemyEffectResistanceOptions}
-          value={enemyEffectResistance}
-          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyEffectResistance', val)}
+          searchable
+          data={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+          value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
+          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyEffectResistance', Number(val)) }}
         />
 
         <Select
-          showSearch
-          filterOption={Utils.labelFilterOption}
-          options={enemyMaxToughnessOptions}
-          value={enemyMaxToughness}
-          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyMaxToughness', val)}
+          searchable
+          data={enemyMaxToughnessOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+          value={enemyMaxToughness != null ? String(enemyMaxToughness) : null}
+          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyMaxToughness', Number(val)) }}
         />
 
         <Select
-          showSearch
-          filterOption={Utils.labelFilterOption}
-          options={enemyCountOptions}
-          value={enemyCount}
-          onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyCount', val)}
+          searchable
+          data={enemyCountOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+          value={enemyCount != null ? String(enemyCount) : null}
+          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyCount', Number(val)) }}
         />
 
         <Flex align='center'>

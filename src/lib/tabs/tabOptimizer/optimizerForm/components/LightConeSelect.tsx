@@ -1,5 +1,5 @@
-import { Flex, TextInput } from '@mantine/core'
-import { Card, Modal, Select, } from 'antd'
+import { Flex, Select, TextInput } from '@mantine/core'
+import { Card, Modal, } from 'antd'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
@@ -124,20 +124,20 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
       <Select
         style={selectStyle}
         value={value}
-        options={withIcon ? labelledOptions : lightConeOptions}
+        data={withIcon
+          ? labelledOptions.map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value }))
+          : lightConeOptions.map((opt) => ({ value: opt.value, label: opt.label }))}
         placeholder={t('Placeholder') /* Lightcone */}
-        allowClear
+        clearable
         onClear={() => {
           if (onChange) onChange(null)
         }}
-        onDropdownVisibleChange={(visible) => {
-          if (visible) {
-            setOpen(true)
-            setCurrentFilters(TsUtils.clone(defaultFilters))
-          }
+        onDropdownOpen={() => {
+          setOpen(true)
+          setCurrentFilters(TsUtils.clone(defaultFilters))
         }}
-        dropdownStyle={{ display: 'none' }}
-        suffixIcon={null}
+        comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
+        rightSection={null}
       />
 
       <Modal

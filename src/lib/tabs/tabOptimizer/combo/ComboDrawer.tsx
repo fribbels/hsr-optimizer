@@ -2,11 +2,10 @@ import {
   IconCircleMinus,
   IconCirclePlus,
 } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, MultiSelect } from '@mantine/core'
 import {
   Divider,
   Drawer,
-  Select,
 } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
@@ -56,7 +55,6 @@ import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSe
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { setToConditionalKey } from 'lib/sets/setConfigRegistry'
-import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { ControlledTurnAbilitySelector } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
@@ -264,30 +262,22 @@ function SetSelector(props: {
   placeholder: string,
   submit: (arr: string[]) => void,
 }) {
+  const stringOptions = props.options.map((opt) => ({
+    value: opt.value,
+    label: typeof opt.label === 'string' ? opt.label : opt.value,
+  }))
+
   return (
-    <Select
-      dropdownStyle={{
-        width: 300,
-      }}
-      listHeight={800}
-      mode='multiple'
-      allowClear
+    <MultiSelect
+      comboboxProps={{ styles: { dropdown: { width: 300 } } }}
+      maxDropdownHeight={800}
+      clearable
       style={{ flex: 1 }}
-      options={props.options}
-      tagRender={OrnamentSetTagRenderer}
+      data={stringOptions}
       placeholder={props.placeholder}
-      maxTagCount='responsive'
-      placement='topRight'
       value={props.selected ?? []}
-      onSelect={(value: string) => {
-        props.submit([...props.selected, value])
-      }}
-      onDeselect={(value: string) => {
-        const selected = props.selected.filter((selected) => selected !== value)
-        props.submit(selected)
-      }}
-      onClear={() => {
-        props.submit([])
+      onChange={(val) => {
+        props.submit(val)
       }}
     />
   )

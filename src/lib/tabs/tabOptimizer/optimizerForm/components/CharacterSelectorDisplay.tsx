@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Select,
-} from 'antd'
+import { Flex, Select } from '@mantine/core'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import {
@@ -21,7 +18,6 @@ import {
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -137,14 +133,14 @@ export default function CharacterSelectorDisplay() {
           setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
         />
         <Select
-          showSearch
+          searchable
           style={{ width: 55 }}
-          options={eidolonOptions}
-          value={characterEidolon}
-          onChange={(val) => useOptimizerFormStore.getState().setEidolon(val)}
+          data={eidolonOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+          value={characterEidolon != null ? String(characterEidolon) : null}
+          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEidolon(Number(val)) }}
           placeholder={t('CharacterSelector.EidolonPlaceholder')} // E
-          popupMatchSelectWidth={55}
-          suffixIcon={null}
+          comboboxProps={{ width: 55 }}
+          rightSection={null}
         />
       </Flex>
       <Flex justify='space-between' align='center'>
@@ -160,14 +156,14 @@ export default function CharacterSelectorDisplay() {
             characterId={optimizerTabFocusCharacter}
           />
           <Select
-            showSearch
+            searchable
             style={{ width: 55 }}
-            options={superimpositionOptions}
-            value={lightConeSuperimposition}
-            onChange={(val) => useOptimizerFormStore.getState().setLightConeSuperimposition(val)}
+            data={superimpositionOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+            value={lightConeSuperimposition != null ? String(lightConeSuperimposition) : null}
+            onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setLightConeSuperimposition(Number(val)) }}
             placeholder={t('CharacterSelector.SuperimpositionPlaceholder')} // S
-            popupMatchSelectWidth={55}
-            suffixIcon={null}
+            comboboxProps={{ width: 55 }}
+            rightSection={null}
           />
         </Flex>
       </Flex>
@@ -183,25 +179,27 @@ export default function CharacterSelectorDisplay() {
       </Flex>
 
       <Select
-        showSearch
+        searchable
         style={{ width: panelWidth }}
-        options={resultLimitOptions}
-        value={resultsLimit}
-        onChange={(val) => useOptimizerFormStore.getState().setResultsLimit(val)}
+        data={resultLimitOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+        value={resultsLimit != null ? String(resultsLimit) : null}
+        onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setResultsLimit(Number(val)) }}
         placeholder={t('CharacterSelector.ResultsPlaceholder')} // 'Find top results'
-        listHeight={800}
+        maxDropdownHeight={800}
       />
 
       <Select
-        showSearch
+        searchable
         style={{ width: panelWidth }}
-        options={resultSortOptions}
+        data={resultSortOptions.map((group) => ({
+          group: group.label,
+          items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
+        }))}
         value={resultSort}
-        onChange={(val) => useOptimizerFormStore.getState().setResultSort(val)}
-        listHeight={900}
-        popupMatchSelectWidth={250}
+        onChange={(val) => useOptimizerFormStore.getState().setResultSort((val ?? undefined) as keyof typeof SortOption | undefined)}
+        maxDropdownHeight={900}
+        comboboxProps={{ width: 250 }}
         placeholder={t('CharacterSelector.TargetPlaceholder')} // 'Sorted by'
-        filterOption={Utils.labelFilterOption}
       />
     </Flex>
   )

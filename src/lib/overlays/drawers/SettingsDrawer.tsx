@@ -1,9 +1,8 @@
 import {
   Drawer,
   Form,
-  Select,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Flex, Select, Text } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -12,7 +11,6 @@ import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
-  ReactNode,
   useEffect,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -74,63 +72,63 @@ export const SettingsDrawer = () => {
   const optionsRelicEquippingBehavior = [
     {
       value: SettingOptions.RelicEquippingBehavior.Replace,
-      label: <span>{t('RelicEquippingBehavior.Replace') /* Default: Replace relics without swapping */}</span>,
+      label: t('RelicEquippingBehavior.Replace') /* Default: Replace relics without swapping */,
     },
     {
       value: SettingOptions.RelicEquippingBehavior.Swap,
-      label: <span>{t('RelicEquippingBehavior.Swap') /* Swap relics with previous owner */}</span>,
+      label: t('RelicEquippingBehavior.Swap') /* Swap relics with previous owner */,
     },
   ]
 
   const optionsPermutationsSidebarBehavior = [
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-      label: <span>{t('PermutationsSidebarBehavior.ShowXL') /* Default: Minimize if most of the sidebar is hidden */}</span>,
+      label: t('PermutationsSidebarBehavior.ShowXL') /* Default: Minimize if most of the sidebar is hidden */,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.ShowXXL,
-      label: <span>{t('PermutationsSidebarBehavior.ShowXXL') /* Minimize if any of the sidebar is hidden */}</span>,
+      label: t('PermutationsSidebarBehavior.ShowXXL') /* Minimize if any of the sidebar is hidden */,
     },
     {
       value: SettingOptions.PermutationsSidebarBehavior.NoShow,
-      label: <span>{t('PermutationsSidebarBehavior.NoShow') /* Always keep the sidebar on the right */}</span>,
+      label: t('PermutationsSidebarBehavior.NoShow') /* Always keep the sidebar on the right */,
     },
   ]
 
   const optionsExpandedInfoPanelPosition = [
     {
       value: SettingOptions.ExpandedInfoPanelPosition.Above,
-      label: <span>{t('ExpandedInfoPanelPosition.Above') /* Show expanded info above relics preview */}</span>,
+      label: t('ExpandedInfoPanelPosition.Above') /* Show expanded info above relics preview */,
     },
     {
       value: SettingOptions.ExpandedInfoPanelPosition.Below,
-      label: <span>{t('ExpandedInfoPanelPosition.Below') /* Default: Show expanded info below relics preview */}</span>,
+      label: t('ExpandedInfoPanelPosition.Below') /* Default: Show expanded info below relics preview */,
     },
   ]
 
   const optionsShowLocatorInRelicsModal = [
     {
       value: SettingOptions.ShowLocatorInRelicsModal.No,
-      label: <span>{t('ShowLocatorInRelicsModal.No') /* Default: Do not show the relic locator in the relic editor */}</span>,
+      label: t('ShowLocatorInRelicsModal.No') /* Default: Do not show the relic locator in the relic editor */,
     },
     {
       value: SettingOptions.ShowLocatorInRelicsModal.Yes,
-      label: <span>{t('ShowLocatorInRelicsModal.Yes') /* Show the relic locator in the relic editor */}</span>,
+      label: t('ShowLocatorInRelicsModal.Yes') /* Show the relic locator in the relic editor */,
     },
   ]
 
   const optionsShowComboDmgWarning = [
     {
       value: SettingOptions.ShowComboDmgWarning.Show,
-      label: <span>{t('ShowComboDmgWarning.Show') /* Default: Show warning */}</span>,
+      label: t('ShowComboDmgWarning.Show') /* Default: Show warning */,
     },
     {
       value: SettingOptions.ShowComboDmgWarning.Hide,
-      label: <span>{t('ShowComboDmgWarning.Hide') /* Hide warning */}</span>,
+      label: t('ShowComboDmgWarning.Hide') /* Hide warning */,
     },
   ]
 
-  const optionsMap: Record<keyof UserSettings, { value: string, label: ReactNode }[]> = {
+  const optionsMap: Record<keyof UserSettings, { value: string, label: string }[]> = {
     RelicEquippingBehavior: optionsRelicEquippingBehavior,
     PermutationsSidebarBehavior: optionsPermutationsSidebarBehavior,
     ExpandedInfoPanelPosition: optionsExpandedInfoPanelPosition,
@@ -172,8 +170,8 @@ export const SettingsDrawer = () => {
                 <Form.Item name={SettingOptions[option].name}>
                   <Select
                     style={{ width: 500 }}
-                    options={optionsMap[option]}
-                    optionRender={(option) => <SelectOptionWordWrap>{option.label}</SelectOptionWordWrap>}
+                    data={optionsMap[option]}
+                    renderOption={({ option }) => <SelectOptionWordWrap>{option.label}</SelectOptionWordWrap>}
                   />
                 </Form.Item>
               </Flex>

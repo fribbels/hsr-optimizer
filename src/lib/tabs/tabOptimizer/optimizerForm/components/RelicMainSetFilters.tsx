@@ -1,9 +1,8 @@
 import { IconSettings } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, MultiSelect } from '@mantine/core'
 import {
   Cascader,
   ConfigProvider,
-  Select,
 } from 'antd'
 import {
   Constants,
@@ -16,7 +15,6 @@ import {
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { RelicSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetTagRenderer'
 import GenerateSetsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
@@ -49,116 +47,96 @@ export default function RelicMainSetFilters() {
         <TooltipImage type={Hint.mainStats()} />
       </Flex>
       <Flex direction="column" gap={7}>
-        <Select
-          mode='multiple'
-          allowClear
+        <MultiSelect
+          clearable
           style={{
             width: panelWidth,
           }}
           placeholder={t('common:Parts.Body')}
-          optionLabelProp='label'
-          maxTagCount='responsive'
-          suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.Body)} />}
+          rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.Body)} />}
           value={mainBody}
           onChange={(val) => {
             useOptimizerFormStore.getState().setMainStats('mainBody', val)
             recalculatePermutations()
           }}
-        >
-          <Select.Option value={Constants.Stats.HP_P} label={t('common:ShortStats.HP%')}>{t('common:Stats.HP%')}</Select.Option>
-          <Select.Option value={Constants.Stats.ATK_P} label={t('common:ShortStats.ATK%')}>{t('common:Stats.ATK%')}</Select.Option>
-          <Select.Option value={Constants.Stats.DEF_P} label={t('common:ShortStats.DEF%')}>{t('common:Stats.DEF%')}</Select.Option>
-          <Select.Option value={Constants.Stats.CR} label={t('common:ShortStats.CRIT Rate')}>{t('common:Stats.CRIT Rate')}</Select.Option>
-          <Select.Option value={Constants.Stats.CD} label={t('common:ShortStats.CRIT DMG')}>{t('common:Stats.CRIT DMG')}</Select.Option>
-          <Select.Option value={Constants.Stats.EHR} label={t('common:ShortStats.Effect Hit Rate')}>{t('common:Stats.Effect Hit Rate')}</Select.Option>
-          <Select.Option value={Constants.Stats.OHB} label={t('common:ShortStats.Outgoing Healing Boost')}>
-            {t('common:Stats.Outgoing Healing Boost')}
-          </Select.Option>
-        </Select>
+          data={[
+            { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
+            { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
+            { value: Constants.Stats.DEF_P, label: t('common:ShortStats.DEF%') },
+            { value: Constants.Stats.CR, label: t('common:ShortStats.CRIT Rate') },
+            { value: Constants.Stats.CD, label: t('common:ShortStats.CRIT DMG') },
+            { value: Constants.Stats.EHR, label: t('common:ShortStats.Effect Hit Rate') },
+            { value: Constants.Stats.OHB, label: t('common:ShortStats.Outgoing Healing Boost') },
+          ]}
+        />
 
-        <Select
-          mode='multiple'
-          allowClear
+        <MultiSelect
+          clearable
           style={{
             width: panelWidth,
           }}
           placeholder={t('common:Parts.Feet')}
-          optionLabelProp='label'
-          maxTagCount='responsive'
-          suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.Feet)} />}
+          rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.Feet)} />}
           value={mainFeet}
           onChange={(val) => {
             useOptimizerFormStore.getState().setMainStats('mainFeet', val)
             recalculatePermutations()
           }}
-        >
-          <Select.Option value={Constants.Stats.HP_P} label={t('common:ShortStats.HP%')}>{t('common:Stats.HP%')}</Select.Option>
-          <Select.Option value={Constants.Stats.ATK_P} label={t('common:ShortStats.ATK%')}>{t('common:Stats.ATK%')}</Select.Option>
-          <Select.Option value={Constants.Stats.DEF_P} label={t('common:ShortStats.DEF%')}>{t('common:Stats.DEF%')}</Select.Option>
-          <Select.Option value={Constants.Stats.SPD} label={t('common:ShortStats.SPD')}>{t('common:Stats.SPD')}</Select.Option>
-        </Select>
+          data={[
+            { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
+            { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
+            { value: Constants.Stats.DEF_P, label: t('common:ShortStats.DEF%') },
+            { value: Constants.Stats.SPD, label: t('common:ShortStats.SPD') },
+          ]}
+        />
 
-        <Select
-          mode='multiple'
-          allowClear
+        <MultiSelect
+          clearable
           style={{
             width: panelWidth,
           }}
           placeholder={t('common:Parts.PlanarSphere')}
-          optionLabelProp='label'
-          listHeight={400}
-          maxTagCount='responsive'
-          suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.PlanarSphere)} />}
+          maxDropdownHeight={400}
+          rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.PlanarSphere)} />}
           value={mainPlanarSphere}
           onChange={(val) => {
             useOptimizerFormStore.getState().setMainStats('mainPlanarSphere', val)
             recalculatePermutations()
           }}
-        >
-          <Select.Option value={Constants.Stats.HP_P} label={t('common:ShortStats.HP%')}>{t('common:Stats.HP%')}</Select.Option>
-          <Select.Option value={Constants.Stats.ATK_P} label={t('common:ShortStats.ATK%')}>{t('common:Stats.ATK%')}</Select.Option>
-          <Select.Option value={Constants.Stats.DEF_P} label={t('common:ShortStats.DEF%')}>{t('common:Stats.DEF%')}</Select.Option>
-          <Select.Option value={Constants.Stats.Physical_DMG} label={t('common:ShortStats.Physical DMG Boost')}>
-            {t('common:Stats.Physical DMG Boost')}
-          </Select.Option>
-          <Select.Option value={Constants.Stats.Fire_DMG} label={t('common:ShortStats.Fire DMG Boost')}>{t('common:Stats.Fire DMG Boost')}</Select.Option>
-          <Select.Option value={Constants.Stats.Ice_DMG} label={t('common:ShortStats.Ice DMG Boost')}>{t('common:Stats.Ice DMG Boost')}</Select.Option>
-          <Select.Option value={Constants.Stats.Lightning_DMG} label={t('common:ShortStats.Lightning DMG Boost')}>
-            {t('common:Stats.Lightning DMG Boost')}
-          </Select.Option>
-          <Select.Option value={Constants.Stats.Wind_DMG} label={t('common:ShortStats.Wind DMG Boost')}>{t('common:Stats.Wind DMG Boost')}</Select.Option>
-          <Select.Option value={Constants.Stats.Quantum_DMG} label={t('common:ShortStats.Quantum DMG Boost')}>
-            {t('common:Stats.Quantum DMG Boost')}
-          </Select.Option>
-          <Select.Option value={Constants.Stats.Imaginary_DMG} label={t('common:ShortStats.Imaginary DMG Boost')}>
-            {t('common:Stats.Imaginary DMG Boost')}
-          </Select.Option>
-        </Select>
+          data={[
+            { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
+            { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
+            { value: Constants.Stats.DEF_P, label: t('common:ShortStats.DEF%') },
+            { value: Constants.Stats.Physical_DMG, label: t('common:ShortStats.Physical DMG Boost') },
+            { value: Constants.Stats.Fire_DMG, label: t('common:ShortStats.Fire DMG Boost') },
+            { value: Constants.Stats.Ice_DMG, label: t('common:ShortStats.Ice DMG Boost') },
+            { value: Constants.Stats.Lightning_DMG, label: t('common:ShortStats.Lightning DMG Boost') },
+            { value: Constants.Stats.Wind_DMG, label: t('common:ShortStats.Wind DMG Boost') },
+            { value: Constants.Stats.Quantum_DMG, label: t('common:ShortStats.Quantum DMG Boost') },
+            { value: Constants.Stats.Imaginary_DMG, label: t('common:ShortStats.Imaginary DMG Boost') },
+          ]}
+        />
 
-        <Select
-          mode='multiple'
-          allowClear
+        <MultiSelect
+          clearable
           style={{
             width: panelWidth,
           }}
           placeholder={t('common:Parts.LinkRope')}
-          optionLabelProp='label'
-          maxTagCount='responsive'
-          suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(Parts.LinkRope)} />}
+          rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.LinkRope)} />}
           value={mainLinkRope}
           onChange={(val) => {
             useOptimizerFormStore.getState().setMainStats('mainLinkRope', val)
             recalculatePermutations()
           }}
-        >
-          <Select.Option value={Constants.Stats.HP_P} label={t('common:ShortStats.HP%')}>{t('common:Stats.HP%')}</Select.Option>
-          <Select.Option value={Constants.Stats.ATK_P} label={t('common:ShortStats.ATK%')}>{t('common:Stats.ATK%')}</Select.Option>
-          <Select.Option value={Constants.Stats.DEF_P} label={t('common:ShortStats.DEF%')}>{t('common:Stats.DEF%')}</Select.Option>
-          <Select.Option value={Constants.Stats.BE} label={t('common:ShortStats.Break Effect')}>{t('common:Stats.Break Effect')}</Select.Option>
-          <Select.Option value={Constants.Stats.ERR} label={t('common:ShortStats.Energy Regeneration Rate')}>
-            {t('common:Stats.Energy Regeneration Rate')}
-          </Select.Option>
-        </Select>
+          data={[
+            { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
+            { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
+            { value: Constants.Stats.DEF_P, label: t('common:ShortStats.DEF%') },
+            { value: Constants.Stats.BE, label: t('common:ShortStats.Break Effect') },
+            { value: Constants.Stats.ERR, label: t('common:ShortStats.Energy Regeneration Rate') },
+          ]}
+        />
       </Flex>
 
       <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
@@ -197,23 +175,18 @@ export default function RelicMainSetFilters() {
           />
         </ConfigProvider>
 
-        <Select
-          dropdownStyle={{
-            width: 250,
-          }}
-          listHeight={800}
-          mode='multiple'
-          allowClear
+        <MultiSelect
+          comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+          maxDropdownHeight={800}
+          clearable
           style={{
             width: panelWidth,
           }}
-          options={useMemo(() => GenerateOrnamentsOptions(), [t])}
-          tagRender={OrnamentSetTagRenderer}
+          data={useMemo(() => GenerateOrnamentsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [t])}
           placeholder={t('OrnamentSetSelector.Placeholder')}
-          maxTagCount='responsive'
           value={ornamentSets}
           onChange={(val) => {
-            useOptimizerFormStore.getState().setOrnamentSets(val)
+            useOptimizerFormStore.getState().setOrnamentSets(val as typeof ornamentSets)
             recalculatePermutations()
           }}
         />

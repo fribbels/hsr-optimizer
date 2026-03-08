@@ -2221,6 +2221,14 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: 会心ダメージ（戦闘時）
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: 強化通常攻撃
+      e1PunchlineResPen:
+        text: 1凸 全属性耐性貫通
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
   Sunday:
     Content:
       skillDmgBuff:

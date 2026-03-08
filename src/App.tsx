@@ -3,9 +3,9 @@ import { Notifications } from '@mantine/notifications'
 import {
   ConfigProvider,
   Layout,
-  Modal,
   theme,
 } from 'antd'
+import { ConfirmModalProvider } from 'lib/interactions/confirmModal'
 import { checkForUpdatesNotification } from 'lib/interactions/notifications'
 import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'
@@ -22,10 +22,6 @@ const { getDesignToken } = theme
 const { Content } = Layout
 
 const App = () => {
-  const [modalApi, modalContextHolder] = Modal.useModal()
-
-  window.modalApi = modalApi
-
   const colorTheme = window.store((s) => s.colorTheme)
   const globalThemeConfig = window.store((s) => s.globalThemeConfig)
   const mantineTheme = createMantineTheme(colorTheme)
@@ -43,33 +39,34 @@ const App = () => {
   return (
     <MantineProvider theme={mantineTheme} defaultColorScheme="dark">
       <Notifications position="top-right" />
-      <ConfigProvider theme={globalThemeConfig}>
-        {modalContextHolder}
-        <Layout style={{ minHeight: '100%' }}>
-          <LayoutHeader />
-          <Layout hasSider>
-            <LayoutSider />
-            <Content
-              style={{
-                padding: '10px 10px 0 10px',
-                margin: 0,
-                minHeight: 280,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                overflow: 'initial',
-                display: 'flex',
-                justifyContent: 'space-around',
-                width: '100%',
-              }}
-            >
-              <Tabs />
-            </Content>
-            <SettingsDrawer />
-            <GettingStartedDrawer />
-            <StatTracesDrawer />
+      <ConfirmModalProvider>
+        <ConfigProvider theme={globalThemeConfig}>
+          <Layout style={{ minHeight: '100%' }}>
+            <LayoutHeader />
+            <Layout hasSider>
+              <LayoutSider />
+              <Content
+                style={{
+                  padding: '10px 10px 0 10px',
+                  margin: 0,
+                  minHeight: 280,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  overflow: 'initial',
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  width: '100%',
+                }}
+              >
+                <Tabs />
+              </Content>
+              <SettingsDrawer />
+              <GettingStartedDrawer />
+              <StatTracesDrawer />
+            </Layout>
           </Layout>
-        </Layout>
-      </ConfigProvider>
+        </ConfigProvider>
+      </ConfirmModalProvider>
     </MantineProvider>
   )
 }

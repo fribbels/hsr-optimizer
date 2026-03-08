@@ -1,7 +1,4 @@
-import {
-  theme,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import {
   OpenCloseIDs,
   setOpen,
@@ -40,13 +37,11 @@ type DataPoint = {
   bestUpgraded: Score['score']['meta']['bestUpgradedStats'],
 }
 
-const { useToken } = theme
-
 const IMG_WIDTH = 26
 const IMG_HEIGHT = 39
 
 export const BucketsPanel = React.memo(({ scores }: PanelProps) => {
-  const { token } = useToken()
+  const theme = useMantineTheme()
   const [tooltipActive, setTooltipActive] = useState(false)
   const timeout = useRef<NodeJS.Timeout>()
   const buckets = Array.from<Bucket>({ length: 10 })
@@ -99,8 +94,8 @@ export const BucketsPanel = React.memo(({ scores }: PanelProps) => {
     <div
       style={{
         borderRadius: 8,
-        border: `1px solid ${token.colorBorderSecondary}`,
-        backgroundColor: token.colorBgContainer,
+        border: `1px solid ${theme.colors.dark[4]}`,
+        backgroundColor: theme.colors.dark[7],
       }}
     >
       <ScatterChart
@@ -159,7 +154,7 @@ function ShapeFunction(untypedProps: unknown) {
 function TooltipContent(props: TooltipProps<ValueType, NameType>) {
   const { payload }: { payload?: Array<{ payload?: DataPoint }> } = props
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicInsights' })
-  const { token } = useToken()
+  const theme = useMantineTheme()
   const data = payload?.[0]?.payload
   return (
     <Flex
@@ -167,8 +162,8 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
       gap={0}
       style={{
         borderRadius: 8,
-        border: `1px solid ${token.colorBorder}`,
-        backgroundColor: token.colorBgBase,
+        border: `1px solid ${theme.colors.dark[4]}`,
+        backgroundColor: theme.colors.dark[8],
         height: 'fit-content',
         padding: 10,
       }}

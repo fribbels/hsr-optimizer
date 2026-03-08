@@ -1,8 +1,7 @@
 import {
   Progress,
-  theme,
 } from 'antd'
-import { Divider, Flex, Text, Tooltip } from '@mantine/core'
+import { Divider, Flex, Text, Tooltip, useMantineTheme } from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -26,7 +25,15 @@ interface RelicCardProps {
 export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Element => {
   const { relic, scoringCharacter, setSelectedRelicID, isSelected } = props
   const { excludedRelicPotentialCharacters } = useRelicsTabStore()
-  const { token } = theme.useToken()
+  const mantineTheme = useMantineTheme()
+  const token = {
+    colorPrimary: mantineTheme.colors.primary[9],
+    colorPrimaryBg: mantineTheme.colors.dark[8] + '40',
+    colorBgContainer: mantineTheme.colors.dark[6],
+    colorBorderSecondary: mantineTheme.colors.dark[4],
+    colorTextSecondary: mantineTheme.colors.dark[2],
+    colorText: mantineTheme.colors.dark[0],
+  }
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RecentlyUpdatedRelics' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
 

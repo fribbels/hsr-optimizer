@@ -2,11 +2,10 @@ import {
   IconBoltFilled,
   IconChevronDown,
 } from '@tabler/icons-react'
-import { Button, Divider, Flex, Menu, Modal, Progress, SegmentedControl, Text } from '@mantine/core'
+import { Button, Divider, Flex, Menu, Modal, Progress, SegmentedControl, Text, useMantineTheme } from '@mantine/core'
 import { IRowNode } from 'ag-grid-community'
 import {
   Grid,
-  theme,
 } from 'antd'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import i18next from 'i18next'
@@ -47,7 +46,6 @@ import {
   StatDisplay,
 } from 'types/store'
 
-const { useToken } = theme
 const { useBreakpoint } = Grid
 
 const SCROLLBAR_WIDTH = 5 // px
@@ -281,7 +279,7 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean, setManyPermsModalO
 }
 
 function OptimizerSidebar(props: { isFullSize: boolean }) {
-  const { token } = useToken()
+  const theme = useMantineTheme()
   const { offset, isLocked } = useScrollLockState()
   const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE
   const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
@@ -315,7 +313,7 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
           style={props.isFullSize
             ? {
               borderRadius: 5,
-              backgroundColor: token.colorBgContainer,
+              backgroundColor: theme.colors.dark[7],
               padding: defaultPadding,
               height: 'fit-content',
               width: 233,
@@ -379,7 +377,7 @@ function ProgressDisplay() {
   const optimizerEndTime = window.store((s) => s.optimizerEndTime)
   const optimizerRunningEngine = window.store((s) => s.optimizerRunningEngine)
   const optimizationInProgress = window.store((s) => s.optimizationInProgress)
-  const { token } = useToken()
+  const theme = useMantineTheme()
 
   return (
     <Flex direction="column">
@@ -387,7 +385,7 @@ function ProgressDisplay() {
         {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)}
       </HeaderText>
       <Progress
-        color={token.colorPrimary}
+        color={theme.colors.blue[6]}
         size={5}
         value={Math.floor(permutationsSearched / permutations * 100)}
       />

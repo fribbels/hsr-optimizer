@@ -4140,11 +4140,11 @@ interface Resources {
         "Content": {
           "punchlineStacks": {
             "text": "Punchline stacks",
-            "content": "Select the number of punchline the team posesses. This is used to calculate the damage of Elation skills."
+            "content": "Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills."
           },
           "certifiedBangerStacks": {
             "text": "Certified Banger stacks",
-            "content": "Select the number of Certified Banger Yao Guang posesses. This is used to calculate the damage of \"Great Boon\"."
+            "content": "Select the number of Certified Banger Yao Guang possesses. This is used to calculate the damage of \"Great Boon\"."
           },
           "skillZoneActive": {
             "text": "Skill Zone active",
@@ -4164,7 +4164,7 @@ interface Resources {
           },
           "woesWhisperVulnerability": {
             "text": "Woe's Whisper vulnerability",
-            "content": "Enemy targets under the \"Woe's Whisper\" state take {{woeWhispenVulnerability}}% increased DMG."
+            "content": "Enemy targets under the \"Woe's Whisper\" state take {{woeWhisperVulnerability}}% increased DMG."
           },
           "traceSpdElation": {
             "text": "SPD Elation buff",
@@ -4190,7 +4190,7 @@ interface Resources {
           },
           "teammateCertifiedBangerStacks": {
             "text": "Yao Guang's Certified Banger stacks",
-            "content": "Select the number of Certified Banger the character posesses. This is used to calculate damage of \"Great boon\"."
+            "content": "Select the number of Certified Banger the character possesses. This is used to calculate damage of \"Great boon\"."
           },
           "teammateElationValue": {
             "text": "Yao Guang's Elation",

@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
@@ -21,7 +20,6 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -92,8 +90,6 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
   } = Source.character(Yaoguang.id)
 
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yaoguang')
-
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
   const basicScaling = basic(e, 0.90, 0.99)
   const skillElationBuff = skill(e, 0.20, 0.22)
@@ -178,7 +174,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       id: 'woesWhisperVulnerability',
       formItem: 'switch',
       text: t('Content.woesWhisperVulnerability.text'),
-      content: t('Content.woesWhisperVulnerability.content', { woeWhispenVulnerability: TsUtils.precisionRound(100 * elationSkillVulnerability) }),
+      content: t('Content.woesWhisperVulnerability.content', { woeWhisperVulnerability: TsUtils.precisionRound(100 * elationSkillVulnerability) }),
     },
     traceSpdElation: {
       id: 'traceSpdElation',

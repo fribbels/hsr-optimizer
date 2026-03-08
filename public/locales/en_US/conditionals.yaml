@@ -2694,10 +2694,10 @@ Characters:
     Content:
       punchlineStacks:
         text: Punchline stacks
-        content: Select the number of punchline the team posesses. This is used to calculate the damage of Elation skills.
+        content: Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.
       certifiedBangerStacks:
         text: Certified Banger stacks
-        content: Select the number of Certified Banger Yao Guang posesses. This is used to calculate the damage of "Great Boon".
+        content: Select the number of Certified Banger Yao Guang possesses. This is used to calculate the damage of "Great Boon".
       skillZoneActive:
         text: Skill Zone active
         content: While the Zone is active, increases all allies' Elation by an amount equal to {{elationConversion}}% of Yao Guang's Elation.
@@ -2725,7 +2725,7 @@ Characters:
       woesWhisperVulnerability:
         text: >-
           Woe's Whisper vulnerability
-        content: Enemy targets under the "Woe's Whisper" state take {{woeWhispenVulnerability}}% increased DMG.
+        content: Enemy targets under the "Woe's Whisper" state take {{woeWhisperVulnerability}}% increased DMG.
       traceSpdElation:
         text: SPD Elation buff
         content: When Yao Guang's SPD is 120 or higher, increases this unit's Elation by 30%. For every 1 SPD exceeded, increases this unit's Elation by 1%. Up to a max of 200 excess SPD can be taken into account for this effect.
@@ -2747,7 +2747,7 @@ Characters:
           After an ally target uses an attack, triggers the "Great Boon" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target. If this attack consumes Skill Points, then additionally triggers "Great Boon" 1 time.
       teammateCertifiedBangerStacks:
         text: Yao Guang's Certified Banger stacks
-        content: Select the number of Certified Banger the character posesses. This is used to calculate damage of "Great boon".
+        content: Select the number of Certified Banger the character possesses. This is used to calculate damage of "Great boon".
       teammateElationValue:
         text: Yao Guang's Elation
         content: >-

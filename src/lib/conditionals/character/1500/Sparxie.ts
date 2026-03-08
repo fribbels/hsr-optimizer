@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import {
@@ -22,7 +21,6 @@ import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDec
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,

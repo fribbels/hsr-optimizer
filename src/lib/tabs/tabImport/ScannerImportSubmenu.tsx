@@ -3,10 +3,9 @@ import {
   IconUpload,
 } from '@tabler/icons-react'
 import {
-  Steps,
   Upload,
 } from 'antd'
-import { Accordion, Alert, Button, Checkbox, Divider, Flex, Switch, Text, TextInput, Tooltip } from '@mantine/core'
+import { Accordion, Alert, Button, Checkbox, Divider, Flex, Stepper, Switch, Text, TextInput, Tooltip } from '@mantine/core'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import {
   HoyolabData,
@@ -480,24 +479,14 @@ export function ScannerImportSubmenu() {
 
   return (
     <Flex gap={5}>
-      <Steps
-        direction='vertical'
-        current={currentStage}
-        items={[
-          {
-            title: '',
-            description: uploadScannerFile(),
-          },
-          {
-            title: '',
-            description: confirmDataMerge(),
-          },
-          {
-            title: '',
-            description: mergeCompleted(),
-          },
-        ]}
-      />
+      <Stepper
+        orientation='vertical'
+        active={currentStage}
+      >
+        <Stepper.Step label='' description={uploadScannerFile()} />
+        <Stepper.Step label='' description={confirmDataMerge()} />
+        <Stepper.Step label='' description={mergeCompleted()} />
+      </Stepper>
     </Flex>
   )
 }

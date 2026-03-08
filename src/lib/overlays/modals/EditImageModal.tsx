@@ -5,10 +5,8 @@ import {
 } from '@tabler/icons-react'
 import {
   Form,
-  Spin,
-  Steps,
 } from 'antd'
-import { Button, Flex, Modal, SegmentedControl, Slider, Text, TextInput } from '@mantine/core'
+import { Button, Flex, Loader, Modal, SegmentedControl, Slider, Stepper, Text, TextInput } from '@mantine/core'
 import { RcFile } from 'antd/es/upload'
 import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
@@ -529,7 +527,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 {isVerificationLoading
                   ? (
                     <Flex style={{ height: '300px' }} justify='center' align='center'>
-                      <Spin size='large' />
+                      <Loader size="lg" />
                     </Flex>
                   )
                   : (
@@ -658,14 +656,14 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         <div style={{ height: '505px', position: 'relative' }}>
           {!existingConfig
             && (
-              <Steps current={current} style={{ marginBottom: 12 }}>
+              <Stepper active={current} style={{ marginBottom: 12 }}>
                 {steps.map((item) => ( // make this cleaner if ever adding more steps
-                  <Steps.Step
+                  <Stepper.Step
                     key={item.title}
-                    title={item.title == 'Provide image' ? t('Upload.Title') /* Provide image */ : t('Edit.Title') /* Crop image */}
+                    label={item.title == 'Provide image' ? t('Upload.Title') /* Provide image */ : t('Edit.Title') /* Crop image */}
                   />
                 ))}
-              </Steps>
+              </Stepper>
             )}
           {steps.map((step, index) => (
             <div key={step.title} style={{ display: current === index ? 'block' : 'none' }}>
@@ -675,7 +673,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         </div>
         <Flex key={1} justify='flex-end'>
           <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
-            {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large' />}
+            {isVerificationLoading && radio !== 'upload' && <Loader style={{ textAlign: 'center' }} size="lg" />}
             <Button onClick={() => setOpen(false)}>
               {tCommon('Cancel') /* Cancel */}
             </Button>

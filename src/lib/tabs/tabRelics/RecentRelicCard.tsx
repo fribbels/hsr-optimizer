@@ -1,7 +1,4 @@
-import {
-  Progress,
-} from 'antd'
-import { Divider, Flex, Text, Tooltip, useMantineTheme } from '@mantine/core'
+import { Divider, Flex, Progress, Text, Tooltip, useMantineTheme } from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -133,17 +130,10 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
               </Text>
             </Flex>
 
-            <Progress
-              percent={maxPotential}
-              success={{ percent: avgPotential, strokeColor: getColorAtPercent(avgPotential) }}
-              size='small'
-              showInfo={false}
-              strokeColor={getColorAtPercent(maxPotential)}
-              trailColor={token.colorBorderSecondary}
-              style={{
-                lineHeight: 0,
-              }}
-            />
+            <Progress.Root size="xs" style={{ lineHeight: 0 }}>
+              <Progress.Section value={avgPotential} color={getColorAtPercent(avgPotential)} />
+              <Progress.Section value={maxPotential - avgPotential} color={getColorAtPercent(maxPotential)} />
+            </Progress.Root>
 
             <Flex align='center' justify='space-between'>
               <Text
@@ -241,17 +231,10 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                         </Flex>
                       </Flex>
 
-                      <Progress
-                        percent={maxPct}
-                        success={{ percent: avgPct, strokeColor: getColorAtPercent(avgPct) }}
-                        size='small'
-                        showInfo={false}
-                        strokeColor={getColorAtPercent(maxPct)}
-                        trailColor={token.colorBorderSecondary}
-                        style={{
-                          lineHeight: 0,
-                        }}
-                      />
+                      <Progress.Root size="xs" style={{ lineHeight: 0 }}>
+                        <Progress.Section value={avgPct} color={getColorAtPercent(avgPct)} />
+                        <Progress.Section value={maxPct - avgPct} color={getColorAtPercent(maxPct)} />
+                      </Progress.Root>
                     </Flex>
                   )
                 })}

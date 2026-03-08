@@ -1,7 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  Spin,
-} from 'antd'
+import { Flex, Loader } from '@mantine/core'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import {
   EnrichedRelics,
@@ -116,7 +113,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
 function LoadingSpinner() {
   return (
     <Flex justify='center' align='center' style={{ height: '100px' }}>
-      <Spin size='large' />
+      <Loader size="lg" />
     </Flex>
   )
 }

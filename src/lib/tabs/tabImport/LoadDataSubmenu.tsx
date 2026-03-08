@@ -2,11 +2,8 @@ import {
   IconFileImport,
   IconUpload,
 } from '@tabler/icons-react'
-import {
-  Steps,
-  Upload,
-} from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Upload } from 'antd'
+import { Button, Flex, Stepper, Text } from '@mantine/core'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import {
@@ -147,24 +144,14 @@ export function LoadDataSubmenu() {
 
   return (
     <Flex gap={5}>
-      <Steps
-        direction='vertical'
-        current={currentStage}
-        items={[
-          {
-            title: '',
-            description: LoadDataContentUploadFile(),
-          },
-          {
-            title: '',
-            description: ConfirmLoadData(),
-          },
-          {
-            title: '',
-            description: LoadCompleted(),
-          },
-        ]}
-      />
+      <Stepper
+        orientation="vertical"
+        active={currentStage}
+      >
+        <Stepper.Step label="" description={LoadDataContentUploadFile()} />
+        <Stepper.Step label="" description={ConfirmLoadData()} />
+        <Stepper.Step label="" description={LoadCompleted()} />
+      </Stepper>
     </Flex>
   )
 }

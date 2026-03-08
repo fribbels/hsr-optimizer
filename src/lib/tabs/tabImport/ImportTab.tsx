@@ -1,8 +1,5 @@
 import { IconDownload } from '@tabler/icons-react'
-import {
-  Tabs,
-} from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, Tabs, Text } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
 import { ClearDataSubmenu } from 'lib/tabs/tabImport/ClearDataSubmenu'
@@ -99,7 +96,6 @@ function SaveDataSubmenu() {
 }
 
 export default function ImportTab() {
-  const tabSize = 'large'
   const { t } = useTranslation('importSaveTab', { keyPrefix: 'TabLabels' })
   const ingest = useScannerState((s) => s.ingest)
 
@@ -109,34 +105,23 @@ export default function ImportTab() {
 
       <Flex direction="column" gap={5} style={{ marginLeft: 20, width: 1200 }}>
         <Tabs
-          defaultActiveKey='1'
-          size={tabSize}
+          defaultValue="Import"
           style={{
             marginBottom: 32,
           }}
-          items={[
-            {
-              label: t('Import'),
-              key: 'Import',
-              children: <ScannerImportSubmenu />,
-            },
-            {
-              label: t('Load'),
-              key: 'Load',
-              children: <LoadDataSubmenu />,
-            },
-            {
-              label: t('Save'),
-              key: 'Save',
-              children: <SaveDataSubmenu />,
-            },
-            {
-              label: t('Clear'),
-              key: 'Clear',
-              children: <ClearDataSubmenu />,
-            },
-          ]}
-        />
+        >
+          <Tabs.List>
+            <Tabs.Tab value="Import">{t('Import')}</Tabs.Tab>
+            <Tabs.Tab value="Load">{t('Load')}</Tabs.Tab>
+            <Tabs.Tab value="Save">{t('Save')}</Tabs.Tab>
+            <Tabs.Tab value="Clear">{t('Clear')}</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="Import"><ScannerImportSubmenu /></Tabs.Panel>
+          <Tabs.Panel value="Load"><LoadDataSubmenu /></Tabs.Panel>
+          <Tabs.Panel value="Save"><SaveDataSubmenu /></Tabs.Panel>
+          <Tabs.Panel value="Clear"><ClearDataSubmenu /></Tabs.Panel>
+        </Tabs>
       </Flex>
     </div>
   )

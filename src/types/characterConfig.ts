@@ -17,7 +17,9 @@ export type CharacterDisplay = {
 export type CharacterConfig = {
   id: CharacterId,
   display: CharacterDisplay,
-  conditionals: (e: Eidolon, withContent: boolean) => CharacterConditionalsController,
+  conditionals: CharacterConditionalFunction,
   /** Getter — defers evaluation to avoid circular imports between config files */
   scoring: ScoringMetadata,
 }
+
+export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController

@@ -608,6 +608,18 @@ interface Resources {
           }
         }
       },
+      "DazzledByAFloweryWorld": {
+        "Content": {
+          "spConsumedStacks": {
+            "text": "DEF PEN stacks",
+            "content": "For every 1 Skill Point the wearer consumes, enables the Elation DMG dealt by this unit to ignore {{defShred}}% of enemy targets' DEF, stacking up to 4 times."
+          },
+          "elationBuff": {
+            "text": "Elation buff",
+            "content": "If 4 or more Skill Points are consumed in the same turn, the wearer gains \"Stream Promo,\" which increases all allies' Elation by {{elationBuff}}%."
+          }
+        }
+      },
       "EarthlyEscapade": {
         "Content": {
           "maskActive": {
@@ -621,6 +633,14 @@ interface Resources {
           "postUltSpdBuff": {
             "text": "Post Ult SPD buff",
             "content": "After the wearer uses an attack, for each different enemy target the wearer hits, regenerates {{EnergyRecovered}} Energy. Each attack can regenerate Energy up to 3 times this way. After the wearer uses their Ultimate, all allies gain {{SpdBuff}} SPD for 1 turn."
+          }
+        }
+      },
+      "ElationBrimmingWithBlessings": {
+        "Content": {
+          "elationBuff": {
+            "text": "Elation buff",
+            "content": "After the wearer uses their Skill or Ultimate on one ally character, increases the target's Elation stat by {{elationBuff}}% for 2 turns."
           }
         }
       },
@@ -944,6 +964,14 @@ interface Resources {
           }
         }
       },
+      "TheFinaleOfALie": {
+        "Content": {
+          "umbraDevourerBuff": {
+            "text": "Umbra Devourer",
+            "content": "At the start of battle or for every 4 instances of Follow-Up ATK the wearer uses, the wearer gains \"Umbra Devourer,\" lasting for 3 turns. While the wearer has \"Umbra Devourer,\" increases ATK by {{atkBuff}}% and increases the DMG taken by all enemies by {{vulnerability}}%."
+          }
+        }
+      },
       "TheHellWhereIdealsBurn": {
         "Content": {
           "spAtkBuff": {
@@ -1025,6 +1053,14 @@ interface Resources {
           "maxStacksBasicDmgBoost": {
             "text": "Stacked Basic DMG boost",
             "content": "After the wearer and the wearer's memosprite attacks, the wearer gains 1 stack of \"Brocade.\"::BR:: Each stack of \"Brocade\" increases the wearer and their memosprite's CRIT DMG by {{CdBuff}}%, stacking up to 6 times.::BR:: When reaching maximum stacks, each \"Brocade\" stack will additionally increase Basic ATK DMG dealt by {{DmgBuff}}%."
+          }
+        }
+      },
+      "WhenSheDecidedToSee": {
+        "Content": {
+          "greatFortune": {
+            "text": "Team buffs",
+            "content": "When the wearer enters combat or uses Ultimate on an ally target, the wearer gains \"Great Fortune\" for 3 turns. While the wearer holds \"Great Fortune,\" all allies' CRIT Rate increases by {{critRateBuff}}%, CRIT DMG increases by {{critDamageBuff}}%, and the wearer's Energy Regeneration Rate increases by {{errBuff}}%."
           }
         }
       },
@@ -1288,6 +1324,14 @@ interface Resources {
           }
         }
       },
+      "MushyShroomysAdventure": {
+        "Content": {
+          "elationVulnerability": {
+            "text": "Elation vulnerability",
+            "content": "When the wearer uses an Elation Skill, increases Elation DMG taken by all enemies by {{vulnerability}}% for 2 turns."
+          }
+        }
+      },
       "NinjaRecordSoundHunt": {
         "Content": {
           "cdBuff": {
@@ -1496,6 +1540,14 @@ interface Resources {
           }
         }
       },
+      "TodaysGoodLuck": {
+        "Content": {
+          "elationStacks": {
+            "text": "Elation buff stacks",
+            "content": "When the wearer uses an Elation Skill, increases Elation by {{elationBuff}}%, stacking up to 2 times."
+          }
+        }
+      },
       "UnderTheBlueSky": {
         "Content": {
           "defeatedEnemyCrBuff": {
@@ -1616,6 +1668,14 @@ interface Resources {
           }
         }
       },
+      "LingeringTear": {
+        "Content": {
+          "cdBuff": {
+            "text": "Punchline CD buff",
+            "content": "When the Punchline held is 10 or more, the wearer's CRIT DMG increases by {{cdBuff}}%."
+          }
+        }
+      },
       "Loop": {
         "Content": {
           "enemySlowedDmgBuff": {
@@ -1661,6 +1721,14 @@ interface Resources {
           "enemyHp50Buff": {
             "text": "Enemy HP > 50% DMG buff",
             "content": "The wearer deals {{DmgBuff}}% more DMG to enemy targets whose HP percentage is greater than 50%."
+          }
+        }
+      },
+      "Sneering": {
+        "Content": {
+          "elationBuff": {
+            "text": "Elation Skill buff",
+            "content": "When Aha Instant is activated, the wearer's Elation increases by {{elationBuff}}%, lasting until Aha Instant ends."
           }
         }
       },
@@ -3586,6 +3654,14 @@ interface Resources {
           }
         }
       },
+      "Sparxie": {
+        "Content": null,
+        "TeammateContent": {
+          "punchlineStacks": {
+            "text": null
+          }
+        }
+      },
       "Sunday": {
         "Content": {
           "skillDmgBuff": {
@@ -3981,6 +4057,68 @@ interface Resources {
           "e4CurrentHp80": {
             "text": "E4 self HP ≥ 80% RES PEN buff",
             "content": "When the current HP percentage is 80% or higher, Ice RES PEN increases by 12%."
+          }
+        }
+      },
+      "Yaoguang": {
+        "Content": {
+          "punchlineStacks": {
+            "text": "Punchline stacks",
+            "content": "Select the number of punchline the team posesses. This is used to calculate the damage of Elation skills."
+          },
+          "certifiedBangerStacks": {
+            "text": "Certified Banger stacks",
+            "content": "Select the number of Certified Banger Yao Guang posesses. This is used to calculate the damage of \"Great Boon\"."
+          },
+          "skillZoneActive": {
+            "text": "Skill Zone active",
+            "content": "While the Zone is active, increases all allies' Elation by an amount equal to {{elationConversion}}% of Yao Guang's Elation."
+          },
+          "ultResPenBuff": {
+            "text": "Ult RES PEN buff",
+            "content": "After casting her ultimate, Yaoguang increases all allies' All-Type RES PEN by {{resPen}}% for 3 turns."
+          },
+          "certifiedBanger": {
+            "text": "Certified Banger",
+            "content": "While Yao Guang holds \"Certified Banger\": ::BR:: After an ally target uses an attack, triggers the \"Great Boon\" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target. ::BR:: If this attack consumes Skill Points, then additionally triggers \"Great Boon\" 1 time. ::BR:: When triggering the \"Great Boon\" effect, if the attacker's Elation is lower than that of Yao Guang, then this instance of Elation DMG will take Yao Guang's Elation into calculation."
+          },
+          "yaoguangAhaInstant": {
+            "text": "Ult Aha Instant",
+            "content": "Damage calculations for Elation skills will be done with a fixed {{punchlineCount}} punchline taken into account. ::BR:: E1: In Aha's extra turn triggered by Ultimate, the fixed amount of Punchline taken into account increases to 40. ::BR:: E4: In Aha's extra turn triggered by Yao Guang's Ultimate, the DMG dealt by all ally characters' Elation Skill becomes 150% of the original DMG."
+          },
+          "woesWhisperVulnerability": {
+            "text": "Woe's Whisper vulnerability",
+            "content": "Enemy targets under the \"Woe's Whisper\" state take {{woeWhispenVulnerability}}% increased DMG."
+          },
+          "traceSpdElation": {
+            "text": "SPD Elation buff",
+            "content": "When Yao Guang's SPD is 120 or higher, increases this unit's Elation by 30%. For every 1 SPD exceeded, increases this unit's Elation by 1%. Up to a max of 200 excess SPD can be taken into account for this effect."
+          },
+          "e1DefPen": {
+            "text": "E1 Elation DEF PEN",
+            "content": "When dealing Elation DMG, all ally targets ignore 20% of the target's DEF."
+          },
+          "e2ZoneSpdBuff": {
+            "text": "E2 Zone SPD buff",
+            "content": "While the Zone is active, increases all ally targets' SPD by 12%, and additionally increases Elation by 16%."
+          },
+          "e6Merrymaking": {
+            "text": "E6 Merrymaking",
+            "content": "All ally targets' Elation DMG merrymakes by 25%. Increases the DMG multiplier of Yao Guang's Elation Skill by 100% of its original multiplier."
+          }
+        },
+        "TeammateContent": {
+          "consumesSkillPoints": {
+            "text": "Consumes skill points",
+            "content": "Whether or not the DPS consumed skill points in this attack. Triggers \"Great Boon\" 1 additional time. ::BR:: After an ally target uses an attack, triggers the \"Great Boon\" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target. If this attack consumes Skill Points, then additionally triggers \"Great Boon\" 1 time."
+          },
+          "teammateCertifiedBangerStacks": {
+            "text": "Yao Guang's Certified Banger stacks",
+            "content": "Select the number of Certified Banger the character posesses. This is used to calculate damage of \"Great boon\"."
+          },
+          "teammateElationValue": {
+            "text": "Yao Guang's Elation",
+            "content": "Yao Guang's combat Elation. Used to calculate damage dealt by \"Great Boon\" ::BR:: When triggering the \"Great Boon\" effect, if the attacker's Elation is lower than that of Yao Guang, then this instance of Elation DMG will take Yao Guang's Elation into calculation."
           }
         }
       },

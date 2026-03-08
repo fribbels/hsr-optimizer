@@ -1,6 +1,5 @@
 import { AgGridReact } from 'ag-grid-react'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import { MessageInstance } from 'antd/es/message/interface'
 import { NotificationInstance } from 'antd/es/notification/interface'
 import { HookAPI } from 'antd/lib/modal/useModal'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
@@ -64,7 +63,6 @@ declare global {
     // added by github CI
     jipt?: Jipt
     notificationApi: NotificationInstance
-    messageApi: MessageInstance
     modalApi: HookAPI
     store: UseBoundStore<StoreApi<HsrOptimizerStore>>
     colorTheme: ColorThemeOverrides

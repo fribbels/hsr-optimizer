@@ -1,7 +1,7 @@
 import {
-  MinusCircleOutlined,
-  PlusCircleOutlined,
-} from '@ant-design/icons'
+  IconCircleMinus,
+  IconCirclePlus,
+} from '@tabler/icons-react'
 import {
   Button,
   Divider,
@@ -941,8 +941,8 @@ function NumberSlider(props: {
         type='text'
         shape='circle'
         icon={props.partitionIndex == 0
-          ? <PlusCircleOutlined style={buttonStyle} />
-          : <MinusCircleOutlined style={buttonStyle} />}
+          ? <IconCirclePlus style={buttonStyle} />
+          : <IconCircleMinus style={buttonStyle} />}
         onClick={() => {
           if (props.partitionIndex == 0) {
             updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
@@ -981,8 +981,8 @@ function NumberSelect(props: {
         type='text'
         shape='circle'
         icon={props.partitionIndex == 0
-          ? <PlusCircleOutlined style={buttonStyle} />
-          : <MinusCircleOutlined style={buttonStyle} />}
+          ? <IconCirclePlus style={buttonStyle} />
+          : <IconCircleMinus style={buttonStyle} />}
         onClick={() => {
           if (props.partitionIndex == 0) {
             updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)

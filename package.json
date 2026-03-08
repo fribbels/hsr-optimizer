@@ -50,6 +50,7 @@
     "@mantine/core": "^8.3.16",
     "@mantine/hooks": "^8.3.16",
     "@mantine/notifications": "^8.3.16",
+    "@tabler/icons-react": "^3.40.0",
     "ag-grid-community": "32.1.0",
     "ag-grid-react": "32.1.0",
     "antd": "5.22.7",

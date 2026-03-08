@@ -1,8 +1,8 @@
 import {
-  CheckOutlined,
-  CloseOutlined,
-  SettingOutlined,
-} from '@ant-design/icons'
+  IconCheck,
+  IconSettings,
+  IconX,
+} from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -97,7 +97,7 @@ export const ComboFilters = () => {
         <Flex vertical gap={8} style={{ marginTop: 8 }}>
           <Button
             onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
-            icon={<SettingOutlined />}
+            icon={<IconSettings />}
             disabled={comboType == ComboType.SIMPLE}
           >
             {t('RotationButton')}
@@ -227,10 +227,10 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             onChange={(e) => useOptimizerFormStore.getState().setComboPreprocessor(e.target.value)}
           >
             <Radio.Button value={true}>
-              <CheckOutlined />
+              <IconCheck />
             </Radio.Button>
             <Radio.Button value={false}>
-              <CloseOutlined />
+              <IconX />
             </Radio.Button>
           </Radio.Group>
         </Flex>

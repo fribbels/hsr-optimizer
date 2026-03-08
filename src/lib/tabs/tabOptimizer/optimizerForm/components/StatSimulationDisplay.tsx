@@ -1,11 +1,11 @@
 import {
-  DeleteOutlined,
-  DoubleLeftOutlined,
-  DownOutlined,
-  SettingOutlined,
-  SwapOutlined,
-  UpOutlined,
-} from '@ant-design/icons'
+  IconArrowsExchange,
+  IconChevronDown,
+  IconChevronUp,
+  IconChevronsLeft,
+  IconSettings,
+  IconTrash,
+} from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -119,18 +119,18 @@ export function StatSimulationDisplay() {
               style={{ width: 200 }}
               disabled={isHidden()}
               onClick={startOptimizerStatSimulation}
-              icon={<DownOutlined />}
+              icon={<IconChevronDown />}
             >
               {t('FooterLabels.Simulate') /* Simulate builds */}
             </Button>
-            <Button style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} icon={<UpOutlined />}>
+            <Button style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} icon={<IconChevronUp />}>
               {t('FooterLabels.Import') /* Import optimizer build */}
             </Button>
             <Button
               style={{ width: 200 }}
               disabled={isHidden()}
               onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
-              icon={<SettingOutlined />}
+              icon={<IconSettings />}
             >
               {t('FooterLabels.Conditionals') /* Conditional set effects */}
             </Button>
@@ -145,7 +145,7 @@ export function StatSimulationDisplay() {
               onClick={() => saveStatSimulationBuildFromForm()}
               disabled={isHidden()}
             >
-              <DoubleLeftOutlined />
+              <IconChevronsLeft />
             </Button>
             <Button
               type='dashed'
@@ -153,7 +153,7 @@ export function StatSimulationDisplay() {
               disabled={isHidden()}
               onClick={overwriteStatSimulationBuild}
             >
-              <SwapOutlined />
+              <IconArrowsExchange />
             </Button>
             <Popconfirm
               title={t('DeletePopup.Title')} // 'Erase stat simulations'
@@ -168,7 +168,7 @@ export function StatSimulationDisplay() {
                 style={{ width: 35, height: 35, padding: 0 }}
                 disabled={isHidden()}
               >
-                <DeleteOutlined />
+                <IconTrash />
               </Button>
             </Popconfirm>
           </Flex>

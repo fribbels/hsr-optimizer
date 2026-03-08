@@ -1,7 +1,7 @@
 import {
-  CheckCircleFilled,
-  CloseCircleFilled,
-} from '@ant-design/icons'
+  IconCircleCheckFilled,
+  IconCircleXFilled,
+} from '@tabler/icons-react'
 import { ValueFormatterParams } from 'ag-grid-community'
 import { CustomCellRendererProps } from 'ag-grid-react'
 import {
@@ -230,7 +230,7 @@ export const Renderer = {
             mouseEnterDelay={0.4}
             title={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
           >
-            <CheckCircleFilled style={{ fontSize: '14px', color: color }} />
+            <IconCircleCheckFilled style={{ fontSize: '14px', color: color }} />
           </Tooltip>
         )
         : <CircleIcon color={circleColor} />
@@ -239,8 +239,8 @@ export const Renderer = {
   renderEquipped: (equipped: boolean) => {
     return (
       equipped
-        ? <CheckCircleFilled style={{ fontSize: '14px', color: '#6de362' }} />
-        : <CloseCircleFilled style={{ fontSize: '14px', color: '#de5555' }} />
+        ? <IconCircleCheckFilled style={{ fontSize: '14px', color: '#6de362' }} />
+        : <IconCircleXFilled style={{ fontSize: '14px', color: '#de5555' }} />
     )
   },
   renderInitialRolls: (relic: Relic) => {

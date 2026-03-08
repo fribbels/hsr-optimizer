@@ -1,8 +1,8 @@
 import {
-  ExportOutlined,
-  SearchOutlined,
-} from '@ant-design/icons'
-import { RightOutlined } from '@ant-design/icons/lib/icons'
+  IconChevronRight,
+  IconExternalLink,
+  IconSearch,
+} from '@tabler/icons-react'
 import {
   Button,
   Card,
@@ -122,7 +122,7 @@ function ContentCollapse() {
         width: '100%',
         maxWidth: headerWidth,
       }}
-      expandIcon={({ isActive }) => <RightOutlined style={{ marginLeft: 10 }} rotate={isActive ? 90 : 0} />}
+      expandIcon={({ isActive }) => <IconChevronRight style={{ marginLeft: 10 }} rotate={isActive ? 90 : 0} />}
       items={collapseItems}
       defaultActiveKey={collapseItems.map((x) => x.key)}
     />
@@ -202,7 +202,7 @@ function FeatureCard(props: { title: string, id: string, content: string, url: s
           iconPosition='end'
           href={props.url}
           target='_blank'
-          icon={<ExportOutlined />}
+          icon={<IconExternalLink />}
         >
           {t('LearnMore') /* Learn more */}
         </Button>
@@ -338,7 +338,7 @@ function SearchBar() {
         <Button
           size='large'
           type='primary'
-          icon={<SearchOutlined />}
+          icon={<IconSearch />}
           style={{ width: 60 }}
           onClick={handleSearchSubmit}
         />

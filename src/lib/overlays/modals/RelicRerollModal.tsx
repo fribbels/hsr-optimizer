@@ -1,4 +1,4 @@
-import { DoubleRightOutlined } from '@ant-design/icons'
+import { IconChevronsRight } from '@tabler/icons-react'
 import {
   Flex,
   Modal,
@@ -56,7 +56,7 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
             <Text strong>{t('OriginalSubstats') /* Original Substats */}</Text>
           </Flex>
 
-          <DoubleRightOutlined style={{ fontSize: '24px' }} />
+          <IconChevronsRight style={{ fontSize: '24px' }} />
 
           <Flex vertical align='center' gap={4}>
             <RelicPreview

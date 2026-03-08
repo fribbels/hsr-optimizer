@@ -1,12 +1,12 @@
 import {
-  CameraOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  DownloadOutlined,
-  MoonOutlined,
-  SettingOutlined,
-  SunOutlined,
-} from '@ant-design/icons'
+  IconCamera,
+  IconCheck,
+  IconDownload,
+  IconMoon,
+  IconSettings,
+  IconSun,
+  IconX,
+} from '@tabler/icons-react'
 import {
   Button,
   ColorPicker,
@@ -311,7 +311,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
           <HorizontalDivider />
 
           <Button
-            icon={<SettingOutlined />}
+            icon={<IconSettings />}
             onClick={onTraceClick}
           >
             {tScoring('Stats.ButtonText') /* Traces */}
@@ -443,8 +443,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
           <Segmented
             options={[
-              { value: false, label: <SunOutlined /> },
-              { value: true, label: <MoonOutlined /> },
+              { value: false, label: <IconSun /> },
+              { value: true, label: <IconMoon /> },
             ]}
             block
             value={showcaseDarkMode}
@@ -462,8 +462,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
                 <Segmented
                   options={[
-                    { value: true, label: <CheckOutlined /> },
-                    { value: false, label: <CloseOutlined /> },
+                    { value: true, label: <IconCheck /> },
+                    { value: false, label: <IconX /> },
                   ]}
                   block
                   value={showcaseUID}
@@ -476,7 +476,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
           <Flex justify='space-between'>
             <Button
-              icon={<CameraOutlined style={{ fontSize: 30 }} />}
+              icon={<IconCamera style={{ fontSize: 30 }} />}
               loading={loading}
               onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
               type='primary'
@@ -484,7 +484,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             >
             </Button>
             <Button
-              icon={<DownloadOutlined style={{ fontSize: 30 }} />}
+              icon={<IconDownload style={{ fontSize: 30 }} />}
               loading={loading}
               onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
               type='primary'

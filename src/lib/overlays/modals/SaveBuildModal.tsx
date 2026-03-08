@@ -1,4 +1,4 @@
-import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { IconAlertCircle } from '@tabler/icons-react'
 import {
   Button,
   Divider,
@@ -79,7 +79,7 @@ export function SaveBuildModal(props: {
   async function confirm(content: ReactNode) {
     return confirmationModal.confirm({
       title: tCommon('Confirm'), /* Confirm */
-      icon: <ExclamationCircleOutlined />,
+      icon: <IconAlertCircle />,
       content: content,
       okText: tCommon('Confirm'), /* Confirm */
       cancelText: tCommon('Cancel'), /* Cancel */

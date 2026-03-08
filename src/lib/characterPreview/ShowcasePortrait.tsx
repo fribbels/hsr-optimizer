@@ -1,4 +1,4 @@
-import { EditOutlined } from '@ant-design/icons'
+import { IconEdit } from '@tabler/icons-react'
 import {
   Button,
   ConfigProvider,
@@ -116,7 +116,7 @@ export function ShowcasePortrait(props: {
               <Button
                 style={showcaseButtonStyle}
                 className='character-build-portrait-button'
-                icon={<EditOutlined />}
+                icon={<IconEdit />}
                 onClick={() => {
                   setOriginalCharacterModalInitialCharacter(character)
                   setOriginalCharacterModalOpen(true)
@@ -128,7 +128,7 @@ export function ShowcasePortrait(props: {
               <Button
                 style={showcaseButtonStyle}
                 className='character-build-portrait-button'
-                icon={<EditOutlined />}
+                icon={<IconEdit />}
                 onClick={() => setEditPortraitModalOpen(true)}
                 type='primary'
               >

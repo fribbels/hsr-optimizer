@@ -1,4 +1,3 @@
-import Icon from '@ant-design/icons'
 import React from 'react'
 
 const IconSVG = (props: { color?: string }) => {
@@ -11,6 +10,7 @@ const IconSVG = (props: { color?: string }) => {
   )
 }
 
-export const CircleIcon = (props: React.ComponentProps<typeof Icon> & { color?: string }) => {
-  return <Icon component={() => IconSVG(props)} {...props} />
+export const CircleIcon = (props: React.HTMLAttributes<HTMLSpanElement> & { color?: string }) => {
+  const { color, ...rest } = props
+  return <span role='img' {...rest}><IconSVG color={color} /></span>
 }

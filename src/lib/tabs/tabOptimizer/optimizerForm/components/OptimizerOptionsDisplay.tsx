@@ -1,7 +1,7 @@
 import {
-  CheckOutlined,
-  CloseOutlined,
-} from '@ant-design/icons'
+  IconCheck,
+  IconX,
+} from '@tabler/icons-react'
 import {
   Flex,
   Radio,
@@ -88,8 +88,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
+            checkedChildren={<IconCheck />}
+            unCheckedChildren={<IconX />}
             checked={includeEquippedRelics}
             onChange={(val) => {
               useOptimizerFormStore.getState().setRelicFilterField('includeEquippedRelics', val)
@@ -102,8 +102,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
+            checkedChildren={<IconCheck />}
+            unCheckedChildren={<IconX />}
             checked={rankFilter}
             onChange={(val) => {
               useOptimizerFormStore.getState().setRelicFilterField('rankFilter', val)
@@ -116,8 +116,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
+            checkedChildren={<IconCheck />}
+            unCheckedChildren={<IconX />}
             checked={keepCurrentRelics}
             onChange={(val) => {
               useOptimizerFormStore.getState().setRelicFilterField('keepCurrentRelics', val)

@@ -1,4 +1,4 @@
-import { SettingOutlined } from '@ant-design/icons'
+import { IconSettings } from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -36,7 +36,7 @@ export const AdvancedOptionsPanel = () => {
           setOpen(OpenCloseIDs.TRACES_DRAWER)
           setStatTracesDrawerFocusCharacter(window.store.getState().optimizerTabFocusCharacter!)
         }}
-        icon={<SettingOutlined />}
+        icon={<IconSettings />}
       >
         {t('CustomTracesButtonText') /* Custom stat traces */}
       </Button>
@@ -45,7 +45,7 @@ export const AdvancedOptionsPanel = () => {
       <Button
         disabled
         onClick={() => setOpen(OpenCloseIDs.COMBAT_BUFFS_DRAWER)}
-        icon={<SettingOutlined />}
+        icon={<IconSettings />}
       >
         {
           buffsActive ? t('CombatBuffsButtonText', { activeCount: buffsActive }) : t('CombatBuffsButtonTextNone')
@@ -55,7 +55,7 @@ export const AdvancedOptionsPanel = () => {
 
       <Button
         onClick={() => setOpen(OpenCloseIDs.ENEMY_DRAWER)}
-        icon={<SettingOutlined />}
+        icon={<IconSettings />}
       >
         {t('EnemyConfigButtonText') /* Enemy configurations */}
       </Button>

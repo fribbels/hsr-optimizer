@@ -1,7 +1,7 @@
 import {
-  CaretDownOutlined,
-  CaretRightOutlined,
-} from '@ant-design/icons'
+  IconChevronDown,
+  IconChevronRight,
+} from '@tabler/icons-react'
 import {
   Flex,
   Table,
@@ -157,8 +157,10 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
           expandedRowRender: (row) => <ExpandedRow row={row} />,
           expandIcon: ({ expanded, onExpand, record }) => {
             return expanded
-              ? <CaretDownOutlined onClick={(e) => onExpand(record, e)} />
-              : <CaretRightOutlined onClick={(e) => onExpand(record, e)} />
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              ? <IconChevronDown onClick={(e) => onExpand(record, e as any)} />
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              : <IconChevronRight onClick={(e) => onExpand(record, e as any)} />
           },
           expandRowByClick: true,
         }}

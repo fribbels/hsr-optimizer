@@ -1,7 +1,7 @@
 import {
-  DownOutlined,
-  ThunderboltFilled,
-} from '@ant-design/icons'
+  IconBoltFilled,
+  IconChevronDown,
+} from '@tabler/icons-react'
 import { IRowNode } from 'ag-grid-community'
 import {
   Button,
@@ -169,7 +169,7 @@ function ComputeEngineSelect() {
               */
             }
           </Text>
-          <DownOutlined />
+          <IconChevronDown />
         </Flex>
       </Button>
     </Dropdown>
@@ -532,7 +532,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
         <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
           <Flex gap={defaultGap}>
             <Button
-              icon={<ThunderboltFilled />}
+              icon={<IconBoltFilled />}
               type='primary'
               loading={optimizationInProgress}
               onClick={startClicked}

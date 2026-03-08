@@ -1,9 +1,9 @@
 import {
-  CameraOutlined,
-  DeleteOutlined,
-  DownloadOutlined,
-  ExclamationCircleOutlined,
-} from '@ant-design/icons'
+  IconAlertCircle,
+  IconCamera,
+  IconDownload,
+  IconTrash,
+} from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -85,7 +85,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
   async function confirm(content: ReactNode) {
     return confirmationModal.confirm({
       title: t('common:Confirm'), /* Confirm */
-      icon: <ExclamationCircleOutlined />,
+      icon: <IconAlertCircle />,
       content: content,
       okText: t('common:Confirm'), /* Confirm */
       cancelText: t('common:Cancel'), /* Cancel */
@@ -196,7 +196,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
       footer={[
         <Button
           key='download'
-          icon={<DownloadOutlined style={{ fontSize: 30 }} />}
+          icon={<IconDownload style={{ fontSize: 30 }} />}
           loading={loading}
           onClick={() => {
             console.log('download')
@@ -208,7 +208,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
         </Button>,
         <Button
           key='clipboard'
-          icon={<CameraOutlined style={{ fontSize: 30 }} />}
+          icon={<IconCamera style={{ fontSize: 30 }} />}
           loading={loading}
           onClick={() => clipboardClicked('clipboard')}
           type='primary'
@@ -413,7 +413,7 @@ function BuildCard(props: BuildCardProps) {
               <Button
                 style={{ width: 35 }}
                 type='primary'
-                icon={<DeleteOutlined />}
+                icon={<IconTrash />}
                 onClick={() => {
                   handleDelete(build.name)
                 }}

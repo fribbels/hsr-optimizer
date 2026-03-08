@@ -1,8 +1,8 @@
 import {
-  SettingOutlined,
-  SwapOutlined,
-  SyncOutlined,
-} from '@ant-design/icons'
+  IconArrowsExchange,
+  IconRefresh,
+  IconSettings,
+} from '@tabler/icons-react'
 import {
   Button,
   Card,
@@ -407,7 +407,7 @@ function ShowcaseTeamSelectPanel(props: {
                 <Flex vertical gap={10}>
                   <HeaderText>{t('modals:ScoreFooter.ModalTitle') /* Combat sim scoring settings */}</HeaderText>
                   <Button
-                    icon={<SyncOutlined />}
+                    icon={<IconRefresh />}
                     onClick={() => {
                       DB.clearSimulationScoreOverrides(characterId)
                       if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter([characterId, DEFAULT_TEAM])
@@ -419,7 +419,7 @@ function ShowcaseTeamSelectPanel(props: {
                     {t('modals:ScoreFooter.ResetButtonText') /* Reset custom team to default */}
                   </Button>
                   <Button
-                    icon={<SwapOutlined />}
+                    icon={<IconArrowsExchange />}
                     onClick={() => {
                       const characterMetadata = DB.getScoringMetadata(characterId)
 
@@ -465,7 +465,7 @@ function ShowcaseTeamSelectPanel(props: {
           ),
         },
         {
-          label: <SettingOutlined />,
+          label: <IconSettings />,
           value: SETTINGS_TEAM,
           className: 'short-segmented',
         },

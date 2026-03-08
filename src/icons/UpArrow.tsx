@@ -1,4 +1,3 @@
-import Icon from '@ant-design/icons'
 import React from 'react'
 
 const IconSVG = () => (
@@ -15,6 +14,6 @@ const IconSVG = () => (
   </svg>
 )
 
-export const UpArrow = (props: React.ComponentProps<typeof Icon>) => {
-  return <IconSVG {...props} />
+export const UpArrow = (props: React.HTMLAttributes<HTMLSpanElement>) => {
+  return <span role='img' {...props}><IconSVG /></span>
 }

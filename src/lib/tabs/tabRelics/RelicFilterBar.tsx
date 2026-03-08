@@ -1,4 +1,4 @@
-import { ClearOutlined } from '@ant-design/icons'
+import { IconEraser } from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -168,7 +168,7 @@ export default function RelicFilterBar() {
         </Flex>
         <Flex vertical flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear') /* Clear */}</HeaderText>
-          <Button icon={<ClearOutlined />} onClick={resetFilters} style={{ flexGrow: 1, height: '100%' }}>
+          <Button icon={<IconEraser />} onClick={resetFilters} style={{ flexGrow: 1, height: '100%' }}>
             {t('RelicFilterBar.ClearButton') /* Clear all filters */}
           </Button>
         </Flex>

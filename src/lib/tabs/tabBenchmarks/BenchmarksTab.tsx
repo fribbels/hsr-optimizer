@@ -1,10 +1,10 @@
 import {
-  CheckOutlined,
-  CloseOutlined,
-  DeleteOutlined,
-  SettingOutlined,
-  ThunderboltFilled,
-} from '@ant-design/icons'
+  IconBoltFilled,
+  IconCheck,
+  IconSettings,
+  IconTrash,
+  IconX,
+} from '@tabler/icons-react'
 import {
   Button,
   Card,
@@ -261,20 +261,20 @@ function RightPanel() {
         <BenchmarkSetting label='ERR' itemName='errRope'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}>
-              <CheckOutlined />
+              <IconCheck />
             </Radio.Button>
             <Radio.Button value={false}>
-              <CloseOutlined />
+              <IconX />
             </Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
         <BenchmarkSetting label='SubDPS' itemName='subDps'>
           <Radio.Group buttonStyle='solid' size='small' block style={{ width: INPUT_WIDTH }}>
             <Radio.Button value={true}>
-              <CheckOutlined />
+              <IconCheck />
             </Radio.Button>
             <Radio.Button value={false}>
-              <CloseOutlined />
+              <IconX />
             </Radio.Button>
           </Radio.Group>
         </BenchmarkSetting>
@@ -287,7 +287,7 @@ function RightPanel() {
           <SetsSection simType={StatSimTypes.Benchmarks} />
           <Button
             onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
-            icon={<SettingOutlined />}
+            icon={<IconSettings />}
             type='dashed'
           >
             {tOptimizerTab('SetConditionals.Title') /* Conditional set effects */}
@@ -305,7 +305,7 @@ function RightPanel() {
             handleBenchmarkFormSubmit(formValues)
           }}
           loading={loading}
-          icon={<ThunderboltFilled />}
+          icon={<IconBoltFilled />}
           style={{ width: '100%', height: 40 }}
           type='primary'
         >
@@ -317,7 +317,7 @@ function RightPanel() {
           }}
           style={{ width: '100%' }}
           type='default'
-          icon={<DeleteOutlined />}
+          icon={<IconTrash />}
         >
           {t('ButtonText.Clear') /* Clear */}
         </Button>

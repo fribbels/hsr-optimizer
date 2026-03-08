@@ -1,4 +1,4 @@
-import { DownloadOutlined } from '@ant-design/icons'
+import { IconDownload } from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -95,7 +95,7 @@ function SaveDataSubmenu() {
       <Text>
         {t('Label') /* Save your optimizer data to a file. */}
       </Text>
-      <Button type='primary' onClick={saveClicked} icon={<DownloadOutlined />} style={{ width: buttonWidth }}>
+      <Button type='primary' onClick={saveClicked} icon={<IconDownload />} style={{ width: buttonWidth }}>
         {t('ButtonText') /* Save data */}
       </Button>
     </Flex>

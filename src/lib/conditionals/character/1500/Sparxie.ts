@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import {
@@ -22,7 +21,6 @@ import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDec
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -50,9 +48,11 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
+import { TsUtils } from 'lib/utils/TsUtils'
+import {
+  CharacterConditionalFunction,
+  CharacterConfig,
+} from 'types/characterConfig'
 import { HitDefinition } from 'types/hitConditionalTypes'
 import {
   ScoringMetadata,
@@ -71,7 +71,7 @@ export const SparxieAbilities: AbilityKind[] = [
   AbilityKind.BREAK,
 ]
 
-const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals: CharacterConditionalFunction = (e, withContent) => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -88,7 +88,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_ELATION_SKILL,
   } = Source.character(Sparxie.id)
 
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparxie.Content')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const engagementScaling = skill(e, 0.20, 0.22)
@@ -131,63 +131,73 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedBasic: {
       id: 'enhancedBasic',
       formItem: 'switch',
-      text: 'Enhanced Basic',
-      content: betaContent,
+      text: t('enhancedBasic.text'),
+      content: t('enhancedBasic.content'),
     },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: 'Punchline stacks',
-      content: betaContent,
+      text: t('punchlineStacks.text'),
+      content: t('punchlineStacks.content'),
       min: 0,
       max: 100,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: 'Certified Banger stacks',
-      content: betaContent,
+      text: t('certifiedBangerStacks.text'),
+      content: t('certifiedBangerStacks.content', {
+        ebaAdjacentScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling),
+        ebaPrimaryScaling: TsUtils.precisionRound(100 * talentMainElationScaling),
+        ebaBounceScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling),
+        ultElationScaling: TsUtils.precisionRound(100 * talentUltElationScaling),
+      }),
       min: 0,
       max: 200,
     },
     engagementFarmingStacks: {
       id: 'engagementFarmingStacks',
       formItem: 'slider',
-      text: 'Engagement Farming stacks',
-      content: betaContent,
+      text: t('engagementFarmingStacks.text'),
+      content: t('engagementFarmingStacks.content', { ebaBounceScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling) }),
       min: 0,
       max: 20,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: 'Certified Banger',
-      content: betaContent,
+      text: t('certifiedBanger.text'),
+      content: t('certifiedBanger.content', {
+        ebaAdjacentScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling),
+        ebaPrimaryScaling: TsUtils.precisionRound(100 * talentMainElationScaling),
+        ebaBounceScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling),
+        ultElationScaling: TsUtils.precisionRound(100 * talentUltElationScaling),
+      }),
     },
     atkToElation: {
       id: 'atkToElation',
       formItem: 'switch',
-      text: 'ATK to Elation conversion',
-      content: betaContent,
+      text: t('atkToElation.text'),
+      content: t('atkToElation.content'),
     },
     punchlineCritDmg: {
       id: 'punchlineCritDmg',
       formItem: 'switch',
-      text: 'Punchline CD',
-      content: betaContent,
+      text: t('punchlineCritDmg.text'),
+      content: t('punchlineCritDmg.content'),
     },
     e1PunchlineResPen: {
       id: 'e1PunchlineResPen',
       formItem: 'switch',
-      text: 'E1 RES PEN',
-      content: betaContent,
+      text: t('e1PunchlineResPen.text'),
+      content: t('e1PunchlineResPen.content'),
       disabled: e < 1,
     },
     e2ThrillStacks: {
       id: 'e2ThrillStacks',
       formItem: 'slider',
-      text: 'E2 CD stacks',
-      content: betaContent,
+      text: t('e2ThrillStacks.text'),
+      content: t('e2ThrillStacks.content'),
       min: 0,
       max: 4,
       disabled: e < 2,
@@ -195,28 +205,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e4UltElation: {
       id: 'e4UltElation',
       formItem: 'switch',
-      text: 'E4 Ult Elation buff',
-      content: betaContent,
+      text: t('e4UltElation.text'),
+      content: t('e4UltElation.content'),
       disabled: e < 4,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: 'E6 RES PEN',
-      content: betaContent,
+      text: t('e6ResPen.text'),
+      content: t('e6ResPen.content'),
       disabled: e < 6,
     },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    punchlineStacks: {
-      id: 'punchlineStacks',
-      formItem: 'slider',
-      text: 'Punchline stacks',
-      content: betaContent,
-      min: 0,
-      max: 100,
-    },
+    punchlineStacks: content.punchlineStacks,
     e1PunchlineResPen: content.e1PunchlineResPen,
     punchlineCritDmg: content.punchlineCritDmg,
   }

@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
@@ -21,7 +20,6 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -52,9 +50,11 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
+import { TsUtils } from 'lib/utils/TsUtils'
+import {
+  CharacterConditionalFunction,
+  CharacterConfig,
+} from 'types/characterConfig'
 import { ElationHit } from 'types/hitConditionalTypes'
 import {
   ScoringMetadata,
@@ -72,7 +72,7 @@ export const YaoguangAbilities: AbilityKind[] = [
   AbilityKind.BREAK,
 ]
 
-const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals: CharacterConditionalFunction = (e, withContent) => {
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -89,7 +89,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_ELATION_SKILL,
   } = Source.character(Yaoguang.id)
 
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yaoguang')
 
   const basicScaling = basic(e, 0.90, 0.99)
   const skillElationBuff = skill(e, 0.20, 0.22)
@@ -133,74 +133,74 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: 'Punchline stacks',
-      content: betaContent,
+      text: t('Content.punchlineStacks.text'),
+      content: t('Content.punchlineStacks.content'),
       min: 0,
       max: 100,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: 'Certified Banger stacks',
-      content: betaContent,
+      text: t('Content.certifiedBangerStacks.text'),
+      content: t('Content.certifiedBangerStacks.content'),
       min: 0,
       max: 200,
     },
     skillZoneActive: {
       id: 'skillZoneActive',
       formItem: 'switch',
-      text: 'Skill Zone active',
-      content: betaContent,
+      text: t('Content.skillZoneActive.text'),
+      content: t('Content.skillZoneActive.content', { elationConversion: TsUtils.precisionRound(100 * skillElationBuff) }),
     },
     ultResPenBuff: {
       id: 'ultResPenBuff',
       formItem: 'switch',
-      text: 'Ult RES PEN buff',
-      content: betaContent,
+      text: t('Content.ultResPenBuff.text'),
+      content: t('Content.ultResPenBuff.content', { resPen: TsUtils.precisionRound(100 * ultResPenValue) }),
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: 'Certified Banger',
-      content: betaContent,
+      text: t('Content.certifiedBanger.text'),
+      content: t('Content.certifiedBanger.content', { greatBoonScaling: TsUtils.precisionRound(100 * talentElationScaling) }),
     },
     yaoguangAhaInstant: {
       id: 'yaoguangAhaInstant',
       formItem: 'switch',
-      text: 'Ult Aha Instant',
-      content: betaContent,
+      text: t('Content.yaoguangAhaInstant.text'),
+      content: t('Content.yaoguangAhaInstant.content', { punchlineCount: e >= 1 ? 40 : 20 }),
     },
     woesWhisperVulnerability: {
       id: 'woesWhisperVulnerability',
       formItem: 'switch',
-      text: 'Woe\'s Whisper vulnerability',
-      content: betaContent,
+      text: t('Content.woesWhisperVulnerability.text'),
+      content: t('Content.woesWhisperVulnerability.content', { woeWhisperVulnerability: TsUtils.precisionRound(100 * elationSkillVulnerability) }),
     },
     traceSpdElation: {
       id: 'traceSpdElation',
       formItem: 'switch',
-      text: 'SPD Elation buff',
-      content: betaContent,
+      text: t('Content.traceSpdElation.text'),
+      content: t('Content.traceSpdElation.content'),
     },
     e1DefPen: {
       id: 'e1DefPen',
       formItem: 'switch',
-      text: 'E1 Elation DEF PEN',
-      content: betaContent,
+      text: t('Content.e1DefPen.text'),
+      content: t('Content.e1DefPen.content'),
       disabled: e < 1,
     },
     e2ZoneSpdBuff: {
       id: 'e2ZoneSpdBuff',
       formItem: 'switch',
-      text: 'E2 Zone SPD buff',
-      content: betaContent,
+      text: t('Content.e2ZoneSpdBuff.text'),
+      content: t('Content.e2ZoneSpdBuff.content'),
       disabled: e < 2,
     },
     e6Merrymaking: {
       id: 'e6Merrymaking',
       formItem: 'switch',
-      text: 'E6 Merrymaking',
-      content: betaContent,
+      text: t('Content.e6Merrymaking.text'),
+      content: t('Content.e6Merrymaking.content'),
       disabled: e < 6,
     },
   }
@@ -210,15 +210,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     consumesSkillPoints: {
       id: 'consumesSkillPoints',
       formItem: 'switch',
-      text: 'Consumes skill points',
-      content: betaContent,
+      text: t('TeammateContent.consumesSkillPoints.text'),
+      content: t('TeammateContent.consumesSkillPoints.content', { greatBoonScaling: TsUtils.precisionRound(100 * talentElationScaling) }),
     },
     yaoguangAhaInstant: content.yaoguangAhaInstant,
     teammateCertifiedBangerStacks: {
       id: 'teammateCertifiedBangerStacks',
       formItem: 'slider',
-      text: `Yao Guang's Certified Banger stacks`,
-      content: betaContent,
+      text: t('TeammateContent.teammateCertifiedBangerStacks.text'),
+      content: t('TeammateContent.teammateCertifiedBangerStacks.content'),
       min: 0,
       max: 200,
     },
@@ -226,8 +226,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateElationValue: {
       id: 'teammateElationValue',
       formItem: 'slider',
-      text: `Yao Guang's Elation`,
-      content: betaContent,
+      text: t('TeammateContent.teammateElationValue.text'),
+      content: t('TeammateContent.teammateElationValue.content'),
       min: 0,
       max: 2.00,
       percent: true,

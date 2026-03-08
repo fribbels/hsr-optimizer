@@ -2,18 +2,17 @@ import {
   IconBoltFilled,
   IconChevronDown,
 } from '@tabler/icons-react'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, Modal, Text } from '@mantine/core'
 import { IRowNode } from 'ag-grid-community'
 import {
   Divider,
   Dropdown,
   Grid,
-  Modal,
-  Popconfirm,
   Progress,
   Radio,
   theme,
 } from 'antd'
+import { PopConfirm } from 'lib/ui/PopConfirm'
 import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_CPU,
@@ -249,13 +248,10 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean, setManyPermsModalO
   return (
     <Modal
       title={t('Title') /* Very large search requested */}
-      open={props.manyPermsModalOpen}
-      width={900}
-      destroyOnClose
+      opened={props.manyPermsModalOpen}
+      size={900}
       centered
-      onOk={() => props.setManyPermsModalOpen(false)}
-      onCancel={() => props.setManyPermsModalOpen(false)}
-      footer={null}
+      onClose={() => props.setManyPermsModalOpen(false)}
     >
       <Flex justify='space-between' align='center' style={{ height: 45, marginTop: 30, marginBottom: 15 }} gap={16}>
         <Text>
@@ -544,7 +540,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
               {tCommon('Cancel') /* Cancel */}
             </Button>
 
-            <Popconfirm
+            <PopConfirm
               title={t('ControlsGroup.ResetConfirm.Title')} // 'Reset all filters?'
               description={t('ControlsGroup.ResetConfirm.Description')} // 'All filters will be reset to their default values'
               onConfirm={resetClicked}
@@ -555,7 +551,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
               <Button variant="default" style={{ flex: 1 }}>
                 {tCommon('Reset') /* Reset */}
               </Button>
-            </Popconfirm>
+            </PopConfirm>
           </Flex>
         </Flex>
       </Flex>

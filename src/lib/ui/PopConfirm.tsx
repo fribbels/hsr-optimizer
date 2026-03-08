@@ -1,0 +1,53 @@
+import { Button, Flex, Popover, Text } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import React from 'react'
+
+export function PopConfirm(props: {
+  title: React.ReactNode
+  description?: React.ReactNode
+  onConfirm: () => void
+  okText?: string
+  cancelText?: string
+  placement?: string
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  children: React.ReactElement
+}) {
+  const [internalOpened, { open: internalOpen, close: internalClose }] = useDisclosure(false)
+  const isControlled = props.open !== undefined
+  const opened = isControlled ? props.open : internalOpened
+
+  const open = () => {
+    if (isControlled) {
+      props.onOpenChange?.(true)
+    } else {
+      internalOpen()
+    }
+  }
+
+  const close = () => {
+    if (isControlled) {
+      props.onOpenChange?.(false)
+    } else {
+      internalClose()
+    }
+  }
+
+  return (
+    <Popover opened={opened} onClose={close} position={props.placement as any ?? 'bottom'}>
+      <Popover.Target>
+        <div onClick={open}>{props.children}</div>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Flex direction="column" gap={8}>
+          <Text fw={600} size="sm">{props.title}</Text>
+          {props.description && <Text size="sm">{props.description}</Text>}
+          <Flex gap={8} justify="flex-end">
+            <Button size="xs" variant="default" onClick={close}>{props.cancelText ?? 'Cancel'}</Button>
+            <Button size="xs" onClick={() => { props.onConfirm(); close() }}>{props.okText ?? 'OK'}</Button>
+          </Flex>
+        </Flex>
+      </Popover.Dropdown>
+    </Popover>
+  )
+}

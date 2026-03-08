@@ -4,15 +4,12 @@ import {
   IconLock,
 } from '@tabler/icons-react'
 import {
-  Alert,
   Form,
   Image,
-  Modal,
   Radio,
   theme,
-  Tooltip,
 } from 'antd'
-import { Button, Flex, NumberInput, Select, TextInput } from '@mantine/core'
+import { Alert, Button, Flex, Modal, NumberInput, Select, TextInput, Tooltip } from '@mantine/core'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
@@ -412,32 +409,15 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
       onValuesChange={onValuesChange}
     >
       <Modal
-        width={560}
+        size={560}
         centered
-        destroyOnClose
-        closable={!isLiveImport} // Hide X button in live import mode as it overlaps with the alert
-        open={open}
-        onCancel={() => setOpen(false)}
-        footer={
-          <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'}>
-            <Flex style={{ width: 298, paddingLeft: 1 }}>
-              {selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={selectedRelic} />}
-            </Flex>
-
-            <Flex gap={10} style={{ width: 180 }}>
-              <Button onClick={handleCancel} style={{ flex: 1 }}>
-                {t('common:Cancel')}
-              </Button>
-              <Button onClick={handleOk} style={{ flex: 1 }}>
-                {t('common:Submit')}
-              </Button>
-            </Flex>
-          </Flex>
-        }
+        withCloseButton={!isLiveImport}
+        opened={open}
+        onClose={() => setOpen(false)}
       >
         <Flex direction="column" gap={5}>
           {isLiveImport && (
-            <Alert message={t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */} type='warning' showIcon />
+            <Alert color='yellow'>{t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */}</Alert>
           )}
           {prev && (
             <IconChevronLeft
@@ -630,6 +610,20 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
             </Flex>
           </Flex>
         </Flex>
+        <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'} style={{ marginTop: 16 }}>
+          <Flex style={{ width: 298, paddingLeft: 1 }}>
+            {selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={selectedRelic} />}
+          </Flex>
+
+          <Flex gap={10} style={{ width: 180 }}>
+            <Button onClick={handleCancel} style={{ flex: 1 }}>
+              {t('common:Cancel')}
+            </Button>
+            <Button onClick={handleOk} style={{ flex: 1 }}>
+              {t('common:Submit')}
+            </Button>
+          </Flex>
+        </Flex>
       </Modal>
     </Form>
   )
@@ -770,9 +764,9 @@ function SubstatInput(props: {
         </Form.Item>
 
         <Tooltip
-          trigger={['focus']}
-          title={stat == Stats.SPD ? t('SpdInputWarning') : ''}
-          placement='top'
+          label={stat == Stats.SPD ? t('SpdInputWarning') : ''}
+          position='top'
+          events={{ hover: false, focus: true, touch: false }}
         >
           <Form.Item name={statValueField}>
             <TextInput

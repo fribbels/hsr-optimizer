@@ -1,10 +1,9 @@
-import {
-  Popover,
-} from 'antd'
-import { Text } from '@mantine/core'
+import { Popover, Text } from '@mantine/core'
 import React, {
   ComponentType,
   ReactNode,
+  useCallback,
+  useRef,
 } from 'react'
 
 export type WithPopoverProps<T> = {
@@ -15,25 +14,39 @@ export type WithPopoverProps<T> = {
 function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithPopoverProps<T>> {
   const Wrapped = (props: WithPopoverProps<T>) => {
     const [open, setOpen] = React.useState(false)
-    const content = (
-      <Text style={{ width: 400, display: 'block' }}>
-        <hr />
-        {props.content}
-      </Text>
-    )
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+
+    const handleMouseEnter = useCallback(() => {
+      timeoutRef.current = setTimeout(() => setOpen(true), 400)
+    }, [])
+
+    const handleMouseLeave = useCallback(() => {
+      clearTimeout(timeoutRef.current)
+      setOpen(false)
+    }, [])
+
     return (
       <Popover
-        trigger='hover'
-        placement='left'
-        content={content}
-        title={props.title}
-        open={open}
-        mouseEnterDelay={0.4}
-        onOpenChange={setOpen}
+        position='left'
+        opened={open}
+        onChange={setOpen}
       >
-        <span style={{ width: '100%' }}>
-          <WrappedComponent {...props} />
-        </span>
+        <Popover.Target>
+          <span
+            style={{ width: '100%' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <WrappedComponent {...props} />
+          </span>
+        </Popover.Target>
+        <Popover.Dropdown>
+          <Text fw={600} mb={4}>{props.title}</Text>
+          <Text style={{ width: 400, display: 'block' }}>
+            <hr />
+            {props.content}
+          </Text>
+        </Popover.Dropdown>
       </Popover>
     )
   }

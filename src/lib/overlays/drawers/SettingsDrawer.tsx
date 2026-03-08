@@ -1,8 +1,7 @@
 import {
-  Drawer,
   Form,
 } from 'antd'
-import { Flex, Select, Text } from '@mantine/core'
+import { Drawer, Flex, Select, Text } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -156,11 +155,10 @@ export const SettingsDrawer = () => {
     >
       <Drawer
         title={t('Title')} /* 'Settings' */
-        placement='right'
+        position='right'
         onClose={closeSettingsDrawer}
-        open={isOpenSettingsDrawer}
-        width={900}
-        forceRender
+        opened={isOpenSettingsDrawer}
+        size={900}
       >
         <Flex direction="column" gap={defaultGap}>
           {(Object.keys(SettingOptions) as (keyof typeof SettingOptions)[])

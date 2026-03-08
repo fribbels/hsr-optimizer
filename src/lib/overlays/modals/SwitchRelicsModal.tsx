@@ -1,8 +1,7 @@
 import {
   Form as AntDForm,
-  Modal,
 } from 'antd'
-import { Button, Flex, Select } from '@mantine/core'
+import { Button, Flex, Modal, Select } from '@mantine/core'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
@@ -76,20 +75,10 @@ export function SwitchRelicsModal() {
 
   return (
     <Modal
-      open={isOpen}
-      width={panelWidth + 47}
-      destroyOnClose
+      opened={isOpen}
+      size={panelWidth + 47}
       centered
-      onOk={onModalOk}
-      onCancel={handleCancel}
-      footer={[
-        <Button key='back' variant="default" onClick={handleCancel}>
-          {tCommon('Cancel') /* Cancel */}
-        </Button>,
-        <Button key='submit' onClick={onModalOk}>
-          {tCommon('Save') /* Save */}
-        </Button>,
-      ]}
+      onClose={handleCancel}
     >
       <AntDForm
         form={characterForm}
@@ -116,6 +105,14 @@ export function SwitchRelicsModal() {
           </Flex>
         </Flex>
       </AntDForm>
+      <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
+        <Button key='back' variant="default" onClick={handleCancel}>
+          {tCommon('Cancel') /* Cancel */}
+        </Button>
+        <Button key='submit' onClick={onModalOk}>
+          {tCommon('Save') /* Save */}
+        </Button>
+      </Flex>
     </Modal>
   )
 }

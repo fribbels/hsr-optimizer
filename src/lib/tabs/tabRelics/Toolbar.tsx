@@ -1,8 +1,5 @@
-import {
-  Popconfirm,
-  Tooltip,
-} from 'antd'
-import { Button, Flex, Select } from '@mantine/core'
+import { Button, Flex, Select, Tooltip } from '@mantine/core'
+import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Hint } from 'lib/interactions/hint'
 import DB from 'lib/state/db'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
@@ -52,7 +49,7 @@ export function Toolbar() {
         {t('EditRelic')}
       </Button>
 
-      <Popconfirm
+      <PopConfirm
         title={tCommon('Confirm')}
         description={t('DeleteRelic.Warning', { count: selectedRelicsIds.length })}
         placement='bottom'
@@ -62,14 +59,14 @@ export function Toolbar() {
         onConfirm={RelicsTabController.deleteConfirmed}
         open={deleteConfirmOpen}
       >
-        <Tooltip title={isLiveImport ? t('LiveImportTooltip') : ''}>
+        <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''}>
           <Button style={{ width: 170 }} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
             {t('DeleteRelic.ButtonText') /* Delete relic */}
           </Button>
         </Tooltip>
-      </Popconfirm>
+      </PopConfirm>
 
-      <Tooltip title={isLiveImport ? t('LiveImportTooltip') : ''}>
+      <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''}>
         <Button
           onClick={RelicsTabController.addClicked}
           style={{ width: 170 }}

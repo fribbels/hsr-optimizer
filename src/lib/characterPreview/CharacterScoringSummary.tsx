@@ -1,5 +1,5 @@
-import { Flex } from '@mantine/core'
-import { Alert, Divider } from 'antd'
+import { Alert, Flex } from '@mantine/core'
+import { Divider } from 'antd'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
@@ -299,11 +299,11 @@ export const CharacterScoringSummary = (props: {
           url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
         />
         <Alert
-          message={t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
-          type='info'
-          showIcon
+          color='blue'
           style={{ marginBottom: 20, width: '100%' }}
-        />
+        >
+          {t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
+        </Alert>
         <EstimatedTbpRelicsDisplay
           displayRelics={props.displayRelics}
           showcaseMetadata={props.showcaseMetadata}

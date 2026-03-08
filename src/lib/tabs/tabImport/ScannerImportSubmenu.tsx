@@ -3,15 +3,13 @@ import {
   IconUpload,
 } from '@tabler/icons-react'
 import {
-  Alert,
   Collapse,
   Divider,
-  Popconfirm,
   Steps,
-  Tooltip,
   Upload,
 } from 'antd'
-import { Button, Checkbox, Flex, Switch, Text, TextInput } from '@mantine/core'
+import { Alert, Button, Checkbox, Flex, Switch, Text, TextInput, Tooltip } from '@mantine/core'
+import { PopConfirm } from 'lib/ui/PopConfirm'
 import {
   HoyolabData,
   hoyolabParser,
@@ -301,32 +299,31 @@ export function ScannerImportSubmenu() {
               </Text>
 
               <Alert
-                message='New version notice'
-                description={
-                  <div>
-                    If your live import fails to connect, download the new version of{' '}
-                    <ColorizedLinkWithIcon
-                      text={'Reliquary Archiver'}
-                      url={ReliquaryArchiverConfig.releases}
-                      linkIcon={true}
-                    />
-                    {websocketUrl != DEFAULT_WEBSOCKET_URL && (() => {
-                      try {
-                        return new URL(websocketUrl).port === '53313' && (
-                          <>
-                            <br />
-                            If you have a custom ws url set, the default port has changed from 53313 to 23313.
-                          </>
-                        )
-                      } catch {
-                        return null
-                      }
-                    })()}
-                  </div>
-                }
-                type='info'
+                title='New version notice'
+                color='blue'
                 style={{ marginBottom: 10 }}
-              />
+              >
+                <div>
+                  If your live import fails to connect, download the new version of{' '}
+                  <ColorizedLinkWithIcon
+                    text={'Reliquary Archiver'}
+                    url={ReliquaryArchiverConfig.releases}
+                    linkIcon={true}
+                  />
+                  {websocketUrl != DEFAULT_WEBSOCKET_URL && (() => {
+                    try {
+                      return new URL(websocketUrl).port === '53313' && (
+                        <>
+                          <br />
+                          If you have a custom ws url set, the default port has changed from 53313 to 23313.
+                        </>
+                      )
+                    } catch {
+                      return null
+                    }
+                  })()}
+                </div>
+              </Alert>
 
               <Flex gap={10} align='center' flex='1 0'>
                 <Switch
@@ -339,9 +336,9 @@ export function ScannerImportSubmenu() {
                 <Divider dashed style={{ margin: 0, flex: 1, minWidth: 0 }} />
 
                 <Tooltip
-                  placement='topRight'
-                  open={ingest && !connected ? undefined : false} // Only show tooltip if ingest is enabled but we are haven't been able to connect
-                  title={t('Import.LiveImport.DisconnectedHint') /* Unable to connect to the scanner. Please check that it is running. */}
+                  position='top-end'
+                  opened={ingest && !connected ? undefined : false} // Only show tooltip if ingest is enabled but we are haven't been able to connect
+                  label={t('Import.LiveImport.DisconnectedHint') /* Unable to connect to the scanner. Please check that it is running. */}
                 >
                   <Flex gap={10} align='center'>
                     <Text>{connected ? t('Import.LiveImport.Connected') /* Connected */ : t('Import.LiveImport.Disconnected') /* Disconnected */}</Text>
@@ -391,7 +388,7 @@ export function ScannerImportSubmenu() {
                             value={websocketUrl}
                             onChange={(e) => setWebsocketUrl(e.target.value)}
                           />
-                          <Tooltip title={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
+                          <Tooltip label={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
                             <Button leftSection={<IconRefresh size={16} />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} variant="default" />
                           </Tooltip>
                         </Flex>
@@ -457,7 +454,7 @@ export function ScannerImportSubmenu() {
             label={t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}
           />
 
-          <Popconfirm
+          <PopConfirm
             title={t('Import.Stage2.CharactersImport.WarningTitle')}
             description={t('Import.Stage2.CharactersImport.WarningDescription')}
             onConfirm={mergeCharactersConfirmed}
@@ -471,7 +468,7 @@ export function ScannerImportSubmenu() {
                 characterCount: currentCharacters?.length ?? 0,
               })}
             </Button>
-          </Popconfirm>
+          </PopConfirm>
         </Flex>
       </Flex>
     )

@@ -1,8 +1,7 @@
-import { Flex } from '@mantine/core'
+import { Flex, Tooltip } from '@mantine/core'
 import {
   Table,
   TableProps,
-  Tooltip,
 } from 'antd'
 import { AnyObject } from 'antd/es/_util/type'
 import { TFunction } from 'i18next'
@@ -132,7 +131,7 @@ function RelicDoubleImageWithTooltip(props: { name: Sets, height: number, width:
   const id = setToId[name]
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   return (
-    <Tooltip title={t(`${id}.Name`)}>
+    <Tooltip label={t(`${id}.Name`)}>
       <Flex gap={3}>
         <img src={Assets.getSetImage(name)} style={{ width, height }} />
         <img src={Assets.getSetImage(name)} style={{ width, height }} />
@@ -150,7 +149,7 @@ function RelicImageWithTooltip(props: { name: Sets, height: number, width: numbe
   const id = setToId[name]
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   return (
-    <Tooltip title={t(`${id}.Name`)}>
+    <Tooltip label={t(`${id}.Name`)}>
       <img src={Assets.getSetImage(name)} style={{ width, height }} />
     </Tooltip>
   )

@@ -1,10 +1,9 @@
 import { IconChevronDown } from '@tabler/icons-react'
 import {
-  Drawer,
   Tree,
   TreeProps,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Drawer, Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -112,11 +111,10 @@ export const StatTracesDrawer = () => {
   return (
     <Drawer
       title={t('Title')} // 'Custom stat traces'
-      placement='right'
+      position='right'
       onClose={closeTracesDrawer}
-      open={isOpenTracesDrawer}
-      width={400}
-      forceRender
+      opened={isOpenTracesDrawer}
+      size={400}
     >
       <Flex direction="column" gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
         <HeaderText>

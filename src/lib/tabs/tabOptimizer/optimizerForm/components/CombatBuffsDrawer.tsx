@@ -1,7 +1,4 @@
-import { Flex, Text } from '@mantine/core'
-import {
-  Drawer,
-} from 'antd'
+import { Drawer, Flex, Text } from '@mantine/core'
 import { CombatBuffs } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
@@ -29,11 +26,10 @@ export const CombatBuffsDrawer = () => {
   return (
     <Drawer
       title={t('Title')} // 'Extra combat buffs'
-      placement='right'
+      position='right'
       onClose={closeBuffsDrawer}
-      open={isOpenBuffsDrawer}
-      width={300}
-      forceRender
+      opened={isOpenBuffsDrawer}
+      size={300}
     >
       <Flex direction="column" gap={defaultGap}>
         <Flex direction="column" gap={optimizerTabDefaultGap}>

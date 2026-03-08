@@ -1,9 +1,8 @@
 import {
   Form as AntDForm,
-  Modal,
   Radio,
 } from 'antd'
-import { Button, Flex, Select } from '@mantine/core'
+import { Button, Flex, Modal, Select } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -86,20 +85,10 @@ export default function CharacterModal(props: {
 
   return (
     <Modal
-      open={props.open}
-      width={400}
-      destroyOnClose
+      opened={props.open}
+      size={400}
       centered
-      onOk={onModalOk}
-      onCancel={handleCancel}
-      footer={[
-        <Button key='back' onClick={handleCancel}>
-          {tCommon('Cancel')}
-        </Button>,
-        <Button key='submit' onClick={onModalOk}>
-          {tCommon('Save')}
-        </Button>,
-      ]}
+      onClose={handleCancel}
     >
       <AntDForm
         form={characterForm}
@@ -223,6 +212,14 @@ export default function CharacterModal(props: {
           </Flex>
         </Flex>
       </AntDForm>
+      <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
+        <Button key='back' onClick={handleCancel}>
+          {tCommon('Cancel')}
+        </Button>
+        <Button key='submit' onClick={onModalOk}>
+          {tCommon('Save')}
+        </Button>
+      </Flex>
     </Modal>
   )
 }

@@ -5,13 +5,12 @@ import {
 } from '@tabler/icons-react'
 import {
   Form,
-  Modal,
   Radio,
   RadioChangeEvent,
   Spin,
   Steps,
 } from 'antd'
-import { Button, Flex, Slider, Text, TextInput } from '@mantine/core'
+import { Button, Flex, Modal, Slider, Text, TextInput } from '@mantine/core'
 import { RcFile } from 'antd/es/upload'
 import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
@@ -646,45 +645,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   return (
     <Form form={customImageForm} layout='vertical'>
       <Modal
-        open={open}
-        width={width}
-        destroyOnClose
+        opened={open}
+        size={width}
         centered
         // It's easy to overshoot the zoom slider and accidentally close modal
-        maskClosable={false}
-        onOk={handleOk}
-        onCancel={() => setOpen(false)}
-        transitionName=''
-        footer={[
-          <Flex key={1} justify='flex-end'>
-            <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
-              {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large' />}
-              <Button onClick={() => setOpen(false)}>
-                {tCommon('Cancel') /* Cancel */}
-              </Button>
-              {(current > 0 && existingConfig) && (
-                <Button onClick={prev} color="red">
-                  {t('Footer.Change') /* Change image */}
-                </Button>
-              )}
-              {(current > 0 && !existingConfig) && (
-                <Button onClick={prev}>
-                  {t('Footer.Previous') /* Previous */}
-                </Button>
-              )}
-              {current < steps.length - 1 && (
-                <Button onClick={next} disabled={radio === 'upload'}>
-                  {t('Footer.Next') /* Next */}
-                </Button>
-              )}
-              {current === steps.length - 1 && (
-                <Button onClick={handleOk}>
-                  {tCommon('Submit') /* Submit */}
-                </Button>
-              )}
-            </Flex>
-          </Flex>,
-        ]}
+        closeOnClickOutside={false}
+        onClose={() => setOpen(false)}
         title={title}
       >
         <div style={{ height: '505px', position: 'relative' }}>
@@ -705,6 +671,34 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             </div>
           ))}
         </div>
+        <Flex key={1} justify='flex-end'>
+          <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
+            {isVerificationLoading && radio !== 'upload' && <Spin style={{ textAlign: 'center' }} size='large' />}
+            <Button onClick={() => setOpen(false)}>
+              {tCommon('Cancel') /* Cancel */}
+            </Button>
+            {(current > 0 && existingConfig) && (
+              <Button onClick={prev} color="red">
+                {t('Footer.Change') /* Change image */}
+              </Button>
+            )}
+            {(current > 0 && !existingConfig) && (
+              <Button onClick={prev}>
+                {t('Footer.Previous') /* Previous */}
+              </Button>
+            )}
+            {current < steps.length - 1 && (
+              <Button onClick={next} disabled={radio === 'upload'}>
+                {t('Footer.Next') /* Next */}
+              </Button>
+            )}
+            {current === steps.length - 1 && (
+              <Button onClick={handleOk}>
+                {tCommon('Submit') /* Submit */}
+              </Button>
+            )}
+          </Flex>
+        </Flex>
       </Modal>
     </Form>
   )

@@ -1,9 +1,6 @@
 import { IconFileImport } from '@tabler/icons-react'
-import {
-  Drawer,
-  Popconfirm,
-} from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { PopConfirm } from 'lib/ui/PopConfirm'
+import { Button, Drawer, Flex } from '@mantine/core'
 import sampleSave from 'data/sample-save.json'
 import {
   OpenCloseIDs,
@@ -31,10 +28,10 @@ export const GettingStartedDrawer = () => {
   return (
     <Drawer
       title={t('TryOut.Header')} /* 'Try it out!' */
-      placement='right'
+      position='right'
       onClose={closeBeginnerDrawer}
-      open={isOpenBeginnerDrawer}
-      width={250}
+      opened={isOpenBeginnerDrawer}
+      size={250}
     >
       <Flex direction="column" gap={20}>
         <ColorizedLinkWithIcon
@@ -43,7 +40,7 @@ export const GettingStartedDrawer = () => {
           url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
         />
 
-        <Popconfirm
+        <PopConfirm
           title={t('common:Confirm')} // Confirm!
           description={
             <Flex
@@ -60,7 +57,7 @@ export const GettingStartedDrawer = () => {
           <Button leftSection={<IconFileImport size={16} />} style={{ width: 200 }}>
             {t('TryOut.ButtonText') /* Try it out! */}
           </Button>
-        </Popconfirm>
+        </PopConfirm>
       </Flex>
     </Drawer>
   )

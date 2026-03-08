@@ -2,10 +2,9 @@ import {
   IconCircleMinus,
   IconCirclePlus,
 } from '@tabler/icons-react'
-import { Button, Flex, MultiSelect } from '@mantine/core'
+import { Button, Drawer, Flex, MultiSelect } from '@mantine/core'
 import {
   Divider,
-  Drawer,
 } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
@@ -111,10 +110,10 @@ export function ComboDrawer() {
   return (
     <Drawer
       title={<ComboDrawerTitle />}
-      placement='right'
+      position='right'
       onClose={() => closeComboDrawer()}
-      open={isOpenComboDrawer}
-      width={1625}
+      opened={isOpenComboDrawer}
+      size={1625}
       className='comboDrawer'
     >
       <div style={{ width: 1560, height: '100%' }}>

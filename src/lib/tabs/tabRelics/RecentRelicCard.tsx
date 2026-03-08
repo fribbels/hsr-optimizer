@@ -2,9 +2,8 @@ import {
   Divider,
   Progress,
   theme,
-  Tooltip,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Flex, Text, Tooltip } from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -221,7 +220,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                           </Text>
                         </Flex>
                         <Flex align='center' gap={4}>
-                          <Tooltip title={t('Tooltip') /* Average and maximum potential scores for this character */}>
+                          <Tooltip label={t('Tooltip') /* Average and maximum potential scores for this character */}>
                             <Text
                               style={{
                                 fontSize: '12px',

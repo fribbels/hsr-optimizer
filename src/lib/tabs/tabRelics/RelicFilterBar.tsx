@@ -1,8 +1,5 @@
 import { IconEraser } from '@tabler/icons-react'
-import {
-  Tooltip,
-} from 'antd'
-import { Button, Flex, MultiSelect, Text } from '@mantine/core'
+import { Button, Flex, MultiSelect, Text, Tooltip } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -335,10 +332,10 @@ function generateTooltipDisplay(key: Sets | StatsValues, srcFn: (s: string) => s
 
   return (
     <Tooltip
-      title={isStatsValues(key)
+      label={isStatsValues(key)
         ? tStats(key)
         : tSets(`${setToId[key]}.Name`)}
-      mouseEnterDelay={0.2}
+      openDelay={200}
     >
       <img style={{ width: width }} src={src} />
     </Tooltip>

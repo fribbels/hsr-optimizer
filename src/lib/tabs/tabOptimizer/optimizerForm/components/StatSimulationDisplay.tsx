@@ -8,10 +8,10 @@ import {
 } from '@tabler/icons-react'
 import {
   Form as AntDForm,
-  Popconfirm,
   Radio,
   Select as AntdSelect,
 } from 'antd'
+import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Flex, NumberInput, Select, Text, TextInput } from '@mantine/core'
 import {
   Parts,
@@ -150,7 +150,7 @@ export function StatSimulationDisplay() {
             >
               <IconArrowsExchange />
             </Button>
-            <Popconfirm
+            <PopConfirm
               title={t('DeletePopup.Title')} // 'Erase stat simulations'
               description={t('DeletePopup.Description')} // "Are you sure you want to clear all of this character's saved simulations?"
               onConfirm={deleteAllStatSimulationBuilds}
@@ -165,7 +165,7 @@ export function StatSimulationDisplay() {
               >
                 <IconTrash />
               </Button>
-            </Popconfirm>
+            </PopConfirm>
           </Flex>
         </Flex>
 

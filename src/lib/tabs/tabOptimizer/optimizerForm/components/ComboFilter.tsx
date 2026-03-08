@@ -5,9 +5,9 @@ import {
 } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
 import {
-  Popconfirm,
   Radio,
 } from 'antd'
+import { PopConfirm } from 'lib/ui/PopConfirm'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
@@ -194,7 +194,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
       <Flex direction="column" gap={20} flex={1} align='flex-start'>
         <Flex direction="column" style={{ width: '100%' }} gap={5}>
           <HeaderText>{t('RowControls.Header') /* Controls */}</HeaderText>
-          <Popconfirm
+          <PopConfirm
             title={tCommon('Confirm')}
             description={t('RowControls.ResetConfirm.Description')}
             onConfirm={() => resetClicked()}
@@ -205,7 +205,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             <Button size='xs' variant='outline' disabled={disabled}>
               {tCommon('Reset')}
             </Button>
-          </Popconfirm>
+          </PopConfirm>
           <Flex gap={5}>
             <Button size='xs' variant='outline' style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
               {t('RowControls.Add')}

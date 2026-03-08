@@ -1,10 +1,9 @@
 import {
   Divider,
   Form,
-  Modal,
-  Popconfirm,
 } from 'antd'
-import { Button, Flex, MultiSelect, NumberInput, Text } from '@mantine/core'
+import { PopConfirm } from 'lib/ui/PopConfirm'
+import { Button, Flex, Modal, MultiSelect, NumberInput, Text } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
 import {
   Constants,
@@ -212,7 +211,7 @@ export default function ScoringModal() {
     }
 
     return (
-      <Popconfirm
+      <PopConfirm
         title={t('Scoring.ResetAllConfirm.Title') /* Reset the scoring algorithm for all characters? */}
         description={t('Scoring.ResetAllConfirm.Description') /* You will lose any custom scoring settings you have set on any character. */}
         onConfirm={resetAllCharacters}
@@ -220,7 +219,7 @@ export default function ScoringModal() {
         cancelText={t('common:No') /* No */}
       >
         <Button color="red">{t('Scoring.Footer.ResetAll') /* Reset all characters */}</Button>
-      </Popconfirm>
+      </PopConfirm>
     )
   }
 
@@ -228,25 +227,10 @@ export default function ScoringModal() {
 
   return (
     <Modal
-      open={isOpenScoringModal}
-      width={900}
-      destroyOnClose
+      opened={isOpenScoringModal}
+      size={900}
       centered
-      forceRender
-      onOk={onModalOk}
-      onCancel={closeScoringModal}
-      footer={[
-        <Button key='back' variant="default" onClick={closeScoringModal}>
-          {t('common:Cancel') /* Cancel */}
-        </Button>,
-        <Button key='default' variant="default" onClick={handleResetDefault}>
-          {t('Scoring.Footer.Reset') /* Reset to default */}
-        </Button>,
-        <ResetAllCharactersButton key='resetAll' />,
-        <Button key='submit' onClick={onModalOk}>
-          {t('Scoring.Footer.Save') /* Save changes */}
-        </Button>,
-      ]}
+      onClose={closeScoringModal}
     >
       <Form
         form={scoringAlgorithmForm}
@@ -509,6 +493,18 @@ export default function ScoringModal() {
           />
         </Divider>
       </Form>
+      <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
+        <Button key='back' variant="default" onClick={closeScoringModal}>
+          {t('common:Cancel') /* Cancel */}
+        </Button>
+        <Button key='default' variant="default" onClick={handleResetDefault}>
+          {t('Scoring.Footer.Reset') /* Reset to default */}
+        </Button>
+        <ResetAllCharactersButton key='resetAll' />
+        <Button key='submit' onClick={onModalOk}>
+          {t('Scoring.Footer.Save') /* Save changes */}
+        </Button>
+      </Flex>
     </Modal>
   )
 }

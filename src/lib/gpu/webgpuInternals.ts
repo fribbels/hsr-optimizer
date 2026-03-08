@@ -1,6 +1,6 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
-import { isFirefox } from 'lib/utils/TsUtils'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
+import { uniformCompatible } from 'lib/gpu/webgpuDevice'
 import {
   generateParamsMatrix,
   mergeRelicsIntoArray,
@@ -38,7 +38,7 @@ export function initializeGpuPipeline(
   // Workgroups dispatched per pass — scaled to ensure enough iterations for UI responsiveness
   const TARGET_ITERATIONS = 4
   const MIN_WORKGROUPS = 64
-  const MAX_WORKGROUPS = computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL
+  const MAX_WORKGROUPS = true // Temporarily setting all users to experimental settings
     ? Math.min(2048, device.limits.maxComputeWorkgroupsPerDimension)
     : 512
   const neededWorkgroups = 2 ** Math.floor(Math.log2(permutations / WORKGROUP_SIZE / CYCLES_PER_INVOCATION / TARGET_ITERATIONS))
@@ -96,7 +96,7 @@ export function initializeGpuPipeline(
   const ornamentSetSolutionsMatrixBuffer = hasOrnamentFilter
     ? createGpuBuffer(device, new Int32Array(bitpackBooleanArray(ornamentSetSolutions)), GPUBufferUsage.STORAGE, true, true)
     : null
-  const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, isFirefox() ? GPUBufferUsage.STORAGE : GPUBufferUsage.UNIFORM)
+  const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, uniformCompatible() ? GPUBufferUsage.UNIFORM : GPUBufferUsage.STORAGE)
 
   const bindGroup0 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(0),

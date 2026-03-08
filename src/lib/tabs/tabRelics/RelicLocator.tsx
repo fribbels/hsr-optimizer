@@ -2,9 +2,8 @@ import { IconSettings } from '@tabler/icons-react'
 import {
   InputNumber,
   Popover,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   Parts,
   Sets,
@@ -130,13 +129,13 @@ export function RelicLocator(props: { relic: Relic | null }) {
           ? (
             <Flex align='center' justify='space-between' style={{ width: '100%' }}>
               <LocatorFilterImage filters={locatorFilters} />
-              <Typography>
+              <Text>
                 {/* Location - Row {{rowIndex}} / Col {{columnIndex}} */}
                 {t('Location', {
                   columnIndex: relicPositionIndex % inventoryWidth + 1,
                   rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
                 })}
-              </Typography>
+              </Text>
               <IconSettings />
             </Flex>
           )

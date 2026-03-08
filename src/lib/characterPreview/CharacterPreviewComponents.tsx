@@ -1,10 +1,5 @@
-import { Flex } from '@mantine/core'
-import {
-  Typography,
-} from 'antd'
+import { Flex, Text } from '@mantine/core'
 import React, { CSSProperties } from 'react'
-
-const { Text } = Typography
 
 export enum ShowcaseSource {
   CHARACTER_TAB,

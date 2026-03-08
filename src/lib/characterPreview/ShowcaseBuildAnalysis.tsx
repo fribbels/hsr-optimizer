@@ -1,7 +1,6 @@
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   Segmented,
-  Typography,
 } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
 import { useDelayedProps } from 'hooks/useDelayedProps'
@@ -21,8 +20,6 @@ import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 interface ShowcaseBuildAnalysisProps {
   token: GlobalToken

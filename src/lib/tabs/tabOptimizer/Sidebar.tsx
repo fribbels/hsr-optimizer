@@ -2,7 +2,7 @@ import {
   IconBoltFilled,
   IconChevronDown,
 } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { IRowNode } from 'ag-grid-community'
 import {
   Button,
@@ -14,7 +14,6 @@ import {
   Progress,
   Radio,
   theme,
-  Typography,
 } from 'antd'
 import i18next from 'i18next'
 import {
@@ -56,8 +55,6 @@ import {
 
 const { useToken } = theme
 const { useBreakpoint } = Grid
-
-const { Text } = Typography
 
 const SCROLLBAR_WIDTH = 5 // px
 const RESERVED_SPACE = 2 // px

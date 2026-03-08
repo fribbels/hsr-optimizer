@@ -13,10 +13,9 @@ import {
   Steps,
   Switch,
   Tooltip,
-  Typography,
   Upload,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   HoyolabData,
   hoyolabParser,
@@ -48,8 +47,6 @@ import {
 } from './ScannerWebsocketClient'
 
 // FIXME MED
-
-const { Text } = Typography
 
 type ParsedCharacter = {
   characterId: CharacterId,

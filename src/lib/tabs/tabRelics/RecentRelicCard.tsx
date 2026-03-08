@@ -3,9 +3,8 @@ import {
   Progress,
   theme,
   Tooltip,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -118,7 +117,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
         {potentialScore && (
           <Flex direction="column" gap={4}>
             <Flex align='center' justify='space-between'>
-              <Typography.Text
+              <Text
                 style={{
                   fontSize: '11px',
                   fontWeight: 600,
@@ -126,7 +125,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                 }}
               >
                 {t('Potential') /* POTENTIAL */}
-              </Typography.Text>
+              </Text>
             </Flex>
 
             <Progress
@@ -142,22 +141,22 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
             />
 
             <Flex align='center' justify='space-between'>
-              <Typography.Text
+              <Text
                 style={{
                   fontSize: '12px',
                   color: token.colorTextSecondary,
                 }}
               >
                 {t('Avg') /* AVG */}: <span style={{ color: getColorAtPercent(avgPotential), fontWeight: 700 }}>{avgPotential}%</span>
-              </Typography.Text>
-              <Typography.Text
+              </Text>
+              <Text
                 style={{
                   fontSize: '12px',
                   color: token.colorTextSecondary,
                 }}
               >
                 {t('Max') /* MAX */}: <span style={{ color: getColorAtPercent(maxPotential), fontWeight: 700 }}>{maxPotential}%</span>
-              </Typography.Text>
+              </Text>
             </Flex>
           </Flex>
         )}
@@ -168,7 +167,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
             {potentialScore && <Divider style={{ margin: '0' }} />}
 
             <Flex direction="column" gap={4}>
-              <Typography.Text
+              <Text
                 style={{
                   fontSize: '11px',
                   fontWeight: 600,
@@ -176,7 +175,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                 }}
               >
                 {t('BestFor') /* BEST FOR */}
-              </Typography.Text>
+              </Text>
 
               <Flex direction="column" gap={5} style={{ margin: '0 -4px' }}>
                 {topCharacters?.map((char) => {
@@ -208,7 +207,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                               border: `1px solid ${token.colorBorderSecondary}`,
                             }}
                           />
-                          <Typography.Text
+                          <Text
                             style={{
                               fontSize: '12px',
                               color: char.isSelected ? token.colorPrimary : token.colorText,
@@ -219,11 +218,11 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                             }}
                           >
                             {char.name}
-                          </Typography.Text>
+                          </Text>
                         </Flex>
                         <Flex align='center' gap={4}>
                           <Tooltip title={t('Tooltip') /* Average and maximum potential scores for this character */}>
-                            <Typography.Text
+                            <Text
                               style={{
                                 fontSize: '12px',
                                 fontWeight: 600,
@@ -232,7 +231,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                               <span style={{ color: getColorAtPercent(avgPct) }}>{avgPct}%</span>
                               <span style={{ color: token.colorTextSecondary }}>/</span>
                               <span style={{ color: getColorAtPercent(maxPct) }}>{maxPct}%</span>
-                            </Typography.Text>
+                            </Text>
                           </Tooltip>
                         </Flex>
                       </Flex>

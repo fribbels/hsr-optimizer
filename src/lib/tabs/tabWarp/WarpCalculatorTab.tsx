@@ -1,6 +1,6 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Button, Card, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Card, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect } from 'antd'
+import { Flex, Text, Title as MantineTitle } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -15,8 +15,6 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from '../tabImport/ScannerWebsocketClient'
-
-const { Text } = Typography
 
 export default function WarpCalculatorTab(): React.JSX.Element {
   const { t } = useTranslation('warpCalculatorTab')
@@ -258,9 +256,9 @@ function extractEnabledIncomeTypes(warpRequest: WarpRequest) {
 
 function Title(props: { children: React.ReactNode }) {
   return (
-    <Typography.Title level={5} style={{ margin: 0, marginBottom: 8, textAlign: 'center' }}>
+    <MantineTitle order={5} style={{ margin: 0, marginBottom: 8, textAlign: 'center' }}>
       {props.children}
-    </Typography.Title>
+    </MantineTitle>
   )
 }
 

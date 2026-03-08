@@ -2,9 +2,8 @@ import { IconDownload } from '@tabler/icons-react'
 import {
   Button,
   Tabs,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
 import { ClearDataSubmenu } from 'lib/tabs/tabImport/ClearDataSubmenu'
@@ -17,8 +16,6 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 const buttonWidth = 250
 

@@ -2,9 +2,8 @@ import { IconTrash } from '@tabler/icons-react'
 import {
   Button,
   Popconfirm,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
 import {
@@ -13,8 +12,6 @@ import {
 } from 'lib/tabs/tabImport/importerTabUiConstants'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 export function ClearDataSubmenu() {
   const [loading, setLoading] = useState(false)

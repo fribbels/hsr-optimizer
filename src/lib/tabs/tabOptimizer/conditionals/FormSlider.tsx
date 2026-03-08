@@ -1,8 +1,7 @@
-import { Flex } from '@mantine/core'
+import { Flex, Text as MantineText } from '@mantine/core'
 import {
   InputNumber,
   Slider,
-  Typography,
 } from 'antd'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -24,7 +23,8 @@ const inputWidth = 61
 const numberWidth = 55
 const sliderWidth = 155
 
-const Text = styled(Typography)`
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+const Text = styled(MantineText as any)`
     white-space: pre-line;
 `
 

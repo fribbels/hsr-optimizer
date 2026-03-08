@@ -2,7 +2,6 @@ import { Flex } from '@mantine/core'
 import {
   InputNumber,
   Slider,
-  Typography,
 } from 'antd'
 import {
   Constants,
@@ -17,12 +16,6 @@ import React, {
   ReactElement,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
-
-const Text = styled(Typography)`
-    white-space: pre-line;
-`
-
 const StatSliders = [
   { text: 'HPFilterText', name: Constants.Stats.HP_P },
   { text: 'ATKFilterText', name: Constants.Stats.ATK_P },

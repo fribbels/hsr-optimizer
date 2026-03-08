@@ -17,9 +17,8 @@ import {
 } from '@tabler/icons-react'
 import {
   Menu,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Anchor, Flex } from '@mantine/core'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
@@ -136,49 +135,49 @@ const MenuDrawer = () => {
     getItem(t('Links.Title'), /* Links */ 'subLinks', <IconMenu2 />, [
       getItem(
         (
-          <Typography.Link>
+          <Anchor>
             <IconHome style={{ marginRight: 2, width: 16 }} /> {t('Links.Home') /* Home */}
-          </Typography.Link>
+          </Anchor>
         ),
         AppPages.HOME,
       ),
       getItem(
         (
-          <Typography.Link>
+          <Anchor>
             <IconList style={{ marginRight: 2, width: 16 }} /> {t('Links.Changelog') /* Changelog */}
-          </Typography.Link>
+          </Anchor>
         ),
         AppPages.CHANGELOG,
       ),
       getItem(
-        <Typography.Link href='https://ko-fi.com/fribbels' target='_blank' rel='noopener noreferrer'>
+        <Anchor href='https://ko-fi.com/fribbels' target='_blank' rel='noopener noreferrer'>
           <CoffeeIcon style={{ marginRight: 5 }} /> {t('Links.Kofi') /* Ko-fi */}
-        </Typography.Link>,
+        </Anchor>,
         'link donate',
       ),
       getItem(
-        <Typography.Link href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noopener noreferrer'>
+        <Anchor href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noopener noreferrer'>
           <DiscordIcon style={{ marginRight: 5 }} /> {t('Links.Discord') /* Discord */}
-        </Typography.Link>,
+        </Anchor>,
         'link discord',
       ),
       getItem(
-        <Typography.Link href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noopener noreferrer'>
+        <Anchor href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noopener noreferrer'>
           <GithubIcon style={{ marginRight: 5 }} /> {t('Links.Github') /* GitHub */}
-        </Typography.Link>,
+        </Anchor>,
         'link github',
       ),
       officialOnly
         ? getItem(
-          <Typography.Link href='https://fribbels.github.io/hsr-optimizer/' target='_blank' rel='noopener noreferrer'>
+          <Anchor href='https://fribbels.github.io/hsr-optimizer/' target='_blank' rel='noopener noreferrer'>
             <IconLink style={{ marginRight: 5 }} /> {t('Links.Leaks') /* Beta content */}
-          </Typography.Link>,
+          </Anchor>,
           'link leaks',
         )
         : getItem(
-          <Typography.Link href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>
+          <Anchor href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>
             <IconLink style={{ marginRight: 5 }} /> {t('Links.Unleak') /* No leaks */}
-          </Typography.Link>,
+          </Anchor>,
           'link leaks free',
         ),
     ]),

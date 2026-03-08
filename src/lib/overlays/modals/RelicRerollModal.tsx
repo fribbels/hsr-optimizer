@@ -1,9 +1,8 @@
 import { IconChevronsRight } from '@tabler/icons-react'
 import {
   Modal,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import { V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -11,8 +10,6 @@ import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 interface RelicRerollModalProps {
   open: boolean
@@ -53,7 +50,7 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
               scoringType={originalRelic.equippedBy ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
               unhoverable
             />
-            <Text strong>{t('OriginalSubstats') /* Original Substats */}</Text>
+            <Text fw={700}>{t('OriginalSubstats') /* Original Substats */}</Text>
           </Flex>
 
           <IconChevronsRight style={{ fontSize: '24px' }} />
@@ -65,7 +62,7 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
               scoringType={rerolledRelic.equippedBy ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
               unhoverable
             />
-            <Text strong>{t('RerolledSubstats') /* Rerolled Substats */}</Text>
+            <Text fw={700}>{t('RerolledSubstats') /* Rerolled Substats */}</Text>
           </Flex>
         </Flex>
       </Flex>

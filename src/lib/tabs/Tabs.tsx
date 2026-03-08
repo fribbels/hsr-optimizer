@@ -1,7 +1,4 @@
-import {
-  Typography,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
 import {
   AppPages,
@@ -29,7 +26,7 @@ const defaultErrorRender = ({ error: { message } }: {
   error: {
     message: string,
   },
-}) => <Typography>Something went wrong: {message}</Typography>
+}) => <Text>Something went wrong: {message}</Text>
 
 let optimizerInitialized = false
 

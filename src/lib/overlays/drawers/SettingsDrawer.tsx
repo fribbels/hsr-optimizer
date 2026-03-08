@@ -2,9 +2,8 @@ import {
   Drawer,
   Form,
   Select,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -19,8 +18,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { UserSettings } from 'types/store'
-
-const { Text } = Typography
 
 const defaultGap = 5
 

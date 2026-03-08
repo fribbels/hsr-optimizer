@@ -5,10 +5,9 @@ import {
 import {
   Button,
   Steps,
-  Typography,
   Upload,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import {
@@ -18,8 +17,6 @@ import {
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
-
-const { Text } = Typography
 
 enum Stages {
   LOAD_FILE = 0,

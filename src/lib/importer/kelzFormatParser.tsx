@@ -1,4 +1,4 @@
-import { Typography } from 'antd'
+import { Text } from '@mantine/core'
 
 import gameData from 'data/game_data.json'
 import i18next from 'i18next'
@@ -28,8 +28,6 @@ import {
 } from 'types/relic'
 
 // FIXME HIGH
-
-const { Text } = Typography
 
 const characterList = Object.values(gameData.characters)
 

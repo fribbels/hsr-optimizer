@@ -5,9 +5,8 @@ import {
 import {
   Button,
   theme,
-  Typography,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -58,12 +57,11 @@ export function LayoutHeader() {
               }}
             >
               <img src={Assets.getLogo()} style={{ width: 30, height: 30, marginRight: 15 }}></img>
-              <Typography
+              <Text
                 style={{ fontWeight: 600, fontSize: 22 }}
-                color='inherit'
               >
                 Fribbels Honkai Star Rail Optimizer
-              </Typography>
+              </Text>
             </Flex>
           </a>
         </Flex>

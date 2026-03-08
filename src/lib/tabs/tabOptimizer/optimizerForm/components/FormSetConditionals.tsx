@@ -1,10 +1,9 @@
-import { Flex } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import {
   Drawer,
   Popover,
   Select,
   Switch,
-  Typography,
 } from 'antd'
 import {
   Constants,
@@ -34,8 +33,6 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const { Text } = Typography
 
 const setConditionalsIconWidth = 40
 const setConditionalsNameWidth = 200

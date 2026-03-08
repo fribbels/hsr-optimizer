@@ -1,7 +1,6 @@
-import { Flex } from '@mantine/core'
+import { Flex, Text as MantineText } from '@mantine/core'
 import {
   Select,
-  Typography,
 } from 'antd'
 import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
@@ -17,7 +16,8 @@ import styled from 'styled-components'
 const justify = 'flex-start'
 const align = 'center'
 
-const Text = styled(Typography)`
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+const Text = styled(MantineText as any)`
     white-space: pre-line;
 `
 

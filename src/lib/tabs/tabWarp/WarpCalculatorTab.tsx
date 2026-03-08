@@ -1,6 +1,6 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Card, Form as AntDForm, Form, Radio, Select, SelectProps, Space, Tag, TreeSelect } from 'antd'
-import { Button, Flex, NumberInput, Table, Text, TextInput, Title as MantineTitle } from '@mantine/core'
+import { Form as AntDForm, Form, Radio, Select, SelectProps, TreeSelect } from 'antd'
+import { Badge, Button, Flex, NumberInput, Paper, Table, Text, TextInput, Title as MantineTitle } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -101,7 +101,7 @@ function Inputs() {
         width: 900,
       }}
     >
-      <Card style={{ width: 900 }}>
+      <Paper style={{ width: 900 }} p="md">
         <Flex style={{ marginBottom: 30 }}>
           <Flex direction="column" style={{ flex: 1 }}>
             <Title>
@@ -168,7 +168,7 @@ function Inputs() {
                 <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
 
-                  <Space.Compact style={{ display: 'flex' }}>
+                  <Flex gap={0} style={{ display: 'flex' }}>
                     <TextInput
                       disabled
                       style={{
@@ -189,7 +189,7 @@ function Inputs() {
                         optionLabelProp='labelInValue'
                       />
                     </Form.Item>
-                  </Space.Compact>
+                  </Flex>
                 </Flex>
 
                 <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
@@ -243,7 +243,7 @@ function Inputs() {
             {t('Calculate')/* Calculate */}
           </Button>
         </Flex>
-      </Card>
+      </Paper>
     </Form>
   )
 }
@@ -351,11 +351,11 @@ function Results() {
                       }}
                     />
                     <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
-                      <Tag color='#000000aa' style={{ opacity: opacity(record.wins), border: 0, padding: '2px 12px 2px 12px' }}>
+                      <Badge color='#000000aa' style={{ opacity: opacity(record.wins), border: 0, padding: '2px 12px 2px 12px' }}>
                         <Text style={{ margin: 0, alignItems: 'center' }}>
                           {translateLabel(record.key)}
                         </Text>
-                      </Tag>
+                      </Badge>
                     </Flex>
                   </Flex>
                 </Table.Td>

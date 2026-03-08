@@ -1,5 +1,4 @@
-import { Flex, Text, useMantineTheme } from '@mantine/core'
-import CheckableTag from 'antd/lib/tag/CheckableTag'
+import { Flex, Text, UnstyledButton, useMantineTheme } from '@mantine/core'
 import {
   ElementName,
   ElementToDamage,
@@ -131,10 +130,9 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
       }}
     >
       {tags.map((tag) => (
-        <CheckableTag
+        <UnstyledButton
           key={tag.key.toString()}
-          checked={currentFilter.includes(tag.key)}
-          onChange={(checked) => handleChange(tag.key, checked)}
+          onClick={() => handleChange(tag.key, !currentFilter.includes(tag.key))}
           style={{
             flex: 1,
             flexBasis: tag.flexBasis ?? flexBasis,
@@ -145,7 +143,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
           <Flex align='center' justify='space-around' style={{ height: '100%' }}>
             {tag.display}
           </Flex>
-        </CheckableTag>
+        </UnstyledButton>
       ))}
     </Flex>
   )

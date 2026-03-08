@@ -2,11 +2,7 @@ import {
   IconChevronDown,
   IconChevronRight,
 } from '@tabler/icons-react'
-import {
-  Tabs,
-  TabsProps,
-} from 'antd'
-import { Badge, Flex, Table, Text } from '@mantine/core'
+import { Badge, Flex, Table, Tabs, Text } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
@@ -191,7 +187,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
 function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[], dataSource200: BenchmarkRow[] }) {
   const spd = dataSource100[0]?.orchestrator.flags.benchmarkBasicSpdTarget
   const { t } = useTranslation('benchmarksTab', { keyPrefix: `ResultsTabs.${spd == null ? 'WithoutSpeed' : 'WithSpeed'}` })
-  const items: TabsProps['items'] = useMemo(() => [
+  const items = useMemo(() => [
     {
       key: '100',
       label: t('100', { Speed: TsUtils.precisionRound(spd).toLocaleString(currentLocale()) }),
@@ -207,14 +203,14 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
   return (
     <Tabs
       className='benchmark-tabs'
-      animated
-      size='large'
-      type='card'
-      tabBarGutter={5}
-      defaultActiveKey='200'
-      items={items}
-      tabBarStyle={{ width: '100%', margin: 0 }}
-    />
+      variant='outline'
+      defaultValue='200'
+    >
+      <Tabs.List style={{ width: '100%', margin: 0 }}>
+        {items.map((item) => <Tabs.Tab key={item.key} value={item.key}>{item.label}</Tabs.Tab>)}
+      </Tabs.List>
+      {items.map((item) => <Tabs.Panel key={item.key} value={item.key}>{item.children}</Tabs.Panel>)}
+    </Tabs>
   )
 }
 

@@ -1,7 +1,4 @@
-import {
-  List,
-} from 'antd'
-import { Flex, Text, Title, useMantineTheme } from '@mantine/core'
+import { Flex, Pagination, Text, Title, useMantineTheme } from '@mantine/core'
 import {
   CURRENT_DATA_VERSION,
   officialOnly,
@@ -12,6 +9,7 @@ import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, {
   ReactElement,
   useMemo,
+  useState,
 } from 'react'
 
 type ChangelogContent = { title: string, date: string, content: string[] }
@@ -79,27 +77,27 @@ export default function ChangelogTab(): React.JSX.Element {
     )
   }
 
+  const PAGE_SIZE = 4
+  const [page, setPage] = useState(1)
+  const totalPages = Math.ceil(changelogContent.length / PAGE_SIZE)
+  const paginatedItems = changelogContent.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+
   return (
-    <List
-      itemLayout='vertical'
-      size='large'
-      pagination={{
-        onChange: (page) => {
-          console.log(page)
-        },
-        position: 'bottom',
-        align: 'start',
-        pageSize: 4,
-      }}
-      dataSource={changelogContent}
-      renderItem={(item) => (
-        <List.Item
-          key={item.title}
-        >
+    <Flex direction="column" gap={0}>
+      {paginatedItems.map((item) => (
+        <div key={item.title}>
           {listToDisplay(item.content, item)}
-        </List.Item>
+        </div>
+      ))}
+      {totalPages > 1 && (
+        <Pagination
+          total={totalPages}
+          value={page}
+          onChange={setPage}
+          mt="md"
+        />
       )}
-    />
+    </Flex>
   )
 }
 

@@ -4,11 +4,9 @@ import {
   IconUser,
 } from '@tabler/icons-react'
 import {
-  Dropdown,
   Modal,
 } from 'antd'
-import { Button } from '@mantine/core'
-import { MenuProps } from 'antd/lib'
+import { Button, Menu } from '@mantine/core'
 import { TFunction } from 'i18next'
 import {
   OpenCloseIDs,
@@ -47,31 +45,39 @@ export function CharacterMenu() {
 
   const items = useMemo(() => generateItems(t), [t])
 
-  const actionsMenuProps = { items, onClick }
-
   return (
     <>
-      <Dropdown
-        placement='topLeft'
-        menu={actionsMenuProps}
-        trigger={['hover']}
-      >
-        <Button
-          style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}
-          leftSection={<IconUser size={16} />}
-          variant='default'
-        >
-          {t('CharacterMenu.ButtonText') /* Character menu */}
-          <IconChevronDown />
-        </Button>
-      </Dropdown>
+      <Menu trigger='hover' position='top-start'>
+        <Menu.Target>
+          <Button
+            style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}
+            leftSection={<IconUser size={16} />}
+            variant='default'
+          >
+            {t('CharacterMenu.ButtonText') /* Character menu */}
+            <IconChevronDown />
+          </Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          {items.map((group) => (
+            <React.Fragment key={group.key}>
+              <Menu.Label>{group.label}</Menu.Label>
+              {group.children.map((child) => (
+                <Menu.Item key={child.key} onClick={() => onClick({ key: child.key })}>
+                  {child.label}
+                </Menu.Item>
+              ))}
+            </React.Fragment>
+          ))}
+        </Menu.Dropdown>
+      </Menu>
       {contextHolder}
     </>
   )
 }
 
 function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean>, t: TFunction<'charactersTab'>) {
-  async function onClick(e: Parameters<NonNullable<MenuProps['onClick']>>[0]) {
+  async function onClick(e: { key: string }) {
     const key = e.key as ReturnType<typeof generateItems>[number]['children'][number]['key']
     const { selectedCharacter, focusCharacter, setCharacterModalInitialCharacter, setCharacterModalOpen } = useCharacterTabStore.getState()
     if (!selectedCharacter && !(key === 'scoring' || key === 'sortByScore' || key === 'add')) {

@@ -5,9 +5,6 @@ import {
 import { ValueFormatterParams } from 'ag-grid-community'
 import { CustomCellRendererProps } from 'ag-grid-react'
 import { Flex, Tooltip } from '@mantine/core'
-import {
-  Image,
-} from 'antd'
 import i18next from 'i18next'
 import { CircleIcon } from 'icons/CircleIcon'
 import { RingedCircle4Icon } from 'icons/RingedCircle4Icon'
@@ -261,8 +258,7 @@ const gradeToColor = {
 function SetDisplay(props: { asset: string }) {
   if (props.asset) {
     return (
-      <Image src={props.asset} width={32} preview={false}>
-      </Image>
+      <img src={props.asset} style={{ width: 32 }} />
     )
   } else {
     return ''

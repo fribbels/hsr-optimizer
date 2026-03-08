@@ -5,7 +5,6 @@ import {
 } from '@tabler/icons-react'
 import {
   Form,
-  Image,
   theme,
 } from 'antd'
 import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select, TextInput, Tooltip } from '@mantine/core'
@@ -63,9 +62,8 @@ function partSegmentData(value: string, src: string) {
   return {
     value,
     label: (
-      <Image
-        preview={false}
-        width={30}
+      <img
+        style={{ width: 30 }}
         src={src}
       />
     ),

@@ -973,6 +973,40 @@ Characters:
       selfCurrentHpPercent:
         text: Self current HP%
         content: Based on Arlan's current missing HP percentage, gains DMG bonus, up to a maximum increase of {{talentMissingHpDmgBoostMax}}% DMG dealt by Arlan.
+  Ashveil:
+    Content:
+      baitActive:
+        text: Bait active
+        content: When "Bait" exists on the field, all enemies' DEF is reduced by {{baitActiveDefPen}}%.
+      targetBait:
+        text: Target is Bait
+        content: If the target of Ashveil's skill is already marked as "Bait," additionally deals Lightning DMG equal to {{baitHitAdditionalScaling}}% of Ashveil's ATK to the target
+      enhancedFua:
+        text: Enhanced Fua
+        content: >-
+          After casting his ultimate, Ashveil will launch an enhanced Follow-Up Attack.
+          ::BR::
+          When "Gluttony" is in possession, for every 4 stacks of "Gluttony" consumed, this Attack additionally deals 1 instance of Lightning DMG equal to {{enhancedFuaGluttonyScaling}}% of Ashveil's ATK.
+      gluttonyStacks:
+        text: Gluttony stacks
+        content: >-
+          After casting his ultimate, Ashveil will launch an enhanced Follow-Up Attack.
+          ::BR::
+          When "Gluttony" is in possession, for every 4 stacks of "Gluttony" consumed, this Attack additionally deals 1 instance of Lightning DMG equal to {{enhancedFuaGluttonyScaling}}% of Ashveil's ATK.
+          ::BR::
+          A4: DMG dealt by Ashveil's Follow-Up ATK increases by 80%, and for every 1 stacks of "Gluttony" in possession, DMG dealt by Follow-Up ATK additionally increases by 10%.
+      e1DmgVulnerability:
+        text: E1 DMG vulnerability
+        content: While Ashveil is on the field, increases DMG taken by all enemies by 24%. When an enemy target's current HP percentage is 50% or lower, the DMG they take increases to 36%.
+      e1TargetHpBelow50:
+        text: E1 target HP ≤ 50%
+        content: While Ashveil is on the field, increases DMG taken by all enemies by 24%. When an enemy target's current HP percentage is 50% or lower, the DMG they take increases to 36%.
+      e4AtkBuff:
+        text: E4 ATK buff
+        content: When Ashveil uses his Ultimate, increases ATK by 40% for 3 turns.
+      e6GluttonyGainedStacks:
+        text: E6 Gluttony stacks
+        content: While "Bait" exists on the field, reduces all enemies' All-Type RES by 20%. For each stack of "Gluttony" Ashveil has gained, his DMG dealt increases by 4.0%.
   Asta:
     Content:
       skillExtraDmgHits:
@@ -2300,7 +2334,7 @@ Characters:
       punchlineStacks:
         text: Punchline stacks
         content: >-
-          For every 1 Punchline currently owned, increases all allies' CRIT DMG by 8%, up to a max increase of 80%.
+          A6: For every 1 Punchline currently owned, increases all allies' CRIT DMG by 8%, up to a max increase of 80%.
           ::BR::
           E1: For every 1 Punchline owned, increases All-Type RES PEN for all allies by 1.5%, up to a max increase of 15%.
           ::BR::

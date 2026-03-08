@@ -24,6 +24,7 @@ NoTeamConditionals: No conditional team passives
 ResultLimitN: 'Find top {{limit}} results'
 MainStats: Main stats
 Sets: Sets
+UnreleasedDisclaimer: Calculations for {{nameList}} are not complete yet, optimizer results will not be accurate
 RelicSetSelector:
   Placeholder: Relic set
   4pcLabel: 4 Piece

@@ -306,7 +306,6 @@ const display = {
 
 export const DanHeng: CharacterConfig = {
   id: '1002',
-  info: {},
   display,
   conditionals,
   get scoring() {

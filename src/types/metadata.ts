@@ -9,14 +9,14 @@ import {
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
 import { statConversion } from 'lib/importer/characterConverter'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOptionProperties } from 'lib/optimization/sortOptions'
 import { PresetDefinition } from 'lib/scoring/presetEffects'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
 
@@ -110,19 +110,16 @@ export type DBMetadataCharacter = {
   traces: Record<string, number>,
   traceTree: TraceNode[],
   imageCenter: ImageCenter,
-  displayName: string,
   scoringMetadata: ScoringMetadata,
 }
 
 export type DBMetadataLightCone = {
   id: LightConeId,
-  name: string,
   rarity: 5 | 4 | 3,
   path: PathName,
   stats: Record<string, number>,
   unreleased: boolean,
   superimpositions: Record<number, Record<string, number>>,
-  displayName: string,
   imageOffset: { x: number, y: number, s: number },
 }
 

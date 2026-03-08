@@ -1,3 +1,6 @@
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
   Conditionals,
@@ -5,39 +8,44 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  MATCH_2P_WEIGHT,
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
-} from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  NULL_TURN_ABILITY_NAME,
-  START_SKILL,
-  DEFAULT_ULT,
-  END_BASIC,
-  DEFAULT_FUA,
-  WHOLE_BASIC,
-  AbilityKind,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  AbilityKind,
+  DEFAULT_FUA,
+  DEFAULT_ULT,
+  END_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
 import { CharacterConditionalsController } from 'types/conditionals'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -214,7 +222,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -339,8 +346,9 @@ const display = {
 
 export const BladeB1: CharacterConfig = {
   id: '1205b1',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

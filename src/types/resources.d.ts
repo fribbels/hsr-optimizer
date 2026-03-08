@@ -6013,6 +6013,7 @@ interface Resources {
     "ResultLimitN": "Find top {{limit}} results",
     "MainStats": "Main stats",
     "Sets": "Sets",
+    "UnreleasedDisclaimer": "Calculations for {{nameList}} are not complete yet, optimizer results will not be accurate",
     "RelicSetSelector": {
       "Placeholder": "Relic set",
       "4pcLabel": "4 Piece",
@@ -6714,7 +6715,7 @@ interface Resources {
         }
       },
       "DamageSplits": {
-        "Title": "Damage Type Distribution",
+        "Title": "Combo Breakdown",
         "Legend": {
           "abilityDmg": "Ability",
           "breakDmg": "Break",

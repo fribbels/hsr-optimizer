@@ -102,3 +102,26 @@ export function getGlobalThemeConfigFromColorTheme(colorTheme: ColorThemeOverrid
     algorithm: theme.darkAlgorithm,
   }
 }
+
+import { createTheme, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
+
+const primaryShades: MantineColorsTuple = [
+  '#e5f0ff', '#ccdcff', '#99b5fb', '#6389f5', '#3868f0',
+  '#1b54ee', '#0a49ef', '#0039d4', '#002fbe', '#1677FF',
+]
+
+export function createMantineTheme(colorTheme: ColorThemeOverrides): MantineThemeOverride {
+  return createTheme({
+    primaryColor: 'primary',
+    colors: {
+      primary: primaryShades,
+      dark: [
+        '#C1C2C5', '#A6A7AB', '#909296', '#5c5f66',
+        '#373A40', '#2C2E33', '#25262b', '#1A1B1E',
+        colorTheme.colorBgBase, '#101113',
+      ],
+    },
+    fontFamily: 'inherit',
+    defaultRadius: 'sm',
+  })
+}

@@ -46,6 +46,7 @@ type OptimizerFormActions = {
   setResultSort: (sort: keyof typeof SortOption | undefined) => void
   setResultsLimit: (limit: number) => void
   setStatSim: (sim: OptimizerFormState['statSim']) => void
+  updateStatSimField: (simType: string, field: string, value: unknown) => void
   setTeammateField: <K extends keyof TeammateState>(index: 0 | 1 | 2, key: K, value: TeammateState[K]) => void
 
   // Complex actions (Task 10)
@@ -111,6 +112,20 @@ export const useOptimizerFormStore = create<OptimizerFormStore>()((set, get) => 
   setResultsLimit: (limit) => set({ resultsLimit: limit }),
 
   setStatSim: (sim) => set({ statSim: sim }),
+
+  updateStatSimField: (simType, field, value) => set((state) => {
+    const current = state.statSim ?? {} as NonNullable<OptimizerFormState['statSim']>
+    const simSection = (current as unknown as Record<string, Record<string, unknown>>)[simType] ?? {}
+    return {
+      statSim: {
+        ...current,
+        [simType]: {
+          ...simSection,
+          [field]: value,
+        },
+      },
+    }
+  }),
 
   setTeammateField: (index, key, value) => set((state) => {
     const teammates: [TeammateState, TeammateState, TeammateState] = [...state.teammates]

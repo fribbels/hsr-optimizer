@@ -47,10 +47,7 @@ import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerForm
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Form,
-  OptimizerForm,
-} from 'types/form'
+import { OptimizerForm } from 'types/form'
 
 const { Text } = Typography
 
@@ -58,6 +55,22 @@ export const STAT_SIMULATION_ROW_HEIGHT = 425
 export const STAT_SIMULATION_GRID_WIDTH = 680
 export const STAT_SIMULATION_OPTIONS_WIDTH = 215
 export const STAT_SIMULATION_STATS_WIDTH = 190
+
+// Helper to read a field from the statSim store
+function useStatSimField<T = unknown>(simType: string, field: string): T | undefined {
+  return useOptimizerFormStore((s) => {
+    const sim = s.statSim as Record<string, Record<string, unknown>> | undefined
+    return sim?.[simType]?.[field] as T | undefined
+  })
+}
+
+// Helper to read a stat value from the statSim store
+function useStatSimStat(simType: string, statName: string): number | undefined {
+  return useOptimizerFormStore((s) => {
+    const sim = s.statSim as Record<string, Record<string, Record<string, number>>> | undefined
+    return sim?.[simType]?.stats?.[statName]
+  })
+}
 
 export function StatSimulationDisplay() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
@@ -186,32 +199,31 @@ function SimulationInputs() {
     return sum
   }, [statSimFormValues])
 
+  const simType = StatSimTypes.SubstatRolls
+  const nameValue = useStatSimField<string>(simType, 'name')
+
   const renderedOptions = useMemo(() => {
     return (
       <>
-        <AntDForm.Item name={formName('simulations')}>
-          <Input
-            placeholder='This is a fake hidden input to save simulations into the form'
-            style={{ display: 'none' }}
-          />
-        </AntDForm.Item>
-
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
           <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <HeaderText>{t('SetSelection.Header')}</HeaderText>
-            <SetsSection simType={StatSimTypes.SubstatRolls} />
-            <MainStatsSection simType={StatSimTypes.SubstatRolls} />
+            <OptimizerSetsSection simType={simType} />
+            <MainStatsSection simType={simType} />
 
             <HeaderText>{t('OptionsHeader') /* Options */}</HeaderText>
 
-            <AntDForm.Item name={formName(StatSimTypes.SubstatRolls, 'name')}>
-              <Input placeholder={t('SimulationNamePlaceholder') /* 'Simulation name (Optional)' */} autoComplete='off' />
-            </AntDForm.Item>
+            <Input
+              placeholder={t('SimulationNamePlaceholder') /* 'Simulation name (Optional)' */}
+              autoComplete='off'
+              value={nameValue ?? ''}
+              onChange={(e) => useOptimizerFormStore.getState().updateStatSimField(simType, 'name', e.target.value)}
+            />
           </Flex>
 
           <VerticalDivider />
 
-          <SubstatsSection simType={StatSimTypes.SubstatRolls} title={t('RollsHeader') /* 'Substat max rolls' */} total={substatRollsTotal} />
+          <SubstatsSection simType={simType} title={t('RollsHeader') /* 'Substat max rolls' */} total={substatRollsTotal} />
         </Flex>
 
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.Disabled ? 'flex' : 'none' }}>
@@ -220,7 +232,7 @@ function SimulationInputs() {
         </Flex>
       </>
     )
-  }, [statSimulationDisplay, substatRollsTotal, t])
+  }, [statSimulationDisplay, substatRollsTotal, nameValue, simType, t])
 
   return (
     <Flex style={{ minHeight: 300 }}>
@@ -229,6 +241,69 @@ function SimulationInputs() {
   )
 }
 
+// Optimizer-tab version: reads/writes from Zustand store (no AntD Form context needed)
+function OptimizerSetsSection(props: { simType: string }) {
+  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
+  const simType = props.simType
+
+  const simRelicSet1 = useStatSimField<string>(simType, 'simRelicSet1')
+  const simRelicSet2 = useStatSimField<string>(simType, 'simRelicSet2')
+  const simOrnamentSet = useStatSimField<string>(simType, 'simOrnamentSet')
+
+  const updateField = useOptimizerFormStore.getState().updateStatSimField
+
+  // Save a click by assuming the first relic set is a 4p
+  const handleRelicSet1Change = (value: string) => {
+    updateField(simType, 'simRelicSet1', value)
+    updateField(simType, 'simRelicSet2', value)
+  }
+
+  return (
+    <>
+      <Select
+        dropdownStyle={{ width: 250 }}
+        style={{ maxHeight: 32 }}
+        listHeight={700}
+        allowClear
+        options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
+        tagRender={OrnamentSetTagRenderer}
+        value={simRelicSet1}
+        onChange={handleRelicSet1Change}
+        placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
+        maxTagCount='responsive'
+        showSearch
+      />
+      <Select
+        dropdownStyle={{ width: 250 }}
+        style={{ maxHeight: 32 }}
+        listHeight={700}
+        allowClear
+        options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
+        tagRender={OrnamentSetTagRenderer}
+        value={simRelicSet2}
+        onChange={(value) => updateField(simType, 'simRelicSet2', value)}
+        placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
+        maxTagCount='responsive'
+        showSearch
+      />
+      <Select
+        dropdownStyle={{ width: 250 }}
+        style={{ maxHeight: 32 }}
+        listHeight={600}
+        allowClear
+        options={useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])}
+        tagRender={OrnamentSetTagRenderer}
+        value={simOrnamentSet}
+        onChange={(value) => updateField(simType, 'simOrnamentSet', value)}
+        placeholder={t('SetSelection.OrnamentPlaceholder')} // 'Ornament set'
+        maxTagCount='responsive'
+        showSearch
+      />
+    </>
+  )
+}
+
+// BenchmarksTab version: uses AntD Form.Item for auto-binding (requires parent AntD Form context)
 export function SetsSection(props: { simType: string }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm | OptimizerForm>()
@@ -368,21 +443,24 @@ type SelectorOptions = {
 }
 
 function MainStatSelector(props: { simType: string, placeholder: string, part: string, options: SelectorOptions[] }) {
+  const field = 'sim' + props.part
+  const value = useStatSimField<string>(props.simType, field)
+
   return (
-    <AntDForm.Item name={formName(props.simType, 'sim' + props.part)} style={{ flex: 1 }}>
-      <Select
-        placeholder={props.placeholder}
-        style={{ flex: 1 }}
-        allowClear
-        optionLabelProp='short'
-        maxTagCount='responsive'
-        suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(props.part)} />}
-        options={props.options}
-        listHeight={750}
-        popupMatchSelectWidth={200}
-        showSearch
-      />
-    </AntDForm.Item>
+    <Select
+      placeholder={props.placeholder}
+      style={{ flex: 1 }}
+      allowClear
+      optionLabelProp='short'
+      maxTagCount='responsive'
+      suffixIcon={<img style={{ width: 16 }} src={Assets.getPart(props.part)} />}
+      options={props.options}
+      value={value}
+      onChange={(val) => useOptimizerFormStore.getState().updateStatSimField(props.simType, field, val)}
+      listHeight={750}
+      popupMatchSelectWidth={200}
+      showSearch
+    />
   )
 }
 
@@ -429,19 +507,34 @@ function SubstatsSection(props: { simType: StatSimTypes, title: string, total?: 
   )
 }
 
-function StatInput(props: { label: string, name: string, simType: string, disabled?: boolean, value?: number }) {
+function StatInput(props: { label: string, name: string, simType: string }) {
+  const value = useStatSimStat(props.simType, props.name)
+
   return (
     <Flex justify='space-between' style={{ width: STAT_SIMULATION_STATS_WIDTH }}>
       <Text>
         {props.label}
       </Text>
-      <AntDForm.Item name={formName(props.simType, 'stats', props.name)}>
-        <InputNumber size='small' controls={false} disabled={props.disabled} value={props.value} style={{ width: 70 }} />
-      </AntDForm.Item>
+      <InputNumber
+        size='small'
+        controls={false}
+        value={value}
+        onChange={(val) => {
+          const store = useOptimizerFormStore.getState()
+          const sim = store.statSim as Record<string, Record<string, unknown>> | undefined
+          const currentStats = (sim?.[props.simType]?.stats ?? {}) as Record<string, number>
+          store.updateStatSimField(props.simType, 'stats', {
+            ...currentStats,
+            [props.name]: val,
+          })
+        }}
+        style={{ width: 70 }}
+      />
     </Flex>
   )
 }
 
+// formName is still used by SetsSection (BenchmarksTab context)
 function formName(str1: string, str2?: string, str3?: string): string[] {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   if (str1 == StatSimTypes.Benchmarks) return [str2, str3].filter((x) => x) as string[]

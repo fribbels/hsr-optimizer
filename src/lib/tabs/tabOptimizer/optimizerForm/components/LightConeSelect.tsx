@@ -1,5 +1,5 @@
-import { Flex, Select, TextInput } from '@mantine/core'
-import { Card, Modal, } from 'antd'
+import { Flex, Modal, Select, TextInput } from '@mantine/core'
+import { Card, } from 'antd'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
@@ -141,17 +141,15 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
       />
 
       <Modal
-        open={open || externalOpen}
+        opened={open || !!externalOpen}
         centered
-        width='90%'
-        style={{ height: '70%', maxWidth: 1200 }}
-        destroyOnClose
+        size='90%'
+        styles={{ content: { height: '70%', maxWidth: 1200 } }}
         title={t('Title')}
-        onCancel={() => {
+        onClose={() => {
           setOpen(false)
           if (setExternalOpen) setExternalOpen(false)
         }}
-        footer={null}
       >
         <Flex direction="column" gap={12}>
           <Flex gap={12} wrap='wrap'>

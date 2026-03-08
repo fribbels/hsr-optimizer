@@ -2,10 +2,7 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, Select, Switch, Text } from '@mantine/core'
-import {
-  Drawer,
-} from 'antd'
+import { Drawer, Flex, Select, Switch, Text } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -93,11 +90,10 @@ export const EnemyConfigurationsDrawer = () => {
   return (
     <Drawer
       title={t('Title')} // 'Enemy configurations'
-      placement='right'
+      position='right'
       onClose={closeEnemyDrawer}
-      open={isOpenEnemyDrawer}
-      width={300}
-      forceRender
+      opened={isOpenEnemyDrawer}
+      size={300}
     >
       <Flex direction="column" gap={5}>
         <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>

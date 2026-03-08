@@ -1,5 +1,5 @@
-import { Button, Flex, MultiSelect, Select, TextInput } from '@mantine/core'
-import { Card, Modal, } from 'antd'
+import { Button, Flex, Modal, MultiSelect, Select, TextInput } from '@mantine/core'
+import { Card, } from 'antd'
 import { ElementName, PathName, } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { CharacterOptions, generateCharacterOptions, } from 'lib/rendering/optionGenerator'
@@ -188,13 +188,12 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
         )}
 
       <Modal
-        open={open || externalOpen}
+        opened={open || !!externalOpen}
         centered
-        destroyOnClose
-        width='90%'
-        style={{ height: '80%', maxWidth: 1450 }}
+        size='90%'
+        styles={{ content: { height: '80%', maxWidth: 1450 } }}
         title={multipleSelect ? t('MultiSelect.ModalTitle') /* select characters to exclude */ : t('SingleSelect.ModalTitle') /* select a character */}
-        onCancel={() => {
+        onClose={() => {
           if (multipleSelect) {
             if (onChange) onChange(selected)
           }
@@ -202,7 +201,6 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
           setOpen(false)
           if (setExternalOpen) setExternalOpen(false)
         }}
-        footer={null}
       >
         <Flex direction="column" gap={12} style={{ minWidth: 350 }}>
           <Flex gap={12} wrap='wrap'>

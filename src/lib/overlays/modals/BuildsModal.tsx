@@ -5,10 +5,10 @@ import {
   IconTrash,
 } from '@tabler/icons-react'
 import {
-  Modal,
+  Modal as AntdModal,
   theme,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, Modal } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
@@ -49,7 +49,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
     close,
   } = props
   const { t } = useTranslation(['modals', 'gameData', 'common'])
-  const [confirmationModal, contextHolder] = Modal.useModal()
+  const [confirmationModal, contextHolder] = AntdModal.useModal()
   const [selectedBuild, setSelectedBuild] = useState<null | number>(null)
 
   const [loading, setLoading] = useState(false)
@@ -66,14 +66,10 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
   if (!selectedCharacter?.builds?.length) {
     return (
       <Modal
-        open={isOpen}
-        width={300}
-        destroyOnClose
-        onOk={close}
-        onCancel={close}
+        opened={isOpen}
+        size={300}
+        onClose={close}
         centered
-        okText={t('common:Ok') /* Ok */}
-        cancelText={t('common:Cancel') /* Cancel */}
       >
         {t('Builds.NoBuilds.NoneSaved') /* No saved builds */}
         {contextHolder}
@@ -186,39 +182,10 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
 
   return (
     <Modal
-      open={isOpen}
-      width={1550}
-      destroyOnClose
+      opened={isOpen}
+      size={1550}
       centered
-      onOk={onModalOk}
-      onCancel={handleCancel}
-      footer={[
-        <Button
-          key='download'
-          leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
-          loading={loading}
-          onClick={() => {
-            console.log('download')
-            clipboardClicked('download')
-          }}
-          style={{ height: 50, width: 50, borderRadius: 8 }}
-        >
-        </Button>,
-        <Button
-          key='clipboard'
-          leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
-          loading={loading}
-          onClick={() => clipboardClicked('clipboard')}
-          style={{ height: 50, width: 50, borderRadius: 8 }}
-        >
-        </Button>,
-        <Button key='delete' onClick={() => handleDeleteAllBuilds()}>
-          {t('Builds.DeleteAll') /* Delete All */}
-        </Button>,
-        <Button key='back' onClick={handleCancel}>
-          {t('common:Cancel') /* Cancel */}
-        </Button>,
-      ]}
+      onClose={handleCancel}
     >
       <Flex gap={10}>
         <BuildList
@@ -232,6 +199,33 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
 
         {contextHolder}
         <BuildPreview character={selectedCharacter} build={build} />
+      </Flex>
+      <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
+        <Button
+          key='download'
+          leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
+          loading={loading}
+          onClick={() => {
+            console.log('download')
+            clipboardClicked('download')
+          }}
+          style={{ height: 50, width: 50, borderRadius: 8 }}
+        >
+        </Button>
+        <Button
+          key='clipboard'
+          leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
+          loading={loading}
+          onClick={() => clipboardClicked('clipboard')}
+          style={{ height: 50, width: 50, borderRadius: 8 }}
+        >
+        </Button>
+        <Button key='delete' onClick={() => handleDeleteAllBuilds()}>
+          {t('Builds.DeleteAll') /* Delete All */}
+        </Button>
+        <Button key='back' onClick={handleCancel}>
+          {t('common:Cancel') /* Cancel */}
+        </Button>
       </Flex>
     </Modal>
   )

@@ -1,7 +1,4 @@
-import { Button, Flex, Text } from '@mantine/core'
-import {
-  Modal,
-} from 'antd'
+import { Button, Flex, Modal, Text } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { Parts } from 'lib/constants/constants'
 import {
@@ -269,13 +266,10 @@ export function ZeroPermutationsSuggestionsModal() {
   return (
     <Modal
       title={t('0Perms.Title') /* Search generated 0 permutations */}
-      open={isOpenZeroPermsModal}
-      width={950}
-      destroyOnClose
+      opened={isOpenZeroPermsModal}
+      size={950}
       centered
-      onOk={closeZeroPermsModal}
-      onCancel={closeZeroPermsModal}
-      footer={null}
+      onClose={closeZeroPermsModal}
     >
       <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
         <Text>
@@ -468,13 +462,10 @@ export function ZeroResultSuggestionModal() {
   return (
     <Modal
       title={t('0Results.Title') /* Search generated 0 results */}
-      open={isOpenZeroResultsModal}
-      width={950}
-      destroyOnClose
+      opened={isOpenZeroResultsModal}
+      size={950}
       centered
-      onOk={closeZeroResultsModal}
-      onCancel={closeZeroResultsModal}
-      footer={null}
+      onClose={closeZeroResultsModal}
     >
       <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
         <Flex justify='space-between' align='center' style={{ height: 45 }}>

@@ -1,4 +1,4 @@
-import { Alert } from 'antd'
+import { Alert } from '@mantine/core'
 import i18next from 'i18next'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import {
@@ -37,12 +37,12 @@ export function CharacterAnnouncement(props: { characterId: string, asyncSimScor
     const message = messages[i]
     render.push(
       <Alert
-        message={message}
-        type='info'
-        showIcon
+        color='blue'
         style={{ marginTop: 10 }}
         key={i}
-      />,
+      >
+        {message}
+      </Alert>,
     )
   }
 

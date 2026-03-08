@@ -1,4 +1,4 @@
-import { Alert } from 'antd'
+import { Alert } from '@mantine/core'
 import DB from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useMemo } from 'react'
@@ -60,9 +60,9 @@ export function UnreleasedCharacterDisclaimer() {
 
   return (
     <Alert
-      message={`Calculations for ${unreleasedNames.join(', ')} are not complete yet, optimizer results will not be accurate`}
-      type='warning'
-      showIcon
-    />
+      color='yellow'
+    >
+      {`Calculations for ${unreleasedNames.join(', ')} are not complete yet, optimizer results will not be accurate`}
+    </Alert>
   )
 }

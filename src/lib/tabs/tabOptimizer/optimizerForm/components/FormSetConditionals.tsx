@@ -1,8 +1,4 @@
-import { Flex, Select, Switch, Text } from '@mantine/core'
-import {
-  Drawer,
-  Popover,
-} from 'antd'
+import { Drawer, Flex, Popover, Select, Switch, Text } from '@mantine/core'
 import {
   Constants,
   Sets,
@@ -110,35 +106,34 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
   }
 
   return (
-    <Popover
-      content={content}
-      title={t('SetName', { id: setToId[props.set] })}
-      mouseEnterDelay={0.5}
-      overlayStyle={{
-        width: 600,
-      }}
-    >
-      <Flex gap={defaultGap} align='center' justify='flex-start'>
-        <Flex style={{ width: setConditionalsIconWidth }}>
-          <img
-            src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
-            style={{ width: 36, height: 36 }}
-          />
+    <Popover width={600} position='bottom' withArrow>
+      <Popover.Target>
+        <Flex gap={defaultGap} align='center' justify='flex-start' style={{ cursor: 'pointer' }}>
+          <Flex style={{ width: setConditionalsIconWidth }}>
+            <img
+              src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
+              style={{ width: 36, height: 36 }}
+            />
+          </Flex>
+          <Text
+            style={{
+              width: setConditionalsNameWidth,
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {t('SetName', { id: setToId[props.set] })}
+          </Text>
+          <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
+            {inputType}
+          </Flex>
         </Flex>
-        <Text
-          style={{
-            width: setConditionalsNameWidth,
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {t('SetName', { id: setToId[props.set] })}
-        </Text>
-        <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
-          {inputType}
-        </Flex>
-      </Flex>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Text fw={600} mb={4}>{t('SetName', { id: setToId[props.set] })}</Text>
+        {content}
+      </Popover.Dropdown>
     </Popover>
   )
 }
@@ -190,11 +185,10 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
   return (
     <Drawer
       title={t('Title')} // 'Conditional set effects'
-      placement='right'
+      position='right'
       onClose={close}
-      open={isOpen}
-      width={750}
-      forceRender
+      opened={isOpen}
+      size={750}
     >
       <Flex justify='center'>
         <Flex direction="column" gap={defaultGap}>

@@ -1,8 +1,5 @@
 import { IconSettings } from '@tabler/icons-react'
-import {
-  Popover,
-} from 'antd'
-import { Flex, NumberInput, Text } from '@mantine/core'
+import { Flex, NumberInput, Popover, Text } from '@mantine/core'
 import {
   Parts,
   Sets,
@@ -73,42 +70,14 @@ export function RelicLocator(props: { relic: Relic | null }) {
 
   return (
     <Popover
-      trigger='click'
-      onOpenChange={(open) => {
+      onChange={(open) => {
         if (!open) {
           SaveState.delayedSave()
         }
       }}
-      content={
-        <Flex gap={8} style={{ minWidth: 260 }}>
-          <Flex direction="column">
-            <Flex justify='space-between' align='center'>
-              <HeaderText>{t('Width') /* Inventory width */}</HeaderText>
-            </Flex>
-            <NumberInput
-              defaultValue={inventoryWidth}
-              style={{ width: 'auto' }}
-              min={1}
-              onChange={(val) => setInventoryWidth(typeof val === 'number' ? val : null)}
-            />
-          </Flex>
-
-          <Flex direction="column">
-            <Flex justify='space-between' align='center' gap={10}>
-              <HeaderText>{t('Filter') /* Auto filter rows */}</HeaderText>
-              <TooltipImage type={Hint.locatorParams()} />
-            </Flex>
-            <NumberInput
-              defaultValue={rowLimit}
-              style={{ width: 'auto' }}
-              min={1}
-              onChange={(val) => setRowLimit(typeof val === 'number' ? val : null)}
-            />
-          </Flex>
-        </Flex>
-      }
     >
-      <Flex
+      <Popover.Target>
+        <Flex
         justify='space-between'
         align='center'
         style={{
@@ -147,6 +116,35 @@ export function RelicLocator(props: { relic: Relic | null }) {
             </Flex>
           )}
       </Flex>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Flex gap={8} style={{ minWidth: 260 }}>
+          <Flex direction="column">
+            <Flex justify='space-between' align='center'>
+              <HeaderText>{t('Width') /* Inventory width */}</HeaderText>
+            </Flex>
+            <NumberInput
+              defaultValue={inventoryWidth}
+              style={{ width: 'auto' }}
+              min={1}
+              onChange={(val) => setInventoryWidth(typeof val === 'number' ? val : null)}
+            />
+          </Flex>
+
+          <Flex direction="column">
+            <Flex justify='space-between' align='center' gap={10}>
+              <HeaderText>{t('Filter') /* Auto filter rows */}</HeaderText>
+              <TooltipImage type={Hint.locatorParams()} />
+            </Flex>
+            <NumberInput
+              defaultValue={rowLimit}
+              style={{ width: 'auto' }}
+              min={1}
+              onChange={(val) => setRowLimit(typeof val === 'number' ? val : null)}
+            />
+          </Flex>
+        </Flex>
+      </Popover.Dropdown>
     </Popover>
   )
 }

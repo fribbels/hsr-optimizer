@@ -1,8 +1,5 @@
 import { IconChevronsRight } from '@tabler/icons-react'
-import {
-  Modal,
-} from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Flex, Modal, Text } from '@mantine/core'
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import { V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -35,11 +32,10 @@ export default function RelicRerollModal({ open, onClose, relic }: RelicRerollMo
   return (
     <Modal
       title={t('Title') /* Relic Reroll Detected */}
-      open={open}
-      onOk={onClose}
-      cancelButtonProps={{ style: { display: 'none' } }}
+      opened={open}
+      onClose={onClose}
       centered
-      width={540}
+      size={540}
     >
       <Flex direction="column" gap={16}>
         <Flex gap={16} justify='space-between'>

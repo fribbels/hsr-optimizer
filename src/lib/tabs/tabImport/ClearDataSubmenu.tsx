@@ -1,7 +1,5 @@
 import { IconTrash } from '@tabler/icons-react'
-import {
-  Popconfirm,
-} from 'antd'
+import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Flex, Text } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
@@ -33,7 +31,7 @@ export function ClearDataSubmenu() {
       <Text>
         {t('Label') /* Clear all optimizer data. */}
       </Text>
-      <Popconfirm
+      <PopConfirm
         title={t('WarningTitle') /* Erase all data */}
         description={t('WarningDescription') /* Are you sure you want to clear all relics and characters */}
         onConfirm={clearDataClicked}
@@ -44,7 +42,7 @@ export function ClearDataSubmenu() {
         <Button leftSection={<IconTrash size={16} />} loading={loading} style={{ width: importerTabButtonWidth }}>
           {t('ButtonText') /* Clear data */}
         </Button>
-      </Popconfirm>
+      </PopConfirm>
     </Flex>
   )
 }

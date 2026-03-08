@@ -4,10 +4,9 @@ import {
 } from '@tabler/icons-react'
 import { ValueFormatterParams } from 'ag-grid-community'
 import { CustomCellRendererProps } from 'ag-grid-react'
-import { Flex } from '@mantine/core'
+import { Flex, Tooltip } from '@mantine/core'
 import {
   Image,
-  Tooltip,
 } from 'antd'
 import i18next from 'i18next'
 import { CircleIcon } from 'icons/CircleIcon'
@@ -215,8 +214,8 @@ export const Renderer = {
       return relic.verified
         ? (
           <Tooltip
-            mouseEnterDelay={0.4}
-            title={i18next.t('Verified4LinerHoverText')}
+            openDelay={400}
+            label={i18next.t('Verified4LinerHoverText')}
             // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
           >
             <RingedCircleCheckIcon color={circleColor} />
@@ -227,8 +226,8 @@ export const Renderer = {
       return relic.verified
         ? (
           <Tooltip
-            mouseEnterDelay={0.4}
-            title={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
+            openDelay={400}
+            label={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
           >
             <IconCircleCheckFilled style={{ fontSize: '14px', color: color }} />
           </Tooltip>

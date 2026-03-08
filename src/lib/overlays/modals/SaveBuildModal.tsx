@@ -2,10 +2,9 @@ import { IconAlertCircle } from '@tabler/icons-react'
 import {
   Divider,
   Form,
-  Modal,
-  Tooltip,
+  Modal as AntdModal,
 } from 'antd'
-import { Button, Flex, TextInput } from '@mantine/core'
+import { Button, Flex, Modal, TextInput, Tooltip } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import {
@@ -52,7 +51,7 @@ export function SaveBuildModal(props: {
     close,
   } = props
   const [characterForm] = Form.useForm<CharacterForm>()
-  const [confirmationModal, contextHolder] = Modal.useModal()
+  const [confirmationModal, contextHolder] = AntdModal.useModal()
 
   const [selectedBuild, setSelectedBuild] = useState<number | null>(null)
   const [inputName, setInputName] = useState<string>('')
@@ -168,13 +167,10 @@ export function SaveBuildModal(props: {
 
   return (
     <Modal
-      open={isOpen}
-      width={1550}
-      destroyOnClose
+      opened={isOpen}
+      size={1550}
       centered
-      onOk={onModalOk}
-      onCancel={handleCancel}
-      footer={[]}
+      onClose={handleCancel}
     >
       {contextHolder}
       <Flex gap={10} style={{ height: 856 }}>
@@ -201,16 +197,16 @@ export function SaveBuildModal(props: {
             {tCommon('Cancel') /* Cancel */}
           </Button>
           <Tooltip
-            title={saveDisabled
+            label={saveDisabled
               ? nameTaken ? t('Tooltip.SaveDisabled.NameTaken') : t('Tooltip.SaveDisabled.NoName')
               : ''}
-            placement='right'
+            position='right'
           >
             <Button onClick={onModalOk} style={buttonStyle} disabled={saveDisabled}>
               {tCommon('Save') /* Save */}
             </Button>
           </Tooltip>
-          <Tooltip title={overwriteDisabled ? t('Tooltip.OverwriteDisabled') : ''} placement='right'>
+          <Tooltip label={overwriteDisabled ? t('Tooltip.OverwriteDisabled') : ''} position='right'>
             <Button onClick={handleOverwrite} style={buttonStyle} disabled={overwriteDisabled}>
               {t('Overwrite')}
             </Button>

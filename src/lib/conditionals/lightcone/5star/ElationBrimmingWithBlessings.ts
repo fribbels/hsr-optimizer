@@ -36,7 +36,7 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       lc: true,
       id: 'elationBuff',
       formItem: 'switch',
-      text: t('elationBuff.content'),
+      text: t('elationBuff.text'),
       content: t('elationBuff.content', { elationBuff: TsUtils.precisionRound(100 * sValuesElation[s]) }),
     },
   }

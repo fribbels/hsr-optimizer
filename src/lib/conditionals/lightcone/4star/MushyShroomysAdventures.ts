@@ -39,8 +39,8 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       lc: true,
       id: 'elationVulnerability',
       formItem: 'switch',
-      text: t('elationVulnerability.content'),
-      content: t('elationVulnerability.text', { vulnerability: TsUtils.precisionRound(100 * sValues[s]) }),
+      text: t('elationVulnerability.text'),
+      content: t('elationVulnerability.content', { vulnerability: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   }
 

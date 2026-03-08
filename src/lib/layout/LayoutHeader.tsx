@@ -1,7 +1,7 @@
 import {
-  CloseOutlined,
-  MenuOutlined,
-} from '@ant-design/icons'
+  IconMenu2,
+  IconX,
+} from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -41,7 +41,7 @@ export function LayoutHeader() {
         <Flex>
           <Button
             type='text'
-            icon={isOpenMenuSidebar ? <CloseOutlined /> : <MenuOutlined />}
+            icon={isOpenMenuSidebar ? <IconX /> : <IconMenu2 />}
             onClick={toggleMenuSidebar}
             style={{
               fontSize: '16px',

@@ -1,7 +1,7 @@
 import {
-  CheckOutlined,
-  CloseOutlined,
-} from '@ant-design/icons'
+  IconCheck,
+  IconX,
+} from '@tabler/icons-react'
 import {
   Flex,
   Switch,
@@ -107,8 +107,8 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
   return (
     <Flex justify={justify} align={align}>
       <Switch
-        checkedChildren={<CheckOutlined />}
-        unCheckedChildren={<CloseOutlined />}
+        checkedChildren={<IconCheck />}
+        unCheckedChildren={<IconX />}
         disabled={props.disabled}
         style={{ width: 45, marginRight: 5 }}
         onChange={onChange}

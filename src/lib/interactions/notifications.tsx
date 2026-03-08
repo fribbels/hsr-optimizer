@@ -1,4 +1,4 @@
-import { UnorderedListOutlined } from '@ant-design/icons'
+import { IconList } from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -29,7 +29,7 @@ export function checkForUpdatesNotification(version: string) {
           <Flex gap={8}>
             <Button
               type='primary'
-              icon={<UnorderedListOutlined />}
+              icon={<IconList />}
               onClick={() => {
                 notifications.hide('update-notification')
                 window.store.getState().setActiveKey(AppPages.CHANGELOG)

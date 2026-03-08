@@ -1,8 +1,8 @@
 import {
-  CheckCircleFilled,
-  CloseCircleFilled,
-  QuestionOutlined,
-} from '@ant-design/icons'
+  IconCircleCheckFilled,
+  IconCircleXFilled,
+  IconQuestionMark,
+} from '@tabler/icons-react'
 import {
   Button,
   Collapse,
@@ -111,7 +111,7 @@ const columns: TableProps<StatDeltas>['columns'] = [
     dataIndex: 'pass',
     render: (pass) => (
       <Flex style={{ color: pass ? '#83ec66' : '#ef7979', width: '100%' }} justify='space-around'>
-        {pass ? <CheckCircleFilled /> : <CloseCircleFilled />}
+        {pass ? <IconCircleCheckFilled /> : <IconCircleXFilled />}
       </Flex>
     ),
     width: 20,
@@ -173,14 +173,14 @@ function TestIcon(props: { test: WebgpuTest }) {
   if (!test.done) {
     return (
       <Flex gap={8} style={{ color: 'e6e6e6' }}>
-        <QuestionOutlined />
+        <IconQuestionMark />
         {test.name}
       </Flex>
     )
   }
   return (
     <Flex gap={8} style={{ color: test.result.allPass ? '#83ec66' : '#ef7979' }}>
-      {test.result.allPass ? <CheckCircleFilled /> : <CloseCircleFilled />}
+      {test.result.allPass ? <IconCircleCheckFilled /> : <IconCircleXFilled />}
       {test.name}
     </Flex>
   )

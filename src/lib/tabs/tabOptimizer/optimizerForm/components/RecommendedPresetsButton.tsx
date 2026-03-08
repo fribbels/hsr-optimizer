@@ -1,4 +1,4 @@
-import { DownOutlined } from '@ant-design/icons'
+import { IconChevronDown } from '@tabler/icons-react'
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Dropdown } from 'antd'
 import { TFunction } from 'i18next'
@@ -226,7 +226,7 @@ export const RecommendedPresetsButton = () => {
       type='primary'
       menu={actionsMenuProps}
       onClick={() => applySpdPreset(allPresets.SPD0.value!, optimizerTabFocusCharacter)}
-      icon={<DownOutlined />}
+      icon={<IconChevronDown />}
       style={{ flex: 1, width: '100%' }}
     >
       {t('RecommendedPresets') /* Recommended presets */}

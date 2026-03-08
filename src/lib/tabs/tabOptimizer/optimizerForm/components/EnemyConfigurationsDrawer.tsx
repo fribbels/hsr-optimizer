@@ -1,7 +1,7 @@
 import {
-  CheckOutlined,
-  CloseOutlined,
-} from '@ant-design/icons'
+  IconCheck,
+  IconX,
+} from '@tabler/icons-react'
 import {
   Drawer,
   Flex,
@@ -153,8 +153,8 @@ export const EnemyConfigurationsDrawer = () => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
+            checkedChildren={<IconCheck />}
+            unCheckedChildren={<IconX />}
             checked={enemyElementalWeak}
             onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyElementalWeak', val)}
             style={{ width: 45, marginRight: 5 }}
@@ -164,8 +164,8 @@ export const EnemyConfigurationsDrawer = () => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<CheckOutlined />}
-            unCheckedChildren={<CloseOutlined />}
+            checkedChildren={<IconCheck />}
+            unCheckedChildren={<IconX />}
             checked={enemyWeaknessBroken}
             onChange={(val) => useOptimizerFormStore.getState().setEnemyField('enemyWeaknessBroken', val)}
             style={{ width: 45, marginRight: 5 }}

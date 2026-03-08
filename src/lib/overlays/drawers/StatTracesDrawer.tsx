@@ -1,4 +1,4 @@
-import { CaretDownOutlined } from '@ant-design/icons'
+import { IconChevronDown } from '@tabler/icons-react'
 import {
   Button,
   Drawer,
@@ -138,7 +138,7 @@ export const StatTracesDrawer = () => {
           fieldNames={{ title: 'stat', key: 'id', children: 'children' }}
           defaultExpandParent
           defaultExpandAll
-          switcherIcon={<CaretDownOutlined />}
+          switcherIcon={<IconChevronDown />}
           // @ts-ignore
           treeData={treeData}
           // @ts-ignore

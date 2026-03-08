@@ -1,20 +1,20 @@
 import {
-  BarChartOutlined,
-  BarsOutlined,
-  BookOutlined,
-  HomeOutlined,
-  LineChartOutlined,
-  LinkOutlined,
-  ProjectOutlined,
-  RadarChartOutlined,
-  SettingOutlined,
-  SketchOutlined,
-  StarFilled,
-  SunOutlined,
-  UnorderedListOutlined,
-  UploadOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+  IconBook,
+  IconChartBar,
+  IconChartLine,
+  IconChartRadar,
+  IconDiamond,
+  IconHome,
+  IconLayoutGrid,
+  IconLink,
+  IconList,
+  IconMenu2,
+  IconSettings,
+  IconStarFilled,
+  IconSun,
+  IconUpload,
+  IconUser,
+} from '@tabler/icons-react'
 import {
   Flex,
   Menu,
@@ -57,11 +57,11 @@ const MenuDrawer = () => {
   const setActiveKey = window.store((s) => s.setActiveKey)
 
   const items = useMemo(() => [
-    getItem(t('Tools.Title'), /* Tools */ 'subTools', <SunOutlined />, [
+    getItem(t('Tools.Title'), /* Tools */ 'subTools', <IconSun />, [
       getItem(
         (
           <Flex>
-            <StarFilled style={{ marginRight: 5, width: 16 }} /> {t('Tools.Showcase') /* Showcase */}
+            <IconStarFilled style={{ marginRight: 5, width: 16 }} /> {t('Tools.Showcase') /* Showcase */}
           </Flex>
         ),
         AppPages.SHOWCASE,
@@ -69,7 +69,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <ProjectOutlined style={{ marginRight: 5, width: 16 }} /> {t('Tools.Benchmarks') /*Benchmarks*/}
+            <IconLayoutGrid style={{ marginRight: 5, width: 16 }} /> {t('Tools.Benchmarks') /*Benchmarks*/}
           </Flex>
         ),
         AppPages.BENCHMARKS,
@@ -77,17 +77,17 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <SketchOutlined style={{ marginRight: 5, width: 16 }} /> {t('Tools.WarpPlanner') /* Warp Planner */}
+            <IconDiamond style={{ marginRight: 5, width: 16 }} /> {t('Tools.WarpPlanner') /* Warp Planner */}
           </Flex>
         ),
         AppPages.WARP,
       ),
     ]),
-    getItem(t('Optimization.Title'), /* Optimization */ 'subOptimizer', <LineChartOutlined />, [
+    getItem(t('Optimization.Title'), /* Optimization */ 'subOptimizer', <IconChartLine />, [
       getItem(
         (
           <Flex>
-            <BarChartOutlined style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Optimizer') /* Optimizer */}
+            <IconChartBar style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Optimizer') /* Optimizer */}
           </Flex>
         ),
         AppPages.OPTIMIZER,
@@ -95,7 +95,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <UserOutlined style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Characters') /* Characters */}
+            <IconUser style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Characters') /* Characters */}
           </Flex>
         ),
         AppPages.CHARACTERS,
@@ -103,7 +103,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <RadarChartOutlined style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Relics') /* Relics */}
+            <IconChartRadar style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Relics') /* Relics */}
           </Flex>
         ),
         AppPages.RELICS,
@@ -111,7 +111,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <UploadOutlined style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Import') /* Import / Save */}
+            <IconUpload style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Import') /* Import / Save */}
           </Flex>
         ),
         AppPages.IMPORT,
@@ -119,7 +119,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex onClick={() => setOpen(OpenCloseIDs.SETTINGS_DRAWER)} style={{ width: '100%' }}>
-            <SettingOutlined style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Settings') /* Settings */}
+            <IconSettings style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Settings') /* Settings */}
           </Flex>
         ),
         'link settings',
@@ -127,17 +127,17 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex onClick={() => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)} style={{ width: '100%' }}>
-            <BookOutlined style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Start') /* Get Started */}
+            <IconBook style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Start') /* Get Started */}
           </Flex>
         ),
         'link gettingstarted',
       ),
     ]),
-    getItem(t('Links.Title'), /* Links */ 'subLinks', <BarsOutlined />, [
+    getItem(t('Links.Title'), /* Links */ 'subLinks', <IconMenu2 />, [
       getItem(
         (
           <Typography.Link>
-            <HomeOutlined style={{ marginRight: 2, width: 16 }} /> {t('Links.Home') /* Home */}
+            <IconHome style={{ marginRight: 2, width: 16 }} /> {t('Links.Home') /* Home */}
           </Typography.Link>
         ),
         AppPages.HOME,
@@ -145,7 +145,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Typography.Link>
-            <UnorderedListOutlined style={{ marginRight: 2, width: 16 }} /> {t('Links.Changelog') /* Changelog */}
+            <IconList style={{ marginRight: 2, width: 16 }} /> {t('Links.Changelog') /* Changelog */}
           </Typography.Link>
         ),
         AppPages.CHANGELOG,
@@ -171,13 +171,13 @@ const MenuDrawer = () => {
       officialOnly
         ? getItem(
           <Typography.Link href='https://fribbels.github.io/hsr-optimizer/' target='_blank' rel='noopener noreferrer'>
-            <LinkOutlined style={{ marginRight: 5 }} /> {t('Links.Leaks') /* Beta content */}
+            <IconLink style={{ marginRight: 5 }} /> {t('Links.Leaks') /* Beta content */}
           </Typography.Link>,
           'link leaks',
         )
         : getItem(
           <Typography.Link href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>
-            <LinkOutlined style={{ marginRight: 5 }} /> {t('Links.Unleak') /* No leaks */}
+            <IconLink style={{ marginRight: 5 }} /> {t('Links.Unleak') /* No leaks */}
           </Typography.Link>,
           'link leaks free',
         ),

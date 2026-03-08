@@ -1,4 +1,4 @@
-import { SyncOutlined } from '@ant-design/icons'
+import { IconRefresh } from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -256,7 +256,7 @@ const TeammateCard = (props: {
           />
 
           <Button
-            icon={<SyncOutlined />}
+            icon={<IconRefresh />}
             style={{ width: 35 }}
             disabled={disabled}
             onClick={() => {

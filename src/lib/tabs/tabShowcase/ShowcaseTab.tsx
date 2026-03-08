@@ -1,12 +1,12 @@
 import {
-  CameraOutlined,
-  DownloadOutlined,
-  EditOutlined,
-  ExperimentOutlined,
-  EyeInvisibleOutlined,
-  ImportOutlined,
-  SettingOutlined,
-} from '@ant-design/icons'
+  IconCamera,
+  IconDownload,
+  IconEdit,
+  IconEyeOff,
+  IconFileImport,
+  IconFlask,
+  IconSettings,
+} from '@tabler/icons-react'
 import {
   Button,
   Collapse,
@@ -125,7 +125,7 @@ export default function ShowcaseTab() {
             <Button
               style={{ width: 'fit-content', minWidth: 175 }}
               onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
-              icon={<SettingOutlined />}
+              icon={<IconSettings />}
             >
               {t('SubmissionBar.AlgorithmButton') /* Scoring algorithm */}
             </Button>
@@ -199,7 +199,7 @@ function CharacterPreviewSelection() {
     {
       label: (
         <Flex gap={10}>
-          <ImportOutlined />
+          <IconFileImport />
           {t('ImportLabels.AllCharacters') /* Import all characters & all relics into optimizer */}
         </Flex>
       ),
@@ -208,7 +208,7 @@ function CharacterPreviewSelection() {
     {
       label: (
         <Flex gap={10}>
-          <ImportOutlined />
+          <IconFileImport />
           {t('ImportLabels.SingleCharacter') /* Import selected character & all relics into optimizer */}
         </Flex>
       ),
@@ -271,7 +271,7 @@ function CharacterPreviewSelection() {
             <Button
               style={{ flex: 1 }}
               onClick={clipboardClicked}
-              icon={<CameraOutlined />}
+              icon={<IconCamera />}
               loading={screenshotLoading}
               type='primary'
             >
@@ -279,7 +279,7 @@ function CharacterPreviewSelection() {
             </Button>
             <Button
               style={{ width: 50 }}
-              icon={<DownloadOutlined />}
+              icon={<IconDownload />}
               onClick={downloadClicked}
               loading={downloadLoading}
             />
@@ -289,12 +289,12 @@ function CharacterPreviewSelection() {
               onClick={() => importClicked('singleCharacter')}
               menu={menuProps}
             >
-              <ImportOutlined />
+              <IconFileImport />
               {t('ImportLabels.Relics') /* Import relics into optimizer */}
             </Dropdown.Button>
             <Button
               style={{ flex: 1 }}
-              icon={<ExperimentOutlined />}
+              icon={<IconFlask />}
               onClick={simulateClicked}
             >
               {t('SimulateRelics') /* Simulate relics on another character */}
@@ -358,7 +358,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
         }}
       >
         {presetCharacters().map((preset) => {
-          const icon = preset.custom ? <EditOutlined style={{ fontSize: 85 }} /> : <PresetButton preset={preset} />
+          const icon = preset.custom ? <IconEdit style={{ fontSize: 85 }} /> : <PresetButton preset={preset} />
           return (
             <Button
               key={key++}
@@ -406,7 +406,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
             shape='round'
             style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 2 }}
           >
-            <ExperimentOutlined style={{ fontSize: 55 }} />
+            <IconFlask style={{ fontSize: 55 }} />
           </Button>
         </a>
       </Dropdown>
@@ -491,7 +491,7 @@ export function DPSScoreDisclaimer() {
                   type='primary'
                   size='large'
                   block
-                  icon={<EyeInvisibleOutlined />}
+                  icon={<IconEyeOff />}
                   onClick={() => {
                     window.store.getState().setSettings({
                       ...window.store.getState().settings,

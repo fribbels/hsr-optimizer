@@ -1,4 +1,4 @@
-import { SettingOutlined } from '@ant-design/icons'
+import { IconSettings } from '@tabler/icons-react'
 import {
   Flex,
   InputNumber,
@@ -137,7 +137,7 @@ export function RelicLocator(props: { relic: Relic | null }) {
                   rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
                 })}
               </Typography>
-              <SettingOutlined />
+              <IconSettings />
             </Flex>
           )
           : (
@@ -145,7 +145,7 @@ export function RelicLocator(props: { relic: Relic | null }) {
               <div style={{ width: 10 }}></div>
               {/* Select a relic to locate */}
               <div>{t('NoneSelected')}</div>
-              <SettingOutlined />
+              <IconSettings />
             </Flex>
           )}
       </Flex>

@@ -1,8 +1,8 @@
 import {
-  ExportOutlined,
-  InfoCircleOutlined,
-  LinkOutlined,
-} from '@ant-design/icons'
+  IconExternalLink,
+  IconInfoCircle,
+  IconLink,
+} from '@tabler/icons-react'
 import { Flex } from 'antd'
 
 export function ColorizedLinkWithIcon(props: {
@@ -17,8 +17,8 @@ export function ColorizedLinkWithIcon(props: {
     <a href={props.url} target='_blank' onClick={props.onClick} rel='noreferrer'>
       <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center', textDecoration: props.noUnderline ? '' : 'underline', color: '#91bfff' }}>
         {props.text}
-        {props.linkIcon && <LinkOutlined />}
-        {props.externalIcon && <ExportOutlined />}
+        {props.linkIcon && <IconLink />}
+        {props.externalIcon && <IconExternalLink />}
       </span>
     </a>
   )
@@ -38,7 +38,7 @@ export function ColorizedTitleWithInfo(props: {
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {props.text}
         </pre>
-        <InfoCircleOutlined style={{ fontSize: 22 }} />
+        <IconInfoCircle style={{ fontSize: 22 }} />
       </Flex>
     </a>
   )

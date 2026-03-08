@@ -1,8 +1,8 @@
 import {
-  DownOutlined,
-  ExclamationCircleOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+  IconAlertCircle,
+  IconChevronDown,
+  IconUser,
+} from '@tabler/icons-react'
 import {
   Button,
   Dropdown,
@@ -35,7 +35,7 @@ export function CharacterMenu() {
   const confirm = useCallback(async (content: ReactNode) => {
     return confirmationModal.confirm({
       title: tCommon('Confirm'), // 'Confirm',
-      icon: <ExclamationCircleOutlined />,
+      icon: <IconAlertCircle />,
       content: content,
       okText: tCommon('Confirm'), // 'Confirm',
       cancelText: tCommon('Cancel'), // 'Cancel',
@@ -58,11 +58,11 @@ export function CharacterMenu() {
       >
         <Button
           style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}
-          icon={<UserOutlined />}
+          icon={<IconUser />}
           type='default'
         >
           {t('CharacterMenu.ButtonText') /* Character menu */}
-          <DownOutlined />
+          <IconChevronDown />
         </Button>
       </Dropdown>
       {contextHolder}

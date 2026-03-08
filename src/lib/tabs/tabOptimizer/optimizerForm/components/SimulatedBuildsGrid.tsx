@@ -1,4 +1,4 @@
-import { CloseOutlined } from '@ant-design/icons'
+import { IconX } from '@tabler/icons-react'
 import { IRowNode } from 'ag-grid-community'
 import {
   Empty,
@@ -56,7 +56,7 @@ const columns: TableColumnsType<DataType> = [
           }}
           style={{ display: 'flex', justifyContent: 'center' }}
         >
-          <CloseOutlined />
+          <IconX />
         </a>
       )
     },

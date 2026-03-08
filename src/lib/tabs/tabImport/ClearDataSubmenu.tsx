@@ -1,4 +1,4 @@
-import { DeleteOutlined } from '@ant-design/icons'
+import { IconTrash } from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -45,7 +45,7 @@ export function ClearDataSubmenu() {
         okText={tCommon('Yes') /* Yes */}
         cancelText={tCommon('Cancel') /* Cancel */}
       >
-        <Button type='primary' icon={<DeleteOutlined />} loading={loading} style={{ width: importerTabButtonWidth }}>
+        <Button type='primary' icon={<IconTrash />} loading={loading} style={{ width: importerTabButtonWidth }}>
           {t('ButtonText') /* Clear data */}
         </Button>
       </Popconfirm>

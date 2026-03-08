@@ -1,4 +1,3 @@
-import Icon from '@ant-design/icons'
 import React from 'react'
 
 const IconSVG = () => (
@@ -7,6 +6,6 @@ const IconSVG = () => (
   </svg>
 )
 
-export const DiscordIcon = (props: React.ComponentProps<typeof Icon>) => {
-  return <Icon component={IconSVG} {...props} />
+export const DiscordIcon = (props: React.HTMLAttributes<HTMLSpanElement>) => {
+  return <span role='img' {...props}><IconSVG /></span>
 }

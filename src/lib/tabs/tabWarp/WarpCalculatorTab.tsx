@@ -1,4 +1,4 @@
-import { CheckOutlined, CloseOutlined, ThunderboltFilled } from '@ant-design/icons'
+import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
 import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
@@ -240,7 +240,7 @@ function Inputs() {
               useWarpCalculatorStore.getState().setResult(null)
               setTimeout(() => handleWarpRequest(form.getFieldsValue()), 50)
             }}
-            icon={<ThunderboltFilled/>}
+            icon={<IconBoltFilled/>}
           >
             {t('Calculate')/* Calculate */}
           </Button>
@@ -444,8 +444,8 @@ function PityInputs(props: { banner: string }) {
             optionType='button'
             buttonStyle='solid'
           >
-            <Radio.Button value={true}><CheckOutlined/></Radio.Button>
-            <Radio.Button value={false}><CloseOutlined/></Radio.Button>
+            <Radio.Button value={true}><IconCheck/></Radio.Button>
+            <Radio.Button value={false}><IconX/></Radio.Button>
           </Radio.Group>
         </Form.Item>
       </Flex>

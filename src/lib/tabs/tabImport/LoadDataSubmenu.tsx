@@ -1,7 +1,7 @@
 import {
-  ImportOutlined,
-  UploadOutlined,
-} from '@ant-design/icons'
+  IconFileImport,
+  IconUpload,
+} from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -94,7 +94,7 @@ export function LoadDataSubmenu() {
           >
             <Button
               style={{ width: importerTabButtonWidth }}
-              icon={<UploadOutlined />}
+              icon={<IconUpload />}
               loading={loading1}
               onClick={() => setCurrentStage(Stages.LOAD_FILE)}
             >
@@ -128,7 +128,7 @@ export function LoadDataSubmenu() {
               t('Stage2.Label', { relicCount: currentSave.relics.length, characterCount: currentSave.characters.length })
             }
           </Text>
-          <Button style={{ width: importerTabButtonWidth }} icon={<ImportOutlined />} type='primary' onClick={loadConfirmed} loading={loading2}>
+          <Button style={{ width: importerTabButtonWidth }} icon={<IconFileImport />} type='primary' onClick={loadConfirmed} loading={loading2}>
             {t('Stage2.ButtonText') /* Use uploaded data */}
           </Button>
         </Flex>

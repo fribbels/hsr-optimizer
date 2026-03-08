@@ -1,8 +1,8 @@
 import {
-  DragOutlined,
-  InboxOutlined,
-  ZoomInOutlined,
-} from '@ant-design/icons'
+  IconGripVertical,
+  IconInbox,
+  IconZoomIn,
+} from '@tabler/icons-react'
 import {
   Button,
   Flex,
@@ -540,7 +540,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                   : (
                     <Flex style={{ height: '300px' }} justify='center' align='center' vertical>
                       <p className='ant-upload-drag-icon'>
-                        <InboxOutlined />
+                        <IconInbox />
                       </p>
                       <p className='ant-upload-text'>{t('Upload.Upload.Method') /* Click or drag image file to this area to upload */}</p>
                       <p className='ant-upload-hint'>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif (Max: 20MB) */}</p>
@@ -625,11 +625,11 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           <Flex style={{ marginTop: 0 }}>
             <Flex vertical style={{ flex: 1 }}>
               <div>
-                <DragOutlined style={{ marginRight: 8 }} />
+                <IconGripVertical style={{ marginRight: 8 }} />
                 {t('Edit.Drag') /* Drag to move */}
               </div>
               <div style={{ flex: 1, marginTop: 8 }}>
-                <ZoomInOutlined style={{ marginRight: 8 }} />
+                <IconZoomIn style={{ marginRight: 8 }} />
                 {t('Edit.Pinch') /* Pinch or scroll to zoom */}
               </div>
             </Flex>

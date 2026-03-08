@@ -1,8 +1,8 @@
 import {
-  CaretLeftOutlined,
-  CaretRightOutlined,
-  LockOutlined,
-} from '@ant-design/icons'
+  IconChevronLeft,
+  IconChevronRight,
+  IconLock,
+} from '@tabler/icons-react'
 import {
   Alert,
   Button,
@@ -466,7 +466,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
             <Alert message={t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */} type='warning' showIcon />
           )}
           {prev && (
-            <CaretLeftOutlined
+            <IconChevronLeft
               onClick={prev}
               style={{
                 position: 'absolute',
@@ -478,7 +478,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
             />
           )}
           {next && (
-            <CaretRightOutlined
+            <IconChevronRight
               onClick={next}
               style={{
                 position: 'absolute',
@@ -729,7 +729,7 @@ function SubstatInput(props: {
         name={isPreviewField}
         style={{ width: 12, marginTop: 7, cursor: 'pointer' }}
       >
-        {isPreview ? <LockOutlined onClick={onClick} /> : <CaretRightOutlined onClick={onClick} />}
+        {isPreview ? <IconLock onClick={onClick} /> : <IconChevronRight onClick={onClick} />}
       </Form.Item>
     )
   }

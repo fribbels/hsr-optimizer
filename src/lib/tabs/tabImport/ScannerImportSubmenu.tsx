@@ -1,7 +1,7 @@
 import {
-  ReloadOutlined,
-  UploadOutlined,
-} from '@ant-design/icons'
+  IconRefresh,
+  IconUpload,
+} from '@tabler/icons-react'
 import {
   Alert,
   Button,
@@ -259,7 +259,7 @@ export function ScannerImportSubmenu() {
                 <Button
                   disabled={isLiveImporting}
                   style={{ width: importerTabButtonWidth }}
-                  icon={<UploadOutlined />}
+                  icon={<IconUpload />}
                   loading={loading1}
                   onClick={() => setCurrentStage(Stages.LOAD_FILE)}
                 >
@@ -398,7 +398,7 @@ export function ScannerImportSubmenu() {
                             onChange={(e) => setWebsocketUrl(e.target.value)}
                           />
                           <Tooltip title={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
-                            <Button icon={<ReloadOutlined />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} />
+                            <Button icon={<IconRefresh />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} />
                           </Tooltip>
                         </Flex>
                       </Flex>

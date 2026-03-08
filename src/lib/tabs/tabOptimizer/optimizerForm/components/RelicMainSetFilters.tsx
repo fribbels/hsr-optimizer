@@ -1,4 +1,4 @@
-import { SettingOutlined } from '@ant-design/icons'
+import { IconSettings } from '@tabler/icons-react'
 import {
   Button,
   Cascader,
@@ -220,7 +220,7 @@ export default function RelicMainSetFilters() {
         />
         <Button
           onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
-          icon={<SettingOutlined />}
+          icon={<IconSettings />}
         >
           {t('SetConditionals.Title') /* Conditional set effects */}
         </Button>

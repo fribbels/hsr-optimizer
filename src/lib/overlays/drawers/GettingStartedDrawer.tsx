@@ -1,4 +1,4 @@
-import { ImportOutlined } from '@ant-design/icons'
+import { IconFileImport } from '@tabler/icons-react'
 import {
   Button,
   Drawer,
@@ -58,7 +58,7 @@ export const GettingStartedDrawer = () => {
           okText={t('common:Yes')} // 'Yes'
           cancelText={t('common:Cancel')} // 'Cancel'
         >
-          <Button type='primary' icon={<ImportOutlined />} style={{ width: 200 }}>
+          <Button type='primary' icon={<IconFileImport />} style={{ width: 200 }}>
             {t('TryOut.ButtonText') /* Try it out! */}
           </Button>
         </Popconfirm>

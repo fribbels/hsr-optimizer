@@ -2294,9 +2294,56 @@ Characters:
         content: Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 2 turns.
   Sparxie:
     Content:
-    TeammateContent:
+      enhancedBasic:
+        text: Enhanced Basic
+        content: Sparxie's skill allows her to enhance her basic attack up to 20 times. When enhanced, the basic attack will become blast and additionally deals Elation damage based on the number of enhancements
       punchlineStacks:
-        text:
+        text: Punchline stacks
+        content: >-
+          For every 1 Punchline currently owned, increases all allies' CRIT DMG by 8%, up to a max increase of 80%.
+          ::BR::
+          E1: For every 1 Punchline owned, increases All-Type RES PEN for all allies by 1.5%, up to a max increase of 15%.
+          ::BR::
+          E6: For every 1 Punchline taken into account, the number of additional DMG instances dealt by the Elation Skill increases by 1, up to a max of 40.
+      certifiedBangerStacks:
+        text: Certified Banger stacks
+        content: >-
+          While Sparxie holds "Certified Banger":
+          ::BR::
+          Using Enhanced Basic ATK deals {{ebaPrimaryScaling}}% Fire Elation DMG to one designated enemy, and {{ebaAdjacentScaling}}% Fire Elation DMG to their adjacent targets.
+          Additionally, for every 1 instance of "Engagement Farming" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target.
+          ::BR::
+          Using Ultimate deals {{ultElationScaling}}% Fire Elation DMG to all enemies.
+      engagementFarmingStacks:
+        text: Engagement Farming stacks
+        content: For every 1 instance of "Engagement Farming" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target.
+      certifiedBanger:
+        text: Certified Banger
+        content: >-
+          While Sparxie holds "Certified Banger":
+          ::BR::
+          Using Enhanced Basic ATK deals {{ebaPrimaryScaling}}% Fire Elation DMG to one designated enemy, and {{ebaAdjacentScaling}}% Fire Elation DMG to their adjacent targets.
+          Additionally, for every 1 instance of "Engagement Farming" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target.
+          ::BR::
+          Using Ultimate deals {{ultElationScaling}}% Fire Elation DMG to all enemies.
+      atkToElation:
+        text: ATK to Elation conversion
+        content: For every 100 of Sparxie's ATK that exceeds 2000, increases this unit's Elation by 5.0%, up to a maximum increase of 80.0%.
+      punchlineCritDmg:
+        text: Punchline CD
+        content: For every 1 Punchline currently owned, increases all allies' CRIT DMG by 8%, up to a max increase of 80%.
+      e1PunchlineResPen:
+        text: E1 RES PEN
+        content: For every 1 Punchline owned, increases All-Type RES PEN for all allies by 1.5%, up to a max increase of 15%.
+      e2ThrillStacks:
+        text: E2 CD stacks
+        content: For every 1 "Thrill" consumed, increases this unit's CRIT DMG by 10%, lasting for 2 turns and stacking up to 4 times.
+      e4UltElation:
+        text: E4 Ult Elation buff
+        content: When using Ultimate, additionally gains 5 Punchline and increases this unit's Elation by 36% for 3 turns.
+      e6ResPen:
+        text: E6 RES PEN
+        content: Increases All-Type RES PEN by 20%.
   Sunday:
     Content:
       skillDmgBuff:

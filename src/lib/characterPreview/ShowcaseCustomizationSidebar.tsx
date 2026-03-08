@@ -12,7 +12,7 @@ import {
   ColorPicker,
 } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
-import { GlobalToken } from 'antd/lib/theme/interface'
+
 import i18next from 'i18next'
 import {
   DEFAULT_SHOWCASE_COLOR,
@@ -77,7 +77,6 @@ export interface ShowcaseCustomizationSidebarProps {
   id: string
   source: ShowcaseSource
   characterId: CharacterId
-  token: GlobalToken
   showcasePreferences: ShowcasePreferences
   asyncSimScoringExecution: AsyncSimScoringExecution | null
   scoringType: ScoringType

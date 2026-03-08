@@ -1,5 +1,4 @@
 import { CellClassParams } from 'ag-grid-community'
-import type { GlobalToken } from 'antd/es/theme/interface'
 import { SubStats } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ScoredRelic } from 'lib/relics/scoreRelics'
@@ -18,7 +17,7 @@ const optimizerGridGradient = tinygradient([
   { color: '#38821F', pos: 1 }, // green
 ])
 
-// this default is overwritten on page load, Gradient.setToken() in App.tsx
+// this default is overwritten on page load, Gradient.setTheme() in App.tsx
 let relicGridGradient = tinygradient('#343127', '#38821F')
 
 const relicColumnRanges = {
@@ -76,10 +75,6 @@ export const Gradient = {
 
   setTheme(colorTheme: ColorThemeOverrides) {
     relicGridGradient = tinygradient(colorTheme.colorBgBase, colorTheme.colorPrimary)
-  },
-
-  setToken(token: GlobalToken) {
-    relicGridGradient = tinygradient(token.colorBgElevated, token.colorPrimaryHover)
   },
 
   getRelicGradient(params: CellClassParams<ScoredRelic>) {

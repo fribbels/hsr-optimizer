@@ -1,9 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  ConfigProvider,
-  theme,
-} from 'antd'
-import getDesignToken from 'antd/lib/theme/getDesignToken'
+import { Flex, useMantineTheme } from '@mantine/core'
 import {
   showcaseShadow,
   showcaseShadowInsetAddition,
@@ -68,11 +63,9 @@ import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import DB, { AppPages } from 'lib/state/db'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import {
-  colorTransparent,
   showcaseBackgroundColor,
   showcaseCardBackgroundColor,
   showcaseCardBorderColor,
-  showcaseSegmentedColor,
   showcaseTransition,
 } from 'lib/utils/colorUtils'
 import {
@@ -88,8 +81,6 @@ import {
   CustomImagePayload,
 } from 'types/customImage'
 import { Relic } from 'types/relic'
-
-const { useToken } = theme
 
 interface InteractiveCharacterPreviewProps {
   setOriginalCharacterModalOpen: (open: boolean) => void
@@ -121,7 +112,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
     savedBuildOverride,
   } = props
 
-  const { token } = useToken()
+  const mantineTheme = useMantineTheme()
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
   const [selectedPart, setSelectedPart] = useState<Parts | null>(null)
   const [relicModalOpen, setRelicModalOpen] = useState(false)
@@ -172,8 +163,8 @@ export function CharacterPreview(props: CharacterPreviewProps) {
           height: parentH,
           width: 1068,
           borderRadius: 8,
-          backgroundColor: token.colorBgLayout,
-          border: `1px solid ${token.colorBgContainer}`,
+          backgroundColor: mantineTheme.colors.dark[8],
+          border: `1px solid ${mantineTheme.colors.dark[7]}`,
         }}
       />
     )
@@ -234,24 +225,9 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   // ===== Theme =====
 
-  const seedTheme = {
-    algorithm: theme.darkAlgorithm,
-    token: {
-      colorBgLayout: overrideSeedColor,
-      colorPrimary: overrideSeedColor,
-    },
-    components: {
-      Segmented: {
-        trackBg: colorTransparent(),
-        itemSelectedBg: showcaseSegmentedColor(overrideSeedColor, darkMode),
-      },
-    },
-  }
-
-  const seedToken = getDesignToken(seedTheme)
   const derivedShowcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: showcaseCardBackgroundColor(seedToken.colorPrimaryActive, darkMode),
-    cardBorderColor: showcaseCardBorderColor(seedToken.colorPrimaryActive, darkMode),
+    cardBackgroundColor: showcaseCardBackgroundColor(overrideSeedColor, darkMode),
+    cardBorderColor: showcaseCardBorderColor(overrideSeedColor, darkMode),
   }
 
   // ===== Display =====
@@ -288,7 +264,6 @@ export function CharacterPreview(props: CharacterPreviewProps) {
         id={props.id}
         characterId={character.id}
         asyncSimScoringExecution={asyncSimScoringExecution}
-        token={seedToken}
         showcasePreferences={characterShowcasePreferences}
         scoringType={scoringType}
         seedColor={overrideSeedColor}
@@ -297,160 +272,157 @@ export function CharacterPreview(props: CharacterPreviewProps) {
         setColorMode={setColorMode}
       />
 
-      <ConfigProvider theme={seedTheme}>
-        {/* Showcase full card */}
-        <Flex
-          id={props.id}
-          className='characterPreview'
+      {/* Showcase full card */}
+      <Flex
+        id={props.id}
+        className='characterPreview'
+        style={{
+          position: 'relative',
+          display: character ? 'flex' : 'none',
+          height: parentH,
+          background: showcaseBackgroundColor(mantineTheme.colors.dark[8], darkMode),
+          backgroundBlendMode: 'screen',
+          overflow: 'hidden',
+          borderRadius: 7,
+          transition: showcaseTransition(),
+        }}
+        gap={defaultGap}
+      >
+        {/* Background */}
+        <div
           style={{
-            position: 'relative',
-            display: character ? 'flex' : 'none',
-            height: parentH,
-            background: showcaseBackgroundColor(token.colorBgLayout, darkMode),
-            backgroundBlendMode: 'screen',
-            overflow: 'hidden',
-            borderRadius: 7,
-            transition: showcaseTransition(),
+            backgroundImage: `url(${portraitUrl})`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: `${zoom}%`,
+            position: 'absolute',
+            top: -yOffset,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 0,
+            filter: `blur(18px) brightness(${darkMode ? 0.50 : 0.70}) saturate(${darkMode ? 0.80 : 0.80})`,
+            WebkitFilter: `blur(18px) brightness(${darkMode ? 0.50 : 0.70}) saturate(${darkMode ? 0.80 : 0.80})`,
           }}
-          gap={defaultGap}
-        >
-          {/* Background */}
-          <div
-            style={{
-              backgroundImage: `url(${portraitUrl})`,
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: `${zoom}%`,
-              position: 'absolute',
-              top: -yOffset,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: 0,
-              filter: `blur(18px) brightness(${darkMode ? 0.50 : 0.70}) saturate(${darkMode ? 0.80 : 0.80})`,
-              WebkitFilter: `blur(18px) brightness(${darkMode ? 0.50 : 0.70}) saturate(${darkMode ? 0.80 : 0.80})`,
-            }}
+        />
+
+        {/* Portrait left panel */}
+        <Flex direction="column" gap={8} className='character-build-portrait'>
+          <ShowcasePortrait
+            source={source}
+            character={character}
+            scoringType={scoringType}
+            displayDimensions={displayDimensions}
+            customPortrait={portraitToUse}
+            editPortraitModalOpen={editPortraitModalOpen}
+            setEditPortraitModalOpen={setEditPortraitModalOpen}
+            onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
+            artistName={artistName}
+            setOriginalCharacterModalInitialCharacter={(character) => setOriginalCharacterModalInitialCharacter?.(character)}
+            setOriginalCharacterModalOpen={(open) => setOriginalCharacterModalOpen?.(open)}
+            onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
           />
 
-          {/* Portrait left panel */}
-          <Flex direction="column" gap={8} className='character-build-portrait'>
-            <ShowcasePortrait
-              source={source}
+          {scoringType == ScoringType.COMBAT_SCORE && (
+            <ShowcaseLightConeSmall
               character={character}
-              scoringType={scoringType}
+              showcaseMetadata={showcaseMetadata}
               displayDimensions={displayDimensions}
-              customPortrait={portraitToUse}
-              editPortraitModalOpen={editPortraitModalOpen}
-              setEditPortraitModalOpen={setEditPortraitModalOpen}
-              onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
-              artistName={artistName}
-              setOriginalCharacterModalInitialCharacter={(character) => setOriginalCharacterModalInitialCharacter?.(character)}
-              setOriginalCharacterModalOpen={(open) => setOriginalCharacterModalOpen?.(open)}
-              onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
+              setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+              setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+            />
+          )}
+        </Flex>
+
+        {/* Character details middle panel */}
+        <Flex direction="column" justify='space-between' gap={8} style={{}}>
+          <Flex
+            direction="column"
+            style={{
+              width: middleColumnWidth,
+              height: '100%',
+              borderRadius: 8,
+              zIndex: 10,
+              backgroundColor: derivedShowcaseTheme.cardBackgroundColor,
+              transition: showcaseTransition(),
+              flex: 1,
+              paddingRight: 2,
+              paddingLeft: 2,
+              paddingBottom: 3,
+              boxShadow: showcaseShadow + showcaseShadowInsetAddition,
+              border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
+            }}
+            justify='space-between'
+          >
+            <ShowcaseCharacterHeader
+              showcaseMetadata={showcaseMetadata}
+              scoringType={scoringType}
+            />
+
+            <CharacterStatSummary
+              characterId={character.id}
+              finalStats={finalStats}
+              elementalDmgValue={showcaseMetadata.elementalDmgType}
+              scoringType={scoringType}
+              asyncSimScoringExecution={asyncSimScoringExecution}
             />
 
             {scoringType == ScoringType.COMBAT_SCORE && (
-              <ShowcaseLightConeSmall
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-              />
+              <>
+                <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics} />
+
+                <ShowcaseDpsScorePanel
+                  characterId={showcaseMetadata.characterId}
+                  asyncSimScoringExecution={asyncSimScoringExecution}
+                  teamSelection={currentSelection}
+                  displayRelics={displayRelics}
+                  setRedrawTeammates={setRedrawTeammates}
+                  source={source}
+                />
+
+                <ShowcaseCombatScoreDetailsFooter asyncSimScoringExecution={asyncSimScoringExecution} />
+              </>
             )}
-          </Flex>
-
-          {/* Character details middle panel */}
-          <Flex direction="column" justify='space-between' gap={8} style={{}}>
-            <Flex
-              direction="column"
-              style={{
-                width: middleColumnWidth,
-                height: '100%',
-                borderRadius: 8,
-                zIndex: 10,
-                backgroundColor: derivedShowcaseTheme.cardBackgroundColor,
-                transition: showcaseTransition(),
-                flex: 1,
-                paddingRight: 2,
-                paddingLeft: 2,
-                paddingBottom: 3,
-                boxShadow: showcaseShadow + showcaseShadowInsetAddition,
-                border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
-              }}
-              justify='space-between'
-            >
-              <ShowcaseCharacterHeader
-                showcaseMetadata={showcaseMetadata}
-                scoringType={scoringType}
-              />
-
-              <CharacterStatSummary
-                characterId={character.id}
-                finalStats={finalStats}
-                elementalDmgValue={showcaseMetadata.elementalDmgType}
-                scoringType={scoringType}
-                asyncSimScoringExecution={asyncSimScoringExecution}
-              />
-
-              {scoringType == ScoringType.COMBAT_SCORE && (
-                <>
-                  <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics} />
-
-                  <ShowcaseDpsScorePanel
-                    characterId={showcaseMetadata.characterId}
-                    token={seedToken}
-                    asyncSimScoringExecution={asyncSimScoringExecution}
-                    teamSelection={currentSelection}
-                    displayRelics={displayRelics}
-                    setRedrawTeammates={setRedrawTeammates}
-                    source={source}
-                  />
-
-                  <ShowcaseCombatScoreDetailsFooter asyncSimScoringExecution={asyncSimScoringExecution} />
-                </>
-              )}
-
-              {scoringType != ScoringType.COMBAT_SCORE && (
-                <>
-                  {scoringType != ScoringType.NONE && (
-                    <ShowcaseStatScore
-                      scoringResults={scoringResults}
-                    />
-                  )}
-
-                  <ShowcaseLightConeLargeName
-                    showcaseMetadata={showcaseMetadata}
-                  />
-                </>
-              )}
-            </Flex>
 
             {scoringType != ScoringType.COMBAT_SCORE && (
-              <ShowcaseLightConeLarge
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-              />
+              <>
+                {scoringType != ScoringType.NONE && (
+                  <ShowcaseStatScore
+                    scoringResults={scoringResults}
+                  />
+                )}
+
+                <ShowcaseLightConeLargeName
+                  showcaseMetadata={showcaseMetadata}
+                />
+              </>
             )}
           </Flex>
 
-          {/* Relics right panel */}
-          <ShowcaseRelicsPanel
-            setSelectedRelic={setSelectedRelic}
-            setEditModalOpen={setEditModalOpen}
-            setAddModalOpen={setAddModalOpen}
-            displayRelics={displayRelics}
-            source={source}
-            scoringType={scoringType}
-            characterId={showcaseMetadata.characterId}
-            scoredRelics={scoredRelics}
-            showcaseColors={derivedShowcaseTheme}
-          />
+          {scoringType != ScoringType.COMBAT_SCORE && (
+            <ShowcaseLightConeLarge
+              character={character}
+              showcaseMetadata={showcaseMetadata}
+              displayDimensions={displayDimensions}
+              setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+              setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+            />
+          )}
         </Flex>
-      </ConfigProvider>
+
+        {/* Relics right panel */}
+        <ShowcaseRelicsPanel
+          setSelectedRelic={setSelectedRelic}
+          setEditModalOpen={setEditModalOpen}
+          setAddModalOpen={setAddModalOpen}
+          displayRelics={displayRelics}
+          source={source}
+          scoringType={scoringType}
+          characterId={showcaseMetadata.characterId}
+          scoredRelics={scoredRelics}
+          showcaseColors={derivedShowcaseTheme}
+        />
+      </Flex>
 
       <CharacterAnnouncement
         characterId={showcaseMetadata.characterId}
@@ -460,7 +432,6 @@ export function CharacterPreview(props: CharacterPreviewProps) {
       {/* Showcase analysis footer */}
       {source != ShowcaseSource.BUILDS_MODAL && (
         <ShowcaseBuildAnalysis
-          token={token}
           asyncSimScoringExecution={asyncSimScoringExecution}
           showcaseMetadata={showcaseMetadata}
           scoringType={storedScoringType}

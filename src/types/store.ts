@@ -1,4 +1,3 @@
-import { ThemeConfig } from 'antd'
 import {
   ComputeEngine,
   CUSTOM_TEAM,
@@ -114,14 +113,11 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ setPermutationDetails: (x: PermutationDetails) => void,
   /* global                   */ setVersion: (x: string | undefined) => void,
   /* optimizerTab             */ setOptimizerMenuState: (x: OptimizerMenuState) => void,
-  /* global                   */ setGlobalThemeConfig: (x: ThemeConfig) => void,
-
   /* optimizerTab             */ permutationDetails: PermutationDetails,
 
   /* optimizerTab             */ optimizerMenuState: OptimizerMenuState,
 
   /* global                   */ savedSession: GlobalSavedSession,
-  /* global                   */ globalThemeConfig: ThemeConfig,
 }
 
 type OptimizerMenuState = Record<string, boolean>

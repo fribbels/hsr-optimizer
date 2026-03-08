@@ -2,7 +2,6 @@ import { IconSettings } from '@tabler/icons-react'
 import { Button, Flex, MultiSelect } from '@mantine/core'
 import {
   Cascader,
-  ConfigProvider,
 } from 'antd'
 import {
   Constants,
@@ -145,35 +144,22 @@ export default function RelicMainSetFilters() {
       </Flex>
 
       <Flex direction="column" gap={7}>
-        <ConfigProvider
-          theme={{
-            components: {
-              Cascader: {
-                dropdownHeight: 750,
-                controlItemWidth: 150,
-                controlWidth: 150,
-                optionPadding: '0px 12px',
-              },
-            },
+        <Cascader
+          popupClassName='relic-sets-cascader'
+          placeholder={t('RelicSetSelector.Placeholder')}
+          options={useMemo(() => GenerateSetsOptions(), [t])}
+          showCheckedStrategy={SHOW_CHILD}
+          tagRender={RelicSetTagRenderer}
+          placement='bottomLeft'
+          maxTagCount='responsive'
+          multiple={true}
+          expandTrigger='hover'
+          value={relicSets}
+          onChange={(val) => {
+            useOptimizerFormStore.getState().setRelicSets(val as typeof relicSets)
+            recalculatePermutations()
           }}
-        >
-          <Cascader
-            popupClassName='relic-sets-cascader'
-            placeholder={t('RelicSetSelector.Placeholder')}
-            options={useMemo(() => GenerateSetsOptions(), [t])}
-            showCheckedStrategy={SHOW_CHILD}
-            tagRender={RelicSetTagRenderer}
-            placement='bottomLeft'
-            maxTagCount='responsive'
-            multiple={true}
-            expandTrigger='hover'
-            value={relicSets}
-            onChange={(val) => {
-              useOptimizerFormStore.getState().setRelicSets(val as typeof relicSets)
-              recalculatePermutations()
-            }}
-          />
-        </ConfigProvider>
+        />
 
         <MultiSelect
           comboboxProps={{ styles: { dropdown: { width: 250 } } }}

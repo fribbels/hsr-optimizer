@@ -1,8 +1,5 @@
 import { IconEdit } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
-import {
-  ConfigProvider,
-} from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
 import {
   showcaseBackdropFilter,
@@ -44,7 +41,6 @@ export function ShowcasePortrait(props: {
   onPortraitLoad: (img: string) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const globalThemeConfig = window.store((s) => s.globalThemeConfig)
   const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
   const uid = useShowcaseTabStore((s) => s.savedSession.scorerId)
 
@@ -107,45 +103,41 @@ export function ShowcasePortrait(props: {
           />
         )}
 
-      <ConfigProvider theme={globalThemeConfig}>
-        <Flex direction="column" style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
-          {source != ShowcaseSource.BUILDS_MODAL && (
-            <>
-              <Button
-                style={showcaseButtonStyle}
-                className='character-build-portrait-button'
-                leftSection={<IconEdit size={16} />}
-                onClick={() => {
-                  setOriginalCharacterModalInitialCharacter(character)
-                  setOriginalCharacterModalOpen(true)
-                }}
-              >
-                {t('CharacterPreview.EditCharacter') /* Edit character */}
-              </Button>
-              <Button
-                style={showcaseButtonStyle}
-                className='character-build-portrait-button'
-                leftSection={<IconEdit size={16} />}
-                onClick={() => setEditPortraitModalOpen(true)}
-              >
-                {t('CharacterPreview.EditPortrait') /* Edit portrait */}
-              </Button>
-            </>
-          )}
-        </Flex>
-      </ConfigProvider>
-      <ConfigProvider theme={globalThemeConfig}>
-        <EditImageModal
-          title={t('CharacterPreview.EditPortrait') /* Edit portrait */}
-          aspectRatio={parentW / parentH}
-          existingConfig={customPortrait ?? character.portrait}
-          open={editPortraitModalOpen}
-          setOpen={setEditPortraitModalOpen}
-          onOk={onEditPortraitOk}
-          defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
-          width={500}
-        />
-      </ConfigProvider>
+      <Flex direction="column" style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
+        {source != ShowcaseSource.BUILDS_MODAL && (
+          <>
+            <Button
+              style={showcaseButtonStyle}
+              className='character-build-portrait-button'
+              leftSection={<IconEdit size={16} />}
+              onClick={() => {
+                setOriginalCharacterModalInitialCharacter(character)
+                setOriginalCharacterModalOpen(true)
+              }}
+            >
+              {t('CharacterPreview.EditCharacter') /* Edit character */}
+            </Button>
+            <Button
+              style={showcaseButtonStyle}
+              className='character-build-portrait-button'
+              leftSection={<IconEdit size={16} />}
+              onClick={() => setEditPortraitModalOpen(true)}
+            >
+              {t('CharacterPreview.EditPortrait') /* Edit portrait */}
+            </Button>
+          </>
+        )}
+      </Flex>
+      <EditImageModal
+        title={t('CharacterPreview.EditPortrait') /* Edit portrait */}
+        aspectRatio={parentW / parentH}
+        existingConfig={customPortrait ?? character.portrait}
+        open={editPortraitModalOpen}
+        setOpen={setEditPortraitModalOpen}
+        onOk={onEditPortraitOk}
+        defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
+        width={500}
+      />
       <Flex
         direction="column"
         gap={3}

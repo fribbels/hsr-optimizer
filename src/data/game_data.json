@@ -7716,12 +7716,12 @@
           ]
         }
       ],
-      "max_sp": 160,
+      "max_sp": 150,
       "stats": {
-        "HP": 1009.008,
-        "ATK": 640.332,
-        "DEF": 485.1,
-        "SPD": 105,
+        "HP": 853.776,
+        "ATK": 776.16,
+        "DEF": 388.08,
+        "SPD": 106,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -13419,9 +13419,9 @@
       "rarity": 5,
       "path": "Hunt",
       "stats": {
-        "HP": 1058.4,
-        "ATK": 582.12,
-        "DEF": 463.05
+        "HP": 846.72,
+        "ATK": 635.04,
+        "DEF": 529.2
       },
       "imageOffset": {
         "x": 0,
@@ -13819,7 +13819,7 @@
     {
       "id": "130",
       "name": "Diviner of Distant Reach",
-      "skills": "Increases SPD by <b>6%</b>. Before entering combat, if the wearer's SPD is greater than or equal to <b>120</b>/<b>160</b>, increases the wearer's CRIT Rate by <b>10%</b>/<b>18%</b>. When the wearer uses Elation Skill for the first time in each battle, enhances all allies' Elation by <b>10%</b>. This effect cannot stack."
+      "skills": "Increases SPD by <b>6%</b>. Before entering combat, if the wearer's SPD is greater than or equal to <b>120</b>/<b>160</b>, increases the wearer's CRIT Rate by <b>10%</b>/<b>18%</b>. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by <b>10%</b>. This effect cannot stack."
     },
     {
       "id": "301",
@@ -13944,12 +13944,12 @@
     {
       "id": "325",
       "name": "Punklorde Stage Zero",
-      "skills": "Increases the wearer's Elation by <b>10%</b>. When Elation reaches <b>40%</b>/<b>80%</b> for the first time in battle, increases the wearer's CRIT DMG by <b>20%</b>/<b>30%</b>."
+      "skills": "Increases the wearer's Elation by <b>8%</b>. When Elation reaches <b>40%</b>/<b>80%</b> for the first time in battle, increases the wearer's CRIT DMG by <b>20%</b>/<b>32%</b>."
     },
     {
       "id": "326",
-      "name": "City of Myriad Forms",
-      "skills": "When the wearer uses a Follow-Up ATK, their ATK increases by <b>24%</b> for <b>2</b> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <b>12%</b> for the rest of the current battle. This effect cannot stack."
+      "name": "City of Converging Stars",
+      "skills": "When the wearer uses a Follow-Up ATK, increases their ATK by <b>24%</b> for <b>2</b> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <b>12%</b> for the rest of the current battle. This effect cannot stack."
     }
   ]
 }

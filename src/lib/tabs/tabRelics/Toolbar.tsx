@@ -1,9 +1,8 @@
 import {
   Popconfirm,
-  Select,
   Tooltip,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, Select } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import DB from 'lib/state/db'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
@@ -30,15 +29,15 @@ export function Toolbar() {
   const { t } = useTranslation('relicsTab', { keyPrefix: 'Toolbar' })
   const { t: tCommon } = useTranslation('common')
 
-  const relicInsightOptions: Array<{ value: RelicInsights, label: string }> = [
-    { value: RelicInsights.Buckets, label: t('InsightOptions.Buckets') /* Relic Insight: Buckets */ },
-    { value: RelicInsights.Top10, label: t('InsightOptions.Top10') /* Relic Insight: Top 10 */ },
-    { value: RelicInsights.ESTBP, label: t('InsightOptions.ESTBP') /* Relic Insights: ESTBP */ },
+  const relicInsightOptions: Array<{ value: string, label: string }> = [
+    { value: String(RelicInsights.Buckets), label: t('InsightOptions.Buckets') /* Relic Insight: Buckets */ },
+    { value: String(RelicInsights.Top10), label: t('InsightOptions.Top10') /* Relic Insight: Top 10 */ },
+    { value: String(RelicInsights.ESTBP), label: t('InsightOptions.ESTBP') /* Relic Insights: ESTBP */ },
   ]
-  const characterPlotOptions: Array<{ value: InsightCharacters, label: string }> = [
-    { value: InsightCharacters.All, label: t('PlotOptions.PlotAll') /* Show all characters */ },
-    { value: InsightCharacters.Custom, label: t('PlotOptions.PlotCustom') /* Show custom characters */ },
-    { value: InsightCharacters.Owned, label: t('PlotOptions.PlotOwned') /*  Show owned characters */ },
+  const characterPlotOptions: Array<{ value: string, label: string }> = [
+    { value: String(InsightCharacters.All), label: t('PlotOptions.PlotAll') /* Show all characters */ },
+    { value: String(InsightCharacters.Custom), label: t('PlotOptions.PlotCustom') /* Show custom characters */ },
+    { value: String(InsightCharacters.Owned), label: t('PlotOptions.PlotOwned') /*  Show owned characters */ },
   ]
 
   const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
@@ -86,9 +85,9 @@ export function Toolbar() {
       </Flex>
 
       <Select
-        value={insightsMode}
-        onChange={setInsightsMode}
-        options={relicInsightOptions}
+        value={String(insightsMode)}
+        onChange={(value) => setInsightsMode(Number(value) as RelicInsights)}
+        data={relicInsightOptions}
         style={{ width: 275 }}
       />
       <Flex style={{ display: 'block' }}>
@@ -96,9 +95,9 @@ export function Toolbar() {
       </Flex>
 
       <Select
-        value={insightsCharacters}
-        onChange={setInsightsCharacters}
-        options={characterPlotOptions}
+        value={String(insightsCharacters)}
+        onChange={(value) => setInsightsCharacters(Number(value) as InsightCharacters)}
+        data={characterPlotOptions}
         style={{ width: 275 }}
       />
     </Flex>

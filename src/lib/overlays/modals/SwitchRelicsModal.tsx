@@ -1,9 +1,8 @@
 import {
   Form as AntDForm,
   Modal,
-  Select,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, Select } from '@mantine/core'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
@@ -13,7 +12,6 @@ import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { Utils } from 'lib/utils/utils'
 import {
   useEffect,
   useMemo,
@@ -64,9 +62,9 @@ export function SwitchRelicsModal() {
   }, [characterForm, isOpen])
 
   function onModalOk() {
-    const { selectedCharacter } = characterForm.getFieldsValue() as SwitchRelicsForm
+    const { selectedCharacter } = characterForm.getFieldsValue() as { selectedCharacter: string }
     console.log('Switch relics modal submitted with:', selectedCharacter)
-    CharacterTabController.onSwitchRelicsOk(selectedCharacter)
+    CharacterTabController.onSwitchRelicsOk({ value: selectedCharacter as CharacterId } as SwitchRelicsFormSelectedCharacter)
     close()
   }
 
@@ -106,11 +104,13 @@ export function SwitchRelicsModal() {
           <Flex gap={defaultGap}>
             <AntDForm.Item name='selectedCharacter'>
               <Select
-                labelInValue
-                showSearch
-                filterOption={Utils.titleFilterOption}
+                searchable
                 style={{ width: panelWidth }}
-                options={characterOptions}
+                data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
+                renderOption={({ option }) => {
+                  const match = characterOptions.find((o) => o.value === option.value)
+                  return match?.label ?? option.label
+                }}
               />
             </AntDForm.Item>
           </Flex>

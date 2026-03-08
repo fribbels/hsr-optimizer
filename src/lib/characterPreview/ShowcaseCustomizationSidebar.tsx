@@ -7,11 +7,10 @@ import {
   IconSun,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex, NumberInput } from '@mantine/core'
+import { Button, Flex, NumberInput, Select } from '@mantine/core'
 import {
   ColorPicker,
   Segmented,
-  Select,
 } from 'antd'
 import { AggregationColor } from 'antd/es/color-picker/color'
 import { GlobalToken } from 'antd/lib/theme/interface'
@@ -509,53 +508,47 @@ function SelectSpdPresets(props: {
   const spdPresetOptions = useMemo(() => {
     const { categories } = generateSpdPresets(t)
 
-    const categoryOptions = categories.map((category) => {
+    const categoryItems = categories.map((category) => {
       // Skip the first preset (SPD0 / "No minimum speed") since "Base SPD" covers that
       const presets = Object.values(category.presets).slice(1).map((preset) => ({
-        ...preset,
+        value: String(preset.value ?? 'undefined'),
+        label: String(preset.label),
         disabled: props.spdFilter != null && preset.value != null && preset.value > props.spdFilter,
-        label: <div>{preset.label}</div>,
       }))
       return {
-        label: <span>{category.label}</span>,
-        options: presets,
+        group: category.label,
+        items: presets,
       }
     })
 
     return [
       {
-        label: <span>{tCharacterTab('BenchmarkOptionsLabel') /* Benchmark options */}</span>,
-        title: 'benchmark',
-        options: [
+        group: tCharacterTab('BenchmarkOptionsLabel') /* Benchmark options */,
+        items: [
           {
-            label: (
-              <b>
-                <span>{tCharacterTab('CurrentSpdLabel') /* Current SPD - The benchmark will match your basic SPD */}</span>
-              </b>
-            ),
-            value: -1,
+            label: tCharacterTab('CurrentSpdLabel') /* Current SPD */,
+            value: '-1',
           },
           {
-            label: <span>{tCharacterTab('BaseSpdLabel') /* Base SPD - The benchmark will target a minimal SPD build */}</span>,
-            value: 0,
+            label: tCharacterTab('BaseSpdLabel') /* Base SPD */,
+            value: '0',
           },
         ],
       },
-      ...categoryOptions,
+      ...categoryItems,
     ]
   }, [t, tCharacterTab, props.spdFilter])
 
   return (
     <Select
       style={{ width: 34 }}
-      labelRender={() => <></>}
-      dropdownStyle={{ width: 'fit-content' }}
-      popupClassName='spd-preset-dropdown'
-      options={spdPresetOptions}
-      placement='bottomRight'
-      listHeight={800}
+      comboboxProps={{ width: 'fit-content' }}
+      data={spdPresetOptions}
+      maxDropdownHeight={800}
       value={null}
-      onChange={props.onShowcaseSpdBenchmarkChange}
+      onChange={(value) => {
+        if (value != null) props.onShowcaseSpdBenchmarkChange(Number(value))
+      }}
     />
   )
 }

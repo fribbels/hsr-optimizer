@@ -1,7 +1,4 @@
-import {
-  Select,
-} from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Flex, Select } from '@mantine/core'
 import {
   completedLocales,
   isBeta,
@@ -19,38 +16,33 @@ import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
-  const selectOptions = Object.values(languages as Record<Languages, { locale: Languages, nativeName: string, shortName: string }>)
+
+  const filteredLanguages = Object.values(languages as Record<Languages, { locale: Languages, nativeName: string, shortName: string }>)
     .filter((x) => {
       if (x.locale !== 'aa_ER') return isBeta || completedLocales.includes(x.locale)
       return BASE_PATH === BasePath.BETA
       // !!do not replace this check with isBeta!!
     })
-    .map(({ locale, nativeName, shortName }) => ({
-      value: locale,
-      display: (
-        <Flex align='center' gap={10}>
-          <img style={{ width: 22 }} src={Assets.getGlobe()} />
-          {shortName}
-        </Flex>
-      ),
-      label: (
-        <Flex gap={8} title={locale}>
-          {nativeName}
-          {isBeta ? ` (${locale})` : ''}
-          {completedLocales.includes(locale) ? '' : ' - (WIP)'}
-        </Flex>
-      ),
-    }))
+
+  const selectData = filteredLanguages.map(({ locale, nativeName }) => ({
+    value: locale,
+    label: `${nativeName}${isBeta ? ` (${locale})` : ''}${completedLocales.includes(locale) ? '' : ' - (WIP)'}`,
+  }))
 
   return (
     <Select
-      options={selectOptions}
-      optionRender={(option) => option.data.label}
-      onChange={(e: string) => {
+      data={selectData}
+      renderOption={({ option }) => (
+        <Flex gap={8} title={option.value}>
+          {option.label}
+        </Flex>
+      )}
+      onChange={(value) => {
+        if (!value) return
         if (i18n.resolvedLanguage === 'aa_ER') window.jipt?.stop()
-        i18n.changeLanguage(e)
+        i18n.changeLanguage(value)
           .then(() => {
-            if (e === 'aa_ER') {
+            if (value === 'aa_ER') {
               window.jipt?.start()
               return console.log('beginning inContext translation')
             }
@@ -58,22 +50,10 @@ export function LanguageSelector() {
           })
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
-      listHeight={400}
-      placement='bottomLeft'
-      optionLabelProp='display'
-      dropdownStyle={{ width: 210 }}
+      maxDropdownHeight={400}
+      comboboxProps={{ width: 210 }}
       defaultValue={i18n.resolvedLanguage}
-      dropdownRender={(menu) => (
-        <Flex gap={4} direction="column">
-          {menu}
-          <Button
-            style={{ borderRadius: 5, height: 32 }}
-            onClick={() => window.open('https://discord.gg/rDmB4Un7qg')}
-          >
-            Help translate the website!
-          </Button>
-        </Flex>
-      )}
+      leftSection={<img style={{ width: 22 }} src={Assets.getGlobe()} />}
     />
   )
 }

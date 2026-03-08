@@ -2,9 +2,8 @@ import {
   Form as AntDForm,
   Modal,
   Radio,
-  Select,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, Select } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -12,12 +11,11 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import {
   OptionRender,
-  optionRenderer,
   renderTeammateOrnamentSetOptions,
   renderTeammateRelicSetOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, {
+import {
   useEffect,
   useMemo,
   useState,
@@ -178,13 +176,23 @@ export default function CharacterModal(props: {
             <AntDForm.Item name={`teamRelicSet`}>
               <Select
                 className='teammate-set-select'
-                options={teammateRelicSetOptions}
+                data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
                 placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
-                allowClear
-                popupMatchSelectWidth={false}
-                optionLabelProp='desc'
-                optionRender={optionRenderer()}
-                labelRender={labelRenderer}
+                clearable
+                comboboxProps={{ width: 'auto' }}
+                renderOption={({ option }) => {
+                  if (!option.value) return option.label
+                  return (
+                    <Flex gap={10} align='center'>
+                      <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }} />
+                      {option.label}
+                    </Flex>
+                  )
+                }}
+                leftSection={(() => {
+                  const val = characterForm.getFieldValue('teamRelicSet')
+                  return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} /> : null
+                })()}
                 disabled={false}
               />
             </AntDForm.Item>
@@ -192,13 +200,23 @@ export default function CharacterModal(props: {
             <AntDForm.Item name={`teamOrnamentSet`}>
               <Select
                 className='teammate-set-select'
-                options={teammateOrnamentSetOptions}
+                data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
                 placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
-                allowClear
-                popupMatchSelectWidth={false}
-                optionLabelProp='desc'
-                optionRender={optionRenderer()}
-                labelRender={labelRenderer}
+                clearable
+                comboboxProps={{ width: 'auto' }}
+                renderOption={({ option }) => {
+                  if (!option.value) return option.label
+                  return (
+                    <Flex gap={10} align='center'>
+                      <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }} />
+                      {option.label}
+                    </Flex>
+                  )
+                }}
+                leftSection={(() => {
+                  const val = characterForm.getFieldValue('teamOrnamentSet')
+                  return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} /> : null
+                })()}
                 disabled={false}
               />
             </AntDForm.Item>
@@ -217,14 +235,3 @@ function RadioButton(props: {
   return <Radio.Button value={props.value} style={{ flex: 1, padding: 'unset', textAlign: 'center' }}>{props.text}</Radio.Button>
 }
 
-function labelRenderer(props: {
-  label: React.ReactNode,
-  value: string | number,
-}) {
-  return (
-    <Flex align='center' gap={5} style={{ fontSize: 13 }}>
-      <img src={Assets.getSetImage(props.value, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} />
-      {props.label}
-    </Flex>
-  )
-}

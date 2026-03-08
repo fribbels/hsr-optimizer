@@ -1,5 +1,5 @@
-import { Button, Flex, TextInput } from '@mantine/core'
-import { Card, Modal, Select, } from 'antd'
+import { Button, Flex, MultiSelect, Select, TextInput } from '@mantine/core'
+import { Card, Modal, } from 'antd'
 import { ElementName, PathName, } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { CharacterOptions, generateCharacterOptions, } from 'lib/rendering/optionGenerator'
@@ -146,36 +146,46 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
 
   return (
     <>
-      <Select
-        style={selectStyle}
-        value={value}
-        options={withIcon ? labelledOptions : characterOptions}
-        placeholder={multipleSelect ? t('MultiSelect.Placeholder') /* Customize characters */ : t('SingleSelect.Placeholder') /* Character */}
-        allowClear
-        maxTagCount={0}
-        maxTagPlaceholder={(omittedValues) => (
-          <span>
-            {
-              omittedValues.length
-                ? t('MultiSelect.MaxTagPlaceholderSome', { count: omittedValues.length })
-                : t('MultiSelect.MaxTagPlaceholderNone')
-              /* {count} characters excluded | all characters enabled */
-            }
-          </span>
+      {multipleSelect
+        ? (
+          <MultiSelect
+            style={selectStyle}
+            value={value as string[]}
+            data={characterOptions.map((opt) => ({ value: opt.value, label: opt.label }))}
+            placeholder={t('MultiSelect.Placeholder') /* Customize characters */}
+            clearable
+            maxValues={0}
+            onClear={() => {
+              if (onChange) onChange(null)
+            }}
+            onDropdownOpen={() => {
+              setOpen(true)
+              setCurrentFilters(TsUtils.clone(defaultFilters))
+            }}
+            comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
+            rightSection={null}
+          />
+        )
+        : (
+          <Select
+            style={selectStyle}
+            value={value as string | null}
+            data={withIcon
+              ? labelledOptions.map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value }))
+              : characterOptions.map((opt) => ({ value: opt.value, label: opt.label }))}
+            placeholder={t('SingleSelect.Placeholder') /* Character */}
+            clearable
+            onClear={() => {
+              if (onChange) onChange(null)
+            }}
+            onDropdownOpen={() => {
+              setOpen(true)
+              setCurrentFilters(TsUtils.clone(defaultFilters))
+            }}
+            comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
+            rightSection={null}
+          />
         )}
-        onClear={() => {
-          if (onChange) onChange(null)
-        }}
-        onDropdownVisibleChange={(visible) => {
-          if (visible) {
-            setOpen(true)
-            setCurrentFilters(TsUtils.clone(defaultFilters))
-          }
-        }}
-        dropdownStyle={{ display: 'none' }}
-        suffixIcon={null}
-        mode={multipleSelect ? 'multiple' : undefined}
-      />
 
       <Modal
         open={open || externalOpen}

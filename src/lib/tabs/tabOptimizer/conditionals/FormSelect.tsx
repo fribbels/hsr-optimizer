@@ -1,7 +1,4 @@
-import { Flex, Text as MantineText } from '@mantine/core'
-import {
-  Select,
-} from 'antd'
+import { Flex, Select, Text as MantineText } from '@mantine/core'
 import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -47,21 +44,25 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
     ? props.onChange
     : (val: number) => handleConditionalChange(itemName as (string | number)[], val)
 
+  const stringOptions = props.options?.map((opt) => ({
+    label: opt.display || opt.label,
+    value: String(opt.value),
+  }))
+
   const internalSelect = (
     <Select
       disabled={props.disabled}
       style={{ minWidth: props.fullWidth ? '100%' : 80, width: props.fullWidth ? '100%' : 80, marginRight: 5 }}
-      optionLabelProp='display'
-      listHeight={500}
-      size='small'
-      dropdownStyle={{ width: 'fit-content' }}
-      options={props.options}
+      maxDropdownHeight={500}
+      size='xs'
+      comboboxProps={{ styles: { dropdown: { width: 'fit-content' } } }}
+      data={stringOptions}
       onChange={(newValue) => {
         if (handleChange) {
-          handleChange(newValue ?? 0)
+          handleChange(newValue ? Number(newValue) : 0)
         }
       }}
-      value={currentValue}
+      value={currentValue != null ? String(currentValue) : null}
     />
   )
 

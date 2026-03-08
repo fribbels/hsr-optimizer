@@ -3,9 +3,8 @@ import {
   Form,
   Modal,
   Popconfirm,
-  Select,
 } from 'antd'
-import { Button, Flex, NumberInput, Text } from '@mantine/core'
+import { Button, Flex, MultiSelect, NumberInput, Text } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
 import {
   Constants,
@@ -54,8 +53,7 @@ function SetPicker(props: {
   remove: (value: string) => void,
 }) {
   return (
-    <Select
-      mode='multiple'
+    <MultiSelect
       style={{ width: '100%' }}
       placeholder={props.placeholder}
       onChange={(values) => {
@@ -74,17 +72,17 @@ function SetPicker(props: {
           props.remove(removedValues[0])
         }
       }}
-      maxTagCount='responsive'
-      options={props.names.map((set) => ({
+      data={[...props.names].reverse().map((set) => ({
         value: set,
-        label: (
-          <Flex gap={5}>
-            <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 24, height: 24 }}></img>
-            {set}
-          </Flex>
-        ),
-      })).reverse()}
-      filterOption={(input, option) => (option?.value ?? '').toLowerCase().includes(input.toLowerCase())}
+        label: set,
+      }))}
+      renderOption={({ option }) => (
+        <Flex gap={5}>
+          <img src={Assets.getSetImage(option.value, Constants.Parts.Head)} style={{ width: 24, height: 24 }}></img>
+          {option.label}
+        </Flex>
+      )}
+      searchable
       value={props.selectedValues}
     />
   )
@@ -281,23 +279,22 @@ export default function ScoringModal() {
                     {t('common:Parts.Body')}
                   </Text>
                   <Form.Item name={['parts', Parts.Body]}>
-                    <Select
-                      mode='multiple'
-                      allowClear
+                    <MultiSelect
+                      clearable
                       style={{
                         width: selectWidth,
                       }}
                       placeholder={t('common:Parts.Body')}
-                      maxTagCount='responsive'
-                    >
-                      <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
-                      <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
-                      <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
-                      <Select.Option value={Stats.CR}>{t(`common:Stats.${Stats.CR}`)}</Select.Option>
-                      <Select.Option value={Stats.CD}>{t(`common:Stats.${Stats.CD}`)}</Select.Option>
-                      <Select.Option value={Stats.OHB}>{t(`common:Stats.${Stats.OHB}`)}</Select.Option>
-                      <Select.Option value={Stats.EHR}>{t(`common:Stats.${Stats.EHR}`)}</Select.Option>
-                    </Select>
+                      data={[
+                        { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
+                        { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
+                        { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
+                        { value: Stats.CR, label: t(`common:Stats.${Stats.CR}`) },
+                        { value: Stats.CD, label: t(`common:Stats.${Stats.CD}`) },
+                        { value: Stats.OHB, label: t(`common:Stats.${Stats.OHB}`) },
+                        { value: Stats.EHR, label: t(`common:Stats.${Stats.EHR}`) },
+                      ]}
+                    />
                   </Form.Item>
                 </Flex>
 
@@ -306,20 +303,19 @@ export default function ScoringModal() {
                     {t('common:Parts.Feet')}
                   </Text>
                   <Form.Item name={['parts', Parts.Feet]}>
-                    <Select
-                      mode='multiple'
-                      allowClear
+                    <MultiSelect
+                      clearable
                       style={{
                         width: selectWidth,
                       }}
                       placeholder={t('common:Parts.Feet')}
-                      maxTagCount='responsive'
-                    >
-                      <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
-                      <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
-                      <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
-                      <Select.Option value={Stats.SPD}>{t(`common:Stats.${Stats.SPD}`)}</Select.Option>
-                    </Select>
+                      data={[
+                        { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
+                        { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
+                        { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
+                        { value: Stats.SPD, label: t(`common:Stats.${Stats.SPD}`) },
+                      ]}
+                    />
                   </Form.Item>
                 </Flex>
                 <Flex direction="column" gap={1} justify='flex-start'>
@@ -327,27 +323,26 @@ export default function ScoringModal() {
                     {t('common:Parts.PlanarSphere')}
                   </Text>
                   <Form.Item name={['parts', Parts.PlanarSphere]}>
-                    <Select
-                      mode='multiple'
-                      allowClear
+                    <MultiSelect
+                      clearable
                       style={{
                         width: selectWidth,
                       }}
                       placeholder={t('common:Parts.PlanarSphere')}
-                      listHeight={400}
-                      maxTagCount='responsive'
-                    >
-                      <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
-                      <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
-                      <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
-                      <Select.Option value={Stats.Physical_DMG}>{t(`common:Stats.${Stats.Physical_DMG}`)}</Select.Option>
-                      <Select.Option value={Stats.Fire_DMG}>{t(`common:Stats.${Stats.Fire_DMG}`)}</Select.Option>
-                      <Select.Option value={Stats.Ice_DMG}>{t(`common:Stats.${Stats.Ice_DMG}`)}</Select.Option>
-                      <Select.Option value={Stats.Lightning_DMG}>{t(`common:Stats.${Stats.Lightning_DMG}`)}</Select.Option>
-                      <Select.Option value={Stats.Wind_DMG}>{t(`common:Stats.${Stats.Wind_DMG}`)}</Select.Option>
-                      <Select.Option value={Stats.Quantum_DMG}>{t(`common:Stats.${Stats.Quantum_DMG}`)}</Select.Option>
-                      <Select.Option value={Stats.Imaginary_DMG}>{t(`common:Stats.${Stats.Imaginary_DMG}`)}</Select.Option>
-                    </Select>
+                      maxDropdownHeight={400}
+                      data={[
+                        { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
+                        { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
+                        { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
+                        { value: Stats.Physical_DMG, label: t(`common:Stats.${Stats.Physical_DMG}`) },
+                        { value: Stats.Fire_DMG, label: t(`common:Stats.${Stats.Fire_DMG}`) },
+                        { value: Stats.Ice_DMG, label: t(`common:Stats.${Stats.Ice_DMG}`) },
+                        { value: Stats.Lightning_DMG, label: t(`common:Stats.${Stats.Lightning_DMG}`) },
+                        { value: Stats.Wind_DMG, label: t(`common:Stats.${Stats.Wind_DMG}`) },
+                        { value: Stats.Quantum_DMG, label: t(`common:Stats.${Stats.Quantum_DMG}`) },
+                        { value: Stats.Imaginary_DMG, label: t(`common:Stats.${Stats.Imaginary_DMG}`) },
+                      ]}
+                    />
                   </Form.Item>
                 </Flex>
 
@@ -357,21 +352,20 @@ export default function ScoringModal() {
                   </Text>
 
                   <Form.Item name={['parts', Parts.LinkRope]}>
-                    <Select
-                      mode='multiple'
-                      allowClear
+                    <MultiSelect
+                      clearable
                       style={{
                         width: selectWidth,
                       }}
                       placeholder={t('common:Parts.LinkRope')}
-                      maxTagCount='responsive'
-                    >
-                      <Select.Option value={Stats.HP_P}>{t(`common:Stats.${Stats.HP_P}`)}</Select.Option>
-                      <Select.Option value={Stats.ATK_P}>{t(`common:Stats.${Stats.ATK_P}`)}</Select.Option>
-                      <Select.Option value={Stats.DEF_P}>{t(`common:Stats.${Stats.DEF_P}`)}</Select.Option>
-                      <Select.Option value={Stats.BE}>{t(`common:Stats.${Stats.BE}`)}</Select.Option>
-                      <Select.Option value={Stats.ERR}>{t(`common:Stats.${Stats.ERR}`)}</Select.Option>
-                    </Select>
+                      data={[
+                        { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
+                        { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
+                        { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
+                        { value: Stats.BE, label: t(`common:Stats.${Stats.BE}`) },
+                        { value: Stats.ERR, label: t(`common:Stats.${Stats.ERR}`) },
+                      ]}
+                    />
                   </Form.Item>
                 </Flex>
               </Flex>

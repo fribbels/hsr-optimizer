@@ -48,6 +48,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, (r.ultAtkBoost) ? sValuesUltAtk[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
+      x.buff(StatKey.ATK, (r.ultAtkBoost) ? sValuesUltAtk[s] * context.baseATK : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
       x.buff(StatKey.ATK_P, (r.energyAtkBuff && context.baseEnergy >= 300) ? sValuesEnergyAtk[s] : 0, x.source(SOURCE_LC))
     },
   }

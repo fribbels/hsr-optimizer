@@ -4,9 +4,11 @@ import {
   UnconvertedCharacter,
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
+import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import DB, {
   AppPages,
@@ -57,7 +59,7 @@ export function presetCharacters(): Preset[] {
   return [
     { characterId: char(Yaoguang.id), lightConeId: lc(WhenSheDecidedToSee.id) },
     { characterId: char(Sparxie.id), lightConeId: lc(DazzledByAFloweryWorld.id) },
-    // { characterId: char(ASHVEIL), lightConeId: lc(THE_FINALE_OF_A_LIE) },
+    { characterId: char(Ashveil.id), lightConeId: lc(TheFinaleOfALie.id) },
 
     // { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
     // { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},

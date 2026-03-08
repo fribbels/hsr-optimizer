@@ -433,6 +433,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   ornamentSets: [
     Sets.TengokuLivestream,
+    Sets.RutilantArena,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
   teammates: [

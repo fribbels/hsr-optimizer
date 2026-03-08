@@ -82,6 +82,8 @@ export function DamageTagPieChart(props: {
           outerRadius={110}
           innerRadius={45}
           cornerRadius={3}
+          startAngle={90}
+          endAngle={-270}
           stroke='#243356'
           strokeWidth={2}
           isAnimationActive={false}

@@ -97,6 +97,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const talentFuaScaling = talent(e, 2.00, 2.20)
 
+  const fuaHitCountMulti = ASHBLAZING_ATK_STACK
+    * (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 1 / 10 + 8 * 1 / 10 + 8 * 1 / 10)
+
   const maxGluttonyStacks = (e >= 2) ? 18 : 12
 
   const defaults = {
@@ -155,7 +158,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e1TargetHpBelow50: {
       id: 'e1TargetHpBelow50',
       formItem: 'switch',
-      text: 'E1 target HP <= 50%',
+      text: 'E1 target HP ≤ 50%',
       content: betaContent,
       disabled: e < 1,
     },
@@ -255,10 +258,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<Content>
 
-      // A4: FUA DMG +80%
+      // FUA DMG +80%
       x.buff(StatKey.DMG_BOOST, 0.80, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
-      // A4: FUA DMG +10% per Gluttony stack
+      // FUA DMG +10% per Gluttony stack
       x.buff(StatKey.DMG_BOOST, 0.10 * r.gluttonyStacks, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
       // E4: ATK +40% after using Ultimate
@@ -271,13 +274,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<MutualContent>
 
-      // A6: Team CRIT DMG +40%
+      // Team CRIT DMG +40%
       x.buff(StatKey.CD, 0.40, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      // A6: Team FUA CRIT DMG +80% additional
+      // Team FUA CRIT DMG +80% additional
       x.buff(StatKey.CD, 0.80, x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      // Skill: Bait DEF reduction
+      // Bait DEF reduction
       x.buff(StatKey.DEF_PEN, (m.baitActive) ? skillDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
       // E1: Enemy vulnerability (+24%, or +36% if HP <= 50%)
@@ -291,17 +294,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, (e >= 6 && m.baitActive) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
-    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.teammateCharacterConditionals as Conditionals<TeammateContent>
-    },
-
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-      boostAshblazingAtkContainer(x, action, hitMulti)
+      boostAshblazingAtkContainer(x, action, fuaHitCountMulti)
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-      return gpuBoostAshblazingAtkContainer(hitMulti, action)
+      return gpuBoostAshblazingAtkContainer(fuaHitCountMulti, action)
     },
   }
 }
@@ -344,14 +341,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboDot: 0,
   relicSets: [
-    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
     [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
-    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
+    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
     Sets.CityOfConvergingStars,
     Sets.DuranDynastyOfRunningWolves,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
     ...SPREAD_ORNAMENTS_2P_FUA,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
@@ -399,7 +396,7 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
   },
   presets: [
-    PresetEffects.fnAshblazingSet(1),
+    PresetEffects.fnAshblazingSet(8),
     PresetEffects.fnPioneerSet(4),
     PresetEffects.VALOROUS_SET,
   ],

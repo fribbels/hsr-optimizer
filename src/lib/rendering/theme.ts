@@ -3,6 +3,7 @@ import {
   ThemeConfig,
 } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
+import type { MantineTheme } from '@mantine/core'
 
 // Only the fields we care about
 export type ColorThemeOverrides = {
@@ -24,13 +25,13 @@ export const Themes: { [key: string]: ColorThemeOverrides } = {
   },
 }
 
-export function getGridTheme(token: GlobalToken) {
+export function getGridTheme(theme: MantineTheme) {
   return {
-    '--ag-background-color': token.colorBgContainer,
-    '--ag-odd-row-background-color': token.colorBgElevated,
-    '--ag-header-background-color': token.colorBgLayout,
-    '--ag-border-color': token.colorBorderSecondary,
-    '--ag-row-hover-color': token.colorPrimary,
+    '--ag-background-color': theme.colors.dark[7],
+    '--ag-odd-row-background-color': theme.colors.dark[6],
+    '--ag-header-background-color': theme.colors.dark[8],
+    '--ag-border-color': theme.colors.dark[4],
+    '--ag-row-hover-color': theme.colors.blue[6],
   }
 }
 

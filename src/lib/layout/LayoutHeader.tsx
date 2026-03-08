@@ -2,10 +2,7 @@ import {
   IconMenu2,
   IconX,
 } from '@tabler/icons-react'
-import {
-  theme,
-} from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, Text, useMantineTheme } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -14,13 +11,11 @@ import { LanguageSelector } from 'lib/i18n/LanguageSelector'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH } from 'lib/state/db'
 
-const { useToken } = theme
-
 export const HEADER_HEIGHT = 48
 
 export function LayoutHeader() {
   const { isOpen: isOpenMenuSidebar, toggle: toggleMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
-  const { token } = useToken()
+  const theme = useMantineTheme()
 
   return (
     <header
@@ -31,7 +26,7 @@ export function LayoutHeader() {
         paddingRight: '0px',
         height: HEADER_HEIGHT,
         width: '100%',
-        backgroundColor: token.colorBgLayout,
+        backgroundColor: theme.colors.dark[8],
         backgroundImage: 'linear-gradient(rgb(0 0 0/60%) 0 0)',
       }}
     >

@@ -6,10 +6,7 @@ import {
   PaginationNumberFormatterParams,
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import {
-  theme,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -42,8 +39,6 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const { useToken } = theme
-
 const defaultHiddenColumns = [
   SortOption.OHB,
 ]
@@ -57,7 +52,7 @@ export const GRID_DIMENSIONS = {
 export function OptimizerGrid() {
   console.log('======================================================================= RENDER OptimizerGrid')
 
-  const { token } = useToken()
+  const theme = useMantineTheme()
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'Grid' })
   const optimizerGrid = useRef<AgGridReact<OptimizerDisplayDataStatSim> | null>(null)
   const [gridDestroyed, setGridDestroyed] = useState(false)
@@ -171,7 +166,7 @@ export function OptimizerGrid() {
             resize: 'vertical',
             overflow: 'hidden',
             boxShadow: cardShadowNonInset,
-            ...getGridTheme(token),
+            ...getGridTheme(theme),
           }}
         >
           <AgGridReact

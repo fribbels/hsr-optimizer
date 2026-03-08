@@ -1,7 +1,4 @@
-import { Flex, Text } from '@mantine/core'
-import {
-  theme,
-} from 'antd'
+import { Flex, Text, useMantineTheme } from '@mantine/core'
 import CheckableTag from 'antd/lib/tag/CheckableTag'
 import {
   ElementName,
@@ -11,8 +8,6 @@ import {
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'react'
-
-const { useToken } = theme
 
 const parentW = 100
 const parentH = 150
@@ -112,7 +107,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
   flexBasis?: string,
   noHeight?: boolean,
 }) {
-  const { token } = useToken()
+  const theme = useMantineTheme()
   const { currentFilter, flexBasis, tags, setCurrentFilters } = props
 
   const handleChange = (tag: T, checked: boolean) => {
@@ -128,8 +123,8 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
       style={{
         flexWrap: 'wrap',
         flexGrow: 1,
-        backgroundColor: token.colorBgContainer,
-        boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
+        backgroundColor: theme.colors.dark[7],
+        boxShadow: `0px 0px 0px 1px ${theme.colors.dark[4]} inset`,
         borderRadius: 6,
         overflow: 'hidden',
         height: props.noHeight ? undefined : 40,
@@ -143,8 +138,8 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
           style={{
             flex: 1,
             flexBasis: tag.flexBasis ?? flexBasis,
-            boxShadow: `1px 1px 1px 0px ${token.colorBorder}`,
-            backgroundColor: currentFilter.includes(tag.key) ? token.colorPrimary : 'transparent',
+            boxShadow: `1px 1px 1px 0px ${theme.colors.dark[4]}`,
+            backgroundColor: currentFilter.includes(tag.key) ? theme.colors.blue[6] : 'transparent',
           }}
         >
           <Flex align='center' justify='space-around' style={{ height: '100%' }}>

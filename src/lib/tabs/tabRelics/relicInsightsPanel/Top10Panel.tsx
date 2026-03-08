@@ -1,7 +1,4 @@
-import {
-  theme,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import {
   OpenCloseIDs,
   setOpen,
@@ -29,8 +26,6 @@ import {
 } from 'recharts/types/component/DefaultTooltipContent'
 import { CharacterId } from 'types/character'
 
-const { useToken } = theme
-
 const N_Displayed = 10
 
 const LEGEND_WIDTH = 273
@@ -46,7 +41,7 @@ type DataPoint = {
 }
 
 export const Top10Panel = React.memo(({ scores }: PanelProps) => {
-  const { token } = useToken()
+  const theme = useMantineTheme()
 
   const { sortedScores, data } = useMemo(() => {
     const sortedScores = scores
@@ -67,8 +62,8 @@ export const Top10Panel = React.memo(({ scores }: PanelProps) => {
     <div
       style={{
         borderRadius: 8,
-        border: `1px solid ${token.colorBorderSecondary}`,
-        backgroundColor: token.colorBgContainer,
+        border: `1px solid ${theme.colors.dark[4]}`,
+        backgroundColor: theme.colors.dark[7],
       }}
     >
       <ScatterChart
@@ -153,7 +148,7 @@ function LegendContent({ scores }: PanelProps) {
 
 function TooltipContent(props: TooltipProps<ValueType, NameType>) {
   const { payload }: { payload?: Array<{ payload?: DataPoint }> } = props
-  const { token } = useToken()
+  const theme = useMantineTheme()
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicInsights' })
   const data = payload?.[0]?.payload
   if (!data) return <></>
@@ -163,8 +158,8 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
       gap={0}
       style={{
         borderRadius: 8,
-        border: `1px solid ${token.colorBorder}`,
-        backgroundColor: token.colorBgBase,
+        border: `1px solid ${theme.colors.dark[4]}`,
+        backgroundColor: theme.colors.dark[8],
         height: 'fit-content',
         padding: 10,
       }}

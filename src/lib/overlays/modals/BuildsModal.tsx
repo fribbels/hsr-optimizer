@@ -6,9 +6,8 @@ import {
 } from '@tabler/icons-react'
 import {
   Modal as AntdModal,
-  theme,
 } from 'antd'
-import { Button, Flex, Modal } from '@mantine/core'
+import { Button, Flex, Modal, useMantineTheme } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
@@ -37,8 +36,6 @@ import type {
   SavedBuild,
 } from 'types/character'
 import { Teammate } from 'types/form'
-
-const { useToken } = theme
 
 // FIXME LOW
 
@@ -361,16 +358,16 @@ function BuildCard(props: BuildCardProps) {
   } = props
   const { t } = useTranslation('modals', { keyPrefix: 'Builds' })
   const selected = selectedBuild === index
-  const { token } = useToken()
+  const theme = useMantineTheme()
   return (
     <div
       style={{
-        backgroundColor: selected ? '#001529' : token.colorBorderBg,
+        backgroundColor: selected ? '#001529' : theme.colors.dark[7],
         cursor: 'pointer',
         padding: 24,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: token.colorBorderSecondary,
+        borderColor: theme.colors.dark[4],
         borderStyle: 'solid',
         transition: 'all ease-in-out 0.2s',
       }}

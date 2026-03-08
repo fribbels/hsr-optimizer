@@ -1,8 +1,7 @@
 import {
   List,
-  theme,
 } from 'antd'
-import { Flex, Text, Title } from '@mantine/core'
+import { Flex, Text, Title, useMantineTheme } from '@mantine/core'
 import {
   CURRENT_DATA_VERSION,
   officialOnly,
@@ -15,12 +14,10 @@ import React, {
   useMemo,
 } from 'react'
 
-const { useToken } = theme
-
 type ChangelogContent = { title: string, date: string, content: string[] }
 
 export default function ChangelogTab(): React.JSX.Element {
-  const { token } = useToken()
+  const theme = useMantineTheme()
 
   const activeKey = window.store((s) => s.activeKey)
   const changelogContent = useMemo(() => getChangelogContent(), [])
@@ -41,7 +38,7 @@ export default function ChangelogTab(): React.JSX.Element {
             src={Assets.getChangelog(`${contentUpdate.date}/${entry}`)}
             loading='lazy'
             style={{
-              border: `2px solid ${token.colorBgContainer}`,
+              border: `2px solid ${theme.colors.dark[7]}`,
               margin: 5,
               maxWidth: 1200,
             }}

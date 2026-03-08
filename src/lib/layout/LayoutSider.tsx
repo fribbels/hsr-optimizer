@@ -1,7 +1,4 @@
-import {
-  theme,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -10,10 +7,8 @@ import { HEADER_HEIGHT } from 'lib/layout/LayoutHeader'
 import MenuDrawer from 'lib/overlays/drawers/MenuDrawer'
 import { useScrollLockState } from 'lib/rendering/scrollController'
 
-const { useToken } = theme
-
 export function LayoutSider() {
-  const { token } = useToken()
+  const theme = useMantineTheme()
   const { isLocked, offset } = useScrollLockState()
   const { isOpen: isOpenMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
 
@@ -30,7 +25,7 @@ export function LayoutSider() {
         style={{
           width: siderWidth,
           minWidth: siderWidth,
-          background: token.colorBgContainer,
+          background: theme.colors.dark[7],
           height: '100vh',
           position: 'sticky',
           top: 0,

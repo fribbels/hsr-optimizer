@@ -10,7 +10,7 @@ import {
   AgGridReact,
   AgGridReactProps,
 } from 'ag-grid-react'
-import { theme } from 'antd'
+import { useMantineTheme } from '@mantine/core'
 import {
   ScoredRelic,
   scoreRelics,
@@ -49,12 +49,10 @@ const paginationSettings: AgGridReactProps<ScoredRelic> = {
   paginationNumberFormatter: (params: PaginationNumberFormatterParams<ScoredRelic>) => params.value.toLocaleString(currentLocale()),
 }
 
-const { useToken } = theme
-
 export function RelicsGrid() {
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
-  const { token } = useToken()
+  const theme = useMantineTheme()
 
   const [gridActive, setGridActive] = useState(true)
 
@@ -123,7 +121,7 @@ export function RelicsGrid() {
         height: 500,
         resize: 'vertical',
         overflow: 'hidden',
-        ...getGridTheme(token),
+        ...getGridTheme(theme),
       }}
     >
       {gridActive && (

@@ -1,5 +1,4 @@
-import { Alert, Flex } from '@mantine/core'
-import { Divider } from 'antd'
+import { Alert, Divider, Flex } from '@mantine/core'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
@@ -125,7 +124,7 @@ export const CharacterScoringSummary = (props: {
   const statPreviewWidth = 300
   const divider = (
     <Flex direction="column">
-      <Divider type='vertical' style={{ flexGrow: 1, margin: '10px 30px' }}/>
+      <Divider orientation='vertical' style={{ flexGrow: 1, margin: '10px 30px' }}/>
     </Flex>
   )
 

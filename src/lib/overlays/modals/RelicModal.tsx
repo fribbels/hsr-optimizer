@@ -5,9 +5,8 @@ import {
 } from '@tabler/icons-react'
 import {
   Form,
-  theme,
 } from 'antd'
-import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select, TextInput, Tooltip } from '@mantine/core'
+import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select, TextInput, Tooltip, useMantineTheme } from '@mantine/core'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
@@ -55,8 +54,6 @@ import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
 // FIXME MED
-
-const { useToken } = theme
 
 function partSegmentData(value: string, src: string) {
   return {
@@ -176,7 +173,7 @@ const defaultMainStatPerPart = {
 export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer, next, prev }: RelicModalProps) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
-  const { token } = useToken()
+  const theme = useMantineTheme()
   const [relicForm] = Form.useForm<RelicForm>()
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters = useCharacterTabStore((s) => s.characters)
@@ -556,7 +553,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
                   overflow: 'hidden',
                   marginTop: 7,
                   borderRadius: 10,
-                  boxShadow: `0px 0px 0px 1px ${token.colorBorder} inset`,
+                  boxShadow: `0px 0px 0px 1px ${theme.colors.dark[4]} inset`,
                 }}
               >
                 <img

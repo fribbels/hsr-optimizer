@@ -3,7 +3,6 @@ import { Notifications } from '@mantine/notifications'
 import {
   ConfigProvider,
   Layout,
-  message,
   Modal,
   notification,
   theme,
@@ -24,11 +23,9 @@ const { getDesignToken } = theme
 const { Content } = Layout
 
 const App = () => {
-  const [messageApi, messageContextHolder] = message.useMessage()
   const [notificationApi, notificationContextHolder] = notification.useNotification()
   const [modalApi, modalContextHolder] = Modal.useModal()
 
-  window.messageApi = messageApi
   window.notificationApi = notificationApi
   window.modalApi = modalApi
 
@@ -50,7 +47,6 @@ const App = () => {
     <MantineProvider theme={mantineTheme} defaultColorScheme="dark">
       <Notifications position="top-right" />
       <ConfigProvider theme={globalThemeConfig}>
-        {messageContextHolder}
         {notificationContextHolder}
         {modalContextHolder}
         <Layout style={{ minHeight: '100%' }}>

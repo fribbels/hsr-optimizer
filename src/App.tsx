@@ -4,7 +4,6 @@ import {
   ConfigProvider,
   Layout,
   Modal,
-  notification,
   theme,
 } from 'antd'
 import { checkForUpdatesNotification } from 'lib/interactions/notifications'
@@ -23,10 +22,8 @@ const { getDesignToken } = theme
 const { Content } = Layout
 
 const App = () => {
-  const [notificationApi, notificationContextHolder] = notification.useNotification()
   const [modalApi, modalContextHolder] = Modal.useModal()
 
-  window.notificationApi = notificationApi
   window.modalApi = modalApi
 
   const colorTheme = window.store((s) => s.colorTheme)
@@ -47,7 +44,6 @@ const App = () => {
     <MantineProvider theme={mantineTheme} defaultColorScheme="dark">
       <Notifications position="top-right" />
       <ConfigProvider theme={globalThemeConfig}>
-        {notificationContextHolder}
         {modalContextHolder}
         <Layout style={{ minHeight: '100%' }}>
           <LayoutHeader />

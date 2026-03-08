@@ -55,7 +55,7 @@ export type BuildOptimizerMetadata = {
 export type BuildTeammate = {
   characterId: CharacterId,
   eidolon: number,
-  lightConeId: LightConeId | null,
+  lightConeId: LightConeId,
   superimposition: number,
   relicSet?: string,
   ornamentSet?: string,

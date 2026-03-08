@@ -614,16 +614,16 @@ export const DB = {
           // build format is otherwise correct, so relocate conditionals and return
           const updatedBuild = { ...savedBuild }
           // @ts-ignore
-          const oldConditionals: Record<CharacterId | LightConeId, ConditionalValueMap> = savedBuild.optimizerMetadata.conditionals
-          updatedBuild.characterConditionals = oldConditionals[character.id]
-          updatedBuild.lightConeConditionals = oldConditionals[savedBuild.lightConeId!]
+          const oldConditionals: Record<CharacterId | LightConeId, ConditionalValueMap> | undefined = savedBuild.optimizerMetadata?.conditionals
+          updatedBuild.characterConditionals = oldConditionals?.[character.id]
+          updatedBuild.lightConeConditionals = oldConditionals?.[savedBuild.lightConeId!]
           updatedBuild.team = savedBuild.team.map((x) => ({
             ...x,
-            characterConditionals: oldConditionals[x.characterId],
-            lightConeConditionals: oldConditionals[x.lightConeId!],
+            characterConditionals: oldConditionals?.[x.characterId],
+            lightConeConditionals: oldConditionals?.[x.lightConeId!],
           }))
           // @ts-ignore
-          delete updatedBuild.optimizerMetadata.conditionals
+          if (updatedBuild.optimizerMetadata) delete updatedBuild.optimizerMetadata.conditionals
           return updatedBuild
         }
         const build = savedBuild as unknown as { build: string[], name: string, score: { score: string, rating: string } }

@@ -1,6 +1,5 @@
 import { AgGridReact } from 'ag-grid-react'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
-import { HookAPI } from 'antd/lib/modal/useModal'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants } from 'lib/constants/constants'
@@ -61,7 +60,6 @@ declare global {
     // only exists on dreary-quibbles\
     // added by github CI
     jipt?: Jipt
-    modalApi: HookAPI
     store: UseBoundStore<StoreApi<HsrOptimizerStore>>
     colorTheme: ColorThemeOverrides
 

@@ -26,6 +26,7 @@ import {
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
@@ -398,10 +399,8 @@ function ShowcaseTeamSelectPanel(props: {
       style={{ marginLeft: 10, marginRight: 10, marginTop: 2, marginBottom: 0, alignItems: 'center' }}
       onChange={(selection) => {
         if (selection == SETTINGS_TEAM) {
-          window.modalApi.info({
-            icon: null,
+          getConfirmModal()?.info({
             width: 'fit-content',
-            okText: t('common:Ok'),
             maskClosable: true,
             content: (
               <div style={{ width: '100%' }}>

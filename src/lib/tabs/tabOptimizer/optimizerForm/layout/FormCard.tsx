@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   theme,
 } from 'antd'
 import {
@@ -58,7 +58,7 @@ export default function FormCard(props: {
         justify={props.justify ?? undefined}
       >
         <Flex
-          vertical
+          direction="column"
           style={{ width: width }}
           gap={defaultGap}
           justify={props.justify ?? undefined}

@@ -8,12 +8,12 @@ import {
 import {
   Button,
   Card,
-  Flex,
   Form as AntDForm,
   InputNumber,
   Radio,
   Select,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   OverlayText,
   showcaseOutline,
@@ -139,7 +139,7 @@ export default function BenchmarksTab(): ReactElement {
   }, [teammate0, teammate1, teammate2])
 
   return (
-    <Flex vertical style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center' gap={8}>
+    <Flex direction="column" style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center' gap={8}>
       <ColorizedTitleWithInfo
         text={t('Title') /* 'Benchmark Generator' */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
@@ -171,7 +171,7 @@ export default function BenchmarksTab(): ReactElement {
 
 function BenchmarkInputs() {
   return (
-    <Flex vertical align='center'>
+    <Flex direction="column" align='center'>
       <Flex gap={GAP * 3} style={{ width: '100%' }} justify='space-between'>
         <LeftPanel />
         <MiddlePanel />
@@ -191,8 +191,8 @@ function LeftPanel() {
   const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
 
   return (
-    <Flex vertical gap={GAP}>
-      <Flex vertical gap={GAP}>
+    <Flex direction="column" gap={GAP}>
+      <Flex direction="column" gap={GAP}>
         <HeaderText>{t('Header') /* Benchmark */}</HeaderText>
         <CenteredImage
           src={Assets.getCharacterPreviewById(characterId)}
@@ -216,8 +216,8 @@ function MiddlePanel() {
   const characterId = AntDForm.useWatch('characterId', form) ?? ''
 
   return (
-    <Flex vertical gap={GAP} style={{ width: MID_PANEL_WIDTH }} justify='space-between'>
-      <Flex vertical gap={GAP}>
+    <Flex direction="column" gap={GAP} style={{ width: MID_PANEL_WIDTH }} justify='space-between'>
+      <Flex direction="column" gap={GAP}>
         <HeaderText>{t('CharacterHeader') /* Character */}</HeaderText>
         <AntDForm.Item name='characterId' noStyle>
           <CharacterSelect
@@ -228,7 +228,7 @@ function MiddlePanel() {
         <CharacterEidolonFormRadio />
       </Flex>
 
-      <Flex vertical gap={GAP}>
+      <Flex direction="column" gap={GAP}>
         <HeaderText>{t('LCHeader') /* Light Cone */}</HeaderText>
         <AntDForm.Item name='lightCone' noStyle>
           <LightConeSelect value={null} characterId={characterId} />
@@ -253,8 +253,8 @@ function RightPanel() {
   const { t: tOptimizerTab } = useTranslation('optimizerTab')
 
   return (
-    <Flex vertical style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
-      <Flex vertical gap={GAP}>
+    <Flex direction="column" style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
+      <Flex direction="column" gap={GAP}>
         <HeaderText>{t('Settings.Header') /* Settings */}</HeaderText>
 
         <SpdBenchmarkSetting />
@@ -283,7 +283,7 @@ function RightPanel() {
 
         <HeaderText>{t('SetsHeader') /* Benchmark sets */}</HeaderText>
 
-        <Flex vertical gap={HEADER_GAP}>
+        <Flex direction="column" gap={HEADER_GAP}>
           <SetsSection simType={StatSimTypes.Benchmarks} />
           <Button
             onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
@@ -297,7 +297,7 @@ function RightPanel() {
         <FormSetConditionals id={OpenCloseIDs.BENCHMARKS_SETS_DRAWER} />
       </Flex>
 
-      <Flex vertical gap={GAP}>
+      <Flex direction="column" gap={GAP}>
         <Button
           onClick={() => {
             const formValues = benchmarkForm.getFieldsValue()
@@ -373,7 +373,7 @@ function SpdBenchmarkSetting() {
 function TeammatesSection() {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'MiddlePanel' })
   return (
-    <Flex vertical>
+    <Flex direction="column">
       <HeaderText>{t('TeammatesHeader') /* Teammates */}</HeaderText>
       <Flex justify='space-around'>
         <Teammate index={0} />
@@ -420,7 +420,7 @@ function Teammate({ index }: { index: number }) {
         setSelectedTeammateIndex(index)
       }}
     >
-      <Flex vertical align='center' gap={0}>
+      <Flex direction="column" align='center' gap={0}>
         <img
           src={Assets.getCharacterAvatarById(characterId)}
           style={{

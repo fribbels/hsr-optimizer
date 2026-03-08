@@ -1,7 +1,7 @@
 import {
-  Flex,
   Tag,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,

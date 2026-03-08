@@ -1,7 +1,7 @@
 import {
-  Flex,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
 import {
   AppPages,

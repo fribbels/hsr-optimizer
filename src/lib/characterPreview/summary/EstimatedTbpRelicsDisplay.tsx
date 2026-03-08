@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Spin,
 } from 'antd'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
@@ -100,8 +100,8 @@ export const EstimatedTbpRelicsDisplay = (props: {
   const ready = !(loading || !enrichedRelics)
 
   return (
-    <Flex vertical align='center' style={{ width: '100%' }}>
-      <Flex vertical gap={35} style={gridStyle}>
+    <Flex direction="column" align='center' style={{ width: '100%' }}>
+      <Flex direction="column" gap={35} style={gridStyle}>
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Head} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Hands} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Body} />
@@ -186,7 +186,7 @@ function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
   }
 
   return (
-    <Flex vertical style={{ width: '100%' }} gap={10}>
+    <Flex direction="column" style={{ width: '100%' }} gap={10}>
       <Flex style={{ height: 111 }} gap={10}>
         <MetricCard relicAnalysis={relicAnalysis} index={0} />
         <MetricCard relicAnalysis={relicAnalysis} index={1} />
@@ -207,13 +207,13 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
   const percentDisplay = localeNumber_0(percent)
 
   return (
-    <Flex vertical justify='space-between' style={{ width: '100%' }}>
-      <Flex vertical>
+    <Flex direction="column" justify='space-between' style={{ width: '100%' }}>
+      <Flex direction="column">
         {relicAnalysis.relic.substats.concat(relicAnalysis.relic.previewSubstats).map((s, idx) => (
           <RollLine key={idx} substat={s} weights={relicAnalysis.weights} />
         ))}
       </Flex>
-      <Flex vertical style={{ height: 46, paddingBottom: 10 }} justify='space-between' gap={4}>
+      <Flex direction="column" style={{ height: 46, paddingBottom: 10 }} justify='space-between' gap={4}>
         <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }} />
         <Flex justify='space-between'>
           <span style={textStyle}>{t('Perfection') /* Perfection */}</span>
@@ -273,11 +273,11 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis, index: number }) {
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)',
         border: '1px solid rgb(73 98 153)',
       }}
-      vertical
+      direction="column"
       flex={1}
       justify='space-between'
     >
-      <Flex vertical gap={2}>
+      <Flex direction="column" gap={2}>
         <span style={{ fontSize: '13px', color: '#9FAFCF' }}>
           {textTop}
         </span>
@@ -285,7 +285,7 @@ function MetricCard(props: { relicAnalysis: RelicAnalysis, index: number }) {
           {valueTop}
         </span>
       </Flex>
-      <Flex vertical gap={2}>
+      <Flex direction="column" gap={2}>
         <span style={{ fontSize: '13px', color: '#9FAFCF' }}>
           {textBottom}
         </span>

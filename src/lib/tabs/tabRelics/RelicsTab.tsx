@@ -1,7 +1,7 @@
 import {
   Collapse,
-  Flex,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -42,7 +42,7 @@ export default function RelicsTab() {
           selectedRelic={selectedRelic}
         />
       }
-      <Flex vertical gap={10}>
+      <Flex direction="column" gap={10}>
         <RelicFilterBar />
 
         {recentRelics.length > 0 && (

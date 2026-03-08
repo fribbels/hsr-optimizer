@@ -1,10 +1,10 @@
 import {
   Button,
-  Flex,
   Form as AntDForm,
   Modal,
   Select,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
@@ -103,7 +103,7 @@ export function SwitchRelicsModal() {
           <HeaderText>{t('Title') /* Switch relics with character */}</HeaderText>
         </Flex>
 
-        <Flex vertical gap={defaultGap}>
+        <Flex direction="column" gap={defaultGap}>
           <Flex gap={defaultGap}>
             <AntDForm.Item name='selectedCharacter'>
               <Select

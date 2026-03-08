@@ -1,10 +1,10 @@
 import { IconDownload } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   Tabs,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
 import { ClearDataSubmenu } from 'lib/tabs/tabImport/ClearDataSubmenu'
@@ -91,7 +91,7 @@ function SaveDataSubmenu() {
   }
 
   return (
-    <Flex vertical gap={5}>
+    <Flex direction="column" gap={5}>
       <Text>
         {t('Label') /* Save your optimizer data to a file. */}
       </Text>
@@ -111,7 +111,7 @@ export default function ImportTab() {
     <div>
       {ingest && <ScannerWebsocket />}
 
-      <Flex vertical gap={5} style={{ marginLeft: 20, width: 1200 }}>
+      <Flex direction="column" gap={5} style={{ marginLeft: 20, width: 1200 }}>
         <Tabs
           defaultActiveKey='1'
           size={tabSize}

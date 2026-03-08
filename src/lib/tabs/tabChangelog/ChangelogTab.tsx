@@ -1,9 +1,9 @@
 import {
-  Flex,
   List,
   theme,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   CURRENT_DATA_VERSION,
   officialOnly,
@@ -71,7 +71,7 @@ export default function ChangelogTab(): React.JSX.Element {
     const headerText = contentUpdate.date != '' ? `Update ${contentUpdate.date}` : contentUpdate.title
 
     return (
-      <Flex vertical>
+      <Flex direction="column">
         <Typography.Title style={{ marginLeft: 20 }}>
           <u>
             {headerText}

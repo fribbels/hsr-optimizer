@@ -6,10 +6,10 @@ import {
 } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   Modal,
   theme,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
@@ -290,7 +290,7 @@ export function BuildList(props: BuildListProps) {
   } = props
   return (
     <Flex
-      vertical
+      direction="column"
       style={{
         overflowY: 'auto',
         marginBottom: 20,
@@ -388,9 +388,9 @@ function BuildCard(props: BuildCardProps) {
         e.stopPropagation()
       }}
     >
-      <Flex vertical gap={8}>
+      <Flex direction="column" gap={8}>
         <Flex justify='space-between' gap={8} align='center'>
-          <Flex vertical align='flex-start'>
+          <Flex direction="column" align='flex-start'>
             <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600, maxWidth: preview ? 350 : 85, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{build.name}</HeaderText>
           </Flex>
           {!preview && (

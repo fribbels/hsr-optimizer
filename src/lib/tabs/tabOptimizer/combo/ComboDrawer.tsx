@@ -2,11 +2,11 @@ import {
   IconCircleMinus,
   IconCirclePlus,
 } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
   Button,
   Divider,
   Drawer,
-  Flex,
   Select,
 } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
@@ -343,7 +343,7 @@ function SetDisplays(props: {
   })
 
   return (
-    <Flex vertical gap={8}>
+    <Flex direction="column" gap={8}>
       {setRender}
     </Flex>
   )
@@ -360,7 +360,7 @@ function StateDisplay(props: {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
   return (
-    <Flex vertical gap={8}>
+    <Flex direction="column" gap={8}>
       <Flex
         style={{
           position: 'sticky',
@@ -647,7 +647,7 @@ export function ContentRows(
   }, [JSON.stringify(props.comboConditionals), props.actionCount, i18n.resolvedLanguage])
 
   return (
-    <Flex vertical>
+    <Flex direction="column">
       {content.length == 0
         ? <div style={{ marginLeft: 5 }}>{t('NoConditionals') /* No conditional passives */}</div>
         : content}
@@ -757,7 +757,7 @@ function NumberConditionalActivationRow(props: {
 
   return (
     <Flex
-      vertical
+      direction="column"
       style={{ position: 'relative' }}
     >
       <PartitionDivider />
@@ -809,7 +809,7 @@ function SelectConditionalActivationRow(props: {
 
   return (
     <Flex
-      vertical
+      direction="column"
       style={{ position: 'relative' }}
     >
       <PartitionDivider />

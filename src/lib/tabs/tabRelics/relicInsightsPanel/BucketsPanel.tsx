@@ -1,7 +1,7 @@
 import {
-  Flex,
   theme,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   setOpen,
@@ -163,7 +163,7 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
   const data = payload?.[0]?.payload
   return (
     <Flex
-      vertical
+      direction="column"
       gap={0}
       style={{
         borderRadius: 8,

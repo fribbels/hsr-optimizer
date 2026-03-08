@@ -1,10 +1,10 @@
 import { IconRefresh } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   Select,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
@@ -238,7 +238,7 @@ const TeammateCard = (props: {
 
   return (
     <FormCard size='medium' height={cardHeight} style={{ overflow: 'auto' }}>
-      <Flex vertical gap={5}>
+      <Flex direction="column" gap={5}>
         <Flex gap={5}>
           <CharacterSelect
             value={teammateCharacterId}
@@ -277,14 +277,14 @@ const TeammateCard = (props: {
         </Flex>
 
         <Flex>
-          <Flex vertical style={{ minWidth: 258, marginLeft: 5 }}>
+          <Flex direction="column" style={{ minWidth: 258, marginLeft: 5 }}>
             <CharacterConditionalsDisplay
               id={teammateCharacterId}
               eidolon={teammateEidolon}
               teammateIndex={props.index}
             />
           </Flex>
-          <Flex vertical gap={5}>
+          <Flex direction="column" gap={5}>
             <div
               style={{
                 width: `${rightPanelWidth}px`,
@@ -362,7 +362,7 @@ const TeammateCard = (props: {
         </Flex>
 
         <Flex>
-          <Flex vertical style={{ minWidth: 258, marginLeft: 5 }}>
+          <Flex direction="column" style={{ minWidth: 258, marginLeft: 5 }}>
             <LightConeConditionalDisplay
               id={teammateLightConeId}
               superImposition={teammateSuperimposition}

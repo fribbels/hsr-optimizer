@@ -2,8 +2,8 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Radio,
   Select,
   Switch,
@@ -79,8 +79,8 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
   }, [characters, t])
 
   return (
-    <Flex vertical>
-      <Flex vertical gap={optimizerTabDefaultGap}>
+    <Flex direction="column">
+      <Flex direction="column" gap={optimizerTabDefaultGap}>
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('Header') /* Optimizer options */}</HeaderText>
           <TooltipImage type={Hint.optimizerOptions()} />
@@ -129,7 +129,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         </Flex>
 
         <Flex gap={optimizerTabDefaultGap} style={{ marginTop: 10 }}>
-          <Flex vertical gap={2}>
+          <Flex direction="column" gap={2}>
             <HeaderText>
               {t('Priority.Header') /* Priority */}
             </HeaderText>
@@ -153,7 +153,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
               filterOption={Utils.nameFilterOption}
             />
           </Flex>
-          <Flex vertical gap={2}>
+          <Flex direction="column" gap={2}>
             <HeaderText>
               {t('Exclude') /* Exclude */}
             </HeaderText>
@@ -179,7 +179,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         </Flex>
 
         <Flex justify='space-between'>
-          <Flex vertical gap={2}>
+          <Flex direction="column" gap={2}>
             <HeaderText>
               {t('MinEnhance.Header') /* Min enhance */}
             </HeaderText>
@@ -201,7 +201,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
             />
           </Flex>
 
-          <Flex vertical gap={2}>
+          <Flex direction="column" gap={2}>
             <HeaderText>
               {t('MinRarity.Header') /* Min rarity */}
             </HeaderText>
@@ -223,7 +223,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         </Flex>
 
         <Flex justify='space-between' align='center'>
-          <Flex vertical gap={2}>
+          <Flex direction="column" gap={2}>
             <HeaderText>
               {t('BoostMain.Header') /* Boost main stat */}
             </HeaderText>
@@ -247,7 +247,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
         </Flex>
 
         <Flex align='center' style={{ marginTop: 15 }}>
-          <Flex vertical gap={2} style={{ width: '100%' }}>
+          <Flex direction="column" gap={2} style={{ width: '100%' }}>
             <HeaderText>
               {t('DPSMode.Header') /* DPS Mode */}
             </HeaderText>

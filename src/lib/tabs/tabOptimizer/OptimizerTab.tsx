@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import 'ag-grid-community/styles/ag-grid.css'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { ExpandedDataPanel } from 'lib/tabs/tabOptimizer/analysis/ExpandedDataPanel'
@@ -20,13 +20,13 @@ export default function OptimizerTab() {
 
   return (
     <Flex>
-      <Flex vertical gap={10} style={{ marginBottom: 100, width: 1227 }}>
+      <Flex direction="column" gap={10} style={{ marginBottom: 100, width: 1227 }}>
         <OptimizerForm />
         <DPSScoreDisclaimer />
         <UnreleasedCharacterDisclaimer />
         <OptimizerGrid />
         <Flex
-          vertical
+          direction="column"
           gap={10}
           style={{ flexDirection: expandedPanelPosition == SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
         >

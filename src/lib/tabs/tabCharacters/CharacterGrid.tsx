@@ -6,9 +6,9 @@ import {
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import {
-  Flex,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'

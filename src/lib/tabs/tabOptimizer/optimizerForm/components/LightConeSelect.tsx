@@ -1,4 +1,5 @@
-import { Card, Flex, Input, InputRef, Modal, Select, } from 'antd'
+import { Flex } from '@mantine/core'
+import { Card, Input, InputRef, Modal, Select, } from 'antd'
 import { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
@@ -152,9 +153,9 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
         }}
         footer={null}
       >
-        <Flex vertical gap={12}>
+        <Flex direction="column" gap={12}>
           <Flex gap={12} wrap='wrap'>
-            <Flex vertical wrap='wrap' style={{ minWidth: 300, flexGrow: 1 }}>
+            <Flex direction="column" wrap='wrap' style={{ minWidth: 300, flexGrow: 1 }}>
               <Input
                 size='large'
                 style={{ height: 40 }}

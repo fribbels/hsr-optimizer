@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import FormStatTextStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'

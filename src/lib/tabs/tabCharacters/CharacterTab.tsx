@@ -1,9 +1,9 @@
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
 import {
-  Flex,
   theme,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
@@ -49,10 +49,10 @@ export default function CharacterTab() {
       }}
       gap={defaultGap}
     >
-      <Flex vertical gap={defaultGap}>
+      <Flex direction="column" gap={defaultGap}>
         <CharacterMenu />
 
-        <Flex vertical gap={8} style={{ minWidth: 240 }}>
+        <Flex direction="column" gap={8} style={{ minWidth: 240 }}>
           <div
             id='characterGrid'
             className='ag-theme-balham-dark'
@@ -68,7 +68,7 @@ export default function CharacterTab() {
         </Flex>
       </Flex>
 
-      <Flex vertical gap={defaultGap}>
+      <Flex direction="column" gap={defaultGap}>
         <FilterBar />
 
         <Suspense>

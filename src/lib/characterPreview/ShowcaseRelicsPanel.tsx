@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   Constants,
@@ -38,7 +38,7 @@ export function ShowcaseRelicsPanel(props: {
   } = props
   return (
     <Flex gap={defaultGap}>
-      <Flex vertical gap={defaultGap}>
+      <Flex direction="column" gap={defaultGap}>
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
@@ -74,7 +74,7 @@ export function ShowcaseRelicsPanel(props: {
         />
       </Flex>
 
-      <Flex vertical gap={defaultGap}>
+      <Flex direction="column" gap={defaultGap}>
         <RelicPreview
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}

@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Typography,
 } from 'antd'
 import React, { CSSProperties } from 'react'
@@ -44,7 +44,7 @@ export function OverlayText(props: {
   const top = props.top
   return (
     <Flex
-      vertical
+      direction="column"
       style={{
         position: 'relative',
         height: 0,

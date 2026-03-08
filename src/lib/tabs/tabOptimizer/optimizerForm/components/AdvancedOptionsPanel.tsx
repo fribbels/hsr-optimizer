@@ -1,7 +1,7 @@
 import { IconSettings } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
   Button,
-  Flex,
   Form,
 } from 'antd'
 import {
@@ -28,7 +28,7 @@ export const AdvancedOptionsPanel = () => {
   }, [formCombatBuffs])
 
   return (
-    <Flex vertical gap={optimizerTabDefaultGap}>
+    <Flex direction="column" gap={optimizerTabDefaultGap}>
       <HeaderText style={{ marginTop: 25 }}>{t('Header') /* Advanced options */}</HeaderText>
 
       <Button

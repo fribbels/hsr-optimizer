@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
@@ -188,7 +188,7 @@ function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
   }, [lcId, superimposition, charId])
 
   return (
-    <Flex vertical justify='space-between' style={{ height: '100%', marginBottom: 8 }}>
+    <Flex direction="column" justify='space-between' style={{ height: '100%', marginBottom: 8 }}>
       <LightConeConditionalDisplay
         id={lcId}
         superImposition={superimposition}

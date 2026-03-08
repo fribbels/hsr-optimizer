@@ -1,11 +1,11 @@
 import {
   Divider,
-  Flex,
   Progress,
   theme,
   Tooltip,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -75,7 +75,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
   // Skip render if no relic
   if (!relic) {
     return (
-      <Flex vertical>
+      <Flex direction="column">
         <RelicPreview relic={undefined} />
       </Flex>
     )
@@ -86,7 +86,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
 
   return (
     <Flex
-      vertical
+      direction="column"
       style={{
         border: isSelected ? `2px solid ${token.colorPrimary}` : '2px solid transparent',
         borderRadius: '8px',
@@ -103,7 +103,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
         setSelectedRelic={(relic) => setSelectedRelicID?.(relic.id)}
       />
       <Flex
-        vertical
+        direction="column"
         gap={8}
         style={{
           width: 200,
@@ -116,7 +116,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
         }}
       >
         {potentialScore && (
-          <Flex vertical gap={4}>
+          <Flex direction="column" gap={4}>
             <Flex align='center' justify='space-between'>
               <Typography.Text
                 style={{
@@ -167,7 +167,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
           <>
             {potentialScore && <Divider style={{ margin: '0' }} />}
 
-            <Flex vertical gap={4}>
+            <Flex direction="column" gap={4}>
               <Typography.Text
                 style={{
                   fontSize: '11px',
@@ -178,13 +178,13 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                 {t('BestFor') /* BEST FOR */}
               </Typography.Text>
 
-              <Flex vertical gap={5} style={{ margin: '0 -4px' }}>
+              <Flex direction="column" gap={5} style={{ margin: '0 -4px' }}>
                 {topCharacters?.map((char) => {
                   const maxPct = Math.floor(char.score.bestPct)
                   const avgPct = Math.floor(char.score.averagePct)
 
                   return (
-                    <Flex key={char.id} vertical style={{ padding: '2px 4px' }} gap={2}>
+                    <Flex key={char.id} direction="column" style={{ padding: '2px 4px' }} gap={2}>
                       <Flex
                         align='center'
                         justify='space-between'

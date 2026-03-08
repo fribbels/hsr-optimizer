@@ -7,10 +7,10 @@ import {
   IconSun,
   IconX,
 } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
   Button,
   ColorPicker,
-  Flex,
   InputNumber,
   Segmented,
   Select,
@@ -274,7 +274,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
     return (
       <Flex
-        vertical
+        direction="column"
         gap={16}
         style={{
           position: 'absolute',
@@ -283,7 +283,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
         }}
       >
         <Flex
-          vertical
+          direction="column"
           gap={6}
           style={{
             backgroundColor: 'rgb(29 42 71)',
@@ -398,7 +398,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
         </Flex>
 
         <Flex
-          vertical
+          direction="column"
           gap={6}
           style={{
             backgroundColor: 'rgb(29 42 71)',

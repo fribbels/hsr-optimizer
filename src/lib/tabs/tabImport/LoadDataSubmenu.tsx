@@ -4,11 +4,11 @@ import {
 } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   Steps,
   Typography,
   Upload,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import {
@@ -83,7 +83,7 @@ export function LoadDataSubmenu() {
   function LoadDataContentUploadFile() {
     return (
       <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10}>
+        <Flex direction="column" gap={10}>
           <Text>
             {t('Stage1.Label') /* Load your optimizer data from a file. */}
           </Text>
@@ -110,7 +110,7 @@ export function LoadDataSubmenu() {
     if (!currentSave?.relics || !currentSave.characters) {
       return (
         <Flex style={{ minHeight: 100 }}>
-          <Flex vertical gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
+          <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
             {
               /* Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab? */
               t('Stage2.ErrorMsg')
@@ -121,7 +121,7 @@ export function LoadDataSubmenu() {
     }
     return (
       <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
+        <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
           <Text>
             {
               /* File contains {n relics} and {m characters}. Replace your current data with the uploaded data? */
@@ -139,7 +139,7 @@ export function LoadDataSubmenu() {
   function LoadCompleted() {
     return (
       <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
+        <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
           <Text>
             {t('Stage3.SuccessMessage') /* Done! */}
           </Text>

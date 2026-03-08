@@ -3,9 +3,9 @@ import {
   IconSettings,
   IconX,
 } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
   Button,
-  Flex,
   Popconfirm,
   Radio,
 } from 'antd'
@@ -69,7 +69,7 @@ export const ComboFilters = () => {
   }, [t, characterId, characterEidolon])
 
   return (
-    <Flex vertical gap={optimizerTabDefaultGap}>
+    <Flex direction="column" gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Header') /* Rotation COMBO formula */}</HeaderText>
         <TooltipImage type={Hint.comboFilters()} />
@@ -94,7 +94,7 @@ export const ComboFilters = () => {
       <ComboBasicDefinition comboOptions={comboOptions} />
 
       <>
-        <Flex vertical gap={8} style={{ marginTop: 8 }}>
+        <Flex direction="column" gap={8} style={{ marginTop: 8 }}>
           <Button
             onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
             icon={<IconSettings />}
@@ -170,10 +170,10 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
 
   return (
     <Flex style={{ height: 275 }}>
-      <Flex vertical flex={1} style={{ marginLeft: 2 }} gap={3}>
+      <Flex direction="column" flex={1} style={{ marginLeft: 2 }} gap={3}>
         <HeaderText>{t('AbilityLabel') /* Abilities */}</HeaderText>
 
-        <Flex vertical flex={1} style={{ marginLeft: 2, display: comboType == ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
+        <Flex direction="column" flex={1} style={{ marginLeft: 2, display: comboType == ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
             <ComboOptionRowSelect
               key={i + 1}
@@ -184,15 +184,15 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
           ))}
         </Flex>
 
-        <Flex vertical flex={1} style={{ marginLeft: 2, display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
+        <Flex direction="column" flex={1} style={{ marginLeft: 2, display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} />)}
         </Flex>
       </Flex>
 
       <VerticalDivider width={10} />
 
-      <Flex vertical gap={20} flex={1} align='flex-start'>
-        <Flex vertical style={{ width: '100%' }} gap={5}>
+      <Flex direction="column" gap={20} flex={1} align='flex-start'>
+        <Flex direction="column" style={{ width: '100%' }} gap={5}>
           <HeaderText>{t('RowControls.Header') /* Controls */}</HeaderText>
           <Popconfirm
             title={tCommon('Confirm')}
@@ -216,7 +216,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
           </Flex>
         </Flex>
 
-        <Flex vertical style={{ width: '100%' }} gap={5}>
+        <Flex direction="column" style={{ width: '100%' }} gap={5}>
           <HeaderText>{t('RowControls.PresetsHeader') /*Presets*/}</HeaderText>
           <Radio.Group
             buttonStyle='solid'
@@ -235,7 +235,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
           </Radio.Group>
         </Flex>
 
-        <Flex vertical gap={5}>
+        <Flex direction="column" gap={5}>
           <HeaderText>{t('CounterLabels.Dot')}</HeaderText>
           <NumberXInput disabled={disabled} defaultValue={defaultComboDot} value={comboDot} />
         </Flex>

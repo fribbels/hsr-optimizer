@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import React from 'react'
 import { IconExtractedProps } from 'types/components'
 

@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   getStatRenderValues,
   StatRow,
@@ -76,7 +76,7 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
 
   return (
     <StatText style={{ width: '100%' }}>
-      <Flex vertical gap={5}>
+      <Flex direction="column" gap={5}>
         <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG' />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.HP} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ATK} />

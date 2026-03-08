@@ -2,12 +2,12 @@ import {
   IconBoltFilled,
   IconChevronDown,
 } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import { IRowNode } from 'ag-grid-community'
 import {
   Button,
   Divider,
   Dropdown,
-  Flex,
   Grid,
   Modal,
   Popconfirm,
@@ -298,7 +298,7 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
   const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE
   const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
   return (
-    <Flex vertical style={{ overflow: 'clip' }}>
+    <Flex direction="column" style={{ overflow: 'clip' }}>
       <Flex
         justify={props.isFullSize ? 'center' : 'space-evenly'}
         style={props.isFullSize
@@ -336,7 +336,7 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
             }
             : undefined}
         >
-          <Flex vertical={props.isFullSize} gap={props.isFullSize ? 5 : 20}>
+          <Flex direction={props.isFullSize ? "column" : "row"} gap={props.isFullSize ? 5 : 20}>
             <PermutationsGroup isFullSize={props.isFullSize} />
             <OptimizerControlsGroup isFullSize={props.isFullSize} />
             <ResultsGroup isFullSize={props.isFullSize} />
@@ -356,14 +356,14 @@ function PermutationsGroup(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ReadableParts' })
   return (
-    <Flex vertical gap={props.isFullSize ? 10 : 5} style={{ minWidth: 211 }}>
+    <Flex direction="column" gap={props.isFullSize ? 10 : 5} style={{ minWidth: 211 }}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Permutations') /* Permutations */}</HeaderText>
         <TooltipImage type={Hint.optimizationDetails()} />
       </Flex>
 
       {props.isFullSize && (
-        <Flex vertical>
+        <Flex direction="column">
           <PermutationDisplay left={tCommon('Head')} right={permutationDetails.Head} total={permutationDetails.HeadTotal} />
           <PermutationDisplay left={tCommon('Hands')} right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
           <PermutationDisplay left={tCommon('Body')} right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
@@ -373,7 +373,7 @@ function PermutationsGroup(props: { isFullSize: boolean }) {
         </Flex>
       )}
 
-      <Flex vertical>
+      <Flex direction="column">
         <PermutationDisplay left={t('Perms') /* Perms */} right={permutations} />
         <PermutationDisplay left={t('Searched') /* Searched */} right={permutationsSearched} />
         <PermutationDisplay left={t('Results') /* Results */} right={permutationsResults} />
@@ -394,7 +394,7 @@ function ProgressDisplay() {
   const { token } = useToken()
 
   return (
-    <Flex vertical>
+    <Flex direction="column">
       <HeaderText>
         {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)}
       </HeaderText>
@@ -420,7 +420,7 @@ const BuildsGroup = React.memo((props: { isFullSize: boolean }) => {
   const character = charactersById[focusCharacter] ?? null
 
   return (
-    <Flex vertical>
+    <Flex direction="column">
       <SaveBuildModal
         character={character}
         source={AppPages.OPTIMIZER}
@@ -457,7 +457,7 @@ const BuildsGroup = React.memo((props: { isFullSize: boolean }) => {
 function ResultsGroup(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.ResultsGroup' })
   return (
-    <Flex vertical gap={5}>
+    <Flex direction="column" gap={5}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Header') /* Results */}</HeaderText>
         <TooltipImage type={Hint.actions()} />
@@ -522,14 +522,14 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
 
   return (
     <Flex
-      vertical={props.isFullSize}
+      direction={props.isFullSize ? "column" : "row"}
       gap={props.isFullSize ? 5 : 20}
       style={props.isFullSize ? { display: 'flex', flexDirection: 'column' } : { display: 'flex', flexDirection: 'row-reverse' }}
     >
       <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen} />
-      <Flex vertical gap={5}>
+      <Flex direction="column" gap={5}>
         <HeaderText>{t('ControlsGroup.Header') /* Controls */}</HeaderText>
-        <Flex gap={defaultGap} style={{ marginBottom: 2 }} vertical>
+        <Flex gap={defaultGap} style={{ marginBottom: 2 }} direction="column">
           <Flex gap={defaultGap}>
             <Button
               icon={<IconBoltFilled />}
@@ -565,7 +565,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
         </Flex>
       </Flex>
 
-      <Flex vertical gap={5} style={{ flex: 1, minWidth: 211 }}>
+      <Flex direction="column" gap={5} style={{ flex: 1, minWidth: 211 }}>
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('StatViewGroup.Header') /* Stat and filter view */}</HeaderText>
           <TooltipImage type={Hint.statDisplay()} />
@@ -578,7 +578,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
 
       {!props.isFullSize
         && (
-          <Flex vertical gap={3} style={{ flex: 1, minWidth: 211 }}>
+          <Flex direction="column" gap={3} style={{ flex: 1, minWidth: 211 }}>
             <HeaderText>{t('ComputeEngine') /* Compute engine */}</HeaderText>
             <ComputeEngineSelect />
             <ProgressDisplay />

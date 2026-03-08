@@ -1,10 +1,10 @@
 import { IconSettings } from '@tabler/icons-react'
 import {
-  Flex,
   InputNumber,
   Popover,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   Parts,
   Sets,
@@ -83,7 +83,7 @@ export function RelicLocator(props: { relic: Relic | null }) {
       }}
       content={
         <Flex gap={8} style={{ minWidth: 260 }}>
-          <Flex vertical>
+          <Flex direction="column">
             <Flex justify='space-between' align='center'>
               <HeaderText>{t('Width') /* Inventory width */}</HeaderText>
             </Flex>
@@ -95,7 +95,7 @@ export function RelicLocator(props: { relic: Relic | null }) {
             />
           </Flex>
 
-          <Flex vertical>
+          <Flex direction="column">
             <Flex justify='space-between' align='center' gap={10}>
               <HeaderText>{t('Filter') /* Auto filter rows */}</HeaderText>
               <TooltipImage type={Hint.locatorParams()} />

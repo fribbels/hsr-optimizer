@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   Stats,
   SubStats,
@@ -56,11 +56,11 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
   )
 
   return (
-    <Flex vertical gap={defaultGap}>
+    <Flex direction="column" gap={defaultGap}>
       {columns === 2
         ? (
           <Flex justify='space-between'>
-            <Flex vertical gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
+            <Flex direction="column" gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
               {renderStatRow(Stats.ATK_P)}
               {renderStatRow(Stats.ATK)}
               {renderStatRow(Stats.HP_P)}
@@ -69,7 +69,7 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
               {renderStatRow(Stats.DEF)}
             </Flex>
             <VerticalDivider />
-            <Flex vertical gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
+            <Flex direction="column" gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
               {renderStatRow(Stats.SPD, 2)}
               {renderStatRow(Stats.CR)}
               {renderStatRow(Stats.CD)}
@@ -80,7 +80,7 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
           </Flex>
         )
         : (
-          <Flex vertical gap={defaultGap} style={{ width: 150 }}>
+          <Flex direction="column" gap={defaultGap} style={{ width: 150 }}>
             {renderStatRow(Stats.ATK_P)}
             {renderStatRow(Stats.ATK)}
             {renderStatRow(Stats.HP_P)}

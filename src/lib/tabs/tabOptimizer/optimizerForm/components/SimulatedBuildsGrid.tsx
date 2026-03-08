@@ -2,10 +2,10 @@ import { IconX } from '@tabler/icons-react'
 import { IRowNode } from 'ag-grid-community'
 import {
   Empty,
-  Flex,
   Table,
   TableColumnsType,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import {

@@ -1,8 +1,8 @@
 import { IconEdit } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
   Button,
   ConfigProvider,
-  Flex,
   Typography,
 } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
@@ -110,7 +110,7 @@ export function ShowcasePortrait(props: {
         )}
 
       <ConfigProvider theme={globalThemeConfig}>
-        <Flex vertical style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
+        <Flex direction="column" style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
           {source != ShowcaseSource.BUILDS_MODAL && (
             <>
               <Button
@@ -151,7 +151,7 @@ export function ShowcasePortrait(props: {
         />
       </ConfigProvider>
       <Flex
-        vertical
+        direction="column"
         gap={3}
         style={{
           marginBottom: 3,

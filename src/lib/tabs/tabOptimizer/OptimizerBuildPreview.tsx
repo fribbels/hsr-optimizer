@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { Parts } from 'lib/constants/constants'
 import { useState } from 'react'
 

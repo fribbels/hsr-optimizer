@@ -6,10 +6,10 @@ import {
 import {
   Button,
   Collapse,
-  Flex,
   Table,
   TableProps,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   generateAllTests,
   WebgpuTest,
@@ -63,7 +63,7 @@ function WebgpuDashboard() {
   }
 
   return (
-    <Flex vertical style={{ width: 1200, minHeight: 2000 }}>
+    <Flex direction="column" style={{ width: 1200, minHeight: 2000 }}>
       <Button
         type='primary'
         onClick={startTests}

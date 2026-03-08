@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   InputNumber,
   Slider,
   Typography,
@@ -131,7 +131,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   )
 
   return (
-    <Flex vertical gap={0} style={{ marginBottom: 0 }}>
+    <Flex direction="column" gap={0} style={{ marginBottom: 0 }}>
       <Flex justify={justify} align={align}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
           {internalInputNumber}

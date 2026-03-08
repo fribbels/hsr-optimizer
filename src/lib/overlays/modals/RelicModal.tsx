@@ -6,7 +6,6 @@ import {
 import {
   Alert,
   Button,
-  Flex,
   Form,
   Image,
   Input,
@@ -18,6 +17,7 @@ import {
   theme,
   Tooltip,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
@@ -461,7 +461,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
           </Flex>
         }
       >
-        <Flex vertical gap={5}>
+        <Flex direction="column" gap={5}>
           {isLiveImport && (
             <Alert message={t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */} type='warning' showIcon />
           )}
@@ -490,7 +490,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
             />
           )}
           <Flex gap={10}>
-            <Flex vertical gap={5}>
+            <Flex direction="column" gap={5}>
               <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
 
               <Form.Item name='part'>
@@ -573,7 +573,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
 
             <div style={{ display: 'block', minWidth: 12 }} />
 
-            <Flex vertical gap={5} style={{}}>
+            <Flex direction="column" gap={5} style={{}}>
               <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
               <Form.Item name='equippedBy'>
                 <Select
@@ -603,7 +603,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
           </Flex>
 
           <Flex gap={20}>
-            <Flex vertical gap={5} style={{ width: '100%' }}>
+            <Flex direction="column" gap={5} style={{ width: '100%' }}>
               <Flex justify='space-between'>
                 <HeaderText>{t('Relic.Substat') /* Substats */}</HeaderText>
                 <Flex style={{ width: 180 }}>

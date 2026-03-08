@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Segmented,
   Typography,
 } from 'antd'
@@ -67,7 +67,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const result = simScoringExecution.result!
 
   return (
-    <Flex vertical style={{ minHeight: 1000 }}>
+    <Flex direction="column" style={{ minHeight: 1000 }}>
       <Flex justify='center' gap={10}>
         <Flex
           justify='center'
@@ -144,7 +144,7 @@ function StatScoringSummary(props: {
   }
 
   return (
-    <Flex vertical align='center'>
+    <Flex direction="column" align='center'>
       <ColorizedTitleWithInfo
         text={t('Header') /* Stat Score Analysis */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'

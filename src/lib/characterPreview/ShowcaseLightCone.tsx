@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Typography,
 } from 'antd'
 import {
@@ -56,10 +56,10 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
   const { dy, scale } = computeLcTransform(lcImageOffset, tempLcParentW, tempLcParentH)
 
   return (
-    <Flex vertical>
+    <Flex direction="column">
       {lightConeName && (
         <Flex
-          vertical
+          direction="column"
           style={{
             position: 'relative',
             height: 0,
@@ -197,7 +197,7 @@ export function ShowcaseLightConeLargeName(props: {
   } = showcaseMetadata
 
   return (
-    <Flex vertical>
+    <Flex direction="column">
       <StatTextEllipses
         style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
       >

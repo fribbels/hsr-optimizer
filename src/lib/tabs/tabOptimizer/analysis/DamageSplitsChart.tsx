@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { DAMAGE_SPLITS_CHART_HEIGHT, DAMAGE_SPLITS_CHART_WIDTH, } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 
@@ -167,7 +167,7 @@ const CustomTooltip = (props: { active: boolean, payload: BarsTooltipData[], lab
 
   return (
     <Flex
-      vertical
+      direction="column"
       className='pre-font'
       style={{
         background: 'rgb(69,93,154)',

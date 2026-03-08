@@ -2,12 +2,12 @@ import { IconAlertCircle } from '@tabler/icons-react'
 import {
   Button,
   Divider,
-  Flex,
   Form,
   Input,
   Modal,
   Tooltip,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import {
@@ -180,7 +180,7 @@ export function SaveBuildModal(props: {
     >
       {contextHolder}
       <Flex gap={10} style={{ height: 856 }}>
-        <Flex vertical style={{ width: 400 }}>
+        <Flex direction="column" style={{ width: 400 }}>
           <Form
             form={characterForm}
             preserve={false}

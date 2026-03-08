@@ -8,7 +8,6 @@ import {
   Checkbox,
   Collapse,
   Divider,
-  Flex,
   Input,
   Popconfirm,
   Steps,
@@ -17,6 +16,7 @@ import {
   Typography,
   Upload,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   HoyolabData,
   hoyolabParser,
@@ -200,7 +200,7 @@ export function ScannerImportSubmenu() {
   function uploadScannerFile() {
     return (
       <Flex style={{ minHeight: 100, marginBottom: 30 }} gap={30}>
-        <Flex vertical gap={10}>
+        <Flex direction="column" gap={10}>
           <Text>
             {t('Import.Stage1.Header')}
           </Text>
@@ -248,7 +248,7 @@ export function ScannerImportSubmenu() {
               </li>
             </ul>
           </Text>
-          <Flex vertical align='flex-start'>
+          <Flex direction="column" align='flex-start'>
             <Flex gap={10} align='center'>
               <Upload
                 accept='.json'
@@ -289,7 +289,7 @@ export function ScannerImportSubmenu() {
             <Divider>
               {t('Import.LiveImport.Title') /* Live Import Controls */}
             </Divider>
-            <Flex vertical gap={10}>
+            <Flex direction="column" gap={10}>
               <Text>
                 {
                   t(
@@ -388,8 +388,8 @@ export function ScannerImportSubmenu() {
                   key: '1',
                   label: t('Import.LiveImport.AdvancedSettings.Title'), /* Advanced Settings */
                   children: (
-                    <Flex vertical gap={10}>
-                      <Flex vertical>
+                    <Flex direction="column" gap={10}>
+                      <Flex direction="column">
                         <Text>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</Text>
                         <Flex gap={10}>
                           <Input
@@ -417,7 +417,7 @@ export function ScannerImportSubmenu() {
     if (!currentRelics) {
       return (
         <Flex style={{ minHeight: 100 }}>
-          <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
+          <Flex direction="column" gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
             {t('Import.Stage2.NoRelics')}
           </Flex>
         </Flex>
@@ -426,7 +426,7 @@ export function ScannerImportSubmenu() {
 
     return (
       <Flex style={{ minHeight: 250 }}>
-        <Flex vertical gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
+        <Flex direction="column" gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
             {t('Import.Stage2.FileInfo', {
               relicCount: currentRelics.length ?? 0,
@@ -488,7 +488,7 @@ export function ScannerImportSubmenu() {
   function mergeCompleted() {
     return (
       <Flex style={{ minHeight: 100 }}>
-        <Flex vertical gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
+        <Flex direction="column" gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
           <Text>
             {t('Import.Stage3.SuccessMessage')}
           </Text>

@@ -1,7 +1,7 @@
 import {
-  Flex,
   Input,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   generateElementTags,

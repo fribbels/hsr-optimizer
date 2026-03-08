@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
   NULL_TURN_ABILITY_NAME,
@@ -18,7 +18,7 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
 
   return (
     <Flex gap={30}>
-      <Flex vertical gap={2}>
+      <Flex direction="column" gap={2}>
         {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
           <ScoringAbility
             key={i + 1}
@@ -27,7 +27,7 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
           />
         ))}
       </Flex>
-      <Flex vertical gap={2}>
+      <Flex direction="column" gap={2}>
         <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.DOTS')} number={simMetadata.comboDot} />
       </Flex>
     </Flex>

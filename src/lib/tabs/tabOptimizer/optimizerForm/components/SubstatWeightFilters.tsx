@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import {
   FormStatRollSliders,
@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next'
 export const SubstatWeightFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
   return (
-    <Flex vertical gap={20}>
-      <Flex vertical gap={0}>
+    <Flex direction="column" gap={20}>
+      <Flex direction="column" gap={0}>
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('WeightFilterHeader') /* Substat weight filter */}</HeaderText>
           <TooltipImage type={Hint.substatWeightFilter()} />
@@ -21,9 +21,9 @@ export const SubstatWeightFilters = () => {
         <FormStatRollSliders />
       </Flex>
 
-      <Flex vertical gap={3}>
+      <Flex direction="column" gap={3}>
         <HeaderText>{t('RollFilterHeader') /* Weighted rolls per relic */}</HeaderText>
-        <Flex vertical gap={7}>
+        <Flex direction="column" gap={7}>
           <FormStatRollSliderTopPercent index={0} />
           <FormStatRollSliderTopPercent index={1} />
           <FormStatRollSliderTopPercent index={2} />

@@ -4,10 +4,10 @@ import {
 } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   theme,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,

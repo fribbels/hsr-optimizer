@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { StatRow } from 'lib/characterPreview/StatRow'
 import StatText from 'lib/characterPreview/StatText'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
@@ -33,7 +33,7 @@ export const CharacterStatSummary = (props: {
 
   return (
     <StatText style={{ paddingLeft: 4, paddingRight: 6, width: '100%' }}>
-      <Flex vertical gap={props.scoringType == ScoringType.NONE ? 5 : 3}>
+      <Flex direction="column" gap={props.scoringType == ScoringType.NONE ? 5 : 3}>
         <StatRow finalStats={props.finalStats} stat={Stats.HP} edits={edits} />
         <StatRow finalStats={props.finalStats} stat={Stats.ATK} edits={edits} />
         <StatRow finalStats={props.finalStats} stat={Stats.DEF} edits={edits} />

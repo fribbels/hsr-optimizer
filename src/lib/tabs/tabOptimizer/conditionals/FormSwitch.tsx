@@ -2,8 +2,8 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Switch,
   Typography,
 } from 'antd'

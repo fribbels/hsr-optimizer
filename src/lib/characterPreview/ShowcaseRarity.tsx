@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 
 import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'react'

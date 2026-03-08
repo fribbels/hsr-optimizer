@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -63,7 +63,7 @@ const DisplayFormControl: ComponentType<DisplayFormControlProps> = ({
     })
   }
 
-  return <Flex vertical gap={5}>{ret}</Flex>
+  return <Flex direction="column" gap={5}>{ret}</Flex>
 }
 
 export default DisplayFormControl

@@ -7,9 +7,9 @@ import {
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import {
-  Flex,
   theme,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'

@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { RelicContainer } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'

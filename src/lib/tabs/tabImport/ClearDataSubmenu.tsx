@@ -1,10 +1,10 @@
 import { IconTrash } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   Popconfirm,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
 import {
@@ -33,7 +33,7 @@ export function ClearDataSubmenu() {
   }
 
   return (
-    <Flex vertical gap={5}>
+    <Flex direction="column" gap={5}>
       <Text>
         {t('Label') /* Clear all optimizer data. */}
       </Text>

@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Table,
 } from 'antd'
 import i18next from 'i18next'
@@ -68,7 +68,7 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
 
   if (props.singleColumn) {
     return (
-      <Flex gap={20} vertical>
+      <Flex gap={20} direction="column">
         {buffsDisplayLeft}
         {buffsDisplayRight}
       </Flex>
@@ -77,10 +77,10 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
 
   return (
     <Flex justify='space-between' style={{ width: '100%' }}>
-      <Flex gap={20} vertical>
+      <Flex gap={20} direction="column">
         {buffsDisplayLeft}
       </Flex>
-      <Flex gap={20} vertical>
+      <Flex gap={20} direction="column">
         {buffsDisplayRight}
       </Flex>
     </Flex>

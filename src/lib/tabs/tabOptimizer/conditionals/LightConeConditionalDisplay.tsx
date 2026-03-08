@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
@@ -46,7 +46,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
     : lightCone.content()
 
   return (
-    <Flex vertical gap={5}>
+    <Flex direction="column" gap={5}>
       {(teammateIndex == null) && (
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('LightconePassives') /* Light cone passives */}</HeaderText>

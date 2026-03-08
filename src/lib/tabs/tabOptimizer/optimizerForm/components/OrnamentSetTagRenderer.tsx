@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Tag,
 } from 'antd'
 import { Constants } from 'lib/constants/constants'

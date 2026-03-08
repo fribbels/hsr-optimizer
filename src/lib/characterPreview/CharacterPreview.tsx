@@ -1,6 +1,6 @@
+import { Flex } from '@mantine/core'
 import {
   ConfigProvider,
-  Flex,
   theme,
 } from 'antd'
 import getDesignToken from 'antd/lib/theme/getDesignToken'
@@ -264,7 +264,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   const zoom = 150
 
   return (
-    <Flex vertical style={{ width: source == ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
+    <Flex direction="column" style={{ width: source == ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <RelicModal
           selectedRelic={selectedRelic}
@@ -333,7 +333,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
           />
 
           {/* Portrait left panel */}
-          <Flex vertical gap={8} className='character-build-portrait'>
+          <Flex direction="column" gap={8} className='character-build-portrait'>
             <ShowcasePortrait
               source={source}
               character={character}
@@ -361,9 +361,9 @@ export function CharacterPreview(props: CharacterPreviewProps) {
           </Flex>
 
           {/* Character details middle panel */}
-          <Flex vertical justify='space-between' gap={8} style={{}}>
+          <Flex direction="column" justify='space-between' gap={8} style={{}}>
             <Flex
-              vertical
+              direction="column"
               style={{
                 width: middleColumnWidth,
                 height: '100%',

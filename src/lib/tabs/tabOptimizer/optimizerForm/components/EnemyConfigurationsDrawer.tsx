@@ -2,9 +2,9 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
   Drawer,
-  Flex,
   Select,
   Switch,
   Typography,
@@ -105,7 +105,7 @@ export const EnemyConfigurationsDrawer = () => {
       width={300}
       forceRender
     >
-      <Flex vertical gap={5}>
+      <Flex direction="column" gap={5}>
         <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>
           <HeaderText>{t('StatHeader') /* Enemy stat options */}</HeaderText>
           <TooltipImage type={Hint.enemyOptions()} />

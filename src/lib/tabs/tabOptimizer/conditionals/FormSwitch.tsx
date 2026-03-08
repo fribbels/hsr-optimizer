@@ -2,10 +2,7 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, Text as MantineText } from '@mantine/core'
-import {
-  Switch,
-} from 'antd'
+import { Flex, Switch, Text as MantineText } from '@mantine/core'
 import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
@@ -107,11 +104,11 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
   return (
     <Flex justify={justify} align={align}>
       <Switch
-        checkedChildren={<IconCheck />}
-        unCheckedChildren={<IconX />}
+        onLabel={<IconCheck />}
+        offLabel={<IconX />}
         disabled={props.disabled}
         style={{ width: 45, marginRight: 5 }}
-        onChange={onChange}
+        onChange={(event) => onChange?.(event.currentTarget.checked)}
         checked={checked}
       />
       <Text>{props.text}</Text>

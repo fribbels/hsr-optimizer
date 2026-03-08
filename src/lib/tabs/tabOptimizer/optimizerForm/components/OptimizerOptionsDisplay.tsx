@@ -2,11 +2,10 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, Text } from '@mantine/core'
+import { Flex, Switch, Text } from '@mantine/core'
 import {
   Radio,
   Select,
-  Switch,
 } from 'antd'
 
 import { Hint } from 'lib/interactions/hint'
@@ -85,11 +84,11 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<IconCheck />}
-            unCheckedChildren={<IconX />}
+            onLabel={<IconCheck />}
+            offLabel={<IconX />}
             checked={includeEquippedRelics}
-            onChange={(val) => {
-              useOptimizerFormStore.getState().setRelicFilterField('includeEquippedRelics', val)
+            onChange={(event) => {
+              useOptimizerFormStore.getState().setRelicFilterField('includeEquippedRelics', event.currentTarget.checked)
               recalculatePermutations()
             }}
             style={{ width: 45, marginRight: 5 }}
@@ -99,11 +98,11 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<IconCheck />}
-            unCheckedChildren={<IconX />}
+            onLabel={<IconCheck />}
+            offLabel={<IconX />}
             checked={rankFilter}
-            onChange={(val) => {
-              useOptimizerFormStore.getState().setRelicFilterField('rankFilter', val)
+            onChange={(event) => {
+              useOptimizerFormStore.getState().setRelicFilterField('rankFilter', event.currentTarget.checked)
               recalculatePermutations()
             }}
             style={{ width: 45, marginRight: 5 }}
@@ -113,11 +112,11 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
 
         <Flex align='center'>
           <Switch
-            checkedChildren={<IconCheck />}
-            unCheckedChildren={<IconX />}
+            onLabel={<IconCheck />}
+            offLabel={<IconX />}
             checked={keepCurrentRelics}
-            onChange={(val) => {
-              useOptimizerFormStore.getState().setRelicFilterField('keepCurrentRelics', val)
+            onChange={(event) => {
+              useOptimizerFormStore.getState().setRelicFilterField('keepCurrentRelics', event.currentTarget.checked)
               recalculatePermutations()
             }}
             style={{ width: 45, marginRight: 5 }}

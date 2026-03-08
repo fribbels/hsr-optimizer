@@ -1,8 +1,4 @@
-import { Flex, Text as MantineText } from '@mantine/core'
-import {
-  InputNumber,
-  Slider,
-} from 'antd'
+import { Flex, NumberInput, Slider, Text as MantineText } from '@mantine/core'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -82,23 +78,22 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
     : (val: number) => handleConditionalChange(itemName as (string | number)[], val)
 
   const internalInputNumber = (
-    <InputNumber
+    <NumberInput
       min={props.min}
       max={props.max}
-      controls={false}
-      size='small'
+      hideControls
+      size='sm'
       style={{
         width: numberWidth,
       }}
-      parser={(value) => value == null || value == '' ? 0 : TsUtils.precisionRound(parseFloat(value) / multiplier)}
-      formatter={(value) => `${TsUtils.precisionRound((value ?? 0) * multiplier)}${symbol}`}
       disabled={props.disabled}
       onChange={(newValue) => {
-        if (handleChange && newValue != null) {
-          handleChange(newValue)
+        if (handleChange && newValue != null && typeof newValue === 'number') {
+          handleChange(newValue / multiplier)
         }
       }}
-      value={displayValue}
+      value={TsUtils.precisionRound((displayValue ?? 0) * multiplier)}
+      suffix={symbol || undefined}
     />
   )
 
@@ -113,20 +108,18 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
         marginBottom: 0,
         marginLeft: 1,
       }}
-      tooltip={{
-        formatter: (value) => `${TsUtils.precisionRound((value ?? 0) * multiplier)}${symbol}`,
-      }}
+      label={(value) => `${TsUtils.precisionRound((value ?? 0) * multiplier)}${symbol}`}
       disabled={props.disabled}
       onChange={(newValue) => {
         setDragState(newValue)
       }}
-      onChangeComplete={(newValue) => {
+      onChangeEnd={(newValue) => {
         setDragState(undefined)
         if (handleChange) {
           handleChange(newValue)
         }
       }}
-      value={displayValue}
+      value={displayValue as number}
     />
   )
 

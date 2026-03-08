@@ -1,7 +1,7 @@
-import { InputNumber } from 'antd'
+import { NumberInput } from '@mantine/core'
 import styled from 'styled-components'
 
-const InputNumberStyled = styled(InputNumber)`
+const InputNumberStyled = styled(NumberInput)`
     width: 60px
 `
 

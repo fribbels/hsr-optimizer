@@ -8,11 +8,10 @@ import {
 import {
   Card,
   Form as AntDForm,
-  InputNumber,
   Radio,
   Select,
 } from 'antd'
-import { Button, Flex } from '@mantine/core'
+import { Button, Flex, NumberInput } from '@mantine/core'
 import {
   OverlayText,
   showcaseOutline,
@@ -346,11 +345,11 @@ function SpdBenchmarkSetting() {
 
   return (
     <BenchmarkSetting label='SPD' itemName='basicSpd'>
-      <InputNumber
-        size='small'
-        controls={false}
+      <NumberInput
+        size='xs'
+        hideControls
         style={{ width: INPUT_WIDTH }}
-        addonAfter={
+        rightSection={
           <Select
             style={{ width: 34 }}
             labelRender={() => <></>}

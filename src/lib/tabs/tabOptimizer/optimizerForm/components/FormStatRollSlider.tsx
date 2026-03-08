@@ -1,8 +1,4 @@
-import { Flex } from '@mantine/core'
-import {
-  InputNumber,
-  Slider,
-} from 'antd'
+import { Flex, NumberInput, Slider } from '@mantine/core'
 import {
   Constants,
   Parts,
@@ -45,7 +41,7 @@ function WeightSlider(props: { stat: string }) {
       }}
       value={value as number ?? 0}
       onChange={(val) => useOptimizerFormStore.getState().setWeight(props.stat as keyof OptimizerFormState['weights'], val)}
-      onChangeComplete={() => recalculatePermutations()}
+      onChangeEnd={() => recalculatePermutations()}
     />
   )
 }
@@ -127,29 +123,26 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
             marginLeft: 0,
             marginRight: 5,
           }}
-          keyboard={false}
-          tooltip={{
-            formatter: (value) => `${Utils.precisionRound(value)}`,
-          }}
+          label={(value) => `${Utils.precisionRound(value)}`}
           value={value}
           onChange={(val) => useOptimizerFormStore.getState().setWeight(name as keyof OptimizerFormState['weights'], val)}
-          onChangeComplete={() => recalculatePermutations()}
+          onChangeEnd={() => recalculatePermutations()}
         />
       </Flex>
 
-      <InputNumber
-        size='small'
+      <NumberInput
+        size='sm'
         className='center-input-text'
         style={{
           width: 40,
         }}
-        controls={false}
+        hideControls
         min={0}
         max={MAX_ROLLS}
-        variant='borderless'
+        variant='unstyled'
         value={value}
-        onChange={(x: number | null) => {
-          if (x != null) {
+        onChange={(x) => {
+          if (x != null && typeof x === 'number') {
             useOptimizerFormStore.getState().setWeight(name as keyof OptimizerFormState['weights'], x)
           }
           recalculatePermutations()

@@ -8,13 +8,11 @@ import {
 } from '@tabler/icons-react'
 import {
   Form as AntDForm,
-  Input,
-  InputNumber,
   Popconfirm,
   Radio,
   Select,
 } from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, NumberInput, Text, TextInput } from '@mantine/core'
 import {
   Parts,
   Stats,
@@ -210,7 +208,7 @@ function SimulationInputs() {
 
             <HeaderText>{t('OptionsHeader') /* Options */}</HeaderText>
 
-            <Input
+            <TextInput
               placeholder={t('SimulationNamePlaceholder') /* 'Simulation name (Optional)' */}
               autoComplete='off'
               value={nameValue ?? ''}
@@ -485,16 +483,16 @@ function SubstatsSection(props: { simType: StatSimTypes, title: string, total?: 
               <Text>
                 {t('TotalRolls') /* Total rolls */}
               </Text>
-              <InputNumber
-                size='small'
-                controls={false}
+              <NumberInput
+                size='sm'
+                hideControls
                 disabled={true}
                 value={Utils.truncate10ths(props.total)}
-                variant='borderless'
-                formatter={(value) => `${value} / 54`}
+                variant='unstyled'
                 max={54}
-                status={props.total! > 54 ? 'error' : undefined}
+                error={props.total! > 54 ? true : undefined}
                 style={{ width: 70 }}
+                suffix=' / 54'
               />
             </Flex>
           )}
@@ -512,9 +510,9 @@ function StatInput(props: { label: string, name: string, simType: string }) {
       <Text>
         {props.label}
       </Text>
-      <InputNumber
-        size='small'
-        controls={false}
+      <NumberInput
+        size='sm'
+        hideControls
         value={value}
         onChange={(val) => {
           const store = useOptimizerFormStore.getState()

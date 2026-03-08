@@ -12,10 +12,9 @@ import {
   ConfigProvider,
   Dropdown,
   Form,
-  Input,
   Segmented,
 } from 'antd'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex, Text, TextInput } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -108,7 +107,7 @@ export default function ShowcaseTab() {
         >
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
             <Form.Item name='scorerId'>
-              <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder') /* Account UID */} />
+              <TextInput style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder') /* Account UID */} />
             </Form.Item>
             <Button
               type='submit'

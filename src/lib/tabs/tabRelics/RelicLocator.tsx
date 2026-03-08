@@ -1,9 +1,8 @@
 import { IconSettings } from '@tabler/icons-react'
 import {
-  InputNumber,
   Popover,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Flex, NumberInput, Text } from '@mantine/core'
 import {
   Parts,
   Sets,
@@ -86,11 +85,11 @@ export function RelicLocator(props: { relic: Relic | null }) {
             <Flex justify='space-between' align='center'>
               <HeaderText>{t('Width') /* Inventory width */}</HeaderText>
             </Flex>
-            <InputNumber
+            <NumberInput
               defaultValue={inventoryWidth}
               style={{ width: 'auto' }}
               min={1}
-              onChange={setInventoryWidth}
+              onChange={(val) => setInventoryWidth(typeof val === 'number' ? val : null)}
             />
           </Flex>
 
@@ -99,11 +98,11 @@ export function RelicLocator(props: { relic: Relic | null }) {
               <HeaderText>{t('Filter') /* Auto filter rows */}</HeaderText>
               <TooltipImage type={Hint.locatorParams()} />
             </Flex>
-            <InputNumber
+            <NumberInput
               defaultValue={rowLimit}
               style={{ width: 'auto' }}
               min={1}
-              onChange={setRowLimit}
+              onChange={(val) => setRowLimit(typeof val === 'number' ? val : null)}
             />
           </Flex>
         </Flex>

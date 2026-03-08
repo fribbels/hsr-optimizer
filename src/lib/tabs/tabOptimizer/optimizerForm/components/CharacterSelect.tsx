@@ -1,5 +1,5 @@
-import { Button, Flex } from '@mantine/core'
-import { Card, Input, InputRef, Modal, Select, } from 'antd'
+import { Button, Flex, TextInput } from '@mantine/core'
+import { Card, Modal, Select, } from 'antd'
 import { ElementName, PathName, } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { CharacterOptions, generateCharacterOptions, } from 'lib/rendering/optionGenerator'
@@ -61,7 +61,7 @@ type CharacterFilters = {
 
 function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }: CharacterSelectProps) {
   // console.log('==================================== CHARACTER SELECT')
-  const inputRef = useRef<InputRef>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const [open, setOpen] = useState(false)
   const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
@@ -197,8 +197,8 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
         <Flex direction="column" gap={12} style={{ minWidth: 350 }}>
           <Flex gap={12} wrap='wrap'>
             <Flex wrap='nowrap' style={{ flexGrow: 1 }} gap={10}>
-              <Input
-                size='large'
+              <TextInput
+                size='lg'
                 style={{
                   height: 40,
                   flex: 1,
@@ -206,10 +206,12 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
                 placeholder={t('SearchPlaceholder') /* Search character name */}
                 ref={inputRef}
                 onChange={setNameFilter}
-                onPressEnter={() => {
-                  const first = characterOptions.find(applyFilters)
-                  if (first) {
-                    handleClick(first.id)
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const first = characterOptions.find(applyFilters)
+                    if (first) {
+                      handleClick(first.id)
+                    }
                   }
                 }}
               />

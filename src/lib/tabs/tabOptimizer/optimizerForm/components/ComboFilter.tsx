@@ -16,10 +16,8 @@ import {
   setOpen,
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
-import {
-  ComboType,
-  getDefaultComboTurnAbilities,
-} from 'lib/optimization/rotation/comboStateTransform'
+import { ComboType } from 'lib/optimization/rotation/comboType'
+import { getDefaultComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import {
   DEFAULT_BASIC,
   NULL_TURN_ABILITY_NAME,

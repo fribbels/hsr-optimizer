@@ -1,5 +1,5 @@
 
-import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
+import type { ComboType } from 'lib/optimization/rotation/comboType'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {

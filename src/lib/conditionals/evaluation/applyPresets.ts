@@ -126,6 +126,7 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
 }
 
 export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, teammateIds?: (CharacterId | undefined)[]) {
+  if (!form.setConditionals) return
   const metadataCharacters = DB.getMetadata().characters
 
   const allyIds = [
@@ -160,7 +161,9 @@ export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formI
   const form = formInstance.getFieldsValue()
   applyTeamAwareSetConditionalPresets(form)
 
-  formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+  if (form.setConditionals) {
+    formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+  }
 }
 
 export function applyTeamAwareSetConditionalPresetsToStore() {
@@ -187,5 +190,7 @@ export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
 
   applyTeamAwareSetConditionalPresets(form, teammateIds)
 
-  formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+  if (form.setConditionals) {
+    formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+  }
 }

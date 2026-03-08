@@ -18,7 +18,7 @@ import {
   defaultTeammate,
   getDefaultWeights,
 } from 'lib/optimization/defaultForm'
-import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import {
   DEFAULT_BASIC,

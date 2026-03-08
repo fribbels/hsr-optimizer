@@ -10,7 +10,7 @@ import {
   Sets,
 } from 'lib/constants/constants'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
-import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import { SortOption } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'

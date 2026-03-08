@@ -1,4 +1,4 @@
-import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
+import type { ComboType } from 'lib/optimization/rotation/comboType'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
@@ -71,10 +71,8 @@ type OptimizerFormActions = {
 
 type OptimizerFormStore = OptimizerFormState & OptimizerFormActions
 
-const initialState = createDefaultFormState()
-
 export const useOptimizerFormStore = create<OptimizerFormStore>()((set, get) => ({
-  ...initialState,
+  ...createDefaultFormState(),
 
   // ---- Simple setters (Task 8) ----
 
@@ -213,6 +211,10 @@ export const useOptimizerFormStore = create<OptimizerFormStore>()((set, get) => 
       if (value !== undefined) {
         (merged as Record<string, unknown>)[key] = value
       }
+    }
+    // Merge setConditionals: fill in missing keys from defaults (handles old saves missing newer sets)
+    if (converted.setConditionals && defaults.setConditionals) {
+      merged.setConditionals = { ...defaults.setConditionals, ...converted.setConditionals }
     }
     set(merged)
   },

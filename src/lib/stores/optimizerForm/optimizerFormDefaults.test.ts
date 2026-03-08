@@ -8,7 +8,7 @@ import {
   createDefaultTeammate,
 } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { CombatBuffs } from 'lib/constants/constants'
-import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 
 describe('createDefaultTeammate', () => {
   it('should have undefined identity fields', () => {

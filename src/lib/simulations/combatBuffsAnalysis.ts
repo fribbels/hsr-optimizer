@@ -19,11 +19,6 @@ export type PerActionBuffGroups = {
   primaryAction: string
 }
 
-export function aggregateCombatBuffs(x: ComputedStatsContainer, request: OptimizerForm): BuffGroups {
-  const combatBuffs = extractCombatBuffs(x)
-  return groupCombatBuffs(combatBuffs, request)
-}
-
 export function aggregatePerActionBuffs(
   actionBuffSnapshots: Record<string, ActionBuffSnapshot>,
   rotationBuffSteps: RotationBuffStep[],
@@ -31,7 +26,7 @@ export function aggregatePerActionBuffs(
   request: OptimizerForm,
   primaryAbilityKey: string,
 ): PerActionBuffGroups {
-  const hasMemo = DB.getMetadata().characters[request.characterId].path == PathNames.Remembrance
+  const hasMemo = DB.getMetadata().characters[request.characterId].path === PathNames.Remembrance
   const buffsBasic: Buff[] = (x.c as unknown as { buffs?: Buff[] }).buffs ?? []
 
   const byAction: Record<string, BuffGroups> = {}
@@ -53,19 +48,19 @@ function groupSnapshot(snapshot: ActionBuffSnapshot, buffsBasic: Buff[], hasMemo
     buffs: snapshot.buffs,
     buffsMemo: hasMemo ? snapshot.buffsMemo : [],
   }
-  return groupCombatBuffs(combatBuffs, request)
+  return groupCombatBuffs(combatBuffs, request, hasMemo)
 }
 
-function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
+function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm, hasMemo?: boolean): BuffGroups {
   const buffGroups = Object.fromEntries(
     Object.values(BUFF_TYPE).map((type) => [type, {}]),
   ) as BuffGroups
 
-  const hasMemo = DB.getMetadata().characters[request.characterId].path == PathNames.Remembrance
+  const includeMemo = hasMemo ?? DB.getMetadata().characters[request.characterId].path === PathNames.Remembrance
 
-  for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...(hasMemo ? combatBuffs.buffsMemo : [])]) {
+  for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...(includeMemo ? combatBuffs.buffsMemo : [])]) {
     const id = buff.source.id
-    const buffType = request.characterId == id ? BUFF_TYPE.PRIMARY : buff.source.buffType
+    const buffType = request.characterId === id ? BUFF_TYPE.PRIMARY : buff.source.buffType
 
     const group = buffGroups[buffType]
 
@@ -77,14 +72,6 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
   }
 
   return buffGroups
-}
-
-function extractCombatBuffs(x: ComputedStatsContainer) {
-  const buffs: Buff[] = x.buffs ?? []
-  const buffsBasic: Buff[] = (x.c as unknown as { buffs?: Buff[] }).buffs ?? []
-  const buffsMemo: Buff[] = x.buffsMemo ?? []
-
-  return { buffs, buffsMemo, buffsBasic }
 }
 
 type CombatBuffs = {

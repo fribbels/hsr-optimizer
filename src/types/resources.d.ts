@@ -6780,6 +6780,8 @@ interface Resources {
         },
         "ActionLabel": "COMBO ACTION",
         "FilterLabel": "FILTER BY ABILITY",
+        "DefaultAction": "Default",
+        "SummaryLabel": "BUFF TOTALS",
         "Stats": {
           "CompositeLabels": {
             "Label": "{{prefix}} {{suffix}}",

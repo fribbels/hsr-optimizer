@@ -54,6 +54,8 @@ type DesignOptions = {
   cardHeaderStyle: CardHeaderStyle
 }
 
+const STAT_ORDER = new Map(Object.keys(newStatsConfig).map((key, i) => [key, i]))
+
 const BORDER_RADIUS = 5
 const GROUP_SPACING = 10
 const ICON_SIZE_DEFAULT = 48
@@ -69,7 +71,7 @@ const DEFAULT_OPTIONS: DesignOptions = {
   rowSeparator: 'solid',
   rowPaddingX: 6,
   fontSize: 12,
-  borderColor: '#ffffff08',
+  borderColor: '#ffffff0f',
   cardPadding: 3,
   summaryMode: 'table',
   summaryPosition: 'bottom',
@@ -867,7 +869,7 @@ function CardHeader(props: { name: string }) {
       return (
         <span style={{
           ...compactBase,
-          borderBottom: '1px solid #ffffff20',
+          borderBottom: '1px solid #ffffff30',
           marginBottom: 2,
         }}>
           {props.name}
@@ -1394,7 +1396,9 @@ function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSum[] {
     }
   }
 
-  return Array.from(sumMap.values()).filter((s) => s && s.total !== 0)
+  return Array.from(sumMap.values())
+    .filter((s) => s && s.total !== 0)
+    .sort((a, b) => (STAT_ORDER.get(a.stat) ?? 999) - (STAT_ORDER.get(b.stat) ?? 999))
 }
 
 
@@ -1551,7 +1555,7 @@ function StatSummaryTable(props: { sums: StatSum[]; baselineSums?: Map<string, n
                 padding: `0 ${options.rowPaddingX}px`,
                 height: options.rowHeight,
                 lineHeight: `${options.rowHeight}px`,
-                borderBottom: undefined,
+                borderBottom: i < props.sums.length - 1 ? `1px solid ${options.borderColor}` : undefined,
                 background: undefined,
               }}
             >

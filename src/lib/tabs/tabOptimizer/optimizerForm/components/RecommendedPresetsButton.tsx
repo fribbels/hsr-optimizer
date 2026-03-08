@@ -1,11 +1,11 @@
 import { IconChevronDown } from '@tabler/icons-react'
 import { ApplyColumnStateParams } from 'ag-grid-community'
-import { Dropdown } from 'antd'
+import { Button, Flex, Menu } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { applySpdPreset } from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
@@ -207,29 +207,45 @@ export const RecommendedPresetsButton = () => {
     }]
   }, [optimizerTabFocusCharacter, t, categories])
 
-  const actionsMenuProps = {
-    items,
-    onClick: (event: {
-      key: string,
-    }) => {
-      if (allPresets[event.key]) {
-        applySpdPreset(allPresets[event.key].value!, optimizerTabFocusCharacter)
-      } else {
-        Message.warning(t('PresetNotAvailable') /* 'Preset not available, please select another option' */)
-      }
-    },
+  const handlePresetClick = (key: string) => {
+    if (allPresets[key]) {
+      applySpdPreset(allPresets[key].value!, optimizerTabFocusCharacter)
+    } else {
+      Message.warning(t('PresetNotAvailable') /* 'Preset not available, please select another option' */)
+    }
   }
 
   return (
-    <Dropdown.Button
-      className='full-width-dropdown-button'
-      type='primary'
-      menu={actionsMenuProps}
-      onClick={() => applySpdPreset(allPresets.SPD0.value!, optimizerTabFocusCharacter)}
-      icon={<IconChevronDown />}
-      style={{ flex: 1, width: '100%' }}
-    >
-      {t('RecommendedPresets') /* Recommended presets */}
-    </Dropdown.Button>
+    <Menu>
+      <Flex className='full-width-dropdown-button' style={{ flex: 1, width: '100%' }}>
+        <Button
+          style={{ flex: 1, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+          onClick={() => applySpdPreset(allPresets.SPD0.value!, optimizerTabFocusCharacter)}
+        >
+          {t('RecommendedPresets') /* Recommended presets */}
+        </Button>
+        <Menu.Target>
+          <Button style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, padding: '0 8px' }}>
+            <IconChevronDown size={16} />
+          </Button>
+        </Menu.Target>
+      </Flex>
+      <Menu.Dropdown>
+        {items.map((item) => (
+          <React.Fragment key={item.key}>
+            {item.children.map((group) => (
+              <React.Fragment key={group.label}>
+                <Menu.Label>{group.label}</Menu.Label>
+                {group.children.map((child) => (
+                  <Menu.Item key={child.key} onClick={() => handlePresetClick(child.key)} disabled={child.disabled}>
+                    {child.label}
+                  </Menu.Item>
+                ))}
+              </React.Fragment>
+            ))}
+          </React.Fragment>
+        ))}
+      </Menu.Dropdown>
+    </Menu>
   )
 }

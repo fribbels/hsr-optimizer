@@ -15,10 +15,7 @@ import {
   IconUpload,
   IconUser,
 } from '@tabler/icons-react'
-import {
-  Menu,
-} from 'antd'
-import { Anchor, Flex } from '@mantine/core'
+import { Anchor, Flex, NavLink } from '@mantine/core'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
@@ -183,25 +180,33 @@ const MenuDrawer = () => {
     ]),
   ], [t])
 
-  const onClick = (e: {
-    key: string,
-  }) => {
-    if (e.key?.includes('link')) return
+  const onClick = (key: string) => {
+    if (key?.includes('link')) return
 
-    setActiveKey(e.key as AppPages)
+    setActiveKey(key as AppPages)
   }
 
   return (
-    <Menu
-      onClick={onClick}
-      inlineIndent={12}
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['subOptimizer', 'subTools', 'subLinks']}
-      selectedKeys={[activeKey]}
-      mode='inline'
-      items={items}
-      className='no-highlight'
-    />
+    <Flex direction="column" className='no-highlight'>
+      {items.map((group) => (
+        <NavLink
+          key={group.key}
+          label={group.label}
+          leftSection={group.icon}
+          defaultOpened
+          childrenOffset={12}
+        >
+          {group.children?.map((child) => (
+            <NavLink
+              key={child.key}
+              label={child.label}
+              active={activeKey === child.key}
+              onClick={() => onClick(child.key)}
+            />
+          ))}
+        </NavLink>
+      ))}
+    </Flex>
   )
 }
 

@@ -2,12 +2,10 @@ import {
   IconBoltFilled,
   IconChevronDown,
 } from '@tabler/icons-react'
-import { Button, Divider, Flex, Modal, SegmentedControl, Text } from '@mantine/core'
+import { Button, Divider, Flex, Menu, Modal, Progress, SegmentedControl, Text } from '@mantine/core'
 import { IRowNode } from 'ag-grid-community'
 import {
-  Dropdown,
   Grid,
-  Progress,
   theme,
 } from 'antd'
 import { PopConfirm } from 'lib/ui/PopConfirm'
@@ -125,47 +123,49 @@ export default function Sidebar() {
 function ComputeEngineSelect() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.GPUOptions' })
   const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+  const handleGpuOptionClick = (key: GpuOption['key']) => {
+    if (key === COMPUTE_ENGINE_CPU) {
+      window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+      Message.success(t('EngineSwitchSuccessMsg.CPU') /* Switched compute engine to CPU */)
+    } else {
+      void verifyWebgpuSupport(true).then((device) => {
+        if (device) {
+          window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
+          Message.success(key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
+          // Switched compute engine to GPU  Experimental/Stable
+        }
+      })
+    }
+  }
+
   return (
-    <Dropdown
-      menu={{
-        items: getGpuOptions(computeEngine),
-        onClick: (e) => {
-          const key = e.key as GpuOption['key']
-          if (key === COMPUTE_ENGINE_CPU) {
-            window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
-            Message.success(t('EngineSwitchSuccessMsg.CPU') /* Switched compute engine to CPU */)
-          } else {
-            void verifyWebgpuSupport(true).then((device) => {
-              if (device) {
-                window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
-                Message.success(e.key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
-                // Switched compute engine to GPU  Experimental/Stable
+    <Menu position='bottom-end'>
+      <Menu.Target>
+        <Button variant="default" className='custom-dropdown-button' style={{ padding: 3 }}>
+          <Flex justify='space-around' align='center' style={{ width: '100%' }}>
+            <div style={{ width: 1 }} />
+            <Text>
+              {
+                t(`Display.${computeEngine}`)
+                /*
+                  [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
+                  [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
+                  [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
+                */
               }
-            })
-          }
-        },
-      }}
-      placement='bottomRight'
-      className='custom-dropdown-button'
-      trigger={['click']}
-    >
-      <Button variant="default" style={{ padding: 3 }}>
-        <Flex justify='space-around' align='center' style={{ width: '100%' }}>
-          <div style={{ width: 1 }} />
-          <Text>
-            {
-              t(`Display.${computeEngine}`)
-              /*
-                [COMPUTE_ENGINE_GPU_EXPERIMENTAL]: 'GPU acceleration: Enabled',
-                [COMPUTE_ENGINE_GPU_STABLE]: 'GPU acceleration: Enabled',
-                [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
-              */
-            }
-          </Text>
-          <IconChevronDown />
-        </Flex>
-      </Button>
-    </Dropdown>
+            </Text>
+            <IconChevronDown />
+          </Flex>
+        </Button>
+      </Menu.Target>
+      <Menu.Dropdown>
+        {getGpuOptions(computeEngine).map((option) => (
+          <Menu.Item key={option.key} onClick={() => handleGpuOptionClick(option.key)}>
+            {option.label}
+          </Menu.Item>
+        ))}
+      </Menu.Dropdown>
+    </Menu>
   )
 }
 
@@ -387,10 +387,9 @@ function ProgressDisplay() {
         {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)}
       </HeaderText>
       <Progress
-        strokeColor={token.colorPrimary}
-        steps={17}
-        size={[8, 5]}
-        percent={Math.floor(permutationsSearched / permutations * 100)}
+        color={token.colorPrimary}
+        size={5}
+        value={Math.floor(permutationsSearched / permutations * 100)}
       />
     </Flex>
   )

@@ -1,5 +1,6 @@
 import {
   IconCamera,
+  IconChevronDown,
   IconDownload,
   IconEdit,
   IconEyeOff,
@@ -8,10 +9,9 @@ import {
   IconSettings,
 } from '@tabler/icons-react'
 import {
-  Dropdown,
   Form,
 } from 'antd'
-import { Accordion, Button, Flex, SegmentedControl, Text, TextInput } from '@mantine/core'
+import { Accordion, Button, Flex, Menu, Popover, SegmentedControl, Text, TextInput } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -275,15 +275,29 @@ function CharacterPreviewSelection() {
               loading={downloadLoading}
               variant="default"
             />
-            <Dropdown.Button
-              style={{ flex: 1 }}
-              className='dropdownButton'
-              onClick={() => importClicked('singleCharacter')}
-              menu={menuProps}
-            >
-              <IconFileImport />
-              {t('ImportLabels.Relics') /* Import relics into optimizer */}
-            </Dropdown.Button>
+            <Menu>
+              <Flex style={{ flex: 1 }} className='dropdownButton'>
+                <Button
+                  style={{ flex: 1, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+                  onClick={() => importClicked('singleCharacter')}
+                  leftSection={<IconFileImport size={16} />}
+                >
+                  {t('ImportLabels.Relics') /* Import relics into optimizer */}
+                </Button>
+                <Menu.Target>
+                  <Button style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, padding: '0 8px' }}>
+                    <IconChevronDown size={16} />
+                  </Button>
+                </Menu.Target>
+              </Flex>
+              <Menu.Dropdown>
+                {items.map((item) => (
+                  <Menu.Item key={item.key} onClick={() => handleMenuClicked({ key: item.key })}>
+                    {item.label}
+                  </Menu.Item>
+                ))}
+              </Menu.Dropdown>
+            </Menu>
             <Button
               style={{ flex: 1 }}
               leftSection={<IconFlask size={16} />}
@@ -384,23 +398,25 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
         height: 0,
       }}
     >
-      <Dropdown
-        dropdownRender={() => dropdownDisplay}
-        open={open}
-      >
-        <a
-          onClick={(e) => {
-            e.preventDefault()
-            setOpen(!open)
-          }}
-        >
-          <Button
-            style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 2 }}
+      <Popover opened={open} position='right-start' withArrow={false} shadow='md'>
+        <Popover.Target>
+          <a
+            onClick={(e) => {
+              e.preventDefault()
+              setOpen(!open)
+            }}
           >
-            <IconFlask style={{ fontSize: 55 }} />
-          </Button>
-        </a>
-      </Dropdown>
+            <Button
+              style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 2 }}
+            >
+              <IconFlask style={{ fontSize: 55 }} />
+            </Button>
+          </a>
+        </Popover.Target>
+        <Popover.Dropdown style={{ padding: 4 }}>
+          {dropdownDisplay}
+        </Popover.Dropdown>
+      </Popover>
     </Flex>
   )
 }

@@ -4,12 +4,11 @@ import {
   IconQuestionMark,
 } from '@tabler/icons-react'
 import {
-  Button,
   Collapse,
   Table,
   TableProps,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
   generateAllTests,
   WebgpuTest,
@@ -65,7 +64,6 @@ function WebgpuDashboard() {
   return (
     <Flex direction="column" style={{ width: 1200, minHeight: 2000 }}>
       <Button
-        type='primary'
         onClick={startTests}
         style={{ height: 50, background: done ? '#248453' : undefined }}
         disabled={!done && tests.length > 0}

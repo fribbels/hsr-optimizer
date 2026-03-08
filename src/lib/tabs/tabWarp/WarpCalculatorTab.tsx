@@ -1,6 +1,6 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Button, Card, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect } from 'antd'
-import { Flex, Text, Title as MantineTitle } from '@mantine/core'
+import { Card, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect } from 'antd'
+import { Button, Flex, Text, Title as MantineTitle } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -232,14 +232,13 @@ function Inputs() {
 
         <Flex style={{ width: '100%' }} gap={20}>
           <Button
-            type='primary'
-            block
+            fullWidth
             style={{ height: 45 }}
             onClick={() => {
               useWarpCalculatorStore.getState().setResult(null)
               setTimeout(() => handleWarpRequest(form.getFieldsValue()), 50)
             }}
-            icon={<IconBoltFilled/>}
+            leftSection={<IconBoltFilled size={16}/>}
           >
             {t('Calculate')/* Calculate */}
           </Button>

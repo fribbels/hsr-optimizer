@@ -3,10 +3,9 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import {
-  Button,
   theme,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -39,8 +38,8 @@ export function LayoutHeader() {
       <Flex align='center' justify='space-between' style={{ width: '100%' }}>
         <Flex>
           <Button
-            type='text'
-            icon={isOpenMenuSidebar ? <IconX /> : <IconMenu2 />}
+            variant='transparent'
+            leftSection={isOpenMenuSidebar ? <IconX size={16} /> : <IconMenu2 size={16} />}
             onClick={toggleMenuSidebar}
             style={{
               fontSize: '16px',

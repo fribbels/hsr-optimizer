@@ -3,9 +3,8 @@ import {
   IconRefresh,
   IconSettings,
 } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
-  Button,
   Card,
   ConfigProvider,
   Segmented,
@@ -407,7 +406,7 @@ function ShowcaseTeamSelectPanel(props: {
                 <Flex direction="column" gap={10}>
                   <HeaderText>{t('modals:ScoreFooter.ModalTitle') /* Combat sim scoring settings */}</HeaderText>
                   <Button
-                    icon={<IconRefresh />}
+                    leftSection={<IconRefresh size={16} />}
                     onClick={() => {
                       DB.clearSimulationScoreOverrides(characterId)
                       if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter([characterId, DEFAULT_TEAM])
@@ -419,7 +418,7 @@ function ShowcaseTeamSelectPanel(props: {
                     {t('modals:ScoreFooter.ResetButtonText') /* Reset custom team to default */}
                   </Button>
                   <Button
-                    icon={<IconArrowsExchange />}
+                    leftSection={<IconArrowsExchange size={16} />}
                     onClick={() => {
                       const characterMetadata = DB.getScoringMetadata(characterId)
 

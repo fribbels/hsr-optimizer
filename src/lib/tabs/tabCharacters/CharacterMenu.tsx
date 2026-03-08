@@ -4,10 +4,10 @@ import {
   IconUser,
 } from '@tabler/icons-react'
 import {
-  Button,
   Dropdown,
   Modal,
 } from 'antd'
+import { Button } from '@mantine/core'
 import { MenuProps } from 'antd/lib'
 import { TFunction } from 'i18next'
 import {
@@ -58,8 +58,8 @@ export function CharacterMenu() {
       >
         <Button
           style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}
-          icon={<IconUser />}
-          type='default'
+          leftSection={<IconUser size={16} />}
+          variant='default'
         >
           {t('CharacterMenu.ButtonText') /* Character menu */}
           <IconChevronDown />

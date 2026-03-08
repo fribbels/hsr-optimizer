@@ -4,7 +4,6 @@ import {
   IconZoomIn,
 } from '@tabler/icons-react'
 import {
-  Button,
   Form,
   Input,
   Modal,
@@ -14,7 +13,7 @@ import {
   Spin,
   Steps,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import { RcFile } from 'antd/es/upload'
 import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
@@ -668,7 +667,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 {tCommon('Cancel') /* Cancel */}
               </Button>
               {(current > 0 && existingConfig) && (
-                <Button onClick={prev} danger>
+                <Button onClick={prev} color="red">
                   {t('Footer.Change') /* Change image */}
                 </Button>
               )}
@@ -678,12 +677,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 </Button>
               )}
               {current < steps.length - 1 && (
-                <Button type='primary' onClick={next} disabled={radio === 'upload'}>
+                <Button onClick={next} disabled={radio === 'upload'}>
                   {t('Footer.Next') /* Next */}
                 </Button>
               )}
               {current === steps.length - 1 && (
-                <Button type='primary' onClick={handleOk}>
+                <Button onClick={handleOk}>
                   {tCommon('Submit') /* Submit */}
                 </Button>
               )}

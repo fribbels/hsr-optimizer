@@ -2,9 +2,8 @@ import {
   IconCircleMinus,
   IconCirclePlus,
 } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
-  Button,
   Divider,
   Drawer,
   Select,
@@ -938,9 +937,8 @@ function NumberSlider(props: {
         }
       </Flex>
       <Button
-        type='text'
-        shape='circle'
-        icon={props.partitionIndex == 0
+        variant='transparent'
+        leftSection={props.partitionIndex == 0
           ? <IconCirclePlus style={buttonStyle} />
           : <IconCircleMinus style={buttonStyle} />}
         onClick={() => {
@@ -978,9 +976,8 @@ function NumberSelect(props: {
         fullWidth={!props.sourceKey.includes('comboCharacterRelicSets')}
       />
       <Button
-        type='text'
-        shape='circle'
-        icon={props.partitionIndex == 0
+        variant='transparent'
+        leftSection={props.partitionIndex == 0
           ? <IconCirclePlus style={buttonStyle} />
           : <IconCircleMinus style={buttonStyle} />}
         onClick={() => {

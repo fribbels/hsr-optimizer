@@ -5,7 +5,6 @@ import {
 } from '@tabler/icons-react'
 import {
   Alert,
-  Button,
   Form,
   Image,
   Input,
@@ -17,7 +16,7 @@ import {
   theme,
   Tooltip,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
@@ -454,7 +453,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
               <Button onClick={handleCancel} style={{ flex: 1 }}>
                 {t('common:Cancel')}
               </Button>
-              <Button type='primary' onClick={handleOk} style={{ flex: 1 }}>
+              <Button onClick={handleOk} style={{ flex: 1 }}>
                 {t('common:Submit')}
               </Button>
             </Flex>
@@ -746,7 +745,7 @@ function SubstatInput(props: {
     return (
       <Flex style={{ width: '100%' }}>
         <Button
-          type={hovered ? 'default' : 'dashed'}
+          variant='default'
           style={{ width: '100%', padding: 0 }}
           onClick={() => upgradeClicked(subProps.quality)}
           disabled={value === undefined}

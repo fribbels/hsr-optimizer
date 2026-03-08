@@ -2,10 +2,9 @@ import {
   IconBoltFilled,
   IconChevronDown,
 } from '@tabler/icons-react'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import { IRowNode } from 'ag-grid-community'
 import {
-  Button,
   Divider,
   Dropdown,
   Grid,
@@ -153,7 +152,7 @@ function ComputeEngineSelect() {
       className='custom-dropdown-button'
       trigger={['click']}
     >
-      <Button style={{ padding: 3 }}>
+      <Button variant="default" style={{ padding: 3 }}>
         <Flex justify='space-around' align='center' style={{ width: '100%' }}>
           <div style={{ width: 1 }} />
           <Text>
@@ -270,7 +269,6 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean, setManyPermsModalO
         <Button
           onClick={() => props.setManyPermsModalOpen(false)}
           style={{ width: 250 }}
-          type='primary'
         >
           {t('Cancel') /* Cancel search */}
         </Button>
@@ -280,7 +278,6 @@ function ManyPermsModal(props: { manyPermsModalOpen: boolean, setManyPermsModalO
             props.startSearch()
           }}
           style={{ width: 250 }}
-          type='primary'
         >
           {t('Proceed') /* Proceed with search */}
         </Button>
@@ -435,12 +432,14 @@ const BuildsGroup = React.memo((props: { isFullSize: boolean }) => {
       </Flex>
       <Flex gap={defaultGap} justify='space-around'>
         <Button
+          variant="default"
           style={{ width: '100px' }}
           onClick={() => setSaveBuildModalOpen(true)}
         >
           {t('Save')}
         </Button>
         <Button
+          variant="default"
           style={{ width: '100px' }}
           onClick={() => setBuildsModalOpen(true)}
         >
@@ -460,18 +459,18 @@ function ResultsGroup(props: { isFullSize: boolean }) {
         <TooltipImage type={Hint.actions()} />
       </Flex>
       <Flex gap={props.isFullSize ? defaultGap : 8} justify='space-around'>
-        <Button type='primary' onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
+        <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
           {t('Equip') /* Equip */}
         </Button>
-        <Button onClick={filterClicked} style={{ width: '100px' }}>
+        <Button variant="default" onClick={filterClicked} style={{ width: '100px' }}>
           {t('Filter') /* Filter */}
         </Button>
       </Flex>
       <Flex gap={props.isFullSize ? defaultGap : 8} justify='space-around'>
-        <Button style={{ width: '100px' }} onClick={addToPinned}>
+        <Button variant="default" style={{ width: '100px' }} onClick={addToPinned}>
           {t('Pin') /* Pin build */}
         </Button>
-        <Button style={{ width: '100px' }} onClick={clearPinned}>
+        <Button variant="default" style={{ width: '100px' }} onClick={clearPinned}>
           {t('Clear') /* Clear pins */}
         </Button>
       </Flex>
@@ -529,8 +528,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
         <Flex gap={defaultGap} style={{ marginBottom: 2 }} direction="column">
           <Flex gap={defaultGap}>
             <Button
-              icon={<IconBoltFilled />}
-              type='primary'
+              leftSection={<IconBoltFilled size={16} />}
               loading={optimizationInProgress}
               onClick={startClicked}
               style={{ flex: 1, minWidth: 211 }}
@@ -542,7 +540,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
           {props.isFullSize && <ComputeEngineSelect />}
 
           <Flex gap={defaultGap}>
-            <Button onClick={cancelClicked} style={{ flex: 1 }}>
+            <Button variant="default" onClick={cancelClicked} style={{ flex: 1 }}>
               {tCommon('Cancel') /* Cancel */}
             </Button>
 
@@ -554,7 +552,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
               cancelText={tCommon('No')} // 'No'
               placement='bottomRight'
             >
-              <Button style={{ flex: 1 }}>
+              <Button variant="default" style={{ flex: 1 }}>
                 {tCommon('Reset') /* Reset */}
               </Button>
             </Popconfirm>

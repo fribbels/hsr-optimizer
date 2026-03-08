@@ -7,7 +7,6 @@ import {
   IconTrash,
 } from '@tabler/icons-react'
 import {
-  Button,
   Form as AntDForm,
   Input,
   InputNumber,
@@ -15,7 +14,7 @@ import {
   Radio,
   Select,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import {
   Parts,
   Stats,
@@ -113,21 +112,23 @@ export function StatSimulationDisplay() {
 
           <Flex gap={10}>
             <Button
+              variant="default"
               style={{ width: 200 }}
               disabled={isHidden()}
               onClick={startOptimizerStatSimulation}
-              icon={<IconChevronDown />}
+              leftSection={<IconChevronDown size={16} />}
             >
               {t('FooterLabels.Simulate') /* Simulate builds */}
             </Button>
-            <Button style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} icon={<IconChevronUp />}>
+            <Button variant="default" style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} leftSection={<IconChevronUp size={16} />}>
               {t('FooterLabels.Import') /* Import optimizer build */}
             </Button>
             <Button
+              variant="default"
               style={{ width: 200 }}
               disabled={isHidden()}
               onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
-              icon={<IconSettings />}
+              leftSection={<IconSettings size={16} />}
             >
               {t('FooterLabels.Conditionals') /* Conditional set effects */}
             </Button>
@@ -137,7 +138,6 @@ export function StatSimulationDisplay() {
         <Flex direction="column" justify='space-around'>
           <Flex direction="column" gap={10}>
             <Button
-              type='primary'
               style={{ width: 35, height: 100, padding: 0 }}
               onClick={() => saveStatSimulationBuildFromForm()}
               disabled={isHidden()}
@@ -145,7 +145,7 @@ export function StatSimulationDisplay() {
               <IconChevronsLeft />
             </Button>
             <Button
-              type='dashed'
+              variant="default"
               style={{ width: 35, height: 35, padding: 0 }}
               disabled={isHidden()}
               onClick={overwriteStatSimulationBuild}
@@ -161,7 +161,7 @@ export function StatSimulationDisplay() {
               cancelText={tCommon('Cancel')} // 'Cancel'
             >
               <Button
-                type='dashed'
+                variant="default"
                 style={{ width: 35, height: 35, padding: 0 }}
                 disabled={isHidden()}
               >

@@ -1,9 +1,8 @@
 import { IconTrash } from '@tabler/icons-react'
 import {
-  Button,
   Popconfirm,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
 import {
@@ -42,7 +41,7 @@ export function ClearDataSubmenu() {
         okText={tCommon('Yes') /* Yes */}
         cancelText={tCommon('Cancel') /* Cancel */}
       >
-        <Button type='primary' icon={<IconTrash />} loading={loading} style={{ width: importerTabButtonWidth }}>
+        <Button leftSection={<IconTrash size={16} />} loading={loading} style={{ width: importerTabButtonWidth }}>
           {t('ButtonText') /* Clear data */}
         </Button>
       </Popconfirm>

@@ -5,11 +5,10 @@ import {
   IconTrash,
 } from '@tabler/icons-react'
 import {
-  Button,
   Modal,
   theme,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
@@ -196,22 +195,20 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
       footer={[
         <Button
           key='download'
-          icon={<IconDownload style={{ fontSize: 30 }} />}
+          leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
           loading={loading}
           onClick={() => {
             console.log('download')
             clipboardClicked('download')
           }}
-          type='primary'
           style={{ height: 50, width: 50, borderRadius: 8 }}
         >
         </Button>,
         <Button
           key='clipboard'
-          icon={<IconCamera style={{ fontSize: 30 }} />}
+          leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
           loading={loading}
           onClick={() => clipboardClicked('clipboard')}
-          type='primary'
           style={{ height: 50, width: 50, borderRadius: 8 }}
         >
         </Button>,
@@ -412,8 +409,7 @@ function BuildCard(props: BuildCardProps) {
               </Button>
               <Button
                 style={{ width: 35 }}
-                type='primary'
-                icon={<IconTrash />}
+                leftSection={<IconTrash size={16} />}
                 onClick={() => {
                   handleDelete(build.name)
                 }}

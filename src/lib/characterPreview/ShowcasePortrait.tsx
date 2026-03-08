@@ -1,7 +1,6 @@
 import { IconEdit } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
-  Button,
   ConfigProvider,
 } from 'antd'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
@@ -115,21 +114,19 @@ export function ShowcasePortrait(props: {
               <Button
                 style={showcaseButtonStyle}
                 className='character-build-portrait-button'
-                icon={<IconEdit />}
+                leftSection={<IconEdit size={16} />}
                 onClick={() => {
                   setOriginalCharacterModalInitialCharacter(character)
                   setOriginalCharacterModalOpen(true)
                 }}
-                type='primary'
               >
                 {t('CharacterPreview.EditCharacter') /* Edit character */}
               </Button>
               <Button
                 style={showcaseButtonStyle}
                 className='character-build-portrait-button'
-                icon={<IconEdit />}
+                leftSection={<IconEdit size={16} />}
                 onClick={() => setEditPortraitModalOpen(true)}
-                type='primary'
               >
                 {t('CharacterPreview.EditPortrait') /* Edit portrait */}
               </Button>

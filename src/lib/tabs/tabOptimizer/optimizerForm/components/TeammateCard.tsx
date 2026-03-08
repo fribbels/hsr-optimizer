@@ -1,9 +1,8 @@
 import { IconRefresh } from '@tabler/icons-react'
 import {
-  Button,
   Select,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
@@ -253,7 +252,8 @@ const TeammateCard = (props: {
           />
 
           <Button
-            icon={<IconRefresh />}
+            variant="default"
+            leftSection={<IconRefresh size={16} />}
             style={{ width: 35 }}
             disabled={disabled}
             onClick={() => {

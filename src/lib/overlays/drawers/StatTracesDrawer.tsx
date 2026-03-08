@@ -1,11 +1,10 @@
 import { IconChevronDown } from '@tabler/icons-react'
 import {
-  Button,
   Drawer,
   Tree,
   TreeProps,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -156,8 +155,7 @@ export const StatTracesDrawer = () => {
         />
 
         <Button
-          block
-          type='primary'
+          fullWidth
           loading={loading}
           onClick={() => {
             if (!statTraceDrawerFocusCharacter) return

@@ -4,7 +4,6 @@ import {
   IconSearch,
 } from '@tabler/icons-react'
 import {
-  Button,
   Card,
   Collapse,
   Divider,
@@ -12,7 +11,7 @@ import {
   InputRef,
   Space,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
@@ -198,11 +197,11 @@ function FeatureCard(props: { title: string, id: string, content: string, url: s
           {props.content}
         </span>
         <Button
-          size='large'
-          iconPosition='end'
+          size='lg'
+          component='a'
           href={props.url}
           target='_blank'
-          icon={<IconExternalLink />}
+          leftSection={<IconExternalLink size={16} />}
         >
           {t('LearnMore') /* Learn more */}
         </Button>
@@ -336,9 +335,8 @@ function SearchBar() {
       </Flex>
       <Space.Compact style={{ width: '100%' }}>
         <Button
-          size='large'
-          type='primary'
-          icon={<IconSearch />}
+          size='lg'
+          leftSection={<IconSearch size={16} />}
           style={{ width: 60 }}
           onClick={handleSearchSubmit}
         />

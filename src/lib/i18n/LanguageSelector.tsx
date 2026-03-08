@@ -1,8 +1,7 @@
 import {
-  Button,
   Select,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
   completedLocales,
   isBeta,
@@ -68,7 +67,6 @@ export function LanguageSelector() {
         <Flex gap={4} direction="column">
           {menu}
           <Button
-            type='primary'
             style={{ borderRadius: 5, height: 32 }}
             onClick={() => window.open('https://discord.gg/rDmB4Un7qg')}
           >

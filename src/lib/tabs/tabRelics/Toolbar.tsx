@@ -1,10 +1,9 @@
 import {
-  Button,
   Popconfirm,
   Select,
   Tooltip,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import DB from 'lib/state/db'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
@@ -47,7 +46,6 @@ export function Toolbar() {
   return (
     <Flex gap={10} justify='space-between'>
       <Button
-        type='primary'
         style={{ width: 170 }}
         disabled={selectedRelicsIds.length !== 1}
         onClick={RelicsTabController.editClicked}
@@ -66,7 +64,7 @@ export function Toolbar() {
         open={deleteConfirmOpen}
       >
         <Tooltip title={isLiveImport ? t('LiveImportTooltip') : ''}>
-          <Button type='primary' style={{ width: 170 }} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
+          <Button style={{ width: 170 }} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
             {t('DeleteRelic.ButtonText') /* Delete relic */}
           </Button>
         </Tooltip>
@@ -74,7 +72,6 @@ export function Toolbar() {
 
       <Tooltip title={isLiveImport ? t('LiveImportTooltip') : ''}>
         <Button
-          type='primary'
           onClick={RelicsTabController.addClicked}
           style={{ width: 170 }}
           disabled={isLiveImport}

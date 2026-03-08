@@ -3,11 +3,10 @@ import {
   IconUpload,
 } from '@tabler/icons-react'
 import {
-  Button,
   Steps,
   Upload,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import {
@@ -91,9 +90,10 @@ export function LoadDataSubmenu() {
           >
             <Button
               style={{ width: importerTabButtonWidth }}
-              icon={<IconUpload />}
+              leftSection={<IconUpload size={16} />}
               loading={loading1}
               onClick={() => setCurrentStage(Stages.LOAD_FILE)}
+              variant="default"
             >
               {t('Stage1.ButtonText') /* Load save data */}
             </Button>
@@ -125,7 +125,7 @@ export function LoadDataSubmenu() {
               t('Stage2.Label', { relicCount: currentSave.relics.length, characterCount: currentSave.characters.length })
             }
           </Text>
-          <Button style={{ width: importerTabButtonWidth }} icon={<IconFileImport />} type='primary' onClick={loadConfirmed} loading={loading2}>
+          <Button style={{ width: importerTabButtonWidth }} leftSection={<IconFileImport size={16} />} onClick={loadConfirmed} loading={loading2}>
             {t('Stage2.ButtonText') /* Use uploaded data */}
           </Button>
         </Flex>

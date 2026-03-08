@@ -5,7 +5,6 @@ import {
 import {
   Button,
   Flex,
-  Layout,
   theme,
   Typography,
 } from 'antd'
@@ -18,7 +17,6 @@ import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH } from 'lib/state/db'
 
 const { useToken } = theme
-const { Header } = Layout
 
 export const HEADER_HEIGHT = 48
 
@@ -27,7 +25,7 @@ export function LayoutHeader() {
   const { token } = useToken()
 
   return (
-    <Header
+    <header
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -88,6 +86,6 @@ export function LayoutHeader() {
           </a>
         </Flex>
       </Flex>
-    </Header>
+    </header>
   )
 }

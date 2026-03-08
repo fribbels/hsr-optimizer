@@ -36,7 +36,7 @@ export enum TargetTag {
 
   // Composed
   SelfAndPet = Self | Pet,
-  SelfAndMemosprite = Self | Memosprite,
+  SelfAndMemosprite = Self | Pet | Memosprite,
   SelfAndSummon = Self | Summon,
 }
 

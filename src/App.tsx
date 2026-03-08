@@ -1,4 +1,5 @@
 import { MantineProvider } from '@mantine/core'
+import { ModalsProvider } from '@mantine/modals'
 import { Notifications } from '@mantine/notifications'
 import { ConfirmModalProvider } from 'lib/interactions/confirmModal'
 import { checkForUpdatesNotification } from 'lib/interactions/notifications'
@@ -27,6 +28,7 @@ const App = () => {
 
   return (
     <MantineProvider theme={mantineTheme} defaultColorScheme="dark">
+      <ModalsProvider>
       <Notifications position="top-right" />
       <ConfirmModalProvider>
         <div style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -54,6 +56,7 @@ const App = () => {
           </div>
         </div>
       </ConfirmModalProvider>
+      </ModalsProvider>
     </MantineProvider>
   )
 }

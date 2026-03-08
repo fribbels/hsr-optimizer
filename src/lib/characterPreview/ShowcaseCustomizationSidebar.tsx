@@ -7,11 +7,7 @@ import {
   IconSun,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex, NumberInput, SegmentedControl, Select } from '@mantine/core'
-import {
-  ColorPicker,
-} from 'antd'
-import { AggregationColor } from 'antd/es/color-picker/color'
+import { Button, ColorInput, Flex, NumberInput, SegmentedControl, Select } from '@mantine/core'
 
 import i18next from 'i18next'
 import {
@@ -237,16 +233,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       }
     }
 
-    const presets = [
-      {
-        label: tCustomization('PaletteLabel'),
-        colors: colors,
-      },
-      // {
-      //   label: 'DEBUG',
-      //   colors: debugColors.defaults,
-      // },
-    ]
+    const swatchColors = [...colors]
 
     const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } = useMemo(() => {
       return {
@@ -408,17 +395,13 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
           <HorizontalDivider />
 
-          <ColorPicker
-            presets={presets}
-            defaultValue='#1677ff'
+          <ColorInput
+            swatches={swatchColors}
             value={seedColor}
-            onChangeComplete={(value: AggregationColor) => {
-              const color = value.toHexString()
+            onChange={(color: string) => {
               onColorSelectorChange(color)
             }}
-            disabledAlpha
-            disabledFormat
-            showText
+            format="hex"
           />
 
           <HorizontalDivider />

@@ -1,12 +1,9 @@
 import {
-  IconAlertCircle,
   IconChevronDown,
   IconUser,
 } from '@tabler/icons-react'
-import {
-  Modal,
-} from 'antd'
 import { Button, Menu } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import { TFunction } from 'i18next'
 import {
   OpenCloseIDs,
@@ -28,18 +25,18 @@ import {
 export function CharacterMenu() {
   const { t } = useTranslation('charactersTab')
   const { t: tCommon } = useTranslation('common')
-  const [confirmationModal, contextHolder] = Modal.useModal()
-
   const confirm = useCallback(async (content: ReactNode) => {
-    return confirmationModal.confirm({
-      title: tCommon('Confirm'), // 'Confirm',
-      icon: <IconAlertCircle />,
-      content: content,
-      okText: tCommon('Confirm'), // 'Confirm',
-      cancelText: tCommon('Cancel'), // 'Cancel',
-      centered: true,
+    return new Promise<boolean>((resolve) => {
+      modals.openConfirmModal({
+        title: tCommon('Confirm'),
+        children: content,
+        labels: { confirm: tCommon('Confirm'), cancel: tCommon('Cancel') },
+        centered: true,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+      })
     })
-  }, [tCommon, confirmationModal])
+  }, [tCommon])
 
   const onClick = useMemo(() => generateOnClickHandler(confirm, t), [confirm, t])
 
@@ -71,7 +68,6 @@ export function CharacterMenu() {
           ))}
         </Menu.Dropdown>
       </Menu>
-      {contextHolder}
     </>
   )
 }

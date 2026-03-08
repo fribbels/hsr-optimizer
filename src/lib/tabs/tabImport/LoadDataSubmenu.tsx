@@ -2,7 +2,6 @@ import {
   IconFileImport,
   IconUpload,
 } from '@tabler/icons-react'
-import { Upload } from 'antd'
 import { Button, Flex, Stepper, Text } from '@mantine/core'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
@@ -10,7 +9,7 @@ import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
 } from 'lib/tabs/tabImport/importerTabUiConstants'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
@@ -26,6 +25,7 @@ export function LoadDataSubmenu() {
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
   const { t } = useTranslation('importSaveTab', { keyPrefix: 'LoadData' })
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   function beforeUpload(file: File): Promise<boolean> {
     return new Promise(() => {
@@ -80,21 +80,31 @@ export function LoadDataSubmenu() {
           <Text>
             {t('Stage1.Label') /* Load your optimizer data from a file. */}
           </Text>
-          <Upload
-            accept='.json'
-            name='file'
-            beforeUpload={beforeUpload}
+          <input
+            type="file"
+            accept=".json"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) {
+                void beforeUpload(file)
+              }
+              e.target.value = ''
+            }}
+          />
+          <Button
+            style={{ width: importerTabButtonWidth }}
+            leftSection={<IconUpload size={16} />}
+            loading={loading1}
+            onClick={() => {
+              setCurrentStage(Stages.LOAD_FILE)
+              fileInputRef.current?.click()
+            }}
+            variant="default"
           >
-            <Button
-              style={{ width: importerTabButtonWidth }}
-              leftSection={<IconUpload size={16} />}
-              loading={loading1}
-              onClick={() => setCurrentStage(Stages.LOAD_FILE)}
-              variant="default"
-            >
-              {t('Stage1.ButtonText') /* Load save data */}
-            </Button>
-          </Upload>
+            {t('Stage1.ButtonText') /* Load save data */}
+          </Button>
         </Flex>
       </Flex>
     )

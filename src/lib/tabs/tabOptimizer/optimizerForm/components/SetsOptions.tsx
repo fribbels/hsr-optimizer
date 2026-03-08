@@ -1,4 +1,5 @@
 import { Flex } from '@mantine/core'
+import { ComboboxItem } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -10,89 +11,60 @@ import {
   setToId,
 } from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
-import { ReactElement } from 'types/components'
 
-type OptionsWithChildren = {
-  value: string,
-  label: ReactElement | string,
-  children: Options[],
+export const RELIC_SET_SEPARATOR = '||'
+
+export type RelicSetGroupedData = {
+  group: string
+  items: ComboboxItem[]
 }
 
-type Options = {
-  value: string,
-  label: ReactElement | string,
-  children?: Options[],
+// Encode a relic set filter tuple into a single string value for MultiSelect
+export function encodeRelicSetValue(tuple: string[]): string {
+  return tuple.join(RELIC_SET_SEPARATOR)
 }
 
-// This should be memoised with either the t function or resolved language as a dependency
-const GenerateSetsOptions = () => {
+// Decode a MultiSelect string value back into a relic set filter tuple
+export function decodeRelicSetValue(encoded: string): string[] {
+  return encoded.split(RELIC_SET_SEPARATOR)
+}
+
+// Generate Mantine MultiSelect grouped data for relic set filters
+export const GenerateSetsGroupedOptions = (): RelicSetGroupedData[] => {
   const t = i18next.getFixedT(null, 'optimizerTab', 'RelicSetSelector')
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
-  const result: OptionsWithChildren[] = [
-    // Example: aaaa
-    {
-      value: RelicSetFilterOptions.relic4Piece,
-      label: t('4pcLabel'),
-      children: [],
-    },
-    // Example: aabb
-    {
-      value: RelicSetFilterOptions.relic2Plus2Piece,
-      label: t('2+2pcLabel'),
-      children: [],
-    },
-    // Example: aabc
-    {
-      value: RelicSetFilterOptions.relic2PlusAny,
-      label: t('2pcLabel'),
-      children: [],
-    },
+
+  const relicSetEntries = Object.entries(SetsRelics).filter((x) => !UnreleasedSets[x[1]])
+
+  const fourPieceItems: ComboboxItem[] = relicSetEntries.map((set) => ({
+    value: encodeRelicSetValue([RelicSetFilterOptions.relic4Piece, set[1]]),
+    label: `(4) ${tGameData(`${setToId[set[1]]}.Name`)}`,
+  }))
+
+  const twoPlusAnyItems: ComboboxItem[] = relicSetEntries.map((set) => ({
+    value: encodeRelicSetValue([RelicSetFilterOptions.relic2PlusAny, set[1]]),
+    label: `(2) ${tGameData(`${setToId[set[1]]}.Name`)}`,
+  }))
+
+  const twoPlusTwoItems: ComboboxItem[] = []
+  for (const set1 of relicSetEntries) {
+    for (const set2 of relicSetEntries) {
+      twoPlusTwoItems.push({
+        value: encodeRelicSetValue([RelicSetFilterOptions.relic2Plus2Piece, set1[1], set2[1]]),
+        label: `(2) ${tGameData(`${setToId[set1[1]]}.Name`)} + (2) ${tGameData(`${setToId[set2[1]]}.Name`)}`,
+      })
+    }
+  }
+
+  return [
+    { group: t('4pcLabel'), items: fourPieceItems },
+    { group: t('2+2pcLabel'), items: twoPlusTwoItems },
+    { group: t('2pcLabel'), items: twoPlusAnyItems },
   ]
-
-  const tier2Children = Object.entries(SetsRelics)
-    .filter((x) => !UnreleasedSets[x[1]])
-    .map((set) => ({ value: set[1], label: set[1] }))
-
-  const GenerateLabel = (value: string, parens: string, label: string): ReactElement => {
-    const imageSrc = value == 'Any' ? Assets.getBlank() : Assets.getSetImage(value, Constants.Parts.Head)
-    return (
-      <Flex gap={5} align='center'>
-        <img src={imageSrc} style={{ width: 26, height: 26 }}></img>
-        <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-          {parens + label}
-        </div>
-      </Flex>
-    )
-  }
-
-  for (const set of Object.entries(SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
-    result[0].children.push({
-      value: set[1],
-      label: GenerateLabel(set[1], '(4) ', tGameData(`${setToId[set[1]]}.Name`)),
-    })
-
-    result[1].children.push({
-      value: set[1],
-      label: GenerateLabel(set[1], '(2) ', tGameData(`${setToId[set[1]]}.Name`)),
-      children: tier2Children.map((x) => {
-        return {
-          value: x.value,
-          label: GenerateLabel(x.value, '(2) ', tGameData(`${setToId[x.label]}.Name`)),
-        }
-      }),
-    })
-
-    result[2].children.push({
-      value: set[1],
-      label: GenerateLabel(set[1], '(2) ', tGameData(`${setToId[set[1]]}.Name`)),
-    })
-  }
-
-  return result
 }
 
 // This should be memoised with either the t function or resolved language as a dependency
-export const GenerateBasicSetsOptions = (): { value: string, label: JSX.Element }[] => {
+export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element }[] => {
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
   return Object.values(SetsRelics)
     .filter((x) => !UnreleasedSets[x])
@@ -111,4 +83,3 @@ export const GenerateBasicSetsOptions = (): { value: string, label: JSX.Element 
     })
 }
 
-export default GenerateSetsOptions

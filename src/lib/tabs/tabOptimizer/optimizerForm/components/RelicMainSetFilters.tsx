@@ -1,9 +1,6 @@
 import { IconSettings } from '@tabler/icons-react'
 import { Button, Flex, MultiSelect } from '@mantine/core'
 import {
-  Cascader,
-} from 'antd'
-import {
   Constants,
   Parts,
 } from 'lib/constants/constants'
@@ -16,7 +13,11 @@ import { Assets } from 'lib/rendering/assets'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { RelicSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetTagRenderer'
-import GenerateSetsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
+import {
+  decodeRelicSetValue,
+  encodeRelicSetValue,
+  GenerateSetsGroupedOptions,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   optimizerTabDefaultGap,
@@ -27,8 +28,6 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const { SHOW_CHILD } = Cascader
-
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
 
@@ -38,6 +37,14 @@ export default function RelicMainSetFilters() {
   const mainLinkRope = useOptimizerFormStore((s) => s.mainLinkRope)
   const relicSets = useOptimizerFormStore((s) => s.relicSets)
   const ornamentSets = useOptimizerFormStore((s) => s.ornamentSets)
+
+  // Convert relicSets (array of tuples) to encoded string values for MultiSelect
+  const relicSetsValue = useMemo(
+    () => (relicSets ?? []).map((tuple) => encodeRelicSetValue(tuple)),
+    [relicSets],
+  )
+
+  const setsGroupedOptions = useMemo(() => GenerateSetsGroupedOptions(), [t])
 
   return (
     <Flex direction="column" gap={optimizerTabDefaultGap}>
@@ -144,21 +151,20 @@ export default function RelicMainSetFilters() {
       </Flex>
 
       <Flex direction="column" gap={7}>
-        <Cascader
-          popupClassName='relic-sets-cascader'
+        <MultiSelect
           placeholder={t('RelicSetSelector.Placeholder')}
-          options={useMemo(() => GenerateSetsOptions(), [t])}
-          showCheckedStrategy={SHOW_CHILD}
-          tagRender={RelicSetTagRenderer}
-          placement='bottomLeft'
-          maxTagCount='responsive'
-          multiple={true}
-          expandTrigger='hover'
-          value={relicSets}
+          data={setsGroupedOptions}
+          maxDropdownHeight={400}
+          searchable
+          clearable
+          value={relicSetsValue}
           onChange={(val) => {
-            useOptimizerFormStore.getState().setRelicSets(val as typeof relicSets)
+            // Convert encoded string values back to tuples for the store
+            const decoded = val.map((v) => decodeRelicSetValue(v)) as typeof relicSets
+            useOptimizerFormStore.getState().setRelicSets(decoded)
             recalculatePermutations()
           }}
+          renderOption={({ option }) => RelicSetTagRenderer(option.value)}
         />
 
         <MultiSelect

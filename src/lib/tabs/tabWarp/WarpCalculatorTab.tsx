@@ -1,11 +1,11 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Form as AntDForm, Form, Radio, Select, SelectProps, TreeSelect } from 'antd'
-import { Badge, Button, Flex, NumberInput, Paper, Table, Text, TextInput, Title as MantineTitle } from '@mantine/core'
+import { Form as AntDForm, Form, Radio, Select, SelectProps } from 'antd'
+import { Badge, Button, Flex, MultiSelect, NumberInput, Paper, Table, Text, TextInput, Title as MantineTitle } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeDefinition, WarpIncomeOptions, WarpIncomeType, WarpMilestoneResult, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeOptions, WarpIncomeType, WarpMilestoneResult, WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -195,19 +195,13 @@ function Inputs() {
                 <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
-                    <TreeSelect
-                      multiple
-                      showCheckedStrategy={TreeSelect.SHOW_CHILD}
-                      maxTagCount={0}
-                      listHeight={500}
-                      showSearch={false}
-                      treeCheckable={false}
-                      treeExpandAction='click'
+                    <MultiSelect
                       placeholder='None'
-                      treeDefaultExpandedKeys={extractEnabledIncomeTypes(warpRequest)}
-                      allowClear
-                      treeData={generateIncomeOptions()}
-                      popupMatchSelectWidth={500}
+                      clearable
+                      searchable={false}
+                      data={generateIncomeOptions()}
+                      comboboxProps={{ width: 500 }}
+                      styles={{ pill: { display: 'none' } }}
                     />
                   </Form.Item>
                 </Flex>
@@ -246,11 +240,6 @@ function Inputs() {
       </Paper>
     </Form>
   )
-}
-
-// When users have a saved warp income type, we should expand the parent by default so it doesn't get lost
-function extractEnabledIncomeTypes(warpRequest: WarpRequest) {
-  return (warpRequest.income ?? []).map((incomeOption) => parseInt(incomeOption.substring(incomeOption.length - 1)))
 }
 
 function Title(props: { children: React.ReactNode }) {
@@ -440,61 +429,24 @@ function generateIncomeOptions() {
   const locale = i18next.resolvedLanguage?.split('_')[0]
   const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]
 
-  const options = types.map((type) => ({
-    title: t(`Type.${type}`),
-    value: type,
-    selectable: false,
-    children: WarpIncomeOptions
+  return types.map((type) => ({
+    group: t(`Type.${type}`),
+    items: WarpIncomeOptions
       .filter((option) => option.type === type)
-      .flatMap((option, idx, options) => {
-        const results = [{
+      .map((option) => {
+        const totalPhases = Math.max(...WarpIncomeOptions.filter((o) => o.type === type && o.version === option.version).map((o) => o.phase))
+        const labelPrefix = t('Label', {
+          versionNumber: option.version,
+          phaseNumber: option.phase,
+          totalPhases: totalPhases,
+          type: t(`Type.${option.type}`),
+        })
+        return {
           value: option.id,
-          title: option.type == WarpIncomeType.NONE
-            ? t('Type.0')
-            : (
-              <Flex align='center' gap={3}>
-                <IncomeOptionLabel option={option} totalPhases={Math.max(...options.filter((o) => o.version === option.version).map((o) => o.phase))}/>
-                {`+${option.passes.toLocaleString(locale)}`}
-                <img style={{ height: 18 }} src={Assets.getPass()}/>
-              </Flex>
-            ),
-        }]
-
-        if (options[idx +1]?.version != option.version) {
-          results.push({
-            title: <></>,
-            value: option.id + 'divider',
-            // @ts-ignore
-            className: 'tree-select-divider',
-            // @ts-ignore
-            disabled: true,
-          })
+          label: `${labelPrefix} +${option.passes.toLocaleString(locale)}`,
         }
-
-        return results
-      }).slice(0, -1),
+      }),
   }))
-
-  return options
-}
-
-function IncomeOptionLabel(props: { option: WarpIncomeDefinition, totalPhases: number }) {
-  const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
-  return (
-    <div style={{ marginRight: 2 }}>
-      {
-        t('Label',
-          {
-            versionNumber: props.option.version,
-            phaseNumber: props.option.phase,
-            totalPhases: props.totalPhases,
-            type: t(`Type.${props.option.type}`),
-          },
-        )
-        /* `[v${props.option.version} ${props.option.type}]: ` */
-      }
-    </div>
-  )
 }
 
 function generateStrategyOptions() {

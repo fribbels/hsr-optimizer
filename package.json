@@ -47,8 +47,10 @@
   "dependencies": {
     "@js-sdsl/priority-queue": "^4.4.0",
     "@mantine/core": "^8.3.16",
+    "@mantine/dropzone": "^8.3.16",
     "@mantine/form": "^8.3.16",
     "@mantine/hooks": "^8.3.16",
+    "@mantine/modals": "^8.3.16",
     "@mantine/notifications": "^8.3.16",
     "@tabler/icons-react": "^3.40.0",
     "ag-grid-community": "32.1.0",

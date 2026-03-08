@@ -1,9 +1,5 @@
 import { MantineProvider } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
-import {
-  ConfigProvider,
-  theme,
-} from 'antd'
 import { ConfirmModalProvider } from 'lib/interactions/confirmModal'
 import { checkForUpdatesNotification } from 'lib/interactions/notifications'
 import { LayoutHeader } from 'lib/layout/LayoutHeader'
@@ -17,17 +13,12 @@ import DB from 'lib/state/db'
 import Tabs from 'lib/tabs/Tabs'
 import React, { useEffect } from 'react'
 
-const { getDesignToken } = theme
-
 const App = () => {
   const colorTheme = window.store((s) => s.colorTheme)
-  const globalThemeConfig = window.store((s) => s.globalThemeConfig)
   const mantineTheme = createMantineTheme(colorTheme)
 
   useEffect(() => {
-    Gradient.setToken(getDesignToken({
-      token: colorTheme,
-    }))
+    Gradient.setTheme(colorTheme)
   }, [colorTheme])
 
   useEffect(() => {
@@ -38,32 +29,30 @@ const App = () => {
     <MantineProvider theme={mantineTheme} defaultColorScheme="dark">
       <Notifications position="top-right" />
       <ConfirmModalProvider>
-        <ConfigProvider theme={globalThemeConfig}>
-          <div style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
-            <LayoutHeader />
-            <div style={{ display: 'flex', flex: 1 }}>
-              <LayoutSider />
-              <div
-                style={{
-                  padding: '10px 10px 0 10px',
-                  margin: 0,
-                  minHeight: 280,
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  overflow: 'initial',
-                  display: 'flex',
-                  justifyContent: 'space-around',
-                  width: '100%',
-                }}
-              >
-                <Tabs />
-              </div>
-              <SettingsDrawer />
-              <GettingStartedDrawer />
-              <StatTracesDrawer />
+        <div style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
+          <LayoutHeader />
+          <div style={{ display: 'flex', flex: 1 }}>
+            <LayoutSider />
+            <div
+              style={{
+                padding: '10px 10px 0 10px',
+                margin: 0,
+                minHeight: 280,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                overflow: 'initial',
+                display: 'flex',
+                justifyContent: 'space-around',
+                width: '100%',
+              }}
+            >
+              <Tabs />
             </div>
+            <SettingsDrawer />
+            <GettingStartedDrawer />
+            <StatTracesDrawer />
           </div>
-        </ConfigProvider>
+        </div>
       </ConfirmModalProvider>
     </MantineProvider>
   )

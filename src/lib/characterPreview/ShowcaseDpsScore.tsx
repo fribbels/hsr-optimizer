@@ -4,10 +4,6 @@ import {
   IconSettings,
 } from '@tabler/icons-react'
 import { Button, Flex, SegmentedControl } from '@mantine/core'
-import {
-  ConfigProvider,
-} from 'antd'
-import type { GlobalToken } from 'antd/es/theme/interface'
 import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterCardCombatStats'
 import {
   OverlayText,
@@ -54,7 +50,6 @@ import { SimulationMetadata } from 'types/metadata'
 
 export function ShowcaseDpsScorePanel(props: {
   characterId: CharacterId,
-  token: GlobalToken,
   asyncSimScoringExecution: AsyncSimScoringExecution,
   teamSelection: string,
   displayRelics: SingleRelicByPart,
@@ -63,7 +58,6 @@ export function ShowcaseDpsScorePanel(props: {
 }) {
   let {
     characterId,
-    token,
     asyncSimScoringExecution,
     teamSelection,
     displayRelics,
@@ -104,7 +98,6 @@ export function ShowcaseDpsScorePanel(props: {
         <CharacterPreviewScoringTeammate
           index={0}
           result={result}
-          token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
@@ -113,7 +106,6 @@ export function ShowcaseDpsScorePanel(props: {
         <CharacterPreviewScoringTeammate
           index={1}
           result={result}
-          token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
@@ -122,7 +114,6 @@ export function ShowcaseDpsScorePanel(props: {
         <CharacterPreviewScoringTeammate
           index={2}
           result={result}
-          token={token}
           setCharacterModalOpen={setCharacterModalOpen}
           setSelectedTeammateIndex={setSelectedTeammateIndex}
           setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
@@ -183,7 +174,6 @@ function getTeammate(index: number, form: OptimizerForm) {
 function CharacterPreviewScoringTeammate(props: {
   index: number,
   result: SimulationScore,
-  token: GlobalToken,
   setCharacterModalOpen: (b: boolean) => void,
   setSelectedTeammateIndex: (i: number | undefined) => void,
   setCharacterModalInitialCharacter: (character: Character) => void,
@@ -193,7 +183,6 @@ function CharacterPreviewScoringTeammate(props: {
   const {
     result,
     index,
-    token,
     setCharacterModalOpen,
     setSelectedTeammateIndex,
     setCharacterModalInitialCharacter,
@@ -356,8 +345,6 @@ function ShowcaseTeamSelectPanel(props: {
   readonly?: boolean,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const globalThemeConfig = window.store((s) => s.globalThemeConfig)
-
   const {
     characterId,
     teamSelection,
@@ -478,14 +465,12 @@ function ShowcaseTeamSelectPanel(props: {
 
   return (
     <Flex direction="column" gap={2}>
-      <ConfigProvider theme={globalThemeConfig}>
-        <CharacterModal
-          onOk={onCharacterModalOk}
-          open={isCharacterModalOpen}
-          setOpen={setCharacterModalOpen}
-          initialCharacter={characterModalInitialCharacter}
-        />
-      </ConfigProvider>
+      <CharacterModal
+        onOk={onCharacterModalOk}
+        open={isCharacterModalOpen}
+        setOpen={setCharacterModalOpen}
+        initialCharacter={characterModalInitialCharacter}
+      />
 
       {tabsDisplay}
     </Flex>

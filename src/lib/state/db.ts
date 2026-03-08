@@ -28,7 +28,6 @@ import {
 } from 'lib/overlays/drawers/SettingsDrawer'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import {
-  getGlobalThemeConfigFromColorTheme,
   Themes,
 } from 'lib/rendering/theme'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
@@ -179,7 +178,6 @@ function getDefaultActiveKey() {
 window.store = create<HsrOptimizerStore>()((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
-  globalThemeConfig: getGlobalThemeConfigFromColorTheme(Themes.BLUE),
 
   formValues: undefined,
 
@@ -296,7 +294,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   setColorTheme: (x) => set(() => ({ colorTheme: x })),
   setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
   setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
-  setGlobalThemeConfig: (x) => set(() => ({ globalThemeConfig: x })),
 }))
 
 export const DB = {

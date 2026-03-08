@@ -1,6 +1,5 @@
 import {
   Cascader,
-  ConfigProvider,
 } from 'antd'
 import { TFunction } from 'i18next'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
@@ -25,16 +24,6 @@ import { CharacterConditionalsController } from 'types/conditionals'
 
 const { SHOW_CHILD } = Cascader
 
-const cascaderTheme = {
-  components: {
-    Cascader: {
-      dropdownHeight: 220,
-      controlWidth: 100,
-      optionPadding: '2px 12px',
-      controlItemWidth: 150,
-    },
-  },
-}
 
 export interface AbilityOption {
   value: string
@@ -110,8 +99,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number; disabl
   const cascaderValue = value ? [toTurnAbility(value).kind, value] : undefined
 
   return (
-    <ConfigProvider theme={cascaderTheme}>
-      <Cascader<AbilityOption>
+    <Cascader<AbilityOption>
         className='turn-ability-cascader-filter'
         options={options}
         value={cascaderValue as string[] | undefined}
@@ -138,8 +126,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number; disabl
           }
           store.setComboTurnAbilities(abilities)
         }}
-      />
-    </ConfigProvider>
+    />
   )
 }
 
@@ -152,8 +139,7 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
   }
 
   return (
-    <ConfigProvider theme={cascaderTheme}>
-      <Cascader<AbilityOption>
+    <Cascader<AbilityOption>
         className='turn-ability-cascader-filter'
         options={options}
         // @ts-ignore
@@ -170,8 +156,7 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
         style={{ width: '100%', height: 18 }}
         variant='borderless'
         disabled={true}
-      />
-    </ConfigProvider>
+    />
   )
 }
 
@@ -190,8 +175,7 @@ export function ControlledTurnAbilitySelector({
   const options = useMemo(() => generateAbilityOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (
-    <ConfigProvider theme={cascaderTheme}>
-      <Cascader
+    <Cascader
         style={style}
         className='turn-ability-cascader-drawer'
         options={options}
@@ -220,7 +204,6 @@ export function ControlledTurnAbilitySelector({
         onClear={() => {
           updateAbilityRotation(index, NULL_TURN_ABILITY_NAME)
         }}
-      />
-    </ConfigProvider>
+    />
   )
 }

@@ -1,5 +1,4 @@
-import { Flex, SegmentedControl, Text } from '@mantine/core'
-import type { GlobalToken } from 'antd/es/theme/interface'
+import { Flex, SegmentedControl, Text, useMantineTheme } from '@mantine/core'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
@@ -19,7 +18,6 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface ShowcaseBuildAnalysisProps {
-  token: GlobalToken
   scoringType: ScoringType
   asyncSimScoringExecution: AsyncSimScoringExecution | null
   showcaseMetadata: ShowcaseMetadata
@@ -30,10 +28,11 @@ interface ShowcaseBuildAnalysisProps {
 export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
+  const mantineTheme = useMantineTheme()
+
   console.log('======================================================================= RENDER ShowcaseBuildAnalysis')
 
   const {
-    token,
     asyncSimScoringExecution,
     showcaseMetadata,
     scoringType,
@@ -71,7 +70,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
             borderRadius: 7,
             height: 40,
             marginTop: 10,
-            backgroundColor: token.colorBgContainer + '85',
+            backgroundColor: mantineTheme.colors.dark[7] + '85',
           }}
           align='center'
         >

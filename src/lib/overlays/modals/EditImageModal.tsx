@@ -5,7 +5,6 @@ import {
 } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   Form,
   Input,
   Modal,
@@ -16,6 +15,7 @@ import {
   Steps,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { RcFile } from 'antd/es/upload'
 import Dragger from 'antd/es/upload/Dragger'
 import i18next from 'i18next'
@@ -538,7 +538,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                     </Flex>
                   )
                   : (
-                    <Flex style={{ height: '300px' }} justify='center' align='center' vertical>
+                    <Flex style={{ height: '300px' }} justify='center' align='center' direction="column">
                       <p className='ant-upload-drag-icon'>
                         <IconInbox />
                       </p>
@@ -623,7 +623,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
             />
           </Flex>
           <Flex style={{ marginTop: 0 }}>
-            <Flex vertical style={{ flex: 1 }}>
+            <Flex direction="column" style={{ flex: 1 }}>
               <div>
                 <IconGripVertical style={{ marginRight: 8 }} />
                 {t('Edit.Drag') /* Drag to move */}
@@ -633,7 +633,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
                 {t('Edit.Pinch') /* Pinch or scroll to zoom */}
               </div>
             </Flex>
-            <Flex vertical style={{ flex: 1 }}>
+            <Flex direction="column" style={{ flex: 1 }}>
               <Text style={{ flex: 1, marginLeft: 3 }}>
                 {t('Edit.ArtBy') /* (Optional) Art by: */}
               </Text>

@@ -1,10 +1,10 @@
 import {
   Button,
-  Flex,
   Popconfirm,
   Select,
   Tooltip,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import DB from 'lib/state/db'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'

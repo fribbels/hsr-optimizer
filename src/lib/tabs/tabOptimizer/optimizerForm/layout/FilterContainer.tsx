@@ -1,11 +1,11 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { ReactElement } from 'react'
 
 export default function FilterContainer(props: { children: ReactElement | ReactElement[] }) {
   return (
     <Flex
-      vertical
+      direction="column"
       style={{
         overflow: 'hidden',
         borderRadius: 5,

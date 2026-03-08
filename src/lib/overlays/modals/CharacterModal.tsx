@@ -1,11 +1,11 @@
 import {
   Button,
-  Flex,
   Form as AntDForm,
   Modal,
   Radio,
   Select,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -109,8 +109,8 @@ export default function CharacterModal(props: {
         preserve={false}
         layout='vertical'
       >
-        <Flex vertical gap={10}>
-          <Flex vertical gap={5}>
+        <Flex direction="column" gap={10}>
+          <Flex direction="column" gap={5}>
             <HeaderText>{t('Character')}</HeaderText>
             <AntDForm.Item name='characterId'>
               <CharacterSelect
@@ -145,7 +145,7 @@ export default function CharacterModal(props: {
             </AntDForm.Item>
           </Flex>
 
-          <Flex vertical gap={5}>
+          <Flex direction="column" gap={5}>
             <HeaderText>{t('Lightcone')}</HeaderText>
             <AntDForm.Item name='lightCone'>
               <LightConeSelect
@@ -173,7 +173,7 @@ export default function CharacterModal(props: {
             </AntDForm.Item>
           </Flex>
 
-          <Flex vertical gap={5}>
+          <Flex direction="column" gap={5}>
             <HeaderText>{t('Sets')}</HeaderText>
 
             <AntDForm.Item name={`teamRelicSet`}>

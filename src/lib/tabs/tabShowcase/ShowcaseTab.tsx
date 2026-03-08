@@ -12,12 +12,12 @@ import {
   Collapse,
   ConfigProvider,
   Dropdown,
-  Flex,
   Form,
   Input,
   Segmented,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -85,16 +85,16 @@ export default function ShowcaseTab() {
 
   return (
     <div>
-      <Flex vertical gap={0} align='center'>
+      <Flex direction="column" gap={0} align='center'>
         {SHOWCASE_DOWNTIME && (
-          <Flex gap={10} vertical align='center'>
+          <Flex gap={10} direction="column" align='center'>
             <Text>
               <h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}</h3>
             </Text>
           </Flex>
         )}
 
-        <Flex gap={10} vertical align='center'>
+        <Flex gap={10} direction="column" align='center'>
           <Text>
             {officialOnly
               ? t('Header.WithoutVersion')
@@ -251,9 +251,9 @@ function CharacterPreviewSelection() {
 
   return (
     <Flex style={{ width: 1375 }} justify='space-around'>
-      <Flex vertical align='center' gap={8} style={{ marginBottom: 100, width: 1068 }}>
+      <Flex direction="column" align='center' gap={8} style={{ marginBottom: 100, width: 1068 }}>
         <Flex
-          vertical
+          direction="column"
           style={{
             display: (availableCharacters?.length && availableCharacters.length > 0) ? 'flex' : 'none',
             width: '100%',
@@ -347,7 +347,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
     let key = 0
     return (
       <Flex
-        vertical
+        direction="column"
         gap={3}
         justify='center'
         style={{
@@ -381,7 +381,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
 
   return (
     <Flex
-      vertical
+      direction="column"
       style={{
         position: 'relative',
         left: -120,
@@ -477,7 +477,7 @@ export function DPSScoreDisclaimer() {
               </div>
             ),
             children: (
-              <Flex vertical style={{ padding: 12 }} gap={10}>
+              <Flex direction="column" style={{ padding: 12 }} gap={10}>
                 <Trans t={t} i18nKey='DisclaimerDescription'>
                   Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team.
 

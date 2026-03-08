@@ -1,6 +1,6 @@
+import { Flex } from '@mantine/core'
 import {
   Divider,
-  Flex,
 } from 'antd'
 import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
@@ -87,7 +87,7 @@ export function CharacterCardCombatStats(props: {
     : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
 
   return (
-    <Flex vertical gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
+    <Flex direction="column" gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
       <HeaderText style={{ fontSize: 16 }}>
         {titleRender}
       </HeaderText>

@@ -1,7 +1,7 @@
 import {
   Collapse,
-  Flex,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import gameData from 'data/game_data.json'
 import { TFunction } from 'i18next'
 import {
@@ -42,7 +42,7 @@ export default function MetadataTab(): ReactElement {
   }
 
   return (
-    <Flex vertical style={{ width: '100%', height: 'fit-content' }}>
+    <Flex direction="column" style={{ width: '100%', height: 'fit-content' }}>
       <h1 style={{ marginLeft: 20 }}>
         Metadata viewer
       </h1>
@@ -90,7 +90,7 @@ function SimulationEquivalentSetsDashboard() {
   }
 
   return (
-    <Flex vertical gap={50}>
+    <Flex direction="column" gap={50}>
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Destruction), sets)} />
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Hunt), sets)} />
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Erudition), sets)} />
@@ -144,7 +144,7 @@ function generateEquivalentSetsGrid(characters: DBMetadataCharacter[], sets: typ
 function SimulationTeamDashboard() {
   const characters = Object.values(DB.getMetadata().characters)
   return (
-    <Flex vertical gap={40}>
+    <Flex direction="column" gap={40}>
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Destruction))} />
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Hunt))} />
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Erudition))} />
@@ -185,7 +185,7 @@ function SimulationComboDashboard() {
   const characters = Object.values(DB.getMetadata().characters)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   return (
-    <Flex vertical gap={40}>
+    <Flex direction="column" gap={40}>
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Destruction), t)} />
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Hunt), t)} />
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Erudition), t)} />
@@ -254,7 +254,7 @@ function ConditionalSetsPresetsDashboard() {
   }
 
   return (
-    <Flex vertical gap={10}>
+    <Flex direction="column" gap={10}>
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Destruction), sets)} />
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Hunt), sets)} />
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Erudition), sets)} />
@@ -300,7 +300,7 @@ function SubstatWeightDashboard() {
   }
 
   return (
-    <Flex vertical gap={10}>
+    <Flex direction="column" gap={10}>
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Destruction))} />
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Hunt))} />
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Erudition))} />

@@ -1,6 +1,6 @@
+import { Flex } from '@mantine/core'
 import {
   Collapse,
-  Flex,
 } from 'antd'
 import {
   ReactElement,
@@ -56,7 +56,7 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
   return (
     <Flex
       gap={0}
-      vertical
+      direction="column"
       className='form-row'
       style={{
         minWidth: '100%',

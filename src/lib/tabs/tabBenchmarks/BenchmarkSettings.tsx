@@ -1,7 +1,7 @@
 import {
-  Flex,
   Form as AntDForm,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'

@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { currentLocale } from 'lib/utils/i18nUtils'

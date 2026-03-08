@@ -1,6 +1,6 @@
+import { Flex } from '@mantine/core'
 import {
   Button,
-  Flex,
   Modal,
   Typography,
 } from 'antd'
@@ -282,7 +282,7 @@ export function ZeroPermutationsSuggestionsModal() {
       onCancel={closeZeroPermsModal}
       footer={null}
     >
-      <Flex vertical gap={15} style={{ marginBottom: 15 }}>
+      <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
         <Text>
           {
             t(
@@ -481,7 +481,7 @@ export function ZeroResultSuggestionModal() {
       onCancel={closeZeroResultsModal}
       footer={null}
     >
-      <Flex vertical gap={15} style={{ marginBottom: 15 }}>
+      <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
         <Flex justify='space-between' align='center' style={{ height: 45 }}>
           <Text>
             {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}

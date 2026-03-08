@@ -16,10 +16,10 @@ import {
   IconUser,
 } from '@tabler/icons-react'
 import {
-  Flex,
   Menu,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'

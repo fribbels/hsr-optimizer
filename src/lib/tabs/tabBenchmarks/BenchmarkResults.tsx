@@ -3,7 +3,6 @@ import {
   IconChevronRight,
 } from '@tabler/icons-react'
 import {
-  Flex,
   Table,
   TableProps,
   Tabs,
@@ -11,6 +10,7 @@ import {
   Tag,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next, { TFunction } from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
@@ -119,7 +119,7 @@ export function BenchmarkResults() {
   const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
 
   return (
-    <Flex vertical style={{ width: '100%' }}>
+    <Flex direction="column" style={{ width: '100%' }}>
       <PercentageTabs dataSource100={rows100} dataSource200={rows200} />
     </Flex>
   )
@@ -218,7 +218,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
   return (
     <Flex style={{ margin: 8 }} gap={10} justify='space-around'>
-      <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
+      <Flex direction="column" style={{ minWidth: 300 }} align='center' gap={5}>
         <HeaderText style={{ fontSize: 16 }}>{t('BasicStats') /* Basic Stats */}</HeaderText>
 
         <CharacterStatSummary
@@ -233,7 +233,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex vertical style={{ minWidth: 300 }} align='center' gap={5}>
+      <Flex direction="column" style={{ minWidth: 300 }} align='center' gap={5}>
         <HeaderText style={{ fontSize: 16 }}>{t('CombatStats') /* Combat Stats */}</HeaderText>
 
         <CharacterStatSummary
@@ -248,7 +248,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex vertical align='center' gap={5}>
+      <Flex direction="column" align='center' gap={5}>
         <HeaderText style={{ fontSize: 16 }}>{t('Rolls') /* Substat Rolls */}</HeaderText>
 
         <SubstatRollsSummary
@@ -261,13 +261,13 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex vertical align='center' justify='space-between'>
-        <Flex vertical align='center' gap={5}>
+      <Flex direction="column" align='center' justify='space-between'>
+        <Flex direction="column" align='center' gap={5}>
           <HeaderText style={{ fontSize: 16 }}>{t('Combo') /* Combo Rotation */}</HeaderText>
           <ComboRotationSummary simMetadata={orchestrator.metadata} />
         </Flex>
 
-        <Flex vertical align='center' gap={5}>
+        <Flex direction="column" align='center' gap={5}>
           <HeaderText style={{ fontSize: 16 }}>{t('Damage') /* Ability Damage */}</HeaderText>
           <AbilityDamageSummary simResult={simulation.result!} />
         </Flex>

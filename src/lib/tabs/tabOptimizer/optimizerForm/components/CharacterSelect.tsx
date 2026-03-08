@@ -1,4 +1,5 @@
-import { Button, Card, Flex, Input, InputRef, Modal, Select, } from 'antd'
+import { Flex } from '@mantine/core'
+import { Button, Card, Input, InputRef, Modal, Select, } from 'antd'
 import { ElementName, PathName, } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { CharacterOptions, generateCharacterOptions, } from 'lib/rendering/optionGenerator'
@@ -193,7 +194,7 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
         }}
         footer={null}
       >
-        <Flex vertical gap={12} style={{ minWidth: 350 }}>
+        <Flex direction="column" gap={12} style={{ minWidth: 350 }}>
           <Flex gap={12} wrap='wrap'>
             <Flex wrap='nowrap' style={{ flexGrow: 1 }} gap={10}>
               <Input

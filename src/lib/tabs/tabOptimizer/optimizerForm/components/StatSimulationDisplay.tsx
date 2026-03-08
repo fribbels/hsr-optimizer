@@ -8,7 +8,6 @@ import {
 } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   Form as AntDForm,
   Input,
   InputNumber,
@@ -17,6 +16,7 @@ import {
   Select,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   Parts,
   Stats,
@@ -85,7 +85,7 @@ export function StatSimulationDisplay() {
   return (
     <FormCard style={{ overflow: 'hidden' }} size='large' height={STAT_SIMULATION_ROW_HEIGHT}>
       <Flex gap={15} style={{ height: '100%' }}>
-        <Flex vertical gap={15} align='center'>
+        <Flex direction="column" gap={15} align='center'>
           <Radio.Group
             onChange={(e) => {
               const { target: { value } } = e
@@ -137,8 +137,8 @@ export function StatSimulationDisplay() {
           </Flex>
         </Flex>
 
-        <Flex vertical justify='space-around'>
-          <Flex vertical gap={10}>
+        <Flex direction="column" justify='space-around'>
+          <Flex direction="column" gap={10}>
             <Button
               type='primary'
               style={{ width: 35, height: 100, padding: 0 }}
@@ -206,7 +206,7 @@ function SimulationInputs() {
     return (
       <>
         <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
-          <Flex vertical gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+          <Flex direction="column" gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <HeaderText>{t('SetSelection.Header')}</HeaderText>
             <OptimizerSetsSection simType={simType} />
             <MainStatsSection simType={simType} />
@@ -412,7 +412,7 @@ export function MainStatsSection(props: { simType: string }) {
   return (
     <>
       <HeaderText>{t('Header') /* Main stats */}</HeaderText>
-      <Flex vertical gap={5}>
+      <Flex direction="column" gap={5}>
         <Flex gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
           <MainStatSelector placeholder={t('BodyPlaceholder') /* 'Body' */} part={Parts.Body} options={BodyStatOptions} simType={props.simType} />
           <MainStatSelector placeholder={t('FeetPlaceholder') /* 'Feet' */} part={Parts.Feet} options={FeetStatOptions} simType={props.simType} />
@@ -468,9 +468,9 @@ function SubstatsSection(props: { simType: StatSimTypes, title: string, total?: 
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   return (
     <>
-      <Flex vertical>
+      <Flex direction="column">
         <HeaderText>{props.title}</HeaderText>
-        <Flex vertical gap={5}>
+        <Flex direction="column" gap={5}>
           <StatInput simType={props.simType} name={Stats.ATK_P} label={t('SubstatSelectorLabel', { stat: Stats.ATK_P }) /* 'ATK %' */} />
           <StatInput simType={props.simType} name={Stats.ATK} label={t('SubstatSelectorLabel', { stat: Stats.ATK }) /* 'ATK' */} />
           <StatInput simType={props.simType} name={Stats.CR} label={t('SubstatSelectorLabel', { stat: Stats.CR }) /* 'Crit Rate %' */} />

@@ -2,9 +2,9 @@ import { IconFileImport } from '@tabler/icons-react'
 import {
   Button,
   Drawer,
-  Flex,
   Popconfirm,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import sampleSave from 'data/sample-save.json'
 import {
   OpenCloseIDs,
@@ -37,7 +37,7 @@ export const GettingStartedDrawer = () => {
       open={isOpenBeginnerDrawer}
       width={250}
     >
-      <Flex vertical gap={20}>
+      <Flex direction="column" gap={20}>
         <ColorizedLinkWithIcon
           text={t('TryOut.DocumentationTitle') /* See full guide */}
           linkIcon={true}

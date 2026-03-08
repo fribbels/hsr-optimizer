@@ -1,8 +1,8 @@
 import {
   Card,
   Divider,
-  Flex,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import {
   showcaseShadow,
@@ -122,7 +122,7 @@ export function RelicPreview(props: {
     >
       <RelicStatText language={i18next.resolvedLanguage as Languages}>
         <Flex
-          vertical
+          direction="column"
           justify={JUSTIFY}
           style={{
             height: 255,
@@ -159,7 +159,7 @@ export function RelicPreview(props: {
 
           <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
-          <Flex vertical gap={STAT_GAP}>
+          <Flex direction="column" gap={STAT_GAP}>
             {relic.substats.map((s, idx) => <Fragment key={`substats-${idx}`}>{GenerateStat(s, false, relic)}</Fragment>)}
             {relic.previewSubstats.map((s, idx) => <Fragment key={`previews-${idx}`}>{GenerateStat(s, false, relic, true)}</Fragment>)}
             {fillerStats.map((x, idx) => <Fragment key={`fillers-${idx}`}>{GenerateStat(x, false, relic)}</Fragment>)}

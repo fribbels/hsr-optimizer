@@ -1,6 +1,6 @@
+import { Flex } from '@mantine/core'
 import {
   Drawer,
-  Flex,
   Typography,
 } from 'antd'
 import { CombatBuffs } from 'lib/constants/constants'
@@ -38,8 +38,8 @@ export const CombatBuffsDrawer = () => {
       width={300}
       forceRender
     >
-      <Flex vertical gap={defaultGap}>
-        <Flex vertical gap={optimizerTabDefaultGap}>
+      <Flex direction="column" gap={defaultGap}>
+        <Flex direction="column" gap={optimizerTabDefaultGap}>
           {combatBuffsList}
         </Flex>
       </Flex>

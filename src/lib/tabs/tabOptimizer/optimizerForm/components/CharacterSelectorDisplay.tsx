@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Select,
 } from 'antd'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
@@ -117,7 +117,7 @@ export default function CharacterSelectorDisplay() {
   }, [t, optimizerTabFocusCharacter, characterEidolon])
 
   return (
-    <Flex vertical gap={optimizerTabDefaultGap}>
+    <Flex direction="column" gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('CharacterSelector.Character') /* Character */}</HeaderText>
         <TooltipImage type={Hint.character()} />
@@ -151,7 +151,7 @@ export default function CharacterSelectorDisplay() {
         <HeaderText>{t('CharacterSelector.Lightcone') /* Light cone */}</HeaderText>
         <TooltipImage type={Hint.lightCone()} />
       </Flex>
-      <Flex vertical gap={optimizerTabDefaultGap}>
+      <Flex direction="column" gap={optimizerTabDefaultGap}>
         <Flex gap={optimizerTabDefaultGap}>
           <LightConeSelect
             value={lightCone ?? null}

@@ -1,7 +1,6 @@
 import {
   Button,
   Divider,
-  Flex,
   Form,
   InputNumber,
   Modal,
@@ -9,6 +8,7 @@ import {
   Select,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
 import {
   Constants,
@@ -263,7 +263,7 @@ export default function ScoringModal() {
         <TitleDivider>{t('Scoring.StatWeightsHeader') /* Stat weights */}</TitleDivider>
 
         <Flex gap={20}>
-          <Flex vertical gap={5}>
+          <Flex direction="column" gap={5}>
             <Form.Item name='characterId'>
               <CharacterSelect
                 value={null}
@@ -278,10 +278,10 @@ export default function ScoringModal() {
 
           <VerticalDivider />
 
-          <Flex vertical>
+          <Flex direction="column">
             <Flex justify='space-between'>
-              <Flex vertical gap={defaultGap * 2}>
-                <Flex vertical gap={1} justify='flex-start'>
+              <Flex direction="column" gap={defaultGap * 2}>
+                <Flex direction="column" gap={1} justify='flex-start'>
                   <Text style={{ marginLeft: 5 }}>
                     {t('common:Parts.Body')}
                   </Text>
@@ -306,7 +306,7 @@ export default function ScoringModal() {
                   </Form.Item>
                 </Flex>
 
-                <Flex vertical gap={1} justify='flex-start'>
+                <Flex direction="column" gap={1} justify='flex-start'>
                   <Text style={{ marginLeft: 5 }}>
                     {t('common:Parts.Feet')}
                   </Text>
@@ -327,7 +327,7 @@ export default function ScoringModal() {
                     </Select>
                   </Form.Item>
                 </Flex>
-                <Flex vertical gap={1} justify='flex-start'>
+                <Flex direction="column" gap={1} justify='flex-start'>
                   <Text style={{ marginLeft: 5 }}>
                     {t('common:Parts.PlanarSphere')}
                   </Text>
@@ -356,7 +356,7 @@ export default function ScoringModal() {
                   </Form.Item>
                 </Flex>
 
-                <Flex vertical gap={1} justify='flex-start'>
+                <Flex direction="column" gap={1} justify='flex-start'>
                   <Text style={{ marginLeft: 5 }}>
                     {t('common:Parts.LinkRope')}
                   </Text>
@@ -385,7 +385,7 @@ export default function ScoringModal() {
 
           <VerticalDivider />
 
-          <Flex vertical gap={3}>
+          <Flex direction="column" gap={3}>
             <StatValueRow stat={Stats.ATK} />
             <StatValueRow stat={Stats.HP} />
             <StatValueRow stat={Stats.DEF} />
@@ -399,7 +399,7 @@ export default function ScoringModal() {
         </Flex>
 
         <Flex gap={20} style={{display: 'none'}}>
-          <Flex vertical gap={20} flex={1}>
+          <Flex direction="column" gap={20} flex={1}>
             <Form.List name='relicsList'>
               {(fields, { add, remove }) => (
                 <>
@@ -426,7 +426,7 @@ export default function ScoringModal() {
                     }}
                   </Form.Item>
 
-                  <Flex wrap gap={20}>
+                  <Flex wrap="wrap" gap={20}>
                     {fields.map((field) => (
                       <Form.Item
                         key={field.key}
@@ -436,7 +436,7 @@ export default function ScoringModal() {
                         {(x) => {
                           const set = x.getFieldsValue()['relicsList'][field.name][0]
                           return (
-                            <Flex vertical gap={5} align='center'>
+                            <Flex direction="column" gap={5} align='center'>
                               <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 48, height: 48 }}></img>
                               <Form.Item
                                 name={[field.name, 1]}
@@ -456,7 +456,7 @@ export default function ScoringModal() {
 
           <VerticalDivider />
 
-          <Flex vertical gap={20} flex={1}>
+          <Flex direction="column" gap={20} flex={1}>
             <Form.List name='ornamentsList'>
               {(fields, { add, remove }) => (
                 <>
@@ -483,7 +483,7 @@ export default function ScoringModal() {
                     }}
                   </Form.Item>
 
-                  <Flex wrap gap={20}>
+                  <Flex wrap="wrap" gap={20}>
                     {fields.map((field) => (
                       <Form.Item
                         key={field.key}
@@ -493,7 +493,7 @@ export default function ScoringModal() {
                         {(x) => {
                           const set = x.getFieldsValue()['ornamentsList'][field.name][0]
                           return (
-                            <Flex vertical gap={5} align='center'>
+                            <Flex direction="column" gap={5} align='center'>
                               <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 48, height: 48 }}></img>
                               <Form.Item
                                 name={[field.name, 1]}

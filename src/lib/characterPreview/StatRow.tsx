@@ -1,6 +1,6 @@
+import { Flex } from '@mantine/core'
 import {
   Divider,
-  Flex,
 } from 'antd'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {

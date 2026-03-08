@@ -1,9 +1,9 @@
 import { IconSettings } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
   Button,
   Cascader,
   ConfigProvider,
-  Flex,
   Select,
 } from 'antd'
 import {
@@ -44,12 +44,12 @@ export default function RelicMainSetFilters() {
   const ornamentSets = useOptimizerFormStore((s) => s.ornamentSets)
 
   return (
-    <Flex vertical gap={optimizerTabDefaultGap}>
+    <Flex direction="column" gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('MainStats') /* Main stats */}</HeaderText>
         <TooltipImage type={Hint.mainStats()} />
       </Flex>
-      <Flex vertical gap={7}>
+      <Flex direction="column" gap={7}>
         <Select
           mode='multiple'
           allowClear
@@ -167,7 +167,7 @@ export default function RelicMainSetFilters() {
         <TooltipImage type={Hint.sets()} />
       </Flex>
 
-      <Flex vertical gap={7}>
+      <Flex direction="column" gap={7}>
         <ConfigProvider
           theme={{
             components: {

@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { characterOptionMapping } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
@@ -39,7 +39,7 @@ export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }
     : character.content()
 
   return (
-    <Flex vertical gap={5}>
+    <Flex direction="column" gap={5}>
       {(teammateIndex == null)
         && (
           <Flex justify='space-between' align='center'>

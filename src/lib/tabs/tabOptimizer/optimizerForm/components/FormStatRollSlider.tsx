@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   InputNumber,
   Slider,
   Typography,
@@ -75,11 +75,11 @@ export function FormStatRollSliders() {
   }
   return (
     <Flex gap={10}>
-      <Flex vertical style={{ width: 'max-content' }} gap={3}>
+      <Flex direction="column" style={{ width: 'max-content' }} gap={3}>
         {labels}
       </Flex>
       <Flex
-        vertical
+        direction="column"
         gap={3}
         style={{
           width: '100%',

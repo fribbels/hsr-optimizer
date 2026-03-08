@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
@@ -16,7 +16,7 @@ export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
 
   return (
     <Flex gap={defaultGap} justify='space-around'>
-      <Flex vertical gap={4} style={{ width: 230 }}>
+      <Flex direction="column" gap={4} style={{ width: 230 }}>
         <ScoringNumber label={String(t('Basic')) + ':'} number={actionDamage[AbilityKind.BASIC]} precision={1} />
         <ScoringNumber label={String(t('Skill')) + ':'} number={actionDamage[AbilityKind.SKILL]} precision={1} />
         <ScoringNumber label={String(t('Ult')) + ':'} number={actionDamage[AbilityKind.ULT]} precision={1} />

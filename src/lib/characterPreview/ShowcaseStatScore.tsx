@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { ScoringResults } from 'lib/characterPreview/characterPreviewController'
 import StatText from 'lib/characterPreview/StatText'
 import React from 'react'
@@ -14,7 +14,7 @@ export function ShowcaseStatScore(props: {
   } = props
 
   return (
-    <Flex vertical>
+    <Flex direction="column">
       <StatText style={{ fontSize: 17, fontWeight: 600, letterSpacing: -0.2, textAlign: 'center', color: '#e1a564' }}>
         {t('CharacterPreview.CharacterScore', {
           score: scoringResults.totalScore.toFixed(0),

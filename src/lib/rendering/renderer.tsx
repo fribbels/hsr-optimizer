@@ -4,8 +4,8 @@ import {
 } from '@tabler/icons-react'
 import { ValueFormatterParams } from 'ag-grid-community'
 import { CustomCellRendererProps } from 'ag-grid-react'
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Image,
   Tooltip,
 } from 'antd'

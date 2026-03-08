@@ -1,8 +1,8 @@
 import {
   Button,
-  Flex,
   Select,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   completedLocales,
   isBeta,
@@ -65,7 +65,7 @@ export function LanguageSelector() {
       dropdownStyle={{ width: 210 }}
       defaultValue={i18n.resolvedLanguage}
       dropdownRender={(menu) => (
-        <Flex gap={4} vertical>
+        <Flex gap={4} direction="column">
           {menu}
           <Button
             type='primary'

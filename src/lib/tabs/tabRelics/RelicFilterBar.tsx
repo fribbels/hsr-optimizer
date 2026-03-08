@@ -1,11 +1,11 @@
 import { IconEraser } from '@tabler/icons-react'
 import {
   Button,
-  Flex,
   Select,
   Tooltip,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -122,21 +122,21 @@ export default function RelicFilterBar() {
   const initialRollsData = generateInitialRollsTags([4, 3])
 
   return (
-    <Flex vertical gap={2}>
+    <Flex direction="column" gap={2}>
       <Flex gap={10}>
-        <Flex vertical flex={1}>
+        <Flex direction="column" flex={1}>
           <HeaderText>{t('RelicFilterBar.Part') /* Part */}</HeaderText>
           <SegmentedFilterRow currentFilter={filters.part} setCurrentFilters={setFilter('part')} tags={partsData} flexBasis='15%' noHeight />
         </Flex>
-        <Flex vertical style={{ height: '100%' }} flex={1}>
+        <Flex direction="column" style={{ height: '100%' }} flex={1}>
           <HeaderText>{t('RelicFilterBar.Enhance') /* Enhance */}</HeaderText>
           <SegmentedFilterRow currentFilter={filters.enhance} setCurrentFilters={setFilter('enhance')} tags={enhanceData} flexBasis='15%' noHeight />
         </Flex>
-        <Flex vertical flex={0.5}>
+        <Flex direction="column" flex={0.5}>
           <HeaderText>{t('RelicFilterBar.Grade') /* Grade */}</HeaderText>
           <SegmentedFilterRow currentFilter={filters.grade} setCurrentFilters={setFilter('grade')} tags={gradeData} flexBasis='15%' noHeight />
         </Flex>
-        <Flex vertical flex={0.25}>
+        <Flex direction="column" flex={0.25}>
           <HeaderText>{t('RelicFilterBar.InitialRolls') /* Initial rolls */}</HeaderText>
           <SegmentedFilterRow
             currentFilter={filters.initialRolls}
@@ -146,7 +146,7 @@ export default function RelicFilterBar() {
             noHeight
           />
         </Flex>
-        <Flex vertical flex={0.25}>
+        <Flex direction="column" flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Verified') /* Verified */}</HeaderText>
           <SegmentedFilterRow
             currentFilter={filters.verified}
@@ -156,7 +156,7 @@ export default function RelicFilterBar() {
             noHeight
           />
         </Flex>
-        <Flex vertical flex={0.25}>
+        <Flex direction="column" flex={0.25}>
           <HeaderText>{t('RelicFilterBar.Equipped') /* Equipped */}</HeaderText>
           <SegmentedFilterRow
             currentFilter={filters.equipped}
@@ -166,7 +166,7 @@ export default function RelicFilterBar() {
             noHeight
           />
         </Flex>
-        <Flex vertical flex={0.4}>
+        <Flex direction="column" flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear') /* Clear */}</HeaderText>
           <Button icon={<IconEraser />} onClick={resetFilters} style={{ flexGrow: 1, height: '100%' }}>
             {t('RelicFilterBar.ClearButton') /* Clear all filters */}
@@ -174,7 +174,7 @@ export default function RelicFilterBar() {
         </Flex>
       </Flex>
 
-      <Flex vertical>
+      <Flex direction="column">
         <HeaderText>{t('RelicFilterBar.Set') /* Set */}</HeaderText>
         <SegmentedFilterRow
           currentFilter={filters.set}
@@ -184,7 +184,7 @@ export default function RelicFilterBar() {
         />
       </Flex>
 
-      <Flex vertical>
+      <Flex direction="column">
         <HeaderText>{t('RelicFilterBar.Mainstat') /* Main stats */}</HeaderText>
         <SegmentedFilterRow
           currentFilter={filters.mainStat}
@@ -194,7 +194,7 @@ export default function RelicFilterBar() {
         />
       </Flex>
 
-      <Flex vertical>
+      <Flex direction="column">
         <HeaderText>{t('RelicFilterBar.Substat') /* Substats */}</HeaderText>
         <SegmentedFilterRow
           currentFilter={filters.subStat}
@@ -205,7 +205,7 @@ export default function RelicFilterBar() {
       </Flex>
 
       <Flex gap={10}>
-        <Flex vertical flex={0.5}>
+        <Flex direction="column" flex={0.5}>
           <HeaderText>{t('RelicFilterBar.RecommendationHeader') /* Relic recommendation character */}</HeaderText>
           <Flex gap={10}>
             <CharacterSelect
@@ -226,8 +226,8 @@ export default function RelicFilterBar() {
           </Flex>
         </Flex>
 
-        <Flex vertical flex={0.5} gap={10}>
-          <Flex vertical>
+        <Flex direction="column" flex={0.5} gap={10}>
+          <Flex direction="column">
             <Flex justify='space-between' align='center'>
               <HeaderText>{t('RelicFilterBar.Rating') /* Relic ratings */}</HeaderText>
               <TooltipImage type={Hint.valueColumns()} />
@@ -248,7 +248,7 @@ export default function RelicFilterBar() {
           </Flex>
         </Flex>
 
-        <Flex vertical flex={0.25}>
+        <Flex direction="column" flex={0.25}>
           <HeaderText>{t('RelicFilterBar.CustomCharsHeader') /* Custom potential characters */}</HeaderText>
           <CharacterSelect
             value={excludedRelicPotentialCharacters}

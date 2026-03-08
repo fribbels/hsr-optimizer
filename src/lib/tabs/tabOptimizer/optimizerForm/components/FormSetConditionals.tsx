@@ -1,6 +1,6 @@
+import { Flex } from '@mantine/core'
 import {
   Drawer,
-  Flex,
   Popover,
   Select,
   Switch,
@@ -67,15 +67,15 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
   })
 
   const content = (
-    <Flex vertical gap={10}>
-      <Flex vertical>
+    <Flex direction="column" gap={10}>
+      <Flex direction="column">
         <HeaderText>
           <p>{t('DescriptionHeader') /* Set description */}</p>
         </HeaderText>
         <p>{ColorizeNumbers(props.description)}</p>
       </Flex>
 
-      <Flex vertical>
+      <Flex direction="column">
         <HeaderText>
           <p>{t('EffectHeader') /* Enabled effect */}</p>
         </HeaderText>
@@ -199,7 +199,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
       forceRender
     >
       <Flex justify='center'>
-        <Flex vertical gap={defaultGap}>
+        <Flex direction="column" gap={defaultGap}>
           <Flex gap={defaultGap} align='center' justify='flex-start'>
             <Text style={{ width: setConditionalsIconWidth }}></Text>
             <Text style={{ width: setConditionalsNameWidth }}></Text>
@@ -207,7 +207,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
           {relicOptions}
         </Flex>
         <VerticalDivider />
-        <Flex vertical gap={defaultGap} style={{ marginLeft: 5 }}>
+        <Flex direction="column" gap={defaultGap} style={{ marginLeft: 5 }}>
           <Flex gap={defaultGap} align='center' justify='flex-start'>
             <Text style={{ width: setConditionalsIconWidth }}></Text>
             <Text style={{ width: setConditionalsNameWidth }}></Text>

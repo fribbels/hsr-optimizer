@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import DB, { AppPages } from 'lib/state/db'
@@ -77,7 +77,7 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
     <FilterContainer>
       <FormRow id={OptimizerMenuIds.analysis}>
         <Flex justify='space-between' style={{ width: '100%', paddingTop: 4 }} gap={10}>
-          <Flex vertical gap={10}>
+          <Flex direction="column" gap={10}>
             <StatsDiffCard analysis={analysis} />
             <DamageUpgrades analysis={analysis} />
           </Flex>

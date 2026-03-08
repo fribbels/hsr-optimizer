@@ -8,11 +8,11 @@ import {
   Card,
   Collapse,
   Divider,
-  Flex,
   Input,
   InputRef,
   Space,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
@@ -40,7 +40,7 @@ export default function HomeTab() {
 
   return (
     <Flex
-      vertical
+      direction="column"
       style={{
         width: '100%',
         position: 'relative',
@@ -85,7 +85,7 @@ function CommunityCollapse() {
   const { t } = useTranslation('hometab')
   return (
     <Flex style={{ padding: '0px 25px' }} gap={50}>
-      <Flex vertical style={{ flex: 1, fontSize: 20 }} gap={20}>
+      <Flex direction="column" style={{ flex: 1, fontSize: 20 }} gap={20}>
         <Trans t={t} i18nKey='CommunityCollapse'>
           <span>
             A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it
@@ -216,7 +216,7 @@ function FeaturesCollapse() {
 
   return (
     <Flex style={{ maxWidth: headerWidth, minWidth: 1000, width: '100%', padding: '0px 20px' }}>
-      <Flex vertical style={{ width: '100%' }} gap={cardGap}>
+      <Flex direction="column" style={{ width: '100%' }} gap={cardGap}>
         <Flex gap={cardGap}>
           <FeatureCard
             title={t('Showcase.Title') /* Character Showcase */}
@@ -266,7 +266,7 @@ function Header() {
   const { t } = useTranslation('hometab')
   return (
     <Flex
-      vertical
+      direction="column"
       style={{
         width: '100%',
         zIndex: 1,
@@ -315,7 +315,7 @@ function SearchBar() {
 
   return (
     <Flex
-      vertical
+      direction="column"
       className='homeCard'
       style={{ width: 700, height: 115, padding: 20 }}
       align='center'

@@ -3,11 +3,11 @@ import {
   IconRefresh,
   IconSettings,
 } from '@tabler/icons-react'
+import { Flex } from '@mantine/core'
 import {
   Button,
   Card,
   ConfigProvider,
-  Flex,
   Segmented,
 } from 'antd'
 import type { GlobalToken } from 'antd/es/theme/interface'
@@ -101,7 +101,7 @@ export function ShowcaseDpsScorePanel(props: {
 
   return (
     <Flex
-      vertical
+      direction="column"
     >
       <Flex justify='space-around' style={{ padding: '0 5px' }}>
         <CharacterPreviewScoringTeammate
@@ -171,7 +171,7 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
   const result = simScoringExecution.result!
 
   return (
-    <Flex vertical gap={defaultGap}>
+    <Flex direction="column" gap={defaultGap}>
       <CharacterCardCombatStats result={result} />
     </Flex>
   )
@@ -229,7 +229,7 @@ function CharacterPreviewScoringTeammate(props: {
       }}
       className={readonly ? 'readonly-custom-grid' : 'custom-grid'}
     >
-      <Flex vertical align='center' gap={0}>
+      <Flex direction="column" align='center' gap={0}>
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <img
             src={Assets.getCharacterAvatarById(teammate?.characterId)}
@@ -317,7 +317,7 @@ export function ShowcaseDpsScoreHeader(props: {
     : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(simScoringExecution?.result?.spdBenchmark ?? 0) }) // Benchmark vs {{spd}} SPD
 
   const textDisplay = (
-    <Flex align='center' vertical style={{ marginBottom: 6, paddingTop: 3, paddingBottom: 3 }}>
+    <Flex align='center' direction="column" style={{ marginBottom: 6, paddingTop: 3, paddingBottom: 3 }}>
       <StatText style={textStyle}>
         {titleRender}
       </StatText>
@@ -339,7 +339,7 @@ export function ShowcaseDpsScoreHeader(props: {
   )
 
   return (
-    <Flex vertical style={{ filter: !simScoringExecution?.done ? 'blur(2px)' : 'none' }}>
+    <Flex direction="column" style={{ filter: !simScoringExecution?.done ? 'blur(2px)' : 'none' }}>
       {textDisplay}
     </Flex>
   )
@@ -404,7 +404,7 @@ function ShowcaseTeamSelectPanel(props: {
             maskClosable: true,
             content: (
               <div style={{ width: '100%' }}>
-                <Flex vertical gap={10}>
+                <Flex direction="column" gap={10}>
                   <HeaderText>{t('modals:ScoreFooter.ModalTitle') /* Combat sim scoring settings */}</HeaderText>
                   <Button
                     icon={<IconRefresh />}
@@ -482,7 +482,7 @@ function ShowcaseTeamSelectPanel(props: {
   )
 
   return (
-    <Flex vertical gap={2}>
+    <Flex direction="column" gap={2}>
       <ConfigProvider theme={globalThemeConfig}>
         <CharacterModal
           onOk={onCharacterModalOk}

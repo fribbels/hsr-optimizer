@@ -1,10 +1,10 @@
 import {
   Drawer,
-  Flex,
   Form,
   Select,
   Typography,
 } from 'antd'
+import { Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -167,7 +167,7 @@ export const SettingsDrawer = () => {
         width={900}
         forceRender
       >
-        <Flex vertical gap={defaultGap}>
+        <Flex direction="column" gap={defaultGap}>
           {(Object.keys(SettingOptions) as (keyof typeof SettingOptions)[])
             .map((option) => (
               <Flex justify='space-between' align='center' key={option}>

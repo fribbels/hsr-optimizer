@@ -1,5 +1,6 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Button, Card, Flex, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Button, Card, Form as AntDForm, Form, Input, InputNumber, Radio, Select, SelectProps, Space, Table, TableProps, Tag, TreeSelect, Typography } from 'antd'
+import { Flex } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -21,7 +22,7 @@ export default function WarpCalculatorTab(): React.JSX.Element {
   const { t } = useTranslation('warpCalculatorTab')
 
   return (
-    <Flex vertical style={{ height: 1400, width: 950 }} align='center'>
+    <Flex direction="column" style={{ height: 1400, width: 950 }} align='center'>
       <ColorizedTitleWithInfo
         text={t('SectionTitles.Planner')/* Warp Planner */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
@@ -104,17 +105,17 @@ function Inputs() {
     >
       <Card style={{ width: 900 }}>
         <Flex style={{ marginBottom: 30 }}>
-          <Flex vertical style={{ flex: 1 }}>
+          <Flex direction="column" style={{ flex: 1 }}>
             <Title>
               <Flex justify='center' gap={10}>
                 {t('Settings')/* Settings */}
               </Flex>
             </Title>
 
-            <Flex vertical gap={16}>
+            <Flex direction="column" gap={16}>
               <Flex gap={25} justify='space-between'>
                 <Flex align='flex-end' gap={8} flex={1}>
-                  <Flex vertical>
+                  <Flex direction="column">
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <Form.Item name='jades'>
                       <InputNumber
@@ -128,7 +129,7 @@ function Inputs() {
                   </Flex>
                 </Flex>
 
-                <Flex vertical flex={1}>
+                <Flex direction="column" flex={1}>
                   <HeaderText>{t('Banner')/* Banner */}</HeaderText>
                   <Form.Item name='bannerRotation'>
                     <Radio.Group buttonStyle='solid' block>
@@ -141,7 +142,7 @@ function Inputs() {
 
               <Flex gap={25}>
                 <Flex align='flex-end' gap={8} flex={1}>
-                  <Flex vertical>
+                  <Flex direction="column">
                     <HeaderText>{t('Passes')/* Passes */}</HeaderText>
                     <Form.Item name='passes'>
                       <InputNumber
@@ -155,7 +156,7 @@ function Inputs() {
                   </Flex>
                 </Flex>
 
-                <Flex vertical flex={1}>
+                <Flex direction="column" flex={1}>
                   <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
                   <Form.Item name='strategy'>
                     <Select
@@ -166,7 +167,7 @@ function Inputs() {
               </Flex>
 
               <Flex gap={25}>
-                <Flex vertical style={{ width: 0, flex: 1, overflow: 'hidden' }}>
+                <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
 
                   <Space.Compact style={{ display: 'flex' }}>
@@ -193,7 +194,7 @@ function Inputs() {
                   </Space.Compact>
                 </Flex>
 
-                <Flex vertical style={{ width: 0, flex: 1, overflow: 'hidden' }}>
+                <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <Form.Item name='income'>
                     <TreeSelect
@@ -218,13 +219,13 @@ function Inputs() {
 
           <VerticalDivider width={40}/>
 
-          <Flex vertical style={{ flex: 1 }} justify='space-between'>
-            <Flex vertical>
+          <Flex direction="column" style={{ flex: 1 }} justify='space-between'>
+            <Flex direction="column">
               <Title>{t('Character')/* Character */}</Title>
               <PityInputs banner='Character'/>
             </Flex>
 
-            <Flex vertical>
+            <Flex direction="column">
               <Title>{t('LightCone')/* Light Cone */}</Title>
               <PityInputs banner='LightCone'/>
             </Flex>
@@ -354,7 +355,7 @@ function Results() {
   ]
 
   return (
-    <Flex vertical gap={20} style={{}} align='center'>
+    <Flex direction="column" gap={20} style={{}} align='center'>
       <Flex justify='space-around' style={{ marginTop: 15 }}>
         <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
           {t('SectionTitles.Results')/* Results */}
@@ -382,7 +383,7 @@ function Results() {
         </pre>
       </Text>
 
-      <Flex vertical gap={10} style={{ width: '100%' }}>
+      <Flex direction="column" gap={10} style={{ width: '100%' }}>
         <Table<WarpMilestoneResult>
           style={{ width: '100%' }}
           columns={columns}
@@ -414,7 +415,7 @@ function PityInputs(props: { banner: string }) {
 
   return (
     <Flex gap={25} style={{ width: '100%' }}>
-      <Flex vertical flex={1}>
+      <Flex direction="column" flex={1}>
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
         <Form.Item name={`pity${props.banner}`}>
@@ -425,7 +426,7 @@ function PityInputs(props: { banner: string }) {
           />
         </Form.Item>
       </Flex>
-      <Flex vertical flex={1} style={{ display: bannerRotation == BannerRotation.RERUN ? 'flex' : 'none' }}>
+      <Flex direction="column" flex={1} style={{ display: bannerRotation == BannerRotation.RERUN ? 'flex' : 'none' }}>
         <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
 
         <Form.Item name={props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'}>
@@ -436,7 +437,7 @@ function PityInputs(props: { banner: string }) {
           />
         </Form.Item>
       </Flex>
-      <Flex vertical flex={1}>
+      <Flex direction="column" flex={1}>
         <HeaderText>{t('PityCounter.Guaranteed')/* Guaranteed */}</HeaderText>
         <Form.Item name={`guaranteed${props.banner}`}>
           <Radio.Group

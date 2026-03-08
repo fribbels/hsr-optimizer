@@ -1,5 +1,5 @@
+import { Flex } from '@mantine/core'
 import {
-  Flex,
   Table,
   TableProps,
 } from 'antd'
@@ -147,7 +147,7 @@ export function DamageUpgrades(props: {
       align='start'
       gap={10}
       justify='space-between'
-      wrap={true}
+      wrap="wrap"
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',

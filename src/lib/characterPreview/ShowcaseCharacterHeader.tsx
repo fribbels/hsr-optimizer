@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import ShowcaseRarity from 'lib/characterPreview/ShowcaseRarity'
 import StatText from 'lib/characterPreview/StatText'
@@ -25,7 +25,7 @@ export function ShowcaseCharacterHeader(props: {
   const MARGIN_VERTICAL = props.scoringType === ScoringType.NONE ? 12 : 4
 
   return (
-    <Flex vertical>
+    <Flex direction="column">
       <Flex justify='space-around' style={{ height: 26, marginBottom: MARGIN_VERTICAL, marginTop: MARGIN_VERTICAL }} align='center'>
         <img
           style={{ width: 32 }}
@@ -37,7 +37,7 @@ export function ShowcaseCharacterHeader(props: {
           src={Assets.getPathFromClass(characterPath)}
         />
       </Flex>
-      <Flex vertical>
+      <Flex direction="column">
         <StatText style={{ fontSize: 24, lineHeight: '30px', fontWeight: 400, textAlign: 'center' }}>
           {characterName}
         </StatText>

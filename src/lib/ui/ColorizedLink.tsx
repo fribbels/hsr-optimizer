@@ -3,7 +3,7 @@ import {
   IconInfoCircle,
   IconLink,
 } from '@tabler/icons-react'
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 
 export function ColorizedLinkWithIcon(props: {
   text?: string,

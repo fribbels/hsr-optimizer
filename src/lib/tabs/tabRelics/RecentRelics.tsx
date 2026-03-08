@@ -1,4 +1,4 @@
-import { Flex } from 'antd'
+import { Flex } from '@mantine/core'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'

@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import {
   applyScoringMetadataPresets,
   applySetConditionalPresets,
@@ -63,7 +64,7 @@ export async function expectBenchmarkResultsToMatch(
     // @ts-ignore
     const message = error.message
     throw new Error(`
-${DB.getMetadata().characters[input.character.characterId].displayName} BENCHMARK
+${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} BENCHMARK
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

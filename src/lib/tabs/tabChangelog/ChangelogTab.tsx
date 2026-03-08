@@ -119,6 +119,7 @@ function getChangelogContent() {
       date: '',
       content: [],
     },
+    // `Balance: Sparxie and Yaoguang now benchmark against Punklorde Stage Zero`, // TODO
     {
       title: '',
       date: '2026-03-07',
@@ -128,12 +129,12 @@ function getChangelogContent() {
         `ashveil.webp`,
         `Added Punklorde Stage Zero and City of Converging Stars ornament sets`,
         `sets.webp`,
-        `Redesigned the Buffs Analysis panel with ability-type filtering`,
-        `buffs.webp`,
+        `Redesigned the Combo Distribution panel with default / rotation actions`,
+        `combo.webp`,
         `Improved GPU optimizer performance`,
+        `gpu.webp`,
         `Fix: Non-stackable teammate set effects no longer double-apply when the character wears the same set`,
         `Fix: Sparxie and Yaoguang Elation stack counts and sliders corrected`,
-        `Balance: Sparxie and Yaoguang now benchmark against Punklorde Stage Zero`,
       ],
     },
     {

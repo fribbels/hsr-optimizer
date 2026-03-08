@@ -1,5 +1,5 @@
-import { Flex } from '@mantine/core'
-import { Button, Card, Input, InputRef, Modal, Select, } from 'antd'
+import { Button, Flex } from '@mantine/core'
+import { Card, Input, InputRef, Modal, Select, } from 'antd'
 import { ElementName, PathName, } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { CharacterOptions, generateCharacterOptions, } from 'lib/rendering/optionGenerator'
@@ -216,12 +216,14 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
               {multipleSelect && (
                 <Flex gap={12}>
                   <Button
+                    variant="default"
                     onClick={excludeAll}
                     style={{ height: '100%', width: 120 }}
                   >
                     {t('ExcludeButton') /* Exclude all */}
                   </Button>
                   <Button
+                    variant="default"
                     onClick={includeAll}
                     style={{ height: '100%', width: 120 }}
                   >

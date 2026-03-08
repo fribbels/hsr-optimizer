@@ -1,6 +1,5 @@
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import {
-  Button,
   Modal,
 } from 'antd'
 import { TFunction } from 'i18next'
@@ -249,7 +248,6 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
           Message.success(t(fixes.successMessageKey), 2)
         }}
         style={{ width: 350 }}
-        type='primary'
       >
         {t(fixes.buttonTextKey)}
       </Button>
@@ -495,7 +493,6 @@ export function ZeroResultSuggestionModal() {
               closeZeroResultsModal()
             }}
             style={{ width: 350 }}
-            type='primary'
           >
             {t('0Results.ResetAll.ButtonText') /* Reset all filters */}
           </Button>

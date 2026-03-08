@@ -6,14 +6,13 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import {
-  Button,
   Card,
   Form as AntDForm,
   InputNumber,
   Radio,
   Select,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
   OverlayText,
   showcaseOutline,
@@ -287,8 +286,8 @@ function RightPanel() {
           <SetsSection simType={StatSimTypes.Benchmarks} />
           <Button
             onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
-            icon={<IconSettings />}
-            type='dashed'
+            leftSection={<IconSettings size={16} />}
+            variant='default'
           >
             {tOptimizerTab('SetConditionals.Title') /* Conditional set effects */}
           </Button>
@@ -305,9 +304,8 @@ function RightPanel() {
             handleBenchmarkFormSubmit(formValues)
           }}
           loading={loading}
-          icon={<IconBoltFilled />}
+          leftSection={<IconBoltFilled size={16} />}
           style={{ width: '100%', height: 40 }}
-          type='primary'
         >
           {t('ButtonText.Generate') /* Generate benchmarks */}
         </Button>
@@ -316,8 +314,8 @@ function RightPanel() {
             resetCache()
           }}
           style={{ width: '100%' }}
-          type='default'
-          icon={<IconTrash />}
+          variant='default'
+          leftSection={<IconTrash size={16} />}
         >
           {t('ButtonText.Clear') /* Clear */}
         </Button>

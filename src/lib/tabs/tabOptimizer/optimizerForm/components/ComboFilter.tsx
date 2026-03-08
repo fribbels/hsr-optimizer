@@ -3,9 +3,8 @@ import {
   IconSettings,
   IconX,
 } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
-  Button,
   Popconfirm,
   Radio,
 } from 'antd'
@@ -96,8 +95,9 @@ export const ComboFilters = () => {
       <>
         <Flex direction="column" gap={8} style={{ marginTop: 8 }}>
           <Button
+            variant="default"
             onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
-            icon={<IconSettings />}
+            leftSection={<IconSettings size={16} />}
             disabled={comboType == ComboType.SIMPLE}
           >
             {t('RotationButton')}
@@ -202,15 +202,15 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             cancelText={tCommon('Cancel')}
             placement='bottomRight'
           >
-            <Button size='small' variant='outlined' disabled={disabled}>
+            <Button size='xs' variant='outline' disabled={disabled}>
               {tCommon('Reset')}
             </Button>
           </Popconfirm>
           <Flex gap={5}>
-            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
+            <Button size='xs' variant='outline' style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
               {t('RowControls.Add')}
             </Button>
-            <Button size='small' variant='outlined' style={{ flex: 1 }} onClick={() => minus()} disabled={disabled}>
+            <Button size='xs' variant='outline' style={{ flex: 1 }} onClick={() => minus()} disabled={disabled}>
               {t('RowControls.Remove')}
             </Button>
           </Flex>

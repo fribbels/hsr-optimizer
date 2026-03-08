@@ -1,10 +1,9 @@
 import {
-  Button,
   Form as AntDForm,
   Modal,
   Select,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
@@ -86,10 +85,10 @@ export function SwitchRelicsModal() {
       onOk={onModalOk}
       onCancel={handleCancel}
       footer={[
-        <Button key='back' onClick={handleCancel}>
+        <Button key='back' variant="default" onClick={handleCancel}>
           {tCommon('Cancel') /* Cancel */}
         </Button>,
-        <Button key='submit' type='primary' onClick={onModalOk}>
+        <Button key='submit' onClick={onModalOk}>
           {tCommon('Save') /* Save */}
         </Button>,
       ]}

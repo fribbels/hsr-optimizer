@@ -1,10 +1,9 @@
 import { IconEraser } from '@tabler/icons-react'
 import {
-  Button,
   Select,
   Tooltip,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -165,7 +164,7 @@ export default function RelicFilterBar() {
         </Flex>
         <Flex direction="column" flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear') /* Clear */}</HeaderText>
-          <Button icon={<IconEraser />} onClick={resetFilters} style={{ flexGrow: 1, height: '100%' }}>
+          <Button variant="default" leftSection={<IconEraser size={16} />} onClick={resetFilters} style={{ flexGrow: 1, height: '100%' }}>
             {t('RelicFilterBar.ClearButton') /* Clear all filters */}
           </Button>
         </Flex>
@@ -215,6 +214,7 @@ export default function RelicFilterBar() {
               withIcon={true}
             />
             <Button
+              variant="default"
               onClick={scoringClicked}
               style={{ flex: 1, padding: '0px' }}
             >

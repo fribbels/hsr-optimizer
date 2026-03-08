@@ -8,7 +8,6 @@ import {
   IconSettings,
 } from '@tabler/icons-react'
 import {
-  Button,
   Collapse,
   ConfigProvider,
   Dropdown,
@@ -16,7 +15,7 @@ import {
   Input,
   Segmented,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -112,8 +111,7 @@ export default function ShowcaseTab() {
               <Input style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder') /* Account UID */} />
             </Form.Item>
             <Button
-              type='primary'
-              htmlType='submit'
+              type='submit'
               loading={loading}
               style={{ width: 150 }}
             >
@@ -122,7 +120,8 @@ export default function ShowcaseTab() {
             <Button
               style={{ width: 'fit-content', minWidth: 175 }}
               onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
-              icon={<IconSettings />}
+              leftSection={<IconSettings size={16} />}
+              variant="default"
             >
               {t('SubmissionBar.AlgorithmButton') /* Scoring algorithm */}
             </Button>
@@ -268,17 +267,17 @@ function CharacterPreviewSelection() {
             <Button
               style={{ flex: 1 }}
               onClick={clipboardClicked}
-              icon={<IconCamera />}
+              leftSection={<IconCamera size={16} />}
               loading={screenshotLoading}
-              type='primary'
             >
               {t('CopyScreenshot') /* Copy screenshot */}
             </Button>
             <Button
               style={{ width: 50 }}
-              icon={<IconDownload />}
+              leftSection={<IconDownload size={16} />}
               onClick={downloadClicked}
               loading={downloadLoading}
+              variant="default"
             />
             <Dropdown.Button
               style={{ flex: 1 }}
@@ -291,8 +290,9 @@ function CharacterPreviewSelection() {
             </Dropdown.Button>
             <Button
               style={{ flex: 1 }}
-              icon={<IconFlask />}
+              leftSection={<IconFlask size={16} />}
               onClick={simulateClicked}
+              variant="default"
             >
               {t('SimulateRelics') /* Simulate relics on another character */}
             </Button>
@@ -359,7 +359,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
           return (
             <Button
               key={key++}
-              type='text'
+              variant='transparent'
               style={{
                 width: preset.rerun ? RERUN_PRESET_SIZE + 2 : PRESET_SIZE + 8,
                 height: preset.rerun ? RERUN_PRESET_SIZE + 2 : PRESET_SIZE + 8,
@@ -399,8 +399,6 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
           }}
         >
           <Button
-            type='primary'
-            shape='round'
             style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 2 }}
           >
             <IconFlask style={{ fontSize: 55 }} />
@@ -485,10 +483,9 @@ export function DPSScoreDisclaimer() {
                 </Trans>
 
                 <Button
-                  type='primary'
-                  size='large'
-                  block
-                  icon={<IconEyeOff />}
+                  size='lg'
+                  fullWidth
+                  leftSection={<IconEyeOff size={16} />}
                   onClick={() => {
                     window.store.getState().setSettings({
                       ...window.store.getState().settings,

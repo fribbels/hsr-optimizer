@@ -1,8 +1,5 @@
 import { IconList } from '@tabler/icons-react'
-import {
-  Button,
-} from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { AppPages } from 'lib/state/db'
@@ -28,8 +25,7 @@ export function checkForUpdatesNotification(version: string) {
           <div>{t('Description')}</div>
           <Flex gap={8}>
             <Button
-              type='primary'
-              icon={<IconList />}
+              leftSection={<IconList size={16} />}
               onClick={() => {
                 notifications.hide('update-notification')
                 window.store.getState().setActiveKey(AppPages.CHANGELOG)
@@ -37,7 +33,7 @@ export function checkForUpdatesNotification(version: string) {
             >
               {t('View')}
             </Button>
-            <Button type='default' onClick={() => notifications.hide('update-notification')}>
+            <Button variant='default' onClick={() => notifications.hide('update-notification')}>
               {t('Dismiss')}
             </Button>
           </Flex>

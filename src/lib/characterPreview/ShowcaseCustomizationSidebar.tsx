@@ -7,9 +7,8 @@ import {
   IconSun,
   IconX,
 } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
-  Button,
   ColorPicker,
   InputNumber,
   Segmented,
@@ -311,7 +310,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
           <HorizontalDivider />
 
           <Button
-            icon={<IconSettings />}
+            leftSection={<IconSettings size={16} />}
             onClick={onTraceClick}
           >
             {tScoring('Stats.ButtonText') /* Traces */}
@@ -476,18 +475,16 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
           <Flex justify='space-between'>
             <Button
-              icon={<IconCamera style={{ fontSize: 30 }} />}
+              leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
               loading={loading}
               onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
-              type='primary'
               style={{ height: 50, width: 50, borderRadius: 8 }}
             >
             </Button>
             <Button
-              icon={<IconDownload style={{ fontSize: 30 }} />}
+              leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
               loading={loading}
               onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
-              type='primary'
               style={{ height: 50, width: 50, borderRadius: 8 }}
             >
             </Button>

@@ -4,7 +4,6 @@ import {
 } from '@tabler/icons-react'
 import {
   Alert,
-  Button,
   Checkbox,
   Collapse,
   Divider,
@@ -15,7 +14,7 @@ import {
   Tooltip,
   Upload,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import {
   HoyolabData,
   hoyolabParser,
@@ -256,9 +255,10 @@ export function ScannerImportSubmenu() {
                 <Button
                   disabled={isLiveImporting}
                   style={{ width: importerTabButtonWidth }}
-                  icon={<IconUpload />}
+                  leftSection={<IconUpload size={16} />}
                   loading={loading1}
                   onClick={() => setCurrentStage(Stages.LOAD_FILE)}
+                  variant="default"
                 >
                   {t('Import.Stage1.ButtonText')}
                 </Button>
@@ -395,7 +395,7 @@ export function ScannerImportSubmenu() {
                             onChange={(e) => setWebsocketUrl(e.target.value)}
                           />
                           <Tooltip title={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
-                            <Button icon={<IconRefresh />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} />
+                            <Button leftSection={<IconRefresh size={16} />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} variant="default" />
                           </Tooltip>
                         </Flex>
                       </Flex>
@@ -437,7 +437,6 @@ export function ScannerImportSubmenu() {
 
           <Button
             style={{ width: importerTabButtonWidth }}
-            type='primary'
             onClick={mergeRelicsConfirmed}
             loading={loading2}
           >
@@ -470,7 +469,7 @@ export function ScannerImportSubmenu() {
             okText={t('common:Yes')}
             cancelText={t('common:Cancel')}
           >
-            <Button style={{ width: importerTabButtonWidth }} type='primary' loading={loading2}>
+            <Button style={{ width: importerTabButtonWidth }} loading={loading2}>
               {t('Import.Stage2.CharactersImport.ButtonText', {
                 relicCount: currentRelics.length ?? 0,
                 characterCount: currentCharacters?.length ?? 0,

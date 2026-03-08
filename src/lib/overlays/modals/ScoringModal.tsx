@@ -1,5 +1,4 @@
 import {
-  Button,
   Divider,
   Form,
   InputNumber,
@@ -7,7 +6,7 @@ import {
   Popconfirm,
   Select,
 } from 'antd'
-import { Flex, Text } from '@mantine/core'
+import { Button, Flex, Text } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
 import {
   Constants,
@@ -223,7 +222,7 @@ export default function ScoringModal() {
         okText={t('common:Yes') /* Yes */}
         cancelText={t('common:No') /* No */}
       >
-        <Button danger>{t('Scoring.Footer.ResetAll') /* Reset all characters */}</Button>
+        <Button color="red">{t('Scoring.Footer.ResetAll') /* Reset all characters */}</Button>
       </Popconfirm>
     )
   }
@@ -240,14 +239,14 @@ export default function ScoringModal() {
       onOk={onModalOk}
       onCancel={closeScoringModal}
       footer={[
-        <Button key='back' onClick={closeScoringModal}>
+        <Button key='back' variant="default" onClick={closeScoringModal}>
           {t('common:Cancel') /* Cancel */}
         </Button>,
-        <Button key='default' onClick={handleResetDefault}>
+        <Button key='default' variant="default" onClick={handleResetDefault}>
           {t('Scoring.Footer.Reset') /* Reset to default */}
         </Button>,
         <ResetAllCharactersButton key='resetAll' />,
-        <Button key='submit' type='primary' onClick={onModalOk}>
+        <Button key='submit' onClick={onModalOk}>
           {t('Scoring.Footer.Save') /* Save changes */}
         </Button>,
       ]}

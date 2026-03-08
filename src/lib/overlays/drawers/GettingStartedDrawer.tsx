@@ -1,10 +1,9 @@
 import { IconFileImport } from '@tabler/icons-react'
 import {
-  Button,
   Drawer,
   Popconfirm,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import sampleSave from 'data/sample-save.json'
 import {
   OpenCloseIDs,
@@ -58,7 +57,7 @@ export const GettingStartedDrawer = () => {
           okText={t('common:Yes')} // 'Yes'
           cancelText={t('common:Cancel')} // 'Cancel'
         >
-          <Button type='primary' icon={<IconFileImport />} style={{ width: 200 }}>
+          <Button leftSection={<IconFileImport size={16} />} style={{ width: 200 }}>
             {t('TryOut.ButtonText') /* Try it out! */}
           </Button>
         </Popconfirm>

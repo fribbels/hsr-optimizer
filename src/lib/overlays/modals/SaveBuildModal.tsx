@@ -1,13 +1,12 @@
 import { IconAlertCircle } from '@tabler/icons-react'
 import {
-  Button,
   Divider,
   Form,
   Input,
   Modal,
   Tooltip,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import {
@@ -199,7 +198,7 @@ export function SaveBuildModal(props: {
             </Form.Item>
           </Form>
           <Divider style={{ margin: '6px 0px 6px 0px' }} />
-          <Button onClick={handleCancel} style={buttonStyle}>
+          <Button variant="default" onClick={handleCancel} style={buttonStyle}>
             {tCommon('Cancel') /* Cancel */}
           </Button>
           <Tooltip
@@ -208,12 +207,12 @@ export function SaveBuildModal(props: {
               : ''}
             placement='right'
           >
-            <Button type='primary' onClick={onModalOk} style={buttonStyle} disabled={saveDisabled}>
+            <Button onClick={onModalOk} style={buttonStyle} disabled={saveDisabled}>
               {tCommon('Save') /* Save */}
             </Button>
           </Tooltip>
           <Tooltip title={overwriteDisabled ? t('Tooltip.OverwriteDisabled') : ''} placement='right'>
-            <Button type='primary' onClick={handleOverwrite} style={buttonStyle} disabled={overwriteDisabled}>
+            <Button onClick={handleOverwrite} style={buttonStyle} disabled={overwriteDisabled}>
               {t('Overwrite')}
             </Button>
           </Tooltip>

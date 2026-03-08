@@ -1,11 +1,10 @@
 import {
-  Button,
   Form as AntDForm,
   Modal,
   Radio,
   Select,
 } from 'antd'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -99,7 +98,7 @@ export default function CharacterModal(props: {
         <Button key='back' onClick={handleCancel}>
           {tCommon('Cancel')}
         </Button>,
-        <Button key='submit' type='primary' onClick={onModalOk}>
+        <Button key='submit' onClick={onModalOk}>
           {tCommon('Save')}
         </Button>,
       ]}

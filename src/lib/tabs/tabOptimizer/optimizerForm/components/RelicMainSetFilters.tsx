@@ -1,7 +1,6 @@
 import { IconSettings } from '@tabler/icons-react'
-import { Flex } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
-  Button,
   Cascader,
   ConfigProvider,
   Select,
@@ -219,8 +218,9 @@ export default function RelicMainSetFilters() {
           }}
         />
         <Button
+          variant="default"
           onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
-          icon={<IconSettings />}
+          leftSection={<IconSettings size={16} />}
         >
           {t('SetConditionals.Title') /* Conditional set effects */}
         </Button>

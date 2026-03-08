@@ -6778,6 +6778,7 @@ interface Resources {
           "ADDITIONAL": "ADDITIONAL",
           "ELATION": "ELATION"
         },
+        "ActionLabel": "COMBO ACTION",
         "FilterLabel": "FILTER BY ABILITY",
         "Stats": {
           "CompositeLabels": {

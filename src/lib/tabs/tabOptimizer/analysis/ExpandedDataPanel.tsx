@@ -84,7 +84,7 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
             <DamageUpgrades analysis={analysis} />
           </Flex>
 
-          <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true} />
+          <BuffsAnalysisDisplay perActionBuffGroups={analysis.perActionBuffGroups} singleColumn={true} />
         </Flex>
       </FormRow>
     </FilterContainer>

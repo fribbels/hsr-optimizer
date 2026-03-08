@@ -760,6 +760,8 @@ ExpandedDataPanel:
       E4: E4
       E6: E6
       ElationSkill: Elation Skill
+      LightCone: Light Cone
+      Set: Set
     DamageTags:
       ALL: ALL
       BASIC: BASIC
@@ -772,6 +774,7 @@ ExpandedDataPanel:
       MEMO: MEMO
       ADDITIONAL: ADDITIONAL
       ELATION: ELATION
+    ActionLabel: COMBO ACTION
     FilterLabel: FILTER BY ABILITY
     Stats:
       CompositeLabels:

@@ -1,4 +1,7 @@
 import i18next from 'i18next'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import {
   AbilityEidolon,
   Conditionals,
@@ -12,6 +15,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -46,12 +52,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
-import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -501,6 +501,7 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
+    // Sets.PunklordeStageZero,
     Sets.TengokuLivestream,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
     ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
@@ -584,6 +585,7 @@ export const Yaoguang: CharacterConfig = {
   info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }
-

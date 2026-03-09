@@ -85,15 +85,15 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
         <Flex vertical gap={5} style={{ width: options.panelWidth }}>
+          <StatSummaryTable sums={statSums} avatarSrc={summaryAvatarSrc} />
           <ActionSelector
             rotationSteps={perActionBuffGroups.rotationSteps}
             selectedAction={selectedAction}
             onActionChange={setSelectedAction}
           />
           <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-
           <GroupedLayout buffGroups={buffGroups} />
-          <StatSummaryTable sums={statSums} avatarSrc={summaryAvatarSrc} />
+          <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
         </Flex>
       </FilterContext.Provider>
     </DesignContext.Provider>

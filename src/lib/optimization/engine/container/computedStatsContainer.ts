@@ -639,11 +639,26 @@ export class ComputedStatsContainer {
         if (entity?.memosprite) hasMemo = true
         else allMemo = false
       }
+      const traceDamageTags = effectiveDamageTags !== ALL_DAMAGE_TAGS ? effectiveDamageTags : undefined
       if (!allMemo) {
-        this.buffs.push({ stat: getAKeyName(key), key: key as number, value: value, source: source, memo: false })
+        this.buffs.push({
+          stat: getAKeyName(key),
+          key: key as number,
+          value: value,
+          source: source,
+          memo: false,
+          damageTags: traceDamageTags,
+        })
       }
       if (hasMemo) {
-        this.buffsMemo.push({ stat: getAKeyName(key), key: key as number, value: value, source: source, memo: true })
+        this.buffsMemo.push({
+          stat: getAKeyName(key),
+          key: key as number,
+          value: value,
+          source: source,
+          memo: true,
+          damageTags: traceDamageTags,
+        })
       }
     }
   }

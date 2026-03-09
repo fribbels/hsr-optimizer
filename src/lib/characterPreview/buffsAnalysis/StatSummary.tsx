@@ -23,16 +23,13 @@ import {
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
 import { Buff } from 'lib/optimization/basicStatsArray'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { AKeyNames } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const STAT_ORDER = new Map(
-  Object.keys(newStatsConfig)
-    .map((key, i) => [key, i]),
-)
+const STAT_ORDER = new Map<string, number>(AKeyNames.map((key, i) => [key, i]))
 
 type StatSumContribution = {
   value: number,
@@ -66,16 +63,18 @@ function getBuffStatKey(buff: Buff): string {
 }
 
 export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSum[] {
-  // First pass: collect all stat keys in insertion order (unfiltered) for stable ordering
-  const keyOrder: string[] = []
-  const keySet = new Set<string>()
+  // First pass: collect all stat keys in insertion order (unfiltered) for stable ordering + metadata
+  const metaMap = new Map<string, Pick<StatSum, 'stat' | 'label' | 'percent'>>()
   for (const buff of buffs) {
     const config = getStatConfig(buff.stat)
     if (!config || config.bool) continue
     const key = getBuffStatKey(buff)
-    if (!keySet.has(key)) {
-      keySet.add(key)
-      keyOrder.push(key)
+    if (!metaMap.has(key)) {
+      metaMap.set(key, {
+        stat: buff.stat,
+        label: translatedLabel(buff.stat, buff.memo),
+        percent: !config.flat,
+      })
     }
   }
 
@@ -109,10 +108,14 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
     }
   }
 
-  // Return in stable key order, filtering out zero-total entries
-  return keyOrder
-    .map((key) => sumMap.get(key))
-    .filter((s): s is StatSum => s != null && s.total !== 0)
+  // Return all keys in stable order, using zero entries for keys with no filtered matches
+  return Array.from(metaMap.keys())
+    .map((key) => {
+      const existing = sumMap.get(key)
+      if (existing) return existing
+      const meta = metaMap.get(key)!
+      return { stat: meta.stat, label: meta.label, total: 0, count: 0, percent: meta.percent, contributions: [] }
+    })
     .sort((a, b) => (STAT_ORDER.get(a.stat) ?? 999) - (STAT_ORDER.get(b.stat) ?? 999))
 }
 
@@ -169,15 +172,18 @@ export function StatSummaryTable(props: { sums: StatSum[], avatarSrc: string }) 
               height: options.rowHeight,
               lineHeight: `${options.rowHeight}px`,
               borderBottom: i < props.sums.length - 1 ? `1px solid ${options.borderColor}` : undefined,
+              opacity: sum.total === 0 ? 0.05 : 1,
+              transition: 'opacity 0.15s',
             }}
           >
             <span style={{ minWidth: 60, fontSize: options.fontSize, textWrap: 'nowrap' }}>
               {formatBuffValue(sum.total, sum.percent)}
             </span>
 
-            <span style={{ minWidth: 150, ...ellipsisStyle(options.fontSize) }}>
-              {'∑ ' + sum.label}
-            </span>
+            <Flex align='center' gap={3} style={{ minWidth: 150, overflow: 'hidden' }}>
+              <span style={{ fontSize: options.fontSize, flexShrink: 0, position: 'relative', top: -1 }}>∑</span>
+              <span style={{ ...ellipsisStyle(options.fontSize) }}>{sum.label}</span>
+            </Flex>
 
             <SummaryTagPills contributions={sum.contributions} />
 

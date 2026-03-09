@@ -1,219 +1,46 @@
+import { Flex } from 'antd'
+import { ActionSelector } from 'lib/characterPreview/buffsAnalysis/ActionSelector'
+import { BuffGroup } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
 import {
-  Flex,
-  Table,
-} from 'antd'
-import i18next from 'i18next'
-import { SetKey, Sets } from 'lib/constants/constants'
-import { setToId } from 'lib/sets/setConfigRegistry'
+  DEFAULT_OPTIONS,
+  DesignContext,
+  FilterContext,
+  GROUP_ORDER,
+  GROUP_SPACING,
+} from 'lib/characterPreview/buffsAnalysis/designContext'
 import {
-  BUFF_ABILITY,
-  BUFF_TYPE,
-} from 'lib/optimization/buffSource'
-import { Buff } from 'lib/optimization/basicStatsArray'
-import { AKeyType } from 'lib/optimization/engine/config/keys'
-import { newStatsConfig, StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
+  computeRelevantTags,
+  FilterBar,
+} from 'lib/characterPreview/buffsAnalysis/FilterBar'
+import {
+  collectAllBuffs,
+  computeStatSums,
+  StatSummaryTable,
+} from 'lib/characterPreview/buffsAnalysis/StatSummary'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { Assets } from 'lib/rendering/assets'
 import {
   originalScoringParams,
   SimulationScore,
 } from 'lib/scoring/simScoringUtils'
-import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
+import {
+  aggregatePerActionBuffs,
+  BuffGroups,
+  PerActionBuffGroups,
+} from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { currentLocale } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
-import React, { ReactElement } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, {
+  ReactElement,
+  useMemo,
+  useState,
+} from 'react'
 
 type BuffsAnalysisProps = {
   result?: SimulationScore,
-  buffGroups?: Record<BUFF_TYPE, Record<string, Buff[]>>,
-  singleColumn?: boolean,
+  perActionBuffGroups?: PerActionBuffGroups,
   size?: BuffDisplaySize,
-}
-
-function getStatConfig(stat: string): StatConfigEntry | undefined {
-  return newStatsConfig[stat as AKeyType]
-}
-
-export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
-  const buffGroups = props.buffGroups ?? rerunSim(props.result)
-
-  if (!buffGroups) {
-    return <></>
-  }
-
-  const buffsDisplayLeft: ReactElement[] = []
-  const buffsDisplayRight: ReactElement[] = []
-  let groupKey = 0
-
-  const size = props.size ?? BuffDisplaySize.SMALL
-
-  for (const [id, buffs] of Object.entries(buffGroups.PRIMARY)) {
-    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.PRIMARY} key={groupKey++} size={size} />)
-  }
-
-  for (const [id, buffs] of Object.entries(buffGroups.SETS)) {
-    buffsDisplayLeft.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.SETS} key={groupKey++} size={size} />)
-  }
-
-  for (const [id, buffs] of Object.entries(buffGroups.CHARACTER)) {
-    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.CHARACTER} key={groupKey++} size={size} />)
-  }
-
-  for (const [id, buffs] of Object.entries(buffGroups.LIGHTCONE)) {
-    buffsDisplayRight.push(<BuffGroup id={id} buffs={buffs} buffType={BUFF_TYPE.LIGHTCONE} key={groupKey++} size={size} />)
-  }
-
-  if (props.singleColumn) {
-    return (
-      <Flex gap={20} vertical>
-        {buffsDisplayLeft}
-        {buffsDisplayRight}
-      </Flex>
-    )
-  }
-
-  return (
-    <Flex justify='space-between' style={{ width: '100%' }}>
-      <Flex gap={20} vertical>
-        {buffsDisplayLeft}
-      </Flex>
-      <Flex gap={20} vertical>
-        {buffsDisplayRight}
-      </Flex>
-    </Flex>
-  )
-}
-
-function rerunSim(result?: SimulationScore) {
-  if (!result) return null
-  result.simulationForm.trace = true
-  const context = generateContext(result.simulationForm)
-  const rerun = runStatSimulations([result.originalSim], result.simulationForm, context, originalScoringParams)[0]
-  return aggregateCombatBuffs(rerun.x, result.simulationForm)
-}
-
-function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYPE, size: BuffDisplaySize }) {
-  const { i18n } = useTranslation() // needed to trigger re-render on language change
-  const { id, buffs, buffType, size } = props
-
-  let src
-  if (buffType == BUFF_TYPE.PRIMARY) src = Assets.getCharacterAvatarById(id)
-  else if (buffType == BUFF_TYPE.CHARACTER) src = Assets.getCharacterAvatarById(id)
-  else if (buffType == BUFF_TYPE.LIGHTCONE) src = Assets.getLightConeIconById(id)
-  else if (buffType == BUFF_TYPE.SETS) src = Assets.getSetImage(Sets[id as SetKey])
-  else src = Assets.getBlank()
-
-  return (
-    <Flex align='center' gap={5}>
-      <img src={src} style={{ width: 64, height: 64 }} />
-
-      <BuffTable buffs={buffs} size={size} />
-    </Flex>
-  )
-}
-
-type BuffTableItem = {
-  key: number,
-  value: string,
-  statLabel: string,
-  sourceLabel: string,
-}
-
-function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
-  const { buffs } = props
-  const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
-  const { t: tGameData } = useTranslation('gameData')
-  const size = props.size ?? BuffDisplaySize.SMALL
-
-  const columns = [
-    {
-      dataIndex: 'value',
-      key: 'value',
-      width: 70,
-      minWidth: 70,
-      render: (value: string) => <span style={{ textWrap: 'nowrap' }}>{value}</span>,
-    },
-    {
-      dataIndex: 'stat',
-      key: 'stat',
-      render: (_: string, record: BuffTableItem) => (
-        <Flex justify='space-between'>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', marginRight: 10, minWidth: 130 }}>
-            {record.statLabel}
-          </span>
-          <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', textAlign: 'end' }}>
-            {record.sourceLabel}
-          </span>
-        </Flex>
-      ),
-    },
-  ]
-
-  const data = buffs.map((buff, i) => {
-    const stat = buff.stat
-    const config = getStatConfig(stat)
-    const percent = !config?.flat
-    const bool = config?.bool
-    const statLabel = translatedLabel(stat, buff.memo)
-
-    let sourceLabel: string
-    const source = buff.source
-    switch (source.buffType) {
-      case BUFF_TYPE.CHARACTER:
-        if (source.ability === BUFF_ABILITY.CYRENE_ODE_TO) {
-          sourceLabel = tGameData('Characters.1415.Name')
-        } else {
-          sourceLabel = tOptimizerTab(`Sources.${source.ability}`)
-        }
-        break
-      case BUFF_TYPE.LIGHTCONE:
-        sourceLabel = tGameData(`Lightcones.${source.id}.Name`)
-        break
-      case BUFF_TYPE.SETS:
-        sourceLabel = tGameData(`RelicSets.${setToId[Sets[source.id]]}.Name`)
-        break
-      default:
-        sourceLabel = source.label
-    }
-    let value
-    if (bool) {
-      value = tOptimizerTab(`Values.${buff.value ? 'BoolTrue' : 'BoolFalse'}`)
-    } else if (percent) {
-      value = TsUtils.precisionRound(buff.value * 100, 2).toLocaleString(currentLocale()) + ' %'
-    } else {
-      value = TsUtils.precisionRound(buff.value, 0).toLocaleString(currentLocale())
-    }
-
-    return {
-      key: i,
-      value: value,
-      statLabel: statLabel,
-      sourceLabel: sourceLabel,
-    } as BuffTableItem
-  })
-
-  return (
-    <Table<BuffTableItem>
-      columns={columns}
-      dataSource={data}
-      pagination={false}
-      size='small'
-      className='buff-table remove-table-bottom-border'
-      rowClassName='buff-row'
-      tableLayout='fixed'
-      style={{
-        width: size,
-        border: '1px solid #354b7d',
-        boxShadow: cardShadow,
-        borderRadius: 5,
-        overflow: 'hidden',
-        fontSize: 14,
-      }}
-    />
-  )
 }
 
 export enum BuffDisplaySize {
@@ -221,17 +48,92 @@ export enum BuffDisplaySize {
   LARGE = 450,
 }
 
-function translatedLabel(stat: string, isMemo = false): string {
-  const config = getStatConfig(stat)
-  if (!config) return stat
+export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
+  const perActionBuffGroups = useMemo(
+    () => props.perActionBuffGroups ?? rerunSim(props.result),
+    [props.perActionBuffGroups, props.result],
+  )
+  const [selectedAction, setSelectedAction] = useState<number | null>(null)
+  const [selectedFilter, setSelectedFilter] = useState<DamageTag | null>(null)
 
-  const label = config.label
-  if (typeof label === 'string') {
-    return isMemo ? i18next.t('MemospriteLabel', { label }) as string : label
+  const options = useMemo(() => ({
+    ...DEFAULT_OPTIONS,
+    panelWidth: props.size ?? DEFAULT_OPTIONS.panelWidth,
+  }), [props.size])
+
+  if (!perActionBuffGroups || Object.keys(perActionBuffGroups.byAction).length === 0) {
+    return null
   }
 
-  // SimpleLabel with ns/key properties
-  // @ts-ignore
-  const finalLabel: string = i18next.t(`${label.ns}:${label.key}`, label.args)
-  return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) as string : finalLabel
+  const buffGroups = selectedAction != null && perActionBuffGroups.rotationSteps[selectedAction]
+    ? perActionBuffGroups.rotationSteps[selectedAction].groups
+    : perActionBuffGroups.byAction[perActionBuffGroups.primaryAction]
+
+  if (!buffGroups) {
+    return null
+  }
+
+  const allBuffs = collectAllBuffs(buffGroups)
+  const relevantTags = computeRelevantTags(allBuffs)
+  const statSums = computeStatSums(allBuffs, selectedFilter)
+
+  const primaryGroup = buffGroups[BUFF_TYPE.PRIMARY]
+  const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined
+  const summaryAvatarSrc = firstPrimaryId ? Assets.getCharacterAvatarById(firstPrimaryId) : Assets.getBlank()
+
+  return (
+    <DesignContext.Provider value={options}>
+      <FilterContext.Provider value={selectedFilter}>
+        <Flex vertical gap={5} style={{ width: options.panelWidth }}>
+          <ActionSelector
+            rotationSteps={perActionBuffGroups.rotationSteps}
+            selectedAction={selectedAction}
+            onActionChange={setSelectedAction}
+          />
+          <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+
+          <GroupedLayout buffGroups={buffGroups} />
+          <StatSummaryTable sums={statSums} avatarSrc={summaryAvatarSrc} />
+        </Flex>
+      </FilterContext.Provider>
+    </DesignContext.Provider>
+  )
+}
+
+function GroupedLayout(props: { buffGroups: BuffGroups }) {
+  const groups: ReactElement[] = []
+  let groupKey = 0
+
+  for (const buffType of GROUP_ORDER) {
+    const groupMap = props.buffGroups[buffType]
+    if (!groupMap) continue
+
+    for (const [id, buffs] of Object.entries(groupMap)) {
+      if (buffs.length === 0) continue
+
+      groups.push(
+        <BuffGroup
+          key={groupKey++}
+          id={id}
+          buffs={buffs}
+          buffType={buffType}
+        />,
+      )
+    }
+  }
+  return <Flex vertical gap={GROUP_SPACING}>{groups}</Flex>
+}
+
+function rerunSim(result?: SimulationScore): PerActionBuffGroups | null {
+  if (!result) return null
+
+  const form = {
+    ...result.simulationForm,
+    trace: true,
+  }
+  const context = generateContext(form)
+  const rerun = runStatSimulations([result.originalSim], form, context, originalScoringParams)[0]
+  if (!rerun.actionBuffSnapshots) return null
+
+  return aggregatePerActionBuffs(rerun.actionBuffSnapshots, rerun.rotationBuffSteps ?? [], rerun.x, form, context.primaryAbilityKey)
 }

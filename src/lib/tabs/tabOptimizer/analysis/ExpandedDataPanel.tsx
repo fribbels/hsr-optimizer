@@ -33,7 +33,7 @@ export function ExpandedDataPanel() {
   const lightConeId = AntDForm.useWatch(['lightCone'], window.optimizerForm)
 
   if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
-    return <></>
+    return null
   }
 
   let form = getCachedForm() ?? OptimizerTabController.getForm()
@@ -43,14 +43,14 @@ export function ExpandedDataPanel() {
   if (mismatchedCharacter(optimizerTabFocusCharacter, form)) {
     form = OptimizerTabController.getForm()
     if (mismatchedCharacter(optimizerTabFocusCharacter, form)) {
-      return <></>
+      return null
     }
   }
   if (selectedRowData == null || pinnedRowData == null || form == null || DB.getCharacterById(form.characterId) == null) {
-    return <></>
+    return null
   }
   if (selectedRowData.statSim) {
-    return <></>
+    return null
   }
 
   const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
@@ -90,7 +90,7 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
             </Flex>
           </Flex>
 
-          <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true} />
+          <BuffsAnalysisDisplay perActionBuffGroups={analysis.perActionBuffGroups} />
         </Flex>
       </FormRow>
     </FilterContainer>

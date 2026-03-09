@@ -39,8 +39,10 @@ import {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import {
+  ActionBuffSnapshot,
   ActionDamage,
   PrimaryActionStats,
+  RotationBuffStep,
   SimulateBuildResult,
   SimulationRelic,
   SimulationRelicByPart,
@@ -49,6 +51,16 @@ import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+
+function startTrace(x: ComputedStatsContainer, action: OptimizerAction) {
+  x.enableTracing()
+  x.mergePrecomputedTraces(action.precomputedStats)
+}
+
+function captureSnapshot(x: ComputedStatsContainer): ActionBuffSnapshot {
+  x.trace = false
+  return { buffs: [...x.buffs], buffsMemo: [...x.buffsMemo] }
+}
 
 // To use after combo state and context has been initialized
 export function simulateBuild(
@@ -104,8 +116,10 @@ export function simulateBuild(
   }
   x.setBasic(c)
 
-  // Store trace request - tracing is deferred to the primary default action only
+  // Store trace request - when tracing, we trace each action separately
   const shouldTrace = trace
+  const actionBuffSnapshots: Record<string, ActionBuffSnapshot> | undefined = shouldTrace ? {} : undefined
+  const rotationBuffSteps: RotationBuffStep[] | undefined = shouldTrace ? [] : undefined
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
@@ -115,9 +129,15 @@ export function simulateBuild(
 
     x.setPrecompute(action.precomputedStats.a)
 
+    if (shouldTrace) startTrace(x, action)
+
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
+
+    if (shouldTrace) {
+      rotationBuffSteps!.push({ actionType: action.actionType, snapshot: captureSnapshot(x) })
+    }
 
     const dotComboMultiplier = getDotComboMultiplier(action, context)
     let sum = 0
@@ -155,19 +175,14 @@ export function simulateBuild(
 
     x.setPrecompute(action.precomputedStats.a)
 
-    // Only trace buffs for the primary scoring action to avoid duplicates
-    const isPrimaryAction = shouldTrace && action.actionName === context.primaryAbilityKey
-    if (isPrimaryAction) {
-      x.enableTracing()
-      x.mergePrecomputedTraces(action.precomputedStats)
-    }
+    if (shouldTrace) startTrace(x, action)
 
     calculateBasicEffects(x, action, context)
     calculateComputedStats(x, action, context)
     calculateBaseMultis(x, action, context)
 
-    if (isPrimaryAction) {
-      x.trace = false
+    if (shouldTrace) {
+      actionBuffSnapshots![action.actionName] = captureSnapshot(x)
     }
 
     // Capture stats for the primary scoring action (from scoringMetadata.sortOption.key)
@@ -214,7 +229,13 @@ export function simulateBuild(
     actionDamage[action.actionName as AbilityKind] = x.getActionRegisterValue(action.registerIndex)
   }
 
-  return { x, primaryActionStats, actionDamage }
+  return {
+    x,
+    primaryActionStats,
+    actionDamage,
+    actionBuffSnapshots,
+    rotationBuffSteps,
+  }
 }
 
 function generateUnusedSets(relics: SimulationRelicByPart) {

@@ -6978,8 +6978,13 @@ interface Resources {
           "E2": "E2",
           "E4": "E4",
           "E6": "E6",
-          "ElationSkill": "Elation Skill"
+          "ElationSkill": "Elation Skill",
+          "LightCone": "Light Cone",
+          "Set": "Set"
         },
+        "ActionLabel": "COMBO ACTION",
+        "DefaultAction": "Default",
+        "SummaryLabel": "BUFF TOTALS",
         "Stats": {
           "CompositeLabels": {
             "Label": "{{prefix}} {{suffix}}",

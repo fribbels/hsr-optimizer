@@ -12,6 +12,7 @@ export type Buff = {
   value: number,
   source: BuffSource,
   memo?: boolean,
+  damageTags?: number,
 }
 
 type BasicStatController = {

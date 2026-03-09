@@ -68,7 +68,7 @@ export function DamageTagPieChart(props: {
         overflow: 'hidden',
       }}
     >
-      <span style={{ fontSize: 14, color: chartColor, borderBottom: '1px solid #354b7d', paddingBottom: 4 }}>
+      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid #354b7d', paddingBottom: 4 }}>
         Combo Distribution
       </span>
 

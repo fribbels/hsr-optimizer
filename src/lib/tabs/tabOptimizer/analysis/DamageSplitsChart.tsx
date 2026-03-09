@@ -19,7 +19,7 @@ import {
 } from 'recharts'
 
 export const DAMAGE_SPLITS_CHART_WIDTH = 730
-const BAR_HEIGHT = 65
+const BAR_HEIGHT = 48
 const CHART_PADDING = 80
 
 type FlattenedBar = {
@@ -192,7 +192,7 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
         layout='vertical'
         data={rows}
         margin={{ top: 15, right: 60, bottom: 20, left: 30 }}
-        barCategoryGap='25%'
+        barCategoryGap='10%'
         width={DAMAGE_SPLITS_CHART_WIDTH}
         height={chartHeight}
       >

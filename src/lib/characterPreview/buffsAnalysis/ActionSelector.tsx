@@ -3,7 +3,6 @@ import {
   ABILITY_COLORS,
   ACTION_COLORS,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
-import { sectionLabelStyle } from 'lib/characterPreview/buffsAnalysis/designContext'
 import {
   AbilityKind,
   AbilityMeta,
@@ -48,10 +47,6 @@ export function ActionSelector(props: {
 
   return (
     <Flex vertical gap={4}>
-      <span style={sectionLabelStyle}>
-        {t('ActionLabel')}
-      </span>
-
       <Flex align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>
         {items.map((item) => (
           <span

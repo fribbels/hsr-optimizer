@@ -18,6 +18,7 @@ import {
   getAKeyName,
   GLOBAL_REGISTERS_LENGTH,
   HIT_STATS_LENGTH,
+  HitAKeyValue,
   HKeyValue,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
@@ -35,8 +36,10 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import {
   BuffBuilder,
-  CompleteBuffBuilder,
-  IncompleteBuffBuilder,
+  CompleteActionBuff,
+  CompleteHitBuff,
+  IncompleteActionBuff,
+  IncompleteHitBuff,
 } from 'lib/optimization/engine/container/buffBuilder'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
@@ -411,7 +414,9 @@ export class ComputedStatsContainer {
 
   // ============== Buffs ==============
 
-  set(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+  set(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
+  set(key: AKeyValue, value: number, config: CompleteActionBuff): void
+  set(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
     this.internalBuff(
       key,
       value,
@@ -429,7 +434,9 @@ export class ComputedStatsContainer {
     )
   }
 
-  buff(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+  buff(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
+  buff(key: AKeyValue, value: number, config: CompleteActionBuff): void
+  buff(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
     this.internalBuff(
       key,
       value,
@@ -447,7 +454,9 @@ export class ComputedStatsContainer {
     )
   }
 
-  multiply(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+  multiply(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
+  multiply(key: AKeyValue, value: number, config: CompleteActionBuff): void
+  multiply(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
     this.internalBuff(
       key,
       value,
@@ -465,7 +474,9 @@ export class ComputedStatsContainer {
     )
   }
 
-  multiplicativeComplement(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+  multiplicativeComplement(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
+  multiplicativeComplement(key: AKeyValue, value: number, config: CompleteActionBuff): void
+  multiplicativeComplement(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
     this.internalBuff(
       key,
       value,
@@ -483,7 +494,9 @@ export class ComputedStatsContainer {
     )
   }
 
-  multiplicativeBoost(key: AKeyValue, value: number, config: BuffBuilder<true>) {
+  multiplicativeBoost(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
+  multiplicativeBoost(key: AKeyValue, value: number, config: CompleteActionBuff): void
+  multiplicativeBoost(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
     this.internalBuff(
       key,
       value,
@@ -501,7 +514,9 @@ export class ComputedStatsContainer {
     )
   }
 
-  buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: BuffBuilder<true>) {
+  buffDynamic(key: HitAKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff | CompleteHitBuff): void
+  buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff): void
+  buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff | CompleteHitBuff) {
     this.internalBuff(
       key,
       value,
@@ -619,36 +634,16 @@ export class ComputedStatsContainer {
     if (this.trace && value !== 0) {
       let hasMemo = false
       let allMemo = true
-
       for (const i of targetEntities) {
         const entity = this.config.entitiesArray[i]
         if (entity?.memosprite) hasMemo = true
         else allMemo = false
       }
-
-      const traceDamageTags = effectiveDamageTags !== ALL_DAMAGE_TAGS
-        ? effectiveDamageTags
-        : undefined
-
       if (!allMemo) {
-        this.buffs.push({
-          stat: getAKeyName(key),
-          key: key as number,
-          value: value,
-          source: source,
-          memo: false,
-          damageTags: traceDamageTags,
-        })
+        this.buffs.push({ stat: getAKeyName(key), key: key as number, value: value, source: source, memo: false })
       }
       if (hasMemo) {
-        this.buffsMemo.push({
-          stat: getAKeyName(key),
-          key: key as number,
-          value: value,
-          source: source,
-          memo: true,
-          damageTags: traceDamageTags,
-        })
+        this.buffsMemo.push({ stat: getAKeyName(key), key: key as number, value: value, source: source, memo: true })
       }
     }
   }
@@ -804,43 +799,43 @@ export class ComputedStatsContainer {
 
   // ============== Buff Builder ==============
 
-  elements(e: ElementTag): IncompleteBuffBuilder {
+  elements(e: ElementTag): IncompleteHitBuff {
     return this.builder.reset().elements(e)
   }
 
-  damageType(d: DamageTag): IncompleteBuffBuilder {
+  damageType(d: DamageTag): IncompleteHitBuff {
     return this.builder.reset().damageType(d)
   }
 
-  origin(o: string): IncompleteBuffBuilder {
+  origin(o: string): IncompleteActionBuff {
     return this.builder.reset().origin(o)
   }
 
-  target(e: string): IncompleteBuffBuilder {
+  target(e: string): IncompleteActionBuff {
     return this.builder.reset().target(e)
   }
 
-  targets(t: TargetTag): IncompleteBuffBuilder {
+  targets(t: TargetTag): IncompleteActionBuff {
     return this.builder.reset().targets(t)
   }
 
-  outputType(o: OutputTag): IncompleteBuffBuilder {
+  outputType(o: OutputTag): IncompleteHitBuff {
     return this.builder.reset().outputType(o)
   }
 
-  directness(d: DirectnessTag): IncompleteBuffBuilder {
+  directness(d: DirectnessTag): IncompleteHitBuff {
     return this.builder.reset().directness(d)
   }
 
-  actionKind(k: string): IncompleteBuffBuilder {
+  actionKind(k: string): IncompleteActionBuff {
     return this.builder.reset().actionKind(k)
   }
 
-  deferrable(): IncompleteBuffBuilder {
+  deferrable(): IncompleteActionBuff {
     return this.builder.reset().deferrable()
   }
 
-  source(s: BuffSource): CompleteBuffBuilder {
+  source(s: BuffSource): CompleteActionBuff {
     return this.builder.reset().source(s)
   }
 

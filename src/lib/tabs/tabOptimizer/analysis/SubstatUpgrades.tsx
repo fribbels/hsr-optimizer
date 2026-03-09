@@ -132,7 +132,6 @@ export function DamageUpgrades(props: {
         pagination={false}
         size='small'
         style={{
-          flex: '1 1 calc(30% - 10px)',
           border: '1px solid #354b7d',
           boxShadow: cardShadowNonInset,
           borderRadius: 5,
@@ -144,15 +143,9 @@ export function DamageUpgrades(props: {
 
   return (
     <Flex
-      align='start'
+      vertical
       gap={10}
-      justify='space-between'
-      wrap={true}
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '10px',
-      }}
+      style={{ width: 360 }}
     >
       {displays}
     </Flex>

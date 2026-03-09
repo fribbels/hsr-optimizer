@@ -352,7 +352,6 @@ const display = {
 
 export const Archer: CharacterConfig = {
   id: '1015',
-  info: {},
   display,
   conditionals,
   get scoring() {

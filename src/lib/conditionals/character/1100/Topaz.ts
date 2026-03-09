@@ -22,7 +22,7 @@ import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorlds
 import {
   Parts,
   Sets,
-  Stats
+  Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -56,7 +56,7 @@ import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   ScoringMetadata,
-  SimulationMetadata
+  SimulationMetadata,
 } from 'types/metadata'
 import {
   OptimizerAction,
@@ -70,7 +70,6 @@ export const TopazAbilities: AbilityKind[] = [
   AbilityKind.FUA,
   AbilityKind.BREAK,
 ]
-
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Topaz')
@@ -250,19 +249,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = action.actionType === AbilityKind.BASIC
         ? basicHitCountMulti
-        : (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+        : (r.numbyEnhancedState)
+        ? fuaEnhancedHitCountMulti
+        : fuaHitCountMulti
       boostAshblazingAtkContainer(x, action, hitMulti)
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const hitMulti = action.actionType === AbilityKind.BASIC
         ? basicHitCountMulti
-        : (r.numbyEnhancedState) ? fuaEnhancedHitCountMulti : fuaHitCountMulti
+        : (r.numbyEnhancedState)
+        ? fuaEnhancedHitCountMulti
+        : fuaHitCountMulti
       return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
 }
-
 
 const simulation = (): SimulationMetadata => ({
   parts: {
@@ -396,8 +398,9 @@ const display = {
 
 export const Topaz: CharacterConfig = {
   id: '1112',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

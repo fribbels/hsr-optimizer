@@ -1,19 +1,28 @@
-import i18next from 'i18next'
-import { Conditionals, ContentDefinition, } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, TargetTag, } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { LightConeConditionalsController } from 'types/conditionals'
-import { SuperImpositionLevel } from 'types/lightCone'
-import { LightConeConfig } from 'types/lightConeConfig'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import {
+  LightConeConditionalFunction,
+  LightConeConfig,
+} from 'types/lightConeConfig'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
-const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(MushyShroomysAdventures.id)
 
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.MushyShroomysAdventure.Content')
 
   const sValues = [0.06, 0.07, 0.08, 0.09, 0.10]
 
@@ -30,8 +39,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'elationVulnerability',
       formItem: 'switch',
-      text: 'Elation vulnerability',
-      content: betaContent,
+      text: t('elationVulnerability.text'),
+      content: t('elationVulnerability.content', { vulnerability: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   }
 

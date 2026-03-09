@@ -1,11 +1,13 @@
 import {
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
+} from 'lib/conditionals/character/1400/Cyrene'
+import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
@@ -15,7 +17,6 @@ import {
   ConditionalActivation,
   ConditionalType,
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -29,13 +30,8 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  RELICS_2P_ATK,
-  RELICS_2P_SPEED,
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  weights,
-} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -394,8 +390,9 @@ const display = {
 
 export const Cerydra: CharacterConfig = {
   id: '1412',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

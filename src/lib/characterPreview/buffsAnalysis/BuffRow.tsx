@@ -8,7 +8,6 @@ import {
   BUFF_TYPE,
 } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/basicStatsArray'
-import i18next from 'i18next'
 import React, { ReactElement, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -98,21 +97,19 @@ export function BuffRow(props: { buff: Buff; isLast: boolean }) {
 }
 
 function DamageTagPills(props: { damageTags?: number }) {
-  const t = i18next.getFixedT(null, 'optimizerTab', 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageTags')
-
   const pills = useMemo(() => {
     if (props.damageTags == null) {
-      return [renderPill('ALL', ABILITY_COLORS.ALL, t('ALL'))]
+      return [renderPill('ALL', ABILITY_COLORS.ALL, 'ALL')]
     }
 
     const result: ReactElement[] = []
     for (const entry of DAMAGE_TAG_ENTRIES) {
       if ((props.damageTags & entry.tag) !== 0) {
-        result.push(renderPill(String(entry.tag), entry.color, t(entry.key)))
+        result.push(renderPill(String(entry.tag), entry.color, entry.label))
       }
     }
     return result
-  }, [props.damageTags, t])
+  }, [props.damageTags])
 
   if (pills.length === 0) return null
   return <Flex gap={2} wrap='wrap' style={{ flexShrink: 0 }}>{pills}</Flex>

@@ -8,7 +8,6 @@ import { Buff } from 'lib/optimization/basicStatsArray'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
-import i18next from 'i18next'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -107,21 +106,20 @@ function getContributionTagPills(contributions: StatSumContribution[]): TagColor
   }
 
   const pills: TagColorEntry[] = []
-  if (hasAll) pills.push({ color: ABILITY_COLORS.ALL, key: 'ALL' })
+  if (hasAll) pills.push({ color: ABILITY_COLORS.ALL, key: 'ALL', label: 'ALL' })
   for (const entry of DAMAGE_TAG_ENTRIES) {
-    if (specificTags.has(entry.tag)) pills.push({ color: entry.color, key: entry.key })
+    if (specificTags.has(entry.tag)) pills.push({ color: entry.color, key: entry.key, label: entry.label })
   }
   return pills
 }
 
 function SummaryTagPills(props: { contributions: StatSumContribution[] }) {
-  const tTags = i18next.getFixedT(null, 'optimizerTab', 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageTags')
   const pills = getContributionTagPills(props.contributions)
   if (pills.length === 0) return null
 
   return (
     <Flex gap={2} style={{ flexShrink: 0 }}>
-      {pills.map((p) => renderPill(p.key, p.color, tTags(p.key)))}
+      {pills.map((p) => renderPill(p.key, p.color, p.label))}
     </Flex>
   )
 }

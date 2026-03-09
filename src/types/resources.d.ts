@@ -6767,19 +6767,6 @@ interface Resources {
           "LightCone": "Light Cone",
           "Set": "Set"
         },
-        "DamageTags": {
-          "ALL": "ALL",
-          "BASIC": "BASIC",
-          "SKILL": "SKILL",
-          "ULT": "ULT",
-          "FUA": "FUA",
-          "DOT": "DOT",
-          "BREAK": "BREAK",
-          "SUPER_BREAK": "SUPER BREAK",
-          "MEMO": "MEMO",
-          "ADDITIONAL": "ADDITIONAL",
-          "ELATION": "ELATION"
-        },
         "ActionLabel": "COMBO ACTION",
         "DefaultAction": "Default",
         "SummaryLabel": "BUFF TOTALS",

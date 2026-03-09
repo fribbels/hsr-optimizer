@@ -285,8 +285,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const buffValue = Math.floor((memoCr - memoUnconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
           x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
+          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -318,8 +318,8 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
   (*p_state).${this.id}${action.actionIdentifier} = buffValue;
-  ${p_containerActionVal(memoIndex, StatKey.CD, config)} += buffValue - stateValue;
   ${p_containerActionVal(memoIndex, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
+  ${p_containerActionVal(memoIndex, StatKey.CD, config)} += buffValue - stateValue;
 }
 `,
           )
@@ -347,8 +347,8 @@ if (cr > 1.00) {
           const buffValue = Math.floor((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.source(SOURCE_E6))
           x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.source(SOURCE_E6))
+          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.source(SOURCE_E6))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -375,8 +375,8 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
   (*p_state).${this.id}${action.actionIdentifier} = buffValue;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffValue - stateValue;
   ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffValue - stateValue;
 }
 `,
           )

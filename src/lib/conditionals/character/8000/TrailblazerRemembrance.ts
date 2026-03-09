@@ -377,7 +377,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
           const finalBuffCd = Math.max(0, buffCD - (stateValue ? stateBuffCD : 0))
 
-          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, finalBuffCd, action, context, x.target(TrailblazerRemembranceEntities.Mem).source(SOURCE_MEMO))
+          x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, finalBuffCd, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO))
           x.buffDynamic(StatKey.CD, finalBuffCd, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -405,6 +405,7 @@ var stateBuffCD: f32 = ${memoTalentCdBuffScaling} * stateValue + ${memoTalentCdB
 (*p_state).TrailblazerRemembranceCdConditional${action.actionIdentifier} = convertibleCdValue;
 
 let finalBuffCd = max(0.0, buffCD - select(0.0, stateBuffCD, stateValue > 0.0));
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += finalBuffCd;
 ${p_containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += finalBuffCd;
 
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += finalBuffCd;

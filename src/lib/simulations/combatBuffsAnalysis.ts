@@ -42,6 +42,12 @@ export function aggregatePerActionBuffs(
   return { byAction, rotationSteps, primaryAction: primaryAbilityKey }
 }
 
+type CombatBuffs = {
+  buffs: Buff[],
+  buffsMemo: Buff[],
+  buffsBasic: Buff[],
+}
+
 function groupSnapshot(snapshot: ActionBuffSnapshot, buffsBasic: Buff[], hasMemo: boolean, request: OptimizerForm): BuffGroups {
   const combatBuffs: CombatBuffs = {
     buffsBasic,
@@ -70,10 +76,4 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm): Buf
   }
 
   return buffGroups
-}
-
-type CombatBuffs = {
-  buffs: Buff[],
-  buffsMemo: Buff[],
-  buffsBasic: Buff[],
 }

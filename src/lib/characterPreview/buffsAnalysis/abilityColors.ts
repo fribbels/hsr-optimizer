@@ -36,7 +36,7 @@ export const DAMAGE_TAG_ENTRIES: DamageTagEntry[] = [
   { tag: DamageTag.ELATION, key: 'ELATION', color: ABILITY_COLORS.ELATION },
 ]
 
-export const ACTION_COLORS: Partial<Record<string, string>> = {
+export const ACTION_COLORS: Partial<Record<AbilityKind, string>> = {
   [AbilityKind.BASIC]: ABILITY_COLORS.BASIC,
   [AbilityKind.SKILL]: ABILITY_COLORS.SKILL,
   [AbilityKind.ULT]: ABILITY_COLORS.ULT,

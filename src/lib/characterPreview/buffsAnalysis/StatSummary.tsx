@@ -1,10 +1,9 @@
 import { Flex, theme } from 'antd'
 import { ABILITY_COLORS, DAMAGE_TAG_ENTRIES, TagColorEntry } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { CardHeader } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
-import { DesignContext, ellipsisStyle, getCardStyle, getIconStyle } from 'lib/characterPreview/buffsAnalysis/designContext'
+import { DesignContext, ellipsisStyle, getCardStyle, getIconStyle, GROUP_ORDER } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
 import { formatBuffValue, getStatConfig, renderPill, translatedLabel } from 'lib/characterPreview/buffsAnalysis/buffUtils'
-import { GROUP_ORDER } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { Buff } from 'lib/optimization/basicStatsArray'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -115,10 +114,6 @@ function getContributionTagPills(contributions: StatSumContribution[]): TagColor
   return pills
 }
 
-function formatStatSum(sum: StatSum): string {
-  return formatBuffValue(sum.total, sum.percent)
-}
-
 function SummaryTagPills(props: { contributions: StatSumContribution[] }) {
   const tTags = i18next.getFixedT(null, 'optimizerTab', 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageTags')
   const pills = getContributionTagPills(props.contributions)
@@ -156,7 +151,7 @@ export function StatSummaryTable(props: { sums: StatSum[]; avatarSrc: string }) 
             }}
           >
             <span style={{ minWidth: 60, fontSize: options.fontSize, textWrap: 'nowrap' }}>
-              {formatStatSum(sum)}
+              {formatBuffValue(sum.total, sum.percent)}
             </span>
 
             <span style={{ minWidth: 150, ...ellipsisStyle(options.fontSize) }}>

@@ -1,7 +1,6 @@
 import i18next from 'i18next'
 import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
-import { Buff } from 'lib/optimization/basicStatsArray'
 import { AKeyType } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig, StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
 import { currentLocale } from 'lib/utils/i18nUtils'

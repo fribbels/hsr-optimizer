@@ -30,7 +30,7 @@ export function ActionSelector(props: {
     const label = meta?.label ? tCombo(meta.label) : step.actionType
     return {
       label: `${index + 1}. ${label}`,
-      color: ACTION_COLORS[step.actionType] ?? '#8c8c8c',
+      color: ACTION_COLORS[step.actionType as AbilityKind] ?? ABILITY_COLORS.ALL,
       isActive: props.selectedAction === index,
       onClick: () => props.onActionChange(index),
       index,

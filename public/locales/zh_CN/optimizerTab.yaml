@@ -744,6 +744,9 @@ ExpandedDataPanel:
       E4: 4魂
       E6: 6魂
       ElationSkill: 欢愉技
+      LightCone: 光锥
+      Set: 套装
+    DefaultAction: 默认
     Stats:
       CompositeLabels:
         Label: '{{prefix}}{{suffix}}'

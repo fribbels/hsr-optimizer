@@ -432,7 +432,7 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
-    // TODO: Add Sets.PunklordeStageZero when scoring data is available
+    // TODO: Add Sets.PunklordeStageZero during 4.1
     Sets.TengokuLivestream,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],

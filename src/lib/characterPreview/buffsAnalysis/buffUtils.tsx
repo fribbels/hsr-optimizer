@@ -2,7 +2,10 @@ import i18next from 'i18next'
 import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { AKeyType } from 'lib/optimization/engine/config/keys'
-import { newStatsConfig, StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
+import {
+  newStatsConfig,
+  StatConfigEntry,
+} from 'lib/optimization/engine/config/statsConfig'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
@@ -16,6 +19,7 @@ export function getPrimaryDamageTagColor(damageTags?: number): string {
   for (const entry of DAMAGE_TAG_ENTRIES) {
     if ((damageTags & entry.tag) !== 0) return entry.color
   }
+
   return 'transparent'
 }
 
@@ -39,16 +43,19 @@ export function formatBuffValue(value: number, percent: boolean): string {
 
 export function renderPill(key: string, color: string, label: string): ReactElement {
   return (
-    <span key={key} style={{
-      padding: PILL_SIZE.padding,
-      borderRadius: 3,
-      fontSize: PILL_SIZE.fontSize,
-      fontWeight: 600,
-      lineHeight: PILL_SIZE.lineHeight,
-      color,
-      whiteSpace: 'nowrap',
-      border: `1px solid ${color}`,
-    }}>
+    <span
+      key={key}
+      style={{
+        padding: PILL_SIZE.padding,
+        borderRadius: 3,
+        fontSize: PILL_SIZE.fontSize,
+        fontWeight: 600,
+        lineHeight: PILL_SIZE.lineHeight,
+        color,
+        whiteSpace: 'nowrap',
+        border: `1px solid ${color}`,
+      }}
+    >
       {label}
     </span>
   )

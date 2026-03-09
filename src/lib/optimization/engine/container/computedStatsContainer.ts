@@ -1,6 +1,9 @@
 import { aKeyToConvertibleStat } from 'lib/conditionals/evaluation/statConversionConfig'
+import {
+  Stats,
+  StatsValues,
+} from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { Stats, StatsValues } from 'lib/constants/constants'
 import {
   BasicStatsArray,
   BasicStatsArrayCore,
@@ -12,8 +15,8 @@ import {
   AKeyType,
   AKeyValue,
   AToHKey,
-  GLOBAL_REGISTERS_LENGTH,
   getAKeyName,
+  GLOBAL_REGISTERS_LENGTH,
   HIT_STATS_LENGTH,
   HKeyValue,
   StatKey,
@@ -128,7 +131,7 @@ function buildActionBuffIndexCache(
 function buildEntityTargetCaches(
   entities: OptimizerEntity[],
   entityStride: number,
-): { indices: Record<number, number[]>; offsets: Record<number, number[]> } {
+): { indices: Record<number, number[]>, offsets: Record<number, number[]> } {
   const indices: Record<number, number[]> = {}
   const offsets: Record<number, number[]> = {}
   const allTargetTags = Object.values(TargetTag).filter((v): v is number => typeof v === 'number')
@@ -616,17 +619,36 @@ export class ComputedStatsContainer {
     if (this.trace && value !== 0) {
       let hasMemo = false
       let allMemo = true
+
       for (const i of targetEntities) {
         const entity = this.config.entitiesArray[i]
         if (entity?.memosprite) hasMemo = true
         else allMemo = false
       }
-      const traceDamageTags = effectiveDamageTags !== ALL_DAMAGE_TAGS ? effectiveDamageTags : undefined
+
+      const traceDamageTags = effectiveDamageTags !== ALL_DAMAGE_TAGS
+        ? effectiveDamageTags
+        : undefined
+
       if (!allMemo) {
-        this.buffs.push({ stat: getAKeyName(key), key: key as number, value: value, source: source, memo: false, damageTags: traceDamageTags })
+        this.buffs.push({
+          stat: getAKeyName(key),
+          key: key as number,
+          value: value,
+          source: source,
+          memo: false,
+          damageTags: traceDamageTags,
+        })
       }
       if (hasMemo) {
-        this.buffsMemo.push({ stat: getAKeyName(key), key: key as number, value: value, source: source, memo: true, damageTags: traceDamageTags })
+        this.buffsMemo.push({
+          stat: getAKeyName(key),
+          key: key as number,
+          value: value,
+          source: source,
+          memo: true,
+          damageTags: traceDamageTags,
+        })
       }
     }
   }
@@ -872,10 +894,10 @@ const ContainerKeyToExternal: Partial<Record<AKeyType, StatsValues>> = {
 }
 
 export type OptimizerEntity = EntityDefinition & {
-  name: string
-  targetMask: number
-  baseAtk: number
-  baseDef: number
-  baseHp: number
-  baseSpd: number
+  name: string,
+  targetMask: number,
+  baseAtk: number,
+  baseDef: number,
+  baseHp: number,
+  baseSpd: number,
 }

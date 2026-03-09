@@ -1,17 +1,23 @@
 import { Flex } from 'antd'
-import { ABILITY_COLORS, ACTION_COLORS } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import {
+  ABILITY_COLORS,
+  ACTION_COLORS,
+} from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { sectionLabelStyle } from 'lib/characterPreview/buffsAnalysis/designContext'
-import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  AbilityMeta,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { RotationStepEntry } from 'lib/simulations/combatBuffsAnalysis'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-type ActionItem = { label: string; color: string; isActive: boolean; onClick: () => void; index: number }
+type ActionItem = { label: string, color: string, isActive: boolean, onClick: () => void, index: number }
 
 export function ActionSelector(props: {
-  rotationSteps: RotationStepEntry[]
-  selectedAction: number | null
-  onActionChange: (action: number | null) => void
+  rotationSteps: RotationStepEntry[],
+  selectedAction: number | null,
+  onActionChange: (action: number | null) => void,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const { t: tCombo } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
@@ -25,9 +31,11 @@ export function ActionSelector(props: {
     onClick: () => props.onActionChange(null),
     index: -1,
   }
+
   const stepItems: ActionItem[] = props.rotationSteps.map((step, index) => {
     const meta = AbilityMeta[step.actionType as AbilityKind]
     const label = meta?.label ? tCombo(meta.label) : step.actionType
+
     return {
       label: `${index + 1}. ${label}`,
       color: ACTION_COLORS[step.actionType as AbilityKind] ?? ABILITY_COLORS.ALL,
@@ -43,6 +51,7 @@ export function ActionSelector(props: {
       <span style={sectionLabelStyle}>
         {t('ActionLabel')}
       </span>
+
       <Flex align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>
         {items.map((item) => (
           <span

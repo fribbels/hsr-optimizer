@@ -1,9 +1,27 @@
-import { Flex, theme } from 'antd'
-import { ABILITY_COLORS, DAMAGE_TAG_ENTRIES, TagColorEntry } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import {
+  Flex,
+  theme,
+} from 'antd'
+import {
+  ABILITY_COLORS,
+  DAMAGE_TAG_ENTRIES,
+  TagColorEntry,
+} from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { CardHeader } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
-import { DesignContext, ellipsisStyle, getCardStyle, getIconStyle, GROUP_ORDER } from 'lib/characterPreview/buffsAnalysis/designContext'
+import {
+  formatBuffValue,
+  getStatConfig,
+  renderPill,
+  translatedLabel,
+} from 'lib/characterPreview/buffsAnalysis/buffUtils'
+import {
+  DesignContext,
+  ellipsisStyle,
+  getCardStyle,
+  getIconStyle,
+  GROUP_ORDER,
+} from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
-import { formatBuffValue, getStatConfig, renderPill, translatedLabel } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { Buff } from 'lib/optimization/basicStatsArray'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -11,20 +29,23 @@ import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const STAT_ORDER = new Map(Object.keys(newStatsConfig).map((key, i) => [key, i]))
+const STAT_ORDER = new Map(
+  Object.keys(newStatsConfig)
+    .map((key, i) => [key, i]),
+)
 
 type StatSumContribution = {
-  value: number
-  damageTags?: number
+  value: number,
+  damageTags?: number,
 }
 
 type StatSum = {
-  stat: string
-  label: string
-  total: number
-  count: number
-  percent: boolean
-  contributions: StatSumContribution[]
+  stat: string,
+  label: string,
+  total: number,
+  count: number,
+  percent: boolean,
+  contributions: StatSumContribution[],
 }
 
 export function collectAllBuffs(buffGroups: BuffGroups): Buff[] {
@@ -36,6 +57,7 @@ export function collectAllBuffs(buffGroups: BuffGroups): Buff[] {
       all.push(...buffs)
     }
   }
+
   return all
 }
 
@@ -97,6 +119,7 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
 function getContributionTagPills(contributions: StatSumContribution[]): TagColorEntry[] {
   const hasAll = contributions.some((c) => c.damageTags == null)
   const specificTags = new Set<DamageTag>()
+
   for (const c of contributions) {
     if (c.damageTags != null) {
       for (const entry of DAMAGE_TAG_ENTRIES) {
@@ -124,7 +147,7 @@ function SummaryTagPills(props: { contributions: StatSumContribution[] }) {
   )
 }
 
-export function StatSummaryTable(props: { sums: StatSum[]; avatarSrc: string }) {
+export function StatSummaryTable(props: { sums: StatSum[], avatarSrc: string }) {
   const options = useContext(DesignContext)
   const { token } = theme.useToken()
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
@@ -158,13 +181,15 @@ export function StatSummaryTable(props: { sums: StatSum[]; avatarSrc: string }) 
 
             <SummaryTagPills contributions={sum.contributions} />
 
-            <span style={{
-              marginLeft: 'auto',
-              color: `rgba(255,255,255,${options.sourceOpacity / 100})`,
-              fontSize: options.fontSize,
-              textWrap: 'nowrap',
-              flexShrink: 0,
-            }}>
+            <span
+              style={{
+                marginLeft: 'auto',
+                color: `rgba(255,255,255,${options.sourceOpacity / 100})`,
+                fontSize: options.fontSize,
+                textWrap: 'nowrap',
+                flexShrink: 0,
+              }}
+            >
               {'x' + sum.count}
             </span>
           </Flex>

@@ -1,21 +1,39 @@
 import { Flex } from 'antd'
-import { ABILITY_COLORS, DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
-import { formatBuffValue, getStatConfig, getPrimaryDamageTagColor, renderPill, translatedLabel } from 'lib/characterPreview/buffsAnalysis/buffUtils'
-import { DesignContext, ellipsisStyle, FilterContext } from 'lib/characterPreview/buffsAnalysis/designContext'
+import {
+  ABILITY_COLORS,
+  DAMAGE_TAG_ENTRIES,
+} from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import {
+  formatBuffValue,
+  getPrimaryDamageTagColor,
+  getStatConfig,
+  renderPill,
+  translatedLabel,
+} from 'lib/characterPreview/buffsAnalysis/buffUtils'
+import {
+  DesignContext,
+  ellipsisStyle,
+  FilterContext,
+} from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
+import { Buff } from 'lib/optimization/basicStatsArray'
 import {
   BUFF_ABILITY,
   BUFF_TYPE,
 } from 'lib/optimization/buffSource'
-import { Buff } from 'lib/optimization/basicStatsArray'
-import React, { ReactElement, useContext, useMemo } from 'react'
+import React, {
+  ReactElement,
+  useContext,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
-export function BuffRow(props: { buff: Buff; isLast: boolean }) {
+export function BuffRow(props: { buff: Buff, isLast: boolean }) {
   const { buff, isLast } = props
   const options = useContext(DesignContext)
   const activeFilter = useContext(FilterContext)
   const dimmed = !buffMatchesFilter(buff, activeFilter)
+
   const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const { t: tGameData } = useTranslation('gameData')
 
@@ -55,6 +73,7 @@ export function BuffRow(props: { buff: Buff; isLast: boolean }) {
     const hex = Math.round(options.tintIntensity).toString(16).padStart(2, '0')
     const c = `${tintColor}${hex}`
     const c0 = `${tintColor}00`
+
     rowBackground = `linear-gradient(to right, ${c0} 0px, ${c} 5px, ${c} calc(100% - 5px), ${c0} 100%)`
   }
 
@@ -82,16 +101,17 @@ export function BuffRow(props: { buff: Buff; isLast: boolean }) {
 
       <DamageTagPills damageTags={buff.damageTags} />
 
-      <span style={{
-        marginLeft: 'auto',
-        color: `rgba(255,255,255,${options.sourceOpacity / 100})`,
-        textAlign: 'end',
-        flexShrink: 0,
-        ...ellipsisStyle(options.fontSize),
-      }}>
+      <span
+        style={{
+          marginLeft: 'auto',
+          color: `rgba(255,255,255,${options.sourceOpacity / 100})`,
+          textAlign: 'end',
+          flexShrink: 0,
+          ...ellipsisStyle(options.fontSize),
+        }}
+      >
         {sourceLabel}
       </span>
-
     </Flex>
   )
 }

@@ -1,8 +1,11 @@
 import { PathNames } from 'lib/constants/constants'
-import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/basicStatsArray'
+import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { ActionBuffSnapshot, RotationBuffStep } from 'lib/simulations/statSimulationTypes'
+import {
+  ActionBuffSnapshot,
+  RotationBuffStep
+} from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
 import { OptimizerForm } from 'types/form'
 
@@ -39,7 +42,8 @@ export function aggregatePerActionBuffs(
     groups: groupSnapshot(step.snapshot, buffsBasic, hasMemo, request),
   }))
 
-  return { byAction, rotationSteps, primaryAction: primaryAbilityKey }
+  return {
+    byAction, rotationSteps, primaryAction: primaryAbilityKey }
 }
 
 type CombatBuffs = {

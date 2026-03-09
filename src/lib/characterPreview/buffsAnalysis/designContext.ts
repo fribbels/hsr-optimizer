@@ -1,18 +1,18 @@
-import React, { createContext } from 'react'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import React, { createContext } from 'react'
 
 export type DesignOptions = {
-  rowHeight: number
-  iconSize: number
-  sourceOpacity: number
-  tintIntensity: number
-  panelWidth: number
-  rowPaddingX: number
-  fontSize: number
-  borderColor: string
-  cardPadding: number
+  rowHeight: number,
+  iconSize: number,
+  sourceOpacity: number,
+  tintIntensity: number,
+  panelWidth: number,
+  rowPaddingX: number,
+  fontSize: number,
+  borderColor: string,
+  cardPadding: number,
 }
 
 export const BORDER_RADIUS = 5
@@ -24,6 +24,7 @@ export const GROUP_ORDER: BUFF_TYPE[] = [
   BUFF_TYPE.CHARACTER,
   BUFF_TYPE.LIGHTCONE,
 ]
+
 export const PILL_SIZE = { padding: '0 4px', fontSize: 9, lineHeight: '16px' } as const
 
 export const DEFAULT_OPTIONS: DesignOptions = {

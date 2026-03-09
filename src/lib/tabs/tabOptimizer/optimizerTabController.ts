@@ -32,6 +32,7 @@ import {
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import {
   displayToForm,
@@ -438,7 +439,8 @@ export const OptimizerTabController = {
       window.optimizerGrid.current?.api?.deselectAll()
       // console.log('@updateForm', displayFormValues, character)
 
-      generateContext(request)
+      const context = generateContext(request)
+      useOptimizerTabStore.getState().setContext(context)
       calculateCurrentlyEquippedRow(request)
 
       window.onOptimizerFormValuesChange({} as Form, displayFormValues)

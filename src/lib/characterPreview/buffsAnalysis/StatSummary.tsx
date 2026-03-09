@@ -23,16 +23,13 @@ import {
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
 import { Buff } from 'lib/optimization/basicStatsArray'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { AKeyNames } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const STAT_ORDER = new Map(
-  Object.keys(newStatsConfig)
-    .map((key, i) => [key, i]),
-)
+const STAT_ORDER = new Map(AKeyNames.map((key, i) => [key, i]))
 
 type StatSumContribution = {
   value: number,
@@ -67,14 +64,12 @@ function getBuffStatKey(buff: Buff): string {
 
 export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSum[] {
   // First pass: collect all stat keys in insertion order (unfiltered) for stable ordering + metadata
-  const keyOrder: string[] = []
-  const metaMap = new Map<string, { stat: string; label: string; percent: boolean }>()
+  const metaMap = new Map<string, Pick<StatSum, 'stat' | 'label' | 'percent'>>()
   for (const buff of buffs) {
     const config = getStatConfig(buff.stat)
     if (!config || config.bool) continue
     const key = getBuffStatKey(buff)
     if (!metaMap.has(key)) {
-      keyOrder.push(key)
       metaMap.set(key, {
         stat: buff.stat,
         label: translatedLabel(buff.stat, buff.memo),
@@ -114,7 +109,7 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
   }
 
   // Return all keys in stable order, using zero entries for keys with no filtered matches
-  return keyOrder
+  return Array.from(metaMap.keys())
     .map((key) => {
       const existing = sumMap.get(key)
       if (existing) return existing

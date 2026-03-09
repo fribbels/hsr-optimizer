@@ -652,7 +652,13 @@ export class ComputedStatsContainer {
       }
       if (hasMemo) {
         this.buffsMemo.push({
-          stat: getAKeyName(key), key: key as number, value: value, source: source, memo: true, damageTags: traceDamageTags })
+          stat: getAKeyName(key),
+          key: key as number,
+          value: value,
+          source: source,
+          memo: true,
+          damageTags: traceDamageTags,
+        })
       }
     }
   }

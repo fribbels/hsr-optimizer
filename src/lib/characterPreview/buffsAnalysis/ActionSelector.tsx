@@ -11,7 +11,13 @@ import { RotationStepEntry } from 'lib/simulations/combatBuffsAnalysis'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-type ActionItem = { label: string, color: string, isActive: boolean, onClick: () => void, index: number }
+type ActionItem = {
+  label: string,
+  color: string,
+  isActive: boolean,
+  onClick: () => void,
+  index: number,
+}
 
 export function ActionSelector(props: {
   rotationSteps: RotationStepEntry[],
@@ -46,28 +52,26 @@ export function ActionSelector(props: {
   const items = [defaultItem, ...stepItems]
 
   return (
-    <Flex vertical gap={4}>
-      <Flex align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>
-        {items.map((item) => (
-          <span
-            key={item.index}
-            onClick={item.onClick}
-            style={{
-              padding: '4px 12px',
-              fontSize: 12,
-              fontWeight: 600,
-              cursor: 'pointer',
-              color: item.isActive ? '#ffffffd9' : '#ffffff59',
-              borderBottom: item.isActive ? '2px solid #3f5a96' : '2px solid transparent',
-              userSelect: 'none',
-              transition: 'color 0.15s, border-color 0.15s',
-              marginBottom: -1,
-            }}
-          >
-            {item.label}
-          </span>
-        ))}
-      </Flex>
+    <Flex align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>
+      {items.map((item) => (
+        <span
+          key={item.index}
+          onClick={item.onClick}
+          style={{
+            padding: '4px 12px',
+            fontSize: 12,
+            fontWeight: 600,
+            cursor: 'pointer',
+            color: item.isActive ? '#ffffffd9' : '#ffffff59',
+            borderBottom: item.isActive ? '2px solid #3f5a96' : '2px solid transparent',
+            userSelect: 'none',
+            transition: 'color 0.15s, border-color 0.15s',
+            marginBottom: -1,
+          }}
+        >
+          {item.label}
+        </span>
+      ))}
     </Flex>
   )
 }

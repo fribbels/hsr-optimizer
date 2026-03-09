@@ -13,7 +13,7 @@ import {
 } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   generateSetConditionalsInitializer,
@@ -62,9 +62,9 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
 function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const actionLength = context.shaderVariables.actionLength
   const containerLength = context.maxContainerArrayLength
-  const calculationsPerAction = containerLength / Object.values(newStatsConfig).length
+  const calculationsPerAction = containerLength / STATS_LENGTH
 
-  const statsLength = Object.values(newStatsConfig).length
+  const statsLength = STATS_LENGTH
 
   // Generate precomputed stats buffer data
   const precomputedStatsData = new Float32Array(actionLength * containerLength)

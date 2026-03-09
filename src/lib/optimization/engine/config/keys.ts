@@ -30,7 +30,7 @@ export const AKey = Object.keys(newStatsConfig).reduce(
   {} as Record<AKeyType, AKeyValue>,
 ) as AKeyRecord  // narrowing: AKeyRecord extends Record<AKeyType, AKeyValue> since HitAKeyValue extends AKeyValue
 
-const AKeyNames = Object.keys(newStatsConfig) as AKeyType[]
+export const AKeyNames = Object.keys(newStatsConfig) as AKeyType[]
 
 export function getAKeyName(key: AKeyValue): AKeyType {
   return AKeyNames[key]

@@ -1,5 +1,5 @@
 import {
-  statConversionConfig,
+  statConversionEntries,
   UnconvertibleProperty,
 } from 'lib/conditionals/evaluation/statConversionConfig'
 import { PathNames } from 'lib/constants/constants'
@@ -17,14 +17,12 @@ import {
 import DB from 'lib/state/db'
 import { OptimizerForm } from 'types/form'
 
-const unconvertibleStatNames = new Set<AKeyType | BasicKeyType>(
-  Object.values(statConversionConfig)
-    .map((c) => c.unconvertibleProperty),
-)
-const mainStatToUnconvertibleStat = new Map<AKeyType | BasicKeyType, UnconvertibleProperty>(
-  Object.values(statConversionConfig)
-    .map((c) => [c.property, c.unconvertibleProperty]),
-)
+const unconvertibleStatNames = new Set<AKeyType | BasicKeyType>()
+const mainStatToUnconvertibleStat = new Map<AKeyType | BasicKeyType, UnconvertibleProperty>()
+for (const entry of statConversionEntries) {
+  unconvertibleStatNames.add(entry.unconvertibleProperty)
+  mainStatToUnconvertibleStat.set(entry.property, entry.unconvertibleProperty)
+}
 
 export type BuffGroups = Record<BUFF_TYPE, Record<string, Buff[]>>
 
@@ -81,17 +79,21 @@ function groupSnapshot(snapshot: ActionBuffSnapshot, buffsBasic: Buff[], hasMemo
   return groupCombatBuffs(combatBuffs, request)
 }
 
+function conversionKey(stat: AKeyType | BasicKeyType, buff: Buff): string {
+  return `${stat}:${buff.source.label}:${String(buff.memo ?? false)}`
+}
+
 function filterConversionPairs(buffs: Buff[]): Buff[] {
   const unconvertiblePresent = new Set<string>()
   for (const buff of buffs) {
     if (!unconvertibleStatNames.has(buff.stat)) continue
-    unconvertiblePresent.add(`${buff.stat}:${buff.source.label}:${String(buff.memo ?? false)}`)
+    unconvertiblePresent.add(conversionKey(buff.stat, buff))
   }
   if (unconvertiblePresent.size === 0) return buffs
   return buffs.filter((buff) => {
     const unconvertibleStat = mainStatToUnconvertibleStat.get(buff.stat)
     if (!unconvertibleStat) return true
-    return !unconvertiblePresent.has(`${unconvertibleStat}:${buff.source.label}:${String(buff.memo ?? false)}`)
+    return !unconvertiblePresent.has(conversionKey(unconvertibleStat, buff))
   })
 }
 

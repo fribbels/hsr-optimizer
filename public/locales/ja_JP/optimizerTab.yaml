@@ -625,6 +625,9 @@ ExpandedDataPanel:
       E2: 2凸
       E4: 4凸
       E6: 6凸
+      LightCone: 光円錐
+      Set: セット
+    DefaultAction: デフォルト
     Stats:
       CompositeLabels:
         Label: '{{prefix}}　{{suffix}}'

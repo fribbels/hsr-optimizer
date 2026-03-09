@@ -29,7 +29,7 @@ import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const STAT_ORDER = new Map(AKeyNames.map((key, i) => [key, i]))
+const STAT_ORDER = new Map<string, number>(AKeyNames.map((key, i) => [key, i]))
 
 type StatSumContribution = {
   value: number,

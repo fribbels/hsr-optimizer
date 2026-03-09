@@ -860,6 +860,9 @@ export const DB = {
           },
           statFilters: statFiltersFromForm(formData),
           comboStateJson: TsUtils.clone(formData.comboStateJson),
+          comboType: formData.comboType,
+          comboTurnAbilities: TsUtils.clone(formData.comboTurnAbilities),
+          comboDot: formData.comboDot,
           setConditionals: TsUtils.clone(formData.setConditionals),
           presets: formData.comboPreprocessor,
         }
@@ -1560,13 +1563,11 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
     form.setFieldValue('ornamentSets', TsUtils.clone(dbCharForm.ornamentSets))
     form.setFieldsValue(TsUtils.clone(emptyFilters))
   } else {
-    if (meta.comboStateJson) {
-      form.setFieldValue('comboType', ComboType.ADVANCED)
-      form.setFieldValue('comboPreprocessor', meta.presets)
-      form.setFieldValue('comboStateJson', TsUtils.clone(meta.comboStateJson))
-    } else {
-      form.setFieldValue('comboType', ComboType.SIMPLE)
-    }
+    form.setFieldValue('comboType', meta.comboType ?? ComboType.SIMPLE)
+    form.setFieldValue('comboPreprocessor', meta.presets)
+    form.setFieldValue('comboStateJson', TsUtils.clone(meta.comboStateJson))
+    form.setFieldValue('comboTurnAbilities', TsUtils.clone(meta.comboTurnAbilities))
+    form.setFieldValue('comboDot', meta.comboDot)
     if (meta.statFilters) {
       form.setFieldsValue(TsUtils.clone(meta.statFilters))
     }

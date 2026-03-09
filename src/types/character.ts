@@ -5,6 +5,7 @@ import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerControll
 import type { Prettify } from 'types/common'
 import { ConditionalValueMap } from 'types/conditionals'
 import { CustomImageConfig } from 'types/customImage'
+import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   Form,
   OrnamentSetFilters,
@@ -42,6 +43,9 @@ export type SavedBuild = Prettify<
 
 export type BuildOptimizerMetadata = {
   comboStateJson: string | null,
+  comboType?: string,
+  comboTurnAbilities?: TurnAbilityName[],
+  comboDot?: number,
   statFilters: StatFilters | null,
   setFilters: {
     ornaments: OrnamentSetFilters,

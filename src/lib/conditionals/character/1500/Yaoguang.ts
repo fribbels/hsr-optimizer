@@ -313,20 +313,19 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
         const attackElement = action.hits?.find((hit) => hit.directHit && hit.damageElement !== ElementTag.None)?.damageElement ?? ElementTag.None
 
         // Great Boon triggers 1 time, or 2 times if the attack consumes Skill Points
+        // When proccing twice, double the elation scaling value instead of adding a second hit
         const greatBoonCount = (self.isTeammate && action.actionType === AbilityKind.SKILL && self.ownConditionals.consumesSkillPoints) ? 2 : 1
 
-        for (let i = 0; i < greatBoonCount; i++) {
-          const greatBoonHit = HitDefinitionBuilder.elation()
-            .damageType(DamageTag.ELATION)
-            .damageElement(attackElement)
-            .elationScaling(talentElationScaling)
-            .punchlineStacks(certifiedBangerStacks)
-            .toughnessDmg(0)
-            .build() as ElationHit
-          greatBoonHit.minElationOverride = minElation
+        const greatBoonHit = HitDefinitionBuilder.elation()
+          .damageType(DamageTag.ELATION)
+          .damageElement(attackElement)
+          .elationScaling(talentElationScaling * greatBoonCount)
+          .punchlineStacks(certifiedBangerStacks)
+          .toughnessDmg(0)
+          .build() as ElationHit
+        greatBoonHit.minElationOverride = minElation
 
-          action.hits!.push(greatBoonHit)
-        }
+        action.hits!.push(greatBoonHit)
       },
     }],
 

@@ -35,7 +35,9 @@ function num(v: number): string {
   return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.?0+$/, '')
 }
 
-const ELEMENT_I18N_KEYS: Partial<Record<ElementTag, string>> = {
+type ElementI18nKey = 'Physical' | 'Fire' | 'Ice' | 'Thunder' | 'Wind' | 'Quantum' | 'Imaginary'
+
+const ELEMENT_I18N_KEYS: Partial<Record<ElementTag, ElementI18nKey>> = {
   [ElementTag.Physical]: 'Physical',
   [ElementTag.Fire]: 'Fire',
   [ElementTag.Ice]: 'Ice',

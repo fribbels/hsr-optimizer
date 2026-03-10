@@ -6982,7 +6982,6 @@ interface Resources {
           "LightCone": "Light Cone",
           "Set": "Set"
         },
-        "ActionLabel": "COMBO ACTION",
         "DefaultAction": "Default",
         "SummaryLabel": "BUFF TOTALS",
         "Stats": {

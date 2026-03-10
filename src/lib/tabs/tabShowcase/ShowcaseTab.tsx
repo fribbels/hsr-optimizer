@@ -8,9 +8,7 @@ import {
   IconFlask,
   IconSettings,
 } from '@tabler/icons-react'
-import {
-  Form,
-} from 'antd'
+import { useForm } from '@mantine/form'
 import { Accordion, Button, Flex, Menu, Popover, SegmentedControl, Text, TextInput } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -58,12 +56,12 @@ const RERUN_PRESET_SIZE = 45
 const PRESET_SIZE = 95
 
 export default function ShowcaseTab() {
-  const [showcaseForm] = Form.useForm<ShowcaseTabForm>()
-  window.showcaseTabForm = showcaseForm
-
   const loading = useShowcaseTabStore((s) => s.loading)
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
+
+  const showcaseForm = useForm<ShowcaseTabForm>({ initialValues: { scorerId: scorerId ?? '' } })
+  window.showcaseTabForm = showcaseForm
 
   const activeKey = window.store((s) => s.activeKey)
   const { t } = useTranslation(['relicScorerTab', 'common'])
@@ -97,15 +95,13 @@ export default function ShowcaseTab() {
             }
           </Text>
         </Flex>
-        <Form
-          form={showcaseForm}
-          onFinish={submitForm}
-          initialValues={{ scorerId: scorerId }}
-        >
+        <form onSubmit={showcaseForm.onSubmit(submitForm)}>
           <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
-            <Form.Item name='scorerId'>
-              <TextInput style={{ width: 150 }} placeholder={t('SubmissionBar.Placeholder') /* Account UID */} />
-            </Form.Item>
+            <TextInput
+              style={{ width: 150 }}
+              placeholder={t('SubmissionBar.Placeholder') /* Account UID */}
+              {...showcaseForm.getInputProps('scorerId')}
+            />
             <Button
               type='submit'
               loading={loading}
@@ -122,7 +118,7 @@ export default function ShowcaseTab() {
               {t('SubmissionBar.AlgorithmButton') /* Scoring algorithm */}
             </Button>
           </Flex>
-        </Form>
+        </form>
         <CharacterPreviewSelection />
       </Flex>
     </div>

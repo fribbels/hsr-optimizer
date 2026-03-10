@@ -1,6 +1,4 @@
-import {
-  Form as AntDForm,
-} from 'antd'
+import { useForm } from '@mantine/form'
 import { Button, Flex, Modal, Select } from '@mantine/core'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
@@ -32,7 +30,7 @@ export type SwitchRelicsForm = {
 
 export function SwitchRelicsModal() {
   const currentCharacter = useCharacterTabStore((s) => s.selectedCharacter)
-  const [characterForm] = AntDForm.useForm()
+  const characterForm = useForm({ initialValues: { selectedCharacter: null as string | null } })
   const characters = useCharacterTabStore((s) => s.characters)
   const { isOpen, close } = useOpenClose(OpenCloseIDs.SWITCH_RELICS_MODAL)
 
@@ -55,13 +53,13 @@ export function SwitchRelicsModal() {
   useEffect(() => {
     if (!isOpen) return
 
-    characterForm.setFieldsValue({
-      characterId: null,
+    characterForm.setValues({
+      selectedCharacter: null,
     })
   }, [characterForm, isOpen])
 
   function onModalOk() {
-    const { selectedCharacter } = characterForm.getFieldsValue() as { selectedCharacter: string }
+    const { selectedCharacter } = characterForm.getValues()
     console.log('Switch relics modal submitted with:', selectedCharacter)
     CharacterTabController.onSwitchRelicsOk({ value: selectedCharacter as CharacterId } as SwitchRelicsFormSelectedCharacter)
     close()
@@ -80,31 +78,26 @@ export function SwitchRelicsModal() {
       centered
       onClose={handleCancel}
     >
-      <AntDForm
-        form={characterForm}
-        preserve={false}
-        layout='vertical'
-      >
+      <div>
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('Title') /* Switch relics with character */}</HeaderText>
         </Flex>
 
         <Flex direction="column" gap={defaultGap}>
           <Flex gap={defaultGap}>
-            <AntDForm.Item name='selectedCharacter'>
-              <Select
-                searchable
-                style={{ width: panelWidth }}
-                data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
-                renderOption={({ option }) => {
-                  const match = characterOptions.find((o) => o.value === option.value)
-                  return match?.label ?? option.label
-                }}
-              />
-            </AntDForm.Item>
+            <Select
+              searchable
+              style={{ width: panelWidth }}
+              data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
+              renderOption={({ option }) => {
+                const match = characterOptions.find((o) => o.value === option.value)
+                return match?.label ?? option.label
+              }}
+              {...characterForm.getInputProps('selectedCharacter')}
+            />
           </Flex>
         </Flex>
-      </AntDForm>
+      </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
         <Button key='back' variant="default" onClick={handleCancel}>
           {tCommon('Cancel') /* Cancel */}

@@ -3,11 +3,8 @@ import {
   IconChevronRight,
   IconLock,
 } from '@tabler/icons-react'
-import {
-  Form,
-} from 'antd'
+import { useForm, UseFormReturnType } from '@mantine/form'
 import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select, TextInput, Tooltip, useMantineTheme } from '@mantine/core'
-import { FormInstance } from 'antd/es/form/hooks/useForm'
 import {
   Constants,
   MainStats,
@@ -174,7 +171,9 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const theme = useMantineTheme()
-  const [relicForm] = Form.useForm<RelicForm>()
+  const relicForm = useForm<RelicForm>({
+    initialValues: {} as RelicForm,
+  })
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters = useCharacterTabStore((s) => s.characters)
   const showLocator = window.store((s) => s.settings.ShowLocatorInRelicsModal)
@@ -215,7 +214,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
     return setOptions
   }, [t])
 
-  const part = Form.useWatch('part', relicForm)
+  const part = relicForm.getValues().part
 
   function getSetOptions(part?: Parts) {
     if (!part) return relicOptions.concat(planarOptions)
@@ -225,7 +224,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
 
   const setOptions = getSetOptions(part)
 
-  const equippedBy = Form.useWatch('equippedBy', relicForm)
+  const equippedBy = relicForm.getValues().equippedBy
   const [upgradeValues, setUpgradeValues] = useState<RelicUpgradeValues[]>([])
 
   useEffect(() => {
@@ -259,7 +258,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
 
     onValuesChange(defaultValues)
 
-    relicForm.setFieldsValue(defaultValues)
+    relicForm.setValues(defaultValues)
   }, [selectedRelic, open])
 
   useEffect(() => {
@@ -274,25 +273,25 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
 
     setMainStatOptions(mainStatOptions)
     relicForm.setFieldValue('mainStatType', selectedRelic?.main?.stat)
-  }, [selectedRelic?.part, selectedRelic?.main?.stat, selectedPart, relicForm, t])
+  }, [selectedRelic?.part, selectedRelic?.main?.stat, selectedPart, t])
 
   useEffect(() => {
     if (mainStatOptions.length > 0) {
       const mainStatValues = mainStatOptions.map((item) => item.value)
       // @ts-ignore
       if (mainStatValues.includes(selectedRelic?.main?.stat)) {
-        relicForm.setFieldValue('mainStatType', selectedRelic?.main?.stat)
+        relicForm.setFieldValue('mainStatType', selectedRelic?.main?.stat as MainStats)
       } else {
-        relicForm.setFieldValue('mainStatType', mainStatOptions[0].value)
+        relicForm.setFieldValue('mainStatType', mainStatOptions[0].value as MainStats)
       }
     }
 
     // We hook into the main stat change to update substats, not ideal, but it works
     resetUpgradeValues()
-  }, [relicForm, mainStatOptions, selectedRelic?.main?.stat])
+  }, [mainStatOptions, selectedRelic?.main?.stat])
 
-  const onFinish = (relicForm: RelicForm) => {
-    const relic = validateRelic(relicForm)
+  const onFinish = (formValues: RelicForm) => {
+    const relic = validateRelic(formValues)
     if (!relic) return
     if (relicsAreDifferent(selectedRelic, relic)) {
       relic.verified = false
@@ -316,23 +315,23 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
         value: entry[1],
       }))
       setMainStatOptions(mainStatOptions)
-      relicForm.setFieldValue('mainStatType', mainStatOptions[0]?.value)
+      relicForm.setFieldValue('mainStatType', mainStatOptions[0]?.value as MainStats)
 
       const defaultSet = getSetOptions(part)[0].value
       if (part === Parts.PlanarSphere || part === Parts.LinkRope) {
         // @ts-ignore
         if (!Object.values(SetsOrnaments).includes(formValues.set)) {
-          relicForm.setFieldValue('set', defaultSet)
+          relicForm.setFieldValue('set', defaultSet as RelicForm['set'])
         }
         // @ts-ignore
       } else if (!Object.values(SetsRelics).includes(formValues.set)) {
-        relicForm.setFieldValue('set', defaultSet)
+        relicForm.setFieldValue('set', defaultSet as RelicForm['set'])
       }
     }
 
-    const mainStatType: string = mainStatOptions[0]?.value || relicForm.getFieldValue('mainStatType')
-    const enhance: number = relicForm.getFieldValue('enhance')
-    const grade: number = relicForm.getFieldValue('grade')
+    const mainStatType = mainStatOptions[0]?.value || relicForm.getValues().mainStatType
+    const enhance: number | undefined = relicForm.getValues().enhance
+    const grade: number | undefined = relicForm.getValues().grade
 
     if (mainStatType != undefined && enhance != undefined && grade != undefined) {
       const specialStats = [
@@ -363,8 +362,15 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
     }
   }
 
+  // Watch for part changes to trigger onValuesChange
+  useEffect(() => {
+    if (part) {
+      onValuesChange(relicForm.getValues())
+    }
+  }, [part])
+
   function resetUpgradeValues() {
-    const statUpgrades = calculateUpgradeValues(relicForm.getFieldsValue())
+    const statUpgrades = calculateUpgradeValues(relicForm.getValues())
     setUpgradeValues(statUpgrades)
   }
 
@@ -372,12 +378,14 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
     setOpen(false)
   }
   const handleOk = () => {
-    relicForm.submit()
+    const values = relicForm.getValues()
+    onFinish(values)
   }
 
   const plusThree = () => {
     // Upgrade to nearest 3
-    relicForm.setFieldValue('enhance', Math.floor(Math.min(relicForm.getFieldValue('enhance') as number + 3, 15) / 3) * 3)
+    const currentEnhance = relicForm.getValues().enhance as number
+    relicForm.setFieldValue('enhance', Math.floor(Math.min(currentEnhance + 3, 15) / 3) * 3)
   }
 
   const enhanceOptions: {
@@ -395,14 +403,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
   }, [])
 
   return (
-    <Form
-      form={relicForm}
-      layout='vertical'
-      preserve={false}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      onValuesChange={onValuesChange}
-    >
+    <div>
       <Modal
         size={560}
         centered
@@ -442,92 +443,92 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
             <Flex direction="column" gap={5}>
               <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
 
-              <Form.Item name='part'>
-                <SegmentedControl
-                  data={[
-                    partSegmentData(Constants.Parts.Head, Assets.getPart(Constants.Parts.Head)),
-                    partSegmentData(Constants.Parts.Hands, Assets.getPart(Constants.Parts.Hands)),
-                    partSegmentData(Constants.Parts.Body, Assets.getPart(Constants.Parts.Body)),
-                    partSegmentData(Constants.Parts.Feet, Assets.getPart(Constants.Parts.Feet)),
-                    partSegmentData(Constants.Parts.PlanarSphere, Assets.getPart(Constants.Parts.PlanarSphere)),
-                    partSegmentData(Constants.Parts.LinkRope, Assets.getPart(Constants.Parts.LinkRope)),
-                  ]}
-                />
-              </Form.Item>
+              <SegmentedControl
+                data={[
+                  partSegmentData(Constants.Parts.Head, Assets.getPart(Constants.Parts.Head)),
+                  partSegmentData(Constants.Parts.Hands, Assets.getPart(Constants.Parts.Hands)),
+                  partSegmentData(Constants.Parts.Body, Assets.getPart(Constants.Parts.Body)),
+                  partSegmentData(Constants.Parts.Feet, Assets.getPart(Constants.Parts.Feet)),
+                  partSegmentData(Constants.Parts.PlanarSphere, Assets.getPart(Constants.Parts.PlanarSphere)),
+                  partSegmentData(Constants.Parts.LinkRope, Assets.getPart(Constants.Parts.LinkRope)),
+                ]}
+                {...relicForm.getInputProps('part')}
+              />
 
               <HeaderText>{t('Relic.Set') /* Set */}</HeaderText>
-              <Form.Item name='set'>
-                <Select
-                  searchable
-                  clearable
-                  style={{
-                    width: 300,
-                  }}
-                  maxDropdownHeight={350}
-                  placeholder={t('Relic.Set') /* Set */}
-                  data={setOptions}
-                  renderOption={({ option }) => (
-                    <Flex align='center' gap={10}>
-                      <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(option.value)} />
-                      {option.label}
-                    </Flex>
-                  )}
-                />
-              </Form.Item>
+              <Select
+                searchable
+                clearable
+                style={{
+                  width: 300,
+                }}
+                maxDropdownHeight={350}
+                placeholder={t('Relic.Set') /* Set */}
+                data={setOptions}
+                renderOption={({ option }) => (
+                  <Flex align='center' gap={10}>
+                    <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(option.value)} />
+                    {option.label}
+                  </Flex>
+                )}
+                {...relicForm.getInputProps('set')}
+              />
 
               <HeaderText>{t('Relic.Enhance') /* Enhance / Grade */}</HeaderText>
 
               <Flex gap={10}>
-                <Form.Item name='enhance'>
-                  <Select
-                    searchable
-                    style={{ width: 115 }}
-                    data={enhanceOptions}
-                  />
-                </Form.Item>
+                <Select
+                  searchable
+                  style={{ width: 115 }}
+                  data={enhanceOptions}
+                  {...relicForm.getInputProps('enhance')}
+                  value={relicForm.getValues().enhance?.toString()}
+                  onChange={(val) => {
+                    relicForm.setFieldValue('enhance', val != null ? Number(val) : undefined)
+                  }}
+                />
 
                 <Button style={{ width: 50 }} onClick={plusThree}>
                   +3
                 </Button>
 
-                <Form.Item name='grade'>
-                  <Select
-                    searchable
-                    style={{ width: 115 }}
-                    data={[
-                      { value: '2', label: '2 ★' },
-                      { value: '3', label: '3 ★' },
-                      { value: '4', label: '4 ★' },
-                      { value: '5', label: '5 ★' },
-                    ]}
-                    onChange={resetUpgradeValues}
-                  />
-                </Form.Item>
+                <Select
+                  searchable
+                  style={{ width: 115 }}
+                  data={[
+                    { value: '2', label: '2 ★' },
+                    { value: '3', label: '3 ★' },
+                    { value: '4', label: '4 ★' },
+                    { value: '5', label: '5 ★' },
+                  ]}
+                  value={relicForm.getValues().grade?.toString()}
+                  onChange={(val) => {
+                    relicForm.setFieldValue('grade', val != null ? Number(val) : undefined)
+                    resetUpgradeValues()
+                  }}
+                />
               </Flex>
 
               <HeaderText>{t('Relic.Mainstat') /* Main stat */}</HeaderText>
 
               <Flex gap={10}>
-                <Form.Item name='mainStatType'>
-                  <Select
-                    searchable
-                    style={{
-                      width: 210,
-                    }}
-                    data={mainStatOptions}
-                    renderOption={({ option }) => (
-                      <Flex align='center' gap={10}>
-                        <img src={Assets.getStatIcon(option.value, true)} style={{ width: 22, height: 22 }} />
-                        {option.label}
-                      </Flex>
-                    )}
-                    disabled={mainStatOptions.length <= 1}
-                  />
-                </Form.Item>
+                <Select
+                  searchable
+                  style={{
+                    width: 210,
+                  }}
+                  data={mainStatOptions}
+                  renderOption={({ option }) => (
+                    <Flex align='center' gap={10}>
+                      <img src={Assets.getStatIcon(option.value, true)} style={{ width: 22, height: 22 }} />
+                      {option.label}
+                    </Flex>
+                  )}
+                  disabled={mainStatOptions.length <= 1}
+                  {...relicForm.getInputProps('mainStatType')}
+                />
 
-                <Form.Item name='mainStatValue'>
-                  <NumberInput hideControls disabled style={{ width: 80 }} />
-                </Form.Item>
+                <NumberInput hideControls disabled style={{ width: 80 }} value={relicForm.getValues().mainStatValue} />
               </Flex>
             </Flex>
 
@@ -535,17 +536,16 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
 
             <Flex direction="column" gap={5} style={{}}>
               <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
-              <Form.Item name='equippedBy'>
-                <Select
-                  searchable
-                  style={{ height: 35 }}
-                  data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
-                  renderOption={({ option }) => {
-                    const match = characterOptions.find((o) => o.value === option.value)
-                    return match?.label ?? option.label
-                  }}
-                />
-              </Form.Item>
+              <Select
+                searchable
+                style={{ height: 35 }}
+                data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
+                renderOption={({ option }) => {
+                  const match = characterOptions.find((o) => o.value === option.value)
+                  return match?.label ?? option.label
+                }}
+                {...relicForm.getInputProps('equippedBy')}
+              />
 
               <div
                 style={{
@@ -622,14 +622,14 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
           </Flex>
         </Flex>
       </Modal>
-    </Form>
+    </div>
   )
 }
 
 function SubstatInput(props: {
   index: 0 | 1 | 2 | 3,
   upgrades: RelicUpgradeValues[],
-  relicForm: FormInstance<RelicForm>,
+  relicForm: UseFormReturnType<RelicForm>,
   resetUpgradeValues: () => void,
   plusThree: () => void,
 }) {
@@ -641,7 +641,7 @@ function SubstatInput(props: {
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
   const { t: tStats } = useTranslation('common', { keyPrefix: 'Stats' })
 
-  const isPreview = Form.useWatch(isPreviewField, props.relicForm)
+  const isPreview = props.relicForm.getValues()[isPreviewField]
 
   const handleFocus = () => {
     if (inputRef.current) {
@@ -652,14 +652,14 @@ function SubstatInput(props: {
   function upgradeClicked(quality: 'low' | 'mid' | 'high') {
     console.log(props, quality)
 
-    props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality])
-    props.relicForm.setFieldValue(isPreviewField, false)
+    props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality] as any)
+    props.relicForm.setFieldValue(isPreviewField, false as any)
     props.resetUpgradeValues()
     props.plusThree()
   }
 
   const formatStat = (value?: string | number) => {
-    const stat = props.relicForm.getFieldValue(`substatType${props.index}`)
+    const stat = props.relicForm.getValues()[`substatType${props.index}`]
     if (!value) return ''
     if (Utils.isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
     return localeNumber_0(Number(value))
@@ -682,24 +682,21 @@ function SubstatInput(props: {
   function PreviewToggle() {
     const onClick = () => {
       if (isPreview) {
-        props.relicForm.setFieldValue(isPreviewField, false)
-        props.relicForm.setFieldValue(statValueField, isPreview)
+        props.relicForm.setFieldValue(isPreviewField, false as any)
+        props.relicForm.setFieldValue(statValueField, isPreview as any)
         props.resetUpgradeValues()
       } else {
-        const value = props.relicForm.getFieldValue(statValueField)
-        if (value == 0) return
-        props.relicForm.setFieldValue(isPreviewField, value)
-        props.relicForm.setFieldValue(statValueField, 0)
+        const value = props.relicForm.getValues()[statValueField]
+        if (value == '0' || !value) return
+        props.relicForm.setFieldValue(isPreviewField, value as any)
+        props.relicForm.setFieldValue(statValueField, '0' as any)
         props.resetUpgradeValues()
       }
     }
     return (
-      <Form.Item
-        name={isPreviewField}
-        style={{ width: 12, marginTop: 7, cursor: 'pointer' }}
-      >
+      <div style={{ width: 12, marginTop: 7, cursor: 'pointer' }}>
         {isPreview ? <IconLock onClick={onClick} /> : <IconChevronRight onClick={onClick} />}
-      </Form.Item>
+      </div>
     )
   }
 
@@ -727,54 +724,56 @@ function SubstatInput(props: {
     )
   }
 
-  const stat = props.relicForm.getFieldValue(statTypeField) as RelicForm[typeof statTypeField]
+  const stat = props.relicForm.getValues()[statTypeField] as RelicForm[typeof statTypeField]
 
   return (
     <Flex gap={10} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Flex gap={10}>
-        <Form.Item name={statTypeField}>
-          <Select
-            searchable
-            clearable
-            style={{
-              width: 210,
-            }}
-            placeholder={t('SubstatPlaceholder')}
-            data={substatOptionsMemoized}
-            maxDropdownHeight={750}
-            renderOption={({ option }) => (
-              <Flex align='center' gap={10}>
-                <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(option.value, true)} />
-                {option.label}
-              </Flex>
-            )}
-            onChange={() => {
-              if (props.relicForm.getFieldValue(statTypeField)) {
-                props.relicForm.setFieldValue(statValueField, 0)
-              } else {
-                props.relicForm.setFieldValue(statValueField, undefined)
-              }
-              props.resetUpgradeValues()
-            }}
-            tabIndex={0}
-          />
-        </Form.Item>
+        <Select
+          searchable
+          clearable
+          style={{
+            width: 210,
+          }}
+          placeholder={t('SubstatPlaceholder')}
+          data={substatOptionsMemoized}
+          maxDropdownHeight={750}
+          renderOption={({ option }) => (
+            <Flex align='center' gap={10}>
+              <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(option.value, true)} />
+              {option.label}
+            </Flex>
+          )}
+          {...props.relicForm.getInputProps(statTypeField)}
+          onChange={(val) => {
+            props.relicForm.setFieldValue(statTypeField, val as any)
+            if (val) {
+              props.relicForm.setFieldValue(statValueField, '0' as any)
+            } else {
+              props.relicForm.setFieldValue(statValueField, undefined as any)
+            }
+            props.resetUpgradeValues()
+          }}
+          tabIndex={0}
+        />
 
         <Tooltip
           label={stat == Stats.SPD ? t('SpdInputWarning') : ''}
           position='top'
           events={{ hover: false, focus: true, touch: false }}
         >
-          <Form.Item name={statValueField}>
-            <TextInput
-              disabled={Boolean(isPreview)}
-              ref={inputRef}
-              onFocus={handleFocus}
-              style={{ width: 80 }}
-              onChange={props.resetUpgradeValues}
-              tabIndex={0}
-            />
-          </Form.Item>
+          <TextInput
+            disabled={Boolean(isPreview)}
+            ref={inputRef}
+            onFocus={handleFocus}
+            style={{ width: 80 }}
+            {...props.relicForm.getInputProps(statValueField)}
+            onChange={(e) => {
+              props.relicForm.setFieldValue(statValueField, e.currentTarget.value)
+              props.resetUpgradeValues()
+            }}
+            tabIndex={0}
+          />
         </Tooltip>
       </Flex>
       <PreviewToggle />

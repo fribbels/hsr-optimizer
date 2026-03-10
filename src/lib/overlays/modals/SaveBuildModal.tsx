@@ -1,6 +1,4 @@
-import {
-  Form,
-} from 'antd'
+import { useForm } from '@mantine/form'
 import { Button, Divider, Flex, Modal, TextInput, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import i18next from 'i18next'
@@ -48,7 +46,7 @@ export function SaveBuildModal(props: {
     isOpen,
     close,
   } = props
-  const [characterForm] = Form.useForm<CharacterForm>()
+  const characterForm = useForm<CharacterForm>({ initialValues: { name: '' } })
   const [selectedBuild, setSelectedBuild] = useState<number | null>(null)
   const [inputName, setInputName] = useState<string>('')
 
@@ -172,23 +170,16 @@ export function SaveBuildModal(props: {
     >
       <Flex gap={10} style={{ height: 856 }}>
         <Flex direction="column" style={{ width: 400 }}>
-          <Form
-            form={characterForm}
-            preserve={false}
-            layout='vertical'
-            onValuesChange={(changed, _) => {
-              setInputName(changed.name)
-              setSelectedBuild(character?.builds?.findIndex((b) => b.name === changed.name) ?? null)
+          <TextInput
+            label={t('Label') /* Build name */}
+            {...characterForm.getInputProps('name')}
+            onChange={(e) => {
+              const value = e.currentTarget.value
+              characterForm.setFieldValue('name', value)
+              setInputName(value)
+              setSelectedBuild(character?.builds?.findIndex((b) => b.name === value) ?? null)
             }}
-          >
-            <Form.Item
-              name='name'
-              label={t('Label') /* Build name */}
-              rules={[{ required: true, message: t('Rule') /* Please input a name */ }]}
-            >
-              <TextInput />
-            </Form.Item>
-          </Form>
+          />
           <Divider style={{ margin: '6px 0px 6px 0px' }} />
           <Button variant="default" onClick={handleCancel} style={buttonStyle}>
             {tCommon('Cancel') /* Cancel */}

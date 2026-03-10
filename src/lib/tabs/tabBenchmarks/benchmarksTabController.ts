@@ -1,4 +1,4 @@
-import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { UseFormReturnType } from '@mantine/form'
 import i18next from 'i18next'
 import {
   applyScoringMetadataPresets,
@@ -138,7 +138,7 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
   return false
 }
 
-export function handleCharacterSelectChange(id: CharacterId | null | undefined, formInstance: FormInstance<BenchmarkForm>) {
+export function handleCharacterSelectChange(id: CharacterId | null | undefined, formInstance: UseFormReturnType<BenchmarkForm>) {
   if (!id) return
   const t = i18next.getFixedT(null, 'benchmarksTab', 'Messages.Error')
 
@@ -148,7 +148,7 @@ export function handleCharacterSelectChange(id: CharacterId | null | undefined, 
     return Message.error(t('UnsupportedCharacter'), 10)
   }
 
-  const form = formInstance.getFieldsValue()
+  const form = formInstance.getValues()
 
   const character = DB.getCharacterById(id)
   if (character) {
@@ -176,5 +176,5 @@ export function handleCharacterSelectChange(id: CharacterId | null | undefined, 
   state.updateTeammate(1, simulationMetadata.teammates[1])
   state.updateTeammate(2, simulationMetadata.teammates[2])
 
-  formInstance.setFieldsValue(form)
+  formInstance.setValues(form)
 }

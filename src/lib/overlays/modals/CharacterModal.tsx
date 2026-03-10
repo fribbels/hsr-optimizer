@@ -1,7 +1,5 @@
-import {
-  Form as AntDForm,
-} from 'antd'
 import { Button, Flex, Modal, SegmentedControl, Select } from '@mantine/core'
+import { useForm } from '@mantine/form'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -41,7 +39,16 @@ export default function CharacterModal(props: {
   setOpen: (open: boolean) => void,
   initialCharacter?: Character | null,
 }) {
-  const [characterForm] = AntDForm.useForm<Form>()
+  const characterForm = useForm<CharacterModalForm>({
+    initialValues: {
+      characterId: undefined,
+      lightCone: undefined,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+      teamOrnamentSet: undefined,
+      teamRelicSet: undefined,
+    },
+  })
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
   const { t: tCommon } = useTranslation('common')
@@ -68,11 +75,11 @@ export default function CharacterModal(props: {
 
     setCharacterId(props.initialCharacter?.form.characterId ?? null)
 
-    characterForm.setFieldsValue(defaultValues)
+    characterForm.setValues(defaultValues)
   }, [props.open])
 
   function onModalOk() {
-    const formValues = characterForm.getFieldsValue()
+    const formValues = characterForm.getValues() as unknown as Form
     console.log('Character modal submitted with form:', formValues)
     props.onOk(formValues)
     props.setOpen(false)
@@ -89,136 +96,120 @@ export default function CharacterModal(props: {
       centered
       onClose={handleCancel}
     >
-      <AntDForm
-        form={characterForm}
-        preserve={false}
-        layout='vertical'
-      >
+      <div>
         <Flex direction="column" gap={10}>
           <Flex direction="column" gap={5}>
             <HeaderText>{t('Character')}</HeaderText>
-            <AntDForm.Item name='characterId'>
-              <CharacterSelect
-                value={null}
-                withIcon={true}
-                onChange={(characterId: CharacterId | null | undefined) => {
-                  setCharacterId(characterId)
-                  const dbCharacter = DB.getCharacterById(characterId!)
-                  const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon ?? 0)
-                  const lightConePreselect = dbCharacter?.form?.lightCone ?? undefined
-                  const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition ?? 1
-                  characterForm.setFieldValue('characterEidolon', eidolonPreselect)
-                  characterForm.setFieldValue('lightCone', lightConePreselect)
-                  characterForm.setFieldValue('lightConeSuperimposition', lightConeSuperimpositionPreselect)
-                }}
-              />
-            </AntDForm.Item>
-            <AntDForm.Item
-              name='characterEidolon'
-              getValueFromEvent={(val: string) => Number(val)}
-              getValueProps={(val) => ({ value: String(val ?? 0) })}
-            >
-              <SegmentedControl
-                fullWidth
-                data={[
-                  { label: t('EidolonButton', { eidolon: 0 }), value: '0' },
-                  { label: t('EidolonButton', { eidolon: 1 }), value: '1' },
-                  { label: t('EidolonButton', { eidolon: 2 }), value: '2' },
-                  { label: t('EidolonButton', { eidolon: 3 }), value: '3' },
-                  { label: t('EidolonButton', { eidolon: 4 }), value: '4' },
-                  { label: t('EidolonButton', { eidolon: 5 }), value: '5' },
-                  { label: t('EidolonButton', { eidolon: 6 }), value: '6' },
-                ]}
-              />
-            </AntDForm.Item>
+            <CharacterSelect
+              value={characterForm.getValues().characterId ?? null}
+              withIcon={true}
+              onChange={(characterId: CharacterId | null | undefined) => {
+                characterForm.setFieldValue('characterId', characterId ?? undefined)
+                setCharacterId(characterId)
+                const dbCharacter = DB.getCharacterById(characterId!)
+                const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon ?? 0)
+                const lightConePreselect = dbCharacter?.form?.lightCone ?? undefined
+                const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition ?? 1
+                characterForm.setFieldValue('characterEidolon', eidolonPreselect)
+                characterForm.setFieldValue('lightCone', lightConePreselect)
+                characterForm.setFieldValue('lightConeSuperimposition', lightConeSuperimpositionPreselect)
+              }}
+            />
+            <SegmentedControl
+              fullWidth
+              value={String(characterForm.getValues().characterEidolon ?? 0)}
+              onChange={(val: string) => characterForm.setFieldValue('characterEidolon', Number(val))}
+              data={[
+                { label: t('EidolonButton', { eidolon: 0 }), value: '0' },
+                { label: t('EidolonButton', { eidolon: 1 }), value: '1' },
+                { label: t('EidolonButton', { eidolon: 2 }), value: '2' },
+                { label: t('EidolonButton', { eidolon: 3 }), value: '3' },
+                { label: t('EidolonButton', { eidolon: 4 }), value: '4' },
+                { label: t('EidolonButton', { eidolon: 5 }), value: '5' },
+                { label: t('EidolonButton', { eidolon: 6 }), value: '6' },
+              ]}
+            />
           </Flex>
 
           <Flex direction="column" gap={5}>
             <HeaderText>{t('Lightcone')}</HeaderText>
-            <AntDForm.Item name='lightCone'>
-              <LightConeSelect
-                value={null}
-                withIcon={true}
-                characterId={characterId}
-                onChange={() => {
-                  characterForm.setFieldValue('lightConeSuperimposition', 1)
-                }}
-              />
-            </AntDForm.Item>
-            <AntDForm.Item
-              name='lightConeSuperimposition'
-              getValueFromEvent={(val: string) => {
-                setSuperimposition(Number(val))
-                return Number(val)
+            <LightConeSelect
+              value={characterForm.getValues().lightCone ?? null}
+              withIcon={true}
+              characterId={characterId}
+              onChange={(lightCone) => {
+                characterForm.setFieldValue('lightCone', lightCone ?? undefined)
+                characterForm.setFieldValue('lightConeSuperimposition', 1)
               }}
-              getValueProps={(val) => ({ value: String(val ?? 1) })}
-            >
-              <SegmentedControl
-                fullWidth
-                data={[
-                  { label: t('SuperimpositionButton', { superimposition: 1 }), value: '1' },
-                  { label: t('SuperimpositionButton', { superimposition: 2 }), value: '2' },
-                  { label: t('SuperimpositionButton', { superimposition: 3 }), value: '3' },
-                  { label: t('SuperimpositionButton', { superimposition: 4 }), value: '4' },
-                  { label: t('SuperimpositionButton', { superimposition: 5 }), value: '5' },
-                ]}
-              />
-            </AntDForm.Item>
+            />
+            <SegmentedControl
+              fullWidth
+              value={String(characterForm.getValues().lightConeSuperimposition ?? 1)}
+              onChange={(val: string) => {
+                setSuperimposition(Number(val))
+                characterForm.setFieldValue('lightConeSuperimposition', Number(val))
+              }}
+              data={[
+                { label: t('SuperimpositionButton', { superimposition: 1 }), value: '1' },
+                { label: t('SuperimpositionButton', { superimposition: 2 }), value: '2' },
+                { label: t('SuperimpositionButton', { superimposition: 3 }), value: '3' },
+                { label: t('SuperimpositionButton', { superimposition: 4 }), value: '4' },
+                { label: t('SuperimpositionButton', { superimposition: 5 }), value: '5' },
+              ]}
+            />
           </Flex>
 
           <Flex direction="column" gap={5}>
             <HeaderText>{t('Sets')}</HeaderText>
 
-            <AntDForm.Item name={`teamRelicSet`}>
-              <Select
-                className='teammate-set-select'
-                data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
-                placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
-                clearable
-                comboboxProps={{ width: 'auto' }}
-                renderOption={({ option }) => {
-                  if (!option.value) return option.label
-                  return (
-                    <Flex gap={10} align='center'>
-                      <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }} />
-                      {option.label}
-                    </Flex>
-                  )
-                }}
-                leftSection={(() => {
-                  const val = characterForm.getFieldValue('teamRelicSet')
-                  return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} /> : null
-                })()}
-                disabled={false}
-              />
-            </AntDForm.Item>
+            <Select
+              className='teammate-set-select'
+              data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
+              placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
+              clearable
+              comboboxProps={{ width: 'auto' }}
+              renderOption={({ option }) => {
+                if (!option.value) return option.label
+                return (
+                  <Flex gap={10} align='center'>
+                    <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }} />
+                    {option.label}
+                  </Flex>
+                )
+              }}
+              leftSection={(() => {
+                const val = characterForm.getValues().teamRelicSet
+                return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} /> : null
+              })()}
+              disabled={false}
+              {...characterForm.getInputProps('teamRelicSet')}
+            />
 
-            <AntDForm.Item name={`teamOrnamentSet`}>
-              <Select
-                className='teammate-set-select'
-                data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
-                placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
-                clearable
-                comboboxProps={{ width: 'auto' }}
-                renderOption={({ option }) => {
-                  if (!option.value) return option.label
-                  return (
-                    <Flex gap={10} align='center'>
-                      <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }} />
-                      {option.label}
-                    </Flex>
-                  )
-                }}
-                leftSection={(() => {
-                  const val = characterForm.getFieldValue('teamOrnamentSet')
-                  return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} /> : null
-                })()}
-                disabled={false}
-              />
-            </AntDForm.Item>
+            <Select
+              className='teammate-set-select'
+              data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
+              placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
+              clearable
+              comboboxProps={{ width: 'auto' }}
+              renderOption={({ option }) => {
+                if (!option.value) return option.label
+                return (
+                  <Flex gap={10} align='center'>
+                    <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }} />
+                    {option.label}
+                  </Flex>
+                )
+              }}
+              leftSection={(() => {
+                const val = characterForm.getValues().teamOrnamentSet
+                return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} /> : null
+              })()}
+              disabled={false}
+              {...characterForm.getInputProps('teamOrnamentSet')}
+            />
           </Flex>
         </Flex>
-      </AntDForm>
+      </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
         <Button key='back' onClick={handleCancel}>
           {tCommon('Cancel')}

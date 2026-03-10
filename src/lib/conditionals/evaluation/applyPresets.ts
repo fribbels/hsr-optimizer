@@ -1,4 +1,4 @@
-import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { UseFormReturnType } from '@mantine/form'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -157,12 +157,12 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
   }
 }
 
-export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formInstance: FormInstance<Form>) {
-  const form = formInstance.getFieldsValue()
+export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formInstance: UseFormReturnType<Form>) {
+  const form = formInstance.getValues()
   applyTeamAwareSetConditionalPresets(form)
 
   if (form.setConditionals) {
-    formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+    formInstance.setFieldValue(`setConditionals.${Sets.ArcadiaOfWovenDreams}.1` as never, form.setConditionals[Sets.ArcadiaOfWovenDreams][1] as never)
   }
 }
 
@@ -176,12 +176,12 @@ export function applyTeamAwareSetConditionalPresetsToStore() {
 }
 
 export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
-  formInstance: FormInstance<BenchmarkForm>,
+  formInstance: UseFormReturnType<BenchmarkForm>,
   teammate0?: SimpleCharacter,
   teammate1?: SimpleCharacter,
   teammate2?: SimpleCharacter,
 ) {
-  const form = formInstance.getFieldsValue()
+  const form = formInstance.getValues()
   const teammateIds = [
     teammate0?.characterId,
     teammate1?.characterId,
@@ -191,6 +191,6 @@ export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
   applyTeamAwareSetConditionalPresets(form, teammateIds)
 
   if (form.setConditionals) {
-    formInstance.setFieldValue(['setConditionals', Sets.ArcadiaOfWovenDreams, 1], form.setConditionals[Sets.ArcadiaOfWovenDreams][1])
+    formInstance.setFieldValue(`setConditionals.${Sets.ArcadiaOfWovenDreams}.1` as never, form.setConditionals[Sets.ArcadiaOfWovenDreams][1] as never)
   }
 }

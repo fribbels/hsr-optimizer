@@ -1,6 +1,6 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Form as AntDForm, Form, Radio, Select, SelectProps } from 'antd'
-import { Badge, Button, Flex, MultiSelect, NumberInput, Paper, Table, Text, TextInput, Title as MantineTitle } from '@mantine/core'
+import { Badge, Button, Flex, MultiSelect, NumberInput, Paper, SegmentedControl, Select, Table, Text, TextInput, Title as MantineTitle } from '@mantine/core'
+import { useForm, UseFormReturnType } from '@mantine/form'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
@@ -47,9 +47,12 @@ export function sanitizeWarpRequest(warpRequest: WarpRequest) {
 function Inputs() {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
   const storedWarpRequest = useWarpCalculatorStore((s) => s.request)
-  const [form] = Form.useForm<WarpRequest>()
 
   const warpRequest = sanitizeWarpRequest(storedWarpRequest)
+
+  const form = useForm<WarpRequest>({
+    initialValues: warpRequest,
+  })
 
   scannerChannel.use((event) => {
     const ingestWarpResources = useScannerState.getState().ingestWarpResources
@@ -77,7 +80,7 @@ function Inputs() {
             form.setFieldValue("pityCharacter", pityUpdate.amount)
             form.setFieldValue("guaranteedCharacter", pityUpdate.set_guarantee)
           } else if (pityUpdate.kind == "AddPity") {
-            const currentPity = form.getFieldValue("pityCharacter")
+            const currentPity = form.getValues().pityCharacter
             form.setFieldValue("pityCharacter", currentPity + gachaResult.pity_5.amount)
           }
 
@@ -86,7 +89,7 @@ function Inputs() {
             form.setFieldValue("pityLightCone", pityUpdate.amount)
             form.setFieldValue("guaranteedLightCone", pityUpdate.set_guarantee)
           } else if (pityUpdate.kind == "AddPity") {
-            const currentPity = form.getFieldValue("pityLightCone")
+            const currentPity = form.getValues().pityLightCone
             form.setFieldValue("pityLightCone", currentPity + gachaResult.pity_5.amount)
           }
         }
@@ -94,13 +97,7 @@ function Inputs() {
   }, [form])
 
   return (
-    <Form
-      form={form}
-      initialValues={warpRequest}
-      style={{
-        width: 900,
-      }}
-    >
+    <div style={{ width: 900 }}>
       <Paper style={{ width: 900 }} p="md">
         <Flex style={{ marginBottom: 30 }}>
           <Flex direction="column" style={{ flex: 1 }}>
@@ -115,26 +112,28 @@ function Inputs() {
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex direction="column">
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
-                    <Form.Item name='jades'>
-                      <NumberInput
-                        placeholder='0'
-                        min={0}
-                        style={{ width: '100%' }}
-                        hideControls
-                        leftSection={<img src={Assets.getJade()} style={{ height: 24 }}/>}
-                      />
-                    </Form.Item>
+                    <NumberInput
+                      placeholder='0'
+                      min={0}
+                      style={{ width: '100%' }}
+                      hideControls
+                      leftSection={<img src={Assets.getJade()} style={{ height: 24 }}/>}
+                      {...form.getInputProps('jades')}
+                    />
                   </Flex>
                 </Flex>
 
                 <Flex direction="column" flex={1}>
                   <HeaderText>{t('Banner')/* Banner */}</HeaderText>
-                  <Form.Item name='bannerRotation'>
-                    <Radio.Group buttonStyle='solid' block>
-                      <Radio.Button value={BannerRotation.NEW}>{t('New')}</Radio.Button>
-                      <Radio.Button value={BannerRotation.RERUN}>{t('Rerun')}</Radio.Button>
-                    </Radio.Group>
-                  </Form.Item>
+                  <SegmentedControl
+                    fullWidth
+                    data={[
+                      { label: t('New'), value: String(BannerRotation.NEW) },
+                      { label: t('Rerun'), value: String(BannerRotation.RERUN) },
+                    ]}
+                    value={String(form.getValues().bannerRotation)}
+                    onChange={(val) => form.setFieldValue('bannerRotation', Number(val) as BannerRotation)}
+                  />
                 </Flex>
               </Flex>
 
@@ -142,25 +141,26 @@ function Inputs() {
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex direction="column">
                     <HeaderText>{t('Passes')/* Passes */}</HeaderText>
-                    <Form.Item name='passes'>
-                      <NumberInput
-                        placeholder='0'
-                        min={0}
-                        style={{ width: '100%' }}
-                        hideControls
-                        leftSection={<img src={Assets.getPass()} style={{ height: 24 }}/>}
-                      />
-                    </Form.Item>
+                    <NumberInput
+                      placeholder='0'
+                      min={0}
+                      style={{ width: '100%' }}
+                      hideControls
+                      leftSection={<img src={Assets.getPass()} style={{ height: 24 }}/>}
+                      {...form.getInputProps('passes')}
+                    />
                   </Flex>
                 </Flex>
 
                 <Flex direction="column" flex={1}>
                   <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
-                  <Form.Item name='strategy'>
-                    <Select
-                      options={generateStrategyOptions()}
-                    />
-                  </Form.Item>
+                  <Select
+                    data={generateStrategyOptions()}
+                    value={String(form.getValues().strategy)}
+                    onChange={(val) => {
+                      if (val != null) form.setFieldValue('strategy', Number(val) as WarpStrategy)
+                    }}
+                  />
                 </Flex>
               </Flex>
 
@@ -181,29 +181,29 @@ function Inputs() {
                         backgroundRepeat: 'no-repeat',
                       }}
                     />
-                    <Form.Item noStyle name='starlight'>
-                      <Select
-                        style={{ flex: 1 }}
-                        options={generateStarlightOptions()}
-                        popupMatchSelectWidth={false}
-                        optionLabelProp='labelInValue'
-                      />
-                    </Form.Item>
+                    <Select
+                      style={{ flex: 1 }}
+                      data={generateStarlightOptions()}
+                      comboboxProps={{ width: 'fit-content' }}
+                      value={form.getValues().starlight}
+                      onChange={(val) => {
+                        if (val != null) form.setFieldValue('starlight', val as StarlightRefund)
+                      }}
+                    />
                   </Flex>
                 </Flex>
 
                 <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
-                  <Form.Item name='income'>
-                    <MultiSelect
-                      placeholder='None'
-                      clearable
-                      searchable={false}
-                      data={generateIncomeOptions()}
-                      comboboxProps={{ width: 500 }}
-                      styles={{ pill: { display: 'none' } }}
-                    />
-                  </Form.Item>
+                  <MultiSelect
+                    placeholder='None'
+                    clearable
+                    searchable={false}
+                    data={generateIncomeOptions()}
+                    comboboxProps={{ width: 500 }}
+                    styles={{ pill: { display: 'none' } }}
+                    {...form.getInputProps('income')}
+                  />
                 </Flex>
               </Flex>
             </Flex>
@@ -214,12 +214,12 @@ function Inputs() {
           <Flex direction="column" style={{ flex: 1 }} justify='space-between'>
             <Flex direction="column">
               <Title>{t('Character')/* Character */}</Title>
-              <PityInputs banner='Character'/>
+              <PityInputs banner='Character' form={form}/>
             </Flex>
 
             <Flex direction="column">
               <Title>{t('LightCone')/* Light Cone */}</Title>
-              <PityInputs banner='LightCone'/>
+              <PityInputs banner='LightCone' form={form}/>
             </Flex>
           </Flex>
         </Flex>
@@ -230,7 +230,7 @@ function Inputs() {
             style={{ height: 45 }}
             onClick={() => {
               useWarpCalculatorStore.getState().setResult(null)
-              setTimeout(() => handleWarpRequest(form.getFieldsValue()), 50)
+              setTimeout(() => handleWarpRequest(form.getValues()), 50)
             }}
             leftSection={<IconBoltFilled size={16}/>}
           >
@@ -238,7 +238,7 @@ function Inputs() {
           </Button>
         </Flex>
       </Paper>
-    </Form>
+    </div>
   )
 }
 
@@ -379,46 +379,53 @@ function opacity(n: number) {
   return n < chanceThreshold ? 0.10 : 1.0
 }
 
-function PityInputs(props: { banner: string }) {
+function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest> }) {
   const { t } = useTranslation(['warpCalculatorTab', 'common'])
-  const bannerRotation: BannerRotation = AntDForm.useWatch(['bannerRotation'])
+  const { form } = props
+  const bannerRotation = form.getValues().bannerRotation
+
+  const pityField = `pity${props.banner}` as keyof WarpRequest
+  const guaranteedField = `guaranteed${props.banner}` as keyof WarpRequest
 
   return (
     <Flex gap={25} style={{ width: '100%' }}>
       <Flex direction="column" flex={1}>
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
-        <Form.Item name={`pity${props.banner}`}>
-          <NumberInput
-            placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79}
-            style={{ width: '100%' }}
-            hideControls
-          />
-        </Form.Item>
+        <NumberInput
+          placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79}
+          style={{ width: '100%' }}
+          hideControls
+          {...form.getInputProps(pityField)}
+        />
       </Flex>
       <Flex direction="column" flex={1} style={{ display: bannerRotation == BannerRotation.RERUN ? 'flex' : 'none' }}>
         <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
 
-        <Form.Item name={props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'}>
-          <Select
-            options={props.banner == 'Character'
-              ? generateEidolonLevelOptions()
-              : generateSuperimpositionLevelOptions()}
-          />
-        </Form.Item>
+        <Select
+          data={props.banner == 'Character'
+            ? generateEidolonLevelOptions()
+            : generateSuperimpositionLevelOptions()}
+          value={String(form.getValues()[props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'])}
+          onChange={(val) => {
+            if (val != null) {
+              const field = props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'
+              form.setFieldValue(field, Number(val) as never)
+            }
+          }}
+        />
       </Flex>
       <Flex direction="column" flex={1}>
         <HeaderText>{t('PityCounter.Guaranteed')/* Guaranteed */}</HeaderText>
-        <Form.Item name={`guaranteed${props.banner}`}>
-          <Radio.Group
-            block
-            optionType='button'
-            buttonStyle='solid'
-          >
-            <Radio.Button value={true}><IconCheck/></Radio.Button>
-            <Radio.Button value={false}><IconX/></Radio.Button>
-          </Radio.Group>
-        </Form.Item>
+        <SegmentedControl
+          fullWidth
+          data={[
+            { label: <IconCheck/>, value: 'true' },
+            { label: <IconX/>, value: 'false' },
+          ]}
+          value={String(form.getValues()[guaranteedField] ?? false)}
+          onChange={(val) => form.setFieldValue(guaranteedField, (val === 'true') as never)}
+        />
       </Flex>
     </Flex>
   )
@@ -451,18 +458,16 @@ function generateIncomeOptions() {
 
 function generateStrategyOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'StrategyLabels')
-  const options: SelectProps['options'] = [
-    { value: WarpStrategy.S1, label: t('S1')/* 'S1 first' */ },
-    { value: WarpStrategy.E0, label: t('E0')/* 'E0 first' */ },
-    { value: WarpStrategy.E1, label: t('E1')/* 'E1 first' */ },
-    { value: WarpStrategy.E2, label: t('E2')/* 'E2 first' */ },
-    { value: WarpStrategy.E3, label: t('E3')/* 'E3 first' */ },
-    { value: WarpStrategy.E4, label: t('E4')/* 'E4 first' */ },
-    { value: WarpStrategy.E5, label: t('E5')/* 'E5 first' */ },
-    { value: WarpStrategy.E6, label: t('E6')/* 'E6 first' */ },
+  return [
+    { value: String(WarpStrategy.S1), label: t('S1')/* 'S1 first' */ },
+    { value: String(WarpStrategy.E0), label: t('E0')/* 'E0 first' */ },
+    { value: String(WarpStrategy.E1), label: t('E1')/* 'E1 first' */ },
+    { value: String(WarpStrategy.E2), label: t('E2')/* 'E2 first' */ },
+    { value: String(WarpStrategy.E3), label: t('E3')/* 'E3 first' */ },
+    { value: String(WarpStrategy.E4), label: t('E4')/* 'E4 first' */ },
+    { value: String(WarpStrategy.E5), label: t('E5')/* 'E5 first' */ },
+    { value: String(WarpStrategy.E6), label: t('E6')/* 'E6 first' */ },
   ]
-
-  return options
 }
 
 function generateStarlightOptions() {
@@ -470,7 +475,6 @@ function generateStarlightOptions() {
   return Object.values(StarlightRefund).map((refund) => ({
     value: refund,
     label: t(`${refund}_FULL`, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
-    labelInValue: t(refund, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
   }))
 }
 
@@ -481,32 +485,28 @@ function refundLabel(starlight: StarlightRefund, showDecimal: boolean = false) {
 
 function generateEidolonLevelOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'EidolonLevels')
-  const options: SelectProps['options'] = [
-    { value: EidolonLevel.NONE, label: t('NONE') },
-    { value: EidolonLevel.E0, label: t('E0') },
-    { value: EidolonLevel.E1, label: t('E1') },
-    { value: EidolonLevel.E2, label: t('E2') },
-    { value: EidolonLevel.E3, label: t('E3') },
-    { value: EidolonLevel.E4, label: t('E4') },
-    { value: EidolonLevel.E5, label: t('E5') },
-    { value: EidolonLevel.E6, label: t('E6') },
+  return [
+    { value: String(EidolonLevel.NONE), label: t('NONE') },
+    { value: String(EidolonLevel.E0), label: t('E0') },
+    { value: String(EidolonLevel.E1), label: t('E1') },
+    { value: String(EidolonLevel.E2), label: t('E2') },
+    { value: String(EidolonLevel.E3), label: t('E3') },
+    { value: String(EidolonLevel.E4), label: t('E4') },
+    { value: String(EidolonLevel.E5), label: t('E5') },
+    { value: String(EidolonLevel.E6), label: t('E6') },
   ]
-
-  return options
 }
 
 function generateSuperimpositionLevelOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'SuperimpositionLevels')
-  const options: SelectProps['options'] = [
-    { value: SuperimpositionLevel.NONE, label: t('NONE') },
-    { value: SuperimpositionLevel.S1, label: t('S1') },
-    { value: SuperimpositionLevel.S2, label: t('S2') },
-    { value: SuperimpositionLevel.S3, label: t('S3') },
-    { value: SuperimpositionLevel.S4, label: t('S4') },
-    { value: SuperimpositionLevel.S5, label: t('S5') },
+  return [
+    { value: String(SuperimpositionLevel.NONE), label: t('NONE') },
+    { value: String(SuperimpositionLevel.S1), label: t('S1') },
+    { value: String(SuperimpositionLevel.S2), label: t('S2') },
+    { value: String(SuperimpositionLevel.S3), label: t('S3') },
+    { value: String(SuperimpositionLevel.S4), label: t('S4') },
+    { value: String(SuperimpositionLevel.S5), label: t('S5') },
   ]
-
-  return options
 }
 
 function translateLabel(label: string) {

@@ -90,7 +90,7 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
             </Flex>
           </Flex>
 
-          <BuffsAnalysisDisplay perActionBuffGroups={analysis.perActionBuffGroups} />
+          <BuffsAnalysisDisplay perActionBuffGroups={analysis.perActionBuffGroups} context={analysis.context} />
         </Flex>
       </FormRow>
     </FilterContainer>

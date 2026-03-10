@@ -313,7 +313,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
         const attackElement = action.hits?.find((hit) => hit.directHit && hit.damageElement !== ElementTag.None)?.damageElement ?? ElementTag.None
 
         // Great Boon triggers 1 time, or 2 times if the attack consumes Skill Points
-        const greatBoonCount = (self.isTeammate && self.ownConditionals.consumesSkillPoints) ? 2 : 1
+        const greatBoonCount = (self.isTeammate && action.actionType === AbilityKind.SKILL && self.ownConditionals.consumesSkillPoints) ? 2 : 1
 
         for (let i = 0; i < greatBoonCount; i++) {
           const greatBoonHit = HitDefinitionBuilder.elation()

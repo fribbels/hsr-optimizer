@@ -2,6 +2,8 @@ import {
   Flex,
   theme,
 } from 'antd'
+import { HitDefinitionRows } from 'lib/characterPreview/buffsAnalysis/HitDefinitionDisplay'
+import { OptimizerContext } from 'types/optimizer'
 import {
   ABILITY_COLORS,
   DAMAGE_TAG_ENTRIES,
@@ -19,6 +21,7 @@ import {
   ellipsisStyle,
   getCardStyle,
   getIconStyle,
+  getRowBaseStyle,
   GROUP_ORDER,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
@@ -150,12 +153,18 @@ function SummaryTagPills(props: { contributions: StatSumContribution[] }) {
   )
 }
 
-export function StatSummaryTable(props: { sums: StatSum[], avatarSrc: string }) {
+export function StatSummaryTable(props: {
+  sums: StatSum[]
+  avatarSrc: string
+  context?: OptimizerContext
+  selectedAction?: number | null
+}) {
   const options = useContext(DesignContext)
   const { token } = theme.useToken()
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const cardStyleProp = getCardStyle(options, token)
   const iconStyle = getIconStyle(options)
+  const rowBase = getRowBaseStyle(options)
 
   return (
     <Flex align='center' gap={0} style={cardStyleProp}>
@@ -168,9 +177,7 @@ export function StatSummaryTable(props: { sums: StatSum[], avatarSrc: string }) 
             align='center'
             gap={6}
             style={{
-              padding: `0 ${options.rowPaddingX}px`,
-              height: options.rowHeight,
-              lineHeight: `${options.rowHeight}px`,
+              ...rowBase,
               borderBottom: i < props.sums.length - 1 ? `1px solid ${options.borderColor}` : undefined,
               opacity: sum.total === 0 ? 0.05 : 1,
               transition: 'opacity 0.15s',
@@ -200,6 +207,12 @@ export function StatSummaryTable(props: { sums: StatSum[], avatarSrc: string }) 
             </span>
           </Flex>
         ))}
+        {props.context && (
+          <HitDefinitionRows
+            context={props.context}
+            selectedAction={props.selectedAction ?? null}
+          />
+        )}
       </Flex>
     </Flex>
   )

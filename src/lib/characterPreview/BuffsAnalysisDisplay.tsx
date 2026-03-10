@@ -17,6 +17,7 @@ import {
   computeStatSums,
   StatSummaryTable,
 } from 'lib/characterPreview/buffsAnalysis/StatSummary'
+import { seedRelevantTagsFromHits } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -36,11 +37,13 @@ import React, {
   useMemo,
   useState,
 } from 'react'
+import { OptimizerContext } from 'types/optimizer'
 
 type BuffsAnalysisProps = {
   result?: SimulationScore,
   perActionBuffGroups?: PerActionBuffGroups,
   size?: BuffDisplaySize,
+  context?: OptimizerContext,
 }
 
 export enum BuffDisplaySize {
@@ -49,10 +52,12 @@ export enum BuffDisplaySize {
 }
 
 export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
-  const perActionBuffGroups = useMemo(
-    () => props.perActionBuffGroups ?? rerunSim(props.result),
+  const rerunResult = useMemo(
+    () => props.perActionBuffGroups ? null : rerunSim(props.result),
     [props.perActionBuffGroups, props.result],
   )
+  const perActionBuffGroups = props.perActionBuffGroups ?? rerunResult?.perActionBuffGroups
+  const context = props.context ?? rerunResult?.context
   const [selectedAction, setSelectedAction] = useState<number | null>(null)
   const [selectedFilter, setSelectedFilter] = useState<DamageTag | null>(null)
 
@@ -77,6 +82,12 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   const relevantTags = computeRelevantTags(allBuffs)
   const statSums = computeStatSums(allBuffs, selectedFilter)
 
+  // Seed relevantTags from hit definitions so FilterBar renders for characters
+  // whose buffs are all ALL-type (damageTags == null)
+  if (context) {
+    seedRelevantTagsFromHits(relevantTags, context, selectedAction)
+  }
+
   const primaryGroup = buffGroups[BUFF_TYPE.PRIMARY]
   const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined
   const summaryAvatarSrc = firstPrimaryId ? Assets.getCharacterAvatarById(firstPrimaryId) : Assets.getBlank()
@@ -85,7 +96,12 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
         <Flex vertical gap={5} style={{ width: options.panelWidth }}>
-          <StatSummaryTable sums={statSums} avatarSrc={summaryAvatarSrc} />
+          <StatSummaryTable
+            sums={statSums}
+            avatarSrc={summaryAvatarSrc}
+            context={context}
+            selectedAction={selectedAction}
+          />
           <ActionSelector
             rotationSteps={perActionBuffGroups.rotationSteps}
             selectedAction={selectedAction}
@@ -124,7 +140,12 @@ function GroupedLayout(props: { buffGroups: BuffGroups }) {
   return <Flex vertical gap={GROUP_SPACING}>{groups}</Flex>
 }
 
-function rerunSim(result?: SimulationScore): PerActionBuffGroups | null {
+type RerunResult = {
+  perActionBuffGroups: PerActionBuffGroups
+  context: OptimizerContext
+}
+
+function rerunSim(result?: SimulationScore): RerunResult | null {
   if (!result) return null
 
   const form = {
@@ -135,5 +156,6 @@ function rerunSim(result?: SimulationScore): PerActionBuffGroups | null {
   const rerun = runStatSimulations([result.originalSim], form, context, originalScoringParams)[0]
   if (!rerun.actionBuffSnapshots) return null
 
-  return aggregatePerActionBuffs(rerun.actionBuffSnapshots, rerun.rotationBuffSteps ?? [], rerun.x, form, context.primaryAbilityKey)
+  const perActionBuffGroups = aggregatePerActionBuffs(rerun.actionBuffSnapshots, rerun.rotationBuffSteps ?? [], rerun.x, form, context.primaryAbilityKey)
+  return { perActionBuffGroups, context }
 }

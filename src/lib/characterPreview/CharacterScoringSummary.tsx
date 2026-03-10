@@ -265,11 +265,6 @@ export const CharacterScoringSummary = (props: {
           />
         </pre>
         <DPSScoreDisclaimer/>
-        {/*<pre style={{ textAlign: 'center', color: 'rgb(225, 165, 100)', lineHeight: '24px', fontSize: 14, textWrap: 'wrap', margin: 0 }}>*/}
-        {/*  {*/}
-        {/*    t('CharacterPreview.BuildAnalysis.ScoringNote')*/}
-        {/*  }*/}
-        {/*</pre>*/}
         <DpsScoreGradeRuler
           score={result.originalSimScore}
           minimum={result.baselineSimScore}
@@ -408,11 +403,9 @@ export const CharacterScoringSummary = (props: {
       <Flex vertical align='center' style={{ width: '100%' }}>
         <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
           {
-            (
-              result.simulationForm.deprioritizeBuffs
+            result.simulationForm.deprioritizeBuffs
               ? t('CharacterPreview.BuildAnalysis.CombatBuffs.SubDpsHeader')/* Combat buffs (Sub DPS) */
               : t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')/* Combat buffs */
-            ) + ` (${result.characterMetadata!.scoringMetadata.sortOption.key} DMG)`
           }
         </pre>
 

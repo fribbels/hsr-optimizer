@@ -190,7 +190,7 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
       <BarChart
         layout='vertical'
         data={rows}
-        margin={{ top: 15, right: 60, bottom: 20, left: 30 }}
+        margin={{ top: 15, right: 60, bottom: 20, left: 25 }}
         barCategoryGap='10%'
         width={DAMAGE_SPLITS_CHART_WIDTH}
         height={chartHeight}
@@ -207,7 +207,7 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
           axisLine={false}
           tickLine={false}
           tick={dimNumberLeftTick}
-          tickMargin={10}
+          tickMargin={15}
           width={80}
         />
         <Tooltip

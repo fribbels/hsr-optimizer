@@ -30,7 +30,7 @@ export const DAMAGE_TAG_ENTRIES: DamageTagEntry[] = [
   { tag: DamageTag.FUA, key: 'FUA', label: 'FUA', color: ABILITY_COLORS.FUA },
   { tag: DamageTag.DOT, key: 'DOT', label: 'DOT', color: ABILITY_COLORS.DOT },
   { tag: DamageTag.BREAK, key: 'BREAK', label: 'BREAK', color: ABILITY_COLORS.BREAK },
-  { tag: DamageTag.SUPER_BREAK, key: 'SUPER_BREAK', label: 'SUPER BREAK', color: ABILITY_COLORS.SUPER_BREAK },
+  { tag: DamageTag.SUPER_BREAK, key: 'SUPER_BREAK', label: 'S.BREAK', color: ABILITY_COLORS.SUPER_BREAK },
   { tag: DamageTag.MEMO, key: 'MEMO', label: 'MEMO', color: ABILITY_COLORS.MEMO },
   { tag: DamageTag.ADDITIONAL, key: 'ADDITIONAL', label: 'ADDITIONAL', color: ABILITY_COLORS.ADDITIONAL },
   { tag: DamageTag.ELATION, key: 'ELATION', label: 'ELATION', color: ABILITY_COLORS.ELATION },

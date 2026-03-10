@@ -57,9 +57,29 @@ export const ellipsisStyle = (fontSize: number): React.CSSProperties => ({
 })
 
 export function getCardStyle(options: DesignOptions, token: { colorBgContainer: string }): React.CSSProperties {
-  return { borderRadius: BORDER_RADIUS, overflow: 'hidden', padding: options.cardPadding, backgroundColor: token.colorBgContainer, boxShadow: cardShadow }
+  return {
+    borderRadius: BORDER_RADIUS,
+    overflow: 'hidden',
+    padding: options.cardPadding,
+    backgroundColor: token.colorBgContainer,
+    boxShadow: cardShadow,
+  }
+}
+
+export function getRowBaseStyle(options: DesignOptions): React.CSSProperties {
+  return {
+    padding: `0 ${options.rowPaddingX}px`,
+    height: options.rowHeight,
+    lineHeight: `${options.rowHeight}px`,
+  }
 }
 
 export function getIconStyle(options: DesignOptions): React.CSSProperties {
-  return { width: options.iconSize, height: options.iconSize, flexShrink: 0, objectFit: 'cover', margin: '0 4px' }
+  return {
+    width: options.iconSize,
+    height: options.iconSize,
+    flexShrink: 0,
+    objectFit: 'cover',
+    margin: '0 4px',
+  }
 }

@@ -2,7 +2,7 @@ import {
   IconRefresh,
   IconUpload,
 } from '@tabler/icons-react'
-import { Accordion, Alert, Button, Checkbox, Divider, Flex, Stepper, Switch, Text, TextInput, Tooltip } from '@mantine/core'
+import { Accordion, Alert, Button, Checkbox, Divider, Flex, Switch, Text, TextInput, Timeline, Tooltip } from '@mantine/core'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import {
   HoyolabData,
@@ -190,7 +190,7 @@ export function ScannerImportSubmenu() {
           <Text>
             {t('Import.Stage1.Header')}
           </Text>
-          <Text>
+          <Text component="div">
             <ul>
               <ReliquaryDescription />
               <li>
@@ -486,14 +486,11 @@ export function ScannerImportSubmenu() {
 
   return (
     <Flex gap={5}>
-      <Stepper
-        orientation='vertical'
-        active={currentStage}
-      >
-        <Stepper.Step label='' description={uploadScannerFile()} />
-        <Stepper.Step label='' description={confirmDataMerge()} />
-        <Stepper.Step label='' description={mergeCompleted()} />
-      </Stepper>
+      <Timeline active={currentStage} bulletSize={24} lineWidth={2}>
+        <Timeline.Item>{uploadScannerFile()}</Timeline.Item>
+        <Timeline.Item>{confirmDataMerge()}</Timeline.Item>
+        <Timeline.Item>{mergeCompleted()}</Timeline.Item>
+      </Timeline>
     </Flex>
   )
 }

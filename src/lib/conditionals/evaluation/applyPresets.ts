@@ -1,4 +1,4 @@
-import { UseFormReturnType } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -23,7 +23,7 @@ import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import DB from 'lib/state/db'
-import {
+import type {
   BenchmarkForm,
   SimpleCharacter,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'

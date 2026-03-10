@@ -1,4 +1,4 @@
-import { UseFormReturnType } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
 import i18next from 'i18next'
 import {
   applyScoringMetadataPresets,

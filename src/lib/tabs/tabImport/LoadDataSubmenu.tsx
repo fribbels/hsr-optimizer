@@ -2,7 +2,7 @@ import {
   IconFileImport,
   IconUpload,
 } from '@tabler/icons-react'
-import { Button, Flex, Stepper, Text } from '@mantine/core'
+import { Button, Flex, Text, Timeline } from '@mantine/core'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import {
@@ -154,14 +154,11 @@ export function LoadDataSubmenu() {
 
   return (
     <Flex gap={5}>
-      <Stepper
-        orientation="vertical"
-        active={currentStage}
-      >
-        <Stepper.Step label="" description={LoadDataContentUploadFile()} />
-        <Stepper.Step label="" description={ConfirmLoadData()} />
-        <Stepper.Step label="" description={LoadCompleted()} />
-      </Stepper>
+      <Timeline active={currentStage} bulletSize={24} lineWidth={2}>
+        <Timeline.Item>{LoadDataContentUploadFile()}</Timeline.Item>
+        <Timeline.Item>{ConfirmLoadData()}</Timeline.Item>
+        <Timeline.Item>{LoadCompleted()}</Timeline.Item>
+      </Timeline>
     </Flex>
   )
 }

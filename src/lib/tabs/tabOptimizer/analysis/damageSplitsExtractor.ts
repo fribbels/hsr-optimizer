@@ -18,6 +18,10 @@ export type DamageSplitEntry = {
   total: number
 }
 
+// --- True DMG segment sentinel (not a real DamageTag bitmask value) ---
+
+export const TRUE_DMG_SEGMENT_TYPE = 0x8000
+
 // --- Label decoding ---
 
 const DAMAGE_TAG_NAMES: Record<number, string> = {
@@ -31,6 +35,7 @@ const DAMAGE_TAG_NAMES: Record<number, string> = {
   [DamageTag.MEMO]: 'Memo',
   [DamageTag.ADDITIONAL]: 'Additional',
   [DamageTag.ELATION]: 'Elation',
+  [TRUE_DMG_SEGMENT_TYPE]: 'True',
 }
 
 const DAMAGE_TAG_FLAGS = Object.values(DamageTag)
@@ -38,6 +43,7 @@ const DAMAGE_TAG_FLAGS = Object.values(DamageTag)
   .sort((a, b) => a - b)
 
 export function decodeDamageTypeLabel(damageType: number): string {
+  if (damageType === TRUE_DMG_SEGMENT_TYPE) return DAMAGE_TAG_NAMES[TRUE_DMG_SEGMENT_TYPE]
   const parts: string[] = []
   for (const flag of DAMAGE_TAG_FLAGS) {
     if (damageType & flag) {
@@ -64,6 +70,7 @@ const DAMAGE_TAG_BASE_COLORS: Record<number, string> = {
   [DamageTag.MEMO]: '#B8685E',
   [DamageTag.ADDITIONAL]: '#9C96BC',
   [DamageTag.ELATION]: '#D28AA4',
+  [TRUE_DMG_SEGMENT_TYPE]: '#87CEEB',
 }
 
 const colorCache = new Map<number, string>()
@@ -81,6 +88,8 @@ function toHex(r: number, g: number, b: number): string {
 }
 
 export function getDamageTypeColor(damageType: number): string {
+  if (damageType === TRUE_DMG_SEGMENT_TYPE) return DAMAGE_TAG_BASE_COLORS[TRUE_DMG_SEGMENT_TYPE]
+
   const cached = colorCache.get(damageType)
   if (cached) return cached
 
@@ -181,6 +190,9 @@ export function extractDamageSplits(
     const segments: DamageSplitSegment[] = []
     let total = 0
 
+    let trueDmgTotal = 0
+    const segmentMap = new Map<number, number>()
+
     for (let i = 0; i < action.hits.length; i++) {
       const hit = action.hits[i]
 
@@ -189,13 +201,33 @@ export function extractDamageSplits(
       const damage = x.getHitRegisterValue(hit.registerIndex)
       if (damage === 0) continue
 
-      segments.push({
-        damageType: hit.damageType,
-        label: decodeDamageTypeLabel(hit.damageType),
-        damage,
-        hitIndex: i,
-      })
+      const trueDmgModifier = hit.computedTrueDmgModifier ?? 0
+      if (trueDmgModifier > 0) {
+        const baseDamage = damage / (1 + trueDmgModifier)
+        trueDmgTotal += damage - baseDamage
+        segmentMap.set(hit.damageType, (segmentMap.get(hit.damageType) ?? 0) + baseDamage)
+      } else {
+        segmentMap.set(hit.damageType, (segmentMap.get(hit.damageType) ?? 0) + damage)
+      }
       total += damage
+    }
+
+    for (const [damageType, damage] of segmentMap) {
+      segments.push({
+        damageType,
+        label: decodeDamageTypeLabel(damageType),
+        damage,
+        hitIndex: -1,
+      })
+    }
+
+    if (trueDmgTotal > 0) {
+      segments.push({
+        damageType: TRUE_DMG_SEGMENT_TYPE,
+        label: 'True',
+        damage: trueDmgTotal,
+        hitIndex: -1,
+      })
     }
 
     if (segments.length === 0) continue

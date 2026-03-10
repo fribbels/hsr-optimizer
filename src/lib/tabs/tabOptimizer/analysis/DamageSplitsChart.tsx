@@ -57,14 +57,13 @@ function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: Flatten
       row[key] = seg.damage
 
       const isFirst = segIdx === 0
-      const isLast = segIdx === entry.segments.length - 1
       const color = getDamageTypeColor(seg.damageType)
       bars.push({
         key,
         damageType: seg.damageType,
         label: seg.label,
         color,
-        shape: GapBar(color, isFirst, isLast),
+        shape: GapBar(color, isFirst),
       })
 
       if (!seenDamageTypes.has(seg.damageType)) {
@@ -107,10 +106,10 @@ function renderBarLabel(props: LabelProps) {
   )
 }
 
-function GapBar(color: string, isFirst: boolean, isLast: boolean) {
+function GapBar(color: string, isFirst: boolean) {
   return (props: { x: number; y: number; width: number; height: number }) => {
     if (props.width <= 0) return null
-    if (isFirst || isLast) {
+    if (isFirst) {
       return (
         <rect
           x={props.x}

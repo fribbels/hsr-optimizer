@@ -147,6 +147,9 @@ export function simulateBuild(
 
       const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
       x.setHitRegisterValue(hit.registerIndex, dmg)
+      if (hit.outputTag == OutputTag.DAMAGE) {
+        hit.computedTrueDmgModifier = x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
+      }
 
       if (hit.recorded !== false) {
         sum += dmg
@@ -210,6 +213,9 @@ export function simulateBuild(
 
       const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
       x.setHitRegisterValue(hit.registerIndex, dmg)
+      if (hit.outputTag == OutputTag.DAMAGE) {
+        hit.computedTrueDmgModifier = x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
+      }
 
       if (hit.recorded !== false) {
         sum += dmg

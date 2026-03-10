@@ -128,7 +128,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     setCrop(DEFAULT_CROP)
     setZoom(DEFAULT_ZOOM)
     setCustomImageParams(DEFAULT_CUSTOM_IMAGE_PARAMS)
-  }, [customImageForm])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Handle initialization depending on if existingConfig exists:
   // - Reset on close for new character
@@ -143,7 +144,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       setVerifiedImageUrl(existingConfig.imageUrl)
       setOriginalDimensions(existingConfig.originalDimensions)
     }
-  }, [defaultImageUrl, open, existingConfig, customImageForm, resetConfig])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultImageUrl, open, existingConfig])
 
   const onCropComplete = (croppedArea: CroppedArea, croppedAreaPixels: CroppedArea) => {
     if (current == 1) {

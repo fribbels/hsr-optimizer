@@ -489,13 +489,18 @@ function SelectSpdPresets(props: {
   const spdPresetOptions = useMemo(() => {
     const { categories } = generateSpdPresets(t)
 
+    const seen = new Set<string>()
     const categoryItems = categories.map((category) => {
       // Skip the first preset (SPD0 / "No minimum speed") since "Base SPD" covers that
       const presets = Object.values(category.presets).slice(1).map((preset) => ({
         value: String(preset.value ?? 'undefined'),
         label: String(preset.label),
         disabled: props.spdFilter != null && preset.value != null && preset.value > props.spdFilter,
-      }))
+      })).filter((opt) => {
+        if (seen.has(opt.value)) return false
+        seen.add(opt.value)
+        return true
+      })
       return {
         group: category.label,
         items: presets,

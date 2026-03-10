@@ -11,6 +11,7 @@ import { Message } from 'lib/interactions/message'
 import { Optimizer } from 'lib/optimization/optimizer'
 import DB, { AppPages } from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -82,7 +83,7 @@ const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.PRIORITY.Description', // 'The character is ranked below other characters on the priority list. When the "Character priority filter" is enabled, characters may only take lower priority characters\' relics',
     buttonTextKey: '0Perms.RootCauses.PRIORITY.ButtonText', // 'Move character to priority #1',
     applyFix: () => {
-      DB.insertCharacter(window.store.getState().optimizerTabFocusCharacter!, 0)
+      DB.insertCharacter(useOptimizerUIStore.getState().focusCharacterId!, 0)
       // Message.success('Moved character to priority #1', 2)
     },
     successMessageKey: '0Perms.RootCauses.PRIORITY.SuccessMessage',
@@ -376,7 +377,7 @@ const ZeroResultRootCauseFixes = {
     // + 'The Combat stats view will show buffed stats from abilities / teammates / relics / etc.',
     buttonTextKey: `0Results.RootCauses.StatView.ButtonText`, // 'Switch to Combat stats view',
     applyFix: () => {
-      const setStatDisplay = window.store.getState().setStatDisplay
+      const setStatDisplay = useOptimizerFormStore.getState().setStatDisplay
       setStatDisplay('combat')
       // Message.success(`Switched to Combat stats view`)
     },
@@ -406,7 +407,7 @@ function filterFixes(filter: ZeroResultRootCause) {
 export function activateZeroResultSuggestionsModal(request: Form) {
   rootCauses = []
   // always suggest switching between combat/basic views
-  if (window.store.getState().statDisplay == 'base') rootCauses.push(ZeroResultRootCause.STAT_VIEW)
+  if (useOptimizerFormStore.getState().statDisplay == 'base') rootCauses.push(ZeroResultRootCause.STAT_VIEW)
   if (request.minHp) rootCauses.push(ZeroResultRootCause.MIN_HP)
   if (request.maxHp < 2147483647) rootCauses.push(ZeroResultRootCause.MAX_HP)
   if (request.minAtk) rootCauses.push(ZeroResultRootCause.MIN_ATK)
@@ -478,7 +479,7 @@ export function ZeroResultSuggestionModal() {
                 if (rootCause == ZeroResultRootCause.STAT_VIEW) continue
                 ZeroResultRootCauseFixes[rootCause].applyFix()
               }
-              const setStatDisplay = window.store.getState().setStatDisplay
+              const setStatDisplay = useOptimizerFormStore.getState().setStatDisplay
               setStatDisplay('combat')
               Message.success(t('0Results.ResetAll.SuccessMessage')) /* Cleared all filters */
               closeZeroResultsModal()

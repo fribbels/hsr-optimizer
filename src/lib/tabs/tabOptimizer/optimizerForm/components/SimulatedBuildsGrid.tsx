@@ -3,6 +3,7 @@ import { IRowNode } from 'ag-grid-community'
 import { Flex, Table } from '@mantine/core'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import {
   deleteStatSimulationBuild,
   renderDefaultSimulationName,
@@ -37,9 +38,9 @@ function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: 
 
 export function SimulatedBuildsGrid() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
-  const statSimulations = window.store((s) => s.statSimulations)
-  const selectedStatSimulations = window.store((s) => s.selectedStatSimulations)
-  const setSelectedStatSimulations = window.store((s) => s.setSelectedStatSimulations)
+  const statSimulations = useOptimizerUIStore((s) => s.statSimulations)
+  const selectedStatSimulations = useOptimizerUIStore((s) => s.selectedStatSimulations)
+  const setSelectedStatSimulations = useOptimizerUIStore((s) => s.setSelectedStatSimulations)
 
   // Links the table -> form & grid
   function updateSimulationForm(key: string) {
@@ -74,7 +75,7 @@ export function SimulatedBuildsGrid() {
         [statSim.simType]: cloneRequest,
       })
     }
-    window.store.getState().setStatSimulationDisplay(statSim.simType)
+    useOptimizerUIStore.getState().setStatSimulationDisplay(statSim.simType)
   }
 
   useEffect(() => {

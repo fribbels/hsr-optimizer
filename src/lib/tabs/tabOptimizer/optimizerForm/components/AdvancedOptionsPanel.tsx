@@ -7,6 +7,7 @@ import {
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
@@ -31,7 +32,7 @@ export const AdvancedOptionsPanel = () => {
         variant="default"
         onClick={() => {
           setOpen(OpenCloseIDs.TRACES_DRAWER)
-          setStatTracesDrawerFocusCharacter(window.store.getState().optimizerTabFocusCharacter!)
+          setStatTracesDrawerFocusCharacter(useOptimizerUIStore.getState().focusCharacterId!)
         }}
         leftSection={<IconSettings size={16} />}
       >

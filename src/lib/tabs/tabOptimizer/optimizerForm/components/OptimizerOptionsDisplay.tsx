@@ -6,6 +6,7 @@ import { Flex, MultiSelect, SegmentedControl, Select, Switch, Text } from '@mant
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
@@ -24,7 +25,7 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const characters = useCharacterTabStore((s) => s.characters)
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
 
   const includeEquippedRelics = useOptimizerFormStore((s) => s.includeEquippedRelics)
   const rankFilter = useOptimizerFormStore((s) => s.rankFilter)

@@ -16,6 +16,7 @@ import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
@@ -392,7 +393,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
   if (!updatedTeammate) return
   const teammateIndex = PROPERTY_TO_INDEX[property]
 
-  window.store.getState().setTeammateCount(countTeammates())
+  useOptimizerUIStore.getState().setTeammateCount(countTeammates())
 
   if (updatedTeammate.lightCone) {
     const store = useOptimizerFormStore.getState()

@@ -32,10 +32,11 @@ import {
 import DB from 'lib/state/db'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
+import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   displayToForm,
   formToDisplay,
@@ -149,7 +150,7 @@ export const OptimizerTabController = {
     DB.equipRelicIdsToCharacter(Object.values(build), characterId)
     Message.success(i18next.t('optimizerTab:Sidebar.ResultsGroup.EquipSuccessMessage') /*'Equipped relics'*/)
     OptimizerTabController.setTopRow(row)
-    window.store.getState().setOptimizerBuild(build)
+    useOptimizerUIStore.getState().setOptimizerBuild(build)
     SaveState.delayedSave()
     OptimizerTabController.updateFilters()
   },
@@ -158,7 +159,7 @@ export const OptimizerTabController = {
     const data = node.data!
     const gridApi = optimizerGridApi()
 
-    window.store.getState().setOptimizerSelectedRowData(data)
+    useOptimizerUIStore.getState().setOptimizerSelectedRowData(data)
 
     if (node.rowPinned == 'top') {
       // Clicking the top row should display current relics
@@ -176,7 +177,7 @@ export const OptimizerTabController = {
           const rowId = data.id
           const build = OptimizerTabController.calculateRelicIdsFromId(rowId, form)
 
-          window.store.getState().setOptimizerBuild(build)
+          useOptimizerUIStore.getState().setOptimizerBuild(build)
 
           // Find the row by its string ID and select it
           const rowNode: IRowNode<OptimizerDisplayData> = gridApi.getRowNode(String(data.id))!
@@ -191,7 +192,7 @@ export const OptimizerTabController = {
             }
           }
         } else if (character) {
-          window.store.getState().setOptimizerBuild(character.equipped)
+          useOptimizerUIStore.getState().setOptimizerBuild(character.equipped)
         }
       }
       return
@@ -201,15 +202,15 @@ export const OptimizerTabController = {
 
     if (data.statSim) {
       const key = data.statSim.key
-      window.store.getState().setSelectedStatSimulations([key])
-      window.store.getState().setOptimizerBuild({})
+      useOptimizerUIStore.getState().setSelectedStatSimulations([key])
+      useOptimizerUIStore.getState().setOptimizerBuild({})
       window.optimizerGrid.current?.api.deselectAll()
       return
     }
 
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
 
-    window.store.getState().setOptimizerBuild(build)
+    useOptimizerUIStore.getState().setOptimizerBuild(build)
   },
 
   getColumnsToAggregate: () => {
@@ -274,7 +275,7 @@ export const OptimizerTabController = {
   // Unpack a permutation ID to its respective relics
   calculateRelicsFromId: (id: number, form?: OptimizerForm) => {
     if (id === -1) { // special case for equipped build optimizer row
-      const request = form ?? optimizerFormCache[window.store.getState().optimizationId!]
+      const request = form ?? optimizerFormCache[useOptimizerUIStore.getState().optimizationId!]
       if (!request) {
         return {}
       }
@@ -406,7 +407,7 @@ export const OptimizerTabController = {
 
   // Manually set the selected character
   setCharacter: (id: CharacterId) => {
-    window.store.getState().setOptimizerTabFocusCharacter(id)
+    useOptimizerUIStore.getState().setFocusCharacterId(id)
     useOptimizerFormStore.getState().setCharacterId(id)
 
     SaveState.delayedSave()
@@ -432,10 +433,10 @@ export const OptimizerTabController = {
 
     // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
     setTimeout(() => {
-      window.store.getState().setOptimizerTabFocusCharacter(characterId)
-      window.store.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
-      window.store.getState().setStatSimulations(form.statSim?.simulations ?? [])
-      window.store.getState().setOptimizerSelectedRowData(null)
+      useOptimizerUIStore.getState().setFocusCharacterId(characterId)
+      useOptimizerFormStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
+      useOptimizerUIStore.getState().setStatSimulations(form.statSim?.simulations ?? [])
+      useOptimizerUIStore.getState().setOptimizerSelectedRowData(null)
       window.optimizerGrid.current?.api?.deselectAll()
 
       const currentRequest = displayToInternal(useOptimizerFormStore.getState())
@@ -452,7 +453,7 @@ export const OptimizerTabController = {
 
   applyRowFilters: () => {
     const fieldValues = OptimizerTabController.getForm()
-    fieldValues.statDisplay = window.store.getState().statDisplay
+    fieldValues.statDisplay = useOptimizerFormStore.getState().statDisplay
     filterModel = fieldValues
     console.log('Apply filters to rows', fieldValues)
     OptimizerTabController.resetDataSource()

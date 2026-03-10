@@ -7,6 +7,7 @@ import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { ReactElement } from 'types/components'
 
 export type { PresetDefinition } from 'lib/scoring/presetEffects'
@@ -180,7 +181,7 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>): Spd
 
 export const RecommendedPresetsButton = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
 
   const { categories, allPresets } = useMemo(() => {
     return generateSpdPresets(t)

@@ -10,7 +10,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { logRegisters } from 'lib/simulations/registerLogger'
-import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -127,7 +127,7 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
 }
 
 export function debugExportWebgpuResult(array: Float32Array) {
-  const context = useOptimizerTabStore.getState().context!
+  const context = useOptimizerUIStore.getState().context!
   const x = new ComputedStatsContainer()
   const len = context.maxContainerArrayLength
 

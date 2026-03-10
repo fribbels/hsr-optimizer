@@ -13,6 +13,7 @@ import DB, {
   SavedBuildSource,
 } from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { SaveState } from 'lib/state/saveState'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import {
@@ -91,7 +92,7 @@ export function SaveBuildModal(props: {
         break
       case AppPages.OPTIMIZER:
         const overwrite = mode === 'overwrite'
-        const selectedCharacter = window.store.getState().optimizerTabFocusCharacter
+        const selectedCharacter = useOptimizerUIStore.getState().focusCharacterId
         if (!selectedCharacter) {
           console.warn('no selected character')
           break
@@ -156,7 +157,7 @@ export function SaveBuildModal(props: {
             relicSet: t.teamRelicSet,
             ornamentSet: t.teamOrnamentSet,
           })),
-          equipped: window.store.getState().optimizerBuild ?? {},
+          equipped: useOptimizerUIStore.getState().optimizerBuild ?? {},
         }
     }
   }, [selectedBuild, source, character])

@@ -18,11 +18,12 @@ import {
   OptimizerMenuIds,
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import React, { useMemo } from 'react'
 
 export function ExpandedDataPanel() {
-  const selectedRowData = window.store((s) => s.optimizerSelectedRowData)
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const selectedRowData = useOptimizerUIStore((s) => s.optimizerSelectedRowData)
+  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
 
   // For triggering updates
   const characterId = useOptimizerFormStore((s) => s.characterId)

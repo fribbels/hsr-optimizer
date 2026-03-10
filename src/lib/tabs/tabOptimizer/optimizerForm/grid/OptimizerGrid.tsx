@@ -28,7 +28,7 @@ import {
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
-import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { localeNumber } from 'lib/utils/i18nUtils'
 import React, {
   useCallback,
@@ -56,10 +56,10 @@ export function OptimizerGrid() {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'Grid' })
   const optimizerGrid = useRef<AgGridReact<OptimizerDisplayDataStatSim> | null>(null)
   const [gridDestroyed, setGridDestroyed] = useState(false)
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
   const gridLanguage = useRef(i18n.resolvedLanguage)
 
-  const context = useOptimizerTabStore((s) => s.context)
+  const context = useOptimizerUIStore((s) => s.context)
 
   window.optimizerGrid = optimizerGrid
 

@@ -22,6 +22,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import {
@@ -123,7 +124,7 @@ function minus() {
 }
 
 function resetClicked() {
-  const characterId = window.store.getState().optimizerTabFocusCharacter!
+  const characterId = useOptimizerUIStore.getState().focusCharacterId!
   const characterMetadata = DB.getMetadata().characters[characterId]
 
   if (!characterMetadata) return

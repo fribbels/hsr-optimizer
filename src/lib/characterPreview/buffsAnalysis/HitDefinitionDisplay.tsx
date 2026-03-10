@@ -103,10 +103,7 @@ function buildRows(hit: Hit): HitPropRow[] {
       break
   }
 
-  add(hit.trueDmgModifier, pct, 'True DMG')
-  if (hit.computedTrueDmgModifier && hit.computedTrueDmgModifier !== hit.trueDmgModifier) {
-    rows.push({ value: pct(hit.computedTrueDmgModifier), label: 'True DMG (computed)' })
-  }
+  add(hit.trueDmgModifier, pct, 'True DMG modifier')
   add(hit.toughnessDmg, num, 'Toughness DMG')
   add(hit.fixedToughnessDmg, num, 'Fixed Toughness')
 

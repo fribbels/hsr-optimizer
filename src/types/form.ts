@@ -1,32 +1,32 @@
 
 import type { ComboType } from 'lib/optimization/rotation/comboType'
-import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
-import {
+import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { SortOption } from 'lib/optimization/sortOptions'
+import type {
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import {
+import type {
   CharacterId,
   Eidolon,
 } from 'types/character'
 
-import { ConditionalValueMap } from 'types/conditionals'
-import {
+import type { ConditionalValueMap } from 'types/conditionals'
+import type {
   LightConeId,
   SuperImpositionLevel,
 } from 'types/lightCone'
-import { ScoringMetadata } from 'types/metadata'
-import {
+import type { ScoringMetadata } from 'types/metadata'
+import type {
   RelicEnhance,
   RelicGrade,
 } from 'types/relic'
-import {
+import type {
   MemoDisplay,
   StatDisplay,
 } from 'types/store'
-import {
+import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'

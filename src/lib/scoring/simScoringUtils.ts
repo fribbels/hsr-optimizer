@@ -18,13 +18,13 @@ import {
   RunStatSimulationsResult,
   Simulation,
 } from 'lib/simulations/statSimulationTypes'
-import { Utils } from 'lib/utils/utils'
-import { Form } from 'types/form'
-import {
+import { isFlat } from 'lib/utils/statUtils'
+import type { Form } from 'types/form'
+import type {
   DBMetadataCharacter,
   SimulationMetadata,
 } from 'types/metadata'
-import { Relic } from 'types/relic'
+import type { Relic } from 'types/relic'
 
 // Stats string to StatKey mapping - defined here to avoid circular dependency with keys.ts
 export const StatsToStatKey: Record<StatsValues, AKeyValue> = {
@@ -308,7 +308,7 @@ export function calculatePenaltyMultiplier(
           // Cyrene case
           newPenaltyMultiplier *= 0.75
         }
-      } else if (Utils.isFlat(stat)) {
+      } else if (isFlat(stat)) {
         // Flats are penalized by their percentage
         newPenaltyMultiplier *= (Math.min(1, statValue / metadata.breakpoints[stat]) + 1) / 2
       } else {

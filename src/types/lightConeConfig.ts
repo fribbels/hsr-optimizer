@@ -1,4 +1,4 @@
-import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
+import type { LightConeId, SuperImpositionLevel } from 'types/lightCone'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { WearerMetadata } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 

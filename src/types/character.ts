@@ -1,18 +1,17 @@
 import type data from 'data/game_data.json'
-import { Parts } from 'lib/constants/constants'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { Parts } from 'lib/constants/constants'
+import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import type { Prettify } from 'types/common'
-import { ConditionalValueMap } from 'types/conditionals'
-import { CustomImageConfig } from 'types/customImage'
-import {
+import type { ConditionalValueMap } from 'types/conditionals'
+import type { CustomImageConfig } from 'types/customImage'
+import type {
   Form,
   OrnamentSetFilters,
   RelicSetFilters,
   StatFilters,
 } from 'types/form'
-import { LightConeId } from 'types/lightCone'
-import { Relic } from 'types/relic'
+import type { LightConeId } from 'types/lightCone'
+import type { Relic } from 'types/relic'
 
 export type CharacterId = keyof typeof data.characters
 

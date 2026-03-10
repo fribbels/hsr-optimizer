@@ -69,8 +69,6 @@ declare global {
 
     showcaseTabForm: UseFormReturnType<ShowcaseTabForm>
 
-    optimizerStartClicked: () => void
-
     showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>
 
     yaml: unknown

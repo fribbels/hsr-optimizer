@@ -8,6 +8,7 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -23,10 +24,10 @@ import { useTranslation } from 'react-i18next'
 
 export default function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
 
-  const optimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.optimizerTabFocusCharacterSelectModalOpen)
-  const setOptimizerTabFocusCharacterSelectModalOpen = window.store((s) => s.setOptimizerTabFocusCharacterSelectModalOpen)
+  const optimizerTabFocusCharacterSelectModalOpen = useOptimizerUIStore((s) => s.characterSelectModalOpen)
+  const setOptimizerTabFocusCharacterSelectModalOpen = useOptimizerUIStore((s) => s.setCharacterSelectModalOpen)
 
   const characterId = useOptimizerFormStore((s) => s.characterId)
   const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
@@ -123,7 +124,7 @@ export default function CharacterSelectorDisplay() {
           value={characterId}
           onChange={(id) => {
             if (id) {
-              window.store.getState().setOptimizerTabFocusCharacter(id)
+              useOptimizerUIStore.getState().setFocusCharacterId(id)
               OptimizerTabController.updateCharacter(id)
               SaveState.delayedSave()
             }

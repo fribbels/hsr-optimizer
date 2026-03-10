@@ -25,6 +25,7 @@ import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -49,14 +50,14 @@ export async function gpuOptimize(props: {
   }
 
   device.onuncapturederror = (event) => {
-    if (window.store.getState().optimizationInProgress) {
-      window.store.getState().setOptimizationInProgress(false)
+    if (useOptimizerUIStore.getState().optimizationInProgress) {
+      useOptimizerUIStore.getState().setOptimizationInProgress(false)
       webgpuCrashNotification()
     }
   }
 
-  window.store.getState().setOptimizerStartTime(Date.now())
-  window.store.getState().setOptimizerRunningEngine(computeEngine as ComputeEngine)
+  useOptimizerUIStore.getState().setOptimizerStartTime(Date.now())
+  useOptimizerUIStore.getState().setOptimizerRunningEngine(computeEngine as ComputeEngine)
 
   const gpuContext = initializeGpuPipeline(
     device,
@@ -139,7 +140,7 @@ export async function gpuOptimize(props: {
 
     // Reset start time after first dispatch to exclude shader compilation from perms/sec
     if (iteration === 0) {
-      window.store.getState().setOptimizerStartTime(Date.now())
+      useOptimizerUIStore.getState().setOptimizerStartTime(Date.now())
     }
 
     if (hasNext && nextPassResult) {
@@ -149,13 +150,13 @@ export async function gpuOptimize(props: {
 
     const searchedSnapshot = permutationsSearched
     setTimeout(() => {
-      const state = window.store.getState()
-      state.setOptimizerEndTime(Date.now())
-      state.setPermutationsResults(gpuContext.resultsQueue.size())
-      state.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
+      const uiState = useOptimizerUIStore.getState()
+      uiState.setOptimizerEndTime(Date.now())
+      uiState.setPermutationsResults(gpuContext.resultsQueue.size())
+      uiState.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
     }, 0)
 
-    if (gpuContext.permutations <= maxPermNumber || !window.store.getState().optimizationInProgress) {
+    if (gpuContext.permutations <= maxPermNumber || !useOptimizerUIStore.getState().optimizationInProgress) {
       gpuContext.cancelled = true
       break
     }
@@ -166,11 +167,11 @@ export async function gpuOptimize(props: {
   // Revisit overflowed dispatches now that the threshold is established.
   await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices, permStride, permutationsSearched)
 
-  if (window.store.getState().optimizationInProgress) {
-    window.store.getState().setPermutationsSearched(gpuContext.permutations)
+  if (useOptimizerUIStore.getState().optimizationInProgress) {
+    useOptimizerUIStore.getState().setPermutationsSearched(gpuContext.permutations)
   }
-  window.store.getState().setOptimizationInProgress(false)
-  window.store.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+  useOptimizerUIStore.getState().setOptimizationInProgress(false)
+  useOptimizerUIStore.getState().setPermutationsResults(gpuContext.resultsQueue.size())
 
   setTimeout(() => {
     outputResults(gpuContext)
@@ -284,7 +285,7 @@ async function revisitOverflowedDispatches(
   permStride: number,
   permutationsSearched: number,
 ) {
-  if (overflowedOffsets.length > 0 && window.store.getState().optimizationInProgress) {
+  if (overflowedOffsets.length > 0 && useOptimizerUIStore.getState().optimizationInProgress) {
     for (const overflowOffset of overflowedOffsets) {
       let rawCount: number
       let retries = 0
@@ -304,10 +305,10 @@ async function revisitOverflowedDispatches(
       permutationsSearched += permStride
       const searchedSnapshot = permutationsSearched
       await new Promise<void>((resolve) => setTimeout(() => {
-        const state = window.store.getState()
-        state.setOptimizerEndTime(Date.now())
-        state.setPermutationsResults(gpuContext.resultsQueue.size())
-        state.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
+        const uiState = useOptimizerUIStore.getState()
+        uiState.setOptimizerEndTime(Date.now())
+        uiState.setPermutationsResults(gpuContext.resultsQueue.size())
+        uiState.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
         resolve()
       }, 0))
     }

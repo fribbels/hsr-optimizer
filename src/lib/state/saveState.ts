@@ -8,6 +8,7 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { Relic } from 'types/relic'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
@@ -31,7 +32,7 @@ export const SaveState = {
       characters: DB.getCharacters(),
       scoringMetadataOverrides: globalState.scoringMetadataOverrides,
       showcasePreferences: globalState.showcasePreferences,
-      optimizerMenuState: globalState.optimizerMenuState,
+      optimizerMenuState: useOptimizerUIStore.getState().menuState,
       excludedRelicPotentialCharacters: relicsTabState.excludedRelicPotentialCharacters,
       savedSession: {
         showcaseTab: showcaseTabSession,

@@ -1,8 +1,15 @@
 import { Optimizer } from 'lib/optimization/optimizer'
+import DB from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
+
+export const optimizerFormCache: Record<string, Form> = {}
 
 const teammateKeys = new Set(['teammate0', 'teammate1', 'teammate2'])
 
@@ -62,8 +69,8 @@ export function recalculatePermutations(): void {
     PlanarSphereTotal: preFilteredRelicsByPart.PlanarSphere.length,
     LinkRopeTotal: preFilteredRelicsByPart.LinkRope.length,
   }
-  window.store.getState().setPermutationDetails(permutationDetails)
-  window.store.getState().setPermutations(
+  useOptimizerUIStore.getState().setPermutationDetails(permutationDetails)
+  useOptimizerUIStore.getState().setPermutations(
     relics.Head.length
       * relics.Hands.length
       * relics.Body.length
@@ -71,4 +78,39 @@ export function recalculatePermutations(): void {
       * relics.PlanarSphere.length
       * relics.LinkRope.length,
   )
+}
+
+/**
+ * Start an optimizer run. Validates the form, sets up run state, and kicks off optimization.
+ * Extracted from OptimizerForm.tsx to allow direct import (replaces window.optimizerStartClicked).
+ */
+export function startOptimization(): void {
+  console.log('Start clicked')
+
+  const form = OptimizerTabController.getForm()
+
+  if (!OptimizerTabController.validateForm(form)) {
+    return
+  }
+
+  useOptimizerUIStore.getState().setPermutationsSearched(0)
+  useOptimizerUIStore.getState().setPermutationsResults(0)
+  useOptimizerUIStore.getState().setOptimizationInProgress(true)
+
+  setTimeout(() => {
+    // Delay the state update since this rerenders the characters tab
+    DB.addFromForm(form)
+  }, 2000)
+  SaveState.delayedSave()
+
+  const optimizationId = Utils.randomId()
+  useOptimizerUIStore.getState().setOptimizationId(optimizationId)
+  form.optimizationId = optimizationId
+  form.statDisplay = useOptimizerFormStore.getState().statDisplay
+
+  optimizerFormCache[optimizationId] = form
+
+  console.log('Form finished', form)
+
+  setTimeout(() => Optimizer.optimize(form), 50)
 }

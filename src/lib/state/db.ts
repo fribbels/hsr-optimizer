@@ -46,6 +46,7 @@ import { statFiltersFromForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimiz
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import {
@@ -673,13 +674,13 @@ export const DB = {
     useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
 
     if (saveData.optimizerMenuState) {
-      const menuState = window.store.getState().optimizerMenuState
+      const menuState = useOptimizerUIStore.getState().menuState
       for (const key of Object.values(OptimizerMenuIds)) {
         if (saveData.optimizerMenuState[key] != null) {
           menuState[key] = saveData.optimizerMenuState[key]
         }
       }
-      window.store.getState().setOptimizerMenuState(menuState)
+      useOptimizerUIStore.getState().setMenuState(menuState)
     }
 
     if (saveData.savedSession) {
@@ -859,7 +860,7 @@ export const DB = {
           lightConeId: formData.lightCone,
           superimposition: formData.lightConeSuperimposition,
           name,
-          equipped: window.store.getState().optimizerBuild ?? {},
+          equipped: useOptimizerUIStore.getState().optimizerBuild ?? {},
           optimizerMetadata,
           team,
           deprioritizeBuffs: formData.deprioritizeBuffs ?? false,
@@ -1347,7 +1348,7 @@ function assignRanks(characters: Character[]) {
   }
 
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
-  const optimizerCharacterRank = characters.findIndex((c) => c.id == window.store.getState().optimizerTabFocusCharacter!)
+  const optimizerCharacterRank = characters.findIndex((c) => c.id == useOptimizerUIStore.getState().focusCharacterId!)
   if (optimizerCharacterRank >= 0) {
     void import('lib/stores/optimizerForm/useOptimizerFormStore').then(({ useOptimizerFormStore }) => {
       useOptimizerFormStore.getState().setRelicFilterField('rank', optimizerCharacterRank)

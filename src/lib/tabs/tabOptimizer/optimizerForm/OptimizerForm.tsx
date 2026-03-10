@@ -2,10 +2,8 @@ import { Flex } from '@mantine/core'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
-import { Optimizer } from 'lib/optimization/optimizer'
 import DB from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { SaveState } from 'lib/state/saveState'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
@@ -35,10 +33,7 @@ import {
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import { useEffect, useMemo } from 'react'
-import { Form } from 'types/form'
 import { DBMetadata } from 'types/metadata'
-
-export const optimizerFormCache: Record<string, Form> = {}
 
 export default function OptimizerForm() {
   console.log('======================================================================= RENDER OptimizerForm')
@@ -51,41 +46,6 @@ export default function OptimizerForm() {
   }, [])
 
   const dbMetadata = useMemo(() => DB.getMetadata(), [])
-
-  function startClicked() {
-    console.log('Start clicked')
-
-    // We don't actually want to submit the form as it would kick off a re-render
-    // Intercept the event and just call the optimizer directly
-    const form = OptimizerTabController.getForm()
-
-    if (!OptimizerTabController.validateForm(form)) {
-      return
-    }
-
-    window.store.getState().setPermutationsSearched(0)
-    window.store.getState().setPermutationsResults(0)
-    window.store.getState().setOptimizationInProgress(true)
-
-    setTimeout(() => {
-      // Delay the state update since this rerenders the characters tab
-      DB.addFromForm(form)
-    }, 2000)
-    SaveState.delayedSave()
-
-    const optimizationId = Utils.randomId()
-    window.store.getState().setOptimizationId(optimizationId)
-    form.optimizationId = optimizationId
-    form.statDisplay = window.store.getState().statDisplay
-
-    optimizerFormCache[optimizationId] = form
-
-    console.log('Form finished', form)
-
-    setTimeout(() => Optimizer.optimize(form), 50)
-  }
-
-  window.optimizerStartClicked = startClicked
 
   return (
     <div style={{ position: 'relative' }}>

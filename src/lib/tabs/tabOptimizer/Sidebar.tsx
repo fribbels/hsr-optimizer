@@ -27,6 +27,9 @@ import { useScrollLockState } from 'lib/rendering/scrollController'
 import DB, { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { startOptimization } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -333,10 +336,10 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
 }
 
 function PermutationsGroup(props: { isFullSize: boolean }) {
-  const permutationDetails = window.store((s) => s.permutationDetails)
-  const permutations = window.store((s) => s.permutations)
-  const permutationsSearched = window.store((s) => s.permutationsSearched)
-  const permutationsResults = window.store((s) => s.permutationsResults)
+  const permutationDetails = useOptimizerUIStore((s) => s.permutationDetails)
+  const permutations = useOptimizerUIStore((s) => s.permutations)
+  const permutationsSearched = useOptimizerUIStore((s) => s.permutationsSearched)
+  const permutationsResults = useOptimizerUIStore((s) => s.permutationsResults)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ReadableParts' })
   return (
@@ -369,12 +372,12 @@ function PermutationsGroup(props: { isFullSize: boolean }) {
 }
 
 function ProgressDisplay() {
-  const permutations = window.store((s) => s.permutations)
-  const permutationsSearched = window.store((s) => s.permutationsSearched)
-  const optimizerStartTime = window.store((s) => s.optimizerStartTime)
-  const optimizerEndTime = window.store((s) => s.optimizerEndTime)
-  const optimizerRunningEngine = window.store((s) => s.optimizerRunningEngine)
-  const optimizationInProgress = window.store((s) => s.optimizationInProgress)
+  const permutations = useOptimizerUIStore((s) => s.permutations)
+  const permutationsSearched = useOptimizerUIStore((s) => s.permutationsSearched)
+  const optimizerStartTime = useOptimizerUIStore((s) => s.optimizerStartTime)
+  const optimizerEndTime = useOptimizerUIStore((s) => s.optimizerEndTime)
+  const optimizerRunningEngine = useOptimizerUIStore((s) => s.optimizerRunningEngine)
+  const optimizationInProgress = useOptimizerUIStore((s) => s.optimizationInProgress)
   const theme = useMantineTheme()
 
   return (
@@ -395,7 +398,7 @@ const BuildsGroup = React.memo((props: { isFullSize: boolean }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.BuildsGroup' })
   const [saveBuildModalOpen, setSaveBuildModalOpen] = useState(false)
   const [buildsModalOpen, setBuildsModalOpen] = useState(false)
-  const focusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const focusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
   const charactersById = useCharacterTabStore((s) => s.charactersById)
 
   if (!props.isFullSize || !focusCharacter) return <></>
@@ -471,9 +474,9 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
 
-  const permutations = window.store((s) => s.permutations)
-  const optimizationInProgress = window.store((s) => s.optimizationInProgress)
-  const setOptimizationInProgress = window.store((s) => s.setOptimizationInProgress)
+  const permutations = useOptimizerUIStore((s) => s.permutations)
+  const optimizationInProgress = useOptimizerUIStore((s) => s.optimizationInProgress)
+  const setOptimizationInProgress = useOptimizerUIStore((s) => s.setOptimizationInProgress)
   const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
@@ -485,7 +488,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   }
 
   function startOptimizer() {
-    window.optimizerStartClicked()
+    startOptimization()
   }
 
   function startClicked() {
@@ -574,8 +577,8 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
 
 function StatsViewSelect() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
-  const statDisplay = window.store((s) => s.statDisplay)
-  const setStatDisplay = window.store((s) => s.setStatDisplay)
+  const statDisplay = useOptimizerFormStore((s) => s.statDisplay)
+  const setStatDisplay = useOptimizerFormStore((s) => s.setStatDisplay)
 
   return (
     <SegmentedControl
@@ -593,9 +596,9 @@ function StatsViewSelect() {
 function MemoViewSelect(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.StatViewGroup' })
 
-  const memoDisplay = window.store((s) => s.memoDisplay)
-  const setMemoDisplay = window.store((s) => s.setMemoDisplay)
-  const optimizerTabFocusCharacter = window.store((s) => s.optimizerTabFocusCharacter)
+  const memoDisplay = useOptimizerFormStore((s) => s.memoDisplay)
+  const setMemoDisplay = useOptimizerFormStore((s) => s.setMemoDisplay)
+  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
 
   const hasMemo = isRemembrance(optimizerTabFocusCharacter)
 

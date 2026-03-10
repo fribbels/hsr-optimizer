@@ -35,6 +35,7 @@ import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -63,8 +64,8 @@ function useStatSimStat(simType: string, statName: string): number | undefined {
 export function StatSimulationDisplay() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   const { t: tCommon } = useTranslation('common')
-  const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
-  const setStatSimulationDisplay = window.store((s) => s.setStatSimulationDisplay)
+  const statSimulationDisplay = useOptimizerUIStore((s) => s.statSimulationDisplay)
+  const setStatSimulationDisplay = useOptimizerUIStore((s) => s.setStatSimulationDisplay)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
@@ -158,7 +159,7 @@ export function StatSimulationDisplay() {
 
 function SimulationInputs() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
-  const statSimulationDisplay = window.store((s) => s.statSimulationDisplay)
+  const statSimulationDisplay = useOptimizerUIStore((s) => s.statSimulationDisplay)
 
   // Hook into changes to the sim to calculate roll sum
   const statSimFormValues = useOptimizerFormStore((s) => s.statSim)

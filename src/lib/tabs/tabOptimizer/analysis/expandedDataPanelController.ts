@@ -21,7 +21,8 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
-import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
+import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -136,5 +137,5 @@ export function mismatchedCharacter(optimizerTabFocusCharacter?: CharacterId | n
 }
 
 export function getCachedForm() {
-  return optimizerFormCache[window.store.getState().optimizationId!]
+  return optimizerFormCache[useOptimizerUIStore.getState().optimizationId!]
 }

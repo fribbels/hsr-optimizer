@@ -62,6 +62,7 @@ export function DamageSplits(props: {
     <Flex
       vertical
       align='center'
+      className='pre-font'
       gap={8}
       style={{
         background: '#243356',

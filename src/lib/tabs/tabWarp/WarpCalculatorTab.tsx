@@ -271,7 +271,7 @@ function Results() {
         </pre>
       </Flex>
 
-      <Text style={{ fontSize: 18 }}>
+      <Text component="div" style={{ fontSize: 18 }}>
         <pre style={{ margin: 0 }}>
           <Flex align='center' gap={5}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>

@@ -28,6 +28,7 @@ export const CardGridItemContent = (props: {
         }}
       />
       <Text
+        component="div"
         lineClamp={props.rows}
         style={{
           position: 'absolute',

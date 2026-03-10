@@ -42,7 +42,7 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
         </Popover.Target>
         <Popover.Dropdown>
           <Text fw={600} mb={4}>{props.title}</Text>
-          <Text style={{ width: 400, display: 'block' }}>
+          <Text component="div" style={{ width: 400, display: 'block' }}>
             <hr />
             {props.content}
           </Text>

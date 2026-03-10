@@ -20,6 +20,9 @@ export default function ChangelogTab(): React.JSX.Element {
   const activeKey = window.store((s) => s.activeKey)
   const changelogContent = useMemo(() => getChangelogContent(), [])
 
+  const PAGE_SIZE = 4
+  const [page, setPage] = useState(1)
+
   if (activeKey != AppPages.CHANGELOG) {
     // Don't load images unless we're on the changelog tab
     return <></>
@@ -77,15 +80,13 @@ export default function ChangelogTab(): React.JSX.Element {
     )
   }
 
-  const PAGE_SIZE = 4
-  const [page, setPage] = useState(1)
   const totalPages = Math.ceil(changelogContent.length / PAGE_SIZE)
   const paginatedItems = changelogContent.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
     <Flex direction="column" gap={0}>
-      {paginatedItems.map((item) => (
-        <div key={item.title}>
+      {paginatedItems.map((item, index) => (
+        <div key={item.date || index}>
           {listToDisplay(item.content, item)}
         </div>
       ))}

@@ -23,9 +23,8 @@ export function FilterBar() {
       justify='space-between'
     >
       <TextInput
-        size='lg'
         // Revisit width of search + filters with Remembrance path
-        style={{ height: 40, fontSize: 14, width: 200, borderRadius: 8 }}
+        style={{ fontSize: 14, width: 200, borderRadius: 8 }}
         placeholder={t('SearchPlaceholder') /* Search */}
         onChange={(e) => {
           setNameFilter(e.target.value.toLowerCase())

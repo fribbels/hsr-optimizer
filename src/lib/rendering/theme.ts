@@ -50,5 +50,21 @@ export function createMantineTheme(colorTheme: ColorThemeOverrides): MantineThem
     },
     fontFamily: 'inherit',
     defaultRadius: 'sm',
+    components: {
+      Input: { defaultProps: { size: 'xs' } },
+      InputWrapper: { defaultProps: { size: 'xs' } },
+      Select: { defaultProps: { size: 'xs' } },
+      MultiSelect: { defaultProps: { size: 'xs' } },
+      TextInput: { defaultProps: { size: 'xs' } },
+      NumberInput: { defaultProps: { size: 'xs' } },
+      ColorInput: { defaultProps: { size: 'xs' } },
+      Checkbox: { defaultProps: { size: 'xs' } },
+      Switch: { defaultProps: { size: 'xs' } },
+      Radio: { defaultProps: { size: 'xs' } },
+      SegmentedControl: { defaultProps: { size: 'xs' } },
+      Button: { defaultProps: { size: 'xs' } },
+      Pagination: { defaultProps: { size: 'xs' } },
+      Slider: { defaultProps: { size: 'xs' } },
+    },
   })
 }

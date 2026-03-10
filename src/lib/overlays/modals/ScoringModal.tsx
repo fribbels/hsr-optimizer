@@ -1,6 +1,4 @@
-import {
-  Form,
-} from 'antd'
+import { useForm } from '@mantine/form'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Divider, Flex, Modal, MultiSelect, NumberInput, Text } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
@@ -41,7 +39,10 @@ const InputNumberStyled = styled(NumberInput)`
     width: 62px
 `
 
-type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'characterId'>
+type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'characterId'> & {
+  relicsList?: [string, number][]
+  ornamentsList?: [string, number][]
+}
 
 function SetPicker(props: {
   placeholder: string,
@@ -89,7 +90,15 @@ function SetPicker(props: {
 export default function ScoringModal() {
   const { t } = useTranslation(['modals', 'common'])
 
-  const [scoringAlgorithmForm] = Form.useForm<ScoringAlgorithmForm>()
+  const scoringAlgorithmForm = useForm<ScoringAlgorithmForm>({
+    initialValues: {
+      stats: {} as ScoringAlgorithmForm['stats'],
+      parts: {} as ScoringAlgorithmForm['parts'],
+      characterId: '' as CharacterId,
+      relicsList: [],
+      ornamentsList: [],
+    },
+  })
 
   const scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
   const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
@@ -127,11 +136,11 @@ export default function ScoringModal() {
     if (id) {
       let scoringMetadata = getScoringValuesForDisplay(DB.getScoringMetadata(id))
       scoringMetadata.characterId = id
-      scoringAlgorithmForm.setFieldsValue(scoringMetadata)
+      scoringAlgorithmForm.setValues(scoringMetadata)
 
       // console.log('Scoring modal opening set as:', scoringMetadata)
     }
-  }, [scoringAlgorithmFocusCharacter, isOpenScoringModal, scoringAlgorithmForm])
+  }, [scoringAlgorithmFocusCharacter, isOpenScoringModal])
 
   const panelWidth = 220
   const defaultGap = 5
@@ -140,9 +149,13 @@ export default function ScoringModal() {
   function StatValueRow(props: { stat: string }) {
     return (
       <Flex justify='flex-start' style={{ width: panelWidth }} align='center' gap={5}>
-        <Form.Item name={['stats', props.stat]}>
-          <InputNumberStyled hideControls size='xs' min={0} max={1} />
-        </Form.Item>
+        <InputNumberStyled
+          hideControls
+          size='xs'
+          min={0}
+          max={1}
+          {...scoringAlgorithmForm.getInputProps(`stats.${props.stat}`)}
+        />
         <Flex>
           <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
           <Text style={{ lineHeight: 1.8 }}>
@@ -157,7 +170,7 @@ export default function ScoringModal() {
   }
 
   function onModalOk() {
-    const values = scoringAlgorithmForm.getFieldsValue()
+    const values = scoringAlgorithmForm.getValues()
     console.log('onModalOk OK', values)
     onFinish(getScoringValuesForOverrides(values))
     closeScoringModal()
@@ -184,7 +197,7 @@ export default function ScoringModal() {
       parts: defaultScoringMetadata.parts,
     }
 
-    scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
+    scoringAlgorithmForm.setValues(displayScoringMetadata)
     DB.updateCharacterScoreOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge)
   }
 
@@ -205,7 +218,7 @@ export default function ScoringModal() {
       if (scoringAlgorithmFocusCharacter) {
         const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
         const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
-        scoringAlgorithmForm.setFieldsValue(displayScoringMetadata)
+        scoringAlgorithmForm.setValues(displayScoringMetadata)
       }
     }
 
@@ -224,6 +237,9 @@ export default function ScoringModal() {
 
   const previewSrc = scoringAlgorithmFocusCharacter ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
+  const relicsList = scoringAlgorithmForm.getValues().relicsList ?? []
+  const ornamentsList = scoringAlgorithmForm.getValues().ornamentsList ?? []
+
   return (
     <Modal
       opened={isOpenScoringModal}
@@ -231,22 +247,16 @@ export default function ScoringModal() {
       centered
       onClose={closeScoringModal}
     >
-      <Form
-        form={scoringAlgorithmForm}
-        preserve={false}
-        layout='vertical'
-      >
+      <div>
         <TitleDivider label={t('Scoring.StatWeightsHeader') /* Stat weights */} labelPosition='center' />
 
         <Flex gap={20}>
           <Flex direction="column" gap={5}>
-            <Form.Item name='characterId'>
-              <CharacterSelect
-                value={null}
-                selectStyle={{}}
-                onChange={characterSelectorChange}
-              />
-            </Form.Item>
+            <CharacterSelect
+              value={scoringAlgorithmForm.getValues().characterId || null}
+              selectStyle={{}}
+              onChange={characterSelectorChange}
+            />
             <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>
               <img src={previewSrc} style={{ width: panelWidth }} />
             </div>
@@ -261,72 +271,69 @@ export default function ScoringModal() {
                   <Text style={{ marginLeft: 5 }}>
                     {t('common:Parts.Body')}
                   </Text>
-                  <Form.Item name={['parts', Parts.Body]}>
-                    <MultiSelect
-                      clearable
-                      style={{
-                        width: selectWidth,
-                      }}
-                      placeholder={t('common:Parts.Body')}
-                      data={[
-                        { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
-                        { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
-                        { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
-                        { value: Stats.CR, label: t(`common:Stats.${Stats.CR}`) },
-                        { value: Stats.CD, label: t(`common:Stats.${Stats.CD}`) },
-                        { value: Stats.OHB, label: t(`common:Stats.${Stats.OHB}`) },
-                        { value: Stats.EHR, label: t(`common:Stats.${Stats.EHR}`) },
-                      ]}
-                    />
-                  </Form.Item>
+                  <MultiSelect
+                    clearable
+                    style={{
+                      width: selectWidth,
+                    }}
+                    placeholder={t('common:Parts.Body')}
+                    data={[
+                      { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
+                      { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
+                      { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
+                      { value: Stats.CR, label: t(`common:Stats.${Stats.CR}`) },
+                      { value: Stats.CD, label: t(`common:Stats.${Stats.CD}`) },
+                      { value: Stats.OHB, label: t(`common:Stats.${Stats.OHB}`) },
+                      { value: Stats.EHR, label: t(`common:Stats.${Stats.EHR}`) },
+                    ]}
+                    {...scoringAlgorithmForm.getInputProps(`parts.${Parts.Body}`)}
+                  />
                 </Flex>
 
                 <Flex direction="column" gap={1} justify='flex-start'>
                   <Text style={{ marginLeft: 5 }}>
                     {t('common:Parts.Feet')}
                   </Text>
-                  <Form.Item name={['parts', Parts.Feet]}>
-                    <MultiSelect
-                      clearable
-                      style={{
-                        width: selectWidth,
-                      }}
-                      placeholder={t('common:Parts.Feet')}
-                      data={[
-                        { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
-                        { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
-                        { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
-                        { value: Stats.SPD, label: t(`common:Stats.${Stats.SPD}`) },
-                      ]}
-                    />
-                  </Form.Item>
+                  <MultiSelect
+                    clearable
+                    style={{
+                      width: selectWidth,
+                    }}
+                    placeholder={t('common:Parts.Feet')}
+                    data={[
+                      { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
+                      { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
+                      { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
+                      { value: Stats.SPD, label: t(`common:Stats.${Stats.SPD}`) },
+                    ]}
+                    {...scoringAlgorithmForm.getInputProps(`parts.${Parts.Feet}`)}
+                  />
                 </Flex>
                 <Flex direction="column" gap={1} justify='flex-start'>
                   <Text style={{ marginLeft: 5 }}>
                     {t('common:Parts.PlanarSphere')}
                   </Text>
-                  <Form.Item name={['parts', Parts.PlanarSphere]}>
-                    <MultiSelect
-                      clearable
-                      style={{
-                        width: selectWidth,
-                      }}
-                      placeholder={t('common:Parts.PlanarSphere')}
-                      maxDropdownHeight={400}
-                      data={[
-                        { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
-                        { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
-                        { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
-                        { value: Stats.Physical_DMG, label: t(`common:Stats.${Stats.Physical_DMG}`) },
-                        { value: Stats.Fire_DMG, label: t(`common:Stats.${Stats.Fire_DMG}`) },
-                        { value: Stats.Ice_DMG, label: t(`common:Stats.${Stats.Ice_DMG}`) },
-                        { value: Stats.Lightning_DMG, label: t(`common:Stats.${Stats.Lightning_DMG}`) },
-                        { value: Stats.Wind_DMG, label: t(`common:Stats.${Stats.Wind_DMG}`) },
-                        { value: Stats.Quantum_DMG, label: t(`common:Stats.${Stats.Quantum_DMG}`) },
-                        { value: Stats.Imaginary_DMG, label: t(`common:Stats.${Stats.Imaginary_DMG}`) },
-                      ]}
-                    />
-                  </Form.Item>
+                  <MultiSelect
+                    clearable
+                    style={{
+                      width: selectWidth,
+                    }}
+                    placeholder={t('common:Parts.PlanarSphere')}
+                    maxDropdownHeight={400}
+                    data={[
+                      { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
+                      { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
+                      { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
+                      { value: Stats.Physical_DMG, label: t(`common:Stats.${Stats.Physical_DMG}`) },
+                      { value: Stats.Fire_DMG, label: t(`common:Stats.${Stats.Fire_DMG}`) },
+                      { value: Stats.Ice_DMG, label: t(`common:Stats.${Stats.Ice_DMG}`) },
+                      { value: Stats.Lightning_DMG, label: t(`common:Stats.${Stats.Lightning_DMG}`) },
+                      { value: Stats.Wind_DMG, label: t(`common:Stats.${Stats.Wind_DMG}`) },
+                      { value: Stats.Quantum_DMG, label: t(`common:Stats.${Stats.Quantum_DMG}`) },
+                      { value: Stats.Imaginary_DMG, label: t(`common:Stats.${Stats.Imaginary_DMG}`) },
+                    ]}
+                    {...scoringAlgorithmForm.getInputProps(`parts.${Parts.PlanarSphere}`)}
+                  />
                 </Flex>
 
                 <Flex direction="column" gap={1} justify='flex-start'>
@@ -334,22 +341,21 @@ export default function ScoringModal() {
                     {t('common:Parts.LinkRope')}
                   </Text>
 
-                  <Form.Item name={['parts', Parts.LinkRope]}>
-                    <MultiSelect
-                      clearable
-                      style={{
-                        width: selectWidth,
-                      }}
-                      placeholder={t('common:Parts.LinkRope')}
-                      data={[
-                        { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
-                        { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
-                        { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
-                        { value: Stats.BE, label: t(`common:Stats.${Stats.BE}`) },
-                        { value: Stats.ERR, label: t(`common:Stats.${Stats.ERR}`) },
-                      ]}
-                    />
-                  </Form.Item>
+                  <MultiSelect
+                    clearable
+                    style={{
+                      width: selectWidth,
+                    }}
+                    placeholder={t('common:Parts.LinkRope')}
+                    data={[
+                      { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
+                      { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
+                      { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
+                      { value: Stats.BE, label: t(`common:Stats.${Stats.BE}`) },
+                      { value: Stats.ERR, label: t(`common:Stats.${Stats.ERR}`) },
+                    ]}
+                    {...scoringAlgorithmForm.getInputProps(`parts.${Parts.LinkRope}`)}
+                  />
                 </Flex>
               </Flex>
             </Flex>
@@ -372,115 +378,95 @@ export default function ScoringModal() {
 
         <Flex gap={20} style={{display: 'none'}}>
           <Flex direction="column" gap={20} flex={1}>
-            <Form.List name='relicsList'>
-              {(fields, { add, remove }) => (
+            {(() => {
+              const selectedValues = relicsList.map((field: [string, number]) => field[0])
+              return (
                 <>
-                  <Form.Item
-                    noStyle
-                    shouldUpdate
-                  >
-                    {(x) => {
-                      const selectedValues = x.getFieldsValue()['relicsList']?.map((field: [string, number]) => field[0])
-                      return (
-                        <SetPicker
-                          names={SetsRelicsNames}
-                          add={(v) => add([v, 1])}
-                          remove={(v) => {
-                            const index = selectedValues.indexOf(v)
-                            if (index !== -1) {
-                              remove(index)
-                            }
-                          }}
-                          placeholder={t('Scoring.SetWeights.AddRelicSetPlaceholder' /* Add relic set */)}
-                          selectedValues={selectedValues}
-                        />
-                      )
+                  <SetPicker
+                    names={SetsRelicsNames}
+                    add={(v) => {
+                      scoringAlgorithmForm.setFieldValue('relicsList', [...relicsList, [v, 1]])
                     }}
-                  </Form.Item>
+                    remove={(v) => {
+                      const index = selectedValues.indexOf(v)
+                      if (index !== -1) {
+                        scoringAlgorithmForm.setFieldValue(
+                          'relicsList',
+                          relicsList.filter((_, i) => i !== index),
+                        )
+                      }
+                    }}
+                    placeholder={t('Scoring.SetWeights.AddRelicSetPlaceholder' /* Add relic set */)}
+                    selectedValues={selectedValues}
+                  />
 
                   <Flex wrap="wrap" gap={20}>
-                    {fields.map((field) => (
-                      <Form.Item
-                        key={field.key}
-                        noStyle
-                        shouldUpdate
-                      >
-                        {(x) => {
-                          const set = x.getFieldsValue()['relicsList'][field.name][0]
-                          return (
-                            <Flex direction="column" gap={5} align='center'>
-                              <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 48, height: 48 }}></img>
-                              <Form.Item
-                                name={[field.name, 1]}
-                              >
-                                <InputNumberStyled hideControls size='xs' min={0} max={1} />
-                              </Form.Item>
-                            </Flex>
-                          )
-                        }}
-                      </Form.Item>
-                    ))}
+                    {relicsList.map((item, index) => {
+                      const set = item[0]
+                      return (
+                        <Flex key={index} direction="column" gap={5} align='center'>
+                          <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 48, height: 48 }}></img>
+                          <InputNumberStyled
+                            hideControls
+                            size='xs'
+                            min={0}
+                            max={1}
+                            {...scoringAlgorithmForm.getInputProps(`relicsList.${index}.1`)}
+                          />
+                        </Flex>
+                      )
+                    })}
                   </Flex>
                 </>
-              )}
-            </Form.List>
+              )
+            })()}
           </Flex>
 
           <VerticalDivider />
 
           <Flex direction="column" gap={20} flex={1}>
-            <Form.List name='ornamentsList'>
-              {(fields, { add, remove }) => (
+            {(() => {
+              const selectedValues = ornamentsList.map((field: [string, number]) => field[0])
+              return (
                 <>
-                  <Form.Item
-                    noStyle
-                    shouldUpdate
-                  >
-                    {(x) => {
-                      const selectedValues = x.getFieldsValue()['ornamentsList']?.map((field: [string, number]) => field[0])
-                      return (
-                        <SetPicker
-                          names={SetsOrnamentsNames}
-                          add={(v) => add([v, 1])}
-                          remove={(v) => {
-                            const index = selectedValues.indexOf(v)
-                            if (index !== -1) {
-                              remove(index)
-                            }
-                          }}
-                          placeholder={t('Scoring.SetWeights.AddOrnamentSetPlaceholder' /* Add ornament set */)}
-                          selectedValues={selectedValues}
-                        />
-                      )
+                  <SetPicker
+                    names={SetsOrnamentsNames}
+                    add={(v) => {
+                      scoringAlgorithmForm.setFieldValue('ornamentsList', [...ornamentsList, [v, 1]])
                     }}
-                  </Form.Item>
+                    remove={(v) => {
+                      const index = selectedValues.indexOf(v)
+                      if (index !== -1) {
+                        scoringAlgorithmForm.setFieldValue(
+                          'ornamentsList',
+                          ornamentsList.filter((_, i) => i !== index),
+                        )
+                      }
+                    }}
+                    placeholder={t('Scoring.SetWeights.AddOrnamentSetPlaceholder' /* Add ornament set */)}
+                    selectedValues={selectedValues}
+                  />
 
                   <Flex wrap="wrap" gap={20}>
-                    {fields.map((field) => (
-                      <Form.Item
-                        key={field.key}
-                        noStyle
-                        shouldUpdate
-                      >
-                        {(x) => {
-                          const set = x.getFieldsValue()['ornamentsList'][field.name][0]
-                          return (
-                            <Flex direction="column" gap={5} align='center'>
-                              <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 48, height: 48 }}></img>
-                              <Form.Item
-                                name={[field.name, 1]}
-                              >
-                                <InputNumberStyled hideControls size='xs' min={0} max={1} />
-                              </Form.Item>
-                            </Flex>
-                          )
-                        }}
-                      </Form.Item>
-                    ))}
+                    {ornamentsList.map((item, index) => {
+                      const set = item[0]
+                      return (
+                        <Flex key={index} direction="column" gap={5} align='center'>
+                          <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 48, height: 48 }}></img>
+                          <InputNumberStyled
+                            hideControls
+                            size='xs'
+                            min={0}
+                            max={1}
+                            {...scoringAlgorithmForm.getInputProps(`ornamentsList.${index}.1`)}
+                          />
+                        </Flex>
+                      )
+                    })}
                   </Flex>
                 </>
-              )}
-            </Form.List>
+              )
+            })()}
           </Flex>
         </Flex>
 
@@ -495,7 +481,7 @@ export default function ScoringModal() {
           }
           labelPosition='center'
         />
-      </Form>
+      </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
         <Button key='back' variant="default" onClick={closeScoringModal}>
           {t('common:Cancel') /* Cancel */}

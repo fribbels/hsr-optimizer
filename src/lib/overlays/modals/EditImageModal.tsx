@@ -3,10 +3,8 @@ import {
   IconInbox,
   IconZoomIn,
 } from '@tabler/icons-react'
-import {
-  Form,
-} from 'antd'
 import { Button, Flex, Loader, Modal, SegmentedControl, Slider, Stepper, Text, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
@@ -97,7 +95,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   defaultImageUrl,
 }) => {
   const [current, setCurrent] = React.useState(0)
-  const [customImageForm] = Form.useForm()
+  const customImageForm = useForm({
+    initialValues: {
+      imageUrl: '',
+      artistName: '',
+    },
+  })
 
   const { t } = useTranslation('modals', { keyPrefix: 'EditImage' })
   const { t: tCommon } = useTranslation('common')
@@ -117,7 +120,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   const [radio, setRadio] = React.useState<'upload' | 'url' | 'default'>('url')
 
   const resetConfig = React.useCallback(() => {
-    customImageForm.resetFields()
+    customImageForm.reset()
     setCurrent(0)
     setIsVerificationLoading(false)
     setVerifiedImageUrl('')
@@ -134,7 +137,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     if (!open) {
       resetConfig()
     } else if (existingConfig) {
-      customImageForm.setFieldsValue({ imageUrl: existingConfig.imageUrl, artistName: existingConfig.artistName })
+      customImageForm.setValues({ imageUrl: existingConfig.imageUrl, artistName: existingConfig.artistName })
       setRadio('url')
       setCurrent(1)
       setVerifiedImageUrl(existingConfig.imageUrl)
@@ -149,7 +152,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }
 
   const handleOk = () => {
-    const artistName: string = customImageForm.getFieldValue('artistName') as string
+    const artistName: string = customImageForm.getValues().artistName
     const baseConfig = {
       originalDimensions,
       customImageParams,
@@ -170,25 +173,22 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         })
         setCurrent(0)
         break
-      case 'url':
-        customImageForm.validateFields()
-          .then((values) => {
-            onOk({
-              type: 'add',
-              config: {
-                ...baseConfig,
-                imageUrl: values.imageUrl,
-                artistName: artistName,
-              } as CustomImageConfig,
-            })
+      case 'url': {
+        const validation = customImageForm.validate()
+        if (!validation.hasErrors) {
+          const values = customImageForm.getValues()
+          onOk({
+            type: 'add',
+            config: {
+              ...baseConfig,
+              imageUrl: values.imageUrl,
+              artistName: artistName,
+            } as CustomImageConfig,
           })
-          .catch((e) => {
-            console.error('Error:', e)
-          })
-          .finally(() => {
-            setCurrent(0)
-          })
+        }
+        setCurrent(0)
         break
+      }
       case 'default':
         if (!defaultImageUrl) {
           console.error('defaultImageUrl does not exist, but default image was chosen.')
@@ -409,12 +409,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   const validateInputImageUrl = async (imageUrl: string) => {
     // Check if imageUrl is provided
     if (!imageUrl) {
-      customImageForm.setFields([
-        {
-          name: 'imageUrl',
-          errors: ['An image URL is required'],
-        },
-      ])
+      customImageForm.setFieldError('imageUrl', 'An image URL is required')
       return
     }
 
@@ -422,12 +417,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
 
     // Check if the imageUrl is not valid and return early
     if (!(await isValidImageUrl(imageUrl))) {
-      customImageForm.setFields([
-        {
-          name: 'imageUrl',
-          errors: ['URL does not lead to an image'],
-        },
-      ])
+      customImageForm.setFieldError('imageUrl', 'URL does not lead to an image')
       setIsVerificationLoading(false)
       return
     }
@@ -440,12 +430,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       // Validate file size before uploading to imgur
       const sizeValidation = await validateUrlFileSize(imageUrl)
       if (!sizeValidation.valid) {
-        customImageForm.setFields([
-          {
-            name: 'imageUrl',
-            errors: [sizeValidation.error!],
-          },
-        ])
+        customImageForm.setFieldError('imageUrl', sizeValidation.error!)
         setIsVerificationLoading(false)
         return
       }
@@ -457,12 +442,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         setVerifiedImageUrl(imgurUrl)
         setCurrent(current + 1)
       } else {
-        customImageForm.setFields([
-          {
-            name: 'imageUrl',
-            errors: ['Failed to process image, upload image instead.'],
-          },
-        ])
+        customImageForm.setFieldError('imageUrl', 'Failed to process image, upload image instead.')
       }
     }
     setIsVerificationLoading(false)
@@ -477,7 +457,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       // case 'upload':
       // This isn't handled because uploading a file will go to next step
       case 'url':
-        await validateInputImageUrl(customImageForm.getFieldValue('imageUrl'))
+        await validateInputImageUrl(customImageForm.getValues().imageUrl)
         break
       case 'default':
         onOk({
@@ -541,14 +521,13 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           )}
 
           {radio === 'url' && (
-            <Form.Item
-              name='imageUrl'
-              label={t('Upload.Url.Label') /* Image */}
-              style={{ margin: '0 20px' }}
-              rules={[{ required: true, message: t('Upload.Url.Rule') /* Please input a valid image URL */ }]}
-            >
-              <TextInput autoComplete='off' />
-            </Form.Item>
+            <div style={{ margin: '0 20px' }}>
+              <TextInput
+                label={t('Upload.Url.Label') /* Image */}
+                autoComplete='off'
+                {...customImageForm.getInputProps('imageUrl')}
+              />
+            </div>
           )}
 
           {radio === 'default' && (
@@ -625,13 +604,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               <Text style={{ flex: 1, marginLeft: 3 }}>
                 {t('Edit.ArtBy') /* (Optional) Art by: */}
               </Text>
-              <Form.Item name='artistName'>
-                <TextInput
-                  style={{ flex: 1, marginTop: 3 }}
-                  placeholder={t('Edit.CreditPlaceholder') /* Credit the artist if possible */}
-                  autoComplete='off'
-                />
-              </Form.Item>
+              <TextInput
+                style={{ flex: 1, marginTop: 3 }}
+                placeholder={t('Edit.CreditPlaceholder') /* Credit the artist if possible */}
+                autoComplete='off'
+                {...customImageForm.getInputProps('artistName')}
+              />
             </Flex>
           </Flex>
         </>
@@ -640,7 +618,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   ]
 
   return (
-    <Form form={customImageForm} layout='vertical'>
+    <div>
       <Modal
         opened={open}
         size={width}
@@ -697,7 +675,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           </Flex>
         </Flex>
       </Modal>
-    </Form>
+    </div>
   )
 }
 

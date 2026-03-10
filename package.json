@@ -55,7 +55,6 @@
     "@tabler/icons-react": "^3.40.0",
     "ag-grid-community": "32.1.0",
     "ag-grid-react": "32.1.0",
-    "antd": "5.22.7",
     "chroma-js": "^3.1.2",
     "fast-sort": "^3.4.0",
     "html-to-image": "^1.11.13",

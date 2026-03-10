@@ -5,10 +5,8 @@ import {
   IconTrash,
   IconX,
 } from '@tabler/icons-react'
-import {
-  Form as AntDForm,
-} from 'antd'
 import { Button, Flex, NumberInput, Paper, SegmentedControl, Select } from '@mantine/core'
+import { useForm, UseFormReturnType } from '@mantine/form'
 import {
   OverlayText,
   showcaseOutline,
@@ -105,7 +103,9 @@ const defaultForm: Partial<BenchmarkForm> = {
 
 export default function BenchmarksTab(): ReactElement {
   const { t } = useTranslation('benchmarksTab')
-  const [benchmarkForm] = AntDForm.useForm<BenchmarkForm>()
+  const benchmarkForm = useForm<BenchmarkForm>({
+    initialValues: defaultForm as BenchmarkForm,
+  })
   const {
     isCharacterModalOpen,
     characterModalInitialCharacter,
@@ -122,7 +122,7 @@ export default function BenchmarksTab(): ReactElement {
   }, [])
 
   useEffect(() => {
-    benchmarkForm.setFieldsValue(initialForm)
+    benchmarkForm.setValues(initialForm as BenchmarkForm)
     updateTeammate(0, initialForm.teammate0)
     updateTeammate(1, initialForm.teammate1)
     updateTeammate(2, initialForm.teammate2)
@@ -141,13 +141,7 @@ export default function BenchmarksTab(): ReactElement {
       />
 
       <Paper p="xs" withBorder style={{ width: 900 }}>
-        <AntDForm
-          form={benchmarkForm}
-          initialValues={initialForm}
-          preserve={false}
-        >
-          <BenchmarkInputs />
-        </AntDForm>
+        <BenchmarkInputs form={benchmarkForm} />
       </Paper>
 
       <DPSScoreDisclaimer />
@@ -164,23 +158,22 @@ export default function BenchmarksTab(): ReactElement {
   )
 }
 
-function BenchmarkInputs() {
+function BenchmarkInputs({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   return (
     <Flex direction="column" align='center'>
       <Flex gap={GAP * 3} style={{ width: '100%' }} justify='space-between'>
-        <LeftPanel />
-        <MiddlePanel />
-        <RightPanel />
+        <LeftPanel form={form} />
+        <MiddlePanel form={form} />
+        <RightPanel form={form} />
       </Flex>
     </Flex>
   )
 }
 
-function LeftPanel() {
+function LeftPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'LeftPanel' })
-  const form = AntDForm.useFormInstance<BenchmarkForm>()
-  const characterId = AntDForm.useWatch('characterId', form) ?? ''
-  const lightCone = AntDForm.useWatch('lightCone', form) ?? ''
+  const characterId = form.getValues().characterId ?? ''
+  const lightCone = form.getValues().lightCone ?? ''
 
   const lightConeMetadata = DB.getMetadata().lightCones[lightCone]
   const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
@@ -205,30 +198,34 @@ function LeftPanel() {
   )
 }
 
-function MiddlePanel() {
+function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'MiddlePanel' })
-  const form = AntDForm.useFormInstance<BenchmarkForm>()
-  const characterId = AntDForm.useWatch('characterId', form) ?? ''
+  const characterId = form.getValues().characterId ?? ''
 
   return (
     <Flex direction="column" gap={GAP} style={{ width: MID_PANEL_WIDTH }} justify='space-between'>
       <Flex direction="column" gap={GAP}>
         <HeaderText>{t('CharacterHeader') /* Character */}</HeaderText>
-        <AntDForm.Item name='characterId' noStyle>
-          <CharacterSelect
-            value={null}
-            onChange={(id: CharacterId | null | undefined) => handleCharacterSelectChange(id, form)}
-          />
-        </AntDForm.Item>
-        <CharacterEidolonFormRadio />
+        <CharacterSelect
+          value={form.getValues().characterId}
+          onChange={(id: CharacterId | null | undefined) => {
+            if (id) form.setFieldValue('characterId', id)
+            handleCharacterSelectChange(id, form)
+          }}
+        />
+        <CharacterEidolonFormRadio form={form} />
       </Flex>
 
       <Flex direction="column" gap={GAP}>
         <HeaderText>{t('LCHeader') /* Light Cone */}</HeaderText>
-        <AntDForm.Item name='lightCone' noStyle>
-          <LightConeSelect value={null} characterId={characterId} />
-        </AntDForm.Item>
-        <LightConeSuperimpositionFormRadio />
+        <LightConeSelect
+          value={form.getValues().lightCone}
+          characterId={characterId}
+          onChange={(id) => {
+            if (id) form.setFieldValue('lightCone', id)
+          }}
+        />
+        <LightConeSuperimpositionFormRadio form={form} />
       </Flex>
 
       <TeammatesSection />
@@ -238,12 +235,11 @@ function MiddlePanel() {
 
 const INPUT_WIDTH = 85
 
-function RightPanel() {
+function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const {
     loading,
     resetCache,
   } = useBenchmarksTabStore()
-  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'RightPanel' })
   const { t: tOptimizerTab } = useTranslation('optimizerTab')
 
@@ -252,8 +248,8 @@ function RightPanel() {
       <Flex direction="column" gap={GAP}>
         <HeaderText>{t('Settings.Header') /* Settings */}</HeaderText>
 
-        <SpdBenchmarkSetting />
-        <BenchmarkSetting label='ERR' itemName='errRope'>
+        <SpdBenchmarkSetting form={form} />
+        <BenchmarkSetting label='ERR' itemName='errRope' form={form}>
           <SegmentedControl
             size='xs'
             fullWidth
@@ -264,7 +260,7 @@ function RightPanel() {
             ]}
           />
         </BenchmarkSetting>
-        <BenchmarkSetting label='SubDPS' itemName='subDps'>
+        <BenchmarkSetting label='SubDPS' itemName='subDps' form={form}>
           <SegmentedControl
             size='xs'
             fullWidth
@@ -281,7 +277,7 @@ function RightPanel() {
         <HeaderText>{t('SetsHeader') /* Benchmark sets */}</HeaderText>
 
         <Flex direction="column" gap={HEADER_GAP}>
-          <SetsSection simType={StatSimTypes.Benchmarks} />
+          <SetsSection simType={StatSimTypes.Benchmarks} form={form} />
           <Button
             onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
             leftSection={<IconSettings size={16} />}
@@ -297,7 +293,7 @@ function RightPanel() {
       <Flex direction="column" gap={GAP}>
         <Button
           onClick={() => {
-            const formValues = benchmarkForm.getFieldsValue()
+            const formValues = form.getValues()
             console.log(formValues)
             handleBenchmarkFormSubmit(formValues)
           }}
@@ -322,9 +318,8 @@ function RightPanel() {
   )
 }
 
-function SpdBenchmarkSetting() {
+function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
-  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm>()
 
   const options = useMemo(() => {
     const { categories } = generateSpdPresets(tOptimizerTab)
@@ -342,7 +337,7 @@ function SpdBenchmarkSetting() {
   }, [tOptimizerTab])
 
   return (
-    <BenchmarkSetting label='SPD' itemName='basicSpd'>
+    <BenchmarkSetting label='SPD' itemName='basicSpd' form={form}>
       <NumberInput
         size='xs'
         hideControls
@@ -355,7 +350,7 @@ function SpdBenchmarkSetting() {
             maxDropdownHeight={800}
             value={null}
             onChange={(value) => {
-              if (value != null) benchmarkForm.setFieldValue('basicSpd', Number(value))
+              if (value != null) form.setFieldValue('basicSpd', Number(value))
             }}
           />
         }

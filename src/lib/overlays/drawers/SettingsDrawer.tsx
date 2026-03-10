@@ -1,6 +1,4 @@
-import {
-  Form,
-} from 'antd'
+import { useForm } from '@mantine/form'
 import { Drawer, Flex, Select, Text } from '@mantine/core'
 import {
   OpenCloseIDs,
@@ -60,11 +58,16 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
 }
 
 export const SettingsDrawer = () => {
-  const [settingsForm] = Form.useForm()
+  const setSettingsRef = window.store((s) => s.setSettings)
+  const settingsForm = useForm<UserSettings>({
+    onValuesChange: (values) => {
+      setSettingsRef(values)
+      SaveState.delayedSave()
+    },
+  })
   const { close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
 
   const settings = window.store((s) => s.settings)
-  const setSettings = window.store((s) => s.setSettings)
 
   const { t } = useTranslation('settings')
 
@@ -138,44 +141,33 @@ export const SettingsDrawer = () => {
   useEffect(() => {
     const initialSettings: UserSettings = TsUtils.clone(DefaultSettingOptions)
     const newSettings: UserSettings = Utils.mergeDefinedValues(initialSettings, settings)
-    setSettings(newSettings)
+    setSettingsRef(newSettings)
 
-    settingsForm.setFieldsValue(newSettings)
+    settingsForm.setValues(newSettings)
   }, [isOpenSettingsDrawer])
 
-  const onValuesChange = (_changedValues: Partial<UserSettings>, allValues: UserSettings) => {
-    setSettings(allValues)
-    SaveState.delayedSave()
-  }
-
   return (
-    <Form
-      form={settingsForm}
-      onValuesChange={onValuesChange}
+    <Drawer
+      title={t('Title')} /* 'Settings' */
+      position='right'
+      onClose={closeSettingsDrawer}
+      opened={isOpenSettingsDrawer}
+      size={900}
     >
-      <Drawer
-        title={t('Title')} /* 'Settings' */
-        position='right'
-        onClose={closeSettingsDrawer}
-        opened={isOpenSettingsDrawer}
-        size={900}
-      >
-        <Flex direction="column" gap={defaultGap}>
-          {(Object.keys(SettingOptions) as (keyof typeof SettingOptions)[])
-            .map((option) => (
-              <Flex justify='space-between' align='center' key={option}>
-                <Text>{t(`${option}.Label`)}</Text>
-                <Form.Item name={SettingOptions[option].name}>
-                  <Select
-                    style={{ width: 500 }}
-                    data={optionsMap[option]}
-                    renderOption={({ option }) => <SelectOptionWordWrap>{option.label}</SelectOptionWordWrap>}
-                  />
-                </Form.Item>
-              </Flex>
-            ))}
-        </Flex>
-      </Drawer>
-    </Form>
+      <Flex direction="column" gap={defaultGap}>
+        {(Object.keys(SettingOptions) as (keyof typeof SettingOptions)[])
+          .map((option) => (
+            <Flex justify='space-between' align='center' key={option}>
+              <Text>{t(`${option}.Label`)}</Text>
+              <Select
+                style={{ width: 500 }}
+                data={optionsMap[option]}
+                renderOption={({ option }) => <SelectOptionWordWrap>{option.label}</SelectOptionWordWrap>}
+                {...settingsForm.getInputProps(SettingOptions[option].name)}
+              />
+            </Flex>
+          ))}
+      </Flex>
+    </Drawer>
   )
 }

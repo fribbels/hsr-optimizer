@@ -1,5 +1,5 @@
 import { AgGridReact } from 'ag-grid-react'
-import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { UseFormReturnType } from '@mantine/form'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants } from 'lib/constants/constants'
@@ -67,7 +67,7 @@ declare global {
     relicsGrid: RefObject<AgGridReact<ScoredRelic>>
     optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
 
-    showcaseTabForm: FormInstance<ShowcaseTabForm>
+    showcaseTabForm: UseFormReturnType<ShowcaseTabForm>
 
     optimizerStartClicked: () => void
 

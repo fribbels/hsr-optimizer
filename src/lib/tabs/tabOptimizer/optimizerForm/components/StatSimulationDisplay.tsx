@@ -6,10 +6,7 @@ import {
   IconSettings,
   IconTrash,
 } from '@tabler/icons-react'
-import {
-  Form as AntDForm,
-  Select as AntdSelect,
-} from 'antd'
+import { UseFormReturnType } from '@mantine/form'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Flex, NumberInput, SegmentedControl, Select, Text, TextInput } from '@mantine/core'
 import {
@@ -31,7 +28,6 @@ import {
 } from 'lib/simulations/statSimulationController'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/SimulatedBuildsGrid'
@@ -42,7 +38,6 @@ import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerForm
 import { Utils } from 'lib/utils/utils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { OptimizerForm } from 'types/form'
 
 export const STAT_SIMULATION_ROW_HEIGHT = 425
 export const STAT_SIMULATION_GRID_WIDTH = 680
@@ -278,67 +273,51 @@ function OptimizerSetsSection(props: { simType: string }) {
   )
 }
 
-// BenchmarksTab version: uses AntD Form.Item for auto-binding (requires parent AntD Form context)
-export function SetsSection(props: { simType: string }) {
+// BenchmarksTab version: uses Mantine form instance passed as prop
+export function SetsSection(props: { simType: string, form: UseFormReturnType<BenchmarkForm> }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
-  const benchmarkForm = AntDForm.useFormInstance<BenchmarkForm | OptimizerForm>()
 
   // Save a click by assuming the first relic set is a 4p
-  const handleRelicSet1Change = (value: string) => {
-    const path2 = formName(props.simType, 'simRelicSet2')
-    // @ts-ignore
-    benchmarkForm.setFieldValue(path2, value)
+  const handleRelicSet1Change = (value: string | null) => {
+    props.form.setFieldValue('simRelicSet1', (value ?? undefined) as never)
+    props.form.setFieldValue('simRelicSet2', (value ?? undefined) as never)
   }
 
   return (
     <>
-      <AntDForm.Item name={formName(props.simType, 'simRelicSet1')} style={{ maxHeight: 32 }}>
-        <AntdSelect
-          dropdownStyle={{
-            width: 250,
-          }}
-          listHeight={700}
-          allowClear
-          options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
-          tagRender={OrnamentSetTagRenderer}
-          onChange={handleRelicSet1Change}
-          placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
-          maxTagCount='responsive'
-          showSearch
-        >
-        </AntdSelect>
-      </AntDForm.Item>
-      <AntDForm.Item name={formName(props.simType, 'simRelicSet2')} style={{ maxHeight: 32 }}>
-        <AntdSelect
-          dropdownStyle={{
-            width: 250,
-          }}
-          listHeight={700}
-          allowClear
-          options={useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])}
-          tagRender={OrnamentSetTagRenderer}
-          placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
-          maxTagCount='responsive'
-          showSearch
-        >
-        </AntdSelect>
-      </AntDForm.Item>
-
-      <AntDForm.Item name={formName(props.simType, 'simOrnamentSet')} style={{ maxHeight: 32 }}>
-        <AntdSelect
-          dropdownStyle={{
-            width: 250,
-          }}
-          listHeight={600}
-          allowClear
-          options={useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])}
-          tagRender={OrnamentSetTagRenderer}
-          placeholder={t('SetSelection.OrnamentPlaceholder')} // 'Ornament set'
-          maxTagCount='responsive'
-          showSearch
-        >
-        </AntdSelect>
-      </AntDForm.Item>
+      <Select
+        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        style={{ maxHeight: 32 }}
+        maxDropdownHeight={700}
+        clearable
+        data={useMemo(() => GenerateBasicSetsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [i18n.resolvedLanguage])}
+        value={props.form.getValues().simRelicSet1 ?? null}
+        onChange={handleRelicSet1Change}
+        placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
+        searchable
+      />
+      <Select
+        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        style={{ maxHeight: 32 }}
+        maxDropdownHeight={700}
+        clearable
+        data={useMemo(() => GenerateBasicSetsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [i18n.resolvedLanguage])}
+        value={props.form.getValues().simRelicSet2 ?? null}
+        onChange={(value) => props.form.setFieldValue('simRelicSet2', (value ?? undefined) as never)}
+        placeholder={t('SetSelection.RelicPlaceholder')} // 'Relic set'
+        searchable
+      />
+      <Select
+        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        style={{ maxHeight: 32 }}
+        maxDropdownHeight={600}
+        clearable
+        data={useMemo(() => GenerateOrnamentsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [i18n.resolvedLanguage])}
+        value={props.form.getValues().simOrnamentSet ?? null}
+        onChange={(value) => props.form.setFieldValue('simOrnamentSet', (value ?? undefined) as never)}
+        placeholder={t('SetSelection.OrnamentPlaceholder')} // 'Ornament set'
+        searchable
+      />
     </>
   )
 }
@@ -507,9 +486,3 @@ function StatInput(props: { label: string, name: string, simType: string }) {
   )
 }
 
-// formName is still used by SetsSection (BenchmarksTab context)
-function formName(str1: string, str2?: string, str3?: string): string[] {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-  if (str1 == StatSimTypes.Benchmarks) return [str2, str3].filter((x) => x) as string[]
-  return ['statSim', str1, str2, str3].filter((x) => x) as string[]
-}

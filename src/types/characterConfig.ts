@@ -1,4 +1,4 @@
-import {
+import type {
   CharacterId,
   Eidolon
 } from 'types/character'

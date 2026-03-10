@@ -1,31 +1,31 @@
-import {
+import type {
   ComputeEngine,
   CUSTOM_TEAM,
   DEFAULT_TEAM,
 } from 'lib/constants/constants'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
-import { ColorThemeOverrides } from 'lib/rendering/theme'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
-import {
+import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import type { ColorThemeOverrides } from 'lib/rendering/theme'
+import type { ScoringType } from 'lib/scoring/simScoringUtils'
+import type {
   Simulation,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
-import { AppPages } from 'lib/state/db'
-import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
-import {
+import type { AppPages } from 'lib/state/db'
+import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
+import type {
   Build,
   Character,
   CharacterId,
 } from 'types/character'
-import { Form } from 'types/form'
-import {
+import type { Form } from 'types/form'
+import type {
   ScoringMetadata,
   ShowcasePreferences,
   ShowcaseTemporaryOptions,
 } from 'types/metadata'
-import { Relic } from 'types/relic'
+import type { Relic } from 'types/relic'
 
 type PermutationDetails = {
   Head: number,

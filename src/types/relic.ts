@@ -1,12 +1,12 @@
-import {
+import type {
   MainStats,
   Parts,
   Sets,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import { AugmentedStats } from 'lib/relics/relicAugmenter'
-import { CharacterId } from 'types/character'
+import type { AugmentedStats } from 'lib/relics/relicAugmenter'
+import type { CharacterId } from 'types/character'
 
 export type RelicId = string
 export type RelicGrade = number

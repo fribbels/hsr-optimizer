@@ -1,19 +1,19 @@
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ActionModifier } from 'lib/optimization/context/calculateActions'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import type { ActionModifier } from 'lib/optimization/context/calculateActions'
+import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import type { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import type { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import type { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
-import {
+import type {
   ComponentProps,
   ComponentType,
 } from 'react'
-import {
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-import {
+import type {
   AbilityDefinition,
   EntityDefinition,
 } from './hitConditionalTypes'

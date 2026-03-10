@@ -2,9 +2,9 @@ import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { ActionModifier } from 'lib/optimization/context/calculateActions'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
-import { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
-import { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
+import type { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
+import type { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
+import type { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import {
   ComponentProps,
   ComponentType,

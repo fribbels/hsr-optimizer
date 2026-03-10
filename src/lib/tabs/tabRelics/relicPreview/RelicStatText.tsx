@@ -3,7 +3,7 @@ import { ComponentType } from 'react'
 import { Languages } from 'lib/utils/i18nUtils'
 import styled from 'styled-components'
 
-const RelicStatText = styled(Text as ComponentType<any>)<{ language?: Languages }>`
+const RelicStatText = styled(Text as ComponentType<any>).attrs({ component: 'div' })<{ language?: Languages }>`
     ${(props) => generateStyling(props.language)}
 `
 

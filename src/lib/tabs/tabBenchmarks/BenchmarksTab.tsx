@@ -323,12 +323,19 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
 
   const options = useMemo(() => {
     const { categories } = generateSpdPresets(tOptimizerTab)
+    const seen = new Set<string>()
     return categories.map((category) => {
-      const presetOptions = Object.values(category.presets).map((preset) => ({
-        // Optimizer tab has SPD0 as undefined for filters, we want to set it to 0
-        value: String(preset.value ?? 0),
-        label: String(preset.label),
-      }))
+      const presetOptions = Object.values(category.presets)
+        .map((preset) => ({
+          // Optimizer tab has SPD0 as undefined for filters, we want to set it to 0
+          value: String(preset.value ?? 0),
+          label: String(preset.label),
+        }))
+        .filter((opt) => {
+          if (seen.has(opt.value)) return false
+          seen.add(opt.value)
+          return true
+        })
       return {
         group: category.label,
         items: presetOptions,

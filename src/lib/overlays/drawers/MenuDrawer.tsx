@@ -15,7 +15,7 @@ import {
   IconUpload,
   IconUser,
 } from '@tabler/icons-react'
-import { Anchor, Flex, NavLink } from '@mantine/core'
+import { Flex, NavLink } from '@mantine/core'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
@@ -36,14 +36,16 @@ type MenuItemProperties = {
   key: string,
   icon?: ReactElement,
   children?: MenuItemProperties[],
+  href?: string,
 }
 
-function getItem(label: string | ReactElement, key: string, icon?: ReactElement, children?: MenuItemProperties[]): MenuItemProperties {
+function getItem(label: string | ReactElement, key: string, icon?: ReactElement, children?: MenuItemProperties[], href?: string): MenuItemProperties {
   return {
     label,
     key,
     icon,
     children,
+    href,
   }
 }
 
@@ -132,50 +134,65 @@ const MenuDrawer = () => {
     getItem(t('Links.Title'), /* Links */ 'subLinks', <IconMenu2 />, [
       getItem(
         (
-          <Anchor>
+          <Flex>
             <IconHome style={{ marginRight: 2, width: 16 }} /> {t('Links.Home') /* Home */}
-          </Anchor>
+          </Flex>
         ),
         AppPages.HOME,
       ),
       getItem(
         (
-          <Anchor>
+          <Flex>
             <IconList style={{ marginRight: 2, width: 16 }} /> {t('Links.Changelog') /* Changelog */}
-          </Anchor>
+          </Flex>
         ),
         AppPages.CHANGELOG,
       ),
       getItem(
-        <Anchor href='https://ko-fi.com/fribbels' target='_blank' rel='noopener noreferrer'>
+        <Flex>
           <CoffeeIcon style={{ marginRight: 5 }} /> {t('Links.Kofi') /* Ko-fi */}
-        </Anchor>,
+        </Flex>,
         'link donate',
+        undefined,
+        undefined,
+        'https://ko-fi.com/fribbels',
       ),
       getItem(
-        <Anchor href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noopener noreferrer'>
+        <Flex>
           <DiscordIcon style={{ marginRight: 5 }} /> {t('Links.Discord') /* Discord */}
-        </Anchor>,
+        </Flex>,
         'link discord',
+        undefined,
+        undefined,
+        'https://discord.gg/rDmB4Un7qg',
       ),
       getItem(
-        <Anchor href='https://github.com/fribbels/hsr-optimizer' target='_blank' rel='noopener noreferrer'>
+        <Flex>
           <GithubIcon style={{ marginRight: 5 }} /> {t('Links.Github') /* GitHub */}
-        </Anchor>,
+        </Flex>,
         'link github',
+        undefined,
+        undefined,
+        'https://github.com/fribbels/hsr-optimizer',
       ),
       officialOnly
         ? getItem(
-          <Anchor href='https://fribbels.github.io/hsr-optimizer/' target='_blank' rel='noopener noreferrer'>
+          <Flex>
             <IconLink style={{ marginRight: 5 }} /> {t('Links.Leaks') /* Beta content */}
-          </Anchor>,
+          </Flex>,
           'link leaks',
+          undefined,
+          undefined,
+          'https://fribbels.github.io/hsr-optimizer/',
         )
         : getItem(
-          <Anchor href='https://starrailoptimizer.github.io/' target='_blank' rel='noopener noreferrer'>
+          <Flex>
             <IconLink style={{ marginRight: 5 }} /> {t('Links.Unleak') /* No leaks */}
-          </Anchor>,
+          </Flex>,
           'link leaks free',
+          undefined,
+          undefined,
+          'https://starrailoptimizer.github.io/',
         ),
     ]),
   ], [t])
@@ -202,6 +219,7 @@ const MenuDrawer = () => {
               label={child.label}
               active={activeKey === child.key}
               onClick={() => onClick(child.key)}
+              {...(child.href ? { component: 'a' as const, href: child.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
             />
           ))}
         </NavLink>

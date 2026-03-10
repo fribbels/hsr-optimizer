@@ -1,6 +1,6 @@
 
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
-import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { LightConeId } from 'types/lightCone'

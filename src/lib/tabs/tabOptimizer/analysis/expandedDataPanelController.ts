@@ -128,7 +128,7 @@ export function generateAnalysisData(
 }
 
 export function getPinnedRowData() {
-  const currentPinned = window.optimizerGrid?.current?.api?.getGridOption('pinnedTopRowData') as OptimizerDisplayData[] ?? []
+  const currentPinned = window.optimizerGrid?.current?.api?.getGridOption('pinnedTopRowData') ?? []
   return currentPinned && currentPinned.length ? currentPinned[0] : null
 }
 

@@ -1,11 +1,9 @@
 import i18next from 'i18next'
-import { IRowNode } from 'ag-grid-community'
 import {
   Constants,
   DEFAULT_STAT_DISPLAY,
 } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optimizer'
@@ -230,7 +228,7 @@ export function equipClicked(): void {
 
   DB.addFromForm(form)
 
-  const selectedNodes = window.optimizerGrid.current?.api?.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[] | undefined
+  const selectedNodes = window.optimizerGrid?.current?.api?.getSelectedNodes()
   if (!selectedNodes || selectedNodes.length == 0 || (selectedNodes[0]?.data?.statSim)) {
     // Cannot equip a stat sim or empty row
     return

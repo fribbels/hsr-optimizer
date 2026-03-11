@@ -1,15 +1,16 @@
-import {
-  Flex,
-  theme,
-} from 'antd'
+import { Flex } from 'antd'
 import { HitDefinitionRows } from 'lib/characterPreview/buffsAnalysis/HitDefinitionDisplay'
 import { OptimizerContext } from 'types/optimizer'
 import {
+  AbilityColorKey,
   ABILITY_COLORS,
   DAMAGE_TAG_ENTRIES,
   TagColorEntry,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
-import { CardHeader } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
+import {
+  CardHeader,
+  CardShell,
+} from 'lib/characterPreview/buffsAnalysis/BuffGroup'
 import {
   formatBuffValue,
   getStatConfig,
@@ -19,18 +20,24 @@ import {
 import {
   DesignContext,
   ellipsisStyle,
-  getCardStyle,
-  getIconStyle,
+  FilterContext,
   getRowBaseStyle,
+  getSourceLabelStyle,
   GROUP_ORDER,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
-import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
 import { Buff } from 'lib/optimization/basicStatsArray'
 import { AKeyNames } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+
+// Summary totals filter: only sums universal buffs when unfiltered, sums universal + matching when filtered
+function buffMatchesSumFilter(buff: Buff, filter: DamageTag | null): boolean {
+  if (filter === null) return buff.damageTags == null
+  if (buff.damageTags == null) return true
+  return (buff.damageTags & filter) !== 0
+}
 
 const STAT_ORDER = new Map<string, number>(AKeyNames.map((key, i) => [key, i]))
 
@@ -46,6 +53,7 @@ type StatSum = {
   count: number,
   percent: boolean,
   contributions: StatSumContribution[],
+  allContributions: StatSumContribution[],
 }
 
 export function collectAllBuffs(buffGroups: BuffGroups): Buff[] {
@@ -66,8 +74,9 @@ function getBuffStatKey(buff: Buff): string {
 }
 
 export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSum[] {
-  // First pass: collect all stat keys in insertion order (unfiltered) for stable ordering + metadata
+  // First pass: collect all stat keys in insertion order (unfiltered) for stable ordering, metadata, and all contributions for pills
   const metaMap = new Map<string, Pick<StatSum, 'stat' | 'label' | 'percent'>>()
+  const allContributionsMap = new Map<string, StatSumContribution[]>()
   for (const buff of buffs) {
     const config = getStatConfig(buff.stat)
     if (!config || config.bool) continue
@@ -78,13 +87,15 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
         label: translatedLabel(buff.stat, buff.memo),
         percent: !config.flat,
       })
+      allContributionsMap.set(key, [])
     }
+    allContributionsMap.get(key)!.push({ value: buff.value, damageTags: buff.damageTags })
   }
 
   // Second pass: compute sums with filter applied
   const sumMap = new Map<string, StatSum>()
   for (const buff of buffs) {
-    if (!buffMatchesFilter(buff, filter)) continue
+    if (!buffMatchesSumFilter(buff, filter)) continue
     const config = getStatConfig(buff.stat)
     if (!config || config.bool) continue
 
@@ -107,6 +118,7 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
         count: 1,
         percent: !config.flat,
         contributions: [contribution],
+        allContributions: allContributionsMap.get(key) ?? [],
       })
     }
   }
@@ -117,7 +129,15 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
       const existing = sumMap.get(key)
       if (existing) return existing
       const meta = metaMap.get(key)!
-      return { stat: meta.stat, label: meta.label, total: 0, count: 0, percent: meta.percent, contributions: [] }
+      return {
+        stat: meta.stat,
+        label: meta.label,
+        total: 0,
+        count: 0,
+        percent: meta.percent,
+        contributions: [],
+        allContributions: allContributionsMap.get(key) ?? [],
+      }
     })
     .sort((a, b) => (STAT_ORDER.get(a.stat) ?? 999) - (STAT_ORDER.get(b.stat) ?? 999))
 }
@@ -142,13 +162,21 @@ function getContributionTagPills(contributions: StatSumContribution[]): TagColor
   return pills
 }
 
-function SummaryTagPills(props: { contributions: StatSumContribution[] }) {
-  const pills = getContributionTagPills(props.contributions)
+function isPillActive(pillKey: AbilityColorKey, filter: DamageTag | null): boolean {
+  if (pillKey === 'ALL') return true
+  if (filter === null) return false
+  const entry = DAMAGE_TAG_ENTRIES.find((e) => e.key === pillKey)
+  return entry != null && (entry.tag & filter) !== 0
+}
+
+function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
+  const filter = useContext(FilterContext)
+  const pills = getContributionTagPills(props.allContributions)
   if (pills.length === 0) return null
 
   return (
     <Flex gap={2} style={{ flexShrink: 0 }}>
-      {pills.map((p) => renderPill(p.key, p.color, p.label))}
+      {pills.map((p) => renderPill(p.key, p.color, p.label, !isPillActive(p.key, filter)))}
     </Flex>
   )
 }
@@ -156,64 +184,59 @@ function SummaryTagPills(props: { contributions: StatSumContribution[] }) {
 export function StatSummaryTable(props: {
   sums: StatSum[]
   avatarSrc: string
-  context?: OptimizerContext
-  selectedAction?: number | null
 }) {
   const options = useContext(DesignContext)
-  const { token } = theme.useToken()
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
-  const cardStyleProp = getCardStyle(options, token)
-  const iconStyle = getIconStyle(options)
   const rowBase = getRowBaseStyle(options)
+  const sourceLabelStyle = getSourceLabelStyle(options)
 
   return (
-    <Flex align='center' gap={0} style={cardStyleProp}>
-      <img src={props.avatarSrc} style={iconStyle} />
-      <Flex vertical gap={0} style={{ flex: 1, overflow: 'hidden' }}>
-        <CardHeader label={t('SummaryLabel')} />
-        {props.sums.map((sum, i) => (
-          <Flex
-            key={sum.label}
-            align='center'
-            gap={6}
-            style={{
-              ...rowBase,
-              borderBottom: i < props.sums.length - 1 ? `1px solid ${options.borderColor}` : undefined,
-              opacity: sum.total === 0 ? 0.05 : 1,
-              transition: 'opacity 0.15s',
-            }}
-          >
-            <span style={{ minWidth: 60, fontSize: options.fontSize, textWrap: 'nowrap' }}>
-              {formatBuffValue(sum.total, sum.percent)}
-            </span>
+    <CardShell avatarSrc={props.avatarSrc}>
+      <CardHeader label={t('SummaryLabel')} />
+      {props.sums.map((sum, i) => (
+        <Flex
+          key={sum.label}
+          align='center'
+          gap={6}
+          style={{
+            ...rowBase,
+            borderBottom: i < props.sums.length - 1 ? `1px solid ${options.borderColor}` : undefined,
+            opacity: sum.total === 0 ? 0.15 : 1,
+            transition: 'opacity 0.15s',
+          }}
+        >
+          <span style={{ minWidth: 60, fontSize: options.fontSize, textWrap: 'nowrap' }}>
+            {formatBuffValue(sum.total, sum.percent)}
+          </span>
 
-            <Flex align='center' gap={3} style={{ minWidth: 150, overflow: 'hidden' }}>
-              <span style={{ fontSize: options.fontSize, flexShrink: 0, position: 'relative', top: -1 }}>∑</span>
-              <span style={{ ...ellipsisStyle(options.fontSize) }}>{sum.label}</span>
-            </Flex>
-
-            <SummaryTagPills contributions={sum.contributions} />
-
-            <span
-              style={{
-                marginLeft: 'auto',
-                color: `rgba(255,255,255,${options.sourceOpacity / 100})`,
-                fontSize: options.fontSize,
-                textWrap: 'nowrap',
-                flexShrink: 0,
-              }}
-            >
-              {'x' + sum.count}
-            </span>
+          <Flex align='center' gap={3} style={{ minWidth: 150, overflow: 'hidden' }}>
+            <span style={{ fontSize: options.fontSize, flexShrink: 0, position: 'relative', top: -1 }}>∑</span>
+            <span style={ellipsisStyle(options.fontSize)}>{sum.label}</span>
           </Flex>
-        ))}
-        {props.context && (
-          <HitDefinitionRows
-            context={props.context}
-            selectedAction={props.selectedAction ?? null}
-          />
-        )}
-      </Flex>
-    </Flex>
+
+          <SummaryTagPills allContributions={sum.allContributions} />
+
+          <span style={sourceLabelStyle}>
+            {'x' + sum.count}
+          </span>
+        </Flex>
+      ))}
+    </CardShell>
   )
 }
+
+export function HitDefinitionTable(props: {
+  avatarSrc: string
+  context: OptimizerContext
+  selectedAction?: number | null
+}) {
+  return (
+    <CardShell avatarSrc={props.avatarSrc}>
+      <HitDefinitionRows
+        context={props.context}
+        selectedAction={props.selectedAction ?? null}
+      />
+    </CardShell>
+  )
+}
+

@@ -3,6 +3,7 @@ import {
   ABILITY_COLORS,
   ACTION_COLORS,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import { TEXT_DIM, TEXT_PRIMARY } from 'lib/characterPreview/buffsAnalysis/designContext'
 import {
   AbilityKind,
   AbilityMeta,
@@ -52,7 +53,7 @@ export function ActionSelector(props: {
   const items = [defaultItem, ...stepItems]
 
   return (
-    <Flex align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>
+    <Flex justify='center' align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>
       {items.map((item) => (
         <span
           key={item.index}
@@ -62,7 +63,7 @@ export function ActionSelector(props: {
             fontSize: 12,
             fontWeight: 600,
             cursor: 'pointer',
-            color: item.isActive ? '#ffffffd9' : '#ffffff59',
+            color: item.isActive ? TEXT_PRIMARY : TEXT_DIM,
             borderBottom: item.isActive ? '2px solid #3f5a96' : '2px solid transparent',
             userSelect: 'none',
             transition: 'color 0.15s, border-color 0.15s',

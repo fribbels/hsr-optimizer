@@ -14,6 +14,7 @@ import {
   DesignContext,
   ellipsisStyle,
   FilterContext,
+  getSourceLabelStyle,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
 import { Buff } from 'lib/optimization/basicStatsArray'
@@ -89,7 +90,7 @@ export function BuffRow(props: { buff: Buff, isLast: boolean }) {
         lineHeight: `${options.rowHeight}px`,
         borderBottom: borderBottomStyle,
         background: rowBackground,
-        opacity: dimmed ? 0.05 : 1,
+        opacity: dimmed ? 0.15 : 1,
         transition: 'opacity 0.15s',
       }}
     >
@@ -103,10 +104,8 @@ export function BuffRow(props: { buff: Buff, isLast: boolean }) {
 
       <span
         style={{
-          marginLeft: 'auto',
-          color: `rgba(255,255,255,${options.sourceOpacity / 100})`,
+          ...getSourceLabelStyle(options),
           textAlign: 'end',
-          flexShrink: 0,
           ...ellipsisStyle(options.fontSize),
         }}
       >

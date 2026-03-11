@@ -5,8 +5,10 @@ import {
 import { BuffRow } from 'lib/characterPreview/buffsAnalysis/BuffRow'
 import {
   DesignContext,
+  TEXT_DIM,
   getCardStyle,
   getIconStyle,
+  TEXT_SECONDARY,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import {
   SetKey,
@@ -29,9 +31,20 @@ function getBuffSourceIcon(id: string, buffType: BUFF_TYPE) {
   return Assets.getBlank()
 }
 
-export function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYPE }) {
-  const { token } = theme.useToken()
+export function CardShell(props: { avatarSrc: string; children: React.ReactNode }) {
   const options = useContext(DesignContext)
+  const { token } = theme.useToken()
+  return (
+    <Flex align='center' gap={0} style={getCardStyle(options, token)}>
+      <img src={props.avatarSrc} style={getIconStyle(options)} />
+      <Flex vertical gap={0} style={{ flex: 1, overflow: 'hidden' }}>
+        {props.children}
+      </Flex>
+    </Flex>
+  )
+}
+
+export function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYPE }) {
   const { t: tGameData } = useTranslation('gameData')
   const { id, buffs, buffType } = props
 
@@ -47,18 +60,11 @@ export function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYP
     name = id
   }
 
-  const cardStyleProp = getCardStyle(options, token)
-  const iconStyle = getIconStyle(options)
-
   return (
-    <Flex align='center' gap={0} style={cardStyleProp}>
-      <img src={src} style={iconStyle} />
-
-      <Flex vertical gap={0} style={{ flex: 1, overflow: 'hidden' }}>
-        <CardHeader label={name} />
-        {buffs.map((buff, i) => <BuffRow key={i} buff={buff} isLast={i === buffs.length - 1} />)}
-      </Flex>
-    </Flex>
+    <CardShell avatarSrc={src}>
+      <CardHeader label={name} />
+      {buffs.map((buff, i) => <BuffRow key={i} buff={buff} isLast={i === buffs.length - 1} />)}
+    </CardShell>
   )
 }
 
@@ -75,10 +81,10 @@ export function CardHeader(props: { label: string }) {
         whiteSpace: 'nowrap',
         fontSize: options.fontSize - 1,
         fontWeight: 600,
-        color: '#ffffff73',
+        color: TEXT_SECONDARY,
         letterSpacing: 0.5,
         textTransform: 'uppercase',
-        borderBottom: '1px solid #ffffff30',
+        borderBottom: `1px solid ${TEXT_DIM}`,
         marginBottom: 2,
       }}
     >

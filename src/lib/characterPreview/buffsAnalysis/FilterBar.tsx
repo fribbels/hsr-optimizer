@@ -23,6 +23,7 @@ export function computeRelevantTags(allBuffs: Buff[]): Set<DamageTag> {
   return tags
 }
 
+// Detail view filter: shows all buffs when unfiltered, matches universal + specific when filtered
 export function buffMatchesFilter(buff: Buff, filter: DamageTag | null): boolean {
   if (filter === null) return true
   if (buff.damageTags == null) return true
@@ -36,7 +37,6 @@ export function FilterBar(props: {
   relevantTags: Set<DamageTag>,
 }) {
   const visibleEntries = DAMAGE_TAG_ENTRIES.filter((e) => props.relevantTags.has(e.tag))
-  if (visibleEntries.length <= 1) return null
 
   return (
     <Flex justify='center' style={{ padding: '4px 0' }}>

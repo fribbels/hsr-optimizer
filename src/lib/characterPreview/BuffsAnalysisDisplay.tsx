@@ -12,12 +12,13 @@ import {
   computeRelevantTags,
   FilterBar,
 } from 'lib/characterPreview/buffsAnalysis/FilterBar'
+import { EnemyPanel } from 'lib/characterPreview/buffsAnalysis/EnemyPanel'
 import {
   collectAllBuffs,
   computeStatSums,
+  HitDefinitionTable,
   StatSummaryTable,
 } from 'lib/characterPreview/buffsAnalysis/StatSummary'
-import { seedRelevantTagsFromHits } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -44,6 +45,7 @@ type BuffsAnalysisProps = {
   perActionBuffGroups?: PerActionBuffGroups,
   size?: BuffDisplaySize,
   context?: OptimizerContext,
+  twoColumn?: boolean,
 }
 
 export enum BuffDisplaySize {
@@ -82,35 +84,70 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   const relevantTags = computeRelevantTags(allBuffs)
   const statSums = computeStatSums(allBuffs, selectedFilter)
 
-  // Seed relevantTags from hit definitions so FilterBar renders for characters
-  // whose buffs are all ALL-type (damageTags == null)
-  if (context) {
-    seedRelevantTagsFromHits(relevantTags, context, selectedAction)
-  }
-
   const primaryGroup = buffGroups[BUFF_TYPE.PRIMARY]
   const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined
   const summaryAvatarSrc = firstPrimaryId ? Assets.getCharacterAvatarById(firstPrimaryId) : Assets.getBlank()
 
+  const summaryColumn = (
+    <>
+      <StatSummaryTable
+        sums={statSums}
+        avatarSrc={summaryAvatarSrc}
+      />
+      {context && (
+        <HitDefinitionTable
+          avatarSrc={summaryAvatarSrc}
+          context={context}
+          selectedAction={selectedAction}
+        />
+      )}
+      {context && (
+        <EnemyPanel
+          avatarSrc={summaryAvatarSrc}
+          context={context}
+        />
+      )}
+    </>
+  )
+
+  const buffsColumn = <GroupedLayout buffGroups={buffGroups} />
+
+  const actionSelector = (
+    <ActionSelector
+      rotationSteps={perActionBuffGroups.rotationSteps}
+      selectedAction={selectedAction}
+      onActionChange={setSelectedAction}
+    />
+  )
+
   return (
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
-        <Flex vertical gap={5} style={{ width: options.panelWidth }}>
-          <StatSummaryTable
-            sums={statSums}
-            avatarSrc={summaryAvatarSrc}
-            context={context}
-            selectedAction={selectedAction}
-          />
-          <ActionSelector
-            rotationSteps={perActionBuffGroups.rotationSteps}
-            selectedAction={selectedAction}
-            onActionChange={setSelectedAction}
-          />
-          <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-          <GroupedLayout buffGroups={buffGroups} />
-          <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-        </Flex>
+        {props.twoColumn
+          ? (
+            <Flex vertical gap={GROUP_SPACING}>
+              {actionSelector}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+              <Flex gap={GROUP_SPACING} align='start'>
+                <Flex vertical gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+                  {summaryColumn}
+                </Flex>
+                <Flex vertical gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+                  {buffsColumn}
+                </Flex>
+              </Flex>
+            </Flex>
+          )
+          : (
+            <Flex vertical gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+              {actionSelector}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+              {summaryColumn}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+              {buffsColumn}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+            </Flex>
+          )}
       </FilterContext.Provider>
     </DesignContext.Provider>
   )

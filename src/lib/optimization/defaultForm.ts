@@ -9,9 +9,9 @@ import {
   DEFAULT_STAT_DISPLAY,
   Sets,
 } from 'lib/constants/constants'
-import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -121,6 +121,8 @@ export function defaultTeammate() {
     characterEidolon: 0,
     lightCone: undefined,
     lightConeSuperimposition: 1,
+    teamOrnamentSet: undefined,
+    teamRelicSet: undefined,
   }
   return teammate
 }

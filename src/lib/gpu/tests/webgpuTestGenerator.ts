@@ -32,7 +32,7 @@ import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesThe
 
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import DB from 'lib/state/db'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { LightConeId } from 'types/lightCone'
@@ -240,7 +240,7 @@ export function generateRelicSetTests(device: GPUDevice) {
 }
 
 export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId: LightConeId, device: GPUDevice) {
-  const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
+  const request = normalizeForm(generateFullDefaultForm(characterId, lightConeId, 0, 1))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 
@@ -254,7 +254,7 @@ export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId:
 }
 
 export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId: LightConeId, device: GPUDevice) {
-  const request = OptimizerTabController.displayToForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
+  const request = normalizeForm(generateFullDefaultForm(characterId, lightConeId, 6, 5))
   const relics = generateTestRelics()
   request.sortOption = SortOption.COMBO.key
 

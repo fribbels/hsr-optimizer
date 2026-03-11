@@ -28,6 +28,7 @@ import {
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { localeNumber } from 'lib/utils/i18nUtils'
 import React, {
@@ -67,8 +68,8 @@ export function OptimizerGrid() {
     return OptimizerTabController.getDataSource()
   }, [])
 
-  const statDisplay = window.store((s) => s.statDisplay)
-  const memoDisplay = window.store((s) => s.memoDisplay)
+  const statDisplay = useOptimizerFormStore((s) => s.statDisplay)
+  const memoDisplay = useOptimizerFormStore((s) => s.memoDisplay)
   const showMemo = memoDisplay === 'memo' && isRemembrance(optimizerTabFocusCharacter)
 
   const columnDefs = useMemo(() => {

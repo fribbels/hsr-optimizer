@@ -401,57 +401,11 @@ export const DB = {
     for (const character of saveData.characters) {
       character.equipped = {}
       charactersById[character.id] = character
-
-      // Previously sim requests didn't use the stats field
-      if (character.form?.statSim?.simulations) {
-        character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)
-      }
-
-      // Previously characters had customizable options, now we're defaulting to 80s
-      character.form.characterLevel = 80
-      character.form.lightConeLevel = 80
-
-      // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
-      // @ts-ignore
-      if (character.form.resultSort === 'WEIGHT') {
-        character.form.resultSort = 'SPD'
-      }
-
-      // Validate that the saved resultSort is a valid sort option, otherwise reset to default
-      if (!character.form.resultSort || !(character.form.resultSort in SortOption)) {
-        const scoringMetadata = dbCharacters[character.id]?.scoringMetadata
-        character.form.resultSort = scoringMetadata?.simulation
-          ? SortOption.COMBO.key
-          : scoringMetadata?.sortOption.key
-      }
-
-      // Deduplicate main stat filter values
-      character.form.mainBody = deduplicateStringArray(character.form.mainBody)
-      character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
-      character.form.mainPlanarSphere = deduplicateStringArray(character.form.mainPlanarSphere)
-      character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
+      migrateCharacterForm(character, dbCharacters)
     }
 
-    for (const character of Object.values(dbCharacters)) {
-      // Deduplicate scoring optimal main stat
-      for (const part of Object.keys(Constants.Parts) as Parts[]) {
-        if (part === Parts.Hands || part === Parts.Head) continue
-        character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])
-      }
-    }
-
-    for (const relic of saveData.relics) {
-      // @ts-ignore temporary while migrating relic object format
-      delete relic.weights
-      RelicAugmenter.augment(relic)
-      const character = charactersById[relic.equippedBy!]
-      if (character && !character.equipped[relic.part]) {
-        character.equipped[relic.part] = relic.id
-      } else {
-        relic.equippedBy = undefined
-      }
-    }
-    indexRelics(saveData.relics)
+    deduplicateDbCharacterScoringParts(dbCharacters)
+    processRelics(saveData.relics, charactersById)
 
     if (saveData.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, unknown][]) {
@@ -512,19 +466,13 @@ export const DB = {
       window.store.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
     }
 
-    // Remove invalid characters
-    saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
-
     const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))
 
+    // Re-initialize characters with build migration
     for (const character of saveData.characters) {
       character.equipped = {}
       charactersById[character.id] = character
-
-      // Previously sim requests didn't use the stats field
-      if (character.form?.statSim?.simulations) {
-        character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)
-      }
+      migrateCharacterForm(character, dbCharacters)
 
       // TODO: Temporary migration from old to new format, remove once appropriate
       const scoringMetadata = DB.getScoringMetadata(character.id)
@@ -555,42 +503,10 @@ export const DB = {
         }
         return migratedBuild
       }) ?? []
-
-      // Previously characters had customizable options, now we're defaulting to 80s
-      character.form.characterLevel = 80
-      character.form.lightConeLevel = 80
-
-      // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
-      // @ts-ignore
-      if (character.form.resultSort === 'WEIGHT') {
-        character.form.resultSort = 'SPD'
-      }
-
-      // Deduplicate main stat filter values
-      character.form.mainBody = deduplicateStringArray(character.form.mainBody)
-      character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
-      character.form.mainPlanarSphere = deduplicateStringArray(character.form.mainPlanarSphere)
-      character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
     }
 
-    for (const character of Object.values(dbCharacters)) {
-      // Deduplicate scoring optimal main stat
-      for (const part of Object.keys(Constants.Parts) as Parts[]) {
-        if (part === Parts.Hands || part === Parts.Head) continue
-        character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])
-      }
-    }
-
-    for (const relic of saveData.relics) {
-      RelicAugmenter.augment(relic)
-      const character = charactersById[relic.equippedBy!]
-      if (character && !character.equipped[relic.part]) {
-        character.equipped[relic.part] = relic.id
-      } else {
-        relic.equippedBy = undefined
-      }
-    }
-    indexRelics(saveData.relics)
+    deduplicateDbCharacterScoringParts(dbCharacters)
+    processRelics(saveData.relics, charactersById)
 
     if (saveData.showcasePreferences) {
       window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
@@ -1352,6 +1268,74 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
   if (arr == null) return arr
 
   return [...new Set(arr)] as T
+}
+
+/**
+ * Shared character form migration logic used by setStore.
+ * Migrates form fields, validates resultSort, and deduplicates main stat filters.
+ */
+function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['characters']) {
+  // Previously sim requests didn't use the stats field
+  if (character.form?.statSim?.simulations) {
+    character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)
+  }
+
+  // Previously characters had customizable options, now we're defaulting to 80s
+  character.form.characterLevel = 80
+  character.form.lightConeLevel = 80
+
+  // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
+  // @ts-ignore
+  if (character.form.resultSort === 'WEIGHT') {
+    character.form.resultSort = 'SPD'
+  }
+
+  // Validate that the saved resultSort is a valid sort option, otherwise reset to default
+  if (!character.form.resultSort || !(character.form.resultSort in SortOption)) {
+    const scoringMetadata = dbCharacters[character.id]?.scoringMetadata
+    character.form.resultSort = scoringMetadata?.simulation
+      ? SortOption.COMBO.key
+      : scoringMetadata?.sortOption.key
+  }
+
+  // Deduplicate main stat filter values
+  character.form.mainBody = deduplicateStringArray(character.form.mainBody)
+  character.form.mainFeet = deduplicateStringArray(character.form.mainFeet)
+  character.form.mainPlanarSphere = deduplicateStringArray(character.form.mainPlanarSphere)
+  character.form.mainLinkRope = deduplicateStringArray(character.form.mainLinkRope)
+}
+
+/**
+ * Deduplicates scoring optimal main stats for all db characters.
+ */
+function deduplicateDbCharacterScoringParts(dbCharacters: DBMetadata['characters']) {
+  for (const character of Object.values(dbCharacters)) {
+    for (const part of Object.keys(Constants.Parts) as Parts[]) {
+      if (part === Parts.Hands || part === Parts.Head) continue
+      character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])
+    }
+  }
+}
+
+/**
+ * Processes relics: augments, equips to characters, and indexes.
+ */
+function processRelics(
+  relics: Relic[],
+  charactersById: Record<string, Character>,
+) {
+  for (const relic of relics) {
+    // @ts-ignore temporary while migrating relic object format
+    delete relic.weights
+    RelicAugmenter.augment(relic)
+    const character = charactersById[relic.equippedBy!]
+    if (character && !character.equipped[relic.part]) {
+      character.equipped[relic.part] = relic.id
+    } else {
+      relic.equippedBy = undefined
+    }
+  }
+  indexRelics(relics)
 }
 
 function indexRelics(relics: Relic[]) {

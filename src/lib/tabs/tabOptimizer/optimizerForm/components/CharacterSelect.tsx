@@ -1,5 +1,6 @@
 import { Button, Flex, Modal, MultiSelect, Paper, Select, TextInput } from '@mantine/core'
 import { ElementName, PathName, } from 'lib/constants/constants'
+import { useSelectModal } from 'lib/hooks/useSelectModal'
 import { Assets } from 'lib/rendering/assets'
 import { CharacterOptions, generateCharacterOptions, } from 'lib/rendering/optionGenerator'
 import {
@@ -8,10 +9,9 @@ import {
   generatePathTags,
   SegmentedFilterRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 
@@ -46,32 +46,46 @@ const innerH = 170
 const goldBg = 'linear-gradient(#8A6700 0px, #D6A100 63px, #D6A100 130px, #282B31 130px, #282B31 150px)'
 const purpleBg = 'linear-gradient(#5F388C 0px, #9F6CD9 63px, #9F6CD9 130px, #282B31 130px, #282B31 150px)'
 
-const defaultFilters: CharacterFilters = {
-  path: [],
-  element: [],
-  name: '',
-}
-
 type CharacterFilters = {
   path: PathName[],
   element: ElementName[],
   name: string,
 }
 
+const defaultCharacterFilters: CharacterFilters = {
+  path: [],
+  element: [],
+  name: '',
+}
+
 function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }: CharacterSelectProps) {
   // console.log('==================================== CHARACTER SELECT')
-  const inputRef = useRef<HTMLInputElement>(null)
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
-  const [open, setOpen] = useState(false)
-  const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<CharacterId, boolean>>(new Map())
 
-  const setElementFilter = (element: CharacterFilters['element']) => setCurrentFilters({ ...currentFilters, element })
+  const {
+    open,
+    setOpen,
+    inputRef,
+    currentFilters,
+    setNameFilter,
+    updateFilter,
+    resetAndOpen,
+  } = useSelectModal<CharacterFilters>({
+    defaultFilters: defaultCharacterFilters,
+    externalOpen,
+    onOpen: () => {
+      if (multipleSelect) {
+        const newSelected = new Map<CharacterId, boolean>(value.map((characterId: CharacterId) => [characterId, true]))
+        setSelected(newSelected)
+      }
+    },
+  })
 
-  const setPathFilter = (path: CharacterFilters['path']) => setCurrentFilters({ ...currentFilters, path })
+  const setElementFilter = (element: CharacterFilters['element']) => updateFilter('element', element)
 
-  const setNameFilter = (e: ChangeEvent<HTMLInputElement>) => setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
+  const setPathFilter = (path: CharacterFilters['path']) => updateFilter('path', path)
 
   const labelledOptions: { value: string, label: ReactNode }[] = []
   for (const option of characterOptions) {
@@ -88,21 +102,6 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
       ),
     })
   }
-
-  useEffect(() => {
-    let focusTimeout: ReturnType<typeof setTimeout>
-    if (open || externalOpen) {
-      // closing and re-opening the select by clicking on the character image doesn't reset the filters
-      setCurrentFilters(TsUtils.clone(defaultFilters))
-      focusTimeout = setTimeout(() => inputRef.current?.focus(), 100)
-
-      if (multipleSelect) {
-        const newSelected = new Map<CharacterId, boolean>(value.map((characterId: CharacterId) => [characterId, true]))
-        setSelected(newSelected)
-      }
-    }
-    return () => clearTimeout(focusTimeout)
-  }, [open, externalOpen, value, multipleSelect])
 
   function applyFilters(x: CharacterOptions[CharacterId]) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
@@ -159,10 +158,7 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
             onClear={() => {
               if (onChange) onChange(null)
             }}
-            onDropdownOpen={() => {
-              setOpen(true)
-              setCurrentFilters(TsUtils.clone(defaultFilters))
-            }}
+            onDropdownOpen={resetAndOpen}
             comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
             rightSection={null}
           />
@@ -179,10 +175,7 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
             onClear={() => {
               if (onChange) onChange(null)
             }}
-            onDropdownOpen={() => {
-              setOpen(true)
-              setCurrentFilters(TsUtils.clone(defaultFilters))
-            }}
+            onDropdownOpen={resetAndOpen}
             comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
             rightSection={null}
           />

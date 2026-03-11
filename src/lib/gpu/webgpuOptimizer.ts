@@ -375,5 +375,5 @@ function outputResults(gpuContext: GpuExecutionContext) {
     : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)
-  window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 }

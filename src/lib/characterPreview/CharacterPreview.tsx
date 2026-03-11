@@ -157,6 +157,18 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   // Using this to trigger updates on scoring metadata changes
   const scoringMetadata = useScoringMetadata(character?.id)
 
+  // Hooks must be called unconditionally before early return to satisfy Rules of Hooks
+  const previewRelics = useMemo(() => {
+    if (!character) return null
+    return getPreviewRelics(source, character, relicsById, savedBuildOverride)
+  }, [source, character, relicsById, savedBuildOverride])
+
+  const finalStats = useMemo(() => {
+    if (!character || !previewRelics) return undefined
+    const metadata = getShowcaseMetadata(character)
+    return getShowcaseStats(character, previewRelics.displayRelics, metadata)
+  }, [character, previewRelics])
+
   const onRelicModalOk = (relic: Relic) => {
     if (selectedRelic) {
       showcaseOnEditOk(relic, selectedRelic, setSelectedRelic)
@@ -181,16 +193,10 @@ export function CharacterPreview(props: CharacterPreviewProps) {
     )
   }
 
-  console.log('======================================================================= RENDER CharacterPreview', source)
-
   // ===== Relics =====
 
-  const { scoringResults, displayRelics } = useMemo(
-    () => getPreviewRelics(source, character, relicsById, savedBuildOverride),
-    [source, character, relicsById, savedBuildOverride],
-  )
+  const { scoringResults, displayRelics } = previewRelics!
   const scoredRelics = scoringResults.relics || []
-
   const showcaseMetadata = getShowcaseMetadata(character)
 
   // ===== Simulation =====
@@ -248,10 +254,6 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, scoringType == ScoringType.COMBAT_SCORE)
   const artistName = getArtistName(character)
-  const finalStats = useMemo(
-    () => getShowcaseStats(character, displayRelics, showcaseMetadata),
-    [character, displayRelics, showcaseMetadata],
-  )
 
   const yOffset = 0
   const zoom = 150
@@ -378,7 +380,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
             <CharacterStatSummary
               characterId={character.id}
-              finalStats={finalStats}
+              finalStats={finalStats!}
               elementalDmgValue={showcaseMetadata.elementalDmgType}
               scoringType={scoringType}
               asyncSimScoringExecution={asyncSimScoringExecution}

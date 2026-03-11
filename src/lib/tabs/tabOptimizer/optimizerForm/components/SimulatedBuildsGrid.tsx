@@ -56,7 +56,7 @@ export function SimulatedBuildsGrid() {
 
     // Match the selected sim on the optimizer grid and select it
     let matchingNode: IRowNode | undefined
-    window.optimizerGrid.current!.api.forEachNode((node: IRowNode<OptimizerDisplayData>) => {
+    window.optimizerGrid.current?.api?.forEachNode((node: IRowNode<OptimizerDisplayData>) => {
       if (node.data?.statSim?.key == statSim.key) {
         matchingNode = node
       }

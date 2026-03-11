@@ -679,7 +679,7 @@ export function ScannerWebsocket() {
             }
             break
           case AppPages.OPTIMIZER:
-            window.optimizerGrid?.current?.api.redrawRows()
+            window.optimizerGrid?.current?.api?.redrawRows()
             break
         }
       })

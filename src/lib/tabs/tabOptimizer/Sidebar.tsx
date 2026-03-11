@@ -173,6 +173,7 @@ function ComputeEngineSelect() {
 
 function addToPinned() {
   const gridApi = optimizerGridApi()
+  if (!gridApi) return
   const currentPinnedRows = gridApi.getGridOption('pinnedTopRowData')! as OptimizerDisplayDataStatSim[]
   const selectedNodes = gridApi.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
   const t = i18next.getFixedT(null, 'optimizerTab', 'Sidebar.Pinning.Messages')
@@ -194,6 +195,7 @@ function addToPinned() {
 
 function clearPinned() {
   const gridApi = optimizerGridApi()
+  if (!gridApi) return
   const currentPinned = gridApi?.getGridOption('pinnedTopRowData')
   if (currentPinned?.length) {
     gridApi.updateGridOptions({ pinnedTopRowData: [currentPinned[0]] })

@@ -1,4 +1,3 @@
 export function optimizerGridApi() {
-  const grid = window.optimizerGrid.current!
-  return grid.api
+  return window.optimizerGrid?.current?.api
 }

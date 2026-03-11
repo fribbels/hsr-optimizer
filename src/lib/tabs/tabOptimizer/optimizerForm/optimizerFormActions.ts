@@ -164,7 +164,7 @@ export function equipClicked(): void {
 
   DB.addFromForm(form)
 
-  const selectedNodes = window.optimizerGrid.current?.api.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
+  const selectedNodes = window.optimizerGrid.current?.api?.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[] | undefined
   if (!selectedNodes || selectedNodes.length == 0 || (selectedNodes[0]?.data?.statSim)) {
     // Cannot equip a stat sim or empty row
     return

@@ -82,13 +82,13 @@ export const OptimizerTabController = {
 
   setTopRow: (row: OptimizerDisplayData, overwrite = false) => {
     if (overwrite) {
-      window.optimizerGrid.current?.api.updateGridOptions({ pinnedTopRowData: [row] })
+      window.optimizerGrid.current?.api?.updateGridOptions({ pinnedTopRowData: [row] })
       return
     }
 
     const currentPinned = window.optimizerGrid?.current?.api?.getGridOption('pinnedTopRowData') ?? []
     currentPinned[0] = row
-    window.optimizerGrid.current?.api.updateGridOptions({ pinnedTopRowData: currentPinned })
+    window.optimizerGrid.current?.api?.updateGridOptions({ pinnedTopRowData: currentPinned })
   },
 
   getRows: () => {
@@ -119,6 +119,8 @@ export const OptimizerTabController = {
     const gridApi = optimizerGridApi()
 
     useOptimizerUIStore.getState().setOptimizerSelectedRowData(data)
+
+    if (!gridApi) return
 
     if (node.rowPinned == 'top') {
       // Clicking the top row should display current relics

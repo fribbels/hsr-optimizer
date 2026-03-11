@@ -8,7 +8,7 @@ import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
 import {
   BufferPacker,
-  OptimizerDisplayData,
+  OptimizerDisplayDataStatSim,
 } from 'lib/optimization/bufferPacker'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicFilters } from 'lib/relics/relicFilters'
@@ -65,7 +65,7 @@ declare global {
 
     characterGrid: RefObject<AgGridReact<Character>>
     relicsGrid: RefObject<AgGridReact<ScoredRelic>>
-    optimizerGrid: RefObject<AgGridReact<OptimizerDisplayData>>
+    optimizerGrid: RefObject<AgGridReact<OptimizerDisplayDataStatSim>>
 
     showcaseTabForm: UseFormReturnType<ShowcaseTabForm>
 

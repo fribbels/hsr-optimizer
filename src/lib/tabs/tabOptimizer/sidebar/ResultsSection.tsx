@@ -1,9 +1,7 @@
-import { IRowNode } from 'ag-grid-community'
 import { Button, Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { equipClicked } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -18,8 +16,8 @@ const buttonStyle: React.CSSProperties = { width: '100px' }
 function addToPinned() {
   const gridApi = optimizerGridApi()
   if (!gridApi) return
-  const currentPinnedRows = gridApi.getGridOption('pinnedTopRowData')! as OptimizerDisplayDataStatSim[]
-  const selectedNodes = gridApi.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
+  const currentPinnedRows = gridApi.getGridOption('pinnedTopRowData')!
+  const selectedNodes = gridApi.getSelectedNodes()
   const t = i18next.getFixedT(null, 'optimizerTab', 'Sidebar.Pinning.Messages')
 
   if (!selectedNodes || selectedNodes.length == 0) {

@@ -1,7 +1,6 @@
 import { IconX } from '@tabler/icons-react'
 import { IRowNode } from 'ag-grid-community'
 import { Flex, Table } from '@mantine/core'
-import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import {
@@ -56,7 +55,7 @@ export function SimulatedBuildsGrid() {
 
     // Match the selected sim on the optimizer grid and select it
     let matchingNode: IRowNode | undefined
-    window.optimizerGrid.current?.api?.forEachNode((node: IRowNode<OptimizerDisplayData>) => {
+    window.optimizerGrid?.current?.api?.forEachNode((node) => {
       if (node.data?.statSim?.key == statSim.key) {
         matchingNode = node
       }

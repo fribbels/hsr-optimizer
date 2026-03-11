@@ -327,7 +327,7 @@ function autosave() {
 }
 
 export function importOptimizerBuild() {
-  const selectedRow = window.optimizerGrid.current?.api?.getSelectedRows()?.[0] as OptimizerDisplayData
+  const selectedRow = window.optimizerGrid?.current?.api?.getSelectedRows()?.[0]
   const t = i18next.getFixedT(null, 'optimizerTab', 'StatSimulation')
 
   if (!selectedRow) {

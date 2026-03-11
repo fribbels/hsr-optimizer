@@ -1,13 +1,16 @@
+import type { AgGridReact } from 'ag-grid-react'
 import type {
   ComputeEngine,
   CUSTOM_TEAM,
   DEFAULT_TEAM,
 } from 'lib/constants/constants'
+import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import type { ColorThemeOverrides } from 'lib/rendering/theme'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import type { AppPages } from 'lib/state/db'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
+import type { RefObject } from 'react'
 import type {
   Character,
   CharacterId,
@@ -22,8 +25,7 @@ import type { Relic } from 'types/relic'
 export type HsrOptimizerStore = {
   /* global                   */ version: string,
   /* global                   */ colorTheme: ColorThemeOverrides,
-  // TODO: type properly as RefObject<AgGridReact<OptimizerDisplayData>> (see window.ts)
-  /* optimizerTab             */ optimizerGrid: unknown,
+  /* optimizerTab             */ optimizerGrid: RefObject<AgGridReact<OptimizerDisplayDataStatSim>> | undefined,
   /* give own store?          */ scoringAlgorithmFocusCharacter?: CharacterId | null,
   /* give own store?          */ statTracesDrawerFocusCharacter?: CharacterId | null,
   /* global                   */ activeKey: AppPages,

@@ -22,8 +22,8 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
@@ -51,10 +51,10 @@ import {
 // FIXME HIGH
 
 export function saveStatSimulationBuildFromForm(startSim = true) {
-  const storeState = useOptimizerFormStore.getState()
+  const storeState = useOptimizerRequestStore.getState()
   const form = { statSim: storeState.statSim } as Form
 
-  const simType: StatSimTypes = useOptimizerUIStore.getState().statSimulationDisplay
+  const simType: StatSimTypes = useOptimizerDisplayStore.getState().statSimulationDisplay
 
   // Check for invalid button presses
   if (simType == StatSimTypes.Disabled || !form.statSim?.[simType]) {
@@ -73,7 +73,7 @@ export function saveStatSimulationBuildFromForm(startSim = true) {
 }
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
-  const existingSimulations = useOptimizerUIStore.getState().statSimulations || []
+  const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
   const key = TsUtils.uuid()
   const name = simRequest.name ?? undefined
   const simulation = {
@@ -97,7 +97,7 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
   existingSimulations.push(simulation)
 
   // Update state
-  useOptimizerUIStore.getState().setStatSimulations(existingSimulations)
+  useOptimizerDisplayStore.getState().setStatSimulations(existingSimulations)
   setFormStatSimulations(existingSimulations)
 
   if (startSim) {
@@ -243,8 +243,8 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
 export function overwriteStatSimulationBuild() {
   if (saveStatSimulationBuildFromForm(false) === null) return
 
-  const selectedSim = useOptimizerUIStore.getState().selectedStatSimulations
-  const statSims: Simulation[] = useOptimizerUIStore.getState().statSimulations
+  const selectedSim = useOptimizerDisplayStore.getState().selectedStatSimulations
+  const statSims: Simulation[] = useOptimizerDisplayStore.getState().statSimulations
 
   const updatedSims = statSims.map((x) => {
     if (x.key === selectedSim[0]) {
@@ -254,9 +254,9 @@ export function overwriteStatSimulationBuild() {
 
   const newSim = updatedSims.pop()! // remove what would otherwise be a duplicated sim
 
-  useOptimizerUIStore.getState().setStatSimulations(updatedSims)
+  useOptimizerDisplayStore.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
-  useOptimizerUIStore.getState().setSelectedStatSimulations([newSim.key])
+  useOptimizerDisplayStore.getState().setSelectedStatSimulations([newSim.key])
 
   setTimeout(() => {
     startOptimizerStatSimulation()
@@ -264,32 +264,32 @@ export function overwriteStatSimulationBuild() {
 }
 
 export function deleteStatSimulationBuild(record: { key: React.Key }) {
-  const statSims = useOptimizerUIStore.getState().statSimulations
+  const statSims = useOptimizerDisplayStore.getState().statSimulations
   const updatedSims = TsUtils.clone(statSims.filter((x) => x.key != record.key))
 
-  useOptimizerUIStore.getState().setStatSimulations(updatedSims)
+  useOptimizerDisplayStore.getState().setStatSimulations(updatedSims)
   setFormStatSimulations(updatedSims)
 
   autosave()
 }
 
 export function deleteAllStatSimulationBuilds() {
-  useOptimizerUIStore.getState().setStatSimulations([])
+  useOptimizerDisplayStore.getState().setStatSimulations([])
   setFormStatSimulations([])
 
   autosave()
 }
 
 export function setFormStatSimulations(simulations: Simulation[]) {
-  useOptimizerFormStore.getState().setStatSim({
-    ...useOptimizerFormStore.getState().statSim!,
+  useOptimizerRequestStore.getState().setStatSim({
+    ...useOptimizerRequestStore.getState().statSim!,
     simulations,
   })
 }
 
 export function startOptimizerStatSimulation() {
   const form = getForm()
-  const existingSimulations = useOptimizerUIStore.getState().statSimulations || []
+  const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
 
   if (existingSimulations.length == 0) return
   if (!validateForm(form)) return

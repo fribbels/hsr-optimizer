@@ -7,7 +7,7 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Hint } from 'lib/interactions/hint'
 import { Optimizer } from 'lib/optimization/optimizer'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   resetFilters,
   startOptimization,
@@ -36,13 +36,13 @@ export const OptimizerControlsSection = React.memo(function OptimizerControlsSec
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
 
-  const { permutations, optimizationInProgress } = useOptimizerUIStore(
+  const { permutations, optimizationInProgress } = useOptimizerDisplayStore(
     useShallow((s) => ({
       permutations: s.permutations,
       optimizationInProgress: s.optimizationInProgress,
     })),
   )
-  const setOptimizationInProgress = useOptimizerUIStore((s) => s.setOptimizationInProgress)
+  const setOptimizationInProgress = useOptimizerDisplayStore((s) => s.setOptimizationInProgress)
   const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)

@@ -4,7 +4,7 @@ import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import React, { useState } from 'react'
@@ -16,7 +16,7 @@ export const BuildsSection = React.memo(function BuildsSection(props: { isFullSi
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.BuildsGroup' })
   const [saveBuildModalOpen, setSaveBuildModalOpen] = useState(false)
   const [buildsModalOpen, setBuildsModalOpen] = useState(false)
-  const focusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
+  const focusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
   const charactersById = useCharacterTabStore((s) => s.charactersById)
 
   if (!props.isFullSize || !focusCharacter) return <></>

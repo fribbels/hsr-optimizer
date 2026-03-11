@@ -22,7 +22,7 @@ import {
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/SimulatedBuildsGrid'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SimulationInputs } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SimulationInputs'
@@ -44,8 +44,8 @@ export { MainStatsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components
 export const StatSimulationDisplay = React.memo(function StatSimulationDisplay() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   const { t: tCommon } = useTranslation('common')
-  const statSimulationDisplay = useOptimizerUIStore((s) => s.statSimulationDisplay)
-  const setStatSimulationDisplay = useOptimizerUIStore((s) => s.setStatSimulationDisplay)
+  const statSimulationDisplay = useOptimizerDisplayStore((s) => s.statSimulationDisplay)
+  const setStatSimulationDisplay = useOptimizerDisplayStore((s) => s.setStatSimulationDisplay)
 
   function isHidden() {
     return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay

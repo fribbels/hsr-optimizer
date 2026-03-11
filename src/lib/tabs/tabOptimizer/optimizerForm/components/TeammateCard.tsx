@@ -3,7 +3,7 @@ import { Button, Flex, Select } from '@mantine/core'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
@@ -64,7 +64,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
     teammateSuperimposition,
     teammateTeamRelicSet,
     teammateTeamOrnamentSet,
-  } = useOptimizerFormStore(
+  } = useOptimizerRequestStore(
     useShallow((s) => ({
       teammateCharacterId: s.teammates[tmIndex].characterId as CharacterId,
       teammateEidolon: s.teammates[tmIndex].characterEidolon,
@@ -119,7 +119,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             value={teammateCharacterId}
             onChange={(id) => {
               if (id) {
-                useOptimizerFormStore.getState().setTeammateField(tmIndex, 'characterId', id)
+                useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'characterId', id)
                 updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: id } })
               } else {
                 updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: null } })
@@ -146,7 +146,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             style={{ width: 110 }}
             data={eidolonSelectData}
             value={teammateEidolon != null ? String(teammateEidolon) : null}
-            onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setTeammateField(tmIndex, 'characterEidolon', Number(val)) }}
+            onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'characterEidolon', Number(val)) }}
             placeholder={t('EidolonPlaceholder')}
             disabled={disabled}
           />
@@ -184,7 +184,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
               style={{ width: 110 }}
               data={teammateRelicSelectData}
               value={teammateTeamRelicSet}
-              onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
+              onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
               placeholder={t('RelicsPlaceholder')}
               clearable
               comboboxProps={{ width: 'auto' }}
@@ -196,7 +196,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
               style={{ width: 110 }}
               data={teammateOrnamentSelectData}
               value={teammateTeamOrnamentSet}
-              onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
+              onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
               placeholder={t('OrnamentsPlaceholder')}
               clearable
               comboboxProps={{ width: 'auto' }}
@@ -210,7 +210,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             value={teammateLightConeId ?? null}
             onChange={(id) => {
               if (id) {
-                useOptimizerFormStore.getState().setTeammateField(tmIndex, 'lightCone', id)
+                useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'lightCone', id)
                 updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { lightCone: id } })
               } else {
                 updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { lightCone: null } })
@@ -227,7 +227,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             style={{ width: 110 }}
             data={superimpositionSelectData}
             value={teammateSuperimposition != null ? String(teammateSuperimposition) : null}
-            onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', Number(val)) }}
+            onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', Number(val)) }}
             placeholder={t('SuperimpositionPlaceholder')}
             disabled={disabled}
           />

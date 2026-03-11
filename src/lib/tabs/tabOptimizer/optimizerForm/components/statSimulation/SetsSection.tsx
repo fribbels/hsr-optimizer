@@ -1,6 +1,6 @@
 import { Select } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
@@ -17,7 +17,7 @@ export function OptimizerSetsSection(props: { simType: string }) {
   const simRelicSet2 = useStatSimField<string>(simType, 'simRelicSet2')
   const simOrnamentSet = useStatSimField<string>(simType, 'simOrnamentSet')
 
-  const updateField = useOptimizerFormStore.getState().updateStatSimField
+  const updateField = useOptimizerRequestStore.getState().updateStatSimField
 
   // Save a click by assuming the first relic set is a 4p
   const handleRelicSet1Change = (value: string) => {

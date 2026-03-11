@@ -7,7 +7,7 @@ import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { AppPages } from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { Relic } from 'types/relic'
 
 const partToIndex: Record<Parts, number> = {
@@ -29,9 +29,9 @@ const indexToPart: Record<number, Parts> = {
 }
 
 export default function OptimizerBuildPreview() {
-  const optimizerBuild = useOptimizerUIStore((s) => s.optimizerBuild)
+  const optimizerBuild = useOptimizerDisplayStore((s) => s.optimizerBuild)
   const relicsById = window.store((s) => s.relicsById)
-  const characterId = useOptimizerUIStore((s) => s.focusCharacterId)
+  const characterId = useOptimizerDisplayStore((s) => s.focusCharacterId)
   const activeKey = window.store((s) => s.activeKey)
 
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)

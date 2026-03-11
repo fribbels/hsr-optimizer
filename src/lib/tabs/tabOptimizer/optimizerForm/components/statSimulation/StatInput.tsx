@@ -1,5 +1,5 @@
 import { Flex, NumberInput, Text } from '@mantine/core'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { STAT_SIMULATION_STATS_WIDTH, useStatSimStat } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 
 export function StatInput(props: { label: string; name: string; simType: string }) {
@@ -15,7 +15,7 @@ export function StatInput(props: { label: string; name: string; simType: string 
         hideControls
         value={value}
         onChange={(val) => {
-          const store = useOptimizerFormStore.getState()
+          const store = useOptimizerRequestStore.getState()
           const sim = store.statSim as Record<string, Record<string, unknown>> | undefined
           const currentStats = (sim?.[props.simType]?.stats ?? {}) as Record<string, number>
           store.updateStatSimField(props.simType, 'stats', {

@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
 import { RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import FormStatTextStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 
@@ -10,16 +10,16 @@ const FilterRow = (props: { name: string; label: string; type?: 'stat' | 'rating
 
   const isRating = props.type === 'rating'
 
-  const minValue = useOptimizerFormStore((s) =>
+  const minValue = useOptimizerRequestStore((s) =>
     isRating ? s.ratingFilters[minKey as keyof RatingFilterState] : s.statFilters[minKey as keyof StatFilterState],
   )
-  const maxValue = useOptimizerFormStore((s) =>
+  const maxValue = useOptimizerRequestStore((s) =>
     isRating ? s.ratingFilters[maxKey as keyof RatingFilterState] : s.statFilters[maxKey as keyof StatFilterState],
   )
 
   const setFilter = isRating
-    ? (key: keyof RatingFilterState, val: number | undefined) => useOptimizerFormStore.getState().setRatingFilter(key, val)
-    : (key: keyof StatFilterState, val: number | undefined) => useOptimizerFormStore.getState().setStatFilter(key, val)
+    ? (key: keyof RatingFilterState, val: number | undefined) => useOptimizerRequestStore.getState().setRatingFilter(key, val)
+    : (key: keyof StatFilterState, val: number | undefined) => useOptimizerRequestStore.getState().setStatFilter(key, val)
 
   return (
     <Flex justify='space-between' style={{ margin: 0 }}>

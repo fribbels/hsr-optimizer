@@ -22,8 +22,8 @@ import {
   SortOption,
 } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   getForm,
   optimizerFormCache,
@@ -101,7 +101,7 @@ export const OptimizerTabController = {
     const data = node.data!
     const gridApi = optimizerGridApi()
 
-    useOptimizerUIStore.getState().setOptimizerSelectedRowData(data)
+    useOptimizerDisplayStore.getState().setOptimizerSelectedRowData(data)
 
     if (!gridApi) return
 
@@ -121,7 +121,7 @@ export const OptimizerTabController = {
           const rowId = data.id
           const build = OptimizerTabController.calculateRelicIdsFromId(rowId, form)
 
-          useOptimizerUIStore.getState().setOptimizerBuild(build)
+          useOptimizerDisplayStore.getState().setOptimizerBuild(build)
 
           // Find the row by its string ID and select it
           const rowNode: IRowNode<OptimizerDisplayData> = gridApi.getRowNode(String(data.id))!
@@ -136,7 +136,7 @@ export const OptimizerTabController = {
             }
           }
         } else if (character) {
-          useOptimizerUIStore.getState().setOptimizerBuild(character.equipped)
+          useOptimizerDisplayStore.getState().setOptimizerBuild(character.equipped)
         }
       }
       return
@@ -146,15 +146,15 @@ export const OptimizerTabController = {
 
     if (data.statSim) {
       const key = data.statSim.key
-      useOptimizerUIStore.getState().setSelectedStatSimulations([key])
-      useOptimizerUIStore.getState().setOptimizerBuild({})
+      useOptimizerDisplayStore.getState().setSelectedStatSimulations([key])
+      useOptimizerDisplayStore.getState().setOptimizerBuild({})
       window.optimizerGrid.current?.api.deselectAll()
       return
     }
 
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
 
-    useOptimizerUIStore.getState().setOptimizerBuild(build)
+    useOptimizerDisplayStore.getState().setOptimizerBuild(build)
   },
 
   getColumnsToAggregate: () => {
@@ -219,7 +219,7 @@ export const OptimizerTabController = {
   // Unpack a permutation ID to its respective relics
   calculateRelicsFromId: (id: number, form?: OptimizerForm) => {
     if (id === -1) { // special case for equipped build optimizer row
-      const request = form ?? optimizerFormCache.get(useOptimizerUIStore.getState().optimizationId!)
+      const request = form ?? optimizerFormCache.get(useOptimizerDisplayStore.getState().optimizationId!)
       if (!request) {
         return {}
       }
@@ -277,7 +277,7 @@ export const OptimizerTabController = {
 
   applyRowFilters: () => {
     const fieldValues = getForm()
-    fieldValues.statDisplay = useOptimizerFormStore.getState().statDisplay
+    fieldValues.statDisplay = useOptimizerRequestStore.getState().statDisplay
     controllerState.filterModel = fieldValues
     console.log('Apply filters to rows', fieldValues)
     OptimizerTabController.resetDataSource()

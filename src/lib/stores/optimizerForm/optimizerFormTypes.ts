@@ -111,9 +111,9 @@ export type RelicFilterFields = {
 // character build and/or sent to the optimization worker as part of the
 // request. If a new field should persist when the user saves a build,
 // it belongs here. For transient/runtime state (progress, selected rows,
-// modal open/close), use useOptimizerUIStore instead.
+// modal open/close), use useOptimizerDisplayStore instead.
 
-export type OptimizerFormState = {
+export type OptimizerRequestState = {
   // ── Character & Light Cone ──
   characterId: CharacterId | undefined
   characterEidolon: Eidolon

@@ -20,7 +20,7 @@ import {
   SetMetadata,
 } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -52,7 +52,7 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
   const itemName = ['setConditionals', props.set, 1] as (string | number)[]
-  const value = useOptimizerFormStore((s) => {
+  const value = useOptimizerRequestStore((s) => {
     const setData = (s.setConditionals as Record<string, [undefined, boolean | number]>)[props.set]
     return setData?.[1]
   })

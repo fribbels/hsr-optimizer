@@ -5,7 +5,7 @@ import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useMemo } from 'react'
@@ -41,7 +41,7 @@ export const CombatBuffsDrawer = () => {
 }
 
 function CombatBuff(props: { title: string; name: string }) {
-  const value = useOptimizerFormStore((s) => s.combatBuffs[props.name])
+  const value = useOptimizerRequestStore((s) => s.combatBuffs[props.name])
 
   return (
     <Flex justify='space-between'>
@@ -52,7 +52,7 @@ function CombatBuff(props: { title: string; name: string }) {
         size='xs'
         hideControls
         value={value}
-        onChange={(val) => useOptimizerFormStore.getState().setCombatBuff(props.name, (val as number) ?? 0)}
+        onChange={(val) => useOptimizerRequestStore.getState().setCombatBuff(props.name, (val as number) ?? 0)}
       />
     </Flex>
   )

@@ -1,5 +1,5 @@
 import { Assets } from 'lib/rendering/assets'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 
 const parentW = 233
 const parentH = 350
@@ -7,7 +7,7 @@ const innerW = 350
 const innerH = 400
 
 export const OptimizerTabCharacterPanel = () => {
-  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
+  const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
   return (
     <div style={{ width: parentW, height: parentH, borderRadius: 10, position: 'relative' }}>
@@ -29,7 +29,7 @@ export function CharacterPreviewInternalImage(props: { id: string, disableClick?
       }}
       onClick={() => {
         if (props.disableClick) return
-        useOptimizerUIStore.getState().setCharacterSelectModalOpen(true)
+        useOptimizerDisplayStore.getState().setCharacterSelectModalOpen(true)
       }}
     />
   )

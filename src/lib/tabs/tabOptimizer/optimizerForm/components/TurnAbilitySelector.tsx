@@ -2,7 +2,7 @@ import { Select } from '@mantine/core'
 import { ComboboxItem } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { CharacterId } from 'types/character'
 import {
   ALL_ABILITIES,
@@ -80,9 +80,9 @@ export function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'Comb
 
 export function TurnAbilitySelector({ index, disabled }: { index: number; disabled: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const characterId = useOptimizerFormStore((s) => s.characterId)
-  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
-  const value = useOptimizerFormStore((s) => s.comboTurnAbilities[index])
+  const characterId = useOptimizerRequestStore((s) => s.characterId)
+  const characterEidolon = useOptimizerRequestStore((s) => s.characterEidolon)
+  const value = useOptimizerRequestStore((s) => s.comboTurnAbilities[index])
   const options = useMemo(() => generateAbilityGroupedOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (
@@ -105,7 +105,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number; disabl
       disabled={disabled}
       onChange={(selectedValue) => {
         if (!selectedValue) return
-        const store = useOptimizerFormStore.getState()
+        const store = useOptimizerRequestStore.getState()
         const abilities = [...store.comboTurnAbilities]
         abilities[index] = selectedValue as TurnAbilityName
         store.setComboTurnAbilities(abilities)
@@ -157,8 +157,8 @@ export function ControlledTurnAbilitySelector({
   onComboStateChange: (newState: ComboState) => void
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const characterId = useOptimizerFormStore((s) => s.characterId)
-  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
+  const characterId = useOptimizerRequestStore((s) => s.characterId)
+  const characterEidolon = useOptimizerRequestStore((s) => s.characterEidolon)
   const options = useMemo(() => generateAbilityGroupedOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   return (

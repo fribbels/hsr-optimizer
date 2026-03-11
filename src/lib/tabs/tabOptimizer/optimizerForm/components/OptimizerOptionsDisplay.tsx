@@ -6,10 +6,10 @@ import { Flex, MultiSelect, SegmentedControl, Select, Switch, Text } from '@mant
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
@@ -25,17 +25,17 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const characters = useCharacterTabStore((s) => s.characters)
-  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
+  const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
-  const includeEquippedRelics = useOptimizerFormStore((s) => s.includeEquippedRelics)
-  const rankFilter = useOptimizerFormStore((s) => s.rankFilter)
-  const keepCurrentRelics = useOptimizerFormStore((s) => s.keepCurrentRelics)
-  const rank = useOptimizerFormStore((s) => s.rank)
-  const exclude = useOptimizerFormStore((s) => s.exclude)
-  const enhance = useOptimizerFormStore((s) => s.enhance)
-  const grade = useOptimizerFormStore((s) => s.grade)
-  const mainStatUpscaleLevel = useOptimizerFormStore((s) => s.mainStatUpscaleLevel)
-  const deprioritizeBuffs = useOptimizerFormStore((s) => s.deprioritizeBuffs)
+  const includeEquippedRelics = useOptimizerRequestStore((s) => s.includeEquippedRelics)
+  const rankFilter = useOptimizerRequestStore((s) => s.rankFilter)
+  const keepCurrentRelics = useOptimizerRequestStore((s) => s.keepCurrentRelics)
+  const rank = useOptimizerRequestStore((s) => s.rank)
+  const exclude = useOptimizerRequestStore((s) => s.exclude)
+  const enhance = useOptimizerRequestStore((s) => s.enhance)
+  const grade = useOptimizerRequestStore((s) => s.grade)
+  const mainStatUpscaleLevel = useOptimizerRequestStore((s) => s.mainStatUpscaleLevel)
+  const deprioritizeBuffs = useOptimizerRequestStore((s) => s.deprioritizeBuffs)
 
   const characterExcludeOptions = useMemo(() =>
     generateCharacterList(
@@ -84,7 +84,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
             offLabel={<IconX />}
             checked={includeEquippedRelics}
             onChange={(event) => {
-              useOptimizerFormStore.getState().setRelicFilterField('includeEquippedRelics', event.currentTarget.checked)
+              useOptimizerRequestStore.getState().setRelicFilterField('includeEquippedRelics', event.currentTarget.checked)
               recalculatePermutations()
             }}
             style={{ width: 45, marginRight: 5 }}
@@ -98,7 +98,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
             offLabel={<IconX />}
             checked={rankFilter}
             onChange={(event) => {
-              useOptimizerFormStore.getState().setRelicFilterField('rankFilter', event.currentTarget.checked)
+              useOptimizerRequestStore.getState().setRelicFilterField('rankFilter', event.currentTarget.checked)
               recalculatePermutations()
             }}
             style={{ width: 45, marginRight: 5 }}
@@ -112,7 +112,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
             offLabel={<IconX />}
             checked={keepCurrentRelics}
             onChange={(event) => {
-              useOptimizerFormStore.getState().setRelicFilterField('keepCurrentRelics', event.currentTarget.checked)
+              useOptimizerRequestStore.getState().setRelicFilterField('keepCurrentRelics', event.currentTarget.checked)
               recalculatePermutations()
             }}
             style={{ width: 45, marginRight: 5 }}
@@ -132,8 +132,8 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               onChange={(val) => {
                 if (val == null) return
                 const numVal = Number(val)
-                useOptimizerFormStore.getState().setRelicFilterField('rank', numVal)
-                const characterId = useOptimizerFormStore.getState().characterId
+                useOptimizerRequestStore.getState().setRelicFilterField('rank', numVal)
+                const characterId = useOptimizerRequestStore.getState().characterId
                 if (characterId && DB.getCharacterById(characterId)) {
                   DB.insertCharacter(characterId, numVal)
                 }
@@ -159,7 +159,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               data={characterExcludeOptions.map((opt) => ({ value: opt.value, label: opt.title }))}
               value={exclude}
               onChange={(val) => {
-                useOptimizerFormStore.getState().setRelicFilterField('exclude', val as typeof exclude)
+                useOptimizerRequestStore.getState().setRelicFilterField('exclude', val as typeof exclude)
                 recalculatePermutations()
               }}
             />
@@ -176,7 +176,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               value={enhance != null ? String(enhance) : null}
               onChange={(val) => {
                 if (val == null) return
-                useOptimizerFormStore.getState().setRelicFilterField('enhance', Number(val))
+                useOptimizerRequestStore.getState().setRelicFilterField('enhance', Number(val))
                 recalculatePermutations()
               }}
               data={[
@@ -199,7 +199,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               value={grade != null ? String(grade) : null}
               onChange={(val) => {
                 if (val == null) return
-                useOptimizerFormStore.getState().setRelicFilterField('grade', Number(val))
+                useOptimizerRequestStore.getState().setRelicFilterField('grade', Number(val))
                 recalculatePermutations()
               }}
               data={[
@@ -222,7 +222,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               value={mainStatUpscaleLevel != null ? String(mainStatUpscaleLevel) : null}
               onChange={(val) => {
                 if (val == null) return
-                useOptimizerFormStore.getState().setRelicFilterField('mainStatUpscaleLevel', Number(val))
+                useOptimizerRequestStore.getState().setRelicFilterField('mainStatUpscaleLevel', Number(val))
                 recalculatePermutations()
               }}
               data={[
@@ -246,7 +246,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               size='xs'
               fullWidth
               value={String(deprioritizeBuffs)}
-              onChange={(value) => useOptimizerFormStore.getState().setDeprioritizeBuffs(value === 'true')}
+              onChange={(value) => useOptimizerRequestStore.getState().setDeprioritizeBuffs(value === 'true')}
               data={[
                 { label: t('DPSMode.Main') /* Main */, value: 'false' },
                 { label: t('DPSMode.Sub') /* Sub */, value: 'true' },

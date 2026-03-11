@@ -6,8 +6,8 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
@@ -17,7 +17,7 @@ export const AdvancedOptionsPanel = () => {
   const setStatTracesDrawerFocusCharacter = window.store((s) => s.setStatTracesDrawerFocusCharacter)
 
   // Count the # of active buffs to display
-  const formCombatBuffs = useOptimizerFormStore((s) => s.combatBuffs)
+  const formCombatBuffs = useOptimizerRequestStore((s) => s.combatBuffs)
   const buffsActive = useMemo(() => {
     if (!formCombatBuffs) return 0
 
@@ -32,7 +32,7 @@ export const AdvancedOptionsPanel = () => {
         variant="default"
         onClick={() => {
           setOpen(OpenCloseIDs.TRACES_DRAWER)
-          setStatTracesDrawerFocusCharacter(useOptimizerUIStore.getState().focusCharacterId!)
+          setStatTracesDrawerFocusCharacter(useOptimizerDisplayStore.getState().focusCharacterId!)
         }}
         leftSection={<IconSettings size={16} />}
       >

@@ -9,7 +9,7 @@ import {
 import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
@@ -115,7 +115,7 @@ export function calculateTeammateSets(teammateCharacter: Character) {
 }
 
 export function countTeammates() {
-  const state = useOptimizerFormStore.getState()
+  const state = useOptimizerRequestStore.getState()
   return state.teammates.filter((teammate) => teammate?.characterId).length
 }
 

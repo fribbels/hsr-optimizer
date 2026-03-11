@@ -1,5 +1,5 @@
 import { SegmentedControl } from '@mantine/core'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
@@ -7,12 +7,12 @@ import { StatDisplay } from 'types/store'
 
 export const StatsViewSelect = React.memo(function StatsViewSelect() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
-  const { statDisplay } = useOptimizerFormStore(
+  const { statDisplay } = useOptimizerRequestStore(
     useShallow((s) => ({
       statDisplay: s.statDisplay,
     })),
   )
-  const setStatDisplay = useOptimizerFormStore((s) => s.setStatDisplay)
+  const setStatDisplay = useOptimizerRequestStore((s) => s.setStatDisplay)
 
   return (
     <SegmentedControl

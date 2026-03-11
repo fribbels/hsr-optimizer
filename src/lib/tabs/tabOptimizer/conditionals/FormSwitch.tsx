@@ -3,8 +3,8 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import { Flex, Switch, Text as MantineText } from '@mantine/core'
-import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -53,7 +53,7 @@ const teammateKeyToIndex: Record<string, 0 | 1 | 2> = {
 }
 
 export function resolveConditionalValue(
-  state: OptimizerFormState,
+  state: OptimizerRequestState,
   itemName: (string | number)[],
 ): unknown {
   // itemName is like ['characterConditionals', 'id'] or ['teammate0', 'lightConeConditionals', 'id'] or ['setConditionals', 'id', 1]
@@ -92,7 +92,7 @@ export interface FormSwitchProps {
 export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
   const itemName = getItemName(props)
 
-  const storeValue = useOptimizerFormStore((s) =>
+  const storeValue = useOptimizerRequestStore((s) =>
     props.removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as boolean | undefined,
   )
 

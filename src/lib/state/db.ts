@@ -38,11 +38,11 @@ import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import {
@@ -514,13 +514,13 @@ export const DB = {
     useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
 
     if (saveData.optimizerMenuState) {
-      const menuState = useOptimizerUIStore.getState().menuState
+      const menuState = useOptimizerDisplayStore.getState().menuState
       for (const key of Object.values(OptimizerMenuIds)) {
         if (saveData.optimizerMenuState[key] != null) {
           menuState[key] = saveData.optimizerMenuState[key]
         }
       }
-      useOptimizerUIStore.getState().setMenuState(menuState)
+      useOptimizerDisplayStore.getState().setMenuState(menuState)
     }
 
     if (saveData.savedSession) {
@@ -662,7 +662,7 @@ export const DB = {
 
     switch (source) {
       case SavedBuildSource.OPTIMIZER:
-        const state = useOptimizerFormStore.getState()
+        const state = useOptimizerRequestStore.getState()
         const optimizerMetadata: BuildOptimizerMetadata = {
           conditionals: {},
           setFilters: {
@@ -695,7 +695,7 @@ export const DB = {
           lightConeId: state.lightCone!,
           superimposition: state.lightConeSuperimposition,
           name,
-          equipped: useOptimizerUIStore.getState().optimizerBuild ?? {},
+          equipped: useOptimizerDisplayStore.getState().optimizerBuild ?? {},
           optimizerMetadata,
           team,
           deprioritizeBuffs: state.deprioritizeBuffs ?? false,
@@ -1173,10 +1173,10 @@ function assignRanks(characters: Character[]) {
   }
 
   // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
-  const optimizerCharacterRank = characters.findIndex((c) => c.id == useOptimizerUIStore.getState().focusCharacterId!)
+  const optimizerCharacterRank = characters.findIndex((c) => c.id == useOptimizerDisplayStore.getState().focusCharacterId!)
   if (optimizerCharacterRank >= 0) {
-    void import('lib/stores/optimizerForm/useOptimizerFormStore').then(({ useOptimizerFormStore }) => {
-      useOptimizerFormStore.getState().setRelicFilterField('rank', optimizerCharacterRank)
+    void import('lib/stores/optimizerForm/useOptimizerRequestStore').then(({ useOptimizerRequestStore }) => {
+      useOptimizerRequestStore.getState().setRelicFilterField('rank', optimizerCharacterRank)
     })
   }
 
@@ -1493,8 +1493,8 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
 
   // Apply all overrides to store at once, then navigate.
   // Await the dynamic import so setState completes before page navigation.
-  void import('lib/stores/optimizerForm/useOptimizerFormStore').then(({ useOptimizerFormStore }) => {
-    useOptimizerFormStore.setState(patch)
+  void import('lib/stores/optimizerForm/useOptimizerRequestStore').then(({ useOptimizerRequestStore }) => {
+    useOptimizerRequestStore.setState(patch)
 
     window.store.getState().setActiveKey(AppPages.OPTIMIZER)
     window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)

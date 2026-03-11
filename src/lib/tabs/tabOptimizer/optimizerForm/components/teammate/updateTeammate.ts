@@ -2,8 +2,8 @@ import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/eva
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import {
   calculateTeammateSets,
@@ -24,10 +24,10 @@ export function updateTeammate(changedValues: Partial<Form>) {
   if (!updatedTeammate) return
   const teammateIndex = PROPERTY_TO_INDEX[property]
 
-  useOptimizerUIStore.getState().setTeammateCount(countTeammates())
+  useOptimizerDisplayStore.getState().setTeammateCount(countTeammates())
 
   if (updatedTeammate.lightCone) {
-    const store = useOptimizerFormStore.getState()
+    const store = useOptimizerRequestStore.getState()
     const teammate = store.teammates[teammateIndex]
     const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate as any, DB.getMetadata())
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
@@ -35,11 +35,11 @@ export function updateTeammate(changedValues: Partial<Form>) {
     if (!controller.teammateDefaults) return
 
     const mergedConditionals = Object.assign({}, controller.teammateDefaults(), teammate.lightConeConditionals)
-    useOptimizerFormStore.getState().setTeammateField(teammateIndex, 'lightConeConditionals', mergedConditionals)
+    useOptimizerRequestStore.getState().setTeammateField(teammateIndex, 'lightConeConditionals', mergedConditionals)
   } else if (updatedTeammate.characterId) {
     const teammateCharacterId = updatedTeammate.characterId
 
-    const store = useOptimizerFormStore.getState()
+    const store = useOptimizerRequestStore.getState()
     const currentTeammate = store.teammates[teammateIndex]
     const teammateCharacter = DB.getCharacterById(teammateCharacterId)
 
@@ -73,7 +73,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
     }
 
     // Update all teammate fields at once
-    const storeActions = useOptimizerFormStore.getState()
+    const storeActions = useOptimizerRequestStore.getState()
     storeActions.setTeammateField(teammateIndex, 'characterId', teammateCharacterId)
     storeActions.setTeammateField(teammateIndex, 'characterEidolon', characterEidolon)
     storeActions.setTeammateField(teammateIndex, 'lightCone', lightCone)
@@ -84,8 +84,8 @@ export function updateTeammate(changedValues: Partial<Form>) {
 
     applyTeamAwareSetConditionalPresetsToStore()
   } else if (updatedTeammate.characterId === null) {
-    useOptimizerFormStore.getState().clearTeammate(teammateIndex)
+    useOptimizerRequestStore.getState().clearTeammate(teammateIndex)
   } else if (updatedTeammate.lightCone === null) {
-    useOptimizerFormStore.getState().clearTeammateLightCone(teammateIndex)
+    useOptimizerRequestStore.getState().clearTeammateLightCone(teammateIndex)
   }
 }

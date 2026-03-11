@@ -2,7 +2,7 @@ import { CombatBuffs, ConditionalDataType, Constants } from 'lib/constants/const
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
-  OptimizerFormState,
+  OptimizerRequestState,
   OptimizerRequest,
   RatingFilterState,
   StatFilterState,
@@ -26,7 +26,7 @@ const PERCENTAGE_STAT_KEYS = new Set([
  * Convert a display-format store state to an internal-format Form.
  * Pure function — does not mutate the input.
  */
-export function displayToInternal(state: OptimizerFormState): Form {
+export function displayToInternal(state: OptimizerRequestState): Form {
   // Convert stat filters: undefined → 0/MAX_INT, percentage stats ÷ 100
   const statFilterEntries = Object.entries(state.statFilters) as Array<[keyof StatFilterState, number | undefined]>
   const statFilters = {} as Record<string, number>
@@ -178,14 +178,14 @@ function convertCombatBuffsToInternal(buffs: Record<string, number>): Record<str
 /**
  * Build an optimizer request from display-format state.
  */
-export function buildOptimizerRequest(state: OptimizerFormState): OptimizerRequest {
+export function buildOptimizerRequest(state: OptimizerRequestState): OptimizerRequest {
   return { ...displayToInternal(state), resultMinFilter: 0 }
 }
 
 /**
  * Build a save-ready form from display-format state.
  */
-export function buildSaveForm(state: OptimizerFormState): Form {
+export function buildSaveForm(state: OptimizerRequestState): Form {
   return displayToInternal(state)
 }
 
@@ -194,14 +194,14 @@ export function buildSaveForm(state: OptimizerFormState): Form {
  * Applies all defaults, then converts back to internal.
  */
 export function normalizeForm(form: Form): Form {
-  return displayToInternal({ ...createDefaultFormState(), ...internalFormToState(form) } as OptimizerFormState)
+  return displayToInternal({ ...createDefaultFormState(), ...internalFormToState(form) } as OptimizerRequestState)
 }
 
 /**
- * Convert an internal-format Form (as stored in DB) to a full OptimizerFormState.
+ * Convert an internal-format Form (as stored in DB) to a full OptimizerRequestState.
  * Replaces formToDisplay() — outputs store state instead of antd form values.
  */
-export function internalFormToState(form: Form): Partial<OptimizerFormState> {
+export function internalFormToState(form: Form): Partial<OptimizerRequestState> {
   const { statFilters, ratingFilters, teammates } = internalToDisplay(form)
 
   return {

@@ -8,7 +8,7 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
@@ -28,7 +28,7 @@ export const EnemyConfigurationsDrawer = () => {
     enemyCount,
     enemyElementalWeak,
     enemyWeaknessBroken,
-  } = useOptimizerFormStore(
+  } = useOptimizerRequestStore(
     useShallow((s) => ({
       enemyLevel: s.enemyLevel,
       enemyResistance: s.enemyResistance,
@@ -118,35 +118,35 @@ export const EnemyConfigurationsDrawer = () => {
           searchable
           data={enemyLevelOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyLevel != null ? String(enemyLevel) : null}
-          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyLevel', Number(val)) }}
+          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyLevel', Number(val)) }}
         />
 
         <Select
           searchable
           data={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyResistance != null ? String(enemyResistance) : null}
-          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyResistance', Number(val)) }}
+          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyResistance', Number(val)) }}
         />
 
         <Select
           searchable
           data={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
-          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyEffectResistance', Number(val)) }}
+          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyEffectResistance', Number(val)) }}
         />
 
         <Select
           searchable
           data={enemyMaxToughnessOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyMaxToughness != null ? String(enemyMaxToughness) : null}
-          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyMaxToughness', Number(val)) }}
+          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyMaxToughness', Number(val)) }}
         />
 
         <Select
           searchable
           data={enemyCountOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyCount != null ? String(enemyCount) : null}
-          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEnemyField('enemyCount', Number(val)) }}
+          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyCount', Number(val)) }}
         />
 
         <Flex align='center'>
@@ -154,7 +154,7 @@ export const EnemyConfigurationsDrawer = () => {
             onLabel={<IconCheck />}
             offLabel={<IconX />}
             checked={enemyElementalWeak}
-            onChange={(event) => useOptimizerFormStore.getState().setEnemyField('enemyElementalWeak', event.currentTarget.checked)}
+            onChange={(event) => useOptimizerRequestStore.getState().setEnemyField('enemyElementalWeak', event.currentTarget.checked)}
             style={{ width: 45, marginRight: 5 }}
           />
           <Text>{t('WeaknessLabel') /* Elemental weakness */}</Text>
@@ -165,7 +165,7 @@ export const EnemyConfigurationsDrawer = () => {
             onLabel={<IconCheck />}
             offLabel={<IconX />}
             checked={enemyWeaknessBroken}
-            onChange={(event) => useOptimizerFormStore.getState().setEnemyField('enemyWeaknessBroken', event.currentTarget.checked)}
+            onChange={(event) => useOptimizerRequestStore.getState().setEnemyField('enemyWeaknessBroken', event.currentTarget.checked)}
             style={{ width: 45, marginRight: 5 }}
           />
           <Text>{t('BrokenLabel') /* Weakness broken */}</Text>

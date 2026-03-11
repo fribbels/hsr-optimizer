@@ -10,8 +10,8 @@ import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optim
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { MainConditionalType, TeammateConditionalType, useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { MainConditionalType, TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { initializeComboState, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
@@ -49,7 +49,7 @@ export function handleMainCharacterConditionalChange(
   key: string,
   value: boolean | number,
 ) {
-  const store = useOptimizerFormStore.getState()
+  const store = useOptimizerRequestStore.getState()
   store.setMainCharacterConditional(condType, key, value)
 
   const request = displayToInternal(store)
@@ -66,7 +66,7 @@ export function handleTeammateConditionalChange(
   key: string,
   value: boolean | number,
 ) {
-  const store = useOptimizerFormStore.getState()
+  const store = useOptimizerRequestStore.getState()
   store.setTeammateConditional(teammateIndex, condType, key, value)
 
   const request = displayToInternal(store)
@@ -82,7 +82,7 @@ export function handleSetConditionalChange(
   key: string,
   value: boolean | number,
 ) {
-  const store = useOptimizerFormStore.getState()
+  const store = useOptimizerRequestStore.getState()
   store.setSetConditional(key, value)
 
   const request = displayToInternal(store)
@@ -127,7 +127,7 @@ export function handleConditionalChange(
  * Replaces external calls to `window.onOptimizerFormValuesChange({} as Form, form)`.
  */
 export function recalculatePermutations(): void {
-  const state = useOptimizerFormStore.getState()
+  const state = useOptimizerRequestStore.getState()
   if (!state.characterId) return
 
   const request = displayToInternal(state)
@@ -147,8 +147,8 @@ export function recalculatePermutations(): void {
     PlanarSphereTotal: preFilteredRelicsByPart.PlanarSphere.length,
     LinkRopeTotal: preFilteredRelicsByPart.LinkRope.length,
   }
-  useOptimizerUIStore.getState().setPermutationDetails(permutationDetails)
-  useOptimizerUIStore.getState().setPermutations(
+  useOptimizerDisplayStore.getState().setPermutationDetails(permutationDetails)
+  useOptimizerDisplayStore.getState().setPermutations(
     relics.Head.length
       * relics.Hands.length
       * relics.Body.length
@@ -164,7 +164,7 @@ export function recalculatePermutations(): void {
  * Get a form that's ready for optimizer submission.
  */
 export function getForm(): Form {
-  return displayToInternal(useOptimizerFormStore.getState())
+  return displayToInternal(useOptimizerRequestStore.getState())
 }
 
 /**
@@ -240,7 +240,7 @@ export function equipClicked(): void {
   DB.equipRelicIdsToCharacter(Object.values(build), characterId)
   Message.success(i18next.t('optimizerTab:Sidebar.ResultsGroup.EquipSuccessMessage') /*'Equipped relics'*/)
   OptimizerTabController.setTopRow(row)
-  useOptimizerUIStore.getState().setOptimizerBuild(build)
+  useOptimizerDisplayStore.getState().setOptimizerBuild(build)
   SaveState.delayedSave()
   recalculatePermutations()
 }
@@ -273,8 +273,8 @@ export function resetFilters(): void {
     relicSets: [],
   }
 
-  useOptimizerFormStore.getState().resetFilters()
-  useOptimizerFormStore.getState().loadForm(newForm as Form)
+  useOptimizerRequestStore.getState().resetFilters()
+  useOptimizerRequestStore.getState().loadForm(newForm as Form)
   recalculatePermutations()
 }
 
@@ -282,8 +282,8 @@ export function resetFilters(): void {
  * Manually set the selected character.
  */
 export function setCharacter(id: CharacterId): void {
-  useOptimizerUIStore.getState().setFocusCharacterId(id)
-  useOptimizerFormStore.getState().setCharacterId(id)
+  useOptimizerDisplayStore.getState().setFocusCharacterId(id)
+  useOptimizerRequestStore.getState().setCharacterId(id)
 
   SaveState.delayedSave()
 }
@@ -303,15 +303,15 @@ export function updateCharacter(characterId: CharacterId): void {
   const form = character ? character.form : getDefaultForm({ id: characterId })
 
   // Load form into store (replaces formToDisplay + setFieldsValue)
-  useOptimizerFormStore.getState().loadForm(form)
+  useOptimizerRequestStore.getState().loadForm(form)
 
-  useOptimizerUIStore.getState().setFocusCharacterId(characterId)
-  useOptimizerFormStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
-  useOptimizerUIStore.getState().setStatSimulations(form.statSim?.simulations ?? [])
-  useOptimizerUIStore.getState().setOptimizerSelectedRowData(null)
+  useOptimizerDisplayStore.getState().setFocusCharacterId(characterId)
+  useOptimizerRequestStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
+  useOptimizerDisplayStore.getState().setStatSimulations(form.statSim?.simulations ?? [])
+  useOptimizerDisplayStore.getState().setOptimizerSelectedRowData(null)
   window.optimizerGrid.current?.api?.deselectAll()
 
-  const currentRequest = displayToInternal(useOptimizerFormStore.getState())
+  const currentRequest = displayToInternal(useOptimizerRequestStore.getState())
   generateContext(currentRequest)
   calculateCurrentlyEquippedRow(currentRequest)
 
@@ -331,9 +331,9 @@ export function startOptimization(): void {
     return
   }
 
-  useOptimizerUIStore.getState().setPermutationsSearched(0)
-  useOptimizerUIStore.getState().setPermutationsResults(0)
-  useOptimizerUIStore.getState().setOptimizationInProgress(true)
+  useOptimizerDisplayStore.getState().setPermutationsSearched(0)
+  useOptimizerDisplayStore.getState().setPermutationsResults(0)
+  useOptimizerDisplayStore.getState().setOptimizationInProgress(true)
 
   // Delay the DB save so it doesn't block the optimizer start with a characters tab re-render
   requestIdleCallback(() => {
@@ -342,9 +342,9 @@ export function startOptimization(): void {
   SaveState.delayedSave()
 
   const optimizationId = Utils.randomId()
-  useOptimizerUIStore.getState().setOptimizationId(optimizationId)
+  useOptimizerDisplayStore.getState().setOptimizationId(optimizationId)
   form.optimizationId = optimizationId
-  form.statDisplay = useOptimizerFormStore.getState().statDisplay
+  form.statDisplay = useOptimizerRequestStore.getState().statDisplay
 
   optimizerFormCache.set(optimizationId, form)
 

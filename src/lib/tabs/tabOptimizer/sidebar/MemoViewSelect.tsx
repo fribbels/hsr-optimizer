@@ -1,8 +1,8 @@
 import { SegmentedControl } from '@mantine/core'
 import { PathNames } from 'lib/constants/constants'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
@@ -17,13 +17,13 @@ export function isRemembrance(characterId: CharacterId | null | undefined) {
 export const MemoViewSelect = React.memo(function MemoViewSelect(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.StatViewGroup' })
 
-  const { memoDisplay } = useOptimizerFormStore(
+  const { memoDisplay } = useOptimizerRequestStore(
     useShallow((s) => ({
       memoDisplay: s.memoDisplay,
     })),
   )
-  const setMemoDisplay = useOptimizerFormStore((s) => s.setMemoDisplay)
-  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
+  const setMemoDisplay = useOptimizerRequestStore((s) => s.setMemoDisplay)
+  const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
   const hasMemo = isRemembrance(optimizerTabFocusCharacter)
 

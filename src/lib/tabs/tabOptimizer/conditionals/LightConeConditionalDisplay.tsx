@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -28,7 +28,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
 
   const { id, superImposition, teammateIndex } = props
 
-  const storeState = useOptimizerFormStore.getState()
+  const storeState = useOptimizerRequestStore.getState()
   const wearerId: CharacterId = teammateIndex == undefined
     ? storeState.characterId!
     : storeState.teammates[teammateIndex as 0 | 1 | 2].characterId!

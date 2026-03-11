@@ -2,7 +2,7 @@ import { Flex } from '@mantine/core'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import DB, { AppPages } from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
   generateAnalysisData,
   getCachedForm,
@@ -18,16 +18,16 @@ import {
   OptimizerMenuIds,
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import React, { useMemo } from 'react'
 
 export function ExpandedDataPanel() {
-  const selectedRowData = useOptimizerUIStore((s) => s.optimizerSelectedRowData)
-  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
+  const selectedRowData = useOptimizerDisplayStore((s) => s.optimizerSelectedRowData)
+  const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
   // For triggering updates
-  const characterId = useOptimizerFormStore((s) => s.characterId)
-  const lightConeId = useOptimizerFormStore((s) => s.lightCone)
+  const characterId = useOptimizerRequestStore((s) => s.characterId)
+  const lightConeId = useOptimizerRequestStore((s) => s.lightCone)
 
   if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
     return <></>

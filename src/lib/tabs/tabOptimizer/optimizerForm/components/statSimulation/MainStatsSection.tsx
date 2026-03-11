@@ -1,7 +1,7 @@
 import { Flex, Select } from '@mantine/core'
 import { Parts, Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
   STAT_SIMULATION_OPTIONS_WIDTH,
   useStatSimField,
@@ -28,7 +28,7 @@ function MainStatSelector(props: { simType: string; placeholder: string; part: s
       rightSection={<img style={{ width: 16 }} src={Assets.getPart(props.part)} />}
       data={props.options.map((opt) => ({ value: opt.value, label: opt.short }))}
       value={value}
-      onChange={(val) => useOptimizerFormStore.getState().updateStatSimField(props.simType, field, val)}
+      onChange={(val) => useOptimizerRequestStore.getState().updateStatSimField(props.simType, field, val)}
       maxDropdownHeight={750}
       comboboxProps={{ width: 200 }}
       searchable

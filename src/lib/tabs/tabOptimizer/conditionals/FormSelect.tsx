@@ -1,6 +1,6 @@
 import { Flex, Select, Text as MantineText } from '@mantine/core'
 import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import WithPopover from 'lib/ui/WithPopover'
@@ -35,7 +35,7 @@ export interface FormSelectProps {
 export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   const itemName = getItemName(props)
 
-  const storeValue = useOptimizerFormStore((s) =>
+  const storeValue = useOptimizerRequestStore((s) =>
     props.removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined,
   )
 

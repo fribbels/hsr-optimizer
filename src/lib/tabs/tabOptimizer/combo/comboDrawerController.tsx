@@ -26,7 +26,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { CharacterId } from 'types/character'
@@ -812,8 +812,8 @@ export function updateFormState(comboState: ComboState) {
   comboState.version = COMBO_STATE_JSON_VERSION
 
   // Update store directly
-  useOptimizerFormStore.getState().setComboStateJson(JSON.stringify(comboState))
-  useOptimizerFormStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
+  useOptimizerRequestStore.getState().setComboStateJson(JSON.stringify(comboState))
+  useOptimizerRequestStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
 
   const form = getForm()
   DB.replaceCharacterForm(form)

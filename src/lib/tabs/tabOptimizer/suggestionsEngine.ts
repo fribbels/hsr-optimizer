@@ -4,7 +4,10 @@ import {
   setClose,
 } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
-import DB, { useGlobalStore, AppPages } from 'lib/state/db'
+import DB from 'lib/state/db'
+import { AppPages } from 'lib/constants/appPages'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { getRelics } from 'lib/stores/relicStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
@@ -138,7 +141,7 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
       Hands: Relic[]
     },
   ]
-  const allRelics = DB.getRelics()
+  const allRelics = getRelics()
 
   // Zero relics overrides everything else
   if (allRelics.length == 0) {

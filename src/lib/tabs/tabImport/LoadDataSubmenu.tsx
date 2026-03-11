@@ -3,7 +3,7 @@ import {
   IconUpload,
 } from '@tabler/icons-react'
 import { Button, Flex, Text, Timeline } from '@mantine/core'
-import DB from 'lib/state/db'
+import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import {
   importerTabButtonWidth,
@@ -64,7 +64,7 @@ export function LoadDataSubmenu() {
   function loadConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      DB.setStore(currentSave!, false)
+      persistenceService.loadSaveData(currentSave!, false)
 
       setTimeout(() => {
         setCurrentStage(Stages.FINISHED)

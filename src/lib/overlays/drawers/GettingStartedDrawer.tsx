@@ -7,7 +7,7 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
-import DB from 'lib/state/db'
+import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useTranslation } from 'react-i18next'
@@ -20,7 +20,7 @@ export const GettingStartedDrawer = () => {
 
   function tryItOutClicked() {
     // Manually save for test files
-    DB.setStore(JSON.parse(JSON.stringify(sampleSave)) as HsrOptimizerSaveFormat, false)
+    persistenceService.loadSaveData(JSON.parse(JSON.stringify(sampleSave)) as HsrOptimizerSaveFormat, false)
     SaveState.save()
     Message.success(t('TryOut.SuccessMessage')) // 'Successfully loaded data'
   }

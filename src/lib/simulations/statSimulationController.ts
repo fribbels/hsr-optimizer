@@ -16,7 +16,7 @@ import {
   ornamentSetIndexToName,
   relicSetIndexToNames,
 } from 'lib/simulations/statSimulationUtils'
-import DB from 'lib/state/db'
+import * as persistenceService from 'lib/services/persistenceService'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { SaveState } from 'lib/state/saveState'
@@ -192,7 +192,7 @@ export function startOptimizerStatSimulation() {
 
 function autosave() {
   const form = getForm()
-  DB.addFromForm(form)
+  persistenceService.upsertCharacterFromForm(form)
   SaveState.delayedSave()
 }
 

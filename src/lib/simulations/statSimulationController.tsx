@@ -307,7 +307,7 @@ export function startOptimizerStatSimulation() {
   OptimizerTabController.setRows(optimizerDisplayData)
 
   calculateCurrentlyEquippedRow(form)
-  optimizerGridApi().updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
   const sortOption = SortOption[form.resultSort!]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
@@ -323,7 +323,7 @@ function autosave() {
 }
 
 export function importOptimizerBuild() {
-  const selectedRow = window.optimizerGrid.current!.api.getSelectedRows()[0] as OptimizerDisplayData
+  const selectedRow = window.optimizerGrid.current?.api?.getSelectedRows()?.[0] as OptimizerDisplayData
   const t = i18next.getFixedT(null, 'optimizerTab', 'StatSimulation')
 
   if (!selectedRow) {

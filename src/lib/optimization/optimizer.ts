@@ -162,7 +162,7 @@ export const Optimizer = {
     }
 
     OptimizerTabController.scrollToGrid()
-    window.optimizerGrid.current!.api.setGridOption('loading', true)
+    window.optimizerGrid.current?.api?.setGridOption('loading', true)
 
     const context = generateContext(request)
 
@@ -280,7 +280,7 @@ export const Optimizer = {
             OptimizerTabController.setRows(results)
             setSortColumn(gridSortColumn)
 
-            window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+            window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
             console.log('Done', results.length)
             resultsShown = true
             if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
@@ -297,7 +297,7 @@ export const Optimizer = {
           OptimizerTabController.setRows(results)
           setSortColumn(gridSortColumn)
 
-          window.optimizerGrid.current!.api.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length)
           resultsShown = true
           if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)

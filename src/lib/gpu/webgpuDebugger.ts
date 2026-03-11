@@ -199,10 +199,10 @@ export function debugExportWebgpuResult(array: Float32Array) {
 }
 
 export function debugPinOptimizerWebgpuArray(array: Float32Array) {
-  const currentPinned = window.optimizerGrid.current!.api.getGridOption('pinnedTopRowData') ?? []
+  const currentPinned = window.optimizerGrid.current?.api?.getGridOption('pinnedTopRowData') ?? []
   currentPinned[1] = debugExportWebgpuResult(array)
 
-  window.optimizerGrid.current!.api.updateGridOptions({ pinnedTopRowData: currentPinned })
+  window.optimizerGrid.current?.api?.updateGridOptions({ pinnedTopRowData: currentPinned })
 }
 
 export function debugWebgpuComputedStats(array: Float32Array): ComputedStatsObjectExternal {

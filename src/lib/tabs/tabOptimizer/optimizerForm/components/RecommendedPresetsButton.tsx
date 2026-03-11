@@ -38,7 +38,7 @@ export function setSortColumn(columnId: string) {
     ],
     defaultState: { sort: null },
   }
-  window.optimizerGrid.current?.api.applyColumnState(columnState)
+  window.optimizerGrid.current?.api?.applyColumnState(columnState)
 }
 
 export type SpdPresets = Record<string, {

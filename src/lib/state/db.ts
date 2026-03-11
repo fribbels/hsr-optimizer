@@ -681,10 +681,8 @@ export const DB = {
     const characters = DB.getCharacters()
     let found = DB.getCharacterById(form.characterId)
     if (found) {
-      found.form = {
-        ...found.form,
-        ...form,
-      }
+      const index = characters.indexOf(found)
+      characters[index] = { ...found, form: { ...found.form, ...form } }
       DB.setCharacters(characters)
     } else {
       const defaultForm = getDefaultForm({ id: form.characterId })

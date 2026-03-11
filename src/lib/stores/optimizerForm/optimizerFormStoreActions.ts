@@ -1,7 +1,7 @@
 import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import { OptimizerFormState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import type { MainConditionalType, TeammateConditionalType } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { OptimizerRequestState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type { MainConditionalType, TeammateConditionalType } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { Form, OrnamentSetFilters, RelicSetFilters } from 'types/form'
 
 export type SuggestionFixes = {
@@ -17,7 +17,7 @@ export type SuggestionFixes = {
  * Pure function: compute the new state for resetFilters.
  * Resets relic filter fields to defaults while preserving character/LC identity.
  */
-export function computeResetFilters(state: OptimizerFormState): Partial<OptimizerFormState> {
+export function computeResetFilters(state: OptimizerRequestState): Partial<OptimizerRequestState> {
   const defaults = createDefaultFormState()
   return {
     // Reset relic filter fields to defaults
@@ -49,8 +49,8 @@ export function computeResetFilters(state: OptimizerFormState): Partial<Optimize
  * Pure function: compute the patch for applySuggestionFixes.
  * Returns only the fields that are present in fixes.
  */
-export function computeApplySuggestionFixes(_state: OptimizerFormState, fixes: SuggestionFixes): Partial<OptimizerFormState> {
-  const patch: Partial<OptimizerFormState> = {}
+export function computeApplySuggestionFixes(_state: OptimizerRequestState, fixes: SuggestionFixes): Partial<OptimizerRequestState> {
+  const patch: Partial<OptimizerRequestState> = {}
   if (fixes.relicSets !== undefined) patch.relicSets = fixes.relicSets
   if (fixes.ornamentSets !== undefined) patch.ornamentSets = fixes.ornamentSets
   if (fixes.mainBody !== undefined) patch.mainBody = fixes.mainBody
@@ -64,7 +64,7 @@ export function computeApplySuggestionFixes(_state: OptimizerFormState, fixes: S
  * Pure function: compute the new state for loadForm.
  * Converts an internal Form to display-format state, merging with defaults.
  */
-export function computeLoadForm(_state: OptimizerFormState, form: Form): OptimizerFormState {
+export function computeLoadForm(_state: OptimizerRequestState, form: Form): OptimizerRequestState {
   const defaults = createDefaultFormState()
   const converted = internalFormToState(form)
   const merged = { ...defaults }
@@ -85,11 +85,11 @@ export function computeLoadForm(_state: OptimizerFormState, form: Form): Optimiz
  * Handles both characterConditionals and lightConeConditionals.
  */
 export function computeSetMainCharacterConditional(
-  state: OptimizerFormState,
+  state: OptimizerRequestState,
   condType: MainConditionalType,
   key: string,
   value: boolean | number,
-): Partial<OptimizerFormState> {
+): Partial<OptimizerRequestState> {
   return {
     [condType]: {
       ...state[condType],
@@ -102,12 +102,12 @@ export function computeSetMainCharacterConditional(
  * Pure function: compute state update for setting a teammate conditional.
  */
 export function computeSetTeammateConditional(
-  state: OptimizerFormState,
+  state: OptimizerRequestState,
   teammateIndex: 0 | 1 | 2,
   condType: TeammateConditionalType,
   key: string,
   value: boolean | number,
-): Partial<OptimizerFormState> {
+): Partial<OptimizerRequestState> {
   const teammates = [...state.teammates] as [TeammateState, TeammateState, TeammateState]
   const tm = { ...teammates[teammateIndex] }
   tm[condType] = {
@@ -123,10 +123,10 @@ export function computeSetTeammateConditional(
  * Set conditionals use the legacy [undefined, value] tuple format.
  */
 export function computeSetSetConditional(
-  state: OptimizerFormState,
+  state: OptimizerRequestState,
   key: string,
   value: boolean | number,
-): Partial<OptimizerFormState> {
+): Partial<OptimizerRequestState> {
   const setConditionals = { ...state.setConditionals } as Record<string, [undefined, boolean | number]>
   const tuple = [...setConditionals[key]] as [undefined, boolean | number]
   tuple[1] = value

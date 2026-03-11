@@ -4,8 +4,8 @@ import {
   Parts,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { Utils } from 'lib/utils/utils'
 import React, {
@@ -25,7 +25,7 @@ const StatSliders = [
 ] as const
 
 function WeightSlider(props: { stat: string }) {
-  const value = useOptimizerFormStore((s) => s.weights[props.stat as keyof typeof s.weights])
+  const value = useOptimizerRequestStore((s) => s.weights[props.stat as keyof typeof s.weights])
 
   return (
     <Slider
@@ -40,7 +40,7 @@ function WeightSlider(props: { stat: string }) {
         marginRight: 'auto',
       }}
       value={value as number ?? 0}
-      onChange={(val) => useOptimizerFormStore.getState().setWeight(props.stat as keyof OptimizerFormState['weights'], val)}
+      onChange={(val) => useOptimizerRequestStore.getState().setWeight(props.stat as keyof OptimizerRequestState['weights'], val)}
       onChangeEnd={() => recalculatePermutations()}
     />
   )
@@ -102,7 +102,7 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
   const parts = partsPerSlotIndex[index]
   const name = formNamePerSlotIndex[index]
 
-  const value = useOptimizerFormStore((s) => s.weights[name as keyof typeof s.weights] as number ?? 0)
+  const value = useOptimizerRequestStore((s) => s.weights[name as keyof typeof s.weights] as number ?? 0)
 
   return (
     <Flex gap={5} style={{ marginBottom: 0 }} align='center'>
@@ -125,7 +125,7 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
           }}
           label={(value) => `${Utils.precisionRound(value)}`}
           value={value}
-          onChange={(val) => useOptimizerFormStore.getState().setWeight(name as keyof OptimizerFormState['weights'], val)}
+          onChange={(val) => useOptimizerRequestStore.getState().setWeight(name as keyof OptimizerRequestState['weights'], val)}
           onChangeEnd={() => recalculatePermutations()}
         />
       </Flex>
@@ -143,7 +143,7 @@ export function FormStatRollSliderTopPercent(props: { index: number }) {
         value={value}
         onChange={(x) => {
           if (x != null && typeof x === 'number') {
-            useOptimizerFormStore.getState().setWeight(name as keyof OptimizerFormState['weights'], x)
+            useOptimizerRequestStore.getState().setWeight(name as keyof OptimizerRequestState['weights'], x)
           }
           recalculatePermutations()
         }}

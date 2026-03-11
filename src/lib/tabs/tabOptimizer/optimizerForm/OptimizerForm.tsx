@@ -3,7 +3,7 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
@@ -112,8 +112,8 @@ export default function OptimizerForm() {
 
 // Wrap these and use local state to limit rerenders
 const CharacterConditionalDisplayWrapper = React.memo(function CharacterConditionalDisplayWrapper() {
-  const charId = useOptimizerFormStore((s) => s.characterId)
-  const eidolon = useOptimizerFormStore((s) => s.characterEidolon)
+  const charId = useOptimizerRequestStore((s) => s.characterId)
+  const eidolon = useOptimizerRequestStore((s) => s.characterEidolon)
 
   return (
     <CharacterConditionalsDisplay
@@ -125,9 +125,9 @@ const CharacterConditionalDisplayWrapper = React.memo(function CharacterConditio
 
 const LightConeConditionalDisplayWrapper = React.memo(function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
   const { metadata } = props
-  const lcId = useOptimizerFormStore((s) => s.lightCone)
-  const superimposition = useOptimizerFormStore((s) => s.lightConeSuperimposition)
-  const charId = useOptimizerFormStore((s) => s.characterId)
+  const lcId = useOptimizerRequestStore((s) => s.lightCone)
+  const superimposition = useOptimizerRequestStore((s) => s.lightConeSuperimposition)
+  const charId = useOptimizerRequestStore((s) => s.characterId)
 
   // Hook into light cone changes to set defaults
   useEffect(() => {
@@ -142,7 +142,7 @@ const LightConeConditionalDisplayWrapper = React.memo(function LightConeConditio
     const lightConeForm = DB.getCharacterById(charId!)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 
-    useOptimizerFormStore.getState().setLightConeConditionals(defaults)
+    useOptimizerRequestStore.getState().setLightConeConditionals(defaults)
   }, [lcId, superimposition, charId])
 
   return (

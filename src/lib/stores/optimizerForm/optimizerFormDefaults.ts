@@ -3,7 +3,7 @@ import { ComboType } from 'lib/optimization/rotation/comboType'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import {
-  OptimizerFormState,
+  OptimizerRequestState,
   RatingFilterState,
   StatFilterState,
   TeammateState,
@@ -87,7 +87,7 @@ export function createDefaultCombatBuffs(): Record<string, number> {
   return combatBuffs
 }
 
-export function createDefaultFormState(): OptimizerFormState {
+export function createDefaultFormState(): OptimizerRequestState {
   return {
     // Character identity
     characterId: undefined,
@@ -126,7 +126,7 @@ export function createDefaultFormState(): OptimizerFormState {
     ornamentSets: [],
 
     // Weights
-    weights: {} as OptimizerFormState['weights'],
+    weights: {} as OptimizerRequestState['weights'],
 
     // Stat / rating filters
     statFilters: createDefaultStatFilters(),

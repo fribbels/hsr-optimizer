@@ -1,8 +1,8 @@
 import { IconX } from '@tabler/icons-react'
 import { IRowNode } from 'ag-grid-community'
 import { Flex, Table } from '@mantine/core'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   deleteStatSimulationBuild,
   renderDefaultSimulationName,
@@ -37,9 +37,9 @@ function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: 
 
 export function SimulatedBuildsGrid() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
-  const statSimulations = useOptimizerUIStore((s) => s.statSimulations)
-  const selectedStatSimulations = useOptimizerUIStore((s) => s.selectedStatSimulations)
-  const setSelectedStatSimulations = useOptimizerUIStore((s) => s.setSelectedStatSimulations)
+  const statSimulations = useOptimizerDisplayStore((s) => s.statSimulations)
+  const selectedStatSimulations = useOptimizerDisplayStore((s) => s.selectedStatSimulations)
+  const setSelectedStatSimulations = useOptimizerDisplayStore((s) => s.setSelectedStatSimulations)
 
   // Links the table -> form & grid
   function updateSimulationForm(key: string) {
@@ -66,14 +66,14 @@ export function SimulatedBuildsGrid() {
     // Update the form with selected sim
     const cloneRequest = TsUtils.clone(statSim.request)
     zeroesToNull(cloneRequest.stats)
-    const currentStatSim = useOptimizerFormStore.getState().statSim
+    const currentStatSim = useOptimizerRequestStore.getState().statSim
     if (currentStatSim) {
-      useOptimizerFormStore.getState().setStatSim({
+      useOptimizerRequestStore.getState().setStatSim({
         ...currentStatSim,
         [statSim.simType]: cloneRequest,
       })
     }
-    useOptimizerUIStore.getState().setStatSimulationDisplay(statSim.simType)
+    useOptimizerDisplayStore.getState().setStatSimulationDisplay(statSim.simType)
   }
 
   useEffect(() => {

@@ -42,7 +42,7 @@ import {
   activateZeroResultSuggestionsModal,
 } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
@@ -87,11 +87,11 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
 
   const optimizerDisplayData = formatOptimizerDisplayData(x)
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
-  useOptimizerUIStore.getState().setOptimizerSelectedRowData(optimizerDisplayData)
+  useOptimizerDisplayStore.getState().setOptimizerSelectedRowData(optimizerDisplayData)
 
   const character = DB.getCharacterById(request.characterId)
   if (character) {
-    useOptimizerUIStore.getState().setOptimizerBuild(character.equipped)
+    useOptimizerDisplayStore.getState().setOptimizerBuild(character.equipped)
   }
 }
 
@@ -133,7 +133,7 @@ export const Optimizer = {
     const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
 
     // Cancel any in-progress optimization before starting a new one
-    if (useOptimizerUIStore.getState().optimizationInProgress) {
+    if (useOptimizerDisplayStore.getState().optimizationInProgress) {
       WorkerPool.cancel()
     }
     CANCEL = false
@@ -158,7 +158,7 @@ export const Optimizer = {
 
     console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
     if (permutations == 0) {
-      useOptimizerUIStore.getState().setOptimizationInProgress(false)
+      useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
       activateZeroPermutationsSuggestionsModal(request)
       OptimizerTabController.setRows([])
       OptimizerTabController.resetDataSource()
@@ -166,7 +166,7 @@ export const Optimizer = {
     }
 
     if (CANCEL) {
-      useOptimizerUIStore.getState().setOptimizationInProgress(false)
+      useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
       return
     }
 
@@ -175,7 +175,7 @@ export const Optimizer = {
 
     const context = generateContext(request)
 
-    useOptimizerUIStore.getState().setContext(context)
+    useOptimizerDisplayStore.getState().setContext(context)
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     setTimeout(() => {
@@ -243,8 +243,8 @@ export const Optimizer = {
 
       let inProgress = runs.length
 
-      useOptimizerUIStore.getState().setOptimizerStartTime(Date.now())
-      useOptimizerUIStore.getState().setOptimizerRunningEngine(COMPUTE_ENGINE_CPU)
+      useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
+      useOptimizerDisplayStore.getState().setOptimizerRunningEngine(COMPUTE_ENGINE_CPU)
       for (const run of runs) {
         const task: WorkerTask = {
           attempts: 0,
@@ -278,12 +278,12 @@ export const Optimizer = {
           BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, task.input.skip)
           // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
 
-          useOptimizerUIStore.getState().setPermutationsResults(queueResults.size())
-          useOptimizerUIStore.getState().setPermutationsSearched(Math.min(permutations, searched))
-          useOptimizerUIStore.getState().setOptimizerEndTime(Date.now())
+          useOptimizerDisplayStore.getState().setPermutationsResults(queueResults.size())
+          useOptimizerDisplayStore.getState().setPermutationsSearched(Math.min(permutations, searched))
+          useOptimizerDisplayStore.getState().setOptimizerEndTime(Date.now())
 
           if (inProgress == 0 || CANCEL) {
-            useOptimizerUIStore.getState().setOptimizationInProgress(false)
+            useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
             results = queueResults.toArray()
 
             OptimizerTabController.setRows(results)
@@ -300,7 +300,7 @@ export const Optimizer = {
         if (!TESTING) {
           WorkerPool.execute(task, callback)
         } else {
-          useOptimizerUIStore.getState().setOptimizationInProgress(false)
+          useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
           results = queueResults.toArray()
 
           OptimizerTabController.setRows(results)
@@ -319,7 +319,7 @@ export const Optimizer = {
 
 // TODO: This is a temporary tool to rename computed stats variables to fit the optimizer grid
 export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
-  const context = useOptimizerUIStore.getState().context
+  const context = useOptimizerDisplayStore.getState().context
   const c = x.c
   const d: Partial<OptimizerDisplayData> = {
     relicSetIndex: c.relicSetIndex,

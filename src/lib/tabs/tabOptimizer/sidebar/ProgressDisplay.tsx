@@ -1,12 +1,12 @@
 import { Flex, Progress, useMantineTheme } from '@mantine/core'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { calculateProgressText } from 'lib/tabs/tabOptimizer/sidebar/sidebarUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, { useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 export const ProgressDisplay = React.memo(function ProgressDisplay() {
-  const { permutations, permutationsSearched, optimizerStartTime, optimizerEndTime, optimizerRunningEngine, optimizationInProgress } = useOptimizerUIStore(
+  const { permutations, permutationsSearched, optimizerStartTime, optimizerEndTime, optimizerRunningEngine, optimizationInProgress } = useOptimizerDisplayStore(
     useShallow((s) => ({
       permutations: s.permutations,
       permutationsSearched: s.permutationsSearched,

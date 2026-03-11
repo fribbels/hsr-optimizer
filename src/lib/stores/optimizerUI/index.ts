@@ -1,5 +1,5 @@
-export { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+export { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 export type {
-  OptimizerUIState,
+  OptimizerDisplayState,
   PermutationDetails,
 } from 'lib/stores/optimizerUI/optimizerUITypes'

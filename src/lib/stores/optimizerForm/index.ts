@@ -1,6 +1,6 @@
-export { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+export { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 export type {
-  OptimizerFormState,
+  OptimizerRequestState,
   TeammateState,
   StatFilterState,
   RatingFilterState,

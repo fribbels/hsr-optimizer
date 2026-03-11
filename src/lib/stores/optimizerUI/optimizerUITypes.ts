@@ -26,9 +26,9 @@ export type PermutationDetails = {
 // Transient runtime & display state for the optimizer tab. These fields
 // are ephemeral — they reset between optimization runs and are NEVER
 // persisted to DB. If a new field should be saved with a character build,
-// it belongs in OptimizerFormState (useOptimizerFormStore) instead.
+// it belongs in OptimizerRequestState (useOptimizerRequestStore) instead.
 
-export type OptimizerUIState = {
+export type OptimizerDisplayState = {
   focusCharacterId: CharacterId | undefined
   context: OptimizerContext | null
   permutations: number

@@ -4,7 +4,7 @@ import {
   useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 
 export const OptimizerMenuIds = {
   characterOptions: 'Character options',
@@ -16,8 +16,8 @@ export const OptimizerMenuIds = {
 
 export function FormRow(props: { id: string, label?: string, children: ReactElement | ReactElement[] }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'FormRowLabels' })
-  const optimizerMenuState = useOptimizerUIStore((s) => s.menuState)
-  const setOptimizerMenuState = useOptimizerUIStore((s) => s.setMenuState)
+  const optimizerMenuState = useOptimizerDisplayStore((s) => s.menuState)
+  const setOptimizerMenuState = useOptimizerDisplayStore((s) => s.setMenuState)
 
   function onChange(value: string[]) {
     setOptimizerMenuState({ ...optimizerMenuState, [props.id]: value.length > 0 })
@@ -68,7 +68,7 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
 
 export function TeammateFormRow(props: { id: string, children: ReactElement | ReactElement[] }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateRow' })
-  const teammateCount = useOptimizerUIStore((s) => s.teammateCount)
+  const teammateCount = useOptimizerDisplayStore((s) => s.teammateCount)
 
   const label = useMemo(() => {
     return t('Header', { teammateCount: teammateCount ? ` (${teammateCount})` : '' })

@@ -1,8 +1,8 @@
 import { Flex, TextInput } from '@mantine/core'
 import { SubStats } from 'lib/constants/constants'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { MainStatsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/MainStatsSection'
 import { OptimizerSetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SetsSection'
 import {
@@ -17,10 +17,10 @@ import { useTranslation } from 'react-i18next'
 
 export function SimulationInputs() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
-  const statSimulationDisplay = useOptimizerUIStore((s) => s.statSimulationDisplay)
+  const statSimulationDisplay = useOptimizerDisplayStore((s) => s.statSimulationDisplay)
 
   // Hook into changes to the sim to calculate roll sum
-  const statSimFormValues = useOptimizerFormStore((s) => s.statSim)
+  const statSimFormValues = useOptimizerRequestStore((s) => s.statSim)
   const substatRollsTotal = useMemo(() => {
     if (!statSimFormValues) return 0
 
@@ -52,7 +52,7 @@ export function SimulationInputs() {
               placeholder={t('SimulationNamePlaceholder')}
               autoComplete='off'
               value={nameValue ?? ''}
-              onChange={(e) => useOptimizerFormStore.getState().updateStatSimField(simType, 'name', e.target.value)}
+              onChange={(e) => useOptimizerRequestStore.getState().updateStatSimField(simType, 'name', e.target.value)}
             />
           </Flex>
 

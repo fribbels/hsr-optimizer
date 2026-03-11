@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { PermutationDisplay } from 'lib/tabs/tabOptimizer/sidebar/PermutationDisplay'
 import { ProgressDisplay } from 'lib/tabs/tabOptimizer/sidebar/ProgressDisplay'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
 export const PermutationsSection = React.memo(function PermutationsSection(props: { isFullSize: boolean }) {
-  const { permutationDetails, permutations, permutationsSearched, permutationsResults } = useOptimizerUIStore(
+  const { permutationDetails, permutations, permutationsSearched, permutationsResults } = useOptimizerDisplayStore(
     useShallow((s) => ({
       permutationDetails: s.permutationDetails,
       permutations: s.permutations,

@@ -1,6 +1,6 @@
 import type { UseFormReturnType } from '@mantine/form'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   Constants,
@@ -44,7 +44,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   const metadata = TsUtils.clone(character.scoringMetadata)
 
   // Get current form in internal format
-  const form = displayToInternal(useOptimizerFormStore.getState())
+  const form = displayToInternal(useOptimizerRequestStore.getState())
   // Get defaults for setConditionals
   const defaultForm = getDefaultForm(character)
   form.setConditionals = defaultForm.setConditionals
@@ -64,7 +64,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   setSortColumn(sortOption.combatGridColumn)
 
   // Load the modified internal form back into store
-  useOptimizerFormStore.getState().loadForm(form)
+  useOptimizerRequestStore.getState().loadForm(form)
   recalculatePermutations()
 }
 
@@ -157,12 +157,12 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
 }
 
 export function applyTeamAwareSetConditionalPresetsToStore() {
-  const state = useOptimizerFormStore.getState()
+  const state = useOptimizerRequestStore.getState()
   const form = displayToInternal(state) as Form
   applyTeamAwareSetConditionalPresets(form)
 
   // Update the store with the modified set conditionals
-  useOptimizerFormStore.getState().setSetConditionals(form.setConditionals)
+  useOptimizerRequestStore.getState().setSetConditionals(form.setConditionals)
 }
 
 export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(

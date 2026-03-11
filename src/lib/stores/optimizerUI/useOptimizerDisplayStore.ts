@@ -1,12 +1,12 @@
 import { ComputeEngine, COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { OptimizerUIState, PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
+import { OptimizerDisplayState, PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
 import { Build, CharacterId } from 'types/character'
 import { OptimizerContext } from 'types/optimizer'
 import { create } from 'zustand'
 
-type OptimizerUIActions = {
+type OptimizerDisplayActions = {
   setFocusCharacterId: (id: CharacterId | undefined) => void
   setContext: (ctx: OptimizerContext | null) => void
   setPermutations: (n: number) => void
@@ -28,9 +28,9 @@ type OptimizerUIActions = {
   setMenuState: (state: Record<string, boolean>) => void
 }
 
-type OptimizerUIStore = OptimizerUIState & OptimizerUIActions
+type OptimizerDisplayStore = OptimizerDisplayState & OptimizerDisplayActions
 
-const initialState: OptimizerUIState = {
+const initialState: OptimizerDisplayState = {
   focusCharacterId: undefined,
   context: null,
   permutations: 0,
@@ -65,7 +65,7 @@ const initialState: OptimizerUIState = {
   menuState: {},
 }
 
-export const useOptimizerUIStore = create<OptimizerUIStore>()((set) => ({
+export const useOptimizerDisplayStore = create<OptimizerDisplayStore>()((set) => ({
   ...initialState,
 
   setFocusCharacterId: (id) => set({ focusCharacterId: id }),

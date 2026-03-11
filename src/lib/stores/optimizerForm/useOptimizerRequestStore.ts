@@ -4,7 +4,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import {
   EnemyConfigFields,
   MainStatPart,
-  OptimizerFormState,
+  OptimizerRequestState,
   RatingFilterState,
   RelicFilterFields,
   StatFilterState,
@@ -31,7 +31,7 @@ import { create } from 'zustand'
 export type MainConditionalType = 'characterConditionals' | 'lightConeConditionals'
 export type TeammateConditionalType = 'characterConditionals' | 'lightConeConditionals'
 
-type OptimizerFormActions = {
+type OptimizerRequestActions = {
   // Simple setters (Task 8)
   setStatFilter: (key: keyof StatFilterState, value: number | undefined) => void
   setRatingFilter: (key: keyof RatingFilterState, value: number | undefined) => void
@@ -47,7 +47,7 @@ type OptimizerFormActions = {
   setDeprioritizeBuffs: (enabled: boolean) => void
   setResultSort: (sort: keyof typeof SortOption | undefined) => void
   setResultsLimit: (limit: number) => void
-  setStatSim: (sim: OptimizerFormState['statSim']) => void
+  setStatSim: (sim: OptimizerRequestState['statSim']) => void
   updateStatSimField: (simType: string, field: string, value: unknown) => void
   setTeammateField: <K extends keyof TeammateState>(index: 0 | 1 | 2, key: K, value: TeammateState[K]) => void
 
@@ -56,7 +56,7 @@ type OptimizerFormActions = {
   setMainStats: (part: MainStatPart, stats: string[]) => void
   setRelicSets: (sets: RelicSetFilters) => void
   setOrnamentSets: (sets: OrnamentSetFilters) => void
-  setWeight: (stat: keyof OptimizerFormState['weights'], value: number) => void
+  setWeight: (stat: keyof OptimizerRequestState['weights'], value: number) => void
   setEidolon: (eidolon: Eidolon) => void
   setLightCone: (lcId: LightConeId | undefined) => void
   setLightConeSuperimposition: (si: SuperImpositionLevel) => void
@@ -74,9 +74,9 @@ type OptimizerFormActions = {
   loadForm: (form: Form) => void
 }
 
-type OptimizerFormStore = OptimizerFormState & OptimizerFormActions
+type OptimizerRequestStore = OptimizerRequestState & OptimizerRequestActions
 
-export const useOptimizerFormStore = create<OptimizerFormStore>()((set) => ({
+export const useOptimizerRequestStore = create<OptimizerRequestStore>()((set) => ({
   ...createDefaultFormState(),
 
   // ---- Simple setters (Task 8) ----
@@ -118,7 +118,7 @@ export const useOptimizerFormStore = create<OptimizerFormStore>()((set) => ({
   setStatSim: (sim) => set({ statSim: sim }),
 
   updateStatSimField: (simType, field, value) => set((state) => {
-    const current = state.statSim ?? {} as NonNullable<OptimizerFormState['statSim']>
+    const current = state.statSim ?? {} as NonNullable<OptimizerRequestState['statSim']>
     const simSection = (current as unknown as Record<string, Record<string, unknown>>)[simType] ?? {}
     return {
       statSim: {

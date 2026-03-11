@@ -21,8 +21,8 @@ import {
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import {
@@ -41,9 +41,9 @@ import { CharacterConditionalsController } from 'types/conditionals'
 
 export const ComboFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const comboType = useOptimizerFormStore((s) => s.comboType)
-  const characterId = useOptimizerFormStore((s) => s.characterId)
-  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
+  const comboType = useOptimizerRequestStore((s) => s.comboType)
+  const characterId = useOptimizerRequestStore((s) => s.characterId)
+  const characterEidolon = useOptimizerRequestStore((s) => s.characterEidolon)
   const comboOptions = useMemo(() => {
     if (characterId == null || characterEidolon == null) return []
 
@@ -70,7 +70,7 @@ export const ComboFilters = () => {
         size='xs'
         fullWidth
         value={comboType}
-        onChange={(value) => useOptimizerFormStore.getState().setComboType(value as ComboType)}
+        onChange={(value) => useOptimizerRequestStore.getState().setComboType(value as ComboType)}
         data={[
           { label: t('ModeSelector.Simple'), value: ComboType.SIMPLE },
           { label: t('ModeSelector.Advanced'), value: ComboType.ADVANCED },
@@ -97,7 +97,7 @@ export const ComboFilters = () => {
 }
 
 function add() {
-  const store = useOptimizerFormStore.getState()
+  const store = useOptimizerRequestStore.getState()
   const abilities = [...store.comboTurnAbilities]
 
   for (let i = 1; i <= ABILITY_LIMIT + 2; i++) {
@@ -107,11 +107,11 @@ function add() {
     }
   }
 
-  useOptimizerFormStore.getState().setComboTurnAbilities(abilities)
+  useOptimizerRequestStore.getState().setComboTurnAbilities(abilities)
 }
 
 function minus() {
-  const store = useOptimizerFormStore.getState()
+  const store = useOptimizerRequestStore.getState()
   const abilities = [...store.comboTurnAbilities]
 
   for (let i = ABILITY_LIMIT + 2; i > 1; i--) {
@@ -121,11 +121,11 @@ function minus() {
     }
   }
 
-  useOptimizerFormStore.getState().setComboTurnAbilities(abilities)
+  useOptimizerRequestStore.getState().setComboTurnAbilities(abilities)
 }
 
 function resetClicked() {
-  const characterId = useOptimizerUIStore.getState().focusCharacterId!
+  const characterId = useOptimizerDisplayStore.getState().focusCharacterId!
   const characterMetadata = DB.getMetadata().characters[characterId]
 
   if (!characterMetadata) return
@@ -133,9 +133,9 @@ function resetClicked() {
   const defaultComboTurnAbilities = characterMetadata.scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
   const defaultComboDot = characterMetadata.scoringMetadata?.simulation?.comboDot ?? 0
 
-  useOptimizerFormStore.getState().setComboTurnAbilities(defaultComboTurnAbilities)
-  useOptimizerFormStore.getState().setComboDot(defaultComboDot)
-  useOptimizerFormStore.getState().setComboStateJson('{}')
+  useOptimizerRequestStore.getState().setComboTurnAbilities(defaultComboTurnAbilities)
+  useOptimizerRequestStore.getState().setComboDot(defaultComboDot)
+  useOptimizerRequestStore.getState().setComboStateJson('{}')
 }
 
 function ComboBasicDefinition(props: { comboOptions: { value: string; label: string }[] }) {
@@ -148,7 +148,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
     comboPreprocessor,
     comboDot,
     comboTurnAbilities,
-  } = useOptimizerFormStore(
+  } = useOptimizerRequestStore(
     useShallow((s) => ({
       comboType: s.comboType,
       characterId: s.characterId,
@@ -221,7 +221,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             fullWidth
             disabled={disabled}
             value={String(comboPreprocessor)}
-            onChange={(value) => useOptimizerFormStore.getState().setComboPreprocessor(value === 'true')}
+            onChange={(value) => useOptimizerRequestStore.getState().setComboPreprocessor(value === 'true')}
             data={[
               { label: <IconCheck />, value: 'true' },
               { label: <IconX />, value: 'false' },
@@ -239,7 +239,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
 }
 
 function ComboOptionRowSelect(props: { index: number; disabled: boolean; comboOptions: { value: string; label: string }[] }) {
-  const comboTurnAbilities = useOptimizerFormStore((s) => s.comboTurnAbilities)
+  const comboTurnAbilities = useOptimizerRequestStore((s) => s.comboTurnAbilities)
   const shouldRenderSegmented = comboTurnAbilities[props.index] != null || props.index < 2
 
   return shouldRenderSegmented
@@ -260,7 +260,7 @@ function NumberXInput(props: {
       value={props.disabled ? props.defaultValue : props.value}
       onChange={(val) => {
         if (!props.disabled && val != null) {
-          useOptimizerFormStore.getState().setComboDot(val as number)
+          useOptimizerRequestStore.getState().setComboDot(val as number)
         }
       }}
       style={{ width: '100%' }}

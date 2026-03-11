@@ -10,7 +10,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { RelicSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetTagRenderer'
 import {
@@ -31,12 +31,12 @@ import { useTranslation } from 'react-i18next'
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
 
-  const mainBody = useOptimizerFormStore((s) => s.mainBody)
-  const mainFeet = useOptimizerFormStore((s) => s.mainFeet)
-  const mainPlanarSphere = useOptimizerFormStore((s) => s.mainPlanarSphere)
-  const mainLinkRope = useOptimizerFormStore((s) => s.mainLinkRope)
-  const relicSets = useOptimizerFormStore((s) => s.relicSets)
-  const ornamentSets = useOptimizerFormStore((s) => s.ornamentSets)
+  const mainBody = useOptimizerRequestStore((s) => s.mainBody)
+  const mainFeet = useOptimizerRequestStore((s) => s.mainFeet)
+  const mainPlanarSphere = useOptimizerRequestStore((s) => s.mainPlanarSphere)
+  const mainLinkRope = useOptimizerRequestStore((s) => s.mainLinkRope)
+  const relicSets = useOptimizerRequestStore((s) => s.relicSets)
+  const ornamentSets = useOptimizerRequestStore((s) => s.ornamentSets)
 
   // Convert relicSets (array of tuples) to encoded string values for MultiSelect
   const relicSetsValue = useMemo(
@@ -62,7 +62,7 @@ export default function RelicMainSetFilters() {
           rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.Body)} />}
           value={mainBody}
           onChange={(val) => {
-            useOptimizerFormStore.getState().setMainStats('mainBody', val)
+            useOptimizerRequestStore.getState().setMainStats('mainBody', val)
             recalculatePermutations()
           }}
           data={[
@@ -85,7 +85,7 @@ export default function RelicMainSetFilters() {
           rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.Feet)} />}
           value={mainFeet}
           onChange={(val) => {
-            useOptimizerFormStore.getState().setMainStats('mainFeet', val)
+            useOptimizerRequestStore.getState().setMainStats('mainFeet', val)
             recalculatePermutations()
           }}
           data={[
@@ -106,7 +106,7 @@ export default function RelicMainSetFilters() {
           rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.PlanarSphere)} />}
           value={mainPlanarSphere}
           onChange={(val) => {
-            useOptimizerFormStore.getState().setMainStats('mainPlanarSphere', val)
+            useOptimizerRequestStore.getState().setMainStats('mainPlanarSphere', val)
             recalculatePermutations()
           }}
           data={[
@@ -132,7 +132,7 @@ export default function RelicMainSetFilters() {
           rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.LinkRope)} />}
           value={mainLinkRope}
           onChange={(val) => {
-            useOptimizerFormStore.getState().setMainStats('mainLinkRope', val)
+            useOptimizerRequestStore.getState().setMainStats('mainLinkRope', val)
             recalculatePermutations()
           }}
           data={[
@@ -161,7 +161,7 @@ export default function RelicMainSetFilters() {
           onChange={(val) => {
             // Convert encoded string values back to tuples for the store
             const decoded = val.map((v) => decodeRelicSetValue(v)) as typeof relicSets
-            useOptimizerFormStore.getState().setRelicSets(decoded)
+            useOptimizerRequestStore.getState().setRelicSets(decoded)
             recalculatePermutations()
           }}
           renderOption={({ option }) => RelicSetTagRenderer(option.value)}
@@ -178,7 +178,7 @@ export default function RelicMainSetFilters() {
           placeholder={t('OrnamentSetSelector.Placeholder')}
           value={ornamentSets}
           onChange={(val) => {
-            useOptimizerFormStore.getState().setOrnamentSets(val as typeof ornamentSets)
+            useOptimizerRequestStore.getState().setOrnamentSets(val as typeof ornamentSets)
             recalculatePermutations()
           }}
         />

@@ -1,6 +1,6 @@
 import { Alert } from '@mantine/core'
 import DB from 'lib/state/db'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useMemo } from 'react'
 import { LightCone } from 'types/lightCone'
 import { useShallow } from 'zustand/react/shallow'
@@ -30,7 +30,7 @@ export function UnreleasedCharacterDisclaimer() {
     teammate0LcId,
     teammate1LcId,
     teammate2LcId,
-  } = useOptimizerFormStore(
+  } = useOptimizerRequestStore(
     useShallow((s) => ({
       characterId: s.characterId,
       lightConeId: s.lightCone,

@@ -14,13 +14,13 @@ import {
   normalizeForm,
   patchComboConditionalDefault,
 } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
 
 const MAX_INT = Constants.MAX_INT
 
-function makeState(overrides: Partial<OptimizerFormState> = {}): OptimizerFormState {
+function makeState(overrides: Partial<OptimizerRequestState> = {}): OptimizerRequestState {
   return { ...createDefaultFormState(), ...overrides }
 }
 

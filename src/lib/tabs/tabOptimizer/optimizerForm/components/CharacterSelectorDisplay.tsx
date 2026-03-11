@@ -7,8 +7,8 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { SaveState } from 'lib/state/saveState'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -25,10 +25,10 @@ import { useShallow } from 'zustand/react/shallow'
 
 export default function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
-  const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
+  const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
-  const optimizerTabFocusCharacterSelectModalOpen = useOptimizerUIStore((s) => s.characterSelectModalOpen)
-  const setOptimizerTabFocusCharacterSelectModalOpen = useOptimizerUIStore((s) => s.setCharacterSelectModalOpen)
+  const optimizerTabFocusCharacterSelectModalOpen = useOptimizerDisplayStore((s) => s.characterSelectModalOpen)
+  const setOptimizerTabFocusCharacterSelectModalOpen = useOptimizerDisplayStore((s) => s.setCharacterSelectModalOpen)
 
   const {
     characterId,
@@ -37,7 +37,7 @@ export default function CharacterSelectorDisplay() {
     lightConeSuperimposition,
     resultsLimit,
     resultSort,
-  } = useOptimizerFormStore(
+  } = useOptimizerRequestStore(
     useShallow((s) => ({
       characterId: s.characterId,
       characterEidolon: s.characterEidolon,
@@ -136,7 +136,7 @@ export default function CharacterSelectorDisplay() {
           value={characterId}
           onChange={(id) => {
             if (id) {
-              useOptimizerUIStore.getState().setFocusCharacterId(id)
+              useOptimizerDisplayStore.getState().setFocusCharacterId(id)
               updateCharacter(id)
               SaveState.delayedSave()
             }
@@ -150,7 +150,7 @@ export default function CharacterSelectorDisplay() {
           style={{ width: 55 }}
           data={eidolonOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={characterEidolon != null ? String(characterEidolon) : null}
-          onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setEidolon(Number(val)) }}
+          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEidolon(Number(val)) }}
           placeholder={t('CharacterSelector.EidolonPlaceholder')} // E
           comboboxProps={{ width: 55 }}
           rightSection={null}
@@ -164,7 +164,7 @@ export default function CharacterSelectorDisplay() {
         <Flex gap={optimizerTabDefaultGap}>
           <LightConeSelect
             value={lightCone ?? null}
-            onChange={(id) => useOptimizerFormStore.getState().setLightCone(id ?? undefined)}
+            onChange={(id) => useOptimizerRequestStore.getState().setLightCone(id ?? undefined)}
             selectStyle={{ width: 151 }}
             characterId={optimizerTabFocusCharacter}
           />
@@ -173,7 +173,7 @@ export default function CharacterSelectorDisplay() {
             style={{ width: 55 }}
             data={superimpositionOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
             value={lightConeSuperimposition != null ? String(lightConeSuperimposition) : null}
-            onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setLightConeSuperimposition(Number(val)) }}
+            onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setLightConeSuperimposition(Number(val)) }}
             placeholder={t('CharacterSelector.SuperimpositionPlaceholder')} // S
             comboboxProps={{ width: 55 }}
             rightSection={null}
@@ -196,7 +196,7 @@ export default function CharacterSelectorDisplay() {
         style={{ width: panelWidth }}
         data={resultLimitOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={resultsLimit != null ? String(resultsLimit) : null}
-        onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setResultsLimit(Number(val)) }}
+        onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setResultsLimit(Number(val)) }}
         placeholder={t('CharacterSelector.ResultsPlaceholder')} // 'Find top results'
         maxDropdownHeight={800}
       />
@@ -209,7 +209,7 @@ export default function CharacterSelectorDisplay() {
           items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
         }))}
         value={resultSort}
-        onChange={(val) => useOptimizerFormStore.getState().setResultSort((val ?? undefined) as keyof typeof SortOption | undefined)}
+        onChange={(val) => useOptimizerRequestStore.getState().setResultSort((val ?? undefined) as keyof typeof SortOption | undefined)}
         maxDropdownHeight={900}
         comboboxProps={{ width: 250 }}
         placeholder={t('CharacterSelector.TargetPlaceholder')} // 'Sorted by'

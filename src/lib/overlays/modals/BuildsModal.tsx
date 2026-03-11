@@ -3,7 +3,7 @@ import {
   IconDownload,
   IconTrash,
 } from '@tabler/icons-react'
-import { Button, Flex, Modal, useMantineTheme } from '@mantine/core'
+import { Button, Flex, Modal } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
@@ -334,13 +334,13 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
   } = props
   const { t } = useTranslation('modals', { keyPrefix: 'Builds' })
   const selected = selectedBuild === index
-  const theme = useMantineTheme()
+
   return (
     <div
       className={styles.buildCard}
       style={{
-        backgroundColor: selected ? '#001529' : theme.colors.dark[7],
-        borderColor: theme.colors.dark[4],
+        backgroundColor: selected ? 'var(--bg-app)' : 'var(--mantine-color-dark-7)',
+        borderColor: 'var(--border-color)',
       }}
       onClick={(e) => {
         setSelectedBuild(index)

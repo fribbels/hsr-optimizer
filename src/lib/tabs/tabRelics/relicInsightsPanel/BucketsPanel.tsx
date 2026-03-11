@@ -1,4 +1,4 @@
-import { Flex, useMantineTheme } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   setOpen,
@@ -42,7 +42,7 @@ const IMG_WIDTH = 26
 const IMG_HEIGHT = 39
 
 export const BucketsPanel = React.memo(({ scores }: PanelProps) => {
-  const theme = useMantineTheme()
+
   const [tooltipActive, setTooltipActive] = useState(false)
   const timeout = useRef<NodeJS.Timeout>()
   const buckets = Array.from<Bucket>({ length: 10 })
@@ -95,8 +95,8 @@ export const BucketsPanel = React.memo(({ scores }: PanelProps) => {
     <div
       style={{
         borderRadius: 8,
-        border: `1px solid ${theme.colors.dark[4]}`,
-        backgroundColor: theme.colors.dark[7],
+        border: '1px solid var(--border-color)',
+        backgroundColor: 'var(--mantine-color-dark-7)',
       }}
     >
       <ScatterChart
@@ -155,7 +155,7 @@ function ShapeFunction(untypedProps: unknown) {
 function TooltipContent(props: TooltipProps<ValueType, NameType>) {
   const { payload }: { payload?: Array<{ payload?: DataPoint }> } = props
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicInsights' })
-  const theme = useMantineTheme()
+
   const data = payload?.[0]?.payload
   return (
     <Flex
@@ -163,8 +163,8 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
       gap={0}
       style={{
         borderRadius: 8,
-        border: `1px solid ${theme.colors.dark[4]}`,
-        backgroundColor: theme.colors.dark[8],
+        border: '1px solid var(--border-color)',
+        backgroundColor: 'var(--bg-app)',
         height: 'fit-content',
         padding: 10,
       }}

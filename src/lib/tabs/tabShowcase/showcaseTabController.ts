@@ -1,42 +1,13 @@
-import i18next from 'i18next'
-import {
-  CharacterConverter,
-  UnconvertedCharacter,
-} from 'lib/importer/characterConverter'
-import { Message } from 'lib/interactions/message'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
-import * as persistenceService from 'lib/services/persistenceService'
-import { SaveState } from 'lib/state/saveState'
-import {
-  APIResponse,
-  processEnkaData,
-  processMihomoData,
-} from 'lib/tabs/tabShowcase/dataProcessors'
-import {
-  ShowcaseTabCharacter,
-  useShowcaseTabStore,
-} from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { CharacterId } from 'types/character'
-import { Form } from 'types/form'
 import { LightConeId } from 'types/lightCone'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-
-export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
-
-// Module-level form ref — set by ShowcaseTab, used by controller
-let _showcaseForm: { setFieldValue: (field: string, value: string) => void } | null = null
-export function setShowcaseForm(form: { setFieldValue: (field: string, value: string) => void }) {
-  _showcaseForm = form
-}
-
-export type ShowcaseTabForm = {
-  scorerId: string | null,
-}
 
 export type Preset = CharacterPreset | FillerPreset
 
@@ -72,55 +43,6 @@ export function presetCharacters(): Preset[] {
   ].filter((x) => x.custom || !!x.characterId) as Preset[]
 }
 
-export function onCharacterModalOk(form: ShowcaseTabCharacter['form']) {
-  const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
-  const state = useShowcaseTabStore.getState()
-  if (!form.characterId) {
-    return Message.error(t('NoCharacterSelected') /* No selected character */)
-  }
-  if (state.availableCharacters?.find((x) => x.id === form.characterId) && state.selectedCharacter?.id !== form.characterId) {
-    return Message.error(t('CharacterAlreadyExists') /* Selected character already exists */)
-  }
-
-  const selectedCharacter = TsUtils.clone(state.selectedCharacter)!
-  const availableCharacters = TsUtils.clone(state.availableCharacters)!
-  selectedCharacter.form = form
-  selectedCharacter.id = form.characterId
-  Object.values(selectedCharacter.equipped)
-    .filter((x) => !!x)
-    .forEach((x) => x.equippedBy = form.characterId!)
-  availableCharacters[selectedCharacter.index] = selectedCharacter
-
-  state.setSelectedCharacter(selectedCharacter)
-  state.setAvailableCharacters(availableCharacters)
-  console.log('Modified character', selectedCharacter)
-}
-
-export function importClicked(mode: 'relics' | 'singleCharacter' | 'multiCharacter') {
-  const state = useShowcaseTabStore.getState()
-
-  let newCharacters: ShowcaseTabCharacter[] = []
-
-  if (mode === 'singleCharacter' && state.selectedCharacter?.form) {
-    persistenceService.upsertCharacterFromForm(state.selectedCharacter.form as Form)
-    newCharacters = [state.selectedCharacter]
-  } else if (mode === 'multiCharacter' && state.availableCharacters) {
-    state.availableCharacters?.forEach((char) => {
-      persistenceService.upsertCharacterFromForm(char.form as Form)
-    })
-    newCharacters = state.availableCharacters
-  }
-
-  const newRelics = state.availableCharacters
-    ?.flatMap((x) => Object.values(x.equipped))
-    .filter((x) => !!x)
-
-  console.log('import clicked! mode:', mode, 'relics:', newRelics)
-
-  persistenceService.mergePartialRelics(newRelics, newCharacters)
-  SaveState.delayedSave()
-}
-
 export function initialiseShowcaseTab(activeKey: AppPages) {
   const { savedSession, availableCharacters } = useShowcaseTabStore.getState()
   const { scorerId } = savedSession
@@ -137,100 +59,4 @@ export function initialiseShowcaseTab(activeKey: AppPages) {
   }
   // load showcase when the user first visits the tab
   if (!id && !availableCharacters?.length) submitForm({ scorerId })
-}
-
-const throttleSeconds = 10
-
-export function submitForm(form: ShowcaseTabForm) {
-  if (!form.scorerId) return
-  const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
-  const {
-    setSelectedCharacter,
-    setAvailableCharacters,
-    latestRefreshDate,
-    setLatestRefreshDate,
-    setLoading,
-    loading,
-    setScorerId,
-  } = useShowcaseTabStore.getState()
-
-  console.log('scorerId:', form.scorerId)
-  const id = form.scorerId?.trim() ?? ''
-
-  if (id.length != 9) {
-    setLoading(false)
-    Message.error(t('InvalidIdWarning') /* Invalid ID */)
-    return
-  }
-
-  if (latestRefreshDate) {
-    const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
-    Message.warning(t('ThrottleWarning', /* Please wait {{seconds}} seconds before retrying */ {
-      seconds: Math.max(1, Math.ceil(throttleSeconds - (new Date().getTime() - latestRefreshDate.getTime()) / 1000)),
-    }))
-    if (loading) {
-      setLoading(false)
-    }
-    return
-  } else {
-    setLoading(true)
-    setLatestRefreshDate(new Date())
-    setTimeout(() => {
-      setLatestRefreshDate(null)
-    }, throttleSeconds * 1000)
-  }
-
-  setScorerId(id)
-  SaveState.delayedSave()
-
-  window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.SHOWCASE] + `?id=${id}`)
-
-  void fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
-    .then((response) => {
-      if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`)
-      return response.json() as Promise<APIResponse>
-    })
-    .then((data) => {
-      console.log(data)
-
-      let characters: UnconvertedCharacter[]
-      // backup
-      if (data.source === 'mihomo') {
-        characters = processMihomoData(data)
-        // enka
-      } else if (data.source === 'enka') {
-        characters = processEnkaData(data)
-      } else {
-        setLoading(false)
-        Message.error(t('IdLoadError') /* Error loading ID */)
-        return
-      }
-
-      console.log('characters', characters)
-
-      // Remove duplicate characters (the same character can be placed in both one of the first 3 slots and one of the latter 5)
-      const converted = characters
-        .map((x) => CharacterConverter.convert(x))
-        .filter((
-          value,
-          index,
-          self,
-        ) => self.map((x) => x.id).indexOf(value.id) == index)
-      converted.forEach((x, index) => x.index = index)
-
-      setAvailableCharacters(converted)
-      if (converted.length) {
-        setSelectedCharacter(converted[0])
-      }
-      setLoading(false)
-      Message.success(t('SuccessMsg') /* Successfully loaded profile */)
-      _showcaseForm?.setFieldValue('scorerId', id)
-    })
-    .catch((error) => {
-      setTimeout(() => {
-        Message.warning(t('LookupError') /* Error during lookup, please try again in a bit */)
-        console.error('Fetch error:', error)
-        setLoading(false)
-      }, 1000 * 5)
-    })
 }

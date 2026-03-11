@@ -30,7 +30,7 @@ export function StateDisplay(props: {
       <Flex
         style={{
           position: 'sticky',
-          backgroundColor: '#2A3C64',
+          backgroundColor: 'var(--mantine-color-dark-5)',
           top: 0,
           zIndex: 10,
           paddingTop: 6,

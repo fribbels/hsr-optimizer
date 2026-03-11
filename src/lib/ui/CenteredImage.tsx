@@ -1,6 +1,5 @@
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
-import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import React from 'react'
 
 export function CenteredImage(props: {
@@ -42,7 +41,7 @@ export function CenteredImage(props: {
       style={{
         overflow: 'hidden',
         border: showcaseOutlineLight,
-        boxShadow: cardShadow,
+        boxShadow: 'var(--card-shadow)',
         borderRadius: 5,
         width: containerW,
         height: containerH,

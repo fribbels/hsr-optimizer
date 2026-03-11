@@ -96,8 +96,8 @@ export function CharacterPreview(props: CharacterPreviewProps) {
           height: parentH,
           width: 1068,
           borderRadius: 8,
-          backgroundColor: mantineTheme.colors.dark[8],
-          border: `1px solid ${mantineTheme.colors.dark[7]}`,
+          backgroundColor: 'var(--bg-app)',
+          border: '1px solid var(--mantine-color-dark-7)',
         }}
       />
     )

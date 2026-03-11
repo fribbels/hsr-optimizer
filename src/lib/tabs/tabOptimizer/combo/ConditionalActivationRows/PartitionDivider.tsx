@@ -7,7 +7,7 @@ export function PartitionDivider(props: { bottom?: boolean }) {
         bottom: props.bottom ? 0 : undefined,
         left: 0,
         right: 0,
-        borderTop: '1px solid #7999c8',
+        borderTop: '1px solid var(--border-color)',
         pointerEvents: 'none',
       }}
     />

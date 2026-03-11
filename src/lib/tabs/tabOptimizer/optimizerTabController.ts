@@ -22,22 +22,22 @@ import {
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
-import { GridAggregations } from 'lib/rendering/gradient'
 import {
   columnsToAggregateMap,
   getGridColumn,
   SortOption,
   SortOptionProperties,
 } from 'lib/optimization/sortOptions'
+import { GridAggregations } from 'lib/rendering/gradient'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import {
   displayToForm,
   formToDisplay,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
+import { useOptimizerTabStore } from 'lib/tabs/tabOptimizer/useOptimizerTabStore'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {

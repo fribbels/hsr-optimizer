@@ -3,6 +3,7 @@ import DB from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useMemo } from 'react'
 import { LightCone } from 'types/lightCone'
+import { useShallow } from 'zustand/react/shallow'
 
 const UNRELEASED_CHARACTER_IDS = new Set<string>([
   // '1501', // Sparxie
@@ -20,14 +21,27 @@ const UNRELEASED_LIGHT_CONE_IDS = new Set<string>([
 ])
 
 export function UnreleasedCharacterDisclaimer() {
-  const characterId = useOptimizerFormStore((s) => s.characterId)
-  const lightConeId = useOptimizerFormStore((s) => s.lightCone)
-  const teammate0CharId = useOptimizerFormStore((s) => s.teammates[0].characterId)
-  const teammate1CharId = useOptimizerFormStore((s) => s.teammates[1].characterId)
-  const teammate2CharId = useOptimizerFormStore((s) => s.teammates[2].characterId)
-  const teammate0LcId = useOptimizerFormStore((s) => s.teammates[0].lightCone)
-  const teammate1LcId = useOptimizerFormStore((s) => s.teammates[1].lightCone)
-  const teammate2LcId = useOptimizerFormStore((s) => s.teammates[2].lightCone)
+  const {
+    characterId,
+    lightConeId,
+    teammate0CharId,
+    teammate1CharId,
+    teammate2CharId,
+    teammate0LcId,
+    teammate1LcId,
+    teammate2LcId,
+  } = useOptimizerFormStore(
+    useShallow((s) => ({
+      characterId: s.characterId,
+      lightConeId: s.lightCone,
+      teammate0CharId: s.teammates[0].characterId,
+      teammate1CharId: s.teammates[1].characterId,
+      teammate2CharId: s.teammates[2].characterId,
+      teammate0LcId: s.teammates[0].lightCone,
+      teammate1LcId: s.teammates[1].lightCone,
+      teammate2LcId: s.teammates[2].lightCone,
+    })),
+  )
 
   const unreleasedNames = useMemo(() => {
     const metadata = DB.getMetadata()

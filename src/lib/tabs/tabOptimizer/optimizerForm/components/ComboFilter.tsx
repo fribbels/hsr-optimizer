@@ -35,6 +35,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { CharacterConditionalsController } from 'types/conditionals'
 
 
@@ -140,12 +141,23 @@ function resetClicked() {
 function ComboBasicDefinition(props: { comboOptions: { value: string; label: string }[] }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tCommon } = useTranslation('common')
-  const comboType = useOptimizerFormStore((s) => s.comboType)
-  const characterId = useOptimizerFormStore((s) => s.characterId)
-  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
-  const comboPreprocessor = useOptimizerFormStore((s) => s.comboPreprocessor)
-  const comboDot = useOptimizerFormStore((s) => s.comboDot)
-  const comboTurnAbilities = useOptimizerFormStore((s) => s.comboTurnAbilities)
+  const {
+    comboType,
+    characterId,
+    characterEidolon,
+    comboPreprocessor,
+    comboDot,
+    comboTurnAbilities,
+  } = useOptimizerFormStore(
+    useShallow((s) => ({
+      comboType: s.comboType,
+      characterId: s.characterId,
+      characterEidolon: s.characterEidolon,
+      comboPreprocessor: s.comboPreprocessor,
+      comboDot: s.comboDot,
+      comboTurnAbilities: s.comboTurnAbilities,
+    })),
+  )
 
   const {
     comboTurnAbilities: defaultComboTurnAbilities,

@@ -37,7 +37,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { Utils } from 'lib/utils/utils'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const STAT_SIMULATION_ROW_HEIGHT = 425
@@ -61,7 +61,7 @@ function useStatSimStat(simType: string, statName: string): number | undefined {
   })
 }
 
-export function StatSimulationDisplay() {
+export const StatSimulationDisplay = React.memo(function StatSimulationDisplay() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = useOptimizerUIStore((s) => s.statSimulationDisplay)
@@ -155,7 +155,7 @@ export function StatSimulationDisplay() {
       </Flex>
     </FormCard>
   )
-}
+})
 
 function SimulationInputs() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })

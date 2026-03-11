@@ -818,7 +818,6 @@ export function updateAbilityRotation(comboState: ComboState, index: number, tur
 }
 
 export function updateFormState(comboState: ComboState) {
-  console.log('updateFormState')
   comboState.version = COMBO_STATE_JSON_VERSION
 
   // Update store directly

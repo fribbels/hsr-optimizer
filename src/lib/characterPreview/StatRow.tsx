@@ -15,7 +15,7 @@ import {
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 // FIXME HIGH
@@ -66,7 +66,7 @@ export const displayTextMap = {
   'DOT': 'DoT Damage',
 }
 
-export function StatRow(props: {
+export const StatRow = React.memo(function StatRow(props: {
   stat: string,
   finalStats: BasicStatsObject | ComputedStatsObjectExternal,
   value?: number,
@@ -103,7 +103,7 @@ export function StatRow(props: {
         : `${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}${stat == 'simScore' ? t('ThousandsSuffix') : ''}`}
     </Flex>
   )
-}
+})
 
 export function getStatRenderValues(statValue: number, customValue: number, stat: string, preciseSpd?: boolean) {
   let valueDisplay: string

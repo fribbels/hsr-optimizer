@@ -32,7 +32,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
-import { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { DBMetadata } from 'types/metadata'
 
 export default function OptimizerForm() {
@@ -113,7 +113,7 @@ export default function OptimizerForm() {
 }
 
 // Wrap these and use local state to limit rerenders
-function CharacterConditionalDisplayWrapper() {
+const CharacterConditionalDisplayWrapper = React.memo(function CharacterConditionalDisplayWrapper() {
   const charId = useOptimizerFormStore((s) => s.characterId)
   const eidolon = useOptimizerFormStore((s) => s.characterEidolon)
 
@@ -123,9 +123,9 @@ function CharacterConditionalDisplayWrapper() {
       eidolon={eidolon}
     />
   )
-}
+})
 
-function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
+const LightConeConditionalDisplayWrapper = React.memo(function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
   const { metadata } = props
   const lcId = useOptimizerFormStore((s) => s.lightCone)
   const superimposition = useOptimizerFormStore((s) => s.lightConeSuperimposition)
@@ -157,4 +157,4 @@ function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
       <AdvancedOptionsPanel />
     </Flex>
   )
-}
+})

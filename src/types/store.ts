@@ -22,6 +22,7 @@ import type { Relic } from 'types/relic'
 export type HsrOptimizerStore = {
   /* global                   */ version: string,
   /* global                   */ colorTheme: ColorThemeOverrides,
+  // TODO: type properly as RefObject<AgGridReact<OptimizerDisplayData>> (see window.ts)
   /* optimizerTab             */ optimizerGrid: unknown,
   /* give own store?          */ scoringAlgorithmFocusCharacter?: CharacterId | null,
   /* give own store?          */ statTracesDrawerFocusCharacter?: CharacterId | null,
@@ -29,7 +30,6 @@ export type HsrOptimizerStore = {
   /* global                   */ scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
   /* characterTab/showcaseTab */ showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
   /* characterTab/showcaseTab */ showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
-  /* showcaseTab              */ relicScorerSidebarOpen: boolean,
   /* showcase Tab             */ showcaseTeamPreferenceById: Partial<Record<CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>,
 
   /* global                   */ relicsById: Partial<Record<string, Relic>>,

@@ -13,19 +13,32 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 
 export const EnemyConfigurationsDrawer = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'EnemyConfiguration' })
 
   const { close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
 
-  const enemyLevel = useOptimizerFormStore((s) => s.enemyLevel)
-  const enemyResistance = useOptimizerFormStore((s) => s.enemyResistance)
-  const enemyEffectResistance = useOptimizerFormStore((s) => s.enemyEffectResistance)
-  const enemyMaxToughness = useOptimizerFormStore((s) => s.enemyMaxToughness)
-  const enemyCount = useOptimizerFormStore((s) => s.enemyCount)
-  const enemyElementalWeak = useOptimizerFormStore((s) => s.enemyElementalWeak)
-  const enemyWeaknessBroken = useOptimizerFormStore((s) => s.enemyWeaknessBroken)
+  const {
+    enemyLevel,
+    enemyResistance,
+    enemyEffectResistance,
+    enemyMaxToughness,
+    enemyCount,
+    enemyElementalWeak,
+    enemyWeaknessBroken,
+  } = useOptimizerFormStore(
+    useShallow((s) => ({
+      enemyLevel: s.enemyLevel,
+      enemyResistance: s.enemyResistance,
+      enemyEffectResistance: s.enemyEffectResistance,
+      enemyMaxToughness: s.enemyMaxToughness,
+      enemyCount: s.enemyCount,
+      enemyElementalWeak: s.enemyElementalWeak,
+      enemyWeaknessBroken: s.enemyWeaknessBroken,
+    })),
+  )
 
   const enemyLevelOptions = useMemo(() => {
     const options: { value: number; label: string }[] = []

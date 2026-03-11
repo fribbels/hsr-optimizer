@@ -171,7 +171,6 @@ export default function ScoringModal() {
 
   function onModalOk() {
     const values = scoringAlgorithmForm.getValues()
-    console.log('onModalOk OK', values)
     onFinish(getScoringValuesForOverrides(values))
     closeScoringModal()
   }
@@ -179,7 +178,6 @@ export default function ScoringModal() {
   const onFinish = (scoringMetadata: Partial<ScoringMetadata>) => {
     if (!scoringAlgorithmFocusCharacter) return
 
-    console.log('Form finished', scoringMetadata)
     scoringMetadata.stats![Stats.ATK_P] = scoringMetadata.stats![Stats.ATK]
     scoringMetadata.stats![Stats.DEF_P] = scoringMetadata.stats![Stats.DEF]
     scoringMetadata.stats![Stats.HP_P] = scoringMetadata.stats![Stats.HP]
@@ -203,7 +201,6 @@ export default function ScoringModal() {
 
   function ResetAllCharactersButton() {
     const resetAllCharacters = () => {
-      console.log('Reset the scoring algorithm for all characters')
       const charactersById = useCharacterTabStore.getState().charactersById
       for (const character of Object.keys(charactersById) as CharacterId[]) {
         const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata

@@ -36,8 +36,6 @@ import React, { useEffect, useMemo } from 'react'
 import { DBMetadata } from 'types/metadata'
 
 export default function OptimizerForm() {
-  console.log('======================================================================= RENDER OptimizerForm')
-
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
     const characters = DB.getCharacters() || []

@@ -199,7 +199,6 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
           leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
           loading={loading}
           onClick={() => {
-            console.log('download')
             clipboardClicked('download')
           }}
           style={{ height: 50, width: 50, borderRadius: 8 }}

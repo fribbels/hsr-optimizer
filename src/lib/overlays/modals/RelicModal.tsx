@@ -206,8 +206,6 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
       relic.verified = false
     }
 
-    console.log(t('Relic.Messages.EditSuccess'), /* Successfully edited relic */ relic)
-
     onOk(relic)
     setOpen(false)
   }

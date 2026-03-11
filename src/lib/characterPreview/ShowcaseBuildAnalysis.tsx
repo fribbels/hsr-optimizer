@@ -30,8 +30,6 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
 
   const mantineTheme = useMantineTheme()
 
-  console.log('======================================================================= RENDER ShowcaseBuildAnalysis')
-
   const {
     asyncSimScoringExecution,
     showcaseMetadata,

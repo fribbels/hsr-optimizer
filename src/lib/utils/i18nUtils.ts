@@ -113,8 +113,6 @@ const UNGROUPED_000 = { maximumFractionDigits: 3, minimumFractionDigits: 3, useG
 
 export const localeNumberComma = (n: number) => n.toLocaleString(currentLocale(), GROUPED)
 export const localeNumberComma_0 = (n: number) => n.toLocaleString(currentLocale(), GROUPED_0)
-export const localeNumberComma_00 = (n: number) => n.toLocaleString(currentLocale(), GROUPED_00)
-export const localeNumberComma_000 = (n: number) => n.toLocaleString(currentLocale(), GROUPED_000)
 
 export const localeNumber = (n: number) => n.toLocaleString(currentLocale(), UNGROUPED)
 export const localeNumber_0 = (n: number) => n.toLocaleString(currentLocale(), UNGROUPED_0)

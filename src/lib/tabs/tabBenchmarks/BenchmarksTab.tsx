@@ -294,7 +294,6 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
         <Button
           onClick={() => {
             const formValues = form.getValues()
-            console.log(formValues)
             handleBenchmarkFormSubmit(formValues)
           }}
           loading={loading}

@@ -60,7 +60,6 @@ export function SwitchRelicsModal() {
 
   function onModalOk() {
     const { selectedCharacter } = characterForm.getValues()
-    console.log('Switch relics modal submitted with:', selectedCharacter)
     CharacterTabController.onSwitchRelicsOk({ value: selectedCharacter as CharacterId } as SwitchRelicsFormSelectedCharacter)
     close()
   }

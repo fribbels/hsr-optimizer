@@ -48,8 +48,6 @@ export function SubstatInput(props: {
   }
 
   function upgradeClicked(quality: 'low' | 'mid' | 'high') {
-    console.log(props, quality)
-
     props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality] as any)
     props.relicForm.setFieldValue(isPreviewField, false as any)
     props.resetUpgradeValues()

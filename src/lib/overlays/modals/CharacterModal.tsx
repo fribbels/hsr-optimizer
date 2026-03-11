@@ -80,7 +80,6 @@ export default function CharacterModal(props: {
 
   function onModalOk() {
     const formValues = characterForm.getValues() as unknown as Form
-    console.log('Character modal submitted with form:', formValues)
     props.onOk(formValues)
     props.setOpen(false)
   }

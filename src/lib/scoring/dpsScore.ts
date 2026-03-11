@@ -54,7 +54,6 @@ export function getShowcaseSimScoringExecution(
   }
 
   if (!simulationMetadata) {
-    console.log('Invalid sim character')
     asyncResult.done = true
     return asyncResult
   }
@@ -78,7 +77,6 @@ export function getShowcaseSimScoringExecution(
     try {
       const simulationOrchestrator = await runDpsScoreBenchmarkOrchestrator(character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
       const simulationScore = simulationOrchestrator.simulationScore
-      console.log('Percent', simulationScore?.percent)
 
       if (!simulationScore) return null
 

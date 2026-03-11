@@ -16,7 +16,6 @@ export function ClearDataSubmenu() {
   const { t: tCommon } = useTranslation('common')
 
   function clearDataClicked() {
-    console.log('Clear data')
     setLoading(true)
     setTimeout(() => {
       setLoading(false)

@@ -51,8 +51,6 @@ export const GRID_DIMENSIONS = {
 }
 
 export function OptimizerGrid() {
-  console.log('======================================================================= RENDER OptimizerGrid')
-
   const theme = useMantineTheme()
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'Grid' })
   const optimizerGrid = useRef<AgGridReact<OptimizerDisplayDataStatSim> | null>(null)

@@ -78,7 +78,7 @@ export function resolveDpsScoreSimulationMetadata(
   const form = character.form
 
   if (!character?.id || !form) {
-    console.log('Invalid character sim setup')
+    console.warn('Invalid character sim setup')
     return null
   }
 
@@ -86,7 +86,7 @@ export function resolveDpsScoreSimulationMetadata(
   const simulation = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata.simulation)
 
   if (!simulation || !customSimulation) {
-    console.log('No scoring sim defined for this character')
+    console.warn('No scoring sim defined for this character')
     return null
   }
 

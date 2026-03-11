@@ -3,7 +3,6 @@ import React from 'react'
 
 export const Message = {
   success: (content: React.ReactNode, duration: number = 3) => {
-    console.log('Success message:', content)
     notifications.show({
       message: content,
       color: 'green',

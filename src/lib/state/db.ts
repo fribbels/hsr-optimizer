@@ -242,7 +242,6 @@ export const DB = {
     DB.setCharacters(characters)
   },
   insertCharacter: (id: CharacterId, index: number) => {
-    console.log('insert', id, index)
     const characters = DB.getCharacters()
     if (index < 0) {
       index = characters.length
@@ -636,11 +635,9 @@ export const DB = {
     if (!character) {
       DB.addFromForm({ characterId: characterId } as Form)
       character = DB.getCharacterById(characterId)!
-      console.log('Character did not previously exist, adding', character)
     }
     const updatedCharacter = { ...character, portrait }
     DB.setCharacter(updatedCharacter)
-    console.log('Saved portrait', DB.getState())
   },
 
   deleteCharacterPortrait: (characterId: CharacterId) => {
@@ -651,7 +648,6 @@ export const DB = {
     }
     const updatedCharacter = { ...character, portrait: undefined }
     DB.setCharacter(updatedCharacter)
-    console.log('Deleted portrait', DB.getState())
   },
 
   saveCharacterBuild: (name: string, characterId: CharacterId, source: SavedBuildSource, overwriteExisting: boolean) => {
@@ -760,7 +756,6 @@ export const DB = {
 
     const updatedCharacter = { ...character, builds: [...builds] }
     DB.setCharacter(updatedCharacter)
-    console.log('Saved build', build, useCharacterTabStore.getState())
   },
 
   deleteCharacterBuild: (characterId: CharacterId, name: string) => {
@@ -784,8 +779,6 @@ export const DB = {
   unequipCharacter: (id: CharacterId) => {
     let character = DB.getCharacterById(id)
     if (!character) return console.warn('No character to unequip')
-
-    console.log('Unequipping character', id, character)
 
     for (const part of Object.values(Constants.Parts)) {
       const equippedId = character.equipped[part]
@@ -814,8 +807,6 @@ export const DB = {
     if (!id) return console.warn('No relic')
     const relic = DB.getRelicById(id)
     if (!relic) return console.warn('No relic')
-
-    console.log('UNEQUIP RELIC')
 
     const characters = DB.getCharacters()
       .map((c) => {
@@ -877,7 +868,6 @@ export const DB = {
 
   equipRelicIdsToCharacter: (relicIds: string[], characterId: CharacterId, forceSwap = false) => {
     if (!characterId) return console.warn('No characterId to equip to')
-    console.log('Equipping relics to character', relicIds, characterId)
 
     for (const relicId of relicIds) {
       DB.equipRelic({ id: relicId } as Relic, characterId, forceSwap)
@@ -887,7 +877,6 @@ export const DB = {
   switchRelics: (fromCharacterId: CharacterId, toCharacterId: CharacterId) => {
     if (!fromCharacterId) return console.warn('No characterId to equip from')
     if (!toCharacterId) return console.warn('No characterId to equip to')
-    console.log(`Switching relics from character ${fromCharacterId} to character ${toCharacterId}`)
 
     const fromCharacter = DB.getCharacterById(fromCharacterId)!
     DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId, true)
@@ -984,7 +973,7 @@ export const DB = {
         if (idx >= 0) {
           characters[idx] = { ...characters[idx], equipped: { ...characters[idx].equipped, [newRelic.part]: stableRelicId } }
         } else {
-          console.log('No character to equip relic to', newRelic)
+          console.warn('No character to equip relic to', newRelic)
         }
       }
     }
@@ -1104,9 +1093,6 @@ export const DB = {
         newRelic.equippedBy = undefined
       }
     }
-
-    console.log('addedNewRelics', addedNewRelics)
-    console.log('updatedOldRelics', updatedOldRelics)
 
     oldRelics.map((x) => RelicAugmenter.augment(x))
     indexRelics(oldRelics)

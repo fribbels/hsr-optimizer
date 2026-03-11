@@ -377,7 +377,7 @@ export class BenchmarkSimulationOrchestrator {
         spdRollsCap(partialSimulationWrapper.simulation, clonedBenchmarkScoringParams),
       )
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
-        console.log('Rejected candidate sim with non SPD boots')
+        console.warn('Rejected candidate sim with non SPD boots')
         return null
       }
 
@@ -444,7 +444,7 @@ export class BenchmarkSimulationOrchestrator {
         spdRollsCap(partialSimulationWrapper.simulation, clonedPerfectionScoringParams),
       )
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
-        console.log('Rejected candidate sim with non SPD boots')
+        console.warn('Rejected candidate sim with non SPD boots')
         return null
       }
 

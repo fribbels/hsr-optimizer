@@ -36,6 +36,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
+import { useGlobalStore } from 'lib/state/db'
 
 const tagHeight = 34
 const imgWidth = 34
@@ -102,7 +103,7 @@ export default function RelicFilterBar() {
   }
 
   function scoringClicked() {
-    if (focusCharacter) window.store.getState().setScoringAlgorithmFocusCharacter(focusCharacter)
+    if (focusCharacter) useGlobalStore.getState().setScoringAlgorithmFocusCharacter(focusCharacter)
     setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 

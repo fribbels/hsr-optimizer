@@ -1,5 +1,5 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import {
   DEFAULT_WEBSOCKET_URL,
   useScannerState,
@@ -18,7 +18,7 @@ const STATE_KEY = 'state'
 
 export const SaveState = {
   save: () => {
-    const globalState = window.store.getState()
+    const globalState = useGlobalStore.getState()
     const relicsTabState = useRelicsTabStore.getState()
     const showcaseTabSession = useShowcaseTabStore.getState().savedSession
     const globalSession = globalState.savedSession

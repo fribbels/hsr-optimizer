@@ -11,6 +11,7 @@ import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { gridStore } from 'lib/utils/gridStore'
 import {
   useCallback,
   useMemo,
@@ -39,7 +40,7 @@ export function CharacterGrid() {
   const characters = useCharacterTabStore((s) => s.characters)
 
   const gridRef = useRef<AgGridReact<Character> | null>(null)
-  window.characterGrid = gridRef
+  gridStore.setCharacterGrid(gridRef)
 
   const columnDefs: ColDef<Character>[] = useMemo(() => [
     {

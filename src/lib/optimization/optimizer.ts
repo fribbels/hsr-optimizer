@@ -35,7 +35,7 @@ import {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
   activateZeroPermutationsSuggestionsModal,
@@ -43,6 +43,7 @@ import {
 } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
@@ -171,7 +172,7 @@ export const Optimizer = {
     }
 
     OptimizerTabController.scrollToGrid()
-    window.optimizerGrid.current?.api?.setGridOption('loading', true)
+    gridStore.optimizerGridApi()?.setGridOption('loading', true)
 
     const context = generateContext(request)
 
@@ -205,13 +206,13 @@ export const Optimizer = {
 
     const clonedContext = Utils.clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
-    let computeEngine = window.store.getState().savedSession[SavedSessionKeys.computeEngine]
+    let computeEngine = useGlobalStore.getState().savedSession[SavedSessionKeys.computeEngine]
 
     if (computeEngine != COMPUTE_ENGINE_CPU) {
       void getWebgpuDevice(true).then((device) => {
         if (device == null) {
           Message.error(t('Error.GPUNotAvailable'), 15)
-          window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+          useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           computeEngine = COMPUTE_ENGINE_CPU
         } else {
           void Utils.sleep(200).then(() => {
@@ -289,7 +290,7 @@ export const Optimizer = {
             OptimizerTabController.setRows(results)
             setSortColumn(gridSortColumn)
 
-            window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+            gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
             console.log('Done', results.length)
             resultsShown = true
             if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
@@ -306,7 +307,7 @@ export const Optimizer = {
           OptimizerTabController.setRows(results)
           setSortColumn(gridSortColumn)
 
-          window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+          gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
           console.log('Done', results.length)
           resultsShown = true
           if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)

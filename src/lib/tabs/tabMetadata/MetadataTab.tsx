@@ -13,10 +13,8 @@ import {
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Assets } from 'lib/rendering/assets'
-import {
-  AppPages,
-  DB,
-} from 'lib/state/db'
+import { useGlobalStore, AppPages,
+  DB, } from 'lib/state/db'
 import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import {
   Fragment,
@@ -31,7 +29,7 @@ const setToIndex: StringToNumberMap = {}
 const iconSize = 40
 
 export default function MetadataTab(): ReactElement {
-  const activeKey = window.store((s) => s.activeKey)
+  const activeKey = useGlobalStore((s) => s.activeKey)
 
   if (activeKey != AppPages.METADATA_TEST) {
     // Don't load unless tab active

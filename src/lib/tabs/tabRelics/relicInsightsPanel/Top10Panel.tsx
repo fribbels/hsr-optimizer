@@ -25,6 +25,7 @@ import {
   ValueType,
 } from 'recharts/types/component/DefaultTooltipContent'
 import { CharacterId } from 'types/character'
+import { useGlobalStore } from 'lib/state/db'
 
 const N_Displayed = 10
 
@@ -177,7 +178,7 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
 
 function onClick(id: CharacterId) {
   return () => {
-    window.store.getState().setScoringAlgorithmFocusCharacter(id)
+    useGlobalStore.getState().setScoringAlgorithmFocusCharacter(id)
     setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 }

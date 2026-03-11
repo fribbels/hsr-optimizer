@@ -14,6 +14,7 @@ import * as React from 'react'
 import { ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
+import classes from './CharacterSelect.module.css'
 
 // FIXME HIGH
 
@@ -95,7 +96,7 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
         <Flex gap={5} align='center'>
           <img
             src={Assets.getCharacterAvatarById(option.value)}
-            style={{ height: 22, marginRight: 4 }}
+            className={classes.avatarIcon}
           />
           {option.label}
         </Flex>
@@ -201,10 +202,7 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
             <Flex wrap='nowrap' style={{ flexGrow: 1 }} gap={10}>
               <TextInput
                 size='lg'
-                style={{
-                  height: 40,
-                  flex: 1,
-                }}
+                className={classes.searchInput}
                 placeholder={t('SearchPlaceholder') /* Search character name */}
                 ref={inputRef}
                 onChange={setNameFilter}
@@ -222,22 +220,22 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
                   <Button
                     variant="default"
                     onClick={excludeAll}
-                    style={{ height: '100%', width: 120 }}
+                    className={classes.bulkActionButton}
                   >
                     {t('ExcludeButton') /* Exclude all */}
                   </Button>
                   <Button
                     variant="default"
                     onClick={includeAll}
-                    style={{ height: '100%', width: 120 }}
+                    className={classes.bulkActionButton}
                   >
                     {t('ClearButton') /* Clear */}
                   </Button>
                 </Flex>
               )}
             </Flex>
-            <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }} gap={12}>
-              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
+            <Flex wrap='wrap' className={classes.filterWrapper} gap={12}>
+              <Flex wrap='wrap' className={classes.filterWrapper}>
                 <SegmentedFilterRow
                   tags={generateElementTags()}
                   flexBasis='14.2%'
@@ -245,7 +243,7 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
                   setCurrentFilters={setElementFilter}
                 />
               </Flex>
-              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
+              <Flex wrap='wrap' className={classes.filterWrapper}>
                 <SegmentedFilterRow
                   tags={generatePathTags()}
                   flexBasis='11.111%'
@@ -256,25 +254,17 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
             </Flex>
           </Flex>
 
-          <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fill, minmax(${parentW}px, 1fr))`, gridGap: 8 }}>
+          <div className={classes.characterGrid}>
             {characterOptions
               .sort(Utils.sortRarityDesc)
               .filter(applyFilters)
               .map((option) => (
                 <Paper
                   key={option.id}
+                  className={classes.characterCard}
                   style={{
-                    background: option.rarity === 5 ? goldBg : purpleBg,
-                    overflow: 'hidden',
-                    height: `${parentH}px`,
-                    cursor: 'pointer',
-                    padding: 1,
-                    ...(selected.get(option.id)
-                      ? {
-                        opacity: 0.25,
-                        background: 'grey',
-                      }
-                      : {}),
+                    background: selected.get(option.id) ? 'grey' : (option.rarity === 5 ? goldBg : purpleBg),
+                    ...(selected.get(option.id) ? { opacity: 0.25 } : {}),
                   }}
                   onMouseDown={() => handleClick(option.id)}
                 >

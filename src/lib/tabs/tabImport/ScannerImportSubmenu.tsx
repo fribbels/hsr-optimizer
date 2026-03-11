@@ -16,7 +16,7 @@ import {
 } from 'lib/importer/importConfig'
 import { ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
-import DB, { AppPages } from 'lib/state/db'
+import DB, { useGlobalStore, AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import {
   importerTabButtonWidth,
@@ -210,7 +210,7 @@ export function ScannerImportSubmenu() {
                 <ColorizedLinkWithIcon
                   text={t('Import.Stage1.ScorerDesc.Link')}
                   linkIcon={true}
-                  onClick={() => window.store.getState().setActiveKey(AppPages.SHOWCASE)}
+                  onClick={() => useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)}
                 />
                 )
                 <ul>

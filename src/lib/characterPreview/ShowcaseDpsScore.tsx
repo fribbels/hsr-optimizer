@@ -28,7 +28,7 @@ import {
   getSimScoreGrade,
 } from 'lib/scoring/dpsScore'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -319,7 +319,7 @@ function ShowcaseTeamSelectPanel(props: {
     readonly,
   } = props
 
-  const setTeamSelectionByCharacter = window.store((s) => s.setShowcaseTeamPreferenceById)
+  const setTeamSelectionByCharacter = useGlobalStore((s) => s.setShowcaseTeamPreferenceById)
 
   // Teammate character modal OK
   function onCharacterModalOk(form: Form) {

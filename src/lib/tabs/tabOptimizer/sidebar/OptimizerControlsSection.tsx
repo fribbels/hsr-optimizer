@@ -23,6 +23,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
+import { useGlobalStore } from 'lib/state/db'
 
 const defaultGap = 5
 const fullSizeOuterStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column' }
@@ -43,7 +44,7 @@ export const OptimizerControlsSection = React.memo(function OptimizerControlsSec
     })),
   )
   const setOptimizationInProgress = useOptimizerDisplayStore((s) => s.setOptimizationInProgress)
-  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+  const computeEngine = useGlobalStore((s) => s.savedSession[SavedSessionKeys.computeEngine])
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
 

@@ -13,9 +13,10 @@ import {
 import Sidebar from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
+import { useGlobalStore } from 'lib/state/db'
 
 export default function OptimizerTab() {
-  const expandedPanelPosition = window.store((s) => s.settings.ExpandedInfoPanelPosition)
+  const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
   console.log('======================================================================= RENDER OptimizerTab')
 
   return (

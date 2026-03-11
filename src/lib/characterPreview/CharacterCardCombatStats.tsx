@@ -36,13 +36,14 @@ import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DBMetadataCharacter } from 'types/metadata'
+import { useGlobalStore } from 'lib/state/db'
 
 export function CharacterCardCombatStats(props: {
   result: SimulationScore,
 }) {
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
-  const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
+  const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
   const { result } = props
 

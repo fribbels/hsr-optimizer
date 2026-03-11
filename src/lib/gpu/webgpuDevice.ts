@@ -1,6 +1,7 @@
 import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { webgpuNotSupportedNotification } from 'lib/interactions/notifications'
+import { useGlobalStore } from 'lib/state/db'
 
 export async function getWebgpuDevice(notify?: boolean) {
   try {
@@ -30,7 +31,7 @@ export async function verifyWebgpuSupport(warn: boolean) {
   try {
     const device = await getWebgpuDevice(warn)
     if (!device) {
-      window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+      useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
     }
 
     return device

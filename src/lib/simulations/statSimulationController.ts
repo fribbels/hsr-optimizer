@@ -26,7 +26,7 @@ import {
   validateForm,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { optimizerGridApi } from 'lib/utils/gridUtils'
+import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { Form } from 'types/form'
@@ -181,7 +181,7 @@ export function startOptimizerStatSimulation() {
   OptimizerTabController.setRows(optimizerDisplayData)
 
   calculateCurrentlyEquippedRow(form)
-  optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
   const sortOption = SortOption[form.resultSort!]
   const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
@@ -197,7 +197,7 @@ function autosave() {
 }
 
 export function importOptimizerBuild() {
-  const selectedRow = window.optimizerGrid?.current?.api?.getSelectedRows()?.[0]
+  const selectedRow = gridStore.optimizerGridApi()?.getSelectedRows()?.[0]
   const t = i18next.getFixedT(null, 'optimizerTab', 'StatSimulation')
 
   if (!selectedRow) {

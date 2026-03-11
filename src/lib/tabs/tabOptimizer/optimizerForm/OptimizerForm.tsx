@@ -2,7 +2,7 @@ import { Flex } from '@mantine/core'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
@@ -39,7 +39,7 @@ export default function OptimizerForm() {
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
     const characters = DB.getCharacters() || []
-    const savedSessionCharacterId = window.store.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
+    const savedSessionCharacterId = useGlobalStore.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
     updateCharacter(savedSessionCharacterId ?? characters[0]?.id)
   }, [])
 

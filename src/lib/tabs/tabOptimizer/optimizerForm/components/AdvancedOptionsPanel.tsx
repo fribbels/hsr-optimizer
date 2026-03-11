@@ -11,10 +11,11 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OptimizerForm } from 'types/form'
+import { useGlobalStore } from 'lib/state/db'
 
 export const AdvancedOptionsPanel = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
-  const setStatTracesDrawerFocusCharacter = window.store((s) => s.setStatTracesDrawerFocusCharacter)
+  const setStatTracesDrawerFocusCharacter = useGlobalStore((s) => s.setStatTracesDrawerFocusCharacter)
 
   // Count the # of active buffs to display
   const formCombatBuffs = useOptimizerRequestStore((s) => s.combatBuffs)

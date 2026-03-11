@@ -13,6 +13,7 @@ import { ScoredRelic } from 'lib/relics/scoreRelics'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { gridStore } from 'lib/utils/gridStore'
 import { Relic } from 'types/relic'
 
 export const RelicsTabController = {
@@ -39,7 +40,7 @@ export const RelicsTabController = {
   },
 
   navigateToNextCell(params: NavigateToNextCellParams<ScoredRelic>) {
-    return arrowKeyGridNavigation(params, window.relicsGrid, RelicsTabController.nodeClickedCallback)
+    return arrowKeyGridNavigation(params, gridStore.getRelicsGrid()!, RelicsTabController.nodeClickedCallback)
   },
 
   editClicked() {

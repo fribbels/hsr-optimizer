@@ -2,7 +2,7 @@ import { IconList } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import { AppPages } from 'lib/state/db'
+import { useGlobalStore, AppPages } from 'lib/state/db'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Trans } from 'react-i18next'
 import semver from 'semver'
@@ -28,7 +28,7 @@ export function checkForUpdatesNotification(version: string) {
               leftSection={<IconList size={16} />}
               onClick={() => {
                 notifications.hide('update-notification')
-                window.store.getState().setActiveKey(AppPages.CHANGELOG)
+                useGlobalStore.getState().setActiveKey(AppPages.CHANGELOG)
               }}
             >
               {t('View')}

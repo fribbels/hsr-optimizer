@@ -24,6 +24,7 @@ import DB from 'lib/state/db'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { OptimizerForm } from 'types/form'
@@ -128,7 +129,7 @@ export function generateAnalysisData(
 }
 
 export function getPinnedRowData() {
-  const currentPinned = window.optimizerGrid?.current?.api?.getGridOption('pinnedTopRowData') ?? []
+  const currentPinned = gridStore.optimizerGridApi()?.getGridOption('pinnedTopRowData') ?? []
   return currentPinned && currentPinned.length ? currentPinned[0] : null
 }
 

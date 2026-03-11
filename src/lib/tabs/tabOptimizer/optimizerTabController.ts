@@ -28,7 +28,7 @@ import {
   getForm,
   optimizerFormCache,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { optimizerGridApi } from 'lib/utils/gridUtils'
+import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Form,
@@ -77,13 +77,13 @@ export const OptimizerTabController = {
 
   setTopRow: (row: OptimizerDisplayData, overwrite = false) => {
     if (overwrite) {
-      window.optimizerGrid.current?.api?.updateGridOptions({ pinnedTopRowData: [row] })
+      gridStore.optimizerGridApi()?.updateGridOptions({ pinnedTopRowData: [row] })
       return
     }
 
-    const currentPinned = window.optimizerGrid?.current?.api?.getGridOption('pinnedTopRowData') ?? []
+    const currentPinned = gridStore.optimizerGridApi()?.getGridOption('pinnedTopRowData') ?? []
     currentPinned[0] = row
-    window.optimizerGrid.current?.api?.updateGridOptions({ pinnedTopRowData: currentPinned })
+    gridStore.optimizerGridApi()?.updateGridOptions({ pinnedTopRowData: currentPinned })
   },
 
   getRows: () => {
@@ -99,7 +99,7 @@ export const OptimizerTabController = {
 
   cellClicked: (node: IRowNode<OptimizerDisplayDataStatSim>) => {
     const data = node.data!
-    const gridApi = optimizerGridApi()
+    const gridApi = gridStore.optimizerGridApi()
 
     useOptimizerDisplayStore.getState().setOptimizerSelectedRowData(data)
 
@@ -130,7 +130,7 @@ export const OptimizerTabController = {
 
             if (String(currentPinned[0].id) == String(rowNode.data!.id)) {
               // The currently equipped top row shouldn't correspond to an optimizer row, deselect
-              window.optimizerGrid.current?.api.deselectAll()
+              gridStore.optimizerGridApi()?.deselectAll()
             } else {
               rowNode.setSelected(true)
             }
@@ -148,7 +148,7 @@ export const OptimizerTabController = {
       const key = data.statSim.key
       useOptimizerDisplayStore.getState().setSelectedStatSimulations([key])
       useOptimizerDisplayStore.getState().setOptimizerBuild({})
-      window.optimizerGrid.current?.api.deselectAll()
+      gridStore.optimizerGridApi()?.deselectAll()
       return
     }
 
@@ -165,7 +165,7 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource(controllerState.sortModel, controllerState.filterModel) })
+    gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource(controllerState.sortModel, controllerState.filterModel) })
   },
 
   getDataSource: (newSortModel?: SortModel, newFilterModel?: Form) => {
@@ -178,9 +178,7 @@ export const OptimizerTabController = {
         controllerState.aggregations = undefined
 
         // fast clickers can race unmount/remount and cause NPE here.
-        if (window?.optimizerGrid?.current?.api) {
-          window.optimizerGrid.current?.api.setGridOption('loading', true)
-        }
+        gridStore.optimizerGridApi()?.setGridOption('loading', true)
 
         // Give it time to show the loading page before we block
         void TsUtils.sleep(100)
@@ -207,9 +205,7 @@ export const OptimizerTabController = {
             }
 
             // cannot assume a fast click race-condition didn't happen
-            if (window?.optimizerGrid?.current?.api) {
-              window.optimizerGrid.current?.api.setGridOption('loading', false)
-            }
+            gridStore.optimizerGridApi()?.setGridOption('loading', false)
             OptimizerTabController.redrawRows()
           })
       },
@@ -272,7 +268,7 @@ export const OptimizerTabController = {
   },
 
   redrawRows: () => {
-    window.optimizerGrid.current?.api.refreshCells({ force: true })
+    gridStore.optimizerGridApi()?.refreshCells({ force: true })
   },
 
   applyRowFilters: () => {

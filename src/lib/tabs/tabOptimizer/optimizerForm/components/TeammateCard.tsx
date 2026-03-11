@@ -40,6 +40,7 @@ import {
   SuperImpositionLevel,
 } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
+import classes from './TeammateCard.module.css'
 
 // Re-export public symbols for backward compatibility
 export {
@@ -133,7 +134,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
           <Button
             variant="default"
             leftSection={<IconRefresh size={16} />}
-            style={{ width: 35 }}
+            className={classes.refreshButton}
             disabled={disabled}
             onClick={() => {
               updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: teammateCharacterId } })
@@ -143,7 +144,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
 
           <Select
             searchable
-            style={{ width: 110 }}
+            className={classes.setSelect}
             data={eidolonSelectData}
             value={teammateEidolon != null ? String(teammateEidolon) : null}
             onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'characterEidolon', Number(val)) }}
@@ -153,7 +154,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
         </Flex>
 
         <Flex>
-          <Flex direction="column" style={{ minWidth: 258, marginLeft: 5 }}>
+          <Flex direction="column" className={classes.conditionalsColumn}>
             <CharacterConditionalsDisplay
               id={teammateCharacterId}
               eidolon={teammateEidolon}
@@ -162,10 +163,10 @@ const TeammateCard = React.memo(function TeammateCard(props: {
           </Flex>
           <Flex direction="column" gap={5}>
             <div
+              className={classes.avatarContainer}
               style={{
                 width: `${rightPanelWidth}px`,
                 height: `${rightPanelWidth}px`,
-                backgroundColor: 'rgb(255 255 255 / 2%)',
                 borderRadius: rightPanelWidth,
                 border: teammateCharacterId ? showcaseOutlineLight : undefined,
               }}
@@ -175,13 +176,12 @@ const TeammateCard = React.memo(function TeammateCard(props: {
                 height={rightPanelWidth}
                 src={Assets.getCharacterAvatarById(teammateCharacterId)}
                 onClick={() => setTeammateSelectModalOpen(true)}
-                style={{ cursor: 'pointer' }}
+                className={classes.avatarImage}
               />
             </div>
 
             <Select
-              className='teammate-set-select'
-              style={{ width: 110 }}
+              className={`teammate-set-select ${classes.setSelect}`}
               data={teammateRelicSelectData}
               value={teammateTeamRelicSet}
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
@@ -192,8 +192,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             />
 
             <Select
-              className='teammate-set-select'
-              style={{ width: 110 }}
+              className={`teammate-set-select ${classes.setSelect}`}
               data={teammateOrnamentSelectData}
               value={teammateTeamOrnamentSet}
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
@@ -224,7 +223,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
 
           <Select
             searchable
-            style={{ width: 110 }}
+            className={classes.setSelect}
             data={superimpositionSelectData}
             value={teammateSuperimposition != null ? String(teammateSuperimposition) : null}
             onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', Number(val)) }}
@@ -234,7 +233,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
         </Flex>
 
         <Flex>
-          <Flex direction="column" style={{ minWidth: 258, marginLeft: 5 }}>
+          <Flex direction="column" className={classes.conditionalsColumn}>
             <LightConeConditionalDisplay
               id={teammateLightConeId}
               superImposition={teammateSuperimposition}
@@ -243,14 +242,13 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             />
           </Flex>
           <Flex>
-            <div style={{ width: `${parentW}px`, height: `${parentH}px`, borderRadius: '10px' }}>
+            <div className={classes.lcContainer} style={{ width: `${parentW}px`, height: `${parentH}px` }}>
               <img
                 width={lcWidth}
                 src={Assets.getLightConeIconById(teammateLightConeId)}
+                className={classes.lcImage}
                 style={{
-                  marginLeft: -5,
                   transform: `translate(${(lcInnerW - lcParentW) / 2 / lcInnerW * -100}%, ${(lcInnerH - lcParentH) / 2 / lcInnerH * -100}%)`,
-                  cursor: 'pointer',
                 }}
                 onClick={() => setTeammateLightConeSelectOpen(true)}
               />

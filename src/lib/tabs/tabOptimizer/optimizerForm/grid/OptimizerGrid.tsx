@@ -30,6 +30,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { gridStore } from 'lib/utils/gridStore'
 import { localeNumber } from 'lib/utils/i18nUtils'
 import React, {
   useCallback,
@@ -60,7 +61,7 @@ export function OptimizerGrid() {
 
   const context = useOptimizerDisplayStore((s) => s.context)
 
-  window.optimizerGrid = optimizerGrid
+  gridStore.setOptimizerGrid(optimizerGrid)
 
   const datasource = useMemo(() => {
     return OptimizerTabController.getDataSource()

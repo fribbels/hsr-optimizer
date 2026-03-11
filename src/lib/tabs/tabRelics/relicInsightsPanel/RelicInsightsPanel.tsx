@@ -1,7 +1,7 @@
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
 import { EstbpCard } from 'lib/tabs/tabRelics/relicInsightsPanel/Estbp'
 import { Top10Panel } from 'lib/tabs/tabRelics/relicInsightsPanel/Top10Panel'
@@ -15,7 +15,7 @@ import { CharacterId } from 'types/character'
 
 export function RelicInsightsPanel() {
   const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore()
-  const scoringMetadataOverrides = window.store((s) => s.scoringMetadataOverrides)
+  const scoringMetadataOverrides = useGlobalStore((s) => s.scoringMetadataOverrides)
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
 

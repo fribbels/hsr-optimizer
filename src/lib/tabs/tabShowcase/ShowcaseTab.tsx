@@ -24,7 +24,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
-import { AppPages } from 'lib/state/db'
+import { useGlobalStore, AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import {
   CharacterPreset,
@@ -64,7 +64,7 @@ export default function ShowcaseTab() {
   const showcaseForm = useForm<ShowcaseTabForm>({ initialValues: { scorerId: scorerId ?? '' } })
   window.showcaseTabForm = showcaseForm
 
-  const activeKey = window.store((s) => s.activeKey)
+  const activeKey = useGlobalStore((s) => s.activeKey)
   const { t } = useTranslation(['relicScorerTab', 'common'])
 
   useEffect(() => initialiseShowcaseTab(activeKey), [activeKey])
@@ -125,7 +125,7 @@ export default function ShowcaseTab() {
 }
 
 function CharacterPreviewSelection() {
-  const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
+  const setScoringAlgorithmFocusCharacter = useGlobalStore((s) => s.setScoringAlgorithmFocusCharacter)
 
   const selectedCharacter = useShowcaseTabStore((s) => s.selectedCharacter)
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
@@ -331,7 +331,7 @@ function CharacterPreviewSelection() {
 
 function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
   const [open, setOpen] = useState(useShowcaseTabStore.getState().savedSession.sidebarOpen)
-  const activeKey = window.store((s) => s.activeKey)
+  const activeKey = useGlobalStore((s) => s.activeKey)
 
   useEffect(() => {
     useShowcaseTabStore.getState().setSidebarOpen(open)
@@ -417,7 +417,7 @@ function PresetButton(props: { preset: CharacterPreset }) {
 }
 
 export function DPSScoreDisclaimer() {
-  const showComboDmgWarning = window.store((s) => s.settings.ShowComboDmgWarning)
+  const showComboDmgWarning = useGlobalStore((s) => s.settings.ShowComboDmgWarning)
 
   const { t } = useTranslation('relicScorerTab')
   const { t: tSettings } = useTranslation('settings')
@@ -451,8 +451,8 @@ export function DPSScoreDisclaimer() {
               fullWidth
               leftSection={<IconEyeOff size={16} />}
               onClick={() => {
-                window.store.getState().setSettings({
-                  ...window.store.getState().settings,
+                useGlobalStore.getState().setSettings({
+                  ...useGlobalStore.getState().settings,
                   ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Hide,
                 })
                 SaveState.delayedSave()

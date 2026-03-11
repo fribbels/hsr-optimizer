@@ -38,7 +38,7 @@ import {
   submitForm,
 } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { Utils } from 'lib/utils/utils'
+import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import {
   Dispatch,
   SetStateAction,
@@ -133,8 +133,8 @@ function CharacterPreviewSelection() {
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState(selectedCharacter)
-  const [screenshotLoading, setScreenshotLoading] = useState(false)
-  const [downloadLoading, setDownloadLoading] = useState(false)
+  const { loading: screenshotLoading, trigger: screenshotTrigger } = useScreenshotAction('relicScorerPreview')
+  const { loading: downloadLoading, trigger: downloadTrigger } = useScreenshotAction('relicScorerPreview')
 
   const { t } = useTranslation('relicScorerTab')
   const { t: tCharacter } = useTranslation('gameData', { keyPrefix: 'Characters' })
@@ -150,24 +150,12 @@ function CharacterPreviewSelection() {
   }
 
   function clipboardClicked() {
-    setScreenshotLoading(true)
-    // Use a small timeout here so the spinner doesn't lag while the image is being generated
-    setTimeout(() => {
-      void Utils.screenshotElementById('relicScorerPreview', 'clipboard').finally(() => {
-        setScreenshotLoading(false)
-      })
-    }, 100)
+    screenshotTrigger('clipboard')
   }
 
   function downloadClicked() {
-    setDownloadLoading(true)
-    // Use a small timeout here so the spinner doesn't lag while the image is being generated
-    setTimeout(() => {
-      const name = selectedCharacter ? tCharacter(`${selectedCharacter.id}.Name`) : null
-      void Utils.screenshotElementById('relicScorerPreview', 'download', name).finally(() => {
-        setDownloadLoading(false)
-      })
-    }, 100)
+    const name = selectedCharacter ? tCharacter(`${selectedCharacter.id}.Name`) : null
+    downloadTrigger('download', name)
   }
 
   function presetClicked(e: Preset) {

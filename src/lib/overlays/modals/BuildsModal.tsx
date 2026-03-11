@@ -16,9 +16,9 @@ import DB, { useGlobalStore, AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useConfirmAction } from 'lib/hooks/useConfirmAction'
+import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import {
   CSSProperties,
   Fragment,
@@ -45,8 +45,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
   const { t } = useTranslation(['modals', 'gameData', 'common'])
   const [selectedBuild, setSelectedBuild] = useState<null | number>(null)
   const confirm = useConfirmAction()
-
-  const [loading, setLoading] = useState(false)
+  const { loading, trigger: screenshot } = useScreenshotAction('buildPreview')
 
   useScrollLock(isOpen)
 
@@ -142,20 +141,14 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
     }
   }
 
-  function clipboardClicked(action: string) {
+  function clipboardClicked(action: 'clipboard' | 'download') {
     if (selectedBuild === null || selectedCharacter === null || !selectedCharacter.builds) {
       console.debug(selectedBuild, selectedCharacter)
       return
     }
-    setLoading(true)
     const charId = selectedCharacter.id
     const buildName = selectedCharacter.builds[selectedBuild].name
-    setTimeout(() => {
-      void Utils.screenshotElementById('buildPreview', action, `${t(`gameData:Characters.${charId}.LongName`)}_${buildName}`)
-        .finally(() => {
-          setLoading(false)
-        })
-    }, 100)
+    screenshot(action, `${t(`gameData:Characters.${charId}.LongName`)}_${buildName}`)
   }
 
   const build = selectedBuild !== null

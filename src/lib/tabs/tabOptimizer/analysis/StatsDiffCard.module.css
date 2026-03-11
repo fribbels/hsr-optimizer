@@ -1,0 +1,41 @@
+.outerCard {
+  border-radius: var(--border-radius-card);
+  width: 730px;
+}
+
+.statsPanel {
+  border-radius: var(--border-radius-card);
+  width: 730px;
+  overflow: hidden;
+  padding: 10px;
+  background: var(--panel-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.cardImageContainer {
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border-radius: var(--border-radius-card);
+  height: 100%;
+  background: var(--panel-bg);
+}
+
+.oldStatColumn {
+  width: 240px;
+}
+
+.arrow {
+  margin-left: 15px;
+  margin-right: 15px;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.newValueColumn {
+  width: 55px;
+}
+
+.arrowIcon {
+  font-size: 10px;
+  line-height: 17px;
+}

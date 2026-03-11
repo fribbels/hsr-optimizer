@@ -20,6 +20,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import classes from './OptimizerOptionsDisplay.module.css'
 
 const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): JSX.Element {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
@@ -56,7 +57,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
           <Flex gap={5}>
             <img
               src={Assets.getCharacterAvatarById(x.id)}
-              style={{ height: 22, marginRight: 6 }}
+              className={classes.characterAvatar}
             />
 
             {
@@ -87,7 +88,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               useOptimizerRequestStore.getState().setRelicFilterField('includeEquippedRelics', event.currentTarget.checked)
               recalculatePermutations()
             }}
-            style={{ width: 45, marginRight: 5 }}
+            className={classes.switchRow}
           />
           <Text>{t('AllowEquipped') /* Allow equipped relics */}</Text>
         </Flex>
@@ -101,7 +102,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               useOptimizerRequestStore.getState().setRelicFilterField('rankFilter', event.currentTarget.checked)
               recalculatePermutations()
             }}
-            style={{ width: 45, marginRight: 5 }}
+            className={classes.switchRow}
           />
           <Text>{t('PriorityFilter') /* Character priority filter */}</Text>
         </Flex>
@@ -115,12 +116,12 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               useOptimizerRequestStore.getState().setRelicFilterField('keepCurrentRelics', event.currentTarget.checked)
               recalculatePermutations()
             }}
-            style={{ width: 45, marginRight: 5 }}
+            className={classes.switchRow}
           />
           <Text>{t('KeepCurrent') /* Keep current relics */}</Text>
         </Flex>
 
-        <Flex gap={optimizerTabDefaultGap} style={{ marginTop: 10 }}>
+        <Flex gap={optimizerTabDefaultGap} className={classes.sectionSpacerTop}>
           <Flex direction="column" gap={2}>
             <HeaderText>
               {t('Priority.Header') /* Priority */}
@@ -237,8 +238,8 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
           </Flex>
         </Flex>
 
-        <Flex align='center' style={{ marginTop: 15 }}>
-          <Flex direction="column" gap={2} style={{ width: '100%' }}>
+        <Flex align='center' className={classes.dpsModeSection}>
+          <Flex direction="column" gap={2} className={classes.dpsModeColumn}>
             <HeaderText>
               {t('DPSMode.Header') /* DPS Mode */}
             </HeaderText>

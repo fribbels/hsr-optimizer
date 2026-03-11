@@ -1,0 +1,21 @@
+.switchRow {
+  width: 45px;
+  margin-right: 5px;
+}
+
+.sectionSpacerTop {
+  margin-top: 10px;
+}
+
+.dpsModeSection {
+  margin-top: 15px;
+}
+
+.dpsModeColumn {
+  width: 100%;
+}
+
+.characterAvatar {
+  height: 22px;
+  margin-right: 6px;
+}

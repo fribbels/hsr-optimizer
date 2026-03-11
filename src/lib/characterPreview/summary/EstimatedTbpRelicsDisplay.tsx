@@ -8,7 +8,7 @@ import {
   RelicAnalysis,
 } from 'lib/characterPreview/summary/statScoringSummaryController'
 import { SubStats } from 'lib/constants/constants'
-import { iconSize } from 'lib/constants/constantsUi'
+import iconClasses from 'style/icons.module.css'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
@@ -289,7 +289,7 @@ function RollLine(props: { substat: RelicSubstatMetadata | null, weights: RelicA
     <Flex className={styles.rollLine} style={{ opacity: (weight ? 1 : 0.05) }} justify='space-between'>
       <Flex align='flex-end'>
         <img
-          style={{ width: iconSize, height: iconSize, marginRight: 5, marginLeft: -3 }}
+          className={iconClasses.statIconWide}
           src={Assets.getStatIcon(substat.stat)}
         />
         {display}

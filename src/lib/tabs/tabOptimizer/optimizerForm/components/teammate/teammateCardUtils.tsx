@@ -8,6 +8,7 @@ import {
 } from 'lib/constants/constants'
 import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import DB from 'lib/state/db'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
@@ -41,7 +42,7 @@ export function optionRenderer() {
           <Flex>
             <img
               src={Assets.getSetImage(option.data.value, Constants.Parts.PlanarSphere)}
-              style={{ width: 26, height: 26 }}
+              className={iconClasses.icon26}
             />
           </Flex>
           {option.data.desc}
@@ -57,7 +58,7 @@ export function optionRenderer() {
 
 export const labelRender = (set: string, text: string) => (
   <Flex align='center' gap={3}>
-    <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }}></img>
+    <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} className={iconClasses.icon20}></img>
     <Text style={{ fontSize: 12 }}>
       {text}
     </Text>

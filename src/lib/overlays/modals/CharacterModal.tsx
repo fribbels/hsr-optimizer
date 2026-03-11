@@ -1,4 +1,5 @@
 import { Button, Flex, Modal, SegmentedControl, Select } from '@mantine/core'
+import iconClasses from 'style/icons.module.css'
 import { useForm } from '@mantine/form'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
@@ -171,14 +172,14 @@ export default function CharacterModal(props: {
                 if (!option.value) return option.label
                 return (
                   <Flex gap={10} align='center'>
-                    <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }} />
+                    <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
                     {option.label}
                   </Flex>
                 )
               }}
               leftSection={(() => {
                 const val = characterForm.getValues().teamRelicSet
-                return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} /> : null
+                return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : null
               })()}
               disabled={false}
               {...characterForm.getInputProps('teamRelicSet')}
@@ -194,14 +195,14 @@ export default function CharacterModal(props: {
                 if (!option.value) return option.label
                 return (
                   <Flex gap={10} align='center'>
-                    <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} style={{ width: 26, height: 26 }} />
+                    <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
                     {option.label}
                   </Flex>
                 )
               }}
               leftSection={(() => {
                 const val = characterForm.getValues().teamOrnamentSet
-                return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }} /> : null
+                return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : null
               })()}
               disabled={false}
               {...characterForm.getInputProps('teamOrnamentSet')}

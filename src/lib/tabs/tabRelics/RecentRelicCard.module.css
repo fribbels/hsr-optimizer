@@ -1,0 +1,54 @@
+.cardContainer {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.bottomPanel {
+  width: 200px;
+  border-radius: 0 0 6px 6px;
+  padding: 8px 12px;
+  margin-top: -4px;
+  border-top: none;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.statText {
+  font-size: 12px;
+}
+
+.scoreHighlight {
+  font-weight: 700;
+}
+
+.characterList {
+  margin: 0 -4px;
+}
+
+.characterRow {
+  padding: 2px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.characterAvatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.characterName {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 2px;
+}
+
+.scoreText {
+  font-size: 12px;
+  font-weight: 600;
+}

@@ -1,0 +1,44 @@
+/* Shared icon size classes — used across 20+ files */
+
+.icon20 {
+  width: 20px;
+  height: 20px;
+}
+
+.icon22 {
+  width: 22px;
+  height: 22px;
+}
+
+.icon24 {
+  width: 24px;
+  height: 24px;
+}
+
+.icon26 {
+  width: 26px;
+  height: 26px;
+}
+
+/* Stat icons with tight left margin (relic preview, stat rows) */
+.statIcon {
+  width: 22px;
+  height: 22px;
+  margin-right: 2px;
+  margin-left: -3px;
+}
+
+/* Stat icons with standard spacing (combat stats, character preview) */
+.statIconSpaced {
+  width: 22px;
+  height: 22px;
+  margin-right: 3px;
+}
+
+/* Stat icons with wide spacing (estimated TBP display) */
+.statIconWide {
+  width: 22px;
+  height: 22px;
+  margin-right: 5px;
+  margin-left: -3px;
+}

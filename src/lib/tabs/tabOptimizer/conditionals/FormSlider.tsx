@@ -1,4 +1,5 @@
-import { Flex, NumberInput, Slider, Text as MantineText } from '@mantine/core'
+import { Flex, NumberInput, Slider } from '@mantine/core'
+import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -11,16 +12,9 @@ import {
   useRef,
   useState,
 } from 'react'
-const justify = 'flex-start'
-const align = 'center'
 const inputWidth = 61
 const numberWidth = 55
 const sliderWidth = 155
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-const Text = (props: React.PropsWithChildren<{ style?: React.CSSProperties }>) => (
-  <MantineText style={{ whiteSpace: 'pre-line', ...props.style }} {...props} />
-)
 
 export interface FormSliderProps {
   disabled?: boolean
@@ -123,7 +117,7 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
 
   return (
     <Flex direction="column" gap={0} style={{ marginBottom: 0 }}>
-      <Flex justify={justify} align={align}>
+      <Flex justify={conditionalJustify} align={conditionalAlign}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
           {internalInputNumber}
         </div>

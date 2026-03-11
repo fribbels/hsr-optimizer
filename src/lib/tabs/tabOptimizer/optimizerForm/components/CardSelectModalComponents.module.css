@@ -1,0 +1,44 @@
+.cardTextOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 110%;
+  text-align: center;
+  background: #282B31;
+  color: #D0D0D2;
+  margin-left: -5%;
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 16px;
+  align-items: center;
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
+.cardTextInner {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.pathImage {
+  width: 32px;
+}
+
+.starImage {
+  width: 16px;
+}
+
+.rarityContainer {
+  margin-top: 1px;
+}
+
+.elementImage {
+  width: 30px;
+}
+
+.segmentedFilterInner {
+  height: 100%;
+}

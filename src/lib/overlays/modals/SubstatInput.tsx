@@ -13,6 +13,7 @@ import {
   RelicUpgradeValues,
 } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import {
   localeNumber,
   localeNumber_0,
@@ -136,7 +137,7 @@ export function SubstatInput(props: {
           maxDropdownHeight={750}
           renderOption={({ option }) => (
             <Flex align='center' gap={10}>
-              <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(option.value, true)} />
+              <img className={iconClasses.icon22} src={Assets.getStatIcon(option.value, true)} />
               {option.label}
             </Flex>
           )}

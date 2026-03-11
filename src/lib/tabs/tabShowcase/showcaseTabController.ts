@@ -29,6 +29,12 @@ import { LightConeId } from 'types/lightCone'
 
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
+// Module-level form ref — set by ShowcaseTab, used by controller
+let _showcaseForm: { setFieldValue: (field: string, value: string) => void } | null = null
+export function setShowcaseForm(form: { setFieldValue: (field: string, value: string) => void }) {
+  _showcaseForm = form
+}
+
 export type ShowcaseTabForm = {
   scorerId: string | null,
 }
@@ -219,7 +225,7 @@ export function submitForm(form: ShowcaseTabForm) {
       }
       setLoading(false)
       Message.success(t('SuccessMsg') /* Successfully loaded profile */)
-      window.showcaseTabForm.setFieldValue('scorerId', id)
+      _showcaseForm?.setFieldValue('scorerId', id)
     })
     .catch((error) => {
       setTimeout(() => {

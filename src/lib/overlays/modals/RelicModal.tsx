@@ -33,6 +33,7 @@ import {
 } from 'lib/overlays/modals/relicModalHelpers'
 import { SubstatInput } from 'lib/overlays/modals/SubstatInput'
 import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
@@ -375,7 +376,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
                 data={setOptions}
                 renderOption={({ option }) => (
                   <Flex align='center' gap={10}>
-                    <img style={{ height: 22, width: 22 }} src={Assets.getSetImage(option.value)} />
+                    <img className={iconClasses.icon22} src={Assets.getSetImage(option.value)} />
                     {option.label}
                   </Flex>
                 )}
@@ -428,7 +429,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
                   data={mainStatOptions}
                   renderOption={({ option }) => (
                     <Flex align='center' gap={10}>
-                      <img src={Assets.getStatIcon(option.value, true)} style={{ width: 22, height: 22 }} />
+                      <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
                       {option.label}
                     </Flex>
                   )}

@@ -6,6 +6,7 @@ import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import DB from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
+import classes from 'lib/tabs/tabRelics/RecentRelicCard.module.css'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -88,11 +89,10 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
   return (
     <Flex
       direction="column"
+      className={classes.cardContainer}
       style={{
         border: isSelected ? `2px solid ${token.colorPrimary}` : '2px solid transparent',
-        borderRadius: '8px',
         backgroundColor: isSelected ? `${token.colorPrimaryBg}` : 'transparent',
-        transition: 'all 0.2s ease',
       }}
     >
       <RelicPreview
@@ -105,25 +105,18 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
       <Flex
         direction="column"
         gap={8}
+        className={classes.bottomPanel}
         style={{
-          width: 200,
           backgroundColor: token.colorBgContainer,
-          borderRadius: '0 0 6px 6px',
-          padding: '8px 12px',
-          marginTop: -4,
           border: `1px solid ${token.colorBorderSecondary}`,
-          borderTop: 'none',
         }}
       >
         {potentialScore && (
           <Flex direction="column" gap={4}>
             <Flex align='center' justify='space-between'>
               <Text
-                style={{
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  color: token.colorTextSecondary,
-                }}
+                className={classes.sectionLabel}
+                style={{ color: token.colorTextSecondary }}
               >
                 {t('Potential') /* POTENTIAL */}
               </Text>
@@ -136,20 +129,16 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
 
             <Flex align='center' justify='space-between'>
               <Text
-                style={{
-                  fontSize: '12px',
-                  color: token.colorTextSecondary,
-                }}
+                className={classes.statText}
+                style={{ color: token.colorTextSecondary }}
               >
-                {t('Avg') /* AVG */}: <span style={{ color: getColorAtPercent(avgPotential), fontWeight: 700 }}>{avgPotential}%</span>
+                {t('Avg') /* AVG */}: <span className={classes.scoreHighlight} style={{ color: getColorAtPercent(avgPotential) }}>{avgPotential}%</span>
               </Text>
               <Text
-                style={{
-                  fontSize: '12px',
-                  color: token.colorTextSecondary,
-                }}
+                className={classes.statText}
+                style={{ color: token.colorTextSecondary }}
               >
-                {t('Max') /* MAX */}: <span style={{ color: getColorAtPercent(maxPotential), fontWeight: 700 }}>{maxPotential}%</span>
+                {t('Max') /* MAX */}: <span className={classes.scoreHighlight} style={{ color: getColorAtPercent(maxPotential) }}>{maxPotential}%</span>
               </Text>
             </Flex>
           </Flex>
@@ -162,16 +151,13 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
 
             <Flex direction="column" gap={4}>
               <Text
-                style={{
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  color: token.colorTextSecondary,
-                }}
+                className={classes.sectionLabel}
+                style={{ color: token.colorTextSecondary }}
               >
                 {t('BestFor') /* BEST FOR */}
               </Text>
 
-              <Flex direction="column" gap={5} style={{ margin: '0 -4px' }}>
+              <Flex direction="column" gap={5} className={classes.characterList}>
                 {topCharacters?.map((char) => {
                   const maxPct = Math.floor(char.score.bestPct)
                   const avgPct = Math.floor(char.score.averagePct)
@@ -181,12 +167,9 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                       <Flex
                         align='center'
                         justify='space-between'
+                        className={classes.characterRow}
                         style={{
                           backgroundColor: char.isSelected ? token.colorPrimaryBg : 'transparent',
-                          padding: '2px 4px',
-                          borderRadius: 4,
-                          cursor: 'pointer',
-                          whiteSpace: 'nowrap',
                         }}
                         onClick={() => setSelectedRelicID?.(relic.id)}
                       >
@@ -194,21 +177,14 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                           <img
                             src={char.icon}
                             alt={char.name}
-                            style={{
-                              width: 20,
-                              height: 20,
-                              borderRadius: '50%',
-                              border: `1px solid ${token.colorBorderSecondary}`,
-                            }}
+                            className={classes.characterAvatar}
+                            style={{ border: `1px solid ${token.colorBorderSecondary}` }}
                           />
                           <Text
+                            className={classes.characterName}
                             style={{
-                              fontSize: '12px',
                               color: char.isSelected ? token.colorPrimary : token.colorText,
                               fontWeight: char.isSelected ? 600 : 400,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              marginRight: 2,
                             }}
                           >
                             {char.name}
@@ -216,12 +192,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
                         </Flex>
                         <Flex align='center' gap={4}>
                           <Tooltip label={t('Tooltip') /* Average and maximum potential scores for this character */}>
-                            <Text
-                              style={{
-                                fontSize: '12px',
-                                fontWeight: 600,
-                              }}
-                            >
+                            <Text className={classes.scoreText}>
                               <span style={{ color: getColorAtPercent(avgPct) }}>{avgPct}%</span>
                               <span style={{ color: token.colorTextSecondary }}>/</span>
                               <span style={{ color: getColorAtPercent(maxPct) }}>{maxPct}%</span>

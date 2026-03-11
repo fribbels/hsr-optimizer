@@ -52,7 +52,7 @@ export function ActionSelector(props: {
   const items = [defaultItem, ...stepItems]
 
   return (
-    <Flex align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>
+    <Flex justify='center' align='center' gap={0} wrap='wrap' style={{ borderBottom: '1px solid #ffffff15' }}>
       {items.map((item) => (
         <span
           key={item.index}

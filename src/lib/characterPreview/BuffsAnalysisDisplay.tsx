@@ -46,6 +46,7 @@ type BuffsAnalysisProps = {
   perActionBuffGroups?: PerActionBuffGroups,
   size?: BuffDisplaySize,
   context?: OptimizerContext,
+  twoColumn?: boolean,
 }
 
 export enum BuffDisplaySize {
@@ -94,36 +95,68 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined
   const summaryAvatarSrc = firstPrimaryId ? Assets.getCharacterAvatarById(firstPrimaryId) : Assets.getBlank()
 
+  const summaryColumn = (
+    <>
+      <StatSummaryTable
+        sums={statSums}
+        avatarSrc={summaryAvatarSrc}
+      />
+      {context && (
+        <HitDefinitionTable
+          avatarSrc={summaryAvatarSrc}
+          context={context}
+          selectedAction={selectedAction}
+        />
+      )}
+      {context && (
+        <EnemyPanel
+          avatarSrc={summaryAvatarSrc}
+          context={context}
+        />
+      )}
+    </>
+  )
+
+  const buffsColumn = (
+    <GroupedLayout buffGroups={buffGroups} />
+  )
+
+  const actionSelector = (
+    <ActionSelector
+      rotationSteps={perActionBuffGroups.rotationSteps}
+      selectedAction={selectedAction}
+      onActionChange={setSelectedAction}
+    />
+  )
+
   return (
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
-        <Flex vertical gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
-          <StatSummaryTable
-            sums={statSums}
-            avatarSrc={summaryAvatarSrc}
-          />
-          {context && (
-            <HitDefinitionTable
-              avatarSrc={summaryAvatarSrc}
-              context={context}
-              selectedAction={selectedAction}
-            />
+        {props.twoColumn
+          ? (
+            <Flex vertical gap={GROUP_SPACING}>
+              {actionSelector}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+              <Flex gap={GROUP_SPACING} align='start'>
+                <Flex vertical gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+                  {summaryColumn}
+                </Flex>
+                <Flex vertical gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+                  {buffsColumn}
+                </Flex>
+              </Flex>
+            </Flex>
+          )
+          : (
+            <Flex vertical gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+              {actionSelector}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+              {summaryColumn}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+              {buffsColumn}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+            </Flex>
           )}
-          {context && (
-            <EnemyPanel
-              avatarSrc={summaryAvatarSrc}
-              context={context}
-            />
-          )}
-          <ActionSelector
-            rotationSteps={perActionBuffGroups.rotationSteps}
-            selectedAction={selectedAction}
-            onActionChange={setSelectedAction}
-          />
-          <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-          <GroupedLayout buffGroups={buffGroups} />
-          <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-        </Flex>
       </FilterContext.Provider>
     </DesignContext.Provider>
   )

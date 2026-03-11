@@ -37,7 +37,6 @@ export function FilterBar(props: {
   relevantTags: Set<DamageTag>,
 }) {
   const visibleEntries = DAMAGE_TAG_ENTRIES.filter((e) => props.relevantTags.has(e.tag))
-  if (visibleEntries.length <= 1) return null
 
   return (
     <Flex justify='center' style={{ padding: '4px 0' }}>

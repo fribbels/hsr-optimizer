@@ -409,7 +409,7 @@ export const CharacterScoringSummary = (props: {
           }
         </pre>
 
-        <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE}/>
+        <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE} twoColumn/>
       </Flex>
     </Flex>
   )

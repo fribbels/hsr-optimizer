@@ -1,4 +1,5 @@
 import { Alert, Divider, Flex } from '@mantine/core'
+import classes from './CharacterScoringSummary.module.css'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
@@ -31,7 +32,7 @@ import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Trans, useTranslation } from 'react-i18next'
-import {DPSScoreDisclaimer} from "lib/tabs/tabShowcase/ShowcaseTab";
+import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 
 // FIXME MED
 
@@ -57,7 +58,7 @@ export const CharacterScoringSummary = (props: {
   }) {
     return (
       <Flex direction="column" align='center' gap={2}>
-        <img src={Assets.getSetImage(props.set)} style={{ height: 60 }}/>
+        <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
       </Flex>
     )
   }
@@ -69,7 +70,7 @@ export const CharacterScoringSummary = (props: {
     const display = props.stat?.replace('Boost', '') || ''
     return (
       <Flex align='center' gap={10}>
-        <img src={Assets.getPart(props.part)} style={{ height: 30 }}/>
+        <img src={Assets.getPart(props.part)} className={classes.partImage}/>
         <pre style={{ margin: 0 }}>{display}</pre>
       </Flex>
     )
@@ -87,7 +88,7 @@ export const CharacterScoringSummary = (props: {
     return (
       <Flex gap={15} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, textAlign: 'right' }}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
+        <pre className={classes.preTextRight}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
       </Flex>
     )
   }
@@ -114,17 +115,16 @@ export const CharacterScoringSummary = (props: {
     return (
       <Flex align='center' gap={1} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, textAlign: 'right' }}>{value}</pre>
+        <pre className={classes.preTextRight}>{value}</pre>
       </Flex>
     )
   }
 
   const element = characterMetadata.element as ElementName
 
-  const statPreviewWidth = 300
   const divider = (
     <Flex direction="column">
-      <Divider orientation='vertical' style={{ flexGrow: 1, margin: '10px 30px' }}/>
+      <Divider orientation='vertical' className={classes.columnDivider}/>
     </Flex>
   )
 
@@ -175,14 +175,14 @@ export const CharacterScoringSummary = (props: {
       <Flex direction="column" gap={25} style={{ margin: 'auto' }}>
         <Flex direction="column" gap={defaultGap}>
           <Flex justify='space-around'>
-            <pre style={{ fontSize: 20, fontWeight: 'bold', color: highlight ? color : '' }}>
+            <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
               <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: Utils.truncate10ths(Utils.precisionRound(props.percent * 100)) })}</u>
             </pre>
             {/* Character/Benchmark/Perfect build ({{score}}%) */}
           </Flex>
         </Flex>
 
-        <Flex direction="column" gap={defaultGap} style={{ width: statPreviewWidth, margin: 'auto' }}>
+        <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
           </pre>
@@ -197,7 +197,7 @@ export const CharacterScoringSummary = (props: {
           />
         </Flex>
 
-        <Flex direction="column" gap={defaultGap} style={{ width: statPreviewWidth, margin: 'auto' }}>
+        <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
               build type <u>combat stats</u>
@@ -242,7 +242,7 @@ export const CharacterScoringSummary = (props: {
           </Flex>
         </Flex>
 
-        <Flex direction="column" gap={20} style={{ lineHeight: '22px' }}>
+        <Flex direction="column" gap={20} className={classes.abilityDamageSection}>
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
           </pre>
@@ -256,9 +256,9 @@ export const CharacterScoringSummary = (props: {
   }
 
   return (
-    <Flex direction="column" gap={15} align='center' style={{ width: 1068 }}>
+    <Flex direction="column" gap={15} align='center' className={classes.rootContainer}>
       <Flex align='center' direction="column" gap={5}>
-        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
+        <pre className={classes.mainTitle}>
           <ColorizedTitleWithInfo
             text={t('CharacterPreview.BuildAnalysis.Header')/* Character build analysis */}
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
@@ -279,27 +279,27 @@ export const CharacterScoringSummary = (props: {
       </Flex>
 
       <Flex gap={defaultGap} direction="column" style={{ width: '100%' }} align='center'>
-        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+        <pre className={classes.sectionTitle}>
           {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
         </pre>
         <DpsScoreSubstatUpgradesTable simScore={result}/>
       </Flex>
 
       <Flex gap={defaultGap} direction="column" style={{ width: '100%' }} align='center'>
-        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+        <pre className={classes.sectionTitle}>
           {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
         </pre>
         <DpsScoreMainStatUpgradesTable simScore={result}/>
       </Flex>
 
-      <Flex gap={defaultGap} direction="column" style={{ width: '100%', marginTop: 10 }} align='center'>
+      <Flex gap={defaultGap} direction="column" className={classes.relicRaritySection} align='center'>
         <ColorizedTitleWithInfo
           text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')/* Relic rarity upgrade comparisons */}
           url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
         />
         <Alert
           color='blue'
-          style={{ marginBottom: 20, width: '100%' }}
+          className={classes.relicRarityAlert}
         >
           {t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
         </Alert>
@@ -310,7 +310,7 @@ export const CharacterScoringSummary = (props: {
         />
       </Flex>
 
-      <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+      <pre className={classes.sectionTitle}>
         {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')/* Simulated benchmark builds */}
       </pre>
 
@@ -358,7 +358,7 @@ export const CharacterScoringSummary = (props: {
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.CombatResults.Header')/* Combat damage results */}
           </pre>
-          <Flex direction="column" gap={10} style={{ width: 255 }}>
+          <Flex direction="column" gap={10} className={classes.combatResultsWidth}>
             <ScoringText
               label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
               text={
@@ -406,7 +406,7 @@ export const CharacterScoringSummary = (props: {
       </Flex>
 
       <Flex direction="column" align='center' style={{ width: '100%' }}>
-        <pre style={{ fontSize: 22, textDecoration: 'underline' }}>
+        <pre className={classes.sectionTitle}>
           {
             (
               result.simulationForm.deprioritizeBuffs
@@ -428,14 +428,13 @@ export function ScoringTeammate(props: {
 }) {
   const { t } = useTranslation('common')
   const teammate = props.result.simulationMetadata.teammates[props.index]
-  const iconSize = 60
   return (
     <Flex direction="column" align='center' gap={5}>
-      <img src={Assets.getCharacterAvatarById(teammate.characterId)} style={{ height: iconSize }}/>
+      <img src={Assets.getCharacterAvatarById(teammate.characterId)} className={classes.teammateIcon}/>
       <pre style={{ margin: 0 }}>
         {t('EidolonNShort', { eidolon: teammate.characterEidolon })}
       </pre>
-      <img src={Assets.getLightConeIconById(teammate.lightCone)} style={{ height: iconSize }}/>
+      <img src={Assets.getLightConeIconById(teammate.lightCone)} className={classes.teammateIcon}/>
       <pre style={{ margin: 0 }}>
         {t('SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
       </pre>

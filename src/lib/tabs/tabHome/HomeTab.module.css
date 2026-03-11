@@ -1,0 +1,98 @@
+.rootContainer {
+  width: 100%;
+  position: relative;
+  margin-bottom: 200px;
+}
+
+.collapseLabelDivider {
+  font-size: 24px;
+  padding-inline: 30px;
+  margin-block: 0;
+}
+
+.contentAccordion {
+  width: 100%;
+  max-width: 1600px;
+}
+
+.headerImage {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  max-width: 1600px;
+  height: 900px;
+  max-height: 900px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cardImage {
+  width: 100%;
+  height: 593px;
+  border-radius: 8px;
+  outline: rgba(255, 255, 255, 0.15) solid 1px;
+  box-shadow: rgb(0 0 0 / 50%) 2px 2px 3px;
+  object-fit: cover;
+}
+
+.featureCard {
+  flex: 1;
+  cursor: default;
+  font-size: 16px;
+  min-width: 500px;
+}
+
+.featureCardTitle {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.headerSection {
+  width: 100%;
+  z-index: 1;
+  height: 900px;
+  padding-bottom: 40px;
+}
+
+.headerTitle {
+  margin-top: 50px;
+  font-size: 50px;
+  color: white;
+  text-shadow: #000000 2px 2px 20px;
+  text-align: center;
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.searchBarContainer {
+  width: 700px;
+  height: 115px;
+  padding: 20px;
+}
+
+.searchBarLabel {
+  padding-left: 3px;
+  padding-bottom: 5px;
+  font-size: 17px;
+  text-shadow: rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px;
+}
+
+.searchBarApi {
+  font-size: 16px;
+  opacity: 0.8;
+  margin-right: 2px;
+}
+
+.searchButton {
+  width: 60px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.featuresContainer {
+  max-width: 1600px;
+  min-width: 1000px;
+  width: 100%;
+  padding: 0px 20px;
+}

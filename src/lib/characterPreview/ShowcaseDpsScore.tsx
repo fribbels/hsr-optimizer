@@ -7,9 +7,9 @@ import { Button, Flex, SegmentedControl } from '@mantine/core'
 import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterCardCombatStats'
 import {
   OverlayText,
-  showcaseOutline,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import styles from 'lib/characterPreview/ShowcaseDpsScore.module.css'
 import StatText from 'lib/characterPreview/StatText'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import {
@@ -34,7 +34,6 @@ import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, {
-  CSSProperties,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -78,12 +77,7 @@ export function ShowcaseDpsScorePanel(props: {
 
   if (!simScoringExecution?.done) {
     return (
-      <span
-        style={{
-          filter: 'blur(20px)',
-          minHeight: 157,
-        }}
-      >
+      <span className={styles.loadingBlur}>
       </span>
     )
   }
@@ -94,7 +88,7 @@ export function ShowcaseDpsScorePanel(props: {
     <Flex
       direction="column"
     >
-      <Flex justify='space-around' style={{ padding: '0 5px' }}>
+      <Flex justify='space-around' className={styles.teammatesPadding}>
         <CharacterPreviewScoringTeammate
           index={0}
           result={result}
@@ -146,12 +140,7 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
 
   if (!simScoringExecution?.done) {
     return (
-      <span
-        style={{
-          filter: 'blur(2px)',
-          minHeight: 182,
-        }}
-      >
+      <span className={styles.loadingBlurSmall}>
       </span>
     )
   }
@@ -198,13 +187,7 @@ function CharacterPreviewScoringTeammate(props: {
 
   return (
     <div
-      style={{
-        width: '33.3333%',
-        textAlign: 'center',
-        padding: 1,
-        boxShadow: 'none',
-        cursor: readonly ? 'default' : 'pointer',
-      }}
+      style={{ cursor: readonly ? 'default' : 'pointer' }}
       onClick={() => {
         if (readonly) return
         setCharacterModalInitialCharacter({ form: teammate } as Character)
@@ -212,38 +195,32 @@ function CharacterPreviewScoringTeammate(props: {
 
         setSelectedTeammateIndex(index)
       }}
-      className={readonly ? 'readonly-custom-grid' : 'custom-grid'}
+      className={`${styles.teammateCard} ${readonly ? 'readonly-custom-grid' : 'custom-grid'}`}
     >
       <Flex direction="column" align='center' gap={0}>
-        <div style={{ position: 'relative', display: 'inline-block' }}>
+        <div className={styles.relativeInline}>
           <img
             src={Assets.getCharacterAvatarById(teammate?.characterId)}
+            className={styles.teammateAvatar}
             style={{
               height: iconSize,
               width: iconSize,
               borderRadius: iconSize,
-              backgroundColor: 'rgba(124, 124, 124, 0.1)',
-              border: showcaseOutline,
             }}
           />
 
           <OverlayText text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon })} top={-12} />
         </div>
 
-        <div style={{ position: 'relative', display: 'inline-block' }}>
+        <div className={styles.relativeInline}>
           <img src={Assets.getLightConeIconById(teammate?.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
 
           {formTeammate.teamRelicSet && (
             <img
+              className={styles.setIconRelic}
               style={{
-                position: 'absolute',
-                top: 3,
-                right: -4,
                 width: setSize,
                 height: setSize,
-                borderRadius: '50%',
-                backgroundColor: 'rgba(50, 50, 50, 0.5)',
-                border: showcaseOutline,
               }}
               src={Assets.getSetImage(formTeammate.teamRelicSet)}
             />
@@ -251,15 +228,10 @@ function CharacterPreviewScoringTeammate(props: {
 
           {formTeammate.teamOrnamentSet && (
             <img
+              className={styles.setIconOrnament}
               style={{
-                position: 'absolute',
-                top: 27,
-                right: -4,
                 width: setSize,
                 height: setSize,
-                borderRadius: '50%',
-                backgroundColor: 'rgba(50, 50, 50, 0.5)',
-                border: showcaseOutline,
               }}
               src={Assets.getSetImage(formTeammate.teamOrnamentSet)}
             />
@@ -286,15 +258,6 @@ export function ShowcaseDpsScoreHeader(props: {
   const verified = Object.values(relics).filter((x) => x?.verified).length == 6
   const numRelics = Object.values(relics).filter((x) => !!x).length
 
-  const textStyle: CSSProperties = {
-    fontSize: 17,
-    fontWeight: '600',
-    textAlign: 'center',
-    color: 'rgb(225, 165, 100)',
-    height: 23,
-    whiteSpace: 'nowrap',
-  }
-
   const lightCone = !!simScoringExecution?.result?.simulationForm.lightCone
 
   const titleRender = simScoringExecution?.result?.spdBenchmark == null
@@ -302,11 +265,11 @@ export function ShowcaseDpsScoreHeader(props: {
     : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(simScoringExecution?.result?.spdBenchmark ?? 0) }) // Benchmark vs {{spd}} SPD
 
   const textDisplay = (
-    <Flex align='center' direction="column" style={{ marginBottom: 6, paddingTop: 3, paddingBottom: 3 }}>
-      <StatText style={textStyle}>
+    <Flex align='center' direction="column" className={styles.scoreHeaderWrapper}>
+      <StatText className={styles.scoreHeaderText}>
         {titleRender}
       </StatText>
-      <StatText style={textStyle}>
+      <StatText className={styles.scoreHeaderText}>
         {
           !simScoringExecution?.done
             ? 'DPS Score Loading...'
@@ -379,14 +342,14 @@ function ShowcaseTeamSelectPanel(props: {
   const tabsDisplay = (
     <SegmentedControl
       disabled={readonly}
-      style={{ marginLeft: 10, marginRight: 10, marginTop: 2, marginBottom: 0, alignItems: 'center' }}
+      className={styles.teamSelectPanel}
       onChange={(selection) => {
         if (selection == SETTINGS_TEAM) {
           getConfirmModal()?.info({
             width: 'fit-content',
             maskClosable: true,
             content: (
-              <div style={{ width: '100%' }}>
+              <div className={styles.settingsModalContent}>
                 <Flex direction="column" gap={10}>
                   <HeaderText>{t('modals:ScoreFooter.ModalTitle') /* Combat sim scoring settings */}</HeaderText>
                   <Button

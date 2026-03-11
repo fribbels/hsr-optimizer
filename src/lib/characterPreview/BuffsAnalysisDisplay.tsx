@@ -1,5 +1,6 @@
 import { Flex, Table } from '@mantine/core'
 import i18next from 'i18next'
+import styles from 'lib/characterPreview/BuffsAnalysisDisplay.module.css'
 import { SetKey, Sets } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'
 import {
@@ -17,7 +18,6 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
@@ -73,7 +73,7 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   }
 
   return (
-    <Flex justify='space-between' style={{ width: '100%' }}>
+    <Flex justify='space-between' className={styles.fullWidth}>
       <Flex gap={20} direction="column">
         {buffsDisplayLeft}
       </Flex>
@@ -105,7 +105,7 @@ function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYPE, size
 
   return (
     <Flex align='center' gap={5}>
-      <img src={src} style={{ width: 64, height: 64 }} />
+      <img src={src} className={styles.groupImage} />
 
       <BuffTable buffs={buffs} size={size} />
     </Flex>
@@ -170,29 +170,21 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
 
   return (
     <Table
-      className='buff-table remove-table-bottom-border'
-      style={{
-        width: size,
-        border: '1px solid #354b7d',
-        boxShadow: cardShadow,
-        borderRadius: 5,
-        overflow: 'hidden',
-        fontSize: 14,
-        tableLayout: 'fixed',
-      }}
+      className={`buff-table remove-table-bottom-border ${styles.buffTable}`}
+      style={{ width: size }}
     >
       <Table.Tbody>
         {data.map((row) => (
           <Table.Tr key={row.key} className='buff-row'>
-            <Table.Td style={{ width: 70, minWidth: 70 }}>
-              <span style={{ textWrap: 'nowrap' }}>{row.value}</span>
+            <Table.Td className={styles.valueCell}>
+              <span className={styles.noWrap}>{row.value}</span>
             </Table.Td>
             <Table.Td>
               <Flex justify='space-between'>
-                <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', marginRight: 10, minWidth: 130 }}>
+                <span className={styles.statLabel}>
                   {row.statLabel}
                 </span>
-                <span style={{ flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', textWrap: 'nowrap', textAlign: 'end' }}>
+                <span className={styles.sourceLabel}>
                   {row.sourceLabel}
                 </span>
               </Flex>

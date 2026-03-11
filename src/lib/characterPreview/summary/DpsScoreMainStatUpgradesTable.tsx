@@ -1,5 +1,6 @@
 import { Flex, Table, Tooltip } from '@mantine/core'
 import { TFunction } from 'i18next'
+import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import { SubstatUpgradeItem } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import {
   MainStats,
@@ -69,21 +70,20 @@ export function DpsScoreMainStatUpgradesTable(props: {
 
   return (
     <Table
-      className='remove-table-bottom-border'
-      style={tableStyle}
+      className={`remove-table-bottom-border ${styles.table}`}
     >
       <Table.Thead>
         <Table.Tr>
-          <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('MainStatUpgrade')}</Table.Th>
+          <Table.Th className={styles.headerCell}>{t('MainStatUpgrade')}</Table.Th>
           {sharedCols.map((col) => (
-            <Table.Th key={col.key} style={{ textAlign: 'center' }}>{col.title}</Table.Th>
+            <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>
           ))}
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
         {dataSource.map((upgrade) => (
           <Table.Tr key={upgrade.key}>
-            <Table.Td style={{ textAlign: 'center' }}>
+            <Table.Td className={styles.centeredCell}>
               {upgrade.setUpgradeRequest
                 ? (
                   <Flex align='center' gap={3}>
@@ -103,7 +103,7 @@ export function DpsScoreMainStatUpgradesTable(props: {
                 )
                 : (
                   <Flex align='center' gap={5}>
-                    <img src={Assets.getPart(upgrade.part)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
+                    <img src={Assets.getPart(upgrade.part)} className={styles.partIcon} style={{ width: iconSize, height: iconSize }} />
                     <span>➔</span>
                     <img src={Assets.getStatIcon(upgrade.stat)} style={{ width: iconSize, height: iconSize }} />
                     <span>{`${tCommon(`ShortReadableStats.${upgrade.stat}`)}`}</span>
@@ -111,7 +111,7 @@ export function DpsScoreMainStatUpgradesTable(props: {
                 )}
             </Table.Td>
             {sharedCols.map((col) => (
-              <Table.Td key={col.key} style={{ textAlign: 'center' }}>
+              <Table.Td key={col.key} className={styles.centeredCell}>
                 {col.render(upgrade[col.dataIndex as keyof MainStatUpgradeItem] as number, upgrade)}
               </Table.Td>
             ))}
@@ -239,7 +239,7 @@ export const tableStyle = {
 
 export function Arrow(props: { up: boolean }) {
   return (
-    <span style={{ color: arrowColor(props.up), fontSize: 10 }}>
+    <span className={styles.arrowText} style={{ color: arrowColor(props.up) }}>
       {arrowDirection(props.up)}
     </span>
   )

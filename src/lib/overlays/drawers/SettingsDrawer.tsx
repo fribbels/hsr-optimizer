@@ -11,14 +11,13 @@ import {
   useEffect,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { UserSettings } from 'types/store'
 
 const defaultGap = 5
 
-const SelectOptionWordWrap = styled.span`
-    white-space: wrap !important;
-    word-break: break-word !important;`
+const SelectOptionWordWrap = (props: React.ComponentPropsWithoutRef<'span'>) => (
+  <span style={{ whiteSpace: 'wrap', wordBreak: 'break-word' }} {...props} />
+)
 
 export const SettingOptions = {
   RelicEquippingBehavior: {

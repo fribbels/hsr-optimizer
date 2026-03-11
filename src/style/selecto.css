@@ -1,0 +1,56 @@
+.selectable {
+    width: 50px;
+    border: 1px dashed #000000;
+    background: #0a1b4533;
+}
+
+.unselectable {
+    width: 50px;
+    border: 1px dashed #000000;
+    background: #0a1b4533;
+}
+
+.selectable:not(.selected):not(.defaultShaded):hover {
+    background: rgba(104, 166, 255, 0.09);
+}
+
+.selectable.selected:not(.defaultShaded):hover {
+    background: #5793ea;
+}
+
+.container {
+    user-select: none;
+}
+
+.selected {
+    background: #68a6ff;
+}
+
+.partitionShaded {
+    background: #5085ff;
+}
+
+.partitionShaded.selected:not(.defaultShaded):hover {
+    background: #4476e8;
+}
+
+.selecto-selection {
+    display: none !important;
+}
+
+.defaultShaded {
+    background-image: repeating-linear-gradient(
+            25deg,
+            rgba(255, 255, 255, 0.33),
+            rgba(255, 255, 255, 0.33) 4px,
+            transparent 4px,
+            transparent 8px
+    );
+    background-blend-mode: overlay;
+}
+
+.disabledSelect {
+    width: 50px;
+    border: 1px dashed #000000;
+    background: #3b48678f;
+}

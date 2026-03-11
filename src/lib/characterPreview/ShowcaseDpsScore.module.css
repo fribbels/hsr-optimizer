@@ -1,0 +1,75 @@
+.loadingBlur {
+  filter: blur(20px);
+  min-height: 157px;
+}
+
+.loadingBlurSmall {
+  filter: blur(2px);
+  min-height: 182px;
+}
+
+.teammateCard {
+  width: 33.3333%;
+  text-align: center;
+  padding: 1px;
+  box-shadow: none;
+}
+
+.relativeInline {
+  position: relative;
+  display: inline-block;
+}
+
+.teammateAvatar {
+  background-color: rgba(124, 124, 124, 0.1);
+  border: var(--showcase-outline);
+}
+
+.setIcon {
+  position: absolute;
+  right: -4px;
+  border-radius: 50%;
+  background-color: rgba(50, 50, 50, 0.5);
+  border: var(--showcase-outline);
+}
+
+.setIconRelic {
+  composes: setIcon;
+  top: 3px;
+}
+
+.setIconOrnament {
+  composes: setIcon;
+  top: 27px;
+}
+
+.scoreHeaderText {
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  color: rgb(225, 165, 100);
+  height: 23px;
+  white-space: nowrap;
+}
+
+.scoreHeaderWrapper {
+  margin-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.teamSelectPanel {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 2px;
+  margin-bottom: 0;
+  align-items: center;
+}
+
+.settingsModalContent {
+  width: 100%;
+}
+
+.teammatesPadding {
+  padding: 0 5px;
+}

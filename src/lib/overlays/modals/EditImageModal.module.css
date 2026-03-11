@@ -1,0 +1,81 @@
+.segmentedControlWrapper {
+  margin-bottom: 16px;
+}
+
+.dropzoneArea {
+  height: 300px;
+}
+
+.dimmedText {
+  color: var(--mantine-color-dimmed);
+}
+
+.urlInputWrapper {
+  margin: 0 20px;
+}
+
+.defaultImagePreview {
+  height: 400px;
+}
+
+.cropperContainer {
+  height: 380px;
+  position: relative;
+}
+
+.zoomRow {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.zoomLabel {
+  white-space: nowrap;
+}
+
+.zoomSlider {
+  width: 100%;
+}
+
+.editInfoRow {
+  margin-top: 0;
+}
+
+.flexOne {
+  flex: 1;
+}
+
+.iconSpacing {
+  margin-right: 8px;
+}
+
+.pinchRow {
+  flex: 1;
+  margin-top: 8px;
+}
+
+.artByLabel {
+  flex: 1;
+  margin-left: 3px;
+}
+
+.artistInput {
+  flex: 1;
+  margin-top: 3px;
+}
+
+.modalContent {
+  height: 505px;
+  position: relative;
+}
+
+.stepper {
+  margin-bottom: 12px;
+}
+
+.footerActions {
+  margin-top: 16px;
+}
+
+.loaderCenter {
+  text-align: center;
+}

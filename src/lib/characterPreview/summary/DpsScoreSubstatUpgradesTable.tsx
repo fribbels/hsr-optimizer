@@ -4,6 +4,7 @@ import {
   sharedSimResultComparator,
   tableStyle,
 } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
+import styles from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable.module.css'
 import { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
@@ -45,25 +46,25 @@ export function DpsScoreSubstatUpgradesTable(props: {
     >
       <Table.Thead>
         <Table.Tr>
-          <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('SubStatUpgrade')}</Table.Th>
+          <Table.Th className={styles.headerCell}>{t('SubStatUpgrade')}</Table.Th>
           {sharedCols.map((col) => (
-            <Table.Th key={col.key} style={{ textAlign: 'center' }}>{col.title}</Table.Th>
+            <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>
           ))}
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
         {dataSource.map((upgrade) => (
           <Table.Tr key={upgrade.key}>
-            <Table.Td style={{ textAlign: 'center' }}>
+            <Table.Td className={styles.centeredCell}>
               <Flex>
-                <img src={Assets.getStatIcon(upgrade.stat)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
-                <span style={{ marginRight: 10 }}>
+                <img src={Assets.getStatIcon(upgrade.stat)} className={styles.statIcon} style={{ width: iconSize, height: iconSize }} />
+                <span className={styles.statLabel}>
                   {t('AddedRoll', { stat: tCommon(upgrade.stat) })}
                 </span>
               </Flex>
             </Table.Td>
             {sharedCols.map((col) => (
-              <Table.Td key={col.key} style={{ textAlign: 'center' }}>
+              <Table.Td key={col.key} className={styles.centeredCell}>
                 {col.render(upgrade[col.dataIndex as keyof SubstatUpgradeItem] as number, upgrade)}
               </Table.Td>
             ))}

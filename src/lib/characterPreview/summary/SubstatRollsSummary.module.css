@@ -1,0 +1,26 @@
+.leftColumn {
+  width: 125px;
+  padding-left: 5px;
+}
+
+.rightColumn {
+  width: 125px;
+  padding-right: 5px;
+}
+
+.singleColumn {
+  width: 150px;
+}
+
+.pre {
+  margin: 0;
+}
+
+.preRight {
+  margin: 0;
+  text-align: right;
+}
+
+.parensSpacer {
+  margin: 3px;
+}

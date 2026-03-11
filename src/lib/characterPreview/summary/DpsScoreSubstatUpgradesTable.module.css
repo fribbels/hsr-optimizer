@@ -1,0 +1,17 @@
+.centeredCell {
+  text-align: center;
+}
+
+.headerCell {
+  text-align: center;
+  width: 200px;
+}
+
+.statIcon {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.statLabel {
+  margin-right: 10px;
+}

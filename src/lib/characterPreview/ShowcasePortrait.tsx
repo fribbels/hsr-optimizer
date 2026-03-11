@@ -2,14 +2,12 @@ import { IconEdit } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
 import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
 import {
-  showcaseBackdropFilter,
   showcaseButtonStyle,
-  showcaseOutline,
-  showcaseOutlineLight,
   showcaseShadow,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
+import styles from 'lib/characterPreview/ShowcasePortrait.module.css'
 import {
   parentH,
   parentW,
@@ -71,13 +69,10 @@ export function ShowcasePortrait(props: {
 
   return (
     <div
+      className={styles.portraitContainer}
       style={{
         width: `${parentW}px`,
         height: `${tempParentH}px`,
-        position: 'relative',
-        overflow: 'hidden',
-        borderRadius: '8px',
-        border: showcaseOutline,
         boxShadow: showcaseShadow,
       }}
     >
@@ -103,7 +98,7 @@ export function ShowcasePortrait(props: {
           />
         )}
 
-      <Flex direction="column" style={{ width: 'max-content', marginLeft: 6, marginTop: 6 }} gap={7}>
+      <Flex direction="column" className={styles.buttonColumn} gap={7}>
         {source != ShowcaseSource.BUILDS_MODAL && (
           <>
             <Button
@@ -141,51 +136,22 @@ export function ShowcasePortrait(props: {
       <Flex
         direction="column"
         gap={3}
-        style={{
-          marginBottom: 3,
-          paddingLeft: 3,
-          position: 'absolute',
-          bottom: 0,
-        }}
+        className={styles.bottomInfoContainer}
       >
         <span
+          className={styles.overlayTag}
           style={{
             display: showUid ? 'inline' : 'none',
-            backgroundColor: 'rgb(20 20 20 / 30%)',
-            color: 'rgb(255 255 255 / 80%)',
-            padding: '4px 12px',
-            borderRadius: 8,
-            border: showcaseOutlineLight,
-            backdropFilter: showcaseBackdropFilter,
-            fontSize: 14,
-            width: 'fit-content',
             maxWidth: parentW - 150,
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            zIndex: 2,
-            textShadow: '0px 0px 10px black',
           }}
         >
           {uid}
         </span>
         <span
+          className={styles.overlayTag}
           style={{
             display: artistName ? 'inline' : 'none',
-            backgroundColor: 'rgb(20 20 20 / 30%)',
-            color: 'rgb(255 255 255 / 80%)',
-            padding: '4px 12px',
-            borderRadius: 8,
-            border: showcaseOutlineLight,
-            backdropFilter: showcaseBackdropFilter,
-            fontSize: 14,
-            width: 'fit-content',
             maxWidth: parentW - 150,
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            zIndex: 2,
-            textShadow: '0px 0px 10px black',
           }}
         >
           {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' }) /* Art by {{artistName}} */}

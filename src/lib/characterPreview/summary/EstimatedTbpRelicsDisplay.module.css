@@ -1,0 +1,133 @@
+.fullWidth {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 10px;
+  width: 100%;
+}
+
+.spinnerContainer {
+  height: 100px;
+}
+
+.card {
+  width: 100%;
+  flex: 1;
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+  padding: 10px;
+  background: var(--bg-translucent);
+  box-shadow: var(--card-shadow-flat);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: var(--subtle-border);
+}
+
+.fullSize {
+  width: 100%;
+  height: 100%;
+}
+
+.innerCard {
+  flex: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 10px;
+  background: var(--panel-bg);
+  border: var(--panel-border);
+}
+
+.label {
+  font-size: 14px;
+  color: rgb(159, 175, 207);
+}
+
+.metricRow {
+  height: 111px;
+}
+
+.rollsCard {
+  flex: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 12px 14px 0 14px;
+  padding-left: 15px;
+  background: var(--panel-bg);
+  border: var(--panel-border);
+}
+
+.perfectionSection {
+  height: 46px;
+  padding-bottom: 10px;
+}
+
+.progressBarOuter {
+  height: 100%;
+  width: 100%;
+  background-color: #304878;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progressBarInner {
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.metricCard {
+  flex: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 6px 10px;
+  background-color: #334f87;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgb(73, 98, 153);
+}
+
+.metricLabel {
+  font-size: 13px;
+  color: #9fafcf;
+}
+
+.metricValue {
+  font-size: 18px;
+  font-weight: bold;
+  color: #e0e6f2;
+}
+
+.roll {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  border-radius: 2px;
+  margin-bottom: 3px;
+}
+
+.rollHigh {
+  composes: roll;
+  background-color: #0e7eff;
+}
+
+.rollMid {
+  composes: roll;
+  background-color: #63a9ff;
+}
+
+.rollLow {
+  composes: roll;
+  background-color: #a5bcd9;
+}
+
+.rollLinePlaceholder {
+  height: 22px;
+  width: 100%;
+}
+
+.rollLine {
+  height: 22px;
+  width: 100%;
+}

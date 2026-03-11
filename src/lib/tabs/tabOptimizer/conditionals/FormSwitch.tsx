@@ -13,15 +13,13 @@ import {
   ComponentProps,
   ComponentType,
 } from 'react'
-import styled from 'styled-components'
-
 const justify = 'flex-start'
 const align = 'center'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-const Text = styled(MantineText as any)`
-    white-space: pre-line;
-`
+const Text = (props: React.PropsWithChildren<{ style?: React.CSSProperties }>) => (
+  <MantineText style={{ whiteSpace: 'pre-line', ...props.style }} {...props} />
+)
 
 export function getConditionalType(props: FormSwitchProps | FormSliderProps | FormSelectProps) {
   if (props.set) {

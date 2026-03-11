@@ -35,7 +35,7 @@ import {
   ComboState,
   ComboTeammate,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 import {
@@ -97,15 +97,6 @@ export function ContentRows(
 ) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
-  // Use a ref-based version counter instead of JSON.stringify in the dependency array.
-  const comboConditionalsVersionRef = useRef(0)
-  const prevComboConditionalsJsonRef = useRef('')
-  const comboConditionalsJson = JSON.stringify(props.comboConditionals)
-  if (comboConditionalsJson !== prevComboConditionalsJsonRef.current) {
-    prevComboConditionalsJsonRef.current = comboConditionalsJson
-    comboConditionalsVersionRef.current += 1
-  }
-
   const content = useMemo(() => {
     const content: ReactElement[] = []
     for (const contentItem of props.contentItems) {
@@ -127,8 +118,7 @@ export function ContentRows(
     }
 
     return content
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comboConditionalsVersionRef.current, props.actionCount, i18n.resolvedLanguage])
+  }, [props.comboConditionals, props.contentItems, props.actionCount, props.sourceKey, props.comboState, props.onComboStateChange, i18n.resolvedLanguage])
 
   return (
     <Flex direction="column">

@@ -8,7 +8,6 @@ import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
-import { tableStyle } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import {
   ElementName,
@@ -33,6 +32,7 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import styles from './BenchmarkResults.module.css'
 
 type BenchmarkRow = {
   key: string,
@@ -60,7 +60,7 @@ export function BenchmarkResults() {
   const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
 
   return (
-    <Flex direction="column" style={{ width: '100%' }}>
+    <Flex direction="column" className={styles.resultsContainer}>
       <PercentageTabs dataSource100={rows100} dataSource200={rows200} />
     </Flex>
   )
@@ -90,28 +90,20 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
   const deltaPercentRenderer = renderDeltaPercent()
 
   return (
-    <div
-      style={{
-        padding: 8,
-        backgroundColor: '#243356',
-        border: '1px solid #354b7d',
-        borderTop: 'none',
-      }}
-    >
+    <div className={styles.tableWrapper}>
       <Table
-        className='remove-table-bottom-border'
-        style={benchmarkTableStyle}
+        className={`remove-table-bottom-border ${styles.benchmarkTable}`}
       >
         <Table.Thead>
           <Table.Tr>
-            <Table.Th style={{ width: 30 }} />
-            <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('Combo')}</Table.Th>
-            <Table.Th style={{ textAlign: 'center', width: 100 }}>{t('Delta')}</Table.Th>
-            <Table.Th style={{ textAlign: 'center' }}>{tCommon('Body')}</Table.Th>
-            <Table.Th style={{ textAlign: 'center' }}>{tCommon('Feet')}</Table.Th>
-            <Table.Th style={{ textAlign: 'center' }}>{tCommon('PlanarSphere')}</Table.Th>
-            <Table.Th style={{ textAlign: 'center' }}>{tCommon('LinkRope')}</Table.Th>
-            <Table.Th style={{ textAlign: 'center', width: 150 }}>{t('Sets')}</Table.Th>
+            <Table.Th className={styles.expandColumn} />
+            <Table.Th className={styles.comboColumn}>{t('Combo')}</Table.Th>
+            <Table.Th className={styles.deltaColumn}>{t('Delta')}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon('Body')}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon('Feet')}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon('PlanarSphere')}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon('LinkRope')}</Table.Th>
+            <Table.Th className={styles.setsColumn}>{t('Sets')}</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -121,36 +113,36 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
               <React.Fragment key={row.key}>
                 <Table.Tr
                   onClick={() => toggleExpand(row.key)}
-                  style={{ cursor: 'pointer' }}
+                  className={styles.clickableRow}
                 >
                   <Table.Td>
                     {expanded ? <IconChevronDown /> : <IconChevronRight />}
                   </Table.Td>
-                  <Table.Td style={{ textAlign: 'center', position: 'relative' }}>
+                  <Table.Td className={styles.comboCellInner}>
                     {comboDmgRenderer(row.comboDmg, row)}
                   </Table.Td>
-                  <Table.Td style={{ textAlign: 'center' }}>
+                  <Table.Td className={styles.centeredCell}>
                     {deltaPercentRenderer(row.deltaPercent)}
                   </Table.Td>
-                  <Table.Td style={{ textAlign: 'center' }}>
+                  <Table.Td className={styles.centeredCell}>
                     {statRenderer(row.simBody as SubStats)}
                   </Table.Td>
-                  <Table.Td style={{ textAlign: 'center' }}>
+                  <Table.Td className={styles.centeredCell}>
                     {statRenderer(row.simFeet as SubStats)}
                   </Table.Td>
-                  <Table.Td style={{ textAlign: 'center' }}>
+                  <Table.Td className={styles.centeredCell}>
                     {statRenderer(row.simPlanarSphere as SubStats)}
                   </Table.Td>
-                  <Table.Td style={{ textAlign: 'center' }}>
+                  <Table.Td className={styles.centeredCell}>
                     {statRenderer(row.simLinkRope as SubStats)}
                   </Table.Td>
-                  <Table.Td style={{ textAlign: 'center' }}>
+                  <Table.Td className={styles.centeredCell}>
                     {setsRenderer(row.simRelicSet1, row)}
                   </Table.Td>
                 </Table.Tr>
                 {expanded && (
                   <Table.Tr>
-                    <Table.Td colSpan={8} style={{ padding: 0 }}>
+                    <Table.Td colSpan={8} className={styles.expandedCell}>
                       <ExpandedRow row={row} />
                     </Table.Td>
                   </Table.Tr>
@@ -161,18 +153,14 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
         </Table.Tbody>
       </Table>
       {totalPages > 1 && (
-        <Flex justify='center' gap={8} style={{ padding: 8 }}>
+        <Flex justify='center' gap={8} className={styles.paginationBar}>
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
               onClick={() => setPage(i)}
+              className={styles.paginationButton}
               style={{
-                padding: '4px 10px',
-                cursor: 'pointer',
                 background: i === page ? '#1668dc' : '#243356',
-                color: '#fff',
-                border: '1px solid #354b7d',
-                borderRadius: 4,
               }}
             >
               {i + 1}
@@ -206,7 +194,7 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
       variant='outline'
       defaultValue='200'
     >
-      <Tabs.List style={{ width: '100%', margin: 0 }}>
+      <Tabs.List className={styles.tabsList}>
         {items.map((item) => <Tabs.Tab key={item.key} value={item.key}>{item.label}</Tabs.Tab>)}
       </Tabs.List>
       {items.map((item) => <Tabs.Panel key={item.key} value={item.key}>{item.children}</Tabs.Panel>)}
@@ -229,9 +217,9 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   combatStats[elementalDmgValue] = getElementalDmgFromContainer(x, element)
 
   return (
-    <Flex style={{ margin: 8 }} gap={10} justify='space-around'>
-      <Flex direction="column" style={{ minWidth: 300 }} align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>{t('BasicStats') /* Basic Stats */}</HeaderText>
+    <Flex className={styles.expandedRow} gap={10} justify='space-around'>
+      <Flex direction="column" className={styles.statsColumn} align='center' gap={5}>
+        <HeaderText className={styles.sectionHeader}>{t('BasicStats') /* Basic Stats */}</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -245,8 +233,8 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex direction="column" style={{ minWidth: 300 }} align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>{t('CombatStats') /* Combat Stats */}</HeaderText>
+      <Flex direction="column" className={styles.statsColumn} align='center' gap={5}>
+        <HeaderText className={styles.sectionHeader}>{t('CombatStats') /* Combat Stats */}</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -261,7 +249,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
       <VerticalDivider />
 
       <Flex direction="column" align='center' gap={5}>
-        <HeaderText style={{ fontSize: 16 }}>{t('Rolls') /* Substat Rolls */}</HeaderText>
+        <HeaderText className={styles.sectionHeader}>{t('Rolls') /* Substat Rolls */}</HeaderText>
 
         <SubstatRollsSummary
           simRequest={simulation.request}
@@ -275,12 +263,12 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <Flex direction="column" align='center' justify='space-between'>
         <Flex direction="column" align='center' gap={5}>
-          <HeaderText style={{ fontSize: 16 }}>{t('Combo') /* Combo Rotation */}</HeaderText>
+          <HeaderText className={styles.sectionHeader}>{t('Combo') /* Combo Rotation */}</HeaderText>
           <ComboRotationSummary simMetadata={orchestrator.metadata} />
         </Flex>
 
         <Flex direction="column" align='center' gap={5}>
-          <HeaderText style={{ fontSize: 16 }}>{t('Damage') /* Ability Damage */}</HeaderText>
+          <HeaderText className={styles.sectionHeader}>{t('Damage') /* Ability Damage */}</HeaderText>
           <AbilityDamageSummary simResult={simulation.result!} />
         </Flex>
       </Flex>
@@ -293,7 +281,7 @@ function renderStat() {
 
   return (stat: SubStats) => (
     <Flex align='center' justify='center' gap={2}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: ICON_SIZE }} />
+      <img src={Assets.getStatIcon(stat)} className={styles.statIcon} />
       <span>
         {t(stat)}
       </span>
@@ -304,33 +292,28 @@ function renderStat() {
 function renderSets() {
   return (_: string, row: BenchmarkRow) => (
     <Flex align='center' justify='center' gap={3}>
-      <img src={Assets.getSetImage(row.simRelicSet1)} style={{ width: ICON_SIZE }} />
-      <img src={Assets.getSetImage(row.simRelicSet2)} style={{ width: ICON_SIZE }} />
-      <span style={{ width: 10 }}></span>
-      <img src={Assets.getSetImage(row.simOrnamentSet)} style={{ width: ICON_SIZE }} />
+      <img src={Assets.getSetImage(row.simRelicSet1)} className={styles.statIcon} />
+      <img src={Assets.getSetImage(row.simRelicSet2)} className={styles.statIcon} />
+      <span className={styles.setSpacer}></span>
+      <img src={Assets.getSetImage(row.simOrnamentSet)} className={styles.statIcon} />
     </Flex>
   )
 }
 
 function renderComboDmg() {
   return (n: number, row: BenchmarkRow) => (
-    <Flex style={{ height: '100%', width: '100%', position: 'absolute', top: 0, left: 0 }} align='center'>
+    <Flex className={styles.comboDmgOverlay} align='center'>
       <div
+        className={styles.comboDmgBar}
         style={{
-          display: 'block',
           width: `${(100 - row.deltaBaselinePercent)}%`,
-          borderTopRightRadius: 4,
-          borderBottomRightRadius: 4,
-          position: 'absolute',
-          height: '100%',
           backgroundColor: chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0.70, 0.90, 1])(1 - row.deltaBaselinePercent * 0.01).alpha(0.70).hex(),
-          zIndex: 1,
         }}
       />
 
-      <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
-        <Badge color='#000000aa' style={{ opacity: 1, border: 0, padding: '1px 12px 1px 12px' }}>
-          <Text style={{ margin: 0, alignItems: 'center' }}>
+      <Flex className={styles.comboDmgContent} justify='center' align='center'>
+        <Badge color='#000000aa' className={styles.comboDmgBadge}>
+          <Text className={styles.comboDmgText}>
             {`${localeNumber_0(n / 1000)}K`}
           </Text>
         </Badge>
@@ -347,7 +330,7 @@ function renderDeltaPercent() {
 
     return (
       <Flex align='center' justify='center' gap={5}>
-        <span style={{ fontSize: 10, lineHeight: '17px', color: color }}>
+        <span className={styles.deltaIcon} style={{ color: color }}>
           {icon}
         </span>
         {increase ? '' : `-${localeNumber_0(n)}%`}
@@ -413,10 +396,3 @@ function generateBenchmarkRows(orchestrators: BenchmarkSimulationOrchestrator[])
 
   return { rows100, rows200 }
 }
-
-const benchmarkTableStyle = {
-  ...tableStyle,
-  width: 1200,
-}
-
-const ICON_SIZE = 32

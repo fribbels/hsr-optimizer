@@ -1,0 +1,25 @@
+.table {
+  width: 100%;
+  border: var(--panel-border);
+  box-shadow: var(--card-shadow-flat);
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+}
+
+.centeredCell {
+  text-align: center;
+}
+
+.headerCell {
+  text-align: center;
+  width: 200px;
+}
+
+.partIcon {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.arrowText {
+  font-size: 10px;
+}

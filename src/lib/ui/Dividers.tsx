@@ -1,8 +1,8 @@
 import {
   Divider,
+  DividerProps,
   Flex,
 } from '@mantine/core'
-import styled from 'styled-components'
 
 export function VerticalDivider(props: { width?: number }) {
   const width = props.width ?? 10
@@ -13,9 +13,9 @@ export function VerticalDivider(props: { width?: number }) {
   )
 }
 
-export const HorizontalDivider = styled(Divider)`
-    margin: 5px 0px;
-`
+export const HorizontalDivider = (props: DividerProps) => (
+  <Divider my={5} {...props} />
+)
 
 export function CustomHorizontalDivider(props: { height?: number }) {
   const height = props.height ?? 5

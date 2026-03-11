@@ -1,29 +1,33 @@
-import { Text } from '@mantine/core'
-import { ComponentType } from 'react'
+import { CSSProperties } from 'react'
+import { Text, TextProps } from '@mantine/core'
 import { Languages } from 'lib/utils/i18nUtils'
-import styled from 'styled-components'
 
-const RelicStatText = styled(Text as ComponentType<any>).attrs({ component: 'div' })<{ language?: Languages }>`
-    ${(props) => generateStyling(props.language)}
-`
-
-export default RelicStatText
-
-function generateStyling(language?: Languages) {
+function generateStyling(language?: Languages): CSSProperties {
   switch (language) {
     case 'fr_FR':
     case 'pt_BR':
     case 'vi_VN':
-      return `
-        white-space: nowrap;
-        letter-spacing: -0.2px;
-        font-size: 13px;
-        line-height: 22px;
-      `
+      return {
+        whiteSpace: 'nowrap',
+        letterSpacing: '-0.2px',
+        fontSize: 13,
+        lineHeight: '22px',
+      }
     default:
-      return `
-        white-space: nowrap;
-        letter-spacing: -0.2px;
-      `
+      return {
+        whiteSpace: 'nowrap',
+        letterSpacing: '-0.2px',
+      }
   }
 }
+
+type RelicStatTextProps = TextProps & React.ComponentPropsWithoutRef<'div'> & { language?: Languages }
+
+const RelicStatText = (props: RelicStatTextProps) => {
+  const { language, style, ...rest } = props
+  return (
+    <Text component="div" style={{ ...generateStyling(language), ...style as CSSProperties }} {...rest} />
+  )
+}
+
+export default RelicStatText

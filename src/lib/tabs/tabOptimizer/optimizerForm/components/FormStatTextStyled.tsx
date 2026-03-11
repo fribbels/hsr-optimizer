@@ -1,10 +1,7 @@
-import { Text } from '@mantine/core'
-import styled from 'styled-components'
+import { Text, TextProps } from '@mantine/core'
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-const FormStatTextStyled = styled(Text as any)`
-    display: block;
-    text-align: center;
-`
+const FormStatTextStyled = (props: TextProps & React.ComponentPropsWithoutRef<'p'>) => (
+  <Text ta="center" display="block" {...props} />
+)
 
 export default FormStatTextStyled

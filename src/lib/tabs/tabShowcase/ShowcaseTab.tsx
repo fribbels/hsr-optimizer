@@ -51,6 +51,7 @@ import {
 } from 'react-i18next'
 import { Character } from 'types/character'
 import { SettingOptions } from '../../overlays/drawers/SettingsDrawer'
+import styles from './ShowcaseTab.module.css'
 
 const RERUN_PRESET_SIZE = 45
 const PRESET_SIZE = 95
@@ -77,7 +78,7 @@ export default function ShowcaseTab() {
         {SHOWCASE_DOWNTIME && (
           <Flex gap={10} direction="column" align='center'>
             <Text>
-              <h3 style={{ color: '#ffaa4f' }}>{t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}</h3>
+              <h3 className={styles.downtimeWarning}>{t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}</h3>
             </Text>
           </Flex>
         )}
@@ -94,21 +95,21 @@ export default function ShowcaseTab() {
           </Text>
         </Flex>
         <form onSubmit={showcaseForm.onSubmit(submitForm)}>
-          <Flex style={{ margin: 10, width: 1100 }} justify='center' align='center' gap={10}>
+          <Flex className={styles.formRow} justify='center' align='center' gap={10}>
             <TextInput
-              style={{ width: 150 }}
+              className={styles.uidInput}
               placeholder={t('SubmissionBar.Placeholder') /* Account UID */}
               {...showcaseForm.getInputProps('scorerId')}
             />
             <Button
               type='submit'
               loading={loading}
-              style={{ width: 150 }}
+              className={styles.submitButton}
             >
               {t('common:Submit') /* Submit */}
             </Button>
             <Button
-              style={{ width: 'fit-content', minWidth: 175 }}
+              className={styles.scoringButton}
               onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
               leftSection={<IconSettings size={16} />}
               variant="default"
@@ -218,14 +219,7 @@ function CharacterPreviewSelection() {
       label: (
         <Flex align='center' justify='space-around'>
           <img
-            style={{
-              width: 100,
-              height: 100,
-              objectFit: 'contain',
-              borderRadius: 50,
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              background: 'rgba(255, 255, 255, 0.05)',
-            }}
+            className={styles.avatarImage}
             src={Assets.getCharacterAvatarById(availableCharacter.id)}
           />
         </Flex>
@@ -236,8 +230,8 @@ function CharacterPreviewSelection() {
   }
 
   return (
-    <Flex style={{ width: 1375 }} justify='space-around'>
-      <Flex direction="column" align='center' gap={8} style={{ marginBottom: 100, width: 1068 }}>
+    <Flex className={styles.outerWrapper} justify='space-around'>
+      <Flex direction="column" align='center' gap={8} className={styles.innerColumn}>
         <Flex
           direction="column"
           style={{
@@ -255,7 +249,7 @@ function CharacterPreviewSelection() {
             gap={10}
           >
             <Button
-              style={{ flex: 1 }}
+              className={styles.flexOne}
               onClick={clipboardClicked}
               leftSection={<IconCamera size={16} />}
               loading={screenshotLoading}
@@ -263,23 +257,23 @@ function CharacterPreviewSelection() {
               {t('CopyScreenshot') /* Copy screenshot */}
             </Button>
             <Button
-              style={{ width: 50 }}
+              className={styles.downloadButton}
               leftSection={<IconDownload size={16} />}
               onClick={downloadClicked}
               loading={downloadLoading}
               variant="default"
             />
             <Menu>
-              <Flex style={{ flex: 1 }} className='dropdownButton'>
+              <Flex className={`${styles.flexOne} dropdownButton`}>
                 <Button
-                  style={{ flex: 1, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+                  className={styles.importButton}
                   onClick={() => importClicked('singleCharacter')}
                   leftSection={<IconFileImport size={16} />}
                 >
                   {t('ImportLabels.Relics') /* Import relics into optimizer */}
                 </Button>
                 <Menu.Target>
-                  <Button style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, padding: '0 8px' }}>
+                  <Button className={styles.chevronButton}>
                     <IconChevronDown size={16} />
                   </Button>
                 </Menu.Target>
@@ -293,7 +287,7 @@ function CharacterPreviewSelection() {
               </Menu.Dropdown>
             </Menu>
             <Button
-              style={{ flex: 1 }}
+              className={styles.flexOne}
               leftSection={<IconFlask size={16} />}
               onClick={simulateClicked}
               variant="default"
@@ -307,14 +301,14 @@ function CharacterPreviewSelection() {
           && <DPSScoreDisclaimer />}
 
         <SegmentedControl
-          style={{ width: '100%', overflow: 'hidden' }}
+          className={styles.segmentedControl}
           data={options}
           fullWidth
           onChange={(value) => useShowcaseTabStore.getState().onSelectionChanged(value as any)}
           value={selectedCharacter?.id}
         />
 
-        <div id='previewWrapper' style={{ padding: '0 5 5 5' }}>
+        <div id='previewWrapper' className={styles.previewWrapper}>
           <CharacterPreview
             character={selectedCharacter as Character | null}
             source={ShowcaseSource.SHOWCASE_TAB}
@@ -351,15 +345,10 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
         direction="column"
         gap={3}
         justify='center'
-        style={{
-          marginLeft: -8,
-          width: 110,
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-        }}
+        className={styles.sidebarDropdown}
       >
         {presetCharacters().map((preset) => {
-          const icon = preset.custom ? <IconEdit style={{ fontSize: 85 }} /> : <PresetButton preset={preset} />
+          const icon = preset.custom ? <IconEdit className={styles.editIcon} /> : <PresetButton preset={preset} />
           return (
             <Button
               key={key++}
@@ -383,14 +372,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
   return (
     <Flex
       direction="column"
-      style={{
-        position: 'relative',
-        left: -120,
-        // top: 40,
-        top: 95, // With announcement banner
-        width: 0,
-        height: 0,
-      }}
+      className={styles.sidebarContainer}
     >
       <Popover opened={open} position='right-start' withArrow={false} shadow='md'>
         <Popover.Target>
@@ -401,13 +383,13 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
             }}
           >
             <Button
-              style={{ height: PRESET_SIZE, width: PRESET_SIZE, borderRadius: PRESET_SIZE, marginBottom: 2 }}
+              className={styles.toggleButton}
             >
-              <IconFlask style={{ fontSize: 55 }} />
+              <IconFlask className={styles.flaskIcon} />
             </Button>
           </a>
         </Popover.Target>
-        <Popover.Dropdown style={{ padding: 4 }}>
+        <Popover.Dropdown className={styles.popoverDropdown}>
           {dropdownDisplay}
         </Popover.Dropdown>
       </Popover>
@@ -421,13 +403,7 @@ function PresetButton(props: { preset: CharacterPreset }) {
     return (
       <img
         src={Assets.getCharacterAvatarById(preset.characterId)}
-        style={{
-          height: RERUN_PRESET_SIZE,
-          width: RERUN_PRESET_SIZE,
-          borderRadius: RERUN_PRESET_SIZE,
-          outline: '1px solid rgba(255, 255, 255, 0.2)',
-          background: 'rgba(255, 255, 255, 0.05)',
-        }}
+        className={styles.rerunPresetImage}
       />
     )
   }
@@ -435,13 +411,7 @@ function PresetButton(props: { preset: CharacterPreset }) {
   return (
     <img
       src={Assets.getCharacterAvatarById(preset.characterId)}
-      style={{
-        height: PRESET_SIZE,
-        width: PRESET_SIZE,
-        borderRadius: PRESET_SIZE,
-        outline: '1px solid rgba(255, 255, 255, 0.2)',
-        background: 'rgba(255, 255, 255, 0.05)',
-      }}
+      className={styles.presetImage}
     />
   )
 }
@@ -455,10 +425,10 @@ export function DPSScoreDisclaimer() {
   if (showComboDmgWarning != SettingOptions.ShowComboDmgWarning.Show) return null
 
   return (
-    <Accordion style={{ width: '100%' }} styles={{ control: { backgroundColor: '#8a1717' } }}>
+    <Accordion className={styles.accordion} styles={{ control: { backgroundColor: '#8a1717' } }}>
       <Accordion.Item value="1">
         <Accordion.Control>
-          <div style={{ fontSize: 14 }}>
+          <div className={styles.disclaimerText}>
             <Trans t={t} i18nKey='Disclaimer'>
               Note: Combo DMG is meant to compare different relics relative to the selected team, and should <u>NOT</u>{' '}
               be used to compare different teams / LCs / eidolons!
@@ -466,7 +436,7 @@ export function DPSScoreDisclaimer() {
           </div>
         </Accordion.Control>
         <Accordion.Panel>
-          <Flex direction="column" style={{ padding: 12 }} gap={10}>
+          <Flex direction="column" className={styles.disclaimerPanel} gap={10}>
             <Trans t={t} i18nKey='DisclaimerDescription'>
               Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team.
 

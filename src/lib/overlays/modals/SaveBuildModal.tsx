@@ -7,6 +7,7 @@ import {
   BuildList,
   BuildPreview,
 } from 'lib/overlays/modals/BuildsModal'
+import styles from 'lib/overlays/modals/SaveBuildModal.module.css'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import DB, {
   AppPages,
@@ -32,8 +33,6 @@ import { Teammate } from 'types/form'
 type CharacterForm = {
   name: string,
 }
-
-const buttonStyle = { margin: '4px 0px 4px 0px', height: '5.5%' }
 
 export function SaveBuildModal(props: {
   source: AppPages.CHARACTERS | AppPages.OPTIMIZER,
@@ -169,8 +168,8 @@ export function SaveBuildModal(props: {
       centered
       onClose={handleCancel}
     >
-      <Flex gap={10} style={{ height: 856 }}>
-        <Flex direction="column" style={{ width: 400 }}>
+      <Flex gap={10} className={styles.outerFlex}>
+        <Flex direction="column" className={styles.leftColumn}>
           <TextInput
             label={t('Label') /* Build name */}
             {...characterForm.getInputProps('name')}
@@ -181,8 +180,8 @@ export function SaveBuildModal(props: {
               setSelectedBuild(character?.builds?.findIndex((b) => b.name === value) ?? null)
             }}
           />
-          <Divider style={{ margin: '6px 0px 6px 0px' }} />
-          <Button variant="default" onClick={handleCancel} style={buttonStyle}>
+          <Divider className={styles.divider} />
+          <Button variant="default" onClick={handleCancel} className={styles.actionButton}>
             {tCommon('Cancel') /* Cancel */}
           </Button>
           <Tooltip
@@ -191,16 +190,16 @@ export function SaveBuildModal(props: {
               : ''}
             position='right'
           >
-            <Button onClick={onModalOk} style={buttonStyle} disabled={saveDisabled}>
+            <Button onClick={onModalOk} className={styles.actionButton} disabled={saveDisabled}>
               {tCommon('Save') /* Save */}
             </Button>
           </Tooltip>
           <Tooltip label={overwriteDisabled ? t('Tooltip.OverwriteDisabled') : ''} position='right'>
-            <Button onClick={handleOverwrite} style={buttonStyle} disabled={overwriteDisabled}>
+            <Button onClick={handleOverwrite} className={styles.actionButton} disabled={overwriteDisabled}>
               {t('Overwrite')}
             </Button>
           </Tooltip>
-          <Divider style={{ margin: '6px 0px 6px 0px' }} />
+          <Divider className={styles.divider} />
           <BuildList
             preview
             character={character}

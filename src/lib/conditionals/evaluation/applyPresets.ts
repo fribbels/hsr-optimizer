@@ -31,7 +31,6 @@ import {
   PresetDefinition,
   setSortColumn,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
@@ -44,9 +43,10 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   const character = DB.getMetadata().characters[characterId]
   const metadata = TsUtils.clone(character.scoringMetadata)
 
-  // Using the user's current form so we don't overwrite their other numeric filter values
-  const form: Form = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
-  const defaultForm: Form = OptimizerTabController.formToDisplay(getDefaultForm(character))
+  // Get current form in internal format
+  const form = displayToInternal(useOptimizerFormStore.getState())
+  // Get defaults for setConditionals
+  const defaultForm = getDefaultForm(character)
   form.setConditionals = defaultForm.setConditionals
 
   const overrides = window.store.getState().scoringMetadataOverrides[characterId]
@@ -63,9 +63,8 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   form.resultSort = sortOption.key
   setSortColumn(sortOption.combatGridColumn)
 
-  // Convert display-format form back to internal and load into store
-  const internalForm = OptimizerTabController.displayToForm(form)
-  useOptimizerFormStore.getState().loadForm(internalForm)
+  // Load the modified internal form back into store
+  useOptimizerFormStore.getState().loadForm(form)
   recalculatePermutations()
 }
 

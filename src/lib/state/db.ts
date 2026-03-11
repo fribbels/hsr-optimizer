@@ -6,8 +6,6 @@ import {
   COMPUTE_ENGINE_GPU_STABLE,
   Constants,
   CURRENT_OPTIMIZER_VERSION,
-  DEFAULT_MEMO_DISPLAY,
-  DEFAULT_STAT_DISPLAY,
   DEFAULT_TEAM,
   Parts,
   SubStats,
@@ -35,13 +33,12 @@ import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   Simulation,
-  StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
-import { statFiltersFromForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
@@ -64,7 +61,7 @@ import {
   SavedBuild,
 } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
-import { Form } from 'types/form'
+import { Form, StatFilters } from 'types/form'
 import {
   DBMetadata,
   ScoringMetadata,
@@ -181,79 +178,29 @@ window.store = create<HsrOptimizerStore>()((set) => ({
 
   optimizerGrid: undefined,
 
-  optimizerTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
   statTracesDrawerFocusCharacter: undefined,
 
   activeKey: getDefaultActiveKey(),
-  permutations: 0,
-  permutationsResults: 0,
-  permutationsSearched: 0,
   relicsById: {},
   relics: [],
   scoringMetadataOverrides: {},
   showcaseTeamPreferenceById: {},
   showcasePreferences: {},
   showcaseTemporaryOptionsByCharacter: {},
-  statDisplay: DEFAULT_STAT_DISPLAY,
-  memoDisplay: DEFAULT_MEMO_DISPLAY,
-  statSimulationDisplay: StatSimTypes.Disabled,
-  statSimulations: [],
-  selectedStatSimulations: [],
-  optimizationInProgress: false,
-  optimizationId: null,
-  teammateCount: 0,
   relicScorerSidebarOpen: true,
-  optimizerRunningEngine: COMPUTE_ENGINE_GPU_STABLE,
-  optimizerStartTime: null,
-  optimizerEndTime: null,
-  optimizerTabFocusCharacterSelectModalOpen: false,
-
-  permutationDetails: {
-    Head: 0,
-    Hands: 0,
-    Body: 0,
-    Feet: 0,
-    PlanarSphere: 0,
-    LinkRope: 0,
-    HeadTotal: 0,
-    HandsTotal: 0,
-    BodyTotal: 0,
-    FeetTotal: 0,
-    PlanarSphereTotal: 0,
-    LinkRopeTotal: 0,
-  },
-
-  optimizerMenuState: {
-    [OptimizerMenuIds.characterOptions]: true,
-    [OptimizerMenuIds.relicAndStatFilters]: true,
-    [OptimizerMenuIds.teammates]: true,
-    [OptimizerMenuIds.characterStatsSimulation]: false,
-    [OptimizerMenuIds.analysis]: true,
-  },
 
   savedSession: savedSessionDefaults,
 
   settings: DefaultSettingOptions,
-  optimizerBuild: null,
-  optimizerSelectedRowData: null,
 
   setVersion: (x) => {
     if (!x) return
     return set(() => ({ version: x }))
   },
   setActiveKey: (x) => set(() => ({ activeKey: x })),
-  setOptimizerTabFocusCharacter: (characterId) =>
-    set((s) => ({
-      optimizerTabFocusCharacter: characterId,
-      savedSession: { ...s.savedSession, optimizerCharacterId: characterId ?? null },
-    })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
   setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
-  setPermutationDetails: (x) => set(() => ({ permutationDetails: x })),
-  setPermutations: (x) => set(() => ({ permutations: x })),
-  setPermutationsResults: (x) => set(() => ({ permutationsResults: x })),
-  setPermutationsSearched: (x) => set(() => ({ permutationsSearched: x })),
   setRelicsById: (relicsById) =>
     set(() => {
       const relics = Object.values(relicsById).filter(ArrayFilters.nonNullable)
@@ -267,19 +214,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   },
   setShowcasePreferences: (x) => set(() => ({ showcasePreferences: x })),
   setShowcaseTemporaryOptionsByCharacter: (x) => set(() => ({ showcaseTemporaryOptionsByCharacter: x })),
-  setStatDisplay: (x) => set(() => ({ statDisplay: x })),
-  setMemoDisplay: (x) => set(() => ({ memoDisplay: x })),
-  setStatSimulationDisplay: (x) => set(() => ({ statSimulationDisplay: x })),
-  setStatSimulations: (x) => set(() => ({ statSimulations: Utils.clone(x) })),
-  setSelectedStatSimulations: (x) => set(() => ({ selectedStatSimulations: x })),
-  setOptimizerMenuState: (x) => set(() => ({ optimizerMenuState: x })),
-  setOptimizationInProgress: (x) => set(() => ({ optimizationInProgress: x })),
-  setOptimizationId: (x) => set(() => ({ optimizationId: x })),
-  setOptimizerStartTime: (x) => set(() => ({ optimizerStartTime: x })),
-  setOptimizerRunningEngine: (x) => set(() => ({ optimizerRunningEngine: x })),
-  setOptimizerEndTime: (x) => set(() => ({ optimizerEndTime: x })),
-  setTeammateCount: (x) => set(() => ({ teammateCount: x })),
-  setOptimizerTabFocusCharacterSelectModalOpen: (x) => set(() => ({ optimizerTabFocusCharacterSelectModalOpen: x })),
   setSettings: (x) => set(() => ({ settings: x })),
   setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) =>
@@ -287,8 +221,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
       savedSession: { ...state.savedSession, [key]: x },
     })),
   setColorTheme: (x) => set(() => ({ colorTheme: x })),
-  setOptimizerBuild: (x) => set(() => ({ optimizerBuild: x })),
-  setOptimizerSelectedRowData: (x) => set(() => ({ optimizerSelectedRowData: x })),
 }))
 
 export const DB = {
@@ -821,24 +753,24 @@ export const DB = {
 
     switch (source) {
       case SavedBuildSource.OPTIMIZER:
-        const formData = OptimizerTabController.formToDisplay(OptimizerTabController.getForm())
+        const state = useOptimizerFormStore.getState()
         const optimizerMetadata: BuildOptimizerMetadata = {
           conditionals: {},
           setFilters: {
-            relics: TsUtils.clone(formData.relicSets),
-            ornaments: TsUtils.clone(formData.ornamentSets),
+            relics: TsUtils.clone(state.relicSets),
+            ornaments: TsUtils.clone(state.ornamentSets),
           },
-          statFilters: statFiltersFromForm(formData),
-          comboStateJson: TsUtils.clone(formData.comboStateJson),
-          setConditionals: TsUtils.clone(formData.setConditionals),
-          presets: formData.comboPreprocessor,
+          statFilters: TsUtils.clone(state.statFilters) as unknown as StatFilters,
+          comboStateJson: TsUtils.clone(state.comboStateJson),
+          setConditionals: TsUtils.clone(state.setConditionals),
+          presets: state.comboPreprocessor,
         }
-        optimizerMetadata.conditionals[formData.characterId] = TsUtils.clone(formData.characterConditionals)
-        optimizerMetadata.conditionals[formData.lightCone] = TsUtils.clone(formData.lightConeConditionals)
-        ;[formData.teammate0, formData.teammate1, formData.teammate2].forEach((teammate) => {
+        optimizerMetadata.conditionals[state.characterId!] = TsUtils.clone(state.characterConditionals)
+        optimizerMetadata.conditionals[state.lightCone!] = TsUtils.clone(state.lightConeConditionals)
+        state.teammates.forEach((teammate) => {
           team.push({
-            characterId: teammate.characterId,
-            lightConeId: teammate.lightCone,
+            characterId: teammate.characterId!,
+            lightConeId: teammate.lightCone!,
             eidolon: teammate.characterEidolon,
             superimposition: teammate.lightConeSuperimposition,
             relicSet: teammate.teamRelicSet,
@@ -850,14 +782,14 @@ export const DB = {
 
         build = {
           characterId,
-          eidolon: formData.characterEidolon,
-          lightConeId: formData.lightCone,
-          superimposition: formData.lightConeSuperimposition,
+          eidolon: state.characterEidolon,
+          lightConeId: state.lightCone!,
+          superimposition: state.lightConeSuperimposition,
           name,
           equipped: useOptimizerUIStore.getState().optimizerBuild ?? {},
           optimizerMetadata,
           team,
-          deprioritizeBuffs: formData.deprioritizeBuffs ?? false,
+          deprioritizeBuffs: state.deprioritizeBuffs ?? false,
         }
         break
       case SavedBuildSource.SHOWCASE:

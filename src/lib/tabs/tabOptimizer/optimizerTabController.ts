@@ -36,10 +36,6 @@ import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { SaveState } from 'lib/state/saveState'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import {
-  displayToForm,
-  formToDisplay,
-} from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
@@ -114,16 +110,6 @@ export const OptimizerTabController = {
   // Get a form that's ready for optimizer submission
   getForm: () => {
     return displayToInternal(useOptimizerFormStore.getState())
-  },
-
-  // Convert a form to its visual representation
-  formToDisplay: (form: Form) => {
-    return formToDisplay(form)
-  },
-
-  // Parse out any invalid values and prepare the form for submission to optimizer
-  displayToForm: (form: Form) => {
-    return displayToForm(form)
   },
 
   equipClicked: () => {

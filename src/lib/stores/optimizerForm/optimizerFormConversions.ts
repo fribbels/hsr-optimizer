@@ -1,5 +1,5 @@
 import { CombatBuffs, ConditionalDataType, Constants } from 'lib/constants/constants'
-import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
+import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
   OptimizerFormState,
   OptimizerRequest,
@@ -186,6 +186,14 @@ export function buildOptimizerRequest(state: OptimizerFormState): OptimizerReque
  */
 export function buildSaveForm(state: OptimizerFormState): Form {
   return displayToInternal(state)
+}
+
+/**
+ * Normalize an internal-format Form by round-tripping through display format.
+ * Applies all defaults, then converts back to internal.
+ */
+export function normalizeForm(form: Form): Form {
+  return displayToInternal({ ...createDefaultFormState(), ...internalFormToState(form) } as OptimizerFormState)
 }
 
 /**

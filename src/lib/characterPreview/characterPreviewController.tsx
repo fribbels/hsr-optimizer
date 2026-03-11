@@ -34,7 +34,7 @@ import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { filterNonNull } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -194,7 +194,7 @@ export function getShowcaseStats(
 ) {
   const statCalculationRelics = TsUtils.clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
-  const form = OptimizerTabController.displayToForm(OptimizerTabController.formToDisplay(character.form))
+  const form = normalizeForm(character.form)
   const context = generateContext(form)
   const { x } = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null)
   const basicStats = x.c.toBasicStatsObject()

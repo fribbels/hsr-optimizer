@@ -5,30 +5,12 @@ import {
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
-  getArtistName,
-  getPreviewRelics,
-  getShowcaseDisplayDimensions,
-  getShowcaseMetadata,
-  getShowcaseStats,
-  handleTeamSelection,
-  resolveScoringType,
-  ShowcaseDisplayDimensions,
-  showcaseOnAddOk,
-  showcaseOnEditOk,
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
-import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseCustomizationController'
-import ShowcaseCustomizationSidebar, {
-  defaultShowcasePreferences,
-  getDefaultColor,
-  getOverrideColorMode,
-  ShowcaseCustomizationSidebarRef,
-  standardShowcasePreferences,
-  urlToColorCache,
-} from 'lib/characterPreview/ShowcaseCustomizationSidebar'
+import ShowcaseCustomizationSidebar from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import {
   ShowcaseCombatScoreDetailsFooter,
   ShowcaseDpsScoreHeader,
@@ -42,11 +24,11 @@ import {
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
+import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
+import { computeShowcaseDerivedData } from 'lib/characterPreview/useShowcaseDerivedData'
 import {
   Parts,
-  ShowcaseColorMode,
 } from 'lib/constants/constants'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
   defaultGap,
   middleColumnWidth,
@@ -54,35 +36,21 @@ import {
 } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import RelicModal from 'lib/overlays/modals/RelicModal'
-import { Assets } from 'lib/rendering/assets'
 
-import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
-import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
-import DB, { AppPages } from 'lib/state/db'
-import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
+import { AppPages } from 'lib/state/db'
 import {
   showcaseBackgroundColor,
-  showcaseCardBackgroundColor,
-  showcaseCardBorderColor,
   showcaseTransition,
 } from 'lib/utils/colorUtils'
-import {
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { useShallow } from 'zustand/react/shallow'
 import {
   Character,
   SavedBuild,
 } from 'types/character'
 import {
-  CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import { Relic } from 'types/relic'
 
 interface InteractiveCharacterPreviewProps {
   setOriginalCharacterModalOpen: (open: boolean) => void
@@ -115,77 +83,13 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   } = props
 
   const mantineTheme = useMantineTheme()
-  const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
-  const [selectedPart, setSelectedPart] = useState<Parts | null>(null)
-  const [relicModalOpen, setRelicModalOpen] = useState(false)
-  const setEditModalOpen = (open: boolean) => setRelicModalOpen(open)
-  const setAddModalOpen = (open: boolean, part: Parts) => {
-    setSelectedPart(part)
-    setSelectedRelic(null)
-    setRelicModalOpen(open)
-  }
-  const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
-  const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
 
-  const {
-    teamSelectionByCharacter,
-    globalShowcasePreferences,
-    showcaseTemporaryOptionsByCharacter,
-  } = window.store(
-    useShallow((s) => ({
-      teamSelectionByCharacter: s.showcaseTeamPreferenceById,
-      globalShowcasePreferences: s.showcasePreferences,
-      showcaseTemporaryOptionsByCharacter: s.showcaseTemporaryOptionsByCharacter,
-    })),
-  )
-
-  // Task 2.7: Scope relicsById subscription to only the 6 equipped relic IDs
-  const relicsById = window.store(useShallow((s) => {
-    if (!character) return null
-    const equipped = savedBuildOverride?.equipped ?? character.equipped
-    const ids = [equipped?.Head, equipped?.Hands, equipped?.Body, equipped?.Feet, equipped?.PlanarSphere, equipped?.LinkRope].filter((id): id is string => !!id)
-    return Object.fromEntries(ids.map((id) => [id, s.relicsById[id]])) as Partial<Record<string, Relic>>
-  }))
-
-  const [storedScoringType, setScoringType] = useState(window.store.getState().savedSession.scoringType)
-  const prevCharId = useRef<string>()
-  const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
-  const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
-
-  const sidebarRef = useRef<ShowcaseCustomizationSidebarRef>(null)
-  const [seedColor, setSeedColor] = useState<string>(DEFAULT_SHOWCASE_COLOR)
-  const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
-    window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
-  )
-  const activeKey = window.store((s) => s.activeKey)
-  const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
-
-  // Using this to trigger updates on scoring metadata changes
-  const scoringMetadata = useScoringMetadata(character?.id)
+  const state = useCharacterPreviewState(source, character, savedBuildOverride)
 
   // Hooks must be called unconditionally before early return to satisfy Rules of Hooks
-  const previewRelics = useMemo(() => {
-    if (!character || !relicsById) return null
-    return getPreviewRelics(source, character, relicsById, savedBuildOverride)
-  }, [source, character, relicsById, savedBuildOverride])
-
-  const finalStats = useMemo(() => {
-    if (!character || !previewRelics) return undefined
-    const metadata = getShowcaseMetadata(character)
-    return getShowcaseStats(character, previewRelics.displayRelics, metadata)
-  }, [character, previewRelics])
-
-  const onRelicModalOk = (relic: Relic) => {
-    if (selectedRelic) {
-      showcaseOnEditOk(relic, selectedRelic, setSelectedRelic)
-    } else {
-      showcaseOnAddOk(relic, setSelectedRelic)
-    }
-  }
-
   if (!character
-    || (activeKey != AppPages.CHARACTERS && activeKey != AppPages.SHOWCASE && activeKey != AppPages.OPTIMIZER)
-    || (source === ShowcaseSource.CHARACTER_TAB && activeKey === AppPages.OPTIMIZER)) {
+    || (state.activeKey != AppPages.CHARACTERS && state.activeKey != AppPages.SHOWCASE && state.activeKey != AppPages.OPTIMIZER)
+    || (source === ShowcaseSource.CHARACTER_TAB && state.activeKey === AppPages.OPTIMIZER)) {
     return (
       <div
         style={{
@@ -201,65 +105,37 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   // ===== Relics =====
 
-  const { scoringResults, displayRelics } = previewRelics!
+  const { scoringResults, displayRelics } = state.previewRelics!
   const scoredRelics = scoringResults.relics || []
-  const showcaseMetadata = getShowcaseMetadata(character)
 
-  // ===== Simulation =====
+  // ===== Derived data (simulation, portrait, color, theme, display) =====
 
-  const currentSelection = handleTeamSelection(character, prevCharId, teamSelectionByCharacter)
-  const showcaseTemporaryOptions = showcaseTemporaryOptionsByCharacter[character.id]
-  const asyncSimScoringExecution = getShowcaseSimScoringExecution(
+  const derived = computeShowcaseDerivedData({
     character,
+    prevCharId: state.prevCharId,
+    prevSeedColor: state.prevSeedColor,
+    teamSelectionByCharacter: state.teamSelectionByCharacter,
+    showcaseTemporaryOptionsByCharacter: state.showcaseTemporaryOptionsByCharacter,
+    globalShowcasePreferences: state.globalShowcasePreferences,
     displayRelics,
-    currentSelection,
-    showcaseTemporaryOptions,
+    storedScoringType: state.storedScoringType,
+    colorMode: state.colorMode,
+    darkMode: state.darkMode,
     savedBuildOverride,
-  )
-  const scoringType = resolveScoringType(storedScoringType, asyncSimScoringExecution)
+  })
 
-  // ===== Portrait =====
-
-  const portraitToUse = DB.getCharacterById(character?.id)?.portrait ?? undefined
-  const portraitUrl = portraitToUse?.imageUrl ?? Assets.getCharacterPortraitById(character.id)
-
-  // ===== Color =====
-
-  const defaultColor = getDefaultColor(character.id, portraitUrl, colorMode)
-
-  const characterShowcasePreferences = colorMode == ShowcaseColorMode.STANDARD
-    ? standardShowcasePreferences()
-    : globalShowcasePreferences[character.id] ?? defaultShowcasePreferences(defaultColor)
-
-  const overrideColorMode = getOverrideColorMode(colorMode, globalShowcasePreferences, character)
-
-  const overrideSeedColor = portraitToUse
-    ? (
-      urlToColorCache[portraitUrl]
-        ? (overrideColorMode == ShowcaseColorMode.AUTO)
-          ? defaultColor
-          : (characterShowcasePreferences.color ?? defaultColor)
-        : prevSeedColor.current
-    )
-    : (
-      (overrideColorMode == ShowcaseColorMode.AUTO)
-        ? defaultColor
-        : (characterShowcasePreferences.color ?? defaultColor)
-    )
-
-  prevSeedColor.current = overrideSeedColor
-
-  // ===== Theme =====
-
-  const derivedShowcaseTheme: ShowcaseTheme = {
-    cardBackgroundColor: showcaseCardBackgroundColor(overrideSeedColor, darkMode),
-    cardBorderColor: showcaseCardBorderColor(overrideSeedColor, darkMode),
-  }
-
-  // ===== Display =====
-
-  const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, scoringType == ScoringType.COMBAT_SCORE)
-  const artistName = getArtistName(character)
+  const {
+    showcaseMetadata,
+    currentSelection,
+    asyncSimScoringExecution,
+    scoringType,
+    portraitToUse,
+    portraitUrl,
+    overrideColorMode,
+    derivedShowcaseTheme,
+    displayDimensions,
+    artistName,
+  } = derived
 
   const yOffset = 0
   const zoom = 150
@@ -268,11 +144,11 @@ export function CharacterPreview(props: CharacterPreviewProps) {
     <Flex direction="column" style={{ width: source == ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <RelicModal
-          selectedRelic={selectedRelic}
-          selectedPart={selectedPart}
-          onOk={onRelicModalOk}
-          setOpen={setRelicModalOpen}
-          open={relicModalOpen}
+          selectedRelic={state.selectedRelic}
+          selectedPart={state.selectedPart}
+          onOk={state.onRelicModalOk}
+          setOpen={state.setRelicModalOpen}
+          open={state.relicModalOpen}
           defaultWearer={character.id}
         />
       )}
@@ -284,17 +160,17 @@ export function CharacterPreview(props: CharacterPreviewProps) {
       */
       }
       <ShowcaseCustomizationSidebar
-        ref={sidebarRef}
+        ref={state.sidebarRef}
         source={source}
         id={props.id}
         characterId={character.id}
         asyncSimScoringExecution={asyncSimScoringExecution}
-        showcasePreferences={characterShowcasePreferences}
+        showcasePreferences={derived.characterShowcasePreferences}
         scoringType={scoringType}
-        seedColor={overrideSeedColor}
-        setSeedColor={setSeedColor}
+        seedColor={derived.overrideSeedColor}
+        setSeedColor={state.setSeedColor}
         colorMode={overrideColorMode}
-        setColorMode={setColorMode}
+        setColorMode={state.setColorMode}
       />
 
       {/* Showcase full card */}
@@ -305,7 +181,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
           position: 'relative',
           display: character ? 'flex' : 'none',
           height: parentH,
-          background: showcaseBackgroundColor(mantineTheme.colors.dark[8], darkMode),
+          background: showcaseBackgroundColor(mantineTheme.colors.dark[8], state.darkMode),
           backgroundBlendMode: 'screen',
           overflow: 'hidden',
           borderRadius: 7,
@@ -326,8 +202,8 @@ export function CharacterPreview(props: CharacterPreviewProps) {
             right: 0,
             bottom: 0,
             zIndex: 0,
-            filter: `blur(18px) brightness(${darkMode ? 0.50 : 0.70}) saturate(${darkMode ? 0.80 : 0.80})`,
-            WebkitFilter: `blur(18px) brightness(${darkMode ? 0.50 : 0.70}) saturate(${darkMode ? 0.80 : 0.80})`,
+            filter: `blur(18px) brightness(${state.darkMode ? 0.50 : 0.70}) saturate(${state.darkMode ? 0.80 : 0.80})`,
+            WebkitFilter: `blur(18px) brightness(${state.darkMode ? 0.50 : 0.70}) saturate(${state.darkMode ? 0.80 : 0.80})`,
           }}
         />
 
@@ -339,13 +215,13 @@ export function CharacterPreview(props: CharacterPreviewProps) {
             scoringType={scoringType}
             displayDimensions={displayDimensions}
             customPortrait={portraitToUse}
-            editPortraitModalOpen={editPortraitModalOpen}
-            setEditPortraitModalOpen={setEditPortraitModalOpen}
-            onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, setCustomPortrait, setEditPortraitModalOpen)}
+            editPortraitModalOpen={state.editPortraitModalOpen}
+            setEditPortraitModalOpen={state.setEditPortraitModalOpen}
+            onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, state.setCustomPortrait, state.setEditPortraitModalOpen)}
             artistName={artistName}
             setOriginalCharacterModalInitialCharacter={(character) => setOriginalCharacterModalInitialCharacter?.(character)}
             setOriginalCharacterModalOpen={(open) => setOriginalCharacterModalOpen?.(open)}
-            onPortraitLoad={(img: string) => sidebarRef.current?.onPortraitLoad!(img, character.id)}
+            onPortraitLoad={(img: string) => state.sidebarRef.current?.onPortraitLoad!(img, character.id)}
           />
 
           {scoringType == ScoringType.COMBAT_SCORE && (
@@ -386,7 +262,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
             <CharacterStatSummary
               characterId={character.id}
-              finalStats={finalStats!}
+              finalStats={state.finalStats!}
               elementalDmgValue={showcaseMetadata.elementalDmgType}
               scoringType={scoringType}
               asyncSimScoringExecution={asyncSimScoringExecution}
@@ -401,7 +277,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
                   asyncSimScoringExecution={asyncSimScoringExecution}
                   teamSelection={currentSelection}
                   displayRelics={displayRelics}
-                  setRedrawTeammates={setRedrawTeammates}
+                  setRedrawTeammates={state.setRedrawTeammates}
                   source={source}
                 />
 
@@ -437,9 +313,9 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
         {/* Relics right panel */}
         <ShowcaseRelicsPanel
-          setSelectedRelic={setSelectedRelic}
-          setEditModalOpen={setEditModalOpen}
-          setAddModalOpen={setAddModalOpen}
+          setSelectedRelic={state.setSelectedRelic}
+          setEditModalOpen={state.setEditModalOpen}
+          setAddModalOpen={state.setAddModalOpen}
           displayRelics={displayRelics}
           source={source}
           scoringType={scoringType}
@@ -459,9 +335,9 @@ export function CharacterPreview(props: CharacterPreviewProps) {
         <ShowcaseBuildAnalysis
           asyncSimScoringExecution={asyncSimScoringExecution}
           showcaseMetadata={showcaseMetadata}
-          scoringType={storedScoringType}
+          scoringType={state.storedScoringType}
           displayRelics={displayRelics}
-          setScoringType={setScoringType}
+          setScoringType={state.setScoringType}
         />
       )}
     </Flex>

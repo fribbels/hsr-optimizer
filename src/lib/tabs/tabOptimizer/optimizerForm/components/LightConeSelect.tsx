@@ -96,10 +96,12 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
   }, [lightConeOptions])
 
   useEffect(() => {
+    let focusTimeout: ReturnType<typeof setTimeout>
     if (open || externalOpen) {
       setCurrentFilters(TsUtils.clone(defaultFilters))
-      setTimeout(() => inputRef?.current?.focus(), 100)
+      focusTimeout = setTimeout(() => inputRef?.current?.focus(), 100)
     }
+    return () => clearTimeout(focusTimeout)
   }, [open, externalOpen])
 
   function applyFilters(x: LcOptions[LightConeId]) {

@@ -90,16 +90,18 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
   }
 
   useEffect(() => {
+    let focusTimeout: ReturnType<typeof setTimeout>
     if (open || externalOpen) {
       // closing and re-opening the select by clicking on the character image doesn't reset the filters
       setCurrentFilters(TsUtils.clone(defaultFilters))
-      setTimeout(() => inputRef.current?.focus(), 100)
+      focusTimeout = setTimeout(() => inputRef.current?.focus(), 100)
 
       if (multipleSelect) {
         const newSelected = new Map<CharacterId, boolean>(value.map((characterId: CharacterId) => [characterId, true]))
         setSelected(newSelected)
       }
     }
+    return () => clearTimeout(focusTimeout)
   }, [open, externalOpen, value, multipleSelect])
 
   function applyFilters(x: CharacterOptions[CharacterId]) {

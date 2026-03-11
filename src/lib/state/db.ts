@@ -1521,12 +1521,13 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
       })
   }
 
-  // Apply all overrides to store at once
+  // Apply all overrides to store at once, then navigate.
+  // Await the dynamic import so setState completes before page navigation.
   void import('lib/stores/optimizerForm/useOptimizerFormStore').then(({ useOptimizerFormStore }) => {
     useOptimizerFormStore.setState(patch)
-  })
 
-  window.store.getState().setActiveKey(AppPages.OPTIMIZER)
-  window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
-  SaveState.delayedSave()
+    window.store.getState().setActiveKey(AppPages.OPTIMIZER)
+    window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
+    SaveState.delayedSave()
+  })
 }

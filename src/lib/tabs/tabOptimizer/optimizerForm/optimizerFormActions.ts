@@ -322,10 +322,10 @@ export function startOptimization(): void {
   useOptimizerUIStore.getState().setPermutationsResults(0)
   useOptimizerUIStore.getState().setOptimizationInProgress(true)
 
-  setTimeout(() => {
-    // Delay the state update since this rerenders the characters tab
+  // Delay the DB save so it doesn't block the optimizer start with a characters tab re-render
+  requestIdleCallback(() => {
     DB.addFromForm(form)
-  }, 2000)
+  })
   SaveState.delayedSave()
 
   const optimizationId = Utils.randomId()
@@ -337,5 +337,6 @@ export function startOptimization(): void {
 
   console.log('Form finished', form)
 
-  setTimeout(() => Optimizer.optimize(form), 50)
+  // Use setTimeout(0) to yield to the browser so the UI can update (loading state) before the optimizer starts
+  setTimeout(() => Optimizer.optimize(form), 0)
 }

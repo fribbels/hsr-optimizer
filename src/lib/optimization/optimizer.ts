@@ -56,8 +56,12 @@ import {
   OptimizerForm,
 } from 'types/form'
 
-// FIXME HIGH
-
+// Module-level cancellation flag shared across optimization runs.
+// RACE CONDITION NOTE: If a second optimize() call is triggered before the first finishes,
+// CANCEL is reset to false by the new run while the old run's workers are still in-flight.
+// The old workers will continue running until they complete or the pool is cancelled.
+// The cancel() call sets CANCEL=true and cancels the WorkerPool, which should stop both runs.
+// A per-run cancellation token would be more robust but is not yet implemented.
 let CANCEL = false
 
 const TESTING = false
@@ -127,6 +131,11 @@ export const Optimizer = {
 
   optimize: async function(request: Form) {
     const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
+
+    // Cancel any in-progress optimization before starting a new one
+    if (useOptimizerUIStore.getState().optimizationInProgress) {
+      WorkerPool.cancel()
+    }
     CANCEL = false
 
     const [relics] = this.getFilteredRelics(request)

@@ -10,6 +10,8 @@ import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optim
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { getCharacterById } from 'lib/stores/characterStore'
+import * as equipmentService from 'lib/services/equipmentService'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { MainConditionalType, TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -239,7 +241,7 @@ export function equipClicked(): void {
   const row = selectedNodes[0].data!
   const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
 
-  DB.equipRelicIdsToCharacter(Object.values(build), characterId)
+  equipmentService.equipRelicIds(Object.values(build), characterId)
   Message.success(i18next.t('optimizerTab:Sidebar.ResultsGroup.EquipSuccessMessage') /*'Equipped relics'*/)
   OptimizerTabController.setTopRow(row)
   useOptimizerDisplayStore.getState().setOptimizerBuild(build)
@@ -300,7 +302,7 @@ export function updateCharacter(characterId: CharacterId): void {
 
   OptimizerTabController.setRows([])
   OptimizerTabController.resetDataSource()
-  const character = DB.getCharacterById(characterId)
+  const character = getCharacterById(characterId)
 
   const form = character ? character.form : getDefaultForm({ id: characterId })
 

@@ -36,7 +36,7 @@ import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DBMetadataCharacter } from 'types/metadata'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 export function CharacterCardCombatStats(props: {
   result: SimulationScore,

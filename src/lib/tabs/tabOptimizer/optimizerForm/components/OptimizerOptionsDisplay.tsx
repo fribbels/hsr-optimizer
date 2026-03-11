@@ -9,8 +9,8 @@ import { Assets } from 'lib/rendering/assets'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
+import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { useCharacterStore } from 'lib/stores/characterStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   optimizerTabDefaultGap,
@@ -42,7 +42,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
     generateCharacterList(
       {
         currentCharacters: characters,
-        excludeCharacters: [DB.getCharacterById(optimizerTabFocusCharacter!)!],
+        excludeCharacters: [getCharacterById(optimizerTabFocusCharacter!)!],
         withNobodyOption: false,
         longNameLabel: true,
       },
@@ -135,7 +135,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
                 const numVal = Number(val)
                 useOptimizerRequestStore.getState().setRelicFilterField('rank', numVal)
                 const characterId = useOptimizerRequestStore.getState().characterId
-                if (characterId && DB.getCharacterById(characterId)) {
+                if (characterId && getCharacterById(characterId)) {
                   DB.insertCharacter(characterId, numVal)
                 }
                 recalculatePermutations()

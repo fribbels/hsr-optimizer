@@ -23,7 +23,7 @@ import {
   NameType,
   ValueType,
 } from 'recharts/types/component/DefaultTooltipContent'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 type Bucket = Array<PanelProps['scores'][number]>
 

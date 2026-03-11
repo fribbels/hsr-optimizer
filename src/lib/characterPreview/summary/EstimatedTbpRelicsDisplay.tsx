@@ -13,7 +13,6 @@ import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import DB from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import {

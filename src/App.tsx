@@ -10,7 +10,7 @@ import { SettingsDrawer } from 'lib/overlays/drawers/SettingsDrawer'
 import { StatTracesDrawer } from 'lib/overlays/drawers/StatTracesDrawer'
 import { Gradient } from 'lib/rendering/gradient'
 import { createMantineTheme } from 'lib/rendering/theme'
-import DB, { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 import Tabs from 'lib/tabs/Tabs'
 import React, { useEffect } from 'react'
 
@@ -23,7 +23,7 @@ const App = () => {
   }, [colorTheme])
 
   useEffect(() => {
-    checkForUpdatesNotification(DB.getState().version)
+    checkForUpdatesNotification(useGlobalStore.getState().version)
   }, [])
 
   return (

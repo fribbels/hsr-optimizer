@@ -10,7 +10,7 @@ import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/c
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'

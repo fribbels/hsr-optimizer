@@ -24,7 +24,8 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import { useGlobalStore, AppPages, } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { AppPages } from 'lib/constants/appPages'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'

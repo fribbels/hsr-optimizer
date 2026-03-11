@@ -28,7 +28,10 @@ import {
   getSimScoreGrade,
 } from 'lib/scoring/dpsScore'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
-import DB, { useGlobalStore } from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -89,30 +92,17 @@ export function ShowcaseDpsScorePanel(props: {
       direction="column"
     >
       <Flex justify='space-around' className={styles.teammatesPadding}>
-        <CharacterPreviewScoringTeammate
-          index={0}
-          result={result}
-          setCharacterModalOpen={setCharacterModalOpen}
-          setSelectedTeammateIndex={setSelectedTeammateIndex}
-          setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-          readonly={readonly}
-        />
-        <CharacterPreviewScoringTeammate
-          index={1}
-          result={result}
-          setCharacterModalOpen={setCharacterModalOpen}
-          setSelectedTeammateIndex={setSelectedTeammateIndex}
-          setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-          readonly={readonly}
-        />
-        <CharacterPreviewScoringTeammate
-          index={2}
-          result={result}
-          setCharacterModalOpen={setCharacterModalOpen}
-          setSelectedTeammateIndex={setSelectedTeammateIndex}
-          setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
-          readonly={readonly}
-        />
+        {[0, 1, 2].map((index) => (
+          <CharacterPreviewScoringTeammate
+            key={index}
+            index={index}
+            result={result}
+            setCharacterModalOpen={setCharacterModalOpen}
+            setSelectedTeammateIndex={setSelectedTeammateIndex}
+            setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+            readonly={readonly}
+          />
+        ))}
       </Flex>
 
       <ShowcaseTeamSelectPanel
@@ -319,7 +309,7 @@ function ShowcaseTeamSelectPanel(props: {
     readonly,
   } = props
 
-  const setTeamSelectionByCharacter = useGlobalStore((s) => s.setShowcaseTeamPreferenceById)
+  const setTeamSelectionByCharacter = useShowcaseTabStore((s) => s.setShowcaseTeamPreferenceById)
 
   // Teammate character modal OK
   function onCharacterModalOk(form: Form) {
@@ -330,12 +320,13 @@ function ShowcaseTeamSelectPanel(props: {
       return Message.error(t('CharacterPreview.Messages.NoSelectedLightCone') /* No Selected light cone */)
     }
 
-    const simulation = DB.getScoringMetadata(characterId).simulation
+    const simulation = getScoringMetadata(characterId).simulation
 
     const update = { teammates: simulation?.teammates.map((t, idx) => idx === selectedTeammateIndex ? form : t) }
 
-    DB.updateSimulationScoreOverrides(characterId, update)
-    setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
+    useScoringStore.getState().updateSimulationOverrides(characterId, update)
+    SaveState.delayedSave()
+    setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
     setRedrawTeammates(Math.random())
   }
 
@@ -355,8 +346,9 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     leftSection={<IconRefresh size={16} />}
                     onClick={() => {
-                      DB.clearSimulationScoreOverrides(characterId)
-                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter([characterId, DEFAULT_TEAM])
+                      useScoringStore.getState().clearSimulationOverrides(characterId)
+                      SaveState.delayedSave()
+                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter(characterId, DEFAULT_TEAM)
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.ResetSuccessMsg') /* Reset to default teams */)
@@ -367,11 +359,11 @@ function ShowcaseTeamSelectPanel(props: {
                   <Button
                     leftSection={<IconArrowsExchange size={16} />}
                     onClick={() => {
-                      const characterMetadata = DB.getScoringMetadata(characterId)
+                      const characterMetadata = getScoringMetadata(characterId)
 
                       const update = {
                         teammates: characterMetadata.simulation?.teammates.map((t) => {
-                          const form = DB.getCharacterById(t.characterId)?.form
+                          const form = getCharacterById(t.characterId)?.form
                           if (!form) return t
                           return {
                             ...t,
@@ -382,8 +374,9 @@ function ShowcaseTeamSelectPanel(props: {
                         }),
                       }
 
-                      DB.updateSimulationScoreOverrides(characterId, update)
-                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter([characterId, CUSTOM_TEAM])
+                      useScoringStore.getState().updateSimulationOverrides(characterId, update)
+                      SaveState.delayedSave()
+                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.SyncSuccessMsg') /* Synced teammates */)
@@ -396,7 +389,7 @@ function ShowcaseTeamSelectPanel(props: {
             ),
           })
         } else {
-          setTeamSelectionByCharacter([characterId, selection as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM])
+          setTeamSelectionByCharacter(characterId, selection as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
         }
       }}
       value={teamSelection}

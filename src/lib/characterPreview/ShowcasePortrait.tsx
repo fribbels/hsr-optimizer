@@ -23,7 +23,7 @@ import {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 export function ShowcasePortrait(props: {
   source: ShowcaseSource,

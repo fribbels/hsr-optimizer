@@ -14,7 +14,7 @@ import {
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
-import DB from 'lib/state/db'
+import * as equipmentService from 'lib/services/equipmentService'
 import { SaveState } from 'lib/state/saveState'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
@@ -70,7 +70,7 @@ export const RelicModalController = {
 
     const updatedRelic = { ...selectedRelic, ...relic }
 
-    DB.setRelic(updatedRelic)
+    equipmentService.upsertRelicWithEquipment(updatedRelic)
 
     Message.success(i18next.t('modals:Relic.Messages.EditSuccess') /* Successfully edited relic */)
 

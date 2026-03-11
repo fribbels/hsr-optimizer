@@ -1,7 +1,7 @@
 import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { webgpuNotSupportedNotification } from 'lib/interactions/notifications'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 export async function getWebgpuDevice(notify?: boolean) {
   try {

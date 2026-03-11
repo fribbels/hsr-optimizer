@@ -7,9 +7,8 @@ import {
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import DB from 'lib/state/db'
-
 import { Metadata } from 'lib/state/metadataInitializer'
+import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { Relic } from 'types/relic'
 import {
   expect,
@@ -22,7 +21,7 @@ test('relic-mainstatonly', () => {
   // Test that calcs for a useful mainstat and useless substats are in alignment
 
   const character = '1205' // blade
-  const scoringStats = DB.getScoringMetadata(character).stats
+  const scoringStats = getScoringMetadata(character).stats
 
   const mainStat = Constants.Stats.HP_P
   const subStats = [
@@ -72,7 +71,7 @@ test('relic-perfect', () => {
   // existing substat
 
   const character = '1205' // Blade
-  const scoringStats = DB.getScoringMetadata(character).stats
+  const scoringStats = getScoringMetadata(character).stats
 
   const relic: Relic = {
     enhance: 12,

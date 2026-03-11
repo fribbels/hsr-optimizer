@@ -13,8 +13,8 @@ import {
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Assets } from 'lib/rendering/assets'
-import { useGlobalStore, AppPages,
-  DB, } from 'lib/state/db'
+import { AppPages } from 'lib/constants/appPages'
+import { useGlobalStore } from 'lib/stores/appStore'
 import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import {
   Fragment,

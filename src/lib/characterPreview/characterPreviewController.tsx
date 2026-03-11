@@ -35,6 +35,9 @@ import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { getScoringMetadata } from 'lib/stores/scoringStore'
+import * as equipmentService from 'lib/services/equipmentService'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { filterNonNull } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -143,7 +146,7 @@ export function resolveScoringType(storedScoringType: ScoringType, asyncSimScori
 }
 
 export function getArtistName(character: Character) {
-  const artistName = character?.portrait?.artistName ?? DB.getCharacterById(character?.id)?.portrait?.artistName
+  const artistName = character?.portrait?.artistName ?? getCharacterById(character?.id)?.portrait?.artistName
   if (!artistName) return undefined
 
   const name = artistName.trim()
@@ -218,7 +221,7 @@ export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic, setSelected
 export function showcaseOnAddOk(relic: Relic, setSelectedRelic: (r: Relic) => void) {
   const t = i18next.getFixedT(null, ['charactersTab', 'modals', 'common'])
 
-  DB.setRelic(relic)
+  equipmentService.upsertRelicWithEquipment(relic)
   setSelectedRelic(relic)
   SaveState.delayedSave()
 
@@ -262,7 +265,7 @@ export function handleTeamSelection(
 
   const defaultScoringMetadata = getGameMetadata().characters[character.id].scoringMetadata
   if (defaultScoringMetadata?.simulation) {
-    const scoringMetadata = DB.getScoringMetadata(character.id)
+    const scoringMetadata = getScoringMetadata(character.id)
 
     const hasCustom = scoringMetadata.simulation?.teammates
       && Utils.objectHash(scoringMetadata.simulation.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)

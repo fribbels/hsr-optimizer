@@ -36,7 +36,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 import classes from './RelicFilterBar.module.css'
 
 const tagHeight = 34

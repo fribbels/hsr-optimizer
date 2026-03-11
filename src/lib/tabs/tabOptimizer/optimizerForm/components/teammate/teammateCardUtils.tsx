@@ -9,7 +9,7 @@ import {
 import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
-import DB from 'lib/state/db'
+import { getRelicById } from 'lib/stores/relicStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { Character } from 'types/character'
@@ -83,7 +83,7 @@ const teammateOrnamentSets = [
 
 // Find 4 piece relic sets and 2 piece ornament sets
 export function calculateTeammateSets(teammateCharacter: Character) {
-  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter(ArrayFilters.nonNullable)
+  const relics = Object.values(teammateCharacter.equipped).map((id) => getRelicById(id)).filter(ArrayFilters.nonNullable)
   const activeTeammateSets: {
     teamRelicSet?: string
     teamOrnamentSet?: string

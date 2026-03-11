@@ -35,7 +35,9 @@ import {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
-import DB, { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { getRelics } from 'lib/stores/relicStore'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
   activateZeroPermutationsSuggestionsModal,
@@ -68,7 +70,7 @@ let CANCEL = false
 const TESTING = false
 
 export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
-  let relics = DB.getRelics()
+  let relics = getRelics()
   relics = relics.filter((x) => x.equippedBy == request.characterId)
   relics = TsUtils.clone(relics)
   RelicFilters.calculateWeightScore(request, relics)
@@ -90,7 +92,7 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   OptimizerTabController.setTopRow(optimizerDisplayData, true)
   useOptimizerDisplayStore.getState().setOptimizerSelectedRowData(optimizerDisplayData)
 
-  const character = DB.getCharacterById(request.characterId)
+  const character = getCharacterById(request.characterId)
   if (character) {
     useOptimizerDisplayStore.getState().setOptimizerBuild(character.equipped)
   }
@@ -103,7 +105,7 @@ export const Optimizer = {
   },
 
   getFilteredRelics: (request: Form) => {
-    let relics = DB.getRelics()
+    let relics = getRelics()
 
     relics = RelicFilters.applyEquippedFilter(request, relics)
     relics = RelicFilters.applyEnhanceFilter(request, relics)

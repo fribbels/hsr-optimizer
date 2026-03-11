@@ -8,10 +8,9 @@ import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
-import DB, {
-  AppPages,
-  PageToRoute,
-} from 'lib/state/db'
+import { AppPages, PageToRoute } from 'lib/constants/appPages'
+import DB from 'lib/state/db'
+import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import {
   APIResponse,
@@ -119,7 +118,7 @@ export function importClicked(mode: 'relics' | 'singleCharacter' | 'multiCharact
 
   console.log('import clicked! mode:', mode, 'relics:', newRelics)
 
-  DB.mergePartialRelicsWithState(newRelics, newCharacters)
+  persistenceService.mergePartialRelics(newRelics, newCharacters)
   SaveState.delayedSave()
 }
 

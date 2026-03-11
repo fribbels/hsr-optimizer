@@ -2,7 +2,7 @@ import { CUSTOM_TEAM } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB from 'lib/state/db'
+import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Character,
@@ -83,7 +83,7 @@ export function resolveDpsScoreSimulationMetadata(
     return null
   }
 
-  const customSimulation = TsUtils.clone(DB.getScoringMetadata(characterId).simulation)
+  const customSimulation = TsUtils.clone(getScoringMetadata(characterId).simulation)
   const simulation = TsUtils.clone(getGameMetadata().characters[characterId].scoringMetadata.simulation)
 
   if (!simulation || !customSimulation) {

@@ -25,7 +25,7 @@ import {
   ValueType,
 } from 'recharts/types/component/DefaultTooltipContent'
 import { CharacterId } from 'types/character'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 const N_Displayed = 10
 

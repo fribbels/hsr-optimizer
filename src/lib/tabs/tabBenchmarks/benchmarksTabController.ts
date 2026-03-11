@@ -8,7 +8,8 @@ import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
-import DB from 'lib/state/db'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { getScoringMetadata } from 'lib/stores/scoringStore'
 import {
   BenchmarkForm,
   SimpleCharacter,
@@ -123,7 +124,7 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
     return true
   }
 
-  const scoringMetadata = DB.getScoringMetadata(benchmarkForm.characterId)
+  const scoringMetadata = getScoringMetadata(benchmarkForm.characterId)
   const simulationMetadata = scoringMetadata?.simulation
   if (!simulationMetadata) {
     Message.error(t('UnsupportedCharacter'), 10)
@@ -142,7 +143,7 @@ export function handleCharacterSelectChange(id: CharacterId | null | undefined, 
   if (!id) return
   const t = i18next.getFixedT(null, 'benchmarksTab', 'Messages.Error')
 
-  const scoringMetadata = DB.getScoringMetadata(id)
+  const scoringMetadata = getScoringMetadata(id)
   const simulationMetadata = scoringMetadata?.simulation
   if (!simulationMetadata) {
     return Message.error(t('UnsupportedCharacter'), 10)
@@ -150,7 +151,7 @@ export function handleCharacterSelectChange(id: CharacterId | null | undefined, 
 
   const form = formInstance.getValues()
 
-  const character = DB.getCharacterById(id)
+  const character = getCharacterById(id)
   if (character) {
     form.lightCone = character.form.lightCone ?? null
     form.characterEidolon = character.form.characterEidolon ?? 0

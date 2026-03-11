@@ -1,13 +1,11 @@
 import type { AgGridReact } from 'ag-grid-react'
 import type {
   ComputeEngine,
-  CUSTOM_TEAM,
-  DEFAULT_TEAM,
 } from 'lib/constants/constants'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import type { ColorThemeOverrides } from 'lib/rendering/theme'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
-import type { AppPages } from 'lib/state/db'
+import type { AppPages } from 'lib/constants/appPages'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import type { RefObject } from 'react'
@@ -18,40 +16,31 @@ import type {
 import type {
   ScoringMetadata,
   ShowcasePreferences,
-  ShowcaseTemporaryOptions,
 } from 'types/metadata'
 import type { Relic } from 'types/relic'
 
 export type HsrOptimizerStore = {
-  /* global                   */ version: string,
-  /* global                   */ colorTheme: ColorThemeOverrides,
-  /* optimizerTab             */ optimizerGrid: RefObject<AgGridReact<OptimizerDisplayDataStatSim>> | undefined,
-  /* give own store?          */ scoringAlgorithmFocusCharacter?: CharacterId | null,
-  /* give own store?          */ statTracesDrawerFocusCharacter?: CharacterId | null,
-  /* global                   */ activeKey: AppPages,
-  /* global                   */ scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
-  /* characterTab/showcaseTab */ showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
-  /* characterTab/showcaseTab */ showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
-  /* showcase Tab             */ showcaseTeamPreferenceById: Partial<Record<CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>,
-
-  /* global                   */ relicsById: Partial<Record<string, Relic>>,
-  /* global                   */ relics: Array<Relic>,
-  /* global                   */ settings: UserSettings,
-  /* global                   */ setSettings: (settings: UserSettings) => void,
-  /* global                   */ setRelicsById: (relicsById: Partial<Record<string, Relic>>) => void,
-  /* global                   */ setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
-  /* global                   */ setActiveKey: (key: AppPages) => void,
-  /* give own store?          */ setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
-  /* give own store?          */ setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,
-  /* global                   */ setColorTheme: (x: ColorThemeOverrides) => void,
-  /* global                   */ setSavedSession: (x: GlobalSavedSession) => void,
-  /* global                   */ setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
-  /* characterTab/showcaseTab */ setShowcaseTeamPreferenceById: (update: [CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM]) => void,
-  /* characterTab/showcaseTab */ setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
-  /* characterTab/showcaseTab */ setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
-  /* global                   */ setVersion: (x: string | undefined) => void,
-
-  /* global                   */ savedSession: GlobalSavedSession,
+  version: string,
+  colorTheme: ColorThemeOverrides,
+  optimizerGrid: RefObject<AgGridReact<OptimizerDisplayDataStatSim>> | undefined,
+  scoringAlgorithmFocusCharacter?: CharacterId | null,
+  statTracesDrawerFocusCharacter?: CharacterId | null,
+  activeKey: AppPages,
+  scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
+  relicsById: Partial<Record<string, Relic>>,
+  relics: Array<Relic>,
+  settings: UserSettings,
+  setSettings: (settings: UserSettings) => void,
+  setRelicsById: (relicsById: Partial<Record<string, Relic>>) => void,
+  setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
+  setActiveKey: (key: AppPages) => void,
+  setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
+  setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,
+  setColorTheme: (x: ColorThemeOverrides) => void,
+  setSavedSession: (x: GlobalSavedSession) => void,
+  setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
+  setVersion: (x: string | undefined) => void,
+  savedSession: GlobalSavedSession,
 }
 
 type OptimizerMenuState = Record<string, boolean>

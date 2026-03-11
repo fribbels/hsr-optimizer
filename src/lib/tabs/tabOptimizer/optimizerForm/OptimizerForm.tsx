@@ -3,7 +3,8 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB, { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
@@ -39,7 +40,7 @@ import { DBMetadata } from 'types/metadata'
 export default function OptimizerForm() {
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
-    const characters = DB.getCharacters() || []
+    const characters = useCharacterStore.getState().characters || []
     const savedSessionCharacterId = useGlobalStore.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
     updateCharacter(savedSessionCharacterId ?? characters[0]?.id)
   }, [])
@@ -140,7 +141,7 @@ const LightConeConditionalDisplayWrapper = React.memo(function LightConeConditio
     }, metadata)
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
     const defaults = controller.defaults()
-    const lightConeForm = DB.getCharacterById(charId!)?.form.lightConeConditionals || {}
+    const lightConeForm = getCharacterById(charId!)?.form.lightConeConditionals || {}
     Utils.mergeDefinedValues(defaults, lightConeForm)
 
     useOptimizerRequestStore.getState().setLightConeConditionals(defaults)

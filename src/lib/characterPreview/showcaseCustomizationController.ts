@@ -3,7 +3,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { ShowcasePreferences } from 'types/metadata'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 export const DEFAULT_SHOWCASE_COLOR = '#2473e1'
 

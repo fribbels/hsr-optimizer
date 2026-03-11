@@ -12,7 +12,7 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import * as equipmentService from 'lib/services/equipmentService'
-import { savedSessionDefaults, useGlobalStore } from 'lib/state/db'
+import { savedSessionDefaults, useGlobalStore } from 'lib/stores/appStore'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, getCharacters, useCharacterStore } from 'lib/stores/characterStore'
@@ -156,7 +156,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   processRelics(saveData.relics, charactersById)
 
   if (saveData.showcasePreferences) {
-    useGlobalStore.getState().setShowcasePreferences(saveData.showcasePreferences || {})
+    useShowcaseTabStore.getState().setShowcasePreferences(saveData.showcasePreferences || {})
   }
 
   useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)

@@ -59,8 +59,9 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
   }, [storedImg, src, style])
 
   useEffect(() => {
+    let blurTimeout: ReturnType<typeof setTimeout>
     if (finishedLoading) {
-      setTimeout(() => {
+      blurTimeout = setTimeout(() => {
         setBlur(false)
       }, 20)
 
@@ -75,6 +76,7 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
         callback(pendingImage.src)
       }
     }
+    return () => clearTimeout(blurTimeout)
   }, [finishedLoading])
 
   return (

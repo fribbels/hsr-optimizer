@@ -126,12 +126,14 @@ export function OptimizerGrid() {
   }, [])
 
   useEffect(() => {
+    let rebuildTimeout: ReturnType<typeof setTimeout>
     // locale updates require the grid to be destroyed and reconstructed in order to take effect
     if (i18n.resolvedLanguage !== gridLanguage.current) {
       setGridDestroyed(true)
       gridLanguage.current = i18n.resolvedLanguage
-      setTimeout(() => setGridDestroyed(false), 100)
+      rebuildTimeout = setTimeout(() => setGridDestroyed(false), 100)
     }
+    return () => clearTimeout(rebuildTimeout)
   }, [i18n.resolvedLanguage])
 
   const getLocaleText = useCallback((param: GetLocaleTextParams<OptimizerDisplayDataStatSim>) => {

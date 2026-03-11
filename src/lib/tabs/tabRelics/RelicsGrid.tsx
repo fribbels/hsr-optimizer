@@ -71,7 +71,8 @@ export function RelicsGrid() {
 
   useEffect(() => {
     setGridActive(false)
-    setTimeout(() => setGridActive(true), 100)
+    const rebuildTimeout = setTimeout(() => setGridActive(true), 100)
+    return () => clearTimeout(rebuildTimeout)
   }, [t])
 
   const getLocaleText = useCallback((params: GetLocaleTextParams<ScoredRelic>) => {

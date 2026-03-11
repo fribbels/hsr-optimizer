@@ -56,28 +56,30 @@ type SortModel = {
   sort: string,
 }
 
-let relics: RelicsByPart
-let permutationSizes: PermutationSizes
-let aggregations: GridAggregations
-let rows: OptimizerDisplayData[] = []
-let filteredIndices: number[]
-let filterModel: Form
-let sortModel: SortModel
+const controllerState = {
+  relics: undefined as unknown as RelicsByPart,
+  permutationSizes: undefined as unknown as PermutationSizes,
+  aggregations: undefined as unknown as GridAggregations,
+  rows: [] as OptimizerDisplayData[],
+  filteredIndices: [] as number[],
+  filterModel: undefined as unknown as Form,
+  sortModel: undefined as unknown as SortModel,
+}
 
 const columnsToAggregate = Object.keys(columnsToAggregateMap)
 
 export const OptimizerTabController = {
   setMetadata: (inputPermutationSizes: PermutationSizes, inputRelics: RelicsByPart) => {
-    permutationSizes = inputPermutationSizes
-    relics = inputRelics
+    controllerState.permutationSizes = inputPermutationSizes
+    controllerState.relics = inputRelics
   },
 
   getAggregations: () => {
-    return aggregations
+    return controllerState.aggregations
   },
 
   setRows: (newRows: OptimizerDisplayData[]) => {
-    rows = newRows
+    controllerState.rows = newRows
   },
 
   setTopRow: (row: OptimizerDisplayData, overwrite = false) => {
@@ -92,7 +94,7 @@ export const OptimizerTabController = {
   },
 
   getRows: () => {
-    return rows
+    return controllerState.rows
   },
 
   scrollToGrid: () => {
@@ -182,17 +184,17 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource(sortModel, filterModel) })
+    window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource(controllerState.sortModel, controllerState.filterModel) })
   },
 
   getDataSource: (newSortModel?: SortModel, newFilterModel?: Form) => {
-    if (newSortModel) sortModel = newSortModel
-    if (newFilterModel) filterModel = newFilterModel
+    if (newSortModel) controllerState.sortModel = newSortModel
+    if (newFilterModel) controllerState.filterModel = newFilterModel
 
     return {
       getRows: (params: IGetRowsParams) => {
         // @ts-ignore
-        aggregations = undefined
+        controllerState.aggregations = undefined
 
         // fast clickers can race unmount/remount and cause NPE here.
         if (window?.optimizerGrid?.current?.api) {
@@ -202,25 +204,25 @@ export const OptimizerTabController = {
         // Give it time to show the loading page before we block
         void TsUtils.sleep(100)
           .then(() => {
-            if (params.sortModel.length > 0 && params.sortModel[0] != sortModel) {
-              sortModel = params.sortModel[0]
+            if (params.sortModel.length > 0 && params.sortModel[0] != controllerState.sortModel) {
+              controllerState.sortModel = params.sortModel[0]
               sort()
             }
 
-            if (filterModel) {
-              filter(filterModel)
-              const indicesSubArray = filteredIndices.slice(params.startRow, params.endRow)
+            if (controllerState.filterModel) {
+              filter(controllerState.filterModel)
+              const indicesSubArray = controllerState.filteredIndices.slice(params.startRow, params.endRow)
               const subArray: OptimizerDisplayData[] = []
               for (const index of indicesSubArray) {
-                subArray.push(rows[index])
+                subArray.push(controllerState.rows[index])
               }
               aggregate(subArray)
-              params.successCallback(subArray, filteredIndices.length)
+              params.successCallback(subArray, controllerState.filteredIndices.length)
             } else {
-              const subArray = rows.slice(params.startRow, params.endRow)
+              const subArray = controllerState.rows.slice(params.startRow, params.endRow)
               aggregate(subArray)
 
-              params.successCallback(subArray, rows.length)
+              params.successCallback(subArray, controllerState.rows.length)
             }
 
             // cannot assume a fast click race-condition didn't happen
@@ -248,12 +250,12 @@ export const OptimizerTabController = {
       }
       return out
     }
-    const lSize = permutationSizes.lSize
-    const pSize = permutationSizes.pSize
-    const fSize = permutationSizes.fSize
-    const bSize = permutationSizes.bSize
-    const gSize = permutationSizes.gSize
-    const hSize = permutationSizes.hSize
+    const lSize = controllerState.permutationSizes.lSize
+    const pSize = controllerState.permutationSizes.pSize
+    const fSize = controllerState.permutationSizes.fSize
+    const bSize = controllerState.permutationSizes.bSize
+    const gSize = controllerState.permutationSizes.gSize
+    const hSize = controllerState.permutationSizes.hSize
 
     const x = id
     const l = x % lSize
@@ -266,12 +268,12 @@ export const OptimizerTabController = {
       % hSize
 
     return {
-      Head: relics.Head[h],
-      Hands: relics.Hands[g],
-      Body: relics.Body[b],
-      Feet: relics.Feet[f],
-      PlanarSphere: relics.PlanarSphere[p],
-      LinkRope: relics.LinkRope[l],
+      Head: controllerState.relics.Head[h],
+      Hands: controllerState.relics.Hands[g],
+      Body: controllerState.relics.Body[b],
+      Feet: controllerState.relics.Feet[f],
+      PlanarSphere: controllerState.relics.PlanarSphere[p],
+      LinkRope: controllerState.relics.LinkRope[l],
     }
   },
 
@@ -295,7 +297,7 @@ export const OptimizerTabController = {
   applyRowFilters: () => {
     const fieldValues = getForm()
     fieldValues.statDisplay = useOptimizerFormStore.getState().statDisplay
-    filterModel = fieldValues
+    controllerState.filterModel = fieldValues
     console.log('Apply filters to rows', fieldValues)
     OptimizerTabController.resetDataSource()
   },
@@ -319,17 +321,17 @@ function aggregate(subArray: OptimizerDisplayData[]) {
       if (value > maxAgg[column]) maxAgg[column] = value
     }
   }
-  aggregations = {
+  controllerState.aggregations = {
     min: minAgg,
     max: maxAgg,
   }
 }
 
 function sort() {
-  if (sortModel.sort == 'desc') {
-    inPlaceSort(rows).desc((x) => x[sortModel.colId as keyof OptimizerDisplayData])
+  if (controllerState.sortModel.sort == 'desc') {
+    inPlaceSort(controllerState.rows).desc((x) => x[controllerState.sortModel.colId as keyof OptimizerDisplayData])
   } else {
-    inPlaceSort(rows).asc((x) => x[sortModel.colId as keyof OptimizerDisplayData])
+    inPlaceSort(controllerState.rows).asc((x) => x[controllerState.sortModel.colId as keyof OptimizerDisplayData])
   }
 }
 
@@ -349,8 +351,8 @@ function filter(filterModel: Form) {
   }
 
   const indices: number[] = []
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i]
+  for (let i = 0; i < controllerState.rows.length; i++) {
+    const row = controllerState.rows[i]
     let valid = true
     for (const check of checks) {
       const value = row[check.col] as number
@@ -364,5 +366,5 @@ function filter(filterModel: Form) {
     }
   }
 
-  filteredIndices = indices
+  controllerState.filteredIndices = indices
 }

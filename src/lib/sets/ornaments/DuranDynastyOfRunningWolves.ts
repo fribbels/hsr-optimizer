@@ -28,7 +28,6 @@ const info = {
   index: 14,
   setType: SetType.ORNAMENT,
   ingameId: '315',
-  name: Sets.DuranDynastyOfRunningWolves,
 } as const satisfies SetInfo
 
 const display = {
@@ -39,7 +38,7 @@ const display = {
   defaultValue: 5,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
   },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
@@ -56,7 +55,7 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 6 }).map((_val, i) => {
@@ -70,7 +69,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const DuranDynastyOfRunningWolves = {
-  id: 'DuranDynastyOfRunningWolves',
+  id: Sets.DuranDynastyOfRunningWolves,
+  setKey: 'DuranDynastyOfRunningWolves',
   info,
   display,
   conditionals,

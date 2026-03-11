@@ -17,16 +17,15 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  SPREAD_RELICS_2P_ATK_WEIGHTS,
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -165,11 +164,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ...(
               (r.benedictionBuff)
                 ? [
-                    HitDefinitionBuilder.standardAdditional()
-                      .damageElement(ElementTag.Lightning)
-                      .atkScaling(skillLightningDmgBoostScaling + talentScaling)
-                      .build(),
-                  ]
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Lightning)
+                    .atkScaling(skillLightningDmgBoostScaling + talentScaling)
+                    .build(),
+                ]
                 : []
             ),
           ],
@@ -223,7 +222,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           return r.benedictionBuff
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-          dynamicStatConversionContainer(Stats.ATK, Stats.ATK, this, x, action, context, SOURCE_TRACE, (convertibleValue) => convertibleValue * skillAtkBoostMax)
+          dynamicStatConversionContainer(
+            Stats.ATK,
+            Stats.ATK,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            (convertibleValue) => convertibleValue * skillAtkBoostMax,
+          )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -242,7 +250,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ],
   }
 }
-
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -294,8 +301,9 @@ const display = {
 
 export const Tingyun: CharacterConfig = {
   id: '1202',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

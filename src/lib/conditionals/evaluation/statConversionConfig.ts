@@ -166,6 +166,8 @@ const convertibleStats = [
 
 export type ConvertibleStatsType = (typeof convertibleStats)[number]
 
+export const statConversionEntries: StatConversionConfigEntry[] = Object.values(statConversionConfig)
+
 // Reverse map: AKeyValue -> ConvertibleStatsType
 export const aKeyToConvertibleStat = Object.fromEntries(
   Object.entries(statConversionConfig).map(([stat, config]) => [config.key, stat]),

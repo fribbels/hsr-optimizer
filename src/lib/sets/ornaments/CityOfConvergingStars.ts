@@ -3,10 +3,13 @@ import {
   Sets,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -14,25 +17,18 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
-  SetConditionalTFunction,
   SetConditionals,
+  SetConditionalTFunction,
   SetConfig,
   SetDisplay,
   SetInfo,
   SetType,
 } from 'types/setConfig'
 
-// Selection values:
-// 0 = Off (neither active)
-// 1 = ATK only (FUA ATK buff active)
-// 2 = CD only (enemy defeated CD buff active)
-// 3 = ATK + CD (both active)
-
 const info = {
   index: 25,
   setType: SetType.ORNAMENT,
   ingameId: '326',
-  name: Sets.CityOfConvergingStars,
 } as const satisfies SetInfo
 
 const display = {
@@ -43,7 +39,7 @@ const display = {
   defaultValue: 3,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     const val = setConditionals.valueCityOfConvergingStars
 
@@ -76,7 +72,13 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
+
+// Selection values:
+// 0 = Off (neither active)
+// 1 = ATK only (FUA ATK buff active)
+// 2 = CD only (enemy defeated CD buff active)
+// 3 = ATK + CD (both active)
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
@@ -104,7 +106,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const CityOfConvergingStars = {
-  id: 'CityOfConvergingStars',
+  id: Sets.CityOfConvergingStars,
+  setKey: 'CityOfConvergingStars',
   info,
   display,
   conditionals,

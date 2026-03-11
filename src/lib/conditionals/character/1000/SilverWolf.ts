@@ -1,15 +1,23 @@
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import {
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, TargetTag, } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -17,7 +25,10 @@ import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { ScoringMetadata } from 'types/metadata'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const SilverWolfEntities = createEnum('SilverWolf')
 export const SilverWolfAbilities: AbilityKind[] = [
@@ -201,7 +212,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -259,8 +269,9 @@ const display = {
 
 export const SilverWolf: CharacterConfig = {
   id: '1006',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

@@ -157,7 +157,7 @@ export type SetConditionalFieldInfo = {
 export const setConfigRegistry = new Map<SetKey, SetConfig>()
 
 for (const config of ALL_CONFIGS) {
-  setConfigRegistry.set(config.id, config)
+  setConfigRegistry.set(config.setKey, config)
 }
 
 // ── Derived data ──
@@ -184,7 +184,8 @@ export const teammateOrnamentOptions: TeammateOption[] = []
 export const setToId = {} as Record<Sets, RelicSetIngameId>
 
 for (const config of setConfigRegistry.values()) {
-  const setKey = config.info.name
+  const setName = config.id
+  const setKey = config.setKey
   const isRelic = config.info.setType === SetType.RELIC
 
   // Config arrays
@@ -195,11 +196,11 @@ for (const config of setConfigRegistry.values()) {
   }
 
   // ID mapping
-  setToId[setKey] = config.info.ingameId as RelicSetIngameId
+  setToId[setName] = config.info.ingameId as RelicSetIngameId
 
   // Conditional i18n keys
   if (config.display.conditionalI18nKey) {
-    setToConditionalKeyMap.set(setKey, config.display.conditionalI18nKey as SetConditionalI18nKey)
+    setToConditionalKeyMap.set(setName, config.display.conditionalI18nKey as SetConditionalI18nKey)
   }
 
   // Teammates
@@ -218,14 +219,14 @@ for (const config of setConfigRegistry.values()) {
   if (config.display.conditionalI18nKey && config.display.modifiable) {
     const isBoolean = config.display.conditionalType === ConditionalDataType.BOOLEAN
     const field: SetConditionalFieldInfo = {
-      fieldName: `${isBoolean ? 'enabled' : 'value'}${config.id}`,
+      fieldName: `${isBoolean ? 'enabled' : 'value'}${setKey}`,
       wgslType: isBoolean ? 'bool' : 'i32',
-      setKey,
+      setKey: setName,
     }
     if (isBoolean) {
-      boolFields.push({ index: config.info.index, id: config.id, field })
+      boolFields.push({ index: config.info.index, id: setKey, field })
     } else {
-      intFields.push({ index: config.info.index, id: config.id, field })
+      intFields.push({ index: config.info.index, id: setKey, field })
     }
   }
 }
@@ -245,17 +246,17 @@ export const orderedSetConditionalFields = [
   ...intFields.map((e) => e.field),
 ]
 
-type ToNameMap<T extends readonly { id: string; info: { name: string } }[]> = {
-  readonly [C in T[number] as C['id']]: C['info']['name']
+type ToNameMap<T extends readonly { setKey: string; id: string }[]> = {
+  readonly [C in T[number] as C['setKey']]: C['id']
 }
 
 export const SetsRelics = Object.fromEntries(
-  ALL_RELIC_CONFIGS.map((c) => [c.id, c.info.name]),
+  ALL_RELIC_CONFIGS.map((c) => [c.setKey, c.id]),
 ) as ToNameMap<typeof ALL_RELIC_CONFIGS>
 export type SetsRelics = typeof SetsRelics[keyof typeof SetsRelics]
 
 export const SetsOrnaments = Object.fromEntries(
-  ALL_ORNAMENT_CONFIGS.map((c) => [c.id, c.info.name]),
+  ALL_ORNAMENT_CONFIGS.map((c) => [c.setKey, c.id]),
 ) as ToNameMap<typeof ALL_ORNAMENT_CONFIGS>
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 

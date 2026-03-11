@@ -43,19 +43,12 @@ import {
 } from 'types/optimizer'
 
 export function transformComboState(request: Form, context: OptimizerContext) {
-  // console.log('transformComboState')
+  const merge = request.comboType == ComboType.ADVANCED
+    && !!request.comboStateJson
+    && request.comboStateJson != '{}'
 
-  if (!request.comboStateJson || request.comboStateJson == '{}') {
-    request.comboType = ComboType.SIMPLE
-  }
-
-  if (request.comboType == ComboType.ADVANCED) {
-    const comboState = initializeComboState(request, true)
-    newTransformStateActions(comboState, request, context)
-  } else {
-    const comboState = initializeComboState(request, false)
-    newTransformStateActions(comboState, request, context)
-  }
+  const comboState = initializeComboState(request, merge)
+  newTransformStateActions(comboState, request, context)
 }
 
 export function defineAction(
@@ -300,7 +293,7 @@ function overrideSetConditionals(setConditionals: SetConditional, context: Optim
   for (const config of setConfigRegistry.values()) {
     if (config.conditionals.overrideConditional) {
       const prefix = config.display.conditionalType === ConditionalDataType.BOOLEAN ? 'enabled' : 'value'
-      const fieldName = `${prefix}${config.id}`
+      const fieldName = `${prefix}${config.setKey}`
       if (record[fieldName] !== undefined) {
         record[fieldName] = config.conditionals.overrideConditional(record[fieldName], context)
       }

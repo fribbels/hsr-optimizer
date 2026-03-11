@@ -320,6 +320,14 @@ SetConditionals:
     Arcadia:
       Display: '{{allyCount}}x'
       Label: '{{allyCount}} aliados (+{{buffValue}}% DAÑO)'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Desactivado'
+        Label: 'Desactivado'
+      AtkOnly:
+        Display: ATQ
+      CdOnly:
+        Display: DC
   Conditionals:
     DefaultMessage: Activado por defecto - los efectos se aplicarán a los cálculos de combate.
     Hunter: Activado, la mejora de Daño CRIT se aplica a los cálculos de Atributos de combate.
@@ -589,7 +597,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Escudo
       SHIELD_VALUE_P: Δ% Escudo
   DamageSplits:
-    Title: Distribución de tipo de daño
     Legend:
       abilityDmg: Base
       breakDmg: Ruptura

@@ -34,10 +34,10 @@ const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>(
 export const newStatsConfig = {
   // ================ Hit Stats ================
 
-  HP_P: { hit: true, label: commonReadableStat('HP%') },
-  ATK_P: { hit: true, label: commonReadableStat('ATK%') },
-  DEF_P: { hit: true, label: commonReadableStat('DEF%') },
-  SPD_P: { hit: true, label: commonReadableStat('SPD%') },
+  HP_P: { label: commonReadableStat('HP%') },
+  ATK_P: { label: commonReadableStat('ATK%') },
+  DEF_P: { label: commonReadableStat('DEF%') },
+  SPD_P: { label: commonReadableStat('SPD%') },
   HP: { hit: true, flat: true, label: commonReadableStat('HP') },
   ATK: { hit: true, flat: true, label: commonReadableStat('ATK') },
   DEF: { hit: true, flat: true, label: commonReadableStat('DEF') },

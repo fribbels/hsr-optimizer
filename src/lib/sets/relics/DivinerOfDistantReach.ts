@@ -2,9 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
-import { BasicKey } from 'lib/optimization/basicStatsArray'
+import { BasicKey, BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -27,7 +27,6 @@ const info = {
   index: 29,
   setType: SetType.RELIC,
   ingameId: '130',
-  name: Sets.DivinerOfDistantReach,
 } as const satisfies SetInfo
 
 const display = {
@@ -37,7 +36,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.DivinerOfDistantReach)
   },
@@ -49,6 +48,9 @@ const conditionals = {
       x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.SPD_P, 0.06, DivinerOfDistantReach),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_DivinerOfDistantReach) >= 1) {
       let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);
@@ -67,10 +69,11 @@ const conditionals = {
       x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const DivinerOfDistantReach = {
-  id: 'DivinerOfDistantReach',
+  id: Sets.DivinerOfDistantReach,
+  setKey: 'DivinerOfDistantReach',
   info,
   display,
   conditionals,

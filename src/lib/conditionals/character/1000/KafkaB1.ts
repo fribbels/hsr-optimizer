@@ -1,48 +1,78 @@
-import { ASHBLAZING_ATK_STACK, } from 'lib/conditionals/conditionalConstants'
-import { boostAshblazingAtkContainer, gpuBoostAshblazingAtkContainer, } from 'lib/conditionals/conditionalFinalizers'
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum, } from 'lib/conditionals/conditionalUtils'
-import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
-import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
-import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey, } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  AbilityKind,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  DEFAULT_DOT,
-  DEFAULT_SKILL,
-  END_DOT,
-  DEFAULT_FUA,
-  START_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import {
-  SPREAD_RELICS_2P_ATK_WEIGHTS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  RELICS_2P_SPEED,
-  SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-
-} from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import {
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import {
+  wgsl,
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  AbilityKind,
+  DEFAULT_DOT,
+  DEFAULT_FUA,
+  DEFAULT_SKILL,
+  END_DOT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  RELICS_2P_SPEED,
+  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const KafkaB1Entities = createEnum('KafkaB1')
 export const KafkaB1Abilities: AbilityKind[] = [
@@ -279,7 +309,6 @@ if (ehrValue >= 0.75 && stateValue == 0) {
   }
 }
 
-
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -412,8 +441,9 @@ const display = {
 
 export const KafkaB1: CharacterConfig = {
   id: '1005b1',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

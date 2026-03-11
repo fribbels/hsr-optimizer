@@ -1,6 +1,7 @@
 import { ConditionalDataType, Sets } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -22,7 +23,6 @@ const info = {
   index: 11,
   setType: SetType.ORNAMENT,
   ingameId: '312',
-  name: Sets.PenaconyLandOfTheDreams,
 } as const satisfies SetInfo
 
 const display = {
@@ -32,7 +32,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.PenaconyLandOfTheDreams)
   },
@@ -41,6 +41,9 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.Memosprite).source(Source.PenaconyLandOfTheDreams))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ERR, 0.05, PenaconyLandOfTheDreams),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       ornament2p(*p_sets, SET_PenaconyLandOfTheDreams) >= 1
@@ -59,10 +62,11 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const PenaconyLandOfTheDreams = {
-  id: 'PenaconyLandOfTheDreams',
+  id: Sets.PenaconyLandOfTheDreams,
+  setKey: 'PenaconyLandOfTheDreams',
   info,
   display,
   conditionals,

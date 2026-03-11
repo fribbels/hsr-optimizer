@@ -1,11 +1,20 @@
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
+import {
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
+} from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
   Sets,
@@ -37,17 +46,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SPREAD_RELICS_2P_ATK_WEIGHTS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  T2_WEIGHT,
-} from 'lib/scoring/scoringConstants'
-import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
-import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -330,7 +329,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof content>
 
-      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 1 && m.e1Buffs) ? 0.16 : 0, x.targets(TargetTag.FullTeam).damageType(DamageTag.DOT).source(SOURCE_E1))
+      x.multiplicativeBoost(
+        StatKey.FINAL_DMG_BOOST,
+        (e >= 1 && m.e1Buffs) ? 0.16 : 0,
+        x.targets(TargetTag.FullTeam).damageType(DamageTag.DOT).source(SOURCE_E1),
+      )
       x.buff(StatKey.VULNERABILITY, (m.skillVulnerability) ? skillVulnScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
       x.buff(StatKey.DEF_PEN, (m.ultZone) ? ultDefPenScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
@@ -480,8 +483,9 @@ const display = {
 
 export const Hysilens: CharacterConfig = {
   id: '1410',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

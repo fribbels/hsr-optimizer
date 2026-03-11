@@ -3,8 +3,9 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -25,7 +26,6 @@ const info = {
   index: 3,
   setType: SetType.RELIC,
   ingameId: '104',
-  name: Sets.HunterOfGlacialForest,
 } as const satisfies SetInfo
 
 const display = {
@@ -35,7 +35,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Ice_DMG) {
       c.ICE_DMG_BOOST.buff(0.10, Source.HunterOfGlacialForest)
@@ -46,6 +46,9 @@ const conditionals = {
       x.buff(StatKey.CD, 0.25, x.source(Source.HunterOfGlacialForest))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ICE_DMG_BOOST, 0.10, HunterOfGlacialForest),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_HunterOfGlacialForest) >= 1
@@ -54,10 +57,11 @@ const conditionals = {
       ${buff.action(AKey.CD, 0.25).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const HunterOfGlacialForest = {
-  id: 'HunterOfGlacialForest',
+  id: Sets.HunterOfGlacialForest,
+  setKey: 'HunterOfGlacialForest',
   info,
   display,
   conditionals,

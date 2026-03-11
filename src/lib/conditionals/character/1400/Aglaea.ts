@@ -8,7 +8,17 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import {
+  Cyrene,
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
+} from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -39,20 +49,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  MATCH_2P_WEIGHT,
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
-import { Cyrene, cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   AbilityKind,
   DEFAULT_MEMO_SKILL,
@@ -61,12 +57,21 @@ import {
   START_ULT,
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CharacterConfig } from 'types/characterConfig'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
+import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { AbilityDefinition } from 'types/hitConditionalTypes'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -292,9 +297,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-
-
     },
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -410,8 +412,8 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
 
           action.conditionalState[this.id] = buffValue
 
-          x.buffDynamic(StatKey.ATK, buffValue - stateValue, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
-          x.buffDynamic(StatKey.UNCONVERTIBLE_ATK_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
+          x.buffDynamic(StatKey.UNCONVERTIBLE_ATK_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
+          x.buffDynamic(StatKey.ATK, buffValue - stateValue, action, context, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -432,10 +434,10 @@ let stateValue: f32 = (*p_state).AglaeaConversionConditional${action.actionIdent
 let buffValue: f32 = 7.20 * spd + 3.60 * memoSpd;
 
 (*p_state).AglaeaConversionConditional${action.actionIdentifier} = buffValue;
-${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_ATK_BUFF, config)} += buffValue - stateValue;
-${p_containerActionVal(memoEntityIndex, StatKey.ATK, config)} += buffValue - stateValue;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
 ${p_containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_ATK_BUFF, config)} += buffValue - stateValue;
+${p_containerActionVal(memoEntityIndex, StatKey.ATK, config)} += buffValue - stateValue;
 `,
           )
         },
@@ -443,7 +445,6 @@ ${p_containerActionVal(memoEntityIndex, StatKey.UNCONVERTIBLE_ATK_BUFF, config)}
     ],
   }
 }
-
 
 const simulation = (): SimulationMetadata => ({
   parts: {
@@ -571,8 +572,9 @@ const display = {
 
 export const Aglaea: CharacterConfig = {
   id: '1402',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

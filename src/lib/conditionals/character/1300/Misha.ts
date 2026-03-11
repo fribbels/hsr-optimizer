@@ -1,3 +1,6 @@
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import {
   AbilityEidolon,
   Conditionals,
@@ -5,10 +8,19 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
   TargetTag,
@@ -16,29 +28,26 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
-  END_SKILL,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
-  SPREAD_RELICS_2P_ATK_CRIT_WEIGHTS,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
-import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
-import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
-import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -214,7 +223,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -335,8 +343,9 @@ const display = {
 
 export const Misha: CharacterConfig = {
   id: '1312',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

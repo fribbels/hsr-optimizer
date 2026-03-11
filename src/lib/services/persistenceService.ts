@@ -31,7 +31,9 @@ import {
   CharacterId,
   SavedBuild,
 } from 'types/character'
+import { ConditionalValueMap } from 'types/conditionals'
 import { Form } from 'types/form'
+import { LightConeId } from 'types/lightCone'
 import { DBMetadata, ScoringMetadata } from 'types/metadata'
 import {
   Relic,
@@ -73,7 +75,23 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     // TODO: Temporary migration from old to new format, remove once appropriate
     const scoringMetadata = getScoringMetadata(character.id)
     character.builds = character.builds?.map((savedBuild) => {
-      if (savedBuild.optimizerMetadata !== undefined) return savedBuild
+      if (savedBuild.optimizerMetadata !== undefined) {
+        if (savedBuild.characterConditionals !== undefined) return savedBuild
+        // Sub-migration: relocate conditionals from optimizerMetadata into top-level build fields
+        const updatedBuild = { ...savedBuild }
+        // @ts-ignore
+        const oldConditionals: Record<CharacterId | LightConeId, ConditionalValueMap> | undefined = savedBuild.optimizerMetadata?.conditionals
+        updatedBuild.characterConditionals = oldConditionals?.[character.id]
+        updatedBuild.lightConeConditionals = oldConditionals?.[savedBuild.lightConeId!]
+        updatedBuild.team = savedBuild.team.map((x) => ({
+          ...x,
+          characterConditionals: oldConditionals?.[x.characterId],
+          lightConeConditionals: oldConditionals?.[x.lightConeId!],
+        }))
+        // @ts-ignore
+        if (updatedBuild.optimizerMetadata) delete updatedBuild.optimizerMetadata.conditionals
+        return updatedBuild
+      }
       const build = savedBuild as unknown as { build: string[]; name: string; score: { score: string; rating: string } }
       const migratedBuild: SavedBuild = {
         characterId: character.id,
@@ -93,7 +111,11 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
           superimposition: x.lightConeSuperimposition,
           relicSet: x.teamRelicSet,
           ornamentSet: x.teamOrnamentSet,
+          characterConditionals: undefined,
+          lightConeConditionals: undefined,
         })) ?? [],
+        characterConditionals: undefined,
+        lightConeConditionals: undefined,
         optimizerMetadata: null,
         deprioritizeBuffs: scoringMetadata.simulation?.deprioritizeBuffs ?? false,
       }

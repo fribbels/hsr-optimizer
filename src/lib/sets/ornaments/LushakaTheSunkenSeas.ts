@@ -1,6 +1,7 @@
 import { ConditionalDataType, Sets } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   OptimizerContext,
@@ -17,7 +18,6 @@ const info = {
   index: 16,
   setType: SetType.ORNAMENT,
   ingameId: '317',
-  name: Sets.LushakaTheSunkenSeas,
 } as const satisfies SetInfo
 
 const display = {
@@ -26,10 +26,13 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.LushakaTheSunkenSeas)
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ERR, 0.05, LushakaTheSunkenSeas),
+  ],
   teammate: [{
     value: Sets.LushakaTheSunkenSeas,
     label: (t) => t('TeammateSets.Lushaka.Text'),
@@ -39,10 +42,11 @@ const conditionals = {
       x.buff(StatKey.ATK_P, 0.12, x.source(Source.LushakaTheSunkenSeas))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const LushakaTheSunkenSeas = {
-  id: 'LushakaTheSunkenSeas',
+  id: Sets.LushakaTheSunkenSeas,
+  setKey: 'LushakaTheSunkenSeas',
   info,
   display,
   conditionals,

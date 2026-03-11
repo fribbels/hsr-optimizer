@@ -2,11 +2,18 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
+import {
+  BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -14,8 +21,8 @@ import {
 } from 'types/optimizer'
 import {
   SelectOptionContent,
-  SetConditionalTFunction,
   SetConditionals,
+  SetConditionalTFunction,
   SetConfig,
   SetDisplay,
   SetInfo,
@@ -26,8 +33,15 @@ const info = {
   index: 16,
   setType: SetType.RELIC,
   ingameId: '117',
-  name: Sets.PioneerDiverOfDeadWaters,
 } as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.Diver',
+  selectionOptions: selectionOptions,
+  modifiable: true,
+  defaultValue: 2,
+} as const satisfies SetDisplay
 
 const pioneerSetIndexToCd: Record<number, number> = {
   [-1]: 0,
@@ -38,15 +52,7 @@ const pioneerSetIndexToCd: Record<number, number> = {
   4: 0.24,
 }
 
-const display = {
-  conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Diver',
-  selectionOptions: selectionOptions,
-  modifiable: true,
-  defaultValue: 2,
-} as const satisfies SetDisplay
-
-const conditionals = {
+const conditionals: SetConditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
       x.buff(StatKey.DMG_BOOST, 0.12, x.source(Source.PioneerDiverOfDeadWaters))
@@ -61,6 +67,9 @@ const conditionals = {
       x.buff(StatKey.CR, 0.04, x.source(Source.PioneerDiverOfDeadWaters))
     }
   },
+  gpuBasic: () => [
+    basicP4(WgslStatName.CR, 0.04, PioneerDiverOfDeadWaters),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
       ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 2)}
@@ -72,7 +81,7 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
@@ -110,7 +119,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const PioneerDiverOfDeadWaters = {
-  id: 'PioneerDiverOfDeadWaters',
+  id: Sets.PioneerDiverOfDeadWaters,
+  setKey: 'PioneerDiverOfDeadWaters',
   info,
   display,
   conditionals,

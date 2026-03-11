@@ -1,11 +1,20 @@
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import {
+  cyreneActionExists,
+  cyreneSpecialEffectEidolonUpgraded,
+} from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import {
   AbilityEidolon,
   Conditionals,
   ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import { cyreneActionExists, cyreneSpecialEffectEidolonUpgraded } from 'lib/conditionals/character/1400/Cyrene'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
   Sets,
@@ -32,21 +41,11 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
-  MATCH_2P_WEIGHT,
   SPREAD_ORNAMENTS_2P_FUA,
-  SPREAD_ORNAMENTS_2P_FUA_WEIGHTS,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
-import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
-import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -465,8 +464,9 @@ const display = {
 
 export const Tribbie: CharacterConfig = {
   id: '1403',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

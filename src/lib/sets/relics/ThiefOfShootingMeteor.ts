@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2, basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   OptimizerContext,
 } from 'types/optimizer'
@@ -19,7 +20,6 @@ const info = {
   index: 10,
   setType: SetType.RELIC,
   ingameId: '111',
-  name: Sets.ThiefOfShootingMeteor,
 } as const satisfies SetInfo
 
 const display = {
@@ -27,17 +27,22 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.ThiefOfShootingMeteor)
   },
   p4c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.BE.buff(0.16, Source.ThiefOfShootingMeteor)
   },
-} as const satisfies SetConditionals
+  gpuBasic: () => [
+    basicP2(WgslStatName.BE, 0.16, ThiefOfShootingMeteor),
+    basicP4(WgslStatName.BE, 0.16, ThiefOfShootingMeteor),
+  ],
+}
 
 export const ThiefOfShootingMeteor = {
-  id: 'ThiefOfShootingMeteor',
+  id: Sets.ThiefOfShootingMeteor,
+  setKey: 'ThiefOfShootingMeteor',
   info,
   display,
   conditionals,

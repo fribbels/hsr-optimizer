@@ -1,7 +1,4 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  BREAK_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -21,11 +18,9 @@ import {
   ConditionalActivation,
   ConditionalType,
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { SortOption } from 'lib/optimization/sortOptions'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -34,21 +29,15 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import {
-  MATCH_2P_WEIGHT,
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  SPREAD_RELICS_2P_BREAK_WEIGHTS,
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
-import { ScoringMetadata } from 'types/metadata'
 import { NumberToNumberMap } from 'types/common'
 import { CharacterConditionalsController } from 'types/conditionals'
+import { ScoringMetadata } from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -365,7 +354,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1.00,
@@ -426,8 +414,9 @@ const display = {
 
 export const Lingsha: CharacterConfig = {
   id: '1222',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

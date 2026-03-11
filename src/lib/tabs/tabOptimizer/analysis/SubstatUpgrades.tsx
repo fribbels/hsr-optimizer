@@ -117,7 +117,7 @@ export function DamageUpgrades(props: {
 
   return (
     <Flex
-      align='start'
+      direction="column"
       gap={10}
       justify='space-between'
       wrap="wrap"

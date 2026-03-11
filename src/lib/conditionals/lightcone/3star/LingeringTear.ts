@@ -1,24 +1,24 @@
-import i18next from 'i18next'
 import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { LightConeConditionalsController } from 'types/conditionals'
-import { SuperImpositionLevel } from 'types/lightCone'
-import { LightConeConfig } from 'types/lightConeConfig'
+import { TsUtils } from 'lib/utils/TsUtils'
+import {
+  LightConeConditionalFunction,
+  LightConeConfig,
+} from 'types/lightConeConfig'
 import {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
 
-const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(LingeringTear.id)
 
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.LingeringTear.Content')
 
   const sValues = [0.20, 0.25, 0.30, 0.35, 0.40]
 
@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'cdBuff',
       formItem: 'switch',
-      text: 'Punchline CD buff',
-      content: betaContent,
+      text: t('cdBuff.text'),
+      content: t('cdBuff.content', { cdBuff: TsUtils.precisionRound(100 * sValues[s]) }),
     },
   }
 

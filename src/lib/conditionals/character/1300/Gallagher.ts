@@ -17,11 +17,9 @@ import {
   ConditionalActivation,
   ConditionalType,
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -30,12 +28,8 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
-  SPREAD_RELICS_2P_BREAK_WEIGHTS,
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Eidolon } from 'types/character'
@@ -228,7 +222,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.RES, (e >= 2 && m.e2ResBuff) ? 0.30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
-      x.buff(StatKey.VULNERABILITY, (m.targetBesotted) ? talentBesottedScaling : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(
+        StatKey.VULNERABILITY,
+        (m.targetBesotted) ? talentBesottedScaling : 0,
+        x.damageType(DamageTag.BREAK).targets(TargetTag.FullTeam).source(SOURCE_TALENT),
+      )
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -277,7 +275,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ],
   }
 }
-
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -332,8 +329,9 @@ const display = {
 
 export const Gallagher: CharacterConfig = {
   id: '1301',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

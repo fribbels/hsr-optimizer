@@ -54,7 +54,9 @@ export const Gradient = {
       const colId = params.column.getColId()
 
       const columnsToAggregate = OptimizerTabController.getColumnsToAggregateMap() as Record<string, boolean>
-      if (params.data && aggregations && columnsToAggregate[colId]) {
+      if (!columnsToAggregate[colId]) return
+
+      if (params.data && aggregations) {
         const min = aggregations.min[colId]
         const max = aggregations.max[colId]
         const value = params.value!
@@ -68,6 +70,11 @@ export const Gradient = {
         return {
           backgroundColor: color,
         }
+      }
+
+      // No aggregations yet — return neutral color to prevent black flash
+      if (params.data) {
+        return { backgroundColor: Gradient.getColor(0.5, optimizerGridGradient) }
       }
     } catch (e) {
       console.error(e)

@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -25,7 +26,6 @@ const info = {
   index: 21,
   setType: SetType.RELIC,
   ingameId: '122',
-  name: Sets.ScholarLostInErudition,
 } as const satisfies SetInfo
 
 const display = {
@@ -35,7 +35,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.ScholarLostInErudition)
   },
@@ -45,6 +45,9 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.25, x.damageType(DamageTag.SKILL).source(Source.ScholarLostInErudition))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.CR, 0.08, ScholarLostInErudition),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_ScholarLostInErudition) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}
@@ -53,10 +56,11 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const ScholarLostInErudition = {
-  id: 'ScholarLostInErudition',
+  id: Sets.ScholarLostInErudition,
+  setKey: 'ScholarLostInErudition',
   info,
   display,
   conditionals,

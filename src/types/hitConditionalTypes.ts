@@ -17,6 +17,7 @@ interface HitRuntime {
   registerIndex: number
   sourceEntityIndex: number
   scalingEntityIndex: number // Entity whose ATK/HP/DEF to use for scaling (defaults to sourceEntityIndex)
+  computedTrueDmgModifier?: number // Set during simulation for chart rendering, not used in damage calc
 }
 
 // Base properties shared by all hit types

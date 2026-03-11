@@ -1,3 +1,6 @@
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
   Conditionals,
@@ -5,9 +8,15 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { SortOption } from 'lib/optimization/sortOptions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -16,27 +25,25 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  DEFAULT_ULT,
+  END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
-  END_SKILL,
-  DEFAULT_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -213,7 +220,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -336,8 +342,9 @@ const display = {
 
 export const Argenti: CharacterConfig = {
   id: '1302',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

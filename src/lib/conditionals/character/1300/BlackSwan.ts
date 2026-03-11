@@ -1,3 +1,6 @@
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
   AbilityEidolon,
   Conditionals,
@@ -5,14 +8,20 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   wgsl,
   wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { SortOption } from 'lib/optimization/sortOptions'
 import {
   AKey,
   StatKey,
@@ -27,29 +36,27 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   AbilityKind,
+  DEFAULT_DOT,
+  END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
-  END_SKILL,
-  DEFAULT_DOT,
   WHOLE_BASIC,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
-import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { SimulationMetadata, ScoringMetadata } from 'types/metadata'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -267,7 +274,6 @@ if (${wgslTrue(r.ehrToDmgBoost)}) {
   }
 }
 
-
 const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
@@ -393,8 +399,9 @@ const display = {
 
 export const BlackSwan: CharacterConfig = {
   id: '1307',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

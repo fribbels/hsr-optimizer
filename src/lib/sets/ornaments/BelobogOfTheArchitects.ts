@@ -5,20 +5,27 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import {
   DynamicConditional,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
+import {
+  BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  ornament2p,
+  SetKeys,
+} from 'lib/optimization/setMatching'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -30,6 +37,17 @@ import {
   SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 3,
+  setType: SetType.ORNAMENT,
+  ingameId: '304',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const BelobogOfTheArchitectsConditional: DynamicConditional = {
   id: 'BelobogOfTheArchitectsConditional',
@@ -65,27 +83,19 @@ if (
   },
 }
 
-const info = {
-  index: 3,
-  setType: SetType.ORNAMENT,
-  ingameId: '304',
-  name: Sets.BelobogOfTheArchitects,
-} as const satisfies SetInfo
-
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.DEF_P.buff(0.15, Source.BelobogOfTheArchitects)
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.DEF_P, 0.15, BelobogOfTheArchitects),
+  ],
   dynamicConditionals: [BelobogOfTheArchitectsConditional],
-} as const satisfies SetConditionals
+}
 
 export const BelobogOfTheArchitects = {
-  id: 'BelobogOfTheArchitects',
+  id: Sets.BelobogOfTheArchitects,
+  setKey: 'BelobogOfTheArchitects',
   info,
   display,
   conditionals,

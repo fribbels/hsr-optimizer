@@ -15,19 +15,18 @@ import {
   ConditionalType,
   ElementNames,
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Source } from 'lib/optimization/buffSource'
-import { SortOption } from 'lib/optimization/sortOptions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -279,7 +278,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -328,8 +326,9 @@ const display = {
 
 export const Sparkle: CharacterConfig = {
   id: '1306',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

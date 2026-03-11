@@ -268,6 +268,8 @@ export const OptimizerTabController = {
     }
   },
 
+
+
   redrawRows: () => {
     gridStore.optimizerGridApi()?.refreshCells({ force: true })
   },

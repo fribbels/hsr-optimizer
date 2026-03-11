@@ -3,15 +3,17 @@ import {
   Stats,
   StatsValues,
 } from 'lib/constants/constants'
+import { AKeyType } from 'lib/optimization/engine/config/keys'
 import { BuffSource } from 'lib/optimization/buffSource'
 import { SetCounts } from 'lib/optimization/setMatching'
 
 export type Buff = {
-  stat: string,
+  stat: AKeyType | BasicKeyType,
   key: number,
   value: number,
   source: BuffSource,
   memo?: boolean,
+  damageTags?: number,
 }
 
 type BasicStatController = {
@@ -69,6 +71,11 @@ export const BasicKey: Record<BasicKeyType, number> = Object.keys(baseCharacterS
   },
   {} as Record<BasicKeyType, number>,
 )
+
+export const WgslStatName = Object.keys(BasicKey).reduce(
+  (acc, key) => { acc[key as BasicKeyType] = key as BasicKeyType; return acc },
+  {} as Record<BasicKeyType, BasicKeyType>,
+) as { readonly [K in BasicKeyType]: K }
 
 export const BasicStatToKey: Record<StatsValues, number> = {
   [Stats.ATK_P]: BasicKey.ATK_P,
@@ -129,7 +136,8 @@ export class BasicStatsArrayCore {
     this.id = -1
     this.weight = 0
 
-    Object.keys(baseCharacterStats).forEach((stat, key) => {
+    const statKeys = Object.keys(baseCharacterStats) as BasicKeyType[]
+    statKeys.forEach((stat, key) => {
       const trace = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
       const traceMemo = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
       const traceOverwrite = (value: number, source: BuffSource) =>

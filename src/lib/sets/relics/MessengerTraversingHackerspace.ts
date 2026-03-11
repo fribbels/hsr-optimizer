@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -26,7 +27,6 @@ const info = {
   index: 13,
   setType: SetType.RELIC,
   ingameId: '114',
-  name: Sets.MessengerTraversingHackerspace,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +36,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.MessengerTraversingHackerspace)
   },
@@ -45,6 +45,9 @@ const conditionals = {
       x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.SPD_P, 0.06, MessengerTraversingHackerspace),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_MessengerTraversingHackerspace) >= 1
@@ -63,10 +66,11 @@ const conditionals = {
       x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))
     },
   }],
-} as const satisfies SetConditionals
+}
 
 export const MessengerTraversingHackerspace = {
-  id: 'MessengerTraversingHackerspace',
+  id: Sets.MessengerTraversingHackerspace,
+  setKey: 'MessengerTraversingHackerspace',
   info,
   display,
   conditionals,

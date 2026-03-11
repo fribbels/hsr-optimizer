@@ -305,6 +305,14 @@ SetConditionals:
     Arcadia:
       Display: '{{allyCount}}層'
       Label: '{{allyCount}}人の味方（与ダメージ+{{buffValue}}%）'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      AtkOnly:
+        Display: 攻撃力
+      CdOnly:
+        Display: 会心ダメ
   Conditionals:
     DefaultMessage: デフォルトで有効 - セット効果を戦闘計算に反映します。
     Hunter: 有効にすると、会心ダメージバフを戦闘ステータス計算に反映します。
@@ -574,7 +582,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: シールド量変化量
       SHIELD_VALUE_P: シールド量変化率
   DamageSplits:
-    Title: ダメージ種類別分布
     Legend:
       abilityDmg: アビリティ
       breakDmg: 撃破

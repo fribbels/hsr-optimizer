@@ -1,12 +1,11 @@
 import { ElementToDamage, PathNames, Stats, StatsValues, SubStats, } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { BasicStatsArrayCore, Buff } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
-import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { aggregateCombatBuffs } from 'lib/simulations/combatBuffsAnalysis'
+import { aggregatePerActionBuffs, PerActionBuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
@@ -28,6 +27,7 @@ import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { OptimizerForm } from 'types/form'
+import { OptimizerContext } from 'types/optimizer'
 
 export type OptimizerResultAnalysis = {
   oldRowData: OptimizerDisplayData,
@@ -37,7 +37,8 @@ export type OptimizerResultAnalysis = {
   request: OptimizerForm,
   oldX: ComputedStatsContainer,
   newX: ComputedStatsContainer,
-  buffGroups: Record<BUFF_TYPE, Record<string, Buff[]>>,
+  perActionBuffGroups: PerActionBuffGroups,
+  context: OptimizerContext,
   elementalDmgValue: StatsValues,
   extraRows: StatsValues[],
 }
@@ -96,7 +97,7 @@ export function generateAnalysisData(
   }
 
   const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null)
-  const { x: newX } = simulateBuild(
+  const { x: newX, actionBuffSnapshots, rotationBuffSteps } = simulateBuild(
     newRelics as unknown as SimulationRelicByPart,
     contextNew,
     new BasicStatsArrayCore(true),
@@ -104,7 +105,9 @@ export function generateAnalysisData(
     true,
   )
 
-  const buffGroups = aggregateCombatBuffs(newX, request)
+  const perActionBuffGroups = actionBuffSnapshots
+    ? aggregatePerActionBuffs(actionBuffSnapshots, rotationBuffSteps ?? [], newX, request, contextNew.primaryAbilityKey)
+    : { byAction: {}, rotationSteps: [], primaryAction: '' }
 
   const characterMetadata = getGameMetadata().characters[request.characterId]
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
@@ -122,7 +125,8 @@ export function generateAnalysisData(
     request,
     oldX,
     newX,
-    buffGroups,
+    perActionBuffGroups,
+    context: contextNew,
     elementalDmgValue,
     extraRows,
   }

@@ -3,31 +3,50 @@ import {
   SKILL_DMG_TYPE,
   ULT_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
-import { AbilityEidolon, Conditionals, ContentDefinition, createEnum } from 'lib/conditionals/conditionalUtils'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityEidolon,
+  Conditionals,
+  ContentDefinition,
+  createEnum,
+} from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
+import {
+  ConditionalActivation,
+  ConditionalType,
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
-import { wgslFalse, wgslTrue, } from 'lib/gpu/injection/wgslUtils'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
+import {
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
-import { SortOption } from 'lib/optimization/sortOptions'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-  SPREAD_RELICS_2P_SPEED_WEIGHTS,
-  T2_WEIGHT,
-} from 'lib/scoring/scoringConstants'
+  DamageTag,
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterConfig } from 'types/characterConfig'
 import { ScoringMetadata } from 'types/metadata'
 
 import { Eidolon } from 'types/character'
 import { CharacterConditionalsController } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const HyacineEntities = createEnum('Hyacine', 'Ica')
 export const HyacineAbilities: AbilityKind[] = [
@@ -297,9 +316,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     // Container methods
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-
-
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -466,7 +482,6 @@ if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
   }
 }
 
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -518,8 +533,9 @@ const display = {
 
 export const Hyacine: CharacterConfig = {
   id: '1409',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

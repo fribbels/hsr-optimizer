@@ -70,3 +70,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+.recharts-wrapper *:focus:not(:focus-visible) {
+    outline: none !important;
+}

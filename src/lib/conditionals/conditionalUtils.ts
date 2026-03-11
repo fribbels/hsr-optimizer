@@ -15,6 +15,11 @@ import {
  * Helper methods used in conditional files
  */
 
+export type Mutual<S, T> = {
+  [K in keyof S]: K extends keyof T ? S[K] extends T[K] ? T[K] : never
+    : never
+}
+
 export type ContentDefinition<T extends Record<string, unknown>> = {
   [K in keyof T]:
     & ContentItem
@@ -164,6 +169,18 @@ export function createEnum<T extends string>(...values: T[]) {
     obj[v.replace(/[^a-zA-Z0-9]+/g, '_')] = v
   }
   return obj as { [K in T as Sanitize<K>]: K }
+}
+
+
+export function teammateConditionalActive(action: OptimizerAction, teammateId: string, conditionalId: string) {
+  const teammateAction = [
+    action.teammate0,
+    action.teammate1,
+    action.teammate2,
+  ].find((x) => x && x.actorId == teammateId)
+  if (!teammateAction) return false
+
+  return teammateAction.characterConditionals[conditionalId]
 }
 
 // Returns the entity index of the memosprite, or -1 if not found

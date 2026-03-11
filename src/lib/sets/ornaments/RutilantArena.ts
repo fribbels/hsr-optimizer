@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -26,7 +27,6 @@ const info = {
   index: 8,
   setType: SetType.ORNAMENT,
   ingameId: '309',
-  name: Sets.RutilantArena,
 } as const satisfies SetInfo
 
 const display = {
@@ -34,7 +34,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.CR.buff(0.08, Source.RutilantArena)
   },
@@ -43,6 +43,9 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(Source.RutilantArena))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.CR, 0.08, RutilantArena),
+  ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     ornament2p(*p_sets, SET_RutilantArena) >= 1
@@ -51,10 +54,11 @@ const conditionals = {
     ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action, 2)}
   }
 `,
-} as const satisfies SetConditionals
+}
 
 export const RutilantArena = {
-  id: 'RutilantArena',
+  id: Sets.RutilantArena,
+  setKey: 'RutilantArena',
   info,
   display,
   conditionals,

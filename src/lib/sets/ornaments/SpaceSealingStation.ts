@@ -5,20 +5,27 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import {
   DynamicConditional,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
+import {
+  BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  ornament2p,
+  SetKeys,
+} from 'lib/optimization/setMatching'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -30,6 +37,17 @@ import {
   SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 0,
+  setType: SetType.ORNAMENT,
+  ingameId: '301',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const SpaceSealingStationConditional: DynamicConditional = {
   id: 'SpaceSealingStationConditional',
@@ -64,28 +82,19 @@ if (
     )
   },
 }
-
-const info = {
-  index: 0,
-  setType: SetType.ORNAMENT,
-  ingameId: '301',
-  name: Sets.SpaceSealingStation,
-} as const satisfies SetInfo
-
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.SpaceSealingStation)
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, SpaceSealingStation),
+  ],
   dynamicConditionals: [SpaceSealingStationConditional],
-} as const satisfies SetConditionals
+}
 
 export const SpaceSealingStation = {
-  id: 'SpaceSealingStation',
+  id: Sets.SpaceSealingStation,
+  setKey: 'SpaceSealingStation',
   info,
   display,
   conditionals,

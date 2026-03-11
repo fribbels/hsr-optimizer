@@ -3,8 +3,9 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -26,7 +27,6 @@ const info = {
   index: 6,
   setType: SetType.RELIC,
   ingameId: '107',
-  name: Sets.FiresmithOfLavaForging,
 } as const satisfies SetInfo
 
 const display = {
@@ -36,7 +36,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Fire_DMG) {
       c.FIRE_DMG_BOOST.buff(0.10, Source.FiresmithOfLavaForging)
@@ -48,6 +48,9 @@ const conditionals = {
       x.buff(StatKey.FIRE_DMG_BOOST, 0.12, x.source(Source.FiresmithOfLavaForging))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.FIRE_DMG_BOOST, 0.10, FiresmithOfLavaForging),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_FiresmithOfLavaForging) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, 0.12).damageType(DamageTag.SKILL).wgsl(action, 2)}
@@ -56,10 +59,11 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const FiresmithOfLavaForging = {
-  id: 'FiresmithOfLavaForging',
+  id: Sets.FiresmithOfLavaForging,
+  setKey: 'FiresmithOfLavaForging',
   info,
   display,
   conditionals,

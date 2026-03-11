@@ -302,6 +302,14 @@ SetConditionals:
     Sacerdos:
       Display: '{{stackCount}}x'
       Label: '{{stackCount}} stacks (+{{buffValue}}% STBK)'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Tắt'
+        Label: 'Tắt'
+      AtkOnly:
+        Display: Tấn Công
+      CdOnly:
+        Display: CD
   Conditionals:
     DefaultMessage: Mặc định được bật – các hiệu ứng sẽ áp dụng vào tính toán chiến đấu
     Hunter: Khi được bật, buff SÁT THƯƠNG CHÍ MẠNG (CRIT DMG) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu
@@ -538,7 +546,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Lá Chắn
       SHIELD_VALUE_P: Δ% Lá Chắn
   DamageSplits:
-    Title: Phân Loại Sát Thương
     Legend:
       abilityDmg: Kỹ năng
       breakDmg: Kích Phá

@@ -3,8 +3,9 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -27,7 +28,6 @@ const info = {
   index: 11,
   setType: SetType.RELIC,
   ingameId: '112',
-  name: Sets.WastelanderOfBanditryDesert,
 } as const satisfies SetInfo
 
 const display = {
@@ -38,7 +38,7 @@ const display = {
   defaultValue: 1,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     if (context.elementalDamageType == Stats.Imaginary_DMG) {
       c.IMAGINARY_DMG_BOOST.buff(0.10, Source.WastelanderOfBanditryDesert)
@@ -50,6 +50,9 @@ const conditionals = {
       x.buff(StatKey.CR_BOOST, 0.10, x.source(Source.WastelanderOfBanditryDesert))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.IMAGINARY_DMG_BOOST, 0.10, WastelanderOfBanditryDesert),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_WastelanderOfBanditryDesert) >= 1) {
       if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
@@ -60,7 +63,7 @@ const conditionals = {
       }
     }
   `,
-} as const satisfies SetConditionals
+}
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
@@ -83,7 +86,8 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
 }
 
 export const WastelanderOfBanditryDesert = {
-  id: 'WastelanderOfBanditryDesert',
+  id: Sets.WastelanderOfBanditryDesert,
+  setKey: 'WastelanderOfBanditryDesert',
   info,
   display,
   conditionals,

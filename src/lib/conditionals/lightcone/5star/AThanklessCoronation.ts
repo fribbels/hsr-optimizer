@@ -10,7 +10,10 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { LightConeConditionalsController } from 'types/conditionals'
 import { SuperImpositionLevel } from 'types/lightCone'
 import { LightConeConfig } from 'types/lightConeConfig'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AThanklessCoronation.Content')
@@ -47,7 +50,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ATK_P, (r.ultAtkBoost) ? sValuesUltAtk[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
+      x.buff(StatKey.ATK, (r.ultAtkBoost) ? sValuesUltAtk[s] * context.baseATK : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
       x.buff(StatKey.ATK_P, (r.energyAtkBuff && context.baseEnergy >= 300) ? sValuesEnergyAtk[s] : 0, x.source(SOURCE_LC))
     },
   }

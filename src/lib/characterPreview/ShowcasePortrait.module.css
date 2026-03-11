@@ -1,0 +1,35 @@
+.portraitContainer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: var(--showcase-outline);
+}
+
+.buttonColumn {
+  width: max-content;
+  margin-left: 6px;
+  margin-top: 6px;
+}
+
+.bottomInfoContainer {
+  margin-bottom: 3px;
+  padding-left: 3px;
+  position: absolute;
+  bottom: 0;
+}
+
+.overlayTag {
+  background-color: rgb(20 20 20 / 30%);
+  color: rgb(255 255 255 / 80%);
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: var(--showcase-outline-light);
+  backdrop-filter: var(--backdrop-blur);
+  font-size: 14px;
+  width: fit-content;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 2;
+  text-shadow: 0px 0px 10px black;
+}

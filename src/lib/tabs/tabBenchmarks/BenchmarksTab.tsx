@@ -9,7 +9,6 @@ import { Button, Flex, NumberInput, Paper, SegmentedControl, Select } from '@man
 import { useForm, UseFormReturnType } from '@mantine/form'
 import {
   OverlayText,
-  showcaseOutline,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance } from 'lib/conditionals/evaluation/applyPresets'
 import { Sets } from 'lib/constants/constants'
@@ -64,11 +63,10 @@ import {
   CharacterId,
 } from 'types/character'
 import { ReactElement } from 'types/components'
+import styles from './BenchmarksTab.module.css'
 
 const GAP = 8
 const HEADER_GAP = 5
-const MID_PANEL_WIDTH = 250
-const RIGHT_PANEL_WIDTH = 250
 
 const defaultForm: Partial<BenchmarkForm> = {
   characterId: TheHerta.id,
@@ -134,13 +132,13 @@ export default function BenchmarksTab(): ReactElement {
   }, [teammate0, teammate1, teammate2])
 
   return (
-    <Flex direction="column" style={{ minHeight: 1500, width: 1200, marginBottom: 200 }} align='center' gap={8}>
+    <Flex direction="column" className={styles.container} align='center' gap={8}>
       <ColorizedTitleWithInfo
         text={t('Title') /* 'Benchmark Generator' */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Paper p="xs" withBorder style={{ width: 900 }}>
+      <Paper p="xs" withBorder className={styles.inputPaper}>
         <BenchmarkInputs form={benchmarkForm} />
       </Paper>
 
@@ -161,7 +159,7 @@ export default function BenchmarksTab(): ReactElement {
 function BenchmarkInputs({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   return (
     <Flex direction="column" align='center'>
-      <Flex gap={GAP * 3} style={{ width: '100%' }} justify='space-between'>
+      <Flex gap={GAP * 3} className={styles.inputRow} justify='space-between'>
         <LeftPanel form={form} />
         <MiddlePanel form={form} />
         <RightPanel form={form} />
@@ -203,7 +201,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const characterId = form.getValues().characterId ?? ''
 
   return (
-    <Flex direction="column" gap={GAP} style={{ width: MID_PANEL_WIDTH }} justify='space-between'>
+    <Flex direction="column" gap={GAP} className={styles.middlePanel} justify='space-between'>
       <Flex direction="column" gap={GAP}>
         <HeaderText>{t('CharacterHeader') /* Character */}</HeaderText>
         <CharacterSelect
@@ -233,8 +231,6 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   )
 }
 
-const INPUT_WIDTH = 85
-
 function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const {
     loading,
@@ -244,7 +240,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t: tOptimizerTab } = useTranslation('optimizerTab')
 
   return (
-    <Flex direction="column" style={{ width: RIGHT_PANEL_WIDTH }} justify='space-between'>
+    <Flex direction="column" className={styles.rightPanel} justify='space-between'>
       <Flex direction="column" gap={GAP}>
         <HeaderText>{t('Settings.Header') /* Settings */}</HeaderText>
 
@@ -253,7 +249,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           <SegmentedControl
             size='xs'
             fullWidth
-            style={{ width: INPUT_WIDTH }}
+            className={styles.inputControl}
             data={[
               { label: <IconCheck />, value: 'true' },
               { label: <IconX />, value: 'false' },
@@ -264,7 +260,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           <SegmentedControl
             size='xs'
             fullWidth
-            style={{ width: INPUT_WIDTH }}
+            className={styles.inputControl}
             data={[
               { label: <IconCheck />, value: 'true' },
               { label: <IconX />, value: 'false' },
@@ -298,7 +294,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           }}
           loading={loading}
           leftSection={<IconBoltFilled size={16} />}
-          style={{ width: '100%', height: 40 }}
+          className={styles.generateButton}
         >
           {t('ButtonText.Generate') /* Generate benchmarks */}
         </Button>
@@ -306,7 +302,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           onClick={() => {
             resetCache()
           }}
-          style={{ width: '100%' }}
+          className={styles.clearButton}
           variant='default'
           leftSection={<IconTrash size={16} />}
         >
@@ -347,10 +343,10 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
       <NumberInput
         size='xs'
         hideControls
-        style={{ width: INPUT_WIDTH }}
+        className={styles.inputControl}
         rightSection={
           <Select
-            style={{ width: 34 }}
+            className={styles.spdSelect}
             comboboxProps={{ width: 'fit-content' }}
             data={options}
             maxDropdownHeight={800}
@@ -379,9 +375,6 @@ function TeammatesSection() {
   )
 }
 
-const iconSize = 64
-const setSize = 24
-
 function Teammate({ index }: { index: number }) {
   const { t } = useTranslation('common')
   const {
@@ -401,14 +394,7 @@ function Teammate({ index }: { index: number }) {
 
   return (
     <div
-      style={{
-        width: '33.3333%',
-        textAlign: 'center',
-        padding: 1,
-        boxShadow: 'none',
-        cursor: 'pointer',
-      }}
-      className='custom-grid'
+      className={`custom-grid ${styles.teammateCard}`}
       onClick={() => {
         setCharacterModalInitialCharacter(teammate)
         setCharacterModalOpen(true)
@@ -418,13 +404,7 @@ function Teammate({ index }: { index: number }) {
       <Flex direction="column" align='center' gap={0}>
         <img
           src={Assets.getCharacterAvatarById(characterId)}
-          style={{
-            height: iconSize,
-            width: iconSize,
-            borderRadius: iconSize,
-            backgroundColor: 'rgba(124, 124, 124, 0.1)',
-            border: showcaseOutline,
-          }}
+          className={styles.teammateAvatar}
         />
 
         <OverlayText
@@ -432,40 +412,22 @@ function Teammate({ index }: { index: number }) {
           top={-12}
         />
 
-        <div style={{ position: 'relative', display: 'inline-block' }}>
+        <div className={styles.lcIconWrapper}>
           <img
             src={Assets.getLightConeIconById(lightCone)}
-            style={{ height: iconSize, marginTop: -3 }}
+            className={styles.lcIcon}
           />
 
           {teammate && teammate.teamRelicSet && (
             <img
-              style={{
-                position: 'absolute',
-                top: 3,
-                right: -4,
-                width: setSize,
-                height: setSize,
-                borderRadius: '50%',
-                backgroundColor: 'rgba(50, 50, 50, 0.5)',
-                border: showcaseOutline,
-              }}
+              className={styles.relicSetBadge}
               src={Assets.getSetImage(teammate.teamRelicSet)}
             />
           )}
 
           {teammate && teammate.teamOrnamentSet && (
             <img
-              style={{
-                position: 'absolute',
-                top: 27,
-                right: -4,
-                width: setSize,
-                height: setSize,
-                borderRadius: '50%',
-                backgroundColor: 'rgba(50, 50, 50, 0.5)',
-                border: showcaseOutline,
-              }}
+              className={styles.ornamentSetBadge}
               src={Assets.getSetImage(teammate.teamOrnamentSet)}
             />
           )}

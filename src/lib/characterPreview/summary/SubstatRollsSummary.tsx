@@ -1,4 +1,5 @@
 import { Flex } from '@mantine/core'
+import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
 import {
   Stats,
   SubStats,
@@ -60,7 +61,7 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
       {columns === 2
         ? (
           <Flex justify='space-between'>
-            <Flex direction="column" gap={defaultGap} style={{ width: 125, paddingLeft: 5 }}>
+            <Flex direction="column" gap={defaultGap} className={styles.leftColumn}>
               {renderStatRow(Stats.ATK_P)}
               {renderStatRow(Stats.ATK)}
               {renderStatRow(Stats.HP_P)}
@@ -69,7 +70,7 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
               {renderStatRow(Stats.DEF)}
             </Flex>
             <VerticalDivider />
-            <Flex direction="column" gap={defaultGap} style={{ width: 125, paddingRight: 5 }}>
+            <Flex direction="column" gap={defaultGap} className={styles.rightColumn}>
               {renderStatRow(Stats.SPD, 2)}
               {renderStatRow(Stats.CR)}
               {renderStatRow(Stats.CD)}
@@ -80,7 +81,7 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
           </Flex>
         )
         : (
-          <Flex direction="column" gap={defaultGap} style={{ width: 150 }}>
+          <Flex direction="column" gap={defaultGap} className={styles.singleColumn}>
             {renderStatRow(Stats.ATK_P)}
             {renderStatRow(Stats.ATK)}
             {renderStatRow(Stats.HP_P)}
@@ -113,10 +114,10 @@ function ScoringNumberParens(props: {
 
   return (
     <Flex gap={5} justify='space-between'>
-      <pre style={{ margin: 0 }}>{props.label}</pre>
-      <pre style={{ margin: 0, textAlign: 'right' }}>
+      <pre className={styles.pre}>{props.label}</pre>
+      <pre className={styles.preRight}>
         {show && numberToLocaleString(value, precision)}
-        {showParens && <span style={{ margin: 3 }}>-</span>}
+        {showParens && <span className={styles.parensSpacer}>-</span>}
         {showParens && numberToLocaleString(parens, 1)}
       </pre>
     </Flex>

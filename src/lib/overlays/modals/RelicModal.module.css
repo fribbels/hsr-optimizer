@@ -1,0 +1,37 @@
+.navArrowLeft {
+  position: absolute;
+  top: 240px;
+  right: 560px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.navArrowRight {
+  position: absolute;
+  top: 240px;
+  left: 560px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.optionIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.spacer {
+  display: block;
+  min-width: 12px;
+}
+
+.previewContainer {
+  height: 180px;
+  overflow: hidden;
+  margin-top: 7px;
+  border-radius: 10px;
+}
+
+.locatorFlex {
+  width: 298px;
+  padding-left: 1px;
+}

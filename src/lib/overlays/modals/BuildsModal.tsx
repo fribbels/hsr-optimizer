@@ -10,6 +10,7 @@ import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultTeammate } from 'lib/optimization/defaultForm'
+import styles from 'lib/overlays/modals/BuildsModal.module.css'
 import { Assets } from 'lib/rendering/assets'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import DB, { AppPages } from 'lib/state/db'
@@ -193,7 +194,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
 
         <BuildPreview character={selectedCharacter} build={build} />
       </Flex>
-      <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
+      <Flex justify='flex-end' gap={8} className={styles.footerActions}>
         <Button
           key='download'
           leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
@@ -201,7 +202,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
           onClick={() => {
             clipboardClicked('download')
           }}
-          style={{ height: 50, width: 50, borderRadius: 8 }}
+          className={styles.actionButton}
         >
         </Button>
         <Button
@@ -209,7 +210,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
           leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
           loading={loading}
           onClick={() => clipboardClicked('clipboard')}
-          style={{ height: 50, width: 50, borderRadius: 8 }}
+          className={styles.actionButton}
         >
         </Button>
         <Button key='delete' onClick={() => handleDeleteAllBuilds()}>
@@ -235,7 +236,7 @@ export const BuildPreview = memo(function BuildPreview(props: { character: Chara
     )
   }
 
-  return <div style={{ width: 656, height: 856, border: '1px solid #354b7d' }}></div>
+  return <div className={styles.emptyPreview}></div>
 })
 
 interface BuildListBaseProps {
@@ -274,13 +275,8 @@ export function BuildList(props: BuildListProps) {
   return (
     <Flex
       direction="column"
-      style={{
-        overflowY: 'auto',
-        marginBottom: 20,
-        width: '100%',
-        height: 840,
-        ...style,
-      }}
+      className={styles.buildList}
+      style={style}
       gap={8}
       onClick={() => setSelectedBuild(null)}
     >
@@ -339,7 +335,7 @@ interface PreviewBuildCardProps extends BuildCardBaseProps {
 
 type BuildCardProps = InteractiveBuildCardProps | PreviewBuildCardProps
 
-function BuildCard(props: BuildCardProps) {
+const BuildCard = memo(function BuildCard(props: BuildCardProps) {
   const {
     characterId,
     index,
@@ -356,15 +352,10 @@ function BuildCard(props: BuildCardProps) {
   const theme = useMantineTheme()
   return (
     <div
+      className={styles.buildCard}
       style={{
         backgroundColor: selected ? '#001529' : theme.colors.dark[7],
-        cursor: 'pointer',
-        padding: 24,
-        borderRadius: 8,
-        borderWidth: 1,
         borderColor: theme.colors.dark[4],
-        borderStyle: 'solid',
-        transition: 'all ease-in-out 0.2s',
       }}
       onClick={(e) => {
         setSelectedBuild(index)
@@ -394,7 +385,7 @@ function BuildCard(props: BuildCardProps) {
                 {t('Load') /* Load in Optimizer */}
               </Button>
               <Button
-                style={{ width: 35 }}
+                className={styles.deleteButton}
                 leftSection={<IconTrash size={16} />}
                 onClick={() => {
                   handleDelete(build.name)
@@ -407,15 +398,13 @@ function BuildCard(props: BuildCardProps) {
       </Flex>
     </div>
   )
-}
+})
 
-function TeammatePreview(props: { build: SavedBuild, display: boolean }) {
+const TeammatePreview = memo(function TeammatePreview(props: { build: SavedBuild, display: boolean }) {
   const { build, display } = props
   const imgStyle: CSSProperties = {
     opacity: display ? 1 : 0,
-    position: 'relative',
     height: display ? 50 : 0,
-    transition: 'height ease-in-out 0.4s, opacity ease-out 0.4s',
   }
   return (
     <Flex
@@ -424,10 +413,10 @@ function TeammatePreview(props: { build: SavedBuild, display: boolean }) {
     >
       {build.team.map((ally, idx) => (
         <Fragment key={idx}>
-          <img src={Assets.getCharacterAvatarById(ally.characterId)} style={imgStyle} />
-          <img src={Assets.getLightConeIconById(ally.lightConeId)} style={{ ...imgStyle, visibility: ally.characterId ? 'visible' : 'hidden' }} />
+          <img src={Assets.getCharacterAvatarById(ally.characterId)} className={styles.teammateImg} style={imgStyle} />
+          <img src={Assets.getLightConeIconById(ally.lightConeId)} className={styles.teammateImg} style={{ ...imgStyle, visibility: ally.characterId ? 'visible' : 'hidden' }} />
         </Fragment>
       ))}
     </Flex>
   )
-}
+})

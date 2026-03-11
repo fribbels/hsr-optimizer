@@ -11,8 +11,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import styled from 'styled-components'
-
 const justify = 'flex-start'
 const align = 'center'
 const inputWidth = 61
@@ -20,9 +18,9 @@ const numberWidth = 55
 const sliderWidth = 155
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-const Text = styled(MantineText as any)`
-    white-space: pre-line;
-`
+const Text = (props: React.PropsWithChildren<{ style?: React.CSSProperties }>) => (
+  <MantineText style={{ whiteSpace: 'pre-line', ...props.style }} {...props} />
+)
 
 export interface FormSliderProps {
   disabled?: boolean

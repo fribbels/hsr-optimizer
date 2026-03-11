@@ -1,13 +1,12 @@
 import { Flex, Text } from '@mantine/core'
 import {
-  showcaseBackdropFilter,
-  showcaseOutline,
   showcaseShadow,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import styles from 'lib/characterPreview/ShowcaseLightCone.module.css'
 import StatText, { StatTextEllipses } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
@@ -64,23 +63,10 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
           align='flex-end'
         >
           <Text
+            className={styles.lcNameOverlay}
             style={{
-              position: 'absolute',
-              height: 30,
-              backgroundColor: 'rgb(0 0 0 / 70%)',
-              padding: '3px 12px',
-              borderRadius: 8,
-              fontSize: 14,
               maxWidth: parentW - 50,
-              width: 'fit-content',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-              zIndex: 21,
-              textShadow: '0px 0px 10px black',
-              border: showcaseOutline,
               boxShadow: showcaseShadow,
-              backdropFilter: showcaseBackdropFilter,
             }}
           >
             {`${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })} - ${lightConeName}`}
@@ -88,18 +74,11 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
         </Flex>
       )}
       <Flex
-        className='lightConeCard'
+        className={`lightConeCard ${styles.lcCard}`}
         style={{
           width: `${tempLcParentW}px`,
           height: `${tempLcParentH}px`,
-          overflow: 'hidden',
-          zIndex: 20,
-          borderRadius: '8px',
-          border: showcaseOutline,
           boxShadow: showcaseShadow,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
         }}
         onClick={() => {
           setOriginalCharacterModalInitialCharacter?.(character)
@@ -146,18 +125,11 @@ export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
 
   return (
     <div
-      className='lightConeCard'
+      className={`lightConeCard ${styles.lcCard}`}
       style={{
         width: `${tempLcParentW}px`,
         height: `${tempLcParentH}px`,
-        overflow: 'hidden',
-        borderRadius: '8px',
-        zIndex: 20,
-        border: showcaseOutline,
         boxShadow: showcaseShadow,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
       }}
       onClick={() => {
         setOriginalCharacterModalInitialCharacter?.(character)
@@ -193,12 +165,10 @@ export function ShowcaseLightConeLargeName(props: {
 
   return (
     <Flex direction="column">
-      <StatTextEllipses
-        style={{ fontSize: 18, fontWeight: 400, marginLeft: 10, marginRight: 10, textAlign: 'center' }}
-      >
+      <StatTextEllipses className={styles.lcNameText}>
         {`${lightConeName}`}
       </StatTextEllipses>
-      <StatText style={{ fontSize: 16, fontWeight: 400, marginBottom: 5, textAlign: 'center' }}>
+      <StatText className={styles.lcLevelText}>
         {
           `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
           /* Lv 80 S5 */

@@ -397,15 +397,6 @@ export const DB = {
     // Remove invalid characters
     saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
-    for (const character of saveData.characters) {
-      character.equipped = {}
-      charactersById[character.id] = character
-      migrateCharacterForm(character, dbCharacters)
-    }
-
-    deduplicateDbCharacterScoringParts(dbCharacters)
-    processRelics(saveData.relics, charactersById)
-
     if (saveData.scoringMetadataOverrides) {
       for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, unknown][]) {
         // Migration: previously the overrides were an array, invalidate the arrays
@@ -467,7 +458,7 @@ export const DB = {
 
     const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))
 
-    // Re-initialize characters with build migration
+    // Initialize characters: migrate form fields and build format
     for (const character of saveData.characters) {
       character.equipped = {}
       charactersById[character.id] = character

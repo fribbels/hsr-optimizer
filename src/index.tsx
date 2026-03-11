@@ -27,7 +27,12 @@ import { WorkerPool } from 'lib/worker/workerPool'
 import { OverlayScrollbars } from 'overlayscrollbars'
 import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from 'react-error-boundary'
-import 'style/style.css'
+import 'style/tokens.css'
+import 'style/global.css'
+import 'style/ag-grid-overrides.css'
+import 'style/selecto.css'
+import 'style/components.css'
+import 'style/mantine-overrides.css'
 
 window.WorkerPool = WorkerPool
 window.Constants = Constants

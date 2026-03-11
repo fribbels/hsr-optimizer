@@ -26,18 +26,16 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
 
-const TitleDivider = styled(Divider)`
-    margin-top: 10px;
-    margin-bottom: 10px;
-`
+const TitleDivider = (props: React.ComponentPropsWithoutRef<typeof Divider>) => (
+  <Divider my={10} {...props} />
+)
 
-const InputNumberStyled = styled(NumberInput)`
-    width: 62px
-`
+const InputNumberStyled = (props: React.ComponentPropsWithoutRef<typeof NumberInput>) => (
+  <NumberInput w={62} {...props} />
+)
 
 type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'characterId'> & {
   relicsList?: [string, number][]

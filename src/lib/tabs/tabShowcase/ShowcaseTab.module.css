@@ -1,0 +1,130 @@
+.downtimeWarning {
+  color: #ffaa4f;
+}
+
+.formRow {
+  margin: 10px;
+  width: 1100px;
+}
+
+.uidInput {
+  width: 150px;
+}
+
+.submitButton {
+  width: 150px;
+}
+
+.scoringButton {
+  width: fit-content;
+  min-width: 175px;
+}
+
+.avatarImage {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.outerWrapper {
+  width: 1375px;
+}
+
+.innerColumn {
+  margin-bottom: 100px;
+  width: 1068px;
+}
+
+.flexOne {
+  flex: 1;
+}
+
+.downloadButton {
+  width: 50px;
+}
+
+.importButton {
+  flex: 1;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.chevronButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: 0 8px;
+}
+
+.segmentedControl {
+  width: 100%;
+  overflow: hidden;
+}
+
+.previewWrapper {
+  padding: 0 5px 5px 5px;
+}
+
+.sidebarDropdown {
+  margin-left: -8px;
+  width: 110px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.sidebarContainer {
+  position: relative;
+  left: -120px;
+  top: 95px;
+  width: 0;
+  height: 0;
+}
+
+.toggleButton {
+  height: 95px;
+  width: 95px;
+  border-radius: 95px;
+  margin-bottom: 2px;
+}
+
+.flaskIcon {
+  font-size: 55px;
+}
+
+.editIcon {
+  font-size: 85px;
+}
+
+.popoverDropdown {
+  padding: 4px;
+}
+
+.presetImage {
+  height: 95px;
+  width: 95px;
+  border-radius: 95px;
+  outline: var(--showcase-outline-light);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.rerunPresetImage {
+  height: 45px;
+  width: 45px;
+  border-radius: 45px;
+  outline: var(--showcase-outline-light);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.accordion {
+  width: 100%;
+}
+
+.disclaimerText {
+  font-size: 14px;
+}
+
+.disclaimerPanel {
+  padding: 12px;
+}

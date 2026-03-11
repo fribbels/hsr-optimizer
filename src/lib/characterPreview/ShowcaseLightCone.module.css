@@ -1,0 +1,41 @@
+.lcNameOverlay {
+  position: absolute;
+  height: 30px;
+  background-color: rgb(0 0 0 / 70%);
+  padding: 3px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  width: fit-content;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 21;
+  text-shadow: 0px 0px 10px black;
+  border: var(--showcase-outline);
+  backdrop-filter: var(--backdrop-blur);
+}
+
+.lcCard {
+  overflow: hidden;
+  z-index: 20;
+  border-radius: 8px;
+  border: var(--showcase-outline);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lcNameText {
+  font-size: 18px;
+  font-weight: 400;
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.lcLevelText {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  text-align: center;
+}

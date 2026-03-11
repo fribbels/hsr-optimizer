@@ -1,0 +1,249 @@
+.ag-body-horizontal-scroll {
+    min-height: 5px !important;
+    max-height: 5px !important;
+    height: 5px !important;
+}
+
+.ag-body-horizontal-scroll-viewport {
+    min-height: 5px !important;
+    max-height: 5px !important;
+    height: 5px !important;
+}
+
+.ag-body-horizontal-scroll-container {
+    min-height: 5px !important;
+    max-height: 5px !important;
+    height: 5px !important;
+}
+
+#relicGrid .ag-body-horizontal-scroll {
+    display: none !important;
+}
+
+.ag-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ag-theme-balham .ag-header-cell,
+.ag-theme-balham .ag-header-group-cell {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.ag-header-cell:after {
+    top: 5% !important;
+}
+
+.ag-header-cell-label {
+    padding-top: 4px !important;
+    text-align: center;
+    justify-content: center;
+}
+
+.ag-header-cell-label,
+.ag-header-group-cell-label {
+    justify-content: space-around;
+    text-overflow: clip;
+    width: 40px;
+}
+
+.ag-icon {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.ag-theme-balham .ag-icon {
+    font-weight: 800;
+}
+
+.ag-header-row .ag-header-row-column {
+    height: 24px !important;
+}
+
+.ag-header {
+    height: 24px !important;
+    min-height: 24px !important;
+}
+
+#relicGrid .ag-header {
+    height: 48px !important;
+    min-height: 48px !important;
+}
+
+.ag-header-cell-label .ag-header-cell-text {
+    white-space: pre-wrap !important;
+}
+
+.ag-sort-indicator-container {
+    position: absolute;
+    right: -4px;
+}
+
+.ag-header-row {
+    height: 100% !important
+}
+
+.ag-theme-balham .ag-paging-panel {
+    height: 24px !important;
+}
+
+.ag-header-label-icon {
+    margin-left: -3px !important;
+}
+
+.ag-paging-button {
+    opacity: 1 !important;
+    position: unset !important;
+}
+
+.ag-header-cell-text {
+    overflow: hidden;
+    text-overflow: clip !important;
+    min-width: unset !important;
+    margin-top: -4px;
+}
+
+.ag-icon-desc, .ag-icon-asc {
+    margin-top: -3px !important;
+    margin-right: 2px !important;
+    font-size: 12px !important;
+}
+
+.ag-icon-asc {
+    margin-top: -6px !important;
+}
+
+.ag-header-cell {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.ag-paging-panel {
+    height: 22px !important;
+}
+
+.ag-drag-handle {
+    margin-right: 5px !important;
+}
+
+.ag-cell-value {
+    font-weight: 400;
+    text-align: center;
+    font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+    font-size: 14px;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    padding: 0px !important;
+}
+
+.ag-theme-balham .ag-overlay-loading-wrapper {
+    background-color: var(--ag-modal-overlay-background-color, hsla(0, 0%, 100%, 0.05));
+}
+
+.ag-floating-top {
+    box-shadow: 0 3px 6px #141414 !important;
+    z-index: 2 !important;
+    border-bottom: none !important;
+}
+
+.ag-theme-balham .ag-row:not(.ag-row-first) {
+    border: none;
+}
+
+.ag-cell-label-container {
+    padding: 0 !important;
+}
+
+#relicGrid .ag-header-cell {
+    font-size: 10px !important;
+    font-weight: 400;
+}
+
+#characterGrid .ag-body-vertical-scroll {
+    display: none;
+}
+
+.ag-header-cell-menu-button {
+    opacity: 1 !important;
+    margin-bottom: 3px !important;
+}
+
+.relicsTableHeader {
+    font-size: 9px !important;
+    font-weight: 400 !important;
+}
+
+.ag-row {
+    border-bottom-style: unset !important;
+}
+
+.ag-cell-focus,
+.ag-cell {
+    border: none !important;
+}
+
+.ag-row-selected {
+    box-shadow: 0px 1px 5px 0px #5e5e5e !important;
+    z-index: 1 !important;
+    background: #0000002e !important;
+}
+
+.ag-row-selected:before {
+    background: none !important;
+    z-index: 1;
+    box-shadow: inset 0px 3px 11px -4px #000, inset 0px -7px 19px -8px #1a1a1a;
+}
+
+.ag-header-cell-comp-wrapper {
+    height: 100% !important;
+}
+
+#relicGrid .ag-paging-page-summary-panel {
+    display: none !important;
+}
+
+#relicGrid .ag-paging-row-summary-panel {
+    padding-right: 10px !important;
+}
+
+#optimizerGridContainer .ag-header-cell-sorted-desc, #optimizerGridContainer .ag-header-cell-sorted-asc {
+    background-color: #1b6d85 !important;
+    color: #fff !important;
+}
+
+.ag-root-wrapper {
+    border-radius: 5px !important;
+}
+
+#optimizerGridContainer .ag-cell-value {
+    font-size: 14px !important;
+}
+
+#optimizerGridContainer .ag-header-cell-text {
+    font-size: 11px !important;
+    font-weight: 400 !important;
+}
+
+#optimizerGridContainer .ag-header {
+    height: 36px !important;
+    min-height: 36px !important;
+}
+
+.ag-header-cell-filter-button {
+    display: none;
+}
+
+#optimizerGridContainer .ag-body-vertical-scroll {
+    display: none;
+}
+
+#optimizerGridContainer .ag-floating-top {
+    overflow-y: hidden !important;
+}

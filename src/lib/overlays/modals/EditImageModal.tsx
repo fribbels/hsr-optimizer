@@ -23,6 +23,7 @@ import {
   validateFileSize,
   validateUrlFileSize,
 } from 'lib/overlays/modals/editImageUtils'
+import styles from 'lib/overlays/modals/EditImageModal.module.css'
 import * as React from 'react'
 import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
@@ -292,7 +293,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       title: 'Provide image', // translation of this happens later on
       content: (
         <>
-          <Flex justify='center' style={{ marginBottom: 16 }}>
+          <Flex justify='center' className={styles.segmentedControlWrapper}>
             <SegmentedControl
               onChange={onRadioChange}
               value={radio}
@@ -314,17 +315,17 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               >
                 {isVerificationLoading
                   ? (
-                    <Flex style={{ height: '300px' }} justify='center' align='center'>
+                    <Flex className={styles.dropzoneArea} justify='center' align='center'>
                       <Loader size="lg" />
                     </Flex>
                   )
                   : (
-                    <Flex style={{ height: '300px' }} justify='center' align='center' direction="column">
+                    <Flex className={styles.dropzoneArea} justify='center' align='center' direction="column">
                       <p>
                         <IconInbox />
                       </p>
                       <p>{t('Upload.Upload.Method') /* Click or drag image file to this area to upload */}</p>
-                      <p style={{ color: 'var(--mantine-color-dimmed)' }}>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif (Max: 20MB) */}</p>
+                      <p className={styles.dimmedText}>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif (Max: 20MB) */}</p>
                     </Flex>
                   )}
               </Dropzone>
@@ -332,7 +333,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           )}
 
           {radio === 'url' && (
-            <div style={{ margin: '0 20px' }}>
+            <div className={styles.urlInputWrapper}>
               <TextInput
                 label={t('Upload.Url.Label') /* Image */}
                 autoComplete='off'
@@ -342,7 +343,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           )}
 
           {radio === 'default' && (
-            <Flex justify='center' style={{ height: '400px' }}>
+            <Flex justify='center' className={styles.defaultImagePreview}>
               <img src={defaultImageUrl} />
             </Flex>
           )}
@@ -353,7 +354,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       title: 'Crop image', // translated later on
       content: (
         <>
-          <div style={{ height: '380px', position: 'relative' }}>
+          <div className={styles.cropperContainer}>
             <Cropper
               image={verifiedImageUrl}
               crop={crop}
@@ -386,12 +387,12 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               maxZoom={MAX_ZOOM}
             />
           </div>
-          <Flex style={{ width: '100%', marginTop: 4 }} gap={8} align='center'>
-            <label style={{ whiteSpace: 'nowrap' }}>
+          <Flex className={styles.zoomRow} gap={8} align='center'>
+            <label className={styles.zoomLabel}>
               {t('Edit.Zoom') /* Zoom */}
             </label>
             <Slider
-              style={{ width: '100%' }}
+              className={styles.zoomSlider}
               min={MIN_ZOOM}
               max={MAX_ZOOM}
               step={0.1}
@@ -400,23 +401,23 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               value={zoom}
             />
           </Flex>
-          <Flex style={{ marginTop: 0 }}>
-            <Flex direction="column" style={{ flex: 1 }}>
+          <Flex className={styles.editInfoRow}>
+            <Flex direction="column" className={styles.flexOne}>
               <div>
-                <IconGripVertical style={{ marginRight: 8 }} />
+                <IconGripVertical className={styles.iconSpacing} />
                 {t('Edit.Drag') /* Drag to move */}
               </div>
-              <div style={{ flex: 1, marginTop: 8 }}>
-                <IconZoomIn style={{ marginRight: 8 }} />
+              <div className={styles.pinchRow}>
+                <IconZoomIn className={styles.iconSpacing} />
                 {t('Edit.Pinch') /* Pinch or scroll to zoom */}
               </div>
             </Flex>
-            <Flex direction="column" style={{ flex: 1 }}>
-              <Text style={{ flex: 1, marginLeft: 3 }}>
+            <Flex direction="column" className={styles.flexOne}>
+              <Text className={styles.artByLabel}>
                 {t('Edit.ArtBy') /* (Optional) Art by: */}
               </Text>
               <TextInput
-                style={{ flex: 1, marginTop: 3 }}
+                className={styles.artistInput}
                 placeholder={t('Edit.CreditPlaceholder') /* Credit the artist if possible */}
                 autoComplete='off'
                 {...customImageForm.getInputProps('artistName')}
@@ -439,10 +440,10 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
         onClose={() => setOpen(false)}
         title={title}
       >
-        <div style={{ height: '505px', position: 'relative' }}>
+        <div className={styles.modalContent}>
           {!existingConfig
             && (
-              <Stepper active={current} style={{ marginBottom: 12 }}>
+              <Stepper active={current} className={styles.stepper}>
                 {steps.map((item) => ( // make this cleaner if ever adding more steps
                   <Stepper.Step
                     key={item.title}
@@ -458,8 +459,8 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
           ))}
         </div>
         <Flex key={1} justify='flex-end'>
-          <Flex style={{ marginTop: 16 }} justify='center' align='center' gap={8}>
-            {isVerificationLoading && radio !== 'upload' && <Loader style={{ textAlign: 'center' }} size="lg" />}
+          <Flex className={styles.footerActions} justify='center' align='center' gap={8}>
+            {isVerificationLoading && radio !== 'upload' && <Loader className={styles.loaderCenter} size="lg" />}
             <Button onClick={() => setOpen(false)}>
               {tCommon('Cancel') /* Cancel */}
             </Button>

@@ -1,0 +1,84 @@
+.container {
+  min-height: 1500px;
+  width: 1200px;
+  margin-bottom: 200px;
+}
+
+.inputPaper {
+  width: 900px;
+}
+
+.inputRow {
+  width: 100%;
+}
+
+.middlePanel {
+  width: 250px;
+}
+
+.rightPanel {
+  width: 250px;
+}
+
+.inputControl {
+  width: 85px;
+}
+
+.spdSelect {
+  width: 34px;
+}
+
+.generateButton {
+  width: 100%;
+  height: 40px;
+}
+
+.clearButton {
+  width: 100%;
+}
+
+.teammateCard {
+  width: 33.3333%;
+  text-align: center;
+  padding: 1px;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.teammateAvatar {
+  height: 64px;
+  width: 64px;
+  border-radius: 64px;
+  background-color: rgba(124, 124, 124, 0.1);
+  border: var(--showcase-outline);
+}
+
+.lcIconWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.lcIcon {
+  height: 64px;
+  margin-top: -3px;
+}
+
+.setBadge {
+  position: absolute;
+  right: -4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(50, 50, 50, 0.5);
+  border: var(--showcase-outline);
+}
+
+.relicSetBadge {
+  composes: setBadge;
+  top: 3px;
+}
+
+.ornamentSetBadge {
+  composes: setBadge;
+  top: 27px;
+}

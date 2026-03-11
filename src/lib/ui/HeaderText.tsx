@@ -1,10 +1,6 @@
-import { Text } from '@mantine/core'
-import { ComponentType } from 'react'
-import styled from 'styled-components'
+import { Text, TextProps } from '@mantine/core'
+import classes from './HeaderText.module.css'
 
-export const HeaderText = styled(Text as ComponentType<any>)`
-    text-decoration: underline;
-    text-decoration-color: #6d97ffb3;
-    text-underline-offset: 2px;
-    white-space: nowrap;
-`
+export const HeaderText = (props: TextProps & React.ComponentPropsWithoutRef<'p'>) => (
+  <Text className={classes.headerText} {...props} />
+)

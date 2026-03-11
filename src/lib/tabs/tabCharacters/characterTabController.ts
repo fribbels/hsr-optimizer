@@ -21,7 +21,7 @@ import {
 } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
 
@@ -40,7 +40,7 @@ export const CharacterTabController = {
     const characterId = e.data?.id
     if (!characterId) return
     window.store.getState().setActiveKey(AppPages.OPTIMIZER)
-    OptimizerTabController.updateCharacter(characterId)
+    updateCharacter(characterId)
   },
 
   navigateToNextCell: (params: NavigateToNextCellParams<Character>) => {

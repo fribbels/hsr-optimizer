@@ -26,6 +26,10 @@ import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerForm
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { SaveState } from 'lib/state/saveState'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import {
+  getForm,
+  validateForm,
+} from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -286,11 +290,11 @@ export function setFormStatSimulations(simulations: Simulation[]) {
 }
 
 export function startOptimizerStatSimulation() {
-  const form = OptimizerTabController.getForm()
+  const form = getForm()
   const existingSimulations = useOptimizerUIStore.getState().statSimulations || []
 
   if (existingSimulations.length == 0) return
-  if (!OptimizerTabController.validateForm(form)) return
+  if (!validateForm(form)) return
 
   console.log('Starting sims', existingSimulations)
 
@@ -317,7 +321,7 @@ export function startOptimizerStatSimulation() {
 }
 
 function autosave() {
-  const form = OptimizerTabController.getForm()
+  const form = getForm()
   DB.addFromForm(form)
   SaveState.delayedSave()
 }

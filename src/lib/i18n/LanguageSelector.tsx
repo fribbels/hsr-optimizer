@@ -7,7 +7,7 @@ import { Assets } from 'lib/rendering/assets'
 import {
   BASE_PATH,
   BasePath,
-} from 'lib/state/db'
+} from 'lib/constants/appPages'
 import {
   Languages,
   languages,

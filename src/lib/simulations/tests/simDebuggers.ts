@@ -20,7 +20,8 @@ import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfIn
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB from 'lib/state/db'
+import * as equipmentService from 'lib/services/equipmentService'
+import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { useScoringStore } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -54,7 +55,8 @@ function equipTestCharacter() {
   SaveState.delayedSave()
 
   // @ts-ignore
-  DB.addFromForm(testInput.character)
+  persistenceService.upsertCharacterFromForm(testInput.character)
+  SaveState.delayedSave()
 
   const singleRelicByPart = generateTestSingleRelicsByPart(testInput.sets, testInput.mains, testInput.stats)
   singleRelicByPart.Head.substats = []
@@ -83,10 +85,10 @@ function equipTestCharacter() {
       return RelicAugmenter.augment(relic)
     })
 
-  DB.setRelic(singleRelicByPart.Head)
-  DB.setRelic(singleRelicByPart.Hands)
-  DB.setRelic(singleRelicByPart.Body)
-  DB.setRelic(singleRelicByPart.Feet)
-  DB.setRelic(singleRelicByPart.PlanarSphere)
-  DB.setRelic(singleRelicByPart.LinkRope)
+  equipmentService.upsertRelicWithEquipment(singleRelicByPart.Head)
+  equipmentService.upsertRelicWithEquipment(singleRelicByPart.Hands)
+  equipmentService.upsertRelicWithEquipment(singleRelicByPart.Body)
+  equipmentService.upsertRelicWithEquipment(singleRelicByPart.Feet)
+  equipmentService.upsertRelicWithEquipment(singleRelicByPart.PlanarSphere)
+  equipmentService.upsertRelicWithEquipment(singleRelicByPart.LinkRope)
 }

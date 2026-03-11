@@ -16,7 +16,10 @@ import {
 } from 'lib/importer/importConfig'
 import { ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
-import DB, { useGlobalStore, AppPages } from 'lib/state/db'
+import { AppPages } from 'lib/constants/appPages'
+import * as persistenceService from 'lib/services/persistenceService'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { getCharacterById, getCharacters } from 'lib/stores/characterStore'
 import { SaveState } from 'lib/state/saveState'
 import {
   importerTabButtonWidth,
@@ -156,7 +159,7 @@ export function ScannerImportSubmenu() {
   function mergeRelicsConfirmed() {
     setLoading2(true)
     setTimeout(() => {
-      DB.mergeRelicsWithState(currentRelics ?? [], [])
+      persistenceService.mergeRelics(currentRelics ?? [], [])
       SaveState.delayedSave()
 
       setTimeout(() => {
@@ -170,10 +173,10 @@ export function ScannerImportSubmenu() {
     setLoading2(true)
     setTimeout(() => {
       const charactersToImport = onlyImportExisting
-        ? currentCharacters?.filter((char) => DB.getCharacterById(char.characterId))
+        ? currentCharacters?.filter((char) => getCharacterById(char.characterId))
         : currentCharacters
 
-      DB.mergeRelicsWithState(currentRelics ?? [], (charactersToImport ?? []) as Form[])
+      persistenceService.mergeRelics(currentRelics ?? [], (charactersToImport ?? []) as Form[])
       SaveState.delayedSave()
 
       setTimeout(() => {
@@ -443,7 +446,7 @@ export function ScannerImportSubmenu() {
 
           <Checkbox
             checked={onlyImportExisting}
-            disabled={loading2 || !DB.getCharacters().length}
+            disabled={loading2 || !getCharacters().length}
             onChange={(e) => setOnlyImportExisting(e.currentTarget.checked)}
             label={t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}
           />

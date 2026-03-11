@@ -8,7 +8,7 @@ import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optimizer'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB from 'lib/state/db'
+import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById } from 'lib/stores/characterStore'
 import * as equipmentService from 'lib/services/equipmentService'
@@ -230,7 +230,8 @@ export function equipClicked(): void {
     return
   }
 
-  DB.addFromForm(form)
+  persistenceService.upsertCharacterFromForm(form)
+  SaveState.delayedSave()
 
   const selectedNodes = gridStore.optimizerGridApi()?.getSelectedNodes()
   if (!selectedNodes || selectedNodes.length == 0 || (selectedNodes[0]?.data?.statSim)) {
@@ -341,7 +342,7 @@ export function startOptimization(): void {
 
   // Delay the DB save so it doesn't block the optimizer start with a characters tab re-render
   requestIdleCallback(() => {
-    DB.addFromForm(form)
+    persistenceService.upsertCharacterFromForm(form)
   })
   SaveState.delayedSave()
 

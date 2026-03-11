@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form'
 import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import DB from 'lib/state/db'
+import { getCharacterById } from 'lib/stores/characterStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import {
@@ -101,7 +101,7 @@ export default function CharacterModal(props: {
               onChange={(characterId: CharacterId | null | undefined) => {
                 characterForm.setFieldValue('characterId', characterId ?? undefined)
                 setCharacterId(characterId)
-                const dbCharacter = DB.getCharacterById(characterId!)
+                const dbCharacter = getCharacterById(characterId!)
                 const eidolonPreselect = characterId?.startsWith('80') ? 6 : (dbCharacter?.form?.characterEidolon ?? 0)
                 const lightConePreselect = dbCharacter?.form?.lightCone ?? undefined
                 const lightConeSuperimpositionPreselect = dbCharacter?.form?.lightConeSuperimposition ?? 1

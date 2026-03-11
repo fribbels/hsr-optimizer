@@ -8,8 +8,9 @@ import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB, { useGlobalStore } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { useScoringStore } from 'lib/stores/scoringStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import React, {
@@ -204,7 +205,7 @@ export const StatTracesDrawer = () => {
 
             const update = { traces: { deactivated } }
 
-            DB.updateCharacterScoreOverrides(statTraceDrawerFocusCharacter, update)
+            useScoringStore.getState().updateCharacterOverrides(statTraceDrawerFocusCharacter, update); SaveState.delayedSave()
 
             setTimeout(() => {
               Message.success(tCommon('Saved'))

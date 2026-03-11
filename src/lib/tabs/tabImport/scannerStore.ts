@@ -10,8 +10,10 @@ import {
   V4ParserMaterial,
   V4ParserRelic,
 } from 'lib/importer/kelzFormatParser'
-import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import * as equipmentService from 'lib/services/equipmentService'
+import * as persistenceService from 'lib/services/persistenceService'
+import { getRelicById, getRelics } from 'lib/stores/relicStore'
 import { EventEmitter } from 'lib/utils/events'
 import { CharacterId } from 'types/character'
 import {
@@ -404,7 +406,7 @@ function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
       })
     }
 
-    DB.mergeRelicsWithState(
+    persistenceService.mergeRelics(
       newScan.relics,
       updateCharacters ? newScan.characters : [],
     )
@@ -460,14 +462,14 @@ export function handleUpdateRelic(state: Readonly<ScannerStore>, relic: V4Parser
         return // Ignore non-5* relics
       }
 
-      const oldRelic = DB.getRelicById(newRelic.id)
+      const oldRelic = getRelicById(newRelic.id)
 
       if (oldRelic != null && !state.ingestCharacters) {
         // Keep the owner of relic as the existing owner when character ingestion is disabled
         newRelic.equippedBy = oldRelic.equippedBy
       }
 
-      DB.setRelic(newRelic)
+      equipmentService.upsertRelicWithEquipment(newRelic)
     }
   }
 }
@@ -509,9 +511,9 @@ export function handleUpdateCharacter(
       state.updateActivatedBuffs(activatedBuffs)
 
       // Need to relocate the previously equipped relics
-      const oldRelics = DB.getRelics().filter((relic) => relic.equippedBy === previousMappedCharacter)
+      const oldRelics = getRelics().filter((relic) => relic.equippedBy === previousMappedCharacter)
       for (const relic of oldRelics) {
-        DB.equipRelic(relic, mappedCharacter as CharacterId)
+        equipmentService.equipRelic(relic, mappedCharacter as CharacterId)
       }
     }
 
@@ -521,7 +523,7 @@ export function handleUpdateCharacter(
       Object.values(state.lightCones),
     )
     if (parsed) {
-      DB.addFromForm(parsed, false)
+      persistenceService.upsertCharacterFromForm(parsed)
     }
   }
 }
@@ -533,7 +535,7 @@ export function handleDeleteRelic(state: Readonly<ScannerStore>, relicId: string
   if (state.ingest) {
     // Only 5* relics will exist in the DB as we drop everything else
     if (relic.rarity === 5) {
-      DB.deleteRelic(relicId)
+      equipmentService.removeRelic(relicId)
     }
   }
 }

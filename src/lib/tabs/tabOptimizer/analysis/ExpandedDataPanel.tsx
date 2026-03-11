@@ -1,7 +1,9 @@
 import { Flex } from '@mantine/core'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
-import DB, { useGlobalStore, AppPages } from 'lib/state/db'
+import { AppPages } from 'lib/constants/appPages'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { getCharacterById } from 'lib/stores/characterStore'
 import {
   generateAnalysisData,
   getCachedForm,
@@ -38,7 +40,7 @@ export function ExpandedDataPanel() {
       return <></>
     }
   }
-  if (selectedRowData == null || pinnedRowData == null || form == null || DB.getCharacterById(form.characterId) == null) {
+  if (selectedRowData == null || pinnedRowData == null || form == null || getCharacterById(form.characterId) == null) {
     return <></>
   }
   if (selectedRowData.statSim) {

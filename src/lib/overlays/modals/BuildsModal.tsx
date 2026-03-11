@@ -12,9 +12,13 @@ import { defaultTeammate } from 'lib/optimization/defaultForm'
 import styles from 'lib/overlays/modals/BuildsModal.module.css'
 import { Assets } from 'lib/rendering/assets'
 import { useScrollLock } from 'lib/rendering/scrollController'
-import DB, { useGlobalStore, AppPages } from 'lib/state/db'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { AppPages } from 'lib/constants/appPages'
+import * as buildService from 'lib/services/buildService'
+import * as equipmentService from 'lib/services/equipmentService'
 import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useConfirmAction } from 'lib/hooks/useConfirmAction'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
@@ -84,7 +88,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
     const result = await confirm(t('Builds.ConfirmDelete.DeleteAll') /* Are you sure you want to delete all builds? */)
     if (result) {
       setSelectedBuild(null)
-      DB.clearCharacterBuilds(selectedCharacter?.id)
+      buildService.clearBuilds(selectedCharacter?.id)
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageAll', { characterName: characterName }) /* Successfully deleted all builds for {{characterName}} */)
       close()
@@ -95,7 +99,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
     const result = await confirm(t('Builds.ConfirmDelete.DeleteSingle', { name: name }) /* Are you sure you want to delete {{name}}? */)
     if (result) {
       setSelectedBuild(null)
-      DB.deleteCharacterBuild(selectedCharacter?.id, name)
+      buildService.deleteBuild(selectedCharacter?.id, name)
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name }) /* Successfully deleted build: {{name}} */)
 
@@ -108,11 +112,11 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
   const handleEquip = async (build: SavedBuild) => {
     const result = await confirm(t('Builds.ConfirmEquip.Content') /* Equipping this will unequip characters that use the relics in this build */)
     if (result) {
-      DB.equipRelicIdsToCharacter(
+      equipmentService.equipRelicIds(
         Object.values(build.equipped),
         selectedCharacter?.id,
       )
-      const simulation = TsUtils.clone(DB.getScoringMetadata(selectedCharacter.id).simulation)
+      const simulation = TsUtils.clone(getScoringMetadata(selectedCharacter.id).simulation)
       if (simulation) {
         simulation.deprioritizeBuffs = build.deprioritizeBuffs
         for (let i = 0; i <= 2; i++) {
@@ -130,7 +134,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
             }
           }
         }
-        DB.updateSimulationScoreOverrides(selectedCharacter.id, simulation)
+        useScoringStore.getState().updateSimulationOverrides(selectedCharacter.id, simulation)
         useShowcaseTabStore.getState().setShowcaseTeamPreferenceById(selectedCharacter.id, CUSTOM_TEAM)
       }
       SaveState.delayedSave()
@@ -359,7 +363,7 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
               </Button>
               <Button
                 onClick={() => {
-                  DB.loadCharacterBuildInOptimizer(characterId, index)
+                  buildService.loadBuildInOptimizer(characterId, index)
                   closeModal?.()
                 }}
               >

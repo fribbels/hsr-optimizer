@@ -72,7 +72,7 @@ export function computeShowcaseDerivedData(params: ShowcaseDerivedDataParams) {
 
   // ===== Portrait =====
 
-  const portraitToUse = DB.getCharacterById(character?.id)?.portrait ?? undefined
+  const portraitToUse = getCharacterById(character?.id)?.portrait ?? undefined
   const portraitUrl = portraitToUse?.imageUrl ?? Assets.getCharacterPortraitById(character.id)
 
   // ===== Color =====

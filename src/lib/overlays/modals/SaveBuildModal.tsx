@@ -9,10 +9,8 @@ import {
 } from 'lib/overlays/modals/BuildsModal'
 import styles from 'lib/overlays/modals/SaveBuildModal.module.css'
 import { useScrollLock } from 'lib/rendering/scrollController'
-import DB, {
-  AppPages,
-  SavedBuildSource,
-} from 'lib/state/db'
+import { AppPages, SavedBuildSource } from 'lib/constants/appPages'
+import * as buildService from 'lib/services/buildService'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { SaveState } from 'lib/state/saveState'
@@ -82,7 +80,7 @@ export function SaveBuildModal(props: {
           console.warn('no selected character')
           break
         }
-        const res = DB.saveCharacterBuild(inputName, selectedCharacter, SavedBuildSource.OPTIMIZER, overwrite)
+        const res = buildService.saveBuild(inputName, selectedCharacter, SavedBuildSource.OPTIMIZER, overwrite)
         if (res) {
           Message.error(res.error)
           break

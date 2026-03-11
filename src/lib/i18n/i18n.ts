@@ -5,7 +5,7 @@ import yaml from 'js-yaml'
 import {
   BASE_PATH,
   BasePath,
-} from 'lib/state/db'
+} from 'lib/constants/appPages'
 import {
   Languages,
   languages,

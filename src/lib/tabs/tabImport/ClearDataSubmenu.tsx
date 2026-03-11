@@ -2,7 +2,7 @@ import { IconTrash } from '@tabler/icons-react'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Flex, Text } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
-import DB from 'lib/state/db'
+import * as persistenceService from 'lib/services/persistenceService'
 import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
@@ -19,7 +19,7 @@ export function ClearDataSubmenu() {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-      DB.resetStore()
+      persistenceService.resetAll()
 
       Message.success(t('SuccessMessage') /* Cleared data */)
     }, importerTabSpinnerMs)

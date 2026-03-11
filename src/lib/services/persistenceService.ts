@@ -446,7 +446,7 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
 
 // ─── Helpers (internal) ────────────────────────────────────────
 
-function upsertCharacterFromForm(form: Form): Character {
+export function upsertCharacterFromForm(form: Form): Character {
   let found = getCharacterById(form.characterId)
   if (found) {
     const updated = { ...found, form: { ...found.form, ...form } }

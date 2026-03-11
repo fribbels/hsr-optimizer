@@ -1,5 +1,6 @@
 import { Flex, Modal, Paper, Select, TextInput } from '@mantine/core'
 import { PathName } from 'lib/constants/constants'
+import { useSelectModal } from 'lib/hooks/useSelectModal'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
 import DB from 'lib/state/db'
@@ -9,10 +10,9 @@ import {
   generateRarityTags,
   SegmentedFilterRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import * as React from 'react'
-import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
@@ -56,7 +56,6 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
 ) => {
   // console.log('==================================== LC SELECT')
   const metadata = DB.getMetadata()
-  const [open, setOpen] = useState(false)
   const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
   const defaultFilters = useMemo((): LightConeFilters => {
     return {
@@ -66,15 +65,24 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
     }
   }, [characterId, initialPath])
 
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [currentFilters, setCurrentFilters] = useState(TsUtils.clone(defaultFilters))
+  const {
+    open,
+    setOpen,
+    inputRef,
+    currentFilters,
+    setNameFilter,
+    updateFilter,
+    resetAndOpen,
+  } = useSelectModal<LightConeFilters>({
+    defaultFilters,
+    externalOpen,
+  })
+
   const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
 
-  const setPathFilter = (path: LightConeFilters['path']) => setCurrentFilters({ ...currentFilters, path })
+  const setPathFilter = (path: LightConeFilters['path']) => updateFilter('path', path)
 
-  const setRarityFilter = (rarity: LightConeFilters['rarity']) => setCurrentFilters({ ...currentFilters, rarity })
-
-  const setNameFilter = (e: ChangeEvent<HTMLInputElement>) => setCurrentFilters({ ...currentFilters, name: e.target.value.toLowerCase() })
+  const setRarityFilter = (rarity: LightConeFilters['rarity']) => updateFilter('rarity', rarity)
 
   const labelledOptions = useMemo(() => {
     const labelledOptions: { value: string, label: ReactNode }[] = []
@@ -94,15 +102,6 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
     }
     return labelledOptions
   }, [lightConeOptions])
-
-  useEffect(() => {
-    let focusTimeout: ReturnType<typeof setTimeout>
-    if (open || externalOpen) {
-      setCurrentFilters(TsUtils.clone(defaultFilters))
-      focusTimeout = setTimeout(() => inputRef?.current?.focus(), 100)
-    }
-    return () => clearTimeout(focusTimeout)
-  }, [open, externalOpen])
 
   function applyFilters(x: LcOptions[LightConeId]) {
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
@@ -133,10 +132,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
         onClear={() => {
           if (onChange) onChange(null)
         }}
-        onDropdownOpen={() => {
-          setOpen(true)
-          setCurrentFilters(TsUtils.clone(defaultFilters))
-        }}
+        onDropdownOpen={resetAndOpen}
         comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
         rightSection={null}
       />

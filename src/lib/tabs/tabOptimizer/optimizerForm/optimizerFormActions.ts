@@ -20,7 +20,22 @@ import { Utils } from 'lib/utils/utils'
 import { Build, CharacterId } from 'types/character'
 import { Form } from 'types/form'
 
-export const optimizerFormCache: Record<string, Form> = {}
+const OPTIMIZER_FORM_CACHE_MAX = 50
+const _optimizerFormCacheMap = new Map<string, Form>()
+
+export const optimizerFormCache = {
+  get(key: string): Form | undefined {
+    return _optimizerFormCacheMap.get(key)
+  },
+  set(key: string, value: Form) {
+    // Evict oldest entries when at capacity
+    if (_optimizerFormCacheMap.size >= OPTIMIZER_FORM_CACHE_MAX && !_optimizerFormCacheMap.has(key)) {
+      const oldest = _optimizerFormCacheMap.keys().next().value!
+      _optimizerFormCacheMap.delete(oldest)
+    }
+    _optimizerFormCacheMap.set(key, value)
+  },
+}
 
 const teammateKeyToIndex: Record<string, 0 | 1 | 2> = {
   teammate0: 0,
@@ -333,7 +348,7 @@ export function startOptimization(): void {
   form.optimizationId = optimizationId
   form.statDisplay = useOptimizerFormStore.getState().statDisplay
 
-  optimizerFormCache[optimizationId] = form
+  optimizerFormCache.set(optimizationId, form)
 
   console.log('Form finished', form)
 

@@ -137,5 +137,5 @@ export function mismatchedCharacter(optimizerTabFocusCharacter?: CharacterId | n
 }
 
 export function getCachedForm() {
-  return optimizerFormCache[useOptimizerUIStore.getState().optimizationId!]
+  return optimizerFormCache.get(useOptimizerUIStore.getState().optimizationId!)
 }

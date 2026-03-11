@@ -24,7 +24,8 @@ import {
 } from 'lib/hooks/useOpenClose'
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
-import { useGlobalStore, AppPages } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { AppPages } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
 import {
   CharacterPreset,

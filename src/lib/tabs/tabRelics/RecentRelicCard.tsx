@@ -5,7 +5,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB from 'lib/state/db'
+import { getCharacterById } from 'lib/stores/characterStore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import classes from 'lib/tabs/tabRelics/RecentRelicCard.module.css'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
@@ -70,7 +70,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
           return rarityDiff
         }
 
-        return (DB.getCharacterById(a.id)?.rank ?? 999) - (DB.getCharacterById(b.id)?.rank ?? 999)
+        return (getCharacterById(a.id)?.rank ?? 999) - (getCharacterById(b.id)?.rank ?? 999)
       })
       .slice(0, 5)
   }, [relic, scoringCharacter, excludedRelicPotentialCharacters, tCharacters])

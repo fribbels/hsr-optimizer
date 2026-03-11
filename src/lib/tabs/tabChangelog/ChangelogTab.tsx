@@ -1,6 +1,7 @@
 import { Flex, Pagination, Text, Title, useMantineTheme } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { useGlobalStore, AppPages } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { AppPages } from 'lib/constants/appPages'
 import { ChangelogContent, getChangelogContent } from 'lib/tabs/tabChangelog/changelogData'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, {

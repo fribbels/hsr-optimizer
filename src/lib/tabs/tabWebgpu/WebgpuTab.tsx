@@ -9,7 +9,8 @@ import {
   WebgpuTest,
 } from 'lib/gpu/tests/webgpuTestGenerator'
 import { StatDelta } from 'lib/gpu/tests/webgpuTestUtils'
-import { useGlobalStore, AppPages } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { AppPages } from 'lib/constants/appPages'
 import React, { useState } from 'react'
 
 export default function WebgpuTab(): React.JSX.Element {

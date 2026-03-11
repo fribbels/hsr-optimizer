@@ -12,7 +12,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UserSettings } from 'types/store'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 const defaultGap = 5
 

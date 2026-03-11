@@ -1,6 +1,9 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import DB, { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { getCharacters } from 'lib/stores/characterStore'
+import { getRelics } from 'lib/stores/relicStore'
 import { useScoringStore } from 'lib/stores/scoringStore'
+import * as persistenceService from 'lib/services/persistenceService'
 import {
   DEFAULT_WEBSOCKET_URL,
   useScannerState,
@@ -29,10 +32,10 @@ export const SaveState = {
     const scannerState = useScannerState.getState()
 
     const state: HsrOptimizerSaveFormat = {
-      relics: DB.getRelics().map(({ augmentedStats, ...rest }) => rest) as Relic[],
-      characters: DB.getCharacters(),
+      relics: getRelics().map(({ augmentedStats, ...rest }) => rest) as Relic[],
+      characters: getCharacters(),
       scoringMetadataOverrides: useScoringStore.getState().scoringMetadataOverrides,
-      showcasePreferences: globalState.showcasePreferences,
+      showcasePreferences: useShowcaseTabStore.getState().showcasePreferences,
       optimizerMenuState: useOptimizerDisplayStore.getState().menuState,
       excludedRelicPotentialCharacters: relicsTabState.excludedRelicPotentialCharacters,
       savedSession: {
@@ -79,7 +82,7 @@ export const SaveState = {
         const parsed = JSON.parse(state) as HsrOptimizerSaveFormat
         console.log('Loaded SaveState')
 
-        DB.setStore(parsed, autosave, sanitize)
+        persistenceService.loadSaveData(parsed, autosave, sanitize)
 
         return true
       }

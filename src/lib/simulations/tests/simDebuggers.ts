@@ -21,6 +21,8 @@ import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAlone
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
+import { SaveState } from 'lib/state/saveState'
+import { useScoringStore } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export function injectBenchmarkDebuggers() {
@@ -41,7 +43,7 @@ function equipTestCharacter() {
 
   const simulationMetadata = getGameMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 
-  DB.updateSimulationScoreOverrides(testInput.character.characterId, {
+  useScoringStore.getState().updateSimulationOverrides(testInput.character.characterId, {
     ...simulationMetadata,
     teammates: [
       testInput.teammate0,
@@ -49,6 +51,7 @@ function equipTestCharacter() {
       testInput.teammate2,
     ],
   })
+  SaveState.delayedSave()
 
   // @ts-ignore
   DB.addFromForm(testInput.character)

@@ -17,8 +17,8 @@ import {
   ScoreCategory,
 } from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB from 'lib/state/db'
 import { useRelicStore } from 'lib/stores/relicStore'
+import { getScoringMetadata } from 'lib/stores/scoringStore'
 import {
   ArrayFilters,
   arrayToMap,
@@ -211,7 +211,7 @@ export class RelicScorer {
     if (scoringMetadata) return scoringMetadata
 
     // scoringMetadataOverrides are implicitly imported here
-    scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
+    scoringMetadata = Utils.clone(getScoringMetadata(id)) as ScoringMetadata
 
     const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
     scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })

@@ -1,6 +1,7 @@
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB from 'lib/state/db'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { getRelicById } from 'lib/stores/relicStore'
 import { CharacterId } from 'types/character'
 import { Nullable } from 'types/common'
 import { ScoringMetadata } from 'types/metadata'
@@ -126,7 +127,7 @@ function scoreSingleRelic(
       blockedRerollAvgSelected,
       blockedRerollAvgSelectedDelta,
     }
-    const equippedRelic = DB.getRelicById(DB.getCharacterById(focusCharacter)?.equipped?.[relic.part])
+    const equippedRelic = getRelicById(getCharacterById(focusCharacter)?.equipped?.[relic.part])
     if (equippedRelic) {
       weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected - relicScorer.scoreRelicPotential(equippedRelic, focusCharacter).averagePct
       weights.blockedRerollAvgSelectedEquippedDelta = weights.blockedRerollAvgSelected

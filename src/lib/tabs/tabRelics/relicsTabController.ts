@@ -10,8 +10,9 @@ import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { ScoredRelic } from 'lib/relics/scoreRelics'
-import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import * as equipmentService from 'lib/services/equipmentService'
+import { getRelicById } from 'lib/stores/relicStore'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { gridStore } from 'lib/utils/gridStore'
 import { Relic } from 'types/relic'
@@ -71,7 +72,7 @@ export const RelicsTabController = {
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
     if (!selectedRelicsIds.length) return Message.error(t('NoRelicSelected'))
     setSelectedRelicsIds([])
-    selectedRelicsIds.forEach((id) => DB.deleteRelic(id))
+    selectedRelicsIds.forEach((id) => equipmentService.removeRelic(id))
     SaveState.delayedSave()
     Message.success(t('DeleteRelicSuccess'))
   },
@@ -81,12 +82,12 @@ export const RelicsTabController = {
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
     if (selectedRelicId) {
       // edit relic
-      const oldRelic = DB.getRelicById(selectedRelicId)
+      const oldRelic = getRelicById(selectedRelicId)
       if (!oldRelic) return
       RelicModalController.onEditOk(oldRelic, relic)
     } else {
       // add new relic
-      DB.setRelic(relic)
+      equipmentService.upsertRelicWithEquipment(relic)
       setSelectedRelicsIds([relic.id])
       SaveState.delayedSave()
       Message.success(t('AddRelicSuccess') /* Successfully added relic */)

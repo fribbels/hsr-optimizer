@@ -1,8 +1,8 @@
-import DB from 'lib/state/db'
+import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { DBMetadataCharacter } from 'types/metadata'
 
 export function calculateCustomTraces(characterMetadata: DBMetadataCharacter) {
-  const overrides = DB.getScoringMetadata(characterMetadata.id)
+  const overrides = getScoringMetadata(characterMetadata.id)
 
   const deactivatedTraces = overrides?.traces?.deactivated ?? []
   const traces: Record<string, number> = {

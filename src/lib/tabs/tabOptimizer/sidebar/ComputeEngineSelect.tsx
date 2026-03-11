@@ -12,7 +12,7 @@ import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Message } from 'lib/interactions/message'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 type GpuOption = { label: ReactElement, key: ComputeEngine }
 

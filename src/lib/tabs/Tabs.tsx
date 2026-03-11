@@ -1,7 +1,7 @@
 import { Flex, Text } from '@mantine/core'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
-import { useGlobalStore, AppPages,
-  PageToRoute, } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import BenchmarksTab from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
 import CharacterTab from 'lib/tabs/tabCharacters/CharacterTab'

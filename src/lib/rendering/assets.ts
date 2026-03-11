@@ -7,7 +7,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'
-import { BASE_PATH } from 'lib/state/db'
+import { BASE_PATH } from 'lib/constants/appPages'
 import { Languages } from 'lib/utils/i18nUtils'
 
 // let baseUrl = process.env.PUBLIC_URL // Local testing;

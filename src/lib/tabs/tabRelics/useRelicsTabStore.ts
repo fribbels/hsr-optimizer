@@ -5,7 +5,7 @@ import {
   Sets,
   SubStats,
 } from 'lib/constants/constants'
-import DB from 'lib/state/db'
+import { getRelicById } from 'lib/stores/relicStore'
 import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -107,7 +107,7 @@ const useRelicsTabStore = create<RelicsTabState>()((set) => ({
   setFocusCharacter: (focusCharacter) => set({ focusCharacter }),
   setSelectedRelicsIds: (ids) => {
     const selectedId = ids.at(-1)
-    const relic = DB.getRelicById(selectedId) ?? null
+    const relic = getRelicById(selectedId) ?? null
     return set({ selectedRelic: relic, selectedRelicId: selectedId ?? null, selectedRelicsIds: [...ids] })
   },
   setRelicModalOpen: (relicModalOpen) => set({ relicModalOpen }),

@@ -16,7 +16,7 @@ import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType

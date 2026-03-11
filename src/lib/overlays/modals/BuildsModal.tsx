@@ -13,6 +13,7 @@ import styles from 'lib/overlays/modals/BuildsModal.module.css'
 import { Assets } from 'lib/rendering/assets'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import DB, { useGlobalStore, AppPages } from 'lib/state/db'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useConfirmAction } from 'lib/hooks/useConfirmAction'
@@ -130,7 +131,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
           }
         }
         DB.updateSimulationScoreOverrides(selectedCharacter.id, simulation)
-        useGlobalStore.getState().setShowcaseTeamPreferenceById([selectedCharacter.id, CUSTOM_TEAM])
+        useShowcaseTabStore.getState().setShowcaseTeamPreferenceById(selectedCharacter.id, CUSTOM_TEAM)
       }
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }) /* Successfully equipped build: {{buildName}} */)

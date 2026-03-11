@@ -2,7 +2,7 @@ import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/eva
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB from 'lib/state/db'
+import { getCharacterById } from 'lib/stores/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -42,7 +42,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
 
     const store = useOptimizerRequestStore.getState()
     const currentTeammate = store.teammates[teammateIndex]
-    const teammateCharacter = DB.getCharacterById(teammateCharacterId)
+    const teammateCharacter = getCharacterById(teammateCharacterId)
 
     let lightCone = currentTeammate.lightCone
     let lightConeSuperimposition = currentTeammate.lightConeSuperimposition

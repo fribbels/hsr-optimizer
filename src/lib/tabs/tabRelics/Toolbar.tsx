@@ -1,7 +1,7 @@
 import { Button, Flex, Select, Tooltip } from '@mantine/core'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Hint } from 'lib/interactions/hint'
-import DB from 'lib/state/db'
+import { getRelicById } from 'lib/stores/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
@@ -38,7 +38,7 @@ export function Toolbar() {
     { value: String(InsightCharacters.Owned), label: t('PlotOptions.PlotOwned') /*  Show owned characters */ },
   ]
 
-  const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
+  const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
 
   return (
     <Flex gap={10} justify='space-between'>

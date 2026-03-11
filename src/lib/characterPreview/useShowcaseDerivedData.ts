@@ -16,7 +16,7 @@ import {
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
 import { RelicBuild, ScoringType } from 'lib/scoring/simScoringUtils'
-import DB from 'lib/state/db'
+import { getCharacterById } from 'lib/stores/characterStore'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/utils/colorUtils'
 import { Assets } from 'lib/rendering/assets'

@@ -39,7 +39,7 @@ import RelicModal from 'lib/overlays/modals/RelicModal'
 
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
-import { AppPages } from 'lib/state/db'
+import { AppPages } from 'lib/constants/appPages'
 import {
   showcaseBackgroundColor,
   showcaseTransition,

@@ -6,8 +6,8 @@ import {
 } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
-import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { getRelics } from 'lib/stores/relicStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import {
@@ -53,7 +53,7 @@ export function RelicLocator(props: { relic: Relic | null }) {
   useEffect(() => {
     if (!relic) return
     const indexLimit = Math.max(1, rowLimit) * Math.max(1, inventoryWidth)
-    const newerRelics = DB.getRelics().filter((x) => x.ageIndex! > relic.ageIndex!)
+    const newerRelics = getRelics().filter((x) => x.ageIndex! > relic.ageIndex!)
 
     // Part-only filter
     const partFilteredIndex = newerRelics.filter((x) => relic.part == x.part).length

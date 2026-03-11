@@ -9,7 +9,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { LanguageSelector } from 'lib/i18n/LanguageSelector'
 import { Assets } from 'lib/rendering/assets'
-import { BASE_PATH } from 'lib/state/db'
+import { BASE_PATH } from 'lib/constants/appPages'
 
 export const HEADER_HEIGHT = 48
 

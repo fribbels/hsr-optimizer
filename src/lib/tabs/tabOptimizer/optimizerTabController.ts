@@ -21,7 +21,8 @@ import {
   getGridColumn,
   SortOption,
 } from 'lib/optimization/sortOptions'
-import DB from 'lib/state/db'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { getRelicById } from 'lib/stores/relicStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
@@ -114,7 +115,7 @@ export const OptimizerTabController = {
           gridApi.deselectAll()
         }
 
-        const character = DB.getCharacterById(form.characterId)
+        const character = getCharacterById(form.characterId)
 
         if (character && data.id) {
           // These are pinned rows
@@ -220,10 +221,10 @@ export const OptimizerTabController = {
         return {}
       }
 
-      const build = DB.getCharacterById(request.characterId)!.equipped
+      const build = getCharacterById(request.characterId)!.equipped
       const out: Partial<SingleRelicByPart> = {}
       for (const key of Object.keys(build) as Parts[]) {
-        out[key] = DB.getRelicById(build[key]!)
+        out[key] = getRelicById(build[key]!)
       }
       return out
     }

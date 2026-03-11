@@ -16,8 +16,7 @@ import {
   SingleRelicByPart,
 } from 'lib/gpu/webgpuTypes'
 import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
-import DB from 'lib/state/db'
-import { getCharacters } from 'lib/stores/characterStore'
+import { getCharacterById, getCharacters } from 'lib/stores/characterStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
@@ -87,7 +86,7 @@ export const RelicFilters = {
   applyRankFilter: (request: Form, relics: Relic[]) => {
     if (!request.rankFilter) return relics
 
-    const characters = DB.getCharacters()
+    const characters = getCharacters()
     const characterId = request.characterId
     const higherRankedRelics: Record<string, boolean> = {}
     for (let i = 0; i < characters.length; i++) {
@@ -110,7 +109,7 @@ export const RelicFilters = {
   applyExcludeFilter: (request: Form, relics: Relic[]) => {
     if (!request.exclude) return relics
 
-    const characters = DB.getCharacters()
+    const characters = getCharacters()
     const excludedRelics: Record<string, boolean> = {}
     for (const character of characters) {
       if (request.exclude.includes(character.id) && character.id != request.characterId) {
@@ -236,7 +235,7 @@ export const RelicFilters = {
   applyCurrentFilter: (request: Form, relics: RelicsByPart) => {
     if (!request.keepCurrentRelics) return relics
 
-    const character = DB.getCharacterById(request.characterId)
+    const character = getCharacterById(request.characterId)
     if (!character) {
       return relics
     }

@@ -8,7 +8,9 @@ import { ComboType } from 'lib/optimization/rotation/comboType'
 import type { TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { AppPages, SavedBuildSource, useGlobalStore } from 'lib/state/db'
+import { AppPages, SavedBuildSource } from 'lib/constants/appPages'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
@@ -84,7 +86,7 @@ export function saveBuild(
     }
     case SavedBuildSource.SHOWCASE: {
       const simulation = getScoringMetadata(character.id)?.simulation
-      const useCustomTeam = simulation && (useGlobalStore.getState().showcaseTeamPreferenceById[characterId] !== DEFAULT_TEAM)
+      const useCustomTeam = simulation && (useShowcaseTabStore.getState().showcaseTeamPreferenceById[characterId] !== DEFAULT_TEAM)
       const teammates = useCustomTeam ? simulation.teammates : getGameMetadata().characters[characterId].scoringMetadata.simulation?.teammates
       if (teammates) {
         teammates.forEach((teammate) => {

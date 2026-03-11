@@ -2,8 +2,8 @@
 import { Constants } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
-import DB from 'lib/state/db'
 import { Metadata } from 'lib/state/metadataInitializer'
+import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { Relic } from 'types/relic'
 import {
   expect,
@@ -16,7 +16,7 @@ test('Test the substat values', () => {
   // Test that calcs for a useful mainstat and useless substats are in alignment
 
   const character = '1205' // acheron
-  const scoringStats = DB.getScoringMetadata(character).stats
+  const scoringStats = getScoringMetadata(character).stats
 
   const mainStat = Constants.Stats.HP_P
   const subStats = [
@@ -101,7 +101,7 @@ test('Test the substat values', () => {
 
 test('Test when the value is not an exact addition from constants', () => {
   const character = '1205' // blade
-  const scoringStats = DB.getScoringMetadata(character).stats
+  const scoringStats = getScoringMetadata(character).stats
 
   const mainStat = Constants.Stats.HP_P
   const subStats = [

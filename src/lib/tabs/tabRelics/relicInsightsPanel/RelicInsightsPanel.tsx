@@ -2,7 +2,8 @@ import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import DB from 'lib/state/db'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { getRelicById } from 'lib/stores/relicStore'
 import { useScoringStore } from 'lib/stores/scoringStore'
 import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
 import { EstbpCard } from 'lib/tabs/tabRelics/relicInsightsPanel/Estbp'
@@ -19,7 +20,7 @@ export function RelicInsightsPanel() {
   const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore()
   const scoringMetadataOverrides = useScoringStore((s) => s.scoringMetadataOverrides)
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
-  const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
+  const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
 
   const scores: Score[] = useMemo(() => {
     if (!selectedRelic) return []
@@ -33,14 +34,14 @@ export function RelicInsightsPanel() {
           case InsightCharacters.Custom:
             return !excludedRelicPotentialCharacters.includes(x.id)
           case InsightCharacters.Owned:
-            return DB.getCharacterById(x.id) != undefined
+            return getCharacterById(x.id) != undefined
         }
       })
       .map((char) => ({
         id: char.id,
         name: t(`${char.id}.Name`),
         score: RelicScorer.scoreRelicPotential(selectedRelic, char.id, true),
-        owned: DB.getCharacterById(char.id) != undefined,
+        owned: getCharacterById(char.id) != undefined,
       }))
       .sort((a, b) => {
         if (b.score.bestPct == a.score.bestPct) {

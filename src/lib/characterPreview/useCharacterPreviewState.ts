@@ -11,7 +11,9 @@ import { useShallow } from 'zustand/react/shallow'
 import { Character, SavedBuild } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Relic } from 'types/relic'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { useRelicStore } from 'lib/stores/relicStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 
 export function useCharacterPreviewState(
   source: ShowcaseSource,
@@ -34,7 +36,7 @@ export function useCharacterPreviewState(
     teamSelectionByCharacter,
     globalShowcasePreferences,
     showcaseTemporaryOptionsByCharacter,
-  } = useGlobalStore(
+  } = useShowcaseTabStore(
     useShallow((s) => ({
       teamSelectionByCharacter: s.showcaseTeamPreferenceById,
       globalShowcasePreferences: s.showcasePreferences,
@@ -43,7 +45,7 @@ export function useCharacterPreviewState(
   )
 
   // Task 2.7: Scope relicsById subscription to only the 6 equipped relic IDs
-  const relicsById = useGlobalStore(useShallow((s) => {
+  const relicsById = useRelicStore(useShallow((s) => {
     if (!character) return null
     const equipped = savedBuildOverride?.equipped ?? character.equipped
     const ids = [equipped?.Head, equipped?.Hands, equipped?.Body, equipped?.Feet, equipped?.PlanarSphere, equipped?.LinkRope].filter((id): id is string => !!id)

@@ -23,7 +23,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/stores/appStore'
 
 const defaultGap = 5
 const fullSizeOuterStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column' }

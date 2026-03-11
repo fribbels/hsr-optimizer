@@ -3,7 +3,7 @@ import { Hint } from 'lib/interactions/hint'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import DB from 'lib/state/db'
+import { getRelicById } from 'lib/stores/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelics } from 'lib/tabs/tabRelics/RecentRelics'
 import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
@@ -22,7 +22,7 @@ export const TAB_WIDTH = 1460
 export default function RelicsTab() {
   const { focusCharacter, selectedRelicId, relicModalOpen, setRelicModalOpen, setSelectedRelicsIds } = useRelicsTabStore()
   const { recentRelics } = useScannerState()
-  const selectedRelic = DB.getRelicById(selectedRelicId ?? '') ?? null
+  const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
   const { t } = useTranslation('relicsTab')
   const setSelectedRelic = (r: Relic) => setSelectedRelicsIds([r.id])
   const score = (selectedRelic && focusCharacter)

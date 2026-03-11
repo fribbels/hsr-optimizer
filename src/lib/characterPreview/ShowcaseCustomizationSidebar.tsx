@@ -32,7 +32,11 @@ import {
   ScoringType,
   SimulationScore,
 } from 'lib/scoring/simScoringUtils'
-import DB, { useGlobalStore, AppPages } from 'lib/state/db'
+import { AppPages } from 'lib/constants/appPages'
+import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/appStore'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -99,8 +103,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
     const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
     const [colors, setColors] = useState<string[]>([])
-    const globalShowcasePreferences = useGlobalStore((s) => s.showcasePreferences)
-    const setGlobalShowcasePreferences = useGlobalStore((s) => s.setShowcasePreferences)
+    const globalShowcasePreferences = useShowcaseTabStore((s) => s.showcasePreferences)
+    const setGlobalShowcasePreferences = useShowcaseTabStore((s) => s.setShowcasePreferences)
     const { loading, trigger: screenshot } = useScreenshotAction(id)
     const showcaseDarkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
     const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
@@ -112,7 +116,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: CharacterId) => {
-        if (DB.getCharacterById(characterId)?.portrait) {
+        if (getCharacterById(characterId)?.portrait) {
           getPalette(img, (palette: PaletteResponse) => {
             const primary = modifyCustomColor(
               selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
@@ -175,10 +179,11 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     }
 
     function onShowcaseSpdValueChange(spdValue: number) {
-      const scoringMetadata = DB.getScoringMetadata(characterId)
+      const scoringMetadata = getScoringMetadata(characterId)
       const update = { stats: { ...scoringMetadata.stats, [Stats.SPD]: spdValue } }
 
-      DB.updateCharacterScoreOverrides(characterId, update)
+      useScoringStore.getState().updateCharacterOverrides(characterId, update)
+      SaveState.delayedSave()
     }
 
     function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
@@ -193,7 +198,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     }
 
     function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
-      const showcaseTemporaryOptionsByCharacter = TsUtils.clone(useGlobalStore.getState().showcaseTemporaryOptionsByCharacter)
+      const showcaseTemporaryOptionsByCharacter = TsUtils.clone(useShowcaseTabStore.getState().showcaseTemporaryOptionsByCharacter)
       if (!showcaseTemporaryOptionsByCharacter[characterId]) showcaseTemporaryOptionsByCharacter[characterId] = {}
 
       // -1 is used as the "current" setting
@@ -201,7 +206,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
       showcaseTemporaryOptionsByCharacter[characterId].spdBenchmark = actualValue
 
-      useGlobalStore.getState().setShowcaseTemporaryOptionsByCharacter(showcaseTemporaryOptionsByCharacter)
+      useShowcaseTabStore.getState().setShowcaseTemporaryOptionsByCharacter(showcaseTemporaryOptionsByCharacter)
     }
 
     function onTraceClick() {
@@ -210,10 +215,11 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     }
 
     function onShowcaseDeprioritizeBuffsChange(deprioritizeBuffs: boolean) {
-      const scoringMetadata = DB.getScoringMetadata(characterId)
+      const scoringMetadata = getScoringMetadata(characterId)
       if (scoringMetadata?.simulation) {
         const update = { deprioritizeBuffs }
-        DB.updateSimulationScoreOverrides(characterId, update)
+        useScoringStore.getState().updateSimulationOverrides(characterId, update)
+        SaveState.delayedSave()
       }
     }
 
@@ -251,12 +257,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
         <Flex
           direction="column"
           gap={6}
-          style={{
-            backgroundColor: 'rgb(29 42 71)',
-            boxShadow: shadow,
-            borderRadius: 5,
-            padding: defaultPadding,
-          }}
+          style={cardStyle}
         >
           <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
             <span></span>
@@ -327,7 +328,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                   size='xs'
                   hideControls
                   style={{ width: '100%' }}
-                  value={sanitizePositiveNumberElseUndefined(useGlobalStore.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
+                  value={sanitizePositiveNumberElseUndefined(useShowcaseTabStore.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
                   rightSection={
                     <SelectSpdPresets
                       spdFilter={simScoringExecution?.result?.originalSpd}
@@ -366,12 +367,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
         <Flex
           direction="column"
           gap={6}
-          style={{
-            backgroundColor: 'rgb(29 42 71)',
-            boxShadow: shadow,
-            borderRadius: 5,
-            padding: defaultPadding,
-          }}
+          style={cardStyle}
         >
           <HeaderText style={{ textAlign: 'center' }}>
             {tCustomization('Label')}
@@ -529,6 +525,13 @@ function sanitizePositiveNumberElseUndefined(n?: number) {
 
 const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
 
+const cardStyle = {
+  backgroundColor: 'rgb(29 42 71)',
+  boxShadow: shadow,
+  borderRadius: 5,
+  padding: defaultPadding,
+}
+
 const STANDARD_COLOR = '#799ef4'
 
 export function standardShowcasePreferences() {
@@ -587,7 +590,7 @@ export function getDefaultColor(characterId: CharacterId, portraitUrl: string, c
     return STANDARD_COLOR
   }
 
-  if (DB.getCharacterById(characterId)?.portrait && urlToColorCache[portraitUrl]) {
+  if (getCharacterById(characterId)?.portrait && urlToColorCache[portraitUrl]) {
     return urlToColorCache[portraitUrl]
   }
 

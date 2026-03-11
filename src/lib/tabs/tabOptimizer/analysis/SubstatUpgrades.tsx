@@ -84,7 +84,6 @@ export function DamageUpgrades(props: {
 
     displays.push(
       <Table
-        className='remove-table-bottom-border'
         key={group.key}
         style={{
           flex: '1 1 calc(30% - 10px)',

@@ -1,19 +1,9 @@
-import { Badge, Flex } from '@mantine/core'
 import i18next from 'i18next'
-import {
-  Constants,
-  Parts,
-  Stats,
-  SubStats,
-} from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { StatCalculator } from 'lib/relics/statCalculator'
-import { Assets } from 'lib/rendering/assets'
 import { transformOptimizerDisplayData } from 'lib/simulations/optimizerDisplayDataTransform'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
@@ -21,6 +11,11 @@ import {
   SimulationRequest,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
+import {
+  convertRelicsToSimulation,
+  ornamentSetIndexToName,
+  relicSetIndexToNames,
+} from 'lib/simulations/statSimulationUtils'
 import DB from 'lib/state/db'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -33,20 +28,8 @@ import {
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
-import {
-  Relic,
-  Stat,
-} from 'types/relic'
-import {
-  OrnamentSetToIndex,
-  RelicSetToIndex,
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
 
 // FIXME HIGH
 
@@ -129,115 +112,6 @@ function validateRequest(request: SimulationRequest) {
   }
 
   return true
-}
-
-export function renderDefaultSimulationName(sim: Simulation) {
-  return (
-    <Flex gap={5}>
-      <SimSetsDisplay sim={sim} />
-
-      |
-
-      <SimMainsDisplay sim={sim} />
-
-      |
-
-      <Flex>
-        {sim.name ? `${sim.name}` : null}
-      </Flex>
-
-      <Flex>
-        {sim.name ? `|` : null}
-      </Flex>
-
-      <SimSubstatsDisplay sim={sim} />
-    </Flex>
-  )
-}
-
-function SimSetsDisplay(props: { sim: Simulation }) {
-  const request = props.sim.request
-  const imgSize = 22
-  const relicImage1 = Assets.getSetImage(request.simRelicSet1)
-  const relicImage2 = Assets.getSetImage(request.simRelicSet2)
-  const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
-  return (
-    <Flex gap={5}>
-      <Flex style={{ width: imgSize * 2 + 5 }} justify='center'>
-        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1} />
-        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2} />
-      </Flex>
-
-      <img style={{ width: imgSize }} src={ornamentImage} />
-    </Flex>
-  )
-}
-
-function SimMainsDisplay(props: { sim: Simulation }) {
-  const request = props.sim.request
-  const imgSize = 22
-  return (
-    <Flex>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)} />
-    </Flex>
-  )
-}
-
-const substatToPriority = {
-  [Stats.ATK_P]: 0,
-  [Stats.ATK]: 1,
-  [Stats.CR]: 2,
-  [Stats.CD]: 3,
-  [Stats.SPD]: 4,
-  [Stats.BE]: 5,
-  [Stats.HP_P]: 6,
-  [Stats.HP]: 7,
-  [Stats.DEF_P]: 8,
-  [Stats.DEF]: 9,
-  [Stats.EHR]: 10,
-  [Stats.RES]: 11,
-}
-
-function SimSubstatsDisplay(props: { sim: Simulation }) {
-  const { t } = useTranslation('common', { keyPrefix: 'ShortStats' })
-  const renderArray: { stat: SubStats, value: number }[] = []
-  const substats = props.sim.request.stats
-  for (const stat of Constants.SubStats) {
-    const value = substats[stat]
-    if (value) {
-      renderArray.push({
-        stat: stat,
-        value: value,
-      })
-    }
-  }
-
-  renderArray.sort((a, b) => substatToPriority[a.stat] - substatToPriority[b.stat])
-
-  function renderStat(x: Stat) {
-    return props.sim.simType == StatSimTypes.SubstatRolls
-      ? `${t([x.stat])} x ${x.value}`
-      : `${t([x.stat])} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
-  }
-
-  return (
-    <Flex gap={0}>
-      {renderArray.map((x) => {
-        return (
-          <Flex key={x.stat}>
-            <Badge
-              style={{ paddingInline: '5px', marginInlineEnd: '5px' }}
-            >
-              {renderStat(x)}
-            </Badge>
-          </Flex>
-        )
-      })}
-    </Flex>
-  )
 }
 
 export function overwriteStatSimulationBuild() {
@@ -349,101 +223,4 @@ export function importOptimizerBuild() {
 
   const request = convertRelicsToSimulation(relicsByPart, relicSetNames[0], relicSetNames[1], ornamentSetName, 1) as SimulationRequest
   saveStatSimulationRequest(request, StatSimTypes.SubstatRolls, false)
-}
-
-export function relicSetIndexToNames(relicSetIndex: number) {
-  const numSetsR = Object.values(SetsRelics).length
-  const s1 = relicSetIndex % numSetsR
-  const s2 = ((relicSetIndex - s1) / numSetsR) % numSetsR
-  const s3 = ((relicSetIndex - s2 * numSetsR - s1) / (numSetsR * numSetsR)) % numSetsR
-  const s4 = ((relicSetIndex - s3 * numSetsR * numSetsR - s2 * numSetsR - s1) / (numSetsR * numSetsR * numSetsR)) % numSetsR
-  const relicSets = [s1, s2, s3, s4]
-  return calculateRelicSets(relicSets)
-}
-
-export function ornamentSetIndexToName(ornamentSetIndex: number) {
-  const ornamentSetCount = Object.values(SetsOrnaments).length
-  const os1 = ornamentSetIndex % ornamentSetCount
-  const os2 = ((ornamentSetIndex - os1) / ornamentSetCount) % ornamentSetCount
-  return calculateOrnamentSets([os1, os2], false)
-}
-
-export function convertRelicsToSimulation(
-  relicsByPart: Partial<SingleRelicByPart>,
-  relicSet1: string,
-  relicSet2: string,
-  ornamentSet?: string,
-  quality = 1,
-  speedRollValue = 2.6,
-) {
-  const relics = Object.values(relicsByPart)
-  const accumulatedSubstatRolls = {} as Record<SubStats, number>
-  SubStats.map((x) => accumulatedSubstatRolls[x] = 0)
-
-  // Sum up substat rolls
-  for (const relic of relics) {
-    if (relic && relic.substats) {
-      for (const substat of relic.substats) {
-        accumulatedSubstatRolls[substat.stat] += substat.value
-          / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
-      }
-    }
-  }
-
-  // Round them to 4 precision
-  SubStats.map((x) => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
-
-  // Generate the fake request and submit it
-  return {
-    name: '',
-    simRelicSet1: relicSet1,
-    simRelicSet2: relicSet2,
-    simOrnamentSet: ornamentSet,
-    simBody: relicsByPart[Parts.Body]?.main?.stat || null,
-    simFeet: relicsByPart[Parts.Feet]?.main?.stat || null,
-    simPlanarSphere: relicsByPart[Parts.PlanarSphere]?.main?.stat || null,
-    simLinkRope: relicsByPart[Parts.LinkRope]?.main?.stat || null,
-    stats: {
-      [Stats.HP]: accumulatedSubstatRolls[Stats.HP] || null,
-      [Stats.ATK]: accumulatedSubstatRolls[Stats.ATK] || null,
-      [Stats.DEF]: accumulatedSubstatRolls[Stats.DEF] || null,
-      [Stats.HP_P]: accumulatedSubstatRolls[Stats.HP_P] || null,
-      [Stats.ATK_P]: accumulatedSubstatRolls[Stats.ATK_P] || null,
-      [Stats.DEF_P]: accumulatedSubstatRolls[Stats.DEF_P] || null,
-      [Stats.CR]: accumulatedSubstatRolls[Stats.CR] || null,
-      [Stats.CD]: accumulatedSubstatRolls[Stats.CD] || null,
-      [Stats.SPD]: accumulatedSubstatRolls[Stats.SPD] || null,
-      [Stats.EHR]: accumulatedSubstatRolls[Stats.EHR] || null,
-      [Stats.RES]: accumulatedSubstatRolls[Stats.RES] || null,
-      [Stats.BE]: accumulatedSubstatRolls[Stats.BE] || null,
-    },
-  }
-}
-
-export function calculateRelicSets(relicSets: (string | number)[], nameProvided = false) {
-  const relicSetNames: string[] = []
-  while (relicSets.length > 0) {
-    const value = relicSets[0]
-    if (relicSets.lastIndexOf(value)) {
-      const setName = nameProvided ? value : Object.entries(RelicSetToIndex).find((x) => x[1] == value)![0]
-      relicSetNames.push(setName as string)
-
-      const otherIndex = relicSets.lastIndexOf(value)
-      relicSets.splice(otherIndex, 1)
-    }
-    relicSets.splice(0, 1)
-  }
-
-  return relicSetNames
-}
-
-export function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = true): string | undefined {
-  if (ornamentSets[0] != null && ornamentSets[0] == ornamentSets[1]) {
-    return (
-      nameProvided
-        ? ornamentSets[1] as string
-        : Object.entries(OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
-    )
-  }
-  return undefined
 }

@@ -41,7 +41,7 @@ import {
   SimulationStatUpgrade,
 } from 'lib/simulations/scoringUpgrades'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { convertRelicsToSimulation } from 'lib/simulations/statSimulationController'
+import { convertRelicsToSimulation } from 'lib/simulations/statSimulationUtils'
 import {
   RunSimulationsParams,
   RunStatSimulationsResult,

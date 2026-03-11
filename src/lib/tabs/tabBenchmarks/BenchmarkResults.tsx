@@ -92,7 +92,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
   return (
     <div className={styles.tableWrapper}>
       <Table
-        className={`remove-table-bottom-border ${styles.benchmarkTable}`}
+        className={styles.benchmarkTable}
       >
         <Table.Thead>
           <Table.Tr>
@@ -190,7 +190,6 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
 
   return (
     <Tabs
-      className='benchmark-tabs'
       variant='outline'
       defaultValue='200'
     >

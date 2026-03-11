@@ -170,12 +170,12 @@ function BuffTable(props: { buffs: Buff[], size: BuffDisplaySize }) {
 
   return (
     <Table
-      className={`buff-table remove-table-bottom-border ${styles.buffTable}`}
+      className={styles.buffTable}
       style={{ width: size }}
     >
       <Table.Tbody>
         {data.map((row) => (
-          <Table.Tr key={row.key} className='buff-row'>
+          <Table.Tr key={row.key}>
             <Table.Td className={styles.valueCell}>
               <span className={styles.noWrap}>{row.value}</span>
             </Table.Td>

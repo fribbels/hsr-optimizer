@@ -94,7 +94,6 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
         backgroundColor: isSelected ? `${token.colorPrimaryBg}` : 'transparent',
         transition: 'all 0.2s ease',
       }}
-      className='recent-relic-card'
     >
       <RelicPreview
         relic={relic}

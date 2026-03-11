@@ -264,7 +264,7 @@ function CharacterPreviewSelection() {
               variant="default"
             />
             <Menu>
-              <Flex className={`${styles.flexOne} dropdownButton`}>
+              <Flex className={styles.flexOne}>
                 <Button
                   className={styles.importButton}
                   onClick={() => importClicked('singleCharacter')}

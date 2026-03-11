@@ -13,7 +13,7 @@ import {
   convertRelicsToSimulation,
   ornamentSetIndexToName,
   relicSetIndexToNames,
-} from 'lib/simulations/statSimulationController'
+} from 'lib/simulations/statSimulationUtils'
 import {
   Simulation,
   SimulationRelicByPart,

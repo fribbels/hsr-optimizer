@@ -70,7 +70,7 @@ export function DpsScoreMainStatUpgradesTable(props: {
 
   return (
     <Table
-      className={`remove-table-bottom-border ${styles.table}`}
+      className={styles.table}
     >
       <Table.Thead>
         <Table.Tr>

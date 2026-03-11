@@ -9,7 +9,7 @@ import {
   AgGridReactProps,
 } from 'ag-grid-react'
 import { useMantineTheme } from '@mantine/core'
-import { useGridLocale } from 'lib/hooks/useGridLocale'
+import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
 import {
   ScoredRelic,
   scoreRelics,
@@ -26,10 +26,8 @@ import useRelicsTabStore, { ValueColumnField } from 'lib/tabs/tabRelics/useRelic
 import { gridStore } from 'lib/utils/gridStore'
 import {
   useCallback,
-  useEffect,
   useMemo,
   useRef,
-  useState,
 } from 'react'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { useScoringStore } from 'lib/stores/scoringStore'
@@ -53,7 +51,7 @@ export function RelicsGrid() {
 
   const theme = useMantineTheme()
 
-  const [gridActive, setGridActive] = useState(true)
+  const { gridDestroyed } = useGridLocaleRebuild()
 
   const relics = useRelicStore((s) => s.relics)
   const scoringMetadataOverrides = useScoringStore((s) => s.scoringMetadataOverrides)
@@ -68,12 +66,6 @@ export function RelicsGrid() {
   }, [relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
 
   const { filters, valueColumns } = useRelicsTabStore()
-
-  useEffect(() => {
-    setGridActive(false)
-    const rebuildTimeout = setTimeout(() => setGridActive(true), 100)
-    return () => clearTimeout(rebuildTimeout)
-  }, [t])
 
   const columnDefs = useMemo(() => {
     return generateBaselineColDefs(t)
@@ -118,7 +110,7 @@ export function RelicsGrid() {
         ...getGridTheme(theme),
       }}
     >
-      {gridActive && (
+      {!gridDestroyed && (
         <AgGridReact
           ref={gridRef}
           rowData={scoredRelics}

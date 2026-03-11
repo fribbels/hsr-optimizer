@@ -45,7 +45,7 @@ import {
   selectClosestColor,
 } from 'lib/utils/colorUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
+import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import {
   getPalette,
   PaletteResponse,
@@ -101,7 +101,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const [colors, setColors] = useState<string[]>([])
     const globalShowcasePreferences = useGlobalStore((s) => s.showcasePreferences)
     const setGlobalShowcasePreferences = useGlobalStore((s) => s.setShowcasePreferences)
-    const [loading, setLoading] = useState<boolean>(false)
+    const { loading, trigger: screenshot } = useScreenshotAction(id)
     const showcaseDarkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
     const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
     const showcasePreciseSpd = useGlobalStore((s) => s.savedSession.showcasePreciseSpd)
@@ -440,14 +440,14 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
             <Button
               leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
               loading={loading}
-              onClick={() => clipboardClicked(id, 'clipboard', setLoading, props.seedColor)}
+              onClick={() => screenshot('clipboard', getActiveCharacterName())}
               style={{ height: 50, width: 50, borderRadius: 8 }}
             >
             </Button>
             <Button
               leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
               loading={loading}
-              onClick={() => clipboardClicked(id, 'download', setLoading, props.seedColor)}
+              onClick={() => screenshot('download', getActiveCharacterName())}
               style={{ height: 50, width: 50, borderRadius: 8 }}
             >
             </Button>
@@ -521,15 +521,6 @@ function SelectSpdPresets(props: {
       }}
     />
   )
-}
-
-function clipboardClicked(elementId: string, action: string, setLoading: (b: boolean) => void, _color: string) {
-  setLoading(true)
-  setTimeout(() => {
-    void Utils.screenshotElementById(elementId, action, getActiveCharacterName()).finally(() => {
-      setLoading(false)
-    })
-  }, 100)
 }
 
 function sanitizePositiveNumberElseUndefined(n?: number) {

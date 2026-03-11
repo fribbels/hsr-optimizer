@@ -162,8 +162,6 @@ function SummaryTagPills(props: { contributions: StatSumContribution[] }) {
 export function StatSummaryTable(props: {
   sums: StatSum[]
   avatarSrc: string
-  context?: OptimizerContext
-  selectedAction?: number | null
 }) {
   const options = useContext(DesignContext)
   const { token } = theme.useToken()
@@ -213,12 +211,80 @@ export function StatSummaryTable(props: {
             </span>
           </Flex>
         ))}
-        {props.context && (
-          <HitDefinitionRows
-            context={props.context}
-            selectedAction={props.selectedAction ?? null}
-          />
-        )}
+      </Flex>
+    </Flex>
+  )
+}
+
+export function HitDefinitionTable(props: {
+  avatarSrc: string
+  context: OptimizerContext
+  selectedAction?: number | null
+}) {
+  const options = useContext(DesignContext)
+  const { token } = theme.useToken()
+  const cardStyleProp = getCardStyle(options, token)
+  const iconStyle = getIconStyle(options)
+
+  return (
+    <Flex align='center' gap={0} style={cardStyleProp}>
+      <img src={props.avatarSrc} style={iconStyle} />
+      <Flex vertical gap={0} style={{ flex: 1, overflow: 'hidden' }}>
+        <HitDefinitionRows
+          context={props.context}
+          selectedAction={props.selectedAction ?? null}
+        />
+      </Flex>
+    </Flex>
+  )
+}
+
+type EnemyRow = { label: string; value: string }
+
+function formatEnemyRows(context: OptimizerContext): EnemyRow[] {
+  return [
+    { label: 'Enemy level', value: `${context.enemyLevel}` },
+    { label: 'DMG RES', value: `${(context.enemyDamageResistance * 100).toFixed(0)}%` },
+    { label: 'Effect RES', value: `${(context.enemyEffectResistance * 100).toFixed(0)}%` },
+    { label: 'Toughness', value: `${context.enemyMaxToughness}` },
+    { label: 'Targets', value: `${context.enemyCount}` },
+    { label: 'Elemental weakness', value: context.enemyElementalWeak ? 'Yes' : 'No' },
+    { label: 'Weakness broken', value: context.enemyWeaknessBroken ? 'Yes' : 'No' },
+  ]
+}
+
+export function EnemyPanel(props: {
+  avatarSrc: string
+  context: OptimizerContext
+}) {
+  const options = useContext(DesignContext)
+  const { token } = theme.useToken()
+  const cardStyleProp = getCardStyle(options, token)
+  const iconStyle = getIconStyle(options)
+  const rowBase = getRowBaseStyle(options)
+  const rows = formatEnemyRows(props.context)
+
+  return (
+    <Flex align='center' gap={0} style={cardStyleProp}>
+      <img src={props.avatarSrc} style={iconStyle} />
+      <Flex vertical gap={0} style={{ flex: 1, overflow: 'hidden' }}>
+        <CardHeader label='ENEMY' />
+        {rows.map((row, i) => (
+          <Flex
+            key={row.label}
+            align='center'
+            gap={6}
+            style={{
+              ...rowBase,
+              borderBottom: i < rows.length - 1 ? `1px solid ${options.borderColor}` : undefined,
+            }}
+          >
+            <span style={{ minWidth: 60, fontSize: options.fontSize, textWrap: 'nowrap' }}>
+              {row.value}
+            </span>
+            <span style={{ ...ellipsisStyle(options.fontSize) }}>{row.label}</span>
+          </Flex>
+        ))}
       </Flex>
     </Flex>
   )

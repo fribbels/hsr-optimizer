@@ -231,7 +231,6 @@ export function HitDefinitionRows(props: {
 
   return (
     <>
-      <div style={{ borderTop: `1px solid ${options.borderColor}`, margin: '2px 0' }} />
       {actions.map((action, actionIndex) => (
         <ActionHitGroup
           key={actionIndex}

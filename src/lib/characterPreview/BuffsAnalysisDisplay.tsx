@@ -15,6 +15,8 @@ import {
 import {
   collectAllBuffs,
   computeStatSums,
+  EnemyPanel,
+  HitDefinitionTable,
   StatSummaryTable,
 } from 'lib/characterPreview/buffsAnalysis/StatSummary'
 import { seedRelevantTagsFromHits } from 'lib/characterPreview/buffsAnalysis/buffUtils'
@@ -95,13 +97,24 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   return (
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
-        <Flex vertical gap={5} style={{ width: options.panelWidth }}>
+        <Flex vertical gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
           <StatSummaryTable
             sums={statSums}
             avatarSrc={summaryAvatarSrc}
-            context={context}
-            selectedAction={selectedAction}
           />
+          {context && (
+            <HitDefinitionTable
+              avatarSrc={summaryAvatarSrc}
+              context={context}
+              selectedAction={selectedAction}
+            />
+          )}
+          {context && (
+            <EnemyPanel
+              avatarSrc={summaryAvatarSrc}
+              context={context}
+            />
+          )}
           <ActionSelector
             rotationSteps={perActionBuffGroups.rotationSteps}
             selectedAction={selectedAction}

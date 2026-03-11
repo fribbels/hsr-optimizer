@@ -26,6 +26,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { CharacterId } from 'types/character'
@@ -632,7 +633,7 @@ export function updatePartitionActivation(keyString: string, comboState: ComboSt
       partition.activations[activationIndex] = i == partitionIndex
     }
 
-    window.store.getState().setComboState({ ...comboState })
+    return { ...comboState }
   }
 }
 
@@ -643,12 +644,11 @@ export type ComboDataKey = {
   index: number,
 }
 
-export function updateAddPartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
+export function updateAddPartition(comboState: ComboState, sourceKey: string, contentItemId: string, partitionIndex: number) {
   console.log('updateAddPartition')
-  const comboState = window.store.getState().comboState
 
   const comboCategory = locateComboCategory(sourceKey, contentItemId, comboState) as ComboNumberConditional
-  if (!comboCategory) return null
+  if (!comboCategory) return
 
   const selectedPartition = comboCategory.partitions[partitionIndex]
 
@@ -657,16 +657,15 @@ export function updateAddPartition(sourceKey: string, contentItemId: string, par
     activations: Array(selectedPartition.activations.length).fill(false),
   })
 
-  window.store.getState().setComboState({ ...comboState })
+  return { ...comboState }
 }
 
-export function updateDeletePartition(sourceKey: string, contentItemId: string, partitionIndex: number) {
+export function updateDeletePartition(comboState: ComboState, sourceKey: string, contentItemId: string, partitionIndex: number) {
   console.log('updateDeletePartition')
   if (partitionIndex == 0) return
 
-  const comboState = window.store.getState().comboState
   const comboCategory = locateComboCategory(sourceKey, contentItemId, comboState) as ComboNumberConditional
-  if (!comboCategory) return null
+  if (!comboCategory) return
 
   comboCategory.partitions.splice(partitionIndex, 1)
 
@@ -684,12 +683,11 @@ export function updateDeletePartition(sourceKey: string, contentItemId: string, 
     }
   }
 
-  window.store.getState().setComboState({ ...comboState })
+  return { ...comboState }
 }
 
-export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
+export function updateSelectedSets(comboState: ComboState, sets: string[], isOrnaments: boolean) {
   console.log('updateSelectedSets')
-  const comboState = window.store.getState().comboState
   const setConditionals = comboState.comboCharacter.setConditionals
 
   if (isOrnaments) {
@@ -715,12 +713,11 @@ export function updateSelectedSets(sets: string[], isOrnaments: boolean) {
   }
 
   updateFormState(comboState)
-  window.store.getState().setComboState({ ...comboState })
+  return { ...comboState }
 }
 
-export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: string, value: boolean) {
+export function updateBooleanDefaultSelection(comboState: ComboState, sourceKey: string, contentItemId: string, value: boolean) {
   console.log('updateBooleanDefaultSelection')
-  const comboState = window.store.getState().comboState
   const dataKey: ComboDataKey = {
     id: contentItemId,
     source: sourceKey,
@@ -738,13 +735,12 @@ export function updateBooleanDefaultSelection(sourceKey: string, contentItemId: 
       locatedActivations.activations[i] = value
     }
 
-    window.store.getState().setComboState({ ...comboState })
+    return { ...comboState }
   }
 }
 
-export function updateNumberDefaultSelection(sourceKey: string, contentItemId: string, partitionIndex: number, value: number) {
+export function updateNumberDefaultSelection(comboState: ComboState, sourceKey: string, contentItemId: string, partitionIndex: number, value: number) {
   console.log('updateNumberDefaultSelection')
-  const comboState = window.store.getState().comboState
   const dataKey: ComboDataKey = {
     id: contentItemId,
     source: sourceKey,
@@ -760,7 +756,7 @@ export function updateNumberDefaultSelection(sourceKey: string, contentItemId: s
     const comboNumberConditional = locatedActivations.comboConditional as ComboNumberConditional
     comboNumberConditional.partitions[partitionIndex].value = value
 
-    window.store.getState().setComboState({ ...comboState })
+    return { ...comboState }
   } else {
     //
   }
@@ -804,9 +800,8 @@ function setActivationIndexToDefault(obj: NestedObject, index: number): void {
 }
 
 // Index is 0 indexed, and only includes the interactable elements, not including the [0] default
-export function updateAbilityRotation(index: number, turnAbilityName: TurnAbilityName) {
+export function updateAbilityRotation(comboState: ComboState, index: number, turnAbilityName: TurnAbilityName) {
   console.log('updateAbilityRotation')
-  const comboState = window.store.getState().comboState
   const comboTurnAbilities = comboState.comboTurnAbilities
 
   if (index > comboTurnAbilities.length) return
@@ -819,7 +814,7 @@ export function updateAbilityRotation(index: number, turnAbilityName: TurnAbilit
     setActivationIndexToDefault(comboState, index)
   }
 
-  window.store.getState().setComboState({ ...comboState })
+  return { ...comboState }
 }
 
 export function updateFormState(comboState: ComboState) {
@@ -827,10 +822,8 @@ export function updateFormState(comboState: ComboState) {
   comboState.version = COMBO_STATE_JSON_VERSION
 
   // Update store directly
-  void import('lib/stores/optimizerForm/useOptimizerFormStore').then(({ useOptimizerFormStore }) => {
-    useOptimizerFormStore.getState().setComboStateJson(JSON.stringify(comboState))
-    useOptimizerFormStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
-  })
+  useOptimizerFormStore.getState().setComboStateJson(JSON.stringify(comboState))
+  useOptimizerFormStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
 
   const form = OptimizerTabController.getForm()
   DB.replaceCharacterForm(form)
@@ -863,10 +856,8 @@ function change(
   }
 }
 
-export function updateConditionalChange(changeEvent: Form) {
+export function updateConditionalChange(comboState: ComboState, changeEvent: Form) {
   console.log('updateConditionalChange', changeEvent)
-
-  const comboState = window.store.getState().comboState
 
   if (changeEvent.characterConditionals) change(changeEvent.characterConditionals, comboState.comboCharacter.characterConditionals)
   if (changeEvent.lightConeConditionals) change(changeEvent.lightConeConditionals, comboState.comboCharacter.lightConeConditionals)
@@ -881,6 +872,6 @@ export function updateConditionalChange(changeEvent: Form) {
   if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals ?? {})
   if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals ?? {})
 
-  window.store.getState().setComboState({ ...comboState })
   updateFormState(comboState)
+  return { ...comboState }
 }

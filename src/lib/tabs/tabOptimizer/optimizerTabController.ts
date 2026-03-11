@@ -35,7 +35,6 @@ import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerForm
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { SaveState } from 'lib/state/saveState'
-import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   displayToForm,
@@ -426,10 +425,6 @@ export const OptimizerTabController = {
 
     // Load form into store (replaces formToDisplay + setFieldsValue)
     useOptimizerFormStore.getState().loadForm(form)
-
-    const request = displayToInternal(useOptimizerFormStore.getState())
-    const comboState = initializeComboState(request, true)
-    window.store.getState().setComboState(comboState)
 
     // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
     setTimeout(() => {

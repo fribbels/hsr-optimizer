@@ -14,7 +14,7 @@ import {
   TurnAbilityName,
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { ComboState, updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -147,10 +147,14 @@ export function ControlledTurnAbilitySelector({
   index,
   value,
   style,
+  comboState,
+  onComboStateChange,
 }: {
   index: number
   value: TurnAbilityName
   style?: React.CSSProperties
+  comboState: ComboState
+  onComboStateChange: (newState: ComboState) => void
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const characterId = useOptimizerFormStore((s) => s.characterId)
@@ -172,10 +176,12 @@ export function ControlledTurnAbilitySelector({
       clearable
       onChange={(selectedValue) => {
         if (!selectedValue) return
-        updateAbilityRotation(index, selectedValue as TurnAbilityName)
+        const newState = updateAbilityRotation(comboState, index, selectedValue as TurnAbilityName)
+        if (newState) onComboStateChange(newState)
       }}
       onClear={() => {
-        updateAbilityRotation(index, NULL_TURN_ABILITY_NAME)
+        const newState = updateAbilityRotation(comboState, index, NULL_TURN_ABILITY_NAME)
+        if (newState) onComboStateChange(newState)
       }}
     />
   )

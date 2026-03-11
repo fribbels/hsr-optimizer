@@ -40,7 +40,6 @@ import {
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
-import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { statFiltersFromForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormTransform'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -180,11 +179,8 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
 
-  formValues: undefined,
-
   optimizerGrid: undefined,
 
-  comboState: {} as ComboState,
   optimizerTabFocusCharacter: undefined,
   scoringAlgorithmFocusCharacter: undefined,
   statTracesDrawerFocusCharacter: undefined,
@@ -242,13 +238,11 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   optimizerBuild: null,
   optimizerSelectedRowData: null,
 
-  setComboState: (x) => set(() => ({ comboState: x })),
   setVersion: (x) => {
     if (!x) return
     return set(() => ({ version: x }))
   },
   setActiveKey: (x) => set(() => ({ activeKey: x })),
-  setFormValues: (x) => set(() => ({ formValues: x })),
   setOptimizerTabFocusCharacter: (characterId) =>
     set((s) => ({
       optimizerTabFocusCharacter: characterId,

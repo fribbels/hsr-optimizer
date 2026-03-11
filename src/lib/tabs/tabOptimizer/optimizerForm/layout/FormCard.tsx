@@ -1,4 +1,4 @@
-import { Flex, useMantineTheme } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import {
   defaultPadding,
   panelWidth,
@@ -8,8 +8,7 @@ import {
   ReactElement,
 } from 'react'
 
-export const cardShadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
-export const cardShadowNonInset = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em'
+
 
 const defaultGap = 5
 
@@ -32,7 +31,7 @@ export default function FormCard(props: {
   style?: CSSProperties,
   justify?: string,
 }) {
-  const theme = useMantineTheme()
+
 
   const size = props.size ?? 'small'
   const width = dimsBySize[size]
@@ -41,10 +40,10 @@ export default function FormCard(props: {
     <Flex
       style={{
         borderRadius: 5,
-        backgroundColor: theme.colors.dark[7],
+        backgroundColor: 'var(--mantine-color-dark-7)',
         height: props.height ?? 415,
         padding: props.style?.padding ?? defaultPadding,
-        boxShadow: cardShadow,
+        boxShadow: 'var(--card-shadow)',
         overflow: props.style?.overflow,
       }}
       className='hide-scrollbar'

@@ -214,7 +214,7 @@
 }
 
 #optimizerGridContainer .ag-header-cell-sorted-desc, #optimizerGridContainer .ag-header-cell-sorted-asc {
-    background-color: #1b6d85 !important;
+    background-color: var(--mantine-color-dark-5) !important;
     color: #fff !important;
 }
 

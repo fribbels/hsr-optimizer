@@ -4,7 +4,7 @@ import {
   NavigateToNextCellParams,
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import { Flex, useMantineTheme } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -24,7 +24,6 @@ import {
   optimizerGridOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
-import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -47,7 +46,7 @@ export const GRID_DIMENSIONS = {
 }
 
 export function OptimizerGrid() {
-  const theme = useMantineTheme()
+  
   const { getLocaleText, paginationNumberFormatter, t } = useGridLocale('optimizerTab', 'Grid')
   const { gridDestroyed } = useGridLocaleRebuild()
   const optimizerGrid = useRef<AgGridReact<OptimizerDisplayDataStatSim> | null>(null)
@@ -135,8 +134,8 @@ export function OptimizerGrid() {
             height: GRID_DIMENSIONS.HEIGHT,
             resize: 'vertical',
             overflow: 'hidden',
-            boxShadow: cardShadowNonInset,
-            ...getGridTheme(theme),
+            boxShadow: 'var(--card-shadow-flat)',
+            ...getGridTheme(),
           }}
         >
           <AgGridReact

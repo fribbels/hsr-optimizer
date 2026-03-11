@@ -3,7 +3,7 @@ import {
   IconChevronRight,
 } from '@tabler/icons-react'
 import { useForm } from '@mantine/form'
-import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select, useMantineTheme } from '@mantine/core'
+import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select } from '@mantine/core'
 import {
   Constants,
   MainStats,
@@ -81,7 +81,7 @@ type RelicModalProps = {
 export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer, next, prev }: RelicModalProps) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
-  const theme = useMantineTheme()
+
   const relicForm = useForm<RelicForm>({
     initialValues: {} as RelicForm,
   })
@@ -462,7 +462,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
                   overflow: 'hidden',
                   marginTop: 7,
                   borderRadius: 10,
-                  boxShadow: `0px 0px 0px 1px ${theme.colors.dark[4]} inset`,
+                  boxShadow: '0px 0px 0px 1px var(--border-color) inset',
                 }}
               >
                 <img

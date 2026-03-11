@@ -1,4 +1,4 @@
-import { Flex, Pagination, Text, Title, useMantineTheme } from '@mantine/core'
+import { Flex, Pagination, Text, Title } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
@@ -11,7 +11,7 @@ import React, {
 } from 'react'
 
 export default function ChangelogTab(): React.JSX.Element {
-  const theme = useMantineTheme()
+
 
   const activeKey = useGlobalStore((s) => s.activeKey)
   const changelogContent = useMemo(() => getChangelogContent(), [])
@@ -35,7 +35,7 @@ export default function ChangelogTab(): React.JSX.Element {
             src={Assets.getChangelog(`${contentUpdate.date}/${entry}`)}
             loading='lazy'
             style={{
-              border: `2px solid ${theme.colors.dark[7]}`,
+              border: '2px solid var(--mantine-color-dark-7)',
               margin: 5,
               maxWidth: 1200,
             }}

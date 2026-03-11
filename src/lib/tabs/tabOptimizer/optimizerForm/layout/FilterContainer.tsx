@@ -1,5 +1,4 @@
 import { Flex } from '@mantine/core'
-import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { ReactElement } from 'react'
 
 export default function FilterContainer(props: { children: ReactElement | ReactElement[] }) {
@@ -10,8 +9,8 @@ export default function FilterContainer(props: { children: ReactElement | ReactE
         overflow: 'hidden',
         borderRadius: 5,
         paddingBottom: 10,
-        background: 'rgb(29 42 81 / 73%)',
-        boxShadow: cardShadowNonInset,
+        background: 'var(--bg-translucent)',
+        boxShadow: 'var(--card-shadow-flat)',
         backdropFilter: 'blur(5px)',
         border: '1px solid rgba(255, 255, 255, 0.10)',
         WebkitBackdropFilter: 'blur(5px)',

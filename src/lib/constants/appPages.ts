@@ -51,17 +51,10 @@ export const PageToRoute = {
   [AppPages.METADATA_TEST]: `${BASE_PATH}#metadata`,
 } as const satisfies Record<AppPages, Route>
 
-export const RouteToPage = {
-  [PageToRoute[AppPages.OPTIMIZER]]: AppPages.OPTIMIZER,
-  [PageToRoute[AppPages.SHOWCASE]]: AppPages.SHOWCASE,
-  [PageToRoute[AppPages.WARP]]: AppPages.WARP,
-  [PageToRoute[AppPages.CHANGELOG]]: AppPages.CHANGELOG,
-  [PageToRoute[AppPages.BENCHMARKS]]: AppPages.BENCHMARKS,
-
-  [PageToRoute[AppPages.WEBGPU_TEST]]: AppPages.WEBGPU_TEST,
-  [PageToRoute[AppPages.METADATA_TEST]]: AppPages.METADATA_TEST,
-  [PageToRoute[AppPages.HOME]]: AppPages.HOME,
-} as const satisfies Record<Route, AppPages>
+export const RouteToPage: Record<string, AppPages> = {
+  ...(Object.fromEntries(Object.entries(PageToRoute).map(([page, route]) => [route, page])) as Record<string, AppPages>),
+  [`${BASE_PATH}#main`]: AppPages.OPTIMIZER, // #main is shared by 4 tabs; OPTIMIZER is the default
+}
 
 export function getDefaultActiveKey() {
   const pathname = TsUtils.stripTrailingSlashes(window.location.pathname)

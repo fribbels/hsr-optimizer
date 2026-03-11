@@ -4,6 +4,7 @@ import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { ScoredRelic } from 'lib/relics/scoreRelics'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import chroma from 'chroma-js'
 import tinygradient from 'tinygradient'
 
 export type GridAggregations = {
@@ -74,7 +75,7 @@ export const Gradient = {
   },
 
   setTheme(colorTheme: ColorThemeOverrides) {
-    relicGridGradient = tinygradient(colorTheme.colorBgBase, colorTheme.colorPrimary)
+    relicGridGradient = tinygradient(chroma(colorTheme.colorPrimary).darken(3).desaturate(2).hex(), colorTheme.colorPrimary)
   },
 
   getRelicGradient(params: CellClassParams<ScoredRelic>) {

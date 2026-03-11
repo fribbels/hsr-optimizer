@@ -18,7 +18,6 @@ import {
   arrowColor,
   arrowDirection,
 } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
-import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
   localeNumber_0,
   localeNumber_00,
@@ -231,8 +230,8 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
 
 export const tableStyle = {
   width: '100%',
-  border: '1px solid #354b7d',
-  boxShadow: cardShadowNonInset,
+  border: '1px solid var(--border-color)',
+  boxShadow: 'var(--card-shadow-flat)',
   borderRadius: 5,
   overflow: 'hidden',
 }

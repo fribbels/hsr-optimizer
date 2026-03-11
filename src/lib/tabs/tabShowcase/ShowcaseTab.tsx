@@ -28,15 +28,14 @@ import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
 import {
-  CharacterPreset,
-  importClicked,
-  initialiseShowcaseTab,
-  onCharacterModalOk,
-  Preset,
-  presetCharacters,
-  setShowcaseForm,
   ShowcaseTabForm,
   submitForm,
+} from 'lib/tabs/tabShowcase/showcaseApi'
+import {
+  CharacterPreset,
+  initialiseShowcaseTab,
+  Preset,
+  presetCharacters,
 } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
@@ -64,12 +63,18 @@ export default function ShowcaseTab() {
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
 
   const showcaseForm = useForm<ShowcaseTabForm>({ initialValues: { scorerId: scorerId ?? '' } })
-  setShowcaseForm(showcaseForm)
 
   const activeKey = useGlobalStore((s) => s.activeKey)
   const { t } = useTranslation(['relicScorerTab', 'common'])
 
   useEffect(() => initialiseShowcaseTab(activeKey), [activeKey])
+
+  // Sync form input when store scorerId changes (e.g. after trimming on submit, or URL-based load)
+  useEffect(() => {
+    if (scorerId != null) {
+      showcaseForm.setFieldValue('scorerId', scorerId)
+    }
+  }, [scorerId])
 
   if (activeKey != AppPages.SHOWCASE && !availableCharacters?.length) {
     return <></>
@@ -131,6 +136,8 @@ function CharacterPreviewSelection() {
 
   const selectedCharacter = useShowcaseTabStore((s) => s.selectedCharacter)
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
+  const onCharacterModalOk = useShowcaseTabStore((s) => s.onCharacterModalOk)
+  const importClicked = useShowcaseTabStore((s) => s.importClicked)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState(selectedCharacter)

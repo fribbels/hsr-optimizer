@@ -112,7 +112,7 @@ export function SimulatedBuildsGrid() {
                   }}
                   style={{
                     cursor: 'pointer',
-                    backgroundColor: selectedStatSimulations[0] === record.key ? 'rgba(22, 104, 220, 0.3)' : undefined,
+                    backgroundColor: selectedStatSimulations[0] === record.key ? 'var(--mantine-color-primary-light)' : undefined,
                   }}
                 >
                   <Table.Td style={{ width: 560, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

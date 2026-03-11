@@ -43,7 +43,7 @@
 
 .label {
   font-size: 14px;
-  color: rgb(159, 175, 207);
+  color: var(--mantine-color-dark-2);
 }
 
 .metricRow {
@@ -68,7 +68,7 @@
 .progressBarOuter {
   height: 100%;
   width: 100%;
-  background-color: #304878;
+  background-color: var(--mantine-color-dark-5);
   border-radius: 20px;
   overflow: hidden;
 }
@@ -83,20 +83,20 @@
   border-radius: 6px;
   overflow: hidden;
   padding: 6px 10px;
-  background-color: #334f87;
+  background-color: var(--panel-bg);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgb(73, 98, 153);
+  border: var(--panel-border);
 }
 
 .metricLabel {
   font-size: 13px;
-  color: #9fafcf;
+  color: var(--mantine-color-dark-2);
 }
 
 .metricValue {
   font-size: 18px;
   font-weight: bold;
-  color: #e0e6f2;
+  color: var(--mantine-color-dark-0);
 }
 
 .roll {

@@ -170,7 +170,7 @@ const CustomTooltip = (props: { active: boolean, payload: BarsTooltipData[], lab
       direction="column"
       className='pre-font'
       style={{
-        background: 'rgb(69,93,154)',
+        background: 'var(--panel-bg)',
         padding: 8,
         borderRadius: 3,
       }}

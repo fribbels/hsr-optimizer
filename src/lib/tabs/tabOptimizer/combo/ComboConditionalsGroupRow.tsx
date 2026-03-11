@@ -261,7 +261,7 @@ export function ComboConditionalsGroupRow(props: {
   }
 
   return (
-    <Flex gap={10} align='center' style={{ padding: 8, background: '#677dbd1c', borderRadius: 5 }}>
+    <Flex gap={10} align='center' style={{ padding: 8, background: 'rgba(255, 255, 255, 0.05)', borderRadius: 5 }}>
       <img src={renderData.src} style={{ width: 80, height: 80 }} />
       <ContentRows
         contentItems={renderData.content}

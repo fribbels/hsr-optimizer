@@ -1,6 +1,6 @@
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import { Flex, useMantineTheme } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
@@ -18,7 +18,7 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import React, { Suspense } from 'react'
 
 export default function CharacterTab() {
-  const theme = useMantineTheme()
+  
 
   const characterModalOpen = useCharacterTabStore((s) => s.characterModalOpen)
   const setCharacterModalOpen = useCharacterTabStore((s) => s.setCharacterModalOpen)
@@ -55,7 +55,7 @@ export default function CharacterTab() {
               display: 'block',
               width: '100%',
               height: parentH,
-              ...getGridTheme(theme),
+              ...getGridTheme(),
             }}
           >
             <CharacterGrid />

@@ -1,4 +1,9 @@
 :root {
+  /* Semantic background aliases — from Mantine dark palette */
+  --bg-app: var(--mantine-color-dark-8);
+  --bg-elevated: var(--mantine-color-dark-6);
+  --border-color: var(--mantine-color-dark-4);
+
   /* Shadows */
   --card-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
                  rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
@@ -7,9 +12,9 @@
                       rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em;
 
   /* Panel backgrounds */
-  --panel-bg: #243356;
-  --panel-border: 1px solid #354b7d;
-  --panel-border-color: #354b7d;
+  --panel-bg: var(--mantine-color-dark-6);
+  --panel-border: 1px solid var(--border-color);
+  --panel-border-color: var(--border-color);
 
   /* Borders/outlines */
   --border-radius-card: 5px;
@@ -22,8 +27,8 @@
   --showcase-backdrop: blur(3px);
 
   /* Translucent backgrounds */
-  --bg-translucent: rgb(29 42 81 / 73%);
-  --bg-sidebar: rgb(29 42 71);
+  --bg-translucent: rgba(26, 27, 30, 0.73);
+  --bg-sidebar: var(--mantine-color-dark-7);
 
   /* Accent colors */
   --link-color: #91bfff;

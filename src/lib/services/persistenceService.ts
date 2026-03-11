@@ -3,13 +3,11 @@ import {
   Constants,
   CURRENT_OPTIMIZER_VERSION,
   Parts,
-  SubStats,
 } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { oldCharacterScoringMetadata } from 'lib/scoring/oldCharacterScoringMetadata'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import * as equipmentService from 'lib/services/equipmentService'
 import { savedSessionDefaults, useGlobalStore } from 'lib/stores/appStore'
@@ -55,62 +53,13 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
   if (saveData.scoringMetadataOverrides) {
-    for (const [key, value] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, unknown][]) {
-      // Migration: previously the overrides were an array, invalidate the arrays
-      // @ts-ignore
-      if (value.length) {
-        delete saveData.scoringMetadataOverrides[key]
-      }
-
-      // There was a bug setting the modified flag on custom scoring weight changes
-      // This makes it impossible to tell if a previous saved score was customized or not
-      // We attempt to fix this by running a migration for a few months (start 9/5/2024), any scores matching
-      // the old score will be migrated to the new scores, while any non-matching ones are marked modified
-      // After this migration done, Ctrl + F and uncomment the POST MIGRATION UNCOMMENT section to re-enable overwriting
-      const scoringMetadataOverrides = saveData.scoringMetadataOverrides[key]
-      if (scoringMetadataOverrides) {
-        if (!dbCharacters[key]?.scoringMetadata) {
-          continue
-        }
-
-        const oldScoringMetadataStats = oldCharacterScoringMetadata[key] || {}
-        const defaultScoringMetadata = dbCharacters[key].scoringMetadata
-
-        let isOldScoring = true
-        for (const stat of Object.values(Constants.Stats)) {
-          if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat as SubStats]) != Utils.nullUndefinedToZero(oldScoringMetadataStats[stat])) {
-            isOldScoring = false
-            break
-          }
-        }
-
-        // Migrate old scoring to new scoring
-        if (isOldScoring) {
-          scoringMetadataOverrides.stats = Utils.clone(defaultScoringMetadata.stats)
-          scoringMetadataOverrides.modified = false
-        } else {
-          // Otherwise mark any modified as modified
-          let statWeightsModified = false
-          for (const stat of Constants.SubStats) {
-            const weight = scoringMetadataOverrides.stats[stat]
-            if (Utils.nullUndefinedToZero(weight) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
-              statWeightsModified = true
-            }
-            if (weight < 0) scoringMetadataOverrides.stats[stat] = 0
-            if (weight > 1) scoringMetadataOverrides.stats[stat] = 1
-          }
-
-          if (statWeightsModified) {
-            scoringMetadataOverrides.modified = true
-          }
-        }
-
-        // Just use this post migration? I don't quite remember what the above does
-        setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
-      }
+    for (const [key, scoringMetadataOverrides] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, ScoringMetadata][]) {
+      if (!dbCharacters[key]?.scoringMetadata) continue
+      const defaultScoringMetadata = dbCharacters[key].scoringMetadata
+      setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
     }
 
-    useScoringStore.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
+    useScoringStore.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides)
   }
 
   const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))

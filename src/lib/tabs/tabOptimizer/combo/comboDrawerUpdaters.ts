@@ -10,7 +10,7 @@ import {
   NULL_TURN_ABILITY_NAME,
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import DB from 'lib/state/db'
+import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -347,7 +347,10 @@ export function updateFormState(comboState: ComboState) {
   useOptimizerRequestStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
 
   const form = getForm()
-  DB.replaceCharacterForm(form)
+  const found = getCharacterById(form.characterId)
+  if (found) {
+    useCharacterStore.getState().setCharacter({ ...found, form: { ...found.form, ...form } })
+  }
 
   SaveState.delayedSave(1000)
 }

@@ -17,7 +17,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { AppPages, SavedBuildSource } from 'lib/constants/appPages'
 import * as buildService from 'lib/services/buildService'
 import * as equipmentService from 'lib/services/equipmentService'
-import DB from 'lib/state/db'
+import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useGlobalStore } from 'lib/stores/appStore'
@@ -52,7 +52,8 @@ export const CharacterTabController = {
   drag: (e: RowDragEvent<Character>, index: number) => {
     const characterId = e.node.data?.id
     if (!characterId) return
-    DB.insertCharacter(characterId, index) // non-migratable
+    useCharacterStore.getState().insertCharacter(characterId, index)
+    void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => recalculatePermutations())
     SaveState.delayedSave()
   },
 
@@ -70,7 +71,12 @@ export const CharacterTabController = {
   onCharacterModalOk: (form: Form) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     if (!form.characterId) return Message.error(t('NoSelectedCharacter'))
-    const character = DB.addFromForm(form) // non-migratable
+    const character = persistenceService.upsertCharacterFromForm(form)
+    SaveState.delayedSave()
+    gridStore.characterGridApi()?.forEachNode((node: IRowNode<Character>) => {
+      if (node.data?.id === character.id) node.setSelected(true)
+    })
+    useCharacterTabStore.getState().setFocusCharacter(character.id)
     gridStore.characterGridApi()?.ensureIndexVisible(character.rank)
   },
 
@@ -109,7 +115,8 @@ export const CharacterTabController = {
   moveFocusCharacterToTop: () => {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
     if (!focusCharacter) return
-    DB.insertCharacter(focusCharacter, 0) // non-migratable
+    useCharacterStore.getState().insertCharacter(focusCharacter, 0)
+    void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => recalculatePermutations())
     SaveState.delayedSave()
   },
 

@@ -9,7 +9,6 @@ import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
-import DB from 'lib/state/db'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import {
@@ -103,11 +102,11 @@ export function importClicked(mode: 'relics' | 'singleCharacter' | 'multiCharact
   let newCharacters: ShowcaseTabCharacter[] = []
 
   if (mode === 'singleCharacter' && state.selectedCharacter?.form) {
-    DB.addFromForm(state.selectedCharacter.form as Form, false)
+    persistenceService.upsertCharacterFromForm(state.selectedCharacter.form as Form)
     newCharacters = [state.selectedCharacter]
   } else if (mode === 'multiCharacter' && state.availableCharacters) {
     state.availableCharacters?.forEach((char) => {
-      DB.addFromForm(char.form as Form)
+      persistenceService.upsertCharacterFromForm(char.form as Form)
     })
     newCharacters = state.availableCharacters
   }

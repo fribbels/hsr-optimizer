@@ -12,6 +12,7 @@ import {
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
@@ -52,7 +53,7 @@ export function getDefaultWeights(characterId?: CharacterId): Form['weights'] {
 
 export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   // TODO: Clean this up
-  const scoringMetadata = DB.getMetadata().characters[initialCharacter?.id]?.scoringMetadata
+  const scoringMetadata = getGameMetadata().characters[initialCharacter?.id]?.scoringMetadata
   const parts = scoringMetadata?.parts || {}
   const weights = scoringMetadata?.stats || getDefaultWeights()
 

@@ -18,6 +18,7 @@ import { useGlobalStore, AppPages,
   DB,
   SavedBuildSource, } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
+import { getCharacterById } from 'lib/stores/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { gridStore } from 'lib/utils/gridStore'
@@ -122,7 +123,8 @@ export const CharacterTabController = {
 }
 
 function updateBuilds(name: string, overwrite: boolean) {
-  const selectedCharacter = useCharacterTabStore.getState().selectedCharacter
+  const focusCharacter = useCharacterTabStore.getState().focusCharacter
+  const selectedCharacter = getCharacterById(focusCharacter ?? undefined)
   if (!selectedCharacter) return
   const res = DB.saveCharacterBuild(
     name,

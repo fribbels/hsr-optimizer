@@ -1,5 +1,6 @@
 import { useForm } from '@mantine/form'
 import { Button, Flex, Modal, Select } from '@mantine/core'
+import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
@@ -7,12 +8,10 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
+import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
-import {
-  useEffect,
-  useMemo,
-} from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
@@ -29,9 +28,10 @@ export type SwitchRelicsForm = {
 }
 
 export function SwitchRelicsModal() {
-  const currentCharacter = useCharacterTabStore((s) => s.selectedCharacter)
+  const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
+  const currentCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
   const characterForm = useForm({ initialValues: { selectedCharacter: null as string | null } })
-  const characters = useCharacterTabStore((s) => s.characters)
+  const characters = useCharacterStore((s) => s.characters)
   const { isOpen, close } = useOpenClose(OpenCloseIDs.SWITCH_RELICS_MODAL)
 
   const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
@@ -50,13 +50,9 @@ export function SwitchRelicsModal() {
       tCharacters,
     ), [characters, currentCharacter, tCharacters])
 
-  useEffect(() => {
-    if (!isOpen) return
-
-    characterForm.setValues({
-      selectedCharacter: null,
-    })
-  }, [characterForm, isOpen])
+  useFormOnOpen(characterForm, isOpen, () => ({
+    selectedCharacter: null,
+  }))
 
   function onModalOk() {
     const { selectedCharacter } = characterForm.getValues()

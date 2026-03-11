@@ -2,7 +2,7 @@ import { Stats } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -40,7 +40,7 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
 }
 
 function generateSimulationMetadata(benchmarkForm: BenchmarkForm) {
-  const metadata = TsUtils.clone(DB.getMetadata().characters[benchmarkForm.characterId].scoringMetadata.simulation!)
+  const metadata = TsUtils.clone(getGameMetadata().characters[benchmarkForm.characterId].scoringMetadata.simulation!)
   metadata.teammates = [
     benchmarkForm.teammate0!,
     benchmarkForm.teammate1!,

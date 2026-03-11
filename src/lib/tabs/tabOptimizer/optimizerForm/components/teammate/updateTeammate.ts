@@ -1,6 +1,7 @@
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -29,7 +30,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
   if (updatedTeammate.lightCone) {
     const store = useOptimizerRequestStore.getState()
     const teammate = store.teammates[teammateIndex]
-    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate as any, DB.getMetadata())
+    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate as any, getGameMetadata())
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
 
     if (!controller.teammateDefaults) return

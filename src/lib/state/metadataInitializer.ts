@@ -9,7 +9,7 @@ import {
   Stats,
   StatsValues,
 } from 'lib/constants/constants'
-import DB from 'lib/state/db'
+import { getGameMetadata, setGameMetadata } from 'lib/state/gameMetadata'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
 import {
@@ -117,7 +117,7 @@ export const Metadata = {
       lightCones: lightCones,
       relics: relics,
     } as unknown as DBMetadata
-    DB.setMetadata(augmentedDbMetadata)
+    setGameMetadata(augmentedDbMetadata)
 
     return augmentedDbMetadata
   },

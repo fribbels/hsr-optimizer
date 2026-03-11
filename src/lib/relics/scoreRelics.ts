@@ -1,4 +1,5 @@
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
 import { CharacterId } from 'types/character'
 import { Nullable } from 'types/common'
@@ -43,7 +44,7 @@ export function scoreRelics(
   focusCharacter: Nullable<CharacterId>,
   scoringMetadataOverrides?: ScoringMetadataOverrides,
 ): Array<ScoredRelic> {
-  const characterIds = Object.values(DB.getMetadata().characters).map((x) => x.id)
+  const characterIds = Object.values(getGameMetadata().characters).map((x) => x.id)
   const relicScorer = new RelicScorer()
 
   // Clear cache if params change

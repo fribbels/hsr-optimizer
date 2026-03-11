@@ -3,7 +3,7 @@ import {
   generateTestSingleRelicsByPart,
   TestInput,
 } from 'lib/simulations/tests/simTestUtils'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Character } from 'types/character'
 import { expect } from 'vitest'
@@ -22,7 +22,7 @@ export async function expectDpsScoreResultsToMatch(
     },
   } as Character
 
-  const simulationMetadata = TsUtils.clone(DB.getMetadata().characters[input.character.characterId].scoringMetadata.simulation!)
+  const simulationMetadata = TsUtils.clone(getGameMetadata().characters[input.character.characterId].scoringMetadata.simulation!)
   const showcaseTemporaryOptions = { spdBenchmark: spdBenchmark }
   const singleRelicByPart = generateTestSingleRelicsByPart(input.sets, input.mains, input.stats)
   simulationMetadata.teammates[0] = input.teammate0
@@ -45,7 +45,7 @@ export async function expectDpsScoreResultsToMatch(
     // @ts-ignore
     const message = error.message
     throw new Error(`
-${DB.getMetadata().characters[input.character.characterId].displayName} BENCHMARK
+${getGameMetadata().characters[input.character.characterId].displayName} BENCHMARK
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

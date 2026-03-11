@@ -1,6 +1,6 @@
 import { Constants } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { UnaugmentedRelic } from 'types/relic'
@@ -19,7 +19,7 @@ export const RelicRollFixer = {
     const partId = optimizerPartToPartId[relic.part]
     const grade = relic.grade
     const query = `${grade}${partId}`
-    const affixes = DB.getMetadata().relics.relicMainAffixes[query].affixes
+    const affixes = getGameMetadata().relics.relicMainAffixes[query].affixes
     const affix = Object.values(affixes).find((x) => x.property == optimizerStatToAffixStat[stat])
     if (!affix) return 0
 
@@ -50,7 +50,7 @@ export const RelicRollFixer = {
     // Duplicate entries are arrays when stats collide
     const rollCount = typeof rolls !== 'number' ? rolls[0] : rolls
 
-    const affixes = DB.getMetadata().relics.relicSubAffixes[grade].affixes
+    const affixes = getGameMetadata().relics.relicSubAffixes[grade].affixes
     const matched = Object.values(affixes).find((x) => x.property == optimizerStatToAffixStat[stat])
     if (!matched) return value
 

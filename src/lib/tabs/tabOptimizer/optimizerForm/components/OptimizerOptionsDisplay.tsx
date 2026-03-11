@@ -10,7 +10,7 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import DB from 'lib/state/db'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { useCharacterStore } from 'lib/stores/characterStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   optimizerTabDefaultGap,
@@ -25,7 +25,7 @@ import classes from './OptimizerOptionsDisplay.module.css'
 const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): JSX.Element {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
-  const characters = useCharacterTabStore((s) => s.characters)
+  const characters = useCharacterStore((s) => s.characters)
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
   const includeEquippedRelics = useOptimizerRequestStore((s) => s.includeEquippedRelics)

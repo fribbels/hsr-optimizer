@@ -7,6 +7,7 @@ import {
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB, { useGlobalStore } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -101,7 +102,7 @@ export const StatTracesDrawer = () => {
 
   const treeData = useMemo(() => {
     if (statTraceDrawerFocusCharacter) {
-      const tree = DB.getMetadata().characters[statTraceDrawerFocusCharacter].traceTree
+      const tree = getGameMetadata().characters[statTraceDrawerFocusCharacter].traceTree
       const stack = [...tree]
       const allIds: string[] = []
       while (stack.length) {

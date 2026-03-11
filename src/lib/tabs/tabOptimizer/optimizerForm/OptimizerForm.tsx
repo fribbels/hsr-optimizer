@@ -2,6 +2,7 @@ import { Flex } from '@mantine/core'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB, { useGlobalStore } from 'lib/state/db'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
@@ -43,7 +44,7 @@ export default function OptimizerForm() {
     updateCharacter(savedSessionCharacterId ?? characters[0]?.id)
   }, [])
 
-  const dbMetadata = useMemo(() => DB.getMetadata(), [])
+  const dbMetadata = useMemo(() => getGameMetadata(), [])
 
   return (
     <div style={{ position: 'relative' }}>

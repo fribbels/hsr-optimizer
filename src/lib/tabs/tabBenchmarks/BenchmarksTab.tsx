@@ -27,7 +27,7 @@ import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/Intothe
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
 import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import {
@@ -173,7 +173,7 @@ function LeftPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const characterId = form.getValues().characterId ?? ''
   const lightCone = form.getValues().lightCone ?? ''
 
-  const lightConeMetadata = DB.getMetadata().lightCones[lightCone]
+  const lightConeMetadata = getGameMetadata().lightCones[lightCone]
   const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
 
   return (

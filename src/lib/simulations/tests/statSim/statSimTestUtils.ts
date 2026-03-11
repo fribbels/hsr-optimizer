@@ -3,7 +3,7 @@ import {
   TestInput,
   TestResultByName,
 } from 'lib/simulations/tests/simTestUtils'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { expect } from 'vitest'
 
@@ -27,7 +27,7 @@ function expectSingleResultsToMatch(actual: TestResultByName, expected: TestResu
       // @ts-ignore
       const message = error.message
       throw new Error(`
-${DB.getMetadata().characters[input.character.characterId].displayName} ${key} ${view}
+${getGameMetadata().characters[input.character.characterId].displayName} ${key} ${view}
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

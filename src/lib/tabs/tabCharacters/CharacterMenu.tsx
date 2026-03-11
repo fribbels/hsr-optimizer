@@ -3,8 +3,8 @@ import {
   IconUser,
 } from '@tabler/icons-react'
 import { Button, Menu } from '@mantine/core'
-import { modals } from '@mantine/modals'
 import { TFunction } from 'i18next'
+import { useConfirmAction } from 'lib/hooks/useConfirmAction'
 import {
   OpenCloseIDs,
   setOpen,
@@ -14,30 +14,18 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import React, {
   ReactNode,
-  useCallback,
   useMemo,
 } from 'react'
 import {
   Trans,
   useTranslation,
 } from 'react-i18next'
+import { getCharacterById } from 'lib/stores/characterStore'
 import { useGlobalStore } from 'lib/state/db'
 
 export function CharacterMenu() {
   const { t } = useTranslation('charactersTab')
-  const { t: tCommon } = useTranslation('common')
-  const confirm = useCallback(async (content: ReactNode) => {
-    return new Promise<boolean>((resolve) => {
-      modals.openConfirmModal({
-        title: tCommon('Confirm'),
-        children: content,
-        labels: { confirm: tCommon('Confirm'), cancel: tCommon('Cancel') },
-        centered: true,
-        onConfirm: () => resolve(true),
-        onCancel: () => resolve(false),
-      })
-    })
-  }, [tCommon])
+  const confirm = useConfirmAction()
 
   const onClick = useMemo(() => generateOnClickHandler(confirm, t), [confirm, t])
 
@@ -76,7 +64,8 @@ export function CharacterMenu() {
 function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean>, t: TFunction<'charactersTab'>) {
   async function onClick(e: { key: string }) {
     const key = e.key as ReturnType<typeof generateItems>[number]['children'][number]['key']
-    const { selectedCharacter, focusCharacter, setCharacterModalInitialCharacter, setCharacterModalOpen } = useCharacterTabStore.getState()
+    const { focusCharacter, setCharacterModalInitialCharacter, setCharacterModalOpen } = useCharacterTabStore.getState()
+    const selectedCharacter = getCharacterById(focusCharacter ?? undefined)
     if (!selectedCharacter && !(key === 'scoring' || key === 'sortByScore' || key === 'add')) {
       return Message.error(t('Messages.NoSelectedCharacter')) // No selected character
     }
@@ -108,7 +97,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'edit':
-        setCharacterModalInitialCharacter(selectedCharacter)
+        setCharacterModalInitialCharacter(selectedCharacter ?? null)
         setCharacterModalOpen(true)
         break
 

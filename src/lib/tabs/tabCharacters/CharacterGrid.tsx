@@ -8,8 +8,9 @@ import { AgGridReact } from 'ag-grid-react'
 import { Flex, Text } from '@mantine/core'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
+import { useCharacterStore } from 'lib/stores/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { gridStore } from 'lib/utils/gridStore'
 import {
@@ -38,7 +39,7 @@ export function CharacterGrid() {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'GridHeaders' })
   const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const filters = useCharacterTabStore((s) => s.filters)
-  const characters = useCharacterTabStore((s) => s.characters)
+  const characters = useCharacterStore((s) => s.characters)
 
   const gridRef = useRef<AgGridReact<Character> | null>(null)
   gridStore.setCharacterGrid(gridRef)
@@ -74,7 +75,7 @@ export function CharacterGrid() {
   const doesExternalFilterPass = useCallback((node: IRowNode<Character>) => {
     const data = node.data
     if (!data) return false
-    const character = DB.getMetadata().characters[data.id]!
+    const character = getGameMetadata().characters[data.id]!
     if (filters.element.length && !filters.element.includes(character.element)) return false
     if (filters.path.length && !filters.path.includes(character.path)) return false
     return tGameData(`${character.id}.LongName`).toLowerCase().includes(filters.name)

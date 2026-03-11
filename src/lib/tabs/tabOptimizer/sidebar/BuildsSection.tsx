@@ -3,7 +3,7 @@ import { Hint } from 'lib/interactions/hint'
 import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { AppPages } from 'lib/state/db'
-import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { useCharacterStore } from 'lib/stores/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -17,7 +17,7 @@ export const BuildsSection = React.memo(function BuildsSection(props: { isFullSi
   const [saveBuildModalOpen, setSaveBuildModalOpen] = useState(false)
   const [buildsModalOpen, setBuildsModalOpen] = useState(false)
   const focusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
-  const charactersById = useCharacterTabStore((s) => s.charactersById)
+  const charactersById = useCharacterStore((s) => s.charactersById)
 
   if (!props.isFullSize || !focusCharacter) return <></>
 

@@ -1,9 +1,7 @@
 import {
   CellClickedEvent,
-  GetLocaleTextParams,
   IRowNode,
   NavigateToNextCellParams,
-  PaginationNumberFormatterParams,
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { Flex, useMantineTheme } from '@mantine/core'
@@ -14,7 +12,7 @@ import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityC
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { getGridTheme } from 'lib/rendering/theme'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   DIGITS_5,
   getBasicColumnDefs,
@@ -25,21 +23,18 @@ import {
   optimizerGridDefaultColDef,
   optimizerGridOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/utils/gridStore'
-import { localeNumber } from 'lib/utils/i18nUtils'
 import React, {
   useCallback,
-  useEffect,
   useMemo,
   useRef,
-  useState,
 } from 'react'
-import { useTranslation } from 'react-i18next'
 
 const defaultHiddenColumns = [
   SortOption.OHB,
@@ -53,11 +48,10 @@ export const GRID_DIMENSIONS = {
 
 export function OptimizerGrid() {
   const theme = useMantineTheme()
-  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'Grid' })
+  const { getLocaleText, paginationNumberFormatter, t } = useGridLocale('optimizerTab', 'Grid')
+  const { gridDestroyed } = useGridLocaleRebuild()
   const optimizerGrid = useRef<AgGridReact<OptimizerDisplayDataStatSim> | null>(null)
-  const [gridDestroyed, setGridDestroyed] = useState(false)
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
-  const gridLanguage = useRef(i18n.resolvedLanguage)
 
   const context = useOptimizerDisplayStore((s) => s.context)
 
@@ -77,7 +71,7 @@ export function OptimizerGrid() {
       : (showMemo ? getMemoBasicColumnDefs(t) : getBasicColumnDefs(t))
 
     if (optimizerTabFocusCharacter) {
-      const scoringMetadata = DB.getMetadata().characters[optimizerTabFocusCharacter].scoringMetadata
+      const scoringMetadata = getGameMetadata().characters[optimizerTabFocusCharacter].scoringMetadata
       const hiddenColumns = new Set([...(scoringMetadata.hiddenColumns ?? []), ...defaultHiddenColumns])
       const addedColumns = new Set(scoringMetadata.addedColumns ?? [])
 
@@ -123,32 +117,6 @@ export function OptimizerGrid() {
       (selectedNode: IRowNode<OptimizerDisplayDataStatSim>) => OptimizerTabController.cellClicked(selectedNode),
     )
   }, [])
-
-  useEffect(() => {
-    let rebuildTimeout: ReturnType<typeof setTimeout>
-    // locale updates require the grid to be destroyed and reconstructed in order to take effect
-    if (i18n.resolvedLanguage !== gridLanguage.current) {
-      setGridDestroyed(true)
-      gridLanguage.current = i18n.resolvedLanguage
-      rebuildTimeout = setTimeout(() => setGridDestroyed(false), 100)
-    }
-    return () => clearTimeout(rebuildTimeout)
-  }, [i18n.resolvedLanguage])
-
-  const getLocaleText = useCallback((param: GetLocaleTextParams<OptimizerDisplayDataStatSim>) => {
-    const localeLookup: Partial<Record<typeof param['key'], string>> = {
-      to: t('To'),
-      pageSizeSelectorLabel: t('PageSelectorLabel'),
-      of: t('Of'),
-      page: t('Page'),
-      loadingOoo: t('Loading'),
-    }
-    return localeLookup[param.key] ?? param.defaultValue
-  }, [t])
-
-  const paginationNumberFormatter = useCallback((param: PaginationNumberFormatterParams<OptimizerDisplayDataStatSim>) => {
-    return localeNumber(param.value)
-  }, [i18n.resolvedLanguage])
 
   const onCellClicked = useCallback((event: CellClickedEvent<OptimizerDisplayDataStatSim>) => {
     return OptimizerTabController.cellClicked(event.node)

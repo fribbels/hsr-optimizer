@@ -1,6 +1,6 @@
 import { SegmentedControl } from '@mantine/core'
 import { PathNames } from 'lib/constants/constants'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import React from 'react'
@@ -11,7 +11,7 @@ import { MemoDisplay } from 'types/store'
 
 export function isRemembrance(characterId: CharacterId | null | undefined) {
   if (!characterId) return false
-  return DB.getMetadata().characters[characterId].path === PathNames.Remembrance
+  return getGameMetadata().characters[characterId].path === PathNames.Remembrance
 }
 
 export const MemoViewSelect = React.memo(function MemoViewSelect(props: { isFullSize: boolean }) {

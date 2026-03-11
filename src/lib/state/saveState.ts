@@ -1,5 +1,6 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import DB, { useGlobalStore } from 'lib/state/db'
+import { useScoringStore } from 'lib/stores/scoringStore'
 import {
   DEFAULT_WEBSOCKET_URL,
   useScannerState,
@@ -30,7 +31,7 @@ export const SaveState = {
     const state: HsrOptimizerSaveFormat = {
       relics: DB.getRelics().map(({ augmentedStats, ...rest }) => rest) as Relic[],
       characters: DB.getCharacters(),
-      scoringMetadataOverrides: globalState.scoringMetadataOverrides,
+      scoringMetadataOverrides: useScoringStore.getState().scoringMetadataOverrides,
       showcasePreferences: globalState.showcasePreferences,
       optimizerMenuState: useOptimizerDisplayStore.getState().menuState,
       excludedRelicPotentialCharacters: relicsTabState.excludedRelicPotentialCharacters,

@@ -5,7 +5,7 @@ import {
   DEFAULT_BASIC,
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
@@ -26,7 +26,7 @@ export function generateFullDefaultForm(
   // @ts-ignore
   if (!characterId) return null
 
-  const dbMetadata = DB.getMetadata()
+  const dbMetadata = getGameMetadata()
 
   const simulationForm: Form = getDefaultForm({ id: characterId })
 
@@ -52,7 +52,7 @@ export function generateFullDefaultForm(
     if (lightConeConditionals.defaults) Utils.mergeUndefinedValues(simulationForm.lightConeConditionals, lightConeConditionals.defaults())
   }
 
-  const simulationMetadata = DB.getMetadata().characters[characterId].scoringMetadata?.simulation
+  const simulationMetadata = getGameMetadata().characters[characterId].scoringMetadata?.simulation
   if (simulationMetadata) {
     simulationForm.comboTurnAbilities = [...simulationMetadata.comboTurnAbilities]
     simulationForm.comboDot = simulationMetadata.comboDot

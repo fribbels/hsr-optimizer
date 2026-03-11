@@ -3,7 +3,7 @@ import { PathName } from 'lib/constants/constants'
 import { useSelectModal } from 'lib/hooks/useSelectModal'
 import { Assets } from 'lib/rendering/assets'
 import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   CardGridItemContent,
   generatePathTags,
@@ -55,7 +55,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
   { characterId, value, onChange, selectStyle, initialPath, withIcon, externalOpen, setExternalOpen },
 ) => {
   // console.log('==================================== LC SELECT')
-  const metadata = DB.getMetadata()
+  const metadata = getGameMetadata()
   const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
   const defaultFilters = useMemo((): LightConeFilters => {
     return {

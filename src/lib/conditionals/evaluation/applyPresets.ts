@@ -22,7 +22,8 @@ import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import DB, { useGlobalStore } from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { useScoringStore } from 'lib/stores/scoringStore'
 import type {
   BenchmarkForm,
   SimpleCharacter,
@@ -40,7 +41,7 @@ import { ScoringMetadata } from 'types/metadata'
 export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
   if (!characterId) return
 
-  const character = DB.getMetadata().characters[characterId]
+  const character = getGameMetadata().characters[characterId]
   const metadata = TsUtils.clone(character.scoringMetadata)
 
   // Get current form in internal format
@@ -49,7 +50,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   const defaultForm = getDefaultForm(character)
   form.setConditionals = defaultForm.setConditionals
 
-  const overrides = useGlobalStore.getState().scoringMetadataOverrides[characterId]
+  const overrides = useScoringStore.getState().scoringMetadataOverrides[characterId]
   if (overrides) {
     Utils.mergeDefinedValues(metadata.parts, overrides.parts)
     Utils.mergeDefinedValues(metadata.stats, overrides.stats)
@@ -91,7 +92,7 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
 }
 
 export function applyScoringMetadataPresets(form: Form | BenchmarkForm) {
-  const character = DB.getMetadata().characters[form.characterId]
+  const character = getGameMetadata().characters[form.characterId]
   const presets = character?.scoringMetadata?.presets ?? []
 
   for (const preset of presets) {
@@ -104,7 +105,7 @@ export function applyPreset(form: Form | BenchmarkForm, preset: PresetDefinition
 }
 
 export function applySetConditionalPresets(form: Form | BenchmarkForm) {
-  const metadataCharacters = DB.getMetadata().characters
+  const metadataCharacters = getGameMetadata().characters
   const characterMetadata = metadataCharacters[form.characterId]
   Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
@@ -126,7 +127,7 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
 
 export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, teammateIds?: (CharacterId | undefined)[]) {
   if (!form.setConditionals) return
-  const metadataCharacters = DB.getMetadata().characters
+  const metadataCharacters = getGameMetadata().characters
 
   const allyIds = [
     form.characterId,

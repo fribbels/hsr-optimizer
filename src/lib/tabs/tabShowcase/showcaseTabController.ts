@@ -26,6 +26,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { LightConeId } from 'types/lightCone'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
@@ -56,7 +57,7 @@ type FillerPreset = {
 }
 
 export function presetCharacters(): Preset[] {
-  const DBMetadata = DB.getMetadata()
+  const DBMetadata = getGameMetadata()
   const char = (id: CharacterId) => Object.values(DBMetadata.characters).some((x) => x.id === id) ? id : null
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 

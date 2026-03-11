@@ -1,7 +1,7 @@
 import { useForm } from '@mantine/form'
 import { Button, Divider, Flex, Modal, TextInput, Tooltip } from '@mantine/core'
-import { modals } from '@mantine/modals'
 import i18next from 'i18next'
+import { useConfirmAction } from 'lib/hooks/useConfirmAction'
 import { Message } from 'lib/interactions/message'
 import {
   BuildList,
@@ -18,8 +18,6 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import { SaveState } from 'lib/state/saveState'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import {
-  ReactNode,
-  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -66,19 +64,7 @@ export function SaveBuildModal(props: {
 
   const { t } = useTranslation('modals', { keyPrefix: 'SaveBuild' })
   const { t: tCommon } = useTranslation('common')
-
-  async function confirm(content: ReactNode) {
-    return new Promise<boolean>((resolve) => {
-      modals.openConfirmModal({
-        title: tCommon('Confirm'),
-        children: content,
-        labels: { confirm: tCommon('Confirm'), cancel: tCommon('Cancel') },
-        centered: true,
-        onConfirm: () => resolve(true),
-        onCancel: () => resolve(false),
-      })
-    })
-  }
+  const confirm = useConfirmAction()
 
   function handleInput(mode: 'overwrite' | 'save') {
     switch (source) {

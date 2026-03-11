@@ -16,7 +16,9 @@ import {
   getScoreCategory,
   ScoreCategory,
 } from 'lib/scoring/scoreComparison'
-import DB, { useGlobalStore } from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import DB from 'lib/state/db'
+import { useRelicStore } from 'lib/stores/relicStore'
 import {
   ArrayFilters,
   arrayToMap,
@@ -211,7 +213,7 @@ export class RelicScorer {
     // scoringMetadataOverrides are implicitly imported here
     scoringMetadata = Utils.clone(DB.getScoringMetadata(id)) as ScoringMetadata
 
-    const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
+    const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
     scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })
 
     scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * flatStatScaling.HP
@@ -828,7 +830,7 @@ export class RelicScorer {
         totalRating: '',
       }
     }
-    const relicsById = useGlobalStore.getState().relicsById
+    const relicsById = useRelicStore.getState().relicsById
     const relics: Relic[] = Object.values(character.equipped).map((x) => relicsById[x]!)
     return this.scoreCharacterWithRelics(character, relics)
   }

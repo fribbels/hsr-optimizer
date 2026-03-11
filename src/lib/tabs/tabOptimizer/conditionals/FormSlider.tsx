@@ -9,7 +9,6 @@ import {
   ComponentProps,
   ComponentType,
   useEffect,
-  useRef,
   useState,
 } from 'react'
 const inputWidth = 61
@@ -45,22 +44,14 @@ export const FormSlider: ComponentType<FormSliderProps> = (props) => {
   const step = props.percent ? 0.01 : 1
   const symbol = props.percent ? '%' : ''
 
-  const minRef = useRef(props.min)
-  const maxRef = useRef(props.max)
-
-  // Update the value if eidolons change the slider bounds.
+  // Clamp the store value when eidolons change the slider bounds.
   useEffect(() => {
     if (props.removeForm) return
     const fieldValue = (storeValue ?? props.min) as number
-    if (fieldValue >= props.max || fieldValue == maxRef.current) {
-      handleConditionalChange(itemName as (string | number)[], props.max)
+    const clamped = Math.min(Math.max(fieldValue, props.min), props.max)
+    if (clamped !== fieldValue) {
+      handleConditionalChange(itemName as (string | number)[], clamped)
     }
-    if (fieldValue <= props.min || fieldValue == minRef.current) {
-      handleConditionalChange(itemName as (string | number)[], props.min)
-    }
-
-    minRef.current = props.min
-    maxRef.current = props.max
   }, [props.min, props.max])
 
   const displayValue = dragState ?? currentValue

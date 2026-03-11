@@ -31,7 +31,7 @@ import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernights
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
@@ -153,7 +153,7 @@ export async function generateAllTests() {
   const device = await getWebgpuDevice()
   if (!device) return []
 
-  cache.metadata = DB.getMetadata()
+  cache.metadata = getGameMetadata()
 
   return [
     // ...generateSingleCharacterTest(device, { characterId: '1105', lightConeId: basicLc }),

@@ -1,6 +1,7 @@
 import { CUSTOM_TEAM } from 'lib/constants/constants'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
@@ -83,7 +84,7 @@ export function resolveDpsScoreSimulationMetadata(
   }
 
   const customSimulation = TsUtils.clone(DB.getScoringMetadata(characterId).simulation)
-  const simulation = TsUtils.clone(DB.getMetadata().characters[characterId].scoringMetadata.simulation)
+  const simulation = TsUtils.clone(getGameMetadata().characters[characterId].scoringMetadata.simulation)
 
   if (!simulation || !customSimulation) {
     console.warn('No scoring sim defined for this character')

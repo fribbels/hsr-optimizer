@@ -8,6 +8,7 @@ import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { SwitchRelicsModal } from 'lib/overlays/modals/SwitchRelicsModal'
 import { getGridTheme } from 'lib/rendering/theme'
+import { useCharacterStore } from 'lib/stores/characterStore'
 import { AppPages } from 'lib/state/db'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
@@ -28,7 +29,8 @@ export default function CharacterTab() {
   const buildsModalOpen = useCharacterTabStore((s) => s.buildsModalOpen)
   const setBuildsModalOpen = useCharacterTabStore((s) => s.setBuildsModalOpen)
 
-  const selectedCharacter = useCharacterTabStore((s) => s.selectedCharacter)
+  const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
+  const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
 
   const defaultGap = 8
   const parentH = 280 * 3 + defaultGap * 2

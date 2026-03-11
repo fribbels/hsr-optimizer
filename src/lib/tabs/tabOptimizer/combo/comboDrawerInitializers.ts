@@ -13,7 +13,7 @@ import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { getComboTypeAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/preprocessor/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import {
   CharacterConditionalsController,
@@ -39,7 +39,7 @@ import {
 } from './comboDrawerTypes'
 
 export function initializeComboState(request: Form, merge: boolean) {
-  const dbMetadata = DB.getMetadata()
+  const dbMetadata = getGameMetadata()
   const comboState = {} as ComboState
 
   if (!request.characterId) return comboState
@@ -154,7 +154,7 @@ function shiftDefaultConditionalToFirst(comboConditionals?: ComboConditionals) {
 
 function displayModifiedSets(request: Form, comboState: ComboState) {
   const defaultForm = getDefaultForm({ id: request.characterId })
-  const presets = DB.getMetadata().characters[request.characterId].scoringMetadata.presets || []
+  const presets = getGameMetadata().characters[request.characterId].scoringMetadata.presets || []
   for (const preset of presets) {
     applyPreset(defaultForm, preset)
   }

@@ -4,6 +4,7 @@ import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import classes from 'lib/tabs/tabRelics/RecentRelicCard.module.css'
@@ -45,7 +46,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
 
   // Calculate top characters for the relic
   const topCharacters = useMemo(() => {
-    const chars = DB.getMetadata().characters
+    const chars = getGameMetadata().characters
 
     return relic && (Object.keys(chars) as (keyof typeof chars)[])
       .filter((id) => !excludedRelicPotentialCharacters.includes(id) && !buffedCharacters[id])

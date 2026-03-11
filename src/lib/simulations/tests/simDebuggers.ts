@@ -19,6 +19,7 @@ import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfTh
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 
@@ -38,7 +39,7 @@ function equipTestCharacter() {
       stats: testStatSpread(),
     })
 
-  const simulationMetadata = DB.getMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
+  const simulationMetadata = getGameMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 
   DB.updateSimulationScoreOverrides(testInput.character.characterId, {
     ...simulationMetadata,

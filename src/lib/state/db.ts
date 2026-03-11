@@ -34,7 +34,13 @@ import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   Simulation,
 } from 'lib/simulations/statSimulationTypes'
+import * as buildService from 'lib/services/buildService'
+import * as equipmentService from 'lib/services/equipmentService'
+import { getGameMetadata, setGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
+import { getCharacterById, getCharacters, useCharacterStore } from 'lib/stores/characterStore'
+import { getRelicById, getRelics, getRelicsById, useRelicStore } from 'lib/stores/relicStore'
+import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
@@ -82,14 +88,6 @@ import { create } from 'zustand'
 export enum SavedBuildSource {
   SHOWCASE = 'showcase',
   OPTIMIZER = 'optimizer',
-}
-
-export type HsrOptimizerMetadataState = {
-  metadata: DBMetadata,
-}
-
-const state: HsrOptimizerMetadataState = {
-  metadata: {} as DBMetadata, // generated, not saved
 }
 
 export enum BasePath {
@@ -224,170 +222,52 @@ export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
 }))
 
 export const DB = {
-  getMetadata: (): DBMetadata => state.metadata,
-  setMetadata: (metadata: DBMetadata) => state.metadata = metadata,
+  getMetadata: (): DBMetadata => getGameMetadata(),
+  setMetadata: (metadata: DBMetadata) => setGameMetadata(metadata),
 
-  getCharacters: () => useCharacterTabStore.getState().characters,
-  getCharacterById: (id: CharacterId) => useCharacterTabStore.getState().charactersById[id],
+  getCharacters: () => getCharacters(),
+  getCharacterById: (id: CharacterId) => getCharacterById(id),
 
   setCharacters: (characters: Character[]) => {
-    assignRanks(characters)
-    useCharacterTabStore.getState().setCharacters([...characters])
+    useCharacterStore.getState().setCharacters([...characters])
   },
   setCharacter: (character: Character) => {
-    useCharacterTabStore.getState().setCharacter(character)
+    useCharacterStore.getState().setCharacter(character)
   },
   addCharacter: (character: Character) => {
-    const characters = DB.getCharacters()
-    characters.push(character)
-    DB.setCharacters(characters)
+    useCharacterStore.getState().addCharacter(character)
   },
   insertCharacter: (id: CharacterId, index: number) => {
-    const characters = DB.getCharacters()
-    if (index < 0) {
-      index = characters.length
-    }
-    const matchingCharacter = DB.getCharacterById(id)
-    if (!matchingCharacter) return console.warn('No matching character to insert', id, index)
-    const removed = characters.splice(matchingCharacter.rank, 1)
-    characters.splice(index, 0, removed[0])
-    DB.setCharacters(characters)
+    useCharacterStore.getState().insertCharacter(id, index)
 
     void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => {
       recalculatePermutations()
     })
   },
 
-  getRelics: () => useGlobalStore.getState().relics,
-  getRelicsById: () => useGlobalStore.getState().relicsById,
+  getRelics: () => getRelics(),
+  getRelicsById: () => getRelicsById(),
   setRelics: (relics: Relic[]) => {
-    indexRelics(relics)
-    const relicsById = relics.reduce((relicsById, relic) => {
-      relicsById[relic.id] = relic
-      return relicsById
-    }, {} as Record<string, Relic>)
-    useGlobalStore.getState().setRelicsById(relicsById)
+    useRelicStore.getState().setRelics(relics)
   },
-  getRelicById: (id: string | undefined) => {
-    if (!id) return undefined
-    return useGlobalStore.getState().relicsById[id]
-  },
+  getRelicById: (id: string | undefined) => getRelicById(id),
 
-  /**
-   * Sets the given relic in the application's database and handles relic equipping logic.
-   *
-   * Adds the relic if it does not already exist.
-   * Equips the relic to its owner.
-   *
-   * If the specified relic has been edited, saves the changes.
-   * If the owner has changed, equips the relic to its new owner.
-   * In addition, if the part has changed, equips the relic correctly to the new part.
-   * Note: If the owner is already holding a relic on the new part, said relic is unequipped.
-   */
-  setRelic: (relic: Relic) => {
-    if (!relic.id) return console.warn('No matching relic', relic)
-    const oldRelic = DB.getRelicById(relic.id)
-    const addRelic = !oldRelic
-
-    if (addRelic) {
-      relic.ageIndex ??= 1 + Math.max(
-        ...DB.getRelics()
-          .map((r) => r.ageIndex)
-          .filter((x) => x != null),
-      )
-
-      setRelic(relic)
-      if (relic.equippedBy) {
-        DB.equipRelic(relic, relic.equippedBy)
-      }
-    } else {
-      const partChanged = oldRelic.part !== relic.part
-      if (partChanged || !relic.equippedBy) {
-        DB.unequipRelicById(relic.id)
-        setRelic(relic)
-      }
-      const relicIsNotEquippedByRelicOwner = relic.equippedBy
-        && DB.getCharacterById(relic.equippedBy)?.equipped[relic.part] !== relic.id
-      if (relicIsNotEquippedByRelicOwner) {
-        DB.equipRelic(relic, relic.equippedBy)
-      }
-      setRelic(relic)
-    }
-  },
+  setRelic: (relic: Relic) => equipmentService.upsertRelicWithEquipment(relic),
 
   // Mostly for debugging
   getState: () => useGlobalStore.getState(),
 
-  getScoringMetadata: (id: CharacterId) => {
-    const dbMetadata = DB.getMetadata()
-    const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
-    const scoringMetadataOverrides = useGlobalStore.getState().scoringMetadataOverrides
-    const override = scoringMetadataOverrides[id]
-    const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
-
-    // POST MIGRATION UNCOMMENT
-    // if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
-    //   let statWeightsModified = false
-    //   for (const stat of Object.values(Constants.Stats)) {
-    //     if (Utils.nullUndefinedToZero(scoringMetadataOverrides.stats[stat]) != Utils.nullUndefinedToZero(defaultScoringMetadata.stats[stat])) {
-    //       statWeightsModified = true
-    //     }
-    //   }
-    //
-    //   if (statWeightsModified) {
-    //     returnScoringMetadata.stats = scoringMetadataOverrides.stats
-    //     returnScoringMetadata.modified = true
-    //   } else {
-    //     returnScoringMetadata.stats = defaultScoringMetadata.stats
-    //     returnScoringMetadata.modified = false
-    //   }
-    // } else {
-    //   returnScoringMetadata.stats = defaultScoringMetadata.stats
-    //   returnScoringMetadata.modified = false
-    // }
-
-    for (const stat of SubStats) {
-      if (returnScoringMetadata.stats[stat] == null) {
-        returnScoringMetadata.stats[stat] = 0
-      }
-    }
-
-    setModifiedScoringMetadata(defaultScoringMetadata, returnScoringMetadata)
-
-    // We don't want to carry over presets, use the optimizer defined ones
-    // TODO: What does this do
-    // @ts-ignore
-    delete returnScoringMetadata.presets
-
-    return returnScoringMetadata
-  },
+  getScoringMetadata: (id: CharacterId) => getScoringMetadata(id),
   updateCharacterScoreOverrides: (id: CharacterId, updated: Partial<ScoringMetadata>) => {
-    let overrides = useGlobalStore.getState().scoringMetadataOverrides
-    overrides = { ...overrides, [id]: { ...overrides[id], ...updated } }
-
-    const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
-
-    setModifiedScoringMetadata(defaultScoringMetadata, overrides[id]!)
-
-    useGlobalStore.getState().setScoringMetadataOverrides(overrides)
-
+    useScoringStore.getState().updateCharacterOverrides(id, updated)
     SaveState.delayedSave()
   },
   updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: Partial<SimulationMetadata>) => {
-    if (!updatedSimulation) return
-
-    let overrides = useGlobalStore.getState().scoringMetadataOverrides
-    overrides = { ...overrides, [id]: { ...overrides[id], simulation: { ...overrides[id]?.simulation, ...updatedSimulation } } }
-    useGlobalStore.getState().setScoringMetadataOverrides(overrides)
-
+    useScoringStore.getState().updateSimulationOverrides(id, updatedSimulation)
     SaveState.delayedSave()
   },
   clearSimulationScoreOverrides: (id: CharacterId) => {
-    let overrides = useGlobalStore.getState().scoringMetadataOverrides
-    const { simulation, ...rest } = overrides[id] ?? {}
-    overrides = { ...overrides, [id]: rest }
-    useGlobalStore.getState().setScoringMetadataOverrides(overrides)
-
+    useScoringStore.getState().clearSimulationOverrides(id)
     SaveState.delayedSave()
   },
 
@@ -454,7 +334,7 @@ export const DB = {
         }
       }
 
-      useGlobalStore.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
+      useScoringStore.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
     }
 
     const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))
@@ -558,7 +438,6 @@ export const DB = {
       }
     }
 
-    assignRanks(saveData.characters)
     DB.setRelics(saveData.relics)
     DB.setCharacters(saveData.characters)
 
@@ -642,245 +521,19 @@ export const DB = {
     DB.setCharacter(updatedCharacter)
   },
 
-  saveCharacterBuild: (name: string, characterId: CharacterId, source: SavedBuildSource, overwriteExisting: boolean) => {
-    const character = DB.getCharacterById(characterId)
-    if (!character) {
-      console.warn('No character selected')
-      return
-    }
+  saveCharacterBuild: (name: string, characterId: CharacterId, source: SavedBuildSource, overwriteExisting: boolean) =>
+    buildService.saveBuild(name, characterId, source, overwriteExisting),
+  deleteCharacterBuild: (characterId: CharacterId, name: string) => buildService.deleteBuild(characterId, name),
+  clearCharacterBuilds: (characterId: CharacterId) => buildService.clearBuilds(characterId),
+  loadCharacterBuildInOptimizer: buildService.loadBuildInOptimizer,
 
-    let build: SavedBuild
-    const team: BuildTeammate[] = []
-
-    switch (source) {
-      case SavedBuildSource.OPTIMIZER:
-        const state = useOptimizerRequestStore.getState()
-        const optimizerMetadata: BuildOptimizerMetadata = {
-          conditionals: {},
-          setFilters: {
-            relics: TsUtils.clone(state.relicSets),
-            ornaments: TsUtils.clone(state.ornamentSets),
-          },
-          statFilters: TsUtils.clone(state.statFilters) as unknown as StatFilters,
-          comboStateJson: TsUtils.clone(state.comboStateJson),
-          setConditionals: TsUtils.clone(state.setConditionals),
-          presets: state.comboPreprocessor,
-        }
-        optimizerMetadata.conditionals[state.characterId!] = TsUtils.clone(state.characterConditionals)
-        optimizerMetadata.conditionals[state.lightCone!] = TsUtils.clone(state.lightConeConditionals)
-        state.teammates.forEach((teammate) => {
-          team.push({
-            characterId: teammate.characterId!,
-            lightConeId: teammate.lightCone!,
-            eidolon: teammate.characterEidolon,
-            superimposition: teammate.lightConeSuperimposition,
-            relicSet: teammate.teamRelicSet,
-            ornamentSet: teammate.teamOrnamentSet,
-          })
-          if (teammate.characterId) optimizerMetadata.conditionals[teammate.characterId] = TsUtils.clone(teammate.characterConditionals)
-          if (teammate.lightCone) optimizerMetadata.conditionals[teammate.lightCone] = TsUtils.clone(teammate.lightConeConditionals)
-        })
-
-        build = {
-          characterId,
-          eidolon: state.characterEidolon,
-          lightConeId: state.lightCone!,
-          superimposition: state.lightConeSuperimposition,
-          name,
-          equipped: useOptimizerDisplayStore.getState().optimizerBuild ?? {},
-          optimizerMetadata,
-          team,
-          deprioritizeBuffs: state.deprioritizeBuffs ?? false,
-        }
-        break
-      case SavedBuildSource.SHOWCASE:
-        const simulation = DB.getScoringMetadata(character.id)?.simulation
-        const useCustomTeam = simulation && (useGlobalStore.getState().showcaseTeamPreferenceById[characterId] !== DEFAULT_TEAM)
-        let teammates = useCustomTeam ? simulation.teammates : DB.getMetadata().characters[characterId].scoringMetadata.simulation?.teammates
-        if (teammates) {
-          teammates.forEach((teammate) => {
-            team.push({
-              characterId: teammate.characterId,
-              lightConeId: teammate.lightCone,
-              eidolon: teammate.characterEidolon,
-              superimposition: teammate.lightConeSuperimposition,
-              relicSet: teammate.teamRelicSet,
-              ornamentSet: teammate.teamOrnamentSet,
-            })
-          })
-        }
-        build = {
-          characterId,
-          eidolon: character.form.characterEidolon,
-          lightConeId: character.form.lightCone,
-          superimposition: character.form.lightConeSuperimposition,
-          name,
-          equipped: character.equipped,
-          optimizerMetadata: null,
-          team,
-          deprioritizeBuffs: simulation?.deprioritizeBuffs ?? false,
-        }
-        break
-      default:
-        console.error('Unknown SavedBuildSource', source)
-        return
-    }
-
-    const builds = character.builds ?? []
-
-    const idx = builds.findIndex((x) => x.name === name)
-
-    if (overwriteExisting) {
-      if (idx === -1) {
-        const error = i18next.t('charactersTab:Messages.NoMatchingBuild', { name })
-        console.error(error)
-        return { error }
-      }
-      builds[idx] = build
-    } else {
-      if (idx !== -1) {
-        const error = i18next.t('charactersTab:Messages.BuildAlreadyExists', { name })
-        console.warn(error)
-        return { error }
-      }
-      builds.push(build)
-    }
-
-    const updatedCharacter = { ...character, builds: [...builds] }
-    DB.setCharacter(updatedCharacter)
-  },
-
-  deleteCharacterBuild: (characterId: CharacterId, name: string) => {
-    const character = DB.getCharacterById(characterId)
-    if (!character) return console.warn('No character to delete build for')
-
-    const updatedCharacter = { ...character, builds: (character.builds ?? []).filter((x) => x.name != name) }
-    DB.setCharacter(updatedCharacter)
-  },
-
-  clearCharacterBuilds: (characterId: CharacterId) => {
-    const character = DB.getCharacterById(characterId)
-    if (!character) return console.warn('No character to clear builds for')
-
-    const updatedCharacter = { ...character, builds: [] }
-    DB.setCharacter(updatedCharacter)
-  },
-
-  loadCharacterBuildInOptimizer: loadCharacterBuildInOptimizer,
-
-  unequipCharacter: (id: CharacterId) => {
-    let character = DB.getCharacterById(id)
-    if (!character) return console.warn('No character to unequip')
-
-    for (const part of Object.values(Constants.Parts)) {
-      const equippedId = character.equipped[part]
-      if (!equippedId) continue
-
-      const relicMatch = DB.getRelicById(equippedId)
-
-      character = { ...character, equipped: { ...character.equipped, [part]: undefined } }
-
-      if (relicMatch) {
-        const relic = { ...relicMatch, equippedBy: undefined }
-        setRelic(relic)
-      }
-    }
-    DB.setCharacter(character)
-  },
-
-  removeCharacter: (characterId: CharacterId) => {
-    DB.unequipCharacter(characterId)
-    let characters = DB.getCharacters()
-    characters = characters.filter((x) => x.id != characterId)
-    DB.setCharacters(characters)
-  },
-
-  unequipRelicById: (id: string) => {
-    if (!id) return console.warn('No relic')
-    const relic = DB.getRelicById(id)
-    if (!relic) return console.warn('No relic')
-
-    const characters = DB.getCharacters()
-      .map((c) => {
-        if (c.equipped?.[relic.part] && c.equipped[relic.part] == relic.id) {
-          return { ...c, equipped: { ...c.equipped, [relic.part]: undefined } }
-        }
-        return c
-      })
-    DB.setCharacters(characters)
-
-    const newRelic = { ...relic, equippedBy: undefined }
-    setRelic(newRelic)
-  },
-
-  /**
-   * Equips the specified relic to the character identified by `characterId`.
-   *
-   * If the character already has a relic equipped, the relics are swapped.
-   */
-  equipRelic: (relic: Relic, characterId: CharacterId | undefined, forceSwap = false) => {
-    if (!relic?.id) return console.warn('No relic')
-    if (!characterId) return console.warn('No character')
-    relic = DB.getRelicById(relic.id)!
-
-    const prevOwnerId = relic.equippedBy
-    const prevCharacter = DB.getCharacterById(prevOwnerId!)
-    const character = DB.getCharacterById(characterId)!
-    const prevRelic = DB.getRelicById(character.equipped[relic.part]!)
-    let updatedPrevCharacter: Character
-
-    if (prevRelic) {
-      DB.unequipRelicById(prevRelic.id)
-    }
-
-    const swap = forceSwap
-      || DB.getState().settings[SettingOptions.RelicEquippingBehavior.name] == SettingOptions.RelicEquippingBehavior.Swap
-
-    // only re-equip prevRelic if it would go to a different character
-    if (prevOwnerId !== characterId && prevCharacter) {
-      if (prevRelic && swap) {
-        updatedPrevCharacter = { ...prevCharacter, equipped: { ...prevCharacter.equipped, [relic.part]: prevRelic.id } }
-
-        const updatedPrevRelic = { ...prevRelic, equippedBy: prevCharacter.id }
-        setRelic(updatedPrevRelic)
-      } else {
-        updatedPrevCharacter = { ...prevCharacter, equipped: { ...prevCharacter.equipped, [relic.part]: undefined } }
-        prevCharacter.equipped[relic.part] = undefined
-      }
-      DB.setCharacter(updatedPrevCharacter)
-    }
-
-    const updatedCharacter = { ...character, equipped: { ...character.equipped, [relic.part]: relic.id } }
-    DB.setCharacter(updatedCharacter)
-    const newRelic = { ...relic, equippedBy: character.id }
-    setRelic(newRelic)
-
-    debounceEffect('refreshRelics', 500, () => gridStore.relicsGridApi()?.refreshCells())
-  },
-
-  equipRelicIdsToCharacter: (relicIds: string[], characterId: CharacterId, forceSwap = false) => {
-    if (!characterId) return console.warn('No characterId to equip to')
-
-    for (const relicId of relicIds) {
-      DB.equipRelic({ id: relicId } as Relic, characterId, forceSwap)
-    }
-  },
-
-  switchRelics: (fromCharacterId: CharacterId, toCharacterId: CharacterId) => {
-    if (!fromCharacterId) return console.warn('No characterId to equip from')
-    if (!toCharacterId) return console.warn('No characterId to equip to')
-
-    const fromCharacter = DB.getCharacterById(fromCharacterId)!
-    DB.equipRelicIdsToCharacter(Object.values(fromCharacter.equipped), toCharacterId, true)
-  },
-
-  deleteRelic: (id: string) => {
-    if (!id) return Message.error(i18next.t('relicsTab:Messages.UnableToDeleteRelic'))
-    DB.unequipRelicById(id)
-    const relicsById = useGlobalStore.getState().relicsById
-    delete relicsById[id]
-    useGlobalStore.getState().setRelicsById({ ...relicsById })
-  },
+  unequipCharacter: (id: CharacterId) => equipmentService.unequipCharacter(id),
+  removeCharacter: (characterId: CharacterId) => equipmentService.removeCharacter(characterId),
+  unequipRelicById: (id: string) => equipmentService.unequipRelic(id),
+  equipRelic: (relic: Relic, characterId: CharacterId | undefined, forceSwap = false) => equipmentService.equipRelic(relic, characterId, forceSwap),
+  equipRelicIdsToCharacter: (relicIds: string[], characterId: CharacterId, forceSwap = false) => equipmentService.equipRelicIds(relicIds, characterId, forceSwap),
+  switchRelics: (fromCharacterId: CharacterId, toCharacterId: CharacterId) => equipmentService.switchRelics(fromCharacterId, toCharacterId),
+  deleteRelic: (id: string) => equipmentService.removeRelic(id),
 
   // These relics may be missing speed decimals depending on the importer.\
   // We overwrite any existing relics with imported ones.
@@ -1159,21 +812,6 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
   return match
 }
 
-function assignRanks(characters: Character[]) {
-  for (let i = 0; i < characters.length; i++) {
-    characters[i] = { ...characters[i], rank: i }
-  }
-
-  // This sets the rank for the current optimizer character because shuffling ranks will desync the Priority filter selector
-  const optimizerCharacterRank = characters.findIndex((c) => c.id == useOptimizerDisplayStore.getState().focusCharacterId!)
-  if (optimizerCharacterRank >= 0) {
-    void import('lib/stores/optimizerForm/useOptimizerRequestStore').then(({ useOptimizerRequestStore }) => {
-      useOptimizerRequestStore.getState().setRelicFilterField('rank', optimizerCharacterRank)
-    })
-  }
-
-  return characters
-}
 
 function hashRelic(relic: Relic) {
   const substatValues: number[] = []
@@ -1236,11 +874,6 @@ function partialHashRelic(relic: Relic) {
 /**
  * Sets the provided relic in the application's state.
  */
-function setRelic(relic: Relic) {
-  relic.ageIndex ??= (useGlobalStore.getState().relics.at(-1)?.ageIndex ?? -1) + 1
-  const relicsById = { ...useGlobalStore.getState().relicsById, [relic.id]: relic }
-  useGlobalStore.getState().setRelicsById(relicsById)
-}
 
 function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
   if (arr == null) return arr
@@ -1323,9 +956,9 @@ function indexRelics(relics: Relic[]) {
   })
 }
 
-function loadCharacterBuildInOptimizer(build: SavedBuild): void
-function loadCharacterBuildInOptimizer(characterId: CharacterId, buildIndex: number): void
-function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?: number) {
+// Dead code below — loadCharacterBuildInOptimizer moved to buildService.ts
+// Keeping only utility functions still used by setStore/merge methods
+function _DEAD_loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?: number) {
   const characterId = typeof arg1 === 'string' ? arg1 : arg1.characterId
   const build = typeof arg1 === 'string' ? DB.getCharacterById(characterId)?.builds?.[buildIndex!] : arg1
 

@@ -20,7 +20,7 @@ import {
   SimulationRequest,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -106,7 +106,7 @@ export function generateAnalysisData(
 
   const buffGroups = aggregateCombatBuffs(newX, request)
 
-  const characterMetadata = DB.getMetadata().characters[request.characterId]
+  const characterMetadata = getGameMetadata().characters[request.characterId]
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
 
   const extraRows: StatsValues[] = []

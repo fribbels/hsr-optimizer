@@ -23,7 +23,6 @@ import {
   CSSProperties,
   Fragment,
   memo,
-  ReactNode,
   useEffect,
   useState,
 } from 'react'
@@ -45,6 +44,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
   } = props
   const { t } = useTranslation(['modals', 'gameData', 'common'])
   const [selectedBuild, setSelectedBuild] = useState<null | number>(null)
+  const confirm = useConfirmAction()
 
   const [loading, setLoading] = useState(false)
 
@@ -68,19 +68,6 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
         {t('Builds.NoBuilds.NoneSaved') /* No saved builds */}
       </Modal>
     )
-  }
-
-  async function confirm(content: ReactNode) {
-    return new Promise<boolean>((resolve) => {
-      modals.openConfirmModal({
-        title: t('common:Confirm'),
-        children: content,
-        labels: { confirm: t('common:Confirm'), cancel: t('common:Cancel') },
-        centered: true,
-        onConfirm: () => resolve(true),
-        onCancel: () => resolve(false),
-      })
-    })
   }
 
   function onModalOk() {

@@ -11,7 +11,6 @@ import type {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import type { AppPages } from 'lib/state/db'
-import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import type {
@@ -19,7 +18,6 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import type { Form } from 'types/form'
 import type {
   ScoringMetadata,
   ShowcasePreferences,
@@ -69,8 +67,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizerEndTime: number | null,
   /* optimizerTab             */ optimizerTabFocusCharacterSelectModalOpen: boolean,
 
-  /* optimizerTab             */ comboState: ComboState,
-  /* optimizerTab             */ formValues: Form | undefined,
   /* global                   */ relicsById: Partial<Record<string, Relic>>,
   /* global                   */ relics: Array<Relic>,
   /* optimizerTab             */ statDisplay: StatDisplay,
@@ -80,8 +76,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizerSelectedRowData: OptimizerDisplayDataStatSim | null,
   /* global                   */ setSettings: (settings: UserSettings) => void,
   /* optimizerTab             */ setOptimizationId: (id: string) => void,
-  /* optimizerTab             */ setComboState: (state: ComboState) => void,
-  /* optimizerTab             */ setFormValues: (form: Form) => void,
   /* optimizerTab             */ setOptimizerTabFocusCharacter: (CharacterId: CharacterId | null | undefined) => void,
   /* optimizerTab             */ setOptimizationInProgress: (open: boolean) => void,
   /* optimizerTab             */ setOptimizerStartTime: (open: number) => void,

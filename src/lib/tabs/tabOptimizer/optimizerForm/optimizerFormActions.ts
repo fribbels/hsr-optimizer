@@ -4,7 +4,7 @@ import { SaveState } from 'lib/state/saveState'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
-import { updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { initializeComboState, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
@@ -24,22 +24,25 @@ export function handleConditionalChange(
   const store = useOptimizerFormStore.getState()
   store.setConditionalValue(itemName, value)
 
+  const request = displayToInternal(store)
+  const comboState = initializeComboState(request, true)
+
   // Build a changedValues-like object for updateConditionalChange
   const [first, ...rest] = itemName
 
   if (teammateKeys.has(first as string)) {
     // Teammate path: ['teammate0', 'characterConditionals', 'key']
     const [condType, key] = rest
-    updateConditionalChange({ [first]: { [condType]: { [key]: value } } } as unknown as Form)
+    updateConditionalChange(comboState, { [first]: { [condType]: { [key]: value } } } as unknown as Form)
   } else if (first === 'setConditionals') {
     // Set conditional: ['setConditionals', 'SetName', 1]
     const [setName] = rest
     // Set conditionals use legacy [undefined, value] format in change events
-    updateConditionalChange({ setConditionals: { [setName]: [undefined, value] } } as unknown as Form)
+    updateConditionalChange(comboState, { setConditionals: { [setName]: [undefined, value] } } as unknown as Form)
   } else {
     // Main character: ['characterConditionals', 'key'] or ['lightConeConditionals', 'key']
     const [condType, key] = itemName
-    updateConditionalChange({ [condType]: { [key]: value } } as unknown as Form)
+    updateConditionalChange(comboState, { [condType]: { [key]: value } } as unknown as Form)
   }
 }
 

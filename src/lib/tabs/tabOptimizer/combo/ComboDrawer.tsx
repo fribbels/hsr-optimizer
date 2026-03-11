@@ -61,6 +61,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import Selecto from 'react-selecto'
@@ -78,10 +79,9 @@ const buttonStyle = {
 export function ComboDrawer() {
   const { close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
 
-  const formValues = window.store((s) => s.formValues)
-
-  const comboState = window.store((s) => s.comboState)
-  const setComboState = window.store((s) => s.setComboState)
+  const [comboState, setComboState] = useState<ComboState>({} as ComboState)
+  const comboStateRef = useRef<ComboState>({} as ComboState)
+  comboStateRef.current = comboState
 
   const selectActivationState = useRef(true)
   const lastSelectedKeyState = useRef<string | undefined>(undefined)
@@ -89,20 +89,20 @@ export function ComboDrawer() {
   useScrollLock(isOpenComboDrawer)
 
   useEffect(() => {
-    if (!comboState || !comboState.comboTurnAbilities) return
-
     if (isOpenComboDrawer) {
       const form = OptimizerTabController.getForm()
       if (!form?.characterId || !form.characterConditionals) return
 
-      const comboState = initializeComboState(form, true)
-      comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
-      setComboState(comboState)
+      const newComboState = initializeComboState(form, true)
+      newComboState.comboTurnAbilities = preprocessTurnAbilityNames(newComboState.comboTurnAbilities)
+      setComboState(newComboState)
     } else {
-      comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
-      updateFormState(comboState)
+      const current = comboStateRef.current
+      if (!current || !current.comboTurnAbilities) return
+      current.comboTurnAbilities = preprocessTurnAbilityNames(current.comboTurnAbilities)
+      updateFormState(current)
     }
-  }, [formValues, isOpenComboDrawer])
+  }, [isOpenComboDrawer])
 
   return (
     <Drawer
@@ -114,7 +114,7 @@ export function ComboDrawer() {
       className='comboDrawer'
     >
       <div style={{ width: 1560, height: '100%' }}>
-        <StateDisplay comboState={comboState} />
+        <StateDisplay comboState={comboState} onComboStateChange={setComboState} />
         <Selecto
           className='selecto-selection'
           // The container to add a selection element
@@ -139,7 +139,8 @@ export function ComboDrawer() {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
             const selectedKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
             if (selectedKey != lastSelectedKeyState.current) {
-              updatePartitionActivation(selectedKey, comboState)
+              const partitionResult = updatePartitionActivation(selectedKey, comboState)
+              if (partitionResult) setComboState(partitionResult)
               lastSelectedKeyState.current = selectedKey
             }
           }}
@@ -152,7 +153,7 @@ export function ComboDrawer() {
             lastSelectedKeyState.current = undefined
           }}
           onSelect={(e) => {
-            const newState = {
+            let newState = {
               ...comboState,
             }
 
@@ -166,7 +167,8 @@ export function ComboDrawer() {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
             const selectedKey: string = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
             if (selectedKey != lastSelectedKeyState.current) {
-              updatePartitionActivation(selectedKey, comboState)
+              const partitionResult = updatePartitionActivation(selectedKey, newState)
+              if (partitionResult) newState = partitionResult
               lastSelectedKeyState.current = selectedKey
             }
 
@@ -194,6 +196,8 @@ function ComboDrawerTitle() {
 function AbilitySelector(props: {
   comboTurnAbilities: TurnAbilityName[],
   index: number,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   if (props.index == 0) return <></>
 
@@ -202,6 +206,8 @@ function AbilitySelector(props: {
       index={props.index}
       value={props.comboTurnAbilities[props.index]}
       style={{ width: abilityWidth }}
+      comboState={props.comboState}
+      onComboStateChange={props.onComboStateChange}
     />
   )
 }
@@ -211,6 +217,7 @@ const abilityWidth = 90 - abilityGap
 
 function ComboHeader(props: {
   comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
   const { t: tCommon } = useTranslation('common')
@@ -225,7 +232,15 @@ function ComboHeader(props: {
     <div key='base' style={{ width: abilityWidth }} />,
     ...Array(Math.min(ABILITY_LIMIT + 1, length + 1))
       .fill(false)
-      .map((value, index) => <AbilitySelector comboTurnAbilities={comboTurnAbilities} index={index} key={index} />),
+      .map((value, index) => (
+        <AbilitySelector
+          comboTurnAbilities={comboTurnAbilities}
+          index={index}
+          key={index}
+          comboState={props.comboState}
+          onComboStateChange={props.onComboStateChange}
+        />
+      )),
   ]
 
   return (
@@ -279,6 +294,8 @@ function SetSelector(props: {
 
 function SetSelectors(props: {
   comboOrigin: ComboCharacter,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer.Placeholders' })
   const ornamentOptions = useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])
@@ -290,7 +307,8 @@ function SetSelectors(props: {
         options={relicSetOptions}
         placeholder={t('Sets')} // 'Relic set conditionals'
         submit={(arr) => {
-          updateSelectedSets(arr, false)
+          const newState = updateSelectedSets(props.comboState, arr, false)
+          if (newState) props.onComboStateChange(newState)
         }}
       />
       <SetSelector
@@ -298,7 +316,8 @@ function SetSelectors(props: {
         options={ornamentOptions}
         placeholder={t('Ornaments')} // 'Ornament set conditionals'
         submit={(arr) => {
-          updateSelectedSets(arr, true)
+          const newState = updateSelectedSets(props.comboState, arr, true)
+          if (newState) props.onComboStateChange(newState)
         }}
       />
     </Flex>
@@ -310,6 +329,8 @@ function SetDisplays(props: {
   conditionalType: string,
   actionCount: number,
   originKey: string,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const relicSets = props.comboOrigin?.displayedRelicSets || []
   const ornamentSets = props.comboOrigin?.displayedOrnamentSets || []
@@ -321,6 +342,8 @@ function SetDisplays(props: {
         conditionalType={setName}
         actionCount={props.actionCount}
         originKey={props.originKey}
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
     )
   })
@@ -334,6 +357,7 @@ function SetDisplays(props: {
 
 function StateDisplay(props: {
   comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const comboCharacter = props.comboState?.comboCharacter
   const comboTeammate0 = props.comboState?.comboTeammate0
@@ -355,7 +379,7 @@ function StateDisplay(props: {
         }}
         align='center'
       >
-        <ComboHeader comboState={props.comboState} />
+        <ComboHeader comboState={props.comboState} onComboStateChange={props.onComboStateChange} />
       </Flex>
 
       <ComboConditionalsGroupRow
@@ -363,20 +387,26 @@ function StateDisplay(props: {
         actionCount={actionCount}
         conditionalType='character'
         originKey='comboCharacter'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboCharacter}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboCharacterLightCone'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <GroupDivider text={t('GroupHeaders.Sets') /* 'Relic / Ornament set conditionals' */} />
-      <SetSelectors comboOrigin={comboCharacter} />
+      <SetSelectors comboOrigin={comboCharacter} comboState={props.comboState} onComboStateChange={props.onComboStateChange} />
       <SetDisplays
         comboOrigin={comboCharacter}
         conditionalType='relicSets'
         actionCount={actionCount}
         originKey='comboCharacterRelicSets'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <GroupDivider text={t('GroupHeaders.Teammate1') /* 'Teammate 1 conditionals' */} />
       <ComboConditionalsGroupRow
@@ -384,24 +414,32 @@ function StateDisplay(props: {
         actionCount={actionCount}
         conditionalType='character'
         originKey='comboTeammate0'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate0}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate0LightCone'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate0}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate0RelicSet'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate0}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate0OrnamentSet'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <GroupDivider text={t('GroupHeaders.Teammate2') /* 'Teammate 2 conditionals' */} />
       <ComboConditionalsGroupRow
@@ -409,24 +447,32 @@ function StateDisplay(props: {
         actionCount={actionCount}
         conditionalType='character'
         originKey='comboTeammate1'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate1}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate1LightCone'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate1}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate1RelicSet'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate1}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate1OrnamentSet'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <GroupDivider text={t('GroupHeaders.Teammate3') /* 'Teammate 3 conditionals' */} />
       <ComboConditionalsGroupRow
@@ -434,24 +480,32 @@ function StateDisplay(props: {
         actionCount={actionCount}
         conditionalType='character'
         originKey='comboTeammate2'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate2}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate2LightCone'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate2}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate2RelicSet'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate2}
         actionCount={actionCount}
         conditionalType='lightCone'
         originKey='comboTeammate2OrnamentSet'
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
     </Flex>
   )
@@ -462,6 +516,8 @@ function ComboConditionalsGroupRow(props: {
   conditionalType: string,
   actionCount: number,
   originKey: string,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   const { t: setSelectOptionTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
@@ -594,6 +650,8 @@ function ComboConditionalsGroupRow(props: {
         comboConditionals={renderData.conditionals}
         actionCount={props.actionCount}
         sourceKey={props.originKey}
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
     </Flex>
   )
@@ -605,6 +663,8 @@ export function ContentRows(
     comboConditionals: ComboConditionals,
     actionCount: number,
     sourceKey: string,
+    comboState: ComboState,
+    onComboStateChange: (newState: ComboState) => void,
   },
 ) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
@@ -621,6 +681,8 @@ export function ContentRows(
           comboConditional={comboConditional}
           actionCount={props.actionCount}
           sourceKey={props.sourceKey}
+          comboState={props.comboState}
+          onComboStateChange={props.onComboStateChange}
         />
       )
       content.push(display)
@@ -643,6 +705,8 @@ function ConditionalActivationRow(props: {
   comboConditional: ComboConditionalCategory,
   actionCount: number,
   sourceKey: string,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   if (props.contentItem.formItem == 'switch') {
     return (
@@ -660,6 +724,8 @@ function ConditionalActivationRow(props: {
         contentItem={props.contentItem}
         actionCount={props.actionCount}
         sourceKey={props.sourceKey}
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
     )
   }
@@ -669,6 +735,8 @@ function ConditionalActivationRow(props: {
       contentItem={props.contentItem}
       actionCount={props.actionCount}
       sourceKey={props.sourceKey}
+      comboState={props.comboState}
+      onComboStateChange={props.onComboStateChange}
     />
   )
 }
@@ -708,6 +776,8 @@ function NumberConditionalActivationRow(props: {
   contentItem: ContentItem,
   actionCount: number,
   sourceKey: string,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const numberComboConditional = props.comboConditional
   const displaySortWrappers: {
@@ -729,6 +799,8 @@ function NumberConditionalActivationRow(props: {
           partitionIndex={i}
           actionCount={props.actionCount}
           sourceKey={props.sourceKey}
+          comboState={props.comboState}
+          onComboStateChange={props.onComboStateChange}
         />
       ),
     })
@@ -771,6 +843,8 @@ function SelectConditionalActivationRow(props: {
   contentItem: ContentItem,
   actionCount: number,
   sourceKey: string,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const selectComboConditional = props.comboConditional
   const display: ReactElement[] = []
@@ -786,6 +860,8 @@ function SelectConditionalActivationRow(props: {
         partitionIndex={i}
         actionCount={props.actionCount}
         sourceKey={props.sourceKey}
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />,
     )
   }
@@ -809,6 +885,8 @@ function Partition(props: {
   partitionIndex: number,
   actionCount: number,
   sourceKey: string,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const dataKeys: string[] = []
 
@@ -828,6 +906,8 @@ function Partition(props: {
         value={props.partition.value}
         sourceKey={props.sourceKey}
         partitionIndex={props.partitionIndex}
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
     )
     : (
@@ -836,6 +916,8 @@ function Partition(props: {
         value={props.partition.value}
         sourceKey={props.sourceKey}
         partitionIndex={props.partitionIndex}
+        comboState={props.comboState}
+        onComboStateChange={props.onComboStateChange}
       />
     )
 
@@ -896,6 +978,8 @@ function NumberSlider(props: {
   value: number,
   sourceKey: string,
   partitionIndex: number,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const contentItem = props.contentItem
 
@@ -913,7 +997,10 @@ function NumberSlider(props: {
               content={ColorizeNumbers(contentItem.content)}
               teammateIndex={getTeammateIndex(props.sourceKey)}
               text={contentItem.text}
-              onChange={(value) => updateNumberDefaultSelection(props.sourceKey, contentItem.id, props.partitionIndex, value)}
+              onChange={(value) => {
+                const newState = updateNumberDefaultSelection(props.comboState, props.sourceKey, contentItem.id, props.partitionIndex, value)
+                if (newState) props.onComboStateChange(newState)
+              }}
               value={props.value}
               removeForm={props.partitionIndex > 0}
             />
@@ -927,9 +1014,11 @@ function NumberSlider(props: {
           : <IconCircleMinus style={buttonStyle} />}
         onClick={() => {
           if (props.partitionIndex == 0) {
-            updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+            const newState = updateAddPartition(props.comboState, props.sourceKey, props.contentItem.id, props.partitionIndex)
+            if (newState) props.onComboStateChange(newState)
           } else {
-            updateDeletePartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+            const newState = updateDeletePartition(props.comboState, props.sourceKey, props.contentItem.id, props.partitionIndex)
+            if (newState) props.onComboStateChange(newState)
           }
         }}
       />
@@ -942,6 +1031,8 @@ function NumberSelect(props: {
   value: number,
   sourceKey: string,
   partitionIndex: number,
+  comboState: ComboState,
+  onComboStateChange: (newState: ComboState) => void,
 }) {
   const contentItem = props.contentItem
 
@@ -954,7 +1045,10 @@ function NumberSelect(props: {
         content={ColorizeNumbers(contentItem.content)}
         text={contentItem.text}
         set={props.sourceKey.includes('comboCharacterRelicSets')}
-        onChange={(value) => updateNumberDefaultSelection(props.sourceKey, contentItem.id, props.partitionIndex, value)}
+        onChange={(value) => {
+          const newState = updateNumberDefaultSelection(props.comboState, props.sourceKey, contentItem.id, props.partitionIndex, value)
+          if (newState) props.onComboStateChange(newState)
+        }}
         value={props.value}
         removeForm={props.partitionIndex > 0}
         fullWidth={!props.sourceKey.includes('comboCharacterRelicSets')}
@@ -966,9 +1060,11 @@ function NumberSelect(props: {
           : <IconCircleMinus style={buttonStyle} />}
         onClick={() => {
           if (props.partitionIndex == 0) {
-            updateAddPartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+            const newState = updateAddPartition(props.comboState, props.sourceKey, props.contentItem.id, props.partitionIndex)
+            if (newState) props.onComboStateChange(newState)
           } else {
-            updateDeletePartition(props.sourceKey, props.contentItem.id, props.partitionIndex)
+            const newState = updateDeletePartition(props.comboState, props.sourceKey, props.contentItem.id, props.partitionIndex)
+            if (newState) props.onComboStateChange(newState)
           }
         }}
       />

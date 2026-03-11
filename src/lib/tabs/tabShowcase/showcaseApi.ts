@@ -35,7 +35,7 @@ export function submitForm(form: ShowcaseTabForm) {
   } = useShowcaseTabStore.getState()
 
   console.log('scorerId:', form.scorerId)
-  const id = form.scorerId?.trim() ?? ''
+  const id = form.scorerId.trim()
 
   if (id.length != 9) {
     setLoading(false)
@@ -44,7 +44,6 @@ export function submitForm(form: ShowcaseTabForm) {
   }
 
   if (latestRefreshDate) {
-    const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
     Message.warning(t('ThrottleWarning', /* Please wait {{seconds}} seconds before retrying */ {
       seconds: Math.max(1, Math.ceil(THROTTLE_SECONDS - (new Date().getTime() - latestRefreshDate.getTime()) / 1000)),
     }))
@@ -52,13 +51,13 @@ export function submitForm(form: ShowcaseTabForm) {
       setLoading(false)
     }
     return
-  } else {
-    setLoading(true)
-    setLatestRefreshDate(new Date())
-    setTimeout(() => {
-      setLatestRefreshDate(null)
-    }, THROTTLE_SECONDS * 1000)
   }
+
+  setLoading(true)
+  setLatestRefreshDate(new Date())
+  setTimeout(() => {
+    setLatestRefreshDate(null)
+  }, THROTTLE_SECONDS * 1000)
 
   setScorerId(id)
   SaveState.delayedSave()

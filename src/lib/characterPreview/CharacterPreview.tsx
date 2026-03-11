@@ -129,17 +129,23 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   const {
     teamSelectionByCharacter,
-    relicsById,
     globalShowcasePreferences,
     showcaseTemporaryOptionsByCharacter,
   } = window.store(
     useShallow((s) => ({
       teamSelectionByCharacter: s.showcaseTeamPreferenceById,
-      relicsById: s.relicsById,
       globalShowcasePreferences: s.showcasePreferences,
       showcaseTemporaryOptionsByCharacter: s.showcaseTemporaryOptionsByCharacter,
     })),
   )
+
+  // Task 2.7: Scope relicsById subscription to only the 6 equipped relic IDs
+  const relicsById = window.store(useShallow((s) => {
+    if (!character) return null
+    const equipped = savedBuildOverride?.equipped ?? character.equipped
+    const ids = [equipped?.Head, equipped?.Hands, equipped?.Body, equipped?.Feet, equipped?.PlanarSphere, equipped?.LinkRope].filter((id): id is string => !!id)
+    return Object.fromEntries(ids.map((id) => [id, s.relicsById[id]])) as Partial<Record<string, Relic>>
+  }))
 
   const [storedScoringType, setScoringType] = useState(window.store.getState().savedSession.scoringType)
   const prevCharId = useRef<string>()
@@ -159,7 +165,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   // Hooks must be called unconditionally before early return to satisfy Rules of Hooks
   const previewRelics = useMemo(() => {
-    if (!character) return null
+    if (!character || !relicsById) return null
     return getPreviewRelics(source, character, relicsById, savedBuildOverride)
   }, [source, character, relicsById, savedBuildOverride])
 

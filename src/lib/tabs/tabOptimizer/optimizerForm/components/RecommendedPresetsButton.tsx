@@ -1,183 +1,18 @@
 import { IconChevronDown } from '@tabler/icons-react'
-import { ApplyColumnStateParams } from 'ag-grid-community'
 import { Button, Flex, Menu } from '@mantine/core'
-import { TFunction } from 'i18next'
 import { applySpdPreset } from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
 import DB from 'lib/state/db'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { ReactElement } from 'types/components'
+import { generateSpdPresets } from './spdPresetConfig'
 
 export type { PresetDefinition } from 'lib/scoring/presetEffects'
 export { PresetEffects } from 'lib/scoring/presetEffects'
 
-// FIXME HIGH
-
-/*
- * 111.11 (5 actions in first four cycles)
- * 114.28 (4 actions in first three cycles)
- * 120.00 (3 actions in two cycles, activates planar set effects)
- * 133.33 (2 actions in first cycle, 6 actions in first four cycles)
- * 142.85 (5 actions in first three cycles)
- * 155.55 (7 actions in first four cycles)
- * 160.00 (4 actions in first two cycles)
- * 171.42 (6 actions in first three cycles)
- * 177.77 (8 actions in first four cycles)
- * 200.00 (3 actions in first cycle)
- */
-
-export function setSortColumn(columnId: string) {
-  const columnState: ApplyColumnStateParams = {
-    state: [
-      {
-        colId: columnId,
-        sort: 'desc',
-      },
-    ],
-    defaultState: { sort: null },
-  }
-  window.optimizerGrid.current?.api?.applyColumnState(columnState)
-}
-
-export type SpdPresets = Record<string, {
-  key: string,
-  label: string | ReactElement,
-  value: number | undefined,
-  disabled?: boolean,
-}>
-
-export type SpdPresetCategory = {
-  key: string,
-  label: string,
-  presets: SpdPresets,
-}
-
-export type SpdPresetsResult = {
-  categories: SpdPresetCategory[],
-  allPresets: SpdPresets,
-}
-
-export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>): SpdPresetsResult {
-  const mocPresets: SpdPresets = {
-    SPD0: {
-      key: 'SPD0',
-      label: t('SpdValues.SPD0'), // 'No minimum speed',
-      value: undefined,
-    },
-    SPD111: {
-      key: 'SPD111',
-      label: t('SpdValues.SPD111'), // '111.112 SPD - 5 actions in first four cycles',
-      value: 111.112,
-    },
-    SPD114: {
-      key: 'SPD114',
-      label: t('SpdValues.SPD114'), // '114.286 SPD - 4 actions in first three cycles',
-      value: 114.286,
-    },
-    SPD120: {
-      key: 'SPD120',
-      label: t('SpdValues.SPD120'), // '120.000 SPD - 3 actions in first two cycles',
-      value: 120.000,
-    },
-    SPD133: {
-      key: 'SPD133',
-      label: t('SpdValues.SPD133'), /* 133.334 SPD - 2 actions in first cycle, 6 actions in first four cycles */
-      value: 133.334,
-    },
-    SPD142: {
-      key: 'SPD142',
-      label: t('SpdValues.SPD142'), // '142.858 SPD - 5 actions in first three cycles',
-      value: 142.858,
-    },
-    SPD155: {
-      key: 'SPD155',
-      label: t('SpdValues.SPD155'), // '155.556 SPD - 7 actions in first four cycles',
-      value: 155.556,
-    },
-    SPD160: {
-      key: 'SPD160',
-      label: t('SpdValues.SPD160'), // '160.000 SPD - 4 actions in first two cycles',
-      value: 160.000,
-    },
-    SPD171: {
-      key: 'SPD171',
-      label: t('SpdValues.SPD171'), // '171.429 SPD - 6 actions in first three cycles',
-      value: 171.429,
-    },
-    SPD177: {
-      key: 'SPD177',
-      label: t('SpdValues.SPD177'), // '177.778 SPD - 8 actions in first four cycles',
-      value: 177.778,
-    },
-    SPD200: {
-      key: 'SPD200',
-      label: t('SpdValues.SPD200'), // '200.000 SPD - 3 actions in first cycle',
-      value: 200.000,
-    },
-  }
-
-  const aaPresets: SpdPresets = {
-    AA_SPD0: {
-      key: 'AA_SPD0',
-      label: t('SpdValues.SPD0'), // 'No minimum speed',
-      value: 0,
-    },
-    AA_SPD133: {
-      key: 'AA_SPD133',
-      label: t('AaSpdValues.SPD133'), // '133.334 SPD - 4 turns in first cycle',
-      value: 133.334,
-    },
-    AA_SPD166: {
-      key: 'AA_SPD166',
-      label: t('AaSpdValues.SPD166'), // '166.667 SPD - 5 turns in first cycle',
-      value: 166.667,
-    },
-    AA_SPD120: {
-      key: 'AA_SPD120',
-      label: t('AaSpdValues.SPD120'), // '120.000 SPD - 6 turns in first two cycles',
-      value: 120.000,
-    },
-    AA_SPD140: {
-      key: 'AA_SPD140',
-      label: t('AaSpdValues.SPD140'), // '140.000 SPD - 7 turns in first two cycles',
-      value: 140.000,
-    },
-    AA_SPD160: {
-      key: 'AA_SPD160',
-      label: t('AaSpdValues.SPD160'), // '160.000 SPD - 8 turns in first two cycles',
-      value: 160.000,
-    },
-    AA_SPD180: {
-      key: 'AA_SPD180',
-      label: t('AaSpdValues.SPD180'), // '180.000 SPD - 9 turns in first two cycles',
-      value: 180.000,
-    },
-    AA_SPD200: {
-      key: 'AA_SPD200',
-      label: t('AaSpdValues.SPD200'), // '200.000 SPD - 6 turns in first cycle, 10 turns in first two cycles',
-      value: 200.000,
-    },
-  }
-
-  const categories: SpdPresetCategory[] = [
-    {
-      key: 'moc',
-      label: t('SpdCategories.MemoryOfChaos'), // 'Memory of Chaos',
-      presets: mocPresets,
-    },
-    {
-      key: 'aa',
-      label: t('SpdCategories.AnomalyArbitration'), // 'Anomaly Arbitration',
-      presets: aaPresets,
-    },
-  ]
-
-  const allPresets: SpdPresets = { ...mocPresets, ...aaPresets }
-
-  return { categories, allPresets }
-}
+export type { SpdPresets, SpdPresetCategory, SpdPresetsResult } from './spdPresetConfig'
+export { generateSpdPresets, setSortColumn } from './spdPresetConfig'
 
 export const RecommendedPresetsButton = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
@@ -218,7 +53,7 @@ export const RecommendedPresetsButton = () => {
 
   return (
     <Menu>
-      <Flex className='full-width-dropdown-button' style={{ flex: 1, width: '100%' }}>
+      <Flex style={{ flex: 1, width: '100%' }}>
         <Button
           style={{ flex: 1, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
           onClick={() => applySpdPreset(allPresets.SPD0.value!, optimizerTabFocusCharacter)}

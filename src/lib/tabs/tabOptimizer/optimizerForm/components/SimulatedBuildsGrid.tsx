@@ -3,10 +3,8 @@ import { IRowNode } from 'ag-grid-community'
 import { Flex, Table } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import {
-  deleteStatSimulationBuild,
-  renderDefaultSimulationName,
-} from 'lib/simulations/statSimulationController'
+import { deleteStatSimulationBuild } from 'lib/simulations/statSimulationController'
+import { StatSimulationName } from 'lib/simulations/StatSimulationName'
 import {
   Simulation,
   StatSimTypes,
@@ -117,7 +115,7 @@ export function SimulatedBuildsGrid() {
                   }}
                 >
                   <Table.Td style={{ width: 560, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {renderDefaultSimulationName(record as Simulation)}
+                    <StatSimulationName sim={record as Simulation} />
                   </Table.Td>
                   <Table.Td style={{ width: 36 }}>
                     <a

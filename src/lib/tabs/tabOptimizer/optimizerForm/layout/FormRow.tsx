@@ -27,7 +27,6 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
     <Flex
       gap={0}
       direction="column"
-      className='form-row'
       style={{
         minWidth: '100%',
       }}
@@ -38,6 +37,11 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
         onChange={onChange}
         chevronPosition='right'
         variant='default'
+        styles={{
+          control: { paddingTop: 0, paddingBottom: 0, fontSize: 20, alignItems: 'baseline' },
+          content: { paddingBlock: 0 },
+          chevron: { paddingInlineStart: 12 },
+        }}
       >
         <Accordion.Item value={props.id}>
           <Accordion.Control>

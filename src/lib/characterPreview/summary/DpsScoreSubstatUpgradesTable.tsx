@@ -41,7 +41,6 @@ export function DpsScoreSubstatUpgradesTable(props: {
 
   return (
     <Table
-      className='remove-table-bottom-border'
       style={tableStyle}
     >
       <Table.Thead>

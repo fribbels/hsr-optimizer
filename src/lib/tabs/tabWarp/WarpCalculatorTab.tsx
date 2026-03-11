@@ -15,6 +15,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from '../tabImport/ScannerWebsocketClient'
+import classes from './WarpCalculatorTab.module.css'
 
 export default function WarpCalculatorTab(): React.JSX.Element {
   const { t } = useTranslation('warpCalculatorTab')
@@ -324,7 +325,7 @@ function Results() {
             {warpTableData.map((record) => (
               <Table.Tr
                 key={record.key}
-                className={`warp-table-row ${record.wins < chanceThreshold ? 'warp-table-row-disabled' : ''}`}
+                className={`${classes.warpRow} ${record.wins < chanceThreshold ? 'warp-table-row-disabled' : ''}`}
               >
                 <Table.Td style={{ textAlign: 'center', position: 'relative' }}>
                   <Flex style={{ position: 'relative', marginLeft: 5, height: '100%' }} align='center'>

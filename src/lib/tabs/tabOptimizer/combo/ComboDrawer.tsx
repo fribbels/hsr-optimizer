@@ -64,7 +64,7 @@ export function ComboDrawer() {
       onClose={() => closeComboDrawer()}
       opened={isOpenComboDrawer}
       size={1625}
-      className='comboDrawer'
+      styles={{ body: { paddingTop: 0 } }}
     >
       <div style={drawerContentStyle}>
         <StateDisplay comboState={comboState} onComboStateChange={setComboState} />

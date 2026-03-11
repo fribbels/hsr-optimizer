@@ -23,6 +23,7 @@ export function computeRelevantTags(allBuffs: Buff[]): Set<DamageTag> {
   return tags
 }
 
+// Detail view filter: shows all buffs when unfiltered, matches universal + specific when filtered
 export function buffMatchesFilter(buff: Buff, filter: DamageTag | null): boolean {
   if (filter === null) return true
   if (buff.damageTags == null) return true

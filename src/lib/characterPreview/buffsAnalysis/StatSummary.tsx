@@ -24,13 +24,19 @@ import {
   getRowBaseStyle,
   GROUP_ORDER,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
-import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
 import { Buff } from 'lib/optimization/basicStatsArray'
 import { AKeyNames } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+
+// Summary totals filter: only sums universal buffs when unfiltered, sums universal + matching when filtered
+function buffMatchesSumFilter(buff: Buff, filter: DamageTag | null): boolean {
+  if (filter === null) return buff.damageTags == null
+  if (buff.damageTags == null) return true
+  return (buff.damageTags & filter) !== 0
+}
 
 const STAT_ORDER = new Map<string, number>(AKeyNames.map((key, i) => [key, i]))
 
@@ -84,7 +90,7 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
   // Second pass: compute sums with filter applied
   const sumMap = new Map<string, StatSum>()
   for (const buff of buffs) {
-    if (!buffMatchesFilter(buff, filter)) continue
+    if (!buffMatchesSumFilter(buff, filter)) continue
     const config = getStatConfig(buff.stat)
     if (!config || config.bool) continue
 

@@ -33,6 +33,7 @@ import {
   DEFAULT_WEBSOCKET_URL,
   useScannerState,
 } from './ScannerWebsocketClient'
+import classes from './ScannerImportSubmenu.module.css'
 
 // FIXME MED
 
@@ -184,7 +185,7 @@ export function ScannerImportSubmenu() {
 
   function uploadScannerFile() {
     return (
-      <Flex style={{ minHeight: 100, marginBottom: 30 }} gap={30}>
+      <Flex className={classes.uploadStage} gap={30}>
         <Flex direction="column" gap={10}>
           <Text>
             {t('Import.Stage1.Header')}
@@ -302,7 +303,7 @@ export function ScannerImportSubmenu() {
               <Alert
                 title='New version notice'
                 color='blue'
-                style={{ marginBottom: 10 }}
+                className={classes.alertNotice}
               >
                 <div>
                   If your live import fails to connect, download the new version of{' '}
@@ -334,7 +335,7 @@ export function ScannerImportSubmenu() {
 
                 <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
 
-                <Divider variant="dashed" style={{ margin: 0, flex: 1, minWidth: 0 }} />
+                <Divider variant="dashed" className={classes.dividerLine} />
 
                 <Tooltip
                   position='top-end'
@@ -345,12 +346,8 @@ export function ScannerImportSubmenu() {
                     <Text>{connected ? t('Import.LiveImport.Connected') /* Connected */ : t('Import.LiveImport.Disconnected') /* Disconnected */}</Text>
 
                     <div
-                      style={{
-                        width: 8,
-                        height: 8,
-                        borderRadius: '50%',
-                        backgroundColor: connected ? '#52c41a' : '#ff4d4f',
-                      }}
+                      className={classes.connectionDot}
+                      style={{ backgroundColor: connected ? '#52c41a' : '#ff4d4f' }}
                     />
                   </Flex>
                 </Tooltip>
@@ -406,7 +403,7 @@ export function ScannerImportSubmenu() {
   function confirmDataMerge() {
     if (!currentRelics) {
       return (
-        <Flex style={{ minHeight: 100 }}>
+        <Flex className={classes.stageContainer}>
           <Flex direction="column" gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
             {t('Import.Stage2.NoRelics')}
           </Flex>
@@ -415,7 +412,7 @@ export function ScannerImportSubmenu() {
     }
 
     return (
-      <Flex style={{ minHeight: 250 }}>
+      <Flex className={classes.confirmStage}>
         <Flex direction="column" gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <Text>
             {t('Import.Stage2.FileInfo', {
@@ -436,7 +433,7 @@ export function ScannerImportSubmenu() {
             {t('Import.Stage2.RelicsImport.ButtonText', { relicCount: currentRelics.length ?? 0 })}
           </Button>
 
-          <Divider label={<Text style={{ fontSize: 12 }}>{t('Import.Stage2.Or')}</Text>} labelPosition='center' />
+          <Divider label={<Text className={classes.dividerText}>{t('Import.Stage2.Or')}</Text>} labelPosition='center' />
           <Text>
             {t('Import.Stage2.CharactersImport.Label', {
               relicCount: currentRelics.length ?? 0,
@@ -473,7 +470,7 @@ export function ScannerImportSubmenu() {
 
   function mergeCompleted() {
     return (
-      <Flex style={{ minHeight: 100 }}>
+      <Flex className={classes.stageContainer}>
         <Flex direction="column" gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
           <Text>
             {t('Import.Stage3.SuccessMessage')}

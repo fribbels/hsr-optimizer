@@ -4,7 +4,7 @@ import {
   Constants,
   StatsValues,
 } from 'lib/constants/constants'
-import { iconSize } from 'lib/constants/constantsUi'
+import iconClasses from 'style/icons.module.css'
 import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 import { Assets } from 'lib/rendering/assets'
@@ -94,7 +94,7 @@ export const StatRow = React.memo(function StatRow(props: {
   }
   return (
     <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ filter: props.loading ? 'blur(2px)' : 'none' }}>
-      <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+      <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
       {props.loading

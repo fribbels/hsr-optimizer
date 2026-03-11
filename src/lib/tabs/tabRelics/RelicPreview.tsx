@@ -6,7 +6,7 @@ import {
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Parts } from 'lib/constants/constants'
-import { iconSize } from 'lib/constants/constantsUi'
+import iconClasses from 'style/icons.module.css'
 import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 
@@ -198,7 +198,7 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
 
       <Flex justify='space-between'>
         <Flex>
-          <img src={icon} style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}></img>
+          <img src={icon} className={iconClasses.statIcon}></img>
           {scored ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
         </Flex>
         {scored ? `${localeNumberComma_0(Number(score.score))} (${score.rating})` : ''}

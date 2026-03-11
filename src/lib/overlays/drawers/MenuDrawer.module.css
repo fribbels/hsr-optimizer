@@ -1,0 +1,17 @@
+.menuIcon {
+  margin-right: 5px;
+  width: 16px;
+}
+
+.menuIconNarrow {
+  margin-right: 2px;
+  width: 16px;
+}
+
+.menuIconLink {
+  margin-right: 5px;
+}
+
+.fullWidth {
+  width: 100%;
+}

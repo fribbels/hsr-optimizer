@@ -12,7 +12,7 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { iconSize } from 'lib/constants/constantsUi'
+import iconClasses from 'style/icons.module.css'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
@@ -67,7 +67,7 @@ export function CharacterCardCombatStats(props: {
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
       <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
-        <img src={Assets.getStatIcon(stat)} style={{ width: iconSize, height: iconSize, marginRight: 3 }} />
+        <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
         <Flex gap={1} align='center'>
           <StatTextSm>
             {statName}

@@ -27,6 +27,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import classes from './RelicMainSetFilters.module.css'
 
 export default function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
@@ -59,7 +60,7 @@ export default function RelicMainSetFilters() {
             width: panelWidth,
           }}
           placeholder={t('common:Parts.Body')}
-          rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.Body)} />}
+          rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
           value={mainBody}
           onChange={(val) => {
             useOptimizerRequestStore.getState().setMainStats('mainBody', val)
@@ -82,7 +83,7 @@ export default function RelicMainSetFilters() {
             width: panelWidth,
           }}
           placeholder={t('common:Parts.Feet')}
-          rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.Feet)} />}
+          rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
           value={mainFeet}
           onChange={(val) => {
             useOptimizerRequestStore.getState().setMainStats('mainFeet', val)
@@ -103,7 +104,7 @@ export default function RelicMainSetFilters() {
           }}
           placeholder={t('common:Parts.PlanarSphere')}
           maxDropdownHeight={400}
-          rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.PlanarSphere)} />}
+          rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
           value={mainPlanarSphere}
           onChange={(val) => {
             useOptimizerRequestStore.getState().setMainStats('mainPlanarSphere', val)
@@ -129,7 +130,7 @@ export default function RelicMainSetFilters() {
             width: panelWidth,
           }}
           placeholder={t('common:Parts.LinkRope')}
-          rightSection={<img style={{ width: 16 }} src={Assets.getPart(Parts.LinkRope)} />}
+          rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
           value={mainLinkRope}
           onChange={(val) => {
             useOptimizerRequestStore.getState().setMainStats('mainLinkRope', val)
@@ -145,7 +146,7 @@ export default function RelicMainSetFilters() {
         />
       </Flex>
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
+      <Flex justify='space-between' align='center' className={classes.setsHeader}>
         <HeaderText>{t('Sets') /* Sets */}</HeaderText>
         <TooltipImage type={Hint.sets()} />
       </Flex>

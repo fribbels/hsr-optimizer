@@ -1,0 +1,33 @@
+.nameContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.nameText {
+  margin: auto;
+  padding: 0 5px;
+  text-align: center;
+  overflow: hidden;
+  white-space: break-spaces;
+  text-wrap: wrap;
+  font-size: 14px;
+  width: 100%;
+  line-height: 18px;
+}
+
+.nameSection {
+  display: inline-block;
+}
+
+.equippedIndicator {
+  display: block;
+  width: 3px;
+  height: 100%;
+  z-index: 2;
+}
+
+.characterIcon {
+  flex: 0 0 auto;
+  max-width: 100%;
+  width: 48px;
+}

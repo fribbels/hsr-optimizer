@@ -2,10 +2,11 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, Switch, Text as MantineText } from '@mantine/core'
+import { Flex, Switch } from '@mantine/core'
 import { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
+import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
 import { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import WithPopover from 'lib/ui/WithPopover'
@@ -13,13 +14,6 @@ import {
   ComponentProps,
   ComponentType,
 } from 'react'
-const justify = 'flex-start'
-const align = 'center'
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-const Text = (props: React.PropsWithChildren<{ style?: React.CSSProperties }>) => (
-  <MantineText style={{ whiteSpace: 'pre-line', ...props.style }} {...props} />
-)
 
 export function getConditionalType(props: FormSwitchProps | FormSliderProps | FormSelectProps) {
   if (props.set) {
@@ -100,7 +94,7 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
     : (val: boolean) => handleConditionalChange(itemName as (string | number)[], val)
 
   return (
-    <Flex justify={justify} align={align}>
+    <Flex justify={conditionalJustify} align={conditionalAlign}>
       <Switch
         onLabel={<IconCheck />}
         offLabel={<IconX />}

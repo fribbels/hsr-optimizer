@@ -28,6 +28,7 @@ import { useGlobalStore, AppPages, } from 'lib/state/db'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
+import classes from './MenuDrawer.module.css'
 
 type MenuItemProperties = {
   label: string | ReactElement,
@@ -57,7 +58,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconStarFilled style={{ marginRight: 5, width: 16 }} /> {t('Tools.Showcase') /* Showcase */}
+            <IconStarFilled className={classes.menuIcon} /> {t('Tools.Showcase') /* Showcase */}
           </Flex>
         ),
         AppPages.SHOWCASE,
@@ -65,7 +66,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconLayoutGrid style={{ marginRight: 5, width: 16 }} /> {t('Tools.Benchmarks') /*Benchmarks*/}
+            <IconLayoutGrid className={classes.menuIcon} /> {t('Tools.Benchmarks') /*Benchmarks*/}
           </Flex>
         ),
         AppPages.BENCHMARKS,
@@ -73,7 +74,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconDiamond style={{ marginRight: 5, width: 16 }} /> {t('Tools.WarpPlanner') /* Warp Planner */}
+            <IconDiamond className={classes.menuIcon} /> {t('Tools.WarpPlanner') /* Warp Planner */}
           </Flex>
         ),
         AppPages.WARP,
@@ -83,7 +84,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconChartBar style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Optimizer') /* Optimizer */}
+            <IconChartBar className={classes.menuIcon} /> {t('Optimization.Optimizer') /* Optimizer */}
           </Flex>
         ),
         AppPages.OPTIMIZER,
@@ -91,7 +92,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconUser style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Characters') /* Characters */}
+            <IconUser className={classes.menuIcon} /> {t('Optimization.Characters') /* Characters */}
           </Flex>
         ),
         AppPages.CHARACTERS,
@@ -99,7 +100,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconChartRadar style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Relics') /* Relics */}
+            <IconChartRadar className={classes.menuIcon} /> {t('Optimization.Relics') /* Relics */}
           </Flex>
         ),
         AppPages.RELICS,
@@ -107,23 +108,23 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconUpload style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Import') /* Import / Save */}
+            <IconUpload className={classes.menuIcon} /> {t('Optimization.Import') /* Import / Save */}
           </Flex>
         ),
         AppPages.IMPORT,
       ),
       getItem(
         (
-          <Flex onClick={() => setOpen(OpenCloseIDs.SETTINGS_DRAWER)} style={{ width: '100%' }}>
-            <IconSettings style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Settings') /* Settings */}
+          <Flex onClick={() => setOpen(OpenCloseIDs.SETTINGS_DRAWER)} className={classes.fullWidth}>
+            <IconSettings className={classes.menuIcon} /> {t('Optimization.Settings') /* Settings */}
           </Flex>
         ),
         'link settings',
       ),
       getItem(
         (
-          <Flex onClick={() => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)} style={{ width: '100%' }}>
-            <IconBook style={{ marginRight: 5, width: 16 }} /> {t('Optimization.Start') /* Get Started */}
+          <Flex onClick={() => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)} className={classes.fullWidth}>
+            <IconBook className={classes.menuIcon} /> {t('Optimization.Start') /* Get Started */}
           </Flex>
         ),
         'link gettingstarted',
@@ -133,7 +134,7 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconHome style={{ marginRight: 2, width: 16 }} /> {t('Links.Home') /* Home */}
+            <IconHome className={classes.menuIconNarrow} /> {t('Links.Home') /* Home */}
           </Flex>
         ),
         AppPages.HOME,
@@ -141,14 +142,14 @@ const MenuDrawer = () => {
       getItem(
         (
           <Flex>
-            <IconList style={{ marginRight: 2, width: 16 }} /> {t('Links.Changelog') /* Changelog */}
+            <IconList className={classes.menuIconNarrow} /> {t('Links.Changelog') /* Changelog */}
           </Flex>
         ),
         AppPages.CHANGELOG,
       ),
       getItem(
         <Flex>
-          <CoffeeIcon style={{ marginRight: 5 }} /> {t('Links.Kofi') /* Ko-fi */}
+          <CoffeeIcon className={classes.menuIconLink} /> {t('Links.Kofi') /* Ko-fi */}
         </Flex>,
         'link donate',
         undefined,
@@ -157,7 +158,7 @@ const MenuDrawer = () => {
       ),
       getItem(
         <Flex>
-          <DiscordIcon style={{ marginRight: 5 }} /> {t('Links.Discord') /* Discord */}
+          <DiscordIcon className={classes.menuIconLink} /> {t('Links.Discord') /* Discord */}
         </Flex>,
         'link discord',
         undefined,
@@ -166,7 +167,7 @@ const MenuDrawer = () => {
       ),
       getItem(
         <Flex>
-          <GithubIcon style={{ marginRight: 5 }} /> {t('Links.Github') /* GitHub */}
+          <GithubIcon className={classes.menuIconLink} /> {t('Links.Github') /* GitHub */}
         </Flex>,
         'link github',
         undefined,
@@ -176,7 +177,7 @@ const MenuDrawer = () => {
       officialOnly
         ? getItem(
           <Flex>
-            <IconLink style={{ marginRight: 5 }} /> {t('Links.Leaks') /* Beta content */}
+            <IconLink className={classes.menuIconLink} /> {t('Links.Leaks') /* Beta content */}
           </Flex>,
           'link leaks',
           undefined,
@@ -185,7 +186,7 @@ const MenuDrawer = () => {
         )
         : getItem(
           <Flex>
-            <IconLink style={{ marginRight: 5 }} /> {t('Links.Unleak') /* No leaks */}
+            <IconLink className={classes.menuIconLink} /> {t('Links.Unleak') /* No leaks */}
           </Flex>,
           'link leaks free',
           undefined,

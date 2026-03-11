@@ -19,6 +19,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
+import classes from './CharacterGrid.module.css'
 
 const defaultColDef: ColDef<Character> = {
   sortable: false,
@@ -125,7 +126,7 @@ function cellNameRenderer(params: IRowNode<Character>) {
       .map((section) => section.trim())
 
   const nameSectionRender = nameSections
-    .map((section, index) => <span key={index} style={{ display: 'inline-block' }}>{section}</span>)
+    .map((section, index) => <span key={index} className={classes.nameSection}>{section}</span>)
 
   const equippedNumber = data.equipped ? Object.values(data.equipped).filter((x) => x != undefined).length : 0
   let color = '#81d47e'
@@ -133,23 +134,11 @@ function cellNameRenderer(params: IRowNode<Character>) {
   if (equippedNumber < 1) color = '#d72f2f'
 
   return (
-    <Flex align='center' justify='flex-start' style={{ height: '100%', width: '100%' }}>
-      <Text
-        style={{
-          margin: 'auto',
-          padding: '0px 5px',
-          textAlign: 'center',
-          overflow: 'hidden',
-          whiteSpace: 'break-spaces',
-          textWrap: 'wrap',
-          fontSize: 14,
-          width: '100%',
-          lineHeight: '18px',
-        }}
-      >
+    <Flex align='center' justify='flex-start' className={classes.nameContainer}>
+      <Text className={classes.nameText}>
         {nameSectionRender}
       </Text>
-      <div style={{ display: 'block', width: 3, height: '100%', backgroundColor: color, zIndex: 2 }} />
+      <div className={classes.equippedIndicator} style={{ backgroundColor: color }} />
     </Flex>
   )
 }
@@ -161,7 +150,7 @@ function cellImageRenderer(params: IRowNode<Character>) {
   return (
     <img
       src={characterIconSrc}
-      style={{ flex: '0 0 auto', maxWidth: '100%', width: 48 }}
+      className={classes.characterIcon}
     />
   )
 }

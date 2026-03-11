@@ -1,4 +1,5 @@
-import { Flex, Select, Text as MantineText } from '@mantine/core'
+import { Flex, Select } from '@mantine/core'
+import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
 import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
@@ -8,13 +9,6 @@ import {
   ComponentProps,
   ComponentType,
 } from 'react'
-const justify = 'flex-start'
-const align = 'center'
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-const Text = (props: React.PropsWithChildren<{ style?: React.CSSProperties }>) => (
-  <MantineText style={{ whiteSpace: 'pre-line', ...props.style }} {...props} />
-)
 
 export interface FormSelectProps {
   disabled?: boolean
@@ -65,7 +59,7 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   )
 
   return (
-    <Flex justify={justify} align={align} style={{ width: props.fullWidth ? '100%' : undefined }}>
+    <Flex justify={conditionalJustify} align={conditionalAlign} style={{ width: props.fullWidth ? '100%' : undefined }}>
       {internalSelect}
       <Text>{props.fullWidth ? null : props.text}</Text>
     </Flex>

@@ -33,6 +33,7 @@ import {
   onCharacterModalOk,
   Preset,
   presetCharacters,
+  setShowcaseForm,
   ShowcaseTabForm,
   submitForm,
 } from 'lib/tabs/tabShowcase/showcaseTabController'
@@ -62,7 +63,7 @@ export default function ShowcaseTab() {
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
 
   const showcaseForm = useForm<ShowcaseTabForm>({ initialValues: { scorerId: scorerId ?? '' } })
-  window.showcaseTabForm = showcaseForm
+  setShowcaseForm(showcaseForm)
 
   const activeKey = useGlobalStore((s) => s.activeKey)
   const { t } = useTranslation(['relicScorerTab', 'common'])

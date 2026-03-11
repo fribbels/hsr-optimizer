@@ -1,5 +1,5 @@
-import type { UseFormReturnType } from '@mantine/form'
-import { ShowcaseTabForm } from 'lib/tabs/tabShowcase/showcaseTabController'
+// This file must be a module for `declare global` to work
+export {}
 
 type Jipt = {
   start(): void,
@@ -23,9 +23,6 @@ declare global {
   interface Window {
     // Crowdin in-context translation tool (added by CI)
     jipt?: Jipt
-
-    // Mantine form instance for showcase tab (to be migrated)
-    showcaseTabForm: UseFormReturnType<ShowcaseTabForm>
 
     // File System API
     showSaveFilePicker: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>

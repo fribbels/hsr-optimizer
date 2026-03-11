@@ -12,6 +12,7 @@ import {
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
+import classes from './LoadDataSubmenu.module.css'
 
 enum Stages {
   LOAD_FILE = 0,
@@ -75,7 +76,7 @@ export function LoadDataSubmenu() {
 
   function LoadDataContentUploadFile() {
     return (
-      <Flex style={{ minHeight: 100 }}>
+      <Flex className={classes.stageContainer}>
         <Flex direction="column" gap={10}>
           <Text>
             {t('Stage1.Label') /* Load your optimizer data from a file. */}
@@ -113,7 +114,7 @@ export function LoadDataSubmenu() {
   function ConfirmLoadData() {
     if (!currentSave?.relics || !currentSave.characters) {
       return (
-        <Flex style={{ minHeight: 100 }}>
+        <Flex className={classes.stageContainer}>
           <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
             {
               /* Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab? */
@@ -124,7 +125,7 @@ export function LoadDataSubmenu() {
       )
     }
     return (
-      <Flex style={{ minHeight: 100 }}>
+      <Flex className={classes.stageContainer}>
         <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
           <Text>
             {
@@ -142,7 +143,7 @@ export function LoadDataSubmenu() {
 
   function LoadCompleted() {
     return (
-      <Flex style={{ minHeight: 100 }}>
+      <Flex className={classes.stageContainer}>
         <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
           <Text>
             {t('Stage3.SuccessMessage') /* Done! */}

@@ -1,8 +1,8 @@
 import { Flex } from '@mantine/core'
 import { RightIcon } from 'icons/RightIcon'
 import { SubStats } from 'lib/constants/constants'
-import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import { Renderer } from 'lib/rendering/renderer'
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
@@ -25,7 +25,7 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic, 
     return (
       <img
         src={Assets.getBlank()}
-        style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
+        className={iconClasses.statIcon}
       />
     )
   }
@@ -43,7 +43,7 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic, 
       <Flex>
         <img
           src={Assets.getStatIcon(stat.stat)}
-          style={{ width: iconSize, height: iconSize, marginRight: 2, marginLeft: -3 }}
+          className={iconClasses.statIcon}
         />
         {t(`ReadableStats.${stat.stat}`)}
       </Flex>

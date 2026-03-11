@@ -1,6 +1,7 @@
 import { Flex } from '@mantine/core'
 
 import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import { ReactElement } from 'react'
 
 const ShowcaseRarity = ({
@@ -9,7 +10,7 @@ const ShowcaseRarity = ({
   const children: ReactElement[] = []
   for (let i = 0; i < rarity; i++) {
     children.push(
-      <img src={Assets.getStar()} key={i} style={{ width: 20, height: 20 }} />,
+      <img src={Assets.getStar()} key={i} className={iconClasses.icon20} />,
     )
   }
   return (

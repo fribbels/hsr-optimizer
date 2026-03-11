@@ -37,6 +37,7 @@ import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 import { useGlobalStore } from 'lib/state/db'
+import classes from './RelicFilterBar.module.css'
 
 const tagHeight = 34
 const imgWidth = 34
@@ -121,7 +122,7 @@ export default function RelicFilterBar() {
           <HeaderText>{t('RelicFilterBar.Part') /* Part */}</HeaderText>
           <SegmentedFilterRow currentFilter={filters.part} setCurrentFilters={setFilter('part')} tags={partsData} flexBasis='15%' noHeight />
         </Flex>
-        <Flex direction="column" style={{ height: '100%' }} flex={1}>
+        <Flex direction="column" className={classes.enhanceColumn} flex={1}>
           <HeaderText>{t('RelicFilterBar.Enhance') /* Enhance */}</HeaderText>
           <SegmentedFilterRow currentFilter={filters.enhance} setCurrentFilters={setFilter('enhance')} tags={enhanceData} flexBasis='15%' noHeight />
         </Flex>
@@ -161,7 +162,7 @@ export default function RelicFilterBar() {
         </Flex>
         <Flex direction="column" flex={0.4}>
           <HeaderText>{t('RelicFilterBar.Clear') /* Clear */}</HeaderText>
-          <Button variant="default" leftSection={<IconEraser size={16} />} onClick={resetFilters} style={{ flexGrow: 1, height: '100%' }}>
+          <Button variant="default" leftSection={<IconEraser size={16} />} onClick={resetFilters} className={classes.clearButton}>
             {t('RelicFilterBar.ClearButton') /* Clear all filters */}
           </Button>
         </Flex>
@@ -213,7 +214,7 @@ export default function RelicFilterBar() {
             <Button
               variant="default"
               onClick={scoringClicked}
-              style={{ flex: 1, padding: '0px' }}
+              className={classes.scoringButton}
             >
               {t('RelicFilterBar.ScoringButton') /* Scoring algorithm */}
             </Button>
@@ -261,8 +262,8 @@ function generateTextTags(arr: [key: number, value: string][]) {
   return arr.map((x) => ({
     key: x[0],
     display: (
-      <Flex style={{ height: tagHeight }} justify='space-around' align='center'>
-        <Text style={{ fontSize: 18 }}>
+      <Flex className={classes.tagContainer}>
+        <Text className={classes.tagText}>
           {x[1]}
         </Text>
       </Flex>
@@ -301,7 +302,7 @@ function generateInitialRollsTags(arr: number[]) {
 function generatePartsTags(keys: Parts[], srcFn: (s: string) => string) {
   return keys.map((key) => ({
     key,
-    display: <img style={{ width: imgWidth }} src={srcFn(key)} />,
+    display: <img className={classes.partImage} src={srcFn(key)} />,
   }))
 }
 

@@ -11,6 +11,7 @@ import useRelicsTabStore, {
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
+import classes from './Toolbar.module.css'
 
 export function Toolbar() {
   const {
@@ -42,7 +43,7 @@ export function Toolbar() {
   return (
     <Flex gap={10} justify='space-between'>
       <Button
-        style={{ width: 170 }}
+        className={classes.actionButton}
         disabled={selectedRelicsIds.length !== 1}
         onClick={RelicsTabController.editClicked}
       >
@@ -60,7 +61,7 @@ export function Toolbar() {
         open={deleteConfirmOpen}
       >
         <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''}>
-          <Button style={{ width: 170 }} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
+          <Button className={classes.actionButton} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
             {t('DeleteRelic.ButtonText') /* Delete relic */}
           </Button>
         </Tooltip>
@@ -69,7 +70,7 @@ export function Toolbar() {
       <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''}>
         <Button
           onClick={RelicsTabController.addClicked}
-          style={{ width: 170 }}
+          className={classes.actionButton}
           disabled={isLiveImport}
         >
           {t('AddRelic') /* Add New Relic */}
@@ -77,7 +78,7 @@ export function Toolbar() {
       </Tooltip>
 
       <RelicLocator relic={selectedRelic} />
-      <Flex style={{ display: 'block' }}>
+      <Flex className={classes.tooltipBlock}>
         <TooltipImage type={Hint.relicLocation()} />
       </Flex>
 
@@ -85,9 +86,9 @@ export function Toolbar() {
         value={String(insightsMode)}
         onChange={(value) => setInsightsMode(Number(value) as RelicInsights)}
         data={relicInsightOptions}
-        style={{ width: 275 }}
+        className={classes.insightSelect}
       />
-      <Flex style={{ display: 'block' }}>
+      <Flex className={classes.tooltipBlock}>
         <TooltipImage type={Hint.relicInsight()} />
       </Flex>
 
@@ -95,7 +96,7 @@ export function Toolbar() {
         value={String(insightsCharacters)}
         onChange={(value) => setInsightsCharacters(Number(value) as InsightCharacters)}
         data={characterPlotOptions}
-        style={{ width: 275 }}
+        className={classes.insightSelect}
       />
     </Flex>
   )

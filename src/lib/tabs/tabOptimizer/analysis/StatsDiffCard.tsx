@@ -9,16 +9,14 @@ import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/c
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
-import { cardShadow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
+import classes from './StatsDiffCard.module.css'
 
 const baseCardHeight = 429
 const basePortraitHeight = 400
 const extraRowHeight = 27
-const cardWidth = 730
-const border = '1px solid rgb(53, 75, 125)'
 
 export function StatsDiffCard(props: {
   analysis: OptimizerResultAnalysis,
@@ -30,25 +28,13 @@ export function StatsDiffCard(props: {
 
   return (
     <Flex
-      style={{
-        borderRadius: 5,
-        width: cardWidth,
-        height: cardHeight,
-      }}
+      className={classes.outerCard}
+      style={{ height: cardHeight }}
       gap={10}
     >
       <CardImage analysis={analysis} portraitHeight={portraitHeight} />
 
-      <Flex
-        style={{
-          borderRadius: 5,
-          width: cardWidth,
-          overflow: 'hidden',
-          padding: 10,
-          background: '#243356',
-          boxShadow: cardShadow,
-        }}
-      >
+      <Flex className={classes.statsPanel}>
         <StatDiffSummary analysis={analysis} />
       </Flex>
     </Flex>
@@ -116,15 +102,15 @@ function DiffRow(props: {
 
   return (
     <Flex gap={12} align='center'>
-      <div style={{ width: 240 }}>
+      <div className={classes.oldStatColumn}>
         <StatRow finalStats={oldStats} stat={stat == 'COMBO_DMG' ? 'simScore' : stat} value={stat == 'COMBO_DMG' ? oldValue : undefined} />
       </div>
 
-      <span style={{ marginLeft: 15, marginRight: 15, fontSize: 14, lineHeight: '17px' }}>
+      <span className={classes.arrow}>
         ➤
       </span>
 
-      <Flex style={{ width: 55 }} justify='end'>
+      <Flex className={classes.newValueColumn} justify='end'>
         <RenderValue value={valueDisplay} stat={stat} />
       </Flex>
 
@@ -169,7 +155,7 @@ function DiffRender(props: { oldValue: number, newValue: number, stat: string })
   return (
     <Flex style={{ color: color, width: 90 }} gap={10} justify='end' align='center'>
       <RenderValue value={valueDisplay} stat={stat} comboDiff={true} />
-      <span style={{ fontSize: 10, lineHeight: '17px' }}>
+      <span className={classes.arrowIcon}>
         {icon}
       </span>
     </Flex>
@@ -202,15 +188,7 @@ function visualDiff(n1: number, n2: number, stat: string) {
 
 function CardImage(props: { analysis: OptimizerResultAnalysis, portraitHeight: number }) {
   return (
-    <div
-      style={{
-        overflow: 'hidden',
-        boxShadow: cardShadow,
-        borderRadius: 5,
-        height: '100%',
-        background: '#243356',
-      }}
-    >
+    <div className={classes.cardImageContainer}>
       <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true} parentH={props.portraitHeight} />
     </div>
   )

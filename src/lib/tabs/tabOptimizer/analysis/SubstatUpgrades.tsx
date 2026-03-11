@@ -1,6 +1,5 @@
 import { Flex, Table } from '@mantine/core'
 import { SubStats } from 'lib/constants/constants'
-import { iconSize } from 'lib/constants/constantsUi'
 import { AKeyType, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
@@ -8,7 +7,6 @@ import {
   calculateStatUpgrades,
   OptimizerResultAnalysis,
 } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
-import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
   localeNumber_0,
   localeNumber_00,
@@ -16,6 +14,7 @@ import {
 import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
+import classes from './SubstatUpgrades.module.css'
 
 type Metrics = 'COMBO_DMG' | 'EHP'
 
@@ -85,34 +84,28 @@ export function DamageUpgrades(props: {
     displays.push(
       <Table
         key={group.key}
-        style={{
-          flex: '1 1 calc(30% - 10px)',
-          border: '1px solid #354b7d',
-          boxShadow: cardShadowNonInset,
-          borderRadius: 5,
-          overflow: 'hidden',
-        }}
+        className={classes.upgradeTable}
       >
         <Table.Thead>
           <Table.Tr>
-            <Table.Th style={{ textAlign: 'center', width: 100 }}>{t('ColumnHeaders.Substat')}</Table.Th>
-            <Table.Th style={{ textAlign: 'center', width: 110 }}>{t(`ColumnHeaders.${group.key}_P`)}</Table.Th>
-            <Table.Th style={{ textAlign: 'center', width: 110 }}>{t(`ColumnHeaders.${group.key}`)}</Table.Th>
+            <Table.Th className={classes.substatHeader}>{t('ColumnHeaders.Substat')}</Table.Th>
+            <Table.Th className={classes.columnHeader}>{t(`ColumnHeaders.${group.key}_P`)}</Table.Th>
+            <Table.Th className={classes.columnHeader}>{t(`ColumnHeaders.${group.key}`)}</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
           {group.upgrades.map((item) => (
             <Table.Tr key={item.key}>
-              <Table.Td style={{ textAlign: 'center' }}>
+              <Table.Td className={classes.centeredCell}>
                 <Flex>
-                  <img src={Assets.getStatIcon(item.key)} style={{ width: iconSize, height: iconSize, marginLeft: 3, marginRight: 3 }} />
+                  <img src={Assets.getStatIcon(item.key)} className={classes.statIcon} />
                   {tCommon(item.key)}
                 </Flex>
               </Table.Td>
-              <Table.Td style={{ textAlign: 'center' }}>
+              <Table.Td className={classes.centeredCell}>
                 {item.percent == 0 ? '' : `${localeNumber_00(Utils.truncate100ths(item.percent * 100))}%`}
               </Table.Td>
-              <Table.Td style={{ textAlign: 'center' }}>
+              <Table.Td className={classes.centeredCell}>
                 {item.value == 0 ? '' : `${localeNumber_0(item.value)}`}
               </Table.Td>
             </Table.Tr>
@@ -128,11 +121,7 @@ export function DamageUpgrades(props: {
       gap={10}
       justify='space-between'
       wrap="wrap"
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '10px',
-      }}
+      className={classes.upgradesGrid}
     >
       {displays}
     </Flex>

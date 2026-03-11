@@ -1,0 +1,32 @@
+.uploadStage {
+  min-height: 100px;
+  margin-bottom: 30px;
+}
+
+.stageContainer {
+  min-height: 100px;
+}
+
+.confirmStage {
+  min-height: 250px;
+}
+
+.alertNotice {
+  margin-bottom: 10px;
+}
+
+.dividerLine {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.connectionDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dividerText {
+  font-size: 12px;
+}

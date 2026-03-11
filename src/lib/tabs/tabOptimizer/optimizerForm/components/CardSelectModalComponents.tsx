@@ -7,6 +7,7 @@ import {
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'react'
+import classes from './CardSelectModalComponents.module.css'
 
 const parentW = 100
 const parentH = 150
@@ -30,33 +31,12 @@ export const CardGridItemContent = (props: {
       <Text
         component="div"
         lineClamp={props.rows}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          width: '110%',
-          textAlign: 'center',
-          background: '#282B31',
-          color: '#D0D0D2',
-          marginLeft: '-5%',
-          paddingLeft: 10,
-          paddingRight: 10,
-          lineHeight: '16px',
-          height: 18 * props.rows,
-          alignItems: 'center',
-          marginBottom: 0,
-          fontSize: 13,
-        }}
+        className={classes.cardTextOverlay}
+        style={{ height: 18 * props.rows }}
       >
         <div
-          style={{
-            position: 'relative',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            maxHeight: 18 * props.rows,
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-          }}
+          className={classes.cardTextInner}
+          style={{ maxHeight: 18 * props.rows }}
         >
           {props.text}
         </div>
@@ -69,7 +49,7 @@ export function generatePathTags() {
   return Object.keys(PathNames).map((x) => {
     return {
       key: x as PathName,
-      display: <img style={{ width: 32 }} src={Assets.getPath(x)} />,
+      display: <img className={classes.pathImage} src={Assets.getPath(x)} />,
     }
   })
 }
@@ -78,12 +58,12 @@ export function generateRarityTags() {
   return [5, 4, 3].map((x) => {
     const stars: ReactElement[] = []
     for (let i = 0; i < x; i++) {
-      stars.push(<img key={i} style={{ width: 16 }} src={Assets.getStar()} />)
+      stars.push(<img key={i} className={classes.starImage} src={Assets.getStar()} />)
     }
     return {
       key: x,
       display: (
-        <Flex flex={1} justify='center' align='center' style={{ marginTop: 1 }}>
+        <Flex flex={1} justify='center' align='center' className={classes.rarityContainer}>
           {stars}
         </Flex>
       ),
@@ -95,7 +75,7 @@ export function generateElementTags() {
   return Object.keys(ElementToDamage).map((x) => {
     return {
       key: x as ElementName,
-      display: <img style={{ width: 30 }} src={Assets.getElement(x)} />,
+      display: <img className={classes.elementImage} src={Assets.getElement(x)} />,
     }
   })
 }
@@ -141,7 +121,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
             backgroundColor: currentFilter.includes(tag.key) ? theme.colors.blue[6] : 'transparent',
           }}
         >
-          <Flex align='center' justify='space-around' style={{ height: '100%' }}>
+          <Flex align='center' justify='space-around' className={classes.segmentedFilterInner}>
             {tag.display}
           </Flex>
         </UnstyledButton>

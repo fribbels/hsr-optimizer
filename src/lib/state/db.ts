@@ -39,7 +39,7 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
@@ -1364,7 +1364,7 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
   const metadata = DB.getMetadata()
 
   // Set the character first (sets focus + characterId in store)
-  OptimizerTabController.setCharacter(characterId)
+  setCharacter(characterId)
 
   // Build teammate states
   const teammateIndices = [0, 1, 2] as const

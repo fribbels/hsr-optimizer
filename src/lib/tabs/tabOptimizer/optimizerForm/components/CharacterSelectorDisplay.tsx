@@ -16,7 +16,7 @@ import {
   optimizerTabDefaultGap,
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
@@ -137,7 +137,7 @@ export default function CharacterSelectorDisplay() {
           onChange={(id) => {
             if (id) {
               useOptimizerUIStore.getState().setFocusCharacterId(id)
-              OptimizerTabController.updateCharacter(id)
+              updateCharacter(id)
               SaveState.delayedSave()
             }
           }}

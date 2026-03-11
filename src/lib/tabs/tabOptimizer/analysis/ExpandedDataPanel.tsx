@@ -17,7 +17,7 @@ import {
   FormRow,
   OptimizerMenuIds,
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import React, { useMemo } from 'react'
 
@@ -33,12 +33,12 @@ export function ExpandedDataPanel() {
     return <></>
   }
 
-  let form = getCachedForm() ?? OptimizerTabController.getForm()
+  let form = getCachedForm() ?? getForm()
   const pinnedRowData = getPinnedRowData()
 
   // Check the cached form first, otherwise try the current form
   if (mismatchedCharacter(optimizerTabFocusCharacter, form)) {
-    form = OptimizerTabController.getForm()
+    form = getForm()
     if (mismatchedCharacter(optimizerTabFocusCharacter, form)) {
       return <></>
     }

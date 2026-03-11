@@ -106,27 +106,33 @@ export type RelicFilterFields = {
 }
 
 // ---- Complete optimizer form state ----
+//
+// This is the "optimizer build config" — everything that gets SAVED per
+// character build and/or sent to the optimization worker as part of the
+// request. If a new field should persist when the user saves a build,
+// it belongs here. For transient/runtime state (progress, selected rows,
+// modal open/close), use useOptimizerUIStore instead.
 
 export type OptimizerFormState = {
-  // Character identity
+  // ── Character & Light Cone ──
   characterId: CharacterId | undefined
   characterEidolon: Eidolon
   characterLevel: number
-
-  // Light cone
   lightCone: LightConeId | undefined
   lightConeLevel: number
   lightConeSuperimposition: SuperImpositionLevel
 
-  // Teammates (tuple)
+  // ── Team ──
   teammates: [TeammateState, TeammateState, TeammateState]
+  teamRelicSet: string | undefined
+  teamOrnamentSet: string | undefined
 
-  // Conditionals
+  // ── Conditionals ──
   characterConditionals: ConditionalValueMap
   lightConeConditionals: ConditionalValueMap
   setConditionals: SetConditionals
 
-  // Relic filters
+  // ── Relic Filters (affect which relics enter permutations) ──
   enhance: RelicEnhance
   grade: RelicGrade
   rank: number
@@ -144,11 +150,11 @@ export type OptimizerFormState = {
   ornamentSets: OrnamentSetFilters
   relicSets: RelicSetFilters
 
-  // Stat / rating filters
+  // ── Result Filters (affect which builds pass post-optimization) ──
   statFilters: StatFilterState
   ratingFilters: RatingFilterState
 
-  // Enemy config
+  // ── Enemy Config ──
   enemyCount: number
   enemyElementalWeak: boolean
   enemyLevel: number
@@ -157,31 +163,27 @@ export type OptimizerFormState = {
   enemyEffectResistance: number
   enemyWeaknessBroken: boolean
 
-  // Combo
+  // ── Rotation Config (defines the damage simulation) ──
+  comboType: ComboType
   comboStateJson: string
   comboTurnAbilities: TurnAbilityName[]
   comboPreprocessor: boolean
-  comboType: ComboType
   comboDot: number
 
-  // Scoring / display
-  weights: ScoringMetadata['stats']
-  statDisplay: StatDisplay
-  memoDisplay: MemoDisplay
+  // ── Optimization Settings (affect optimizer behavior) ──
   resultSort: keyof typeof SortOption | undefined
   resultsLimit: number
+  deprioritizeBuffs: boolean
+  weights: ScoringMetadata['stats']
 
-  // Combat buffs
+  // ── Combat Buffs ──
   combatBuffs: Record<string, number>
 
-  // Team set contribution
-  teamRelicSet: string | undefined
-  teamOrnamentSet: string | undefined
+  // ── Display Preferences (saved per build but only affect UI rendering) ──
+  statDisplay: StatDisplay
+  memoDisplay: MemoDisplay
 
-  // Optimizer options
-  deprioritizeBuffs: boolean
-
-  // Stat sim
+  // ── Stat Simulation Config ──
   statSim: {
     key: string
     benchmarks: SimulationRequest

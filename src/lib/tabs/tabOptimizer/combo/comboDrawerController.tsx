@@ -27,7 +27,7 @@ import {
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import { CharacterId } from 'types/character'
 import {
@@ -824,7 +824,7 @@ export function updateFormState(comboState: ComboState) {
   useOptimizerFormStore.getState().setComboStateJson(JSON.stringify(comboState))
   useOptimizerFormStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
 
-  const form = OptimizerTabController.getForm()
+  const form = getForm()
   DB.replaceCharacterForm(form)
 
   SaveState.delayedSave(1000)

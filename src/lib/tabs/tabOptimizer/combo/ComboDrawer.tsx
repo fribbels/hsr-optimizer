@@ -16,7 +16,7 @@ import {
   updateFormState,
   updatePartitionActivation,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   useEffect,
   useRef,
@@ -26,6 +26,8 @@ import Selecto from 'react-selecto'
 
 export { ContentRows } from 'lib/tabs/tabOptimizer/combo/ComboConditionalsGroupRow'
 export { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
+
+const drawerContentStyle = { width: 1560, height: '100%' } as const
 
 export function ComboDrawer() {
   const { close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
@@ -41,7 +43,7 @@ export function ComboDrawer() {
 
   useEffect(() => {
     if (isOpenComboDrawer) {
-      const form = OptimizerTabController.getForm()
+      const form = getForm()
       if (!form?.characterId || !form.characterConditionals) return
 
       const newComboState = initializeComboState(form, true)
@@ -64,7 +66,7 @@ export function ComboDrawer() {
       size={1625}
       className='comboDrawer'
     >
-      <div style={{ width: 1560, height: '100%' }}>
+      <div style={drawerContentStyle}>
         <StateDisplay comboState={comboState} onComboStateChange={setComboState} />
         <Selecto
           className='selecto-selection'

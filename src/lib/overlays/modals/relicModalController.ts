@@ -16,7 +16,7 @@ import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import {
   partIsOrnament,
@@ -77,7 +77,7 @@ export const RelicModalController = {
 
     setTimeout(() => {
       SaveState.delayedSave()
-      OptimizerTabController.updateFilters()
+      recalculatePermutations()
     }, 200)
 
     return updatedRelic

@@ -4,6 +4,7 @@ import i18next from 'i18next'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { equipClicked } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -12,6 +13,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 const defaultGap = 5
+const buttonStyle: React.CSSProperties = { width: '100px' }
 
 function addToPinned() {
   const gridApi = optimizerGridApi()
@@ -58,18 +60,18 @@ export const ResultsSection = React.memo(function ResultsSection(props: { isFull
         <TooltipImage type={Hint.actions()} />
       </Flex>
       <Flex gap={props.isFullSize ? defaultGap : 8} justify='space-around'>
-        <Button onClick={OptimizerTabController.equipClicked} style={{ width: '100px' }}>
+        <Button onClick={equipClicked} style={buttonStyle}>
           {t('Equip') /* Equip */}
         </Button>
-        <Button variant="default" onClick={filterClicked} style={{ width: '100px' }}>
+        <Button variant="default" onClick={filterClicked} style={buttonStyle}>
           {t('Filter') /* Filter */}
         </Button>
       </Flex>
       <Flex gap={props.isFullSize ? defaultGap : 8} justify='space-around'>
-        <Button variant="default" style={{ width: '100px' }} onClick={addToPinned}>
+        <Button variant="default" style={buttonStyle} onClick={addToPinned}>
           {t('Pin') /* Pin build */}
         </Button>
-        <Button variant="default" style={{ width: '100px' }} onClick={clearPinned}>
+        <Button variant="default" style={buttonStyle} onClick={clearPinned}>
           {t('Clear') /* Clear pins */}
         </Button>
       </Flex>

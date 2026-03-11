@@ -30,7 +30,7 @@ import {
   OptimizerMenuIds,
   TeammateFormRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
-import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { Utils } from 'lib/utils/utils'
 import React, { useEffect, useMemo } from 'react'
 import { DBMetadata } from 'types/metadata'
@@ -42,7 +42,7 @@ export default function OptimizerForm() {
   useEffect(() => {
     const characters = DB.getCharacters() || []
     const savedSessionCharacterId = window.store.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
-    OptimizerTabController.updateCharacter(savedSessionCharacterId ?? characters[0]?.id)
+    updateCharacter(savedSessionCharacterId ?? characters[0]?.id)
   }, [])
 
   const dbMetadata = useMemo(() => DB.getMetadata(), [])

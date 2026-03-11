@@ -25,18 +25,11 @@ import DB from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import {
-  equipClicked,
   getForm,
   optimizerFormCache,
-  recalculatePermutations,
-  resetFilters,
-  setCharacter,
-  updateCharacter,
-  validateForm,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { CharacterId } from 'types/character'
 import {
   Form,
   OptimizerForm,
@@ -102,18 +95,6 @@ export const OptimizerTabController = {
     if (element) {
       TsUtils.smoothScrollNearest(element, 250)
     }
-  },
-
-  // Delegate to optimizerFormActions
-  getForm: () => getForm(),
-  validateForm: (form: Form) => validateForm(form),
-  equipClicked: () => equipClicked(),
-  resetFilters: () => resetFilters(),
-  setCharacter: (id: CharacterId) => setCharacter(id),
-  updateCharacter: (characterId: CharacterId) => updateCharacter(characterId),
-
-  updateFilters: () => {
-    recalculatePermutations()
   },
 
   cellClicked: (node: IRowNode<OptimizerDisplayDataStatSim>) => {

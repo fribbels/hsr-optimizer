@@ -43,7 +43,6 @@ export type SavedBuild = Prettify<
 
 export type BuildOptimizerMetadata = {
   comboStateJson: string | null,
-  // TODO: these are optional due to being added later, eventually make these properties required to simplify handling
   comboDot?: Form['comboDot'],
   comboTurnAbilities?: Form['comboTurnAbilities'],
   comboType?: Form['comboType'],

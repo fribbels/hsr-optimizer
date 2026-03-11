@@ -20,7 +20,6 @@ import {
   Character,
   CharacterId,
 } from 'types/character'
-import { Form } from 'types/form'
 import {
   ScoringMetadata,
   ShowcasePreferences,

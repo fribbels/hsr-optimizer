@@ -56,10 +56,7 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import {
-  ArrayFilters,
-  definedEntries,
-} from 'lib/utils/arrayUtils'
+import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
@@ -76,7 +73,6 @@ import { CustomImageConfig } from 'types/customImage'
 import {
   Form,
   StatFilters,
-  Teammate,
   TeammateProperty,
 } from 'types/form'
 import { LightConeId } from 'types/lightCone'
@@ -1551,7 +1547,7 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
 
     baseForm.comboType = meta.comboType ?? meta.comboStateJson ? ComboType.ADVANCED : ComboType.SIMPLE
     if (meta.comboDot) baseForm.comboDot = meta.comboDot
-    if (meta.comboStateJson) baseForm.comboStateJson = TsUtils.clone(meta.comboStateJson)
+    if (meta.comboStateJson) baseForm.comboStateJson = meta.comboStateJson
     if (turnAbilities) baseForm.comboTurnAbilities = turnAbilities
 
     if (meta.statFilters) {

@@ -54,7 +54,7 @@ export function initialiseShowcaseTab(activeKey: AppPages) {
   if (id) submitForm({ scorerId: id })
 
   // add id to url when navigating if a showcase is already loaded
-  if (availableCharacters?.length && scorerId && activeKey === AppPages.SHOWCASE) {
+  if (availableCharacters?.length && scorerId) {
     window.history.replaceState({ id: scorerId }, `profile: ${scorerId}`, PageToRoute[AppPages.SHOWCASE] + `?id=${scorerId}`)
   }
   // load showcase when the user first visits the tab

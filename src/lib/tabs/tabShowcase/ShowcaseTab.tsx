@@ -50,7 +50,7 @@ import {
   Trans,
   useTranslation,
 } from 'react-i18next'
-import { Character } from 'types/character'
+import { Character, CharacterId } from 'types/character'
 import { SettingOptions } from '../../overlays/drawers/SettingsDrawer'
 import styles from './ShowcaseTab.module.css'
 
@@ -138,6 +138,7 @@ function CharacterPreviewSelection() {
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
   const onCharacterModalOk = useShowcaseTabStore((s) => s.onCharacterModalOk)
   const importClicked = useShowcaseTabStore((s) => s.importClicked)
+  const onSelectionChanged = useShowcaseTabStore((s) => s.onSelectionChanged)
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState(selectedCharacter)
@@ -200,31 +201,20 @@ function CharacterPreviewSelection() {
     },
   ]
 
-  const handleMenuClicked = (e: { key: string }) => {
-    importClicked(e.key as 'multiCharacter' | 'singleCharacter')
-  }
 
-  const menuProps = {
-    items,
-    onClick: handleMenuClicked,
-  }
 
-  const options = []
-  for (let i = 0; i < (availableCharacters?.length ?? 0); i++) {
-    const availableCharacter = availableCharacters![i]
-    options.push({
-      label: (
-        <Flex align='center' justify='space-around'>
-          <img
-            className={styles.avatarImage}
-            src={Assets.getCharacterAvatarById(availableCharacter.id)}
-          />
-        </Flex>
-      ),
-      value: availableCharacter.id,
-      key: i,
-    })
-  }
+  const options = availableCharacters?.map((char, i) => ({
+    label: (
+      <Flex align='center' justify='space-around'>
+        <img
+          className={styles.avatarImage}
+          src={Assets.getCharacterAvatarById(char.id)}
+        />
+      </Flex>
+    ),
+    value: char.id,
+    key: i,
+  })) ?? []
 
   return (
     <Flex className={styles.outerWrapper} justify='space-around'>
@@ -277,7 +267,7 @@ function CharacterPreviewSelection() {
               </Flex>
               <Menu.Dropdown>
                 {items.map((item) => (
-                  <Menu.Item key={item.key} onClick={() => handleMenuClicked({ key: item.key })}>
+                  <Menu.Item key={item.key} onClick={() => importClicked(item.key as 'multiCharacter' | 'singleCharacter')}>
                     {item.label}
                   </Menu.Item>
                 ))}
@@ -301,7 +291,7 @@ function CharacterPreviewSelection() {
           className={styles.segmentedControl}
           data={options}
           fullWidth
-          onChange={(value) => useShowcaseTabStore.getState().onSelectionChanged(value as any)}
+          onChange={(value) => onSelectionChanged(value as CharacterId)}
           value={selectedCharacter?.id}
         />
 

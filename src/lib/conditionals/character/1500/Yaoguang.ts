@@ -1,4 +1,5 @@
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Qingque } from 'lib/conditionals/character/1200/Qingque'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import {
@@ -313,20 +314,27 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
         const attackElement = action.hits?.find((hit) => hit.directHit && hit.damageElement !== ElementTag.None)?.damageElement ?? ElementTag.None
 
         // Great Boon triggers 1 time, or 2 times if the attack consumes Skill Points
-        const greatBoonCount = (self.isTeammate && action.actionType === AbilityKind.SKILL && self.ownConditionals.consumesSkillPoints) ? 2 : 1
+        // When proccing twice, double the elation scaling value instead of adding a second hit
+        const doubleElationOverrides = new Set<string>([
+          Sparxie.id,
+          Qingque.id,
+        ])
+        const isOverrideBasic = (action.actionType === AbilityKind.BASIC && doubleElationOverrides.has(action.actorId))
+        const isDoubleProc = self.isTeammate
+          && self.ownConditionals.consumesSkillPoints
+          && (action.actionType === AbilityKind.SKILL || isOverrideBasic)
+        const greatBoonCount = isDoubleProc ? 2 : 1
 
-        for (let i = 0; i < greatBoonCount; i++) {
-          const greatBoonHit = HitDefinitionBuilder.elation()
-            .damageType(DamageTag.ELATION)
-            .damageElement(attackElement)
-            .elationScaling(talentElationScaling)
-            .punchlineStacks(certifiedBangerStacks)
-            .toughnessDmg(0)
-            .build() as ElationHit
-          greatBoonHit.minElationOverride = minElation
+        const greatBoonHit = HitDefinitionBuilder.elation()
+          .damageType(DamageTag.ELATION)
+          .damageElement(attackElement)
+          .elationScaling(talentElationScaling * greatBoonCount)
+          .punchlineStacks(certifiedBangerStacks)
+          .toughnessDmg(0)
+          .build() as ElationHit
+        greatBoonHit.minElationOverride = minElation
 
-          action.hits!.push(greatBoonHit)
-        }
+        action.hits!.push(greatBoonHit)
       },
     }],
 

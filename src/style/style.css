@@ -550,6 +550,13 @@ a {
     line-height: 18px !important;
 }
 
+/* Disable Mantine Button loading slide-in animation */
+.mantine-Button-root .mantine-Button-section,
+.mantine-Button-root .mantine-Button-label,
+.mantine-Button-root .mantine-Button-loader {
+    transition: none !important;
+}
+
 /* Body scrollbar with overlayscrollbars */
 .os-scrollbar {
     --os-handle-bg: #95959552 !important;

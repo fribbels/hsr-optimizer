@@ -1,29 +1,28 @@
 import { IconRefresh } from '@tabler/icons-react'
-import { Button, Flex, Select, Text } from '@mantine/core'
-import { TFunction } from 'i18next'
+import { Button, Flex, Select } from '@mantine/core'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
-import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import {
-  Constants,
-  SACERDOS_RELIVED_ORDEAL_1_STACK,
-  SACERDOS_RELIVED_ORDEAL_2_STACK,
-  Sets,
-} from 'lib/constants/constants'
-import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import DB from 'lib/state/db'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
-import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
-import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
-import { ArrayFilters } from 'lib/utils/arrayUtils'
+import {
+  cardHeight,
+  lcInnerH,
+  lcInnerW,
+  lcParentH,
+  lcParentW,
+  lcWidth,
+  parentH,
+  parentW,
+  renderTeammateOrnamentSetOptions,
+  renderTeammateRelicSetOptions,
+  rightPanelWidth,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
+import { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/updateTeammate'
 import React, {
   useMemo,
   useState,
@@ -31,12 +30,9 @@ import React, {
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import {
-  Character,
   CharacterId,
 } from 'types/character'
-import { ReactElement } from 'types/components'
 import {
-  Form,
   TeammateProperty,
 } from 'types/form'
 import {
@@ -45,149 +41,19 @@ import {
 } from 'types/lightCone'
 import { DBMetadata } from 'types/metadata'
 
-const rightPanelWidth = 110
-
-const parentW = rightPanelWidth
-const parentH = rightPanelWidth
-
-const lcWidth = 120
-
-const lcParentW = lcWidth
-const lcParentH = lcWidth
-const lcInnerW = lcWidth
-const lcInnerH = lcWidth
-
-const cardHeight = 490
-
-export function optionRenderer() {
-  return (option: {
-    data: {
-      value: string;
-      desc: string;
-    };
-  }) => (
-    option.data.value
-      ? (
-        <Flex gap={10} align='center'>
-          <Flex>
-            <img
-              src={Assets.getSetImage(option.data.value, Constants.Parts.PlanarSphere)}
-              style={{ width: 26, height: 26 }}
-            />
-          </Flex>
-          {option.data.desc}
-        </Flex>
-      )
-      : (
-        <Text>
-          None
-        </Text>
-      )
-  )
-}
-
-export const labelRender = (set: string, text: string) => (
-  <Flex align='center' gap={3}>
-    <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 20, height: 20 }}></img>
-    <Text style={{ fontSize: 12 }}>
-      {text}
-    </Text>
-  </Flex>
-)
-
-function getDefaultTeammateForm() {
-  return {
-    characterEidolon: 0,
-    characterConditionals: {},
-    lightConeSuperimposition: 1,
-    lightConeConditionals: {},
-  }
-}
-
-const teammateRelicSets = [
-  Sets.MessengerTraversingHackerspace,
-  Sets.WatchmakerMasterOfDreamMachinations,
-  Sets.SacerdosRelivedOrdeal,
-  Sets.WarriorGoddessOfSunAndThunder,
-  Sets.WorldRemakingDeliverer,
-  Sets.DivinerOfDistantReach,
-]
-const teammateOrnamentSets = [
-  Sets.BrokenKeel,
-  Sets.FleetOfTheAgeless,
-  Sets.PenaconyLandOfTheDreams,
-  Sets.LushakaTheSunkenSeas,
-  Sets.AmphoreusTheEternalLand,
-]
-
-// Find 4 piece relic sets and 2 piece ornament sets
-function calculateTeammateSets(teammateCharacter: Character) {
-  const relics = Object.values(teammateCharacter.equipped).map((id) => DB.getRelicById(id)).filter(ArrayFilters.nonNullable)
-  const activeTeammateSets: {
-    teamRelicSet?: string;
-    teamOrnamentSet?: string;
-  } = {}
-  for (const set of teammateRelicSets) {
-    if (relics.filter((relic) => relic.set == set).length == 4) {
-      if (set == Sets.MessengerTraversingHackerspace) continue
-      if (set == Sets.SacerdosRelivedOrdeal) {
-        if (
-          teammateCharacter.id == '1313' // Sunday
-          || teammateCharacter.id == '1306' // Sparkle
-        ) {
-          activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_2_STACK
-        } else {
-          activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_1_STACK
-        }
-      } else {
-        activeTeammateSets.teamRelicSet = set
-      }
-    }
-  }
-
-  for (const set of teammateOrnamentSets) {
-    if (relics.filter((relic) => relic.set == set).length == 2) {
-      activeTeammateSets.teamOrnamentSet = set
-    }
-  }
-
-  return activeTeammateSets
-}
-
-function countTeammates() {
-  const state = useOptimizerFormStore.getState()
-  return state.teammates.filter((teammate) => teammate?.characterId).length
-}
-
-export type OptionRender = {
-  value: string;
-  desc: string;
-  label: ReactElement;
-}
-
-export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
-  return () => {
-    return teammateRelicOptions.map((option) => ({
-      value: option.value,
-      desc: option.desc(t),
-      label: labelRender(option.value, option.label(t)),
-    }))
-  }
-}
-
-export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {
-  return () => {
-    return teammateOrnamentOptions.map((option) => ({
-      value: option.value,
-      desc: option.desc(t),
-      label: labelRender(option.value, option.label(t)),
-    }))
-  }
-}
+// Re-export public symbols for backward compatibility
+export {
+  optionRenderer,
+  labelRender,
+  renderTeammateRelicSetOptions,
+  renderTeammateOrnamentSetOptions,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
+export type { OptionRender } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
+export { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/updateTeammate'
 
 const TeammateCard = React.memo(function TeammateCard(props: {
-  index: number;
-  dbMetadata: DBMetadata;
+  index: number
+  dbMetadata: DBMetadata
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const tmIndex = props.index as 0 | 1 | 2
@@ -215,13 +81,13 @@ const TeammateCard = React.memo(function TeammateCard(props: {
 
   const disabled = teammateCharacterId == null
 
-  const teammateRelicSetOptions: OptionRender[] = useMemo(renderTeammateRelicSetOptions(t), [t])
-  const teammateOrnamentSetOptions: OptionRender[] = useMemo(renderTeammateOrnamentSetOptions(t), [t])
+  const teammateRelicSetOptions = useMemo(renderTeammateRelicSetOptions(t), [t])
+  const teammateOrnamentSetOptions = useMemo(renderTeammateOrnamentSetOptions(t), [t])
 
   const superimpositionOptions = useMemo(() => {
     const options: {
-      value: number;
-      label: string;
+      value: number
+      label: string
     }[] = []
     for (let i = 1; i <= 5; i++) {
       options.push({ value: i, label: t('SuperimpositionN', { superimposition: i }) })
@@ -231,8 +97,8 @@ const TeammateCard = React.memo(function TeammateCard(props: {
 
   const eidolonOptions = useMemo(() => {
     const options: {
-      value: number;
-      label: string;
+      value: number
+      label: string
     }[] = []
     for (let i = 0; i <= 6; i++) {
       options.push({ value: i, label: t('EidolonN', { eidolon: i }) })
@@ -271,7 +137,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             disabled={disabled}
             onClick={() => {
               updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: teammateCharacterId } })
-              Message.success(t('TeammateSyncSuccessMessage')) // 'Synced teammate info'
+              Message.success(t('TeammateSyncSuccessMessage'))
             }}
           />
 
@@ -281,7 +147,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             data={eidolonSelectData}
             value={teammateEidolon != null ? String(teammateEidolon) : null}
             onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setTeammateField(tmIndex, 'characterEidolon', Number(val)) }}
-            placeholder={t('EidolonPlaceholder')} // 'Eidolon'
+            placeholder={t('EidolonPlaceholder')}
             disabled={disabled}
           />
         </Flex>
@@ -319,7 +185,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
               data={teammateRelicSelectData}
               value={teammateTeamRelicSet}
               onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
-              placeholder={t('RelicsPlaceholder')} // 'Relics'
+              placeholder={t('RelicsPlaceholder')}
               clearable
               comboboxProps={{ width: 'auto' }}
               disabled={disabled}
@@ -331,7 +197,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
               data={teammateOrnamentSelectData}
               value={teammateTeamOrnamentSet}
               onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
-              placeholder={t('OrnamentsPlaceholder')} // 'Ornaments'
+              placeholder={t('OrnamentsPlaceholder')}
               clearable
               comboboxProps={{ width: 'auto' }}
               disabled={disabled}
@@ -362,7 +228,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             data={superimpositionSelectData}
             value={teammateSuperimposition != null ? String(teammateSuperimposition) : null}
             onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', Number(val)) }}
-            placeholder={t('SuperimpositionPlaceholder')} // 'Superimposition'
+            placeholder={t('SuperimpositionPlaceholder')}
             disabled={disabled}
           />
         </Flex>
@@ -397,79 +263,3 @@ const TeammateCard = React.memo(function TeammateCard(props: {
 })
 
 export default TeammateCard
-
-const TEAMMATE_PROPERTIES: TeammateProperty[] = ['teammate0', 'teammate1', 'teammate2']
-
-const PROPERTY_TO_INDEX: Record<string, 0 | 1 | 2> = { teammate0: 0, teammate1: 1, teammate2: 2 }
-
-export function updateTeammate(changedValues: Partial<Form>) {
-  const property = TEAMMATE_PROPERTIES.find((p) => changedValues[p])
-  const updatedTeammate = property && changedValues[property]
-  if (!updatedTeammate) return
-  const teammateIndex = PROPERTY_TO_INDEX[property]
-
-  useOptimizerUIStore.getState().setTeammateCount(countTeammates())
-
-  if (updatedTeammate.lightCone) {
-    const store = useOptimizerFormStore.getState()
-    const teammate = store.teammates[teammateIndex]
-    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate as any, DB.getMetadata())
-    const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
-
-    if (!controller.teammateDefaults) return
-
-    const mergedConditionals = Object.assign({}, controller.teammateDefaults(), teammate.lightConeConditionals)
-    useOptimizerFormStore.getState().setTeammateField(teammateIndex, 'lightConeConditionals', mergedConditionals)
-  } else if (updatedTeammate.characterId) {
-    const teammateCharacterId = updatedTeammate.characterId
-
-    const store = useOptimizerFormStore.getState()
-    const currentTeammate = store.teammates[teammateIndex]
-    const teammateCharacter = DB.getCharacterById(teammateCharacterId)
-
-    let lightCone = currentTeammate.lightCone
-    let lightConeSuperimposition = currentTeammate.lightConeSuperimposition
-    let characterEidolon = currentTeammate.characterEidolon
-    let teamRelicSet = currentTeammate.teamRelicSet
-    let teamOrnamentSet = currentTeammate.teamOrnamentSet
-
-    if (teammateCharacter) {
-      // Fill out fields based on the teammate's form
-      lightCone = teammateCharacter.form.lightCone
-      lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
-      characterEidolon = teammateCharacter.form.characterEidolon
-      const activeTeammateSets = calculateTeammateSets(teammateCharacter)
-      teamRelicSet = activeTeammateSets.teamRelicSet
-      teamOrnamentSet = activeTeammateSets.teamOrnamentSet
-    } else {
-      lightConeSuperimposition = 1
-      characterEidolon = 0
-    }
-
-    const characterConditionals = CharacterConditionalsResolver.get({
-      characterId: teammateCharacterId,
-      characterEidolon: characterEidolon,
-    })
-
-    let characterConditionalsValues = currentTeammate.characterConditionals
-    if (characterConditionals.teammateDefaults) {
-      characterConditionalsValues = Object.assign({}, characterConditionals.teammateDefaults(), characterConditionalsValues)
-    }
-
-    // Update all teammate fields at once
-    const storeActions = useOptimizerFormStore.getState()
-    storeActions.setTeammateField(teammateIndex, 'characterId', teammateCharacterId)
-    storeActions.setTeammateField(teammateIndex, 'characterEidolon', characterEidolon)
-    storeActions.setTeammateField(teammateIndex, 'lightCone', lightCone)
-    storeActions.setTeammateField(teammateIndex, 'lightConeSuperimposition', lightConeSuperimposition)
-    storeActions.setTeammateField(teammateIndex, 'teamRelicSet', teamRelicSet)
-    storeActions.setTeammateField(teammateIndex, 'teamOrnamentSet', teamOrnamentSet)
-    storeActions.setTeammateField(teammateIndex, 'characterConditionals', characterConditionalsValues)
-
-    applyTeamAwareSetConditionalPresetsToStore()
-  } else if (updatedTeammate.characterId === null) {
-    useOptimizerFormStore.getState().clearTeammate(teammateIndex)
-  } else if (updatedTeammate.lightCone === null) {
-    useOptimizerFormStore.getState().clearTeammateLightCone(teammateIndex)
-  }
-}

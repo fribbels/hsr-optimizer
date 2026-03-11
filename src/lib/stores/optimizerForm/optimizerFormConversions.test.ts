@@ -9,7 +9,9 @@ import {
   buildOptimizerRequest,
   buildSaveForm,
   displayToInternal,
+  internalFormToState,
   internalToDisplay,
+  normalizeForm,
   patchComboConditionalDefault,
 } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { OptimizerFormState } from 'lib/stores/optimizerForm/optimizerFormTypes'
@@ -594,5 +596,378 @@ describe('patchComboConditionalDefault', () => {
 
     // Original conditional should be unchanged
     expect(parsed.comboCharacter.characterConditionals.enhanced.activations).toEqual([false, true])
+  })
+})
+
+// ─── Task 9: Persistence round-trip tests ─────────────────────────────
+
+describe('buildSaveForm round-trip', () => {
+  it('should round-trip a full store state through buildSaveForm → internalFormToState', () => {
+    const state = makeState({
+      characterId: '1001' as CharacterId,
+      characterEidolon: 4,
+      characterLevel: 80,
+      lightCone: '21001' as LightConeId,
+      lightConeLevel: 80,
+      lightConeSuperimposition: 3,
+      enemyLevel: 90,
+      enemyCount: 3,
+      enemyResistance: 0.2,
+      enemyEffectResistance: 0.3,
+      enemyMaxToughness: 360,
+      enemyElementalWeak: true,
+      enemyWeaknessBroken: false,
+      statFilters: {
+        ...createDefaultFormState().statFilters,
+        minHp: 3000,
+        maxHp: 8000,
+        minCr: 50,
+        maxCd: 200,
+        minSpd: 134,
+        minBe: 150,
+      },
+      ratingFilters: {
+        ...createDefaultFormState().ratingFilters,
+        minBasic: 5000,
+        maxBasic: 50000,
+        minEhp: 20000,
+      },
+      teammates: [
+        {
+          ...createDefaultTeammate(),
+          characterId: '1002' as CharacterId,
+          characterEidolon: 6,
+          lightCone: '21002' as LightConeId,
+          lightConeSuperimposition: 5,
+          characterConditionals: { enhanced: true, stacks: 3 },
+          lightConeConditionals: { passive: true },
+        },
+        {
+          ...createDefaultTeammate(),
+          characterId: '1003' as CharacterId,
+          characterEidolon: 0,
+          lightCone: '21003' as LightConeId,
+          lightConeSuperimposition: 1,
+          characterConditionals: { buffActive: false },
+          lightConeConditionals: {},
+        },
+        {
+          ...createDefaultTeammate(),
+          characterId: '1004' as CharacterId,
+          characterEidolon: 2,
+          lightCone: '21004' as LightConeId,
+          lightConeSuperimposition: 3,
+          characterConditionals: {},
+          lightConeConditionals: { dmgBoost: 2 },
+        },
+      ],
+      characterConditionals: { skillActive: true, ultStacks: 5 },
+      lightConeConditionals: { passiveActive: true },
+      combatBuffs: { ATK: 100, ATK_P: 50, CR: 10, SPD: 20 },
+      comboStateJson: '{"test": true}',
+      resultsLimit: 512,
+      deprioritizeBuffs: true,
+    })
+
+    const savedForm = buildSaveForm(state)
+    const restored = internalFormToState(savedForm)
+
+    // Character identity
+    expect(restored.characterId).toBe('1001')
+    expect(restored.characterEidolon).toBe(4)
+    expect(restored.characterLevel).toBe(80)
+
+    // Light cone
+    expect(restored.lightCone).toBe('21001')
+    expect(restored.lightConeSuperimposition).toBe(3)
+
+    // Enemy config
+    expect(restored.enemyLevel).toBe(90)
+    expect(restored.enemyCount).toBe(3)
+    expect(restored.enemyResistance).toBe(0.2)
+    expect(restored.enemyElementalWeak).toBe(true)
+    expect(restored.enemyWeaknessBroken).toBe(false)
+
+    // Stat filters: flat stats round-trip exactly
+    expect(restored.statFilters!.minHp).toBe(3000)
+    expect(restored.statFilters!.maxHp).toBe(8000)
+    expect(restored.statFilters!.minSpd).toBe(134)
+    // Percentage stats: 50 → 0.5 → 50 (round-trip with toFixed(3) precision)
+    expect(restored.statFilters!.minCr).toBe(50)
+    expect(restored.statFilters!.maxCd).toBe(200)
+    expect(restored.statFilters!.minBe).toBe(150)
+    // Unset filters should be undefined
+    expect(restored.statFilters!.minAtk).toBeUndefined()
+    expect(restored.statFilters!.maxDef).toBeUndefined()
+
+    // Rating filters
+    expect(restored.ratingFilters!.minBasic).toBe(5000)
+    expect(restored.ratingFilters!.maxBasic).toBe(50000)
+    expect(restored.ratingFilters!.minEhp).toBe(20000)
+    expect(restored.ratingFilters!.maxDot).toBeUndefined()
+
+    // Conditionals
+    expect(restored.characterConditionals).toEqual({ skillActive: true, ultStacks: 5 })
+    expect(restored.lightConeConditionals).toEqual({ passiveActive: true })
+
+    // Combat buffs: percentage buffs round-trip (50 → 0.5 → 50)
+    expect(restored.combatBuffs!['ATK']).toBe(100)
+    expect(restored.combatBuffs!['ATK_P']).toBeCloseTo(50)
+    expect(restored.combatBuffs!['CR']).toBeCloseTo(10)
+    expect(restored.combatBuffs!['SPD']).toBe(20)
+
+    // Combo state
+    expect(restored.comboStateJson).toBe('{"test": true}')
+
+    // Options
+    expect(restored.resultsLimit).toBe(512)
+    expect(restored.deprioritizeBuffs).toBe(true)
+  })
+
+  it('should handle precision loss from toFixed(3) gracefully', () => {
+    const state = makeState({
+      statFilters: {
+        ...createDefaultFormState().statFilters,
+        // Use a value that could cause floating point issues: 33.333...
+        minCr: 33.333,
+        minCd: 166.667,
+      },
+    })
+
+    const savedForm = buildSaveForm(state)
+    const restored = internalFormToState(savedForm)
+
+    // After: 33.333 → 0.33333 → toFixed(3) → 0.333 → *100 → 33.3
+    expect(restored.statFilters!.minCr).toBeCloseTo(33.3, 1)
+    expect(restored.statFilters!.minCd).toBeCloseTo(166.7, 1)
+  })
+})
+
+describe('normalizeForm', () => {
+  it('should preserve critical fields from an internal Form', () => {
+    const state = makeState({
+      characterId: '1001' as CharacterId,
+      characterEidolon: 6,
+      lightCone: '21001' as LightConeId,
+      lightConeSuperimposition: 5,
+      characterConditionals: { enhanced: true, stacks: 3 },
+      lightConeConditionals: { passive: true },
+    })
+    const internalForm = displayToInternal(state)
+
+    const normalized = normalizeForm(internalForm)
+
+    expect(normalized.characterId).toBe('1001')
+    expect(normalized.characterEidolon).toBe(6)
+    expect(normalized.lightCone).toBe('21001')
+    expect(normalized.lightConeSuperimposition).toBe(5)
+    expect(normalized.characterConditionals).toEqual({ enhanced: true, stacks: 3 })
+    expect(normalized.lightConeConditionals).toEqual({ passive: true })
+    expect(normalized.setConditionals).toBeDefined()
+  })
+
+  it('should apply defaults for missing fields', () => {
+    // A form with some fields set but others missing — internalFormToState applies
+    // defaults for fields that have fallbacks (characterLevel, lightConeLevel, etc.)
+    // but passes through undefined for fields without fallbacks (enemyLevel, etc.)
+    const minimalForm = {
+      characterId: '1001' as CharacterId,
+      characterLevel: undefined,
+      lightConeLevel: undefined,
+      lightConeSuperimposition: undefined,
+      resultsLimit: undefined,
+    } as any
+
+    const normalized = normalizeForm(minimalForm)
+
+    // These have ?? defaults in internalFormToState
+    expect(normalized.characterLevel).toBe(80)
+    expect(normalized.lightConeLevel).toBe(80)
+    expect(normalized.lightConeSuperimposition).toBe(1)
+    expect(normalized.resultsLimit).toBe(1024)
+    expect(normalized.includeEquippedRelics).toBe(true)
+    expect(normalized.keepCurrentRelics).toBe(false)
+    expect(normalized.deprioritizeBuffs).toBe(false)
+
+    // Min stat filters should default to 0
+    expect(normalized.minHp).toBe(0)
+    expect(normalized.minAtk).toBe(0)
+    expect(normalized.minCr).toBe(0)
+    // Max stat filters should default to MAX_INT
+    expect(normalized.maxHp).toBe(MAX_INT)
+    expect(normalized.maxAtk).toBe(MAX_INT)
+    expect(normalized.maxCr).toBe(MAX_INT)
+  })
+
+  it('should be idempotent: normalizeForm(normalizeForm(f)) === normalizeForm(f)', () => {
+    const state = makeState({
+      characterId: '1001' as CharacterId,
+      characterEidolon: 4,
+      lightCone: '21001' as LightConeId,
+      statFilters: {
+        ...createDefaultFormState().statFilters,
+        minCr: 50,
+        minHp: 3000,
+        maxSpd: 180,
+      },
+      ratingFilters: {
+        ...createDefaultFormState().ratingFilters,
+        minBasic: 5000,
+      },
+      combatBuffs: { ATK: 100, ATK_P: 50 },
+    })
+
+    const internalForm = displayToInternal(state)
+    const once = normalizeForm(internalForm)
+    const twice = normalizeForm(once)
+
+    // All fields should be identical after double normalization
+    expect(twice.characterId).toBe(once.characterId)
+    expect(twice.characterEidolon).toBe(once.characterEidolon)
+    expect(twice.minCr).toBe(once.minCr)
+    expect(twice.minHp).toBe(once.minHp)
+    expect(twice.maxSpd).toBe(once.maxSpd)
+    expect(twice.minBasic).toBe(once.minBasic)
+    expect(twice.maxAtk).toBe(once.maxAtk)
+    expect(twice.combatBuffs['ATK']).toBe(once.combatBuffs['ATK'])
+    expect(twice.combatBuffs['ATK_P']).toBe(once.combatBuffs['ATK_P'])
+    expect(twice.enemyLevel).toBe(once.enemyLevel)
+    expect(twice.resultsLimit).toBe(once.resultsLimit)
+  })
+})
+
+describe('stat filter conversion', () => {
+  it('should convert display percentage stats to internal format (÷100)', () => {
+    const state = makeState({
+      statFilters: {
+        ...createDefaultFormState().statFilters,
+        minCr: 50,
+        maxCr: 80,
+        minCd: 100,
+        minEhr: 25,
+        minRes: 30,
+        minBe: 150,
+        minErr: 10,
+      },
+    })
+
+    const form = displayToInternal(state)
+
+    expect(form.minCr).toBeCloseTo(0.5)
+    expect(form.maxCr).toBeCloseTo(0.8)
+    expect(form.minCd).toBeCloseTo(1.0)
+    expect(form.minEhr).toBeCloseTo(0.25)
+    expect(form.minRes).toBeCloseTo(0.3)
+    expect(form.minBe).toBeCloseTo(1.5)
+    expect(form.minErr).toBeCloseTo(0.1)
+  })
+
+  it('should convert undefined min filters to 0 and undefined max filters to MAX_INT', () => {
+    const state = makeState() // all filters are undefined by default
+
+    const form = displayToInternal(state)
+
+    // All min filters → 0
+    expect(form.minCr).toBe(0)
+    expect(form.minHp).toBe(0)
+    expect(form.minAtk).toBe(0)
+
+    // All max filters → MAX_INT
+    expect(form.maxCr).toBe(MAX_INT)
+    expect(form.maxHp).toBe(MAX_INT)
+    expect(form.maxAtk).toBe(MAX_INT)
+  })
+
+  it('should round-trip percentage stat filters with toFixed(3) precision', () => {
+    const state = makeState({
+      statFilters: {
+        ...createDefaultFormState().statFilters,
+        minCr: 55.555,
+      },
+    })
+
+    const form = displayToInternal(state) // 55.555 → 0.55555
+    const restored = internalFormToState(form)
+
+    // 0.55555 → toFixed(3) → 0.556 → *100 → 55.6
+    expect(restored.statFilters!.minCr).toBeCloseTo(55.6, 1)
+  })
+})
+
+describe('teammate round-trip', () => {
+  it('should preserve all 3 teammates through displayToInternal → internalFormToState', () => {
+    const teammates: [typeof createDefaultTeammate extends () => infer T ? T : never, typeof createDefaultTeammate extends () => infer T ? T : never, typeof createDefaultTeammate extends () => infer T ? T : never] = [
+      {
+        ...createDefaultTeammate(),
+        characterId: '1101' as CharacterId,
+        characterEidolon: 6,
+        lightCone: '23001' as LightConeId,
+        lightConeSuperimposition: 5,
+        characterConditionals: { skillBuff: true, ultBuff: 3 },
+        lightConeConditionals: { passive: true, stacks: 2 },
+      },
+      {
+        ...createDefaultTeammate(),
+        characterId: '1102' as CharacterId,
+        characterEidolon: 0,
+        lightCone: '23002' as LightConeId,
+        lightConeSuperimposition: 1,
+        characterConditionals: { enhanced: false },
+        lightConeConditionals: {},
+      },
+      {
+        ...createDefaultTeammate(),
+        characterId: '1103' as CharacterId,
+        characterEidolon: 2,
+        lightCone: '23003' as LightConeId,
+        lightConeSuperimposition: 3,
+        characterConditionals: {},
+        lightConeConditionals: { dmgBoost: 4 },
+      },
+    ]
+
+    const state = makeState({ teammates })
+    const internalForm = displayToInternal(state)
+    const restored = internalFormToState(internalForm)
+
+    // Teammate 0
+    expect(restored.teammates![0].characterId).toBe('1101')
+    expect(restored.teammates![0].characterEidolon).toBe(6)
+    expect(restored.teammates![0].lightCone).toBe('23001')
+    expect(restored.teammates![0].lightConeSuperimposition).toBe(5)
+    expect(restored.teammates![0].characterConditionals).toEqual({ skillBuff: true, ultBuff: 3 })
+    expect(restored.teammates![0].lightConeConditionals).toEqual({ passive: true, stacks: 2 })
+
+    // Teammate 1
+    expect(restored.teammates![1].characterId).toBe('1102')
+    expect(restored.teammates![1].characterEidolon).toBe(0)
+    expect(restored.teammates![1].lightCone).toBe('23002')
+    expect(restored.teammates![1].lightConeSuperimposition).toBe(1)
+    expect(restored.teammates![1].characterConditionals).toEqual({ enhanced: false })
+
+    // Teammate 2
+    expect(restored.teammates![2].characterId).toBe('1103')
+    expect(restored.teammates![2].characterEidolon).toBe(2)
+    expect(restored.teammates![2].lightCone).toBe('23003')
+    expect(restored.teammates![2].lightConeSuperimposition).toBe(3)
+    expect(restored.teammates![2].lightConeConditionals).toEqual({ dmgBoost: 4 })
+  })
+
+  it('should handle empty teammates (no characterId) by creating defaults', () => {
+    const state = makeState({
+      teammates: [createDefaultTeammate(), createDefaultTeammate(), createDefaultTeammate()],
+    })
+
+    const internalForm = displayToInternal(state)
+    const restored = internalFormToState(internalForm)
+
+    for (const tm of restored.teammates!) {
+      expect(tm.characterId).toBeUndefined()
+      expect(tm.characterEidolon).toBe(0)
+      expect(tm.lightCone).toBeUndefined()
+      expect(tm.lightConeSuperimposition).toBe(1)
+      expect(tm.characterConditionals).toEqual({})
+      expect(tm.lightConeConditionals).toEqual({})
+    }
   })
 })

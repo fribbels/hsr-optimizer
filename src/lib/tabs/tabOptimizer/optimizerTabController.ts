@@ -3,45 +3,40 @@ import {
   IRowNode,
 } from 'ag-grid-community'
 import { inPlaceSort } from 'fast-sort'
-import i18next from 'i18next'
 import {
   Constants,
-  DEFAULT_STAT_DISPLAY,
   Parts,
 } from 'lib/constants/constants'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
   RelicsByPart,
   SingleRelicByPart,
 } from 'lib/gpu/webgpuTypes'
-import { Message } from 'lib/interactions/message'
 import {
   OptimizerDisplayData,
   OptimizerDisplayDataStatSim,
 } from 'lib/optimization/bufferPacker'
-import { generateContext } from 'lib/optimization/context/calculateContext'
-import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { GridAggregations } from 'lib/rendering/gradient'
 import {
   columnsToAggregateMap,
   getGridColumn,
   SortOption,
-  SortOptionProperties,
 } from 'lib/optimization/sortOptions'
 import DB from 'lib/state/db'
-import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { SaveState } from 'lib/state/saveState'
-import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+import {
+  equipClicked,
+  getForm,
+  optimizerFormCache,
+  recalculatePermutations,
+  resetFilters,
+  setCharacter,
+  updateCharacter,
+  validateForm,
+} from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { optimizerGridApi } from 'lib/utils/gridUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
-  Build,
-  CharacterId,
-} from 'types/character'
+import { CharacterId } from 'types/character'
 import {
   Form,
   OptimizerForm,
@@ -107,37 +102,16 @@ export const OptimizerTabController = {
     }
   },
 
-  // Get a form that's ready for optimizer submission
-  getForm: () => {
-    return displayToInternal(useOptimizerFormStore.getState())
-  },
+  // Delegate to optimizerFormActions
+  getForm: () => getForm(),
+  validateForm: (form: Form) => validateForm(form),
+  equipClicked: () => equipClicked(),
+  resetFilters: () => resetFilters(),
+  setCharacter: (id: CharacterId) => setCharacter(id),
+  updateCharacter: (characterId: CharacterId) => updateCharacter(characterId),
 
-  equipClicked: () => {
-    console.log('Equip clicked')
-    const form = OptimizerTabController.getForm()
-    const characterId = form.characterId
-
-    if (!characterId) {
-      return
-    }
-
-    DB.addFromForm(form)
-
-    const selectedNodes = window.optimizerGrid.current?.api.getSelectedNodes() as IRowNode<OptimizerDisplayDataStatSim>[]
-    if (!selectedNodes || selectedNodes.length == 0 || (selectedNodes[0]?.data?.statSim)) {
-      // Cannot equip a stat sim or empty row
-      return
-    }
-
-    const row = selectedNodes[0].data!
-    const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
-
-    DB.equipRelicIdsToCharacter(Object.values(build), characterId)
-    Message.success(i18next.t('optimizerTab:Sidebar.ResultsGroup.EquipSuccessMessage') /*'Equipped relics'*/)
-    OptimizerTabController.setTopRow(row)
-    useOptimizerUIStore.getState().setOptimizerBuild(build)
-    SaveState.delayedSave()
-    OptimizerTabController.updateFilters()
+  updateFilters: () => {
+    recalculatePermutations()
   },
 
   cellClicked: (node: IRowNode<OptimizerDisplayDataStatSim>) => {
@@ -149,7 +123,7 @@ export const OptimizerTabController = {
     if (node.rowPinned == 'top') {
       // Clicking the top row should display current relics
       console.log('Top row clicked', data)
-      const form = OptimizerTabController.getForm()
+      const form = getForm()
       if (data && form.characterId) {
         if (!data.id) {
           gridApi.deselectAll()
@@ -312,128 +286,12 @@ export const OptimizerTabController = {
     }
   },
 
-  validateForm: (form: Form) => {
-    console.log('validate', form)
-    const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
-    if (!form.lightCone || !form.lightConeSuperimposition) {
-      Message.error(t('Error.MissingLightCone'))
-      console.log('Missing light cone')
-      return false
-    }
-
-    if (!form.characterId || form.characterEidolon == undefined) {
-      Message.error(t('Error.MissingCharacter'))
-      console.log('Missing character')
-      return false
-    }
-
-    if (!form.resultsLimit || !form.resultSort) {
-      Message.error(t('Error.MissingTarget'))
-      console.log('Missing optimization target fields')
-      return false
-    }
-
-    if (Object.values(Constants.SubStats).map((stat) => form.weights[stat]).filter((x) => !!x).length == 0) {
-      Message.error(t('Error.TopPercent'), 10)
-      console.log('Top percent')
-      return false
-    }
-
-    const metadata = DB.getMetadata()
-    const lcMeta = metadata.lightCones[form.lightCone]
-    const charMeta = metadata.characters[form.characterId]
-
-    if (lcMeta.path != charMeta.path) {
-      Message.warning(t('Warning.PathMismatch'), 10)
-      console.log('Path mismatch')
-    }
-
-    if (charMeta.scoringMetadata.simulation && (!form.teammate0?.characterId || !form.teammate1?.characterId || !form.teammate2?.characterId)) {
-      Message.warning(t('Warning.MissingTeammates'), 10)
-      console.log('Missing teammates')
-    }
-
-    return true
-  },
-
-  updateFilters: () => {
-    recalculatePermutations()
-  },
-
-  resetFilters: () => {
-    const fieldValues = OptimizerTabController.getForm()
-    const newForm: Partial<Form> = {
-      characterEidolon: fieldValues.characterEidolon,
-      characterId: fieldValues.characterId,
-      characterLevel: 80,
-      enhance: 9,
-      grade: 5,
-      mainStatUpscaleLevel: 15,
-      rankFilter: true,
-      includeEquippedRelics: true,
-      keepCurrentRelics: false,
-      lightCone: fieldValues.lightCone,
-      lightConeLevel: 80,
-      lightConeSuperimposition: fieldValues.lightConeSuperimposition,
-      mainBody: [],
-      mainFeet: [],
-      mainHands: [],
-      mainHead: [],
-      mainLinkRope: [],
-      mainPlanarSphere: [],
-      ornamentSets: [],
-      relicSets: [],
-    }
-
-    useOptimizerFormStore.getState().resetFilters()
-    useOptimizerFormStore.getState().loadForm(newForm as Form)
-    OptimizerTabController.updateFilters()
-  },
-
-  // Manually set the selected character
-  setCharacter: (id: CharacterId) => {
-    useOptimizerUIStore.getState().setFocusCharacterId(id)
-    useOptimizerFormStore.getState().setCharacterId(id)
-
-    SaveState.delayedSave()
-  },
-
-  // Update form values with the character
-  updateCharacter: (characterId: CharacterId) => {
-    console.log('@updateCharacter', characterId)
-    if (!characterId) return
-
-    OptimizerTabController.setRows([])
-    OptimizerTabController.resetDataSource()
-    const character = DB.getCharacterById(characterId)
-
-    const form = character ? character.form : getDefaultForm({ id: characterId })
-
-    // Load form into store (replaces formToDisplay + setFieldsValue)
-    useOptimizerFormStore.getState().loadForm(form)
-
-    // Setting timeout so this doesn't lag the modal close animation. The delay is mostly hidden by the animation
-    setTimeout(() => {
-      useOptimizerUIStore.getState().setFocusCharacterId(characterId)
-      useOptimizerFormStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
-      useOptimizerUIStore.getState().setStatSimulations(form.statSim?.simulations ?? [])
-      useOptimizerUIStore.getState().setOptimizerSelectedRowData(null)
-      window.optimizerGrid.current?.api?.deselectAll()
-
-      const currentRequest = displayToInternal(useOptimizerFormStore.getState())
-      generateContext(currentRequest)
-      calculateCurrentlyEquippedRow(currentRequest)
-
-      recalculatePermutations()
-    }, 50)
-  },
-
   redrawRows: () => {
     window.optimizerGrid.current?.api.refreshCells({ force: true })
   },
 
   applyRowFilters: () => {
-    const fieldValues = OptimizerTabController.getForm()
+    const fieldValues = getForm()
     fieldValues.statDisplay = useOptimizerFormStore.getState().statDisplay
     filterModel = fieldValues
     console.log('Apply filters to rows', fieldValues)

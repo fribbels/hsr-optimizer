@@ -16,7 +16,7 @@ import {
   getScoreCategory,
   ScoreCategory,
 } from 'lib/scoring/scoreComparison'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import {
   ArrayFilters,
   arrayToMap,
@@ -828,7 +828,7 @@ export class RelicScorer {
         totalRating: '',
       }
     }
-    const relicsById = window.store.getState().relicsById
+    const relicsById = useGlobalStore.getState().relicsById
     const relics: Relic[] = Object.values(character.equipped).map((x) => relicsById[x]!)
     return this.scoreCharacterWithRelics(character, relics)
   }

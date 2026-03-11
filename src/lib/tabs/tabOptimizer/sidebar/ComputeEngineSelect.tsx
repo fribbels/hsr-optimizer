@@ -12,6 +12,7 @@ import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Message } from 'lib/interactions/message'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useGlobalStore } from 'lib/state/db'
 
 type GpuOption = { label: ReactElement, key: ComputeEngine }
 
@@ -49,15 +50,15 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
 
 export function ComputeEngineSelect() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.GPUOptions' })
-  const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
+  const computeEngine = useGlobalStore((s) => s.savedSession[SavedSessionKeys.computeEngine])
   const handleGpuOptionClick = (key: GpuOption['key']) => {
     if (key === COMPUTE_ENGINE_CPU) {
-      window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+      useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
       Message.success(t('EngineSwitchSuccessMsg.CPU') /* Switched compute engine to CPU */)
     } else {
       void verifyWebgpuSupport(true).then((device) => {
         if (device) {
-          window.store.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
+          useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
           Message.success(key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
           // Switched compute engine to GPU  Experimental/Stable
         }

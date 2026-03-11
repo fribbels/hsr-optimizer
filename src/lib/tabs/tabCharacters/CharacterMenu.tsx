@@ -21,6 +21,7 @@ import {
   Trans,
   useTranslation,
 } from 'react-i18next'
+import { useGlobalStore } from 'lib/state/db'
 
 export function CharacterMenu() {
   const { t } = useTranslation('charactersTab')
@@ -97,7 +98,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'scoring':
-        if (focusCharacter) window.store.getState().setScoringAlgorithmFocusCharacter(focusCharacter)
+        if (focusCharacter) useGlobalStore.getState().setScoringAlgorithmFocusCharacter(focusCharacter)
         setOpen(OpenCloseIDs.SCORING_MODAL)
         break
 

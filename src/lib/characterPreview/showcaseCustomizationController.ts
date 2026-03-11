@@ -3,6 +3,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { ShowcasePreferences } from 'types/metadata'
+import { useGlobalStore } from 'lib/state/db'
 
 export const DEFAULT_SHOWCASE_COLOR = '#2473e1'
 
@@ -33,7 +34,7 @@ export function editShowcasePreferences(
     globalShowcasePreferences[characterId] = finalized
 
     setGlobalShowcasePreferences(TsUtils.clone(globalShowcasePreferences))
-    window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseStandardMode, changed.colorMode === ShowcaseColorMode.STANDARD)
+    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcaseStandardMode, changed.colorMode === ShowcaseColorMode.STANDARD)
 
     SaveState.delayedSave()
   }

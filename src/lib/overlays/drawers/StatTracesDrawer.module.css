@@ -1,0 +1,34 @@
+.nodeRow {
+  padding: 2px 0;
+}
+
+.expandToggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.expandSpacer {
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.nodeLabel {
+  cursor: pointer;
+}
+
+.statIcon {
+  height: 20px;
+  margin-left: -2px;
+  margin-right: 4px;
+}
+
+.nodeText {
+  white-space: pre-wrap;
+}
+
+.treeContainer {
+  padding: 8px;
+}

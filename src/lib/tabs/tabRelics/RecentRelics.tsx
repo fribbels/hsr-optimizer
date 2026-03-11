@@ -3,6 +3,7 @@ import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import React from 'react'
+import { useGlobalStore } from 'lib/state/db'
 
 function padArray<T>(array: T[], length: number, filler: T): T[] {
   return [...array, ...Array(length - array.length).fill(filler)]
@@ -11,7 +12,7 @@ function padArray<T>(array: T[], length: number, filler: T): T[] {
 export const RecentRelics = React.memo(() => {
   const { focusCharacter: scoringCharacter, selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore()
   const { recentRelics: recentRelicIDs } = useScannerState()
-  const allRelics = window.store((s) => s.relicsById)
+  const allRelics = useGlobalStore((s) => s.relicsById)
 
   const recentRelics = recentRelicIDs
     .map((id) => allRelics[id])

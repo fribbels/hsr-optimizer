@@ -12,6 +12,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UserSettings } from 'types/store'
+import { useGlobalStore } from 'lib/state/db'
 
 const defaultGap = 5
 
@@ -57,7 +58,7 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
 }
 
 export const SettingsDrawer = () => {
-  const setSettingsRef = window.store((s) => s.setSettings)
+  const setSettingsRef = useGlobalStore((s) => s.setSettings)
   const settingsForm = useForm<UserSettings>({
     onValuesChange: (values) => {
       setSettingsRef(values)
@@ -66,7 +67,7 @@ export const SettingsDrawer = () => {
   })
   const { close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
 
-  const settings = window.store((s) => s.settings)
+  const settings = useGlobalStore((s) => s.settings)
 
   const { t } = useTranslation('settings')
 

@@ -1,0 +1,33 @@
+.conditionalsColumn {
+  min-width: 258px;
+  margin-left: 5px;
+}
+
+.avatarContainer {
+  background-color: rgb(255 255 255 / 2%);
+}
+
+.avatarImage {
+  cursor: pointer;
+}
+
+.setSelect {
+  width: 110px;
+}
+
+.refreshButton {
+  width: 35px;
+}
+
+.lcContainer {
+  border-radius: 10px;
+}
+
+.lcImage {
+  margin-left: -5px;
+  cursor: pointer;
+}
+
+.lcSelect {
+  width: 258px;
+}

@@ -7,7 +7,7 @@ import { Accordion, Button, Divider, Flex, Paper, TextInput } from '@mantine/cor
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import { AppPages } from 'lib/state/db.js'
+import { useGlobalStore, AppPages } from 'lib/state/db'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Languages } from 'lib/utils/i18nUtils'
@@ -22,7 +22,7 @@ const headerHeight = 900
 const headerWidth = 1600
 
 export default function HomeTab() {
-  const activeKey = window.store((s) => s.activeKey)
+  const activeKey = useGlobalStore((s) => s.activeKey)
 
   if (activeKey != AppPages.HOME) {
     // Don't load unless tab active
@@ -311,7 +311,7 @@ function SearchBar() {
     }
 
     window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
-    window.store.getState().setActiveKey(AppPages.SHOWCASE)
+    useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)
   }
 
   return (

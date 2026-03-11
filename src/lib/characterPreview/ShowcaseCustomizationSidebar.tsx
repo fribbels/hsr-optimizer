@@ -32,7 +32,7 @@ import {
   ScoringType,
   SimulationScore,
 } from 'lib/scoring/simScoringUtils'
-import DB, { AppPages } from 'lib/state/db'
+import DB, { useGlobalStore, AppPages } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -99,12 +99,12 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
     const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
     const [colors, setColors] = useState<string[]>([])
-    const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
-    const setGlobalShowcasePreferences = window.store((s) => s.setShowcasePreferences)
+    const globalShowcasePreferences = useGlobalStore((s) => s.showcasePreferences)
+    const setGlobalShowcasePreferences = useGlobalStore((s) => s.setShowcasePreferences)
     const [loading, setLoading] = useState<boolean>(false)
-    const showcaseDarkMode = window.store((s) => s.savedSession.showcaseDarkMode)
-    const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
-    const showcasePreciseSpd = window.store((s) => s.savedSession.showcasePreciseSpd)
+    const showcaseDarkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
+    const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
+    const showcasePreciseSpd = useGlobalStore((s) => s.savedSession.showcasePreciseSpd)
     const scoringMetadata = useScoringMetadata(characterId)
     const spdValue = scoringMetadata.stats[Stats.SPD]
     const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
@@ -162,17 +162,16 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     }
 
     function onBrightnessModeChange(darkMode: boolean) {
-      window.store.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
+      useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
     }
 
     const onShowUIDChange = (showUID: boolean) => {
-      window.store
-        .getState()
+      useGlobalStore.getState()
         .setSavedSessionKey(SavedSessionKeys.showcaseUID, showUID)
     }
 
     function onShowcasePreciseSpdChange(preciseSpd: boolean) {
-      window.store.getState().setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)
+      useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)
     }
 
     function onShowcaseSpdValueChange(spdValue: number) {
@@ -194,7 +193,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
     }
 
     function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
-      const showcaseTemporaryOptionsByCharacter = TsUtils.clone(window.store.getState().showcaseTemporaryOptionsByCharacter)
+      const showcaseTemporaryOptionsByCharacter = TsUtils.clone(useGlobalStore.getState().showcaseTemporaryOptionsByCharacter)
       if (!showcaseTemporaryOptionsByCharacter[characterId]) showcaseTemporaryOptionsByCharacter[characterId] = {}
 
       // -1 is used as the "current" setting
@@ -202,11 +201,11 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
       showcaseTemporaryOptionsByCharacter[characterId].spdBenchmark = actualValue
 
-      window.store.getState().setShowcaseTemporaryOptionsByCharacter(showcaseTemporaryOptionsByCharacter)
+      useGlobalStore.getState().setShowcaseTemporaryOptionsByCharacter(showcaseTemporaryOptionsByCharacter)
     }
 
     function onTraceClick() {
-      window.store.getState().setStatTracesDrawerFocusCharacter(characterId)
+      useGlobalStore.getState().setStatTracesDrawerFocusCharacter(characterId)
       setOpen(OpenCloseIDs.TRACES_DRAWER)
     }
 
@@ -328,7 +327,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
                   size='xs'
                   hideControls
                   style={{ width: '100%' }}
-                  value={sanitizePositiveNumberElseUndefined(window.store.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
+                  value={sanitizePositiveNumberElseUndefined(useGlobalStore.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
                   rightSection={
                     <SelectSpdPresets
                       spdFilter={simScoringExecution?.result?.originalSpd}
@@ -578,7 +577,7 @@ export function getOverrideColorMode(
 function getActiveCharacterName() {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
   let charId: CharacterId | null | undefined
-  switch (window.store.getState().activeKey) {
+  switch (useGlobalStore.getState().activeKey) {
     case AppPages.CHARACTERS:
       charId = useCharacterTabStore.getState().focusCharacter
       break

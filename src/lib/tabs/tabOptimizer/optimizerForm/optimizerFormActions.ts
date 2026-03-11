@@ -14,6 +14,7 @@ import { MainConditionalType, TeammateConditionalType, useOptimizerRequestStore 
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { initializeComboState, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { gridStore } from 'lib/utils/gridStore'
 import { Utils } from 'lib/utils/utils'
 import { Build, CharacterId } from 'types/character'
 import { Form } from 'types/form'
@@ -228,7 +229,7 @@ export function equipClicked(): void {
 
   DB.addFromForm(form)
 
-  const selectedNodes = window.optimizerGrid?.current?.api?.getSelectedNodes()
+  const selectedNodes = gridStore.optimizerGridApi()?.getSelectedNodes()
   if (!selectedNodes || selectedNodes.length == 0 || (selectedNodes[0]?.data?.statSim)) {
     // Cannot equip a stat sim or empty row
     return
@@ -309,7 +310,7 @@ export function updateCharacter(characterId: CharacterId): void {
   useOptimizerRequestStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
   useOptimizerDisplayStore.getState().setStatSimulations(form.statSim?.simulations ?? [])
   useOptimizerDisplayStore.getState().setOptimizerSelectedRowData(null)
-  window.optimizerGrid.current?.api?.deselectAll()
+  gridStore.optimizerGridApi()?.deselectAll()
 
   const currentRequest = displayToInternal(useOptimizerRequestStore.getState())
   generateContext(currentRequest)

@@ -16,6 +16,7 @@ import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useGlobalStore } from 'lib/state/db'
 
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType
@@ -80,7 +81,7 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
             onChange={(selection) => {
               const value = Number(selection) as ScoringType
               setScoringType(value)
-              window.store.getState().setSavedSessionKey(SavedSessionKeys.scoringType, value)
+              useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.scoringType, value)
               SaveState.delayedSave()
             }}
             value={String(scoringType)}

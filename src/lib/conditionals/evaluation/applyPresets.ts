@@ -22,7 +22,7 @@ import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import type {
   BenchmarkForm,
   SimpleCharacter,
@@ -49,7 +49,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   const defaultForm = getDefaultForm(character)
   form.setConditionals = defaultForm.setConditionals
 
-  const overrides = window.store.getState().scoringMetadataOverrides[characterId]
+  const overrides = useGlobalStore.getState().scoringMetadataOverrides[characterId]
   if (overrides) {
     Utils.mergeDefinedValues(metadata.parts, overrides.parts)
     Utils.mergeDefinedValues(metadata.stats, overrides.stats)

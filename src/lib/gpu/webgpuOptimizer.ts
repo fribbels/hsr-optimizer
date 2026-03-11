@@ -26,6 +26,7 @@ import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/Re
 import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { gridStore } from 'lib/utils/gridStore'
 import { Form } from 'types/form'
 import { OptimizerContext } from 'types/optimizer'
 
@@ -375,5 +376,5 @@ function outputResults(gpuContext: GpuExecutionContext) {
     : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)
-  window.optimizerGrid.current?.api?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+  gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 }

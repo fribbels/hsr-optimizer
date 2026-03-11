@@ -1,9 +1,7 @@
 import { Flex, Text } from '@mantine/core'
 import ScoringModal from 'lib/overlays/modals/ScoringModal'
-import {
-  AppPages,
-  PageToRoute,
-} from 'lib/state/db'
+import { useGlobalStore, AppPages,
+  PageToRoute, } from 'lib/state/db'
 import BenchmarksTab from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
 import CharacterTab from 'lib/tabs/tabCharacters/CharacterTab'
@@ -31,7 +29,7 @@ const defaultErrorRender = ({ error: { message } }: {
 let optimizerInitialized = false
 
 const Tabs = () => {
-  const activeKey = window.store((s) => s.activeKey).split('?')[0] as AppPages
+  const activeKey = useGlobalStore((s) => s.activeKey).split('?')[0] as AppPages
 
   const homeTab = React.useMemo(() => <HomeTab />, [])
   const optimizerTab = React.useMemo(() => <OptimizerTab />, [])

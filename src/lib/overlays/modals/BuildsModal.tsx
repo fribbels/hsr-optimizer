@@ -13,7 +13,7 @@ import { defaultTeammate } from 'lib/optimization/defaultForm'
 import styles from 'lib/overlays/modals/BuildsModal.module.css'
 import { Assets } from 'lib/rendering/assets'
 import { useScrollLock } from 'lib/rendering/scrollController'
-import DB, { AppPages } from 'lib/state/db'
+import DB, { useGlobalStore, AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -144,14 +144,14 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
           }
         }
         DB.updateSimulationScoreOverrides(selectedCharacter.id, simulation)
-        window.store.getState().setShowcaseTeamPreferenceById([selectedCharacter.id, CUSTOM_TEAM])
+        useGlobalStore.getState().setShowcaseTeamPreferenceById([selectedCharacter.id, CUSTOM_TEAM])
       }
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }) /* Successfully equipped build: {{buildName}} */)
       handleCancel()
       // equip can be triggered from the optimizer tab, move to character tab and focus on the appropriate character
       useCharacterTabStore.getState().setFocusCharacter(build.characterId)
-      window.store.getState().setActiveKey(AppPages.CHARACTERS)
+      useGlobalStore.getState().setActiveKey(AppPages.CHARACTERS)
     }
   }
 

@@ -18,7 +18,7 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -28,6 +28,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
+import classes from './ScoringModal.module.css'
 
 const TitleDivider = (props: React.ComponentPropsWithoutRef<typeof Divider>) => (
   <Divider my={10} {...props} />
@@ -75,7 +76,7 @@ function SetPicker(props: {
       }))}
       renderOption={({ option }) => (
         <Flex gap={5}>
-          <img src={Assets.getSetImage(option.value, Constants.Parts.Head)} style={{ width: 24, height: 24 }}></img>
+          <img src={Assets.getSetImage(option.value, Constants.Parts.Head)} className={classes.setPickerIcon}></img>
           {option.label}
         </Flex>
       )}
@@ -98,8 +99,8 @@ export default function ScoringModal() {
     },
   })
 
-  const scoringAlgorithmFocusCharacter = window.store((s) => s.scoringAlgorithmFocusCharacter)
-  const setScoringAlgorithmFocusCharacter = window.store((s) => s.setScoringAlgorithmFocusCharacter)
+  const scoringAlgorithmFocusCharacter = useGlobalStore((s) => s.scoringAlgorithmFocusCharacter)
+  const setScoringAlgorithmFocusCharacter = useGlobalStore((s) => s.setScoringAlgorithmFocusCharacter)
 
   const { close: closeScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
 
@@ -155,8 +156,8 @@ export default function ScoringModal() {
           {...scoringAlgorithmForm.getInputProps(`stats.${props.stat}`)}
         />
         <Flex>
-          <img src={Assets.getStatIcon(props.stat)} style={{ width: 25, height: 25, marginRight: 3 }}></img>
-          <Text style={{ lineHeight: 1.8 }}>
+          <img src={Assets.getStatIcon(props.stat)} className={classes.statIcon}></img>
+          <Text className={classes.statText}>
             {
               // @ts-ignore
               t(`common:ReadableStats.${props.stat}`)
@@ -252,7 +253,7 @@ export default function ScoringModal() {
               selectStyle={{}}
               onChange={characterSelectorChange}
             />
-            <div style={{ height: 230, width: panelWidth, overflow: 'hidden' }}>
+            <div className={classes.previewContainer} style={{ height: 230, width: panelWidth }}>
               <img src={previewSrc} style={{ width: panelWidth }} />
             </div>
           </Flex>
@@ -263,7 +264,7 @@ export default function ScoringModal() {
             <Flex justify='space-between'>
               <Flex direction="column" gap={defaultGap * 2}>
                 <Flex direction="column" gap={1} justify='flex-start'>
-                  <Text style={{ marginLeft: 5 }}>
+                  <Text className={classes.partLabel}>
                     {t('common:Parts.Body')}
                   </Text>
                   <MultiSelect
@@ -286,7 +287,7 @@ export default function ScoringModal() {
                 </Flex>
 
                 <Flex direction="column" gap={1} justify='flex-start'>
-                  <Text style={{ marginLeft: 5 }}>
+                  <Text className={classes.partLabel}>
                     {t('common:Parts.Feet')}
                   </Text>
                   <MultiSelect
@@ -305,7 +306,7 @@ export default function ScoringModal() {
                   />
                 </Flex>
                 <Flex direction="column" gap={1} justify='flex-start'>
-                  <Text style={{ marginLeft: 5 }}>
+                  <Text className={classes.partLabel}>
                     {t('common:Parts.PlanarSphere')}
                   </Text>
                   <MultiSelect
@@ -332,7 +333,7 @@ export default function ScoringModal() {
                 </Flex>
 
                 <Flex direction="column" gap={1} justify='flex-start'>
-                  <Text style={{ marginLeft: 5 }}>
+                  <Text className={classes.partLabel}>
                     {t('common:Parts.LinkRope')}
                   </Text>
 
@@ -400,7 +401,7 @@ export default function ScoringModal() {
                       const set = item[0]
                       return (
                         <Flex key={index} direction="column" gap={5} align='center'>
-                          <img src={Assets.getSetImage(set, Constants.Parts.Head)} style={{ width: 48, height: 48 }}></img>
+                          <img src={Assets.getSetImage(set, Constants.Parts.Head)} className={classes.setItemIcon}></img>
                           <InputNumberStyled
                             hideControls
                             size='xs'
@@ -447,7 +448,7 @@ export default function ScoringModal() {
                       const set = item[0]
                       return (
                         <Flex key={index} direction="column" gap={5} align='center'>
-                          <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 48, height: 48 }}></img>
+                          <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} className={classes.setItemIcon}></img>
                           <InputNumberStyled
                             hideControls
                             size='xs'
@@ -466,7 +467,7 @@ export default function ScoringModal() {
         </Flex>
 
         <Divider
-          style={{ marginTop: 10, marginBottom: 40 }}
+          className={classes.bottomDivider}
           label={
             <ColorizedLinkWithIcon
               text={t('Scoring.WeightMethodology.Header')}
@@ -477,7 +478,7 @@ export default function ScoringModal() {
           labelPosition='center'
         />
       </div>
-      <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
+      <Flex justify='flex-end' gap={8} className={classes.footerActions}>
         <Button key='back' variant="default" onClick={closeScoringModal}>
           {t('common:Cancel') /* Cancel */}
         </Button>

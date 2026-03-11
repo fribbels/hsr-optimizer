@@ -10,12 +10,12 @@ import { SettingsDrawer } from 'lib/overlays/drawers/SettingsDrawer'
 import { StatTracesDrawer } from 'lib/overlays/drawers/StatTracesDrawer'
 import { Gradient } from 'lib/rendering/gradient'
 import { createMantineTheme } from 'lib/rendering/theme'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import Tabs from 'lib/tabs/Tabs'
 import React, { useEffect } from 'react'
 
 const App = () => {
-  const colorTheme = window.store((s) => s.colorTheme)
+  const colorTheme = useGlobalStore((s) => s.colorTheme)
   const mantineTheme = createMantineTheme(colorTheme)
 
   useEffect(() => {

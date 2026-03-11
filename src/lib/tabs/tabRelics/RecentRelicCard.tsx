@@ -44,7 +44,7 @@ export const RecentRelicCard = React.memo((props: RelicCardProps): React.JSX.Ele
 
   // Calculate top characters for the relic
   const topCharacters = useMemo(() => {
-    const chars = window.DB.getMetadata().characters
+    const chars = DB.getMetadata().characters
 
     return relic && (Object.keys(chars) as (keyof typeof chars)[])
       .filter((id) => !excludedRelicPotentialCharacters.includes(id) && !buffedCharacters[id])

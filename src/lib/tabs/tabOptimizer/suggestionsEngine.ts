@@ -4,7 +4,7 @@ import {
   setClose,
 } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
-import DB, { AppPages } from 'lib/state/db'
+import DB, { useGlobalStore, AppPages } from 'lib/state/db'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
@@ -44,7 +44,7 @@ export const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.IMPORT.Description',
     buttonTextKey: '0Perms.RootCauses.IMPORT.ButtonText',
     applyFix: () => {
-      window.store.getState().setActiveKey(AppPages.IMPORT)
+      useGlobalStore.getState().setActiveKey(AppPages.IMPORT)
       setClose(OpenCloseIDs.ZERO_PERMS_MODAL)
     },
     successMessageKey: '0Perms.RootCauses.IMPORT.SuccessMessage',

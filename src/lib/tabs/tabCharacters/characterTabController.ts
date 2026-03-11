@@ -14,14 +14,13 @@ import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import { SwitchRelicsFormSelectedCharacter } from 'lib/overlays/modals/SwitchRelicsModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import {
-  AppPages,
+import { useGlobalStore, AppPages,
   DB,
-  SavedBuildSource,
-} from 'lib/state/db'
+  SavedBuildSource, } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+import { gridStore } from 'lib/utils/gridStore'
 import { Character } from 'types/character'
 import { Form } from 'types/form'
 
@@ -39,12 +38,12 @@ export const CharacterTabController = {
   cellDoubleClickedListener: (e: CellDoubleClickedEvent<Character>) => {
     const characterId = e.data?.id
     if (!characterId) return
-    window.store.getState().setActiveKey(AppPages.OPTIMIZER)
+    useGlobalStore.getState().setActiveKey(AppPages.OPTIMIZER)
     updateCharacter(characterId)
   },
 
   navigateToNextCell: (params: NavigateToNextCellParams<Character>) => {
-    return arrowKeyGridNavigation(params, window.characterGrid, CharacterTabController.cellClickedCallback)
+    return arrowKeyGridNavigation(params, gridStore.getCharacterGrid()!, CharacterTabController.cellClickedCallback)
   },
 
   drag: (e: RowDragEvent<Character>, index: number) => {
@@ -69,7 +68,7 @@ export const CharacterTabController = {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     if (!form.characterId) return Message.error(t('NoSelectedCharacter'))
     const character = DB.addFromForm(form)
-    window.characterGrid.current?.api?.ensureIndexVisible(character.rank)
+    gridStore.characterGridApi()?.ensureIndexVisible(character.rank)
   },
 
   confirmSaveBuild: (name: string) => updateBuilds(name, false),

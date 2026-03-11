@@ -23,6 +23,7 @@ import {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
+import { useGlobalStore } from 'lib/state/db'
 
 export function ShowcasePortrait(props: {
   source: ShowcaseSource,
@@ -39,7 +40,7 @@ export function ShowcasePortrait(props: {
   onPortraitLoad: (img: string) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const showcaseUID = window.store((s) => s.savedSession.showcaseUID)
+  const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
   const uid = useShowcaseTabStore((s) => s.savedSession.scorerId)
 
   const showUid = props.source == ShowcaseSource.SHOWCASE_TAB && showcaseUID

@@ -10,6 +10,7 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -52,7 +53,7 @@ export function SimulatedBuildsGrid() {
 
     // Match the selected sim on the optimizer grid and select it
     let matchingNode: IRowNode | undefined
-    window.optimizerGrid?.current?.api?.forEachNode((node) => {
+    gridStore.optimizerGridApi()?.forEachNode((node) => {
       if (node.data?.statSim?.key == statSim.key) {
         matchingNode = node
       }

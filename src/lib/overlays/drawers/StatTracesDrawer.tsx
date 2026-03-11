@@ -7,7 +7,7 @@ import {
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
@@ -18,6 +18,7 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TraceNode } from 'types/metadata'
+import classes from './StatTracesDrawer.module.css'
 
 const TraceTreeNode = ({
   node,
@@ -38,17 +39,17 @@ const TraceTreeNode = ({
 
   return (
     <div style={{ paddingLeft: level > 0 ? 20 : 0 }}>
-      <Flex gap={4} align="center" style={{ padding: '2px 0' }}>
+      <Flex gap={4} align="center" className={classes.nodeRow}>
         {hasChildren
           ? (
             <div
               onClick={() => setExpanded(!expanded)}
-              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', width: 18, flexShrink: 0 }}
+              className={classes.expandToggle}
             >
               {expanded ? <IconChevronDown size={16} /> : <IconChevronRight size={16} />}
             </div>
             )
-          : <div style={{ width: 18, flexShrink: 0 }} />}
+          : <div className={classes.expandSpacer} />}
 
         <Checkbox
           size="xs"
@@ -57,9 +58,9 @@ const TraceTreeNode = ({
           styles={{ input: { cursor: 'pointer' } }}
         />
 
-        <Flex gap={0} align="center" style={{ cursor: 'pointer' }} onClick={() => onToggle(node, !isChecked)}>
-          <img src={Assets.getStatIcon(node.stat)} style={{ height: 20, marginLeft: -2, marginRight: 4 }} />
-          <div style={{ whiteSpace: 'pre-wrap' }}>
+        <Flex gap={0} align="center" className={classes.nodeLabel} onClick={() => onToggle(node, !isChecked)}>
+          <img src={Assets.getStatIcon(node.stat)} className={classes.statIcon} />
+          <div className={classes.nodeText}>
             {`${
               Utils.isFlat(node.stat)
                 ? node.value
@@ -92,7 +93,7 @@ export const StatTracesDrawer = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
   const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
-  const statTraceDrawerFocusCharacter = window.store.getState().statTracesDrawerFocusCharacter
+  const statTraceDrawerFocusCharacter = useGlobalStore.getState().statTracesDrawerFocusCharacter
   const scoringMetadata = useScoringMetadata(statTraceDrawerFocusCharacter)
 
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
@@ -177,7 +178,7 @@ export const StatTracesDrawer = () => {
           {t('Header') /* Activated stat traces (all enabled by default) */}
         </HeaderText>
 
-        <div style={{ padding: 8 }}>
+        <div className={classes.treeContainer}>
           {treeData.map((node) => (
             <TraceTreeNode
               key={node.id}

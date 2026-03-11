@@ -11,6 +11,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
@@ -199,10 +200,10 @@ export function debugExportWebgpuResult(array: Float32Array) {
 }
 
 export function debugPinOptimizerWebgpuArray(array: Float32Array) {
-  const currentPinned = window.optimizerGrid.current?.api?.getGridOption('pinnedTopRowData') ?? []
+  const currentPinned = gridStore.optimizerGridApi()?.getGridOption('pinnedTopRowData') ?? []
   currentPinned[1] = debugExportWebgpuResult(array)
 
-  window.optimizerGrid.current?.api?.updateGridOptions({ pinnedTopRowData: currentPinned })
+  gridStore.optimizerGridApi()?.updateGridOptions({ pinnedTopRowData: currentPinned })
 }
 
 export function debugWebgpuComputedStats(array: Float32Array): ComputedStatsObjectExternal {

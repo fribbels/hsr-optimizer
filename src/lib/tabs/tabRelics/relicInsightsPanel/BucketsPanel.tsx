@@ -23,6 +23,7 @@ import {
   NameType,
   ValueType,
 } from 'recharts/types/component/DefaultTooltipContent'
+import { useGlobalStore } from 'lib/state/db'
 
 type Bucket = Array<PanelProps['scores'][number]>
 
@@ -86,7 +87,7 @@ export const BucketsPanel = React.memo(({ scores }: PanelProps) => {
   }
 
   const onScatterClick = (data: DataPoint) => {
-    window.store.getState().setScoringAlgorithmFocusCharacter(data.id)
+    useGlobalStore.getState().setScoringAlgorithmFocusCharacter(data.id)
     setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 

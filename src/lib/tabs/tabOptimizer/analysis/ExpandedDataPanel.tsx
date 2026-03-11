@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
-import DB, { AppPages } from 'lib/state/db'
+import DB, { useGlobalStore, AppPages } from 'lib/state/db'
 import {
   generateAnalysisData,
   getCachedForm,
@@ -24,7 +24,7 @@ export function ExpandedDataPanel() {
   const selectedRowData = useOptimizerDisplayStore((s) => s.optimizerSelectedRowData)
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
-  if (window.store.getState().activeKey != AppPages.OPTIMIZER) {
+  if (useGlobalStore.getState().activeKey != AppPages.OPTIMIZER) {
     return <></>
   }
 

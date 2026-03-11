@@ -37,6 +37,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { CharacterConditionalsController } from 'types/conditionals'
+import classes from './ComboFilter.module.css'
 
 
 export const ComboFilters = () => {
@@ -80,7 +81,7 @@ export const ComboFilters = () => {
       <ComboBasicDefinition comboOptions={comboOptions} />
 
       <>
-        <Flex direction="column" gap={8} style={{ marginTop: 8 }}>
+        <Flex direction="column" gap={8} className={classes.advancedButtonContainer}>
           <Button
             variant="default"
             onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
@@ -167,11 +168,11 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
   const disabled = comboType == ComboType.SIMPLE
 
   return (
-    <Flex style={{ height: 275 }}>
-      <Flex direction="column" flex={1} style={{ marginLeft: 2 }} gap={3}>
+    <Flex className={classes.comboContainer}>
+      <Flex direction="column" flex={1} className={classes.abilitiesColumn} gap={3}>
         <HeaderText>{t('AbilityLabel') /* Abilities */}</HeaderText>
 
-        <Flex direction="column" flex={1} style={{ marginLeft: 2, display: comboType == ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
+        <Flex direction="column" flex={1} className={classes.abilitiesColumn} style={{ display: comboType == ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
             <ComboOptionRowSelect
               key={i + 1}
@@ -182,7 +183,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
           ))}
         </Flex>
 
-        <Flex direction="column" flex={1} style={{ marginLeft: 2, display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
+        <Flex direction="column" flex={1} className={classes.abilitiesColumn} style={{ display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} />)}
         </Flex>
       </Flex>

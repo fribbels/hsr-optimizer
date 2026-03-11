@@ -24,9 +24,7 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import {
-  AppPages,
-} from 'lib/state/db'
+import { useGlobalStore, AppPages, } from 'lib/state/db'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
@@ -51,8 +49,8 @@ function getItem(label: string | ReactElement, key: string, icon?: ReactElement,
 
 const MenuDrawer = () => {
   const { t } = useTranslation('sidebar')
-  const activeKey = window.store((s) => s.activeKey)
-  const setActiveKey = window.store((s) => s.setActiveKey)
+  const activeKey = useGlobalStore((s) => s.activeKey)
+  const setActiveKey = useGlobalStore((s) => s.setActiveKey)
 
   const items = useMemo(() => [
     getItem(t('Tools.Title'), /* Tools */ 'subTools', <IconSun />, [

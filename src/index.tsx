@@ -18,7 +18,6 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
-import { Themes } from 'lib/rendering/theme'
 import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
@@ -34,25 +33,11 @@ import 'style/selecto.css'
 import 'style/components.css'
 import 'style/mantine-overrides.css'
 
-window.WorkerPool = WorkerPool
-window.Constants = Constants
-window.DataParser = Metadata
-window.DB = DB
-window.Assets = Assets
-window.RelicAugmenter = RelicAugmenter
-window.StatCalculator = StatCalculator
-window.Gradient = Gradient
-window.SaveState = SaveState
-window.RelicFilters = RelicFilters
-window.Renderer = Renderer
-window.Message = Message
-window.Hint = Hint
-window.CharacterConverter = CharacterConverter
-window.RelicScorer = RelicScorer
-window.BufferPacker = BufferPacker
-window.RelicRollFixer = RelicRollFixer
-
-window.colorTheme = Themes.BLUE
+window.__HSR_DEBUG = {
+  WorkerPool, Constants, DataParser: Metadata, DB, Assets, RelicAugmenter,
+  StatCalculator, Gradient, SaveState, RelicFilters, Renderer, Message,
+  Hint, CharacterConverter, RelicScorer, BufferPacker, RelicRollFixer,
+}
 
 Metadata.initialize()
 SaveState.load(false, false)

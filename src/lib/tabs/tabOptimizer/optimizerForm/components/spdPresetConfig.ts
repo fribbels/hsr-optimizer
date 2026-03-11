@@ -1,5 +1,6 @@
 import { ApplyColumnStateParams } from 'ag-grid-community'
 import { TFunction } from 'i18next'
+import { gridStore } from 'lib/utils/gridStore'
 import { ReactElement } from 'types/components'
 
 export type SpdPresets = Record<string, {
@@ -122,5 +123,5 @@ export function setSortColumn(columnId: string) {
     ],
     defaultState: { sort: null },
   }
-  window.optimizerGrid.current?.api?.applyColumnState(columnState)
+  gridStore.optimizerGridApi()?.applyColumnState(columnState)
 }

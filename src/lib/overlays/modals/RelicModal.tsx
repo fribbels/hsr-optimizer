@@ -50,6 +50,7 @@ import React, {
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
+import { useGlobalStore } from 'lib/state/db'
 
 // FIXME MED
 
@@ -85,7 +86,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
   })
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
   const characters = useCharacterTabStore((s) => s.characters)
-  const showLocator = window.store((s) => s.settings.ShowLocatorInRelicsModal)
+  const showLocator = useGlobalStore((s) => s.settings.ShowLocatorInRelicsModal)
 
   const isLiveImport = useScannerState((s) => s.ingest)
 

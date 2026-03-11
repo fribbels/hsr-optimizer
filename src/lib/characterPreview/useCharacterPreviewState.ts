@@ -11,6 +11,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { Character, SavedBuild } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
 import { Relic } from 'types/relic'
+import { useGlobalStore } from 'lib/state/db'
 
 export function useCharacterPreviewState(
   source: ShowcaseSource,
@@ -33,7 +34,7 @@ export function useCharacterPreviewState(
     teamSelectionByCharacter,
     globalShowcasePreferences,
     showcaseTemporaryOptionsByCharacter,
-  } = window.store(
+  } = useGlobalStore(
     useShallow((s) => ({
       teamSelectionByCharacter: s.showcaseTeamPreferenceById,
       globalShowcasePreferences: s.showcasePreferences,
@@ -42,14 +43,14 @@ export function useCharacterPreviewState(
   )
 
   // Task 2.7: Scope relicsById subscription to only the 6 equipped relic IDs
-  const relicsById = window.store(useShallow((s) => {
+  const relicsById = useGlobalStore(useShallow((s) => {
     if (!character) return null
     const equipped = savedBuildOverride?.equipped ?? character.equipped
     const ids = [equipped?.Head, equipped?.Hands, equipped?.Body, equipped?.Feet, equipped?.PlanarSphere, equipped?.LinkRope].filter((id): id is string => !!id)
     return Object.fromEntries(ids.map((id) => [id, s.relicsById[id]])) as Partial<Record<string, Relic>>
   }))
 
-  const [storedScoringType, setScoringType] = useState(window.store.getState().savedSession.scoringType)
+  const [storedScoringType, setScoringType] = useState(useGlobalStore.getState().savedSession.scoringType)
   const prevCharId = useRef<string>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
@@ -57,10 +58,10 @@ export function useCharacterPreviewState(
   const sidebarRef = useRef<ShowcaseCustomizationSidebarRef>(null)
   const [seedColor, setSeedColor] = useState<string>(DEFAULT_SHOWCASE_COLOR)
   const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
-    window.store.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
+    useGlobalStore.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
-  const activeKey = window.store((s) => s.activeKey)
-  const darkMode = window.store((s) => s.savedSession.showcaseDarkMode)
+  const activeKey = useGlobalStore((s) => s.activeKey)
+  const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
 
   // Using this to trigger updates on scoring metadata changes
   const scoringMetadata = useScoringMetadata(character?.id)

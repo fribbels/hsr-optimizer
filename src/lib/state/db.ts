@@ -50,6 +50,7 @@ import {
   definedEntries,
 } from 'lib/utils/arrayUtils'
 import { debounceEffect } from 'lib/utils/debounceUtils'
+import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import {
@@ -172,7 +173,7 @@ function getDefaultActiveKey() {
   return page ?? AppPages.HOME
 }
 
-window.store = create<HsrOptimizerStore>()((set) => ({
+export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
 
@@ -257,19 +258,19 @@ export const DB = {
     })
   },
 
-  getRelics: () => window.store.getState().relics,
-  getRelicsById: () => window.store.getState().relicsById,
+  getRelics: () => useGlobalStore.getState().relics,
+  getRelicsById: () => useGlobalStore.getState().relicsById,
   setRelics: (relics: Relic[]) => {
     indexRelics(relics)
     const relicsById = relics.reduce((relicsById, relic) => {
       relicsById[relic.id] = relic
       return relicsById
     }, {} as Record<string, Relic>)
-    window.store.getState().setRelicsById(relicsById)
+    useGlobalStore.getState().setRelicsById(relicsById)
   },
   getRelicById: (id: string | undefined) => {
     if (!id) return undefined
-    return window.store.getState().relicsById[id]
+    return useGlobalStore.getState().relicsById[id]
   },
 
   /**
@@ -315,12 +316,12 @@ export const DB = {
   },
 
   // Mostly for debugging
-  getState: () => window.store.getState(),
+  getState: () => useGlobalStore.getState(),
 
   getScoringMetadata: (id: CharacterId) => {
     const dbMetadata = DB.getMetadata()
     const defaultScoringMetadata = dbMetadata.characters[id].scoringMetadata
-    const scoringMetadataOverrides = window.store.getState().scoringMetadataOverrides
+    const scoringMetadataOverrides = useGlobalStore.getState().scoringMetadataOverrides
     const override = scoringMetadataOverrides[id]
     const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
 
@@ -361,31 +362,31 @@ export const DB = {
     return returnScoringMetadata
   },
   updateCharacterScoreOverrides: (id: CharacterId, updated: Partial<ScoringMetadata>) => {
-    let overrides = window.store.getState().scoringMetadataOverrides
+    let overrides = useGlobalStore.getState().scoringMetadataOverrides
     overrides = { ...overrides, [id]: { ...overrides[id], ...updated } }
 
     const defaultScoringMetadata = DB.getMetadata().characters[id].scoringMetadata
 
     setModifiedScoringMetadata(defaultScoringMetadata, overrides[id]!)
 
-    window.store.getState().setScoringMetadataOverrides(overrides)
+    useGlobalStore.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()
   },
   updateSimulationScoreOverrides: (id: CharacterId, updatedSimulation: Partial<SimulationMetadata>) => {
     if (!updatedSimulation) return
 
-    let overrides = window.store.getState().scoringMetadataOverrides
+    let overrides = useGlobalStore.getState().scoringMetadataOverrides
     overrides = { ...overrides, [id]: { ...overrides[id], simulation: { ...overrides[id]?.simulation, ...updatedSimulation } } }
-    window.store.getState().setScoringMetadataOverrides(overrides)
+    useGlobalStore.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()
   },
   clearSimulationScoreOverrides: (id: CharacterId) => {
-    let overrides = window.store.getState().scoringMetadataOverrides
+    let overrides = useGlobalStore.getState().scoringMetadataOverrides
     const { simulation, ...rest } = overrides[id] ?? {}
     overrides = { ...overrides, [id]: rest }
-    window.store.getState().setScoringMetadataOverrides(overrides)
+    useGlobalStore.getState().setScoringMetadataOverrides(overrides)
 
     SaveState.delayedSave()
   },
@@ -453,7 +454,7 @@ export const DB = {
         }
       }
 
-      window.store.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
+      useGlobalStore.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides || {})
     }
 
     const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))
@@ -499,7 +500,7 @@ export const DB = {
     processRelics(saveData.relics, charactersById)
 
     if (saveData.showcasePreferences) {
-      window.store.getState().setShowcasePreferences(saveData.showcasePreferences || {})
+      useGlobalStore.getState().setShowcasePreferences(saveData.showcasePreferences || {})
     }
 
     useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
@@ -524,7 +525,7 @@ export const DB = {
         // When new session items are added, set user's save to the default
         const overiddenSavedSessionDefaults: GlobalSavedSession = { ...savedSessionDefaults, ...session }
 
-        window.store.getState().setSavedSession(overiddenSavedSessionDefaults)
+        useGlobalStore.getState().setSavedSession(overiddenSavedSessionDefaults)
       }
 
       if (saveData.savedSession.showcaseTab) { // Set showcase tab state
@@ -533,13 +534,13 @@ export const DB = {
     }
 
     if (saveData.settings) {
-      window.store.getState().setSettings(saveData.settings)
+      useGlobalStore.getState().setSettings(saveData.settings)
     }
 
     // Set relics tab state
     useRelicsTabStore.getState().setExcludedRelicPotentialCharacters(saveData.excludedRelicPotentialCharacters || [])
 
-    window.store.getState().setVersion(saveData.version)
+    useGlobalStore.getState().setVersion(saveData.version)
 
     useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
     useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
@@ -603,12 +604,12 @@ export const DB = {
     // console.log('Updated db characters', characters)
 
     /*
-     * TODO: after render optimization, window.characterGrid is possibly undefined
+     * TODO: after render optimization, characterGrid is possibly undefined
      * Since the grid resets the rows, we have to re-select the grid node and inform the character tab
      */
     const oldFocusCharacter = useCharacterTabStore.getState().focusCharacter
-    if (window.characterGrid?.current?.api && (select || !oldFocusCharacter)) {
-      window.characterGrid.current.api.forEachNode((node: IRowNode<Character>) => {
+    if (gridStore.characterGridApi() && (select || !oldFocusCharacter)) {
+      gridStore.characterGridApi()!.forEachNode((node: IRowNode<Character>) => {
         if (node.data?.id == found.id) node.setSelected(true)
       })
       useCharacterTabStore.getState().setFocusCharacter(found.id)
@@ -694,7 +695,7 @@ export const DB = {
         break
       case SavedBuildSource.SHOWCASE:
         const simulation = DB.getScoringMetadata(character.id)?.simulation
-        const useCustomTeam = simulation && (window.store.getState().showcaseTeamPreferenceById[characterId] !== DEFAULT_TEAM)
+        const useCustomTeam = simulation && (useGlobalStore.getState().showcaseTeamPreferenceById[characterId] !== DEFAULT_TEAM)
         let teammates = useCustomTeam ? simulation.teammates : DB.getMetadata().characters[characterId].scoringMetadata.simulation?.teammates
         if (teammates) {
           teammates.forEach((teammate) => {
@@ -854,7 +855,7 @@ export const DB = {
     const newRelic = { ...relic, equippedBy: character.id }
     setRelic(newRelic)
 
-    debounceEffect('refreshRelics', 500, () => window.relicsGrid?.current?.api.refreshCells())
+    debounceEffect('refreshRelics', 500, () => gridStore.relicsGridApi()?.refreshCells())
   },
 
   equipRelicIdsToCharacter: (relicIds: string[], characterId: CharacterId, forceSwap = false) => {
@@ -876,9 +877,9 @@ export const DB = {
   deleteRelic: (id: string) => {
     if (!id) return Message.error(i18next.t('relicsTab:Messages.UnableToDeleteRelic'))
     DB.unequipRelicById(id)
-    const relicsById = window.store.getState().relicsById
+    const relicsById = useGlobalStore.getState().relicsById
     delete relicsById[id]
-    window.store.getState().setRelicsById({ ...relicsById })
+    useGlobalStore.getState().setRelicsById({ ...relicsById })
   },
 
   // These relics may be missing speed decimals depending on the importer.\
@@ -1236,9 +1237,9 @@ function partialHashRelic(relic: Relic) {
  * Sets the provided relic in the application's state.
  */
 function setRelic(relic: Relic) {
-  relic.ageIndex ??= (window.store.getState().relics.at(-1)?.ageIndex ?? -1) + 1
-  const relicsById = { ...window.store.getState().relicsById, [relic.id]: relic }
-  window.store.getState().setRelicsById(relicsById)
+  relic.ageIndex ??= (useGlobalStore.getState().relics.at(-1)?.ageIndex ?? -1) + 1
+  const relicsById = { ...useGlobalStore.getState().relicsById, [relic.id]: relic }
+  useGlobalStore.getState().setRelicsById(relicsById)
 }
 
 function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
@@ -1487,8 +1488,8 @@ function loadCharacterBuildInOptimizer(arg1: CharacterId | SavedBuild, buildInde
   void import('lib/stores/optimizerForm/useOptimizerRequestStore').then(({ useOptimizerRequestStore }) => {
     useOptimizerRequestStore.setState(patch)
 
-    window.store.getState().setActiveKey(AppPages.OPTIMIZER)
-    window.store.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
+    useGlobalStore.getState().setActiveKey(AppPages.OPTIMIZER)
+    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
     SaveState.delayedSave()
   })
 }

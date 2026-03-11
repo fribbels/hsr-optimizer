@@ -24,6 +24,7 @@ import {
 import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import useRelicsTabStore, { ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { gridStore } from 'lib/utils/gridStore'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import {
   useCallback,
@@ -33,6 +34,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useGlobalStore } from 'lib/state/db'
 
 const gridOptions: GridOptions<ScoredRelic> = {
   rowHeight: 33,
@@ -56,12 +58,12 @@ export function RelicsGrid() {
 
   const [gridActive, setGridActive] = useState(true)
 
-  const { relics, scoringMetadataOverrides } = window.store()
+  const { relics, scoringMetadataOverrides } = useGlobalStore()
 
   const { focusCharacter, excludedRelicPotentialCharacters } = useRelicsTabStore()
 
   const gridRef = useRef<AgGridReact<ScoredRelic>>(null)
-  window.relicsGrid = gridRef
+  gridStore.setRelicsGrid(gridRef)
 
   const scoredRelics = useMemo(() => {
     return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringMetadataOverrides)

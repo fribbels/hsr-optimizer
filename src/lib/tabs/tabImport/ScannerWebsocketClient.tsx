@@ -1,6 +1,6 @@
 import { V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import RelicRerollModal from 'lib/overlays/modals/RelicRerollModal'
-import { AppPages } from 'lib/state/db'
+import { useGlobalStore, AppPages } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import {
   handleDeleteLightCone,
@@ -16,6 +16,7 @@ import {
 } from 'lib/tabs/tabImport/scannerStore'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
+import { gridStore } from 'lib/utils/gridStore'
 import useWebSocket from 'partysocket/use-ws'
 import {
   useEffect,
@@ -137,7 +138,7 @@ export function ScannerWebsocket() {
       }
 
       debounceEffect('scannerWebsocketForceUpdates', 100, () => {
-        const activeKey = window.store.getState().activeKey
+        const activeKey = useGlobalStore.getState().activeKey
         switch (activeKey) {
           case AppPages.RELICS:
             if (relicSelectionBuffer.current.length > 0) {
@@ -154,7 +155,7 @@ export function ScannerWebsocket() {
             }
             break
           case AppPages.OPTIMIZER:
-            window.optimizerGrid?.current?.api?.redrawRows()
+            gridStore.optimizerGridApi()?.redrawRows()
             break
         }
       })

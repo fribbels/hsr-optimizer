@@ -1,6 +1,6 @@
 import { Flex, Pagination, Text, Title, useMantineTheme } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { AppPages } from 'lib/state/db'
+import { useGlobalStore, AppPages } from 'lib/state/db'
 import { ChangelogContent, getChangelogContent } from 'lib/tabs/tabChangelog/changelogData'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, {
@@ -12,7 +12,7 @@ import React, {
 export default function ChangelogTab(): React.JSX.Element {
   const theme = useMantineTheme()
 
-  const activeKey = window.store((s) => s.activeKey)
+  const activeKey = useGlobalStore((s) => s.activeKey)
   const changelogContent = useMemo(() => getChangelogContent(), [])
 
   const PAGE_SIZE = 4

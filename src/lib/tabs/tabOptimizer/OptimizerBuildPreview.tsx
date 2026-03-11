@@ -5,7 +5,7 @@ import { useState } from 'react'
 import RelicModal from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import { AppPages } from 'lib/state/db'
+import { useGlobalStore, AppPages } from 'lib/state/db'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { Relic } from 'types/relic'
@@ -30,9 +30,9 @@ const indexToPart: Record<number, Parts> = {
 
 export default function OptimizerBuildPreview() {
   const optimizerBuild = useOptimizerDisplayStore((s) => s.optimizerBuild)
-  const relicsById = window.store((s) => s.relicsById)
+  const relicsById = useGlobalStore((s) => s.relicsById)
   const characterId = useOptimizerDisplayStore((s) => s.focusCharacterId)
-  const activeKey = window.store((s) => s.activeKey)
+  const activeKey = useGlobalStore((s) => s.activeKey)
 
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false)

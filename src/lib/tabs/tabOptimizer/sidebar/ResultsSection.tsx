@@ -6,7 +6,7 @@ import { equipClicked } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormA
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { optimizerGridApi } from 'lib/utils/gridUtils'
+import { gridStore } from 'lib/utils/gridStore'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -14,7 +14,7 @@ const defaultGap = 5
 const buttonStyle: React.CSSProperties = { width: '100px' }
 
 function addToPinned() {
-  const gridApi = optimizerGridApi()
+  const gridApi = gridStore.optimizerGridApi()
   if (!gridApi) return
   const currentPinnedRows = gridApi.getGridOption('pinnedTopRowData')!
   const selectedNodes = gridApi.getSelectedNodes()
@@ -36,7 +36,7 @@ function addToPinned() {
 }
 
 function clearPinned() {
-  const gridApi = optimizerGridApi()
+  const gridApi = gridStore.optimizerGridApi()
   if (!gridApi) return
   const currentPinned = gridApi?.getGridOption('pinnedTopRowData')
   if (currentPinned?.length) {

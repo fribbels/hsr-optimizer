@@ -10,7 +10,7 @@ import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/c
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import DB from 'lib/state/db'
+import DB, { useGlobalStore } from 'lib/state/db'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 
@@ -28,7 +28,7 @@ export const CharacterStatSummary = (props: {
   showAll?: boolean,
 }) => {
   const edits = calculateStatCustomizations(props.characterId)
-  const preciseSpd = window.store((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
+  const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
   const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
 
   return (

@@ -20,8 +20,7 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
   const setOptimizerMenuState = useOptimizerUIStore((s) => s.setMenuState)
 
   function onChange(value: string[]) {
-    optimizerMenuState[props.id] = value.length > 0
-    setOptimizerMenuState(optimizerMenuState)
+    setOptimizerMenuState({ ...optimizerMenuState, [props.id]: value.length > 0 })
   }
 
   return (

@@ -188,7 +188,6 @@ window.store = create<HsrOptimizerStore>()((set) => ({
   showcaseTeamPreferenceById: {},
   showcasePreferences: {},
   showcaseTemporaryOptionsByCharacter: {},
-  relicScorerSidebarOpen: true,
 
   savedSession: savedSessionDefaults,
 

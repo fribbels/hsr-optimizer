@@ -28,8 +28,6 @@ export default function CharacterTab() {
   const buildsModalOpen = useCharacterTabStore((s) => s.buildsModalOpen)
   const setBuildsModalOpen = useCharacterTabStore((s) => s.setBuildsModalOpen)
 
-  console.log('======================================================================= RENDER CharacterTab')
-
   const selectedCharacter = useCharacterTabStore((s) => s.selectedCharacter)
 
   const defaultGap = 8

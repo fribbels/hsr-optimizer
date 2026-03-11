@@ -71,8 +71,6 @@ export default function ShowcaseTab() {
   if (activeKey != AppPages.SHOWCASE && !availableCharacters?.length) {
     return <></>
   }
-  console.log('======================================================================= RENDER RelicScorerTab')
-
   return (
     <div>
       <Flex direction="column" gap={0} align='center'>

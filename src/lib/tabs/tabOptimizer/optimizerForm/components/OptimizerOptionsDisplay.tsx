@@ -18,10 +18,10 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const OptimizerOptionsDisplay = (): JSX.Element => {
+const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): JSX.Element {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const characters = useCharacterTabStore((s) => s.characters)
@@ -257,6 +257,6 @@ const OptimizerOptionsDisplay = (): JSX.Element => {
       </Flex>
     </Flex>
   )
-}
+})
 
 export default OptimizerOptionsDisplay

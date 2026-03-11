@@ -23,6 +23,7 @@ import {
   Languages,
   localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Fragment } from 'react/jsx-runtime'
 import { CharacterId } from 'types/character'
@@ -36,7 +37,7 @@ export type ShowcaseTheme = {
   cardBorderColor: string,
 }
 
-export function RelicPreview(props: {
+export const RelicPreview = React.memo(function RelicPreview(props: {
   relic?: Relic | null,
   source?: ShowcaseSource,
   characterId?: CharacterId | null,
@@ -167,7 +168,7 @@ export function RelicPreview(props: {
       </RelicStatText>
     </Paper>
   )
-}
+})
 
 function ScoreFooter(props: { score?: RelicScoringResult }) {
   const { t } = useTranslation('common')

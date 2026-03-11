@@ -21,6 +21,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 
 export default function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
@@ -29,12 +30,23 @@ export default function CharacterSelectorDisplay() {
   const optimizerTabFocusCharacterSelectModalOpen = useOptimizerUIStore((s) => s.characterSelectModalOpen)
   const setOptimizerTabFocusCharacterSelectModalOpen = useOptimizerUIStore((s) => s.setCharacterSelectModalOpen)
 
-  const characterId = useOptimizerFormStore((s) => s.characterId)
-  const characterEidolon = useOptimizerFormStore((s) => s.characterEidolon)
-  const lightCone = useOptimizerFormStore((s) => s.lightCone)
-  const lightConeSuperimposition = useOptimizerFormStore((s) => s.lightConeSuperimposition)
-  const resultsLimit = useOptimizerFormStore((s) => s.resultsLimit)
-  const resultSort = useOptimizerFormStore((s) => s.resultSort)
+  const {
+    characterId,
+    characterEidolon,
+    lightCone,
+    lightConeSuperimposition,
+    resultsLimit,
+    resultSort,
+  } = useOptimizerFormStore(
+    useShallow((s) => ({
+      characterId: s.characterId,
+      characterEidolon: s.characterEidolon,
+      lightCone: s.lightCone,
+      lightConeSuperimposition: s.lightConeSuperimposition,
+      resultsLimit: s.resultsLimit,
+      resultSort: s.resultSort,
+    })),
+  )
 
   const eidolonOptions = useMemo(() => {
     const options: { value: number; label: string }[] = []

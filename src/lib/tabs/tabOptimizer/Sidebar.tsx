@@ -38,9 +38,12 @@ import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import React, {
   ReactElement,
+  useCallback,
+  useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { CharacterId } from 'types/character'
 import {
   MemoDisplay,
@@ -84,7 +87,7 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
   ]
 }
 
-function PermutationDisplay(props: { total?: number, right: number, left: string }) {
+const PermutationDisplay = React.memo(function PermutationDisplay(props: { total?: number, right: number, left: string }) {
   const rightText = props.total
     ? `${localeNumberComma(props.right)} / ${localeNumberComma(props.total)} - (${localeNumberComma(Math.ceil(props.right / props.total * 100))}%)`
     : `${localeNumberComma(props.right)}`
@@ -99,7 +102,7 @@ function PermutationDisplay(props: { total?: number, right: number, left: string
       </Text>
     </Flex>
   )
-}
+})
 
 const defaultGap = 5
 
@@ -335,11 +338,15 @@ function OptimizerSidebar(props: { isFullSize: boolean }) {
   )
 }
 
-function PermutationsGroup(props: { isFullSize: boolean }) {
-  const permutationDetails = useOptimizerUIStore((s) => s.permutationDetails)
-  const permutations = useOptimizerUIStore((s) => s.permutations)
-  const permutationsSearched = useOptimizerUIStore((s) => s.permutationsSearched)
-  const permutationsResults = useOptimizerUIStore((s) => s.permutationsResults)
+const PermutationsGroup = React.memo(function PermutationsGroup(props: { isFullSize: boolean }) {
+  const { permutationDetails, permutations, permutationsSearched, permutationsResults } = useOptimizerUIStore(
+    useShallow((s) => ({
+      permutationDetails: s.permutationDetails,
+      permutations: s.permutations,
+      permutationsSearched: s.permutationsSearched,
+      permutationsResults: s.permutationsResults,
+    })),
+  )
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ReadableParts' })
   return (
@@ -369,21 +376,30 @@ function PermutationsGroup(props: { isFullSize: boolean }) {
       {props.isFullSize && <ProgressDisplay />}
     </Flex>
   )
-}
+})
 
-function ProgressDisplay() {
-  const permutations = useOptimizerUIStore((s) => s.permutations)
-  const permutationsSearched = useOptimizerUIStore((s) => s.permutationsSearched)
-  const optimizerStartTime = useOptimizerUIStore((s) => s.optimizerStartTime)
-  const optimizerEndTime = useOptimizerUIStore((s) => s.optimizerEndTime)
-  const optimizerRunningEngine = useOptimizerUIStore((s) => s.optimizerRunningEngine)
-  const optimizationInProgress = useOptimizerUIStore((s) => s.optimizationInProgress)
+const ProgressDisplay = React.memo(function ProgressDisplay() {
+  const { permutations, permutationsSearched, optimizerStartTime, optimizerEndTime, optimizerRunningEngine, optimizationInProgress } = useOptimizerUIStore(
+    useShallow((s) => ({
+      permutations: s.permutations,
+      permutationsSearched: s.permutationsSearched,
+      optimizerStartTime: s.optimizerStartTime,
+      optimizerEndTime: s.optimizerEndTime,
+      optimizerRunningEngine: s.optimizerRunningEngine,
+      optimizationInProgress: s.optimizationInProgress,
+    })),
+  )
   const theme = useMantineTheme()
+
+  const progressText = useMemo(
+    () => calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine),
+    [optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine],
+  )
 
   return (
     <Flex direction="column">
       <HeaderText>
-        {calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)}
+        {progressText}
       </HeaderText>
       <Progress
         color={theme.colors.blue[6]}
@@ -392,7 +408,7 @@ function ProgressDisplay() {
       />
     </Flex>
   )
-}
+})
 
 const BuildsGroup = React.memo((props: { isFullSize: boolean }) => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.BuildsGroup' })
@@ -442,7 +458,7 @@ const BuildsGroup = React.memo((props: { isFullSize: boolean }) => {
   )
 })
 
-function ResultsGroup(props: { isFullSize: boolean }) {
+const ResultsGroup = React.memo(function ResultsGroup(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.ResultsGroup' })
   return (
     <Flex direction="column" gap={5}>
@@ -468,45 +484,49 @@ function ResultsGroup(props: { isFullSize: boolean }) {
       </Flex>
     </Flex>
   )
-}
+})
 
-function OptimizerControlsGroup(props: { isFullSize: boolean }) {
+const OptimizerControlsGroup = React.memo(function OptimizerControlsGroup(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
 
-  const permutations = useOptimizerUIStore((s) => s.permutations)
-  const optimizationInProgress = useOptimizerUIStore((s) => s.optimizationInProgress)
+  const { permutations, optimizationInProgress } = useOptimizerUIStore(
+    useShallow((s) => ({
+      permutations: s.permutations,
+      optimizationInProgress: s.optimizationInProgress,
+    })),
+  )
   const setOptimizationInProgress = useOptimizerUIStore((s) => s.setOptimizationInProgress)
   const computeEngine = window.store((s) => s.savedSession[SavedSessionKeys.computeEngine])
 
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
 
-  function cancelClicked() {
+  const cancelClicked = useCallback(() => {
     console.log('Cancel clicked')
     setOptimizationInProgress(false)
     Optimizer.cancel()
-  }
+  }, [setOptimizationInProgress])
 
-  function startOptimizer() {
+  const startOptimizerFn = useCallback(() => {
     startOptimization()
-  }
+  }, [])
 
-  function startClicked() {
+  const startClicked = useCallback(() => {
     if (
       permutations < 1000000000
       || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
       || computeEngine == COMPUTE_ENGINE_GPU_STABLE
     ) {
-      startOptimizer()
+      startOptimizerFn()
     } else {
       setManyPermsModalOpen(true)
     }
-  }
+  }, [permutations, computeEngine, startOptimizerFn])
 
-  function resetClicked() {
+  const resetClicked = useCallback(() => {
     console.log('Reset clicked')
     OptimizerTabController.resetFilters()
-  }
+  }, [])
 
   return (
     <Flex
@@ -514,7 +534,7 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
       gap={props.isFullSize ? 5 : 20}
       style={props.isFullSize ? { display: 'flex', flexDirection: 'column' } : { display: 'flex', flexDirection: 'row-reverse' }}
     >
-      <ManyPermsModal startSearch={startOptimizer} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen} />
+      <ManyPermsModal startSearch={startOptimizerFn} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen} />
       <Flex direction="column" gap={5}>
         <HeaderText>{t('ControlsGroup.Header') /* Controls */}</HeaderText>
         <Flex gap={defaultGap} style={{ marginBottom: 2 }} direction="column">
@@ -573,11 +593,15 @@ function OptimizerControlsGroup(props: { isFullSize: boolean }) {
         )}
     </Flex>
   )
-}
+})
 
-function StatsViewSelect() {
+const StatsViewSelect = React.memo(function StatsViewSelect() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
-  const statDisplay = useOptimizerFormStore((s) => s.statDisplay)
+  const { statDisplay } = useOptimizerFormStore(
+    useShallow((s) => ({
+      statDisplay: s.statDisplay,
+    })),
+  )
   const setStatDisplay = useOptimizerFormStore((s) => s.setStatDisplay)
 
   return (
@@ -591,12 +615,16 @@ function StatsViewSelect() {
       ]}
     />
   )
-}
+})
 
-function MemoViewSelect(props: { isFullSize: boolean }) {
+const MemoViewSelect = React.memo(function MemoViewSelect(props: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.StatViewGroup' })
 
-  const memoDisplay = useOptimizerFormStore((s) => s.memoDisplay)
+  const { memoDisplay } = useOptimizerFormStore(
+    useShallow((s) => ({
+      memoDisplay: s.memoDisplay,
+    })),
+  )
   const setMemoDisplay = useOptimizerFormStore((s) => s.setMemoDisplay)
   const optimizerTabFocusCharacter = useOptimizerUIStore((s) => s.focusCharacterId)
 
@@ -615,7 +643,7 @@ function MemoViewSelect(props: { isFullSize: boolean }) {
       ]}
     />
   )
-}
+})
 
 export function isRemembrance(characterId: CharacterId | null | undefined) {
   if (!characterId) return false

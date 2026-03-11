@@ -69,9 +69,11 @@ import {
   showcaseTransition,
 } from 'lib/utils/colorUtils'
 import {
+  useMemo,
   useRef,
   useState,
 } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 import {
   Character,
   SavedBuild,
@@ -125,14 +127,24 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
 
-  const teamSelectionByCharacter = window.store((s) => s.showcaseTeamPreferenceById)
+  const {
+    teamSelectionByCharacter,
+    relicsById,
+    globalShowcasePreferences,
+    showcaseTemporaryOptionsByCharacter,
+  } = window.store(
+    useShallow((s) => ({
+      teamSelectionByCharacter: s.showcaseTeamPreferenceById,
+      relicsById: s.relicsById,
+      globalShowcasePreferences: s.showcasePreferences,
+      showcaseTemporaryOptionsByCharacter: s.showcaseTemporaryOptionsByCharacter,
+    })),
+  )
 
   const [storedScoringType, setScoringType] = useState(window.store.getState().savedSession.scoringType)
   const prevCharId = useRef<string>()
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
-  const relicsById = window.store((s) => s.relicsById)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
-  const globalShowcasePreferences = window.store((s) => s.showcasePreferences)
 
   const sidebarRef = useRef<ShowcaseCustomizationSidebarRef>(null)
   const [seedColor, setSeedColor] = useState<string>(DEFAULT_SHOWCASE_COLOR)
@@ -144,7 +156,6 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   // Using this to trigger updates on scoring metadata changes
   const scoringMetadata = useScoringMetadata(character?.id)
-  const showcaseTemporaryOptionsByCharacter = window.store((s) => s.showcaseTemporaryOptionsByCharacter)
 
   const onRelicModalOk = (relic: Relic) => {
     if (selectedRelic) {
@@ -174,7 +185,10 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   // ===== Relics =====
 
-  const { scoringResults, displayRelics } = getPreviewRelics(source, character, relicsById, savedBuildOverride)
+  const { scoringResults, displayRelics } = useMemo(
+    () => getPreviewRelics(source, character, relicsById, savedBuildOverride),
+    [source, character, relicsById, savedBuildOverride],
+  )
   const scoredRelics = scoringResults.relics || []
 
   const showcaseMetadata = getShowcaseMetadata(character)
@@ -234,7 +248,10 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   const displayDimensions: ShowcaseDisplayDimensions = getShowcaseDisplayDimensions(character, scoringType == ScoringType.COMBAT_SCORE)
   const artistName = getArtistName(character)
-  const finalStats = getShowcaseStats(character, displayRelics, showcaseMetadata)
+  const finalStats = useMemo(
+    () => getShowcaseStats(character, displayRelics, showcaseMetadata),
+    [character, displayRelics, showcaseMetadata],
+  )
 
   const yOffset = 0
   const zoom = 150

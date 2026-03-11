@@ -24,11 +24,12 @@ import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/Char
 import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
-import {
+import React, {
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import {
   Character,
   CharacterId,
@@ -184,20 +185,29 @@ export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'T
   }
 }
 
-const TeammateCard = (props: {
+const TeammateCard = React.memo(function TeammateCard(props: {
   index: number;
   dbMetadata: DBMetadata;
-}) => {
+}) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const tmIndex = props.index as 0 | 1 | 2
-  const teammateCharacterId = useOptimizerFormStore((s) => s.teammates[tmIndex].characterId) as CharacterId
-  const teammateEidolon = useOptimizerFormStore((s) => s.teammates[tmIndex].characterEidolon)
-
-  const teammateLightConeId = useOptimizerFormStore((s) => s.teammates[tmIndex].lightCone) as LightConeId
-  const teammateSuperimposition = useOptimizerFormStore((s) => s.teammates[tmIndex].lightConeSuperimposition) as SuperImpositionLevel
-
-  const teammateTeamRelicSet = useOptimizerFormStore((s) => s.teammates[tmIndex].teamRelicSet)
-  const teammateTeamOrnamentSet = useOptimizerFormStore((s) => s.teammates[tmIndex].teamOrnamentSet)
+  const {
+    teammateCharacterId,
+    teammateEidolon,
+    teammateLightConeId,
+    teammateSuperimposition,
+    teammateTeamRelicSet,
+    teammateTeamOrnamentSet,
+  } = useOptimizerFormStore(
+    useShallow((s) => ({
+      teammateCharacterId: s.teammates[tmIndex].characterId as CharacterId,
+      teammateEidolon: s.teammates[tmIndex].characterEidolon,
+      teammateLightConeId: s.teammates[tmIndex].lightCone as LightConeId,
+      teammateSuperimposition: s.teammates[tmIndex].lightConeSuperimposition as SuperImpositionLevel,
+      teammateTeamRelicSet: s.teammates[tmIndex].teamRelicSet,
+      teammateTeamOrnamentSet: s.teammates[tmIndex].teamOrnamentSet,
+    })),
+  )
 
   const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
 
@@ -229,6 +239,11 @@ const TeammateCard = (props: {
     }
     return options
   }, [t])
+
+  const eidolonSelectData = useMemo(() => eidolonOptions.map((opt) => ({ value: String(opt.value), label: opt.label })), [eidolonOptions])
+  const superimpositionSelectData = useMemo(() => superimpositionOptions.map((opt) => ({ value: String(opt.value), label: opt.label })), [superimpositionOptions])
+  const teammateRelicSelectData = useMemo(() => teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc })), [teammateRelicSetOptions])
+  const teammateOrnamentSelectData = useMemo(() => teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc })), [teammateOrnamentSetOptions])
 
   return (
     <FormCard size='medium' height={cardHeight} style={{ overflow: 'auto' }}>
@@ -263,7 +278,7 @@ const TeammateCard = (props: {
           <Select
             searchable
             style={{ width: 110 }}
-            data={eidolonOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+            data={eidolonSelectData}
             value={teammateEidolon != null ? String(teammateEidolon) : null}
             onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setTeammateField(tmIndex, 'characterEidolon', Number(val)) }}
             placeholder={t('EidolonPlaceholder')} // 'Eidolon'
@@ -301,7 +316,7 @@ const TeammateCard = (props: {
             <Select
               className='teammate-set-select'
               style={{ width: 110 }}
-              data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
+              data={teammateRelicSelectData}
               value={teammateTeamRelicSet}
               onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
               placeholder={t('RelicsPlaceholder')} // 'Relics'
@@ -313,7 +328,7 @@ const TeammateCard = (props: {
             <Select
               className='teammate-set-select'
               style={{ width: 110 }}
-              data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
+              data={teammateOrnamentSelectData}
               value={teammateTeamOrnamentSet}
               onChange={(val) => useOptimizerFormStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
               placeholder={t('OrnamentsPlaceholder')} // 'Ornaments'
@@ -344,7 +359,7 @@ const TeammateCard = (props: {
           <Select
             searchable
             style={{ width: 110 }}
-            data={superimpositionOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+            data={superimpositionSelectData}
             value={teammateSuperimposition != null ? String(teammateSuperimposition) : null}
             onChange={(val) => { if (val != null) useOptimizerFormStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', Number(val)) }}
             placeholder={t('SuperimpositionPlaceholder')} // 'Superimposition'
@@ -379,7 +394,7 @@ const TeammateCard = (props: {
       </Flex>
     </FormCard>
   )
-}
+})
 
 export default TeammateCard
 

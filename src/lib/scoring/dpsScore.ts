@@ -19,7 +19,7 @@ import {
   runDpsScoreBenchmarkOrchestrator,
   setBenchmarkCache,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Character,
@@ -43,7 +43,7 @@ export function getShowcaseSimScoringExecution(
   showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
   buildOverride?: SavedBuild | null,
 ): AsyncSimScoringExecution {
-  const characterMetadata = DB.getMetadata().characters[character.id]
+  const characterMetadata = getGameMetadata().characters[character.id]
   const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection, buildOverride)
   const singleRelicByPart = displayRelics as SingleRelicByPart
 

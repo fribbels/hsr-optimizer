@@ -18,7 +18,7 @@ import {
   NULL_TURN_ABILITY_NAME,
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   ComboConditionalCategory,
   ComboConditionals,
@@ -277,7 +277,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
 }
 
 export function getDefaultComboTurnAbilities(characterId: CharacterId, characterEidolon: number) {
-  const simulation = DB.getMetadata().characters[characterId]?.scoringMetadata?.simulation
+  const simulation = getGameMetadata().characters[characterId]?.scoringMetadata?.simulation
   return {
     comboTurnAbilities: simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
     comboDot: simulation?.comboDot ?? 0,

@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next'
 import { StringToNumberMap } from 'types/common'
 import { ReactElement } from 'types/components'
 import { DBMetadataCharacter } from 'types/metadata'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 
 const setToIndex: StringToNumberMap = {}
 const iconSize = 40
@@ -71,7 +72,7 @@ export default function MetadataTab(): ReactElement {
 
 function SimulationEquivalentSetsDashboard() {
   const sets = gameData.relics.toReversed()
-  const characters = Object.values(DB.getMetadata().characters)
+  const characters = Object.values(getGameMetadata().characters)
 
   for (let i = 0; i < sets.length; i++) {
     setToIndex[sets[i].name] = i
@@ -130,7 +131,7 @@ function generateEquivalentSetsGrid(characters: DBMetadataCharacter[], sets: typ
 // =========================================== SimulationTeamDashboard ===========================================
 
 function SimulationTeamDashboard() {
-  const characters = Object.values(DB.getMetadata().characters)
+  const characters = Object.values(getGameMetadata().characters)
   return (
     <Flex direction="column" gap={40}>
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Destruction))} />
@@ -170,7 +171,7 @@ function generateTeamGrid(characters: DBMetadataCharacter[]) {
 // =========================================== SimulationComboDashboard ===========================================
 
 function SimulationComboDashboard() {
-  const characters = Object.values(DB.getMetadata().characters)
+  const characters = Object.values(getGameMetadata().characters)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   return (
     <Flex direction="column" gap={40}>
@@ -235,7 +236,7 @@ const presetToSetMapping: Record<string, string> = {
 
 function ConditionalSetsPresetsDashboard() {
   const sets = gameData.relics.toReversed()
-  const characters = Object.values(DB.getMetadata().characters)
+  const characters = Object.values(getGameMetadata().characters)
 
   for (let i = 0; i < sets.length; i++) {
     setToIndex[sets[i].name] = i
@@ -281,7 +282,7 @@ function generateConditionalSetsGrid(characters: DBMetadataCharacter[], sets: ty
 
 function SubstatWeightDashboard() {
   const sets = gameData.relics.toReversed()
-  const characters = Object.values(DB.getMetadata().characters)
+  const characters = Object.values(getGameMetadata().characters)
 
   for (let i = 0; i < sets.length; i++) {
     setToIndex[sets[i].name] = i

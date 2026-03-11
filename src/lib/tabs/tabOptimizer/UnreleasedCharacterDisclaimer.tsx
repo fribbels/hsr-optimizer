@@ -1,5 +1,5 @@
 import { Alert } from '@mantine/core'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useMemo } from 'react'
 import { LightCone } from 'types/lightCone'
@@ -44,7 +44,7 @@ export function UnreleasedCharacterDisclaimer() {
   )
 
   const unreleasedNames = useMemo(() => {
-    const metadata = DB.getMetadata()
+    const metadata = getGameMetadata()
     const names: string[] = []
 
     for (const id of [characterId, teammate0CharId, teammate1CharId, teammate2CharId]) {

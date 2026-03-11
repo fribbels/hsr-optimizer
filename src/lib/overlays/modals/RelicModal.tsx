@@ -36,7 +36,7 @@ import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { useScrollLock } from 'lib/rendering/scrollController'
-import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { useCharacterStore } from 'lib/stores/characterStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -86,7 +86,7 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
     initialValues: {} as RelicForm,
   })
   const [mainStatOptions, setMainStatOptions] = useState<MainStatOption[]>([])
-  const characters = useCharacterTabStore((s) => s.characters)
+  const characters = useCharacterStore((s) => s.characters)
   const showLocator = useGlobalStore((s) => s.settings.ShowLocatorInRelicsModal)
 
   const isLiveImport = useScannerState((s) => s.ingest)

@@ -7,6 +7,7 @@ import { Message } from 'lib/interactions/message'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optimizer'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
@@ -198,7 +199,7 @@ export function validateForm(form: Form): boolean {
     return false
   }
 
-  const metadata = DB.getMetadata()
+  const metadata = getGameMetadata()
   const lcMeta = metadata.lightCones[form.lightCone]
   const charMeta = metadata.characters[form.characterId]
 

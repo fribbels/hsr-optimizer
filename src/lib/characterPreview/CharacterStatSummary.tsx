@@ -10,7 +10,8 @@ import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/c
 
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import DB, { useGlobalStore } from 'lib/state/db'
+import { useGlobalStore } from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 
@@ -52,7 +53,7 @@ export const CharacterStatSummary = (props: {
 
         <StatRow finalStats={props.finalStats} stat={props.elementalDmgValue} edits={edits} />
 
-        {props.showAll && DB.getMetadata().characters[props.characterId]?.path === PathNames.Elation
+        {props.showAll && getGameMetadata().characters[props.characterId]?.path === PathNames.Elation
           && <StatRow finalStats={props.finalStats} stat={Stats.Elation} edits={edits} />}
 
         {props.scoringType == ScoringType.COMBAT_SCORE
@@ -84,7 +85,7 @@ export const CharacterStatSummary = (props: {
 function calculateStatCustomizations(characterId: CharacterId) {
   if (!characterId) return {}
 
-  const meta = DB.getMetadata().characters[characterId]
+  const meta = getGameMetadata().characters[characterId]
   const customTraces = calculateCustomTraces(meta)
   const defaultTraces = meta.traces
   const edits: Record<string, boolean> = {}

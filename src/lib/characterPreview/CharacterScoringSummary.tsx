@@ -25,7 +25,7 @@ import {
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
 import { RunStatSimulationsResult, Simulation } from 'lib/simulations/statSimulationTypes'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
@@ -50,7 +50,7 @@ export const CharacterScoringSummary = (props: {
   const result = TsUtils.clone(props.simScoringResult)
 
   const characterId = result.simulationForm.characterId
-  const characterMetadata = DB.getMetadata().characters[characterId]
+  const characterMetadata = getGameMetadata().characters[characterId]
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
 
   function ScoringSet(props: {

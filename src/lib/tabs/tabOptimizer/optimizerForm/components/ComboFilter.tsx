@@ -20,7 +20,7 @@ import {
   TurnAbilityName,
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
@@ -127,7 +127,7 @@ function minus() {
 
 function resetClicked() {
   const characterId = useOptimizerDisplayStore.getState().focusCharacterId!
-  const characterMetadata = DB.getMetadata().characters[characterId]
+  const characterMetadata = getGameMetadata().characters[characterId]
 
   if (!characterMetadata) return
 

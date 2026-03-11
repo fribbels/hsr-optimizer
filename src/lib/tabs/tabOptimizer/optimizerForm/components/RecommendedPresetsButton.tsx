@@ -2,7 +2,7 @@ import { IconChevronDown } from '@tabler/icons-react'
 import { Button, Flex, Menu } from '@mantine/core'
 import { applySpdPreset } from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -24,7 +24,7 @@ export const RecommendedPresetsButton = () => {
 
   const items = useMemo(function() {
     if (!optimizerTabFocusCharacter) return []
-    const character = DB.getMetadata().characters[optimizerTabFocusCharacter]
+    const character = getGameMetadata().characters[optimizerTabFocusCharacter]
     if (!character) return []
 
     const groupedChildren = categories.map((category) => {

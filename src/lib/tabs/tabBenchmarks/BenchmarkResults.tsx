@@ -20,7 +20,7 @@ import { Assets } from 'lib/rendering/assets'
 import { getElementalDmgFromContainer } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { Simulation } from 'lib/simulations/statSimulationTypes'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -210,7 +210,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   const characterId = orchestrator.form!.characterId
   const basicStats = toBasicStatsObject(result.ca)
   const combatStats = x.toComputedStatsObject()
-  const element = DB.getMetadata().characters[characterId].element as ElementName
+  const element = getGameMetadata().characters[characterId].element as ElementName
   const elementalDmgValue = ElementToDamage[element]
 
   combatStats[elementalDmgValue] = getElementalDmgFromContainer(x, element)

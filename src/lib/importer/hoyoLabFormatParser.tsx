@@ -6,7 +6,7 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
@@ -123,7 +123,7 @@ type HoyolabCharacter = {
 }
 
 export function hoyolabParser(json: HoyolabData) {
-  const relicData = DB.getMetadata().relics.relicSets
+  const relicData = getGameMetadata().relics.relicSets
 
   const output: HoyolabOutput = {
     metadata: {

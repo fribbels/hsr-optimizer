@@ -18,8 +18,9 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import DB, { useGlobalStore } from 'lib/state/db'
-import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { useCharacterStore } from 'lib/stores/characterStore'
 import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -187,7 +188,7 @@ export default function ScoringModal() {
   const handleResetDefault = () => {
     if (!scoringAlgorithmFocusCharacter) return
 
-    const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
+    const defaultScoringMetadata = getGameMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
     const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
     const scoringMetadataToMerge: Partial<ScoringMetadata> = {
       stats: defaultScoringMetadata.stats,
@@ -200,9 +201,9 @@ export default function ScoringModal() {
 
   function ResetAllCharactersButton() {
     const resetAllCharacters = () => {
-      const charactersById = useCharacterTabStore.getState().charactersById
+      const charactersById = useCharacterStore.getState().charactersById
       for (const character of Object.keys(charactersById) as CharacterId[]) {
-        const defaultScoringMetadata = DB.getMetadata().characters[character].scoringMetadata
+        const defaultScoringMetadata = getGameMetadata().characters[character].scoringMetadata
         const scoringMetadataToMerge: Partial<ScoringMetadata> = {
           stats: defaultScoringMetadata.stats,
           parts: defaultScoringMetadata.parts,
@@ -212,7 +213,7 @@ export default function ScoringModal() {
 
       // Update values for current screen
       if (scoringAlgorithmFocusCharacter) {
-        const defaultScoringMetadata = DB.getMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
+        const defaultScoringMetadata = getGameMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
         const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
         scoringAlgorithmForm.setValues(displayScoringMetadata)
       }

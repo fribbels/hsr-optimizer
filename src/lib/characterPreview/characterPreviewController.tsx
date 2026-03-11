@@ -32,6 +32,7 @@ import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { DB } from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
@@ -150,11 +151,11 @@ export function getArtistName(character: Character) {
 }
 
 export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
-  const charCenter = DB.getMetadata().characters[character.id].imageCenter
+  const charCenter = getGameMetadata().characters[character.id].imageCenter
   const defaultOffset = { x: 0, y: 0, s: 1.15 }
   // @ts-ignore Some APIs return empty light cone as '0'
-  const lcImageOffset = (character.form.lightCone && character.form.lightCone != '0' && DB.getMetadata().lightCones[character.form.lightCone])
-    ? DB.getMetadata().lightCones[character.form.lightCone].imageOffset ?? defaultOffset
+  const lcImageOffset = (character.form.lightCone && character.form.lightCone != '0' && getGameMetadata().lightCones[character.form.lightCone])
+    ? getGameMetadata().lightCones[character.form.lightCone].imageOffset ?? defaultOffset
     : defaultOffset
 
   let tempLcParentW = lcParentW
@@ -259,7 +260,7 @@ export function handleTeamSelection(
 ) {
   let currentSelection: string | undefined = teamSelection[character.id]
 
-  const defaultScoringMetadata = DB.getMetadata().characters[character.id].scoringMetadata
+  const defaultScoringMetadata = getGameMetadata().characters[character.id].scoringMetadata
   if (defaultScoringMetadata?.simulation) {
     const scoringMetadata = DB.getScoringMetadata(character.id)
 
@@ -280,7 +281,7 @@ export function getShowcaseMetadata(character: Character) {
   const t = i18next.getFixedT(null, 'gameData')
 
   const characterId = character.form.characterId
-  const characterMetadata = DB.getMetadata().characters[characterId]
+  const characterMetadata = getGameMetadata().characters[characterId]
   const characterElement = characterMetadata.element
   const characterLevel = 80
   const characterEidolon = character.form.characterEidolon
@@ -290,7 +291,7 @@ export function getShowcaseMetadata(character: Character) {
   const lightConeId = character.form.lightCone
   const lightConeLevel = 80
   const lightConeSuperimposition = character.form.lightConeSuperimposition
-  const lightConeMetadata = DB.getMetadata().lightCones[lightConeId]
+  const lightConeMetadata = getGameMetadata().lightCones[lightConeId]
   const lightConeName = lightConeId ? t(`Lightcones.${lightConeId}.Name`) : ''
   const lightConeSrc = Assets.getLightConePortrait(lightConeMetadata) || ''
 

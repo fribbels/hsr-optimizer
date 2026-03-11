@@ -5,7 +5,7 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
@@ -146,7 +146,7 @@ const tidOverrides = {
 
 function convertRelic(preRelic: PreRelic) {
   try {
-    const metadata = DB.getMetadata().relics
+    const metadata = getGameMetadata().relics
     const tid = '' + preRelic.tid
 
     const enhance: Relic['enhance'] = preRelic.level || 0

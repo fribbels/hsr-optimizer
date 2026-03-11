@@ -6,7 +6,7 @@ import { Stats } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import { TestInput } from 'lib/simulations/tests/simTestUtils'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { expect } from 'vitest'
@@ -63,7 +63,7 @@ export async function expectBenchmarkResultsToMatch(
     // @ts-ignore
     const message = error.message
     throw new Error(`
-${DB.getMetadata().characters[input.character.characterId].displayName} BENCHMARK
+${getGameMetadata().characters[input.character.characterId].displayName} BENCHMARK
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

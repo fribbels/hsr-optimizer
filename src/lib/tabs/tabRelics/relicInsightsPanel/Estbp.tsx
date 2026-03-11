@@ -1,54 +1,26 @@
 import { Flex } from '@mantine/core'
 import { RelicContainer } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
+import { useAsyncComputation } from 'lib/hooks/useAsyncComputation'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
-import DB from 'lib/state/db'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import {
   EstTbpWorkerOutput,
   handleWork,
 } from 'lib/worker/estTbpWorkerRunner'
-import {
-  memo,
-  useEffect,
-  useState,
-} from 'react'
-import { ScoringMetadata } from 'types/metadata'
-import { Relic } from 'types/relic'
-
-function useEstbpWorker(relic: Relic | null, weights: ScoringMetadata['stats'] | undefined) {
-  const [ready, setReady] = useState(false)
-
-  const [output, setOutput] = useState<null | EstTbpWorkerOutput>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    setOutput(null)
-    setReady(false)
-    if (!relic || !weights) {
-      setOutput(null)
-      setReady(true)
-      return
-    }
-    handleWork(relic, weights).then((output) => {
-      if (cancelled) return
-      setOutput(output)
-      setReady(true)
-    })
-    return () => {
-      cancelled = true
-    }
-  }, [relic, weights])
-
-  return { ready, output }
-}
+import { memo, useMemo } from 'react'
 
 export const EstbpCard = memo(() => {
   const { selectedRelic, focusCharacter } = useRelicsTabStore()
 
   const weights = useScoringMetadata(focusCharacter)
 
-  const { ready, output } = useEstbpWorker(selectedRelic, weights?.stats)
+  const computeFn = useMemo(() => {
+    if (!selectedRelic || !weights?.stats) return null
+    return () => handleWork(selectedRelic, weights.stats)
+  }, [selectedRelic, weights?.stats])
+
+  const { ready, output } = useAsyncComputation<EstTbpWorkerOutput>(computeFn, [computeFn])
 
   const needsAnalysis = selectedRelic && weights && focusCharacter
 

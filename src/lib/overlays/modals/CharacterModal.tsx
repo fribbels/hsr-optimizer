@@ -1,6 +1,7 @@
 import { Button, Flex, Modal, SegmentedControl, Select } from '@mantine/core'
 import iconClasses from 'style/icons.module.css'
 import { useForm } from '@mantine/form'
+import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import DB from 'lib/state/db'
@@ -13,7 +14,6 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
-  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -62,10 +62,9 @@ export default function CharacterModal(props: {
   const teammateRelicSetOptions: OptionRender[] = useMemo(renderTeammateRelicSetOptions(tTeammateCard), [tTeammateCard])
   const teammateOrnamentSetOptions: OptionRender[] = useMemo(renderTeammateOrnamentSetOptions(tTeammateCard), [tTeammateCard])
 
-  useEffect(() => {
-    if (!props.open) return
-
-    const defaultValues: CharacterModalForm = {
+  useFormOnOpen(characterForm, props.open, () => {
+    setCharacterId(props.initialCharacter?.form.characterId ?? null)
+    return {
       characterId: props.initialCharacter?.form.characterId,
       characterEidolon: props.initialCharacter?.form.characterEidolon ?? 0,
       lightCone: props.initialCharacter?.form.lightCone,
@@ -73,11 +72,7 @@ export default function CharacterModal(props: {
       teamRelicSet: props.initialCharacter?.form.teamRelicSet,
       teamOrnamentSet: props.initialCharacter?.form.teamOrnamentSet,
     }
-
-    setCharacterId(props.initialCharacter?.form.characterId ?? null)
-
-    characterForm.setValues(defaultValues)
-  }, [props.open])
+  })
 
   function onModalOk() {
     const formValues = characterForm.getValues() as unknown as Form

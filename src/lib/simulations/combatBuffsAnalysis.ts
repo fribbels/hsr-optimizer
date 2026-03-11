@@ -2,7 +2,7 @@ import { PathNames } from 'lib/constants/constants'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Buff } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { OptimizerForm } from 'types/form'
 
 export function aggregateCombatBuffs(x: ComputedStatsContainer, request: OptimizerForm) {
@@ -15,7 +15,7 @@ function groupCombatBuffs(combatBuffs: CombatBuffs, request: OptimizerForm) {
     Object.values(BUFF_TYPE).map((type) => [type, {}]),
   ) as Record<BUFF_TYPE, Record<string, Buff[]>>
 
-  const hasMemo = DB.getMetadata().characters[request.characterId].path == PathNames.Remembrance
+  const hasMemo = getGameMetadata().characters[request.characterId].path == PathNames.Remembrance
 
   for (const buff of [...combatBuffs.buffsBasic, ...combatBuffs.buffs, ...(hasMemo ? combatBuffs.buffsMemo : [])]) {
     const id = buff.source.id

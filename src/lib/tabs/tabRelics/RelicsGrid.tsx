@@ -1,16 +1,15 @@
 import {
-  GetLocaleTextParams,
   GetRowIdParams,
   GridOptions,
   IRowNode,
   IsExternalFilterPresentParams,
-  PaginationNumberFormatterParams,
 } from 'ag-grid-community'
 import {
   AgGridReact,
   AgGridReactProps,
 } from 'ag-grid-react'
 import { useMantineTheme } from '@mantine/core'
+import { useGridLocale } from 'lib/hooks/useGridLocale'
 import {
   ScoredRelic,
   scoreRelics,
@@ -25,7 +24,6 @@ import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import useRelicsTabStore, { ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { gridStore } from 'lib/utils/gridStore'
-import { currentLocale } from 'lib/utils/i18nUtils'
 import {
   useCallback,
   useEffect,
@@ -33,8 +31,8 @@ import {
   useRef,
   useState,
 } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/state/db'
+import { useRelicStore } from 'lib/stores/relicStore'
+import { useScoringStore } from 'lib/stores/scoringStore'
 
 const gridOptions: GridOptions<ScoredRelic> = {
   rowHeight: 33,
@@ -48,17 +46,17 @@ const paginationSettings: AgGridReactProps<ScoredRelic> = {
   pagination: true,
   paginationPageSizeSelector: false,
   paginationPageSize: 3100,
-  paginationNumberFormatter: (params: PaginationNumberFormatterParams<ScoredRelic>) => params.value.toLocaleString(currentLocale()),
 }
 
 export function RelicsGrid() {
-  const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
+  const { getLocaleText, paginationNumberFormatter, t } = useGridLocale('relicsTab', 'RelicGrid')
 
   const theme = useMantineTheme()
 
   const [gridActive, setGridActive] = useState(true)
 
-  const { relics, scoringMetadataOverrides } = useGlobalStore()
+  const relics = useRelicStore((s) => s.relics)
+  const scoringMetadataOverrides = useScoringStore((s) => s.scoringMetadataOverrides)
 
   const { focusCharacter, excludedRelicPotentialCharacters } = useRelicsTabStore()
 
@@ -75,13 +73,6 @@ export function RelicsGrid() {
     setGridActive(false)
     const rebuildTimeout = setTimeout(() => setGridActive(true), 100)
     return () => clearTimeout(rebuildTimeout)
-  }, [t])
-
-  const getLocaleText = useCallback((params: GetLocaleTextParams<ScoredRelic>) => {
-    if (params.key == 'to') return (t('To') /* to */)
-    if (params.key == 'of') return (t('Of') /* of */)
-    if (params.key == 'noRowsToShow') return ''
-    return params.key
   }, [t])
 
   const columnDefs = useMemo(() => {
@@ -144,6 +135,7 @@ export function RelicsGrid() {
           headerHeight={24}
           animateRows={true}
           rowSelection='multiple'
+          paginationNumberFormatter={paginationNumberFormatter}
           {...paginationSettings}
         />
       )}

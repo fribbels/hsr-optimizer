@@ -13,7 +13,7 @@ import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import DB from 'lib/state/db'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Utils } from 'lib/utils/utils'
 import semver from 'semver'
 import {
@@ -373,7 +373,7 @@ function readRelicStats(relic: V4ParserRelic, substatList: V4ParserSubstat[], pa
   }
   const partId = mapPartIdToIndex(part)
   const query = `${grade}${partId}`
-  const affixes: Affixes[] = Object.values(DB.getMetadata().relics.relicMainAffixes[query].affixes)
+  const affixes: Affixes[] = Object.values(getGameMetadata().relics.relicMainAffixes[query].affixes)
 
   const mainId = mapAffixIdToString(mainStat)
   const mainData: MainData = affixes.find((x) => x.property === mainId)!

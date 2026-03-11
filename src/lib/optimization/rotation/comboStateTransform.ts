@@ -267,6 +267,10 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
   const result: Record<string, boolean | number> = {}
   for (const field of orderedSetConditionalFields) {
     const comboEntry = conditionals[field.setKey]
+    if (!comboEntry) {
+      result[field.fieldName] = 0
+      continue
+    }
     result[field.fieldName] = transformConditional(comboEntry, actionIndex)
   }
   return result as SetConditional

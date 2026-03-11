@@ -1,4 +1,5 @@
 import { CombatBuffs, ConditionalDataType, Constants } from 'lib/constants/constants'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
   OptimizerFormState,
@@ -223,7 +224,7 @@ export function internalFormToState(form: Form): Partial<OptimizerFormState> {
     // Conditionals
     characterConditionals: form.characterConditionals ?? {},
     lightConeConditionals: form.lightConeConditionals ?? {},
-    setConditionals: form.setConditionals,
+    setConditionals: form.setConditionals ?? defaultSetConditionals,
 
     // Relic filters
     enhance: form.enhance,

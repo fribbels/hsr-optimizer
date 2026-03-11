@@ -14,11 +14,11 @@ import {
 } from 'lib/gpu/webgpuInternals'
 import { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  newStatsConfig,
-  STATS_LENGTH,
-} from 'lib/optimization/engine/config/statsConfig'
+  AKeyNames,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -179,7 +179,7 @@ function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: Computed
   // console.log(cpu)
   // console.log(gpu)
 
-  const statNames = Object.keys(newStatsConfig)
+  const statNames = AKeyNames
 
   function analyze(statName: string, cpuValue: number, gpuValue: number, precision: number) {
     const delta = cpuValue - gpuValue

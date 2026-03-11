@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   OptimizerContext,
 } from 'types/optimizer'
@@ -19,7 +20,6 @@ const info = {
   index: 0,
   setType: SetType.RELIC,
   ingameId: '101',
-  name: Sets.PasserbyOfWanderingCloud,
 } as const satisfies SetInfo
 
 const display = {
@@ -27,14 +27,18 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.OHB.buff(0.10, Source.PasserbyOfWanderingCloud)
   },
-} as const satisfies SetConditionals
+  gpuBasic: () => [
+    basicP2(WgslStatName.OHB, 0.10, PasserbyOfWanderingCloud),
+  ],
+}
 
 export const PasserbyOfWanderingCloud = {
-  id: 'PasserbyOfWanderingCloud',
+  id: Sets.PasserbyOfWanderingCloud,
+  setKey: 'PasserbyOfWanderingCloud',
   info,
   display,
   conditionals,

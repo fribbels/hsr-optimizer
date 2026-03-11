@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2, basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -25,7 +26,6 @@ const info = {
   index: 19,
   setType: SetType.RELIC,
   ingameId: '120',
-  name: Sets.TheWindSoaringValorous,
 } as const satisfies SetInfo
 
 const display = {
@@ -35,7 +35,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.TheWindSoaringValorous)
   },
@@ -47,15 +47,20 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, 0.36, x.damageType(DamageTag.ULT).source(Source.TheWindSoaringValorous))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, TheWindSoaringValorous),
+    basicP4(WgslStatName.CR, 0.06, TheWindSoaringValorous),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_TheWindSoaringValorous) >= 1) {
       ${buff.hit(HKey.DMG_BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const TheWindSoaringValorous = {
-  id: 'TheWindSoaringValorous',
+  id: Sets.TheWindSoaringValorous,
+  setKey: 'TheWindSoaringValorous',
   info,
   display,
   conditionals,

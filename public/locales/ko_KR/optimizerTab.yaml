@@ -321,6 +321,14 @@ SetConditionals:
     Arcadia:
       Display: '{{allyCount}}x'
       Label: '{{allyCount}}팀원(+{{buffValue}}%데미지)'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      AtkOnly:
+        Display: 공격력
+      CdOnly:
+        Display: 치피
   Conditionals:
     DefaultMessage: 기본 활성화 - 전투 스텟에 효과가 적용됩니다.
     Hunter: 활성화되면 전투 스텟에 치명타 데미지 버프가 적용됩니다.
@@ -590,7 +598,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ 실드
       SHIELD_VALUE_P: Δ% 실드
   DamageSplits:
-    Title: 데미지 유형 분포
     Legend:
       abilityDmg: 능력
       breakDmg: 격파

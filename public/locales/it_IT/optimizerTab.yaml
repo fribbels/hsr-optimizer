@@ -320,6 +320,14 @@ SetConditionals:
     Arcadia:
       Display: '{{allyCount}}x'
       Label: '{{allyCount}} alleati (+{{buffValue}}% DAN)'
+    CityOfConvergingStars:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      AtkOnly:
+        Display: ATT
+      CdOnly:
+        Display: CD
   Conditionals:
     DefaultMessage: Abilitato per impostazione predefinita - gli effetti saranno applicati ai calcoli di combattimento.
     Hunter: Se abilitato, il buff DAN CRIT viene applicato ai calcoli delle Stat Combat.
@@ -572,7 +580,6 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ Scudo
       SHIELD_VALUE_P: Δ% Scudo
   DamageSplits:
-    Title: Distribuzione Tipo di Danno
     Legend:
       abilityDmg: Abilità
       breakDmg: Break

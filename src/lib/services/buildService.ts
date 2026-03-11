@@ -16,7 +16,6 @@ import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { definedEntries } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Build,
@@ -46,7 +45,6 @@ export function saveBuild(
     case SavedBuildSource.OPTIMIZER: {
       const state = useOptimizerRequestStore.getState()
       const optimizerMetadata: BuildOptimizerMetadata = {
-        conditionals: {},
         setFilters: {
           relics: TsUtils.clone(state.relicSets),
           ornaments: TsUtils.clone(state.ornamentSets),
@@ -56,8 +54,6 @@ export function saveBuild(
         setConditionals: TsUtils.clone(state.setConditionals),
         presets: state.comboPreprocessor,
       }
-      optimizerMetadata.conditionals[state.characterId!] = TsUtils.clone(state.characterConditionals)
-      optimizerMetadata.conditionals[state.lightCone!] = TsUtils.clone(state.lightConeConditionals)
       state.teammates.forEach((teammate) => {
         team.push({
           characterId: teammate.characterId!,
@@ -66,9 +62,9 @@ export function saveBuild(
           superimposition: teammate.lightConeSuperimposition,
           relicSet: teammate.teamRelicSet,
           ornamentSet: teammate.teamOrnamentSet,
+          characterConditionals: TsUtils.clone(teammate.characterConditionals),
+          lightConeConditionals: TsUtils.clone(teammate.lightConeConditionals),
         })
-        if (teammate.characterId) optimizerMetadata.conditionals[teammate.characterId] = TsUtils.clone(teammate.characterConditionals)
-        if (teammate.lightCone) optimizerMetadata.conditionals[teammate.lightCone] = TsUtils.clone(teammate.lightConeConditionals)
       })
 
       build = {
@@ -76,6 +72,8 @@ export function saveBuild(
         eidolon: state.characterEidolon,
         lightConeId: state.lightCone!,
         superimposition: state.lightConeSuperimposition,
+        characterConditionals: TsUtils.clone(state.characterConditionals),
+        lightConeConditionals: TsUtils.clone(state.lightConeConditionals),
         name,
         equipped: useOptimizerDisplayStore.getState().optimizerBuild ?? {},
         optimizerMetadata,
@@ -97,6 +95,8 @@ export function saveBuild(
             superimposition: teammate.lightConeSuperimposition,
             relicSet: teammate.teamRelicSet,
             ornamentSet: teammate.teamOrnamentSet,
+            characterConditionals: undefined,
+            lightConeConditionals: undefined,
           })
         })
       }
@@ -105,6 +105,8 @@ export function saveBuild(
         eidolon: character.form.characterEidolon,
         lightConeId: character.form.lightCone,
         superimposition: character.form.lightConeSuperimposition,
+        characterConditionals: undefined,
+        lightConeConditionals: undefined,
         name,
         equipped: character.equipped,
         optimizerMetadata: null,
@@ -273,48 +275,29 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
     patch.ornamentSets = TsUtils.clone(meta.setFilters.ornaments)
     patch.setConditionals = TsUtils.clone(meta.setConditionals)
 
-    // Apply saved conditionals
-    definedEntries(meta.conditionals)
-      .forEach(([id, conditionalValueMap]) => {
-        if (id === build.characterId) {
-          patch.characterConditionals = TsUtils.clone(conditionalValueMap)
-          return
-        }
-        if (id === build.lightConeId) {
-          patch.lightConeConditionals = TsUtils.clone(conditionalValueMap)
-          return
-        }
+    // Apply saved conditionals from build-level fields
+    if (build.characterConditionals) {
+      patch.characterConditionals = TsUtils.clone(build.characterConditionals) as Record<string, unknown>
+    }
+    if (build.lightConeConditionals) {
+      patch.lightConeConditionals = TsUtils.clone(build.lightConeConditionals) as Record<string, unknown>
+    }
 
-        let teammateIdx = build.team.findIndex((x) => x.characterId === id)
-        switch (teammateIdx) {
-          case 0:
-          case 1:
-          case 2:
-            teammateStates[teammateIdx] = {
-              ...teammateStates[teammateIdx],
-              characterConditionals: TsUtils.clone(conditionalValueMap),
-            }
-            return
-          default:
-            break
+    build.team.forEach((teammate, idx) => {
+      if (idx > 2) return
+      if (teammate.characterConditionals) {
+        teammateStates[idx] = {
+          ...teammateStates[idx],
+          characterConditionals: TsUtils.clone(teammate.characterConditionals),
         }
-
-        teammateIdx = build.team.findIndex((x) => x.lightConeId === id)
-        switch (teammateIdx) {
-          case 0:
-          case 1:
-          case 2:
-            teammateStates[teammateIdx] = {
-              ...teammateStates[teammateIdx],
-              lightConeConditionals: TsUtils.clone(conditionalValueMap),
-            }
-            return
-          default:
-            break
+      }
+      if (teammate.lightConeConditionals) {
+        teammateStates[idx] = {
+          ...teammateStates[idx],
+          lightConeConditionals: TsUtils.clone(teammate.lightConeConditionals),
         }
-
-        console.error('Found orphaned conditional while loading build')
-      })
+      }
+    })
   }
 
   // Apply all overrides to store at once, then navigate.

@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -26,7 +27,6 @@ const info = {
   index: 10,
   setType: SetType.ORNAMENT,
   ingameId: '311',
-  name: Sets.FirmamentFrontlineGlamoth,
 } as const satisfies SetInfo
 
 const display = {
@@ -34,7 +34,7 @@ const display = {
   defaultValue: true,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.FirmamentFrontlineGlamoth)
   },
@@ -44,6 +44,9 @@ const conditionals = {
       x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, FirmamentFrontlineGlamoth),
+  ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
     ornament2p(*p_sets, SET_FirmamentFrontlineGlamoth) >= 1
@@ -52,10 +55,11 @@ const conditionals = {
     ${buff.action(AKey.DMG_BOOST, `select(0.12, 0.18, ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 160.0)`).wgsl(action, 2)}
   }
 `,
-} as const satisfies SetConditionals
+}
 
 export const FirmamentFrontlineGlamoth = {
-  id: 'FirmamentFrontlineGlamoth',
+  id: Sets.FirmamentFrontlineGlamoth,
+  setKey: 'FirmamentFrontlineGlamoth',
   info,
   display,
   conditionals,

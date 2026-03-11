@@ -31,6 +31,11 @@ SetConditionals:
     Wastelander:
       Debuffed:
         Display: 暴擊率
+    CityOfConvergingStars:
+      AtkOnly:
+        Display: 攻擊力
+      CdOnly:
+        Display: 暴擊傷害
 CombatBuffs:
   ATK: 攻擊力
   ATK_P: 攻擊力 %

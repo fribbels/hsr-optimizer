@@ -110,19 +110,16 @@ export type DBMetadataCharacter = {
   traces: Record<string, number>,
   traceTree: TraceNode[],
   imageCenter: ImageCenter,
-  displayName: string,
   scoringMetadata: ScoringMetadata,
 }
 
 export type DBMetadataLightCone = {
   id: LightConeId,
-  name: string,
   rarity: 5 | 4 | 3,
   path: PathName,
   stats: Record<string, number>,
   unreleased: boolean,
   superimpositions: Record<number, Record<string, number>>,
-  displayName: string,
   imageOffset: { x: number, y: number, s: number },
 }
 

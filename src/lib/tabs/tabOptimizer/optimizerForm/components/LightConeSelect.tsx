@@ -2,7 +2,7 @@ import { Flex, Modal, Paper, Select, TextInput } from '@mantine/core'
 import { PathName } from 'lib/constants/constants'
 import { useSelectModal } from 'lib/hooks/useSelectModal'
 import { Assets } from 'lib/rendering/assets'
-import { generateLightConeOptions, LcOptions, } from 'lib/rendering/optionGenerator'
+import { generateLightConeOptions, LcOptions } from 'lib/rendering/optionGenerator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   CardGridItemContent,
@@ -110,7 +110,7 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
     if (currentFilters.path.length && !currentFilters.path.includes(x.path)) {
       return false
     }
-    return x.name.toLowerCase().includes(currentFilters.name)
+    return x.label.toLowerCase().includes(currentFilters.name)
   }
 
   const handleClick = (id: LightConeId) => {

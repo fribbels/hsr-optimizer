@@ -2,25 +2,21 @@ import { Alert } from '@mantine/core'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useMemo } from 'react'
-import { LightCone } from 'types/lightCone'
+import { useTranslation } from 'react-i18next'
+import type { CharacterId } from 'types/character'
+import type {
+  LightCone,
+  LightConeId,
+} from 'types/lightCone'
 import { useShallow } from 'zustand/react/shallow'
 
-const UNRELEASED_CHARACTER_IDS = new Set<string>([
-  // '1501', // Sparxie
-  // '1502', // Yao Guang
-])
+const UNRELEASED_CHARACTER_IDS = new Set<CharacterId>([])
 
-const UNRELEASED_LIGHT_CONE_IDS = new Set<string>([
-  // '23053', // Dazzled by a Flowery World
-  // '23054', // When She Decided to See
-  // // '24006', // Elation Brimming With Blessings
-  // '21064', // Mushy Shroomy's Adventures
-  // '21065', // Today's Good Luck
-  // '20023', // Sneering
-  // '20024', // Lingering Tear
-])
+const UNRELEASED_LIGHT_CONE_IDS = new Set<LightConeId>([])
 
 export function UnreleasedCharacterDisclaimer() {
+  const { t: tGameData } = useTranslation('gameData')
+  const { t } = useTranslation('optimizerTab')
   const {
     characterId,
     lightConeId,
@@ -44,12 +40,11 @@ export function UnreleasedCharacterDisclaimer() {
   )
 
   const unreleasedNames = useMemo(() => {
-    const metadata = getGameMetadata()
     const names: string[] = []
 
     for (const id of [characterId, teammate0CharId, teammate1CharId, teammate2CharId]) {
       if (id && UNRELEASED_CHARACTER_IDS.has(id)) {
-        const name = metadata.characters[id]?.displayName ?? id
+        const name = tGameData(`Characters.${id}.LongName`)
         if (!names.includes(name)) {
           names.push(name)
         }
@@ -58,7 +53,7 @@ export function UnreleasedCharacterDisclaimer() {
 
     for (const id of [lightConeId, teammate0LcId, teammate1LcId, teammate2LcId]) {
       if (id && UNRELEASED_LIGHT_CONE_IDS.has(id)) {
-        const name = metadata.lightCones[id as LightCone['id']]?.displayName ?? id
+        const name = tGameData(`Lightcones.${id}.Name`)
         if (!names.includes(name)) {
           names.push(name)
         }
@@ -66,7 +61,7 @@ export function UnreleasedCharacterDisclaimer() {
     }
 
     return names
-  }, [characterId, lightConeId, teammate0CharId, teammate1CharId, teammate2CharId, teammate0LcId, teammate1LcId, teammate2LcId])
+  }, [characterId, lightConeId, teammate0CharId, teammate1CharId, teammate2CharId, teammate0LcId, teammate1LcId, teammate2LcId, tGameData])
 
   if (unreleasedNames.length === 0) {
     return null
@@ -76,7 +71,7 @@ export function UnreleasedCharacterDisclaimer() {
     <Alert
       color='yellow'
     >
-      {`Calculations for ${unreleasedNames.join(', ')} are not complete yet, optimizer results will not be accurate`}
+      {t('UnreleasedDisclaimer', { nameList: unreleasedNames.join(', ') })}
     </Alert>
   )
 }

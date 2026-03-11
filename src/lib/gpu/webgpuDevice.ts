@@ -2,6 +2,13 @@ import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { webgpuNotSupportedNotification } from 'lib/interactions/notifications'
 import { useGlobalStore } from 'lib/stores/appStore'
+import { isFirefox } from 'lib/utils/TsUtils'
+
+// Firefox and some GPUs require storage address space — uniform array<f32> violates the 16-byte stride
+// requirement unless the 'uniform_buffer_standard_layout' feature is supported.
+export function uniformCompatible(): boolean {
+  return navigator.gpu?.wgslLanguageFeatures?.has('uniform_buffer_standard_layout')
+}
 
 export async function getWebgpuDevice(notify?: boolean) {
   try {
@@ -12,12 +19,7 @@ export async function getWebgpuDevice(notify?: boolean) {
     }
 
     return await adapter.requestDevice({
-      requiredLimits: {
-        // Investigate limits for high-end experimental channel
-        // maxComputeInvocationsPerWorkgroup: 512,
-        // maxComputeWorkgroupSizeX: 512,
-        // maxStorageBufferBindingSize: 268435456,
-      },
+      requiredLimits: {},
     })
   } catch (e) {
     if (notify) {

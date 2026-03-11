@@ -1,18 +1,24 @@
-import i18next from 'i18next'
-import { Conditionals, ContentDefinition, } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import {
+  Conditionals,
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { LightConeConditionalsController } from 'types/conditionals'
-import { SuperImpositionLevel } from 'types/lightCone'
-import { LightConeConfig } from 'types/lightConeConfig'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import { TsUtils } from 'lib/utils/TsUtils'
+import {
+  LightConeConditionalFunction,
+  LightConeConfig,
+} from 'types/lightConeConfig'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
-const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(TodaysGoodLuck.id)
 
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TodaysGoodLuck.Content')
 
   const sValues = [0.12, 0.14, 0.16, 0.18, 0.20]
 
@@ -25,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'elationStacks',
       formItem: 'slider',
-      text: 'Elation DMG stacks',
-      content: betaContent,
+      text: t('elationStacks.text'),
+      content: t('elationStacks.content', { elationBuff: TsUtils.precisionRound(100 * sValues[s]) }),
       min: 0,
       max: 2,
     },

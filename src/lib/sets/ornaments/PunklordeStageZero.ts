@@ -9,11 +9,15 @@ import {
   DynamicConditional,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
   containerActionVal,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import {
+  BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
@@ -33,6 +37,17 @@ import {
   SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 24,
+  setType: SetType.ORNAMENT,
+  ingameId: '325',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const PunklordeStageZeroConditional40: DynamicConditional = {
   id: 'PunklordeStageZeroConditional40',
@@ -100,27 +115,19 @@ if (
   },
 }
 
-const info = {
-  index: 24,
-  setType: SetType.ORNAMENT,
-  ingameId: '325',
-  name: Sets.PunklordeStageZero,
-} as const satisfies SetInfo
-
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ELATION.buff(0.08, Source.PunklordeStageZero)
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ELATION, 0.08, PunklordeStageZero),
+  ],
   dynamicConditionals: [PunklordeStageZeroConditional40, PunklordeStageZeroConditional80],
-} as const satisfies SetConditionals
+}
 
 export const PunklordeStageZero = {
-  id: 'PunklordeStageZero',
+  id: Sets.PunklordeStageZero,
+  setKey: 'PunklordeStageZero',
   info,
   display,
   conditionals,

@@ -2,8 +2,9 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
@@ -25,7 +26,6 @@ const info = {
   index: 22,
   setType: SetType.RELIC,
   ingameId: '123',
-  name: Sets.HeroOfTriumphantSong,
 } as const satisfies SetInfo
 
 const display = {
@@ -35,7 +35,7 @@ const display = {
   defaultValue: false,
 } as const satisfies SetDisplay
 
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ATK_P.buff(0.12, Source.HeroOfTriumphantSong)
   },
@@ -45,6 +45,9 @@ const conditionals = {
       x.buff(StatKey.CD, 0.30, x.targets(TargetTag.SelfAndMemosprite).source(Source.HeroOfTriumphantSong))
     }
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.ATK_P, 0.12, HeroOfTriumphantSong),
+  ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
       relic4p(*p_sets, SET_HeroOfTriumphantSong) >= 1
@@ -54,10 +57,11 @@ const conditionals = {
       ${buff.action(AKey.CD, 0.30).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
-} as const satisfies SetConditionals
+}
 
 export const HeroOfTriumphantSong = {
-  id: 'HeroOfTriumphantSong',
+  id: Sets.HeroOfTriumphantSong,
+  setKey: 'HeroOfTriumphantSong',
   info,
   display,
   conditionals,

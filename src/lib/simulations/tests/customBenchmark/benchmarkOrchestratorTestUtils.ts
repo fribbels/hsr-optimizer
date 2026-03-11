@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import {
   applyScoringMetadataPresets,
   applySetConditionalPresets,
@@ -6,7 +7,6 @@ import { Stats } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import { TestInput } from 'lib/simulations/tests/simTestUtils'
-import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { expect } from 'vitest'
@@ -63,7 +63,7 @@ export async function expectBenchmarkResultsToMatch(
     // @ts-ignore
     const message = error.message
     throw new Error(`
-${getGameMetadata().characters[input.character.characterId].displayName} BENCHMARK
+${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} BENCHMARK
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

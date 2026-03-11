@@ -1,9 +1,10 @@
 import { Constants } from 'lib/constants/constants'
-import { isFirefox } from 'lib/utils/TsUtils'
+import { uniformCompatible } from 'lib/gpu/webgpuDevice'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
+import { generateBasicSetEffectsWgsl } from 'lib/gpu/injection/generateBasicSetEffects'
 import { generateSetBitConstants } from 'lib/gpu/injection/setIndexMap'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import {
@@ -12,7 +13,7 @@ import {
 } from 'lib/gpu/webgpuTypes'
 import computeShader from 'lib/gpu/wgsl/computeShader.wgsl?raw'
 import structs from 'lib/gpu/wgsl/structs.wgsl?raw'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   generateSetConditionalsInitializer,
@@ -61,9 +62,9 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
 function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const actionLength = context.shaderVariables.actionLength
   const containerLength = context.maxContainerArrayLength
-  const calculationsPerAction = containerLength / Object.values(newStatsConfig).length
+  const calculationsPerAction = containerLength / STATS_LENGTH
 
-  const statsLength = Object.values(newStatsConfig).length
+  const statsLength = STATS_LENGTH
 
   // Generate precomputed stats buffer data
   const precomputedStatsData = new Float32Array(actionLength * containerLength)
@@ -81,8 +82,7 @@ function injectConditionalsNew(wgsl: string, request: Form, context: OptimizerCo
   // Store for later use in pipeline creation
   context.precomputedStatsData = precomputedStatsData
 
-  // Firefox requires storage address space — uniform array<f32> violates its 16-byte stride enforcement
-  const precomputedStatsAddressSpace = isFirefox() ? 'storage, read' : 'uniform'
+  const precomputedStatsAddressSpace = uniformCompatible() ? 'uniform' : 'storage, read'
 
   // Buffer declaration
   const bufferDeclaration = `
@@ -120,9 +120,11 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
 
 function injectComputeShader(wgsl: string) {
   wgsl += generateSetBitConstants()
+  const basicSetEffects = generateBasicSetEffectsWgsl()
+  const injectedComputeShader = computeShader.replace('/* INJECT BASIC SET EFFECTS */', basicSetEffects)
   const injectedStructs = structs.replace('/* INJECT SET_CONDITIONALS_STRUCT */', generateSetConditionalsStruct())
   wgsl += `
-${computeShader}
+${injectedComputeShader}
 
 ${injectedStructs}
   `

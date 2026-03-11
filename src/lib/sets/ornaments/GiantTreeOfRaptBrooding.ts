@@ -5,16 +5,17 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import {
   DynamicConditional,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
+import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
-  containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+  BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { ornament2p, SetKeys } from 'lib/optimization/setMatching'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
@@ -22,6 +23,10 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  ornament2p,
+  SetKeys,
+} from 'lib/optimization/setMatching'
 import {
   OptimizerAction,
   OptimizerContext,
@@ -33,6 +38,17 @@ import {
   SetInfo,
   SetType,
 } from 'types/setConfig'
+
+const info = {
+  index: 19,
+  setType: SetType.ORNAMENT,
+  ingameId: '320',
+} as const satisfies SetInfo
+
+const display = {
+  conditionalType: ConditionalDataType.BOOLEAN,
+  defaultValue: true,
+} as const satisfies SetDisplay
 
 const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
   id: 'GiantTreeOfRaptBrooding135Conditional',
@@ -100,27 +116,19 @@ if (
   },
 }
 
-const info = {
-  index: 19,
-  setType: SetType.ORNAMENT,
-  ingameId: '320',
-  name: Sets.GiantTreeOfRaptBrooding,
-} as const satisfies SetInfo
-
-const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  defaultValue: true,
-} as const satisfies SetDisplay
-
-const conditionals = {
+const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.GiantTreeOfRaptBrooding)
   },
+  gpuBasic: () => [
+    basicP2(WgslStatName.SPD_P, 0.06, GiantTreeOfRaptBrooding),
+  ],
   dynamicConditionals: [GiantTreeOfRaptBrooding135Conditional, GiantTreeOfRaptBrooding180Conditional],
-} as const satisfies SetConditionals
+}
 
 export const GiantTreeOfRaptBrooding = {
-  id: 'GiantTreeOfRaptBrooding',
+  id: Sets.GiantTreeOfRaptBrooding,
+  setKey: 'GiantTreeOfRaptBrooding',
   info,
   display,
   conditionals,

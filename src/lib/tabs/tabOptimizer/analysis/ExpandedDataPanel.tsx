@@ -11,6 +11,8 @@ import {
   mismatchedCharacter,
   OptimizerResultAnalysis,
 } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
+import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
 import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
@@ -37,14 +39,14 @@ export function ExpandedDataPanel() {
   if (mismatchedCharacter(optimizerTabFocusCharacter, form)) {
     form = getForm()
     if (mismatchedCharacter(optimizerTabFocusCharacter, form)) {
-      return <></>
+      return null
     }
   }
   if (selectedRowData == null || pinnedRowData == null || form == null || getCharacterById(form.characterId) == null) {
     return <></>
   }
   if (selectedRowData.statSim) {
-    return <></>
+    return null
   }
 
   const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
@@ -76,10 +78,14 @@ function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
         <Flex justify='space-between' style={{ width: '100%', paddingTop: 4 }} gap={10}>
           <Flex direction="column" gap={10}>
             <StatsDiffCard analysis={analysis} />
-            <DamageUpgrades analysis={analysis} />
+            <DamageSplits analysis={analysis} />
+            <Flex gap={10} align='start'>
+              <DamageTagPieChart analysis={analysis} />
+              <DamageUpgrades analysis={analysis} />
+            </Flex>
           </Flex>
 
-          <BuffsAnalysisDisplay buffGroups={analysis.buffGroups} singleColumn={true} />
+          <BuffsAnalysisDisplay perActionBuffGroups={analysis.perActionBuffGroups} context={analysis.context} />
         </Flex>
       </FormRow>
     </FilterContainer>

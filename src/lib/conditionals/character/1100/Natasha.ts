@@ -1,19 +1,18 @@
 import {
-  SKILL_DMG_TYPE,
-  ULT_DMG_TYPE,
-} from 'lib/conditionals/conditionalConstants'
-import {
   AbilityEidolon,
   ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -54,11 +53,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   // E6: Basic attack gains HP scaling
   const e6BasicHpScaling = e >= 6 ? 0.40 : 0
 
-  const defaults = {
-  }
+  const defaults = {}
 
-  const content: ContentDefinition<typeof defaults> = {
-  }
+  const content: ContentDefinition<typeof defaults> = {}
 
   return {
     content: () => Object.values(content),
@@ -120,7 +117,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -179,8 +175,9 @@ const display = {
 
 export const Natasha: CharacterConfig = {
   id: '1105',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

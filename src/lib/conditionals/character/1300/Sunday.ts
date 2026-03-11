@@ -6,26 +6,42 @@ import {
   findMemospriteIndex,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ConditionalActivation, ConditionalType, Parts, Sets, Stats, } from 'lib/constants/constants'
-import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
-import { containerActionVal, p_containerActionVal, } from 'lib/gpu/injection/injectUtils'
-import { wgslFalse, wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { Source } from 'lib/optimization/buffSource'
-import { SortOption } from 'lib/optimization/sortOptions'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag, SELF_ENTITY_INDEX, TargetTag, } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT_WEIGHTS,
-} from 'lib/scoring/scoringConstants'
+  ConditionalActivation,
+  ConditionalType,
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
+import {
+  wgslFalse,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
+import { Source } from 'lib/optimization/buffSource'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  ElementTag,
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import { ScoringMetadata } from 'types/metadata'
-import { OptimizerAction, OptimizerContext, } from 'types/optimizer'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const SundayEntities = createEnum('Sunday')
 export const SundayAbilities: AbilityKind[] = [
@@ -269,8 +285,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const buffValue = Math.floor((memoCr - memoUnconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
           x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
+          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -302,8 +318,8 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
   (*p_state).${this.id}${action.actionIdentifier} = buffValue;
-  ${p_containerActionVal(memoIndex, StatKey.CD, config)} += buffValue - stateValue;
   ${p_containerActionVal(memoIndex, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
+  ${p_containerActionVal(memoIndex, StatKey.CD, config)} += buffValue - stateValue;
 }
 `,
           )
@@ -331,8 +347,8 @@ if (cr > 1.00) {
           const buffValue = Math.floor((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
 
           action.conditionalState[this.id] = buffValue
-          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.source(SOURCE_E6))
           x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.source(SOURCE_E6))
+          x.buffDynamic(StatKey.CD, buffValue - stateValue, action, context, x.source(SOURCE_E6))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
@@ -359,8 +375,8 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
   (*p_state).${this.id}${action.actionIdentifier} = buffValue;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffValue - stateValue;
   ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
+  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffValue - stateValue;
 }
 `,
           )
@@ -369,7 +385,6 @@ if (cr > 1.00) {
     ],
   }
 }
-
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -417,8 +432,9 @@ const display = {
 
 export const Sunday: CharacterConfig = {
   id: '1313',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

@@ -132,6 +132,8 @@ export function SaveBuildModal(props: {
           eidolon: storeState.characterEidolon,
           lightConeId: storeState.lightCone!,
           superimposition: storeState.lightConeSuperimposition,
+          characterConditionals: storeState.characterConditionals,
+          lightConeConditionals: storeState.lightConeConditionals,
           team: storeState.teammates.map((t) => ({
             characterId: t.characterId!,
             eidolon: t.characterEidolon,
@@ -139,6 +141,8 @@ export function SaveBuildModal(props: {
             superimposition: t.lightConeSuperimposition,
             relicSet: t.teamRelicSet,
             ornamentSet: t.teamOrnamentSet,
+            characterConditionals: t.characterConditionals,
+            lightConeConditionals: t.lightConeConditionals,
           })),
           equipped: useOptimizerDisplayStore.getState().optimizerBuild ?? {},
         }

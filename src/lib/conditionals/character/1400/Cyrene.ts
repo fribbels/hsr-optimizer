@@ -3,9 +3,9 @@ import { Evernight } from 'lib/conditionals/character/1400/Evernight'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import {
   TrailblazerRemembranceCaelus,
-  TrailblazerRemembranceStelle
+  TrailblazerRemembranceStelle,
 } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
-import { BuffPriority, } from 'lib/conditionals/conditionalConstants'
+import { BuffPriority } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
   Conditionals,
@@ -20,18 +20,18 @@ import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernights
 import {
   Parts,
   Sets,
-  Stats
+  Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   wgsl,
-  wgslTrue
+  wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   AKey,
   HKey,
-  StatKey
+  StatKey,
 } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -58,13 +58,13 @@ import {
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   CharacterId,
-  Eidolon
+  Eidolon,
 } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
 import {
   ScoringMetadata,
-  SimulationMetadata
+  SimulationMetadata,
 } from 'types/metadata'
 import {
   OptimizerAction,
@@ -98,7 +98,6 @@ export const CyreneAbilities: AbilityKind[] = [
   AbilityKind.MEMO_SKILL,
   AbilityKind.BREAK,
 ]
-
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Cyrene')
@@ -355,9 +354,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-
-
     },
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -386,7 +382,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, (e >= 6 && m.e6DefPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
-    precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext, originalCharacterAction?: OptimizerAction) => {
+    precomputeTeammateEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace SPD-based DMG buff
@@ -415,7 +416,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       if (spd >= 180 && r.traceSpdBasedBuff) {
         x.buff(StatKey.DMG_BOOST, 0.20, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
-        x.buff(StatKey.RES_PEN, Math.floor(Math.min(60, spd - 180)) * 0.02, x.elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
+        x.buff(
+          StatKey.RES_PEN,
+          Math.floor(Math.min(60, spd - 180)) * 0.02,
+          x.elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE),
+        )
       }
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -575,10 +580,9 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
 
 export const Cyrene: CharacterConfig = {
   id: '1415',
-  info: {},
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }
-
-

@@ -8,7 +8,6 @@ import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
-import DB from 'lib/state/db'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -136,7 +135,8 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
                 useOptimizerRequestStore.getState().setRelicFilterField('rank', numVal)
                 const characterId = useOptimizerRequestStore.getState().characterId
                 if (characterId && getCharacterById(characterId)) {
-                  DB.insertCharacter(characterId, numVal)
+                  useCharacterStore.getState().insertCharacter(characterId, numVal)
+                  void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations: rc }) => rc())
                 }
                 recalculatePermutations()
               }}

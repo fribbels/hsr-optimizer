@@ -33,9 +33,9 @@ import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { DB } from 'lib/state/db'
+import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
-import { getCharacterById } from 'lib/stores/characterStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import * as equipmentService from 'lib/services/equipmentService'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
@@ -58,6 +58,7 @@ import {
   ElementalDamageType,
   ImageCenter,
 } from 'types/metadata'
+import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
@@ -238,18 +239,26 @@ export function showcaseOnEditPortraitOk(
 
   const { type, config } = portraitPayload
   switch (type) {
-    case 'add':
+    case 'add': {
       setCustomPortrait(config)
-      DB.saveCharacterPortrait(character.id, config)
+      let char = getCharacterById(character.id)
+      if (!char) {
+        char = persistenceService.upsertCharacterFromForm({ characterId: character.id } as Form)
+      }
+      useCharacterStore.getState().setCharacter({ ...char, portrait: config })
       Message.success(t('CharacterPreview.Messages.SavedPortrait') /* Successfully saved portrait */)
       SaveState.delayedSave()
       break
-    case 'delete':
-      DB.deleteCharacterPortrait(character.id)
+    }
+    case 'delete': {
+      const charToDelete = getCharacterById(character.id)
+      if (!charToDelete) { console.warn('No character selected'); break }
+      useCharacterStore.getState().setCharacter({ ...charToDelete, portrait: undefined })
       setCustomPortrait(undefined)
       Message.success(t('CharacterPreview.Messages.RevertedPortrait') /* Successfully reverted portrait */)
       SaveState.delayedSave()
       break
+    }
     default:
       console.error(`Payload of type '${type}' is not valid!`)
   }

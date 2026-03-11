@@ -1,14 +1,11 @@
-import type { AgGridReact } from 'ag-grid-react'
 import type {
   ComputeEngine,
 } from 'lib/constants/constants'
-import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import type { ColorThemeOverrides } from 'lib/rendering/theme'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import type { AppPages } from 'lib/constants/appPages'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
-import type { RefObject } from 'react'
 import type {
   Character,
   CharacterId,
@@ -22,23 +19,17 @@ import type { Relic } from 'types/relic'
 export type HsrOptimizerStore = {
   version: string,
   colorTheme: ColorThemeOverrides,
-  optimizerGrid: RefObject<AgGridReact<OptimizerDisplayDataStatSim>> | undefined,
   scoringAlgorithmFocusCharacter?: CharacterId | null,
   statTracesDrawerFocusCharacter?: CharacterId | null,
   activeKey: AppPages,
-  scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>,
-  relicsById: Partial<Record<string, Relic>>,
-  relics: Array<Relic>,
   settings: UserSettings,
   setSettings: (settings: UserSettings) => void,
-  setRelicsById: (relicsById: Partial<Record<string, Relic>>) => void,
   setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
   setActiveKey: (key: AppPages) => void,
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,
   setColorTheme: (x: ColorThemeOverrides) => void,
   setSavedSession: (x: GlobalSavedSession) => void,
-  setScoringMetadataOverrides: (x: Partial<Record<CharacterId, ScoringMetadata>>) => void,
   setVersion: (x: string | undefined) => void,
   savedSession: GlobalSavedSession,
 }

@@ -7,7 +7,6 @@ import { getDefaultActiveKey } from 'lib/constants/appPages'
 import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { Themes } from 'lib/rendering/theme'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { ArrayFilters } from 'lib/utils/arrayUtils'
 import {
   GlobalSavedSession,
   HsrOptimizerStore,
@@ -28,15 +27,10 @@ export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
   colorTheme: Themes.BLUE,
 
-  optimizerGrid: undefined,
-
   scoringAlgorithmFocusCharacter: undefined,
   statTracesDrawerFocusCharacter: undefined,
 
   activeKey: getDefaultActiveKey(),
-  relicsById: {},
-  relics: [],
-  scoringMetadataOverrides: {},
 
   savedSession: savedSessionDefaults,
 
@@ -49,12 +43,6 @@ export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
   setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
-  setRelicsById: (relicsById) =>
-    set(() => {
-      const relics = Object.values(relicsById).filter(ArrayFilters.nonNullable)
-      return { relicsById, relics }
-    }),
-  setScoringMetadataOverrides: (x) => set(() => ({ scoringMetadataOverrides: x })),
   setSettings: (x) => set(() => ({ settings: x })),
   setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) =>

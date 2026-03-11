@@ -18,7 +18,6 @@ import { StatCalculator } from 'lib/relics/statCalculator'
 import { Assets } from 'lib/rendering/assets'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
-import { DB } from 'lib/state/db'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
 
@@ -34,7 +33,7 @@ import 'style/components.css'
 import 'style/mantine-overrides.css'
 
 window.__HSR_DEBUG = {
-  WorkerPool, Constants, DataParser: Metadata, DB, Assets, RelicAugmenter,
+  WorkerPool, Constants, DataParser: Metadata, Assets, RelicAugmenter,
   StatCalculator, Gradient, SaveState, RelicFilters, Renderer, Message,
   Hint, CharacterConverter, RelicScorer, BufferPacker, RelicRollFixer,
 }

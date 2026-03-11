@@ -4,9 +4,9 @@ import {
   setClose,
 } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
-import DB from 'lib/state/db'
 import { AppPages } from 'lib/constants/appPages'
 import { useGlobalStore } from 'lib/stores/appStore'
+import { useCharacterStore } from 'lib/stores/characterStore'
 import { getRelics } from 'lib/stores/relicStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -84,7 +84,8 @@ export const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.PRIORITY.Description',
     buttonTextKey: '0Perms.RootCauses.PRIORITY.ButtonText',
     applyFix: () => {
-      DB.insertCharacter(useOptimizerDisplayStore.getState().focusCharacterId!, 0)
+      useCharacterStore.getState().insertCharacter(useOptimizerDisplayStore.getState().focusCharacterId!, 0)
+      void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => recalculatePermutations())
     },
     successMessageKey: '0Perms.RootCauses.PRIORITY.SuccessMessage',
   },

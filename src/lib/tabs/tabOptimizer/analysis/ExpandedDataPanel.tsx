@@ -51,7 +51,6 @@ export function ExpandedDataPanel() {
   }
 
   const analysis = generateAnalysisData(pinnedRowData, selectedRowData, form)
-  console.log('Optimizer result', analysis)
 
   if (!analysis) return null
 

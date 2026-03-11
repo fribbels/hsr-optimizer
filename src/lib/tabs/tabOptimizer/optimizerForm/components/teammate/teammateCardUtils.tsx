@@ -64,15 +64,6 @@ export const labelRender = (set: string, text: string) => (
   </Flex>
 )
 
-export function getDefaultTeammateForm() {
-  return {
-    characterEidolon: 0,
-    characterConditionals: {},
-    lightConeSuperimposition: 1,
-    lightConeConditionals: {},
-  }
-}
-
 const teammateRelicSets = [
   Sets.MessengerTraversingHackerspace,
   Sets.WatchmakerMasterOfDreamMachinations,

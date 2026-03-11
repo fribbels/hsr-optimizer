@@ -14,10 +14,6 @@ export function scaleTowardsRange(
   return value
 }
 
-export function nanAsZero(n: number) {
-  return isNaN(n) ? 0 : n
-}
-
 export function sumArray(arr: number[]) {
   let sum = 0
   for (let i = 0; i < arr.length; i++) {

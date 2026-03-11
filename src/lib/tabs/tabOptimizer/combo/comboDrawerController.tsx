@@ -275,7 +275,6 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
 }
 
 function mergeComboStates(base: ComboState, update: ComboState) {
-  console.log('mergeComboStates')
   if (base.comboCharacter.metadata.characterId != update?.comboCharacter?.metadata?.characterId) return
 
   mergeConditionals(base.comboCharacter.characterConditionals, update?.comboCharacter?.characterConditionals)
@@ -615,7 +614,6 @@ export function updateActivation(keyString: string, activate: boolean, comboStat
 }
 
 export function updatePartitionActivation(keyString: string, comboState: ComboState) {
-  console.log('updatePartitionActivation')
   const dataKey: ComboDataKey = JSON.parse(keyString)
   if (!dataKey.id) return
   if (dataKey.index == 0) return
@@ -645,8 +643,6 @@ export type ComboDataKey = {
 }
 
 export function updateAddPartition(comboState: ComboState, sourceKey: string, contentItemId: string, partitionIndex: number) {
-  console.log('updateAddPartition')
-
   const comboCategory = locateComboCategory(sourceKey, contentItemId, comboState) as ComboNumberConditional
   if (!comboCategory) return
 
@@ -661,7 +657,6 @@ export function updateAddPartition(comboState: ComboState, sourceKey: string, co
 }
 
 export function updateDeletePartition(comboState: ComboState, sourceKey: string, contentItemId: string, partitionIndex: number) {
-  console.log('updateDeletePartition')
   if (partitionIndex == 0) return
 
   const comboCategory = locateComboCategory(sourceKey, contentItemId, comboState) as ComboNumberConditional
@@ -687,7 +682,6 @@ export function updateDeletePartition(comboState: ComboState, sourceKey: string,
 }
 
 export function updateSelectedSets(comboState: ComboState, sets: string[], isOrnaments: boolean) {
-  console.log('updateSelectedSets')
   const setConditionals = comboState.comboCharacter.setConditionals
 
   if (isOrnaments) {
@@ -717,7 +711,6 @@ export function updateSelectedSets(comboState: ComboState, sets: string[], isOrn
 }
 
 export function updateBooleanDefaultSelection(comboState: ComboState, sourceKey: string, contentItemId: string, value: boolean) {
-  console.log('updateBooleanDefaultSelection')
   const dataKey: ComboDataKey = {
     id: contentItemId,
     source: sourceKey,
@@ -740,7 +733,6 @@ export function updateBooleanDefaultSelection(comboState: ComboState, sourceKey:
 }
 
 export function updateNumberDefaultSelection(comboState: ComboState, sourceKey: string, contentItemId: string, partitionIndex: number, value: number) {
-  console.log('updateNumberDefaultSelection')
   const dataKey: ComboDataKey = {
     id: contentItemId,
     source: sourceKey,
@@ -801,7 +793,6 @@ function setActivationIndexToDefault(obj: NestedObject, index: number): void {
 
 // Index is 0 indexed, and only includes the interactable elements, not including the [0] default
 export function updateAbilityRotation(comboState: ComboState, index: number, turnAbilityName: TurnAbilityName) {
-  console.log('updateAbilityRotation')
   const comboTurnAbilities = comboState.comboTurnAbilities
 
   if (index > comboTurnAbilities.length) return
@@ -856,8 +847,6 @@ function change(
 }
 
 export function updateConditionalChange(comboState: ComboState, changeEvent: Form) {
-  console.log('updateConditionalChange', changeEvent)
-
   if (changeEvent.characterConditionals) change(changeEvent.characterConditionals, comboState.comboCharacter.characterConditionals)
   if (changeEvent.lightConeConditionals) change(changeEvent.lightConeConditionals, comboState.comboCharacter.lightConeConditionals)
   if (changeEvent.setConditionals) change(changeEvent.setConditionals, comboState.comboCharacter.setConditionals, true)

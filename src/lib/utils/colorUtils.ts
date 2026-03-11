@@ -41,15 +41,6 @@ export function showcaseBackgroundColor(color: string, darkMode: boolean) {
   return darkModeModifier(finalColor, darkMode).css()
 }
 
-export function showcaseSegmentedColor(color: string, darkMode: boolean) {
-  const finalColor = chroma(color).desaturate(0.5).luminance(0.2).alpha(0.3)
-  return darkModeModifier(finalColor, darkMode).css()
-}
-
-export function colorTransparent() {
-  return '#00000000'
-}
-
 export function showcaseTransition() {
   return 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
 }

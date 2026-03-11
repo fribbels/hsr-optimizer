@@ -85,7 +85,6 @@ export function ScannerImportSubmenu() {
   function uploadedText(text: string) {
     try {
       const json = JSON.parse(text) as (ScannerParserJson & { data: never }) | (HoyolabData & { source: never })
-      console.log('JSON', json)
 
       setLoading1(true)
 

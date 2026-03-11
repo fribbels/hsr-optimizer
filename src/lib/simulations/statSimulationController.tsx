@@ -53,7 +53,6 @@ import {
 export function saveStatSimulationBuildFromForm(startSim = true) {
   const storeState = useOptimizerFormStore.getState()
   const form = { statSim: storeState.statSim } as Form
-  console.log('Save statSim', form.statSim)
 
   const simType: StatSimTypes = useOptimizerUIStore.getState().statSimulationDisplay
 
@@ -265,7 +264,6 @@ export function overwriteStatSimulationBuild() {
 }
 
 export function deleteStatSimulationBuild(record: { key: React.Key }) {
-  console.log('Delete sim', record)
   const statSims = useOptimizerUIStore.getState().statSimulations
   const updatedSims = TsUtils.clone(statSims.filter((x) => x.key != record.key))
 
@@ -295,8 +293,6 @@ export function startOptimizerStatSimulation() {
 
   if (existingSimulations.length == 0) return
   if (!validateForm(form)) return
-
-  console.log('Starting sims', existingSimulations)
 
   const context = generateContext(form)
 

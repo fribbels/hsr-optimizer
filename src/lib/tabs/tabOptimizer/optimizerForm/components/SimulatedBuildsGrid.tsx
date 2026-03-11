@@ -49,7 +49,6 @@ export function SimulatedBuildsGrid() {
     }
 
     const statSim = statSimulations.find((s) => s.key === key)
-    console.log('Syncing matching statSim', statSim)
 
     if (!statSim) return
 

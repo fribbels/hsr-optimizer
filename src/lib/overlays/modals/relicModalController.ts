@@ -72,7 +72,6 @@ export const RelicModalController = {
 
     DB.setRelic(updatedRelic)
 
-    console.log('onEditOk', updatedRelic)
     Message.success(i18next.t('modals:Relic.Messages.EditSuccess') /* Successfully edited relic */)
 
     setTimeout(() => {
@@ -90,8 +89,6 @@ function invalidValue(value?: string) {
 }
 
 export function validateRelic(relicForm: RelicForm): Relic | void {
-  console.log('Form finished', relicForm)
-
   const t = i18next.getFixedT(null, 'modals', 'Relic.Messages.Error')
 
   if (!relicForm.part) {

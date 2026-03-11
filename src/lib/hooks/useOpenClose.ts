@@ -65,12 +65,7 @@ export function setClose(id: OpenCloseIDs) {
   openCloseStore.getState().setIsOpen(id, false)
 }
 
-export function toggleOpen(id: OpenCloseIDs) {
-  const currentState = openCloseStore.getState().state[id] ?? false
-  openCloseStore.getState().setIsOpen(id, !currentState)
-}
-
-export const openCloseStore = create<OpenCloseStates>((set) => ({
+const openCloseStore = create<OpenCloseStates>((set) => ({
   state: {
     [OpenCloseIDs.MENU_SIDEBAR]: true,
   } as Record<OpenCloseIDs, boolean>,

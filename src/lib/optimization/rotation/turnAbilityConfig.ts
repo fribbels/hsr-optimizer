@@ -235,28 +235,6 @@ export const {
 // UTILITY FUNCTIONS
 // =============================================================================
 
-const start = '['
-const end = ']'
-
-export function toVisual(ability: TurnAbility): string {
-  if (!ability || ability == NULL_TURN_ABILITY) return ''
-
-  switch (ability.marker) {
-    case TurnMarker.START:
-      return `${start} ${ability.kind}`
-    case TurnMarker.END:
-      return `${ability.kind} ${end}`
-    case TurnMarker.WHOLE:
-      return `${start} ${ability.kind} ${end}`
-    default:
-      return ability.kind
-  }
-}
-
-export function abilityNameToVisual(name: TurnAbilityName): string {
-  return toVisual(toTurnAbility(name))
-}
-
 export function toTurnAbility(name: TurnAbilityName): TurnAbility {
   if (!name || name === NULL_TURN_ABILITY_NAME || !abilitiesRecord[name]) return NULL_TURN_ABILITY
   return abilitiesRecord[name]
@@ -274,10 +252,6 @@ export function isWholeTurnAbility(ability: TurnAbility): boolean {
   return ability.marker === TurnMarker.WHOLE
 }
 
-export function isDefaultAbility(ability: TurnAbility): boolean {
-  return ability.marker === TurnMarker.DEFAULT
-}
-
 export function isNullAbility(ability: TurnAbility): boolean {
   return !ability || !ability.kind || ability.kind == AbilityKind.NULL
 }
@@ -287,12 +261,7 @@ export function getAbilityKind(turnAbilityName: TurnAbilityName): AbilityKind {
   return abilitiesRecord[turnAbilityName]?.kind ?? AbilityKind.NULL
 }
 
-export function getAbilityName(ability: TurnAbility): TurnAbilityName {
-  if (!ability) return NULL_TURN_ABILITY_NAME
-  return ability.name
-}
-
-export function stringifyAbilityArray(abilityArray: TurnAbilityName[]): string {
+function stringifyAbilityArray(abilityArray: TurnAbilityName[]): string {
   return abilityArray.join(',')
 }
 

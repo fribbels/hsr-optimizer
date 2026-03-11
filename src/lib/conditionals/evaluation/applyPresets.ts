@@ -156,15 +156,6 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
   }
 }
 
-export function applyTeamAwareSetConditionalPresetsToOptimizerFormInstance(formInstance: UseFormReturnType<Form>) {
-  const form = formInstance.getValues()
-  applyTeamAwareSetConditionalPresets(form)
-
-  if (form.setConditionals) {
-    formInstance.setFieldValue(`setConditionals.${Sets.ArcadiaOfWovenDreams}.1` as never, form.setConditionals[Sets.ArcadiaOfWovenDreams][1] as never)
-  }
-}
-
 export function applyTeamAwareSetConditionalPresetsToStore() {
   const state = useOptimizerFormStore.getState()
   const form = displayToInternal(state) as Form

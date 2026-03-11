@@ -20,7 +20,6 @@ export const DIGITS_3 = 46
 export const DIGITS_4 = 50
 export const DIGITS_5 = 56
 export const DIGITS_6 = 62
-export const DIGITS_7 = 68
 
 export const optimizerTabDefaultGap = 5
 export const panelWidth = 211

@@ -10,7 +10,15 @@ import {
   StatFilterState,
   TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import {
+  computeApplySuggestionFixes,
+  computeLoadForm,
+  computeResetFilters,
+  computeSetMainCharacterConditional,
+  computeSetSetConditional,
+  computeSetTeammateConditional,
+  SuggestionFixes,
+} from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
@@ -20,14 +28,8 @@ import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
 import { MemoDisplay, StatDisplay } from 'types/store'
 import { create } from 'zustand'
 
-type SuggestionFixes = {
-  relicSets?: RelicSetFilters
-  ornamentSets?: OrnamentSetFilters
-  mainBody?: string[]
-  mainFeet?: string[]
-  mainPlanarSphere?: string[]
-  mainLinkRope?: string[]
-}
+export type MainConditionalType = 'characterConditionals' | 'lightConeConditionals'
+export type TeammateConditionalType = 'characterConditionals' | 'lightConeConditionals'
 
 type OptimizerFormActions = {
   // Simple setters (Task 8)
@@ -66,13 +68,15 @@ type OptimizerFormActions = {
   resetFilters: () => void
   applySuggestionFixes: (fixes: SuggestionFixes) => void
   setCharacterId: (id: CharacterId | undefined) => void
-  setConditionalValue: (itemName: (string | number)[], value: unknown) => void
+  setMainCharacterConditional: (condType: MainConditionalType, key: string, value: boolean | number) => void
+  setTeammateConditional: (teammateIndex: 0 | 1 | 2, condType: TeammateConditionalType, key: string, value: boolean | number) => void
+  setSetConditional: (key: string, value: boolean | number) => void
   loadForm: (form: Form) => void
 }
 
 type OptimizerFormStore = OptimizerFormState & OptimizerFormActions
 
-export const useOptimizerFormStore = create<OptimizerFormStore>()((set, get) => ({
+export const useOptimizerFormStore = create<OptimizerFormStore>()((set) => ({
   ...createDefaultFormState(),
 
   // ---- Simple setters (Task 8) ----
@@ -176,99 +180,23 @@ export const useOptimizerFormStore = create<OptimizerFormStore>()((set, get) => 
     return { teammates }
   }),
 
-  resetFilters: () => {
-    const defaults = createDefaultFormState()
-    const state = get()
-    set({
-      // Reset relic filter fields to defaults
-      enhance: defaults.enhance,
-      grade: defaults.grade,
-      rank: defaults.rank,
-      exclude: defaults.exclude,
-      includeEquippedRelics: defaults.includeEquippedRelics,
-      keepCurrentRelics: defaults.keepCurrentRelics,
-      mainStatUpscaleLevel: defaults.mainStatUpscaleLevel,
-      rankFilter: defaults.rankFilter,
-      mainHead: defaults.mainHead,
-      mainHands: defaults.mainHands,
-      mainBody: defaults.mainBody,
-      mainFeet: defaults.mainFeet,
-      mainPlanarSphere: defaults.mainPlanarSphere,
-      mainLinkRope: defaults.mainLinkRope,
-      relicSets: defaults.relicSets,
-      ornamentSets: defaults.ornamentSets,
-      // Preserve character/LC
-      characterId: state.characterId,
-      characterEidolon: state.characterEidolon,
-      lightCone: state.lightCone,
-      lightConeSuperimposition: state.lightConeSuperimposition,
-    })
-  },
+  resetFilters: () => set((state) => computeResetFilters(state)),
 
-  applySuggestionFixes: (fixes) => {
-    const patch: Partial<OptimizerFormState> = {}
-    if (fixes.relicSets !== undefined) patch.relicSets = fixes.relicSets
-    if (fixes.ornamentSets !== undefined) patch.ornamentSets = fixes.ornamentSets
-    if (fixes.mainBody !== undefined) patch.mainBody = fixes.mainBody
-    if (fixes.mainFeet !== undefined) patch.mainFeet = fixes.mainFeet
-    if (fixes.mainPlanarSphere !== undefined) patch.mainPlanarSphere = fixes.mainPlanarSphere
-    if (fixes.mainLinkRope !== undefined) patch.mainLinkRope = fixes.mainLinkRope
-    set(patch)
-  },
+  applySuggestionFixes: (fixes) => set((state) => computeApplySuggestionFixes(state, fixes)),
 
   setCharacterId: (id) => set({ characterId: id }),
 
-  loadForm: (form) => {
-    const defaults = createDefaultFormState()
-    const converted = internalFormToState(form)
-    const merged = { ...defaults }
-    for (const [key, value] of Object.entries(converted)) {
-      if (value !== undefined) {
-        (merged as Record<string, unknown>)[key] = value
-      }
-    }
-    // Merge setConditionals: fill in missing keys from defaults (handles old saves missing newer sets)
-    if (converted.setConditionals && defaults.setConditionals) {
-      merged.setConditionals = { ...defaults.setConditionals, ...converted.setConditionals }
-    }
-    set(merged)
-  },
+  loadForm: (form) => set((state) => computeLoadForm(state, form)),
 
-  setConditionalValue: (itemName, value) => set((state) => {
-    const teammateKeyToIndex: Record<string, 0 | 1 | 2> = { teammate0: 0, teammate1: 1, teammate2: 2 }
-    const [first, ...rest] = itemName
-    const tmIndex = teammateKeyToIndex[first as string]
+  setMainCharacterConditional: (condType, key, value) => set((state) =>
+    computeSetMainCharacterConditional(state, condType, key, value),
+  ),
 
-    if (tmIndex != null) {
-      // Teammate path: ['teammate0', 'characterConditionals', 'key']
-      const [condType, key] = rest as [string, string]
-      const teammates = [...state.teammates] as [TeammateState, TeammateState, TeammateState]
-      const tm = { ...teammates[tmIndex] }
-      tm[condType as 'characterConditionals' | 'lightConeConditionals'] = {
-        ...tm[condType as 'characterConditionals' | 'lightConeConditionals'],
-        [key]: value as boolean | number,
-      }
-      teammates[tmIndex] = tm
-      return { teammates }
-    }
+  setTeammateConditional: (teammateIndex, condType, key, value) => set((state) =>
+    computeSetTeammateConditional(state, teammateIndex, condType, key, value),
+  ),
 
-    if (first === 'setConditionals') {
-      // Set conditional: ['setConditionals', 'SetName', 1]
-      const [setName, idx] = rest as [string, number]
-      const setConditionals = { ...state.setConditionals } as Record<string, [undefined, boolean | number]>
-      const tuple = [...setConditionals[setName]] as [undefined, boolean | number]
-      tuple[idx] = value as boolean | number
-      setConditionals[setName] = tuple
-      return { setConditionals }
-    }
-
-    // Main character: ['characterConditionals', 'key'] or ['lightConeConditionals', 'key']
-    const [condType, key] = itemName as [string, string]
-    return {
-      [condType]: {
-        ...(state[condType as 'characterConditionals' | 'lightConeConditionals'] as Record<string, unknown>),
-        [key]: value,
-      },
-    }
-  }),
+  setSetConditional: (key, value) => set((state) =>
+    computeSetSetConditional(state, key, value),
+  ),
 }))

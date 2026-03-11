@@ -12,7 +12,7 @@ import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optim
 import DB from 'lib/state/db'
 import { SaveState } from 'lib/state/saveState'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { MainConditionalType, TeammateConditionalType, useOptimizerFormStore } from 'lib/stores/optimizerForm/useOptimizerFormStore'
 import { useOptimizerUIStore } from 'lib/stores/optimizerUI/useOptimizerUIStore'
 import { initializeComboState, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
@@ -22,39 +22,90 @@ import { Form } from 'types/form'
 
 export const optimizerFormCache: Record<string, Form> = {}
 
-const teammateKeys = new Set(['teammate0', 'teammate1', 'teammate2'])
+const teammateKeyToIndex: Record<string, 0 | 1 | 2> = {
+  teammate0: 0,
+  teammate1: 1,
+  teammate2: 2,
+}
+
+/**
+ * Called when a main character conditional (characterConditionals or lightConeConditionals) changes.
+ */
+export function handleMainCharacterConditionalChange(
+  condType: MainConditionalType,
+  key: string,
+  value: boolean | number,
+) {
+  const store = useOptimizerFormStore.getState()
+  store.setMainCharacterConditional(condType, key, value)
+
+  const request = displayToInternal(store)
+  const comboState = initializeComboState(request, true)
+  updateConditionalChange(comboState, { [condType]: { [key]: value } } as unknown as Form)
+}
+
+/**
+ * Called when a teammate conditional changes.
+ */
+export function handleTeammateConditionalChange(
+  teammateIndex: 0 | 1 | 2,
+  condType: TeammateConditionalType,
+  key: string,
+  value: boolean | number,
+) {
+  const store = useOptimizerFormStore.getState()
+  store.setTeammateConditional(teammateIndex, condType, key, value)
+
+  const request = displayToInternal(store)
+  const comboState = initializeComboState(request, true)
+  const teammateKey = `teammate${teammateIndex}`
+  updateConditionalChange(comboState, { [teammateKey]: { [condType]: { [key]: value } } } as unknown as Form)
+}
+
+/**
+ * Called when a set conditional changes.
+ */
+export function handleSetConditionalChange(
+  key: string,
+  value: boolean | number,
+) {
+  const store = useOptimizerFormStore.getState()
+  store.setSetConditional(key, value)
+
+  const request = displayToInternal(store)
+  const comboState = initializeComboState(request, true)
+  updateConditionalChange(comboState, { setConditionals: { [key]: [undefined, value] } } as unknown as Form)
+}
 
 /**
  * Called when a conditional value changes in the UI.
- * Updates the store and patches combo state.
+ * Dispatches to the appropriate typed handler based on itemName structure.
+ * This is a convenience wrapper used by UI components that construct itemName paths.
  */
 export function handleConditionalChange(
   itemName: (string | number)[],
   value: unknown,
 ) {
-  const store = useOptimizerFormStore.getState()
-  store.setConditionalValue(itemName, value)
-
-  const request = displayToInternal(store)
-  const comboState = initializeComboState(request, true)
-
-  // Build a changedValues-like object for updateConditionalChange
   const [first, ...rest] = itemName
 
-  if (teammateKeys.has(first as string)) {
+  const tmIndex = teammateKeyToIndex[first as string]
+  if (tmIndex != null) {
     // Teammate path: ['teammate0', 'characterConditionals', 'key']
-    const [condType, key] = rest
-    updateConditionalChange(comboState, { [first]: { [condType]: { [key]: value } } } as unknown as Form)
-  } else if (first === 'setConditionals') {
-    // Set conditional: ['setConditionals', 'SetName', 1]
-    const [setName] = rest
-    // Set conditionals use legacy [undefined, value] format in change events
-    updateConditionalChange(comboState, { setConditionals: { [setName]: [undefined, value] } } as unknown as Form)
-  } else {
-    // Main character: ['characterConditionals', 'key'] or ['lightConeConditionals', 'key']
-    const [condType, key] = itemName
-    updateConditionalChange(comboState, { [condType]: { [key]: value } } as unknown as Form)
+    const [condType, key] = rest as [TeammateConditionalType, string]
+    handleTeammateConditionalChange(tmIndex, condType, key, value as boolean | number)
+    return
   }
+
+  if (first === 'setConditionals') {
+    // Set conditional: ['setConditionals', 'SetName', 1]
+    const [setName] = rest as [string]
+    handleSetConditionalChange(setName, value as boolean | number)
+    return
+  }
+
+  // Main character: ['characterConditionals', 'key'] or ['lightConeConditionals', 'key']
+  const [condType, key] = itemName as [MainConditionalType, string]
+  handleMainCharacterConditionalChange(condType, key, value as boolean | number)
 }
 
 /**

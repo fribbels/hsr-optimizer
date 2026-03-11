@@ -1,0 +1,135 @@
+import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
+import { OptimizerFormState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type { MainConditionalType, TeammateConditionalType } from 'lib/stores/optimizerForm/useOptimizerFormStore'
+import { Form, OrnamentSetFilters, RelicSetFilters } from 'types/form'
+
+export type SuggestionFixes = {
+  relicSets?: RelicSetFilters
+  ornamentSets?: OrnamentSetFilters
+  mainBody?: string[]
+  mainFeet?: string[]
+  mainPlanarSphere?: string[]
+  mainLinkRope?: string[]
+}
+
+/**
+ * Pure function: compute the new state for resetFilters.
+ * Resets relic filter fields to defaults while preserving character/LC identity.
+ */
+export function computeResetFilters(state: OptimizerFormState): Partial<OptimizerFormState> {
+  const defaults = createDefaultFormState()
+  return {
+    // Reset relic filter fields to defaults
+    enhance: defaults.enhance,
+    grade: defaults.grade,
+    rank: defaults.rank,
+    exclude: defaults.exclude,
+    includeEquippedRelics: defaults.includeEquippedRelics,
+    keepCurrentRelics: defaults.keepCurrentRelics,
+    mainStatUpscaleLevel: defaults.mainStatUpscaleLevel,
+    rankFilter: defaults.rankFilter,
+    mainHead: defaults.mainHead,
+    mainHands: defaults.mainHands,
+    mainBody: defaults.mainBody,
+    mainFeet: defaults.mainFeet,
+    mainPlanarSphere: defaults.mainPlanarSphere,
+    mainLinkRope: defaults.mainLinkRope,
+    relicSets: defaults.relicSets,
+    ornamentSets: defaults.ornamentSets,
+    // Preserve character/LC
+    characterId: state.characterId,
+    characterEidolon: state.characterEidolon,
+    lightCone: state.lightCone,
+    lightConeSuperimposition: state.lightConeSuperimposition,
+  }
+}
+
+/**
+ * Pure function: compute the patch for applySuggestionFixes.
+ * Returns only the fields that are present in fixes.
+ */
+export function computeApplySuggestionFixes(_state: OptimizerFormState, fixes: SuggestionFixes): Partial<OptimizerFormState> {
+  const patch: Partial<OptimizerFormState> = {}
+  if (fixes.relicSets !== undefined) patch.relicSets = fixes.relicSets
+  if (fixes.ornamentSets !== undefined) patch.ornamentSets = fixes.ornamentSets
+  if (fixes.mainBody !== undefined) patch.mainBody = fixes.mainBody
+  if (fixes.mainFeet !== undefined) patch.mainFeet = fixes.mainFeet
+  if (fixes.mainPlanarSphere !== undefined) patch.mainPlanarSphere = fixes.mainPlanarSphere
+  if (fixes.mainLinkRope !== undefined) patch.mainLinkRope = fixes.mainLinkRope
+  return patch
+}
+
+/**
+ * Pure function: compute the new state for loadForm.
+ * Converts an internal Form to display-format state, merging with defaults.
+ */
+export function computeLoadForm(_state: OptimizerFormState, form: Form): OptimizerFormState {
+  const defaults = createDefaultFormState()
+  const converted = internalFormToState(form)
+  const merged = { ...defaults }
+  for (const [key, value] of Object.entries(converted)) {
+    if (value !== undefined) {
+      (merged as Record<string, unknown>)[key] = value
+    }
+  }
+  // Merge setConditionals: fill in missing keys from defaults (handles old saves missing newer sets)
+  if (converted.setConditionals && defaults.setConditionals) {
+    merged.setConditionals = { ...defaults.setConditionals, ...converted.setConditionals }
+  }
+  return merged
+}
+
+/**
+ * Pure function: compute state update for setting a main character conditional.
+ * Handles both characterConditionals and lightConeConditionals.
+ */
+export function computeSetMainCharacterConditional(
+  state: OptimizerFormState,
+  condType: MainConditionalType,
+  key: string,
+  value: boolean | number,
+): Partial<OptimizerFormState> {
+  return {
+    [condType]: {
+      ...state[condType],
+      [key]: value,
+    },
+  }
+}
+
+/**
+ * Pure function: compute state update for setting a teammate conditional.
+ */
+export function computeSetTeammateConditional(
+  state: OptimizerFormState,
+  teammateIndex: 0 | 1 | 2,
+  condType: TeammateConditionalType,
+  key: string,
+  value: boolean | number,
+): Partial<OptimizerFormState> {
+  const teammates = [...state.teammates] as [TeammateState, TeammateState, TeammateState]
+  const tm = { ...teammates[teammateIndex] }
+  tm[condType] = {
+    ...tm[condType],
+    [key]: value,
+  }
+  teammates[teammateIndex] = tm
+  return { teammates }
+}
+
+/**
+ * Pure function: compute state update for setting a set conditional.
+ * Set conditionals use the legacy [undefined, value] tuple format.
+ */
+export function computeSetSetConditional(
+  state: OptimizerFormState,
+  key: string,
+  value: boolean | number,
+): Partial<OptimizerFormState> {
+  const setConditionals = { ...state.setConditionals } as Record<string, [undefined, boolean | number]>
+  const tuple = [...setConditionals[key]] as [undefined, boolean | number]
+  tuple[1] = value
+  setConditionals[key] = tuple
+  return { setConditionals }
+}

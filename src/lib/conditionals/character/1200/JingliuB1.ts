@@ -180,6 +180,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Ice)
               .hpScaling(skillScaling + e1SkillBonus)
               .toughnessDmg(20)
+              .skillPointsUsed(0)
               .build(),
           ],
         },

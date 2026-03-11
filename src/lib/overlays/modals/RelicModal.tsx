@@ -1,16 +1,14 @@
 import {
   IconChevronLeft,
   IconChevronRight,
-  IconLock,
 } from '@tabler/icons-react'
-import { useForm, UseFormReturnType } from '@mantine/form'
-import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select, TextInput, Tooltip, useMantineTheme } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select, useMantineTheme } from '@mantine/core'
 import {
   Constants,
   MainStats,
   Parts,
   Stats,
-  SubStats,
   UnreleasedSets,
 } from 'lib/constants/constants'
 import {
@@ -26,6 +24,14 @@ import {
   RelicUpgradeValues,
   validateRelic,
 } from 'lib/overlays/modals/relicModalController'
+import {
+  defaultMainStatPerPart,
+  defaultSubstatValues,
+  MainStatOption,
+  relicsAreDifferent,
+  renderMainStat,
+} from 'lib/overlays/modals/relicModalHelpers'
+import { SubstatInput } from 'lib/overlays/modals/SubstatInput'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { useScrollLock } from 'lib/rendering/scrollController'
@@ -33,17 +39,12 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
-import {
-  localeNumber,
-  localeNumber_0,
-} from 'lib/utils/i18nUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import React, {
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -64,89 +65,6 @@ function partSegmentData(value: string, src: string) {
   }
 }
 
-function defaultSubstatValues(relic: Relic): SubstatValues {
-  const substatCount = relic.substats.length
-  return relic.substats.concat(relic.previewSubstats).reduce((acc, _, idx) => {
-    const isPreview = idx >= substatCount
-    const substat = isPreview ? renderPreviewSubstat(relic, idx - substatCount) : renderSubstat(relic, idx)
-    switch (idx) {
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-        acc[`substatType${idx}`] = substat?.stat
-        acc[`substatValue${idx}`] = (isPreview ? 0 : substat?.value)?.toString()
-        acc[`substat${idx}IsPreview`] = isPreview ? substat?.value : isPreview
-        break
-      default:
-        throw new Error('RelicModal::defaultSubstatValues: Illegal index reached in relic substat iterator')
-    }
-    return acc
-  }, {} as SubstatValues)
-}
-
-type SubstatValues = Pick<RelicForm, `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`>
-
-function renderMainStat(relic: Relic): { stat: MainStats, value: number } | undefined {
-  const mainStat = relic.main?.stat
-  const mainValue = relic.main?.value
-
-  if (!mainStat) return
-
-  return renderStat(mainStat, mainValue)
-}
-
-function renderPreviewSubstat(relic: Relic, index: number) {
-  const substat = relic.previewSubstats[index]
-  if (!substat?.stat) return
-
-  const stat = substat.stat
-  const value = substat.value
-
-  return renderStat(stat, value, relic) as { stat: SubStats, value: number }
-}
-
-function renderSubstat(relic: Relic, index: number) {
-  const substat = relic.substats[index]
-  if (!substat?.stat) return
-
-  const stat = substat.stat
-  const value = substat.value
-
-  return renderStat(stat, value, relic) as { stat: SubStats, value: number }
-}
-
-function renderStat<S extends SubStats | MainStats>(stat: S, value: number, relic?: Relic): { stat: S, value: number } {
-  if (stat == Stats.SPD) {
-    if (relic?.verified) {
-      return {
-        stat: stat,
-        value: Utils.truncate10ths(value),
-      }
-    } else {
-      return {
-        stat: stat,
-        value: value % 1 !== 0 ? Utils.truncate10ths(value.toFixed(1)) : Math.floor(value),
-      }
-    }
-  } else if (Utils.isFlat(stat)) {
-    return {
-      stat: stat,
-      value: Math.floor(value),
-    }
-  } else {
-    return {
-      stat: stat,
-      value: Utils.truncate10ths(Utils.precisionRound(Math.floor(value * 10) / 10)),
-    }
-  }
-}
-
-type MainStatOption = {
-  label: string,
-  value: string,
-}
-
 type RelicModalProps = {
   open: boolean,
   setOpen: (open: boolean) => void,
@@ -156,15 +74,6 @@ type RelicModalProps = {
   defaultWearer?: CharacterId,
   next?: () => void,
   prev?: () => void,
-}
-
-const defaultMainStatPerPart = {
-  [Parts.Head]: Stats.HP,
-  [Parts.Hands]: Stats.ATK,
-  [Parts.Body]: Stats.HP_P,
-  [Parts.Feet]: Stats.HP_P,
-  [Parts.PlanarSphere]: Stats.HP_P,
-  [Parts.LinkRope]: Stats.HP_P,
 }
 
 export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer, next, prev }: RelicModalProps) {
@@ -624,187 +533,4 @@ export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen,
       </Modal>
     </div>
   )
-}
-
-function SubstatInput(props: {
-  index: 0 | 1 | 2 | 3,
-  upgrades: RelicUpgradeValues[],
-  relicForm: UseFormReturnType<RelicForm>,
-  resetUpgradeValues: () => void,
-  plusThree: () => void,
-}) {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [hovered, setHovered] = React.useState(false)
-  const statTypeField = `substatType${props.index}` as `substatType${typeof props.index}`
-  const statValueField = `substatValue${props.index}` as `substatValue${typeof props.index}`
-  const isPreviewField = `substat${props.index}IsPreview` as `substat${typeof props.index}IsPreview`
-  const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
-  const { t: tStats } = useTranslation('common', { keyPrefix: 'Stats' })
-
-  const isPreview = props.relicForm.getValues()[isPreviewField]
-
-  const handleFocus = () => {
-    if (inputRef.current) {
-      inputRef.current.select() // Select the entire text when focused
-    }
-  }
-
-  function upgradeClicked(quality: 'low' | 'mid' | 'high') {
-    console.log(props, quality)
-
-    props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality] as any)
-    props.relicForm.setFieldValue(isPreviewField, false as any)
-    props.resetUpgradeValues()
-    props.plusThree()
-  }
-
-  const formatStat = (value?: string | number) => {
-    const stat = props.relicForm.getValues()[`substatType${props.index}`]
-    if (!value) return ''
-    if (Utils.isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
-    return localeNumber_0(Number(value))
-  }
-
-  const substatOptionsMemoized = useMemo(() => {
-    const output: {
-      label: string,
-      value: string,
-    }[] = []
-    for (const entry of Object.entries(Constants.SubStats)) {
-      output.push({
-        label: tStats(entry[1]),
-        value: entry[1],
-      })
-    }
-    return output
-  }, [tStats])
-
-  function PreviewToggle() {
-    const onClick = () => {
-      if (isPreview) {
-        props.relicForm.setFieldValue(isPreviewField, false as any)
-        props.relicForm.setFieldValue(statValueField, isPreview as any)
-        props.resetUpgradeValues()
-      } else {
-        const value = props.relicForm.getValues()[statValueField]
-        if (value == '0' || !value) return
-        props.relicForm.setFieldValue(isPreviewField, value as any)
-        props.relicForm.setFieldValue(statValueField, '0' as any)
-        props.resetUpgradeValues()
-      }
-    }
-    return (
-      <div style={{ width: 12, marginTop: 7, cursor: 'pointer' }}>
-        {isPreview ? <IconLock onClick={onClick} /> : <IconChevronRight onClick={onClick} />}
-      </div>
-    )
-  }
-
-  function UpgradeButton(subProps: {
-    quality: 'low' | 'mid' | 'high',
-  }) {
-    const value = props.upgrades?.[props.index]?.[subProps.quality]
-
-    if (value === null) return null
-
-    const displayValue = formatStat(value)
-
-    return (
-      <Flex style={{ width: '100%' }}>
-        <Button
-          variant='default'
-          style={{ width: '100%', padding: 0 }}
-          onClick={() => upgradeClicked(subProps.quality)}
-          disabled={value === undefined}
-          tabIndex={-1}
-        >
-          {displayValue}
-        </Button>
-      </Flex>
-    )
-  }
-
-  const stat = props.relicForm.getValues()[statTypeField] as RelicForm[typeof statTypeField]
-
-  return (
-    <Flex gap={10} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      <Flex gap={10}>
-        <Select
-          searchable
-          clearable
-          style={{
-            width: 210,
-          }}
-          placeholder={t('SubstatPlaceholder')}
-          data={substatOptionsMemoized}
-          maxDropdownHeight={750}
-          renderOption={({ option }) => (
-            <Flex align='center' gap={10}>
-              <img style={{ width: 22, height: 22 }} src={Assets.getStatIcon(option.value, true)} />
-              {option.label}
-            </Flex>
-          )}
-          {...props.relicForm.getInputProps(statTypeField)}
-          onChange={(val) => {
-            props.relicForm.setFieldValue(statTypeField, val as any)
-            if (val) {
-              props.relicForm.setFieldValue(statValueField, '0' as any)
-            } else {
-              props.relicForm.setFieldValue(statValueField, undefined as any)
-            }
-            props.resetUpgradeValues()
-          }}
-          tabIndex={0}
-        />
-
-        <Tooltip
-          label={stat == Stats.SPD ? t('SpdInputWarning') : ''}
-          position='top'
-          events={{ hover: false, focus: true, touch: false }}
-        >
-          <TextInput
-            disabled={Boolean(isPreview)}
-            ref={inputRef}
-            onFocus={handleFocus}
-            style={{ width: 80 }}
-            {...props.relicForm.getInputProps(statValueField)}
-            onChange={(e) => {
-              props.relicForm.setFieldValue(statValueField, e.currentTarget.value)
-              props.resetUpgradeValues()
-            }}
-            tabIndex={0}
-          />
-        </Tooltip>
-      </Flex>
-      <PreviewToggle />
-      <Flex gap={5} style={{ minWidth: 180 }}>
-        <UpgradeButton quality='low' />
-        <UpgradeButton quality='mid' />
-        <UpgradeButton quality='high' />
-      </Flex>
-    </Flex>
-  )
-}
-
-function relicHash(relic: Relic) {
-  return TsUtils.objectHash({
-    grade: relic.grade,
-    enhance: relic.enhance,
-    part: relic.part,
-    set: relic.set,
-    mainStatType: relic.main?.stat,
-    substats: relic.substats.map((stat) => ({
-      stat: stat.stat,
-      value: Utils.truncate1000ths(TsUtils.precisionRound(stat.value)),
-    })),
-  })
-}
-
-function relicsAreDifferent(relic1: Relic | null, relic2: Relic | null) {
-  if (!relic1 || !relic2) return true
-
-  const relic1Hash = relicHash(relic1)
-  const relic2Hash = relicHash(relic2)
-
-  return relic1Hash != relic2Hash
 }

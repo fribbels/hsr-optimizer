@@ -8,6 +8,21 @@ import { useForm } from '@mantine/form'
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
+import {
+  DEFAULT_CROP,
+  DEFAULT_CUSTOM_IMAGE_PARAMS,
+  DEFAULT_IMAGE_DIMENSIONS,
+  DEFAULT_ZOOM,
+  isCORSallowedImageUrl,
+  isValidImageFile,
+  isValidImageUrl,
+  MAX_ZOOM,
+  MIN_ZOOM,
+  uploadToImgurByFile,
+  uploadToImgurByUrl,
+  validateFileSize,
+  validateUrlFileSize,
+} from 'lib/overlays/modals/editImageUtils'
 import * as React from 'react'
 import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
@@ -28,60 +43,6 @@ interface EditImageModalProps {
   title?: string
   width?: number
   defaultImageUrl?: string // default image, passed in to this component to edit its config
-}
-
-const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
-// https://api.imgur.com/oauth2/addclient
-const CLIENT_ID = '13bf25a25cf82e9'
-
-const DEFAULT_IMAGE_DIMENSIONS = { width: 0, height: 0 }
-const DEFAULT_CROP = { x: 0, y: 0 }
-const DEFAULT_ZOOM = 1
-const DEFAULT_CUSTOM_IMAGE_PARAMS = {
-  croppedArea: { x: 0, y: 0, width: 0, height: 0 },
-  croppedAreaPixels: { x: 0, y: 0, width: 0, height: 0 },
-}
-const MIN_ZOOM = 1
-const MAX_ZOOM = 5
-
-const MAX_IMAGE_SIZE_MB = 20
-const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024
-
-// Validates file size against limit
-function validateFileSize(file: File, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): { valid: boolean; error?: string } {
-  if (file.size > maxSizeBytes) {
-    return {
-      valid: false,
-      error: `Image exceeds ${MAX_IMAGE_SIZE_MB}MB limit. Please resize or choose a different image.`,
-    }
-  }
-  return { valid: true }
-}
-
-// Validates URL file size by fetching Content-Length header (no full download)
-async function validateUrlFileSize(url: string, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): Promise<{ valid: boolean; error?: string }> {
-  try {
-    const response = await fetch(url, { method: 'HEAD', mode: 'cors' })
-    const contentLength = response.headers.get('content-length')
-
-    if (!contentLength) {
-      // If no Content-Length header, allow it to proceed (server might not support HEAD)
-      return { valid: true }
-    }
-
-    const fileSizeBytes = parseInt(contentLength, 10)
-    if (fileSizeBytes > maxSizeBytes) {
-      return {
-        valid: false,
-        error: `Image exceeds ${MAX_IMAGE_SIZE_MB}MB limit. Please resize or choose a different image.`,
-      }
-    }
-    return { valid: true }
-  } catch (error) {
-    // If HEAD request fails, allow it to proceed and let imgur handle it
-    console.warn('Could not validate file size via HEAD request:', error)
-    return { valid: true }
-  }
 }
 
 const EditImageModal: React.FC<EditImageModalProps> = ({
@@ -209,175 +170,6 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
   }
 
-  // Verifies that the URL actually links to an image
-  async function isValidImageUrl(url: string) {
-    // Sometimes copying an image address that isn't fully loaded will copy the base64
-    // We don't want that, so checking here to make sure this is actually a URL
-    if (!url.includes('http')) {
-      return false
-    }
-
-    setIsVerificationLoading(true)
-    const img = new Image() // Be careful not to import Image from antd, it'll conflict with this
-    img.src = url
-
-    return new Promise((resolve) => {
-      setIsVerificationLoading(false)
-      img.onerror = () => resolve(false)
-      img.onload = async () => {
-        const imageBitmap: ImageBitmap = await createImageBitmap(img)
-        setOriginalDimensions({
-          width: imageBitmap.width,
-          height: imageBitmap.height,
-        })
-        resolve(true)
-      }
-    })
-  }
-
-  // Verifies that the uploaded file is actually an image
-  async function isValidImageFile(file: File): Promise<boolean> {
-    setIsVerificationLoading(true)
-
-    return new Promise((resolve) => {
-      const fileReader = new FileReader()
-      fileReader.onerror = () => {
-        setIsVerificationLoading(false)
-        resolve(false)
-      }
-      fileReader.onload = (e) => {
-        const img = new Image()
-        img.src = e.target?.result as string
-        img.onload = async () => {
-          setOriginalDimensions({
-            width: img.width,
-            height: img.height,
-          })
-          setIsVerificationLoading(false)
-          resolve(true)
-        }
-        img.onerror = () => {
-          setIsVerificationLoading(false)
-          resolve(false)
-        }
-      }
-      fileReader.readAsDataURL(file)
-    })
-  }
-
-  // Checks if CORS policy allows fetching the image
-  // Screenshot functionality wont work if CORS blocks the fetch
-  async function isCORSallowedImageUrl(url: string) {
-    try {
-      const response = await fetch(url, {
-        method: 'HEAD',
-        mode: 'cors',
-      })
-      return response.ok
-    } catch (error) {
-      console.log('CORS blocked image fetch, uploading to imgur:', url)
-      return false
-    }
-  }
-
-  /************************************************
-   IMPORTANT:
-   When testing this on localhost, you WILL run into a 429 / 403 issue.
-   This is because Imgur API hates localhost for some reason.
-   https://stackoverflow.com/questions/66195106/imgur-api-responding-with-code-403-with-server-error-429
-   WORKAROUND:
-   In vite.config.ts:
-   server: {
-     open: true,
-     host: '127.0.0.1',
-     port: 3000,
-     allowedHosts: ['testlocalhost.com'],
-   },
-   Add `127.0.0.1 testlocalhost.com` to windows hosts file, then use testlocalhost.com:3000
-   You will not be able to access i.imgur.com/... links using 127.0.0.1,
-   So the immediate next step of cropping will not work as expected.
-   https://stackoverflow.com/questions/43895390/imgur-images-returning-403
-   SUMMARY:
-   These Imgur restrictions are incredibly annoying to test with in development,
-   however it should have no impact in production.
-
-   When the key goes down: https://api.imgur.com/oauth2/addclient
-   *************************************************/
-  const uploadToImgurByUrl = async (imageUrl: string) => {
-    const formData = new FormData()
-    formData.append('image', imageUrl)
-
-    try {
-      setIsVerificationLoading(true)
-      const response = await fetch(IMGUR_API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          Authorization: `Client-ID ${CLIENT_ID}`,
-        },
-        body: formData,
-      })
-      if (!response.ok) {
-        const errorData = await response.json()
-        setIsVerificationLoading(false)
-        throw new Error(`Imgur API error: ${errorData.data.error}`)
-      }
-      const data = await response.json()
-      if (data.data.width && data.data.height) {
-        setOriginalDimensions({ width: data.data.width, height: data.data.height })
-      }
-      if (data.success) {
-        const imgurLink = data.data.link
-        setVerifiedImageUrl(imgurLink)
-        setCurrent(current + 1)
-        setIsVerificationLoading(false)
-      } else {
-        setIsVerificationLoading(false)
-        throw new Error('Image url upload to Imgur failed but did not return a typical error response')
-      }
-    } catch (error) {
-      setIsVerificationLoading(false)
-      console.error('There was an error uploading the image to Imgur:', error)
-      return null
-    }
-  }
-
-  const uploadToImgurByFile = async (file: File): Promise<string | null> => {
-    const formData = new FormData()
-    formData.append('image', file)
-
-    try {
-      setIsVerificationLoading(true)
-      const response = await fetch(IMGUR_API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          Authorization: `Client-ID ${CLIENT_ID}`,
-        },
-        body: formData,
-      })
-      if (!response.ok) {
-        const errorData = await response.json()
-        setIsVerificationLoading(false)
-        throw new Error(`Imgur API error: ${errorData.data.error}`)
-      }
-      const data = await response.json()
-      if (data.data.width && data.data.height) {
-        setOriginalDimensions({ width: data.data.width, height: data.data.height })
-      }
-      if (data.success) {
-        const imgurLink = data.data.link
-        setIsVerificationLoading(false)
-        return imgurLink
-      } else {
-        setIsVerificationLoading(false)
-        throw new Error('Image file upload to Imgur failed but did not return a typical error response')
-      }
-    } catch (error) {
-      console.error('There was an error uploading the image to Imgur:', error)
-      setIsVerificationLoading(false)
-      return null
-    }
-  }
-
   const handleBeforeUpload = async (file: File) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
 
@@ -389,21 +181,31 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     }
 
     // Check if the file is not a valid image file
-    if (!(await isValidImageFile(file))) {
+    setIsVerificationLoading(true)
+    const imageResult = await isValidImageFile(file)
+    if (!imageResult.valid) {
+      setIsVerificationLoading(false)
       console.error('File is not a valid image file')
       Message.error(t('InvalidFile'))
       return false
     }
+    if (imageResult.dimensions) {
+      setOriginalDimensions(imageResult.dimensions)
+    }
 
     // Attempt to upload the file to Imgur
-    const imgurLink = await uploadToImgurByFile(file)
-    if (!imgurLink) {
+    const imgurResult = await uploadToImgurByFile(file)
+    setIsVerificationLoading(false)
+    if (!imgurResult) {
       Message.error(t('ImageUploadFailed'))
       return false
     }
+    if (imgurResult.dimensions) {
+      setOriginalDimensions(imgurResult.dimensions)
+    }
 
     // If everything goes well, set the verified image URL and go to next step
-    setVerifiedImageUrl(imgurLink)
+    setVerifiedImageUrl(imgurResult.link)
     setCurrent(current + 1)
     return false // Prevent the default upload behavior
   }
@@ -418,10 +220,14 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     setIsVerificationLoading(true)
 
     // Check if the imageUrl is not valid and return early
-    if (!(await isValidImageUrl(imageUrl))) {
+    const imageResult = await isValidImageUrl(imageUrl)
+    if (!imageResult.valid) {
       customImageForm.setFieldError('imageUrl', 'URL does not lead to an image')
       setIsVerificationLoading(false)
       return
+    }
+    if (imageResult.dimensions) {
+      setOriginalDimensions(imageResult.dimensions)
     }
 
     if (await isCORSallowedImageUrl(imageUrl)) {
@@ -438,10 +244,13 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
       }
 
       // Attempt to upload image to Imgur when CORS is blocked
-      const imgurUrl = await uploadToImgurByUrl(imageUrl)
-      if (imgurUrl) {
+      const imgurResult = await uploadToImgurByUrl(imageUrl)
+      if (imgurResult) {
         // Upload successful -> set the verified image URL and go to next step
-        setVerifiedImageUrl(imgurUrl)
+        setVerifiedImageUrl(imgurResult.link)
+        if (imgurResult.dimensions) {
+          setOriginalDimensions(imgurResult.dimensions)
+        }
         setCurrent(current + 1)
       } else {
         customImageForm.setFieldError('imageUrl', 'Failed to process image, upload image instead.')

@@ -257,6 +257,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
         .damageElement(ElementTag.Fire)
         .atkScaling(basicScaling + engagementScaling * engagementStacks)
         .toughnessDmg(10)
+        .skillPointsUsed(engagementStacks)
         .build()
 
       // Talent Elation on enhanced basic - main target hit + per-stack bounces averaged over enemies

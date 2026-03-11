@@ -212,6 +212,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Imaginary)
               .hpScaling(skillHpScaling)
               .toughnessDmg((r.skillEnhances > 1) ? 30 : 20)
+              .skillPointsUsed(0)
               .build(),
           ],
         },

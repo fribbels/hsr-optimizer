@@ -35,6 +35,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   AbilityKind,
   END_ULT,
@@ -315,14 +316,11 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
 
         // Great Boon triggers 1 time, or 2 times if the attack consumes Skill Points
         // When proccing twice, double the elation scaling value instead of adding a second hit
-        const doubleElationOverrides = new Set<string>([
-          Sparxie.id,
-          Qingque.id,
-        ])
-        const isOverrideBasic = (action.actionType === AbilityKind.BASIC && doubleElationOverrides.has(action.actorId))
+        const firstHit = action.hits?.at(0)
+        const spUsed = firstHit?.damageFunctionType === DamageFunctionType.Crit ? firstHit.skillPointsUsed : 0
         const isDoubleProc = self.isTeammate
           && self.ownConditionals.consumesSkillPoints
-          && (action.actionType === AbilityKind.SKILL || isOverrideBasic)
+          && spUsed > 0
         const greatBoonCount = isDoubleProc ? 2 : 1
 
         const greatBoonHit = HitDefinitionBuilder.elation()

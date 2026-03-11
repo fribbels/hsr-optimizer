@@ -164,6 +164,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Ice)
               .atkScaling(skillAtkScaling)
               .toughnessDmg(20)
+              .skillPointsUsed(0)
               .build(),
           ],
         },

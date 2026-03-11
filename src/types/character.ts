@@ -1,5 +1,6 @@
 import type data from 'data/game_data.json'
 import { Parts } from 'lib/constants/constants'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import type { Prettify } from 'types/common'
@@ -42,6 +43,10 @@ export type SavedBuild = Prettify<
 
 export type BuildOptimizerMetadata = {
   comboStateJson: string | null,
+  // TODO: these are optional due to being added later, eventually make these properties required to simplify handling
+  comboDot?: Form['comboDot'],
+  comboTurnAbilities?: Form['comboTurnAbilities'],
+  comboType?: Form['comboType'],
   statFilters: StatFilters | null,
   setFilters: {
     ornaments: OrnamentSetFilters,

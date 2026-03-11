@@ -71,7 +71,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* optimizerTab             */ optimizerTabFocusCharacterSelectModalOpen: boolean,
 
   /* optimizerTab             */ comboState: ComboState,
-  /* optimizerTab             */ formValues: Form | undefined,
   /* global                   */ relicsById: Partial<Record<string, Relic>>,
   /* global                   */ relics: Array<Relic>,
   /* optimizerTab             */ statDisplay: StatDisplay,
@@ -82,7 +81,6 @@ export type HsrOptimizerStore = { // global store separation plan
   /* global                   */ setSettings: (settings: UserSettings) => void,
   /* optimizerTab             */ setOptimizationId: (id: string) => void,
   /* optimizerTab             */ setComboState: (state: ComboState) => void,
-  /* optimizerTab             */ setFormValues: (form: Form) => void,
   /* optimizerTab             */ setOptimizerTabFocusCharacter: (CharacterId: CharacterId | null | undefined) => void,
   /* optimizerTab             */ setOptimizationInProgress: (open: boolean) => void,
   /* optimizerTab             */ setOptimizerStartTime: (open: number) => void,

@@ -6,7 +6,6 @@ import React, { createContext } from 'react'
 export type DesignOptions = {
   rowHeight: number,
   iconSize: number,
-  sourceOpacity: number,
   tintIntensity: number,
   panelWidth: number,
   rowPaddingX: number,
@@ -17,6 +16,10 @@ export type DesignOptions = {
 
 export const BORDER_RADIUS = 5
 export const GROUP_SPACING = 10
+
+export const TEXT_DIM = '#ffffff40'
+export const TEXT_SECONDARY = '#ffffff73'
+export const TEXT_PRIMARY = '#ffffffd9'
 
 export const GROUP_ORDER: BUFF_TYPE[] = [
   BUFF_TYPE.PRIMARY,
@@ -30,7 +33,6 @@ export const PILL_SIZE = { padding: '0 4px', fontSize: 9, lineHeight: '16px' } a
 export const DEFAULT_OPTIONS: DesignOptions = {
   rowHeight: 26,
   iconSize: 48,
-  sourceOpacity: 45,
   tintIntensity: 15,
   panelWidth: 600,
   rowPaddingX: 6,
@@ -41,13 +43,6 @@ export const DEFAULT_OPTIONS: DesignOptions = {
 
 export const DesignContext = createContext<DesignOptions>(DEFAULT_OPTIONS)
 export const FilterContext = createContext<DamageTag | null>(null)
-
-export const sectionLabelStyle: React.CSSProperties = {
-  fontSize: 11,
-  color: '#ffffff73',
-  letterSpacing: 1,
-  fontWeight: 600,
-}
 
 export const ellipsisStyle = (fontSize: number): React.CSSProperties => ({
   overflow: 'hidden',
@@ -81,5 +76,15 @@ export function getIconStyle(options: DesignOptions): React.CSSProperties {
     flexShrink: 0,
     objectFit: 'cover',
     margin: '0 4px',
+  }
+}
+
+export function getSourceLabelStyle(options: DesignOptions): React.CSSProperties {
+  return {
+    marginLeft: 'auto',
+    color: TEXT_SECONDARY,
+    fontSize: options.fontSize,
+    textWrap: 'nowrap',
+    flexShrink: 0,
   }
 }

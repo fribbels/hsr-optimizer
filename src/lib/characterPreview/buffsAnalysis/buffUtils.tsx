@@ -1,15 +1,11 @@
 import i18next from 'i18next'
 import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
-import { PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
+import { TEXT_DIM, PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { AKeyType } from 'lib/optimization/engine/config/keys'
 import {
   newStatsConfig,
   StatConfigEntry,
 } from 'lib/optimization/engine/config/statsConfig'
-import {
-  DamageTag,
-  OutputTag,
-} from 'lib/optimization/engine/config/tag'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import React, { ReactElement } from 'react'
@@ -63,7 +59,8 @@ export function formatBuffValue(value: number, percent: boolean): string {
   return TsUtils.precisionRound(value, 0).toLocaleString(currentLocale())
 }
 
-export function renderPill(key: string, color: string, label: string): ReactElement {
+export function renderPill(key: string, color: string, label: string, dimmed?: boolean): ReactElement {
+  const displayColor = dimmed ? TEXT_DIM : color
   return (
     <span
       key={key}
@@ -73,9 +70,9 @@ export function renderPill(key: string, color: string, label: string): ReactElem
         fontSize: PILL_SIZE.fontSize,
         fontWeight: 600,
         lineHeight: PILL_SIZE.lineHeight,
-        color,
+        color: displayColor,
         whiteSpace: 'nowrap',
-        border: `1px solid ${color}`,
+        border: `1px solid ${displayColor}`,
       }}
     >
       {label}
@@ -93,18 +90,3 @@ export function getSelectedActions(
   return selectedAction != null ? [] : context.defaultActions
 }
 
-export function seedRelevantTagsFromHits(
-  relevantTags: Set<DamageTag>,
-  context: OptimizerContext,
-  selectedAction: number | null,
-): void {
-  const actions = getSelectedActions(context, selectedAction)
-  const damageHits = actions.flatMap((a) => a.hits ?? [])
-    .filter((h) => h.outputTag === OutputTag.DAMAGE)
-
-  for (const hit of damageHits) {
-    for (const entry of DAMAGE_TAG_ENTRIES) {
-      if ((hit.damageType & entry.tag) !== 0) relevantTags.add(entry.tag)
-    }
-  }
-}

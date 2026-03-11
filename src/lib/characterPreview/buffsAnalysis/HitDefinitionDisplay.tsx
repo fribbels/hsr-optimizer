@@ -10,6 +10,8 @@ import {
   DesignContext,
   ellipsisStyle,
   getRowBaseStyle,
+  getSourceLabelStyle,
+  TEXT_DIM,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import {
   ElementTag,
@@ -118,7 +120,7 @@ function HitSubHeader(props: { label: string }) {
       style={{
         ...rowBase,
         fontSize: options.fontSize - 1,
-        color: '#ffffff50',
+        color: TEXT_DIM,
         letterSpacing: 0.5,
         borderBottom: `1px solid ${options.borderColor}`,
       }}
@@ -132,6 +134,7 @@ function HitRow(props: { hit: Hit, isLastHit: boolean }) {
   const { hit, isLastHit } = props
   const options = useContext(DesignContext)
   const rowBase = getRowBaseStyle(options)
+  const sourceLabelStyle = getSourceLabelStyle(options)
 
   const rows = buildRows(hit)
   const fnLabel = FUNCTION_LABELS[hit.damageFunctionType]
@@ -169,14 +172,7 @@ function HitRow(props: { hit: Hit, isLastHit: boolean }) {
             </Flex>
 
             {fnLabel && (
-              <span
-                style={{
-                  marginLeft: 'auto',
-                  color: `rgba(255,255,255,${options.sourceOpacity / 100})`,
-                  fontSize: options.fontSize,
-                  flexShrink: 0,
-                }}
-              >
+              <span style={sourceLabelStyle}>
                 {fnLabel}
               </span>
             )}

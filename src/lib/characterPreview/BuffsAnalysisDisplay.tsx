@@ -12,14 +12,13 @@ import {
   computeRelevantTags,
   FilterBar,
 } from 'lib/characterPreview/buffsAnalysis/FilterBar'
+import { EnemyPanel } from 'lib/characterPreview/buffsAnalysis/EnemyPanel'
 import {
   collectAllBuffs,
   computeStatSums,
-  EnemyPanel,
   HitDefinitionTable,
   StatSummaryTable,
 } from 'lib/characterPreview/buffsAnalysis/StatSummary'
-import { seedRelevantTagsFromHits } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -85,12 +84,6 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   const relevantTags = computeRelevantTags(allBuffs)
   const statSums = computeStatSums(allBuffs, selectedFilter)
 
-  // Seed relevantTags from hit definitions so FilterBar renders for characters
-  // whose buffs are all ALL-type (damageTags == null)
-  if (context) {
-    seedRelevantTagsFromHits(relevantTags, context, selectedAction)
-  }
-
   const primaryGroup = buffGroups[BUFF_TYPE.PRIMARY]
   const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined
   const summaryAvatarSrc = firstPrimaryId ? Assets.getCharacterAvatarById(firstPrimaryId) : Assets.getBlank()
@@ -117,9 +110,7 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
     </>
   )
 
-  const buffsColumn = (
-    <GroupedLayout buffGroups={buffGroups} />
-  )
+  const buffsColumn = <GroupedLayout buffGroups={buffGroups} />
 
   const actionSelector = (
     <ActionSelector

@@ -21,7 +21,7 @@ function SetSelector({ selected, options, placeholder, submit }: {
   submit: (arr: string[]) => void
 }) {
   const values = selected ?? []
-  const renderPill = useOverflowPills(values, 1)
+  const overflow = useOverflowPills(values, 1)
 
   const stringOptions = options.map((opt) => ({
     value: opt.value,
@@ -38,7 +38,8 @@ function SetSelector({ selected, options, placeholder, submit }: {
       placeholder={placeholder}
       value={values}
       onChange={(val) => submit(val)}
-      renderPill={renderPill}
+      renderPill={overflow.renderPill}
+      styles={{ pillsList: overflow.pillsListStyle }}
     />
   )
 }

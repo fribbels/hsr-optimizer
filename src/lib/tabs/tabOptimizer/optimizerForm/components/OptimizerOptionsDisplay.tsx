@@ -44,7 +44,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
   const mainStatUpscaleLevel = useOptimizerRequestStore((s) => s.mainStatUpscaleLevel)
   const deprioritizeBuffs = useOptimizerRequestStore((s) => s.deprioritizeBuffs)
 
-  const renderExcludePills = useOverflowPills(exclude, 2)
+  const excludeOverflow = useOverflowPills(exclude, 2)
 
   const characterExcludeOptions = useMemo(() =>
     generateCharacterList(
@@ -157,7 +157,8 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               data={characterExcludeOptions.map((opt) => ({ value: opt.value, label: opt.title }))}
               value={exclude}
               onChange={(val) => setFilterAndRecalculate('exclude', val as typeof exclude)}
-              renderPill={renderExcludePills}
+              renderPill={excludeOverflow.renderPill}
+              styles={{ pillsList: excludeOverflow.pillsListStyle }}
             />
           </Flex>
         </Flex>

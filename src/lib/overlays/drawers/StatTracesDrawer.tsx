@@ -73,7 +73,7 @@ const TraceTreeNode = ({
       </Flex>
 
       {hasChildren && (
-        <Collapse in={expanded}>
+        <Collapse expanded={expanded}>
           {node.children.map((child) => (
             <TraceTreeNode
               key={child.id}

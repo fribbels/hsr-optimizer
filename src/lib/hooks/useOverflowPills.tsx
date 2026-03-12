@@ -2,8 +2,10 @@ import { Pill } from '@mantine/core'
 import { ComboboxRenderPillInput } from '@mantine/core'
 import { useMemo } from 'react'
 
+const overflowPillsListStyle = { flexWrap: 'nowrap' as const, overflow: 'hidden' as const }
+
 export function useOverflowPills(values: string[], maxVisible: number) {
-  return useMemo(() => {
+  const renderPill = useMemo(() => {
     if (values.length <= maxVisible) return undefined
 
     const visibleSet = new Set(values.slice(0, maxVisible))
@@ -26,4 +28,9 @@ export function useOverflowPills(values: string[], maxVisible: number) {
       return null
     }
   }, [values, maxVisible])
+
+  return {
+    renderPill,
+    pillsListStyle: renderPill ? overflowPillsListStyle : undefined,
+  }
 }

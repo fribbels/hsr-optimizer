@@ -52,12 +52,12 @@ export function RelicMainSetFilters() {
     [relicSets],
   )
 
-  const renderBodyPills = useOverflowPills(mainBody, 3)
-  const renderFeetPills = useOverflowPills(mainFeet, 3)
-  const renderSpherePills = useOverflowPills(mainPlanarSphere, 3)
-  const renderRopePills = useOverflowPills(mainLinkRope, 3)
-  const renderRelicSetPills = useOverflowPills(relicSetsValue, 1)
-  const renderOrnamentPills = useOverflowPills(ornamentSets, 1)
+  const bodyOverflow = useOverflowPills(mainBody, 3)
+  const feetOverflow = useOverflowPills(mainFeet, 3)
+  const sphereOverflow = useOverflowPills(mainPlanarSphere, 3)
+  const ropeOverflow = useOverflowPills(mainLinkRope, 3)
+  const relicSetOverflow = useOverflowPills(relicSetsValue, 1)
+  const ornamentOverflow = useOverflowPills(ornamentSets, 1)
 
   const setsGroupedOptions = useMemo(() => GenerateSetsGroupedOptions(), [t])
   const ornamentOptions = useOrnamentsOptions()
@@ -78,7 +78,8 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
           value={mainBody}
           onChange={(val) => handleMainStatChange('mainBody', val)}
-          renderPill={renderBodyPills}
+          renderPill={bodyOverflow.renderPill}
+          styles={{ pillsList: bodyOverflow.pillsListStyle }}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -99,7 +100,8 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
           value={mainFeet}
           onChange={(val) => handleMainStatChange('mainFeet', val)}
-          renderPill={renderFeetPills}
+          renderPill={feetOverflow.renderPill}
+          styles={{ pillsList: feetOverflow.pillsListStyle }}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -118,7 +120,8 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
           value={mainPlanarSphere}
           onChange={(val) => handleMainStatChange('mainPlanarSphere', val)}
-          renderPill={renderSpherePills}
+          renderPill={sphereOverflow.renderPill}
+          styles={{ pillsList: sphereOverflow.pillsListStyle }}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -142,7 +145,8 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
           value={mainLinkRope}
           onChange={(val) => handleMainStatChange('mainLinkRope', val)}
-          renderPill={renderRopePills}
+          renderPill={ropeOverflow.renderPill}
+          styles={{ pillsList: ropeOverflow.pillsListStyle }}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -172,7 +176,8 @@ export function RelicMainSetFilters() {
             useOptimizerRequestStore.getState().setRelicSets(decoded)
             recalculatePermutations()
           }}
-          renderPill={renderRelicSetPills}
+          renderPill={relicSetOverflow.renderPill}
+          styles={{ pillsList: relicSetOverflow.pillsListStyle }}
           renderOption={({ option }) => RelicSetTagRenderer(option.value)}
         />
 
@@ -190,7 +195,8 @@ export function RelicMainSetFilters() {
             useOptimizerRequestStore.getState().setOrnamentSets(val as typeof ornamentSets)
             recalculatePermutations()
           }}
-          renderPill={renderOrnamentPills}
+          renderPill={ornamentOverflow.renderPill}
+          styles={{ pillsList: ornamentOverflow.pillsListStyle }}
         />
         <Button
           variant="default"

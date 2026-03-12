@@ -13,13 +13,13 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Languages } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { type CSSProperties, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import classes from './HomeTab.module.css'
 import {
   Trans,
   useTranslation,
 } from 'react-i18next'
 
-const headerHeight = 900
 const headerWidth = 1600
 
 export default function HomeTab() {
@@ -33,9 +33,7 @@ export default function HomeTab() {
   return (
     <Flex
       direction="column"
-      w='100%'
-      mb={200}
-      style={{ position: 'relative' }}
+      className={classes.rootContainer}
       align='center'
     >
       <HeaderImage />
@@ -65,7 +63,7 @@ function CollapseLabel(props: { i18nkey: CollapseLabelI18nKey }) {
   return (
     <div style={{ marginRight: 38, textAlign: 'center' }}>
       <Divider
-        style={{ fontSize: 24, paddingInline: 30, marginBlock: 0 }}
+        className={classes.collapseLabelDivider}
         label={t(props.i18nkey)}
         labelPosition='center'
       />
@@ -91,7 +89,7 @@ function CommunityCollapse() {
           </span>
         </Trans>
       </Flex>
-      <Flex style={{ flex: 1 }} align='flex-start'>
+      <Flex flex={1} align='flex-start'>
         <a href='https://github.com/fribbels/hsr-optimizer/graphs/contributors' target='_blank' rel='noreferrer' style={{ width: '100%' }}>
           <img
             src='https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1'
@@ -111,8 +109,7 @@ function ContentCollapse() {
     <Accordion
       multiple
       variant='default'
-      w='100%'
-      maw={headerWidth}
+      className={classes.contentAccordion}
       chevronPosition='left'
       defaultValue={collapseItems.map((x) => x.value)}
     >
@@ -129,15 +126,8 @@ function ContentCollapse() {
 function HeaderImage() {
   return (
     <div
+      className={classes.headerImage}
       style={{
-        position: 'absolute',
-        top: 0,
-        width: '100%',
-        maxWidth: headerWidth,
-        height: headerHeight,
-        maxHeight: headerHeight,
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
         backgroundImage: `
             linear-gradient(to top, rgba(24, 34, 57, 0) 99.5%, rgba(24, 34, 57, 1) 100%),
             linear-gradient(to bottom, rgba(24, 34, 57, 0) 99.5%, rgba(24, 34, 57, 1) 100%),
@@ -145,7 +135,6 @@ function HeaderImage() {
             linear-gradient(to right, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
             url(${Assets.getHomeBackground('evernight')})
           `,
-        backgroundSize: 'cover',
       }}
     />
   )
@@ -159,14 +148,7 @@ function CardImage(props: { id: string }) {
       <TranslatedImage
         src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage as Languages)}
         fallbackSrc={Assets.getHomeFeature(props.id)}
-        style={{
-          width: '100%',
-          height: 593,
-          borderRadius: 8,
-          outline: 'rgba(255, 255, 255, 0.15) solid 1px',
-          boxShadow: 'rgb(0 0 0 / 50%) 2px 2px 3px',
-          objectFit: 'cover',
-        }}
+        className={classes.cardImage}
       />
     </div>
   )
@@ -178,16 +160,11 @@ function FeatureCard({ title, id, content, url }: { title: string, id: string, c
     <Paper
       p="xs"
       withBorder
-      style={{
-        flex: 1,
-        cursor: 'default',
-        fontSize: 16,
-        minWidth: 500,
-      }}
+      className={classes.featureCard}
     >
       <CardImage id={id} />
       <div style={{ padding: '12px 0 0 0' }}>
-        <div style={{ fontSize: 20, fontWeight: 500, marginBottom: 8 }}>
+        <div className={classes.featureCardTitle}>
           {title}
         </div>
         <Flex align='center' gap={10} justify='space-between'>
@@ -195,7 +172,6 @@ function FeatureCard({ title, id, content, url }: { title: string, id: string, c
             {content}
           </span>
           <Button
-            size='lg'
             component='a'
             href={url}
             target='_blank'
@@ -213,7 +189,7 @@ function FeaturesCollapse() {
   const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
 
   return (
-    <Flex maw={headerWidth} miw={1000} w='100%' py={0} px={20}>
+    <Flex className={classes.featuresContainer}>
       <Flex direction="column" w='100%' gap={cardGap}>
         <Flex gap={cardGap}>
           <FeatureCard
@@ -265,22 +241,12 @@ function Header() {
   return (
     <Flex
       direction="column"
-      w='100%'
-      h={headerHeight}
-      pb={40}
-      style={{ zIndex: 1 }}
+      className={classes.headerSection}
       align='center'
       justify='space-between'
     >
       <h1
-        style={{
-          marginTop: 50,
-          fontSize: 50,
-          color: 'white',
-          textShadow: '#000000 2px 2px 20px',
-          textAlign: 'center',
-          fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
-        }}
+        className={classes.headerTitle}
       >
         <Trans t={t} i18nKey='Welcome'>
           Welcome to the<br />Fribbels Star Rail Optimizer
@@ -312,35 +278,26 @@ function SearchBar() {
   return (
     <Flex
       direction="column"
-      className='homeCard'
-      w={700}
-      h={115}
-      p={20}
+      className={`homeCard ${classes.searchBarContainer}`}
       align='center'
       justify='center'
       gap={5}
     >
       <Flex justify='space-between' w='100%'>
         <Flex
-          justify='flex-start'
-          pl={3}
-          pb={5}
-          fz={17}
-          style={{ textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}
+          className={classes.searchBarLabel}
         >
           {t('Label') /* Enter your UUID to showcase characters: */}
         </Flex>
 
-        <Flex fz={16} style={{ opacity: 0.8 }} mr={2}>
+        <Flex className={classes.searchBarApi}>
           <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
         </Flex>
       </Flex>
-      <Flex gap={0} w='100%'>
+      <Flex w='100%'>
         <Button
-          size='lg'
           leftSection={<IconSearch size={16} />}
-          w={60}
-          style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+          className={classes.searchButton}
           onClick={handleSearchSubmit}
         />
         <TextInput
@@ -350,7 +307,6 @@ function SearchBar() {
             flex: 1,
           }}
           styles={{ input: { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 } }}
-          size='lg'
           defaultValue={scorerId ?? ''}
           onKeyDown={(e) => { if (e.key === 'Enter') handleSearchSubmit() }}
         />
@@ -359,11 +315,11 @@ function SearchBar() {
   )
 }
 
-function TranslatedImage(props: { src: string, fallbackSrc: string, style: CSSProperties }) {
+function TranslatedImage(props: { src: string, fallbackSrc: string, className?: string }) {
   const [errored, setErrored] = useState(false)
   return (
     <img
-      style={props.style}
+      className={props.className}
       src={props.src}
       onError={(e) => {
         if (errored) { // this means the fallback image isn't loading either

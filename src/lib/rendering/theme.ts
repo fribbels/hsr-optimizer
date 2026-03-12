@@ -48,6 +48,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       Button: { defaultProps: { size: 'xs' } },
       Pagination: { defaultProps: { size: 'xs' } },
       Slider: { defaultProps: { size: 'xs' } },
+      Tabs: { defaultProps: { size: 'xs' } },
     },
   })
 }

@@ -46,7 +46,7 @@ export function activateZeroResultSuggestionsModal(request: Form) {
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
   const fixes: RootCauseFix = ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause]
   return (
-    <Flex justify='space-between' align='center' style={{ height: 45 }} key={rootCause} gap={10}>
+    <Flex justify='space-between' align='center' h={45} key={rootCause} gap={10}>
       <Text style={{ width: 550 }}>
         {t(fixes.descriptionKey)}
       </Text>
@@ -109,7 +109,7 @@ export function ZeroResultSuggestionModal() {
       onClose={closeZeroResultsModal}
     >
       <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
-        <Flex justify='space-between' align='center' style={{ height: 45 }}>
+        <Flex justify='space-between' align='center' h={45}>
           <Text>
             {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}
           </Text>

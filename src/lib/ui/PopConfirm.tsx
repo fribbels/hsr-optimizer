@@ -50,8 +50,8 @@ export function PopConfirm(props: {
           <Text fw={600} size="sm">{props.title}</Text>
           {props.description && <Text size="sm">{props.description}</Text>}
           <Flex gap={8} justify="flex-end">
-            <Button size="xs" variant="default" onClick={close}>{props.cancelText ?? 'Cancel'}</Button>
-            <Button size="xs" onClick={() => { props.onConfirm(); close() }}>{props.okText ?? 'OK'}</Button>
+            <Button variant="default" onClick={close}>{props.cancelText ?? 'Cancel'}</Button>
+            <Button onClick={() => { props.onConfirm(); close() }}>{props.okText ?? 'OK'}</Button>
           </Flex>
         </Flex>
       </Popover.Dropdown>

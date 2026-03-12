@@ -55,13 +55,12 @@ const TraceTreeNode = ({
           : <div className={classes.expandSpacer} />}
 
         <Checkbox
-          size="xs"
           checked={isChecked}
           onChange={(e) => onToggle(node, e.currentTarget.checked)}
           styles={{ input: { cursor: 'pointer' } }}
         />
 
-        <Flex gap={0} align="center" className={classes.nodeLabel} onClick={() => onToggle(node, !isChecked)}>
+        <Flex align="center" className={classes.nodeLabel} onClick={() => onToggle(node, !isChecked)}>
           <img src={Assets.getStatIcon(node.stat)} className={classes.statIcon} />
           <div className={classes.nodeText}>
             {`${

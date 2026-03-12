@@ -48,7 +48,6 @@ function CombatBuff({ title, name }: { title: string; name: string }) {
         {title}
       </Text>
       <InputNumberStyled
-        size='xs'
         hideControls
         value={value}
         onChange={(val: number | string) => useOptimizerRequestStore.getState().setCombatBuff(name, (val as number) ?? 0)}

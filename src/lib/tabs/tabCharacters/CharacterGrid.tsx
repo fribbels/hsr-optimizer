@@ -107,7 +107,7 @@ function cellRankRenderer(params: IRowNode<Character>) {
   if (rank == undefined) return <></>
 
   return (
-    <Text style={{ height: '100%' }}>
+    <Text h='100%'>
       {rank + 1}
     </Text>
   )
@@ -135,7 +135,7 @@ function cellNameRenderer(params: IRowNode<Character>) {
   if (equippedNumber < 1) color = '#d72f2f'
 
   return (
-    <Flex align='center' justify='flex-start' className={classes.nameContainer}>
+    <Flex align='center' className={classes.nameContainer}>
       <Text className={classes.nameText}>
         {nameSectionRender}
       </Text>

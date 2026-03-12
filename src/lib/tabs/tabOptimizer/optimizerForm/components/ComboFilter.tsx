@@ -68,7 +68,6 @@ export function ComboFilters() {
         <TooltipImage type={Hint.comboFilters()} />
       </Flex>
       <SegmentedControl
-        size='xs'
         fullWidth
         value={comboType}
         onChange={(value) => useOptimizerRequestStore.getState().setComboType(value as ComboType)}
@@ -189,7 +188,7 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
       <VerticalDivider width={10} />
 
       <Flex direction="column" gap={20} flex={1} align='flex-start'>
-        <Flex direction="column" style={{ width: '100%' }} gap={5}>
+        <Flex direction="column" w='100%' gap={5}>
           <HeaderText>{t('RowControls.Header') /* Controls */}</HeaderText>
           <PopConfirm
             title={tCommon('Confirm')}
@@ -199,24 +198,23 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
             cancelText={tCommon('Cancel')}
             placement='bottom-end'
           >
-            <Button size='xs' variant='outline' disabled={disabled}>
+            <Button variant='outline' disabled={disabled}>
               {tCommon('Reset')}
             </Button>
           </PopConfirm>
           <Flex gap={5}>
-            <Button size='xs' variant='outline' style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
+            <Button variant='outline' style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
               {t('RowControls.Add')}
             </Button>
-            <Button size='xs' variant='outline' style={{ flex: 1 }} onClick={() => minus()} disabled={disabled}>
+            <Button variant='outline' style={{ flex: 1 }} onClick={() => minus()} disabled={disabled}>
               {t('RowControls.Remove')}
             </Button>
           </Flex>
         </Flex>
 
-        <Flex direction="column" style={{ width: '100%' }} gap={5}>
+        <Flex direction="column" w='100%' gap={5}>
           <HeaderText>{t('RowControls.PresetsHeader') /*Presets*/}</HeaderText>
           <SegmentedControl
-            size='xs'
             fullWidth
             disabled={disabled}
             value={String(comboPreprocessor)}
@@ -254,7 +252,6 @@ function NumberXInput({ disabled, defaultValue, value }: {
   return (
     <InputNumberStyled
       leftSection='⨯'
-      size='xs'
       disabled={disabled}
       value={disabled ? defaultValue : value}
       onChange={(val) => {

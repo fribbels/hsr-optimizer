@@ -95,7 +95,7 @@ export function RelicLocator(props: { relic: Relic | null }) {
       >
         {relic
           ? (
-            <Flex align='center' justify='space-between' style={{ width: '100%' }}>
+            <Flex align='center' justify='space-between' w='100%'>
               <LocatorFilterImage filters={locatorFilters} />
               <Text>
                 {/* Location - Row {{rowIndex}} / Col {{columnIndex}} */}
@@ -118,7 +118,7 @@ export function RelicLocator(props: { relic: Relic | null }) {
       </Flex>
       </Popover.Target>
       <Popover.Dropdown>
-        <Flex gap={8} style={{ minWidth: 260 }}>
+        <Flex gap={8} miw={260}>
           <Flex direction="column">
             <Flex justify='space-between' align='center'>
               <HeaderText>{t('Width') /* Inventory width */}</HeaderText>
@@ -152,7 +152,7 @@ export function RelicLocator(props: { relic: Relic | null }) {
 function LocatorFilterImage(props: { filters: LocatorFilters }) {
   const { part, set } = props.filters
   return (
-    <Flex gap={5} style={{ minWidth: 10 }} justify='flex-start'>
+    <Flex gap={5} style={{ minWidth: 10 }}>
       <img src={Assets.getPart(part!)} style={{ height: 25 }} />
       {set && <img src={Assets.getSetImage(set, undefined, true)} style={{ height: 26 }} />}
     </Flex>

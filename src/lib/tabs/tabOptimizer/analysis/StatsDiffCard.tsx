@@ -28,7 +28,7 @@ export function StatsDiffCard({ analysis }: {
   return (
     <Flex
       className={classes.outerCard}
-      style={{ height: cardHeight }}
+      h={cardHeight}
       gap={10}
     >
       <CardImage analysis={analysis} portraitHeight={portraitHeight} />

@@ -73,7 +73,7 @@ const Tabs = () => {
   }, [activeKey])
 
   return (
-    <Flex justify='space-around' style={{ width: '100%' }}>
+    <Flex justify='space-around' w='100%'>
       {tabs.map(([tabKey, content]) => (
         <TabRenderer key={tabKey} activeKey={activeKey} tabKey={tabKey} content={content} />
       ))}

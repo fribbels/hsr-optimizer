@@ -1,0 +1,39 @@
+.teammateCard {
+  width: 33.3333%;
+  text-align: center;
+  padding: 1px;
+  box-shadow: none;
+}
+
+.teammateAvatar {
+  height: 64px;
+  width: 64px;
+  border-radius: 64px;
+  background-color: rgba(124, 124, 124, 0.1);
+  border: var(--showcase-outline);
+}
+
+.iconWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.setBadge {
+  position: absolute;
+  right: -4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(50, 50, 50, 0.5);
+  border: var(--showcase-outline);
+}
+
+.relicBadge {
+  composes: setBadge;
+  top: 3px;
+}
+
+.ornamentBadge {
+  composes: setBadge;
+  top: 27px;
+}

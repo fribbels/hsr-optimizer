@@ -63,7 +63,7 @@ function SimSetsDisplay(props: { sim: Simulation }) {
   const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
   return (
     <Flex gap={5}>
-      <Flex style={{ width: imgSize * 2 + 5 }} justify='center'>
+      <Flex w={imgSize * 2 + 5} justify='center'>
         <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1} />
         <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2} />
       </Flex>
@@ -100,7 +100,7 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
   renderArray.sort((a, b) => substatToPriority[a.stat] - substatToPriority[b.stat])
 
   return (
-    <Flex gap={0}>
+    <Flex>
       {renderArray.map((x) => {
         return (
           <Flex key={x.stat}>

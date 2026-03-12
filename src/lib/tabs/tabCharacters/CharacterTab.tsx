@@ -58,7 +58,7 @@ export default function CharacterTab() {
       <Flex direction="column" gap={defaultGap}>
         <CharacterMenu />
 
-        <Flex direction="column" gap={defaultGap} style={{ minWidth: 240 }}>
+        <Flex direction="column" gap={defaultGap} miw={240}>
           <div
             id='characterGrid'
             className='ag-theme-balham-dark'

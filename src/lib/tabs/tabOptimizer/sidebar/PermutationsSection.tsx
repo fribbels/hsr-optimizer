@@ -21,7 +21,7 @@ export const PermutationsSection = React.memo(function PermutationsSection({ isF
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ReadableParts' })
   return (
-    <Flex direction="column" gap={isFullSize ? 10 : 5} style={{ minWidth: 211 }}>
+    <Flex direction="column" gap={isFullSize ? 10 : 5} miw={211}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Permutations') /* Permutations */}</HeaderText>
         <TooltipImage type={Hint.optimizationDetails()} />

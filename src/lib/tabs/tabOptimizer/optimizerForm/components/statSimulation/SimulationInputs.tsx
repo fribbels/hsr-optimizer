@@ -41,7 +41,7 @@ export function SimulationInputs() {
     return (
       <>
         <Flex gap={5} style={{ display: statSimulationDisplay === StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
-          <Flex direction="column" gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+          <Flex direction="column" gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
             <HeaderText>{t('SetSelection.Header')}</HeaderText>
             <OptimizerSetsSection simType={simType} />
             <MainStatsSection simType={simType} />

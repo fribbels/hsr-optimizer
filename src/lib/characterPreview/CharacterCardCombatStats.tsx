@@ -64,7 +64,7 @@ export function CharacterCardCombatStats({ result }: {
 
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
-      <Flex key={stat} justify='space-between' align='center' style={{ width: '100%' }}>
+      <Flex key={stat} justify='space-between' align='center' w='100%'>
         <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
         <Flex gap={1} align='center'>
           <StatTextSm>

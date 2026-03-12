@@ -191,11 +191,10 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
           if (setExternalOpen) setExternalOpen(false)
         }}
       >
-        <Flex direction="column" gap={12} style={{ minWidth: 350 }}>
+        <Flex direction="column" gap={12} miw={350}>
           <Flex gap={12} wrap='wrap'>
-            <Flex wrap='nowrap' style={{ flexGrow: 1 }} gap={10}>
+            <Flex style={{ flexGrow: 1 }} gap={10}>
               <TextInput
-                size='lg'
                 className={classes.searchInput}
                 placeholder={t('SearchPlaceholder') /* Search character name */}
                 ref={inputRef}

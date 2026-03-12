@@ -6,7 +6,6 @@ const InputNumberStyled = forwardRef<HTMLInputElement, NumberInputProps>((props,
   return (
     <NumberInput
       ref={ref}
-      size="xs"
       {...props}
       style={{ width: 60, ...props.style }}
       styles={{ input: { height: 24, minHeight: 24, ...inputStyle } }}

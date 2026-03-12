@@ -69,7 +69,6 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
       min={min}
       max={max}
       hideControls
-      size='sm'
       style={{
         width: numberWidth,
       }}
@@ -111,7 +110,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
   )
 
   return (
-    <Flex direction="column" gap={0} style={{ marginBottom: 0 }}>
+    <Flex direction="column" style={{ marginBottom: 0 }}>
       <Flex justify={conditionalJustify} align={conditionalAlign}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
           {internalInputNumber}
@@ -121,7 +120,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
         </Text>
       </Flex>
 
-      <Flex align='center' justify='flex-start' gap={5} style={{ height: 14 }}>
+      <Flex align='center' gap={5} h={14}>
         {internalSlider}
         <Text
           style={{

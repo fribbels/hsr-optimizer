@@ -14,11 +14,6 @@
   cursor: pointer;
 }
 
-.optionIcon {
-  width: 22px;
-  height: 22px;
-}
-
 .spacer {
   display: block;
   min-width: 12px;
@@ -29,6 +24,7 @@
   overflow: hidden;
   margin-top: 7px;
   border-radius: 10px;
+  box-shadow: 0px 0px 0px 1px var(--border-color) inset;
 }
 
 .locatorFlex {

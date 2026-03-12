@@ -125,7 +125,7 @@ function LegendContent({ scores }: PanelProps) {
         <Flex
           gap={5}
           key={s.id}
-          style={{ height: 25.3 }}
+          h={25.3}
         >
           {idx + '.'}
           <svg height={25} width={10}>
@@ -156,7 +156,6 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
   return (
     <Flex
       direction="column"
-      gap={0}
       style={{
         borderRadius: 8,
         border: '1px solid var(--border-color)',

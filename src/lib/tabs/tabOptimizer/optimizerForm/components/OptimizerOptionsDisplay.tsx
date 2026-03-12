@@ -232,7 +232,6 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               {t('DPSMode.Header') /* DPS Mode */}
             </HeaderText>
             <SegmentedControl
-              size='xs'
               fullWidth
               value={String(deprioritizeBuffs)}
               onChange={(value) => useOptimizerRequestStore.getState().setDeprioritizeBuffs(value === 'true')}

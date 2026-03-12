@@ -273,14 +273,14 @@ export function CharacterScoringSummary({
         />
       </Flex>
 
-      <Flex gap={defaultGap} direction="column" style={{ width: '100%' }} align='center'>
+      <Flex gap={defaultGap} direction="column" w='100%' align='center'>
         <pre className={classes.sectionTitle}>
           {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
         </pre>
         <DpsScoreSubstatUpgradesTable simScore={result}/>
       </Flex>
 
-      <Flex gap={defaultGap} direction="column" style={{ width: '100%' }} align='center'>
+      <Flex gap={defaultGap} direction="column" w='100%' align='center'>
         <pre className={classes.sectionTitle}>
           {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
         </pre>
@@ -309,7 +309,7 @@ export function CharacterScoringSummary({
         {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')/* Simulated benchmark builds */}
       </pre>
 
-      <Flex gap={25} style={{ width: '100%' }} justify='space-around'>
+      <Flex gap={25} w='100%' justify='space-around'>
         <Flex direction="column" gap={defaultGap}>
           <pre style={{ margin: '5px auto' }}>
             {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
@@ -400,7 +400,7 @@ export function CharacterScoringSummary({
         />
       </Flex>
 
-      <Flex direction="column" align='center' style={{ width: '100%' }}>
+      <Flex direction="column" align='center' w='100%'>
         <pre className={classes.sectionTitle}>
           {
             result.simulationForm.deprioritizeBuffs

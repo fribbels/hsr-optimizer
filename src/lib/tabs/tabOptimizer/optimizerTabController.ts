@@ -2,7 +2,6 @@ import {
   IGetRowsParams,
   IRowNode,
 } from 'ag-grid-community'
-import { inPlaceSort } from 'fast-sort'
 import {
   Constants,
   Parts,
@@ -308,11 +307,13 @@ function aggregate(subArray: OptimizerDisplayData[]) {
 }
 
 function sort() {
-  if (controllerState.sortModel.sort == 'desc') {
-    inPlaceSort(controllerState.rows).desc((x) => x[controllerState.sortModel.colId as keyof OptimizerDisplayData])
-  } else {
-    inPlaceSort(controllerState.rows).asc((x) => x[controllerState.sortModel.colId as keyof OptimizerDisplayData])
-  }
+  const colId = controllerState.sortModel.colId as keyof OptimizerDisplayData
+  const desc = controllerState.sortModel.sort == 'desc'
+  controllerState.rows.sort((a, b) => {
+    const aVal = a[colId] as number
+    const bVal = b[colId] as number
+    return desc ? bVal - aVal : aVal - bVal
+  })
 }
 
 function filter(filterModel: Form) {

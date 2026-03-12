@@ -174,7 +174,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                         }}
                         onClick={() => setSelectedRelicID?.(relic.id)}
                       >
-                        <Flex align='center' gap={6} style={{ minWidth: 0 }}>
+                        <Flex align='center' gap={6} miw={0}>
                           <img
                             src={char.icon}
                             alt={char.name}

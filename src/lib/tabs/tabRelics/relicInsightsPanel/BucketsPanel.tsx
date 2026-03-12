@@ -161,7 +161,6 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
   return (
     <Flex
       direction="column"
-      gap={0}
       style={{
         borderRadius: 8,
         border: '1px solid var(--border-color)',

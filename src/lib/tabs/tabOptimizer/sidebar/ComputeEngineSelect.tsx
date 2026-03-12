@@ -70,7 +70,7 @@ export function ComputeEngineSelect() {
     <Menu position='bottom-end'>
       <Menu.Target>
         <Button variant="default" className='custom-dropdown-button' style={{ padding: 3 }}>
-          <Flex justify='space-around' align='center' style={{ width: '100%' }}>
+          <Flex justify='space-around' align='center' w='100%'>
             <div style={{ width: 1 }} />
             <Text>
               {

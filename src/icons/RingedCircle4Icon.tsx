@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import React from 'react'
+import { Ref } from 'react'
 import { IconExtractedProps } from 'types/components'
 
 const IconSVG = (props: { color?: string }) => {
@@ -20,13 +20,10 @@ const IconSVG = (props: { color?: string }) => {
   )
 }
 
-// eslint-disable-next-line react/display-name
-export const RingedCircle4Icon = React.forwardRef<HTMLDivElement, IconExtractedProps>((props, ref) => {
-  const { color, className, style, ...restProps } = props
-
+export function RingedCircle4Icon({ color, className, style, ref, ...restProps }: IconExtractedProps & { ref?: Ref<HTMLDivElement> }) {
   return (
     <Flex ref={ref} className={className} style={style} {...restProps}>
       <IconSVG color={color} />
     </Flex>
   )
-})
+}

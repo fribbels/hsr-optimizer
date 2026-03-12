@@ -26,6 +26,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
+import { useOverflowPills } from 'lib/hooks/useOverflowPills'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './RelicMainSetFilters.module.css'
@@ -51,6 +52,13 @@ export function RelicMainSetFilters() {
     [relicSets],
   )
 
+  const renderBodyPills = useOverflowPills(mainBody, 3)
+  const renderFeetPills = useOverflowPills(mainFeet, 3)
+  const renderSpherePills = useOverflowPills(mainPlanarSphere, 3)
+  const renderRopePills = useOverflowPills(mainLinkRope, 3)
+  const renderRelicSetPills = useOverflowPills(relicSetsValue, 1)
+  const renderOrnamentPills = useOverflowPills(ornamentSets, 1)
+
   const setsGroupedOptions = useMemo(() => GenerateSetsGroupedOptions(), [t])
   const ornamentOptions = useOrnamentsOptions()
 
@@ -70,6 +78,7 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
           value={mainBody}
           onChange={(val) => handleMainStatChange('mainBody', val)}
+          renderPill={renderBodyPills}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -90,6 +99,7 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
           value={mainFeet}
           onChange={(val) => handleMainStatChange('mainFeet', val)}
+          renderPill={renderFeetPills}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -108,6 +118,7 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
           value={mainPlanarSphere}
           onChange={(val) => handleMainStatChange('mainPlanarSphere', val)}
+          renderPill={renderSpherePills}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -131,6 +142,7 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
           value={mainLinkRope}
           onChange={(val) => handleMainStatChange('mainLinkRope', val)}
+          renderPill={renderRopePills}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -160,6 +172,7 @@ export function RelicMainSetFilters() {
             useOptimizerRequestStore.getState().setRelicSets(decoded)
             recalculatePermutations()
           }}
+          renderPill={renderRelicSetPills}
           renderOption={({ option }) => RelicSetTagRenderer(option.value)}
         />
 
@@ -177,6 +190,7 @@ export function RelicMainSetFilters() {
             useOptimizerRequestStore.getState().setOrnamentSets(val as typeof ornamentSets)
             recalculatePermutations()
           }}
+          renderPill={renderOrnamentPills}
         />
         <Button
           variant="default"

@@ -15,8 +15,9 @@ import {
   CartesianGrid,
   Scatter,
   ScatterChart,
+  ScatterPointItem,
   Tooltip,
-  TooltipProps,
+  TooltipContentProps,
   XAxis,
   YAxis,
 } from 'recharts'
@@ -87,8 +88,9 @@ export const BucketsPanel = memo(({ scores }: PanelProps) => {
     timeout.current = setTimeout(() => setTooltipActive(false), 100)
   }
 
-  const onScatterClick = (data: DataPoint) => {
-    useGlobalStore.getState().setScoringAlgorithmFocusCharacter(data.id)
+  const onScatterClick = (data: ScatterPointItem) => {
+    const point = data.payload as DataPoint
+    useGlobalStore.getState().setScoringAlgorithmFocusCharacter(point.id)
     setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 
@@ -124,7 +126,7 @@ export const BucketsPanel = memo(({ scores }: PanelProps) => {
         <Tooltip
           cursor={false}
           active={tooltipActive}
-          content={<TooltipContent />}
+          content={TooltipContent}
         />
         <Scatter
           onMouseEnter={onMouseEnterScatter}
@@ -153,8 +155,8 @@ function ShapeFunction(untypedProps: unknown) {
   )
 }
 
-function TooltipContent(props: TooltipProps<ValueType, NameType>) {
-  const { payload }: { payload?: Array<{ payload?: DataPoint }> } = props
+function TooltipContent(props: TooltipContentProps<ValueType, NameType>) {
+  const { payload } = props
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicInsights' })
 
   const data = payload?.[0]?.payload

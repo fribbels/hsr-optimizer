@@ -15,7 +15,7 @@ export type WithPopoverProps<T> = {
 function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithPopoverProps<T>> {
   const Wrapped = (props: WithPopoverProps<T>) => {
     const [open, setOpen] = useState(false)
-    const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
     const handleMouseEnter = useCallback(() => {
       timeoutRef.current = setTimeout(() => setOpen(true), 400)

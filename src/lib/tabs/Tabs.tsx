@@ -18,13 +18,10 @@ import React, {
   ReactElement,
   useEffect,
 } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
-const defaultErrorRender = ({ error: { message } }: {
-  error: {
-    message: string,
-  },
-}) => <Text>Something went wrong: {message}</Text>
+const defaultErrorRender = ({ error }: FallbackProps) =>
+  <Text>Something went wrong: {error instanceof Error ? error.message : String(error)}</Text>
 
 const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.HOME, HomeTab],

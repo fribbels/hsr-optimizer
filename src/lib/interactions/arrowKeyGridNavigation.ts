@@ -18,7 +18,7 @@ const KEY_DOWN = 'ArrowDown'
 // https://www.ag-grid.com/javascript-data-grid/keyboard-navigation/
 export const arrowKeyGridNavigation = <T>(
   params: NavigateToNextCellParams,
-  grid: RefObject<AgGridReact<T>>,
+  grid: RefObject<AgGridReact<T> | null>,
   callback: (x: IRowNode<T>) => void,
 ): CellPosition | null => {
   if (!grid.current) return null

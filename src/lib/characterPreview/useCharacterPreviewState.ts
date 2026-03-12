@@ -53,7 +53,7 @@ export function useCharacterPreviewState(
   }))
 
   const [storedScoringType, setScoringType] = useState(useGlobalStore.getState().savedSession.scoringType)
-  const prevCharId = useRef<string>()
+  const prevCharId = useRef<string | undefined>(undefined)
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
   const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
 

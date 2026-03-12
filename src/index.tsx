@@ -24,7 +24,7 @@ import { SaveState } from 'lib/state/saveState'
 import { WorkerPool } from 'lib/worker/workerPool'
 import { OverlayScrollbars } from 'overlayscrollbars'
 import ReactDOM from 'react-dom/client'
-import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import 'style/tokens.css'
 import 'style/global.css'
 import 'style/ag-grid-overrides.css'
@@ -56,9 +56,9 @@ SaveState.load(false, false)
 
 void verifyWebgpuSupport(false)
 
-const defaultErrorRender = ({ error }: { error: { message: string } }) =>
+const defaultErrorRender = ({ error }: FallbackProps) =>
   <Text>
-    Something went wrong: {error.message}</Text>
+    Something went wrong: {error instanceof Error ? error.message : String(error)}</Text>
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 

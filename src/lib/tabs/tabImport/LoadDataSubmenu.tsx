@@ -24,7 +24,7 @@ type TFunction = (key: string, options?: Record<string, unknown>) => string
 
 function UploadFileStage(props: {
   loading: boolean
-  fileInputRef: RefObject<HTMLInputElement>
+  fileInputRef: RefObject<HTMLInputElement | null>
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onUploadClick: () => void
   t: TFunction

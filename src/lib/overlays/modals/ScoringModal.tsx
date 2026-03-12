@@ -54,10 +54,9 @@ function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata): ScoringAl
 function StatValueRow({ stat, form }: { stat: string, form: UseFormReturnType<ScoringAlgorithmForm> }) {
   const { t } = useTranslation('common')
   return (
-    <Flex justify='flex-start' style={{ width: panelWidth }} align='center' gap={5}>
+    <Flex style={{ width: panelWidth }} align='center' gap={5}>
       <InputNumberStyled
         hideControls
-        size='xs'
         min={0}
         max={1}
         {...form.getInputProps(`stats.${stat}`)}
@@ -208,7 +207,7 @@ export function ScoringModal() {
           <Flex direction="column">
             <Flex justify='space-between'>
               <Flex direction="column" gap={defaultGap * 2}>
-                <Flex direction="column" gap={1} justify='flex-start'>
+                <Flex direction="column" gap={1}>
                   <Text className={classes.partLabel}>
                     {t('common:Parts.Body')}
                   </Text>
@@ -229,7 +228,7 @@ export function ScoringModal() {
                   />
                 </Flex>
 
-                <Flex direction="column" gap={1} justify='flex-start'>
+                <Flex direction="column" gap={1}>
                   <Text className={classes.partLabel}>
                     {t('common:Parts.Feet')}
                   </Text>
@@ -247,7 +246,7 @@ export function ScoringModal() {
                   />
                 </Flex>
 
-                <Flex direction="column" gap={1} justify='flex-start'>
+                <Flex direction="column" gap={1}>
                   <Text className={classes.partLabel}>
                     {t('common:Parts.PlanarSphere')}
                   </Text>
@@ -272,7 +271,7 @@ export function ScoringModal() {
                   />
                 </Flex>
 
-                <Flex direction="column" gap={1} justify='flex-start'>
+                <Flex direction="column" gap={1}>
                   <Text className={classes.partLabel}>
                     {t('common:Parts.LinkRope')}
                   </Text>

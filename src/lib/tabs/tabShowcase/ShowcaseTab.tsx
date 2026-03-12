@@ -81,7 +81,7 @@ export function ShowcaseTab() {
   }
   return (
     <div>
-      <Flex direction="column" gap={0} align='center'>
+      <Flex direction="column" align='center'>
         {SHOWCASE_DOWNTIME && (
           <Flex gap={10} direction="column" align='center'>
             <Text>
@@ -433,7 +433,6 @@ export function DPSScoreDisclaimer() {
             </Trans>
 
             <Button
-              size='lg'
               fullWidth
               leftSection={<IconEyeOff size={16} />}
               onClick={() => {

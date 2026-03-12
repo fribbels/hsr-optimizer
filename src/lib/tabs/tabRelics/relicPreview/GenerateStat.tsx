@@ -49,8 +49,8 @@ export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic, 
       </Flex>
       {!main
         ? (
-          <Flex justify='space-between' style={{ width: '41.5%' }}>
-            <Flex gap={0} align='center'>
+          <Flex justify='space-between' w='41.5%'>
+            <Flex align='center'>
               {generateRolls(stat)}
             </Flex>
             {displayValue}

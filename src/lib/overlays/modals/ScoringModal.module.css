@@ -15,17 +15,6 @@
 .statText {
   line-height: 1.8;
 }
-
-.setPickerIcon {
-  width: 24px;
-  height: 24px;
-}
-
-.setItemIcon {
-  width: 48px;
-  height: 48px;
-}
-
 .bottomDivider {
   margin-top: 10px;
   margin-bottom: 40px;

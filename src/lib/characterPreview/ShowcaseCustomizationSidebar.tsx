@@ -68,6 +68,7 @@ import {
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { ShowcasePreferences } from 'types/metadata'
 import { ShowcaseSource } from './CharacterPreviewComponents'
+import classes from './ShowcaseCustomizationSidebar.module.css'
 
 export interface ShowcaseCustomizationSidebarRef {
   onPortraitLoad: (src: string, characterId: CharacterId) => void
@@ -248,11 +249,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
       <Flex
         direction="column"
         gap={16}
-        style={{
-          position: 'absolute',
-          marginLeft: 1076,
-          width: 130,
-        }}
+        className={classes.sidebarContainer}
       >
         <Flex
           direction="column"
@@ -261,17 +258,17 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
         >
           <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
             <span></span>
-            <HeaderText style={{ textAlign: 'center', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+            <HeaderText className={classes.centeredHeader}>
               {tScoring('Stats.Header') /* Stats */}
             </HeaderText>
 
             <a
               href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
               target='_blank'
-              style={{ display: 'inline-flex', alignItems: 'center' }}
+              className={classes.helpLink}
               rel='noreferrer'
             >
-              <img src={Assets.getQuestion()} style={{ height: 16, width: 16, opacity: 0.6, marginLeft: 'auto' }} />
+              <img src={Assets.getQuestion()} className={classes.helpIcon} />
             </a>
           </Flex>
 
@@ -286,7 +283,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
 
           <HorizontalDivider />
 
-          <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+          <HeaderText className={classes.headerCenteredMb}>
             {tScoring('SpdPrecision.Header') /* SPD precision */}
           </HeaderText>
 
@@ -302,7 +299,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
               <>
                 <HorizontalDivider />
 
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                <HeaderText className={classes.headerCenteredMb}>
                   {tScoring('SpdWeight.Header') /* SPD weight */}
                 </HeaderText>
 
@@ -320,12 +317,11 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
               <>
                 <HorizontalDivider />
 
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                <HeaderText className={classes.headerCenteredMb}>
                   {tScoring('BenchmarkSpd.Header') /* SPD benchmark */}
                 </HeaderText>
 
                 <NumberInput
-                  size='xs'
                   hideControls
                   style={{ width: '100%' }}
                   value={sanitizePositiveNumberElseUndefined(useShowcaseTabStore.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
@@ -350,7 +346,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
               <>
                 <HorizontalDivider />
 
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                <HeaderText className={classes.headerCenteredMb}>
                   {tScoring('BuffPriority.Header') /* Buff priority */}
                 </HeaderText>
 
@@ -369,7 +365,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
           gap={6}
           style={cardStyle}
         >
-          <HeaderText style={{ textAlign: 'center' }}>
+          <HeaderText className={classes.headerCentered}>
             {tCustomization('Label')}
           </HeaderText>
 
@@ -414,7 +410,7 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
               <>
                 <HorizontalDivider />
 
-                <HeaderText style={{ textAlign: 'center', marginBottom: 2 }}>
+                <HeaderText className={classes.headerCenteredMb}>
                   {tCustomization('ShowUID') /* Show UID */}
                 </HeaderText>
 
@@ -437,14 +433,14 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
               leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
               loading={loading}
               onClick={() => screenshot('clipboard', getActiveCharacterName())}
-              style={{ height: 50, width: 50, borderRadius: 8 }}
+              className={classes.actionButton}
             >
             </Button>
             <Button
               leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
               loading={loading}
               onClick={() => screenshot('download', getActiveCharacterName())}
-              style={{ height: 50, width: 50, borderRadius: 8 }}
+              className={classes.actionButton}
             >
             </Button>
           </Flex>

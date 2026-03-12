@@ -63,6 +63,7 @@ import {
 } from 'types/character'
 import { ReactElement } from 'types/components'
 import styles from './BenchmarksTab.module.css'
+import teammateClasses from 'style/teammateCard.module.css'
 
 const GAP = 8
 
@@ -245,10 +246,10 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
         <SpdBenchmarkSetting form={form} />
         <BenchmarkSetting label='ERR' itemName='errRope' form={form}>
-          <SegmentedControl size='xs' fullWidth className={styles.inputControl} data={BOOLEAN_SEGMENTS} />
+          <SegmentedControl fullWidth className={styles.inputControl} data={BOOLEAN_SEGMENTS} />
         </BenchmarkSetting>
         <BenchmarkSetting label='SubDPS' itemName='subDps' form={form}>
-          <SegmentedControl size='xs' fullWidth className={styles.inputControl} data={BOOLEAN_SEGMENTS} />
+          <SegmentedControl fullWidth className={styles.inputControl} data={BOOLEAN_SEGMENTS} />
         </BenchmarkSetting>
 
         <CustomHorizontalDivider height={8} />
@@ -319,7 +320,6 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
   return (
     <BenchmarkSetting label='SPD' itemName='basicSpd' form={form}>
       <NumberInput
-        size='xs'
         hideControls
         className={styles.inputControl}
         rightSection={
@@ -372,17 +372,18 @@ function Teammate({ index }: { index: number }) {
 
   return (
     <div
-      className={`custom-grid ${styles.teammateCard}`}
+      className={`custom-grid ${teammateClasses.teammateCard}`}
+      style={{ cursor: 'pointer' }}
       onClick={() => {
         setCharacterModalInitialCharacter(teammate)
         setCharacterModalOpen(true)
         setSelectedTeammateIndex(index)
       }}
     >
-      <Flex direction="column" align='center' gap={0}>
+      <Flex direction="column" align='center'>
         <img
           src={Assets.getCharacterAvatarById(characterId)}
-          className={styles.teammateAvatar}
+          className={teammateClasses.teammateAvatar}
         />
 
         <OverlayText
@@ -390,7 +391,7 @@ function Teammate({ index }: { index: number }) {
           top={-12}
         />
 
-        <div className={styles.lcIconWrapper}>
+        <div className={teammateClasses.iconWrapper}>
           <img
             src={Assets.getLightConeIconById(lightCone)}
             className={styles.lcIcon}
@@ -398,14 +399,14 @@ function Teammate({ index }: { index: number }) {
 
           {teammate && teammate.teamRelicSet && (
             <img
-              className={styles.relicSetBadge}
+              className={teammateClasses.relicBadge}
               src={Assets.getSetImage(teammate.teamRelicSet)}
             />
           )}
 
           {teammate && teammate.teamOrnamentSet && (
             <img
-              className={styles.ornamentSetBadge}
+              className={teammateClasses.ornamentBadge}
               src={Assets.getSetImage(teammate.teamOrnamentSet)}
             />
           )}

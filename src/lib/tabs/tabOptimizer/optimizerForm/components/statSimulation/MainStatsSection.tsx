@@ -81,11 +81,11 @@ export function MainStatsSection({ simType }: { simType: string }) {
     <>
       <HeaderText>{t('Header')}</HeaderText>
       <Flex direction="column" gap={5}>
-        <Flex gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+        <Flex gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
           <MainStatSelector placeholder={t('BodyPlaceholder')} part={Parts.Body} options={BodyStatOptions} simType={simType} />
           <MainStatSelector placeholder={t('FeetPlaceholder')} part={Parts.Feet} options={FeetStatOptions} simType={simType} />
         </Flex>
-        <Flex gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
+        <Flex gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
           <MainStatSelector
             placeholder={t('SpherePlaceholder')}
             part={Parts.PlanarSphere}

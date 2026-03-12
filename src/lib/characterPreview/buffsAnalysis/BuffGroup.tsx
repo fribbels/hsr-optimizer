@@ -33,9 +33,9 @@ export function CardShell({ avatarSrc, children }: { avatarSrc: string; children
   const mantineTheme = useMantineTheme()
   const token = { colorBgContainer: mantineTheme.colors.dark[6] }
   return (
-    <Flex align='center' gap={0} style={getCardStyle(options, token)}>
+    <Flex align='center' style={getCardStyle(options, token)}>
       <img src={avatarSrc} style={getIconStyle(options)} />
-      <Flex direction='column' gap={0} style={{ flex: 1, overflow: 'hidden' }}>
+      <Flex direction='column' style={{ flex: 1, overflow: 'hidden' }}>
         {children}
       </Flex>
     </Flex>

@@ -49,7 +49,7 @@ export function FormStatRollSliders() {
 
   return (
     <Flex gap={10}>
-      <Flex direction="column" style={{ width: 'max-content' }} gap={3}>
+      <Flex direction="column" w='max-content' gap={3}>
         {StatSliders.map((stat) => (
           <span style={{ textWrap: 'nowrap' }} key={stat.name}>
             {t(stat.text)}
@@ -98,12 +98,12 @@ export function FormStatRollSliderTopPercent({ index }: { index: number }) {
 
   return (
     <Flex gap={5} style={{ marginBottom: 0 }} align='center'>
-      <Flex gap={5} justify='flex-start' style={{ minWidth: 50 }}>
+      <Flex gap={5} style={{ minWidth: 50 }}>
         <img src={Assets.getPart(parts[0])} style={{ width: 18 }} />
         <img src={Assets.getPart(parts[1])} style={{ width: 18 }} />
       </Flex>
 
-      <Flex align='center' justify='flex-start' gap={10}>
+      <Flex align='center' gap={10}>
         <Slider
           min={0}
           max={MAX_ROLLS}
@@ -123,7 +123,6 @@ export function FormStatRollSliderTopPercent({ index }: { index: number }) {
       </Flex>
 
       <NumberInput
-        size='sm'
         className='center-input-text'
         style={{
           width: 40,

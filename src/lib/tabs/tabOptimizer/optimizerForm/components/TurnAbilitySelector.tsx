@@ -100,7 +100,6 @@ export function TurnAbilitySelector({ index, disabled }: { index: number; disabl
       data={options}
       value={value || null}
       placeholder='Ability'
-      size='xs'
       variant='unstyled'
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}
@@ -125,7 +124,6 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
       data={options}
       value={value}
       placeholder='Ability'
-      size='xs'
       variant='unstyled'
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}
@@ -170,7 +168,6 @@ export function ControlledTurnAbilitySelector({
       data={options}
       value={value || null}
       placeholder='Ability'
-      size='xs'
       styles={{
         input: {
           fontSize: 12,

@@ -17,7 +17,7 @@ export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
 
   return (
     <Flex gap={defaultGap} justify='space-around'>
-      <Flex direction='column' gap={4} style={{ width: 230 }}>
+      <Flex direction='column' gap={4} w={230}>
         <ScoringNumber label={`${t('Basic')}:`} number={actionDamage[AbilityKind.BASIC]} precision={1} />
         <ScoringNumber label={`${t('Skill')}:`} number={actionDamage[AbilityKind.SKILL]} precision={1} />
         <ScoringNumber label={`${t('Ult')}:`} number={actionDamage[AbilityKind.ULT]} precision={1} />

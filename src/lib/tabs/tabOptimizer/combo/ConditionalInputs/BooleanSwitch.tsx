@@ -12,8 +12,8 @@ export function BooleanSwitch({ contentItem, sourceKey, value }: {
   const isDisabled = (sourceKey.includes('Teammate') && sourceKey.includes('Set')) || contentItem.disabled
 
   return (
-    <Flex style={{ width: 275, marginRight: 10 }} align='center' gap={0}>
-      <Flex style={{ width: 210 }} align='center'>
+    <Flex style={{ width: 275, marginRight: 10 }} align='center'>
+      <Flex w={210} align='center'>
         {/* @ts-expect-error: FormSwitchWithPopover spread has loose prop types */}
         <FormSwitchWithPopover
           {...contentItem}

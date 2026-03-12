@@ -25,7 +25,6 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
 
   return (
     <Flex
-      gap={0}
       direction="column"
       style={{
         minWidth: '100%',

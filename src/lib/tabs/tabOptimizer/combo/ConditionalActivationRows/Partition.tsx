@@ -39,7 +39,7 @@ export function Partition({
   const NumberInput = contentItem.formItem === 'slider' ? NumberSlider : NumberSelect
 
   return (
-    <Flex style={{ height: 45 }}>
+    <Flex h={45}>
       <NumberInput
         contentItem={contentItem}
         value={partition.value}

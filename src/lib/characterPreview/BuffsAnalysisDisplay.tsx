@@ -135,17 +135,17 @@ export function BuffsAnalysisDisplay({
               {actionSelector}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               <Flex gap={GROUP_SPACING} align='start'>
-                <Flex direction="column" gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+                <Flex direction="column" gap={GROUP_SPACING} w={options.panelWidth}>
                   {summaryColumn}
                 </Flex>
-                <Flex direction="column" gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+                <Flex direction="column" gap={GROUP_SPACING} w={options.panelWidth}>
                   {buffsColumn}
                 </Flex>
               </Flex>
             </Flex>
           )
           : (
-            <Flex direction="column" gap={GROUP_SPACING} style={{ width: options.panelWidth }}>
+            <Flex direction="column" gap={GROUP_SPACING} w={options.panelWidth}>
               {actionSelector}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               {summaryColumn}

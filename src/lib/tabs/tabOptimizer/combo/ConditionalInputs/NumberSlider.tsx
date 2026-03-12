@@ -24,8 +24,8 @@ export function NumberSlider({ contentItem, value, sourceKey, partitionIndex, co
   onComboStateChange: (newState: ComboState) => void
 }) {
   return (
-    <Flex style={{ width: 275, marginRight: 10 }} align='center' gap={0}>
-      <Flex style={{ width: 210 }} align='center'>
+    <Flex style={{ width: 275, marginRight: 10 }} align='center'>
+      <Flex w={210} align='center'>
         {/* @ts-expect-error - FormSliderWithPopover spread props type mismatch */}
         <FormSliderWithPopover
           key={value + partitionIndex}

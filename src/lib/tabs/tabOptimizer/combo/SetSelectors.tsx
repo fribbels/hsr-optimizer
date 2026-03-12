@@ -47,7 +47,7 @@ export function SetSelectors({ comboOrigin, comboState, onComboStateChange }: {
   const ornamentOptions = useOrnamentsOptions()
   const relicSetOptions = useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])
   return (
-    <Flex style={{ width: '100%' }} gap={10}>
+    <Flex w='100%' gap={10}>
       <SetSelector
         selected={comboOrigin?.displayedRelicSets}
         options={relicSetOptions}

@@ -144,7 +144,6 @@ function LightConeSelect(
           <Flex gap={12} wrap='wrap'>
             <Flex direction="column" wrap='wrap' style={{ minWidth: 300, flexGrow: 1 }}>
               <TextInput
-                size='lg'
                 style={{ height: 40 }}
                 placeholder={t('Placeholder') /* Select a lightcone */}
                 ref={inputRef}

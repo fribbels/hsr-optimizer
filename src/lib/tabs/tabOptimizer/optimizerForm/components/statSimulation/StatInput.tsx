@@ -13,12 +13,11 @@ export function StatInput({ label, name, simType }: { label: string; name: strin
   }
 
   return (
-    <Flex justify='space-between' style={{ width: STAT_SIMULATION_STATS_WIDTH }}>
+    <Flex justify='space-between' w={STAT_SIMULATION_STATS_WIDTH}>
       <Text>
         {label}
       </Text>
       <NumberInput
-        size='sm'
         hideControls
         value={value}
         onChange={handleChange}

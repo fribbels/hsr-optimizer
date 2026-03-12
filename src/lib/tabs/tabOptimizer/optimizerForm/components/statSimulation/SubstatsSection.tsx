@@ -26,12 +26,11 @@ export function SubstatsSection({ simType, title, total }: { simType: StatSimTyp
         <StatInput simType={simType} name={Stats.EHR} label={t('SubstatSelectorLabel', { stat: Stats.EHR })} />
         <StatInput simType={simType} name={Stats.RES} label={t('SubstatSelectorLabel', { stat: Stats.RES })} />
         {(simType === StatSimTypes.SubstatRolls) && (
-          <Flex justify='space-between' style={{ width: STAT_SIMULATION_STATS_WIDTH }}>
+          <Flex justify='space-between' w={STAT_SIMULATION_STATS_WIDTH}>
             <Text>
               {t('TotalRolls')}
             </Text>
             <NumberInput
-              size='sm'
               hideControls
               disabled={true}
               value={Utils.truncate10ths(total)}

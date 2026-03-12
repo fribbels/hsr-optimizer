@@ -86,7 +86,6 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
     inputType = (
       <Select
         maxDropdownHeight={500}
-        size='xs'
         style={{ width: setConditionalsWidth }}
         comboboxProps={{ styles: { dropdown: { width: 'fit-content' } } }}
         data={stringSelectOptions}
@@ -107,7 +106,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
   return (
     <Popover width={600} position='bottom' withArrow>
       <Popover.Target>
-        <Flex gap={defaultGap} align='center' justify='flex-start' style={{ cursor: 'pointer' }}>
+        <Flex gap={defaultGap} align='center' style={{ cursor: 'pointer' }}>
           <Flex style={{ width: setConditionalsIconWidth }}>
             <img
               src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)}
@@ -188,7 +187,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
     >
       <Flex justify='center'>
         <Flex direction="column" gap={defaultGap}>
-          <Flex gap={defaultGap} align='center' justify='flex-start'>
+          <Flex gap={defaultGap} align='center'>
             <Text style={{ width: setConditionalsIconWidth }}></Text>
             <Text style={{ width: setConditionalsNameWidth }}></Text>
           </Flex>
@@ -196,7 +195,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
         </Flex>
         <VerticalDivider />
         <Flex direction="column" gap={defaultGap} style={{ marginLeft: 5 }}>
-          <Flex gap={defaultGap} align='center' justify='flex-start'>
+          <Flex gap={defaultGap} align='center'>
             <Text style={{ width: setConditionalsIconWidth }}></Text>
             <Text style={{ width: setConditionalsNameWidth }}></Text>
           </Flex>

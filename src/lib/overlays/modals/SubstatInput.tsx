@@ -108,7 +108,7 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
     const displayValue = formatStat(value)
 
     return (
-      <Flex style={{ width: '100%' }}>
+      <Flex w='100%'>
         <Button
           variant='default'
           style={{ width: '100%', padding: 0 }}
@@ -175,7 +175,7 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
         </Tooltip>
       </Flex>
       <PreviewToggle />
-      <Flex gap={5} style={{ minWidth: 180 }}>
+      <Flex gap={5} miw={180}>
         <UpgradeButton quality='low' />
         <UpgradeButton quality='mid' />
         <UpgradeButton quality='high' />

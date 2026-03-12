@@ -53,7 +53,7 @@ export function ActionSelector({ rotationSteps, selectedAction, onActionChange }
   const items = [defaultItem, ...stepItems]
 
   return (
-    <Flex justify='center' align='center' gap={0} wrap='wrap' className={classes.selectorBar}>
+    <Flex justify='center' align='center' wrap='wrap' className={classes.selectorBar}>
       {items.map((item) => (
         <span
           key={item.index}

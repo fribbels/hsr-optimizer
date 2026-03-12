@@ -5,21 +5,16 @@ import { ScoredRelic } from 'lib/relics/scoreRelics'
 import { ColorThemeOverrides } from 'lib/rendering/theme'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import chroma from 'chroma-js'
-import tinygradient from 'tinygradient'
 
 export type GridAggregations = {
   min: Record<string, number>,
   max: Record<string, number>,
 }
 
-const optimizerGridGradient = tinygradient([
-  { color: '#5A1A06', pos: 0 }, // red
-  { color: '#343127', pos: 0.35 },
-  { color: '#38821F', pos: 1 }, // green
-])
+const optimizerGridGradient = chroma.scale(['#5A1A06', '#343127', '#38821F']).domain([0, 0.35, 1])
 
 // this default is overwritten on page load, Gradient.setTheme() in App.tsx
-let relicGridGradient = tinygradient('#343127', '#38821F')
+let relicGridGradient = chroma.scale(['#343127', '#38821F'])
 
 const relicColumnRanges = {
   'augmentedStats.HP': 169.35,
@@ -43,8 +38,8 @@ const relicColumnRanges = {
 } as const
 
 export const Gradient = {
-  getColor: (decimal: number, gradient: tinygradient.Instance) => {
-    return gradient.rgbAt(decimal).toHexString()
+  getColor: (decimal: number, gradient: chroma.Scale) => {
+    return gradient(decimal).hex()
   },
 
   getOptimizerColumnGradient: (params: CellClassParams<OptimizerDisplayDataStatSim, number>) => {
@@ -82,7 +77,7 @@ export const Gradient = {
   },
 
   setTheme(colorTheme: ColorThemeOverrides) {
-    relicGridGradient = tinygradient(chroma(colorTheme.colorPrimary).darken(3).desaturate(2).hex(), colorTheme.colorPrimary)
+    relicGridGradient = chroma.scale([chroma(colorTheme.colorPrimary).darken(3).desaturate(2).hex(), colorTheme.colorPrimary])
   },
 
   getRelicGradient(params: CellClassParams<ScoredRelic>) {

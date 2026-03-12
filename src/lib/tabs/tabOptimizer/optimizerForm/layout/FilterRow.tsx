@@ -24,7 +24,6 @@ export function FilterRow({ name, label, type }: { name: string; label: string; 
   return (
     <Flex justify='space-between' style={{ margin: 0 }}>
       <InputNumberStyled
-        size='xs'
         hideControls
         style={{ margin: 0, width: 63 }}
         value={minValue}
@@ -32,7 +31,6 @@ export function FilterRow({ name, label, type }: { name: string; label: string; 
       />
       <FormStatTextStyled>{label}</FormStatTextStyled>
       <InputNumberStyled
-        size='xs'
         hideControls
         style={{ margin: 0, width: 63 }}
         value={maxValue}

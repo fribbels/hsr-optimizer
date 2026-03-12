@@ -14,7 +14,7 @@ export function BooleanConditionalActivationRow({ contentItem, activations, acti
   )
 
   return (
-    <Flex style={{ height: 45 }}>
+    <Flex h={45}>
       <BooleanSwitch contentItem={contentItem} sourceKey={sourceKey} value={activations[0]} />
       <BoxArray
         activations={activations}

@@ -101,7 +101,7 @@ function Inputs() {
     <div style={{ width: 900 }}>
       <Paper style={{ width: 900 }} p="md">
         <Flex style={{ marginBottom: 30 }}>
-          <Flex direction="column" style={{ flex: 1 }}>
+          <Flex direction="column" flex={1}>
             <Title>
               <Flex justify='center' gap={10}>
                 {t('Settings')/* Settings */}
@@ -169,7 +169,7 @@ function Inputs() {
                 <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
 
-                  <Flex gap={0} style={{ display: 'flex' }}>
+                  <Flex>
                     <TextInput
                       disabled
                       style={{
@@ -212,7 +212,7 @@ function Inputs() {
 
           <VerticalDivider width={40}/>
 
-          <Flex direction="column" style={{ flex: 1 }} justify='space-between'>
+          <Flex direction="column" flex={1} justify='space-between'>
             <Flex direction="column">
               <Title>{t('Character')/* Character */}</Title>
               <PityInputs banner='Character' form={form}/>
@@ -225,7 +225,7 @@ function Inputs() {
           </Flex>
         </Flex>
 
-        <Flex style={{ width: '100%' }} gap={20}>
+        <Flex w='100%' gap={20}>
           <Button
             fullWidth
             style={{ height: 45 }}
@@ -291,7 +291,7 @@ function Results() {
         </pre>
       </Text>
 
-      <Flex direction="column" gap={10} style={{ width: '100%' }}>
+      <Flex direction="column" gap={10} w='100%'>
         <Table style={{ width: '100%' }}>
           <Table.Thead>
             <Table.Tr>
@@ -387,7 +387,7 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
   const guaranteedField = `guaranteed${props.banner}` as keyof WarpRequest
 
   return (
-    <Flex gap={25} style={{ width: '100%' }}>
+    <Flex gap={25} w='100%'>
       <Flex direction="column" flex={1}>
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 

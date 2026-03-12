@@ -34,6 +34,7 @@ import {
 import { SubstatInput } from 'lib/overlays/modals/SubstatInput'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
+import modalClasses from './RelicModal.module.css'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import { useCharacterStore } from 'lib/stores/characterStore'
@@ -327,25 +328,13 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
           {prev && (
             <IconChevronLeft
               onClick={prev}
-              style={{
-                position: 'absolute',
-                top: 240,
-                right: 560,
-                fontSize: '40px',
-                cursor: 'pointer',
-              }}
+              className={modalClasses.navArrowLeft}
             />
           )}
           {next && (
             <IconChevronRight
               onClick={next}
-              style={{
-                position: 'absolute',
-                top: 240,
-                left: 560,
-                fontSize: '40px',
-                cursor: 'pointer',
-              }}
+              className={modalClasses.navArrowRight}
             />
           )}
           <Flex gap={10}>
@@ -441,7 +430,7 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
               </Flex>
             </Flex>
 
-            <div style={{ display: 'block', minWidth: 12 }} />
+            <div className={modalClasses.spacer} />
 
             <Flex direction="column" gap={5} style={{}}>
               <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
@@ -456,15 +445,7 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
                 {...relicForm.getInputProps('equippedBy')}
               />
 
-              <div
-                style={{
-                  height: 180,
-                  overflow: 'hidden',
-                  marginTop: 7,
-                  borderRadius: 10,
-                  boxShadow: '0px 0px 0px 1px var(--border-color) inset',
-                }}
-              >
+              <div className={modalClasses.previewContainer}>
                 <img
                   style={{ width: '100%' }}
                   src={Assets.getCharacterPreviewById(equippedBy == 'None' ? '' : equippedBy)}
@@ -474,10 +455,10 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
           </Flex>
 
           <Flex gap={20}>
-            <Flex direction="column" gap={5} style={{ width: '100%' }}>
+            <Flex direction="column" gap={5} w='100%'>
               <Flex justify='space-between'>
                 <HeaderText>{t('Relic.Substat') /* Substats */}</HeaderText>
-                <Flex style={{ width: 180 }}>
+                <Flex w={180}>
                   <HeaderText>{t('Relic.Upgrades') /* Substat upgrades */}</HeaderText>
                 </Flex>
               </Flex>
@@ -517,7 +498,7 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
           </Flex>
         </Flex>
         <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'} style={{ marginTop: 16 }}>
-          <Flex style={{ width: 298, paddingLeft: 1 }}>
+          <Flex className={modalClasses.locatorFlex}>
             {selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={selectedRelic} />}
           </Flex>
 

@@ -10,6 +10,7 @@ import {
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import styles from 'lib/characterPreview/ShowcaseDpsScore.module.css'
+import teammateClasses from 'style/teammateCard.module.css'
 import { StatText } from 'lib/characterPreview/StatText'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import {
@@ -161,7 +162,6 @@ function CharacterPreviewScoringTeammate({
 
   const teammate = result.simulationMetadata.teammates[index] as SimulationMetadata['teammates'][number] | undefined
   const iconSize = 64
-  const setSize = 24
 
   const simForm = result.simulationForm
   const formTeammate = getTeammate(index, simForm)
@@ -176,44 +176,31 @@ function CharacterPreviewScoringTeammate({
 
         setSelectedTeammateIndex(index)
       }}
-      className={`${styles.teammateCard} ${readonly ? 'readonly-custom-grid' : 'custom-grid'}`}
+      className={`${teammateClasses.teammateCard} ${readonly ? 'readonly-custom-grid' : 'custom-grid'}`}
     >
-      <Flex direction="column" align='center' gap={0}>
-        <div className={styles.relativeInline}>
+      <Flex direction="column" align='center'>
+        <div className={teammateClasses.iconWrapper}>
           <img
             src={Assets.getCharacterAvatarById(teammate?.characterId)}
-            className={styles.teammateAvatar}
-            style={{
-              height: iconSize,
-              width: iconSize,
-              borderRadius: iconSize,
-            }}
+            className={teammateClasses.teammateAvatar}
           />
 
           <OverlayText text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon })} top={-12} />
         </div>
 
-        <div className={styles.relativeInline}>
+        <div className={teammateClasses.iconWrapper}>
           <img src={Assets.getLightConeIconById(teammate?.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
 
           {formTeammate.teamRelicSet && (
             <img
-              className={styles.setIconRelic}
-              style={{
-                width: setSize,
-                height: setSize,
-              }}
+              className={teammateClasses.relicBadge}
               src={Assets.getSetImage(formTeammate.teamRelicSet)}
             />
           )}
 
           {formTeammate.teamOrnamentSet && (
             <img
-              className={styles.setIconOrnament}
-              style={{
-                width: setSize,
-                height: setSize,
-              }}
+              className={teammateClasses.ornamentBadge}
               src={Assets.getSetImage(formTeammate.teamOrnamentSet)}
             />
           )}

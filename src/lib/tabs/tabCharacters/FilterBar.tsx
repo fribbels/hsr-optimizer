@@ -37,7 +37,7 @@ export function FilterBar() {
           setNameFilter(e.target.value.toLowerCase())
         }}
       />
-      <Flex style={{ flex: 1 }}>
+      <Flex flex={1}>
         <SegmentedFilterRow
           tags={generatePathTags()}
           flexBasis='11.111%'

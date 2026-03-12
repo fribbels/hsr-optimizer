@@ -48,7 +48,6 @@ export const FormSelect: ComponentType<FormSelectProps> = ({
       disabled={disabled}
       style={{ minWidth: fullWidth ? '100%' : 80, width: fullWidth ? '100%' : 80, marginRight: 5 }}
       maxDropdownHeight={500}
-      size='xs'
       comboboxProps={{ styles: { dropdown: { width: 'fit-content' } } }}
       data={stringOptions}
       onChange={(newValue) => {

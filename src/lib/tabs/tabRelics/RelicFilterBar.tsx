@@ -1,4 +1,5 @@
 import { IconEraser } from '@tabler/icons-react'
+import { useOverflowPills } from 'lib/hooks/useOverflowPills'
 import { Button, Flex, MultiSelect, Text, Tooltip } from '@mantine/core'
 import i18next from 'i18next'
 import {
@@ -61,6 +62,8 @@ export function RelicFilterBar() {
   const valueColumnOptions = useMemo(() => {
     return generateValueColumnOptions(tValueColumn)
   }, [tValueColumn])
+
+  const renderValueColumnPills = useOverflowPills(valueColumns, 2)
 
   const relicSetFlexBasis = `${100 / Math.ceil(Object.values(SetsRelics).length / 2)}%`
   const ornamentSetFlexBasis = `${100 / Object.values(SetsOrnaments).length}%`
@@ -232,6 +235,7 @@ export function RelicFilterBar() {
                 clearable
                 value={valueColumns}
                 onChange={(values) => setValueColumns(values as typeof valueColumns)}
+                renderPill={renderValueColumnPills}
                 data={valueColumnOptions.map((group) => ({
                   group: group.label,
                   items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),

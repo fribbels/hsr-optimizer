@@ -153,9 +153,9 @@ function parseLabel(name: string): { num: string; label: string } {
   return { num: '', label: name }
 }
 
-function dimNumberLeftTick(props: { x: number; y: number; payload: { value: string } }) {
+function dimNumberLeftTick(props: { x: string | number; y: string | number; payload: { value: string } }) {
   const { x, y, payload } = props
-  const tx = x - 70
+  const tx = Number(x) - 70
   const { num, label } = parseLabel(payload.value)
 
   if (!num) {

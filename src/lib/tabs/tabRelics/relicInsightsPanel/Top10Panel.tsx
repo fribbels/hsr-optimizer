@@ -16,7 +16,7 @@ import {
   Scatter,
   ScatterChart,
   Tooltip,
-  TooltipProps,
+  TooltipContentProps,
   XAxis,
   YAxis,
 } from 'recharts'
@@ -96,7 +96,7 @@ export const Top10Panel = memo(({ scores }: PanelProps) => {
           allowDataOverflow
           hide
         />
-        <Tooltip content={<TooltipContent />} />
+        <Tooltip content={TooltipContent} />
         <Legend align='right' verticalAlign='middle' width={LEGEND_WIDTH} content={<LegendContent scores={sortedScores} />} />
         <Scatter data={data}>
           {data.map((point, idx) => {
@@ -147,8 +147,8 @@ function LegendContent({ scores }: PanelProps) {
   )
 }
 
-function TooltipContent(props: TooltipProps<ValueType, NameType>) {
-  const { payload }: { payload?: Array<{ payload?: DataPoint }> } = props
+function TooltipContent(props: TooltipContentProps<ValueType, NameType>) {
+  const { payload } = props
 
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicInsights' })
   const data = payload?.[0]?.payload

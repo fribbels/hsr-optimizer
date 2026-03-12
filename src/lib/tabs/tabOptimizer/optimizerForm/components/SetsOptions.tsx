@@ -1,4 +1,5 @@
 import { ComboboxItem, Flex } from '@mantine/core'
+import { ReactElement } from 'react'
 import i18next from 'i18next'
 import {
   Constants,
@@ -63,7 +64,7 @@ export function GenerateSetsGroupedOptions(): RelicSetGroupedData[] {
 }
 
 // This should be memoised with either the t function or resolved language as a dependency
-export function GenerateBasicSetsOptions(): { value: string; label: JSX.Element }[] {
+export function GenerateBasicSetsOptions(): { value: string; label: ReactElement }[] {
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
   return Object.values(SetsRelics)
     .filter((x) => !UnreleasedSets[x])

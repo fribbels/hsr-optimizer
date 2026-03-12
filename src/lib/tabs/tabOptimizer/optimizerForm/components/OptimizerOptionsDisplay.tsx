@@ -18,7 +18,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { memo, useMemo } from 'react'
+import { memo, ReactElement, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './OptimizerOptionsDisplay.module.css'
 
@@ -27,7 +27,7 @@ function setFilterAndRecalculate<K extends keyof RelicFilterFields>(field: K, va
   recalculatePermutations()
 }
 
-export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): JSX.Element {
+export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): ReactElement {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const characters = useCharacterStore((s) => s.characters)

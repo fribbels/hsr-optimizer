@@ -55,7 +55,7 @@ import {
   PaletteResponse,
 } from 'lib/utils/vibrantFork'
 import React, {
-  forwardRef,
+  Ref,
   useImperativeHandle,
   useMemo,
   useState,
@@ -87,8 +87,7 @@ export interface ShowcaseCustomizationSidebarProps {
   setColorMode: (colorMode: ShowcaseColorMode) => void
 }
 
-const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef, ShowcaseCustomizationSidebarProps>(
-  (props, ref) => {
+function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSidebarProps & { ref?: Ref<ShowcaseCustomizationSidebarRef> }) {
     const {
       id,
       source,
@@ -447,10 +446,8 @@ const ShowcaseCustomizationSidebar = forwardRef<ShowcaseCustomizationSidebarRef,
         </Flex>
       </Flex>
     )
-  },
-)
+}
 
-ShowcaseCustomizationSidebar.displayName = 'ShowcaseCustomizationSidebar'
 export default ShowcaseCustomizationSidebar
 
 function SelectSpdPresets(props: {

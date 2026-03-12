@@ -1,13 +1,12 @@
 import { Button, Flex, Popover, PopoverProps, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { forwardRef, ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode, Ref } from 'react'
 
-const PopConfirmTarget = forwardRef<HTMLSpanElement, { children: ReactElement; onClick: () => void }>(
-  ({ children, onClick, ...rest }, ref) => (
+function PopConfirmTarget({ children, onClick, ref, ...rest }: { children: ReactElement; onClick: () => void; ref?: Ref<HTMLSpanElement> }) {
+  return (
     <span ref={ref} onClick={onClick} {...rest}>{children}</span>
-  ),
-)
-PopConfirmTarget.displayName = 'PopConfirmTarget'
+  )
+}
 
 export function PopConfirm(props: {
   title: ReactNode

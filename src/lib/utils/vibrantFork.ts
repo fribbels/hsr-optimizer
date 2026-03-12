@@ -334,7 +334,7 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
       // console.log('PALETTE', palette)
 
       // colors member from custom generator isn't added to type information
-      const colors = (palette.colors as unknown as { _hsl: number[], _population: number, _rgb: number[] }[])
+      const colors = (palette.colors as unknown as { _hsl: number[], _population: number, _rgb: [number, number, number] }[])
         .map((x) => chroma(x._rgb).hex()).filter((color: string) => {
           return (
             color != defaults.Vibrant

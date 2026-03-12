@@ -1,14 +1,10 @@
 import { Alert } from '@mantine/core'
-import i18next from 'i18next'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
-import {
-  CharacterAnnouncementMessages,
-  CURRENT_DATA_VERSION,
-} from 'lib/constants/constants'
+import { CharacterAnnouncementMessages } from 'lib/constants/constants'
 import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { ReactElement } from 'types/components'
+import { CharacterId } from 'types/character'
 
-export function CharacterAnnouncement(props: { characterId: string, asyncSimScoringExecution: AsyncSimScoringExecution }) {
+export function CharacterAnnouncement(props: { characterId: CharacterId, asyncSimScoringExecution: AsyncSimScoringExecution }) {
   const { characterId } = props
   const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
 
@@ -27,24 +23,13 @@ export function CharacterAnnouncement(props: { characterId: string, asyncSimScor
     }
   }
 
-  if (messages.length == 0) {
+  if (messages.length === 0) {
     return <></>
   }
 
-  const render: ReactElement[] = []
-
-  for (let i = 0; i < messages.length; i++) {
-    const message = messages[i]
-    render.push(
-      <Alert
-        color='blue'
-        style={{ marginTop: 10 }}
-        key={i}
-      >
-        {message}
-      </Alert>,
-    )
-  }
-
-  return render
+  return messages.map((message, i) => (
+    <Alert color='blue' mt={10} key={i}>
+      {message}
+    </Alert>
+  ))
 }

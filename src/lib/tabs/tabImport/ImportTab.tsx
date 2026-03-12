@@ -84,11 +84,11 @@ function SaveDataSubmenu() {
   }
 
   return (
-    <Flex direction="column" gap={5}>
+    <Flex direction='column' gap={5}>
       <Text>
         {t('Label') /* Save your optimizer data to a file. */}
       </Text>
-      <Button onClick={saveClicked} leftSection={<IconDownload size={16} />} style={{ width: buttonWidth }}>
+      <Button onClick={saveClicked} leftSection={<IconDownload size={16} />} w={buttonWidth}>
         {t('ButtonText') /* Save data */}
       </Button>
     </Flex>
@@ -103,24 +103,22 @@ export default function ImportTab() {
     <div>
       {ingest && <ScannerWebsocket />}
 
-      <Flex direction="column" gap={5} style={{ marginLeft: 20, width: 1200 }}>
+      <Flex direction='column' gap={5} ml={20} w={1200}>
         <Tabs
-          defaultValue="Import"
-          style={{
-            marginBottom: 32,
-          }}
+          defaultValue='Import'
+          mb={32}
         >
           <Tabs.List>
-            <Tabs.Tab value="Import">{t('Import')}</Tabs.Tab>
-            <Tabs.Tab value="Load">{t('Load')}</Tabs.Tab>
-            <Tabs.Tab value="Save">{t('Save')}</Tabs.Tab>
-            <Tabs.Tab value="Clear">{t('Clear')}</Tabs.Tab>
+            <Tabs.Tab value='Import'>{t('Import')}</Tabs.Tab>
+            <Tabs.Tab value='Load'>{t('Load')}</Tabs.Tab>
+            <Tabs.Tab value='Save'>{t('Save')}</Tabs.Tab>
+            <Tabs.Tab value='Clear'>{t('Clear')}</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="Import"><ScannerImportSubmenu /></Tabs.Panel>
-          <Tabs.Panel value="Load"><LoadDataSubmenu /></Tabs.Panel>
-          <Tabs.Panel value="Save"><SaveDataSubmenu /></Tabs.Panel>
-          <Tabs.Panel value="Clear"><ClearDataSubmenu /></Tabs.Panel>
+          <Tabs.Panel value='Import'><ScannerImportSubmenu /></Tabs.Panel>
+          <Tabs.Panel value='Load'><LoadDataSubmenu /></Tabs.Panel>
+          <Tabs.Panel value='Save'><SaveDataSubmenu /></Tabs.Panel>
+          <Tabs.Panel value='Clear'><ClearDataSubmenu /></Tabs.Panel>
         </Tabs>
       </Flex>
     </div>

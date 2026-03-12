@@ -38,14 +38,12 @@ import { useTranslation } from 'react-i18next'
 import { DBMetadataCharacter } from 'types/metadata'
 import { useGlobalStore } from 'lib/stores/appStore'
 
-export function CharacterCardCombatStats(props: {
-  result: SimulationScore,
+export function CharacterCardCombatStats({ result }: {
+  result: SimulationScore
 }) {
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
-
-  const { result } = props
 
   const characterMetadata = result.characterMetadata!
   const element = characterMetadata.element as ElementName
@@ -66,7 +64,7 @@ export function CharacterCardCombatStats(props: {
 
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
-      <Flex key={Utils.randomId()} justify='space-between' align='center' style={{ width: '100%' }}>
+      <Flex key={stat} justify='space-between' align='center' style={{ width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
         <Flex gap={1} align='center'>
           <StatTextSm>
@@ -116,10 +114,10 @@ function aggregateCombatStats(
     const flat = Utils.isFlat(stat)
     const xaValue = getStatValue(x, stat, element, primaryActionStats!)
     const caValue = getBasicStatValue(x, stat, element)
-    const upgraded = Utils.precisionRound(xaValue, 2) != Utils.precisionRound(caValue, 2)
+    const upgraded = Utils.precisionRound(xaValue, 2) !== Utils.precisionRound(caValue, 2)
 
     let display = localeNumber(Math.floor(xaValue))
-    if (stat == Stats.SPD) {
+    if (stat === Stats.SPD) {
       display = preciseSpd
         ? localeNumber_000(TsUtils.precisionRound(xaValue, 3))
         : localeNumber_0(Utils.truncate10ths(TsUtils.precisionRound(xaValue, 3)))
@@ -128,10 +126,10 @@ function aggregateCombatStats(
     }
 
     displayWrappers.push({
-      stat: stat,
-      upgraded: upgraded,
-      display: display,
-      flat: flat,
+      stat,
+      upgraded,
+      display,
+      flat,
     })
   }
 

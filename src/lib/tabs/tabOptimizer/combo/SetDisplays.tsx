@@ -5,29 +5,26 @@ import {
   ComboState,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
-export function SetDisplays(props: {
+export function SetDisplays({ comboOrigin, actionCount, originKey, comboState, onComboStateChange }: {
   comboOrigin: ComboCharacter
-  conditionalType: string
   actionCount: number
   originKey: string
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {
-  const relicSets = props.comboOrigin?.displayedRelicSets || []
-  const ornamentSets = props.comboOrigin?.displayedOrnamentSets || []
-  const setRender = [...relicSets, ...ornamentSets].map((setName) => {
-    return (
-      <ComboConditionalsGroupRow
-        key={setName}
-        comboOrigin={props.comboOrigin}
-        conditionalType={setName}
-        actionCount={props.actionCount}
-        originKey={props.originKey}
-        comboState={props.comboState}
-        onComboStateChange={props.onComboStateChange}
-      />
-    )
-  })
+  const relicSets = comboOrigin?.displayedRelicSets ?? []
+  const ornamentSets = comboOrigin?.displayedOrnamentSets ?? []
+  const setRender = [...relicSets, ...ornamentSets].map((setName) => (
+    <ComboConditionalsGroupRow
+      key={setName}
+      comboOrigin={comboOrigin}
+      conditionalType={setName}
+      actionCount={actionCount}
+      originKey={originKey}
+      comboState={comboState}
+      onComboStateChange={onComboStateChange}
+    />
+  ))
 
   return (
     <Flex direction="column" gap={8}>

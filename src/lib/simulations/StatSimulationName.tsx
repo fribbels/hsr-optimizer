@@ -29,27 +29,28 @@ const substatToPriority: Record<string, number> = {
   [Stats.RES]: 11,
 }
 
+function renderStat(x: Stat, simType: string, t: (key: string) => string) {
+  return simType == StatSimTypes.SubstatRolls
+    ? `${t(x.stat)} x ${x.value}`
+    : `${t(x.stat)} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
+}
+
 export function StatSimulationName(props: { sim: Simulation }) {
-  const { sim } = props
   return (
     <Flex gap={5}>
-      <SimSetsDisplay sim={sim} />
+      <SimSetsDisplay sim={props.sim} />
 
       |
 
-      <SimMainsDisplay sim={sim} />
+      <SimMainsDisplay sim={props.sim} />
 
       |
 
-      <Flex>
-        {sim.name ? `${sim.name}` : null}
-      </Flex>
+      {props.sim.name}
 
-      <Flex>
-        {sim.name ? `|` : null}
-      </Flex>
+      {props.sim.name && '|'}
 
-      <SimSubstatsDisplay sim={sim} />
+      <SimSubstatsDisplay sim={props.sim} />
     </Flex>
   )
 }
@@ -92,30 +93,19 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
   for (const stat of Constants.SubStats) {
     const value = substats[stat]
     if (value) {
-      renderArray.push({
-        stat: stat,
-        value: value,
-      })
+      renderArray.push({ stat, value })
     }
   }
 
   renderArray.sort((a, b) => substatToPriority[a.stat] - substatToPriority[b.stat])
-
-  function renderStat(x: Stat) {
-    return props.sim.simType == StatSimTypes.SubstatRolls
-      ? `${t([x.stat])} x ${x.value}`
-      : `${t([x.stat])} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
-  }
 
   return (
     <Flex gap={0}>
       {renderArray.map((x) => {
         return (
           <Flex key={x.stat}>
-            <Badge
-              style={{ paddingInline: '5px', marginInlineEnd: '5px' }}
-            >
-              {renderStat(x)}
+            <Badge style={{ paddingInline: '5px', marginInlineEnd: '5px' }}>
+              {renderStat(x, props.sim.simType, t)}
             </Badge>
           </Flex>
         )

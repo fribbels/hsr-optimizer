@@ -9,6 +9,7 @@ import { Assets } from 'lib/rendering/assets'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
+import { RelicFilterFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
@@ -17,11 +18,16 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import React, { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './OptimizerOptionsDisplay.module.css'
 
-const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): JSX.Element {
+function setFilterAndRecalculate<K extends keyof RelicFilterFields>(field: K, value: RelicFilterFields[K]) {
+  useOptimizerRequestStore.getState().setRelicFilterField(field, value)
+  recalculatePermutations()
+}
+
+export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): JSX.Element {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'OptimizerOptions' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const characters = useCharacterStore((s) => s.characters)
@@ -59,13 +65,10 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               className={classes.characterAvatar}
             />
 
-            {
-              t('Priority.Label', { rank: x.rank + 1, id: x.id })
-              // `#${x.rank + 1} - ${characterMetadata[x.id].displayName}`
-            }
+            {t('Priority.Label', { rank: x.rank + 1, id: x.id })}
           </Flex>
         ),
-        name: t('Priority.Name', { rank: x.rank + 1 }), // `# ${x.rank + 1}`,
+        name: t('Priority.Name', { rank: x.rank + 1 }),
       }
     })
   }, [characters, t])
@@ -83,10 +86,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
             onLabel={<IconCheck />}
             offLabel={<IconX />}
             checked={includeEquippedRelics}
-            onChange={(event) => {
-              useOptimizerRequestStore.getState().setRelicFilterField('includeEquippedRelics', event.currentTarget.checked)
-              recalculatePermutations()
-            }}
+            onChange={(event) => setFilterAndRecalculate('includeEquippedRelics', event.currentTarget.checked)}
             className={classes.switchRow}
           />
           <Text>{t('AllowEquipped') /* Allow equipped relics */}</Text>
@@ -97,10 +97,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
             onLabel={<IconCheck />}
             offLabel={<IconX />}
             checked={rankFilter}
-            onChange={(event) => {
-              useOptimizerRequestStore.getState().setRelicFilterField('rankFilter', event.currentTarget.checked)
-              recalculatePermutations()
-            }}
+            onChange={(event) => setFilterAndRecalculate('rankFilter', event.currentTarget.checked)}
             className={classes.switchRow}
           />
           <Text>{t('PriorityFilter') /* Character priority filter */}</Text>
@@ -111,10 +108,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
             onLabel={<IconCheck />}
             offLabel={<IconX />}
             checked={keepCurrentRelics}
-            onChange={(event) => {
-              useOptimizerRequestStore.getState().setRelicFilterField('keepCurrentRelics', event.currentTarget.checked)
-              recalculatePermutations()
-            }}
+            onChange={(event) => setFilterAndRecalculate('keepCurrentRelics', event.currentTarget.checked)}
             className={classes.switchRow}
           />
           <Text>{t('KeepCurrent') /* Keep current relics */}</Text>
@@ -159,10 +153,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               placeholder={t('Exclude') /* Exclude */}
               data={characterExcludeOptions.map((opt) => ({ value: opt.value, label: opt.title }))}
               value={exclude}
-              onChange={(val) => {
-                useOptimizerRequestStore.getState().setRelicFilterField('exclude', val as typeof exclude)
-                recalculatePermutations()
-              }}
+              onChange={(val) => setFilterAndRecalculate('exclude', val as typeof exclude)}
             />
           </Flex>
         </Flex>
@@ -177,8 +168,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               value={enhance != null ? String(enhance) : null}
               onChange={(val) => {
                 if (val == null) return
-                useOptimizerRequestStore.getState().setRelicFilterField('enhance', Number(val))
-                recalculatePermutations()
+                setFilterAndRecalculate('enhance', Number(val))
               }}
               data={[
                 { value: '0', label: t('MinEnhance.Label0') }, // '+0'
@@ -200,8 +190,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               value={grade != null ? String(grade) : null}
               onChange={(val) => {
                 if (val == null) return
-                useOptimizerRequestStore.getState().setRelicFilterField('grade', Number(val))
-                recalculatePermutations()
+                setFilterAndRecalculate('grade', Number(val))
               }}
               data={[
                 { value: '2', label: t('MinRarity.Label2') }, // '2 ★ +'
@@ -223,8 +212,7 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
               value={mainStatUpscaleLevel != null ? String(mainStatUpscaleLevel) : null}
               onChange={(val) => {
                 if (val == null) return
-                useOptimizerRequestStore.getState().setRelicFilterField('mainStatUpscaleLevel', Number(val))
-                recalculatePermutations()
+                setFilterAndRecalculate('mainStatUpscaleLevel', Number(val))
               }}
               data={[
                 { value: '0', label: t('BoostMain.Label0') }, // '+0'
@@ -259,5 +247,3 @@ const OptimizerOptionsDisplay = React.memo(function OptimizerOptionsDisplay(): J
     </Flex>
   )
 })
-
-export default OptimizerOptionsDisplay

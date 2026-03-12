@@ -17,13 +17,13 @@ import {
   GenerateStat,
   SubstatDetails,
 } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
-import RelicStatText from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
+import { RelicStatText } from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { showcaseTransition } from 'lib/utils/colorUtils'
 import {
   Languages,
   localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
-import React from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Fragment } from 'react/jsx-runtime'
 import { CharacterId } from 'types/character'
@@ -37,7 +37,7 @@ export type ShowcaseTheme = {
   cardBorderColor: string,
 }
 
-export const RelicPreview = React.memo(function RelicPreview(props: {
+export const RelicPreview = memo(function RelicPreview(props: {
   relic?: Relic | null,
   source?: ShowcaseSource,
   characterId?: CharacterId | null,
@@ -79,10 +79,9 @@ export const RelicPreview = React.memo(function RelicPreview(props: {
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
 
   const cardClicked = () => {
-    if ((!relic.id && !characterId) || source == ShowcaseSource.SHOWCASE_TAB || source == ShowcaseSource.BUILDS_MODAL) return
+    if ((!relic.id && !characterId) || source === ShowcaseSource.SHOWCASE_TAB || source === ShowcaseSource.BUILDS_MODAL) return
 
     if (!relic.id && characterId) {
-      console.log(`Add new relic for characterId=${characterId}.`)
       relic.equippedBy = characterId
       relic.enhance = 15
       relic.grade = 5
@@ -95,9 +94,9 @@ export const RelicPreview = React.memo(function RelicPreview(props: {
     }
   }
 
-  const STAT_GAP = scoringType == ScoringType.NONE ? 6 : 0
-  const ICON_SIZE = scoringType == ScoringType.NONE ? 54 : 50
-  const JUSTIFY = scoringType == ScoringType.NONE ? 'space-around' : 'space-between'
+  const STAT_GAP = scoringType === ScoringType.NONE ? 6 : 0
+  const ICON_SIZE = scoringType === ScoringType.NONE ? 54 : 50
+  const JUSTIFY = scoringType === ScoringType.NONE ? 'space-around' : 'space-between'
 
   const fillerStats = Array.from<RelicSubstatMetadata>({ length: 4 - relic.substats.length - relic.previewSubstats.length })
 
@@ -115,7 +114,7 @@ export const RelicPreview = React.memo(function RelicPreview(props: {
         transition: showcaseTransition(),
         borderRadius: 6,
         boxShadow: source == null ? undefined : showcaseShadow + showcaseShadowInsetAddition,
-        cursor: (source != ShowcaseSource.SHOWCASE_TAB && source != ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
+        cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
       }}
     >
       <RelicStatText language={i18next.resolvedLanguage as Languages}>
@@ -163,7 +162,7 @@ export const RelicPreview = React.memo(function RelicPreview(props: {
             {fillerStats.map((x, idx) => <Fragment key={`fillers-${idx}`}>{GenerateStat(x, false, relic)}</Fragment>)}
           </Flex>
 
-          {scoringType != ScoringType.NONE && <ScoreFooter score={score} />}
+          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} />}
         </Flex>
       </RelicStatText>
     </Paper>
@@ -181,7 +180,7 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
 
   const scored = score !== undefined
   if (scored) {
-    if (score?.meta?.category == ScoreCategory.DEFAULT_NO_SPEED) {
+    if (score?.meta?.category === ScoreCategory.DEFAULT_NO_SPEED) {
       icon = Assets.getScoreNoSpeed()
     } else {
       icon = Assets.getScore()

@@ -20,20 +20,20 @@ import { StatsViewSelect } from 'lib/tabs/tabOptimizer/sidebar/StatsViewSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import React, { useCallback, useState } from 'react'
+import { CSSProperties, memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { useGlobalStore } from 'lib/stores/appStore'
 
 const defaultGap = 5
-const fullSizeOuterStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column' }
-const compactOuterStyle: React.CSSProperties = { display: 'flex', flexDirection: 'row-reverse' }
-const controlsGapStyle: React.CSSProperties = { marginBottom: 2 }
-const startButtonStyle: React.CSSProperties = { flex: 1, minWidth: 211 }
-const flexOneStyle: React.CSSProperties = { flex: 1 }
-const statViewStyle: React.CSSProperties = { flex: 1, minWidth: 211 }
+const fullSizeOuterStyle: CSSProperties = { display: 'flex', flexDirection: 'column' }
+const compactOuterStyle: CSSProperties = { display: 'flex', flexDirection: 'row-reverse' }
+const controlsGapStyle: CSSProperties = { marginBottom: 2 }
+const startButtonStyle: CSSProperties = { flex: 1, minWidth: 211 }
+const flexOneStyle: CSSProperties = { flex: 1 }
+const statViewStyle: CSSProperties = { flex: 1, minWidth: 211 }
 
-export const OptimizerControlsSection = React.memo(function OptimizerControlsSection(props: { isFullSize: boolean }) {
+export const OptimizerControlsSection = memo(function OptimizerControlsSection({ isFullSize }: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
 
@@ -49,14 +49,9 @@ export const OptimizerControlsSection = React.memo(function OptimizerControlsSec
   const [manyPermsModalOpen, setManyPermsModalOpen] = useState(false)
 
   const cancelClicked = useCallback(() => {
-    console.log('Cancel clicked')
     setOptimizationInProgress(false)
     Optimizer.cancel()
   }, [setOptimizationInProgress])
-
-  const startOptimizerFn = useCallback(() => {
-    startOptimization()
-  }, [])
 
   const startClicked = useCallback(() => {
     if (
@@ -64,24 +59,23 @@ export const OptimizerControlsSection = React.memo(function OptimizerControlsSec
       || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
       || computeEngine == COMPUTE_ENGINE_GPU_STABLE
     ) {
-      startOptimizerFn()
+      startOptimization()
     } else {
       setManyPermsModalOpen(true)
     }
-  }, [permutations, computeEngine, startOptimizerFn])
+  }, [permutations, computeEngine])
 
   const resetClicked = useCallback(() => {
-    console.log('Reset clicked')
     resetFilters()
   }, [])
 
   return (
     <Flex
-      direction={props.isFullSize ? 'column' : 'row'}
-      gap={props.isFullSize ? 5 : 20}
-      style={props.isFullSize ? fullSizeOuterStyle : compactOuterStyle}
+      direction={isFullSize ? 'column' : 'row'}
+      gap={isFullSize ? 5 : 20}
+      style={isFullSize ? fullSizeOuterStyle : compactOuterStyle}
     >
-      <ManyPermsModal startSearch={startOptimizerFn} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen} />
+      <ManyPermsModal startSearch={startOptimization} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen} />
       <Flex direction="column" gap={5}>
         <HeaderText>{t('ControlsGroup.Header') /* Controls */}</HeaderText>
         <Flex gap={defaultGap} style={controlsGapStyle} direction="column">
@@ -96,7 +90,7 @@ export const OptimizerControlsSection = React.memo(function OptimizerControlsSec
             </Button>
           </Flex>
 
-          {props.isFullSize && <ComputeEngineSelect />}
+          {isFullSize && <ComputeEngineSelect />}
 
           <Flex gap={defaultGap}>
             <Button variant="default" onClick={cancelClicked} style={flexOneStyle}>
@@ -109,7 +103,7 @@ export const OptimizerControlsSection = React.memo(function OptimizerControlsSec
               onConfirm={resetClicked}
               okText={tCommon('Yes')} // 'Yes'
               cancelText={tCommon('No')} // 'No'
-              placement='bottomRight'
+              placement='bottom-end'
             >
               <Button variant="default" style={flexOneStyle}>
                 {tCommon('Reset') /* Reset */}
@@ -127,10 +121,10 @@ export const OptimizerControlsSection = React.memo(function OptimizerControlsSec
 
         <StatsViewSelect />
 
-        <MemoViewSelect isFullSize={props.isFullSize} />
+        <MemoViewSelect isFullSize={isFullSize} />
       </Flex>
 
-      {!props.isFullSize
+      {!isFullSize
         && (
           <Flex direction="column" gap={3} style={statViewStyle}>
             <HeaderText>{t('ComputeEngine') /* Compute engine */}</HeaderText>

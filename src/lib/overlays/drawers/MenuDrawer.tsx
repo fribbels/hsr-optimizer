@@ -29,178 +29,79 @@ import { AppPages } from 'lib/constants/appPages'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
+import { useShallow } from 'zustand/react/shallow'
 import classes from './MenuDrawer.module.css'
 
 type MenuItemProperties = {
-  label: string | ReactElement,
-  key: string,
-  icon?: ReactElement,
-  children?: MenuItemProperties[],
-  href?: string,
+  label: string | ReactElement
+  key: string
+  icon?: ReactElement
+  children?: MenuItemProperties[]
+  href?: string
 }
 
-function getItem(label: string | ReactElement, key: string, icon?: ReactElement, children?: MenuItemProperties[], href?: string): MenuItemProperties {
-  return {
-    label,
-    key,
-    icon,
-    children,
-    href,
-  }
+function MenuLabel(props: { icon: ReactElement; label: string; onClick?: () => void }) {
+  return (
+    <Flex onClick={props.onClick} className={props.onClick ? classes.fullWidth : undefined}>
+      {props.icon} {props.label}
+    </Flex>
+  )
 }
 
 const MenuDrawer = () => {
   const { t } = useTranslation('sidebar')
-  const activeKey = useGlobalStore((s) => s.activeKey)
-  const setActiveKey = useGlobalStore((s) => s.setActiveKey)
+  const { activeKey, setActiveKey } = useGlobalStore(useShallow((s) => ({ activeKey: s.activeKey, setActiveKey: s.setActiveKey })))
 
-  const items = useMemo(() => [
-    getItem(t('Tools.Title'), /* Tools */ 'subTools', <IconSun />, [
-      getItem(
-        (
-          <Flex>
-            <IconStarFilled className={classes.menuIcon} /> {t('Tools.Showcase') /* Showcase */}
-          </Flex>
-        ),
-        AppPages.SHOWCASE,
-      ),
-      getItem(
-        (
-          <Flex>
-            <IconLayoutGrid className={classes.menuIcon} /> {t('Tools.Benchmarks') /*Benchmarks*/}
-          </Flex>
-        ),
-        AppPages.BENCHMARKS,
-      ),
-      getItem(
-        (
-          <Flex>
-            <IconDiamond className={classes.menuIcon} /> {t('Tools.WarpPlanner') /* Warp Planner */}
-          </Flex>
-        ),
-        AppPages.WARP,
-      ),
-    ]),
-    getItem(t('Optimization.Title'), /* Optimization */ 'subOptimizer', <IconChartLine />, [
-      getItem(
-        (
-          <Flex>
-            <IconChartBar className={classes.menuIcon} /> {t('Optimization.Optimizer') /* Optimizer */}
-          </Flex>
-        ),
-        AppPages.OPTIMIZER,
-      ),
-      getItem(
-        (
-          <Flex>
-            <IconUser className={classes.menuIcon} /> {t('Optimization.Characters') /* Characters */}
-          </Flex>
-        ),
-        AppPages.CHARACTERS,
-      ),
-      getItem(
-        (
-          <Flex>
-            <IconChartRadar className={classes.menuIcon} /> {t('Optimization.Relics') /* Relics */}
-          </Flex>
-        ),
-        AppPages.RELICS,
-      ),
-      getItem(
-        (
-          <Flex>
-            <IconUpload className={classes.menuIcon} /> {t('Optimization.Import') /* Import / Save */}
-          </Flex>
-        ),
-        AppPages.IMPORT,
-      ),
-      getItem(
-        (
-          <Flex onClick={() => setOpen(OpenCloseIDs.SETTINGS_DRAWER)} className={classes.fullWidth}>
-            <IconSettings className={classes.menuIcon} /> {t('Optimization.Settings') /* Settings */}
-          </Flex>
-        ),
-        'link settings',
-      ),
-      getItem(
-        (
-          <Flex onClick={() => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)} className={classes.fullWidth}>
-            <IconBook className={classes.menuIcon} /> {t('Optimization.Start') /* Get Started */}
-          </Flex>
-        ),
-        'link gettingstarted',
-      ),
-    ]),
-    getItem(t('Links.Title'), /* Links */ 'subLinks', <IconMenu2 />, [
-      getItem(
-        (
-          <Flex>
-            <IconHome className={classes.menuIconNarrow} /> {t('Links.Home') /* Home */}
-          </Flex>
-        ),
-        AppPages.HOME,
-      ),
-      getItem(
-        (
-          <Flex>
-            <IconList className={classes.menuIconNarrow} /> {t('Links.Changelog') /* Changelog */}
-          </Flex>
-        ),
-        AppPages.CHANGELOG,
-      ),
-      getItem(
-        <Flex>
-          <CoffeeIcon className={classes.menuIconLink} /> {t('Links.Kofi') /* Ko-fi */}
-        </Flex>,
-        'link donate',
-        undefined,
-        undefined,
-        'https://ko-fi.com/fribbels',
-      ),
-      getItem(
-        <Flex>
-          <DiscordIcon className={classes.menuIconLink} /> {t('Links.Discord') /* Discord */}
-        </Flex>,
-        'link discord',
-        undefined,
-        undefined,
-        'https://discord.gg/rDmB4Un7qg',
-      ),
-      getItem(
-        <Flex>
-          <GithubIcon className={classes.menuIconLink} /> {t('Links.Github') /* GitHub */}
-        </Flex>,
-        'link github',
-        undefined,
-        undefined,
-        'https://github.com/fribbels/hsr-optimizer',
-      ),
-      officialOnly
-        ? getItem(
-          <Flex>
-            <IconLink className={classes.menuIconLink} /> {t('Links.Leaks') /* Beta content */}
-          </Flex>,
-          'link leaks',
-          undefined,
-          undefined,
-          'https://fribbels.github.io/hsr-optimizer/',
-        )
-        : getItem(
-          <Flex>
-            <IconLink className={classes.menuIconLink} /> {t('Links.Unleak') /* No leaks */}
-          </Flex>,
-          'link leaks free',
-          undefined,
-          undefined,
-          'https://starrailoptimizer.github.io/',
-        ),
-    ]),
+  const items: MenuItemProperties[] = useMemo(() => [
+    {
+      label: t('Tools.Title') /* Tools */,
+      key: 'subTools',
+      icon: <IconSun />,
+      children: [
+        { label: <MenuLabel icon={<IconStarFilled className={classes.menuIcon} />} label={t('Tools.Showcase')} />, key: AppPages.SHOWCASE },
+        { label: <MenuLabel icon={<IconLayoutGrid className={classes.menuIcon} />} label={t('Tools.Benchmarks')} />, key: AppPages.BENCHMARKS },
+        { label: <MenuLabel icon={<IconDiamond className={classes.menuIcon} />} label={t('Tools.WarpPlanner')} />, key: AppPages.WARP },
+      ],
+    },
+    {
+      label: t('Optimization.Title') /* Optimization */,
+      key: 'subOptimizer',
+      icon: <IconChartLine />,
+      children: [
+        { label: <MenuLabel icon={<IconChartBar className={classes.menuIcon} />} label={t('Optimization.Optimizer')} />, key: AppPages.OPTIMIZER },
+        { label: <MenuLabel icon={<IconUser className={classes.menuIcon} />} label={t('Optimization.Characters')} />, key: AppPages.CHARACTERS },
+        { label: <MenuLabel icon={<IconChartRadar className={classes.menuIcon} />} label={t('Optimization.Relics')} />, key: AppPages.RELICS },
+        { label: <MenuLabel icon={<IconUpload className={classes.menuIcon} />} label={t('Optimization.Import')} />, key: AppPages.IMPORT },
+        {
+          label: <MenuLabel icon={<IconSettings className={classes.menuIcon} />} label={t('Optimization.Settings')} onClick={() => setOpen(OpenCloseIDs.SETTINGS_DRAWER)} />,
+          key: 'link settings',
+        },
+        {
+          label: <MenuLabel icon={<IconBook className={classes.menuIcon} />} label={t('Optimization.Start')} onClick={() => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)} />,
+          key: 'link gettingstarted',
+        },
+      ],
+    },
+    {
+      label: t('Links.Title') /* Links */,
+      key: 'subLinks',
+      icon: <IconMenu2 />,
+      children: [
+        { label: <MenuLabel icon={<IconHome className={classes.menuIconNarrow} />} label={t('Links.Home')} />, key: AppPages.HOME },
+        { label: <MenuLabel icon={<IconList className={classes.menuIconNarrow} />} label={t('Links.Changelog')} />, key: AppPages.CHANGELOG },
+        { label: <MenuLabel icon={<CoffeeIcon className={classes.menuIconLink} />} label={t('Links.Kofi')} />, key: 'link donate', href: 'https://ko-fi.com/fribbels' },
+        { label: <MenuLabel icon={<DiscordIcon className={classes.menuIconLink} />} label={t('Links.Discord')} />, key: 'link discord', href: 'https://discord.gg/rDmB4Un7qg' },
+        { label: <MenuLabel icon={<GithubIcon className={classes.menuIconLink} />} label={t('Links.Github')} />, key: 'link github', href: 'https://github.com/fribbels/hsr-optimizer' },
+        officialOnly
+          ? { label: <MenuLabel icon={<IconLink className={classes.menuIconLink} />} label={t('Links.Leaks')} />, key: 'link leaks', href: 'https://fribbels.github.io/hsr-optimizer/' }
+          : { label: <MenuLabel icon={<IconLink className={classes.menuIconLink} />} label={t('Links.Unleak')} />, key: 'link leaks free', href: 'https://starrailoptimizer.github.io/' },
+      ],
+    },
   ], [t])
 
-  const onClick = (key: string) => {
-    if (key?.includes('link')) return
-
-    setActiveKey(key as AppPages)
+  const onClick = (child: MenuItemProperties) => {
+    if (child.href || child.key.startsWith('link ')) return
+    setActiveKey(child.key as AppPages)
   }
 
   return (
@@ -218,7 +119,7 @@ const MenuDrawer = () => {
               key={child.key}
               label={child.label}
               active={activeKey === child.key}
-              onClick={() => onClick(child.key)}
+              onClick={() => onClick(child)}
               {...(child.href ? { component: 'a' as const, href: child.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
             />
           ))}

@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import { characterOptionMapping } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
-import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
+import { DisplayFormControl } from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
@@ -17,9 +17,8 @@ export interface CharacterConditionalDisplayProps {
   teammateIndex?: number
 }
 
-export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }: CharacterConditionalDisplayProps) => {
+export const CharacterConditionalsDisplay = memo(function CharacterConditionalsDisplay({ id, eidolon, teammateIndex }: CharacterConditionalDisplayProps) {
   const { t } = useTranslation('optimizerTab')
-  // console.log('getDisplayForCharacter', id, teammateIndex)
 
   const characterId = id as unknown as keyof typeof characterOptionMapping
   if (!id || !characterOptionMapping[characterId]) {
@@ -51,5 +50,3 @@ export const CharacterConditionalsDisplay = memo(({ id, eidolon, teammateIndex }
     </Flex>
   )
 })
-
-CharacterConditionalsDisplay.displayName = 'CharacterConditionalDisplay'

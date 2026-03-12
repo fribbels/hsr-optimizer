@@ -1,8 +1,8 @@
-import { Button, Flex, Popover, Text } from '@mantine/core'
+import { Button, Flex, Popover, PopoverProps, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import React, { forwardRef } from 'react'
+import { forwardRef, ReactElement, ReactNode } from 'react'
 
-const PopConfirmTarget = forwardRef<HTMLSpanElement, { children: React.ReactElement; onClick: () => void }>(
+const PopConfirmTarget = forwardRef<HTMLSpanElement, { children: ReactElement; onClick: () => void }>(
   ({ children, onClick, ...rest }, ref) => (
     <span ref={ref} onClick={onClick} {...rest}>{children}</span>
   ),
@@ -10,15 +10,15 @@ const PopConfirmTarget = forwardRef<HTMLSpanElement, { children: React.ReactElem
 PopConfirmTarget.displayName = 'PopConfirmTarget'
 
 export function PopConfirm(props: {
-  title: React.ReactNode
-  description?: React.ReactNode
+  title: ReactNode
+  description?: ReactNode
   onConfirm: () => void
   okText?: string
   cancelText?: string
-  placement?: string
+  placement?: PopoverProps['position']
   open?: boolean
   onOpenChange?: (open: boolean) => void
-  children: React.ReactElement
+  children: ReactElement
 }) {
   const [internalOpened, { open: internalOpen, close: internalClose }] = useDisclosure(false)
   const isControlled = props.open !== undefined
@@ -41,7 +41,7 @@ export function PopConfirm(props: {
   }
 
   return (
-    <Popover opened={opened} onClose={close} position={props.placement as any ?? 'bottom'}>
+    <Popover opened={opened} onClose={close} position={props.placement ?? 'bottom'}>
       <Popover.Target>
         <PopConfirmTarget onClick={open}>{props.children}</PopConfirmTarget>
       </Popover.Target>

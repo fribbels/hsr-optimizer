@@ -13,7 +13,6 @@ import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type SubstatRollsSummaryProps = {
@@ -37,8 +36,8 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
         simRequest.simLinkRope,
         Stats.ATK,
         Stats.HP,
-      ].filter((x) => x == stat).length
-      if (stat == Stats.SPD) {
+      ].filter((x) => x === stat).length
+      if (stat === Stats.SPD) {
         diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
       } else {
         diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
@@ -100,21 +99,20 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
   )
 }
 
-function ScoringNumberParens(props: {
-  label: string,
-  number?: number,
-  parens?: number,
-  precision?: number,
+function ScoringNumberParens({ label, number, parens: parensValue, precision = 1 }: {
+  label: string
+  number?: number
+  parens?: number
+  precision?: number
 }) {
-  const precision = props.precision ?? 1
-  const value = TsUtils.precisionRound(props.number ?? 0)
-  const parens = TsUtils.precisionRound(props.parens ?? 0)
-  const show = value != 0
+  const value = TsUtils.precisionRound(number ?? 0)
+  const parens = TsUtils.precisionRound(parensValue ?? 0)
+  const show = value !== 0
   const showParens = parens > 0
 
   return (
     <Flex gap={5} justify='space-between'>
-      <pre className={styles.pre}>{props.label}</pre>
+      <pre className={styles.pre}>{label}</pre>
       <pre className={styles.preRight}>
         {show && numberToLocaleString(value, precision)}
         {showParens && <span className={styles.parensSpacer}>-</span>}

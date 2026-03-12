@@ -1,5 +1,6 @@
 import { Flex, Text } from '@mantine/core'
-import React, { CSSProperties } from 'react'
+import { CSSProperties } from 'react'
+import componentClasses from './CharacterPreviewComponents.module.css'
 
 export enum ShowcaseSource {
   CHARACTER_TAB,
@@ -32,35 +33,19 @@ export const showcaseButtonStyle: CSSProperties = {
   visibility: 'hidden',
 }
 
-export function OverlayText(props: {
-  text: string,
-  top: number,
+export function OverlayText({ text, top }: {
+  text: string
+  top: number
 }) {
-  const top = props.top
   return (
     <Flex
-      direction="column"
-      style={{
-        position: 'relative',
-        height: 0,
-        top: top,
-      }}
+      direction='column'
+      className={componentClasses.overlayOuter}
+      style={{ top }}
       align='center'
     >
-      <Text
-        style={{
-          position: 'absolute',
-          backgroundColor: 'rgba(0, 0, 0, 0.85)',
-          padding: '2px 14px',
-          borderRadius: 4,
-          fontSize: 12,
-          whiteSpace: 'nowrap',
-          textShadow: '0px 0px 10px black',
-          outline: showcaseOutline,
-          lineHeight: '12px',
-        }}
-      >
-        {props.text}
+      <Text className={componentClasses.overlayLabel}>
+        {text}
       </Text>
     </Flex>
   )

@@ -1,15 +1,15 @@
 import { Flex } from '@mantine/core'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import ShowcaseRarity from 'lib/characterPreview/ShowcaseRarity'
-import StatText from 'lib/characterPreview/StatText'
+import { ShowcaseRarity } from 'lib/characterPreview/ShowcaseRarity'
+import { StatText } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
+import classes from './ShowcaseCharacterHeader.module.css'
 
-export function ShowcaseCharacterHeader(props: {
-  showcaseMetadata: ShowcaseMetadata,
-  scoringType?: ScoringType,
+export function ShowcaseCharacterHeader({ showcaseMetadata, scoringType }: {
+  showcaseMetadata: ShowcaseMetadata
+  scoringType?: ScoringType
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -20,28 +20,28 @@ export function ShowcaseCharacterHeader(props: {
     characterPath,
     characterElement,
     characterMetadata,
-  } = props.showcaseMetadata
+  } = showcaseMetadata
 
-  const MARGIN_VERTICAL = props.scoringType === ScoringType.NONE ? 12 : 4
+  const marginVertical = scoringType === ScoringType.NONE ? 12 : 4
 
   return (
-    <Flex direction="column">
-      <Flex justify='space-around' style={{ height: 26, marginBottom: MARGIN_VERTICAL, marginTop: MARGIN_VERTICAL }} align='center'>
+    <Flex direction='column'>
+      <Flex justify='space-around' className={classes.headerRow} style={{ marginBottom: marginVertical, marginTop: marginVertical }} align='center'>
         <img
-          style={{ width: 32 }}
+          className={classes.elementIcon}
           src={Assets.getElement(characterElement)}
         />
         <ShowcaseRarity rarity={characterMetadata.rarity} />
         <img
-          style={{ width: 32 }}
+          className={classes.elementIcon}
           src={Assets.getPathFromClass(characterPath)}
         />
       </Flex>
-      <Flex direction="column">
-        <StatText style={{ fontSize: 24, lineHeight: '30px', fontWeight: 400, textAlign: 'center' }}>
+      <Flex direction='column'>
+        <StatText className={classes.characterName}>
           {characterName}
         </StatText>
-        <StatText style={{ fontSize: 16, fontWeight: 400, textAlign: 'center' }}>
+        <StatText className={classes.characterLevel}>
           {`${t('common:LevelShort', { level: characterLevel })} ${t('common:EidolonNShort', { eidolon: characterEidolon })}`}
         </StatText>
       </Flex>

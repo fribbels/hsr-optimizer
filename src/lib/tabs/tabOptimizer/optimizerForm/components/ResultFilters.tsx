@@ -1,12 +1,12 @@
 import { Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import FilterRow from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterRow'
+import { FilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterRow'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
 
-export const MinMaxStatFilters = () => {
+export function MinMaxStatFilters() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'MinMaxFilters' })
   return (
     <Flex direction="column" gap={optimizerTabDefaultGap}>
@@ -30,7 +30,7 @@ export const MinMaxStatFilters = () => {
   )
 }
 
-export const MinMaxRatingFilters = () => {
+export function MinMaxRatingFilters() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'MinMaxFilters' })
   return (
     <Flex direction="column" gap={optimizerTabDefaultGap}>

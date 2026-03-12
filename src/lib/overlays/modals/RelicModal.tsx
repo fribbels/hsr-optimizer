@@ -78,7 +78,7 @@ type RelicModalProps = {
   prev?: () => void,
 }
 
-export default function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer, next, prev }: RelicModalProps) {
+export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer, next, prev }: RelicModalProps) {
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
 

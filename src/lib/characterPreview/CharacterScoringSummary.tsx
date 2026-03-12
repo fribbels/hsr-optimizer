@@ -34,20 +34,20 @@ import { Utils } from 'lib/utils/utils'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 
-// FIXME MED
-
-export const CharacterScoringSummary = (props: {
+export function CharacterScoringSummary({
+  simScoringResult,
+  displayRelics,
+  showcaseMetadata,
+}: {
   simScoringResult?: SimulationScore
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
-}) => {
+}) {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
-  if (!props.simScoringResult) return (
-    <></>
-  )
+  if (!simScoringResult) return null
 
-  const result = TsUtils.clone(props.simScoringResult)
+  const result = TsUtils.clone(simScoringResult)
 
   const characterId = result.simulationForm.characterId
   const characterMetadata = getGameMetadata().characters[characterId]
@@ -84,7 +84,7 @@ export const CharacterScoringSummary = (props: {
   }) {
     const precision = props.precision ?? 1
     const value = props.number ?? 0
-    const show = value != 0
+    const show = value !== 0
     return (
       <Flex gap={15} justify='space-between'>
         <pre style={{ margin: 0 }}>{props.label}</pre>
@@ -142,7 +142,7 @@ export const CharacterScoringSummary = (props: {
     const basicStats = toBasicStatsObject(simResult.ca)
     const combatStats = props.originalSimResult.x.toComputedStatsObject()
 
-    const highlight = props.type == 'Character'
+    const highlight = props.type === 'Character'
     const color = 'rgb(225, 165, 100)'
     combatStats[elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, element)
 
@@ -151,7 +151,7 @@ export const CharacterScoringSummary = (props: {
     }
 
     const diminishingReturns: Record<string, number> = {}
-    if (props.type == 'Benchmark') {
+    if (props.type === 'Benchmark') {
       for (const [stat, rolls] of Object.entries(simRequest.stats)) {
         const mainsCount = [
           simRequest.simBody,
@@ -160,8 +160,8 @@ export const CharacterScoringSummary = (props: {
           simRequest.simLinkRope,
           Stats.ATK,
           Stats.HP,
-        ].filter((x) => x == stat).length
-        if (stat == Stats.SPD) {
+        ].filter((x) => x === stat).length
+        if (stat === Stats.SPD) {
           diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
         } else {
           diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
@@ -222,7 +222,7 @@ export const CharacterScoringSummary = (props: {
           <SubstatRollsSummary
             simRequest={simulation.request}
             precision={precision}
-            diminish={props.type == 'Benchmark'}
+            diminish={props.type === 'Benchmark'}
             columns={2}
           />
         </Flex>
@@ -299,8 +299,8 @@ export const CharacterScoringSummary = (props: {
           {t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
         </Alert>
         <EstimatedTbpRelicsDisplay
-          displayRelics={props.displayRelics}
-          showcaseMetadata={props.showcaseMetadata}
+          displayRelics={displayRelics}
+          showcaseMetadata={showcaseMetadata}
           scoringType={ScoringType.COMBAT_SCORE}
         />
       </Flex>
@@ -357,7 +357,7 @@ export const CharacterScoringSummary = (props: {
             <ScoringText
               label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
               text={
-                // @ts-ignore type of key is not specific enough for ts to know that t() will resolve properly
+                // @ts-expect-error - type of key is not specific enough for ts to know that t() will resolve properly
                 t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
               }
             />
@@ -373,7 +373,7 @@ export const CharacterScoringSummary = (props: {
       <Flex>
         <ScoringColumn
           simulation={result.originalSim}
-          originalSimResult={props.simScoringResult.originalSimResult}
+          originalSimResult={simScoringResult.originalSimResult}
           percent={result.percent}
           precision={2}
           type='Character'
@@ -383,7 +383,7 @@ export const CharacterScoringSummary = (props: {
 
         <ScoringColumn
           simulation={result.benchmarkSim}
-          originalSimResult={props.simScoringResult.benchmarkSimResult}
+          originalSimResult={simScoringResult.benchmarkSimResult}
           percent={1.00}
           precision={0}
           type='Benchmark'
@@ -393,7 +393,7 @@ export const CharacterScoringSummary = (props: {
 
         <ScoringColumn
           simulation={result.maximumSim}
-          originalSimResult={props.simScoringResult.maximumSimResult}
+          originalSimResult={simScoringResult.maximumSimResult}
           percent={2.00}
           precision={0}
           type='Perfect'
@@ -415,12 +415,12 @@ export const CharacterScoringSummary = (props: {
   )
 }
 
-export function ScoringTeammate(props: {
+export function ScoringTeammate({ result, index }: {
   result: SimulationScore
   index: number
 }) {
   const { t } = useTranslation('common')
-  const teammate = props.result.simulationMetadata.teammates[props.index]
+  const teammate = result.simulationMetadata.teammates[index]
   return (
     <Flex direction="column" align='center' gap={5}>
       <img src={Assets.getCharacterAvatarById(teammate.characterId)} className={classes.teammateIcon}/>

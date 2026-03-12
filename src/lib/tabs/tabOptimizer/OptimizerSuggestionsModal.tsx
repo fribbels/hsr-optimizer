@@ -18,7 +18,6 @@ import {
   ZeroResultRootCauseFixes,
 } from 'lib/tabs/tabOptimizer/suggestionsEngine'
 import { HorizontalDivider } from 'lib/ui/Dividers'
-import { Utils } from 'lib/utils/utils'
 import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form } from 'types/form'
@@ -47,7 +46,7 @@ export function activateZeroResultSuggestionsModal(request: Form) {
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
   const fixes: RootCauseFix = ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause]
   return (
-    <Flex justify='space-between' align='center' style={{ height: 45 }} key={Utils.randomId()} gap={10}>
+    <Flex justify='space-between' align='center' style={{ height: 45 }} key={rootCause} gap={10}>
       <Text style={{ width: 550 }}>
         {t(fixes.descriptionKey)}
       </Text>
@@ -69,10 +68,7 @@ export function ZeroPermutationsSuggestionsModal() {
   const { t } = useTranslation('modals')
   const { close: closeZeroPermsModal, isOpen: isOpenZeroPermsModal } = useOpenClose(OpenCloseIDs.ZERO_PERMS_MODAL)
 
-  const rootCauseDisplay: ReactElement[] = []
-  for (const rootCause of rootCauses) {
-    rootCauseDisplay.push(convertRootCauseToDisplay(rootCause, t))
-  }
+  const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
 
   return (
     <Modal
@@ -102,10 +98,7 @@ export function ZeroResultSuggestionModal() {
 
   const { t } = useTranslation('modals')
 
-  const rootCauseDisplay: ReactElement[] = []
-  for (const rootCause of rootCauses) {
-    rootCauseDisplay.push(convertRootCauseToDisplay(rootCause, t))
-  }
+  const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
 
   return (
     <Modal

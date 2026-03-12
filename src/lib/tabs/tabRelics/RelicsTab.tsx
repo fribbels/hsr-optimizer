@@ -1,12 +1,12 @@
 import { Accordion, Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
-import RelicModal from 'lib/overlays/modals/RelicModal'
+import { RelicModal } from 'lib/overlays/modals/RelicModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getRelicById } from 'lib/stores/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelics } from 'lib/tabs/tabRelics/RecentRelics'
-import RelicFilterBar from 'lib/tabs/tabRelics/RelicFilterBar'
+import { RelicFilterBar } from 'lib/tabs/tabRelics/RelicFilterBar'
 import { RelicInsightsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { RelicsGrid } from 'lib/tabs/tabRelics/RelicsGrid'
@@ -19,7 +19,7 @@ import { Relic } from 'types/relic'
 
 export const TAB_WIDTH = 1460
 
-export default function RelicsTab() {
+export function RelicsTab() {
   const { focusCharacter, selectedRelicId, relicModalOpen, setRelicModalOpen, setSelectedRelicsIds } = useRelicsTabStore()
   const { recentRelics } = useScannerState()
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null

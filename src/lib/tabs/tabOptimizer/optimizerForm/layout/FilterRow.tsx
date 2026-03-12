@@ -4,11 +4,11 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import FormStatTextStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 
-const FilterRow = (props: { name: string; label: string; type?: 'stat' | 'rating' }) => {
-  const minKey = `min${props.name}` as keyof StatFilterState & keyof RatingFilterState
-  const maxKey = `max${props.name}` as keyof StatFilterState & keyof RatingFilterState
+export function FilterRow({ name, label, type }: { name: string; label: string; type?: 'stat' | 'rating' }) {
+  const minKey = `min${name}` as keyof StatFilterState & keyof RatingFilterState
+  const maxKey = `max${name}` as keyof StatFilterState & keyof RatingFilterState
 
-  const isRating = props.type === 'rating'
+  const isRating = type === 'rating'
 
   const minValue = useOptimizerRequestStore((s) =>
     isRating ? s.ratingFilters[minKey as keyof RatingFilterState] : s.statFilters[minKey as keyof StatFilterState],
@@ -28,18 +28,16 @@ const FilterRow = (props: { name: string; label: string; type?: 'stat' | 'rating
         hideControls
         style={{ margin: 0, width: 63 }}
         value={minValue}
-        onChange={(val) => setFilter(minKey as never, (val as number) ?? undefined)}
+        onChange={(val: number | string) => setFilter(minKey as never, (val as number) ?? undefined)}
       />
-      <FormStatTextStyled>{props.label}</FormStatTextStyled>
+      <FormStatTextStyled>{label}</FormStatTextStyled>
       <InputNumberStyled
         size='xs'
         hideControls
         style={{ margin: 0, width: 63 }}
         value={maxValue}
-        onChange={(val) => setFilter(maxKey as never, (val as number) ?? undefined)}
+        onChange={(val: number | string) => setFilter(maxKey as never, (val as number) ?? undefined)}
       />
     </Flex>
   )
 }
-
-export default FilterRow

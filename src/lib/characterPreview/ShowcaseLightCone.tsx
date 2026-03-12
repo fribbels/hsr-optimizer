@@ -7,7 +7,7 @@ import {
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import styles from 'lib/characterPreview/ShowcaseLightCone.module.css'
-import StatText, { StatTextEllipses } from 'lib/characterPreview/StatText'
+import { StatText, StatTextEllipses } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
@@ -22,16 +22,14 @@ type ShowcaseLightConeProps = {
   setOriginalCharacterModalOpen?: (b: boolean) => void,
 }
 
-export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
+export function ShowcaseLightConeSmall({
+  character,
+  displayDimensions,
+  setOriginalCharacterModalInitialCharacter,
+  setOriginalCharacterModalOpen,
+  showcaseMetadata,
+}: ShowcaseLightConeProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-
-  const {
-    character,
-    displayDimensions,
-    setOriginalCharacterModalInitialCharacter,
-    setOriginalCharacterModalOpen,
-    showcaseMetadata,
-  } = props
 
   const {
     tempLcParentW,
@@ -97,16 +95,14 @@ export function ShowcaseLightConeSmall(props: ShowcaseLightConeProps) {
   )
 }
 
-export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
+export function ShowcaseLightConeLarge({
+  character,
+  displayDimensions,
+  setOriginalCharacterModalInitialCharacter,
+  setOriginalCharacterModalOpen,
+  showcaseMetadata,
+}: ShowcaseLightConeProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-
-  const {
-    character,
-    displayDimensions,
-    setOriginalCharacterModalInitialCharacter,
-    setOriginalCharacterModalOpen,
-    showcaseMetadata,
-  } = props
 
   const {
     tempLcParentW,
@@ -147,14 +143,10 @@ export function ShowcaseLightConeLarge(props: ShowcaseLightConeProps) {
   )
 }
 
-export function ShowcaseLightConeLargeName(props: {
-  showcaseMetadata: ShowcaseMetadata,
+export function ShowcaseLightConeLargeName({ showcaseMetadata }: {
+  showcaseMetadata: ShowcaseMetadata
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-
-  const {
-    showcaseMetadata,
-  } = props
 
   const {
     lightConeSrc,
@@ -166,7 +158,7 @@ export function ShowcaseLightConeLargeName(props: {
   return (
     <Flex direction="column">
       <StatTextEllipses className={styles.lcNameText}>
-        {`${lightConeName}`}
+        {lightConeName}
       </StatTextEllipses>
       <StatText className={styles.lcLevelText}>
         {

@@ -12,7 +12,8 @@ import {
 import { Message } from 'lib/interactions/message'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import React, {
+import {
+  Fragment,
   ReactNode,
   useMemo,
 } from 'react'
@@ -46,14 +47,14 @@ export function CharacterMenu() {
         </Menu.Target>
         <Menu.Dropdown>
           {items.map((group) => (
-            <React.Fragment key={group.key}>
+            <Fragment key={group.key}>
               <Menu.Label>{group.label}</Menu.Label>
               {group.children.map((child) => (
                 <Menu.Item key={child.key} onClick={() => onClick({ key: child.key })}>
                   {child.label}
                 </Menu.Item>
               ))}
-            </React.Fragment>
+            </Fragment>
           ))}
         </Menu.Dropdown>
       </Menu>

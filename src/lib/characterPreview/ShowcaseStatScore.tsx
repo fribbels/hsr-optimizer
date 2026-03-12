@@ -1,24 +1,20 @@
 import { Flex } from '@mantine/core'
 import { ScoringResults } from 'lib/characterPreview/characterPreviewController'
-import StatText from 'lib/characterPreview/StatText'
-import React from 'react'
+import { StatText } from 'lib/characterPreview/StatText'
 import { useTranslation } from 'react-i18next'
+import classes from './ShowcaseStatScore.module.css'
 
-export function ShowcaseStatScore(props: {
-  scoringResults: ScoringResults,
+export function ShowcaseStatScore({ scoringResults }: {
+  scoringResults: ScoringResults
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
-  const {
-    scoringResults,
-  } = props
-
   return (
-    <Flex direction="column">
-      <StatText style={{ fontSize: 17, fontWeight: 600, letterSpacing: -0.2, textAlign: 'center', color: '#e1a564' }}>
+    <Flex direction='column'>
+      <StatText className={classes.scoreText}>
         {t('CharacterPreview.CharacterScore', {
           score: scoringResults.totalScore.toFixed(0),
-          grade: scoringResults.totalScore == 0 ? '' : scoringResults.totalRating,
+          grade: scoringResults.totalScore === 0 ? '' : scoringResults.totalRating,
         })}
       </StatText>
     </Flex>

@@ -14,7 +14,7 @@ export { PresetEffects } from 'lib/scoring/presetEffects'
 export type { SpdPresets, SpdPresetCategory, SpdPresetsResult } from './spdPresetConfig'
 export { generateSpdPresets, setSortColumn } from './spdPresetConfig'
 
-export const RecommendedPresetsButton = () => {
+export function RecommendedPresetsButton() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
@@ -67,20 +67,18 @@ export const RecommendedPresetsButton = () => {
         </Menu.Target>
       </Flex>
       <Menu.Dropdown>
-        {items.map((item) => (
-          <React.Fragment key={item.key}>
-            {item.children.map((group) => (
-              <React.Fragment key={group.label}>
-                <Menu.Label>{group.label}</Menu.Label>
-                {group.children.map((child) => (
-                  <Menu.Item key={child.key} onClick={() => handlePresetClick(child.key)} disabled={child.disabled}>
-                    {child.label}
-                  </Menu.Item>
-                ))}
-              </React.Fragment>
-            ))}
-          </React.Fragment>
-        ))}
+        {items.map((item) =>
+          item.children.map((group) => (
+            <React.Fragment key={group.label}>
+              <Menu.Label>{group.label}</Menu.Label>
+              {group.children.map((child) => (
+                <Menu.Item key={child.key} onClick={() => handlePresetClick(child.key)} disabled={child.disabled}>
+                  {child.label}
+                </Menu.Item>
+              ))}
+            </React.Fragment>
+          )),
+        )}
       </Menu.Dropdown>
     </Menu>
   )

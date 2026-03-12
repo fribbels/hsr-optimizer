@@ -16,19 +16,19 @@ type SelectorOptions = {
   label: string
 }
 
-function MainStatSelector(props: { simType: string; placeholder: string; part: string; options: SelectorOptions[] }) {
-  const field = 'sim' + props.part
-  const value = useStatSimField<string>(props.simType, field)
+function MainStatSelector({ simType, placeholder, part, options }: { simType: string; placeholder: string; part: string; options: SelectorOptions[] }) {
+  const field = 'sim' + part
+  const value = useStatSimField<string>(simType, field)
 
   return (
     <Select
-      placeholder={props.placeholder}
+      placeholder={placeholder}
       style={{ flex: 1 }}
       clearable
-      rightSection={<img style={{ width: 16 }} src={Assets.getPart(props.part)} />}
-      data={props.options.map((opt) => ({ value: opt.value, label: opt.short }))}
+      rightSection={<img style={{ width: 16 }} src={Assets.getPart(part)} />}
+      data={options.map((opt) => ({ value: opt.value, label: opt.short }))}
       value={value}
-      onChange={(val) => useOptimizerRequestStore.getState().updateStatSimField(props.simType, field, val)}
+      onChange={(val) => useOptimizerRequestStore.getState().updateStatSimField(simType, field, val)}
       maxDropdownHeight={750}
       comboboxProps={{ width: 200 }}
       searchable
@@ -36,7 +36,7 @@ function MainStatSelector(props: { simType: string; placeholder: string; part: s
   )
 }
 
-export function MainStatsSection(props: { simType: string }) {
+export function MainStatsSection({ simType }: { simType: string }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation.MainStatsSelection' })
   const BodyStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.EHR, Stats.OHB]
@@ -82,21 +82,21 @@ export function MainStatsSection(props: { simType: string }) {
       <HeaderText>{t('Header')}</HeaderText>
       <Flex direction="column" gap={5}>
         <Flex gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
-          <MainStatSelector placeholder={t('BodyPlaceholder')} part={Parts.Body} options={BodyStatOptions} simType={props.simType} />
-          <MainStatSelector placeholder={t('FeetPlaceholder')} part={Parts.Feet} options={FeetStatOptions} simType={props.simType} />
+          <MainStatSelector placeholder={t('BodyPlaceholder')} part={Parts.Body} options={BodyStatOptions} simType={simType} />
+          <MainStatSelector placeholder={t('FeetPlaceholder')} part={Parts.Feet} options={FeetStatOptions} simType={simType} />
         </Flex>
         <Flex gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
           <MainStatSelector
             placeholder={t('SpherePlaceholder')}
             part={Parts.PlanarSphere}
             options={PlanarSphereStatOptions}
-            simType={props.simType}
+            simType={simType}
           />
           <MainStatSelector
             placeholder={t('RopePlaceholder')}
             part={Parts.LinkRope}
             options={LinkRopeStatOptions}
-            simType={props.simType}
+            simType={simType}
           />
         </Flex>
       </Flex>

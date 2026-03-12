@@ -22,7 +22,7 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import CharacterModal from 'lib/overlays/modals/CharacterModal'
+import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
@@ -57,7 +57,7 @@ import styles from './ShowcaseTab.module.css'
 const RERUN_PRESET_SIZE = 45
 const PRESET_SIZE = 95
 
-export default function ShowcaseTab() {
+export function ShowcaseTab() {
   const loading = useShowcaseTabStore((s) => s.loading)
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
@@ -76,7 +76,7 @@ export default function ShowcaseTab() {
     }
   }, [scorerId])
 
-  if (activeKey != AppPages.SHOWCASE && !availableCharacters?.length) {
+  if (activeKey !== AppPages.SHOWCASE && !availableCharacters?.length) {
     return <></>
   }
   return (
@@ -153,7 +153,6 @@ function CharacterPreviewSelection() {
   }, [selectedCharacter?.id, setScoringAlgorithmFocusCharacter])
 
   function simulateClicked() {
-    console.log('Simulate', selectedCharacter)
     setCharacterModalOpen(true)
     setCharacterModalInitialCharacter(selectedCharacter)
   }
@@ -284,7 +283,7 @@ function CharacterPreviewSelection() {
           </Flex>
         </Flex>
 
-        {(availableCharacters?.length != undefined && availableCharacters.length > 0)
+        {(availableCharacters?.length !== undefined && availableCharacters.length > 0)
           && <DPSScoreDisclaimer />}
 
         <SegmentedControl
@@ -309,7 +308,7 @@ function CharacterPreviewSelection() {
           onOk={onCharacterModalOk}
           open={isCharacterModalOpen}
           setOpen={setCharacterModalOpen}
-          initialCharacter={characterModalInitialCharacter as Character | null}
+          initialCharacter={characterModalInitialCharacter}
         />
       </Flex>
     </Flex>
@@ -409,7 +408,7 @@ export function DPSScoreDisclaimer() {
   const { t } = useTranslation('relicScorerTab')
   const { t: tSettings } = useTranslation('settings')
 
-  if (showComboDmgWarning != SettingOptions.ShowComboDmgWarning.Show) return null
+  if (showComboDmgWarning !== SettingOptions.ShowComboDmgWarning.Show) return null
 
   return (
     <Accordion className={styles.accordion} styles={{ control: { backgroundColor: '#8a1717' } }}>

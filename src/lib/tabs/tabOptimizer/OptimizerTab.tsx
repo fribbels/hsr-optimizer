@@ -2,10 +2,10 @@ import { Flex } from '@mantine/core'
 import 'ag-grid-community/styles/ag-grid.css'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { ExpandedDataPanel } from 'lib/tabs/tabOptimizer/analysis/ExpandedDataPanel'
-import OptimizerBuildPreview from 'lib/tabs/tabOptimizer/OptimizerBuildPreview'
+import { OptimizerBuildPreview } from 'lib/tabs/tabOptimizer/OptimizerBuildPreview'
 import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/OptimizerGrid'
 
-import OptimizerForm from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
+import { OptimizerForm } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import {
   ZeroPermutationsSuggestionsModal,
   ZeroResultSuggestionModal,
@@ -27,7 +27,6 @@ export default function OptimizerTab() {
         <UnreleasedCharacterDisclaimer />
         <OptimizerGrid />
         <Flex
-          direction="column"
           gap={10}
           style={{ flexDirection: expandedPanelPosition == SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
         >

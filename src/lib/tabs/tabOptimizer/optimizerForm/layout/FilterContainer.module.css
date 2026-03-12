@@ -1,0 +1,11 @@
+.container {
+  overflow: hidden;
+  border-radius: var(--border-radius-card);
+  padding-bottom: 10px;
+  background: var(--bg-translucent);
+  box-shadow: var(--card-shadow-flat);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: var(--subtle-border);
+  width: 1227px;
+}

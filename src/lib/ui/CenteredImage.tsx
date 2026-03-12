@@ -1,21 +1,14 @@
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
-import React from 'react'
+import { CSSProperties } from 'react'
 
-export function CenteredImage(props: {
-  src: string,
-  containerW: number,
-  containerH: number,
-  imageOffset?: { x: number; y: number; s: number },
+export function CenteredImage({ src, containerW, containerH, imageOffset }: {
+  src: string
+  containerW: number
+  containerH: number
+  imageOffset?: { x: number; y: number; s: number }
 }) {
-  const {
-    src,
-    containerW,
-    containerH,
-    imageOffset,
-  } = props
-
-  let imageStyle: React.CSSProperties
+  let imageStyle: CSSProperties
 
   if (imageOffset) {
     const { dy, scale } = computeLcTransform(imageOffset, containerW, containerH)

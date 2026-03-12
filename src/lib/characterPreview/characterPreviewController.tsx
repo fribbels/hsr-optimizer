@@ -137,10 +137,10 @@ function getRelic(relicsById: Partial<Record<string, Relic>>, character: Charact
 }
 
 export function resolveScoringType(storedScoringType: ScoringType, asyncSimScoringExecution: AsyncSimScoringExecution) {
-  if (storedScoringType == ScoringType.NONE || storedScoringType == ScoringType.SUBSTAT_SCORE) {
+  if (storedScoringType === ScoringType.NONE || storedScoringType === ScoringType.SUBSTAT_SCORE) {
     return storedScoringType
   }
-  if (storedScoringType == ScoringType.COMBAT_SCORE && asyncSimScoringExecution.promise != null) {
+  if (storedScoringType === ScoringType.COMBAT_SCORE && asyncSimScoringExecution.promise != null) {
     return storedScoringType
   }
   return ScoringType.SUBSTAT_SCORE
@@ -157,8 +157,8 @@ export function getArtistName(character: Character) {
 export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
   const charCenter = getGameMetadata().characters[character.id].imageCenter
   const defaultOffset = { x: 0, y: 0, s: 1.15 }
-  // @ts-ignore Some APIs return empty light cone as '0'
-  const lcImageOffset = (character.form.lightCone && character.form.lightCone != '0' && getGameMetadata().lightCones[character.form.lightCone])
+  // @ts-expect-error - Some APIs return empty light cone as '0'
+  const lcImageOffset = (character.form.lightCone && character.form.lightCone !== '0' && getGameMetadata().lightCones[character.form.lightCone])
     ? getGameMetadata().lightCones[character.form.lightCone].imageOffset ?? defaultOffset
     : defaultOffset
 
@@ -179,16 +179,16 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
   }
 
   return {
-    tempLcParentW: tempLcParentW,
-    tempLcParentH: tempLcParentH,
-    tempLcInnerW: tempLcInnerW,
-    tempLcInnerH: tempLcInnerH,
-    tempInnerW: tempInnerW,
-    tempParentH: tempParentH,
-    newLcHeight: newLcHeight,
-    newLcMargin: newLcMargin,
-    charCenter: charCenter,
-    lcImageOffset: lcImageOffset,
+    tempLcParentW,
+    tempLcParentH,
+    tempLcInnerW,
+    tempLcInnerH,
+    tempInnerW,
+    tempParentH,
+    newLcHeight,
+    newLcMargin,
+    charCenter,
+    lcImageOffset,
   }
 }
 
@@ -277,9 +277,9 @@ export function handleTeamSelection(
     const scoringMetadata = getScoringMetadata(character.id)
 
     const hasCustom = scoringMetadata.simulation?.teammates
-      && Utils.objectHash(scoringMetadata.simulation.teammates) != Utils.objectHash(defaultScoringMetadata.simulation.teammates)
+      && Utils.objectHash(scoringMetadata.simulation.teammates) !== Utils.objectHash(defaultScoringMetadata.simulation.teammates)
 
-    if (hasCustom && currentSelection != DEFAULT_TEAM) {
+    if (hasCustom && currentSelection !== DEFAULT_TEAM) {
       currentSelection = CUSTOM_TEAM
     }
   }

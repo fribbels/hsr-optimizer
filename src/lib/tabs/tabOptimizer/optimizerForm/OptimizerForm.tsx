@@ -10,23 +10,23 @@ import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import { AdvancedOptionsPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/AdvancedOptionsPanel'
-import CharacterSelectorDisplay from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelectorDisplay'
+import { CharacterSelectorDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelectorDisplay'
 import { CombatBuffsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/components/CombatBuffsDrawer'
 import { ComboFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/ComboFilter'
 import { EnemyConfigurationsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/components/EnemyConfigurationsDrawer'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
-import OptimizerOptionsDisplay from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerOptionsDisplay'
+import { OptimizerOptionsDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerOptionsDisplay'
 import { OptimizerTabCharacterPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
-import RelicMainSetFilters from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicMainSetFilters'
+import { RelicMainSetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicMainSetFilters'
 import {
   MinMaxRatingFilters,
   MinMaxStatFilters,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/ResultFilters'
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/SubstatWeightFilters'
-import TeammateCard from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
-import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
-import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import { TeammateCard } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
+import { FilterContainer } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
+import { FormCard } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
   FormRow,
   OptimizerMenuIds,
@@ -34,10 +34,10 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { Utils } from 'lib/utils/utils'
-import React, { useEffect, useMemo } from 'react'
+import { memo, useEffect, useMemo } from 'react'
 import { DBMetadata } from 'types/metadata'
 
-export default function OptimizerForm() {
+export function OptimizerForm() {
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
     const characters = useCharacterStore.getState().characters || []
@@ -113,7 +113,7 @@ export default function OptimizerForm() {
 }
 
 // Wrap these and use local state to limit rerenders
-const CharacterConditionalDisplayWrapper = React.memo(function CharacterConditionalDisplayWrapper() {
+const CharacterConditionalDisplayWrapper = memo(function CharacterConditionalDisplayWrapper() {
   const charId = useOptimizerRequestStore((s) => s.characterId)
   const eidolon = useOptimizerRequestStore((s) => s.characterEidolon)
 
@@ -125,8 +125,7 @@ const CharacterConditionalDisplayWrapper = React.memo(function CharacterConditio
   )
 })
 
-const LightConeConditionalDisplayWrapper = React.memo(function LightConeConditionalDisplayWrapper(props: { metadata: DBMetadata }) {
-  const { metadata } = props
+const LightConeConditionalDisplayWrapper = memo(function LightConeConditionalDisplayWrapper({ metadata }: { metadata: DBMetadata }) {
   const lcId = useOptimizerRequestStore((s) => s.lightCone)
   const superimposition = useOptimizerRequestStore((s) => s.lightConeSuperimposition)
   const charId = useOptimizerRequestStore((s) => s.characterId)

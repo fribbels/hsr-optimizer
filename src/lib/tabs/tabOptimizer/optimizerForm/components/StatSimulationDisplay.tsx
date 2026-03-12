@@ -21,9 +21,9 @@ import {
 } from 'lib/simulations/statSimulationController'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/SimulatedBuildsGrid'
-import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import { FormCard } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import React from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SimulationInputs } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SimulationInputs'
 import {
@@ -31,17 +31,7 @@ import {
   STAT_SIMULATION_ROW_HEIGHT,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 
-// Re-export public symbols for backward compatibility
-export {
-  STAT_SIMULATION_ROW_HEIGHT,
-  STAT_SIMULATION_GRID_WIDTH,
-  STAT_SIMULATION_OPTIONS_WIDTH,
-  STAT_SIMULATION_STATS_WIDTH,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
-export { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SetsSection'
-export { MainStatsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/MainStatsSection'
-
-export const StatSimulationDisplay = React.memo(function StatSimulationDisplay() {
+export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   const { t: tCommon } = useTranslation('common')
   const statSimulationDisplay = useOptimizerDisplayStore((s) => s.statSimulationDisplay)

@@ -1,9 +1,10 @@
 import { Popover, Text } from '@mantine/core'
-import React, {
+import {
   ComponentType,
   ReactNode,
   useCallback,
   useRef,
+  useState,
 } from 'react'
 
 export type WithPopoverProps<T> = {
@@ -13,7 +14,7 @@ export type WithPopoverProps<T> = {
 
 function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithPopoverProps<T>> {
   const Wrapped = (props: WithPopoverProps<T>) => {
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
     const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
     const handleMouseEnter = useCallback(() => {
@@ -51,9 +52,7 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
     )
   }
   Wrapped.displayName = 'WithPopoverWrapped'
-  // @ts-ignore
-  return Wrapped
+  return Wrapped as ComponentType<WithPopoverProps<T>>
 }
 
-WithPopover.displayName = 'WithPopover'
-export default WithPopover
+export { WithPopover }

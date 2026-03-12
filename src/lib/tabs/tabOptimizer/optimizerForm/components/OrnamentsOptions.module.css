@@ -1,0 +1,12 @@
+.icon {
+  width: 21px;
+  height: 21px;
+}
+
+.label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 250px;
+  white-space: nowrap;
+}

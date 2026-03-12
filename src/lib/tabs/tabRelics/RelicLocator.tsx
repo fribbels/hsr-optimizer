@@ -56,14 +56,14 @@ export function RelicLocator(props: { relic: Relic | null }) {
     const newerRelics = getRelics().filter((x) => x.ageIndex! > relic.ageIndex!)
 
     // Part-only filter
-    const partFilteredIndex = newerRelics.filter((x) => relic.part == x.part).length
+    const partFilteredIndex = newerRelics.filter((x) => relic.part === x.part).length
     if (partFilteredIndex < indexLimit) {
       setRelicPositionIndex(partFilteredIndex)
       setLocatorFilters({ set: null, part: relic.part })
       return
     }
 
-    const filteredIndex = newerRelics.filter((x) => relic.part == x.part && relic.set == x.set).length
+    const filteredIndex = newerRelics.filter((x) => relic.part === x.part && relic.set === x.set).length
     setRelicPositionIndex(filteredIndex)
     setLocatorFilters({ set: relic.set, part: relic.part })
   }, [relic, inventoryWidth, rowLimit])

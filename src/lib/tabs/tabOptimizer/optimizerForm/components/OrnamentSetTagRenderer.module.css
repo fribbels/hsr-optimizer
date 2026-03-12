@@ -1,0 +1,9 @@
+.badge {
+  display: flex;
+  flex-direction: row;
+  padding-inline: 1px;
+  margin-inline-end: 4px;
+  height: 21px;
+  align-items: center;
+  overflow: hidden;
+}

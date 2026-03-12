@@ -1,5 +1,4 @@
-import { Flex } from '@mantine/core'
-import { ComboboxItem } from '@mantine/core'
+import { ComboboxItem, Flex } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -30,7 +29,7 @@ export function decodeRelicSetValue(encoded: string): string[] {
 }
 
 // Generate Mantine MultiSelect grouped data for relic set filters
-export const GenerateSetsGroupedOptions = (): RelicSetGroupedData[] => {
+export function GenerateSetsGroupedOptions(): RelicSetGroupedData[] {
   const t = i18next.getFixedT(null, 'optimizerTab', 'RelicSetSelector')
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
 
@@ -64,7 +63,7 @@ export const GenerateSetsGroupedOptions = (): RelicSetGroupedData[] => {
 }
 
 // This should be memoised with either the t function or resolved language as a dependency
-export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element }[] => {
+export function GenerateBasicSetsOptions(): { value: string; label: JSX.Element }[] {
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
   return Object.values(SetsRelics)
     .filter((x) => !UnreleasedSets[x])
@@ -73,7 +72,7 @@ export const GenerateBasicSetsOptions = (): { value: string; label: JSX.Element 
         value: x,
         label: (
           <Flex gap={5} align='center'>
-            <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }}></img>
+            <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }} />
             <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
               {tGameData(`${setToId[x]}.Name`)}
             </div>

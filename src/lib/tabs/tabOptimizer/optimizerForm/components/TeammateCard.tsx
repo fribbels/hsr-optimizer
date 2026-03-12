@@ -6,9 +6,9 @@ import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
-import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
-import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
-import FormCard from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { FormCard } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
   cardHeight,
   lcInnerH,
@@ -23,7 +23,8 @@ import {
   rightPanelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/updateTeammate'
-import React, {
+import {
+  memo,
   useMemo,
   useState,
 } from 'react'
@@ -42,22 +43,12 @@ import {
 import { DBMetadata } from 'types/metadata'
 import classes from './TeammateCard.module.css'
 
-// Re-export public symbols for backward compatibility
-export {
-  optionRenderer,
-  labelRender,
-  renderTeammateRelicSetOptions,
-  renderTeammateOrnamentSetOptions,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
-export type { OptionRender } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
-export { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/updateTeammate'
-
-const TeammateCard = React.memo(function TeammateCard(props: {
+export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
   index: number
   dbMetadata: DBMetadata
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
-  const tmIndex = props.index as 0 | 1 | 2
+  const tmIndex = index as 0 | 1 | 2
   const {
     teammateCharacterId,
     teammateEidolon,
@@ -85,27 +76,13 @@ const TeammateCard = React.memo(function TeammateCard(props: {
   const teammateRelicSetOptions = useMemo(renderTeammateRelicSetOptions(t), [t])
   const teammateOrnamentSetOptions = useMemo(renderTeammateOrnamentSetOptions(t), [t])
 
-  const superimpositionOptions = useMemo(() => {
-    const options: {
-      value: number
-      label: string
-    }[] = []
-    for (let i = 1; i <= 5; i++) {
-      options.push({ value: i, label: t('SuperimpositionN', { superimposition: i }) })
-    }
-    return options
-  }, [t])
+  const superimpositionOptions = useMemo(() =>
+    Array.from({ length: 5 }, (_, i) => ({ value: i + 1, label: t('SuperimpositionN', { superimposition: i + 1 }) })),
+  [t])
 
-  const eidolonOptions = useMemo(() => {
-    const options: {
-      value: number
-      label: string
-    }[] = []
-    for (let i = 0; i <= 6; i++) {
-      options.push({ value: i, label: t('EidolonN', { eidolon: i }) })
-    }
-    return options
-  }, [t])
+  const eidolonOptions = useMemo(() =>
+    Array.from({ length: 7 }, (_, i) => ({ value: i, label: t('EidolonN', { eidolon: i }) })),
+  [t])
 
   const eidolonSelectData = useMemo(() => eidolonOptions.map((opt) => ({ value: String(opt.value), label: opt.label })), [eidolonOptions])
   const superimpositionSelectData = useMemo(() => superimpositionOptions.map((opt) => ({ value: String(opt.value), label: opt.label })), [superimpositionOptions])
@@ -121,9 +98,9 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             onChange={(id) => {
               if (id) {
                 useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'characterId', id)
-                updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: id } })
+                updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: id } })
               } else {
-                updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: null } })
+                updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: null } })
               }
             }}
             selectStyle={{}}
@@ -137,7 +114,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             className={classes.refreshButton}
             disabled={disabled}
             onClick={() => {
-              updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { characterId: teammateCharacterId } })
+              updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: teammateCharacterId } })
               Message.success(t('TeammateSyncSuccessMessage'))
             }}
           />
@@ -158,7 +135,7 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             <CharacterConditionalsDisplay
               id={teammateCharacterId}
               eidolon={teammateEidolon}
-              teammateIndex={props.index}
+              teammateIndex={index}
             />
           </Flex>
           <Flex direction="column" gap={5}>
@@ -210,9 +187,9 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             onChange={(id) => {
               if (id) {
                 useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'lightCone', id)
-                updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { lightCone: id } })
+                updateTeammate({ [`teammate${index}` as TeammateProperty]: { lightCone: id } })
               } else {
-                updateTeammate({ [`teammate${props.index}` as TeammateProperty]: { lightCone: null } })
+                updateTeammate({ [`teammate${index}` as TeammateProperty]: { lightCone: null } })
               }
             }}
             selectStyle={{ width: 258 }}
@@ -237,8 +214,8 @@ const TeammateCard = React.memo(function TeammateCard(props: {
             <LightConeConditionalDisplay
               id={teammateLightConeId}
               superImposition={teammateSuperimposition}
-              teammateIndex={props.index}
-              dbMetadata={props.dbMetadata}
+              teammateIndex={index}
+              dbMetadata={dbMetadata}
             />
           </Flex>
           <Flex>
@@ -259,5 +236,3 @@ const TeammateCard = React.memo(function TeammateCard(props: {
     </FormCard>
   )
 })
-
-export default TeammateCard

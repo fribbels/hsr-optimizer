@@ -9,7 +9,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
-export const PermutationsSection = React.memo(function PermutationsSection(props: { isFullSize: boolean }) {
+export const PermutationsSection = React.memo(function PermutationsSection({ isFullSize }: { isFullSize: boolean }) {
   const { permutationDetails, permutations, permutationsSearched, permutationsResults } = useOptimizerDisplayStore(
     useShallow((s) => ({
       permutationDetails: s.permutationDetails,
@@ -21,13 +21,13 @@ export const PermutationsSection = React.memo(function PermutationsSection(props
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ReadableParts' })
   return (
-    <Flex direction="column" gap={props.isFullSize ? 10 : 5} style={{ minWidth: 211 }}>
+    <Flex direction="column" gap={isFullSize ? 10 : 5} style={{ minWidth: 211 }}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Permutations') /* Permutations */}</HeaderText>
         <TooltipImage type={Hint.optimizationDetails()} />
       </Flex>
 
-      {props.isFullSize && (
+      {isFullSize && (
         <Flex direction="column">
           <PermutationDisplay left={tCommon('Head')} right={permutationDetails.Head} total={permutationDetails.HeadTotal} />
           <PermutationDisplay left={tCommon('Hands')} right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
@@ -44,7 +44,7 @@ export const PermutationsSection = React.memo(function PermutationsSection(props
         <PermutationDisplay left={t('Results') /* Results */} right={permutationsResults} />
       </Flex>
 
-      {props.isFullSize && <ProgressDisplay />}
+      {isFullSize && <ProgressDisplay />}
     </Flex>
   )
 })

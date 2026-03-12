@@ -1,4 +1,4 @@
-import { Flex, Select } from '@mantine/core'
+import { Select } from '@mantine/core'
 import {
   completedLocales,
   isBeta,
@@ -33,9 +33,7 @@ export function LanguageSelector() {
     <Select
       data={selectData}
       renderOption={({ option }) => (
-        <Flex gap={8} title={option.value}>
-          {option.label}
-        </Flex>
+        <span title={option.value}>{option.label}</span>
       )}
       onChange={(value) => {
         if (!value) return

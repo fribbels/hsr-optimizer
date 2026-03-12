@@ -5,13 +5,13 @@ import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { getCharacterById } from 'lib/stores/characterStore'
-import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
-import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import {
   OptionRender,
   renderTeammateOrnamentSetOptions,
   renderTeammateRelicSetOptions,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   useMemo,
@@ -19,26 +19,25 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Character,
   CharacterId,
 } from 'types/character'
 import { Form } from 'types/form'
 import { LightConeId } from 'types/lightCone'
 
 export type CharacterModalForm = {
-  characterId?: CharacterId,
-  lightCone?: LightConeId,
+  characterId?: CharacterId | null,
+  lightCone?: LightConeId | null,
   characterEidolon: number,
   lightConeSuperimposition: number,
   teamOrnamentSet?: string,
   teamRelicSet?: string,
 }
 
-export default function CharacterModal(props: {
-  open: boolean,
-  onOk: (form: Form) => void,
-  setOpen: (open: boolean) => void,
-  initialCharacter?: Character | null,
+export function CharacterModal({ open, onOk, setOpen, initialCharacter }: {
+  open: boolean
+  onOk: (form: Form) => void
+  setOpen: (open: boolean) => void
+  initialCharacter?: { form: CharacterModalForm } | null
 }) {
   const characterForm = useForm<CharacterModalForm>({
     initialValues: {
@@ -55,38 +54,38 @@ export default function CharacterModal(props: {
   const { t: tCommon } = useTranslation('common')
   const { t: tTeammateCard } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
 
-  const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(props.initialCharacter?.form.characterId ?? null)
-  const [eidolon] = useState(props.initialCharacter?.form.characterEidolon ?? 0)
-  const [superimposition, setSuperimposition] = useState(props.initialCharacter?.form.lightConeSuperimposition ?? 1)
+  const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(initialCharacter?.form.characterId ?? null)
+  const [eidolon] = useState(initialCharacter?.form.characterEidolon ?? 0)
+  const [superimposition, setSuperimposition] = useState(initialCharacter?.form.lightConeSuperimposition ?? 1)
 
   const teammateRelicSetOptions: OptionRender[] = useMemo(renderTeammateRelicSetOptions(tTeammateCard), [tTeammateCard])
   const teammateOrnamentSetOptions: OptionRender[] = useMemo(renderTeammateOrnamentSetOptions(tTeammateCard), [tTeammateCard])
 
-  useFormOnOpen(characterForm, props.open, () => {
-    setCharacterId(props.initialCharacter?.form.characterId ?? null)
+  useFormOnOpen(characterForm, open, () => {
+    setCharacterId(initialCharacter?.form.characterId ?? null)
     return {
-      characterId: props.initialCharacter?.form.characterId,
-      characterEidolon: props.initialCharacter?.form.characterEidolon ?? 0,
-      lightCone: props.initialCharacter?.form.lightCone,
-      lightConeSuperimposition: props.initialCharacter?.form.lightConeSuperimposition ?? 1,
-      teamRelicSet: props.initialCharacter?.form.teamRelicSet,
-      teamOrnamentSet: props.initialCharacter?.form.teamOrnamentSet,
+      characterId: initialCharacter?.form.characterId,
+      characterEidolon: initialCharacter?.form.characterEidolon ?? 0,
+      lightCone: initialCharacter?.form.lightCone,
+      lightConeSuperimposition: initialCharacter?.form.lightConeSuperimposition ?? 1,
+      teamRelicSet: initialCharacter?.form.teamRelicSet,
+      teamOrnamentSet: initialCharacter?.form.teamOrnamentSet,
     }
   })
 
   function onModalOk() {
     const formValues = characterForm.getValues() as unknown as Form
-    props.onOk(formValues)
-    props.setOpen(false)
+    onOk(formValues)
+    setOpen(false)
   }
 
   const handleCancel = () => {
-    props.setOpen(false)
+    setOpen(false)
   }
 
   return (
     <Modal
-      opened={props.open}
+      opened={open}
       size={400}
       centered
       onClose={handleCancel}

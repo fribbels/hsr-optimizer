@@ -8,7 +8,7 @@ import {
 } from 'lib/optimization/engine/config/statsConfig'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import {
   OptimizerAction,
   OptimizerContext,

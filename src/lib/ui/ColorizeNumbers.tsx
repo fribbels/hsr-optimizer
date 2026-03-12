@@ -2,8 +2,8 @@ import i18next from 'i18next'
 import { ReactElement } from 'react'
 
 // Colorizes numbers in a string with JSX elements
-const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
-  if (i18next.resolvedLanguage == 'aa_ER') return <>{text}</>
+export function ColorizeNumbers(text: string, color: string = '#ebb434') {
+  if (i18next.resolvedLanguage === 'aa_ER') return <>{text}</>
   const ret: ReactElement[] = []
   let key = 0
 
@@ -43,5 +43,3 @@ const ColorizeNumbers = (text: string, color: string = '#ebb434') => {
 
   return <>{ret}</>
 }
-
-export default ColorizeNumbers

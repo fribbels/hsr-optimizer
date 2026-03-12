@@ -1,5 +1,5 @@
 import { Flex, MultiSelect } from '@mantine/core'
-import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
+import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import {
   ComboCharacter,
@@ -10,7 +10,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
-function SetSelector(props: {
+function SetSelector({ selected, options, placeholder, submit }: {
   selected: string[]
   options: {
     value: string
@@ -19,7 +19,7 @@ function SetSelector(props: {
   placeholder: string
   submit: (arr: string[]) => void
 }) {
-  const stringOptions = props.options.map((opt) => ({
+  const stringOptions = options.map((opt) => ({
     value: opt.value,
     label: typeof opt.label === 'string' ? opt.label : opt.value,
   }))
@@ -31,41 +31,39 @@ function SetSelector(props: {
       clearable
       style={{ flex: 1 }}
       data={stringOptions}
-      placeholder={props.placeholder}
-      value={props.selected ?? []}
-      onChange={(val) => {
-        props.submit(val)
-      }}
+      placeholder={placeholder}
+      value={selected ?? []}
+      onChange={(val) => submit(val)}
     />
   )
 }
 
-export function SetSelectors(props: {
+export function SetSelectors({ comboOrigin, comboState, onComboStateChange }: {
   comboOrigin: ComboCharacter
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer.Placeholders' })
-  const ornamentOptions = useMemo(() => GenerateOrnamentsOptions(), [i18n.resolvedLanguage])
+  const ornamentOptions = useOrnamentsOptions()
   const relicSetOptions = useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])
   return (
     <Flex style={{ width: '100%' }} gap={10}>
       <SetSelector
-        selected={props.comboOrigin?.displayedRelicSets}
+        selected={comboOrigin?.displayedRelicSets}
         options={relicSetOptions}
         placeholder={t('Sets')} // 'Relic set conditionals'
         submit={(arr) => {
-          const newState = updateSelectedSets(props.comboState, arr, false)
-          if (newState) props.onComboStateChange(newState)
+          const newState = updateSelectedSets(comboState, arr, false)
+          if (newState) onComboStateChange(newState)
         }}
       />
       <SetSelector
-        selected={props.comboOrigin?.displayedOrnamentSets}
+        selected={comboOrigin?.displayedOrnamentSets}
         options={ornamentOptions}
         placeholder={t('Ornaments')} // 'Ornament set conditionals'
         submit={(arr) => {
-          const newState = updateSelectedSets(props.comboState, arr, true)
-          if (newState) props.onComboStateChange(newState)
+          const newState = updateSelectedSets(comboState, arr, true)
+          if (newState) onComboStateChange(newState)
         }}
       />
     </Flex>

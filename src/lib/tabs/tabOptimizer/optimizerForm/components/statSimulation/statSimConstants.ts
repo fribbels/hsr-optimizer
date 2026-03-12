@@ -4,6 +4,7 @@ export const STAT_SIMULATION_ROW_HEIGHT = 425
 export const STAT_SIMULATION_GRID_WIDTH = 680
 export const STAT_SIMULATION_OPTIONS_WIDTH = 215
 export const STAT_SIMULATION_STATS_WIDTH = 190
+export const STAT_SIMULATION_INPUT_WIDTH = 70
 
 // Helper to read a field from the statSim store
 export function useStatSimField<T = unknown>(simType: string, field: string): T | undefined {

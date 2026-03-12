@@ -16,7 +16,7 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { useCharacterStore } from 'lib/stores/characterStore'
 import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
-import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -113,7 +113,7 @@ function ResetAllCharactersButton({ focusCharacter, form }: {
   )
 }
 
-export default function ScoringModal() {
+export function ScoringModal() {
   const { t } = useTranslation(['modals', 'common'])
 
   const scoringAlgorithmForm = useForm<ScoringAlgorithmForm>({

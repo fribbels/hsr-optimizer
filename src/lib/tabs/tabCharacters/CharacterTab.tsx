@@ -4,7 +4,7 @@ import { Flex } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
-import CharacterModal from 'lib/overlays/modals/CharacterModal'
+import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { SwitchRelicsModal } from 'lib/overlays/modals/SwitchRelicsModal'
 import { getGridTheme } from 'lib/rendering/theme'
@@ -16,24 +16,35 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import React, { Suspense } from 'react'
+import { useShallow } from 'zustand/react/shallow'
+
+const defaultGap = 8
+const parentH = 280 * 3 + defaultGap * 2
 
 export default function CharacterTab() {
-  
+  const {
+    characterModalOpen,
+    setCharacterModalOpen,
+    characterModalInitialCharacter,
+    setCharacterModalInitialCharacter,
+    saveBuildModalOpen,
+    setSaveBuildModalOpen,
+    buildsModalOpen,
+    setBuildsModalOpen,
+    focusCharacter,
+  } = useCharacterTabStore(useShallow((s) => ({
+    characterModalOpen: s.characterModalOpen,
+    setCharacterModalOpen: s.setCharacterModalOpen,
+    characterModalInitialCharacter: s.characterModalInitialCharacter,
+    setCharacterModalInitialCharacter: s.setCharacterModalInitialCharacter,
+    saveBuildModalOpen: s.saveBuildModalOpen,
+    setSaveBuildModalOpen: s.setSaveBuildModalOpen,
+    buildsModalOpen: s.buildsModalOpen,
+    setBuildsModalOpen: s.setBuildsModalOpen,
+    focusCharacter: s.focusCharacter,
+  })))
 
-  const characterModalOpen = useCharacterTabStore((s) => s.characterModalOpen)
-  const setCharacterModalOpen = useCharacterTabStore((s) => s.setCharacterModalOpen)
-  const characterModalInitialCharacter = useCharacterTabStore((s) => s.characterModalInitialCharacter)
-  const setCharacterModalInitialCharacter = useCharacterTabStore((s) => s.setCharacterModalInitialCharacter)
-  const saveBuildModalOpen = useCharacterTabStore((s) => s.saveBuildModalOpen)
-  const setSaveBuildModalOpen = useCharacterTabStore((s) => s.setSaveBuildModalOpen)
-  const buildsModalOpen = useCharacterTabStore((s) => s.buildsModalOpen)
-  const setBuildsModalOpen = useCharacterTabStore((s) => s.setBuildsModalOpen)
-
-  const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
-
-  const defaultGap = 8
-  const parentH = 280 * 3 + defaultGap * 2
 
   return (
     <Flex
@@ -47,7 +58,7 @@ export default function CharacterTab() {
       <Flex direction="column" gap={defaultGap}>
         <CharacterMenu />
 
-        <Flex direction="column" gap={8} style={{ minWidth: 240 }}>
+        <Flex direction="column" gap={defaultGap} style={{ minWidth: 240 }}>
           <div
             id='characterGrid'
             className='ag-theme-balham-dark'

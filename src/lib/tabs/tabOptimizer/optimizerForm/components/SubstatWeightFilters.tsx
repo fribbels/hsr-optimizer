@@ -12,7 +12,7 @@ export const SubstatWeightFilters = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
   return (
     <Flex direction="column" gap={20}>
-      <Flex direction="column" gap={0}>
+      <Flex direction="column">
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('WeightFilterHeader') /* Substat weight filter */}</HeaderText>
           <TooltipImage type={Hint.substatWeightFilter()} />
@@ -24,9 +24,9 @@ export const SubstatWeightFilters = () => {
       <Flex direction="column" gap={3}>
         <HeaderText>{t('RollFilterHeader') /* Weighted rolls per relic */}</HeaderText>
         <Flex direction="column" gap={7}>
-          <FormStatRollSliderTopPercent index={0} />
-          <FormStatRollSliderTopPercent index={1} />
-          <FormStatRollSliderTopPercent index={2} />
+          {([0, 1, 2] as const).map((i) => (
+            <FormStatRollSliderTopPercent key={i} index={i} />
+          ))}
         </Flex>
       </Flex>
     </Flex>

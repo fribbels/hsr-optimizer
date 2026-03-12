@@ -6,6 +6,7 @@ import {
 import { HEADER_HEIGHT } from 'lib/layout/LayoutHeader'
 import MenuDrawer from 'lib/overlays/drawers/MenuDrawer'
 import { useScrollLockState } from 'lib/rendering/scrollController'
+import classes from 'lib/layout/layout.module.css'
 
 export function LayoutSider() {
 
@@ -22,26 +23,10 @@ export function LayoutSider() {
       }}
     >
       <div
-        style={{
-          width: siderWidth,
-          minWidth: siderWidth,
-          background: 'var(--mantine-color-dark-7)',
-          height: '100vh',
-          position: 'sticky',
-          top: 0,
-          overflow: 'hidden',
-          transition: 'width 0.2s',
-        }}
+        className={classes.siderPanel}
+        style={{ width: siderWidth, minWidth: siderWidth }}
       >
-        <div
-          style={{
-            height: '100%',
-            overflowY: 'auto',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-          className='layout-sider-scroll'
-        >
+        <div className={`${classes.scrollContainer} layout-sider-scroll`}>
           <MenuDrawer />
         </div>
       </div>

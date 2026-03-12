@@ -1,12 +1,12 @@
 import { Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import React, { createContext, useCallback, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 type ConfirmModalOptions = {
   content: React.ReactNode
   width?: string | number
   okText?: string
-  maskClosable?: boolean
+  closeOnClickOutside?: boolean
 }
 
 type ConfirmModalContextType = {
@@ -34,14 +34,16 @@ export function ConfirmModalProvider(props: { children: React.ReactNode }) {
     content: null,
   })
 
-  const api: ConfirmModalContextType = {
-    info: useCallback((opts: ConfirmModalOptions) => {
+  const api = useMemo<ConfirmModalContextType>(() => ({
+    info: (opts: ConfirmModalOptions) => {
       setOptions(opts)
       open()
-    }, [open]),
-  }
+    },
+  }), [open])
 
-  globalConfirmModal = api
+  useEffect(() => {
+    globalConfirmModal = api
+  }, [api])
 
   return (
     <ConfirmModalContext.Provider value={api}>
@@ -50,8 +52,7 @@ export function ConfirmModalProvider(props: { children: React.ReactNode }) {
         opened={opened}
         onClose={close}
         size={options.width ?? 'md'}
-        closeOnClickOutside={options.maskClosable ?? true}
-        withCloseButton={true}
+        closeOnClickOutside={options.closeOnClickOutside ?? true}
         centered
       >
         {options.content}

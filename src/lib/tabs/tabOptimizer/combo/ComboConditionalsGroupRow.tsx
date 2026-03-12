@@ -37,14 +37,20 @@ import {
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'types/components'
 import {
   CharacterConditionalsController,
   ContentItem,
   LightConeConditionalsController,
 } from 'types/conditionals'
 
-function ConditionalActivationRow(props: {
+function ConditionalActivationRow({
+  contentItem,
+  comboConditional,
+  actionCount,
+  sourceKey,
+  comboState,
+  onComboStateChange,
+}: {
   contentItem: ContentItem
   comboConditional: ComboConditionalCategory
   actionCount: number
@@ -52,73 +58,71 @@ function ConditionalActivationRow(props: {
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {
-  if (props.contentItem.formItem == 'switch') {
+  if (contentItem.formItem == 'switch') {
     return (
       <BooleanConditionalActivationRow
-        contentItem={props.contentItem}
-        activations={(props.comboConditional as ComboBooleanConditional).activations}
-        actionCount={props.actionCount}
-        sourceKey={props.sourceKey}
+        contentItem={contentItem}
+        activations={(comboConditional as ComboBooleanConditional).activations}
+        actionCount={actionCount}
+        sourceKey={sourceKey}
       />
     )
-  } else if (props.contentItem.formItem == 'select') {
+  } else if (contentItem.formItem == 'select') {
     return (
       <SelectConditionalActivationRow
-        comboConditional={props.comboConditional as ComboSelectConditional}
-        contentItem={props.contentItem}
-        actionCount={props.actionCount}
-        sourceKey={props.sourceKey}
-        comboState={props.comboState}
-        onComboStateChange={props.onComboStateChange}
+        comboConditional={comboConditional as ComboSelectConditional}
+        contentItem={contentItem}
+        actionCount={actionCount}
+        sourceKey={sourceKey}
+        comboState={comboState}
+        onComboStateChange={onComboStateChange}
       />
     )
   }
   return (
     <NumberConditionalActivationRow
-      comboConditional={props.comboConditional as ComboNumberConditional}
-      contentItem={props.contentItem}
-      actionCount={props.actionCount}
-      sourceKey={props.sourceKey}
-      comboState={props.comboState}
-      onComboStateChange={props.onComboStateChange}
+      comboConditional={comboConditional as ComboNumberConditional}
+      contentItem={contentItem}
+      actionCount={actionCount}
+      sourceKey={sourceKey}
+      comboState={comboState}
+      onComboStateChange={onComboStateChange}
     />
   )
 }
 
-export function ContentRows(
-  props: {
-    contentItems: ContentItem[]
-    comboConditionals: ComboConditionals
-    actionCount: number
-    sourceKey: string
-    comboState: ComboState
-    onComboStateChange: (newState: ComboState) => void
-  },
-) {
+export function ContentRows({
+  contentItems,
+  comboConditionals,
+  actionCount,
+  sourceKey,
+  comboState,
+  onComboStateChange,
+}: {
+  contentItems: ContentItem[]
+  comboConditionals: ComboConditionals
+  actionCount: number
+  sourceKey: string
+  comboState: ComboState
+  onComboStateChange: (newState: ComboState) => void
+}) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
   const content = useMemo(() => {
-    const content: ReactElement[] = []
-    for (const contentItem of props.contentItems) {
-      const comboConditional = props.comboConditionals[contentItem.id]
-      if (comboConditional == null) continue
-
-      const display = (
+    return contentItems
+      .filter((item) => comboConditionals[item.id] != null)
+      .map((item) => (
         <ConditionalActivationRow
-          key={contentItem.id}
-          contentItem={contentItem}
-          comboConditional={comboConditional}
-          actionCount={props.actionCount}
-          sourceKey={props.sourceKey}
-          comboState={props.comboState}
-          onComboStateChange={props.onComboStateChange}
+          key={item.id}
+          contentItem={item}
+          comboConditional={comboConditionals[item.id]}
+          actionCount={actionCount}
+          sourceKey={sourceKey}
+          comboState={comboState}
+          onComboStateChange={onComboStateChange}
         />
-      )
-      content.push(display)
-    }
-
-    return content
-  }, [props.comboConditionals, props.contentItems, props.actionCount, props.sourceKey, props.comboState, props.onComboStateChange, i18n.resolvedLanguage])
+      ))
+  }, [comboConditionals, contentItems, actionCount, sourceKey, comboState, onComboStateChange, i18n.resolvedLanguage])
 
   return (
     <Flex direction="column">
@@ -129,7 +133,14 @@ export function ContentRows(
   )
 }
 
-export function ComboConditionalsGroupRow(props: {
+export function ComboConditionalsGroupRow({
+  comboOrigin,
+  conditionalType,
+  actionCount,
+  originKey,
+  comboState,
+  onComboStateChange,
+}: {
   comboOrigin: ComboTeammate | ComboCharacter | null
   conditionalType: string
   actionCount: number
@@ -146,7 +157,7 @@ export function ComboConditionalsGroupRow(props: {
   }, [setSelectOptionTFunction])
 
   const renderData = useMemo(() => {
-    if (!props.comboOrigin) {
+    if (!comboOrigin) {
       return null
     }
 
@@ -154,12 +165,12 @@ export function ComboConditionalsGroupRow(props: {
     let src: string
     let conditionals: ComboConditionals
 
-    const isTeammate = props.originKey.includes('Teammate')
-    const comboCharacter = props.comboOrigin as ComboCharacter
-    const comboTeammate = props.comboOrigin as ComboTeammate
+    const isTeammate = originKey.includes('Teammate')
+    const comboCharacter = comboOrigin as ComboCharacter
+    const comboTeammate = comboOrigin as ComboTeammate
     const metadata = comboCharacter.metadata
 
-    if (props.originKey.includes('LightCone')) {
+    if (originKey.includes('LightCone')) {
       const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(metadata, true)
 
       content = isTeammate
@@ -167,8 +178,8 @@ export function ComboConditionalsGroupRow(props: {
         : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
       conditionals = comboCharacter.lightConeConditionals
-    } else if (props.originKey.includes('comboCharacterRelicSets')) {
-      const setName = props.conditionalType as Sets
+    } else if (originKey.includes('comboCharacterRelicSets')) {
+      const setName = conditionalType as Sets
       const disabled = !ConditionalSetMetadata[setName].modifiable
 
       const category: ComboConditionalCategory = comboCharacter.setConditionals[setName]
@@ -204,7 +215,7 @@ export function ComboConditionalsGroupRow(props: {
       }
       src = Assets.getSetImage(setName, undefined, true)
       conditionals = comboCharacter.setConditionals
-    } else if (props.originKey.includes('RelicSet')) {
+    } else if (originKey.includes('RelicSet')) {
       const keys = Object.keys(comboTeammate.relicSetConditionals) as SetsRelics[]
       if (keys.length) {
         const setName = keys[0]
@@ -221,7 +232,7 @@ export function ComboConditionalsGroupRow(props: {
       } else {
         return null
       }
-    } else if (props.originKey.includes('OrnamentSet')) {
+    } else if (originKey.includes('OrnamentSet')) {
       const keys = Object.keys(comboTeammate.ornamentSetConditionals) as SetsOrnaments[]
       if (keys.length) {
         const setName = keys[0]
@@ -254,10 +265,10 @@ export function ComboConditionalsGroupRow(props: {
       src,
       conditionals,
     }
-  }, [props.comboOrigin, i18n.resolvedLanguage])
+  }, [comboOrigin, i18n.resolvedLanguage])
 
   if (!renderData) {
-    return <></>
+    return null
   }
 
   return (
@@ -266,10 +277,10 @@ export function ComboConditionalsGroupRow(props: {
       <ContentRows
         contentItems={renderData.content}
         comboConditionals={renderData.conditionals}
-        actionCount={props.actionCount}
-        sourceKey={props.originKey}
-        comboState={props.comboState}
-        onComboStateChange={props.onComboStateChange}
+        actionCount={actionCount}
+        sourceKey={originKey}
+        comboState={comboState}
+        onComboStateChange={onComboStateChange}
       />
     </Flex>
   )

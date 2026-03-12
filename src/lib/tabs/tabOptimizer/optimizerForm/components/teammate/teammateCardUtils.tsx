@@ -58,7 +58,7 @@ export function optionRenderer() {
 
 export const labelRender = (set: string, text: string) => (
   <Flex align='center' gap={3}>
-    <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} className={iconClasses.icon20}></img>
+    <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} />
     <Text style={{ fontSize: 12 }}>
       {text}
     </Text>

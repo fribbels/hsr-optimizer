@@ -10,7 +10,7 @@ import {
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import styles from 'lib/characterPreview/ShowcaseDpsScore.module.css'
-import StatText from 'lib/characterPreview/StatText'
+import { StatText } from 'lib/characterPreview/StatText'
 import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import {
   CUSTOM_TEAM,
@@ -21,7 +21,7 @@ import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
-import CharacterModal from 'lib/overlays/modals/CharacterModal'
+import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import {
   AsyncSimScoringExecution,
@@ -36,7 +36,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, {
+import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -50,33 +50,28 @@ import {
 } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 
-export function ShowcaseDpsScorePanel(props: {
-  characterId: CharacterId,
-  asyncSimScoringExecution: AsyncSimScoringExecution,
-  teamSelection: string,
-  displayRelics: SingleRelicByPart,
-  setRedrawTeammates: (n: number) => void,
-  source: ShowcaseSource,
+export function ShowcaseDpsScorePanel({
+  characterId,
+  asyncSimScoringExecution,
+  teamSelection: teamSelectionProp,
+  displayRelics,
+  setRedrawTeammates,
+  source,
+}: {
+  characterId: CharacterId
+  asyncSimScoringExecution: AsyncSimScoringExecution
+  teamSelection: string
+  displayRelics: SingleRelicByPart
+  setRedrawTeammates: (n: number) => void
+  source: ShowcaseSource
 }) {
-  let {
-    characterId,
-    asyncSimScoringExecution,
-    teamSelection,
-    displayRelics,
-    setRedrawTeammates,
-    source,
-  } = props
-
   const readonly = source === ShowcaseSource.BUILDS_MODAL
-
-  if (readonly) {
-    teamSelection = CUSTOM_TEAM
-  }
+  const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
   const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
-  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
+  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
   if (!simScoringExecution?.done) {
     return (
@@ -119,12 +114,9 @@ export function ShowcaseDpsScorePanel(props: {
   )
 }
 
-export function ShowcaseCombatScoreDetailsFooter(props: {
-  asyncSimScoringExecution: AsyncSimScoringExecution | null,
+export function ShowcaseCombatScoreDetailsFooter({ asyncSimScoringExecution }: {
+  asyncSimScoringExecution: AsyncSimScoringExecution | null
 }) {
-  const {
-    asyncSimScoringExecution,
-  } = props
 
   const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
@@ -145,28 +137,27 @@ export function ShowcaseCombatScoreDetailsFooter(props: {
 }
 
 function getTeammate(index: number, form: OptimizerForm) {
-  if (index == 0) return form.teammate0
-  if (index == 1) return form.teammate1
+  if (index === 0) return form.teammate0
+  if (index === 1) return form.teammate1
   return form.teammate2
 }
 
-function CharacterPreviewScoringTeammate(props: {
-  index: number,
-  result: SimulationScore,
-  setCharacterModalOpen: (b: boolean) => void,
-  setSelectedTeammateIndex: (i: number | undefined) => void,
-  setCharacterModalInitialCharacter: (character: Character) => void,
-  readonly?: boolean,
+function CharacterPreviewScoringTeammate({
+  index,
+  result,
+  setCharacterModalOpen,
+  setSelectedTeammateIndex,
+  setCharacterModalInitialCharacter,
+  readonly,
+}: {
+  index: number
+  result: SimulationScore
+  setCharacterModalOpen: (b: boolean) => void
+  setSelectedTeammateIndex: (i: number | undefined) => void
+  setCharacterModalInitialCharacter: (character: Character) => void
+  readonly?: boolean
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const {
-    result,
-    index,
-    setCharacterModalOpen,
-    setSelectedTeammateIndex,
-    setCharacterModalInitialCharacter,
-    readonly,
-  } = props
 
   const teammate = result.simulationMetadata.teammates[index] as SimulationMetadata['teammates'][number] | undefined
   const iconSize = 64
@@ -237,15 +228,14 @@ function CharacterPreviewScoringTeammate(props: {
   )
 }
 
-export function ShowcaseDpsScoreHeader(props: {
-  relics: SingleRelicByPart,
-  asyncSimScoringExecution: AsyncSimScoringExecution,
+export function ShowcaseDpsScoreHeader({ relics, asyncSimScoringExecution }: {
+  relics: SingleRelicByPart
+  asyncSimScoringExecution: AsyncSimScoringExecution
 }) {
-  const { relics, asyncSimScoringExecution } = props
   const { t } = useTranslation(['charactersTab'])
-  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
+  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
-  const verified = Object.values(relics).filter((x) => x?.verified).length == 6
+  const verified = Object.values(relics).filter((x) => x?.verified).length === 6
   const numRelics = Object.values(relics).filter((x) => !!x).length
 
   const lightCone = !!simScoringExecution?.result?.simulationForm.lightCone
@@ -287,27 +277,26 @@ function formatSpd(n: number) {
   return Utils.truncate10ths(n).toFixed(1)
 }
 
-function ShowcaseTeamSelectPanel(props: {
-  characterId: CharacterId,
-  teamSelection: string,
-  selectedTeammateIndex: number,
-  characterModalInitialCharacter: Character | undefined,
-  setRedrawTeammates: (random: number) => void,
-  isCharacterModalOpen: boolean,
-  setCharacterModalOpen: (open: boolean) => void,
-  readonly?: boolean,
+function ShowcaseTeamSelectPanel({
+  characterId,
+  teamSelection,
+  selectedTeammateIndex,
+  characterModalInitialCharacter,
+  setRedrawTeammates,
+  isCharacterModalOpen,
+  setCharacterModalOpen,
+  readonly,
+}: {
+  characterId: CharacterId
+  teamSelection: string
+  selectedTeammateIndex: number
+  characterModalInitialCharacter: Character | undefined
+  setRedrawTeammates: (random: number) => void
+  isCharacterModalOpen: boolean
+  setCharacterModalOpen: (open: boolean) => void
+  readonly?: boolean
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-  const {
-    characterId,
-    teamSelection,
-    selectedTeammateIndex,
-    characterModalInitialCharacter,
-    setRedrawTeammates,
-    isCharacterModalOpen,
-    setCharacterModalOpen,
-    readonly,
-  } = props
 
   const setTeamSelectionByCharacter = useShowcaseTabStore((s) => s.setShowcaseTeamPreferenceById)
 
@@ -335,10 +324,10 @@ function ShowcaseTeamSelectPanel(props: {
       disabled={readonly}
       className={styles.teamSelectPanel}
       onChange={(selection) => {
-        if (selection == SETTINGS_TEAM) {
+        if (selection === SETTINGS_TEAM) {
           getConfirmModal()?.info({
             width: 'fit-content',
-            maskClosable: true,
+            closeOnClickOutside: true,
             content: (
               <div className={styles.settingsModalContent}>
                 <Flex direction="column" gap={10}>
@@ -348,7 +337,7 @@ function ShowcaseTeamSelectPanel(props: {
                     onClick={() => {
                       useScoringStore.getState().clearSimulationOverrides(characterId)
                       SaveState.delayedSave()
-                      if (teamSelection != DEFAULT_TEAM) setTeamSelectionByCharacter(characterId, DEFAULT_TEAM)
+                      if (teamSelection !== DEFAULT_TEAM) setTeamSelectionByCharacter(characterId, DEFAULT_TEAM)
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.ResetSuccessMsg') /* Reset to default teams */)
@@ -376,7 +365,7 @@ function ShowcaseTeamSelectPanel(props: {
 
                       useScoringStore.getState().updateSimulationOverrides(characterId, update)
                       SaveState.delayedSave()
-                      if (teamSelection != CUSTOM_TEAM) setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
+                      if (teamSelection !== CUSTOM_TEAM) setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
                       setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.SyncSuccessMsg') /* Synced teammates */)

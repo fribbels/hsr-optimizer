@@ -29,7 +29,7 @@ import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/utils/gridStore'
-import React, {
+import {
   useCallback,
   useMemo,
   useRef,

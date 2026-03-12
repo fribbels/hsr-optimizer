@@ -15,6 +15,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import React, {
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -95,43 +96,45 @@ export const StatTracesDrawer = () => {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
   const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
-  const statTraceDrawerFocusCharacter = useGlobalStore.getState().statTracesDrawerFocusCharacter
+  const statTraceDrawerFocusCharacter = useGlobalStore((s) => s.statTracesDrawerFocusCharacter)
   const scoringMetadata = useScoringMetadata(statTraceDrawerFocusCharacter)
 
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
   const [loading, setLoading] = useState(false)
 
-  const treeData = useMemo(() => {
-    if (statTraceDrawerFocusCharacter) {
-      const tree = getGameMetadata().characters[statTraceDrawerFocusCharacter].traceTree
-      const stack = [...tree]
-      const allIds: string[] = []
-      while (stack.length) {
-        const current = stack.pop()!
-        for (const child of current.children) stack.push(child)
-        allIds.push(current.id)
-      }
-
-      if (scoringMetadata?.traces) {
-        const deactivated = scoringMetadata.traces.deactivated ?? []
-        const active = allIds.filter((x) => !deactivated.includes(x))
-        setCheckedKeys(active)
-      } else {
-        setCheckedKeys(allIds)
-      }
-
-      return tree
+  const { treeData, allIds } = useMemo(() => {
+    if (!statTraceDrawerFocusCharacter) return { treeData: [] as TraceNode[], allIds: [] as string[] }
+    const tree = getGameMetadata().characters[statTraceDrawerFocusCharacter].traceTree
+    const stack = [...tree]
+    const ids: string[] = []
+    while (stack.length) {
+      const current = stack.pop()!
+      for (const child of current.children) stack.push(child)
+      ids.push(current.id)
     }
-    return []
-  }, [statTraceDrawerFocusCharacter, scoringMetadata])
+    return { treeData: tree, allIds: ids }
+  }, [statTraceDrawerFocusCharacter])
 
-  const nodesById: Record<string, TraceNode> = {}
-  const stack = [...treeData]
-  while (stack.length) {
-    const current = stack.pop()!
-    for (const child of current.children) stack.push(child)
-    nodesById[current.id] = current
-  }
+  useEffect(() => {
+    if (!allIds.length) return
+    if (scoringMetadata?.traces) {
+      const deactivated = scoringMetadata.traces.deactivated ?? []
+      setCheckedKeys(allIds.filter((x) => !deactivated.includes(x)))
+    } else {
+      setCheckedKeys(allIds)
+    }
+  }, [allIds, scoringMetadata])
+
+  const nodesById = useMemo(() => {
+    const map: Record<string, TraceNode> = {}
+    const stack = [...treeData]
+    while (stack.length) {
+      const current = stack.pop()!
+      for (const child of current.children) stack.push(child)
+      map[current.id] = current
+    }
+    return map
+  }, [treeData])
 
   const onToggle = useCallback((node: TraceNode, checked: boolean) => {
     setCheckedKeys((prev) => {
@@ -167,6 +170,23 @@ export const StatTracesDrawer = () => {
     })
   }, [nodesById])
 
+  const handleSave = useCallback(() => {
+    if (!statTraceDrawerFocusCharacter) return
+    setLoading(true)
+
+    const allKeys = Object.keys(nodesById)
+    const deactivated = allKeys.filter((key) => !checkedKeys.includes(key))
+
+    useScoringStore.getState().updateCharacterOverrides(statTraceDrawerFocusCharacter, { traces: { deactivated } })
+    SaveState.delayedSave()
+
+    setTimeout(() => {
+      Message.success(tCommon('Saved'))
+      setLoading(false)
+      closeTracesDrawer()
+    }, 500)
+  }, [statTraceDrawerFocusCharacter, nodesById, checkedKeys, closeTracesDrawer, tCommon])
+
   return (
     <Drawer
       title={t('Title')} // 'Custom stat traces'
@@ -196,24 +216,7 @@ export const StatTracesDrawer = () => {
         <Button
           fullWidth
           loading={loading}
-          onClick={() => {
-            if (!statTraceDrawerFocusCharacter) return
-            setLoading(true)
-
-            const allKeys = Object.keys(nodesById)
-            const deactivated = allKeys.filter((key) => !checkedKeys.includes(key))
-
-            const update = { traces: { deactivated } }
-
-            useScoringStore.getState().updateCharacterOverrides(statTraceDrawerFocusCharacter, update); SaveState.delayedSave()
-
-            setTimeout(() => {
-              Message.success(tCommon('Saved'))
-              setLoading(false)
-              SaveState.delayedSave()
-              closeTracesDrawer()
-            }, 500)
-          }}
+          onClick={handleSave}
         >
           {t('ButtonText') /* Save changes */}
         </Button>

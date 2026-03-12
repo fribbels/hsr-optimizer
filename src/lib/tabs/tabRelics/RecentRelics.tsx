@@ -2,14 +2,14 @@ import { Flex } from '@mantine/core'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
-import React from 'react'
+import { memo } from 'react'
 import { useRelicStore } from 'lib/stores/relicStore'
 
 function padArray<T>(array: T[], length: number, filler: T): T[] {
   return [...array, ...Array(length - array.length).fill(filler)]
 }
 
-export const RecentRelics = React.memo(() => {
+export const RecentRelics = memo(() => {
   const { focusCharacter: scoringCharacter, selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore()
   const { recentRelics: recentRelicIDs } = useScannerState()
   const allRelics = useRelicStore((s) => s.relicsById)

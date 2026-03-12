@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
-import React from 'react'
+import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { ReactElement } from 'types/components'
@@ -23,6 +23,7 @@ export function BenchmarkSetting({ label, itemName, form, children }: BenchmarkS
   const injectedProps = isBooleanField
     ? {
       value: String(rawValue ?? false),
+      // as never: Mantine form generics can't narrow the value type for dynamic field names
       onChange: (val: string) => form.setFieldValue(itemName, (val === 'true') as never),
     }
     : {
@@ -32,7 +33,7 @@ export function BenchmarkSetting({ label, itemName, form, children }: BenchmarkS
   return (
     <Flex align='center' gap={10} justify='space-between'>
       {t(label)}
-      {React.cloneElement(children, injectedProps)}
+      {cloneElement(children, injectedProps)}
     </Flex>
   )
 }

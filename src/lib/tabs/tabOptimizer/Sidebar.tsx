@@ -10,9 +10,10 @@ export default function Sidebar() {
   const xl = useMediaQuery('(min-width: 1200px)')
   const xxl = useMediaQuery('(min-width: 1600px)')
 
-  const breakpointNoShow = useGlobalStore.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.NoShow
-  const breakpointShowXL = useGlobalStore.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.ShowXL
-  const breakpointShowXXL = useGlobalStore.getState().settings[SettingOptions.PermutationsSidebarBehavior.name] == SettingOptions.PermutationsSidebarBehavior.ShowXXL
+  const sidebarBehavior = useGlobalStore((s) => s.settings[SettingOptions.PermutationsSidebarBehavior.name])
+  const breakpointNoShow = sidebarBehavior == SettingOptions.PermutationsSidebarBehavior.NoShow
+  const breakpointShowXL = sidebarBehavior == SettingOptions.PermutationsSidebarBehavior.ShowXL
+  const breakpointShowXXL = sidebarBehavior == SettingOptions.PermutationsSidebarBehavior.ShowXXL
 
   // replacing ?? with || breaks the logic
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

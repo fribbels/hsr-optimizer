@@ -1,9 +1,6 @@
 import { Flex } from '@mantine/core'
 import i18next from 'i18next'
-import {
-  Trans,
-  useTranslation,
-} from 'react-i18next'
+import { Trans } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
 export type HintContent = {
@@ -221,63 +218,60 @@ export const Hint = {
   optimizerOptions: (): HintContent => {
     return {
       title: i18next.t('hint:OptimizerOptions.Title'), /* Optimizer options */
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'OptimizerOptions' })
-        return (
-          <Flex direction="column" gap={10}>
-            <p>
-              <Trans t={t} i18nKey='AllowEquipped'>
-                <strong>Allow equipped relics</strong>
-                - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='PriorityFilter'>
-                <strong>Character priority filter</strong>
-                - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by
-                higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='KeepCurrent'>
-                <strong>Keep current relics</strong>
-                - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='Priority'>
-                <strong>Priority</strong>
-                - See: Character priority filter. Changing this setting will change the character's priority
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='Exclude'>
-                <strong>Exclude</strong>
-                - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='Enhance'>
-                <strong>Enhance / rarity</strong>
-                - Select the minimum enhance to search for and minimum stars for relics to include
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='BoostMain'>
-                <strong>Boost main stat</strong>
-                - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats
-                are not changed accordingly, so builds with lower level relics may be stronger once you level them.
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='DPSMode'>
-                <strong>DPS mode</strong>
-                - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations
-              </Trans>
-            </p>
-          </Flex>
-        )
-      })(),
+      content: (
+        <Flex direction="column" gap={10}>
+          <p>
+            <Trans i18nKey='hint:OptimizerOptions.AllowEquipped'>
+              <strong>Allow equipped relics</strong>
+              - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
+            </Trans>
+          </p>
+          <p>
+            <Trans i18nKey='hint:OptimizerOptions.PriorityFilter'>
+              <strong>Character priority filter</strong>
+              - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by
+              higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
+            </Trans>
+          </p>
+          <p>
+            <Trans i18nKey='hint:OptimizerOptions.KeepCurrent'>
+              <strong>Keep current relics</strong>
+              - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
+            </Trans>
+          </p>
+          <p>
+            <Trans i18nKey='hint:OptimizerOptions.Priority'>
+              <strong>Priority</strong>
+              - See: Character priority filter. Changing this setting will change the character's priority
+            </Trans>
+          </p>
+          <p>
+            <Trans i18nKey='hint:OptimizerOptions.Exclude'>
+              <strong>Exclude</strong>
+              - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
+            </Trans>
+          </p>
+          <p>
+            <Trans i18nKey='hint:OptimizerOptions.Enhance'>
+              <strong>Enhance / rarity</strong>
+              - Select the minimum enhance to search for and minimum stars for relics to include
+            </Trans>
+          </p>
+          <p>
+            <Trans i18nKey='hint:OptimizerOptions.BoostMain'>
+              <strong>Boost main stat</strong>
+              - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats
+              are not changed accordingly, so builds with lower level relics may be stronger once you level them.
+            </Trans>
+          </p>
+          <p>
+            <Trans i18nKey='hint:OptimizerOptions.DPSMode'>
+              <strong>DPS mode</strong>
+              - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations
+            </Trans>
+          </p>
+        </Flex>
+      ),
     }
   },
 
@@ -412,42 +406,36 @@ export const Hint = {
          "p4": "Weight can show the current value of a relic, the possible best case upgraded weight, or an 'average' weight that you're more likely to see",
          "p5": "Weight is useful to focus on a single character and see which relics might give them a higher letter grading.",
          "p6": "Potential",
-         "p7": "Potential is a character-specific percentage of how good the relic could be (or 'is', if fully upgraded), compared against the stats on a fully upgraded 'perfect' relic in that slot.",
-         "p8": "Potential can look at all characters or just owned. It then takes the maximum percentage for any character.",
-         "p9": "Potential is useful for finding relics that aren't good on any character, or hidden gems that could be great when upgraded.",
-         "p10": "Note: ordering by potential can be mismatched against weights, due to weight calculations preferring lower weight ideal mainstats."
          */
       ),
     }
   },
 
   relicInsight: (): HintContent => {
+    const t = i18next.getFixedT(null, 'hint', 'RelicInsights')
     return {
       title: i18next.t('hint:RelicInsights.Title'), /* Relic Insight */
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'RelicInsights' })
-        return (
-          <Flex direction="column" gap={10}>
-            <p>{t('p1') /* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
-            <p>
-              <Trans t={t} i18nKey='p2'>
-                'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.
-                <br />
-                If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.
-                <br />
-                ⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.
-              </Trans>
-            </p>
-            <p>
-              {
-                t(
-                  'p3',
-                ) /* 'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in. */
-              }
-            </p>
-          </Flex>
-        )
-      })(),
+      content: (
+        <Flex direction="column" gap={10}>
+          <p>{t('p1') /* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
+          <p>
+            <Trans i18nKey='hint:RelicInsights.p2'>
+              'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.
+              <br />
+              If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.
+              <br />
+              ⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.
+            </Trans>
+          </p>
+          <p>
+            {
+              t(
+                'p3',
+              ) /* 'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in. */
+            }
+          </p>
+        </Flex>
+      ),
     }
   },
 
@@ -487,26 +475,23 @@ export const Hint = {
   locatorParams: (): HintContent => {
     return {
       title: i18next.t('hint:LocatorParams.Title'), /* Relic Locator Options */
-      content: (() => {
-        const { t } = useTranslation('hint', { keyPrefix: 'LocatorParams' })
-        return (
-          <Flex direction="column" gap={8}>
-            <p>
-              <Trans t={t} i18nKey='p1'>
-                <strong>Inventory Width</strong>
-                - Select the number of columns the inventory has ingame so that the relic locator can find your relic accurately
-              </Trans>
-            </p>
-            <p>
-              <Trans t={t} i18nKey='p2'>
-                <strong>Auto Filter rows</strong>
-                - Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your
-                inventory
-              </Trans>
-            </p>
-          </Flex>
-        )
-      })(),
+      content: (
+        <Flex direction="column" gap={8}>
+          <p>
+            <Trans i18nKey='hint:LocatorParams.p1'>
+              <strong>Inventory Width</strong>
+              - Select the number of columns the inventory has ingame so that the relic locator can find your relic accurately
+            </Trans>
+          </p>
+          <p>
+            <Trans i18nKey='hint:LocatorParams.p2'>
+              <strong>Auto Filter rows</strong>
+              - Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your
+              inventory
+            </Trans>
+          </p>
+        </Flex>
+      ),
     }
   },
 }

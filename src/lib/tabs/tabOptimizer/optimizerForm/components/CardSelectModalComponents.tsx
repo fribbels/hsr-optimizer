@@ -12,33 +12,33 @@ import classes from './CardSelectModalComponents.module.css'
 const parentW = 100
 const parentH = 150
 
-export const CardGridItemContent = (props: {
-  imgSrc: string,
-  text: string,
-  innerW: number,
-  innerH: number,
-  rows: number,
-}) => {
+export function CardGridItemContent({ imgSrc, text, innerW, innerH, rows }: {
+  imgSrc: string
+  text: string
+  innerW: number
+  innerH: number
+  rows: number
+}) {
   return (
     <div>
       <img
-        width={props.innerW}
-        src={props.imgSrc}
+        width={innerW}
+        src={imgSrc}
         style={{
-          transform: `translate(${(props.innerW - parentW) / 2 / props.innerW * -100}%, ${(props.innerH - parentH) / 2 / props.innerH * -100}%)`,
+          transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`,
         }}
       />
       <Text
         component="div"
-        lineClamp={props.rows}
+        lineClamp={rows}
         className={classes.cardTextOverlay}
-        style={{ height: 18 * props.rows }}
+        style={{ height: 18 * rows }}
       >
         <div
           className={classes.cardTextInner}
-          style={{ maxHeight: 18 * props.rows }}
+          style={{ maxHeight: 18 * rows }}
         >
-          {props.text}
+          {text}
         </div>
       </Text>
     </div>
@@ -55,20 +55,16 @@ export function generatePathTags() {
 }
 
 export function generateRarityTags() {
-  return [5, 4, 3].map((x) => {
-    const stars: ReactElement[] = []
-    for (let i = 0; i < x; i++) {
-      stars.push(<img key={i} className={classes.starImage} src={Assets.getStar()} />)
-    }
-    return {
-      key: x,
-      display: (
-        <Flex flex={1} justify='center' align='center' className={classes.rarityContainer}>
-          {stars}
-        </Flex>
-      ),
-    }
-  })
+  return [5, 4, 3].map((x) => ({
+    key: x,
+    display: (
+      <Flex flex={1} justify='center' align='center' className={classes.rarityContainer}>
+        {Array.from({ length: x }, (_, i) => (
+          <img key={i} className={classes.starImage} src={Assets.getStar()} />
+        ))}
+      </Flex>
+    ),
+  }))
 }
 
 export function generateElementTags() {
@@ -80,15 +76,20 @@ export function generateElementTags() {
   })
 }
 
-export function SegmentedFilterRow<T extends string | number | boolean>(props: {
-  tags: { key: T, display: ReactElement, flexBasis?: string }[],
-  currentFilter: NoInfer<T>[],
-  setCurrentFilters(filters: NoInfer<T>[]): void,
-  flexBasis?: string,
-  noHeight?: boolean,
+export function SegmentedFilterRow<T extends string | number | boolean>({
+  tags,
+  currentFilter,
+  setCurrentFilters,
+  flexBasis,
+  noHeight,
+}: {
+  tags: { key: T, display: ReactElement, flexBasis?: string }[]
+  currentFilter: NoInfer<T>[]
+  setCurrentFilters(filters: NoInfer<T>[]): void
+  flexBasis?: string
+  noHeight?: boolean
 }) {
   const theme = useMantineTheme()
-  const { currentFilter, flexBasis, tags, setCurrentFilters } = props
 
   const handleChange = (tag: T, checked: boolean) => {
     const nextSelectedTags = checked
@@ -107,7 +108,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>(props: {
         boxShadow: '0px 0px 0px 1px var(--border-color) inset',
         borderRadius: 6,
         overflow: 'hidden',
-        height: props.noHeight ? undefined : 40,
+        height: noHeight ? undefined : 40,
       }}
     >
       {tags.map((tag) => (

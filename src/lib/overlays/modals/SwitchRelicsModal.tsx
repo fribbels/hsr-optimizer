@@ -60,10 +60,6 @@ export function SwitchRelicsModal() {
     close()
   }
 
-  const handleCancel = () => {
-    close()
-  }
-
   const panelWidth = 325 - 47
 
   return (
@@ -71,7 +67,7 @@ export function SwitchRelicsModal() {
       opened={isOpen}
       size={panelWidth + 47}
       centered
-      onClose={handleCancel}
+      onClose={close}
     >
       <div>
         <Flex justify='space-between' align='center'>
@@ -94,7 +90,7 @@ export function SwitchRelicsModal() {
         </Flex>
       </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
-        <Button key='back' variant="default" onClick={handleCancel}>
+        <Button key='back' variant="default" onClick={close}>
           {tCommon('Cancel') /* Cancel */}
         </Button>
         <Button key='submit' onClick={onModalOk}>

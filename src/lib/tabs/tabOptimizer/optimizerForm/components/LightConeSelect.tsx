@@ -11,19 +11,16 @@ import {
   SegmentedFilterRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { Utils } from 'lib/utils/utils'
-import * as React from 'react'
-import { ReactNode, useMemo } from 'react'
+import { CSSProperties, ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
-
-// FIXME HIGH
 
 interface LightConeSelectProps {
   value: LightConeId | null
   characterId: CharacterId | null | undefined
   onChange?: (id: LightConeId | null) => void
-  selectStyle?: React.CSSProperties
+  selectStyle?: CSSProperties
   initialPath?: PathName
   withIcon?: boolean
   externalOpen?: boolean
@@ -51,10 +48,9 @@ const parentH = 150
 const innerW = 115
 const innerH = 150
 
-const LightConeSelect: React.FC<LightConeSelectProps> = (
-  { characterId, value, onChange, selectStyle, initialPath, withIcon, externalOpen, setExternalOpen },
-) => {
-  // console.log('==================================== LC SELECT')
+function LightConeSelect(
+  { characterId, value, onChange, selectStyle, initialPath, withIcon, externalOpen, setExternalOpen }: LightConeSelectProps,
+) {
   const metadata = getGameMetadata()
   const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
   const defaultFilters = useMemo((): LightConeFilters => {
@@ -84,24 +80,20 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
 
   const setRarityFilter = (rarity: LightConeFilters['rarity']) => updateFilter('rarity', rarity)
 
-  const labelledOptions = useMemo(() => {
-    const labelledOptions: { value: string, label: ReactNode }[] = []
-    for (const option of lightConeOptions) {
-      labelledOptions.push({
-        value: option.value,
-        label: (
-          <Flex gap={5} align='center'>
-            <img
-              src={Assets.getPath(metadata.lightCones[option.value].path)}
-              style={{ height: 22, marginRight: 4 }}
-            />
-            {option.label}
-          </Flex>
-        ),
-      })
-    }
-    return labelledOptions
-  }, [lightConeOptions])
+  const labelledOptions = useMemo(() =>
+    lightConeOptions.map((option) => ({
+      value: option.value,
+      label: (
+        <Flex gap={5} align='center'>
+          <img
+            src={Assets.getPath(metadata.lightCones[option.value].path)}
+            style={{ height: 22, marginRight: 4 }}
+          />
+          {option.label}
+        </Flex>
+      ) as ReactNode,
+    })),
+  [lightConeOptions])
 
   function applyFilters(x: LcOptions[LightConeId]) {
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
@@ -213,4 +205,4 @@ const LightConeSelect: React.FC<LightConeSelectProps> = (
   )
 }
 
-export default LightConeSelect
+export { LightConeSelect }

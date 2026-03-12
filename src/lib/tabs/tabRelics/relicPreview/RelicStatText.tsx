@@ -23,11 +23,9 @@ function generateStyling(language?: Languages): CSSProperties {
 
 type RelicStatTextProps = TextProps & React.ComponentPropsWithoutRef<'div'> & { language?: Languages }
 
-const RelicStatText = (props: RelicStatTextProps) => {
+export function RelicStatText(props: RelicStatTextProps) {
   const { language, style, ...rest } = props
   return (
     <Text component="div" style={{ ...generateStyling(language), ...style as CSSProperties }} {...rest} />
   )
 }
-
-export default RelicStatText

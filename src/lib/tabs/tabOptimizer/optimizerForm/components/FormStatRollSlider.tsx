@@ -8,10 +8,8 @@ import { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTyp
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { Utils } from 'lib/utils/utils'
-import React, {
-  ReactElement,
-} from 'react'
 import { useTranslation } from 'react-i18next'
+
 const StatSliders = [
   { text: 'HPFilterText', name: Constants.Stats.HP_P },
   { text: 'ATKFilterText', name: Constants.Stats.ATK_P },
@@ -24,8 +22,8 @@ const StatSliders = [
   { text: 'BEFilterText', name: Constants.Stats.BE },
 ] as const
 
-function WeightSlider(props: { stat: string }) {
-  const value = useOptimizerRequestStore((s) => s.weights[props.stat as keyof typeof s.weights])
+function WeightSlider({ stat }: { stat: string }) {
+  const value = useOptimizerRequestStore((s) => s.weights[stat as keyof typeof s.weights])
 
   return (
     <Slider
@@ -40,7 +38,7 @@ function WeightSlider(props: { stat: string }) {
         marginRight: 'auto',
       }}
       value={value as number ?? 0}
-      onChange={(val) => useOptimizerRequestStore.getState().setWeight(props.stat as keyof OptimizerRequestState['weights'], val)}
+      onChange={(val) => useOptimizerRequestStore.getState().setWeight(stat as keyof OptimizerRequestState['weights'], val)}
       onChangeEnd={() => recalculatePermutations()}
     />
   )
@@ -48,24 +46,15 @@ function WeightSlider(props: { stat: string }) {
 
 export function FormStatRollSliders() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
-  const labels: ReactElement[] = []
-  const sliders: ReactElement[] = []
-  for (const stat of StatSliders) {
-    labels.push(
-      <span style={{ textWrap: 'nowrap' }} key={stat.name}>
-        {t(stat.text)}
-      </span>,
-    )
-    sliders.push(
-      <div style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }} key={stat.name}>
-        <WeightSlider stat={stat.name} />
-      </div>,
-    )
-  }
+
   return (
     <Flex gap={10}>
       <Flex direction="column" style={{ width: 'max-content' }} gap={3}>
-        {labels}
+        {StatSliders.map((stat) => (
+          <span style={{ textWrap: 'nowrap' }} key={stat.name}>
+            {t(stat.text)}
+          </span>
+        ))}
       </Flex>
       <Flex
         direction="column"
@@ -77,7 +66,11 @@ export function FormStatRollSliders() {
         }}
         align='flex-end'
       >
-        {sliders}
+        {StatSliders.map((stat) => (
+          <div style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }} key={stat.name}>
+            <WeightSlider stat={stat.name} />
+          </div>
+        ))}
       </Flex>
     </Flex>
   )
@@ -97,8 +90,7 @@ const formNamePerSlotIndex: Record<number, string> = {
 
 const MAX_ROLLS = 5
 
-export function FormStatRollSliderTopPercent(props: { index: number }) {
-  const { index } = props
+export function FormStatRollSliderTopPercent({ index }: { index: number }) {
   const parts = partsPerSlotIndex[index]
   const name = formNamePerSlotIndex[index]
 

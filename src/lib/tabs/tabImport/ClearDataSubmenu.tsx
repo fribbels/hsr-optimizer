@@ -38,7 +38,7 @@ export function ClearDataSubmenu() {
         okText={tCommon('Yes') /* Yes */}
         cancelText={tCommon('Cancel') /* Cancel */}
       >
-        <Button leftSection={<IconTrash size={16} />} loading={loading} style={{ width: importerTabButtonWidth }}>
+        <Button leftSection={<IconTrash size={16} />} loading={loading} w={importerTabButtonWidth}>
           {t('ButtonText') /* Clear data */}
         </Button>
       </PopConfirm>

@@ -112,7 +112,7 @@ function buildRows(hit: Hit): HitPropRow[] {
   return rows
 }
 
-function HitSubHeader(props: { label: string }) {
+function HitSubHeader({ label }: { label: string }) {
   const options = useContext(DesignContext)
   const rowBase = getRowBaseStyle(options)
   return (
@@ -125,13 +125,12 @@ function HitSubHeader(props: { label: string }) {
         borderBottom: `1px solid ${options.borderColor}`,
       }}
     >
-      {props.label}
+      {label}
     </span>
   )
 }
 
-function HitRow(props: { hit: Hit, isLastHit: boolean }) {
-  const { hit, isLastHit } = props
+function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
   const options = useContext(DesignContext)
   const rowBase = getRowBaseStyle(options)
   const sourceLabelStyle = getSourceLabelStyle(options)
@@ -183,11 +182,10 @@ function HitRow(props: { hit: Hit, isLastHit: boolean }) {
   )
 }
 
-function ActionHitGroup(props: {
+function ActionHitGroup({ action, isLastAction }: {
   action: OptimizerAction
   isLastAction: boolean
 }) {
-  const { action, isLastAction } = props
   const hits = action.hits ?? []
   if (hits.length === 0) return null
 
@@ -215,11 +213,10 @@ function ActionHitGroup(props: {
   )
 }
 
-export function HitDefinitionRows(props: {
+export function HitDefinitionRows({ context, selectedAction }: {
   context: OptimizerContext
   selectedAction: number | null
 }) {
-  const { context, selectedAction } = props
   const options = useContext(DesignContext)
 
   const actions = getSelectedActions(context, selectedAction)

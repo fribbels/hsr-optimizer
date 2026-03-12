@@ -30,7 +30,7 @@ import {
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styles from './BenchmarkResults.module.css'
 
@@ -84,10 +84,6 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
     })
   }
 
-  const statRenderer = renderStat()
-  const setsRenderer = renderSets()
-  const comboDmgRenderer = renderComboDmg()
-  const deltaPercentRenderer = renderDeltaPercent()
 
   return (
     <div className={styles.tableWrapper}>
@@ -110,7 +106,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
           {pagedData.map((row) => {
             const expanded = expandedKeys.has(row.key)
             return (
-              <React.Fragment key={row.key}>
+              <Fragment key={row.key}>
                 <Table.Tr
                   onClick={() => toggleExpand(row.key)}
                   className={styles.clickableRow}
@@ -119,25 +115,25 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
                     {expanded ? <IconChevronDown /> : <IconChevronRight />}
                   </Table.Td>
                   <Table.Td className={styles.comboCellInner}>
-                    {comboDmgRenderer(row.comboDmg, row)}
+                    <ComboDmgCell comboDmg={row.comboDmg} row={row} />
                   </Table.Td>
                   <Table.Td className={styles.centeredCell}>
-                    {deltaPercentRenderer(row.deltaPercent)}
+                    <DeltaPercentCell delta={row.deltaPercent} />
                   </Table.Td>
                   <Table.Td className={styles.centeredCell}>
-                    {statRenderer(row.simBody as SubStats)}
+                    <StatCell stat={row.simBody as SubStats} />
                   </Table.Td>
                   <Table.Td className={styles.centeredCell}>
-                    {statRenderer(row.simFeet as SubStats)}
+                    <StatCell stat={row.simFeet as SubStats} />
                   </Table.Td>
                   <Table.Td className={styles.centeredCell}>
-                    {statRenderer(row.simPlanarSphere as SubStats)}
+                    <StatCell stat={row.simPlanarSphere as SubStats} />
                   </Table.Td>
                   <Table.Td className={styles.centeredCell}>
-                    {statRenderer(row.simLinkRope as SubStats)}
+                    <StatCell stat={row.simLinkRope as SubStats} />
                   </Table.Td>
                   <Table.Td className={styles.centeredCell}>
-                    {setsRenderer(row.simRelicSet1, row)}
+                    <SetsCell row={row} />
                   </Table.Td>
                 </Table.Tr>
                 {expanded && (
@@ -147,7 +143,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
                     </Table.Td>
                   </Table.Tr>
                 )}
-              </React.Fragment>
+              </Fragment>
             )
           })}
         </Table.Tbody>
@@ -253,7 +249,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
         <SubstatRollsSummary
           simRequest={simulation.request}
           precision={0}
-          diminish={row.percentage == 100}
+          diminish={row.percentage === 100}
           columns={1}
         />
       </Flex>
@@ -275,21 +271,17 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   )
 }
 
-function renderStat() {
-  const t = i18next.getFixedT(null, 'common', 'ReadableStats')
-
-  return (stat: SubStats) => (
+function StatCell({ stat }: { stat: SubStats }) {
+  return (
     <Flex align='center' justify='center' gap={2}>
       <img src={Assets.getStatIcon(stat)} className={styles.statIcon} />
-      <span>
-        {t(stat)}
-      </span>
+      <span>{i18next.t(`common:ReadableStats.${stat}`)}</span>
     </Flex>
   )
 }
 
-function renderSets() {
-  return (_: string, row: BenchmarkRow) => (
+function SetsCell({ row }: { row: BenchmarkRow }) {
+  return (
     <Flex align='center' justify='center' gap={3}>
       <img src={Assets.getSetImage(row.simRelicSet1)} className={styles.statIcon} />
       <img src={Assets.getSetImage(row.simRelicSet2)} className={styles.statIcon} />
@@ -299,8 +291,8 @@ function renderSets() {
   )
 }
 
-function renderComboDmg() {
-  return (n: number, row: BenchmarkRow) => (
+function ComboDmgCell({ comboDmg, row }: { comboDmg: number; row: BenchmarkRow }) {
+  return (
     <Flex className={styles.comboDmgOverlay} align='center'>
       <div
         className={styles.comboDmgBar}
@@ -313,7 +305,7 @@ function renderComboDmg() {
       <Flex className={styles.comboDmgContent} justify='center' align='center'>
         <Badge color='#000000aa' className={styles.comboDmgBadge}>
           <Text className={styles.comboDmgText}>
-            {`${localeNumber_0(n / 1000)}K`}
+            {`${localeNumber_0(comboDmg / 1000)}K`}
           </Text>
         </Badge>
       </Flex>
@@ -321,21 +313,19 @@ function renderComboDmg() {
   )
 }
 
-function renderDeltaPercent() {
-  return (n: number) => {
-    const increase = n <= 0.0001
-    const icon = increase ? '⬤' : '▼'
-    const color = arrowColor(increase)
+function DeltaPercentCell({ delta }: { delta: number }) {
+  const increase = delta <= 0.0001
+  const icon = increase ? '⬤' : '▼'
+  const color = arrowColor(increase)
 
-    return (
-      <Flex align='center' justify='center' gap={5}>
-        <span className={styles.deltaIcon} style={{ color: color }}>
-          {icon}
-        </span>
-        {increase ? '' : `-${localeNumber_0(n)}%`}
-      </Flex>
-    )
-  }
+  return (
+    <Flex align='center' justify='center' gap={5}>
+      <span className={styles.deltaIcon} style={{ color }}>
+        {icon}
+      </span>
+      {increase ? '' : `-${localeNumber_0(delta)}%`}
+    </Flex>
+  )
 }
 
 function aggregateCandidates(candidates: Simulation[], top: number, baseline: number, orchestrator: BenchmarkSimulationOrchestrator, percentage: number) {
@@ -350,12 +340,12 @@ function aggregateCandidates(candidates: Simulation[], top: number, baseline: nu
     const benchmarkRow: BenchmarkRow = {
       ...request,
       key: TsUtils.uuid(),
-      comboDmg: comboDmg,
+      comboDmg,
       deltaPercent: delta * 100,
       deltaBaselinePercent: deltaBaselinePercent * 100,
-      percentage: percentage,
-      simulation: simulation,
-      orchestrator: orchestrator,
+      percentage,
+      simulation,
+      orchestrator,
     }
 
     return benchmarkRow

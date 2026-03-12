@@ -10,10 +10,9 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { OptimizerForm } from 'types/form'
 import { useGlobalStore } from 'lib/stores/appStore'
 
-export const AdvancedOptionsPanel = () => {
+export function AdvancedOptionsPanel() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
   const setStatTracesDrawerFocusCharacter = useGlobalStore((s) => s.setStatTracesDrawerFocusCharacter)
 

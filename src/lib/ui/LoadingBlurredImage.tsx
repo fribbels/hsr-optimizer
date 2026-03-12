@@ -1,36 +1,35 @@
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, {
+import {
+  CSSProperties,
   useEffect,
   useState,
 } from 'react'
 
-interface LoadingBlurredImageProps extends React.ImgHTMLAttributes<string> {
+interface LoadingBlurredImageProps {
   src: string
-  style: React.CSSProperties
+  style: CSSProperties
   callback?: (img: string) => void
 }
 
 type ImageProperties = {
-  src: string,
-  style: React.CSSProperties,
+  src: string
+  style: CSSProperties
 }
 
-export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, style, callback }) => {
-  // @ts-ignore
-  const [storedImg, setStoredImg] = useState<ImageProperties>({})
-  // @ts-ignore
-  const [pendingImage, setPendingImage] = useState<ImageProperties>({})
+export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImageProps) {
+  const [storedImg, setStoredImg] = useState<ImageProperties | undefined>()
+  const [pendingImage, setPendingImage] = useState<ImageProperties | undefined>()
 
   const [finishedLoading, setFinishedLoading] = useState<boolean>(false)
   const [blur, setBlur] = useState<boolean>(true)
 
   useEffect(() => {
-    if (src == storedImg.src && TsUtils.objectHash(style) == TsUtils.objectHash(storedImg.style)) {
+    if (src === storedImg?.src && TsUtils.objectHash(style) === TsUtils.objectHash(storedImg?.style)) {
       // Do nothing as its already loaded
       return
     }
 
-    if (src == pendingImage.src && TsUtils.objectHash(style) == TsUtils.objectHash(pendingImage.style)) {
+    if (src === pendingImage?.src && TsUtils.objectHash(style) === TsUtils.objectHash(pendingImage?.style)) {
       // Do nothing as its already pending
       return
     }
@@ -66,14 +65,14 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
       }, 20)
 
       setStoredImg({
-        src: pendingImage.src,
-        style: pendingImage.style,
+        src: pendingImage!.src,
+        style: pendingImage!.style,
       })
 
       setFinishedLoading(false)
 
       if (callback) {
-        callback(pendingImage.src)
+        callback(pendingImage!.src)
       }
     }
     return () => clearTimeout(blurTimeout)
@@ -81,10 +80,10 @@ export const LoadingBlurredImage: React.FC<LoadingBlurredImageProps> = ({ src, s
 
   return (
     <img
-      src={storedImg.src}
+      src={storedImg?.src}
       loading='eager'
       style={{
-        ...storedImg.style,
+        ...storedImg?.style,
         filter: blur ? 'blur(6px)' : 'none',
         transition: blur ? '' : 'filter 0.35s cubic-bezier(.41,.65,.39,.99)',
       }}

@@ -22,7 +22,7 @@ import {
   localeNumber_0,
   localeNumber_00,
 } from 'lib/utils/i18nUtils'
-import React from 'react'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type MainStatUpgradeItem = {
@@ -36,13 +36,11 @@ type MainStatUpgradeItem = {
   damageValueUpgrade: number,
 }
 
-export function DpsScoreMainStatUpgradesTable(props: {
-  simScore: SimulationScore,
+export function DpsScoreMainStatUpgradesTable({ simScore }: {
+  simScore: SimulationScore
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
-
-  const { simScore } = props
   const upgrades = simScore.mainUpgrades
 
   const dataSource: MainStatUpgradeItem[] = upgrades.map((upgrade: SimulationStatUpgrade) => {
@@ -50,8 +48,8 @@ export function DpsScoreMainStatUpgradesTable(props: {
     const part = upgrade.part! as Parts
     return {
       key: part + stat,
-      stat: stat,
-      part: part,
+      stat,
+      part,
       ...sharedSimResultComparator(simScore, upgrade),
     }
   }).sort((a, b) => b.scorePercentUpgrade - a.scorePercentUpgrade)
@@ -121,12 +119,7 @@ export function DpsScoreMainStatUpgradesTable(props: {
   )
 }
 
-function RelicDoubleImageWithTooltip(props: { name: Sets, height: number, width: number }) {
-  const {
-    name,
-    width,
-    height,
-  } = props
+function RelicDoubleImageWithTooltip({ name, width, height }: { name: Sets, height: number, width: number }) {
   const id = setToId[name]
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   return (
@@ -139,12 +132,7 @@ function RelicDoubleImageWithTooltip(props: { name: Sets, height: number, width:
   )
 }
 
-function RelicImageWithTooltip(props: { name: Sets, height: number, width: number }) {
-  const {
-    name,
-    width,
-    height,
-  } = props
+function RelicImageWithTooltip({ name, width, height }: { name: Sets, height: number, width: number }) {
   const id = setToId[name]
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   return (
@@ -174,7 +162,7 @@ export type SharedScoreColumn = {
   key: string
   title: string
   dataIndex: string
-  render: (value: number, record: any) => React.ReactNode
+  render: (value: number, record: unknown) => ReactNode
 }
 
 export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): SharedScoreColumn[] {
@@ -184,7 +172,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
       dataIndex: 'scorePercentUpgrade',
       render: (n: number, record: unknown) => (
-        (record as SubstatUpgradeItem)?.stat == Stats.SPD ? <>-</> : (
+        (record as SubstatUpgradeItem)?.stat === Stats.SPD ? <>-</> : (
           <Flex align='center' justify='center' gap={5}>
             <Arrow up={n >= 0} />
             {` ${localeNumber_00(n)}%`}
@@ -208,7 +196,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       title: t('UpgradedDpsScore'), // Upgraded DPS Score
       dataIndex: 'scoreValueUpgrade',
       render: (n: number, record: unknown) => (
-        (record as SubstatUpgradeItem)?.stat == Stats.SPD ? <>-</> : (
+        (record as SubstatUpgradeItem)?.stat === Stats.SPD ? <>-</> : (
           <>
             {`${localeNumber_0(Math.max(0, n))}%`}
           </>
@@ -236,10 +224,10 @@ export const tableStyle = {
   overflow: 'hidden',
 }
 
-export function Arrow(props: { up: boolean }) {
+export function Arrow({ up }: { up: boolean }) {
   return (
-    <span className={styles.arrowText} style={{ color: arrowColor(props.up) }}>
-      {arrowDirection(props.up)}
+    <span className={styles.arrowText} style={{ color: arrowColor(up) }}>
+      {arrowDirection(up)}
     </span>
   )
 }

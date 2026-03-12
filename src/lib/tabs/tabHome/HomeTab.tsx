@@ -13,7 +13,7 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Languages } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { useRef } from 'react'
+import { type CSSProperties, useRef, useState } from 'react'
 import {
   Trans,
   useTranslation,
@@ -25,7 +25,7 @@ const headerWidth = 1600
 export default function HomeTab() {
   const activeKey = useGlobalStore((s) => s.activeKey)
 
-  if (activeKey != AppPages.HOME) {
+  if (activeKey !== AppPages.HOME) {
     // Don't load unless tab active
     return <></>
   }
@@ -33,11 +33,9 @@ export default function HomeTab() {
   return (
     <Flex
       direction="column"
-      style={{
-        width: '100%',
-        position: 'relative',
-        marginBottom: 200,
-      }}
+      w='100%'
+      mb={200}
+      style={{ position: 'relative' }}
       align='center'
     >
       <HeaderImage />
@@ -78,7 +76,7 @@ function CollapseLabel(props: { i18nkey: CollapseLabelI18nKey }) {
 function CommunityCollapse() {
   const { t } = useTranslation('hometab')
   return (
-    <Flex style={{ padding: '0px 25px' }} gap={50}>
+    <Flex px={25} py={0} gap={50}>
       <Flex direction="column" style={{ flex: 1, fontSize: 20 }} gap={20}>
         <Trans t={t} i18nKey='CommunityCollapse'>
           <span>
@@ -113,10 +111,8 @@ function ContentCollapse() {
     <Accordion
       multiple
       variant='default'
-      style={{
-        width: '100%',
-        maxWidth: headerWidth,
-      }}
+      w='100%'
+      maw={headerWidth}
       chevronPosition='left'
       defaultValue={collapseItems.map((x) => x.value)}
     >
@@ -176,7 +172,7 @@ function CardImage(props: { id: string }) {
   )
 }
 
-function FeatureCard(props: { title: string, id: string, content: string, url: string }) {
+function FeatureCard({ title, id, content, url }: { title: string, id: string, content: string, url: string }) {
   const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
   return (
     <Paper
@@ -189,19 +185,19 @@ function FeatureCard(props: { title: string, id: string, content: string, url: s
         minWidth: 500,
       }}
     >
-      <CardImage id={props.id} />
+      <CardImage id={id} />
       <div style={{ padding: '12px 0 0 0' }}>
         <div style={{ fontSize: 20, fontWeight: 500, marginBottom: 8 }}>
-          {props.title}
+          {title}
         </div>
         <Flex align='center' gap={10} justify='space-between'>
           <span>
-            {props.content}
+            {content}
           </span>
           <Button
             size='lg'
             component='a'
-            href={props.url}
+            href={url}
             target='_blank'
             leftSection={<IconExternalLink size={16} />}
           >
@@ -217,15 +213,15 @@ function FeaturesCollapse() {
   const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
 
   return (
-    <Flex style={{ maxWidth: headerWidth, minWidth: 1000, width: '100%', padding: '0px 20px' }}>
-      <Flex direction="column" style={{ width: '100%' }} gap={cardGap}>
+    <Flex maw={headerWidth} miw={1000} w='100%' py={0} px={20}>
+      <Flex direction="column" w='100%' gap={cardGap}>
         <Flex gap={cardGap}>
           <FeatureCard
             title={t('Showcase.Title') /* Character Showcase */}
             id='showcase'
             content={
               t('Showcase.Content')
-              // Showcase your character’s stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.
+              // Showcase your character's stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.
             }
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
           />
@@ -239,7 +235,7 @@ function FeaturesCollapse() {
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
           />
         </Flex>
-        <Flex gap={cardGap} style={{ width: '100%' }}>
+        <Flex gap={cardGap} w='100%'>
           <FeatureCard
             title={t('Calculator.Title') /* Damage Calculator */}
             id='calculator'
@@ -269,12 +265,10 @@ function Header() {
   return (
     <Flex
       direction="column"
-      style={{
-        width: '100%',
-        zIndex: 1,
-        height: headerHeight,
-        paddingBottom: 40,
-      }}
+      w='100%'
+      h={headerHeight}
+      pb={40}
+      style={{ zIndex: 1 }}
       align='center'
       justify='space-between'
     >
@@ -282,9 +276,9 @@ function Header() {
         style={{
           marginTop: 50,
           fontSize: 50,
-          color: 'white', // Ensure the text color is white
-          textShadow: '#000000 2px 2px 20px', // Add a dark shadow for better contrast
-          textAlign: 'center', // Center-align the text
+          color: 'white',
+          textShadow: '#000000 2px 2px 20px',
+          textAlign: 'center',
           fontFamily: 'Tahoma, Geneva, Verdana, sans-serif',
         }}
       >
@@ -303,7 +297,7 @@ function SearchBar() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   function handleSearchSubmit() {
-    const uuid = inputRef?.current?.value
+    const uuid = inputRef.current?.value
     if (!uuid) return
 
     const validated = TsUtils.validateUuid(uuid)
@@ -319,28 +313,34 @@ function SearchBar() {
     <Flex
       direction="column"
       className='homeCard'
-      style={{ width: 700, height: 115, padding: 20 }}
+      w={700}
+      h={115}
+      p={20}
       align='center'
       justify='center'
       gap={5}
     >
-      <Flex justify='space-between' style={{ width: '100%' }}>
+      <Flex justify='space-between' w='100%'>
         <Flex
           justify='flex-start'
-          style={{ paddingLeft: 3, paddingBottom: 5, fontSize: 17, textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}
+          pl={3}
+          pb={5}
+          fz={17}
+          style={{ textShadow: 'rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px' }}
         >
           {t('Label') /* Enter your UUID to showcase characters: */}
         </Flex>
 
-        <Flex style={{ fontSize: 16, opacity: 0.8, marginRight: 2 }}>
+        <Flex fz={16} style={{ opacity: 0.8 }} mr={2}>
           <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
         </Flex>
       </Flex>
-      <Flex gap={0} style={{ width: '100%' }}>
+      <Flex gap={0} w='100%'>
         <Button
           size='lg'
           leftSection={<IconSearch size={16} />}
-          style={{ width: 60, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+          w={60}
+          style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
           onClick={handleSearchSubmit}
         />
         <TextInput
@@ -359,8 +359,8 @@ function SearchBar() {
   )
 }
 
-function TranslatedImage(props: { src: string, fallbackSrc: string, style: React.CSSProperties }) {
-  const [errored, setErrored] = React.useState(false)
+function TranslatedImage(props: { src: string, fallbackSrc: string, style: CSSProperties }) {
+  const [errored, setErrored] = useState(false)
   return (
     <img
       style={props.style}

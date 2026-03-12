@@ -11,12 +11,12 @@ import {
 import { StatDelta } from 'lib/gpu/tests/webgpuTestUtils'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-export default function WebgpuTab(): React.JSX.Element {
+export function WebgpuTab() {
   const activeKey = useGlobalStore((s) => s.activeKey)
 
-  if (activeKey != AppPages.WEBGPU_TEST) {
+  if (activeKey !== AppPages.WEBGPU_TEST) {
     // Don't load unless tab active
     return <></>
   }
@@ -38,7 +38,7 @@ function WebgpuDashboard() {
     let completed = 0
     setTests(runs)
 
-    runs.map((run) => run.name = `#${++index} — ${run.name}`)
+    runs.forEach((run) => run.name = `#${++index} — ${run.name}`)
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     for (const run of runs) {
@@ -48,7 +48,7 @@ function WebgpuDashboard() {
 
       completed++
 
-      if (completed == allRunsCount) {
+      if (completed === allRunsCount) {
         setDone(true)
       }
     }
@@ -147,7 +147,7 @@ function TestIcon(props: { test: WebgpuTest }) {
 
   if (!test.done) {
     return (
-      <Flex gap={8} style={{ color: 'e6e6e6' }}>
+      <Flex gap={8} style={{ color: '#e6e6e6' }}>
         <IconQuestionMark />
         {test.name}
       </Flex>

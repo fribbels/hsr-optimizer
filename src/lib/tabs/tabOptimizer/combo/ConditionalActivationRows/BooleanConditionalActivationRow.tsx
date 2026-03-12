@@ -3,31 +3,25 @@ import { BoxArray } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BoxArray
 import { BooleanSwitch } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BooleanSwitch'
 import { ContentItem } from 'types/conditionals'
 
-export function BooleanConditionalActivationRow(props: {
+export function BooleanConditionalActivationRow({ contentItem, activations, actionCount, sourceKey }: {
   contentItem: ContentItem
   activations: boolean[]
   actionCount: number
   sourceKey: string
 }) {
-  const dataKeys: string[] = []
-
-  for (let i = 0; i < props.activations.length; i++) {
-    dataKeys.push(JSON.stringify({
-      id: props.contentItem.id,
-      source: props.sourceKey,
-      index: i,
-    }))
-  }
+  const dataKeys = activations.map((_, i) =>
+    JSON.stringify({ id: contentItem.id, source: sourceKey, index: i })
+  )
 
   return (
-    <Flex key={props.contentItem.id} style={{ height: 45 }}>
-      <BooleanSwitch contentItem={props.contentItem} sourceKey={props.sourceKey} value={props.activations[0]} />
+    <Flex style={{ height: 45 }}>
+      <BooleanSwitch contentItem={contentItem} sourceKey={sourceKey} value={activations[0]} />
       <BoxArray
-        activations={props.activations}
-        actionCount={props.actionCount}
+        activations={activations}
+        actionCount={actionCount}
         dataKeys={dataKeys}
         partition={false}
-        unselectable={props.contentItem.disabled}
+        unselectable={contentItem.disabled}
       />
     </Flex>
   )

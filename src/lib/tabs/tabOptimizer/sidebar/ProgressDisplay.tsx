@@ -1,8 +1,8 @@
-import { Flex, Progress, useMantineTheme } from '@mantine/core'
+import { Flex, Progress } from '@mantine/core'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { calculateProgressText } from 'lib/tabs/tabOptimizer/sidebar/sidebarUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 export const ProgressDisplay = React.memo(function ProgressDisplay() {
@@ -16,12 +16,8 @@ export const ProgressDisplay = React.memo(function ProgressDisplay() {
       optimizationInProgress: s.optimizationInProgress,
     })),
   )
-  const theme = useMantineTheme()
 
-  const progressText = useMemo(
-    () => calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine),
-    [optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine],
-  )
+  const progressText = calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)
 
   return (
     <Flex direction="column">
@@ -29,9 +25,9 @@ export const ProgressDisplay = React.memo(function ProgressDisplay() {
         {progressText}
       </HeaderText>
       <Progress
-        color={theme.colors.blue[6]}
+        color="blue"
         size={5}
-        value={Math.floor(permutationsSearched / permutations * 100)}
+        value={permutations ? Math.floor(permutationsSearched / permutations * 100) : 0}
       />
     </Flex>
   )

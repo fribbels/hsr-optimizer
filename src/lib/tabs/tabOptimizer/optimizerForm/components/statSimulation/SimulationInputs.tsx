@@ -40,7 +40,7 @@ export function SimulationInputs() {
   const renderedOptions = useMemo(() => {
     return (
       <>
-        <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
+        <Flex gap={5} style={{ display: statSimulationDisplay === StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
           <Flex direction="column" gap={5} style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }}>
             <HeaderText>{t('SetSelection.Header')}</HeaderText>
             <OptimizerSetsSection simType={simType} />
@@ -61,7 +61,7 @@ export function SimulationInputs() {
           <SubstatsSection simType={simType} title={t('RollsHeader')} total={substatRollsTotal} />
         </Flex>
 
-        <Flex gap={5} style={{ display: statSimulationDisplay == StatSimTypes.Disabled ? 'flex' : 'none' }}>
+        <Flex gap={5} style={{ display: statSimulationDisplay === StatSimTypes.Disabled ? 'flex' : 'none' }}>
           <div style={{ width: STAT_SIMULATION_OPTIONS_WIDTH }} />
           <VerticalDivider />
         </Flex>

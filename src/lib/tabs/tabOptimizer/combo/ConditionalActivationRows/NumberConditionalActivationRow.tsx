@@ -5,10 +5,16 @@ import {
   ComboNumberConditional,
   ComboState,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { ReactElement } from 'types/components'
 import { ContentItem } from 'types/conditionals'
 
-export function NumberConditionalActivationRow(props: {
+export function NumberConditionalActivationRow({
+  comboConditional,
+  contentItem,
+  actionCount,
+  sourceKey,
+  comboState,
+  onComboStateChange,
+}: {
   comboConditional: ComboNumberConditional
   contentItem: ContentItem
   actionCount: number
@@ -16,36 +22,9 @@ export function NumberConditionalActivationRow(props: {
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {
-  const numberComboConditional = props.comboConditional
-  const displaySortWrappers: {
-    display: ReactElement
-    value: number
-  }[] = []
-
-  for (let i = 0; i < numberComboConditional.partitions.length; i++) {
-    const x = numberComboConditional.partitions[i]
-
-    displaySortWrappers.push({
-      value: x.value,
-      display: (
-        <Partition
-          key={i}
-          partition={x}
-          contentItem={props.contentItem}
-          activations={x.activations}
-          partitionIndex={i}
-          actionCount={props.actionCount}
-          sourceKey={props.sourceKey}
-          comboState={props.comboState}
-          onComboStateChange={props.onComboStateChange}
-        />
-      ),
-    })
-  }
-
-  const sortedDisplays = displaySortWrappers
-    .sort((a, b) => a.value - b.value)
-    .map((x) => x.display)
+  const sortedPartitions = comboConditional.partitions
+    .map((partition, i) => ({ partition, originalIndex: i }))
+    .toSorted((a, b) => a.partition.value - b.partition.value)
 
   return (
     <Flex
@@ -53,7 +32,19 @@ export function NumberConditionalActivationRow(props: {
       style={{ position: 'relative' }}
     >
       <PartitionDivider />
-      {sortedDisplays}
+      {sortedPartitions.map(({ partition, originalIndex }) => (
+        <Partition
+          key={originalIndex}
+          partition={partition}
+          contentItem={contentItem}
+          activations={partition.activations}
+          partitionIndex={originalIndex}
+          actionCount={actionCount}
+          sourceKey={sourceKey}
+          comboState={comboState}
+          onComboStateChange={onComboStateChange}
+        />
+      ))}
       <PartitionDivider bottom />
     </Flex>
   )

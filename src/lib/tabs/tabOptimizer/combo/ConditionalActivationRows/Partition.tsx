@@ -8,7 +8,16 @@ import {
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { ContentItem } from 'types/conditionals'
 
-export function Partition(props: {
+export function Partition({
+  partition,
+  contentItem,
+  activations,
+  partitionIndex,
+  actionCount,
+  sourceKey,
+  comboState,
+  onComboStateChange,
+}: {
   partition: ComboSubNumberConditional
   contentItem: ContentItem
   activations: boolean[]
@@ -18,45 +27,30 @@ export function Partition(props: {
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {
-  const dataKeys: string[] = []
-
-  for (let i = 0; i < props.activations.length; i++) {
-    dataKeys.push(JSON.stringify({
-      id: props.contentItem.id,
-      source: props.sourceKey,
-      partitionIndex: props.partitionIndex,
+  const dataKeys = activations.map((_, i) =>
+    JSON.stringify({
+      id: contentItem.id,
+      source: sourceKey,
+      partitionIndex: partitionIndex,
       index: i,
-    }))
-  }
+    }),
+  )
 
-  const render = props.contentItem.formItem == 'slider'
-    ? (
-      <NumberSlider
-        contentItem={props.contentItem}
-        value={props.partition.value}
-        sourceKey={props.sourceKey}
-        partitionIndex={props.partitionIndex}
-        comboState={props.comboState}
-        onComboStateChange={props.onComboStateChange}
-      />
-    )
-    : (
-      <NumberSelect
-        contentItem={props.contentItem}
-        value={props.partition.value}
-        sourceKey={props.sourceKey}
-        partitionIndex={props.partitionIndex}
-        comboState={props.comboState}
-        onComboStateChange={props.onComboStateChange}
-      />
-    )
+  const NumberInput = contentItem.formItem === 'slider' ? NumberSlider : NumberSelect
 
   return (
-    <Flex key={props.partitionIndex} style={{ height: 45 }}>
-      {render}
+    <Flex style={{ height: 45 }}>
+      <NumberInput
+        contentItem={contentItem}
+        value={partition.value}
+        sourceKey={sourceKey}
+        partitionIndex={partitionIndex}
+        comboState={comboState}
+        onComboStateChange={onComboStateChange}
+      />
       <BoxArray
-        activations={props.activations}
-        actionCount={props.actionCount}
+        activations={activations}
+        actionCount={actionCount}
         dataKeys={dataKeys}
         partition={true}
       />

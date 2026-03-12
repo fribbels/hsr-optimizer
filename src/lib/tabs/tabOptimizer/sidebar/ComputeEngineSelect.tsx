@@ -20,7 +20,7 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
   return [
     {
       label: (
-        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL ? 'bold' : '' }}>
+        <div style={{ width: '100%', fontWeight: computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? 'bold' : '' }}>
           {i18next.t('optimizerTab:Sidebar.GPUOptions.Experimental')}
           {/* GPU acceleration enabled (experimental) */}
         </div>
@@ -29,7 +29,7 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
     },
     {
       label: (
-        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_GPU_STABLE ? 'bold' : '' }}>
+        <div style={{ width: '100%', fontWeight: computeEngine === COMPUTE_ENGINE_GPU_STABLE ? 'bold' : '' }}>
           {i18next.t('optimizerTab:Sidebar.GPUOptions.Stable')}
           {/* GPU acceleration enabled (stable) */}
         </div>
@@ -38,7 +38,7 @@ function getGpuOptions(computeEngine: ComputeEngine): GpuOption[] {
     },
     {
       label: (
-        <div style={{ width: '100%', fontWeight: computeEngine == COMPUTE_ENGINE_CPU ? 'bold' : '' }}>
+        <div style={{ width: '100%', fontWeight: computeEngine === COMPUTE_ENGINE_CPU ? 'bold' : '' }}>
           {i18next.t('optimizerTab:Sidebar.GPUOptions.CPU')}
           {/* CPU only */}
         </div>

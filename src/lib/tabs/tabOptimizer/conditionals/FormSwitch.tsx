@@ -9,7 +9,7 @@ import { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
 import { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import WithPopover from 'lib/ui/WithPopover'
+import { WithPopover } from 'lib/ui/WithPopover'
 import {
   ComponentProps,
   ComponentType,
@@ -81,16 +81,18 @@ export interface FormSwitchProps {
   value?: boolean
 }
 
-export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
-  const itemName = getItemName(props)
+export const FormSwitch: ComponentType<FormSwitchProps> = ({
+  disabled, id, text, lc, set, teammateIndex, removeForm, onChange: onChangeProp, value,
+}) => {
+  const itemName = getItemName({ disabled, id, text, lc, set, teammateIndex, removeForm, onChange: onChangeProp, value })
 
   const storeValue = useOptimizerRequestStore((s) =>
-    props.removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as boolean | undefined,
+    removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as boolean | undefined,
   )
 
-  const checked = props.removeForm ? props.value : storeValue
-  const onChange = props.removeForm
-    ? props.onChange
+  const checked = removeForm ? value : storeValue
+  const onChange = removeForm
+    ? onChangeProp
     : (val: boolean) => handleConditionalChange(itemName as (string | number)[], val)
 
   return (
@@ -98,12 +100,12 @@ export const FormSwitch: ComponentType<FormSwitchProps> = (props) => {
       <Switch
         onLabel={<IconCheck />}
         offLabel={<IconX />}
-        disabled={props.disabled}
+        disabled={disabled}
         style={{ width: 45, marginRight: 5 }}
         onChange={(event) => onChange?.(event.currentTarget.checked)}
         checked={checked}
       />
-      <Text>{props.text}</Text>
+      <Text>{text}</Text>
     </Flex>
   )
 }

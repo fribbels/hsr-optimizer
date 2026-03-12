@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import React from 'react'
 
-function BoxComponent_(props: {
+export const BoxComponent = React.memo(function BoxComponent({ active, index, disabled, dataKey, partition, unselectable }: {
   active: boolean
   index: number
   disabled: boolean
@@ -10,46 +10,32 @@ function BoxComponent_(props: {
   unselectable?: boolean
 }) {
   let classnames: string
-  if (props.disabled) {
+  if (disabled) {
     classnames = 'disabledSelect'
   } else {
-    if (props.unselectable) {
-      classnames = props.active ? 'unselectable selected defaultShaded' : 'unselectable defaultShaded'
+    if (unselectable) {
+      classnames = active ? 'unselectable selected defaultShaded' : 'unselectable defaultShaded'
     } else {
-      classnames = props.active ? 'selectable selected' : 'selectable'
+      classnames = active ? 'selectable selected' : 'selectable'
     }
-    if (props.index == 0) {
+    if (index === 0) {
       classnames += ' defaultShaded'
     }
-    if (props.partition && props.active) {
+    if (partition && active) {
       classnames += ' partitionShaded'
     }
   }
 
-  // console.log('Box')
   return (
     <div
       className={classnames}
-      data-key={props.dataKey}
+      data-key={dataKey}
       style={{ width: 90 - 1, marginLeft: -1, marginTop: -1 }}
-    >
-    </div>
+    />
   )
-}
+})
 
-export const BoxComponent = React.memo(
-  BoxComponent_,
-  (prevProps, nextProps) => {
-    return prevProps.dataKey === nextProps.dataKey
-      && prevProps.active === nextProps.active
-      && prevProps.disabled === nextProps.disabled
-      && prevProps.index === nextProps.index
-      && prevProps.partition === nextProps.partition
-      && prevProps.unselectable === nextProps.unselectable
-  },
-)
-
-export function BoxArray(props: {
+export function BoxArray({ activations, actionCount, dataKeys, partition, unselectable }: {
   activations: boolean[]
   actionCount: number
   dataKeys: string[]
@@ -58,15 +44,15 @@ export function BoxArray(props: {
 }) {
   return (
     <Flex>
-      {props.activations.map((value, index) => (
+      {activations.map((value, index) => (
         <BoxComponent
-          dataKey={props.dataKeys[index]}
+          dataKey={dataKeys[index]}
           key={index}
           active={value}
-          disabled={index >= props.actionCount}
+          disabled={index >= actionCount}
           index={index}
-          partition={props.partition}
-          unselectable={props.unselectable}
+          partition={partition}
+          unselectable={unselectable}
         />
       ))}
     </Flex>

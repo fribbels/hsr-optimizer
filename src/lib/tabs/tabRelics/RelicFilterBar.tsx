@@ -23,7 +23,7 @@ import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
 import { SaveState } from 'lib/state/saveState'
 import { SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
-import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -42,7 +42,7 @@ import classes from './RelicFilterBar.module.css'
 const tagHeight = 34
 const imgWidth = 34
 
-export default function RelicFilterBar() {
+export function RelicFilterBar() {
   const {
     filters,
     setFilter,

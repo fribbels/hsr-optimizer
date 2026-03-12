@@ -9,7 +9,7 @@ import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
 } from 'lib/tabs/tabImport/importerTabUiConstants'
-import { useRef, useState } from 'react'
+import { RefObject, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
 import classes from './LoadDataSubmenu.module.css'
@@ -18,6 +18,94 @@ enum Stages {
   LOAD_FILE = 0,
   CONFIRM_DATA = 1,
   FINISHED = 2,
+}
+
+type TFunction = (key: string, options?: Record<string, unknown>) => string
+
+function UploadFileStage(props: {
+  loading: boolean
+  fileInputRef: RefObject<HTMLInputElement>
+  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onUploadClick: () => void
+  t: TFunction
+}) {
+  return (
+    <Flex className={classes.stageContainer}>
+      <Flex direction='column' gap={10}>
+        <Text>
+          {props.t('Stage1.Label') /* Load your optimizer data from a file. */}
+        </Text>
+        <input
+          type='file'
+          accept='.json'
+          ref={props.fileInputRef}
+          style={{ display: 'none' }}
+          onChange={props.onFileChange}
+        />
+        <Button
+          w={importerTabButtonWidth}
+          leftSection={<IconUpload size={16} />}
+          loading={props.loading}
+          onClick={props.onUploadClick}
+          variant='default'
+        >
+          {props.t('Stage1.ButtonText') /* Load save data */}
+        </Button>
+      </Flex>
+    </Flex>
+  )
+}
+
+function ConfirmDataStage(props: {
+  currentSave: HsrOptimizerSaveFormat | undefined
+  currentStage: Stages
+  loading: boolean
+  onConfirm: () => void
+  t: TFunction
+}) {
+  const isVisible = props.currentStage >= Stages.CONFIRM_DATA
+  const displayStyle = { display: isVisible ? 'flex' : 'none' }
+
+  if (!props.currentSave?.relics || !props.currentSave.characters) {
+    return (
+      <Flex className={classes.stageContainer}>
+        <Flex direction='column' gap={10} style={displayStyle}>
+          {
+            /* Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab? */
+            props.t('Stage2.ErrorMsg')
+          }
+        </Flex>
+      </Flex>
+    )
+  }
+
+  return (
+    <Flex className={classes.stageContainer}>
+      <Flex direction='column' gap={10} style={displayStyle}>
+        <Text>
+          {
+            /* File contains {n relics} and {m characters}. Replace your current data with the uploaded data? */
+            props.t('Stage2.Label', { relicCount: props.currentSave.relics.length, characterCount: props.currentSave.characters.length })
+          }
+        </Text>
+        <Button w={importerTabButtonWidth} leftSection={<IconFileImport size={16} />} onClick={props.onConfirm} loading={props.loading}>
+          {props.t('Stage2.ButtonText') /* Use uploaded data */}
+        </Button>
+      </Flex>
+    </Flex>
+  )
+}
+
+function CompletedStage(props: { currentStage: Stages; t: TFunction }) {
+  return (
+    <Flex className={classes.stageContainer}>
+      <Flex direction='column' gap={10} style={{ display: props.currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
+        <Text>
+          {props.t('Stage3.SuccessMessage') /* Done! */}
+        </Text>
+      </Flex>
+    </Flex>
+  )
 }
 
 export function LoadDataSubmenu() {
@@ -74,91 +162,43 @@ export function LoadDataSubmenu() {
     }, importerTabSpinnerMs)
   }
 
-  function LoadDataContentUploadFile() {
-    return (
-      <Flex className={classes.stageContainer}>
-        <Flex direction="column" gap={10}>
-          <Text>
-            {t('Stage1.Label') /* Load your optimizer data from a file. */}
-          </Text>
-          <input
-            type="file"
-            accept=".json"
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-            onChange={(e) => {
-              const file = e.target.files?.[0]
-              if (file) {
-                void beforeUpload(file)
-              }
-              e.target.value = ''
-            }}
-          />
-          <Button
-            style={{ width: importerTabButtonWidth }}
-            leftSection={<IconUpload size={16} />}
-            loading={loading1}
-            onClick={() => {
-              setCurrentStage(Stages.LOAD_FILE)
-              fileInputRef.current?.click()
-            }}
-            variant="default"
-          >
-            {t('Stage1.ButtonText') /* Load save data */}
-          </Button>
-        </Flex>
-      </Flex>
-    )
-  }
-
-  function ConfirmLoadData() {
-    if (!currentSave?.relics || !currentSave.characters) {
-      return (
-        <Flex className={classes.stageContainer}>
-          <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
-            {
-              /* Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab? */
-              t('Stage2.ErrorMsg')
-            }
-          </Flex>
-        </Flex>
-      )
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (file) {
+      void beforeUpload(file)
     }
-    return (
-      <Flex className={classes.stageContainer}>
-        <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.CONFIRM_DATA ? 'flex' : 'none' }}>
-          <Text>
-            {
-              /* File contains {n relics} and {m characters}. Replace your current data with the uploaded data? */
-              t('Stage2.Label', { relicCount: currentSave.relics.length, characterCount: currentSave.characters.length })
-            }
-          </Text>
-          <Button style={{ width: importerTabButtonWidth }} leftSection={<IconFileImport size={16} />} onClick={loadConfirmed} loading={loading2}>
-            {t('Stage2.ButtonText') /* Use uploaded data */}
-          </Button>
-        </Flex>
-      </Flex>
-    )
+    e.target.value = ''
   }
 
-  function LoadCompleted() {
-    return (
-      <Flex className={classes.stageContainer}>
-        <Flex direction="column" gap={10} style={{ display: currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
-          <Text>
-            {t('Stage3.SuccessMessage') /* Done! */}
-          </Text>
-        </Flex>
-      </Flex>
-    )
+  function handleUploadClick() {
+    setCurrentStage(Stages.LOAD_FILE)
+    fileInputRef.current?.click()
   }
 
   return (
     <Flex gap={5}>
       <Timeline active={currentStage} bulletSize={24} lineWidth={2}>
-        <Timeline.Item>{LoadDataContentUploadFile()}</Timeline.Item>
-        <Timeline.Item>{ConfirmLoadData()}</Timeline.Item>
-        <Timeline.Item>{LoadCompleted()}</Timeline.Item>
+        <Timeline.Item>
+          <UploadFileStage
+            loading={loading1}
+            fileInputRef={fileInputRef}
+            onFileChange={handleFileChange}
+            onUploadClick={handleUploadClick}
+            t={t}
+          />
+        </Timeline.Item>
+        <Timeline.Item>
+          <ConfirmDataStage
+            currentSave={currentSave}
+            currentStage={currentStage}
+            loading={loading2}
+            onConfirm={loadConfirmed}
+            t={t}
+          />
+        </Timeline.Item>
+        <Timeline.Item>
+          <CompletedStage currentStage={currentStage} t={t} />
+        </Timeline.Item>
       </Timeline>
     </Flex>
   )

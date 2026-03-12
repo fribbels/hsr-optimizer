@@ -1,0 +1,12 @@
+.filterBarOuter {
+  padding: 4px 0;
+}
+
+.filterButton {
+  padding: var(--pill-padding, 1px 6px);
+  border-radius: 3px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s;
+}

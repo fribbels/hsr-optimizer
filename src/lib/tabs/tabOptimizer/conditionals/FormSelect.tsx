@@ -4,7 +4,7 @@ import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalCon
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import WithPopover from 'lib/ui/WithPopover'
+import { WithPopover } from 'lib/ui/WithPopover'
 import {
   ComponentProps,
   ComponentType,
@@ -24,27 +24,29 @@ export interface FormSelectProps {
   options?: SelectOptionContent[]
 }
 
-export const FormSelect: ComponentType<FormSelectProps> = (props) => {
-  const itemName = getItemName(props)
+export const FormSelect: ComponentType<FormSelectProps> = ({
+  disabled, id, text, lc, set, teammateIndex, removeForm, onChange, value, fullWidth, options,
+}) => {
+  const itemName = getItemName({ disabled, id, text, lc, set, teammateIndex, removeForm, onChange, value, fullWidth, options })
 
   const storeValue = useOptimizerRequestStore((s) =>
-    props.removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined,
+    removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined,
   )
 
-  const currentValue = props.removeForm ? props.value : storeValue
-  const handleChange = props.removeForm
-    ? props.onChange
+  const currentValue = removeForm ? value : storeValue
+  const handleChange = removeForm
+    ? onChange
     : (val: number) => handleConditionalChange(itemName as (string | number)[], val)
 
-  const stringOptions = props.options?.map((opt) => ({
+  const stringOptions = options?.map((opt) => ({
     label: opt.display || opt.label,
     value: String(opt.value),
   }))
 
   const internalSelect = (
     <Select
-      disabled={props.disabled}
-      style={{ minWidth: props.fullWidth ? '100%' : 80, width: props.fullWidth ? '100%' : 80, marginRight: 5 }}
+      disabled={disabled}
+      style={{ minWidth: fullWidth ? '100%' : 80, width: fullWidth ? '100%' : 80, marginRight: 5 }}
       maxDropdownHeight={500}
       size='xs'
       comboboxProps={{ styles: { dropdown: { width: 'fit-content' } } }}
@@ -59,9 +61,9 @@ export const FormSelect: ComponentType<FormSelectProps> = (props) => {
   )
 
   return (
-    <Flex justify={conditionalJustify} align={conditionalAlign} style={{ width: props.fullWidth ? '100%' : undefined }}>
+    <Flex justify={conditionalJustify} align={conditionalAlign} style={{ width: fullWidth ? '100%' : undefined }}>
       {internalSelect}
-      <Text>{props.fullWidth ? null : props.text}</Text>
+      <Text>{fullWidth ? null : text}</Text>
     </Flex>
   )
 }

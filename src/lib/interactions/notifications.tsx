@@ -42,7 +42,6 @@ export function checkForUpdatesNotification(version: string) {
       ),
       color: 'green',
       autoClose: 30000,
-      withCloseButton: true,
     })
   } catch (e) {
     console.error(e)
@@ -51,7 +50,6 @@ export function checkForUpdatesNotification(version: string) {
 
 export function webgpuNotSupportedNotification() {
   const t = i18next.getFixedT(null, 'notifications', 'GPU')
-  const tCrash = i18next.getFixedT(null, 'notifications', 'GPUCrash')
   try {
     notifications.show({
       title: t('Message'),
@@ -62,11 +60,8 @@ export function webgpuNotSupportedNotification() {
             <ul>
               <li>{t('Description.l2')}</li>
               <li>
-                {/* @ts-ignore */}
                 <Trans
-                  t={t}
-                  i18nKey='Description.l3'
-                  // @ts-ignore
+                  i18nKey='notifications:GPU.Description.l3'
                   components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true} /> }}
                 />
               </li>
@@ -75,9 +70,7 @@ export function webgpuNotSupportedNotification() {
           <p>{t('Description.l4')}</p>
           <p>
             <Trans
-              t={tCrash}
-              i18nKey='Description.l2'
-              // @ts-ignore
+              i18nKey='notifications:GPUCrash.Description.l2'
               components={{
                 CustomLink: (
                   <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true} />
@@ -89,7 +82,6 @@ export function webgpuNotSupportedNotification() {
       ),
       color: 'yellow',
       autoClose: 15000,
-      withCloseButton: true,
     })
   } catch (e) {
     console.error(e)
@@ -106,9 +98,7 @@ export function webgpuCrashNotification() {
           <div>{t('Description.l1')}</div>
           <div>
             <Trans
-              t={t}
-              i18nKey='Description.l2'
-              // @ts-ignore
+              i18nKey='notifications:GPUCrash.Description.l2'
               components={{
                 CustomLink: (
                   <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true} />
@@ -120,7 +110,6 @@ export function webgpuCrashNotification() {
       ),
       color: 'yellow',
       autoClose: 15000,
-      withCloseButton: true,
     })
   } catch (e) {
     console.error(e)

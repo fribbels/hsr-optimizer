@@ -14,7 +14,7 @@ import { useGlobalStore } from 'lib/stores/appStore'
 import Tabs from 'lib/tabs/Tabs'
 import React, { useEffect } from 'react'
 
-const App = () => {
+export default function App() {
   const colorTheme = useGlobalStore((s) => s.colorTheme)
   const mantineTheme = createMantineTheme(colorTheme)
 
@@ -27,40 +27,34 @@ const App = () => {
   }, [])
 
   return (
-    <MantineProvider theme={mantineTheme} defaultColorScheme="dark">
+    <MantineProvider theme={mantineTheme} defaultColorScheme='dark'>
       <ModalsProvider>
-      <Notifications position="top-right" />
-      <ConfirmModalProvider>
-        <div style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
-          <LayoutHeader />
-          <div style={{ display: 'flex', flex: 1 }}>
-            <LayoutSider />
-            <div
-              style={{
-                padding: '10px 10px 0 10px',
-                margin: 0,
-                minHeight: 280,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                overflow: 'initial',
-                display: 'flex',
-                justifyContent: 'space-around',
-                width: '100%',
-              }}
-            >
-              <Tabs />
+        <Notifications position='top-right' />
+        <ConfirmModalProvider>
+          <div style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
+            <LayoutHeader />
+            <div style={{ display: 'flex', flex: 1 }}>
+              <LayoutSider />
+              <div
+                style={{
+                  padding: '10px 10px 0 10px',
+                  margin: '0 auto',
+                  minHeight: 280,
+                  overflow: 'initial',
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  width: '100%',
+                }}
+              >
+                <Tabs />
+              </div>
+              <SettingsDrawer />
+              <GettingStartedDrawer />
+              <StatTracesDrawer />
             </div>
-            <SettingsDrawer />
-            <GettingStartedDrawer />
-            <StatTracesDrawer />
           </div>
-        </div>
-      </ConfirmModalProvider>
+        </ConfirmModalProvider>
       </ModalsProvider>
     </MantineProvider>
   )
-}
-
-export default function WrappedApp() {
-  return <App />
 }

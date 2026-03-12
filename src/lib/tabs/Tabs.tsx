@@ -1,18 +1,18 @@
 import { Flex, Text } from '@mantine/core'
-import ScoringModal from 'lib/overlays/modals/ScoringModal'
+import { ScoringModal } from 'lib/overlays/modals/ScoringModal'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
-import BenchmarksTab from 'lib/tabs/tabBenchmarks/BenchmarksTab'
+import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
 import CharacterTab from 'lib/tabs/tabCharacters/CharacterTab'
 import HomeTab from 'lib/tabs/tabHome/HomeTab'
 import ImportTab from 'lib/tabs/tabImport/ImportTab'
 import MetadataTab from 'lib/tabs/tabMetadata/MetadataTab'
 import OptimizerTab from 'lib/tabs/tabOptimizer/OptimizerTab'
-import RelicsTab from 'lib/tabs/tabRelics/RelicsTab'
-import ShowcaseTab from 'lib/tabs/tabShowcase/ShowcaseTab'
-import WarpCalculatorTab from 'lib/tabs/tabWarp/WarpCalculatorTab'
-import WebgpuTab from 'lib/tabs/tabWebgpu/WebgpuTab'
+import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
+import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
+import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
+import { WebgpuTab } from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
 import React, {
   ReactElement,
@@ -26,22 +26,29 @@ const defaultErrorRender = ({ error: { message } }: {
   },
 }) => <Text>Something went wrong: {message}</Text>
 
+const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
+  [AppPages.HOME, HomeTab],
+  [AppPages.OPTIMIZER, OptimizerTab],
+  [AppPages.CHARACTERS, CharacterTab],
+  [AppPages.RELICS, RelicsTab],
+  [AppPages.IMPORT, ImportTab],
+  [AppPages.SHOWCASE, ShowcaseTab],
+  [AppPages.WARP, WarpCalculatorTab],
+  [AppPages.BENCHMARKS, BenchmarksTab],
+  [AppPages.CHANGELOG, ChangelogTab],
+  [AppPages.WEBGPU_TEST, WebgpuTab],
+  [AppPages.METADATA_TEST, MetadataTab],
+]
+
 let optimizerInitialized = false
 
 const Tabs = () => {
   const activeKey = useGlobalStore((s) => s.activeKey).split('?')[0] as AppPages
 
-  const homeTab = React.useMemo(() => <HomeTab />, [])
-  const optimizerTab = React.useMemo(() => <OptimizerTab />, [])
-  const characterTab = React.useMemo(() => <CharacterTab />, [])
-  const relicsTab = React.useMemo(() => <RelicsTab />, [])
-  const importTab = React.useMemo(() => <ImportTab />, [])
-  const showcaseTab = React.useMemo(() => <ShowcaseTab />, [])
-  const warpCalculatorTab = React.useMemo(() => <WarpCalculatorTab />, [])
-  const changelogTab = React.useMemo(() => <ChangelogTab />, [])
-  const webgpuTab = React.useMemo(() => <WebgpuTab />, [])
-  const metadataTab = React.useMemo(() => <MetadataTab />, [])
-  const benchmarksTab = React.useMemo(() => <BenchmarksTab />, [])
+  const tabs = React.useMemo(
+    () => TAB_COMPONENTS.map(([key, Component]) => [key, <Component />] as const),
+    [],
+  )
 
   useEffect(() => {
     let route = PageToRoute[activeKey]
@@ -52,7 +59,7 @@ const Tabs = () => {
       }
     }
     console.log('Navigating activekey to route', activeKey, route)
-    window.history.pushState({}, window.title, route)
+    window.history.pushState({}, document.title, route)
 
     if (activeKey == AppPages.OPTIMIZER) {
       // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
@@ -67,17 +74,9 @@ const Tabs = () => {
 
   return (
     <Flex justify='space-around' style={{ width: '100%' }}>
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.HOME} content={homeTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.OPTIMIZER} content={optimizerTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.CHARACTERS} content={characterTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.RELICS} content={relicsTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.IMPORT} content={importTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.SHOWCASE} content={showcaseTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.WARP} content={warpCalculatorTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.BENCHMARKS} content={benchmarksTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.CHANGELOG} content={changelogTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.WEBGPU_TEST} content={webgpuTab} />
-      <TabRenderer activeKey={activeKey} tabKey={AppPages.METADATA_TEST} content={metadataTab} />
+      {tabs.map(([tabKey, content]) => (
+        <TabRenderer key={tabKey} activeKey={activeKey} tabKey={tabKey} content={content} />
+      ))}
 
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal />
@@ -88,15 +87,15 @@ const Tabs = () => {
 
 export default Tabs
 
-function TabRenderer(props: {
-  activeKey: AppPages,
-  tabKey: AppPages,
-  content: ReactElement,
+function TabRenderer({ activeKey, tabKey, content }: {
+  activeKey: AppPages
+  tabKey: AppPages
+  content: ReactElement
 }) {
   return (
     <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <div style={{ display: props.activeKey === props.tabKey ? 'contents' : 'none' }} id={props.tabKey}>
-        {props.content}
+      <div style={{ display: activeKey === tabKey ? 'contents' : 'none' }} id={tabKey}>
+        {content}
       </div>
     </ErrorBoundary>
   )

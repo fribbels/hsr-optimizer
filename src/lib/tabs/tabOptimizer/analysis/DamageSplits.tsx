@@ -8,11 +8,10 @@ const cardShadowNonInset = '0 4px 8px rgba(0,0,0,0.3)'
 
 type SplitMode = 'default' | 'rotation'
 
-function ModeToggle(props: {
+function ModeToggle({ mode, onModeChange }: {
   mode: SplitMode
   onModeChange: (mode: SplitMode) => void
 }) {
-  const { mode, onModeChange } = props
   const modes: { key: SplitMode; label: string }[] = [
     { key: 'default', label: 'Default' },
     { key: 'rotation', label: 'Rotation' },
@@ -44,10 +43,9 @@ function ModeToggle(props: {
   )
 }
 
-export function DamageSplits(props: {
-  analysis: OptimizerResultAnalysis,
+export function DamageSplits({ analysis }: {
+  analysis: OptimizerResultAnalysis
 }) {
-  const { analysis } = props
   const { newX, context } = analysis
   const hasRotation = context.rotationActions.length > 0
   const [mode, setMode] = useState<SplitMode>(hasRotation ? 'rotation' : 'default')

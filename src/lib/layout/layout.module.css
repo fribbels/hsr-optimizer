@@ -1,9 +1,11 @@
+/* LayoutHeader */
+
 .header {
   display: flex;
   align-items: center;
   padding-left: 30px;
-  padding-right: 0;
   width: 100%;
+  background-color: var(--bg-app);
   background-image: linear-gradient(rgb(0 0 0/60%) 0 0);
 }
 
@@ -35,12 +37,23 @@
 
 .socialIcon {
   height: 36px;
-  margin-right: 6px;
   border-radius: 5px;
 }
 
-.socialIconLast {
-  height: 36px;
-  margin-right: 8px;
-  border-radius: 5px;
+/* LayoutSider */
+
+.siderPanel {
+  background: var(--mantine-color-dark-7);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  transition: width 0.2s;
+}
+
+.scrollContainer {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }

@@ -22,7 +22,7 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import ColorizeNumbers from 'lib/ui/ColorizeNumbers'
+import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
@@ -48,12 +48,12 @@ interface OrnamentConditionalSetOptionProps extends BaseConditionalSetOptionProp
 }
 type ConditionalSetOptionsProps = OrnamentConditionalSetOptionProps | RelicConditionalSetOptionProps
 
-function ConditionalSetOption(props: ConditionalSetOptionsProps) {
+function ConditionalSetOption({ set, description, conditional, selectOptions, ...rest }: ConditionalSetOptionsProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
-  const itemName = ['setConditionals', props.set, 1] as (string | number)[]
+  const itemName = ['setConditionals', set, 1] as (string | number)[]
   const value = useOptimizerRequestStore((s) => {
-    const setData = (s.setConditionals as Record<string, [undefined, boolean | number]>)[props.set]
+    const setData = (s.setConditionals as Record<string, [undefined, boolean | number]>)[set]
     return setData?.[1]
   })
 
@@ -63,24 +63,23 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
         <HeaderText>
           <p>{t('DescriptionHeader') /* Set description */}</p>
         </HeaderText>
-        <p>{ColorizeNumbers(props.description)}</p>
+        <p>{ColorizeNumbers(description)}</p>
       </Flex>
 
       <Flex direction="column">
         <HeaderText>
           <p>{t('EffectHeader') /* Enabled effect */}</p>
         </HeaderText>
-        <p>{props.conditional}</p>
+        <p>{conditional}</p>
       </Flex>
     </Flex>
   )
 
-  const isDisabled = isRelicProps(props) ? !props.p4Checked === false : !props.p2Checked === false
-  const disabled = isRelicProps(props) ? !props.p4Checked : !props.p2Checked
+  const disabled = 'p4Checked' in rest ? !rest.p4Checked : !('p2Checked' in rest && rest.p2Checked)
 
   let inputType
-  if (props.selectOptions) {
-    const stringSelectOptions = props.selectOptions?.map((opt) => ({
+  if (selectOptions) {
+    const stringSelectOptions = selectOptions.map((opt) => ({
       label: opt.display || opt.label,
       value: String(opt.value),
     }))
@@ -111,7 +110,7 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
         <Flex gap={defaultGap} align='center' justify='flex-start' style={{ cursor: 'pointer' }}>
           <Flex style={{ width: setConditionalsIconWidth }}>
             <img
-              src={Assets.getSetImage(props.set, Constants.Parts.PlanarSphere)}
+              src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)}
               style={{ width: 36, height: 36 }}
             />
           </Flex>
@@ -123,7 +122,7 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
               whiteSpace: 'nowrap',
             }}
           >
-            {t('SetName', { id: setToId[props.set] })}
+            {t('SetName', { id: setToId[set] })}
           </Text>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
             {inputType}
@@ -131,15 +130,11 @@ function ConditionalSetOption(props: ConditionalSetOptionsProps) {
         </Flex>
       </Popover.Target>
       <Popover.Dropdown>
-        <Text fw={600} mb={4}>{t('SetName', { id: setToId[props.set] })}</Text>
+        <Text fw={600} mb={4}>{t('SetName', { id: setToId[set] })}</Text>
         {content}
       </Popover.Dropdown>
     </Popover>
   )
-}
-
-function isRelicProps(props: ConditionalSetOptionsProps): props is RelicConditionalSetOptionProps {
-  return isRelicSet(props.set)
 }
 
 function isRelicSet(set: Sets): set is SetsRelics {
@@ -152,33 +147,34 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
   const { t: tSelectOptions } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
 
   const { relicOptions, ornamentOptions } = useMemo(() => {
-    const relicOptions: Array<JSX.Element> = []
-    const ornamentOptions: Array<JSX.Element> = []
-    ;(Object.entries(ConditionalSetMetadata) as Array<[Sets, SetMetadata]>).forEach(([set, meta]) => {
-      if (isRelicSet(set)) {
-        relicOptions.push(
-          <ConditionalSetOption
-            key={set}
-            set={set}
-            p4Checked={!meta.modifiable}
-            description={t('RelicDescription', { id: setToId[set] })}
-            conditional={t(setToConditionalKey(set))}
-            selectOptions={meta.selectionOptions?.(tSelectOptions)}
-          />,
-        )
-      } else {
-        ornamentOptions.push(
-          <ConditionalSetOption
-            key={set}
-            set={set}
-            p2Checked={!meta.modifiable}
-            description={t('PlanarDescription', { id: setToId[set] })}
-            conditional={t(setToConditionalKey(set))}
-            selectOptions={meta.selectionOptions?.(tSelectOptions)}
-          />,
-        )
-      }
-    })
+    const entries = Object.entries(ConditionalSetMetadata) as Array<[Sets, SetMetadata]>
+
+    const relicOptions = entries
+      .filter(([set]) => isRelicSet(set))
+      .map(([set, meta]) => (
+        <ConditionalSetOption
+          key={set}
+          set={set as SetsRelics}
+          p4Checked={!meta.modifiable}
+          description={t('RelicDescription', { id: setToId[set] })}
+          conditional={t(setToConditionalKey(set))}
+          selectOptions={meta.selectionOptions?.(tSelectOptions)}
+        />
+      ))
+
+    const ornamentOptions = entries
+      .filter(([set]) => !isRelicSet(set))
+      .map(([set, meta]) => (
+        <ConditionalSetOption
+          key={set}
+          set={set as SetsOrnaments}
+          p2Checked={!meta.modifiable}
+          description={t('PlanarDescription', { id: setToId[set] })}
+          conditional={t(setToConditionalKey(set))}
+          selectOptions={meta.selectionOptions?.(tSelectOptions)}
+        />
+      ))
+
     return { relicOptions, ornamentOptions }
   }, [tSelectOptions, t])
 

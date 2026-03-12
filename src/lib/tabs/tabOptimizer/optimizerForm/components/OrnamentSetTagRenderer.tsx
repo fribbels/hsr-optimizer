@@ -1,9 +1,10 @@
-import { Badge, Flex } from '@mantine/core'
+import { Badge } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
 import React, { ReactNode } from 'react'
 import { ReactElement } from 'types/components'
+import classes from './OrnamentSetTagRenderer.module.css'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet
 export function OrnamentSetTagRenderer(props: {
@@ -19,20 +20,14 @@ export function OrnamentSetTagRenderer(props: {
   if (!value) {
     return (
       <Badge>
-        <Flex>
-          {processedLabel}
-        </Flex>
+        {processedLabel}
       </Badge>
     )
   }
 
   return (
-    <Badge
-      style={{ display: 'flex', flexDirection: 'row', paddingInline: '1px', marginInlineEnd: '4px', height: 21, alignItems: 'center', overflow: 'hidden' }}
-    >
-      <Flex>
-        <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} className={iconClasses.icon24}></img>
-      </Flex>
+    <Badge className={classes.badge}>
+      <img title={value} src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} className={iconClasses.icon24} />
     </Badge>
   )
 }

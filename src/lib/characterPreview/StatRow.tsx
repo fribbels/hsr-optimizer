@@ -15,7 +15,7 @@ import {
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, { ReactElement } from 'react'
+import { memo, ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 // FIXME HIGH
@@ -66,40 +66,45 @@ export const displayTextMap = {
   'DOT': 'DoT Damage',
 }
 
-export const StatRow = React.memo(function StatRow(props: {
-  stat: string,
-  finalStats: BasicStatsObject | ComputedStatsObjectExternal,
-  value?: number,
-  edits?: Record<string, boolean>,
-  preciseSpd?: boolean,
-  loading?: boolean,
+export const StatRow = memo(function StatRow({
+  stat,
+  finalStats,
+  value: customValue,
+  edits,
+  preciseSpd,
+  loading,
+}: {
+  stat: string
+  finalStats: BasicStatsObject | ComputedStatsObjectExternal
+  value?: number
+  edits?: Record<string, boolean>
+  preciseSpd?: boolean
+  loading?: boolean
 }): ReactElement {
-  const { stat, finalStats, edits } = props
   const value = TsUtils.precisionRound(finalStats[stat as keyof typeof finalStats])
 
   const { t, i18n } = useTranslation('common')
 
-  // @ts-ignore
-  const readableStat: string = (displayTextMap[stat] || stat == 'CV')
+  // @ts-expect-error - displayTextMap keys don't fully overlap with stat strings
+  const readableStat: string = (displayTextMap[stat] || stat === 'CV')
     ? (i18n.exists(`ReadableStats.${stat}`)
       ? t(`ReadableStats.${stat as StatsValues}`)
-      // @ts-ignore
-      : t(`DMGTypes.${stat}`))
+      : t(`DMGTypes.${stat}` as never))
     : t(`Stats.${stat as StatsValues}`)
 
-  const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, props.value!, props.stat, props.preciseSpd)
+  const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, customValue ?? 0, stat, preciseSpd)
 
   if (!finalStats) {
-    return <div></div>
+    return null as unknown as ReactElement
   }
   return (
-    <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ filter: props.loading ? 'blur(2px)' : 'none' }}>
+    <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ filter: loading ? 'blur(2px)' : 'none' }}>
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
-      {props.loading
+      {loading
         ? '...'
-        : `${valueDisplay}${Utils.isFlat(stat) || stat == 'CV' || stat == 'simScore' ? '' : '%'}${stat == 'simScore' ? t('ThousandsSuffix') : ''}`}
+        : `${valueDisplay}${Utils.isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
     </Flex>
   )
 })
@@ -108,13 +113,13 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
   let valueDisplay: string
   let value1000thsPrecision: string
 
-  if (stat == 'CV') {
+  if (stat === 'CV') {
     valueDisplay = localeNumber_0(Utils.precisionRound(customValue))
     value1000thsPrecision = localeNumber_000(Utils.precisionRound(customValue))
-  } else if (stat == 'simScore' || stat == 'COMBO_DMG') {
+  } else if (stat === 'simScore' || stat === 'COMBO_DMG') {
     valueDisplay = localeNumber_0(Utils.truncate10ths(Utils.precisionRound((customValue ?? 0) / 1000)))
     value1000thsPrecision = localeNumber_000(Utils.precisionRound(customValue))
-  } else if (stat == Constants.Stats.SPD) {
+  } else if (stat === Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(statValue)
     valueDisplay = is1000thSpeed || preciseSpd
       ? localeNumber_000(Utils.precisionRound(statValue, 3))

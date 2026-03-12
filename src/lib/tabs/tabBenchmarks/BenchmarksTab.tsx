@@ -16,7 +16,7 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import CharacterModal from 'lib/overlays/modals/CharacterModal'
+import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { Jade } from 'lib/conditionals/character/1300/Jade'
@@ -41,13 +41,13 @@ import {
   SimpleCharacterSets,
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
-import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import {
   generateSpdPresets,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
+import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SetsSection'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
@@ -59,14 +59,17 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Character,
   CharacterId,
 } from 'types/character'
 import { ReactElement } from 'types/components'
 import styles from './BenchmarksTab.module.css'
 
 const GAP = 8
-const HEADER_GAP = 5
+
+const BOOLEAN_SEGMENTS = [
+  { label: <IconCheck />, value: 'true' },
+  { label: <IconX />, value: 'false' },
+]
 
 const defaultForm: Partial<BenchmarkForm> = {
   characterId: TheHerta.id,
@@ -99,7 +102,7 @@ const defaultForm: Partial<BenchmarkForm> = {
   subDps: false,
 }
 
-export default function BenchmarksTab(): ReactElement {
+export function BenchmarksTab(): ReactElement {
   const { t } = useTranslation('benchmarksTab')
   const benchmarkForm = useForm<BenchmarkForm>({
     initialValues: defaultForm as BenchmarkForm,
@@ -115,16 +118,12 @@ export default function BenchmarksTab(): ReactElement {
     teammate2,
   } = useBenchmarksTabStore()
 
-  const initialForm = useMemo(() => {
-    return defaultForm
-  }, [])
-
   useEffect(() => {
-    benchmarkForm.setValues(initialForm as BenchmarkForm)
-    updateTeammate(0, initialForm.teammate0)
-    updateTeammate(1, initialForm.teammate1)
-    updateTeammate(2, initialForm.teammate2)
-    handleCharacterSelectChange(initialForm.characterId, benchmarkForm)
+    benchmarkForm.setValues(defaultForm as BenchmarkForm)
+    updateTeammate(0, defaultForm.teammate0)
+    updateTeammate(1, defaultForm.teammate1)
+    updateTeammate(2, defaultForm.teammate2)
+    handleCharacterSelectChange(defaultForm.characterId, benchmarkForm)
   }, [])
 
   useEffect(() => {
@@ -150,7 +149,7 @@ export default function BenchmarksTab(): ReactElement {
         onOk={onCharacterModalOk}
         open={isCharacterModalOpen}
         setOpen={setCharacterModalOpen}
-        initialCharacter={characterModalInitialCharacter ? { form: characterModalInitialCharacter } as unknown as Character : undefined}
+        initialCharacter={characterModalInitialCharacter ? { form: characterModalInitialCharacter } : undefined}
       />
     </Flex>
   )
@@ -246,33 +245,17 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
         <SpdBenchmarkSetting form={form} />
         <BenchmarkSetting label='ERR' itemName='errRope' form={form}>
-          <SegmentedControl
-            size='xs'
-            fullWidth
-            className={styles.inputControl}
-            data={[
-              { label: <IconCheck />, value: 'true' },
-              { label: <IconX />, value: 'false' },
-            ]}
-          />
+          <SegmentedControl size='xs' fullWidth className={styles.inputControl} data={BOOLEAN_SEGMENTS} />
         </BenchmarkSetting>
         <BenchmarkSetting label='SubDPS' itemName='subDps' form={form}>
-          <SegmentedControl
-            size='xs'
-            fullWidth
-            className={styles.inputControl}
-            data={[
-              { label: <IconCheck />, value: 'true' },
-              { label: <IconX />, value: 'false' },
-            ]}
-          />
+          <SegmentedControl size='xs' fullWidth className={styles.inputControl} data={BOOLEAN_SEGMENTS} />
         </BenchmarkSetting>
 
         <CustomHorizontalDivider height={8} />
 
         <HeaderText>{t('SetsHeader') /* Benchmark sets */}</HeaderText>
 
-        <Flex direction="column" gap={HEADER_GAP}>
+        <Flex direction="column" gap={5}>
           <SetsSection simType={StatSimTypes.Benchmarks} form={form} />
           <Button
             onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
@@ -288,10 +271,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
       <Flex direction="column" gap={GAP}>
         <Button
-          onClick={() => {
-            const formValues = form.getValues()
-            handleBenchmarkFormSubmit(formValues)
-          }}
+          onClick={() => handleBenchmarkFormSubmit(form.getValues())}
           loading={loading}
           leftSection={<IconBoltFilled size={16} />}
           className={styles.generateButton}
@@ -299,9 +279,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           {t('ButtonText.Generate') /* Generate benchmarks */}
         </Button>
         <Button
-          onClick={() => {
-            resetCache()
-          }}
+          onClick={resetCache}
           className={styles.clearButton}
           variant='default'
           leftSection={<IconTrash size={16} />}
@@ -386,7 +364,7 @@ function Teammate({ index }: { index: number }) {
     teammate2,
   } = useBenchmarksTabStore()
 
-  const teammate = getTeammate(index, teammate0, teammate1, teammate2)
+  const teammate = [teammate0, teammate1, teammate2][index]
   const characterId = teammate?.characterId
   const lightCone = teammate?.lightCone
   const characterEidolon = teammate?.characterEidolon ?? 0
@@ -442,8 +420,3 @@ function Teammate({ index }: { index: number }) {
   )
 }
 
-function getTeammate(index: number, teammate0?: SimpleCharacterSets, teammate1?: SimpleCharacterSets, teammate2?: SimpleCharacterSets) {
-  if (index == 0) return teammate0
-  if (index == 1) return teammate1
-  return teammate2
-}

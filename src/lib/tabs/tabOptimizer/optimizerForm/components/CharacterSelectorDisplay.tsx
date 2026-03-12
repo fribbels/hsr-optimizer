@@ -9,8 +9,8 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import CharacterSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
-import LightConeSelect from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
   optimizerTabDefaultGap,
@@ -23,7 +23,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
-export default function CharacterSelectorDisplay() {
+export function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
@@ -48,30 +48,19 @@ export default function CharacterSelectorDisplay() {
     })),
   )
 
-  const eidolonOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
-    for (let i = 0; i <= 6; i++) {
-      options.push({ value: i, label: t('common:EidolonNShort', { eidolon: i }) })
-    }
-    return options
-  }, [t])
+  const eidolonOptions = useMemo(() =>
+    Array.from({ length: 7 }, (_, i) => ({ value: i, label: t('common:EidolonNShort', { eidolon: i }) })),
+  [t])
 
-  const superimpositionOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
-    for (let i = 1; i <= 5; i++) {
-      options.push({ value: i, label: t('common:SuperimpositionNShort', { superimposition: i }) })
-    }
-    return options
-  }, [t])
+  const superimpositionOptions = useMemo(() =>
+    Array.from({ length: 5 }, (_, i) => ({ value: i + 1, label: t('common:SuperimpositionNShort', { superimposition: i + 1 }) })),
+  [t])
 
-  const resultLimitOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
-    for (let i = 64; i <= 65536; i = i * 2) {
-      // `Find top ${limit} results`
-      options.push({ value: i, label: t('ResultLimitN', { limit: i }) })
-    }
-    return options
-  }, [t])
+  const resultLimitOptions = useMemo(() =>
+    Array.from({ length: 11 }, (_, i) => 64 * Math.pow(2, i))
+      .filter((v) => v <= 65536)
+      .map((v) => ({ value: v, label: t('ResultLimitN', { limit: v }) })),
+  [t])
 
   const resultSortOptions = useMemo(() => { // `Sorted by ${key}`
     // Get available actions for the selected character

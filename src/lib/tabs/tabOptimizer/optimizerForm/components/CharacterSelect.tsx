@@ -10,16 +10,13 @@ import {
   SegmentedFilterRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { Utils } from 'lib/utils/utils'
-import * as React from 'react'
-import { ReactNode, useMemo, useState } from 'react'
+import { CSSProperties, ReactNode, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import classes from './CharacterSelect.module.css'
 
-// FIXME HIGH
-
 interface BaseCharacterSelectProps {
-  selectStyle?: React.CSSProperties
+  selectStyle?: CSSProperties
   withIcon?: boolean
   externalOpen?: boolean
   setExternalOpen?: (state: boolean) => void
@@ -60,7 +57,6 @@ const defaultCharacterFilters: CharacterFilters = {
 }
 
 function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIcon, externalOpen, setExternalOpen }: CharacterSelectProps) {
-  // console.log('==================================== CHARACTER SELECT')
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
   const [selected, setSelected] = useState<Map<CharacterId, boolean>>(new Map())
@@ -88,21 +84,18 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
 
   const setPathFilter = (path: CharacterFilters['path']) => updateFilter('path', path)
 
-  const labelledOptions: { value: string, label: ReactNode }[] = []
-  for (const option of characterOptions) {
-    labelledOptions.push({
-      value: option.value,
-      label: (
-        <Flex gap={5} align='center'>
-          <img
-            src={Assets.getCharacterAvatarById(option.value)}
-            className={classes.avatarIcon}
-          />
-          {option.label}
-        </Flex>
-      ),
-    })
-  }
+  const labelledOptions = characterOptions.map((option) => ({
+    value: option.value,
+    label: (
+      <Flex gap={5} align='center'>
+        <img
+          src={Assets.getCharacterAvatarById(option.value)}
+          className={classes.avatarIcon}
+        />
+        {option.label}
+      </Flex>
+    ) as ReactNode,
+  }))
 
   function applyFilters(x: CharacterOptions[CharacterId]) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
@@ -120,8 +113,9 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
 
   const handleClick = (id: CharacterId) => {
     if (multipleSelect) {
-      selected.set(id, !selected.get(id))
-      setSelected(new Map(selected))
+      const newSelected = new Map(selected)
+      newSelected.set(id, !newSelected.get(id))
+      setSelected(newSelected)
     } else {
       setOpen(false)
       if (setExternalOpen) setExternalOpen(false)
@@ -278,4 +272,4 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
   )
 }
 
-export default CharacterSelect
+export { CharacterSelect }

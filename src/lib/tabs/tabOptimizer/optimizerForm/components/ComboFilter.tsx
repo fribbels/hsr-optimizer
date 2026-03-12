@@ -40,7 +40,7 @@ import { CharacterConditionalsController } from 'types/conditionals'
 import classes from './ComboFilter.module.css'
 
 
-export const ComboFilters = () => {
+export function ComboFilters() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const comboType = useOptimizerRequestStore((s) => s.comboType)
   const characterId = useOptimizerRequestStore((s) => s.characterId)
@@ -80,19 +80,17 @@ export const ComboFilters = () => {
 
       <ComboBasicDefinition comboOptions={comboOptions} />
 
-      <>
-        <Flex direction="column" gap={8} className={classes.advancedButtonContainer}>
-          <Button
-            variant="default"
-            onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
-            leftSection={<IconSettings size={16} />}
-            disabled={comboType == ComboType.SIMPLE}
-          >
-            {t('RotationButton')}
-          </Button>
-        </Flex>
-        <ComboDrawer />
-      </>
+      <Flex direction="column" gap={8} className={classes.advancedButtonContainer}>
+        <Button
+          variant="default"
+          onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
+          leftSection={<IconSettings size={16} />}
+          disabled={comboType == ComboType.SIMPLE}
+        >
+          {t('RotationButton')}
+        </Button>
+      </Flex>
+      <ComboDrawer />
     </Flex>
   )
 }
@@ -139,7 +137,7 @@ function resetClicked() {
   useOptimizerRequestStore.getState().setComboStateJson('{}')
 }
 
-function ComboBasicDefinition(props: { comboOptions: { value: string; label: string }[] }) {
+function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string; label: string }[] }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tCommon } = useTranslation('common')
   const {
@@ -177,7 +175,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             <ComboOptionRowSelect
               key={i + 1}
               index={i + 1}
-              comboOptions={props.comboOptions}
+              comboOptions={comboOptions}
               disabled={disabled}
             />
           ))}
@@ -199,7 +197,7 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
             onConfirm={() => resetClicked()}
             okText={tCommon('Yes')}
             cancelText={tCommon('Cancel')}
-            placement='bottomRight'
+            placement='bottom-end'
           >
             <Button size='xs' variant='outline' disabled={disabled}>
               {tCommon('Reset')}
@@ -239,28 +237,28 @@ function ComboBasicDefinition(props: { comboOptions: { value: string; label: str
   )
 }
 
-function ComboOptionRowSelect(props: { index: number; disabled: boolean; comboOptions: { value: string; label: string }[] }) {
+function ComboOptionRowSelect({ index, disabled }: { index: number; disabled: boolean; comboOptions: { value: string; label: string }[] }) {
   const comboTurnAbilities = useOptimizerRequestStore((s) => s.comboTurnAbilities)
-  const shouldRenderSegmented = comboTurnAbilities[props.index] != null || props.index < 2
+  const shouldRenderSegmented = comboTurnAbilities[index] != null || index < 2
 
   return shouldRenderSegmented
-    ? <TurnAbilitySelector index={props.index} disabled={props.disabled} />
+    ? <TurnAbilitySelector index={index} disabled={disabled} />
     : null
 }
 
-function NumberXInput(props: {
-  disabled: boolean;
-  defaultValue?: number;
-  value: number;
+function NumberXInput({ disabled, defaultValue, value }: {
+  disabled: boolean
+  defaultValue?: number
+  value: number
 }) {
   return (
     <InputNumberStyled
       leftSection='⨯'
       size='xs'
-      disabled={props.disabled}
-      value={props.disabled ? props.defaultValue : props.value}
+      disabled={disabled}
+      value={disabled ? defaultValue : value}
       onChange={(val) => {
-        if (!props.disabled && val != null) {
+        if (!disabled && val != null) {
           useOptimizerRequestStore.getState().setComboDot(val as number)
         }
       }}

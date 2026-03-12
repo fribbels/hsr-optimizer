@@ -29,15 +29,14 @@ type StatUpgradeItem = {
   percent: number,
 }
 
-export function DamageUpgrades(props: {
-  analysis: OptimizerResultAnalysis,
+export function DamageUpgrades({ analysis }: {
+  analysis: OptimizerResultAnalysis
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.SubstatUpgrades' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
-  const analysis = props.analysis
-  // @ts-ignore
-  if (Object.values(analysis.newRelics).some((relic) => relic.set == -1 || relic.set == '')) {
-    return <></>
+  // @ts-expect-error - relic.set may be -1 or empty string from optimizer results
+  if (Object.values(analysis.newRelics).some((relic) => relic.set === -1 || relic.set === '')) {
+    return null
   }
 
   const statUpgrades = calculateStatUpgrades(analysis)
@@ -103,10 +102,10 @@ export function DamageUpgrades(props: {
                 </Flex>
               </Table.Td>
               <Table.Td className={classes.centeredCell}>
-                {item.percent == 0 ? '' : `${localeNumber_00(Utils.truncate100ths(item.percent * 100))}%`}
+                {item.percent === 0 ? '' : `${localeNumber_00(Utils.truncate100ths(item.percent * 100))}%`}
               </Table.Td>
               <Table.Td className={classes.centeredCell}>
-                {item.value == 0 ? '' : `${localeNumber_0(item.value)}`}
+                {item.value === 0 ? '' : `${localeNumber_0(item.value)}`}
               </Table.Td>
             </Table.Tr>
           ))}

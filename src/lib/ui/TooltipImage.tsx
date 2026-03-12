@@ -1,7 +1,6 @@
 import { Popover, Text } from '@mantine/core'
 import { HintContent } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
-import React from 'react'
 
 export const TooltipImage = (props: { type: HintContent }) => (
   <Popover width={500}>

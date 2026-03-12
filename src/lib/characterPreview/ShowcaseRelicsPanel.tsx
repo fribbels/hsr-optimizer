@@ -15,100 +15,62 @@ import {
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
-export function ShowcaseRelicsPanel(props: {
-  setSelectedRelic: (r: Relic) => void,
-  setEditModalOpen: (b: boolean) => void,
-  setAddModalOpen: (b: boolean, part: Parts) => void,
-  displayRelics: SingleRelicByPart,
-  source: ShowcaseSource,
-  scoringType: ScoringType,
-  characterId: CharacterId,
-  scoredRelics: RelicScoringResult[],
-  showcaseColors?: ShowcaseTheme,
+const leftParts = [
+  { key: 'Head' as const, part: Constants.Parts.Head },
+  { key: 'Body' as const, part: Constants.Parts.Body },
+  { key: 'PlanarSphere' as const, part: Constants.Parts.PlanarSphere },
+]
+
+const rightParts = [
+  { key: 'Hands' as const, part: Constants.Parts.Hands },
+  { key: 'Feet' as const, part: Constants.Parts.Feet },
+  { key: 'LinkRope' as const, part: Constants.Parts.LinkRope },
+]
+
+export function ShowcaseRelicsPanel({
+  setSelectedRelic,
+  setEditModalOpen,
+  setAddModalOpen,
+  displayRelics,
+  source,
+  scoringType,
+  characterId,
+  scoredRelics,
+  showcaseColors,
+}: {
+  setSelectedRelic: (r: Relic) => void
+  setEditModalOpen: (b: boolean) => void
+  setAddModalOpen: (b: boolean, part: Parts) => void
+  displayRelics: SingleRelicByPart
+  source: ShowcaseSource
+  scoringType: ScoringType
+  characterId: CharacterId
+  scoredRelics: RelicScoringResult[]
+  showcaseColors?: ShowcaseTheme
 }) {
-  const {
-    setSelectedRelic,
-    setEditModalOpen,
-    setAddModalOpen,
-    displayRelics,
-    source,
-    characterId,
-    scoredRelics,
-    showcaseColors,
-  } = props
+  const renderColumn = (parts: typeof leftParts | typeof rightParts) => (
+    <Flex direction="column" gap={defaultGap}>
+      {parts.map(({ key, part }) => (
+        <RelicPreview
+          key={key}
+          setEditModalOpen={setEditModalOpen}
+          setSelectedRelic={setSelectedRelic}
+          setAddModalOpen={setAddModalOpen}
+          relic={{ ...displayRelics[key], part }}
+          source={source}
+          characterId={characterId}
+          score={scoredRelics.find((x) => x.part === part)}
+          scoringType={scoringType}
+          showcaseTheme={showcaseColors}
+        />
+      ))}
+    </Flex>
+  )
+
   return (
     <Flex gap={defaultGap}>
-      <Flex direction="column" gap={defaultGap}>
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.Head, part: Constants.Parts.Head }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.Head)}
-          scoringType={props.scoringType}
-          showcaseTheme={showcaseColors}
-        />
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.Body, part: Constants.Parts.Body }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.Body)}
-          scoringType={props.scoringType}
-          showcaseTheme={showcaseColors}
-        />
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.PlanarSphere, part: Constants.Parts.PlanarSphere }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.PlanarSphere)}
-          scoringType={props.scoringType}
-          showcaseTheme={showcaseColors}
-        />
-      </Flex>
-
-      <Flex direction="column" gap={defaultGap}>
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.Hands, part: Constants.Parts.Hands }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.Hands)}
-          scoringType={props.scoringType}
-          showcaseTheme={showcaseColors}
-        />
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.Feet, part: Constants.Parts.Feet }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.Feet)}
-          scoringType={props.scoringType}
-          showcaseTheme={showcaseColors}
-        />
-        <RelicPreview
-          setEditModalOpen={setEditModalOpen}
-          setSelectedRelic={setSelectedRelic}
-          setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics.LinkRope, part: Constants.Parts.LinkRope }}
-          source={source}
-          characterId={characterId}
-          score={scoredRelics.find((x) => x.part == Constants.Parts.LinkRope)}
-          scoringType={props.scoringType}
-          showcaseTheme={showcaseColors}
-        />
-      </Flex>
+      {renderColumn(leftParts)}
+      {renderColumn(rightParts)}
     </Flex>
   )
 }

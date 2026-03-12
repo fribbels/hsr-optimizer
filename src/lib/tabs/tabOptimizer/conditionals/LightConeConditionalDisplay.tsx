@@ -3,7 +3,7 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { Hint } from 'lib/interactions/hint'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import DisplayFormControl from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
+import { DisplayFormControl } from 'lib/tabs/tabOptimizer/conditionals/DisplayFormControl'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
@@ -22,11 +22,8 @@ export interface LightConeConditionalDisplayProps {
   dbMetadata: DBMetadata
 }
 
-export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisplayProps) => {
+export const LightConeConditionalDisplay = memo(function LightConeConditionalDisplay({ id, superImposition, teammateIndex, dbMetadata }: LightConeConditionalDisplayProps) {
   const { t } = useTranslation('optimizerTab')
-  // console.log('LightConeConditionalDisplay', props)
-
-  const { id, superImposition, teammateIndex } = props
 
   const storeState = useOptimizerRequestStore.getState()
   const wearerId: CharacterId = teammateIndex == undefined
@@ -38,7 +35,7 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
     characterEidolon: 0, // Assuming eidolon is not needed for light cone metadata
     lightCone: id!,
     lightConeSuperimposition: superImposition,
-  }, props.dbMetadata)
+  }, dbMetadata)
   const lightCone = LightConeConditionalsResolver.get(conditionalResolverMetadata, true)
 
   const content = teammateIndex != null
@@ -57,5 +54,3 @@ export const LightConeConditionalDisplay = memo((props: LightConeConditionalDisp
     </Flex>
   )
 })
-
-LightConeConditionalDisplay.displayName = 'LightConeConditionalDisplay'

@@ -5,7 +5,6 @@ import {
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
-import React from 'react'
 import { ReactElement } from 'types/components'
 import { decodeRelicSetValue } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 
@@ -29,29 +28,25 @@ export function RelicSetTagRenderer(encodedValue: string): ReactElement {
   const pieces = decodeRelicSetValue(encodedValue)
   let inner
 
-  if (pieces[0] == RelicSetFilterOptions.relic4Piece) {
+  if (pieces[0] === RelicSetFilterOptions.relic4Piece) {
     inner = (
-      <React.Fragment>
-        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} className={iconClasses.icon26}></img>
-        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} className={iconClasses.icon26}></img>
-      </React.Fragment>
+      <>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} className={iconClasses.icon26} />
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} className={iconClasses.icon26} />
+      </>
     )
-  }
-
-  if (pieces[0] == RelicSetFilterOptions.relic2Plus2Piece) {
+  } else if (pieces[0] === RelicSetFilterOptions.relic2Plus2Piece) {
     inner = (
-      <React.Fragment>
-        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} className={iconClasses.icon26}></img>
-        <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} className={iconClasses.icon26}></img>
-      </React.Fragment>
+      <>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} className={iconClasses.icon26} />
+        <img title={pieces[2]} src={Assets.getSetImage(pieces[2], Constants.Parts.Head)} className={iconClasses.icon26} />
+      </>
     )
-  }
-
-  if (pieces[0] == RelicSetFilterOptions.relic2PlusAny) {
+  } else if (pieces[0] === RelicSetFilterOptions.relic2PlusAny) {
     inner = (
-      <React.Fragment>
-        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} className={iconClasses.icon26}></img>
-      </React.Fragment>
+      <>
+        <img title={pieces[1]} src={Assets.getSetImage(pieces[1], Constants.Parts.Head)} className={iconClasses.icon26} />
+      </>
     )
   }
 

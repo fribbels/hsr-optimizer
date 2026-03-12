@@ -4,7 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 
-export function CharacterEidolonFormRadio({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
+export function CharacterEidolonFormRadio(props: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
 
   return (
@@ -19,8 +19,8 @@ export function CharacterEidolonFormRadio({ form }: { form: UseFormReturnType<Be
         { label: t('EidolonButton', { eidolon: 5 }), value: '5' },
         { label: t('EidolonButton', { eidolon: 6 }), value: '6' },
       ]}
-      value={String(form.getValues().characterEidolon ?? 0)}
-      onChange={(val: string) => form.setFieldValue('characterEidolon', Number(val))}
+      value={String(props.form.values.characterEidolon ?? 0)}
+      onChange={(val) => props.form.setFieldValue('characterEidolon', Number(val))}
     />
   )
 }

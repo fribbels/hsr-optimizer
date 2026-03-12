@@ -1,7 +1,7 @@
 import { Button, Flex, Modal, Text } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 
-export function ManyPermsModal(props: {
+export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, startSearch }: {
   manyPermsModalOpen: boolean
   setManyPermsModalOpen: (open: boolean) => void
   startSearch: () => void
@@ -10,10 +10,10 @@ export function ManyPermsModal(props: {
   return (
     <Modal
       title={t('Title') /* Very large search requested */}
-      opened={props.manyPermsModalOpen}
+      opened={manyPermsModalOpen}
       size={900}
       centered
-      onClose={() => props.setManyPermsModalOpen(false)}
+      onClose={() => setManyPermsModalOpen(false)}
     >
       <Flex justify='space-between' align='center' style={{ height: 45, marginTop: 30, marginBottom: 15 }} gap={16}>
         <Text>
@@ -25,15 +25,15 @@ export function ManyPermsModal(props: {
           }
         </Text>
         <Button
-          onClick={() => props.setManyPermsModalOpen(false)}
+          onClick={() => setManyPermsModalOpen(false)}
           style={{ width: 250 }}
         >
           {t('Cancel') /* Cancel search */}
         </Button>
         <Button
           onClick={() => {
-            props.setManyPermsModalOpen(false)
-            props.startSearch()
+            setManyPermsModalOpen(false)
+            startSearch()
           }}
           style={{ width: 250 }}
         >

@@ -5,10 +5,9 @@ import {
   ComboSelectConditional,
   ComboState,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { ReactElement } from 'types/components'
 import { ContentItem } from 'types/conditionals'
 
-export function SelectConditionalActivationRow(props: {
+export function SelectConditionalActivationRow({ comboConditional, contentItem, actionCount, sourceKey, comboState, onComboStateChange }: {
   comboConditional: ComboSelectConditional
   contentItem: ContentItem
   actionCount: number
@@ -16,33 +15,25 @@ export function SelectConditionalActivationRow(props: {
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {
-  const selectComboConditional = props.comboConditional
-  const display: ReactElement[] = []
-
-  for (let i = 0; i < selectComboConditional.partitions.length; i++) {
-    const x = selectComboConditional.partitions[i]
-    display.push(
-      <Partition
-        key={i}
-        partition={x}
-        contentItem={props.contentItem}
-        activations={x.activations}
-        partitionIndex={i}
-        actionCount={props.actionCount}
-        sourceKey={props.sourceKey}
-        comboState={props.comboState}
-        onComboStateChange={props.onComboStateChange}
-      />,
-    )
-  }
-
   return (
     <Flex
       direction="column"
       style={{ position: 'relative' }}
     >
       <PartitionDivider />
-      {display}
+      {comboConditional.partitions.map((partition, i) => (
+        <Partition
+          key={i}
+          partition={partition}
+          contentItem={contentItem}
+          activations={partition.activations}
+          partitionIndex={i}
+          actionCount={actionCount}
+          sourceKey={sourceKey}
+          comboState={comboState}
+          onComboStateChange={onComboStateChange}
+        />
+      ))}
       <PartitionDivider bottom />
     </Flex>
   )

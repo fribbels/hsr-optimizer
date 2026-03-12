@@ -4,10 +4,7 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
-import type {
-  LightCone,
-  LightConeId,
-} from 'types/lightCone'
+import type { LightConeId } from 'types/lightCone'
 import { useShallow } from 'zustand/react/shallow'
 
 const UNRELEASED_CHARACTER_IDS = new Set<CharacterId>([])

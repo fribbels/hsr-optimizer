@@ -3,7 +3,7 @@ import { UseFormReturnType } from '@mantine/form'
 import { useTranslation } from 'react-i18next'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 
-export function LightConeSuperimpositionFormRadio({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
+export function LightConeSuperimpositionFormRadio(props: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })
 
   return (
@@ -16,8 +16,8 @@ export function LightConeSuperimpositionFormRadio({ form }: { form: UseFormRetur
         { label: t('SuperimpositionButton', { superimposition: 4 }), value: '4' },
         { label: t('SuperimpositionButton', { superimposition: 5 }), value: '5' },
       ]}
-      value={String(form.getValues().lightConeSuperimposition ?? 1)}
-      onChange={(val: string) => form.setFieldValue('lightConeSuperimposition', Number(val))}
+      value={String(props.form.values.lightConeSuperimposition ?? 1)}
+      onChange={(val) => props.form.setFieldValue('lightConeSuperimposition', Number(val))}
     />
   )
 }

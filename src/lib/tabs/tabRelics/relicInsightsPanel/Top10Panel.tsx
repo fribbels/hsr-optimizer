@@ -6,7 +6,7 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import { PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CartesianGrid,
@@ -41,7 +41,7 @@ type DataPoint = {
   errX: [number, number],
 }
 
-export const Top10Panel = React.memo(({ scores }: PanelProps) => {
+export const Top10Panel = memo(({ scores }: PanelProps) => {
 
 
   const { sortedScores, data } = useMemo(() => {

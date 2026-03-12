@@ -24,9 +24,6 @@ import {
 } from 'react'
 import Selecto from 'react-selecto'
 
-export { ContentRows } from 'lib/tabs/tabOptimizer/combo/ComboConditionalsGroupRow'
-export { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
-
 const drawerContentStyle = { width: 1560, height: '100%' } as const
 
 export function ComboDrawer() {

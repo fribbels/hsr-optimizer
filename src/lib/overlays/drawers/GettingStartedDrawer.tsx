@@ -50,7 +50,7 @@ export const GettingStartedDrawer = () => {
             </Flex>
           }
           onConfirm={tryItOutClicked}
-          placement='bottomLeft'
+          placement='bottom-start'
           okText={t('common:Yes')} // 'Yes'
           cancelText={t('common:Cancel')} // 'Cancel'
         >

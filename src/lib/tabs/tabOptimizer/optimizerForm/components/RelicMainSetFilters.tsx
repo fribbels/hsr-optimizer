@@ -10,8 +10,9 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
+import { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
+import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { RelicSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetTagRenderer'
 import {
   decodeRelicSetValue,
@@ -29,7 +30,12 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './RelicMainSetFilters.module.css'
 
-export default function RelicMainSetFilters() {
+function handleMainStatChange(field: MainStatPart, val: string[]) {
+  useOptimizerRequestStore.getState().setMainStats(field, val)
+  recalculatePermutations()
+}
+
+export function RelicMainSetFilters() {
   const { t } = useTranslation(['optimizerTab', 'common'])
 
   const mainBody = useOptimizerRequestStore((s) => s.mainBody)
@@ -46,6 +52,7 @@ export default function RelicMainSetFilters() {
   )
 
   const setsGroupedOptions = useMemo(() => GenerateSetsGroupedOptions(), [t])
+  const ornamentOptions = useOrnamentsOptions()
 
   return (
     <Flex direction="column" gap={optimizerTabDefaultGap}>
@@ -62,10 +69,7 @@ export default function RelicMainSetFilters() {
           placeholder={t('common:Parts.Body')}
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
           value={mainBody}
-          onChange={(val) => {
-            useOptimizerRequestStore.getState().setMainStats('mainBody', val)
-            recalculatePermutations()
-          }}
+          onChange={(val) => handleMainStatChange('mainBody', val)}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -85,10 +89,7 @@ export default function RelicMainSetFilters() {
           placeholder={t('common:Parts.Feet')}
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
           value={mainFeet}
-          onChange={(val) => {
-            useOptimizerRequestStore.getState().setMainStats('mainFeet', val)
-            recalculatePermutations()
-          }}
+          onChange={(val) => handleMainStatChange('mainFeet', val)}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -106,10 +107,7 @@ export default function RelicMainSetFilters() {
           maxDropdownHeight={400}
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
           value={mainPlanarSphere}
-          onChange={(val) => {
-            useOptimizerRequestStore.getState().setMainStats('mainPlanarSphere', val)
-            recalculatePermutations()
-          }}
+          onChange={(val) => handleMainStatChange('mainPlanarSphere', val)}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -132,10 +130,7 @@ export default function RelicMainSetFilters() {
           placeholder={t('common:Parts.LinkRope')}
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
           value={mainLinkRope}
-          onChange={(val) => {
-            useOptimizerRequestStore.getState().setMainStats('mainLinkRope', val)
-            recalculatePermutations()
-          }}
+          onChange={(val) => handleMainStatChange('mainLinkRope', val)}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -175,7 +170,7 @@ export default function RelicMainSetFilters() {
           style={{
             width: panelWidth,
           }}
-          data={useMemo(() => GenerateOrnamentsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [t])}
+          data={ornamentOptions.map((opt) => ({ value: opt.value, label: opt.value }))}
           placeholder={t('OrnamentSetSelector.Placeholder')}
           value={ornamentSets}
           onChange={(val) => {

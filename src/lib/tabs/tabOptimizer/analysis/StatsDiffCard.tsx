@@ -3,7 +3,7 @@ import {
   getStatRenderValues,
   StatRow,
 } from 'lib/characterPreview/StatRow'
-import StatText from 'lib/characterPreview/StatText'
+import { StatText } from 'lib/characterPreview/StatText'
 import { Stats } from 'lib/constants/constants'
 import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
@@ -18,10 +18,9 @@ const baseCardHeight = 429
 const basePortraitHeight = 400
 const extraRowHeight = 27
 
-export function StatsDiffCard(props: {
+export function StatsDiffCard({ analysis }: {
   analysis: OptimizerResultAnalysis,
 }) {
-  const { analysis } = props
   const extraHeight = analysis.extraRows.length * extraRowHeight
   const cardHeight = baseCardHeight + extraHeight
   const portraitHeight = basePortraitHeight + extraHeight
@@ -41,8 +40,7 @@ export function StatsDiffCard(props: {
   )
 }
 
-function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
-  const { analysis } = props
+function StatDiffSummary({ analysis }: { analysis: OptimizerResultAnalysis }) {
   const oldStats = analysis.oldX.toComputedStatsObject()
   const newStats = analysis.newX.toComputedStatsObject()
 
@@ -55,9 +53,9 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
   const newCombo = analysis.newX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
   ;(oldStats as Record<string, number>).COMBO_DMG = oldCombo
   ;(newStats as Record<string, number>).COMBO_DMG = newCombo
-  // @ts-ignore For compatibility with StatRow
+  // @ts-expect-error simScore used for compatibility with StatRow
   oldStats.simScore = oldCombo
-  // @ts-ignore For compatibility with StatRow
+  // @ts-expect-error simScore used for compatibility with StatRow
   newStats.simScore = newCombo
 
   return (
@@ -75,8 +73,8 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.BE} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.OHB} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ERR} />
-        <DiffRow oldStats={oldStats} newStats={newStats} stat={props.analysis.elementalDmgValue} />
-        {props.analysis.extraRows.map((stat) => (
+        <DiffRow oldStats={oldStats} newStats={newStats} stat={analysis.elementalDmgValue} />
+        {analysis.extraRows.map((stat) => (
           <DiffRow key={stat} oldStats={oldStats} newStats={newStats} stat={stat} />
         ))}
       </Flex>
@@ -84,12 +82,11 @@ function StatDiffSummary(props: { analysis: OptimizerResultAnalysis }) {
   )
 }
 
-function DiffRow(props: {
+function DiffRow({ oldStats, newStats, stat }: {
   oldStats: ComputedStatsObjectExternal,
   newStats: ComputedStatsObjectExternal,
   stat: keyof ComputedStatsObjectExternal | 'COMBO_DMG',
 }) {
-  const { oldStats, newStats, stat } = props
   const oldValue = TsUtils.precisionRound((oldStats as Record<string, number>)[stat])
   const newValue = TsUtils.precisionRound((newStats as Record<string, number>)[stat])
 
@@ -119,11 +116,10 @@ function DiffRow(props: {
   )
 }
 
-function RenderValue(props: { value: string | number, stat: string, comboDiff?: boolean }) {
+function RenderValue({ value, stat, comboDiff }: { value: string | number, stat: string, comboDiff?: boolean }) {
   const { t } = useTranslation('common')
-  const { value, stat } = props
   if (stat == 'COMBO_DMG') {
-    return value + (props.comboDiff ? '%' : t('ThousandsSuffix'))
+    return value + (comboDiff ? '%' : t('ThousandsSuffix'))
   } else if (Utils.isFlat(stat)) {
     return value
   }
@@ -141,10 +137,8 @@ export function arrowDirection(increase: boolean) {
   return increase ? '▲' : '▼'
 }
 
-function DiffRender(props: { oldValue: number, newValue: number, stat: string }) {
-  const { newValue, oldValue, stat } = props
-
-  if (visualDiff(newValue, oldValue, stat) == 0) return <></>
+function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: number, stat: string }) {
+  if (visualDiff(newValue, oldValue, stat) == 0) return null
 
   const increase = newValue > oldValue
   const diff = increase ? visualDiff(newValue, oldValue, stat) : -visualDiff(newValue, oldValue, stat)
@@ -186,10 +180,10 @@ function visualDiff(n1: number, n2: number, stat: string) {
   }
 }
 
-function CardImage(props: { analysis: OptimizerResultAnalysis, portraitHeight: number }) {
+function CardImage({ analysis, portraitHeight }: { analysis: OptimizerResultAnalysis, portraitHeight: number }) {
   return (
     <div className={classes.cardImageContainer}>
-      <CharacterPreviewInternalImage id={props.analysis.request.characterId} disableClick={true} parentH={props.portraitHeight} />
+      <CharacterPreviewInternalImage id={analysis.request.characterId} disableClick={true} parentH={portraitHeight} />
     </div>
   )
 }

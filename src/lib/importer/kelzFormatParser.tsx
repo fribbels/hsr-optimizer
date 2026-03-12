@@ -4,10 +4,12 @@ import gameData from 'data/game_data.json'
 import i18next from 'i18next'
 import {
   Constants,
+  MainStats,
   Parts,
   PathName,
   PathNames,
   Sets,
+  SubStats,
 } from 'lib/constants/constants'
 import { rollCounter } from 'lib/importer/characterConverter'
 import { ScannerConfig } from 'lib/importer/importConfig'
@@ -26,8 +28,6 @@ import {
   RelicSubstatMetadata,
   UnaugmentedRelic,
 } from 'types/relic'
-
-// FIXME HIGH
 
 const characterList = Object.values(gameData.characters)
 
@@ -91,6 +91,16 @@ const relicSetMapping = gameData.relics.reduce((map, relic) => {
   map[relic.id] = relic as { id: Relic['id'], name: Sets, skills: string }
   return map
 }, {} as Record<string, { id: Relic['id'], name: Sets, skills: string }>)
+
+function filterNullWithWarn<T>(label: string) {
+  return (item: T | null | undefined): item is T => {
+    if (!item) {
+      console.warn(`Could not parse ${label}`)
+      return false
+    }
+    return true
+  }
+}
 
 export type ScannerParserJson = {
   source: string,
@@ -171,13 +181,7 @@ export class KelzFormatParser { // TODO abstract class
     if (json.relics) {
       parsed.relics = json.relics
         .map((r) => this.parseRelic(r, activatedBuffs))
-        .filter((r): r is NonNullable<typeof r> => {
-          if (!r) {
-            console.warn('Could not parse relic')
-            return false
-          }
-          return true
-        })
+        .filter(filterNullWithWarn('relic'))
     }
     // "Scanner file is outdated / may contain invalid information. Please update your scanner."
     if (this.badRollInfo) {
@@ -187,13 +191,7 @@ export class KelzFormatParser { // TODO abstract class
     if (json.characters) {
       parsed.characters = json.characters
         .map((c) => this.parseCharacter(c, activatedBuffs, json.light_cones))
-        .filter((c): c is NonNullable<typeof c> => {
-          if (!c) {
-            console.warn('Could not parse character')
-            return false
-          }
-          return true
-        })
+        .filter(filterNullWithWarn('character'))
     }
 
     return parsed
@@ -267,23 +265,15 @@ export function getActivatedBuffs(rawCharacters: V4ParserCharacter[]): Record<st
 // ================================================== V4 ==================================================
 
 function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCone[]) {
-  let lightCone: V4ParserLightCone | undefined
-  if (lightCones) {
-    // TODO: don't search on an array
-    lightCone = lightCones.find((x) => x.location === character.id)
-  }
+  if (!character.id) return null
 
-  const characterId = character.id
-
-  const lightConeId = lightCone?.id
-
-  if (!characterId) return null
+  const lightCone = lightCones?.find((x) => x.location === character.id)
 
   return {
-    characterId: characterId,
+    characterId: character.id,
     characterLevel: character.level || 80,
     characterEidolon: character.eidolon || 0,
-    lightCone: lightConeId ?? null,
+    lightCone: lightCone?.id ?? null,
     lightConeLevel: lightCone?.level ?? 80,
     lightConeSuperimposition: lightCone?.superimposition ?? 1,
   }
@@ -302,26 +292,22 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
 
   let equippedBy: CharacterId | undefined
   if (parserRelic.location !== '') {
-    const lookup = characterList.find((x) => x.id == parserRelic.location)?.id
+    const lookup = characterList.find((x) => x.id === parserRelic.location)?.id
     if (lookup) {
       equippedBy = lookup as CharacterId
     }
   }
 
-  const previewSubstats: RelicSubstatMetadata[] = []
-  parserRelic.preview_substats?.forEach((s) => {
-    const meta: RelicSubstatMetadata = {
-      stat: mapSubstatToId(s.key),
-      value: s.value,
-      addedRolls: 0,
-      rolls: {
-        high: s.step === 2 ? 1 : 0,
-        mid: s.step === 1 ? 1 : 0,
-        low: s.step === 0 ? 1 : 0,
-      },
-    }
-    previewSubstats.push(meta)
-  })
+  const previewSubstats: RelicSubstatMetadata[] = parserRelic.preview_substats?.map((s) => ({
+    stat: mapSubstatToId(s.key),
+    value: s.value,
+    addedRolls: 0,
+    rolls: {
+      high: s.step === 2 ? 1 : 0,
+      mid: s.step === 1 ? 1 : 0,
+      low: s.step === 0 ? 1 : 0,
+    },
+  })) ?? []
 
   const relic: UnaugmentedRelic = {
     part,
@@ -424,142 +410,86 @@ function readRelicStats(relic: V4ParserRelic, substatList: V4ParserSubstat[], pa
   }
 }
 
+const substatLookup: Record<string, SubStats> = {
+  'ATK': Constants.Stats.ATK,
+  'HP': Constants.Stats.HP,
+  'DEF': Constants.Stats.DEF,
+  'ATK_': Constants.Stats.ATK_P,
+  'HP_': Constants.Stats.HP_P,
+  'DEF_': Constants.Stats.DEF_P,
+  'SPD': Constants.Stats.SPD,
+  'CRIT Rate_': Constants.Stats.CR,
+  'CRIT DMG_': Constants.Stats.CD,
+  'Effect Hit Rate_': Constants.Stats.EHR,
+  'Effect RES_': Constants.Stats.RES,
+  'Break Effect_': Constants.Stats.BE,
+}
+
 function mapSubstatToId(substat: string) {
-  switch (substat) {
-    case 'ATK':
-      return Constants.Stats.ATK
-    case 'HP':
-      return Constants.Stats.HP
-    case 'DEF':
-      return Constants.Stats.DEF
-    case 'ATK_':
-      return Constants.Stats.ATK_P
-    case 'HP_':
-      return Constants.Stats.HP_P
-    case 'DEF_':
-      return Constants.Stats.DEF_P
-    case 'SPD':
-      return Constants.Stats.SPD
-    case 'CRIT Rate_':
-      return Constants.Stats.CR
-    case 'CRIT DMG_':
-      return Constants.Stats.CD
-    case 'Effect Hit Rate_':
-      return Constants.Stats.EHR
-    case 'Effect RES_':
-      return Constants.Stats.RES
-    case 'Break Effect_':
-      return Constants.Stats.BE
-    default:
-      return null as never
-  }
+  return substatLookup[substat] ?? null as never
+}
+
+const mainStatLookup: Record<string, MainStats> = {
+  'ATK': Constants.Stats.ATK_P,
+  'HP': Constants.Stats.HP_P,
+  'DEF': Constants.Stats.DEF_P,
+  'SPD': Constants.Stats.SPD,
+  'CRIT Rate': Constants.Stats.CR,
+  'CRIT DMG': Constants.Stats.CD,
+  'Effect Hit Rate': Constants.Stats.EHR,
+  'Break Effect': Constants.Stats.BE,
+  'Energy Regeneration Rate': Constants.Stats.ERR,
+  'Outgoing Healing Boost': Constants.Stats.OHB,
+  'Physical DMG Boost': Constants.Stats.Physical_DMG,
+  'Fire DMG Boost': Constants.Stats.Fire_DMG,
+  'Ice DMG Boost': Constants.Stats.Ice_DMG,
+  'Lightning DMG Boost': Constants.Stats.Lightning_DMG,
+  'Wind DMG Boost': Constants.Stats.Wind_DMG,
+  'Quantum DMG Boost': Constants.Stats.Quantum_DMG,
+  'Imaginary DMG Boost': Constants.Stats.Imaginary_DMG,
 }
 
 function mapMainStatToId(mainStat: string) {
-  switch (mainStat) {
-    case 'ATK':
-      return Constants.Stats.ATK_P
-    case 'HP':
-      return Constants.Stats.HP_P
-    case 'DEF':
-      return Constants.Stats.DEF_P
-    case 'SPD':
-      return Constants.Stats.SPD
-    case 'CRIT Rate':
-      return Constants.Stats.CR
-    case 'CRIT DMG':
-      return Constants.Stats.CD
-    case 'Effect Hit Rate':
-      return Constants.Stats.EHR
-    case 'Break Effect':
-      return Constants.Stats.BE
-    case 'Energy Regeneration Rate':
-      return Constants.Stats.ERR
-    case 'Outgoing Healing Boost':
-      return Constants.Stats.OHB
-    case 'Physical DMG Boost':
-      return Constants.Stats.Physical_DMG
-    case 'Fire DMG Boost':
-      return Constants.Stats.Fire_DMG
-    case 'Ice DMG Boost':
-      return Constants.Stats.Ice_DMG
-    case 'Lightning DMG Boost':
-      return Constants.Stats.Lightning_DMG
-    case 'Wind DMG Boost':
-      return Constants.Stats.Wind_DMG
-    case 'Quantum DMG Boost':
-      return Constants.Stats.Quantum_DMG
-    case 'Imaginary DMG Boost':
-      return Constants.Stats.Imaginary_DMG
-    default:
-      return null as never
-  }
+  return mainStatLookup[mainStat] ?? null as never
+}
+
+const affixIdLookup: Record<string, string> = {
+  [Constants.Stats.HP_P]: 'HPAddedRatio',
+  [Constants.Stats.ATK_P]: 'AttackAddedRatio',
+  [Constants.Stats.DEF_P]: 'DefenceAddedRatio',
+  [Constants.Stats.HP]: 'HPDelta',
+  [Constants.Stats.ATK]: 'AttackDelta',
+  [Constants.Stats.DEF]: 'DefenceDelta',
+  [Constants.Stats.SPD]: 'SpeedDelta',
+  [Constants.Stats.CD]: 'CriticalDamageBase',
+  [Constants.Stats.CR]: 'CriticalChanceBase',
+  [Constants.Stats.EHR]: 'StatusProbabilityBase',
+  [Constants.Stats.RES]: 'StatusResistanceBase',
+  [Constants.Stats.BE]: 'BreakDamageAddedRatioBase',
+  [Constants.Stats.ERR]: 'SPRatioBase',
+  [Constants.Stats.OHB]: 'HealRatioBase',
+  [Constants.Stats.Physical_DMG]: 'PhysicalAddedRatio',
+  [Constants.Stats.Fire_DMG]: 'FireAddedRatio',
+  [Constants.Stats.Ice_DMG]: 'IceAddedRatio',
+  [Constants.Stats.Lightning_DMG]: 'ThunderAddedRatio',
+  [Constants.Stats.Wind_DMG]: 'WindAddedRatio',
+  [Constants.Stats.Quantum_DMG]: 'QuantumAddedRatio',
+  [Constants.Stats.Imaginary_DMG]: 'ImaginaryAddedRatio',
 }
 
 function mapAffixIdToString(affixId: string) {
-  switch (affixId) {
-    case Constants.Stats.HP_P:
-      return 'HPAddedRatio'
-    case Constants.Stats.ATK_P:
-      return 'AttackAddedRatio'
-    case Constants.Stats.DEF_P:
-      return 'DefenceAddedRatio'
-    case Constants.Stats.HP:
-      return 'HPDelta'
-    case Constants.Stats.ATK:
-      return 'AttackDelta'
-    case Constants.Stats.DEF:
-      return 'DefenceDelta'
-    case Constants.Stats.SPD:
-      return 'SpeedDelta'
-    case Constants.Stats.CD:
-      return 'CriticalDamageBase'
-    case Constants.Stats.CR:
-      return 'CriticalChanceBase'
-    case Constants.Stats.EHR:
-      return 'StatusProbabilityBase'
-    case Constants.Stats.RES:
-      return 'StatusResistanceBase'
-    case Constants.Stats.BE:
-      return 'BreakDamageAddedRatioBase'
-    case Constants.Stats.ERR:
-      return 'SPRatioBase'
-    case Constants.Stats.OHB:
-      return 'HealRatioBase'
-    case Constants.Stats.Physical_DMG:
-      return 'PhysicalAddedRatio'
-    case Constants.Stats.Fire_DMG:
-      return 'FireAddedRatio'
-    case Constants.Stats.Ice_DMG:
-      return 'IceAddedRatio'
-    case Constants.Stats.Lightning_DMG:
-      return 'ThunderAddedRatio'
-    case Constants.Stats.Wind_DMG:
-      return 'WindAddedRatio'
-    case Constants.Stats.Quantum_DMG:
-      return 'QuantumAddedRatio'
-    case Constants.Stats.Imaginary_DMG:
-      return 'ImaginaryAddedRatio'
-    default:
-      return null as never
-  }
+  return affixIdLookup[affixId] ?? null as never
+}
+
+const partIdLookup: Record<string, number> = {
+  [Constants.Parts.Head]: 1,
+  [Constants.Parts.Hands]: 2,
+  [Constants.Parts.Body]: 3,
+  [Constants.Parts.Feet]: 4,
+  [Constants.Parts.PlanarSphere]: 5,
+  [Constants.Parts.LinkRope]: 6,
 }
 
 function mapPartIdToIndex(slotId: string) {
-  switch (slotId) {
-    case Constants.Parts.Head:
-      return 1
-    case Constants.Parts.Hands:
-      return 2
-    case Constants.Parts.Body:
-      return 3
-    case Constants.Parts.Feet:
-      return 4
-    case Constants.Parts.PlanarSphere:
-      return 5
-    case Constants.Parts.LinkRope:
-      return 6
-    default:
-      return null as never
-  }
+  return partIdLookup[slotId] ?? null as never
 }

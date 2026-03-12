@@ -12,12 +12,12 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
+import { ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from '../tabImport/ScannerWebsocketClient'
 import classes from './WarpCalculatorTab.module.css'
 
-export default function WarpCalculatorTab(): React.JSX.Element {
+export function WarpCalculatorTab() {
   const { t } = useTranslation('warpCalculatorTab')
 
   return (
@@ -76,20 +76,20 @@ function Inputs() {
         const gachaResult = event.data
         const pityUpdate = gachaResult.pity_5
 
-        if (gachaResult.banner_type == "Character") {
-          if (pityUpdate.kind == "ResetPity") {
+        if (gachaResult.banner_type === "Character") {
+          if (pityUpdate.kind === "ResetPity") {
             form.setFieldValue("pityCharacter", pityUpdate.amount)
             form.setFieldValue("guaranteedCharacter", pityUpdate.set_guarantee)
-          } else if (pityUpdate.kind == "AddPity") {
+          } else if (pityUpdate.kind === "AddPity") {
             const currentPity = form.getValues().pityCharacter
             form.setFieldValue("pityCharacter", currentPity + gachaResult.pity_5.amount)
           }
 
-        } else if (gachaResult.banner_type == "LightCone") {
-          if (pityUpdate.kind == "ResetPity") {
+        } else if (gachaResult.banner_type === "LightCone") {
+          if (pityUpdate.kind === "ResetPity") {
             form.setFieldValue("pityLightCone", pityUpdate.amount)
             form.setFieldValue("guaranteedLightCone", pityUpdate.set_guarantee)
-          } else if (pityUpdate.kind == "AddPity") {
+          } else if (pityUpdate.kind === "AddPity") {
             const currentPity = form.getValues().pityLightCone
             form.setFieldValue("pityLightCone", currentPity + gachaResult.pity_5.amount)
           }
@@ -243,7 +243,7 @@ function Inputs() {
   )
 }
 
-function Title(props: { children: React.ReactNode }) {
+function Title(props: { children: ReactNode }) {
   return (
     <MantineTitle order={5} style={{ margin: 0, marginBottom: 8, textAlign: 'center' }}>
       {props.children}
@@ -261,8 +261,6 @@ function Results() {
 
   const warpTableData: WarpTableData[] = Object.entries(warpResult.milestoneResults ?? {})
     .map(([label, result]) => ({ key: label, warps: result.warps, wins: result.wins }))
-
-  console.log(warpResult)
 
   return (
     <Flex direction="column" gap={20} style={{}} align='center'>
@@ -394,17 +392,17 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
         <NumberInput
-          placeholder='0' min={0} max={props.banner == 'Character' ? 89 : 79}
+          placeholder='0' min={0} max={props.banner === 'Character' ? 89 : 79}
           style={{ width: '100%' }}
           hideControls
           {...form.getInputProps(pityField)}
         />
       </Flex>
-      <Flex direction="column" flex={1} style={{ display: bannerRotation == BannerRotation.RERUN ? 'flex' : 'none' }}>
+      <Flex direction="column" flex={1} style={{ display: bannerRotation === BannerRotation.RERUN ? 'flex' : 'none' }}>
         <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
 
         <Select
-          data={props.banner == 'Character'
+          data={props.banner === 'Character'
             ? generateEidolonLevelOptions()
             : generateSuperimpositionLevelOptions()}
           value={String(form.getValues()[props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'])}
@@ -512,6 +510,6 @@ function generateSuperimpositionLevelOptions() {
 
 function translateLabel(label: string) {
   const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
-  if (label == 'S1') return t('common:SuperimpositionNShort', { superimposition: 1 })
+  if (label === 'S1') return t('common:SuperimpositionNShort', { superimposition: 1 })
   return t('warpCalculatorTab:TargetLabel', { superimposition: label.charAt(3), eidolon: label.charAt(1) })
 }

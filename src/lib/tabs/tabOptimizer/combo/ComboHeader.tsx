@@ -8,21 +8,21 @@ import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useTranslation } from 'react-i18next'
 import { ReactElement } from 'types/components'
 
-function AbilitySelector(props: {
+function AbilitySelector({ comboTurnAbilities, index, comboState, onComboStateChange }: {
   comboTurnAbilities: TurnAbilityName[]
   index: number
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {
-  if (props.index == 0) return <></>
+  if (index === 0) return null
 
   return (
     <ControlledTurnAbilitySelector
-      index={props.index}
-      value={props.comboTurnAbilities[props.index]}
+      index={index}
+      value={comboTurnAbilities[index]}
       style={{ width: abilityWidth }}
-      comboState={props.comboState}
-      onComboStateChange={props.onComboStateChange}
+      comboState={comboState}
+      onComboStateChange={onComboStateChange}
     />
   )
 }
@@ -40,20 +40,17 @@ export function ComboDrawerTitle() {
   )
 }
 
-export function ComboHeader(props: {
+export function ComboHeader({ comboState, onComboStateChange }: {
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
-  const { t: tCommon } = useTranslation('common')
-  const comboTurnAbilities = props.comboState.comboTurnAbilities
+  const comboTurnAbilities = comboState.comboTurnAbilities
 
-  if (!comboTurnAbilities) return <></>
+  if (!comboTurnAbilities) return null
 
   const length = comboTurnAbilities.length
   const render: ReactElement[] = [
-    <div key='controls' style={{ width: 380 }}>
-    </div>,
+    <div key='controls' style={{ width: 380 }} />,
     <div key='base' style={{ width: abilityWidth }} />,
     ...Array(Math.min(ABILITY_LIMIT + 1, length + 1))
       .fill(false)
@@ -62,8 +59,8 @@ export function ComboHeader(props: {
           comboTurnAbilities={comboTurnAbilities}
           index={index}
           key={index}
-          comboState={props.comboState}
-          onComboStateChange={props.onComboStateChange}
+          comboState={comboState}
+          onComboStateChange={onComboStateChange}
         />
       )),
   ]

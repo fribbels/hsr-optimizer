@@ -44,7 +44,7 @@ export function RelicInsightsPanel() {
         owned: getCharacterById(char.id) != undefined,
       }))
       .sort((a, b) => {
-        if (b.score.bestPct == a.score.bestPct) {
+        if (b.score.bestPct === a.score.bestPct) {
           return sortAlphabeticEmojiLast('name')(a, b)
         } else return b.score.bestPct - a.score.bestPct
       })

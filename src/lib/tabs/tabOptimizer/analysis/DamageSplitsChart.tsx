@@ -7,7 +7,7 @@ import {
   getDamageTypeColor,
 } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
-import React, { useMemo, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -27,7 +27,7 @@ type FlattenedBar = {
   damageType: number
   label: string
   color: string
-  shape: (props: { x: number; y: number; width: number; height: number }) => React.ReactNode
+  shape: (props: { x: number; y: number; width: number; height: number }) => ReactNode
 }
 
 type LegendItem = {
@@ -174,10 +174,10 @@ function dimNumberLeftTick(props: { x: number; y: number; payload: { value: stri
   )
 }
 
-export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
+export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
   const [hoveredBar, setHoveredBar] = useState<string | null>(null)
 
-  const { rows, bars, legendItems } = useMemo(() => flattenData(props.data), [props.data])
+  const { rows, bars, legendItems } = useMemo(() => flattenData(data), [data])
 
   if (rows.length === 0) {
     return null
@@ -222,7 +222,7 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
             dataKey={bar.key}
             stackId='a'
             fill={bar.color}
-            // @ts-ignore recharts shape typing
+            // @ts-expect-error recharts shape typing doesn't support custom shape functions
             shape={bar.shape}
             activeBar={false}
             isAnimationActive={false}

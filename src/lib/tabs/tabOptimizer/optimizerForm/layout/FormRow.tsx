@@ -1,6 +1,6 @@
 import { Accordion, Flex } from '@mantine/core'
 import {
-  ReactElement,
+  ReactNode,
   useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,13 +14,13 @@ export const OptimizerMenuIds = {
   analysis: 'Analysis',
 }
 
-export function FormRow(props: { id: string, label?: string, children: ReactElement | ReactElement[] }) {
+export function FormRow({ id, label, children }: { id: string; label?: string; children: ReactNode }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'FormRowLabels' })
   const optimizerMenuState = useOptimizerDisplayStore((s) => s.menuState)
   const setOptimizerMenuState = useOptimizerDisplayStore((s) => s.setMenuState)
 
   function onChange(value: string[]) {
-    setOptimizerMenuState({ ...optimizerMenuState, [props.id]: value.length > 0 })
+    setOptimizerMenuState({ ...optimizerMenuState, [id]: value.length > 0 })
   }
 
   return (
@@ -33,7 +33,7 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
     >
       <Accordion
         multiple
-        defaultValue={optimizerMenuState[props.id] ? [props.id] : []}
+        defaultValue={optimizerMenuState[id] ? [id] : []}
         onChange={onChange}
         chevronPosition='right'
         variant='default'
@@ -43,13 +43,10 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
           chevron: { paddingInlineStart: 12 },
         }}
       >
-        <Accordion.Item value={props.id}>
+        <Accordion.Item value={id}>
           <Accordion.Control>
             <Flex style={{ paddingTop: 6 }}>
-              {
-                // @ts-ignore
-                props.label ?? t(`${props.id}`)
-              }
+              {label ?? t(`${id}` as never)}
             </Flex>
           </Accordion.Control>
           <Accordion.Panel>
@@ -61,7 +58,7 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
               }}
               gap={10}
             >
-              {props.children}
+              {children}
             </Flex>
           </Accordion.Panel>
         </Accordion.Item>
@@ -70,7 +67,7 @@ export function FormRow(props: { id: string, label?: string, children: ReactElem
   )
 }
 
-export function TeammateFormRow(props: { id: string, children: ReactElement | ReactElement[] }) {
+export function TeammateFormRow({ id, children }: { id: string; children: ReactNode }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateRow' })
   const teammateCount = useOptimizerDisplayStore((s) => s.teammateCount)
 
@@ -80,8 +77,8 @@ export function TeammateFormRow(props: { id: string, children: ReactElement | Re
   }, [teammateCount, t])
 
   return (
-    <FormRow id={props.id} label={label}>
-      {props.children}
+    <FormRow id={id} label={label}>
+      {children}
     </FormRow>
   )
 }

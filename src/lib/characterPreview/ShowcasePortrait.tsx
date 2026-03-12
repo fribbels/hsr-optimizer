@@ -1,6 +1,6 @@
 import { IconEdit } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
-import CharacterCustomPortrait from 'lib/characterPreview/CharacterCustomPortrait'
+import { CharacterCustomPortrait } from 'lib/characterPreview/CharacterCustomPortrait'
 import {
   showcaseButtonStyle,
   showcaseShadow,
@@ -12,7 +12,7 @@ import {
   parentH,
   parentW,
 } from 'lib/constants/constantsUi'
-import EditImageModal from 'lib/overlays/modals/EditImageModal'
+import { EditImageModal } from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
@@ -25,40 +25,38 @@ import {
 } from 'types/customImage'
 import { useGlobalStore } from 'lib/stores/appStore'
 
-export function ShowcasePortrait(props: {
-  source: ShowcaseSource,
-  character: Character,
-  scoringType: ScoringType,
-  displayDimensions: ShowcaseDisplayDimensions,
-  customPortrait: CustomImageConfig | undefined,
-  editPortraitModalOpen: boolean,
-  setEditPortraitModalOpen: (b: boolean) => void,
-  onEditPortraitOk: (p: CustomImagePayload) => void,
-  artistName: string | undefined,
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void,
-  setOriginalCharacterModalOpen: (b: boolean) => void,
-  onPortraitLoad: (img: string) => void,
+export function ShowcasePortrait({
+  source,
+  character,
+  scoringType,
+  displayDimensions,
+  customPortrait,
+  editPortraitModalOpen,
+  setEditPortraitModalOpen,
+  onEditPortraitOk,
+  artistName,
+  setOriginalCharacterModalInitialCharacter,
+  setOriginalCharacterModalOpen,
+  onPortraitLoad,
+}: {
+  source: ShowcaseSource
+  character: Character
+  scoringType: ScoringType
+  displayDimensions: ShowcaseDisplayDimensions
+  customPortrait: CustomImageConfig | undefined
+  editPortraitModalOpen: boolean
+  setEditPortraitModalOpen: (b: boolean) => void
+  onEditPortraitOk: (p: CustomImagePayload) => void
+  artistName: string | undefined
+  setOriginalCharacterModalInitialCharacter: (c: Character) => void
+  setOriginalCharacterModalOpen: (b: boolean) => void
+  onPortraitLoad: (img: string) => void
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
   const uid = useShowcaseTabStore((s) => s.savedSession.scorerId)
 
-  const showUid = props.source == ShowcaseSource.SHOWCASE_TAB && showcaseUID
-
-  const {
-    source,
-    character,
-    scoringType,
-    displayDimensions,
-    customPortrait,
-    editPortraitModalOpen,
-    setEditPortraitModalOpen,
-    onEditPortraitOk,
-    artistName,
-    setOriginalCharacterModalInitialCharacter,
-    setOriginalCharacterModalOpen,
-    onPortraitLoad,
-  } = props
+  const showUid = source === ShowcaseSource.SHOWCASE_TAB && showcaseUID
 
   const {
     tempInnerW,
@@ -100,7 +98,7 @@ export function ShowcasePortrait(props: {
         )}
 
       <Flex direction="column" className={styles.buttonColumn} gap={7}>
-        {source != ShowcaseSource.BUILDS_MODAL && (
+        {source !== ShowcaseSource.BUILDS_MODAL && (
           <>
             <Button
               style={showcaseButtonStyle}

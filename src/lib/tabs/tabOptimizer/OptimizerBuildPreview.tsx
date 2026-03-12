@@ -2,7 +2,7 @@ import { Flex } from '@mantine/core'
 import { Parts } from 'lib/constants/constants'
 import { useState } from 'react'
 
-import RelicModal from 'lib/overlays/modals/RelicModal'
+import { RelicModal } from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { useGlobalStore } from 'lib/stores/appStore'
@@ -30,7 +30,7 @@ const indexToPart: Record<number, Parts> = {
   5: Parts.LinkRope,
 }
 
-export default function OptimizerBuildPreview() {
+export function OptimizerBuildPreview() {
   const optimizerBuild = useOptimizerDisplayStore((s) => s.optimizerBuild)
   const relicsById = useRelicStore((s) => s.relicsById)
   const characterId = useOptimizerDisplayStore((s) => s.focusCharacterId)
@@ -40,7 +40,7 @@ export default function OptimizerBuildPreview() {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false)
 
   if (activeKey !== AppPages.OPTIMIZER || characterId == undefined) {
-    return <></>
+    return null
   }
 
   function onEditOk(relic: Relic) {

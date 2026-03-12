@@ -19,28 +19,29 @@ import {
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import React, {
+import {
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export function SubstatInput(props: {
-  index: 0 | 1 | 2 | 3,
-  upgrades: RelicUpgradeValues[],
-  relicForm: UseFormReturnType<RelicForm>,
-  resetUpgradeValues: () => void,
-  plusThree: () => void,
+export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, plusThree }: {
+  index: 0 | 1 | 2 | 3
+  upgrades: RelicUpgradeValues[]
+  relicForm: UseFormReturnType<RelicForm>
+  resetUpgradeValues: () => void
+  plusThree: () => void
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [hovered, setHovered] = React.useState(false)
-  const statTypeField = `substatType${props.index}` as `substatType${typeof props.index}`
-  const statValueField = `substatValue${props.index}` as `substatValue${typeof props.index}`
-  const isPreviewField = `substat${props.index}IsPreview` as `substat${typeof props.index}IsPreview`
+  const [hovered, setHovered] = useState(false)
+  const statTypeField = `substatType${index}` as `substatType${typeof index}`
+  const statValueField = `substatValue${index}` as `substatValue${typeof index}`
+  const isPreviewField = `substat${index}IsPreview` as `substat${typeof index}IsPreview`
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
   const { t: tStats } = useTranslation('common', { keyPrefix: 'Stats' })
 
-  const isPreview = props.relicForm.getValues()[isPreviewField]
+  const isPreview = relicForm.getValues()[isPreviewField]
 
   const handleFocus = () => {
     if (inputRef.current) {
@@ -49,14 +50,14 @@ export function SubstatInput(props: {
   }
 
   function upgradeClicked(quality: 'low' | 'mid' | 'high') {
-    props.relicForm.setFieldValue(statValueField, props.upgrades[props.index][quality] as any)
-    props.relicForm.setFieldValue(isPreviewField, false as any)
-    props.resetUpgradeValues()
-    props.plusThree()
+    relicForm.setFieldValue(statValueField, upgrades[index][quality] as any)
+    relicForm.setFieldValue(isPreviewField, false as any)
+    resetUpgradeValues()
+    plusThree()
   }
 
   const formatStat = (value?: string | number) => {
-    const stat = props.relicForm.getValues()[`substatType${props.index}`]
+    const stat = relicForm.getValues()[`substatType${index}`]
     if (!value) return ''
     if (Utils.isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
     return localeNumber_0(Number(value))
@@ -79,15 +80,15 @@ export function SubstatInput(props: {
   function PreviewToggle() {
     const onClick = () => {
       if (isPreview) {
-        props.relicForm.setFieldValue(isPreviewField, false as any)
-        props.relicForm.setFieldValue(statValueField, isPreview as any)
-        props.resetUpgradeValues()
+        relicForm.setFieldValue(isPreviewField, false as any)
+        relicForm.setFieldValue(statValueField, isPreview as any)
+        resetUpgradeValues()
       } else {
-        const value = props.relicForm.getValues()[statValueField]
-        if (value == '0' || !value) return
-        props.relicForm.setFieldValue(isPreviewField, value as any)
-        props.relicForm.setFieldValue(statValueField, '0' as any)
-        props.resetUpgradeValues()
+        const value = relicForm.getValues()[statValueField]
+        if (value === '0' || !value) return
+        relicForm.setFieldValue(isPreviewField, value as any)
+        relicForm.setFieldValue(statValueField, '0' as any)
+        resetUpgradeValues()
       }
     }
     return (
@@ -100,7 +101,7 @@ export function SubstatInput(props: {
   function UpgradeButton(subProps: {
     quality: 'low' | 'mid' | 'high',
   }) {
-    const value = props.upgrades?.[props.index]?.[subProps.quality]
+    const value = upgrades?.[index]?.[subProps.quality]
 
     if (value === null) return null
 
@@ -121,7 +122,7 @@ export function SubstatInput(props: {
     )
   }
 
-  const stat = props.relicForm.getValues()[statTypeField] as RelicForm[typeof statTypeField]
+  const stat = relicForm.getValues()[statTypeField] as RelicForm[typeof statTypeField]
 
   return (
     <Flex gap={10} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
@@ -141,21 +142,21 @@ export function SubstatInput(props: {
               {option.label}
             </Flex>
           )}
-          {...props.relicForm.getInputProps(statTypeField)}
+          {...relicForm.getInputProps(statTypeField)}
           onChange={(val) => {
-            props.relicForm.setFieldValue(statTypeField, val as any)
+            relicForm.setFieldValue(statTypeField, val as any)
             if (val) {
-              props.relicForm.setFieldValue(statValueField, '0' as any)
+              relicForm.setFieldValue(statValueField, '0' as any)
             } else {
-              props.relicForm.setFieldValue(statValueField, undefined as any)
+              relicForm.setFieldValue(statValueField, undefined as any)
             }
-            props.resetUpgradeValues()
+            resetUpgradeValues()
           }}
           tabIndex={0}
         />
 
         <Tooltip
-          label={stat == Stats.SPD ? t('SpdInputWarning') : ''}
+          label={stat === Stats.SPD ? t('SpdInputWarning') : ''}
           position='top'
           events={{ hover: false, focus: true, touch: false }}
         >
@@ -164,10 +165,10 @@ export function SubstatInput(props: {
             ref={inputRef}
             onFocus={handleFocus}
             style={{ width: 80 }}
-            {...props.relicForm.getInputProps(statValueField)}
+            {...relicForm.getInputProps(statValueField)}
             onChange={(e) => {
-              props.relicForm.setFieldValue(statValueField, e.currentTarget.value)
-              props.resetUpgradeValues()
+              relicForm.setFieldValue(statValueField, e.currentTarget.value)
+              resetUpgradeValues()
             }}
             tabIndex={0}
           />

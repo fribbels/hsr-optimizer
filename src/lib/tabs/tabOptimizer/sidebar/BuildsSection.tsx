@@ -12,14 +12,14 @@ import { useTranslation } from 'react-i18next'
 
 const defaultGap = 5
 
-export const BuildsSection = React.memo(function BuildsSection(props: { isFullSize: boolean }) {
+export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.BuildsGroup' })
   const [saveBuildModalOpen, setSaveBuildModalOpen] = useState(false)
   const [buildsModalOpen, setBuildsModalOpen] = useState(false)
   const focusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
   const charactersById = useCharacterStore((s) => s.charactersById)
 
-  if (!props.isFullSize || !focusCharacter) return <></>
+  if (!isFullSize || !focusCharacter) return null
 
   const character = charactersById[focusCharacter] ?? null
 

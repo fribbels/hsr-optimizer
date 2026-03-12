@@ -491,4 +491,4 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   )
 }
 
-export default EditImageModal
+export { EditImageModal }

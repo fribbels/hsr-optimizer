@@ -1,0 +1,20 @@
+.headerRow {
+  height: 26px;
+}
+
+.elementIcon {
+  width: 32px;
+}
+
+.characterName {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.characterLevel {
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+}

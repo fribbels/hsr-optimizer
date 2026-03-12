@@ -5,26 +5,33 @@ import {
   generatePathTags,
   SegmentedFilterRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 
 export function FilterBar() {
   const { t } = useTranslation('charactersTab')
-  const pathFilter = useCharacterTabStore((s) => s.filters.path)
-  const setPathFilter = useCharacterTabStore((s) => s.setPathFilter)
-  const elementFilter = useCharacterTabStore((s) => s.filters.element)
-  const setElementFilter = useCharacterTabStore((s) => s.setElementFilter)
-  const setNameFilter = useCharacterTabStore((s) => s.setNameFilter)
+  const { pathFilter, setPathFilter, elementFilter, setElementFilter, setNameFilter } = useCharacterTabStore(
+    useShallow((s) => ({
+      pathFilter: s.filters.path,
+      setPathFilter: s.setPathFilter,
+      elementFilter: s.filters.element,
+      setElementFilter: s.setElementFilter,
+      setNameFilter: s.setNameFilter,
+    })),
+  )
 
   return (
     <Flex
       gap={8}
-      style={{ width: '100%', marginBottom: 0, alignItems: 'center' }}
+      w='100%'
+      mb={0}
+      align='center'
       justify='space-between'
     >
       <TextInput
         // Revisit width of search + filters with Remembrance path
-        style={{ fontSize: 14, width: 200, borderRadius: 8 }}
+        style={{ fontSize: 14, borderRadius: 8 }}
+        w={200}
         placeholder={t('SearchPlaceholder') /* Search */}
         onChange={(e) => {
           setNameFilter(e.target.value.toLowerCase())
@@ -40,7 +47,7 @@ export function FilterBar() {
       </Flex>
       <Flex
         // Selected to align with relics panel
-        style={{ width: 408 }}
+        w={408}
       >
         <SegmentedFilterRow
           tags={generateElementTags()}

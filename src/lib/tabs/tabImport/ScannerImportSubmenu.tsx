@@ -74,7 +74,7 @@ export function ScannerImportSubmenu() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isLiveImporting = connected && ingest
 
-  function beforeUpload(file: Blob): Promise<any> {
+  function beforeUpload(file: Blob): Promise<void> {
     return new Promise(() => {
       const reader = new FileReader()
       reader.readAsText(file)
@@ -103,7 +103,7 @@ export function ScannerImportSubmenu() {
         let characters = out.characters
         // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
         characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-        characters.map((c) => {
+        characters.forEach((c) => {
           c.characterLevel = 80
           c.lightConeLevel = 80
         })
@@ -128,7 +128,7 @@ export function ScannerImportSubmenu() {
 
       // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
       characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
-      characters.map((c) => {
+      characters.forEach((c) => {
         c.characterLevel = 80
         c.lightConeLevel = 80
       })
@@ -277,9 +277,9 @@ export function ScannerImportSubmenu() {
                 onChange={(e) => {
                   const text = e.target.value
                   try {
-                    const json = JSON.parse(text)
+                    JSON.parse(text)
                     uploadedText(text)
-                  } catch (e) {
+                  } catch {
                     // Not valid json, ignore
                   }
                 }}
@@ -315,7 +315,7 @@ export function ScannerImportSubmenu() {
                     url={ReliquaryArchiverConfig.releases}
                     linkIcon={true}
                   />
-                  {websocketUrl != DEFAULT_WEBSOCKET_URL && (() => {
+                  {websocketUrl !== DEFAULT_WEBSOCKET_URL && (() => {
                     try {
                       return new URL(websocketUrl).port === '53313' && (
                         <>

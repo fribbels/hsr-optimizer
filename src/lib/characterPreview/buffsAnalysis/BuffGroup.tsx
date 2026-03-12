@@ -15,7 +15,7 @@ import { Buff } from 'lib/optimization/basicStatsArray'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Assets } from 'lib/rendering/assets'
 import { setToId } from 'lib/sets/setConfigRegistry'
-import React, { useContext } from 'react'
+import { ReactNode, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
@@ -28,23 +28,22 @@ function getBuffSourceIcon(id: string, buffType: BUFF_TYPE) {
   return Assets.getBlank()
 }
 
-export function CardShell(props: { avatarSrc: string; children: React.ReactNode }) {
+export function CardShell({ avatarSrc, children }: { avatarSrc: string; children: ReactNode }) {
   const options = useContext(DesignContext)
   const mantineTheme = useMantineTheme()
   const token = { colorBgContainer: mantineTheme.colors.dark[6] }
   return (
     <Flex align='center' gap={0} style={getCardStyle(options, token)}>
-      <img src={props.avatarSrc} style={getIconStyle(options)} />
+      <img src={avatarSrc} style={getIconStyle(options)} />
       <Flex direction='column' gap={0} style={{ flex: 1, overflow: 'hidden' }}>
-        {props.children}
+        {children}
       </Flex>
     </Flex>
   )
 }
 
-export function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYPE }) {
+export function BuffGroup({ id, buffs, buffType }: { id: string, buffs: Buff[], buffType: BUFF_TYPE }) {
   const { t: tGameData } = useTranslation('gameData')
-  const { id, buffs, buffType } = props
 
   const src = getBuffSourceIcon(id, buffType)
   let name: string
@@ -66,7 +65,7 @@ export function BuffGroup(props: { id: string, buffs: Buff[], buffType: BUFF_TYP
   )
 }
 
-export function CardHeader(props: { label: string }) {
+export function CardHeader({ label }: { label: string }) {
   const options = useContext(DesignContext)
   return (
     <span
@@ -86,7 +85,7 @@ export function CardHeader(props: { label: string }) {
         marginBottom: 2,
       }}
     >
-      {props.label}
+      {label}
     </span>
   )
 }

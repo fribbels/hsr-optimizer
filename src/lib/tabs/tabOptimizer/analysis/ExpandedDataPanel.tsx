@@ -15,7 +15,7 @@ import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
-import FilterContainer from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
+import { FilterContainer } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import {
   FormRow,
   OptimizerMenuIds,
@@ -28,8 +28,8 @@ export function ExpandedDataPanel() {
   const selectedRowData = useOptimizerDisplayStore((s) => s.optimizerSelectedRowData)
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
-  if (useGlobalStore.getState().activeKey != AppPages.OPTIMIZER) {
-    return <></>
+  if (useGlobalStore.getState().activeKey !== AppPages.OPTIMIZER) {
+    return null
   }
 
   let form = getCachedForm() ?? getForm()
@@ -43,7 +43,7 @@ export function ExpandedDataPanel() {
     }
   }
   if (selectedRowData == null || pinnedRowData == null || form == null || getCharacterById(form.characterId) == null) {
-    return <></>
+    return null
   }
   if (selectedRowData.statSim) {
     return null
@@ -69,9 +69,7 @@ function MemoizedExpandedDataPanel(props: { analysis: OptimizerResultAnalysis })
   return memoized
 }
 
-function AnalysisRender(props: { analysis: OptimizerResultAnalysis }) {
-  const { analysis } = props
-
+function AnalysisRender({ analysis }: { analysis: OptimizerResultAnalysis }) {
   return (
     <FilterContainer>
       <FormRow id={OptimizerMenuIds.analysis}>

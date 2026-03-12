@@ -3,17 +3,11 @@ import {
   defaultPadding,
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import {
-  CSSProperties,
-  ReactElement,
-} from 'react'
-
-
+import { CSSProperties, ReactNode } from 'react'
 
 const defaultGap = 5
 
 const smallWidth = panelWidth
-const narrowWidth = 233
 const mediumWidth = 373
 const largeWidth = 1183
 
@@ -24,16 +18,14 @@ const dimsBySize: Record<string, number> = {
   large: largeWidth,
 }
 
-export default function FormCard(props: {
-  size?: string,
-  children?: ReactElement | ReactElement[],
-  height?: number,
-  style?: CSSProperties,
-  justify?: string,
+export function FormCard({ size: sizeProp, children, height, style, justify }: {
+  size?: string
+  children?: ReactNode
+  height?: number
+  style?: CSSProperties
+  justify?: string
 }) {
-
-
-  const size = props.size ?? 'small'
+  const size = sizeProp ?? 'small'
   const width = dimsBySize[size]
 
   return (
@@ -41,24 +33,24 @@ export default function FormCard(props: {
       style={{
         borderRadius: 5,
         backgroundColor: 'var(--mantine-color-dark-7)',
-        height: props.height ?? 415,
-        padding: props.style?.padding ?? defaultPadding,
+        height: height ?? 415,
+        padding: style?.padding ?? defaultPadding,
         boxShadow: 'var(--card-shadow)',
-        overflow: props.style?.overflow,
+        overflow: style?.overflow,
       }}
       className='hide-scrollbar'
     >
       <Flex
         style={{ width: width }}
-        justify={props.justify ?? undefined}
+        justify={justify ?? undefined}
       >
         <Flex
           direction="column"
           style={{ width: width }}
           gap={defaultGap}
-          justify={props.justify ?? undefined}
+          justify={justify ?? undefined}
         >
-          {props.children}
+          {children}
         </Flex>
       </Flex>
     </Flex>

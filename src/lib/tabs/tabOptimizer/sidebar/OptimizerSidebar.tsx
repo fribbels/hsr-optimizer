@@ -9,16 +9,15 @@ import { ResultsSection } from 'lib/tabs/tabOptimizer/sidebar/ResultsSection'
 const SCROLLBAR_WIDTH = 5 // px
 const RESERVED_SPACE = 2 // px
 
-export function OptimizerSidebar(props: { isFullSize: boolean }) {
-
+export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
   const { offset, isLocked } = useScrollLockState()
   const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE
   const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
   return (
     <Flex direction="column" style={{ overflow: 'clip' }}>
       <Flex
-        justify={props.isFullSize ? 'center' : 'space-evenly'}
-        style={props.isFullSize
+        justify={isFullSize ? 'center' : 'space-evenly'}
+        style={isFullSize
           ? {
             position: isLocked ? 'relative' : 'sticky',
             top: isLocked ? offset + 195 : 253,
@@ -41,7 +40,7 @@ export function OptimizerSidebar(props: { isFullSize: boolean }) {
           }}
       >
         <Flex
-          style={props.isFullSize
+          style={isFullSize
             ? {
               borderRadius: 5,
               backgroundColor: 'var(--mantine-color-dark-7)',
@@ -53,11 +52,11 @@ export function OptimizerSidebar(props: { isFullSize: boolean }) {
             }
             : undefined}
         >
-          <Flex direction={props.isFullSize ? 'column' : 'row'} gap={props.isFullSize ? 5 : 20}>
-            <PermutationsSection isFullSize={props.isFullSize} />
-            <OptimizerControlsSection isFullSize={props.isFullSize} />
-            <ResultsSection isFullSize={props.isFullSize} />
-            <BuildsSection isFullSize={props.isFullSize} />
+          <Flex direction={isFullSize ? 'column' : 'row'} gap={isFullSize ? 5 : 20}>
+            <PermutationsSection isFullSize={isFullSize} />
+            <OptimizerControlsSection isFullSize={isFullSize} />
+            <ResultsSection isFullSize={isFullSize} />
+            <BuildsSection isFullSize={isFullSize} />
           </Flex>
         </Flex>
       </Flex>

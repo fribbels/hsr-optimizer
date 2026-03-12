@@ -5,7 +5,8 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import { PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
-import React, {
+import {
+  memo,
   useRef,
   useState,
 } from 'react'
@@ -41,7 +42,7 @@ type DataPoint = {
 const IMG_WIDTH = 26
 const IMG_HEIGHT = 39
 
-export const BucketsPanel = React.memo(({ scores }: PanelProps) => {
+export const BucketsPanel = memo(({ scores }: PanelProps) => {
 
   const [tooltipActive, setTooltipActive] = useState(false)
   const timeout = useRef<NodeJS.Timeout>()
@@ -174,7 +175,7 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
         <u>{data?.name}</u>
       </div>
       <div>
-        {data?.bestUpgraded?.length != 0 && (
+        {data?.bestUpgraded?.length !== 0 && (
           <>
             <>{t('UpgradedStats')}</>
             <>{data?.bestUpgraded?.join(' / ')}</>
@@ -182,7 +183,7 @@ function TooltipContent(props: TooltipProps<ValueType, NameType>) {
         )}
       </div>
       <div>
-        {data?.bestAdded?.length != 0 && (
+        {data?.bestAdded?.length !== 0 && (
           <>
             <>{t('NewStats')}</>
             <>{data?.bestAdded?.join(' / ')}</>

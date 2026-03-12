@@ -1,0 +1,16 @@
+.overlayOuter {
+  position: relative;
+  height: 0;
+}
+
+.overlayLabel {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 2px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  text-shadow: 0 0 10px black;
+  outline: rgba(255, 255, 255, 0.40) solid 1px;
+  line-height: 12px;
+}

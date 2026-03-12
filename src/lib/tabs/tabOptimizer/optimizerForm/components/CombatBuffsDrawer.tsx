@@ -11,15 +11,14 @@ import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const CombatBuffsDrawer = () => {
+export function CombatBuffsDrawer() {
   const { close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
 
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
 
   const combatBuffsList = useMemo(() => {
     return Object.values(CombatBuffs).map((x) => (
-      // @ts-ignore
-      <CombatBuff title={t(`${x.key}`)} name={x.key} key={x.key} />
+      <CombatBuff title={t(`${x.key}` as never)} name={x.key} key={x.key} />
     ))
   }, [t])
 
@@ -40,19 +39,19 @@ export const CombatBuffsDrawer = () => {
   )
 }
 
-function CombatBuff(props: { title: string; name: string }) {
-  const value = useOptimizerRequestStore((s) => s.combatBuffs[props.name])
+function CombatBuff({ title, name }: { title: string; name: string }) {
+  const value = useOptimizerRequestStore((s) => s.combatBuffs[name])
 
   return (
     <Flex justify='space-between'>
       <Text>
-        {props.title}
+        {title}
       </Text>
       <InputNumberStyled
         size='xs'
         hideControls
         value={value}
-        onChange={(val) => useOptimizerRequestStore.getState().setCombatBuff(props.name, (val as number) ?? 0)}
+        onChange={(val: number | string) => useOptimizerRequestStore.getState().setCombatBuff(name, (val as number) ?? 0)}
       />
     </Flex>
   )

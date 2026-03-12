@@ -33,7 +33,7 @@ import {
   PerActionBuffGroups,
 } from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import React, {
+import {
   ReactElement,
   useMemo,
   useState,
@@ -53,20 +53,26 @@ export enum BuffDisplaySize {
   LARGE = 450,
 }
 
-export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
+export function BuffsAnalysisDisplay({
+  result,
+  perActionBuffGroups: perActionBuffGroupsProp,
+  size,
+  context: contextProp,
+  twoColumn,
+}: BuffsAnalysisProps) {
   const rerunResult = useMemo(
-    () => props.perActionBuffGroups ? null : rerunSim(props.result),
-    [props.perActionBuffGroups, props.result],
+    () => perActionBuffGroupsProp ? null : rerunSim(result),
+    [perActionBuffGroupsProp, result],
   )
-  const perActionBuffGroups = props.perActionBuffGroups ?? rerunResult?.perActionBuffGroups
-  const context = props.context ?? rerunResult?.context
+  const perActionBuffGroups = perActionBuffGroupsProp ?? rerunResult?.perActionBuffGroups
+  const context = contextProp ?? rerunResult?.context
   const [selectedAction, setSelectedAction] = useState<number | null>(null)
   const [selectedFilter, setSelectedFilter] = useState<DamageTag | null>(null)
 
   const options = useMemo(() => ({
     ...DEFAULT_OPTIONS,
-    panelWidth: props.size ?? DEFAULT_OPTIONS.panelWidth,
-  }), [props.size])
+    panelWidth: size ?? DEFAULT_OPTIONS.panelWidth,
+  }), [size])
 
   if (!perActionBuffGroups || Object.keys(perActionBuffGroups.byAction).length === 0) {
     return null
@@ -123,7 +129,7 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   return (
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
-        {props.twoColumn
+        {twoColumn
           ? (
             <Flex direction="column" gap={GROUP_SPACING}>
               {actionSelector}
@@ -153,12 +159,11 @@ export function BuffsAnalysisDisplay(props: BuffsAnalysisProps) {
   )
 }
 
-function GroupedLayout(props: { buffGroups: BuffGroups }) {
+function GroupedLayout({ buffGroups }: { buffGroups: BuffGroups }) {
   const groups: ReactElement[] = []
-  let groupKey = 0
 
   for (const buffType of GROUP_ORDER) {
-    const groupMap = props.buffGroups[buffType]
+    const groupMap = buffGroups[buffType]
     if (!groupMap) continue
 
     for (const [id, buffs] of Object.entries(groupMap)) {
@@ -166,7 +171,7 @@ function GroupedLayout(props: { buffGroups: BuffGroups }) {
 
       groups.push(
         <BuffGroup
-          key={groupKey++}
+          key={`${buffType}-${id}`}
           id={id}
           buffs={buffs}
           buffType={buffType}

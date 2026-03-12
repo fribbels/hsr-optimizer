@@ -25,7 +25,7 @@ import {
   EstTbpRunnerOutput,
   runEstTbpWorker,
 } from 'lib/worker/estTbpWorkerRunner'
-import React, {
+import {
   useEffect,
   useState,
 } from 'react'
@@ -38,16 +38,15 @@ const cachedRelics: Record<string, EnrichedRelics> = {}
 const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
-export const EstimatedTbpRelicsDisplay = (props: {
-  scoringType: ScoringType,
-  displayRelics: SingleRelicByPart,
-  showcaseMetadata: ShowcaseMetadata,
-}) => {
-  const {
-    scoringType,
-    displayRelics,
-    showcaseMetadata,
-  } = props
+export function EstimatedTbpRelicsDisplay({
+  scoringType,
+  displayRelics,
+  showcaseMetadata,
+}: {
+  scoringType: ScoringType
+  displayRelics: SingleRelicByPart
+  showcaseMetadata: ShowcaseMetadata
+}) {
   const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
   const [loading, setLoading] = useState(false)
   const scoringMetadata = useScoringMetadata(showcaseMetadata.characterId)
@@ -56,7 +55,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
     const characterId = showcaseMetadata.characterId
 
     const input: EstTbpRunnerInput = {
-      displayRelics: displayRelics,
+      displayRelics,
       weights: scoringMetadata.stats,
     }
 
@@ -65,7 +64,7 @@ export const EstimatedTbpRelicsDisplay = (props: {
     const cached = cachedRelics[cacheKey]
     if (cached) {
       // Deduplicate any requests against the static IN_PROGRESS object
-      if (cached != IN_PROGRESS) {
+      if (cached !== IN_PROGRESS) {
         setEnrichedRelics(cached)
       }
       return
@@ -78,12 +77,12 @@ export const EstimatedTbpRelicsDisplay = (props: {
       const enrichedRelics = enrichRelicAnalysis(displayRelics, output, scoringMetadata, characterId)
       cachedRelics[cacheKey] = enrichedRelics
 
-      if (cachedId != characterId) return
+      if (cachedId !== characterId) return
 
       setEnrichedRelics(enrichedRelics)
       setLoading(false)
     })
-  }, [displayRelics, showcaseMetadata, scoringMetadata])
+  }, [displayRelics, showcaseMetadata, scoringMetadata, scoringType])
 
   const ready = !(loading || !enrichedRelics)
 
@@ -109,8 +108,7 @@ function LoadingSpinner() {
   )
 }
 
-export function RelicContainer(props: { ready: boolean, relicAnalysis?: RelicAnalysis, withoutPreview?: boolean }) {
-  const { ready, relicAnalysis, withoutPreview } = props
+export function RelicContainer({ ready, relicAnalysis, withoutPreview }: { ready: boolean, relicAnalysis?: RelicAnalysis, withoutPreview?: boolean }) {
 
   const dynamicStyle = withoutPreview ? undefined : { minHeight: 302 }
 
@@ -142,8 +140,7 @@ export function RelicContainer(props: { ready: boolean, relicAnalysis?: RelicAna
   )
 }
 
-function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
-  const { relicAnalysis } = props
+function RelicAnalysisCard({ relicAnalysis }: { relicAnalysis?: RelicAnalysis }) {
 
   if (!relicAnalysis) {
     return <div className={styles.innerCard} />
@@ -162,8 +159,7 @@ function RelicAnalysisCard(props: { relicAnalysis?: RelicAnalysis }) {
   )
 }
 
-function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
-  const { relicAnalysis } = props
+function RollsCard({ relicAnalysis }: { relicAnalysis: RelicAnalysis }) {
 
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.RollsCard' })
 
@@ -204,20 +200,18 @@ function RollsCard(props: { relicAnalysis: RelicAnalysis }) {
   )
 }
 
-function MetricCard(props: { relicAnalysis: RelicAnalysis, index: number }) {
-  const { relicAnalysis, index } = props
-
+function MetricCard({ relicAnalysis, index }: { relicAnalysis: RelicAnalysis, index: number }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.MetricsCard' })
 
-  const textTop = index == 0 ? t('Days') : t('Rolls')
-  const textBottom = index == 0 ? t('TBP') : t('Potential')
+  const textTop = index === 0 ? t('Days') : t('Rolls')
+  const textBottom = index === 0 ? t('TBP') : t('Potential')
 
-  const valueTop = index == 0
+  const valueTop = index === 0
     ? localeNumberComma(Math.ceil(relicAnalysis.estDays))
     : localeNumber_0(relicAnalysis.weightedRolls)
-  const valueBottom = index == 0
+  const valueBottom = index === 0
     ? localeNumberComma(Math.ceil(relicAnalysis.estTbp / 40) * 40)
-    : localeNumber_0(relicAnalysis.rerollPotential == 0 ? 0 : relicAnalysis.rerollDelta) + '%'
+    : localeNumber_0(relicAnalysis.rerollPotential === 0 ? 0 : relicAnalysis.rerollDelta) + '%'
 
   return (
     <Flex
@@ -268,8 +262,7 @@ function LowRoll() {
   )
 }
 
-function RollLine(props: { substat: RelicSubstatMetadata | null, weights: RelicAnalysis['weights'] }) {
-  const { substat, weights } = props
+function RollLine({ substat, weights }: { substat: RelicSubstatMetadata | null, weights: RelicAnalysis['weights'] }) {
   if (substat == null) {
     return <div className={styles.rollLinePlaceholder} />
   }

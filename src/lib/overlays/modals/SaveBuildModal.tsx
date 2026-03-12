@@ -30,18 +30,17 @@ type CharacterForm = {
   name: string,
 }
 
-export function SaveBuildModal(props: {
-  source: AppPages.CHARACTERS | AppPages.OPTIMIZER,
-  character: Character | null,
-  isOpen: boolean,
-  close: () => void,
+export function SaveBuildModal({
+  source,
+  character,
+  isOpen,
+  close,
+}: {
+  source: AppPages.CHARACTERS | AppPages.OPTIMIZER
+  character: Character | null
+  isOpen: boolean
+  close: () => void
 }) {
-  const {
-    source,
-    character,
-    isOpen,
-    close,
-  } = props
   const characterForm = useForm<CharacterForm>({ initialValues: { name: '' } })
   const [selectedBuild, setSelectedBuild] = useState<number | null>(null)
   const [inputName, setInputName] = useState<string>('')
@@ -106,13 +105,9 @@ export function SaveBuildModal(props: {
     }
   }
 
-  const handleCancel = () => {
-    close()
-  }
-
-  const nameTaken = character?.builds?.reduce((acc, cur) => acc || cur.name == inputName, false)
-  const saveDisabled = nameTaken || inputName == ''
-  const overwriteDisabled = !nameTaken || inputName == ''
+  const nameTaken = character?.builds?.reduce((acc, cur) => acc || cur.name === inputName, false)
+  const saveDisabled = nameTaken || inputName === ''
+  const overwriteDisabled = !nameTaken || inputName === ''
 
   const build: SavedBuild | null = useMemo(() => {
     // if build is null then the preview will show the character's currently equipped build as seen in the character tab
@@ -154,7 +149,7 @@ export function SaveBuildModal(props: {
       opened={isOpen}
       size={1550}
       centered
-      onClose={handleCancel}
+      onClose={close}
     >
       <Flex gap={10} className={styles.outerFlex}>
         <Flex direction="column" className={styles.leftColumn}>
@@ -169,7 +164,7 @@ export function SaveBuildModal(props: {
             }}
           />
           <Divider className={styles.divider} />
-          <Button variant="default" onClick={handleCancel} className={styles.actionButton}>
+          <Button variant="default" onClick={close} className={styles.actionButton}>
             {tCommon('Cancel') /* Cancel */}
           </Button>
           <Tooltip

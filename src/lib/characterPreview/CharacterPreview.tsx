@@ -35,7 +35,7 @@ import {
   parentH,
 } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
-import RelicModal from 'lib/overlays/modals/RelicModal'
+import { RelicModal } from 'lib/overlays/modals/RelicModal'
 
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
@@ -73,14 +73,14 @@ interface CharacterPreviewPropsBase {
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
-export function CharacterPreview(props: CharacterPreviewProps) {
-  const {
-    source,
-    character,
-    setOriginalCharacterModalOpen,
-    setOriginalCharacterModalInitialCharacter,
-    savedBuildOverride,
-  } = props
+export function CharacterPreview({
+  source,
+  character,
+  setOriginalCharacterModalOpen,
+  setOriginalCharacterModalInitialCharacter,
+  savedBuildOverride,
+  id,
+}: CharacterPreviewProps) {
 
   const mantineTheme = useMantineTheme()
 
@@ -88,7 +88,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
   // Hooks must be called unconditionally before early return to satisfy Rules of Hooks
   if (!character
-    || (state.activeKey != AppPages.CHARACTERS && state.activeKey != AppPages.SHOWCASE && state.activeKey != AppPages.OPTIMIZER)
+    || (state.activeKey !== AppPages.CHARACTERS && state.activeKey !== AppPages.SHOWCASE && state.activeKey !== AppPages.OPTIMIZER)
     || (source === ShowcaseSource.CHARACTER_TAB && state.activeKey === AppPages.OPTIMIZER)) {
     return (
       <div
@@ -141,7 +141,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
   const zoom = 150
 
   return (
-    <Flex direction="column" style={{ width: source == ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source == ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
+    <Flex direction="column" style={{ width: source === ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <RelicModal
           selectedRelic={state.selectedRelic}
@@ -162,7 +162,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
       <ShowcaseCustomizationSidebar
         ref={state.sidebarRef}
         source={source}
-        id={props.id}
+        id={id}
         characterId={character.id}
         asyncSimScoringExecution={asyncSimScoringExecution}
         showcasePreferences={derived.characterShowcasePreferences}
@@ -175,7 +175,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
 
       {/* Showcase full card */}
       <Flex
-        id={props.id}
+        id={id}
         className='characterPreview'
         style={{
           position: 'relative',
@@ -224,7 +224,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
             onPortraitLoad={(img: string) => state.sidebarRef.current?.onPortraitLoad!(img, character.id)}
           />
 
-          {scoringType == ScoringType.COMBAT_SCORE && (
+          {scoringType === ScoringType.COMBAT_SCORE && (
             <ShowcaseLightConeSmall
               character={character}
               showcaseMetadata={showcaseMetadata}
@@ -236,7 +236,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
         </Flex>
 
         {/* Character details middle panel */}
-        <Flex direction="column" justify='space-between' gap={8} style={{}}>
+        <Flex direction="column" justify='space-between' gap={8}>
           <Flex
             direction="column"
             style={{
@@ -268,7 +268,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
               asyncSimScoringExecution={asyncSimScoringExecution}
             />
 
-            {scoringType == ScoringType.COMBAT_SCORE && (
+            {scoringType === ScoringType.COMBAT_SCORE && (
               <>
                 <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics} />
 
@@ -285,9 +285,9 @@ export function CharacterPreview(props: CharacterPreviewProps) {
               </>
             )}
 
-            {scoringType != ScoringType.COMBAT_SCORE && (
+            {scoringType !== ScoringType.COMBAT_SCORE && (
               <>
-                {scoringType != ScoringType.NONE && (
+                {scoringType !== ScoringType.NONE && (
                   <ShowcaseStatScore
                     scoringResults={scoringResults}
                   />
@@ -300,7 +300,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
             )}
           </Flex>
 
-          {scoringType != ScoringType.COMBAT_SCORE && (
+          {scoringType !== ScoringType.COMBAT_SCORE && (
             <ShowcaseLightConeLarge
               character={character}
               showcaseMetadata={showcaseMetadata}
@@ -331,7 +331,7 @@ export function CharacterPreview(props: CharacterPreviewProps) {
       />
 
       {/* Showcase analysis footer */}
-      {source != ShowcaseSource.BUILDS_MODAL && (
+      {source !== ShowcaseSource.BUILDS_MODAL && (
         <ShowcaseBuildAnalysis
           asyncSimScoringExecution={asyncSimScoringExecution}
           showcaseMetadata={showcaseMetadata}

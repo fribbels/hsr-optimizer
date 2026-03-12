@@ -14,7 +14,7 @@ interface RelicRerollModalProps {
   relic: V4ParserRelic | null
 }
 
-export default function RelicRerollModal({ open, onClose, relic }: RelicRerollModalProps) {
+export function RelicRerollModal({ open, onClose, relic }: RelicRerollModalProps) {
   const { t } = useTranslation('modals', { keyPrefix: 'RelicReroll' })
   const activatedBuffs = useScannerState((s) => s.activatedBuffs)
 

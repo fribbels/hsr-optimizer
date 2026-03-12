@@ -20,19 +20,18 @@ export type SubstatUpgradeItem = {
   damageValueUpgrade: number,
 }
 
-export function DpsScoreSubstatUpgradesTable(props: {
-  simScore: SimulationScore,
+export function DpsScoreSubstatUpgradesTable({ simScore }: {
+  simScore: SimulationScore
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
 
-  const { simScore } = props
   const upgrades = simScore.substatUpgrades
   const dataSource: SubstatUpgradeItem[] = upgrades.map((upgrade) => {
     const stat = upgrade.stat! as SubStats
     return {
       key: stat,
-      stat: stat,
+      stat,
       ...sharedSimResultComparator(simScore, upgrade),
     }
   })

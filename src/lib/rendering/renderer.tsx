@@ -35,18 +35,41 @@ import {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 
+const gradeToColor = {
+  5: '#efb679',
+  4: '#cc52f1',
+  3: '#58beed',
+  2: '#63e0ac',
+
+  [-1]: '#bdbdbd',
+}
+
+function SetDisplay(props: { asset: string }) {
+  if (props.asset) {
+    return (
+      <img src={props.asset} style={{ width: 32 }} />
+    )
+  } else {
+    return ''
+  }
+}
+
+function formatStatValue(stat: string, value: number): string {
+  return Utils.isFlat(stat) ? localeNumber(Math.floor(value)) : localeNumber_0(Utils.truncate10ths(value))
+}
+
 export const Renderer = {
-  floor: (x: ValueFormatterParams<any, number>) => {
+  floor: <T,>(x: ValueFormatterParams<T, number>) => {
     if (x?.value == undefined) return ''
     return localeNumber(Math.floor(x.value))
   },
 
-  x100Tenths: (x: ValueFormatterParams<any, number>) => {
+  x100Tenths: <T,>(x: ValueFormatterParams<T, number>) => {
     if (x?.value == undefined) return ''
     return localeNumber_0(Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10)
   },
 
-  tenths: (x: ValueFormatterParams<any, number>) => {
+  tenths: <T,>(x: ValueFormatterParams<T, number>) => {
     if (x?.value == undefined) return ''
     return localeNumber_0(Math.floor(Utils.precisionRound(x.value) * 10) / 10)
   },
@@ -68,7 +91,12 @@ export const Renderer = {
     while (relicSets.length > 0) {
       const value = relicSets[0]
       if (relicSets.lastIndexOf(value)) {
-        const setName = Object.entries(RelicSetToIndex).find((x) => x[1] == value)![0]
+        const entry = Object.entries(RelicSetToIndex).find((x) => x[1] == value)
+        if (!entry) {
+          relicSets.splice(0, 1)
+          continue
+        }
+        const setName = entry[0]
         const assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
         setImages.push(assetValue)
 
@@ -93,22 +121,21 @@ export const Renderer = {
     const i = x.value
 
     const ornamentSetCount = Object.values(SetsOrnaments).length
-    let setImage: string
 
     const s1 = i % ornamentSetCount
     const s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
 
-    if (s1 == s2) {
-      const setName = Object.entries(OrnamentSetToIndex).find((x) => x[1] == s1)![0]
-      setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
-      return (
-        <Flex justify='center' style={{ marginTop: -1 }}>
-          <SetDisplay asset={setImage} />
-        </Flex>
-      )
-    } else {
-      return ''
-    }
+    if (s1 != s2) return ''
+
+    const entry = Object.entries(OrnamentSetToIndex).find((x) => x[1] == s1)
+    if (!entry) return ''
+    const setImage = Assets.getSetImage(entry[0], Constants.Parts.PlanarSphere)
+
+    return (
+      <Flex justify='center' style={{ marginTop: -1 }}>
+        <SetDisplay asset={setImage} />
+      </Flex>
+    )
   },
 
   anySet: (x: CustomCellRendererProps<ScoredRelic>) => {
@@ -145,7 +172,7 @@ export const Renderer = {
     return i18next.t(`common:ReadableParts.${x.value}`)
   },
 
-  partIcon: (x: ValueFormatterParams<any, string>) => {
+  partIcon: <T,>(x: ValueFormatterParams<T, string>) => {
     if (x?.value == undefined) return ''
     return (
       <Flex justify='center' style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
@@ -154,8 +181,8 @@ export const Renderer = {
     )
   },
 
-  hideZeroesFloor: (x: ValueFormatterParams<any, number>) => {
-    return !x.value ? '' : '' + Math.floor(x.value)
+  hideZeroesFloor: <T,>(x: ValueFormatterParams<T, number>) => {
+    return !x.value ? '' : String(Math.floor(x.value))
   },
 
   // Unverified: 6, Verified: 6.0
@@ -174,15 +201,17 @@ export const Renderer = {
     return !x.value ? '' : Utils.truncate10ths(x.value).toLocaleString(currentLocale())
   },
 
-  hideZeroesX100Tenths: (x: ValueFormatterParams<any, number>) => {
+  hideZeroesX100Tenths: <T,>(x: ValueFormatterParams<T, number>) => {
     return x.value == 0 ? '' : Renderer.x100Tenths(x)
   },
 
-  hideNaNAndFloor: (x: ValueFormatterParams) => {
+  hideNaNAndFloor: <T,>(x: ValueFormatterParams<T, number>) => {
     return !x.value || isNaN(x.value) ? '0' : Math.floor(x.value).toLocaleString(currentLocale())
   },
-  hideNaNAndFloorPercent: (x: ValueFormatterParams) => {
-    return (!x.value || isNaN(x.value) ? '0' : Math.floor(x.value)).toLocaleString(currentLocale()) + '%'
+
+  hideNaNAndFloorPercent: <T,>(x: ValueFormatterParams<T, number>) => {
+    const display = !x.value || isNaN(x.value) ? 0 : Math.floor(x.value)
+    return display.toLocaleString(currentLocale()) + '%'
   },
 
   renderSubstatNumber: (substat: Stat, relic: Relic) => {
@@ -193,45 +222,48 @@ export const Renderer = {
       return Math.floor(substat.value)
     }
 
-    return Utils.isFlat(substat.stat) ? localeNumber(Math.floor(substat.value)) : localeNumber_0(Utils.truncate10ths(substat.value))
+    return formatStatValue(substat.stat, substat.value)
   },
 
   renderMainStatNumber: (mainstat: Stat) => {
-    return Utils.isFlat(mainstat.stat) ? localeNumber(Math.floor(mainstat.value)) : localeNumber_0(Utils.truncate10ths(mainstat.value))
+    return formatStatValue(mainstat.stat, mainstat.value)
   },
 
   renderGradeCell: (x: CustomCellRendererProps<Relic>) => {
     const relic = x.data!
     return Renderer.renderGrade(relic, true)
   },
+
   renderGrade: (relic: Relic, highlight4Liners = false) => {
     const color = gradeToColor[relic.grade as keyof typeof gradeToColor] ?? ''
     const circleColor = color == '' ? 'transparent' : color
-    if (highlight4Liners && relic.initialRolls == 4) {
-      return relic.verified
-        ? (
-          <Tooltip
-            openDelay={400}
-            label={i18next.t('Verified4LinerHoverText')}
-            // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
-          >
-            <RingedCircleCheckIcon color={circleColor} />
-          </Tooltip>
-        )
-        : <RingedCircleIcon color={circleColor} />
-    } else {
-      return relic.verified
-        ? (
-          <Tooltip
-            openDelay={400}
-            label={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
-          >
-            <IconCircleCheckFilled style={{ fontSize: '14px', color: color }} />
-          </Tooltip>
-        )
-        : <CircleIcon color={circleColor} />
+    const is4Liner = highlight4Liners && relic.initialRolls == 4
+
+    if (is4Liner && relic.verified) {
+      return (
+        <Tooltip
+          openDelay={400}
+          label={i18next.t('Verified4LinerHoverText')}
+          // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
+        >
+          <RingedCircleCheckIcon color={circleColor} />
+        </Tooltip>
+      )
     }
+    if (is4Liner) return <RingedCircleIcon color={circleColor} />
+    if (relic.verified) {
+      return (
+        <Tooltip
+          openDelay={400}
+          label={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
+        >
+          <IconCircleCheckFilled style={{ fontSize: '14px', color: color }} />
+        </Tooltip>
+      )
+    }
+    return <CircleIcon color={circleColor} />
   },
+
   renderEquipped: (equipped: boolean) => {
     return (
       equipped
@@ -244,23 +276,4 @@ export const Renderer = {
       ? <RingedCircle4Icon color={gradeToColor[5]} />
       : Renderer.renderGrade(relic, true)
   },
-}
-
-const gradeToColor = {
-  5: '#efb679',
-  4: '#cc52f1',
-  3: '#58beed',
-  2: '#63e0ac',
-
-  [-1]: '#bdbdbd',
-}
-
-function SetDisplay(props: { asset: string }) {
-  if (props.asset) {
-    return (
-      <img src={props.asset} style={{ width: 32 }} />
-    )
-  } else {
-    return ''
-  }
 }

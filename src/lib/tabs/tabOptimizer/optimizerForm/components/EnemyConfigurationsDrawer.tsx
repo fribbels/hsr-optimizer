@@ -8,6 +8,7 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
+import { EnemyConfigFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -15,7 +16,11 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
-export const EnemyConfigurationsDrawer = () => {
+function setEnemyAndRecalculate<K extends keyof EnemyConfigFields>(field: K, value: EnemyConfigFields[K]) {
+  useOptimizerRequestStore.getState().setEnemyField(field, value)
+}
+
+export function EnemyConfigurationsDrawer() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'EnemyConfiguration' })
 
   const { close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
@@ -40,65 +45,42 @@ export const EnemyConfigurationsDrawer = () => {
     })),
   )
 
-  const enemyLevelOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
-    for (let i = 100; i >= 1; i--) {
-      options.push({
-        value: i,
-        label: t('LevelOptionLabel', { level: i, defense: 200 + 10 * i }), // `Lv. ${i} - ${200 + 10 * i} DEF`,
-      })
-    }
+  const enemyLevelOptions = useMemo(() =>
+    Array.from({ length: 100 }, (_, i) => 100 - i).map((level) => ({
+      value: level,
+      label: t('LevelOptionLabel', { level, defense: 200 + 10 * level }),
+    })),
+  [t])
 
-    return options
-  }, [t])
+  const enemyCountOptions = useMemo(() =>
+    [1, 3, 5].map((count) => ({
+      value: count,
+      label: t('CountOptionLabel', { targetCount: count }),
+    })),
+  [t])
 
-  const enemyCountOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
-    for (let i = 1; i <= 5; i += 2) {
-      options.push({
-        value: i,
-        label: t('CountOptionLabel', { targetCount: i }), // `${i} target${i > 1 ? 's' : ''}`,
-      })
-    }
+  const enemyResistanceOptions = useMemo(() =>
+    [20, 40, 60].map((res) => ({
+      value: res / 100,
+      label: t('DmgResOptionLabel', { resistance: res }),
+    })),
+  [t])
 
-    return options
-  }, [t])
+  const enemyEffectResistanceOptions = useMemo(() =>
+    [0, 10, 20, 30, 40].map((res) => ({
+      value: res / 100,
+      label: t('EffResOptionLabel', { resistance: res }),
+    })),
+  [t])
 
-  const enemyResistanceOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
-    for (let i = 20; i <= 60; i += 20) {
-      options.push({
-        value: i / 100,
-        label: t('DmgResOptionLabel', { resistance: i }), // `${i}% Damage RES`,
-      })
-    }
-
-    return options
-  }, [t])
-
-  const enemyEffectResistanceOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
-    for (let i = 0; i <= 40; i += 10) {
-      options.push({
-        value: i / 100,
-        label: t('EffResOptionLabel', { resistance: i }), // `${i}% Effect RES`,
-      })
-    }
-
-    return options
-  }, [t])
-
-  const enemyMaxToughnessOptions = useMemo(() => {
-    const options: { value: number; label: string }[] = []
-    for (let i = 720; i >= 1; i -= 30) {
-      options.push({
-        value: i,
-        label: t('ToughnessOptionLabel', { toughness: i / 3 }), // `${i} max toughness`,
-      })
-    }
-
-    return options
-  }, [t])
+  const enemyMaxToughnessOptions = useMemo(() =>
+    Array.from({ length: Math.ceil(720 / 30) }, (_, i) => 720 - i * 30)
+      .filter((v) => v >= 1)
+      .map((toughness) => ({
+        value: toughness,
+        label: t('ToughnessOptionLabel', { toughness: toughness / 3 }),
+      })),
+  [t])
 
   return (
     <Drawer
@@ -118,35 +100,35 @@ export const EnemyConfigurationsDrawer = () => {
           searchable
           data={enemyLevelOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyLevel != null ? String(enemyLevel) : null}
-          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyLevel', Number(val)) }}
+          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyLevel', Number(val)) }}
         />
 
         <Select
           searchable
           data={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyResistance != null ? String(enemyResistance) : null}
-          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyResistance', Number(val)) }}
+          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyResistance', Number(val)) }}
         />
 
         <Select
           searchable
           data={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
-          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyEffectResistance', Number(val)) }}
+          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyEffectResistance', Number(val)) }}
         />
 
         <Select
           searchable
           data={enemyMaxToughnessOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyMaxToughness != null ? String(enemyMaxToughness) : null}
-          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyMaxToughness', Number(val)) }}
+          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyMaxToughness', Number(val)) }}
         />
 
         <Select
           searchable
           data={enemyCountOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
           value={enemyCount != null ? String(enemyCount) : null}
-          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEnemyField('enemyCount', Number(val)) }}
+          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyCount', Number(val)) }}
         />
 
         <Flex align='center'>
@@ -154,7 +136,7 @@ export const EnemyConfigurationsDrawer = () => {
             onLabel={<IconCheck />}
             offLabel={<IconX />}
             checked={enemyElementalWeak}
-            onChange={(event) => useOptimizerRequestStore.getState().setEnemyField('enemyElementalWeak', event.currentTarget.checked)}
+            onChange={(event) => setEnemyAndRecalculate('enemyElementalWeak', event.currentTarget.checked)}
             style={{ width: 45, marginRight: 5 }}
           />
           <Text>{t('WeaknessLabel') /* Elemental weakness */}</Text>
@@ -165,7 +147,7 @@ export const EnemyConfigurationsDrawer = () => {
             onLabel={<IconCheck />}
             offLabel={<IconX />}
             checked={enemyWeaknessBroken}
-            onChange={(event) => useOptimizerRequestStore.getState().setEnemyField('enemyWeaknessBroken', event.currentTarget.checked)}
+            onChange={(event) => setEnemyAndRecalculate('enemyWeaknessBroken', event.currentTarget.checked)}
             style={{ width: 45, marginRight: 5 }}
           />
           <Text>{t('BrokenLabel') /* Weakness broken */}</Text>

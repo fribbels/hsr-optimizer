@@ -1,5 +1,5 @@
 import { Text } from '@mantine/core'
-import WrappedApp from 'App'
+import App from 'App'
 import 'lib/i18n/i18n'
 import { Constants } from 'lib/constants/constants'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
@@ -33,16 +33,32 @@ import 'style/components.css'
 import 'style/mantine-overrides.css'
 
 window.__HSR_DEBUG = {
-  WorkerPool, Constants, DataParser: Metadata, Assets, RelicAugmenter,
-  StatCalculator, Gradient, SaveState, RelicFilters, Renderer, Message,
-  Hint, CharacterConverter, RelicScorer, BufferPacker, RelicRollFixer,
+  WorkerPool,
+  Constants,
+  DataParser: Metadata,
+  Assets,
+  RelicAugmenter,
+  StatCalculator,
+  Gradient,
+  SaveState,
+  RelicFilters,
+  Renderer,
+  Message,
+  Hint,
+  CharacterConverter,
+  RelicScorer,
+  BufferPacker,
+  RelicRollFixer,
 }
 
 Metadata.initialize()
 SaveState.load(false, false)
+
 void verifyWebgpuSupport(false)
 
-const defaultErrorRender = ({ error }: { error: { message: string } }) => <Text>Something went wrong: {error.message}</Text>
+const defaultErrorRender = ({ error }: { error: { message: string } }) =>
+  <Text>
+    Something went wrong: {error.message}</Text>
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
@@ -50,6 +66,6 @@ OverlayScrollbars(document.body, {})
 
 root.render(
   <ErrorBoundary fallbackRender={defaultErrorRender}>
-    <WrappedApp />
+    <App />
   </ErrorBoundary>,
 )

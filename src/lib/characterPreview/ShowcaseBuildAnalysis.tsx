@@ -26,23 +26,20 @@ interface ShowcaseBuildAnalysisProps {
   setScoringType: (s: ScoringType) => void
 }
 
-export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
+export function ShowcaseBuildAnalysis({
+  scoringType,
+  asyncSimScoringExecution,
+  showcaseMetadata,
+  displayRelics,
+  setScoringType,
+}: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const mantineTheme = useMantineTheme()
 
-  const {
-    asyncSimScoringExecution,
-    showcaseMetadata,
-    scoringType,
-    setScoringType,
-  } = props
+  const { characterMetadata } = showcaseMetadata
 
-  const {
-    characterMetadata,
-  } = showcaseMetadata
-
-  const simScoringExecution = useAsyncSimScoringExecution(props.asyncSimScoringExecution)
+  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
   if (!simScoringExecution?.done) {
     return (
@@ -108,31 +105,31 @@ export function ShowcaseBuildAnalysis(props: ShowcaseBuildAnalysisProps) {
           />
         </Flex>
       </Flex>
-      {scoringType == ScoringType.COMBAT_SCORE && (
+      {scoringType === ScoringType.COMBAT_SCORE && (
         <MemoizedCharacterScoringSummary
           simScoringResult={result}
-          displayRelics={props.displayRelics}
-          showcaseMetadata={props.showcaseMetadata}
+          displayRelics={displayRelics}
+          showcaseMetadata={showcaseMetadata}
         />
       )}
       <StatScoringSummary
-        scoringType={result ? props.scoringType : ScoringType.SUBSTAT_SCORE}
-        displayRelics={props.displayRelics}
-        showcaseMetadata={props.showcaseMetadata}
+        scoringType={result ? scoringType : ScoringType.SUBSTAT_SCORE}
+        displayRelics={displayRelics}
+        showcaseMetadata={showcaseMetadata}
       />
     </Flex>
   )
 }
 
-function StatScoringSummary(props: {
-  scoringType: ScoringType,
-  displayRelics: SingleRelicByPart,
-  showcaseMetadata: ShowcaseMetadata,
+function StatScoringSummary({ scoringType, displayRelics, showcaseMetadata }: {
+  scoringType: ScoringType
+  displayRelics: SingleRelicByPart
+  showcaseMetadata: ShowcaseMetadata
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
 
-  if (props.scoringType != ScoringType.SUBSTAT_SCORE) {
-    return <></>
+  if (scoringType !== ScoringType.SUBSTAT_SCORE) {
+    return null
   }
 
   return (
@@ -142,18 +139,18 @@ function StatScoringSummary(props: {
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
       />
       <EstimatedTbpRelicsDisplay
-        scoringType={props.scoringType}
-        displayRelics={props.displayRelics}
-        showcaseMetadata={props.showcaseMetadata}
+        scoringType={scoringType}
+        displayRelics={displayRelics}
+        showcaseMetadata={showcaseMetadata}
       />
     </Flex>
   )
 }
 
 function MemoizedCharacterScoringSummary(props: {
-  simScoringResult?: SimulationScore,
-  displayRelics: SingleRelicByPart,
-  showcaseMetadata: ShowcaseMetadata,
+  simScoringResult?: SimulationScore
+  displayRelics: SingleRelicByPart
+  showcaseMetadata: ShowcaseMetadata
 }) {
   const delayedProps = useDelayedProps(props, 250)
 

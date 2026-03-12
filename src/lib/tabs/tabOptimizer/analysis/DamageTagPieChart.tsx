@@ -5,9 +5,10 @@ import {
   extractDamageByTag,
 } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
-const cardShadowNonInset = '0 4px 8px rgba(0,0,0,0.3)'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+
+const cardShadowNonInset = '0 4px 8px rgba(0,0,0,0.3)'
 import {
   Cell,
   Pie,
@@ -17,11 +18,10 @@ import {
 
 const PIE_SIZE = 260
 
-function CustomTooltip(props: {
+function CustomTooltip({ active, payload }: {
   active?: boolean
   payload?: { payload: DamageTagSlice }[]
 }) {
-  const { active, payload } = props
   if (!active || !payload?.[0]) return null
 
   const slice = payload[0].payload
@@ -38,10 +38,10 @@ function CustomTooltip(props: {
   )
 }
 
-export function DamageTagPieChart(props: {
+export function DamageTagPieChart({ analysis }: {
   analysis: OptimizerResultAnalysis
 }) {
-  const { newX, context } = props.analysis
+  const { newX, context } = analysis
   const actions = context.rotationActions.length > 0 ? context.rotationActions : context.defaultActions
 
   const slices = useMemo(

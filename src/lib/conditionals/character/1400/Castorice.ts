@@ -274,6 +274,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .damageElement(ElementTag.Quantum)
             .hpScaling(skillScaling)
             .toughnessDmg(20)
+            .skillPointsUsed(0)
             .build(),
         ],
       }
@@ -286,6 +287,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .damageElement(ElementTag.Quantum)
             .hpScaling(skillEnhancedScaling1)
             .toughnessDmg(20)
+            .skillPointsUsed(0)
             .build(),
           // Netherwing's part - scales off Castorice's HP
           HitDefinitionBuilder.crit()

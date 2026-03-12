@@ -47,6 +47,7 @@ export interface CritHitDefinition extends BaseHitDefinition {
   beScaling?: number // BE-based ATK scaling
   beCap?: number // Maximum BE value for scaling
   elationAtkScaling?: number // Elation-based ATK scaling
+  skillPointsUsed: number
 }
 
 export interface DotHitDefinition extends BaseHitDefinition {

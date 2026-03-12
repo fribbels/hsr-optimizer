@@ -203,6 +203,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .beCap(3.60)
         .toughnessDmg(r.enhancedStateActive ? 30 : 20)
         .fixedToughnessDmg(dahliaFixedToughnessDmg)
+        .skillPointsUsed(e >= 1 ? 0 : 1)
         .build()
 
       const addSuperBreak = r.superBreakDmg && r.enhancedStateActive

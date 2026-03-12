@@ -122,6 +122,8 @@ export function defaultTeammate() {
     characterEidolon: 0,
     lightCone: undefined,
     lightConeSuperimposition: 1,
+    teamOrnamentSet: undefined,
+    teamRelicSet: undefined,
   }
   return teammate
 }

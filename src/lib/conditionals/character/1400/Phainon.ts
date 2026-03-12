@@ -268,6 +268,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
                   .atkScaling(foundationSkillScaling)
                   .toughnessDmg(foundationSkillToughness)
                   .trueDmgModifier(e >= 6 && r.e6TrueDmg ? 0.36 : 0)
+                  .skillPointsUsed(0)
                   .build(),
                 ...(cyreneAdditionalScaling > 0 ? [createCyreneAdditionalHit()] : []),
               ]

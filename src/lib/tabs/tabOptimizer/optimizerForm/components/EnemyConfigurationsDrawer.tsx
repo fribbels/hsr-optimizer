@@ -2,7 +2,7 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Drawer, Flex, Select, Switch, Text } from '@mantine/core'
+import { Drawer, Flex, Select, Switch } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -140,7 +140,7 @@ export function EnemyConfigurationsDrawer() {
             onChange={(event) => setEnemyAndRecalculate('enemyElementalWeak', event.currentTarget.checked)}
             style={{ width: 45, marginRight: 5 }}
           />
-          <Text>{t('WeaknessLabel') /* Elemental weakness */}</Text>
+          <div>{t('WeaknessLabel') /* Elemental weakness */}</div>
         </Flex>
 
         <Flex align='center'>
@@ -151,7 +151,7 @@ export function EnemyConfigurationsDrawer() {
             onChange={(event) => setEnemyAndRecalculate('enemyWeaknessBroken', event.currentTarget.checked)}
             style={{ width: 45, marginRight: 5 }}
           />
-          <Text>{t('BrokenLabel') /* Weakness broken */}</Text>
+          <div>{t('BrokenLabel') /* Weakness broken */}</div>
         </Flex>
       </Flex>
     </Drawer>

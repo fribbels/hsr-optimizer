@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, Text } from '@mantine/core'
+import { Button, Flex, Modal } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 
 export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, startSearch }: {
@@ -16,14 +16,14 @@ export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, star
       onClose={() => setManyPermsModalOpen(false)}
     >
       <Flex justify='space-between' align='center' style={{ height: 45, marginTop: 30, marginBottom: 15 }} gap={16}>
-        <Text>
+        <div>
           {
             t('Text')
             // This optimization search will take a substantial amount of time to finish.
             // You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats,
             // or use the Substat weight filter to reduce the number of permutations.
           }
-        </Text>
+        </div>
         <Button
           onClick={() => setManyPermsModalOpen(false)}
           style={{ width: 250 }}

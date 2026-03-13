@@ -2,7 +2,7 @@ import {
   IconFileImport,
   IconUpload,
 } from '@tabler/icons-react'
-import { Button, Flex, Text, Timeline } from '@mantine/core'
+import { Button, Flex, Timeline } from '@mantine/core'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import {
@@ -32,9 +32,9 @@ function UploadFileStage(props: {
   return (
     <Flex className={classes.stageContainer}>
       <Flex direction='column' gap={10}>
-        <Text>
+        <div>
           {props.t('Stage1.Label') /* Load your optimizer data from a file. */}
-        </Text>
+        </div>
         <input
           type='file'
           accept='.json'
@@ -82,12 +82,12 @@ function ConfirmDataStage(props: {
   return (
     <Flex className={classes.stageContainer}>
       <Flex direction='column' gap={10} style={displayStyle}>
-        <Text>
+        <div>
           {
             /* File contains {n relics} and {m characters}. Replace your current data with the uploaded data? */
             props.t('Stage2.Label', { relicCount: props.currentSave.relics.length, characterCount: props.currentSave.characters.length })
           }
-        </Text>
+        </div>
         <Button w={importerTabButtonWidth} leftSection={<IconFileImport size={16} />} onClick={props.onConfirm} loading={props.loading}>
           {props.t('Stage2.ButtonText') /* Use uploaded data */}
         </Button>
@@ -100,9 +100,9 @@ function CompletedStage(props: { currentStage: Stages; t: TFunction }) {
   return (
     <Flex className={classes.stageContainer}>
       <Flex direction='column' gap={10} style={{ display: props.currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
-        <Text>
+        <div>
           {props.t('Stage3.SuccessMessage') /* Done! */}
-        </Text>
+        </div>
       </Flex>
     </Flex>
   )

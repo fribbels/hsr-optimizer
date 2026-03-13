@@ -1,4 +1,4 @@
-import { Flex, NumberInput, Text } from '@mantine/core'
+import { Flex, NumberInput } from '@mantine/core'
 import { Stats } from 'lib/constants/constants'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_STATS_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
@@ -27,9 +27,9 @@ export function SubstatsSection({ simType, title, total }: { simType: StatSimTyp
         <StatInput simType={simType} name={Stats.RES} label={t('SubstatSelectorLabel', { stat: Stats.RES })} />
         {(simType === StatSimTypes.SubstatRolls) && (
           <Flex justify='space-between' w={STAT_SIMULATION_STATS_WIDTH}>
-            <Text>
+            <div>
               {t('TotalRolls')}
-            </Text>
+            </div>
             <NumberInput
               hideControls
               disabled={true}

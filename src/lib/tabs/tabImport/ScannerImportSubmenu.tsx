@@ -2,7 +2,7 @@ import {
   IconRefresh,
   IconUpload,
 } from '@tabler/icons-react'
-import { Accordion, Alert, Button, Checkbox, Divider, Flex, Switch, Text, TextInput, Timeline, Tooltip } from '@mantine/core'
+import { Accordion, Alert, Button, Checkbox, Divider, Flex, Switch, TextInput, Timeline, Tooltip } from '@mantine/core'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import {
   HoyolabData,
@@ -190,9 +190,9 @@ export function ScannerImportSubmenu() {
     return (
       <Flex className={classes.uploadStage} gap={30}>
         <Flex direction="column" gap={10}>
-          <Text>
+          <div>
             {t('Import.Stage1.Header')}
-          </Text>
+          </div>
           <div>
             <ul>
               <ReliquaryDescription />
@@ -287,7 +287,7 @@ export function ScannerImportSubmenu() {
             </Flex>
             <Divider label={t('Import.LiveImport.Title') /* Live Import Controls */} labelPosition='center' />
             <Flex direction="column" gap={10}>
-              <Text>
+              <div>
                 {
                   t(
                     'Import.LiveImport.Description.l1',
@@ -301,7 +301,7 @@ export function ScannerImportSubmenu() {
                   linkIcon={true}
                 />
                 )
-              </Text>
+              </div>
 
               <Alert
                 title='New version notice'
@@ -336,7 +336,7 @@ export function ScannerImportSubmenu() {
                   onChange={(event) => setIngest(event.currentTarget.checked)}
                 />
 
-                <Text>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</Text>
+                <div>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</div>
 
                 <Divider variant="dashed" className={classes.dividerLine} />
 
@@ -346,7 +346,7 @@ export function ScannerImportSubmenu() {
                   label={t('Import.LiveImport.DisconnectedHint') /* Unable to connect to the scanner. Please check that it is running. */}
                 >
                   <Flex gap={10} align='center'>
-                    <Text>{connected ? t('Import.LiveImport.Connected') /* Connected */ : t('Import.LiveImport.Disconnected') /* Disconnected */}</Text>
+                    <div>{connected ? t('Import.LiveImport.Connected') /* Connected */ : t('Import.LiveImport.Disconnected') /* Disconnected */}</div>
 
                     <div
                       className={classes.connectionDot}
@@ -362,7 +362,7 @@ export function ScannerImportSubmenu() {
                   onChange={(event) => setIngestCharacters(event.currentTarget.checked)}
                 />
 
-                <Text>{t('Import.LiveImport.UpdateCharacters') /* Enable updating characters' equipped relics and lightcones */}</Text>
+                <div>{t('Import.LiveImport.UpdateCharacters') /* Enable updating characters' equipped relics and lightcones */}</div>
               </Flex>
 
               <Flex gap={10} align='center'>
@@ -371,7 +371,7 @@ export function ScannerImportSubmenu() {
                   onChange={(event) => setIngestWarpResources(event.currentTarget.checked)}
                 />
 
-                <Text>{t('Import.LiveImport.UpdateWarpResources') /* Enable importing Warp resources (jades, passes, pity) */}</Text>
+                <div>{t('Import.LiveImport.UpdateWarpResources') /* Enable importing Warp resources (jades, passes, pity) */}</div>
               </Flex>
 
               <Accordion>
@@ -380,7 +380,7 @@ export function ScannerImportSubmenu() {
                   <Accordion.Panel>
                     <Flex direction="column" gap={10}>
                       <Flex direction="column">
-                        <Text>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</Text>
+                        <div>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</div>
                         <Flex gap={10}>
                           <TextInput
                             id='websocket-url'
@@ -417,16 +417,16 @@ export function ScannerImportSubmenu() {
     return (
       <Flex className={classes.confirmStage}>
         <Flex direction="column" gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
-          <Text>
+          <div>
             {t('Import.Stage2.FileInfo', {
               relicCount: currentRelics.length ?? 0,
               characterCount: currentCharacters?.length ?? 0,
             })}
-          </Text>
+          </div>
 
-          <Text>
+          <div>
             {t('Import.Stage2.RelicsImport.Label', { relicCount: currentRelics.length ?? 0 })}
-          </Text>
+          </div>
 
           <Button
             style={{ width: importerTabButtonWidth }}
@@ -437,12 +437,12 @@ export function ScannerImportSubmenu() {
           </Button>
 
           <Divider label={<span className={classes.dividerText}>{t('Import.Stage2.Or')}</span>} labelPosition='center' />
-          <Text>
+          <div>
             {t('Import.Stage2.CharactersImport.Label', {
               relicCount: currentRelics.length ?? 0,
               characterCount: currentCharacters?.length ?? 0,
             })}
-          </Text>
+          </div>
 
           <Checkbox
             checked={onlyImportExisting}
@@ -475,9 +475,9 @@ export function ScannerImportSubmenu() {
     return (
       <Flex className={classes.stageContainer}>
         <Flex direction="column" gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
-          <Text>
+          <div>
             {t('Import.Stage3.SuccessMessage')}
-          </Text>
+          </div>
         </Flex>
       </Flex>
     )

@@ -1,5 +1,5 @@
 import { useForm } from '@mantine/form'
-import { Drawer, Flex, Select, Text } from '@mantine/core'
+import { Drawer, Flex, Select } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -97,7 +97,7 @@ export const SettingsDrawer = () => {
         {(Object.keys(SettingOptions) as (keyof typeof SettingOptions)[])
           .map((option) => (
             <Flex justify='space-between' align='center' key={option}>
-              <Text>{t(`${option}.Label`)}</Text>
+              <div>{t(`${option}.Label`)}</div>
               <Select
                 style={{ width: 500 }}
                 data={optionsMap[option]}

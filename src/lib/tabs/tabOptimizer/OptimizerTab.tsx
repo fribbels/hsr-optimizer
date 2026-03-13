@@ -20,7 +20,7 @@ export default function OptimizerTab() {
 
   return (
     <Flex>
-      <Flex direction="column" gap={10} style={{ marginBottom: 100, width: 1227 }}>
+      <Flex direction="column" gap={10} style={{ marginBottom: 100, width: 1302 }}>
         <OptimizerForm />
         <DPSScoreDisclaimer />
         <UnreleasedCharacterDisclaimer />

@@ -39,7 +39,7 @@ const defaultHiddenColumns = [
 ]
 
 export const GRID_DIMENSIONS = {
-  WIDTH: 1227,
+  WIDTH: 1302,
   HEIGHT: 600,
   MIN_HEIGHT: 300,
 }

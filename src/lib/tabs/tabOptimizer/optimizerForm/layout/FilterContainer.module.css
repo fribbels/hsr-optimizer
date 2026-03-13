@@ -9,6 +9,5 @@
   box-shadow: var(--card-shadow-flat);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  border: var(--subtle-border);
-  width: 1227px;
+  width: 1302px;
 }

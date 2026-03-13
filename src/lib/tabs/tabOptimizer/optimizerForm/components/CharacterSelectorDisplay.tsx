@@ -1,4 +1,4 @@
-import { Flex, Select } from '@mantine/core'
+import { Flex, SegmentedControl, Select } from '@mantine/core'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import {
@@ -120,7 +120,7 @@ export function CharacterSelectorDisplay() {
         <HeaderText>{t('CharacterSelector.Character') /* Character */}</HeaderText>
         <TooltipImage type={Hint.character()} />
       </Flex>
-      <Flex gap={optimizerTabDefaultGap}>
+      <Flex direction="column" gap={optimizerTabDefaultGap}>
         <CharacterSelect
           value={characterId}
           onChange={(id) => {
@@ -130,19 +130,16 @@ export function CharacterSelectorDisplay() {
               SaveState.delayedSave()
             }
           }}
-          selectStyle={{ width: 151 }}
+          selectStyle={{ width: panelWidth }}
           externalOpen={optimizerTabFocusCharacterSelectModalOpen}
           setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
         />
-        <Select
-          searchable
-          style={{ width: 55 }}
+        <SegmentedControl
+          fullWidth
+          size='xs'
+          value={String(characterEidolon ?? 0)}
           data={eidolonOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-          value={characterEidolon != null ? String(characterEidolon) : null}
-          onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setEidolon(Number(val)) }}
-          placeholder={t('CharacterSelector.EidolonPlaceholder')} // E
-          comboboxProps={{ width: 55 }}
-          rightSection={null}
+          onChange={(val) => useOptimizerRequestStore.getState().setEidolon(Number(val))}
         />
       </Flex>
       <Flex justify='space-between' align='center'>
@@ -150,33 +147,28 @@ export function CharacterSelectorDisplay() {
         <TooltipImage type={Hint.lightCone()} />
       </Flex>
       <Flex direction="column" gap={optimizerTabDefaultGap}>
-        <Flex gap={optimizerTabDefaultGap}>
-          <LightConeSelect
-            value={lightCone ?? null}
-            onChange={(id) => useOptimizerRequestStore.getState().setLightCone(id ?? undefined)}
-            selectStyle={{ width: 151 }}
-            characterId={optimizerTabFocusCharacter}
-          />
-          <Select
-            searchable
-            style={{ width: 55 }}
-            data={superimpositionOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-            value={lightConeSuperimposition != null ? String(lightConeSuperimposition) : null}
-            onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setLightConeSuperimposition(Number(val)) }}
-            placeholder={t('CharacterSelector.SuperimpositionPlaceholder')} // S
-            comboboxProps={{ width: 55 }}
-            rightSection={null}
-          />
-        </Flex>
+        <LightConeSelect
+          value={lightCone ?? null}
+          onChange={(id) => useOptimizerRequestStore.getState().setLightCone(id ?? undefined)}
+          selectStyle={{ width: panelWidth }}
+          characterId={optimizerTabFocusCharacter}
+        />
+        <SegmentedControl
+          fullWidth
+          size='xs'
+          value={String(lightConeSuperimposition ?? 1)}
+          data={superimpositionOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+          onChange={(val) => useOptimizerRequestStore.getState().setLightConeSuperimposition(Number(val))}
+        />
       </Flex>
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
+      <Flex justify='space-between' align='center' style={{ marginTop: 20 }}>
         <HeaderText>{t('CharacterSelector.Presets') /* Presets */}</HeaderText>
       </Flex>
 
       <RecommendedPresetsButton />
 
-      <Flex justify='space-between' align='center' style={{ marginTop: 30 }}>
+      <Flex justify='space-between' align='center' style={{ marginTop: 20 }}>
         <HeaderText>{t('CharacterSelector.Target') /* Optimization target */}</HeaderText>
       </Flex>
 

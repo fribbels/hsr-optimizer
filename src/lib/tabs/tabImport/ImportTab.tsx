@@ -1,5 +1,5 @@
 import { IconDownload } from '@tabler/icons-react'
-import { Button, Flex, Tabs, Text } from '@mantine/core'
+import { Button, Flex, Tabs } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
 import { ClearDataSubmenu } from 'lib/tabs/tabImport/ClearDataSubmenu'
@@ -85,9 +85,9 @@ function SaveDataSubmenu() {
 
   return (
     <Flex direction='column' gap={5}>
-      <Text>
+      <div>
         {t('Label') /* Save your optimizer data to a file. */}
-      </Text>
+      </div>
       <Button onClick={saveClicked} leftSection={<IconDownload size={16} />} w={buttonWidth}>
         {t('ButtonText') /* Save data */}
       </Button>

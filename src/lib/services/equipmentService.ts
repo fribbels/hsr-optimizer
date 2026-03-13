@@ -2,6 +2,7 @@ import i18next from 'i18next'
 import { Constants } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { useGlobalStore } from 'lib/stores/appStore'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getRelicById, getRelics, useRelicStore } from 'lib/stores/relicStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
@@ -11,11 +12,8 @@ import { Relic } from 'types/relic'
 
 /**
  * Reads the swap setting from the global store.
- * Lazy import to avoid circular dependency with db.ts during migration.
  */
 function getSwapSetting(): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { useGlobalStore } = require('lib/state/db')
   return useGlobalStore.getState().settings[SettingOptions.RelicEquippingBehavior.name] == SettingOptions.RelicEquippingBehavior.Swap
 }
 

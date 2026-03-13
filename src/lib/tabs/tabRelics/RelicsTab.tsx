@@ -1,6 +1,6 @@
 import { Accordion, Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
-import { RelicModal } from 'lib/overlays/modals/RelicModal'
+import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getRelicById } from 'lib/stores/relicStore'
@@ -20,7 +20,7 @@ import { Relic } from 'types/relic'
 export const TAB_WIDTH = 1460
 
 export function RelicsTab() {
-  const { focusCharacter, selectedRelicId, relicModalOpen, setRelicModalOpen, setSelectedRelicsIds } = useRelicsTabStore()
+  const { focusCharacter, selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore()
   const { recentRelics } = useScannerState()
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
   const { t } = useTranslation('relicsTab')
@@ -31,14 +31,6 @@ export function RelicsTab() {
 
   return (
     <Flex style={{ marginBottom: 100, width: TAB_WIDTH }}>
-      {
-        <RelicModal
-          open={relicModalOpen}
-          setOpen={setRelicModalOpen}
-          onOk={RelicsTabController.onRelicModalOk}
-          selectedRelic={selectedRelic}
-        />
-      }
       <Flex direction="column" gap={10}>
         <RelicFilterBar />
 
@@ -59,7 +51,14 @@ export function RelicsTab() {
           <RelicPreview
             relic={selectedRelic}
             setSelectedRelic={setSelectedRelic}
-            setEditModalOpen={setRelicModalOpen}
+            setEditModalOpen={(_open, relic) => {
+              if (relic) {
+                useRelicModalStore.getState().openOverlay({
+                  selectedRelic: relic,
+                  onOk: RelicsTabController.onRelicModalOk,
+                })
+              }
+            }}
             score={score}
             scoringType={score ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
           />

@@ -1,7 +1,6 @@
 import { UseFormReturnType, useForm } from '@mantine/form'
 import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Divider, Flex, Modal, MultiSelect, NumberInput } from '@mantine/core'
-import { usePublish } from 'hooks/usePublish'
 import {
   Parts,
   Stats,
@@ -113,6 +112,21 @@ function ResetAllCharactersButton({ focusCharacter, form }: {
 }
 
 export function ScoringModal() {
+  const { close: closeScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
+
+  return (
+    <Modal
+      opened={isOpenScoringModal}
+      size={900}
+      centered
+      onClose={closeScoringModal}
+    >
+      {isOpenScoringModal && <ScoringModalContent close={closeScoringModal} />}
+    </Modal>
+  )
+}
+
+function ScoringModalContent({ close }: { close: () => void }) {
   const { t } = useTranslation(['modals', 'common'])
 
   const scoringAlgorithmForm = useForm<ScoringAlgorithmForm>({
@@ -126,8 +140,6 @@ export function ScoringModal() {
   const scoringAlgorithmFocusCharacter = useGlobalStore((s) => s.scoringAlgorithmFocusCharacter)
   const setScoringAlgorithmFocusCharacter = useGlobalStore((s) => s.setScoringAlgorithmFocusCharacter)
 
-  const { close: closeScoringModal, isOpen: isOpenScoringModal } = useOpenClose(OpenCloseIDs.SCORING_MODAL)
-
   function characterSelectorChange(id: CharacterId | null | undefined) {
     setScoringAlgorithmFocusCharacter(id)
   }
@@ -139,16 +151,16 @@ export function ScoringModal() {
   useEffect(() => {
     const id = scoringAlgorithmFocusCharacter
     if (id) {
-      let scoringMetadata = getScoringValuesForDisplay(getScoringMetadata(id))
+      const scoringMetadata = getScoringValuesForDisplay(getScoringMetadata(id))
       scoringMetadata.characterId = id
       scoringAlgorithmForm.setValues(scoringMetadata)
     }
-  }, [scoringAlgorithmFocusCharacter, isOpenScoringModal])
+  }, [scoringAlgorithmFocusCharacter])
 
   function onModalOk() {
     const values = scoringAlgorithmForm.getValues()
     onFinish(getScoringValuesForOverrides(values))
-    closeScoringModal()
+    close()
   }
 
   const onFinish = (scoringMetadata: Partial<ScoringMetadata>) => {
@@ -181,12 +193,7 @@ export function ScoringModal() {
   const selectWidth = 260
 
   return (
-    <Modal
-      opened={isOpenScoringModal}
-      size={900}
-      centered
-      onClose={closeScoringModal}
-    >
+    <>
       <div>
         <TitleDivider label={t('Scoring.StatWeightsHeader') /* Stat weights */} labelPosition='center' />
 
@@ -321,7 +328,7 @@ export function ScoringModal() {
         />
       </div>
       <Flex justify='flex-end' gap={8} className={classes.footerActions}>
-        <Button key='back' variant="default" onClick={closeScoringModal}>
+        <Button key='back' variant="default" onClick={close}>
           {t('common:Cancel') /* Cancel */}
         </Button>
         <Button key='default' variant="default" onClick={handleResetDefault}>
@@ -332,6 +339,6 @@ export function ScoringModal() {
           {t('Scoring.Footer.Save') /* Save changes */}
         </Button>
       </Flex>
-    </Modal>
+    </>
   )
 }

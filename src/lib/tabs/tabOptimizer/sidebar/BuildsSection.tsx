@@ -1,21 +1,19 @@
 import { Button, Flex } from '@mantine/core'
-import { Hint } from 'lib/interactions/hint'
-import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
-import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { AppPages } from 'lib/constants/appPages'
+import { Hint } from 'lib/interactions/hint'
+import { useBuildsModalStore } from 'lib/overlays/modals/buildsModalStore'
+import { useSaveBuildModalStore } from 'lib/overlays/modals/saveBuildModalStore'
 import { useCharacterStore } from 'lib/stores/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 const defaultGap = 5
 
 export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.BuildsGroup' })
-  const [saveBuildModalOpen, setSaveBuildModalOpen] = useState(false)
-  const [buildsModalOpen, setBuildsModalOpen] = useState(false)
   const focusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
   const charactersById = useCharacterStore((s) => s.charactersById)
 
@@ -25,17 +23,6 @@ export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: {
 
   return (
     <Flex direction="column">
-      <SaveBuildModal
-        character={character}
-        source={AppPages.OPTIMIZER}
-        isOpen={saveBuildModalOpen}
-        close={() => setSaveBuildModalOpen(false)}
-      />
-      <BuildsModal
-        selectedCharacter={character}
-        isOpen={buildsModalOpen}
-        close={() => setBuildsModalOpen(false)}
-      />
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Header')}</HeaderText>
         <TooltipImage type={Hint.builds()} />
@@ -44,14 +31,14 @@ export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: {
         <Button
           variant="default"
           style={{ width: '100px' }}
-          onClick={() => setSaveBuildModalOpen(true)}
+          onClick={() => useSaveBuildModalStore.getState().openOverlay({ source: AppPages.OPTIMIZER, character })}
         >
           {t('Save')}
         </Button>
         <Button
           variant="default"
           style={{ width: '100px' }}
-          onClick={() => setBuildsModalOpen(true)}
+          onClick={() => useBuildsModalStore.getState().openOverlay({ selectedCharacter: character })}
         >
           {t('Load')}
         </Button>

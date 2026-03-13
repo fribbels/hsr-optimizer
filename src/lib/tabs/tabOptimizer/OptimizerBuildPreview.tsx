@@ -1,9 +1,8 @@
 import { Flex } from '@mantine/core'
 import { Parts } from 'lib/constants/constants'
-import { useState } from 'react'
 
-import { RelicModal } from 'lib/overlays/modals/RelicModal'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
+import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
@@ -30,49 +29,46 @@ const indexToPart: Record<number, Parts> = {
   5: Parts.LinkRope,
 }
 
+function navigateRelic(direction: 1 | -1) {
+  const currentRelic = useRelicModalStore.getState().config?.selectedRelic
+  const optimizerBuild = useOptimizerDisplayStore.getState().optimizerBuild
+  const relicsById = useRelicStore.getState().relicsById
+  if (!currentRelic || !optimizerBuild) return
+
+  const startingIndex = partToIndex[currentRelic.part] + direction * (direction > 0 ? 1 : -1)
+  for (let i = 0; i < 6; i++) {
+    const idx = ((startingIndex + direction * i) % 6 + 6) % 6
+    const nextRelic = relicsById[optimizerBuild[indexToPart[idx]]!]
+    if (nextRelic) {
+      useRelicModalStore.getState().updateConfig({ selectedRelic: nextRelic })
+      return
+    }
+  }
+}
+
+const next = () => navigateRelic(1)
+const prev = () => navigateRelic(-1)
+
 export function OptimizerBuildPreview() {
   const optimizerBuild = useOptimizerDisplayStore((s) => s.optimizerBuild)
   const relicsById = useRelicStore((s) => s.relicsById)
   const characterId = useOptimizerDisplayStore((s) => s.focusCharacterId)
   const activeKey = useGlobalStore((s) => s.activeKey)
 
-  const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
-  const [editModalOpen, setEditModalOpen] = useState<boolean>(false)
-
   if (activeKey !== AppPages.OPTIMIZER || characterId == undefined) {
     return null
   }
 
-  function onEditOk(relic: Relic) {
-    const updatedRelic = RelicModalController.onEditOk(selectedRelic!, relic)
-    setSelectedRelic(updatedRelic)
-  }
-
-  const next = () => {
-    if (!selectedRelic || !optimizerBuild) {
-      return
-    }
-    let startingIndex = partToIndex[selectedRelic.part] + 1
-    let nextRelic: Relic | undefined
-    for (let i = startingIndex; i < startingIndex + 6; i++) {
-      nextRelic = relicsById[optimizerBuild[indexToPart[i % 6]]!]
-      if (nextRelic) {
-        return setSelectedRelic(nextRelic)
-      }
-    }
-  }
-
-  const prev = () => {
-    if (!selectedRelic || !optimizerBuild) {
-      return
-    }
-    let startingIndex = partToIndex[selectedRelic.part] + 5
-    let nextRelic: Relic | undefined
-    for (let i = startingIndex; i > startingIndex - 6; i--) {
-      nextRelic = relicsById[optimizerBuild[indexToPart[i % 6]]!]
-      if (nextRelic) {
-        return setSelectedRelic(nextRelic)
-      }
+  const openRelicModal = (_open: boolean, relic?: Relic) => {
+    if (relic) {
+      useRelicModalStore.getState().openOverlay({
+        selectedRelic: relic,
+        onOk: (editedRelic: Relic) => {
+          RelicModalController.onEditOk(relic, editedRelic)
+        },
+        next,
+        prev,
+      })
     }
   }
 
@@ -93,14 +89,13 @@ export function OptimizerBuildPreview() {
   return (
     <div>
       <Flex gap={6} id='optimizerBuildPreviewContainer' justify='space-between' style={{ paddingLeft: 1, paddingRight: 1 }}>
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={headRelic} score={headScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={handsRelic} score={handsScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={bodyRelic} score={bodyScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={feetRelic} score={feetScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={planarSphereRelic} score={planarSphereScore} />
-        <RelicPreview setEditModalOpen={setEditModalOpen} setSelectedRelic={setSelectedRelic} relic={linkRopeRelic} score={linkRopeScore} />
+        <RelicPreview setEditModalOpen={openRelicModal} relic={headRelic} score={headScore} />
+        <RelicPreview setEditModalOpen={openRelicModal} relic={handsRelic} score={handsScore} />
+        <RelicPreview setEditModalOpen={openRelicModal} relic={bodyRelic} score={bodyScore} />
+        <RelicPreview setEditModalOpen={openRelicModal} relic={feetRelic} score={feetScore} />
+        <RelicPreview setEditModalOpen={openRelicModal} relic={planarSphereRelic} score={planarSphereScore} />
+        <RelicPreview setEditModalOpen={openRelicModal} relic={linkRopeRelic} score={linkRopeScore} />
       </Flex>
-      <RelicModal selectedRelic={selectedRelic} onOk={onEditOk} setOpen={setEditModalOpen} open={editModalOpen} next={next} prev={prev} />
     </div>
   )
 }

@@ -39,8 +39,8 @@ export function ShowcaseRelicsPanel({
   showcaseColors,
 }: {
   setSelectedRelic: (r: Relic) => void
-  setEditModalOpen: (b: boolean) => void
-  setAddModalOpen: (b: boolean, part: Parts) => void
+  setEditModalOpen: (b: boolean, relic?: Relic) => void
+  setAddModalOpen: (b: boolean, part: Parts, relic?: Relic) => void
   displayRelics: SingleRelicByPart
   source: ShowcaseSource
   scoringType: ScoringType

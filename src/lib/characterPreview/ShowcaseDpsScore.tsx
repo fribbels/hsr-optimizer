@@ -22,7 +22,7 @@ import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
-import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
+import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
 import {
   AsyncSimScoringExecution,
@@ -37,6 +37,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import i18next from 'i18next'
 import {
   useState,
 } from 'react'
@@ -69,9 +70,7 @@ export function ShowcaseDpsScorePanel({
   const readonly = source === ShowcaseSource.BUILDS_MODAL
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
 
-  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
-  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState<Character | undefined>()
   const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
   if (!simScoringExecution?.done) {
@@ -93,9 +92,10 @@ export function ShowcaseDpsScorePanel({
             key={index}
             index={index}
             result={result}
-            setCharacterModalOpen={setCharacterModalOpen}
+            characterId={characterId}
+            teamSelection={teamSelection}
             setSelectedTeammateIndex={setSelectedTeammateIndex}
-            setCharacterModalInitialCharacter={setCharacterModalInitialCharacter}
+            setRedrawTeammates={setRedrawTeammates}
             readonly={readonly}
           />
         ))}
@@ -105,9 +105,6 @@ export function ShowcaseDpsScorePanel({
         characterId={characterId}
         teamSelection={teamSelection}
         selectedTeammateIndex={selectedTeammateIndex!}
-        characterModalInitialCharacter={characterModalInitialCharacter}
-        isCharacterModalOpen={isCharacterModalOpen}
-        setCharacterModalOpen={setCharacterModalOpen}
         setRedrawTeammates={setRedrawTeammates}
         readonly={readonly}
       />
@@ -146,16 +143,18 @@ function getTeammate(index: number, form: OptimizerForm) {
 function CharacterPreviewScoringTeammate({
   index,
   result,
-  setCharacterModalOpen,
+  characterId,
+  teamSelection,
   setSelectedTeammateIndex,
-  setCharacterModalInitialCharacter,
+  setRedrawTeammates,
   readonly,
 }: {
   index: number
   result: SimulationScore
-  setCharacterModalOpen: (b: boolean) => void
+  characterId: CharacterId
+  teamSelection: string
   setSelectedTeammateIndex: (i: number | undefined) => void
-  setCharacterModalInitialCharacter: (character: Character) => void
+  setRedrawTeammates: (n: number) => void
   readonly?: boolean
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -171,10 +170,11 @@ function CharacterPreviewScoringTeammate({
       style={{ cursor: readonly ? 'default' : 'pointer' }}
       onClick={() => {
         if (readonly) return
-        setCharacterModalInitialCharacter({ form: teammate } as Character)
-        setCharacterModalOpen(true)
-
         setSelectedTeammateIndex(index)
+        useCharacterModalStore.getState().openOverlay({
+          initialCharacter: { form: teammate } as Character,
+          onOk: createOnCharacterModalOk(characterId, index, teamSelection, setRedrawTeammates),
+        })
       }}
       className={`${teammateClasses.teammateCard} ${readonly ? 'readonly-custom-grid' : 'custom-grid'}`}
     >
@@ -264,47 +264,49 @@ function formatSpd(n: number) {
   return Utils.truncate10ths(n).toFixed(1)
 }
 
-function ShowcaseTeamSelectPanel({
-  characterId,
-  teamSelection,
-  selectedTeammateIndex,
-  characterModalInitialCharacter,
-  setRedrawTeammates,
-  isCharacterModalOpen,
-  setCharacterModalOpen,
-  readonly,
-}: {
-  characterId: CharacterId
-  teamSelection: string
-  selectedTeammateIndex: number
-  characterModalInitialCharacter: Character | undefined
-  setRedrawTeammates: (random: number) => void
-  isCharacterModalOpen: boolean
-  setCharacterModalOpen: (open: boolean) => void
-  readonly?: boolean
-}) {
-  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-
-  const setTeamSelectionByCharacter = useShowcaseTabStore((s) => s.setShowcaseTeamPreferenceById)
-
-  // Teammate character modal OK
-  function onCharacterModalOk(form: Form) {
+function createOnCharacterModalOk(
+  characterId: CharacterId,
+  selectedTeammateIndex: number,
+  teamSelection: string,
+  setRedrawTeammates: (n: number) => void,
+) {
+  return (form: Form) => {
+    const t = i18next.getFixedT(null, 'charactersTab', 'CharacterPreview.Messages')
     if (!form.characterId) {
-      return Message.error(t('CharacterPreview.Messages.NoSelectedCharacter') /* No selected character */)
+      return Message.error(t('NoSelectedCharacter') /* No selected character */)
     }
     if (!form.lightCone) {
-      return Message.error(t('CharacterPreview.Messages.NoSelectedLightCone') /* No Selected light cone */)
+      return Message.error(t('NoSelectedLightCone') /* No Selected light cone */)
     }
 
     const simulation = getScoringMetadata(characterId).simulation
 
-    const update = { teammates: simulation?.teammates.map((t, idx) => idx === selectedTeammateIndex ? form : t) }
+    const update = { teammates: simulation?.teammates.map((tm, idx) => idx === selectedTeammateIndex ? form : tm) }
 
+    const setTeamSelectionByCharacter = useShowcaseTabStore.getState().setShowcaseTeamPreferenceById
     useScoringStore.getState().updateSimulationOverrides(characterId, update)
     SaveState.delayedSave()
     setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
     setRedrawTeammates(Math.random())
   }
+}
+
+function ShowcaseTeamSelectPanel({
+  characterId,
+  teamSelection,
+  selectedTeammateIndex,
+  setRedrawTeammates,
+  readonly,
+}: {
+  characterId: CharacterId
+  teamSelection: string
+  selectedTeammateIndex: number
+  setRedrawTeammates: (random: number) => void
+  readonly?: boolean
+}) {
+  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+
+  const setTeamSelectionByCharacter = useShowcaseTabStore((s) => s.setShowcaseTeamPreferenceById)
 
   const tabsDisplay = (
     <SegmentedControl
@@ -397,13 +399,6 @@ function ShowcaseTeamSelectPanel({
 
   return (
     <Flex direction="column" gap={2}>
-      <CharacterModal
-        onOk={onCharacterModalOk}
-        open={isCharacterModalOpen}
-        setOpen={setCharacterModalOpen}
-        initialCharacter={characterModalInitialCharacter}
-      />
-
       {tabsDisplay}
     </Flex>
   )

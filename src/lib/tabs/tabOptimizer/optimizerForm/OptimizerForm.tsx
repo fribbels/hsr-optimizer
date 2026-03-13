@@ -1,7 +1,6 @@
 import { Flex } from '@mantine/core'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
@@ -11,10 +10,7 @@ import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import { AdvancedOptionsPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/AdvancedOptionsPanel'
 import { CharacterSelectorDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelectorDisplay'
-import { CombatBuffsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/components/CombatBuffsDrawer'
 import { ComboFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/ComboFilter'
-import { EnemyConfigurationsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/components/EnemyConfigurationsDrawer'
-import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import { OptimizerOptionsDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerOptionsDisplay'
 import { OptimizerTabCharacterPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import { RelicMainSetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicMainSetFilters'
@@ -49,8 +45,6 @@ export function OptimizerForm() {
 
   return (
     <div style={{ position: 'relative' }}>
-      <FormSetConditionals id={OpenCloseIDs.OPTIMIZER_SETS_DRAWER} />
-
       <FilterContainer>
         <FormRow id={OptimizerMenuIds.characterOptions}>
           <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
@@ -93,8 +87,6 @@ export function OptimizerForm() {
 
           <FormCard>
             <ComboFilters />
-            <CombatBuffsDrawer />
-            <EnemyConfigurationsDrawer />
           </FormCard>
         </FormRow>
 

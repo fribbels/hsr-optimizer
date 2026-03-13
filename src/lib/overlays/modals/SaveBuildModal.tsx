@@ -8,6 +8,7 @@ import {
   BuildPreview,
 } from 'lib/overlays/modals/BuildsModal'
 import styles from 'lib/overlays/modals/SaveBuildModal.module.css'
+import { useSaveBuildModalStore } from 'lib/overlays/modals/saveBuildModalStore'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import { AppPages, SavedBuildSource } from 'lib/constants/appPages'
 import * as buildService from 'lib/services/buildService'
@@ -30,22 +31,33 @@ type CharacterForm = {
   name: string,
 }
 
-export function SaveBuildModal({
-  source,
-  character,
-  isOpen,
-  close,
-}: {
-  source: AppPages.CHARACTERS | AppPages.OPTIMIZER
-  character: Character | null
-  isOpen: boolean
-  close: () => void
-}) {
+export function SaveBuildModal() {
+  const open = useSaveBuildModalStore((s) => s.open)
+  const closeOverlay = useSaveBuildModalStore((s) => s.closeOverlay)
+
+  return (
+    <Modal
+      opened={open}
+      size={1550}
+      centered
+      onClose={closeOverlay}
+    >
+      {open && <SaveBuildModalContent />}
+    </Modal>
+  )
+}
+
+function SaveBuildModalContent() {
+  const config = useSaveBuildModalStore((s) => s.config)
+  const closeOverlay = useSaveBuildModalStore((s) => s.closeOverlay)
+  const source = config?.source ?? AppPages.CHARACTERS
+  const character = config?.character ?? null
+
   const characterForm = useForm<CharacterForm>({ initialValues: { name: '' } })
   const [selectedBuild, setSelectedBuild] = useState<number | null>(null)
   const [inputName, setInputName] = useState<string>('')
 
-  useScrollLock(isOpen)
+  useScrollLock(true)
 
   const setSelectedBuildWrapped = (idx: number | null) => {
     setSelectedBuild(idx)
@@ -91,7 +103,7 @@ export function SaveBuildModal({
         }
     }
     SaveState.delayedSave()
-    close()
+    closeOverlay()
   }
 
   function onModalOk() {
@@ -145,54 +157,47 @@ export function SaveBuildModal({
   }, [selectedBuild, source, character])
 
   return (
-    <Modal
-      opened={isOpen}
-      size={1550}
-      centered
-      onClose={close}
-    >
-      <Flex gap={10} className={styles.outerFlex}>
-        <Flex direction="column" className={styles.leftColumn}>
-          <TextInput
-            label={t('Label') /* Build name */}
-            {...characterForm.getInputProps('name')}
-            onChange={(e) => {
-              const value = e.currentTarget.value
-              characterForm.setFieldValue('name', value)
-              setInputName(value)
-              setSelectedBuild(character?.builds?.findIndex((b) => b.name === value) ?? null)
-            }}
-          />
-          <Divider className={styles.divider} />
-          <Button variant="default" onClick={close} className={styles.actionButton}>
-            {tCommon('Cancel') /* Cancel */}
+    <Flex gap={10} className={styles.outerFlex}>
+      <Flex direction="column" className={styles.leftColumn}>
+        <TextInput
+          label={t('Label') /* Build name */}
+          {...characterForm.getInputProps('name')}
+          onChange={(e) => {
+            const value = e.currentTarget.value
+            characterForm.setFieldValue('name', value)
+            setInputName(value)
+            setSelectedBuild(character?.builds?.findIndex((b) => b.name === value) ?? null)
+          }}
+        />
+        <Divider className={styles.divider} />
+        <Button variant="default" onClick={closeOverlay} className={styles.actionButton}>
+          {tCommon('Cancel') /* Cancel */}
+        </Button>
+        <Tooltip
+          label={saveDisabled
+            ? nameTaken ? t('Tooltip.SaveDisabled.NameTaken') : t('Tooltip.SaveDisabled.NoName')
+            : ''}
+          position='right'
+        >
+          <Button onClick={onModalOk} className={styles.actionButton} disabled={saveDisabled}>
+            {tCommon('Save') /* Save */}
           </Button>
-          <Tooltip
-            label={saveDisabled
-              ? nameTaken ? t('Tooltip.SaveDisabled.NameTaken') : t('Tooltip.SaveDisabled.NoName')
-              : ''}
-            position='right'
-          >
-            <Button onClick={onModalOk} className={styles.actionButton} disabled={saveDisabled}>
-              {tCommon('Save') /* Save */}
-            </Button>
-          </Tooltip>
-          <Tooltip label={overwriteDisabled ? t('Tooltip.OverwriteDisabled') : ''} position='right'>
-            <Button onClick={handleOverwrite} className={styles.actionButton} disabled={overwriteDisabled}>
-              {t('Overwrite')}
-            </Button>
-          </Tooltip>
-          <Divider className={styles.divider} />
-          <BuildList
-            preview
-            character={character}
-            selectedBuild={selectedBuild}
-            setSelectedBuild={setSelectedBuildWrapped}
-            style={{ height: '100%' }}
-          />
-        </Flex>
-        <BuildPreview character={character} build={build} />
+        </Tooltip>
+        <Tooltip label={overwriteDisabled ? t('Tooltip.OverwriteDisabled') : ''} position='right'>
+          <Button onClick={handleOverwrite} className={styles.actionButton} disabled={overwriteDisabled}>
+            {t('Overwrite')}
+          </Button>
+        </Tooltip>
+        <Divider className={styles.divider} />
+        <BuildList
+          preview
+          character={character}
+          selectedBuild={selectedBuild}
+          setSelectedBuild={setSelectedBuildWrapped}
+          style={{ height: '100%' }}
+        />
       </Flex>
-    </Modal>
+      <BuildPreview character={character} build={build} />
+    </Flex>
   )
 }

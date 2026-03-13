@@ -7,10 +7,6 @@ import { OptimizerBuildPreview } from 'lib/tabs/tabOptimizer/OptimizerBuildPrevi
 import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/OptimizerGrid'
 
 import { OptimizerForm } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
-import {
-  ZeroPermutationsSuggestionsModal,
-  ZeroResultSuggestionModal,
-} from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import Sidebar from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
@@ -34,8 +30,6 @@ export default function OptimizerTab() {
           <ExpandedDataPanel />
         </Flex>
       </Flex>
-      <ZeroPermutationsSuggestionsModal />
-      <ZeroResultSuggestionModal />
       <Sidebar />
     </Flex>
   )

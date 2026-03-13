@@ -47,7 +47,7 @@
 }
 
 .pre-font {
-    font-family: "Consolas", "Courier New", "Menlo", "Monaco", monospace !important;
+    font-family: var(--font-mono) !important;
 }
 
 .no-highlight {

@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, MultiSelect, Paper, Select, TextInput } from '@mantine/core'
+import { Button, CloseButton, Flex, Modal, MultiSelect, Paper, TextInput } from '@mantine/core'
 import { ElementName, PathName, } from 'lib/constants/constants'
 import { useSelectModal } from 'lib/hooks/useSelectModal'
 import { Assets } from 'lib/rendering/assets'
@@ -10,7 +10,7 @@ import {
   SegmentedFilterRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { Utils } from 'lib/utils/utils'
-import { CSSProperties, ReactNode, useMemo, useState } from 'react'
+import { CSSProperties, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import classes from './CharacterSelect.module.css'
@@ -84,18 +84,12 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
 
   const setPathFilter = (path: CharacterFilters['path']) => updateFilter('path', path)
 
-  const labelledOptions = characterOptions.map((option) => ({
-    value: option.value,
-    label: (
-      <Flex gap={5} align='center'>
-        <img
-          src={Assets.getCharacterAvatarById(option.value)}
-          className={classes.avatarIcon}
-        />
-        {option.label}
-      </Flex>
-    ) as ReactNode,
-  }))
+  const selectedLabel = useMemo(() => {
+    if (multipleSelect) return ''
+    const singleValue = value as CharacterId | null | undefined
+    if (!singleValue) return ''
+    return characterOptions.find((opt) => opt.value === singleValue)?.label ?? ''
+  }, [value, characterOptions, multipleSelect])
 
   function applyFilters(x: CharacterOptions[CharacterId]) {
     if (currentFilters.element.length && !currentFilters.element.includes(x.element)) {
@@ -159,20 +153,16 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
           />
         )
         : (
-          <Select
+          <TextInput
+            readOnly
             style={selectStyle}
-            value={value as string | null}
-            data={withIcon
-              ? labelledOptions.map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value }))
-              : characterOptions.map((opt) => ({ value: opt.value, label: opt.label }))}
+            value={selectedLabel}
             placeholder={t('SingleSelect.Placeholder') /* Character */}
-            clearable
-            onClear={() => {
-              if (onChange) onChange(null)
-            }}
-            onDropdownOpen={resetAndOpen}
-            comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
-            rightSection={null}
+            onClick={resetAndOpen}
+            rightSection={value
+              ? <CloseButton size="sm" onClick={(e) => { e.stopPropagation(); if (onChange) onChange(null) }} />
+              : null}
+            styles={{ input: { cursor: 'pointer' } }}
           />
         )}
 

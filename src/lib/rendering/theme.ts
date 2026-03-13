@@ -24,7 +24,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
     fontFamily: 'inherit',
     defaultRadius: 'sm',
     components: {
-      Input: { defaultProps: { size: 'xs' } },
+      Input: { defaultProps: { size: 'xs' }, styles: { input: { '--input-padding-inline-start': '4px', '--input-padding-inline-end': '4px' } } },
       InputWrapper: { defaultProps: { size: 'xs' } },
       Select: { defaultProps: { size: 'xs', checkIconPosition: 'right' } },
       MultiSelect: { defaultProps: { size: 'xs' } },
@@ -39,6 +39,8 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       Pagination: { defaultProps: { size: 'xs' } },
       Slider: { defaultProps: { size: 'xs' } },
       Tabs: { defaultProps: { size: 'xs' } },
+      Modal: { defaultProps: { lockScroll: false } },
+      Drawer: { defaultProps: { lockScroll: false } },
     },
   })
 }

@@ -69,9 +69,8 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
       min={min}
       max={max}
       hideControls
-      style={{
-        width: numberWidth,
-      }}
+      style={{ width: numberWidth }}
+      styles={{ input: { height: 24, minHeight: 24 } }}
       disabled={disabled}
       onChange={(newValue) => {
         if (handleChange && newValue != null && typeof newValue === 'number') {

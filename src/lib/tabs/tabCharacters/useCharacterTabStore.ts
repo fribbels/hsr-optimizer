@@ -8,7 +8,7 @@ import {
   Character,
   CharacterId,
 } from 'types/character'
-import { create } from 'zustand'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 export type CharacterTabFilters = {
   name: string,
@@ -46,7 +46,7 @@ type CharacterTabActions = {
 
 type CharacterTabState = CharacterTabValues & CharacterTabActions
 
-export const useCharacterTabStore = create<CharacterTabState>()((set) => ({
+export const useCharacterTabStore = createTabAwareStore<CharacterTabState>((set) => ({
   focusCharacter: null,
   characterModalInitialCharacter: null,
   characterModalOpen: false,

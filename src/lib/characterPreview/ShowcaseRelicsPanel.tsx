@@ -68,7 +68,7 @@ export function ShowcaseRelicsPanel({
   )
 
   return (
-    <Flex gap={defaultGap}>
+    <Flex gap={defaultGap} style={{ zIndex: 1 }}>
       {renderColumn(leftParts)}
       {renderColumn(rightParts)}
     </Flex>

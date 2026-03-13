@@ -30,7 +30,7 @@ function MainStatSelector({ simType, placeholder, part, options }: { simType: st
       value={value}
       onChange={(val) => useOptimizerRequestStore.getState().updateStatSimField(simType, field, val)}
       maxDropdownHeight={750}
-      comboboxProps={{ width: 200 }}
+      comboboxProps={{ keepMounted: false, width: 200 }}
       searchable
     />
   )

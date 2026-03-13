@@ -161,7 +161,7 @@ export function CharacterModal({ open, onOk, setOpen, initialCharacter }: {
               data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
               placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
               clearable
-              comboboxProps={{ width: 'auto' }}
+              comboboxProps={{ keepMounted: false, width: 'auto' }}
               renderOption={({ option }) => {
                 if (!option.value) return option.label
                 return (
@@ -184,7 +184,7 @@ export function CharacterModal({ open, onOk, setOpen, initialCharacter }: {
               data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
               placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
               clearable
-              comboboxProps={{ width: 'auto' }}
+              comboboxProps={{ keepMounted: false, width: 'auto' }}
               renderOption={({ option }) => {
                 if (!option.value) return option.label
                 return (

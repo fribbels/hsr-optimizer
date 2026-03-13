@@ -4,7 +4,7 @@ import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { OptimizerDisplayState, PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
 import { Build, CharacterId } from 'types/character'
 import { OptimizerContext } from 'types/optimizer'
-import { create } from 'zustand'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 type OptimizerDisplayActions = {
   setFocusCharacterId: (id: CharacterId | undefined) => void
@@ -65,7 +65,7 @@ const initialState: OptimizerDisplayState = {
   menuState: {},
 }
 
-export const useOptimizerDisplayStore = create<OptimizerDisplayStore>()((set) => ({
+export const useOptimizerDisplayStore = createTabAwareStore<OptimizerDisplayStore>((set) => ({
   ...initialState,
 
   setFocusCharacterId: (id) => set({ focusCharacterId: id }),

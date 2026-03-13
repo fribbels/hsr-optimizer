@@ -26,7 +26,7 @@ import { ConditionalValueMap } from 'types/conditionals'
 import { Form, OrnamentSetFilters, RelicSetFilters } from 'types/form'
 import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
 import { MemoDisplay, StatDisplay } from 'types/store'
-import { create } from 'zustand'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 export type MainConditionalType = 'characterConditionals' | 'lightConeConditionals'
 export type TeammateConditionalType = 'characterConditionals' | 'lightConeConditionals'
@@ -76,7 +76,7 @@ type OptimizerRequestActions = {
 
 type OptimizerRequestStore = OptimizerRequestState & OptimizerRequestActions
 
-export const useOptimizerRequestStore = create<OptimizerRequestStore>()((set) => ({
+export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStore>((set) => ({
   ...createDefaultFormState(),
 
   // ---- Simple setters (Task 8) ----

@@ -16,11 +16,7 @@ import * as persistenceService from 'lib/services/persistenceService'
 import { getRelicById, getRelics } from 'lib/stores/relicStore'
 import { EventEmitter } from 'lib/utils/events'
 import { CharacterId } from 'types/character'
-import {
-  create,
-  StoreApi,
-  UseBoundStore,
-} from 'zustand'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 type ScannerState = {
   // The websocket url to connect to
@@ -126,7 +122,7 @@ export type ScannerStore =
 
 export const DEFAULT_WEBSOCKET_URL = 'ws://127.0.0.1:23313/ws'
 
-export const usePrivateScannerState = create<ScannerStore>((set, get) => ({
+export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, get) => ({
   websocketUrl: DEFAULT_WEBSOCKET_URL,
 
   connected: false,
@@ -350,9 +346,7 @@ export const usePrivateScannerState = create<ScannerStore>((set, get) => ({
     }),
 }))
 
-export const useScannerState: UseBoundStore<
-  StoreApi<ScannerState & ScannerActions>
-> = usePrivateScannerState
+export const useScannerState = usePrivateScannerState
 export const scannerChannel = new EventEmitter<ScannerEvent>()
 
 type GachaResult = {

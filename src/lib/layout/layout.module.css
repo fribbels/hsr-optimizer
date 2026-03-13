@@ -3,7 +3,6 @@
 .header {
   display: flex;
   align-items: center;
-  padding-left: 0;
   width: 100%;
   background-color: var(--bg-app);
   background-image: linear-gradient(rgb(0 0 0/60%) 0 0);

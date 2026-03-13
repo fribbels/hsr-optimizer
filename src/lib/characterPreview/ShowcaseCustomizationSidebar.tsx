@@ -126,14 +126,12 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
             urlToColorCache[img] = primary
 
             setColors(organizeColors(palette))
-            // debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
           })
         } else {
           setTimeout(() => {
             // Delayed to update color palette after render
             getPalette(img, (palette: PaletteResponse) => {
               setColors(organizeColors(palette))
-              // debugColors.defaults = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]
             })
           }, 1000)
         }
@@ -502,7 +500,7 @@ function SelectSpdPresets(props: {
   return (
     <Select
       style={{ width: 34 }}
-      comboboxProps={{ width: 'fit-content' }}
+      comboboxProps={{ keepMounted: false, width: 'fit-content' }}
       data={spdPresetOptions}
       maxDropdownHeight={800}
       value={null}

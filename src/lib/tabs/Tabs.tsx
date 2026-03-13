@@ -14,10 +14,12 @@ import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import { WebgpuTab } from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
+import { TabVisibilityContext, TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {
   ReactElement,
   useEffect,
+  useRef,
+  useState,
 } from 'react'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
@@ -91,10 +93,38 @@ function TabRenderer({ activeKey, tabKey, content }: {
   content: ReactElement
 }) {
   const isActive = activeKey === tabKey
+  const prevActiveRef = useRef(isActive)
+  const listenersRef = useRef(new Set<() => void>())
+  const isActiveRef = useRef(isActive)
+
+  // Always keep the ref in sync — gated listeners read this synchronously
+  isActiveRef.current = isActive
+
+  // STABLE context value — never changes identity, so useContext never
+  // triggers consumer re-renders. Activation is signaled via listeners instead.
+  const [contextValue] = useState<TabVisibilityValue>(() => ({
+    isActiveRef,
+    addActivationListener: (cb: () => void) => {
+      listenersRef.current.add(cb)
+      return () => { listenersRef.current.delete(cb) }
+    },
+  }))
+
+  // On activation (hidden → visible): notify all listeners via microtask.
+  // Each listener calls useSyncExternalStore's onStoreChange, which checks
+  // getSnapshot() — only components with actual value changes re-render.
+  if (isActive && !prevActiveRef.current) {
+    queueMicrotask(() => {
+      for (const listener of listenersRef.current) {
+        listener()
+      }
+    })
+  }
+  prevActiveRef.current = isActive
 
   return (
     <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <TabVisibilityContext value={isActive}>
+      <TabVisibilityContext value={contextValue}>
         <div style={{ display: isActive ? 'contents' : 'none' }} id={tabKey}>
           {content}
         </div>

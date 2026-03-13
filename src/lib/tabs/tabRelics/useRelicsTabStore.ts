@@ -10,7 +10,7 @@ import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
-import { create } from 'zustand'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 export type ValueColumnField = ReturnType<typeof generateValueColumnOptions>[number]['options'][number]['value']
 
@@ -102,7 +102,7 @@ interface RelicsTabStateActions {
 
 type RelicsTabState = RelicsTabStateActions & RelicsTabStateValues
 
-const useRelicsTabStore = create<RelicsTabState>()((set) => ({
+const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set) => ({
   ...defaultState,
   setFocusCharacter: (focusCharacter) => set({ focusCharacter }),
   setSelectedRelicsIds: (ids) => {

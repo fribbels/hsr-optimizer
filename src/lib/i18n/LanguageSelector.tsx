@@ -49,7 +49,7 @@ export function LanguageSelector() {
       }}
       style={{ width: 135, marginRight: 6, height: 36 }}
       maxDropdownHeight={400}
-      comboboxProps={{ width: 210 }}
+      comboboxProps={{ keepMounted: false, width: 210 }}
       defaultValue={i18n.resolvedLanguage}
       leftSection={<img style={{ width: 22 }} src={Assets.getGlobe()} />}
     />

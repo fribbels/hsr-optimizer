@@ -4,7 +4,7 @@ import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerCon
 import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 import { LightConeId } from 'types/lightCone'
-import { create } from 'zustand'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import {
   SetsOrnaments,
   SetsRelics,
@@ -81,7 +81,7 @@ type BenchmarksTabState = {
   setLoading: (loading: boolean) => void,
 }
 
-export const useBenchmarksTabStore = create<BenchmarksTabState>((set, get) => ({
+export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((set, get) => ({
   characterModalInitialCharacter: undefined,
   isCharacterModalOpen: false,
   selectedTeammateIndex: undefined,

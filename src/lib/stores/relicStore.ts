@@ -1,6 +1,6 @@
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { Relic } from 'types/relic'
-import { create } from 'zustand'
 
 type RelicStoreState = {
   relics: Relic[]
@@ -29,7 +29,7 @@ function buildRelicsById(relics: Relic[]): Partial<Record<string, Relic>> {
   }, {} as Record<string, Relic>)
 }
 
-export const useRelicStore = create<RelicStore>()((set, get) => ({
+export const useRelicStore = createTabAwareStore<RelicStore>((set, get) => ({
   relics: [],
   relicsById: {},
 

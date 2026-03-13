@@ -45,7 +45,8 @@ export const GRID_DIMENSIONS = {
 }
 
 export function OptimizerGrid() {
-  
+
+
   const { getLocaleText, paginationNumberFormatter, t } = useGridLocale('optimizerTab', 'Grid')
   const { gridDestroyed } = useGridLocaleRebuild()
   const optimizerGrid = useRef<AgGridReact<OptimizerDisplayDataStatSim> | null>(null)

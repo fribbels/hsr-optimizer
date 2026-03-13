@@ -24,6 +24,7 @@ NoTeamConditionals: 无可应用的条件触发团队被动技能
 ResultLimitN: '查找排名前{{limit}}的结果'
 MainStats: 主属性
 Sets: 套装
+UnreleasedDisclaimer: '{{nameList}} 的计算尚未完成，优化器结果可能不准确。'
 RelicSetSelector:
   Placeholder: 隧洞遗器套装
   4pcLabel: 4件套
@@ -406,8 +407,13 @@ SetConditionals:
         Label: '关闭'
       AtkOnly:
         Display: 攻击力
+        Label: 仅攻击力（+24% 攻击力）
       CdOnly:
         Display: 暴击伤害
+        Label: 仅爆击伤害（+12% 爆伤）
+      Both:
+        Display: 攻击力 + 爆击伤害
+        Label: 攻击力 + 爆击伤害（+24% 攻击力 | +12% 爆伤）
   Conditionals:
     DefaultMessage: 默认启用 - 效果将应用于战斗计算。
     Hunter: 启用后，暴击伤害增益将应用于战斗属性计算。
@@ -445,6 +451,7 @@ SetConditionals:
     Arcadia: 所选增益将应用于战斗属性计算。队伍选择变化时会自动更新。
     Amphoreus: 启用后，若佩戴者拥有忆灵，速度加成将计入战斗属性计算。
     Tengoku: 启用后，额外暴击伤害加成将计入战斗属性计算。
+    CityOfConvergingStars: 将所选增益计入战斗属性计算。攻击力加成来自施放追加攻击，暴击伤害加成来自击败敌人。
 Presets:
   SpdValues:
     SPD0: 无最低速度
@@ -652,6 +659,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.323.Name)（+8%速度）'
       Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% 速度
+    CityOfConvergingStars:
+      Desc: '$t(gameData:RelicSets.326.Name) （+12% 暴伤）'
+      Set: '$t(gameData:RelicSets.326.Name)'
+      Text: 12% 爆伤
 StatSimulation:
   DuplicateSimMessage: 相同属性的模拟已存在
   MissingMainstatsMessage: 模拟主属性缺失
@@ -700,6 +711,7 @@ ExpandedDataPanel:
       SHIELD_VALUE: Δ护盾值
       SHIELD_VALUE_P: Δ%护盾值
   DamageSplits:
+    Title: 连招明细
     Legend:
       abilityDmg: 技能
       breakDmg: 击破
@@ -744,6 +756,10 @@ ExpandedDataPanel:
       E4: 4魂
       E6: 6魂
       ElationSkill: 欢愉技
+      LightCone: 光锥
+      Set: 套装
+    DefaultAction: 默认
+    SummaryLabel: 增益总计
     Stats:
       CompositeLabels:
         Label: '{{prefix}}{{suffix}}'

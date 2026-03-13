@@ -24,6 +24,7 @@ NoTeamConditionals: チームへの条件付き追加能力なし
 ResultLimitN: '上位{{limit}}件を表示'
 MainStats: メインステータス
 Sets: セット
+UnreleasedDisclaimer: '{{nameList}}の計算はまだ完了していないため、オプティマイザーの結果は正確ではありません'
 RelicSetSelector:
   Placeholder: 遺物セット
   4pcLabel: 4セット
@@ -33,6 +34,8 @@ OrnamentSetSelector:
   Placeholder: オーナメントセット
 SortOptions:
   DMGLabel: 与ダメージ計算
+  HealLabel: 治癒量計算
+  ShieldLabel: シールド量計算
   StatLabel: ステータス
   COMBO: コンボダメージ順
   BASIC: 通常攻撃ダメージ順
@@ -41,10 +44,21 @@ SortOptions:
   FUA: 追加攻撃ダメージ順
   MEMO_SKILL: 精霊スキルダメージ順
   MEMO_TALENT: 精霊天賦ダメージ順
+  ELATION_SKILL: 愉悦スキルダメージ順
   DOT: 持続ダメージ順
   BREAK: 弱点撃破ダメージ順
   HEAL: 治癒量順
   SHIELD: シールド量順
+  BASIC_HEAL: 通常攻撃での治癒量順
+  SKILL_HEAL: 戦闘スキルでの治癒量順
+  ULT_HEAL: 必殺技での治癒量順
+  FUA_HEAL: 追加攻撃での治癒量順
+  TALENT_HEAL: 天賦での治癒量順
+  BASIC_SHIELD: 通常攻撃でのシールド量順
+  SKILL_SHIELD: 戦闘スキルでのシールド量順
+  ULT_SHIELD: 必殺技でのシールド量順
+  FUA_SHIELD: 追加攻撃でのシールド量順
+  TALENT_SHIELD: 天賦でのシールド量順
   HP: '$t(common:ReadableStats.HP)順'
   ATK: '$t(common:ReadableStats.ATK)順'
   DEF: '$t(common:ReadableStats.DEF)順'
@@ -136,10 +150,43 @@ Grid:
         精霊スキル
       MEMO_TALENT: |-
         精霊天賦
+      ELATION_SKILL: |-
+        愉悦
+        スキル
       DOT: |-
         持続
       BREAK: |-
         弱点撃破
+      BASIC_HEAL: |-
+        通常
+        回復
+      SKILL_HEAL: |-
+        スキル
+        回復
+      ULT_HEAL: |-
+        必殺
+        回復
+      FUA_HEAL: |-
+        追加
+        回復
+      TALENT_HEAL: |-
+        天賦
+        回復
+      BASIC_SHIELD: |-
+        通常
+        シールド
+      SKILL_SHIELD: |-
+        スキル
+        シールド
+      ULT_SHIELD: |-
+        必殺
+        シールド
+      FUA_SHIELD: |-
+        追加
+        シールド
+      TALENT_SHIELD: |-
+        天賦
+        シールド
       COMBO: |-
         コンボ
         ダメージ
@@ -172,10 +219,43 @@ Grid:
         精霊スキル
       MEMO_TALENT: |-
         精霊天賦
+      ELATION_SKILL: |-
+        愉悦
+        スキル
       DOT: |-
         持続
       BREAK: |-
         弱点撃破
+      BASIC_HEAL: |-
+        通常
+        回復
+      SKILL_HEAL: |-
+        スキル
+        回復
+      ULT_HEAL: |-
+        必殺
+        回復
+      FUA_HEAL: |-
+        追加
+        回復
+      TALENT_HEAL: |-
+        天賦
+        回復
+      BASIC_SHIELD: |-
+        通常
+        シールド
+      SKILL_SHIELD: |-
+        スキル
+        シールド
+      ULT_SHIELD: |-
+        必殺
+        シールド
+      FUA_SHIELD: |-
+        追加
+        シールド
+      TALENT_SHIELD: |-
+        天賦
+        シールド
       COMBO: |-
         コンボ
         ダメージ
@@ -229,6 +309,7 @@ Sidebar:
   BuildsGroup:
     Header: ビルド
     Save: 保存
+    Load: 読み込み
 TeammateRow:
   Header: 'チーム編成 {{teammateCount}}'
 FormRowLabels:
@@ -292,6 +373,7 @@ SetConditionals:
         Label: デバフ3つ、強化済み（与ダメージ+12%｜会心率+8%｜会心ダメージ+24%）
     MagicalGirl:
       Display: '{{stackCount}}層'
+      Label: '{{stackCount}}層（+{{stackCount}}% 防御力無視）'
     Sigonia:
       Display: '{{stackCount}}層'
       Label: '{{stackCount}}層（会心ダメージ+{{buffValue}}%）'
@@ -311,8 +393,13 @@ SetConditionals:
         Label: 'Off'
       AtkOnly:
         Display: 攻撃力
+        Label: 攻撃力のみ（+24% 攻撃力）
       CdOnly:
         Display: 会心ダメ
+        Label: 会心ダメのみ（+12% 会心ダメ）
+      Both:
+        Display: 攻撃力 + 会心ダメ
+        Label: 攻撃力 + 会心ダメ（+24% 攻撃力｜+12% 会心ダメ）
   Conditionals:
     DefaultMessage: デフォルトで有効 - セット効果を戦闘計算に反映します。
     Hunter: 有効にすると、会心ダメージバフを戦闘ステータス計算に反映します。
@@ -333,6 +420,12 @@ SetConditionals:
     Sacerdos: 選択したバフをダメージ計算に反映します。自身をバフするキャラクターはこのセット効果を使用できます。
     Scholar: 有効にすると、キャラクターのコンボの順序に応じて戦闘スキルダメージバフが強化されます。
     Hero: 有効にすると、会心ダメージバフと速度バフを戦闘ステータス計算に反映します。
+    WarriorGoddess: 有効にすると、4セット装備時の速度バフと会心ダメージバフを戦闘ステータス計算に反映します。
+    Wavestrider: 有効にすると、攻撃力割合バフを戦闘ステータス計算に反映します。
+    Deliverer: 有効にすると、HP割合バフと与ダメージ増加バフを戦闘ステータス計算に反映します。
+    Recluse: 有効にすると、会心ダメージバフを戦闘ステータス計算に反映します。
+    MagicalGirl: 選択したバフを戦闘ステータス計算に反映します。
+    Diviner: 有効にすると、愉悦ダメージバフを戦闘ステータス計算に反映します。
     Differentiator: 有効にすると、会心率バフを戦闘ステータス計算に反映します。
     Penacony: 有効にすると、与ダメージバフを装備キャラが召喚した精霊に反映します。
     Sigonia: 選択した会心ダメージバフを既に指定した数の敵を倒したと想定し戦闘ステータス計算に反映します。
@@ -342,6 +435,9 @@ SetConditionals:
     Lushaka: デフォルトで無効 - このセットは装備キャラに影響を与えません。
     Banana: 有効にすると、さらに32%の会心ダメージを戦闘ステータス計算に反映します。
     Arcadia: 選択したバフを戦闘ステータス計算に反映します。チーム編成を変更すると、自動的に更新されます。
+    Amphoreus: 有効にすると、装備者に記憶の精霊がいる場合、速度割合バフを戦闘ステータスの計算に反映します。
+    Tengoku: 有効にすると、会心ダメージバフを戦闘ステータス計算に反映します。
+    CityOfConvergingStars: 選んだバフを戦闘ステータス計算に反映します。追加攻撃に攻撃力バフを、敵を倒したときに会心ダメバフを反映します。
 Presets:
   SpdValues:
     SPD0: 速度の指定なし
@@ -463,6 +559,17 @@ ComboFilter:
     Break: 撃破
     MemoSkill: 精霊スキル
     MemoTalent: 精霊天賦
+    ElationSkill: 愉悦スキル
+    BasicHeal: 通常 回復
+    SkillHeal: スキル 回復
+    UltHeal: 必殺 回復
+    FuaHeal: 追加 回復
+    TalentHeal: 天賦 回復
+    BasicShield: 通常 シールド
+    SkillShield: スキル シールド
+    UltShield: 必殺 シールド
+    FuaShield: 追加 シールド
+    TalentShield: 天賦 シールド
   RotationButton: 高度なスキル回しの設定
 ComboDrawer:
   NoConditionals: 条件付き追加能力なし
@@ -514,6 +621,10 @@ TeammateCard:
       Desc: '4セット：$t(gameData:RelicSets.128.Name)（会心ダメージ+15%）'
       Set: '$t(gameData:RelicSets.128.Name)'
       Text: 会心ダメ15%
+    Diviner:
+      Desc: '4セット：$t(gameData:RelicSets.130.Name)（愉悦ダメージ+10%）'
+      Set: '$t(gameData:RelicSets.130.Name)'
+      Text: 愉悦10%
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) （会心ダメージ+10%）'
       Set: '$t(gameData:RelicSets.310.Name)'
@@ -534,6 +645,10 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.323.Name) (速度+8%)'
       Set: '$t(gameData:RelicSets.323.Name)'
       Text: 速度8%
+    CityOfConvergingStars:
+      Desc: '$t(gameData:RelicSets.326.Name) （会心ダメージ+12%）'
+      Set: '$t(gameData:RelicSets.326.Name)'
+      Text: 会心ダメ12%
 StatSimulation:
   DuplicateSimMessage: 同一のシミュレーションが既に存在します
   MissingMainstatsMessage: メインステータスを入力してください
@@ -582,6 +697,7 @@ ExpandedDataPanel:
       SHIELD_VALUE: シールド量変化量
       SHIELD_VALUE_P: シールド量変化率
   DamageSplits:
+    Title: スキル回しの内訳
     Legend:
       abilityDmg: アビリティ
       breakDmg: 撃破
@@ -625,6 +741,11 @@ ExpandedDataPanel:
       E2: 2凸
       E4: 4凸
       E6: 6凸
+      ElationSkill: 愉悦スキル
+      LightCone: 光円錐
+      Set: セット
+    DefaultAction: デフォルト
+    SummaryLabel: 合計バフ数
     Stats:
       CompositeLabels:
         Label: '{{prefix}}　{{suffix}}'
@@ -637,6 +758,7 @@ ExpandedDataPanel:
           Break: 撃破攻撃　
           Memo Skill: 精霊スキル
           Memo Talent: 精霊天賦　
+          Elation Skill: 愉悦スキル
         Suffix:
           ATK scaling: 攻撃力倍率
           DEF scaling: 防御力倍率
@@ -702,6 +824,7 @@ ExpandedDataPanel:
         Additional DMG boost: 付加ダメージ増加
         Ult Additional DMG CR override: 必殺技付加ダメージ（会心率無視）
         Ult Additional DMG CD override: 必殺技付加ダメージ（会心ダメージ無視）
+        Merrymaking: 上笑
       DmgTypes:
         Basic: 通常攻撃ダメージの種類
         Skill: スキルダメージの種類
@@ -711,6 +834,7 @@ ExpandedDataPanel:
         Break: 撃破特効の種類
         MemoSkill: 精霊スキルダメージの種類
         MemoTalent: 精霊天賦ダメージの種類
+        ElationSkill: 愉悦ダメージの種類
         Additional: 付加ダメージの種類
         SuperBreak: 超撃破ダメージの種類
       ResPen: '$t(common:Elements.{{element}})耐性貫通'

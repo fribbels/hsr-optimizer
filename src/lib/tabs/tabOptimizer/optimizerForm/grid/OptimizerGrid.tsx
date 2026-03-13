@@ -149,7 +149,7 @@ export function OptimizerGrid() {
             paginationNumberFormatter={paginationNumberFormatter}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
-            rowSelection='single'
+            rowSelection={{ mode: 'singleRow', checkboxes: false, enableClickSelection: true }}
           />
         </div>
       )}

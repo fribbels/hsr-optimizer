@@ -1,6 +1,6 @@
 import { IconEraser } from '@tabler/icons-react'
-import { useOverflowPills } from 'lib/hooks/useOverflowPills'
-import { Button, Flex, MultiSelect, Text, Tooltip } from '@mantine/core'
+import { Button, Flex, Text, Tooltip } from '@mantine/core'
+import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import i18next from 'i18next'
 import {
   Constants,
@@ -62,8 +62,6 @@ export function RelicFilterBar() {
   const valueColumnOptions = useMemo(() => {
     return generateValueColumnOptions(tValueColumn)
   }, [tValueColumn])
-
-  const valueColumnOverflow = useOverflowPills(valueColumns, 2)
 
   const relicSetFlexBasis = `${100 / Math.ceil(Object.values(SetsRelics).length / 2)}%`
   const ornamentSetFlexBasis = `${100 / Object.values(SetsOrnaments).length}%`
@@ -231,19 +229,18 @@ export function RelicFilterBar() {
               <TooltipImage type={Hint.valueColumns()} />
             </Flex>
             <Flex gap={10}>
-              <MultiSelect
+              <MultiSelectPills
                 clearable
                 value={valueColumns}
                 onChange={(values) => setValueColumns(values as typeof valueColumns)}
-                renderPill={valueColumnOverflow.renderPill}
-                styles={{ pillsList: valueColumnOverflow.pillsListStyle }}
                 data={valueColumnOptions.map((group) => ({
                   group: group.label,
                   items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
                 }))}
                 style={{ flex: 1 }}
                 maxDropdownHeight={750}
-                comboboxProps={{ width: 'fit-content' }}
+                dropdownWidth="fit-content"
+                maxDisplayedValues={2}
               />
             </Flex>
           </Flex>

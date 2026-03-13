@@ -2,9 +2,8 @@ import {
   IconCheck,
   IconX,
 } from '@tabler/icons-react'
-import { Flex, MultiSelect, SegmentedControl, Select, Switch, Text } from '@mantine/core'
+import { Flex, SegmentedControl, Select, Switch, Text } from '@mantine/core'
 
-import { useOverflowPills } from 'lib/hooks/useOverflowPills'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -18,6 +17,7 @@ import {
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo, ReactElement, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -43,8 +43,6 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
   const grade = useOptimizerRequestStore((s) => s.grade)
   const mainStatUpscaleLevel = useOptimizerRequestStore((s) => s.mainStatUpscaleLevel)
   const deprioritizeBuffs = useOptimizerRequestStore((s) => s.deprioritizeBuffs)
-
-  const excludeOverflow = useOverflowPills(exclude, 2)
 
   const characterExcludeOptions = useMemo(() =>
     generateCharacterList(
@@ -147,9 +145,10 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             <HeaderText>
               {t('Exclude') /* Exclude */}
             </HeaderText>
-            <MultiSelect
+            <MultiSelectPills
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2, height: 32 }}
-              comboboxProps={{ width: 250 }}
+              dropdownWidth={250}
+              maxDisplayedValues={2}
               maxDropdownHeight={500}
               clearable
               searchable
@@ -157,9 +156,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               data={characterExcludeOptions.map((opt) => ({ value: opt.value, label: opt.title }))}
               value={exclude}
               onChange={(val) => setFilterAndRecalculate('exclude', val as typeof exclude)}
-              renderPill={excludeOverflow.renderPill}
-              styles={{ pillsList: excludeOverflow.pillsListStyle }}
-            />
+/>
           </Flex>
         </Flex>
 

@@ -1,5 +1,5 @@
 import { IconSettings } from '@tabler/icons-react'
-import { Button, Flex, MultiSelect } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
   Constants,
   Parts,
@@ -25,8 +25,8 @@ import {
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { useOverflowPills } from 'lib/hooks/useOverflowPills'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './RelicMainSetFilters.module.css'
@@ -52,13 +52,6 @@ export function RelicMainSetFilters() {
     [relicSets],
   )
 
-  const bodyOverflow = useOverflowPills(mainBody, 3)
-  const feetOverflow = useOverflowPills(mainFeet, 3)
-  const sphereOverflow = useOverflowPills(mainPlanarSphere, 3)
-  const ropeOverflow = useOverflowPills(mainLinkRope, 3)
-  const relicSetOverflow = useOverflowPills(relicSetsValue, 1)
-  const ornamentOverflow = useOverflowPills(ornamentSets, 1)
-
   const setsGroupedOptions = useMemo(() => GenerateSetsGroupedOptions(), [t])
   const ornamentOptions = useOrnamentsOptions()
 
@@ -69,8 +62,9 @@ export function RelicMainSetFilters() {
         <TooltipImage type={Hint.mainStats()} />
       </Flex>
       <Flex direction="column" gap={7}>
-        <MultiSelect
+        <MultiSelectPills
           clearable
+          maxDisplayedValues={3}
           style={{
             width: panelWidth,
           }}
@@ -78,8 +72,6 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
           value={mainBody}
           onChange={(val) => handleMainStatChange('mainBody', val)}
-          renderPill={bodyOverflow.renderPill}
-          styles={{ pillsList: bodyOverflow.pillsListStyle }}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -91,8 +83,9 @@ export function RelicMainSetFilters() {
           ]}
         />
 
-        <MultiSelect
+        <MultiSelectPills
           clearable
+          maxDisplayedValues={3}
           style={{
             width: panelWidth,
           }}
@@ -100,8 +93,6 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
           value={mainFeet}
           onChange={(val) => handleMainStatChange('mainFeet', val)}
-          renderPill={feetOverflow.renderPill}
-          styles={{ pillsList: feetOverflow.pillsListStyle }}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -110,8 +101,9 @@ export function RelicMainSetFilters() {
           ]}
         />
 
-        <MultiSelect
+        <MultiSelectPills
           clearable
+          maxDisplayedValues={3}
           style={{
             width: panelWidth,
           }}
@@ -120,8 +112,6 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
           value={mainPlanarSphere}
           onChange={(val) => handleMainStatChange('mainPlanarSphere', val)}
-          renderPill={sphereOverflow.renderPill}
-          styles={{ pillsList: sphereOverflow.pillsListStyle }}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -136,8 +126,9 @@ export function RelicMainSetFilters() {
           ]}
         />
 
-        <MultiSelect
+        <MultiSelectPills
           clearable
+          maxDisplayedValues={3}
           style={{
             width: panelWidth,
           }}
@@ -145,8 +136,6 @@ export function RelicMainSetFilters() {
           rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
           value={mainLinkRope}
           onChange={(val) => handleMainStatChange('mainLinkRope', val)}
-          renderPill={ropeOverflow.renderPill}
-          styles={{ pillsList: ropeOverflow.pillsListStyle }}
           data={[
             { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
             { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
@@ -163,10 +152,11 @@ export function RelicMainSetFilters() {
       </Flex>
 
       <Flex direction="column" gap={7}>
-        <MultiSelect
+        <MultiSelectPills
           placeholder={t('RelicSetSelector.Placeholder')}
           data={setsGroupedOptions}
           maxDropdownHeight={400}
+          maxDisplayedValues={1}
           searchable
           clearable
           value={relicSetsValue}
@@ -176,14 +166,13 @@ export function RelicMainSetFilters() {
             useOptimizerRequestStore.getState().setRelicSets(decoded)
             recalculatePermutations()
           }}
-          renderPill={relicSetOverflow.renderPill}
-          styles={{ pillsList: relicSetOverflow.pillsListStyle }}
-          renderOption={({ option }) => RelicSetTagRenderer(option.value)}
+          renderOption={(option) => RelicSetTagRenderer(option.value)}
         />
 
-        <MultiSelect
-          comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        <MultiSelectPills
+          dropdownWidth={250}
           maxDropdownHeight={800}
+          maxDisplayedValues={1}
           clearable
           style={{
             width: panelWidth,
@@ -195,8 +184,6 @@ export function RelicMainSetFilters() {
             useOptimizerRequestStore.getState().setOrnamentSets(val as typeof ornamentSets)
             recalculatePermutations()
           }}
-          renderPill={ornamentOverflow.renderPill}
-          styles={{ pillsList: ornamentOverflow.pillsListStyle }}
         />
         <Button
           variant="default"

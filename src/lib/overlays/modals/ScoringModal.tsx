@@ -1,6 +1,6 @@
 import { UseFormReturnType, useForm } from '@mantine/form'
 import { PopConfirm } from 'lib/ui/PopConfirm'
-import { Button, Divider, Flex, Modal, MultiSelect, NumberInput, Text } from '@mantine/core'
+import { Button, Divider, Flex, Modal, MultiSelect, NumberInput } from '@mantine/core'
 import { usePublish } from 'hooks/usePublish'
 import {
   Parts,
@@ -63,12 +63,12 @@ function StatValueRow({ stat, form }: { stat: string, form: UseFormReturnType<Sc
       />
       <Flex>
         <img src={Assets.getStatIcon(stat)} className={classes.statIcon}></img>
-        <Text className={classes.statText}>
+        <div className={classes.statText}>
           {
             // @ts-ignore
             t(`ReadableStats.${stat}`)
           }
-        </Text>
+        </div>
       </Flex>
     </Flex>
   )
@@ -208,9 +208,9 @@ export function ScoringModal() {
             <Flex justify='space-between'>
               <Flex direction="column" gap={defaultGap * 2}>
                 <Flex direction="column" gap={1}>
-                  <Text className={classes.partLabel}>
+                  <div className={classes.partLabel}>
                     {t('common:Parts.Body')}
-                  </Text>
+                  </div>
                   <MultiSelect
                     clearable
                     style={{ width: selectWidth }}
@@ -229,9 +229,9 @@ export function ScoringModal() {
                 </Flex>
 
                 <Flex direction="column" gap={1}>
-                  <Text className={classes.partLabel}>
+                  <div className={classes.partLabel}>
                     {t('common:Parts.Feet')}
-                  </Text>
+                  </div>
                   <MultiSelect
                     clearable
                     style={{ width: selectWidth }}
@@ -247,9 +247,9 @@ export function ScoringModal() {
                 </Flex>
 
                 <Flex direction="column" gap={1}>
-                  <Text className={classes.partLabel}>
+                  <div className={classes.partLabel}>
                     {t('common:Parts.PlanarSphere')}
-                  </Text>
+                  </div>
                   <MultiSelect
                     clearable
                     style={{ width: selectWidth }}
@@ -272,9 +272,9 @@ export function ScoringModal() {
                 </Flex>
 
                 <Flex direction="column" gap={1}>
-                  <Text className={classes.partLabel}>
+                  <div className={classes.partLabel}>
                     {t('common:Parts.LinkRope')}
-                  </Text>
+                  </div>
                   <MultiSelect
                     clearable
                     style={{ width: selectWidth }}

@@ -1,5 +1,5 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Badge, Button, Flex, MultiSelect, NumberInput, Paper, SegmentedControl, Select, Table, Text, TextInput, Title as MantineTitle } from '@mantine/core'
+import { Badge, Button, Flex, MultiSelect, NumberInput, Paper, SegmentedControl, Select, Table, TextInput, Title as MantineTitle } from '@mantine/core'
 import { useForm, UseFormReturnType } from '@mantine/form'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
@@ -270,7 +270,7 @@ function Results() {
         </pre>
       </Flex>
 
-      <Text component="div" style={{ fontSize: 18 }}>
+      <div style={{ fontSize: 18 }}>
         <pre style={{ margin: 0 }}>
           <Flex align='center' gap={5}>
             <span>{t('TotalAvailable')/* Total warps available: */}</span>
@@ -289,7 +289,7 @@ function Results() {
             <img style={{ height: 24 }} src={Assets.getPass()}/>
           </Flex>
         </pre>
-      </Text>
+      </div>
 
       <Flex direction="column" gap={10} w='100%'>
         <Table style={{ width: '100%' }}>
@@ -340,9 +340,9 @@ function Results() {
                     />
                     <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
                       <Badge color='#000000aa' style={{ opacity: opacity(record.wins), border: 0, padding: '2px 12px 2px 12px' }}>
-                        <Text style={{ margin: 0, alignItems: 'center' }}>
+                        <div style={{ margin: 0, alignItems: 'center' }}>
                           {translateLabel(record.key)}
-                        </Text>
+                        </div>
                       </Badge>
                     </Flex>
                   </Flex>

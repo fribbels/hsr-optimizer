@@ -193,7 +193,7 @@ export function ScannerImportSubmenu() {
           <Text>
             {t('Import.Stage1.Header')}
           </Text>
-          <Text component="div">
+          <div>
             <ul>
               <ReliquaryDescription />
               <li>
@@ -236,7 +236,7 @@ export function ScannerImportSubmenu() {
                 </ul>
               </li>
             </ul>
-          </Text>
+          </div>
           <Flex direction="column" align='flex-start'>
             <Flex gap={10} align='center'>
               <input
@@ -436,7 +436,7 @@ export function ScannerImportSubmenu() {
             {t('Import.Stage2.RelicsImport.ButtonText', { relicCount: currentRelics.length ?? 0 })}
           </Button>
 
-          <Divider label={<Text className={classes.dividerText}>{t('Import.Stage2.Or')}</Text>} labelPosition='center' />
+          <Divider label={<span className={classes.dividerText}>{t('Import.Stage2.Or')}</span>} labelPosition='center' />
           <Text>
             {t('Import.Stage2.CharactersImport.Label', {
               relicCount: currentRelics.length ?? 0,

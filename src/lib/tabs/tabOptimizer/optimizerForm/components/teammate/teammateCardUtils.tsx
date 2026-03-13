@@ -1,4 +1,4 @@
-import { Flex, Text } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { TFunction } from 'i18next'
 import {
   Constants,
@@ -49,9 +49,9 @@ export function optionRenderer() {
         </Flex>
       )
       : (
-        <Text>
+        <div>
           None
-        </Text>
+        </div>
       )
   )
 }
@@ -59,9 +59,9 @@ export function optionRenderer() {
 export const labelRender = (set: string, text: string) => (
   <Flex align='center' gap={3}>
     <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} />
-    <Text style={{ fontSize: 12 }}>
+    <div style={{ fontSize: 12 }}>
       {text}
-    </Text>
+    </div>
   </Flex>
 )
 

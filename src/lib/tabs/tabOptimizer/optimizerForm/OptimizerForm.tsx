@@ -29,9 +29,9 @@ import { FilterContainer } from 'lib/tabs/tabOptimizer/optimizerForm/layout/Filt
 import { FormCard } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
   FormRow,
-  OptimizerMenuIds,
   TeammateFormRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
+import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { Utils } from 'lib/utils/utils'
 import { memo, useEffect, useMemo } from 'react'

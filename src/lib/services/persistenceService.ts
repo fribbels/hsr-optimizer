@@ -18,7 +18,7 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import { getRelicById, getRelics, useRelicStore } from 'lib/stores/relicStore'
 import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
-import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
+import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'

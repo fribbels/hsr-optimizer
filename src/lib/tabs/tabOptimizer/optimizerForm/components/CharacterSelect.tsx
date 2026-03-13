@@ -159,8 +159,9 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
             value={selectedLabel}
             placeholder={t('SingleSelect.Placeholder') /* Character */}
             onClick={resetAndOpen}
+            rightSectionPointerEvents="all"
             rightSection={value
-              ? <CloseButton size="sm" onClick={(e) => { e.stopPropagation(); if (onChange) onChange(null) }} />
+              ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); if (onChange) onChange(null) }} />
               : null}
             styles={{ input: { cursor: 'pointer' } }}
           />

@@ -1,4 +1,4 @@
-import { Flex, SegmentedControl, Text, useMantineTheme } from '@mantine/core'
+import { Flex, SegmentedControl, useMantineTheme } from '@mantine/core'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
@@ -70,9 +70,9 @@ export function ShowcaseBuildAnalysis({
           }}
           align='center'
         >
-          <Text style={{ width: 150 }}>
+          <div style={{ width: 150 }}>
             {t('CharacterPreview.AlgorithmSlider.Title') /* Scoring algorithm: */}
-          </Text>
+          </div>
           <SegmentedControl
             style={{ width: 354, height: 30 }}
             onChange={(selection) => {

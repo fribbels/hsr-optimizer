@@ -1,16 +1,16 @@
-import { Text, TextProps } from '@mantine/core'
+import React from 'react'
 import classes from './StatText.module.css'
 
-type StatTextProps = TextProps & React.ComponentPropsWithoutRef<'div'>
+type StatTextProps = React.HTMLAttributes<HTMLDivElement>
 
 export function StatText(props: StatTextProps) {
-  return <Text component='div' className={classes.statText} {...props} />
+  return <div className={classes.statText} {...props} />
 }
 
 export function StatTextEllipses(props: StatTextProps) {
-  return <Text component='div' className={classes.statTextEllipses} {...props} />
+  return <div className={classes.statTextEllipses} {...props} />
 }
 
 export function StatTextSm(props: StatTextProps) {
-  return <Text component='div' className={classes.statTextSm} {...props} />
+  return <div className={classes.statTextSm} {...props} />
 }

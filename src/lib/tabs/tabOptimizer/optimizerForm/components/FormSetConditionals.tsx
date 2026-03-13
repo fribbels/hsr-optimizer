@@ -113,7 +113,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
               style={{ width: 36, height: 36 }}
             />
           </Flex>
-          <Text
+          <div
             style={{
               width: setConditionalsNameWidth,
               textOverflow: 'ellipsis',
@@ -122,7 +122,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
             }}
           >
             {t('SetName', { id: setToId[set] })}
-          </Text>
+          </div>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
             {inputType}
           </Flex>
@@ -188,16 +188,16 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
       <Flex justify='center'>
         <Flex direction="column" gap={defaultGap}>
           <Flex gap={defaultGap} align='center'>
-            <Text style={{ width: setConditionalsIconWidth }}></Text>
-            <Text style={{ width: setConditionalsNameWidth }}></Text>
+            <div style={{ width: setConditionalsIconWidth }} />
+            <div style={{ width: setConditionalsNameWidth }} />
           </Flex>
           {relicOptions}
         </Flex>
         <VerticalDivider />
         <Flex direction="column" gap={defaultGap} style={{ marginLeft: 5 }}>
           <Flex gap={defaultGap} align='center'>
-            <Text style={{ width: setConditionalsIconWidth }}></Text>
-            <Text style={{ width: setConditionalsNameWidth }}></Text>
+            <div style={{ width: setConditionalsIconWidth }} />
+            <div style={{ width: setConditionalsNameWidth }} />
           </Flex>
           {ornamentOptions}
         </Flex>

@@ -23,8 +23,15 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
     },
     fontFamily: 'inherit',
     defaultRadius: 'sm',
+    spacing: {
+      xs: '4px',
+      sm: '8px',
+      md: '10px',
+      lg: '12px',
+      xl: '16px',
+    },
     components: {
-      Input: { defaultProps: { size: 'xs' }, styles: { input: { '--input-padding-inline-start': '4px', '--input-padding-inline-end': '4px' } } },
+      Input: { defaultProps: { size: 'xs' }, styles: { input: { '--input-padding-inline-start': '6px', '--input-padding-inline-end': '6px' } } },
       InputWrapper: { defaultProps: { size: 'xs' } },
       Select: { defaultProps: { size: 'xs', checkIconPosition: 'right' } },
       MultiSelect: { defaultProps: { size: 'xs' } },

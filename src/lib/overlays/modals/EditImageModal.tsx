@@ -3,7 +3,7 @@ import {
   IconInbox,
   IconZoomIn,
 } from '@tabler/icons-react'
-import { Button, Flex, Loader, Modal, SegmentedControl, Slider, Stepper, Text, TextInput } from '@mantine/core'
+import { Button, Flex, Loader, Modal, SegmentedControl, Slider, Stepper, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import i18next from 'i18next'
@@ -413,9 +413,9 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
               </div>
             </Flex>
             <Flex direction="column" className={styles.flexOne}>
-              <Text className={styles.artByLabel}>
+              <div className={styles.artByLabel}>
                 {t('Edit.ArtBy') /* (Optional) Art by: */}
-              </Text>
+              </div>
               <TextInput
                 className={styles.artistInput}
                 placeholder={t('Edit.CreditPlaceholder') /* Credit the artist if possible */}

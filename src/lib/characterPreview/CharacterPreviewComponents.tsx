@@ -1,4 +1,4 @@
-import { Flex, Text } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { CSSProperties } from 'react'
 import componentClasses from './CharacterPreviewComponents.module.css'
 
@@ -44,9 +44,9 @@ export function OverlayText({ text, top }: {
       style={{ top }}
       align='center'
     >
-      <Text className={componentClasses.overlayLabel}>
+      <div className={componentClasses.overlayLabel}>
         {text}
-      </Text>
+      </div>
     </Flex>
   )
 }

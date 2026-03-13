@@ -1,5 +1,5 @@
 import { IconEraser } from '@tabler/icons-react'
-import { Button, Flex, Text, Tooltip } from '@mantine/core'
+import { Button, Flex, Tooltip } from '@mantine/core'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import i18next from 'i18next'
 import {
@@ -264,9 +264,9 @@ function generateTextTags(arr: [key: number, value: string][]) {
     key: x[0],
     display: (
       <Flex className={classes.tagContainer}>
-        <Text className={classes.tagText}>
+        <div className={classes.tagText}>
           {x[1]}
-        </Text>
+        </div>
       </Flex>
     ),
   }))

@@ -1,4 +1,4 @@
-import { Divider, Flex, Text } from '@mantine/core'
+import { Divider, Flex } from '@mantine/core'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import React from 'react'
 
@@ -8,13 +8,13 @@ export const PermutationDisplay = React.memo(function PermutationDisplay({ total
     : `${localeNumberComma(right)}`
   return (
     <Flex justify='space-between'>
-      <Text style={{ lineHeight: '24px' }}>
+      <div style={{ lineHeight: '24px' }}>
         {left}
-      </Text>
+      </div>
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
-      <Text style={{ lineHeight: '24px' }}>
+      <div style={{ lineHeight: '24px' }}>
         {rightText}
-      </Text>
+      </div>
     </Flex>
   )
 })

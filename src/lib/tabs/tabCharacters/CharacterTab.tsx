@@ -7,7 +7,6 @@ import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
 import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { SwitchRelicsModal } from 'lib/overlays/modals/SwitchRelicsModal'
-import { getGridTheme } from 'lib/rendering/theme'
 import { useCharacterStore } from 'lib/stores/characterStore'
 import { AppPages } from 'lib/constants/appPages'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
@@ -66,7 +65,6 @@ export default function CharacterTab() {
               display: 'block',
               width: '100%',
               height: parentH,
-              ...getGridTheme(),
             }}
           >
             <CharacterGrid />

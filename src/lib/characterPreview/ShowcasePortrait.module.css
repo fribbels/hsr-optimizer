@@ -31,5 +31,5 @@
   overflow: hidden;
   white-space: nowrap;
   z-index: 2;
-  text-shadow: 0px 0px 10px black;
+  text-shadow: var(--text-shadow-showcase);
 }

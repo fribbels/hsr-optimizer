@@ -4,6 +4,9 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    height: 100vh !important;
+    min-width: fit-content !important;
+    overflow: visible !important;
 }
 
 code {
@@ -15,12 +18,6 @@ html,
 #app,
 #app > div {
     margin: 0;
-}
-
-body {
-    height: 100vh !important;
-    min-width: fit-content !important;
-    overflow: visible !important;
 }
 
 #root {

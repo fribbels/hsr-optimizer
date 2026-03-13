@@ -13,7 +13,6 @@ import {
   ScoredRelic,
   scoreRelics,
 } from 'lib/relics/scoreRelics'
-import { getGridTheme } from 'lib/rendering/theme'
 import {
   defaultRelicsGridColDefs,
   generateBaselineColDefs,
@@ -107,7 +106,6 @@ export function RelicsGrid() {
         height: 500,
         resize: 'vertical',
         overflow: 'hidden',
-        ...getGridTheme(),
       }}
     >
       {!gridDestroyed && (

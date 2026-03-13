@@ -12,7 +12,6 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { Form } from 'types/form'
-import { Relic } from 'types/relic'
 
 // ---- Zero Permutations ----
 
@@ -124,24 +123,7 @@ export const ZeroPermRootCauseFixes = {
 export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] {
   const causes: ZeroPermRootCause[] = []
 
-  const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request) as [
-    {
-      Body: Relic[]
-      Feet: Relic[]
-      PlanarSphere: Relic[]
-      LinkRope: Relic[]
-      Head: Relic[]
-      Hands: Relic[]
-    },
-    {
-      Body: Relic[]
-      Feet: Relic[]
-      PlanarSphere: Relic[]
-      LinkRope: Relic[]
-      Head: Relic[]
-      Hands: Relic[]
-    },
-  ]
+  const { counts, preCounts } = Optimizer.getFilteredRelicCounts(request)
   const allRelics = getRelics()
 
   // Zero relics overrides everything else
@@ -150,28 +132,28 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
   }
 
   // Main stats
-  if (relics.Body.length == 0 && request.mainBody.length > 0 && preFilteredRelicsByPart.Body.length > 0) {
+  if (counts.Body == 0 && request.mainBody.length > 0 && preCounts.Body > 0) {
     causes.push(ZeroPermRootCause.BODY_MAIN)
   }
-  if (relics.Feet.length == 0 && request.mainFeet.length > 0 && preFilteredRelicsByPart.Feet.length > 0) {
+  if (counts.Feet == 0 && request.mainFeet.length > 0 && preCounts.Feet > 0) {
     causes.push(ZeroPermRootCause.FEET_MAIN)
   }
-  if (relics.PlanarSphere.length == 0 && request.mainPlanarSphere.length > 0 && preFilteredRelicsByPart.PlanarSphere.length > 0) {
+  if (counts.PlanarSphere == 0 && request.mainPlanarSphere.length > 0 && preCounts.PlanarSphere > 0) {
     causes.push(ZeroPermRootCause.PLANAR_SPHERE_MAIN)
   }
-  if (relics.LinkRope.length == 0 && request.mainLinkRope.length > 0 && preFilteredRelicsByPart.LinkRope.length > 0) {
+  if (counts.LinkRope == 0 && request.mainLinkRope.length > 0 && preCounts.LinkRope > 0) {
     causes.push(ZeroPermRootCause.LINK_ROPE_MAIN)
   }
 
   // Ornament sets
-  if (relics.PlanarSphere.length == 0 || relics.LinkRope.length == 0) {
+  if (counts.PlanarSphere == 0 || counts.LinkRope == 0) {
     if (request.ornamentSets.length > 0) {
       causes.push(ZeroPermRootCause.ORNAMENT_SETS)
     }
   }
 
   // Relic sets
-  if (relics.Head.length == 0 || relics.Hands.length == 0 || relics.Body.length == 0 || relics.Feet.length == 0) {
+  if (counts.Head == 0 || counts.Hands == 0 || counts.Body == 0 || counts.Feet == 0) {
     if (request.relicSets.length > 0) {
       causes.push(ZeroPermRootCause.RELIC_SETS)
     }

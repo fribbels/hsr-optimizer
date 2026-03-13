@@ -240,7 +240,6 @@ export function RelicFilterBar() {
                 style={{ flex: 1 }}
                 maxDropdownHeight={750}
                 dropdownWidth="fit-content"
-                maxDisplayedValues={2}
               />
             </Flex>
           </Flex>

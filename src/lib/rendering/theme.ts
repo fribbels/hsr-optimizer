@@ -18,7 +18,7 @@ export function getGridTheme() {
   }
 }
 
-import { createTheme, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
+import { createTheme, Input, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
 
 const primaryShades: MantineColorsTuple = [
   '#e5f0ff', '#ccdcff', '#99b5fb', '#6389f5', '#3868f0',
@@ -34,7 +34,14 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
     fontFamily: 'inherit',
     defaultRadius: 'sm',
     components: {
-      Input: { defaultProps: { size: 'xs' } },
+      Input: Input.extend({
+        defaultProps: { size: 'xs' },
+        vars: () => ({
+          wrapper: {
+            '--input-padding': '4px',
+          },
+        }),
+      }),
       InputWrapper: { defaultProps: { size: 'xs' } },
       Select: { defaultProps: { size: 'xs' } },
       MultiSelect: { defaultProps: { size: 'xs' } },

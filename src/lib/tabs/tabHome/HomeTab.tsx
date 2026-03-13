@@ -23,13 +23,6 @@ import {
 const headerWidth = 1600
 
 export default function HomeTab() {
-  const activeKey = useGlobalStore((s) => s.activeKey)
-
-  if (activeKey !== AppPages.HOME) {
-    // Don't load unless tab active
-    return <></>
-  }
-
   return (
     <Flex
       direction="column"

@@ -9,18 +9,9 @@ import {
   WebgpuTest,
 } from 'lib/gpu/tests/webgpuTestGenerator'
 import { StatDelta } from 'lib/gpu/tests/webgpuTestUtils'
-import { useGlobalStore } from 'lib/stores/appStore'
-import { AppPages } from 'lib/constants/appPages'
 import { useState } from 'react'
 
 export function WebgpuTab() {
-  const activeKey = useGlobalStore((s) => s.activeKey)
-
-  if (activeKey !== AppPages.WEBGPU_TEST) {
-    // Don't load unless tab active
-    return <></>
-  }
-
   return <WebgpuDashboard />
 }
 

@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, Text } from '@mantine/core'
+import { Button, Flex, Modal } from '@mantine/core'
 import { TFunction } from 'i18next'
 import {
   OpenCloseIDs,
@@ -47,9 +47,9 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
   const fixes: RootCauseFix = ZeroPermRootCauseFixes[rootCause as ZeroPermRootCause] || ZeroResultRootCauseFixes[rootCause as ZeroResultRootCause]
   return (
     <Flex justify='space-between' align='center' h={45} key={rootCause} gap={10}>
-      <Text style={{ width: 550 }}>
+      <div style={{ width: 550 }}>
         {t(fixes.descriptionKey)}
-      </Text>
+      </div>
       <Button
         onClick={() => {
           fixes.applyFix()
@@ -79,13 +79,13 @@ export function ZeroPermutationsSuggestionsModal() {
       onClose={closeZeroPermsModal}
     >
       <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
-        <Text>
+        <div>
           {
             t(
               '0Perms.Description',
             ) /* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */
           }
-        </Text>
+        </div>
         <HorizontalDivider />
         {rootCauseDisplay}
       </Flex>
@@ -110,9 +110,9 @@ export function ZeroResultSuggestionModal() {
     >
       <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
         <Flex justify='space-between' align='center' h={45}>
-          <Text>
+          <div>
             {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}
-          </Text>
+          </div>
           <Button
             onClick={() => {
               for (const rootCause of rootCauses as ZeroResultRootCause[]) {

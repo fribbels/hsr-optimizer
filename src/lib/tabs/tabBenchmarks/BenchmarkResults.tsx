@@ -2,7 +2,7 @@ import {
   IconChevronDown,
   IconChevronRight,
 } from '@tabler/icons-react'
-import { Badge, Flex, Table, Tabs, Text } from '@mantine/core'
+import { Badge, Flex, Table, Tabs } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
@@ -304,9 +304,9 @@ function ComboDmgCell({ comboDmg, row }: { comboDmg: number; row: BenchmarkRow }
 
       <Flex className={styles.comboDmgContent} justify='center' align='center'>
         <Badge color='#000000aa' className={styles.comboDmgBadge}>
-          <Text className={styles.comboDmgText}>
+          <div className={styles.comboDmgText}>
             {`${localeNumber_0(comboDmg / 1000)}K`}
-          </Text>
+          </div>
         </Badge>
       </Flex>
     </Flex>

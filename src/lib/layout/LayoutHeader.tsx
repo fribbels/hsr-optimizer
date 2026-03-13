@@ -2,7 +2,7 @@ import {
   IconMenu2,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -38,9 +38,9 @@ export function LayoutHeader() {
           <a href={BASE_PATH}>
             <Flex align='center' className={classes.logoLink}>
               <img src={Assets.getLogo()} className={classes.logo} />
-              <Text className={classes.title}>
+              <div className={classes.title}>
                 Fribbels Honkai Star Rail Optimizer
-              </Text>
+              </div>
             </Flex>
           </a>
         </Flex>

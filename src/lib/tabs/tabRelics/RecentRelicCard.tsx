@@ -1,4 +1,4 @@
-import { Divider, Flex, Progress, Text, Tooltip, useMantineTheme } from '@mantine/core'
+import { Divider, Flex, Progress, Tooltip, useMantineTheme } from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
@@ -115,12 +115,12 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
         {potentialScore && (
           <Flex direction="column" gap={4}>
             <Flex align='center' justify='space-between'>
-              <Text
+              <div
                 className={classes.sectionLabel}
                 style={{ color: token.colorTextSecondary }}
               >
                 {t('Potential') /* POTENTIAL */}
-              </Text>
+              </div>
             </Flex>
 
             <Progress.Root size="xs" style={{ lineHeight: 0 }}>
@@ -129,18 +129,18 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
             </Progress.Root>
 
             <Flex align='center' justify='space-between'>
-              <Text
+              <div
                 className={classes.statText}
                 style={{ color: token.colorTextSecondary }}
               >
                 {t('Avg') /* AVG */}: <span className={classes.scoreHighlight} style={{ color: getColorAtPercent(avgPotential) }}>{avgPotential}%</span>
-              </Text>
-              <Text
+              </div>
+              <div
                 className={classes.statText}
                 style={{ color: token.colorTextSecondary }}
               >
                 {t('Max') /* MAX */}: <span className={classes.scoreHighlight} style={{ color: getColorAtPercent(maxPotential) }}>{maxPotential}%</span>
-              </Text>
+              </div>
             </Flex>
           </Flex>
         )}
@@ -151,12 +151,12 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
             {potentialScore && <Divider style={{ margin: '0' }} />}
 
             <Flex direction="column" gap={4}>
-              <Text
+              <div
                 className={classes.sectionLabel}
                 style={{ color: token.colorTextSecondary }}
               >
                 {t('BestFor') /* BEST FOR */}
-              </Text>
+              </div>
 
               <Flex direction="column" gap={5} className={classes.characterList}>
                 {topCharacters?.map((char) => {
@@ -181,7 +181,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                             className={classes.characterAvatar}
                             style={{ border: `1px solid ${token.colorBorderSecondary}` }}
                           />
-                          <Text
+                          <div
                             className={classes.characterName}
                             style={{
                               color: char.isSelected ? token.colorPrimary : token.colorText,
@@ -189,15 +189,15 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                             }}
                           >
                             {char.name}
-                          </Text>
+                          </div>
                         </Flex>
                         <Flex align='center' gap={4}>
                           <Tooltip label={t('Tooltip') /* Average and maximum potential scores for this character */}>
-                            <Text className={classes.scoreText}>
+                            <div className={classes.scoreText}>
                               <span style={{ color: getColorAtPercent(avgPct) }}>{avgPct}%</span>
                               <span style={{ color: token.colorTextSecondary }}>/</span>
                               <span style={{ color: getColorAtPercent(maxPct) }}>{maxPct}%</span>
-                            </Text>
+                            </div>
                           </Tooltip>
                         </Flex>
                       </Flex>

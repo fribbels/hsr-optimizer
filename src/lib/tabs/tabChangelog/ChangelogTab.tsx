@@ -1,4 +1,4 @@
-import { Flex, Pagination, Text, Title } from '@mantine/core'
+import { Flex, Pagination, Title } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
@@ -42,7 +42,7 @@ function ChangelogEntry(props: { contentUpdate: ChangelogContent }) {
           }
           return (
             <li key={i}>
-              <Text style={{ fontSize: 16 }}>{entry}</Text>
+              <div style={{ fontSize: 16 }}>{entry}</div>
             </li>
           )
         })}

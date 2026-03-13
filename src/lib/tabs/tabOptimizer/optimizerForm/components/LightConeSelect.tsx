@@ -109,8 +109,9 @@ function LightConeSelect(
         value={selectedLabel}
         placeholder={t('Placeholder') /* Lightcone */}
         onClick={resetAndOpen}
+        rightSectionPointerEvents="all"
         rightSection={value
-          ? <CloseButton size="sm" onClick={(e) => { e.stopPropagation(); if (onChange) onChange(null) }} />
+          ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); if (onChange) onChange(null) }} />
           : null}
         styles={{ input: { cursor: 'pointer' } }}
       />

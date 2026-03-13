@@ -1,4 +1,4 @@
-import { Flex, Text } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import {
   showcaseShadow,
 } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -60,7 +60,7 @@ export function ShowcaseLightConeSmall({
           }}
           align='flex-end'
         >
-          <Text
+          <div
             className={styles.lcNameOverlay}
             style={{
               maxWidth: parentW - 50,
@@ -68,7 +68,7 @@ export function ShowcaseLightConeSmall({
             }}
           >
             {`${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })} - ${lightConeName}`}
-          </Text>
+          </div>
         </Flex>
       )}
       <Flex

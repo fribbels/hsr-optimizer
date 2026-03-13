@@ -6,14 +6,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 
-export const OptimizerMenuIds = {
-  characterOptions: 'Character options',
-  relicAndStatFilters: 'Relic & stat filters',
-  teammates: 'Teammates',
-  characterStatsSimulation: 'Character custom stats simulation',
-  analysis: 'Analysis',
-}
-
 export function FormRow({ id, label, children }: { id: string; label?: string; children: ReactNode }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'FormRowLabels' })
   const isOpen = useOptimizerDisplayStore((s) => s.menuState[id])
@@ -50,14 +42,7 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
             </Flex>
           </Accordion.Control>
           <Accordion.Panel>
-            <Flex
-              style={{
-                paddingLeft: 10,
-                marginTop: 5,
-                paddingRight: 10,
-              }}
-              gap={10}
-            >
+            <Flex gap={10}>
               {children}
             </Flex>
           </Accordion.Panel>

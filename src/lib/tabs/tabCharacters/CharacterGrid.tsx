@@ -137,9 +137,9 @@ function cellNameRenderer(params: IRowNode<Character>) {
 
   return (
     <Flex align='center' className={classes.nameContainer}>
-      <Text className={classes.nameText}>
+      <div className={classes.nameText}>
         {nameSectionRender}
-      </Text>
+      </div>
       <div className={classes.equippedIndicator} style={{ backgroundColor: color }} />
     </Flex>
   )

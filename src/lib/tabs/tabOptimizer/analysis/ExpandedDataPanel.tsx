@@ -16,10 +16,8 @@ import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieCh
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
 import { FilterContainer } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
-import {
-  FormRow,
-  OptimizerMenuIds,
-} from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
+import { FormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
+import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import React, { useMemo } from 'react'

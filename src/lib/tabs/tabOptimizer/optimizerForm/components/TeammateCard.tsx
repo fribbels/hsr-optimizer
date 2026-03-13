@@ -103,7 +103,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
                 updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: null } })
               }
             }}
-            selectStyle={{}}
+            selectStyle={{ flex: 1 }}
             externalOpen={teammateSelectModalOpen}
             setExternalOpen={setTeammateSelectModalOpen}
           />

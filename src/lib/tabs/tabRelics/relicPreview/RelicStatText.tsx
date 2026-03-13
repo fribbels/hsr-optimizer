@@ -1,5 +1,4 @@
 import { CSSProperties } from 'react'
-import { Text, TextProps } from '@mantine/core'
 import { Languages } from 'lib/utils/i18nUtils'
 
 function generateStyling(language?: Languages): CSSProperties {
@@ -21,11 +20,11 @@ function generateStyling(language?: Languages): CSSProperties {
   }
 }
 
-type RelicStatTextProps = TextProps & React.ComponentPropsWithoutRef<'div'> & { language?: Languages }
+type RelicStatTextProps = React.HTMLAttributes<HTMLDivElement> & { language?: Languages }
 
 export function RelicStatText(props: RelicStatTextProps) {
   const { language, style, ...rest } = props
   return (
-    <Text component="div" style={{ ...generateStyling(language), ...style as CSSProperties }} {...rest} />
+    <div style={{ ...generateStyling(language), ...style as CSSProperties }} {...rest} />
   )
 }

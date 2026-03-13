@@ -36,6 +36,7 @@ const gridOptions: GridOptions<ScoredRelic> = {
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
+  suppressNoRowsOverlay: true,
   getRowId: (params: GetRowIdParams<ScoredRelic>) => params.data.id,
 }
 
@@ -125,7 +126,7 @@ export function RelicsGrid() {
           getLocaleText={getLocaleText}
           headerHeight={24}
           animateRows={true}
-          rowSelection='multiple'
+          rowSelection={{ mode: 'multiRow', checkboxes: false, headerCheckbox: false, enableClickSelection: true }}
           paginationNumberFormatter={paginationNumberFormatter}
           {...paginationSettings}
         />

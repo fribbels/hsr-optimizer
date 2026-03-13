@@ -1,5 +1,5 @@
-import { Flex, MultiSelect } from '@mantine/core'
-import { useOverflowPills } from 'lib/hooks/useOverflowPills'
+import { Flex } from '@mantine/core'
+import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import {
@@ -21,7 +21,6 @@ function SetSelector({ selected, options, placeholder, submit }: {
   submit: (arr: string[]) => void
 }) {
   const values = selected ?? []
-  const overflow = useOverflowPills(values, 1)
 
   const stringOptions = options.map((opt) => ({
     value: opt.value,
@@ -29,8 +28,9 @@ function SetSelector({ selected, options, placeholder, submit }: {
   }))
 
   return (
-    <MultiSelect
-      comboboxProps={{ styles: { dropdown: { width: 300 } } }}
+    <MultiSelectPills
+      dropdownWidth={300}
+      maxDisplayedValues={1}
       maxDropdownHeight={800}
       clearable
       style={{ flex: 1 }}
@@ -38,9 +38,7 @@ function SetSelector({ selected, options, placeholder, submit }: {
       placeholder={placeholder}
       value={values}
       onChange={(val) => submit(val)}
-      renderPill={overflow.renderPill}
-      styles={{ pillsList: overflow.pillsListStyle }}
-    />
+/>
   )
 }
 

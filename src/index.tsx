@@ -28,6 +28,10 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import 'style/tokens.css'
 import 'style/global.css'
 import 'style/ag-grid-overrides.css'
+import { AllCommunityModule, ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-community'
+
+ModuleRegistry.registerModules([AllCommunityModule])
+provideGlobalGridOptions({ theme: 'legacy' })
 import 'style/selecto.css'
 import 'style/components.css'
 import 'style/mantine-overrides.css'

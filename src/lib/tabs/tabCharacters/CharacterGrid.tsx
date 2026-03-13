@@ -33,6 +33,7 @@ const gridOptions: GridOptions<Character> = {
   animateRows: true,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
+  suppressNoRowsOverlay: true,
 }
 
 export function CharacterGrid() {
@@ -97,7 +98,7 @@ export function CharacterGrid() {
       navigateToNextCell={CharacterTabController.navigateToNextCell}
       isExternalFilterPresent={isExternalFilterPresent}
       doesExternalFilterPass={doesExternalFilterPass}
-      rowSelection='single'
+      rowSelection={{ mode: 'singleRow', checkboxes: false, enableClickSelection: true }}
     />
   )
 }

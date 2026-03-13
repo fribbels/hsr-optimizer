@@ -38,6 +38,7 @@ export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
+  suppressNoRowsOverlay: true,
   getRowId: (params: GetRowIdParams<OptimizerDisplayDataStatSim>) => String(params.data.id || Utils.randomId()),
 }
 

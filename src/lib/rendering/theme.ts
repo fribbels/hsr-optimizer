@@ -26,7 +26,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
     components: {
       Input: { defaultProps: { size: 'xs' } },
       InputWrapper: { defaultProps: { size: 'xs' } },
-      Select: { defaultProps: { size: 'xs' } },
+      Select: { defaultProps: { size: 'xs', checkIconPosition: 'right' } },
       MultiSelect: { defaultProps: { size: 'xs' } },
       TextInput: { defaultProps: { size: 'xs' } },
       NumberInput: { defaultProps: { size: 'xs' } },

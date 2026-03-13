@@ -4,8 +4,6 @@ import { DamageSplitsChart } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsCh
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import React, { useMemo, useState } from 'react'
 
-const cardShadowNonInset = '0 4px 8px rgba(0,0,0,0.3)'
-
 type SplitMode = 'default' | 'rotation'
 
 function ModeToggle({ mode, onModeChange }: {
@@ -28,7 +26,7 @@ function ModeToggle({ mode, onModeChange }: {
             color: mode === m.key ? '#DDD' : '#8899aa',
             cursor: 'pointer',
             fontWeight: 400,
-            background: mode === m.key ? '#354b7d' : 'transparent',
+            background: mode === m.key ? 'var(--border-color)' : 'transparent',
             padding: '3px 16px',
             borderRadius: 12,
             transition: 'all 0.15s',
@@ -64,14 +62,14 @@ export function DamageSplits({ analysis }: {
       className='pre-font'
       gap={8}
       style={{
-        background: '#243356',
-        border: '1px solid #354b7d',
-        boxShadow: cardShadowNonInset,
+        background: 'var(--panel-bg)',
+        border: 'var(--panel-border)',
+        boxShadow: 'var(--card-shadow-flat)',
         borderRadius: 5,
         padding: '10px 0',
       }}
     >
-      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid #354b7d', paddingBottom: 4 }}>
+      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-color)', paddingBottom: 4 }}>
         Combo Breakdown
       </span>
       <ModeToggle mode={mode} onModeChange={setMode} />

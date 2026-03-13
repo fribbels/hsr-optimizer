@@ -8,7 +8,6 @@ import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expanded
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { useMemo } from 'react'
 
-const cardShadowNonInset = '0 4px 8px rgba(0,0,0,0.3)'
 import {
   Cell,
   Pie,
@@ -29,7 +28,7 @@ function CustomTooltip({ active, payload }: {
     <Flex
       direction='column'
       className='pre-font'
-      style={{ background: 'rgb(69,93,154)', padding: 8, borderRadius: 3 }}
+      style={{ background: 'var(--bg-elevated)', padding: 8, borderRadius: 3 }}
     >
       <span style={{ fontSize: 14, fontWeight: 'bold' }}>{slice.label}</span>
       <span>{localeNumberComma(Math.floor(slice.value))}</span>
@@ -60,15 +59,15 @@ export function DamageTagPieChart({ analysis }: {
       className='pre-font'
       style={{
         flex: 1,
-        background: '#243356',
-        border: '1px solid #354b7d',
-        boxShadow: cardShadowNonInset,
+        background: 'var(--panel-bg)',
+        border: 'var(--panel-border)',
+        boxShadow: 'var(--card-shadow-flat)',
         borderRadius: 5,
         padding: '12px 16px',
         overflow: 'hidden',
       }}
     >
-      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid #354b7d', paddingBottom: 4 }}>
+      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-color)', paddingBottom: 4 }}>
         Combo Distribution
       </span>
 
@@ -84,7 +83,7 @@ export function DamageTagPieChart({ analysis }: {
           cornerRadius={3}
           startAngle={90}
           endAngle={-270}
-          stroke='#243356'
+          stroke='var(--panel-bg)'
           strokeWidth={2}
           isAnimationActive={false}
           style={{ cursor: 'default' }}
@@ -141,13 +140,13 @@ export function DamageTagPieChart({ analysis }: {
         </tbody>
         <tfoot>
           <tr>
-            <td style={{ paddingTop: 6, borderTop: '1px solid #354b7d' }}>
+            <td style={{ paddingTop: 6, borderTop: '1px solid var(--border-color)' }}>
               <span style={{ fontSize: 13, color: '#8899aa', paddingLeft: 18 }}>Total</span>
             </td>
-            <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 6, borderTop: '1px solid #354b7d' }}>
+            <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 6, borderTop: '1px solid var(--border-color)' }}>
               {localeNumberComma(Math.floor(grandTotal))}
             </td>
-            <td style={{ textAlign: 'right', fontSize: 13, color: '#8899aa', paddingTop: 6, borderTop: '1px solid #354b7d', paddingLeft: 12 }}>
+            <td style={{ textAlign: 'right', fontSize: 13, color: '#8899aa', paddingTop: 6, borderTop: '1px solid var(--border-color)', paddingLeft: 12 }}>
               100.0%
             </td>
           </tr>

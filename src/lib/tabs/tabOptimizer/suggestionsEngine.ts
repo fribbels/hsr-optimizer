@@ -108,9 +108,7 @@ export const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.MINIMUM_ROLLS.Description',
     buttonTextKey: '0Perms.RootCauses.MINIMUM_ROLLS.ButtonText',
     applyFix: () => {
-      useOptimizerRequestStore.getState().setWeight('headHands', 0)
-      useOptimizerRequestStore.getState().setWeight('bodyFeet', 0)
-      useOptimizerRequestStore.getState().setWeight('sphereRope', 0)
+      useOptimizerRequestStore.getState().setWeight('minWeightedRolls', 0)
     },
     successMessageKey: '0Perms.RootCauses.MINIMUM_ROLLS.SuccessMessage',
   },
@@ -180,7 +178,7 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
   }
 
   // Minimum rolls
-  if (request.weights.headHands! > 0 || request.weights.bodyFeet! > 0 || request.weights.sphereRope! > 0) {
+  if ((request.weights.minWeightedRolls ?? 0) > 0) {
     causes.push(ZeroPermRootCause.MINIMUM_ROLLS)
   }
 

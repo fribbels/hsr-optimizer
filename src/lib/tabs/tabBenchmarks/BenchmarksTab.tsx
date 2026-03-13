@@ -68,8 +68,8 @@ import teammateClasses from 'style/teammateCard.module.css'
 const GAP = 8
 
 const BOOLEAN_SEGMENTS = [
-  { label: <IconCheck />, value: 'true' },
-  { label: <IconX />, value: 'false' },
+  { label: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><IconCheck size={16} /></div>, value: 'true' },
+  { label: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><IconX size={16} /></div>, value: 'false' },
 ]
 
 const defaultForm: Partial<BenchmarkForm> = {

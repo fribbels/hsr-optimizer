@@ -26,9 +26,7 @@ import {
 export function getDefaultWeights(characterId?: CharacterId): Form['weights'] {
   if (characterId) {
     const scoringMetadata = TsUtils.clone(getScoringMetadata(characterId))
-    scoringMetadata.stats.headHands = 0
-    scoringMetadata.stats.bodyFeet = 0
-    scoringMetadata.stats.sphereRope = 0
+    scoringMetadata.stats.minWeightedRolls = 0
     return scoringMetadata.stats
   }
 
@@ -45,9 +43,7 @@ export function getDefaultWeights(characterId?: CharacterId): Form['weights'] {
     [Constants.Stats.EHR]: 1,
     [Constants.Stats.RES]: 1,
     [Constants.Stats.BE]: 1,
-    headHands: 0,
-    bodyFeet: 0,
-    sphereRope: 0,
+    minWeightedRolls: 0,
   }
 }
 

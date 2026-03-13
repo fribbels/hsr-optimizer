@@ -113,7 +113,7 @@ function LightConeSelect(
         rightSection={value
           ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); if (onChange) onChange(null) }} />
           : null}
-        styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: value ? 28 : undefined } }}
+        styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: value ? 28 : undefined, fontSize: 14 } }}
       />
 
       <Modal

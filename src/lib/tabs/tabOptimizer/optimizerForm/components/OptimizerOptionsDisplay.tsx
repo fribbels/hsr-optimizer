@@ -148,7 +148,6 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             <MultiSelectPills
               style={{ width: (panelWidth - optimizerTabDefaultGap) / 2, height: 32 }}
               dropdownWidth={250}
-              maxDisplayedValues={2}
               maxDropdownHeight={500}
               clearable
               searchable

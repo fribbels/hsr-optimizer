@@ -21,7 +21,7 @@ export function MultiSelectPills({
   clearable = false,
   searchable = false,
   maxDropdownHeight,
-  maxDisplayedValues = Infinity,
+  maxDisplayedValues = 2,
   dropdownWidth,
   style,
   rightSection,
@@ -135,7 +135,7 @@ export function MultiSelectPills({
           }
           style={style}
         >
-          <Pill.Group>
+          <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden' }}>
             {value.length > 0
               ? (
                 <>

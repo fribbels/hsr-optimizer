@@ -64,7 +64,6 @@ export function RelicMainSetFilters() {
       <Flex direction="column" gap={7}>
         <MultiSelectPills
           clearable
-          maxDisplayedValues={3}
           style={{
             width: panelWidth,
           }}
@@ -85,7 +84,6 @@ export function RelicMainSetFilters() {
 
         <MultiSelectPills
           clearable
-          maxDisplayedValues={3}
           style={{
             width: panelWidth,
           }}
@@ -103,7 +101,6 @@ export function RelicMainSetFilters() {
 
         <MultiSelectPills
           clearable
-          maxDisplayedValues={3}
           style={{
             width: panelWidth,
           }}
@@ -128,7 +125,6 @@ export function RelicMainSetFilters() {
 
         <MultiSelectPills
           clearable
-          maxDisplayedValues={3}
           style={{
             width: panelWidth,
           }}

@@ -1,12 +1,12 @@
 .statText {
-  font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+  font-family: var(--font-ui);
   font-size: 17px;
   font-weight: 400;
   white-space: nowrap;
 }
 
 .statTextEllipses {
-  font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+  font-family: var(--font-ui);
   font-size: 17px;
   font-weight: 400;
   white-space: nowrap;
@@ -15,7 +15,7 @@
 }
 
 .statTextSm {
-  font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+  font-family: var(--font-ui);
   font-size: 16px;
   font-weight: 400;
   white-space: nowrap;

@@ -1,7 +1,3 @@
-import {
-  IconCheck,
-  IconX,
-} from '@tabler/icons-react'
 import { Flex, SegmentedControl, Select, Switch, Text } from '@mantine/core'
 
 import { Hint } from 'lib/interactions/hint'
@@ -84,8 +80,6 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
 
         <Flex align='center'>
           <Switch
-            onLabel={<IconCheck />}
-            offLabel={<IconX />}
             checked={includeEquippedRelics}
             onChange={(event) => setFilterAndRecalculate('includeEquippedRelics', event.currentTarget.checked)}
             className={classes.switchRow}
@@ -95,8 +89,6 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
 
         <Flex align='center'>
           <Switch
-            onLabel={<IconCheck />}
-            offLabel={<IconX />}
             checked={rankFilter}
             onChange={(event) => setFilterAndRecalculate('rankFilter', event.currentTarget.checked)}
             className={classes.switchRow}
@@ -106,8 +98,6 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
 
         <Flex align='center'>
           <Switch
-            onLabel={<IconCheck />}
-            offLabel={<IconX />}
             checked={keepCurrentRelics}
             onChange={(event) => setFilterAndRecalculate('keepCurrentRelics', event.currentTarget.checked)}
             className={classes.switchRow}

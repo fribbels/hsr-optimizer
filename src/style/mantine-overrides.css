@@ -1,8 +1,3 @@
-/* Reduce horizontal padding inside all Mantine inputs */
-.mantine-Input-input {
-    --input-padding: 4px;
-}
-
 /* Disable Mantine Button loading slide-in animation */
 .mantine-Button-root .mantine-Button-section,
 .mantine-Button-root .mantine-Button-label,

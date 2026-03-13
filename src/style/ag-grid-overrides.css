@@ -127,7 +127,7 @@
 .ag-cell-value {
     font-weight: 400;
     text-align: center;
-    font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+    font-family: var(--font-ui);
     font-size: 14px;
     display: flex !important;
     justify-content: center;

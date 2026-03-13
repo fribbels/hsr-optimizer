@@ -1,4 +1,8 @@
 :root {
+  /* Font families */
+  --font-ui: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+  --font-mono: "Consolas", "Courier New", "Menlo", "Monaco", monospace;
+
   /* Semantic background aliases — from Mantine dark palette */
   --bg-app: var(--mantine-color-dark-8);
   --bg-elevated: var(--mantine-color-dark-6);

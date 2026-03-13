@@ -1,4 +1,4 @@
-import { Flex, Modal, Paper, Select, TextInput } from '@mantine/core'
+import { CloseButton, Flex, Modal, Paper, TextInput } from '@mantine/core'
 import { PathName } from 'lib/constants/constants'
 import { useSelectModal } from 'lib/hooks/useSelectModal'
 import { Assets } from 'lib/rendering/assets'
@@ -11,7 +11,7 @@ import {
   SegmentedFilterRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { Utils } from 'lib/utils/utils'
-import { CSSProperties, ReactNode, useMemo } from 'react'
+import { CSSProperties, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
@@ -80,20 +80,10 @@ function LightConeSelect(
 
   const setRarityFilter = (rarity: LightConeFilters['rarity']) => updateFilter('rarity', rarity)
 
-  const labelledOptions = useMemo(() =>
-    lightConeOptions.map((option) => ({
-      value: option.value,
-      label: (
-        <Flex gap={5} align='center'>
-          <img
-            src={Assets.getPath(metadata.lightCones[option.value].path)}
-            style={{ height: 22, marginRight: 4 }}
-          />
-          {option.label}
-        </Flex>
-      ) as ReactNode,
-    })),
-  [lightConeOptions])
+  const selectedLabel = useMemo(() => {
+    if (!value) return ''
+    return lightConeOptions.find((opt) => opt.value === value)?.label ?? ''
+  }, [value, lightConeOptions])
 
   function applyFilters(x: LcOptions[LightConeId]) {
     if (currentFilters.rarity.length && !currentFilters.rarity.includes(x.rarity)) {
@@ -113,20 +103,16 @@ function LightConeSelect(
 
   return (
     <>
-      <Select
+      <TextInput
+        readOnly
         style={selectStyle}
-        value={value}
-        data={withIcon
-          ? labelledOptions.map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value }))
-          : lightConeOptions.map((opt) => ({ value: opt.value, label: opt.label }))}
+        value={selectedLabel}
         placeholder={t('Placeholder') /* Lightcone */}
-        clearable
-        onClear={() => {
-          if (onChange) onChange(null)
-        }}
-        onDropdownOpen={resetAndOpen}
-        comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
-        rightSection={null}
+        onClick={resetAndOpen}
+        rightSection={value
+          ? <CloseButton size="sm" onClick={(e) => { e.stopPropagation(); if (onChange) onChange(null) }} />
+          : null}
+        styles={{ input: { cursor: 'pointer' } }}
       />
 
       <Modal

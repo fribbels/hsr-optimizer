@@ -16,11 +16,11 @@ export const OptimizerMenuIds = {
 
 export function FormRow({ id, label, children }: { id: string; label?: string; children: ReactNode }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'FormRowLabels' })
-  const optimizerMenuState = useOptimizerDisplayStore((s) => s.menuState)
-  const setOptimizerMenuState = useOptimizerDisplayStore((s) => s.setMenuState)
+  const isOpen = useOptimizerDisplayStore((s) => s.menuState[id])
 
   function onChange(value: string[]) {
-    setOptimizerMenuState({ ...optimizerMenuState, [id]: value.length > 0 })
+    const { menuState, setMenuState } = useOptimizerDisplayStore.getState()
+    setMenuState({ ...menuState, [id]: value.length > 0 })
   }
 
   return (
@@ -32,10 +32,11 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
     >
       <Accordion
         multiple
-        defaultValue={optimizerMenuState[id] ? [id] : []}
+        defaultValue={isOpen ? [id] : []}
         onChange={onChange}
         chevronPosition='right'
         variant='default'
+        transitionDuration={100}
         styles={{
           control: { paddingTop: 0, paddingBottom: 0, fontSize: 20, alignItems: 'baseline' },
           content: { paddingBlock: 0 },

@@ -1,132 +1,242 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Box, Tooltip, UnstyledButton } from '@mantine/core'
 import {
   IconBook,
   IconChartBar,
-  IconChartLine,
   IconChartRadar,
   IconDiamond,
   IconHome,
   IconLayoutGrid,
   IconLink,
   IconList,
-  IconMenu2,
   IconSettings,
   IconStarFilled,
-  IconSun,
+  IconTrendingUp,
   IconUpload,
   IconUser,
 } from '@tabler/icons-react'
-import { Flex, NavLink } from '@mantine/core'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { officialOnly } from 'lib/constants/constants'
-import {
-  OpenCloseIDs,
-  setOpen,
-} from 'lib/hooks/useOpenClose'
-import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
-import { useMemo } from 'react'
+import { OpenCloseIDs, setOpen, useIsOpen } from 'lib/hooks/useOpenClose'
+import { useGlobalStore } from 'lib/stores/appStore'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'types/components'
 import { useShallow } from 'zustand/react/shallow'
 import classes from './MenuDrawer.module.css'
 
-type MenuItemProperties = {
-  label: string | ReactElement
+// ---- Types ----
+
+type NavItem = {
   key: string
-  icon?: ReactElement
-  children?: MenuItemProperties[]
+  label: string
+  icon: React.ReactNode
   href?: string
+  onClick?: () => void
 }
 
-function MenuLabel(props: { icon: ReactElement; label: string; onClick?: () => void }) {
+type NavGroup = {
+  label: string
+  items: NavItem[]
+}
+
+// Drawer-opening items that should hold visual focus when clicked
+const DRAWER_KEYS = new Set(['link settings', 'link gettingstarted'])
+
+// ---- Expanded sidebar ----
+
+function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
+  groups: NavGroup[]
+  activeKey: string
+  onNavigate: (item: NavItem) => void
+  anyDrawerOpen: boolean
+}) {
+  const navRef = useRef<HTMLDivElement>(null)
+  const indicatorRef = useRef<HTMLDivElement>(null)
+  const highlightedRef = useRef<HTMLButtonElement>(null)
+  const [indicatorVisible, setIndicatorVisible] = useState(false)
+  // Track which drawer item is visually focused (Settings / Get Started)
+  const [focusedKey, setFocusedKey] = useState<string | null>(null)
+
+  // Clear focused key when drawer closes
+  useEffect(() => {
+    if (!anyDrawerOpen) {
+      setFocusedKey(null)
+    }
+  }, [anyDrawerOpen])
+
+  const moveIndicator = useCallback((el: HTMLElement | null) => {
+    if (!el || !navRef.current || !indicatorRef.current) return
+    const navRect = navRef.current.getBoundingClientRect()
+    const elRect = el.getBoundingClientRect()
+    const top = elRect.top - navRect.top
+    indicatorRef.current.style.top = `${top}px`
+    indicatorRef.current.style.height = `${elRect.height}px`
+    setIndicatorVisible(true)
+  }, [])
+
+  // Snap indicator to the highlighted item (active page or focused drawer item)
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      moveIndicator(highlightedRef.current)
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [activeKey, focusedKey, moveIndicator])
+
+  const handleClick = (item: NavItem) => {
+    if (DRAWER_KEYS.has(item.key)) {
+      setFocusedKey(item.key)
+    } else {
+      setFocusedKey(null)
+    }
+    onNavigate(item)
+  }
+
+  // The "highlighted" item is either the focused drawer item or the active page
+  const highlightedKey = focusedKey ?? activeKey
+
   return (
-    <Flex onClick={props.onClick} className={props.onClick ? classes.fullWidth : undefined}>
-      {props.icon} {props.label}
-    </Flex>
+    <div ref={navRef} className={classes.root}>
+      <div
+        ref={indicatorRef}
+        className={classes.indicator}
+        style={{ opacity: indicatorVisible ? 1 : 0 }}
+      />
+
+      {groups.map((group) => (
+        <div key={group.label} className={classes.group}>
+          <div className={classes.groupLabel}>{group.label}</div>
+          <div className={classes.groupItems}>
+            {group.items.map((item) => {
+              const isHighlighted = item.key === highlightedKey
+              const isActive = item.key === activeKey
+              const isFocused = item.key === focusedKey
+              return (
+                <UnstyledButton
+                  key={item.key}
+                  ref={isHighlighted ? highlightedRef : undefined}
+                  className={classes.item}
+                  data-active={isActive || undefined}
+                  data-focused={isFocused || undefined}
+                  onClick={() => handleClick(item)}
+                >
+                  <div className={classes.itemIcon}>{item.icon}</div>
+                  <span className={classes.itemLabel}>{item.label}</span>
+                </UnstyledButton>
+              )
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }
 
-const MenuDrawer = () => {
-  const { t } = useTranslation('sidebar')
-  const { activeKey, setActiveKey } = useGlobalStore(useShallow((s) => ({ activeKey: s.activeKey, setActiveKey: s.setActiveKey })))
+// ---- Collapsed sidebar (icon-only with tooltips) ----
 
-  const items: MenuItemProperties[] = useMemo(() => [
+function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
+  groups: NavGroup[]
+  activeKey: string
+  onNavigate: (item: NavItem) => void
+}) {
+  return (
+    <div className={classes.rootCollapsed}>
+      {groups.map((group) => (
+        <div key={group.label} className={classes.group}>
+          <div className={classes.groupItems}>
+            {group.items.map((item) => {
+              const isActive = item.key === activeKey
+              return (
+                <Tooltip key={item.key} label={item.label} position="right" withArrow>
+                  <UnstyledButton
+                    className={classes.itemCollapsed}
+                    data-active={isActive || undefined}
+                    onClick={() => onNavigate(item)}
+                  >
+                    <Box className={classes.itemIcon}>{item.icon}</Box>
+                  </UnstyledButton>
+                </Tooltip>
+              )
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ---- Main component ----
+
+export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
+  const { t } = useTranslation('sidebar')
+  const { activeKey, setActiveKey } = useGlobalStore(useShallow((s) => ({
+    activeKey: s.activeKey,
+    setActiveKey: s.setActiveKey,
+  })))
+
+  const groups: NavGroup[] = useMemo(() => [
     {
-      label: t('Tools.Title') /* Tools */,
-      key: 'subTools',
-      icon: <IconSun />,
-      children: [
-        { label: <MenuLabel icon={<IconStarFilled className={classes.menuIcon} />} label={t('Tools.Showcase')} />, key: AppPages.SHOWCASE },
-        { label: <MenuLabel icon={<IconLayoutGrid className={classes.menuIcon} />} label={t('Tools.Benchmarks')} />, key: AppPages.BENCHMARKS },
-        { label: <MenuLabel icon={<IconDiamond className={classes.menuIcon} />} label={t('Tools.WarpPlanner')} />, key: AppPages.WARP },
+      label: t('Tools.Title'),
+      items: [
+        { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
+        { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
+        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
       ],
     },
     {
-      label: t('Optimization.Title') /* Optimization */,
-      key: 'subOptimizer',
-      icon: <IconChartLine />,
-      children: [
-        { label: <MenuLabel icon={<IconChartBar className={classes.menuIcon} />} label={t('Optimization.Optimizer')} />, key: AppPages.OPTIMIZER },
-        { label: <MenuLabel icon={<IconUser className={classes.menuIcon} />} label={t('Optimization.Characters')} />, key: AppPages.CHARACTERS },
-        { label: <MenuLabel icon={<IconChartRadar className={classes.menuIcon} />} label={t('Optimization.Relics')} />, key: AppPages.RELICS },
-        { label: <MenuLabel icon={<IconUpload className={classes.menuIcon} />} label={t('Optimization.Import')} />, key: AppPages.IMPORT },
+      label: t('Optimization.Title'),
+      items: [
+        { key: AppPages.OPTIMIZER, label: t('Optimization.Optimizer'), icon: <IconTrendingUp size={16} /> },
+        { key: AppPages.CHARACTERS, label: t('Optimization.Characters'), icon: <IconUser size={16} /> },
+        { key: AppPages.RELICS, label: t('Optimization.Relics'), icon: <IconChartRadar size={16} /> },
+        { key: AppPages.IMPORT, label: t('Optimization.Import'), icon: <IconUpload size={16} /> },
         {
-          label: <MenuLabel icon={<IconSettings className={classes.menuIcon} />} label={t('Optimization.Settings')} onClick={() => setOpen(OpenCloseIDs.SETTINGS_DRAWER)} />,
           key: 'link settings',
+          label: t('Optimization.Settings'),
+          icon: <IconSettings size={16} />,
+          onClick: () => setOpen(OpenCloseIDs.SETTINGS_DRAWER),
         },
         {
-          label: <MenuLabel icon={<IconBook className={classes.menuIcon} />} label={t('Optimization.Start')} onClick={() => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)} />,
           key: 'link gettingstarted',
+          label: t('Optimization.Start'),
+          icon: <IconBook size={16} />,
+          onClick: () => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER),
         },
       ],
     },
     {
-      label: t('Links.Title') /* Links */,
-      key: 'subLinks',
-      icon: <IconMenu2 />,
-      children: [
-        { label: <MenuLabel icon={<IconHome className={classes.menuIconNarrow} />} label={t('Links.Home')} />, key: AppPages.HOME },
-        { label: <MenuLabel icon={<IconList className={classes.menuIconNarrow} />} label={t('Links.Changelog')} />, key: AppPages.CHANGELOG },
-        { label: <MenuLabel icon={<CoffeeIcon className={classes.menuIconLink} />} label={t('Links.Kofi')} />, key: 'link donate', href: 'https://ko-fi.com/fribbels' },
-        { label: <MenuLabel icon={<DiscordIcon className={classes.menuIconLink} />} label={t('Links.Discord')} />, key: 'link discord', href: 'https://discord.gg/rDmB4Un7qg' },
-        { label: <MenuLabel icon={<GithubIcon className={classes.menuIconLink} />} label={t('Links.Github')} />, key: 'link github', href: 'https://github.com/fribbels/hsr-optimizer' },
+      label: t('Links.Title'),
+      items: [
+        { key: AppPages.HOME, label: t('Links.Home'), icon: <IconHome size={16} /> },
+        { key: AppPages.CHANGELOG, label: t('Links.Changelog'), icon: <IconList size={16} /> },
+        { key: 'link donate', label: t('Links.Kofi'), icon: <CoffeeIcon />, href: 'https://ko-fi.com/fribbels' },
+        { key: 'link discord', label: t('Links.Discord'), icon: <DiscordIcon />, href: 'https://discord.gg/rDmB4Un7qg' },
+        { key: 'link github', label: t('Links.Github'), icon: <GithubIcon />, href: 'https://github.com/fribbels/hsr-optimizer' },
         officialOnly
-          ? { label: <MenuLabel icon={<IconLink className={classes.menuIconLink} />} label={t('Links.Leaks')} />, key: 'link leaks', href: 'https://fribbels.github.io/hsr-optimizer/' }
-          : { label: <MenuLabel icon={<IconLink className={classes.menuIconLink} />} label={t('Links.Unleak')} />, key: 'link leaks free', href: 'https://starrailoptimizer.github.io/' },
+          ? { key: 'link leaks', label: t('Links.Leaks'), icon: <IconLink size={16} />, href: 'https://fribbels.github.io/hsr-optimizer/' }
+          : { key: 'link leaks free', label: t('Links.Unleak'), icon: <IconLink size={16} />, href: 'https://starrailoptimizer.github.io/' },
       ],
     },
   ], [t])
 
-  const onClick = (child: MenuItemProperties) => {
-    if (child.href || child.key.startsWith('link ')) return
-    setActiveKey(child.key as AppPages)
+  const isSettingsOpen = useIsOpen(OpenCloseIDs.SETTINGS_DRAWER)
+  const isGettingStartedOpen = useIsOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)
+  const anyDrawerOpen = isSettingsOpen || isGettingStartedOpen
+
+  const handleNavigate = useCallback((item: NavItem) => {
+    item.onClick?.()
+    if (item.href) {
+      window.open(item.href, '_blank', 'noopener,noreferrer')
+      return
+    }
+    if (item.key.startsWith('link ')) return
+    setActiveKey(item.key as AppPages)
+  }, [setActiveKey])
+
+  if (collapsed) {
+    return <SidebarNavCollapsed groups={groups} activeKey={activeKey} onNavigate={handleNavigate} />
   }
 
-  return (
-    <Flex direction="column" className='no-highlight'>
-      {items.map((group) => (
-        <NavLink
-          key={group.key}
-          label={group.label}
-          leftSection={group.icon}
-          defaultOpened
-          childrenOffset={12}
-        >
-          {group.children?.map((child) => (
-            <NavLink
-              key={child.key}
-              label={child.label}
-              active={activeKey === child.key}
-              onClick={() => onClick(child)}
-              {...(child.href ? { component: 'a' as const, href: child.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
-            />
-          ))}
-        </NavLink>
-      ))}
-    </Flex>
-  )
+  return <SidebarNavExpanded groups={groups} activeKey={activeKey} onNavigate={handleNavigate} anyDrawerOpen={anyDrawerOpen} />
 }
-
-export default MenuDrawer

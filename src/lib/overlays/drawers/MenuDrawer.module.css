@@ -1,17 +1,159 @@
-.menuIcon {
-  margin-right: 5px;
-  width: 16px;
+/* ---- Layout ---- */
+
+.root {
+  position: relative;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
 }
 
-.menuIconNarrow {
-  margin-right: 2px;
-  width: 16px;
+/* ---- Sliding indicator (H3 gradient band with left accent) ---- */
+
+.indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, rgba(124, 92, 191, 0.18), rgba(124, 92, 191, 0.06));
+  border-left: 2px solid var(--nav-accent);
+  pointer-events: none;
+  z-index: 0;
+
+  transition:
+    top 0.12s cubic-bezier(0.25, 0.1, 0.25, 1),
+    height 0.1s cubic-bezier(0.25, 0.1, 0.25, 1),
+    opacity 0.1s ease;
 }
 
-.menuIconLink {
-  margin-right: 5px;
+/* ---- Group sections ---- */
+
+.group {
+  position: relative;
+  z-index: 1;
 }
 
-.fullWidth {
+.groupLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--nav-group-label);
+  padding: 10px 14px 4px;
+  user-select: none;
+}
+
+.groupItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* ---- Nav items ---- */
+
+/* Double selector to beat Mantine UnstyledButton reset (padding: 0) */
+.item.item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   width: 100%;
+  padding: 7px 14px;
+  position: relative;
+  z-index: 1;
+  border-radius: 0;
+  transition: background 0.08s ease;
+  cursor: pointer;
+}
+
+.item:hover .itemLabel {
+  color: var(--nav-text-hover);
+}
+
+.item:hover .itemIcon {
+  color: var(--nav-accent-subtle);
+}
+
+.item[data-active] .itemLabel {
+  color: var(--nav-text-active);
+  font-weight: 500;
+}
+
+.item[data-active] .itemIcon {
+  color: var(--nav-text-hover);
+}
+
+/* Also highlight focused drawer items (Settings, Get Started) */
+.item[data-focused] .itemLabel {
+  color: var(--nav-text-active);
+  font-weight: 500;
+}
+
+.item[data-focused] .itemIcon {
+  color: var(--nav-text-hover);
+}
+
+.itemIcon {
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+  color: var(--nav-text-muted);
+  transition: color 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Size the icon SVGs consistently */
+.itemIcon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.itemLabel {
+  font-size: 14px;
+  color: var(--nav-text-muted);
+  transition: color 0.1s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ---- Collapsed mode (icon-only) ---- */
+
+.rootCollapsed {
+  position: relative;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.rootCollapsed .groupLabel {
+  display: none;
+}
+
+/* Double selector to beat Mantine UnstyledButton reset (padding: 0) */
+.itemCollapsed.itemCollapsed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 8px 0;
+  position: relative;
+  z-index: 1;
+  border-radius: 0;
+  transition: background 0.08s ease;
+  cursor: pointer;
+}
+
+.itemCollapsed:hover {
+  background: rgba(124, 92, 191, 0.06);
+}
+
+.itemCollapsed:hover .itemIcon {
+  color: var(--nav-accent-subtle);
+}
+
+.itemCollapsed[data-active] .itemIcon {
+  color: var(--nav-text-hover);
 }

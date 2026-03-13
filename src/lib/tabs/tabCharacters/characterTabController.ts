@@ -1,83 +1,23 @@
-import {
-  CellClickedEvent,
-  CellDoubleClickedEvent,
-  IRowNode,
-  NavigateToNextCellParams,
-  RowDragEvent,
-} from 'ag-grid-community'
 import i18next from 'i18next'
-import {
-  OpenCloseIDs,
-  setClose,
-} from 'lib/hooks/useOpenClose'
-import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import { SwitchRelicsFormSelectedCharacter } from 'lib/overlays/modals/SwitchRelicsModal'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import { AppPages, SavedBuildSource } from 'lib/constants/appPages'
+import { SavedBuildSource } from 'lib/constants/appPages'
 import * as buildService from 'lib/services/buildService'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
-import { useGlobalStore } from 'lib/stores/appStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { gridStore } from 'lib/utils/gridStore'
-import { Character } from 'types/character'
 import { Form } from 'types/form'
 
 export const CharacterTabController = {
-  cellClickedCallback: (node: IRowNode<Character>) => {
-    const characterId = node.data?.id
-    if (!characterId) return
-    useCharacterTabStore.getState().setFocusCharacter(characterId)
-  },
-
-  cellClickedListener: (e: CellClickedEvent<Character>) => {
-    CharacterTabController.cellClickedCallback(e.node)
-  },
-
-  cellDoubleClickedListener: (e: CellDoubleClickedEvent<Character>) => {
-    const characterId = e.data?.id
-    if (!characterId) return
-    useGlobalStore.getState().setActiveKey(AppPages.OPTIMIZER)
-    updateCharacter(characterId)
-  },
-
-  navigateToNextCell: (params: NavigateToNextCellParams<Character>) => {
-    return arrowKeyGridNavigation(params, gridStore.getCharacterGrid()!, CharacterTabController.cellClickedCallback)
-  },
-
-  drag: (e: RowDragEvent<Character>, index: number) => {
-    const characterId = e.node.data?.id
-    if (!characterId) return
-    useCharacterStore.getState().insertCharacter(characterId, index)
-    void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => recalculatePermutations())
-    SaveState.delayedSave()
-  },
-
-  onRowDragEnd: (e: RowDragEvent<Character>) => {
-    CharacterTabController.drag(e, e.overIndex)
-  },
-
-  onRowDragLeave: (e: RowDragEvent<Character>) => {
-    if (e.overIndex === 0) return CharacterTabController.drag(e, 0)
-    if (e.overIndex === -1 && e.vDirection === 'up') return CharacterTabController.drag(e, 0)
-    if (e.overIndex === -1 && e.vDirection === 'down') return CharacterTabController.drag(e, useCharacterStore.getState().characters.length)
-    CharacterTabController.drag(e, e.overIndex)
-  },
-
   onCharacterModalOk: (form: Form) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     if (!form.characterId) return Message.error(t('NoSelectedCharacter'))
     const character = persistenceService.upsertCharacterFromForm(form)
     SaveState.delayedSave()
-    gridStore.characterGridApi()?.forEachNode((node: IRowNode<Character>) => {
-      if (node.data?.id === character.id) node.setSelected(true)
-    })
     useCharacterTabStore.getState().setFocusCharacter(character.id)
-    gridStore.characterGridApi()?.ensureIndexVisible(character.rank)
   },
 
   confirmSaveBuild: (name: string) => updateBuilds(name, false),

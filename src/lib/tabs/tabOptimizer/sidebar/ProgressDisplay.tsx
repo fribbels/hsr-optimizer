@@ -1,4 +1,4 @@
-import { Flex, Progress } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { calculateProgressText } from 'lib/tabs/tabOptimizer/sidebar/sidebarUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -18,17 +18,27 @@ export const ProgressDisplay = React.memo(function ProgressDisplay() {
   )
 
   const progressText = calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)
+  const progress = permutations ? permutationsSearched / permutations : 0
+  const filledSegments = Math.round(progress * 20)
 
   return (
-    <Flex direction="column">
+    <Flex direction="column" gap={4}>
       <HeaderText>
         {progressText}
       </HeaderText>
-      <Progress
-        color="blue"
-        size={5}
-        value={permutations ? Math.floor(permutationsSearched / permutations * 100) : 0}
-      />
+      <Flex gap={2}>
+        {Array.from({ length: 20 }, (_, i) => (
+          <div
+            key={i}
+            style={{
+              flex: 1,
+              height: 5,
+              borderRadius: 2,
+              backgroundColor: i < filledSegments ? 'var(--mantine-color-primary-6)' : 'var(--mantine-color-dark-4)',
+            }}
+          />
+        ))}
+      </Flex>
     </Flex>
   )
 })

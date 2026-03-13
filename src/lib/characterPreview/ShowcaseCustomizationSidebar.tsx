@@ -383,6 +383,7 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
 
           <SegmentedControl
             orientation="vertical"
+            fullWidth
             data={[
               { value: ShowcaseColorMode.AUTO, label: tCustomization('Modes.Auto') },
               { value: ShowcaseColorMode.CUSTOM, label: tCustomization('Modes.Custom') },
@@ -396,8 +397,8 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
 
           <SegmentedControl
             data={[
-              { value: 'false', label: <IconSun /> },
-              { value: 'true', label: <IconMoon /> },
+              { value: 'false', label: <IconSun size={14} /> },
+              { value: 'true', label: <IconMoon size={14} /> },
             ]}
             fullWidth
             value={String(showcaseDarkMode)}
@@ -427,20 +428,20 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
 
           <HorizontalDivider />
 
-          <Flex justify='space-between'>
+          <Flex gap={6}>
             <Button
-              leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
               loading={loading}
               onClick={() => screenshot('clipboard', getActiveCharacterName())}
               className={classes.actionButton}
             >
+              <IconCamera size={18} />
             </Button>
             <Button
-              leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
               loading={loading}
               onClick={() => screenshot('download', getActiveCharacterName())}
               className={classes.actionButton}
             >
+              <IconDownload size={18} />
             </Button>
           </Flex>
         </Flex>

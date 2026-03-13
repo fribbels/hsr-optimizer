@@ -102,13 +102,13 @@ export const RelicPreview = memo(function RelicPreview(props: {
 
   return (
     <Paper
-      p="xs"
       withBorder={source != null}
       onClick={cardClicked}
       style={{
         width: 211,
         minWidth: 211,
         height: 280,
+        padding: 12,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
@@ -117,12 +117,12 @@ export const RelicPreview = memo(function RelicPreview(props: {
         cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
       }}
     >
-      <RelicStatText language={i18next.resolvedLanguage as Languages}>
+      <RelicStatText language={i18next.resolvedLanguage as Languages} style={{ height: '100%' }}>
         <Flex
           direction="column"
           justify={JUSTIFY}
           style={{
-            height: 255,
+            height: '100%',
           }}
         >
           <Flex justify='space-between' align='center'>

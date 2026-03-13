@@ -28,7 +28,7 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
         onChange={onChange}
         chevronPosition='right'
         variant='default'
-        transitionDuration={100}
+        transitionDuration={200}
         styles={{
           control: { fontSize: 20, alignItems: 'baseline' },
           content: { paddingBlock: 0, paddingBottom: 10 },

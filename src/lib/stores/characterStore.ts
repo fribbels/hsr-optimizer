@@ -1,6 +1,6 @@
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { Character, CharacterId } from 'types/character'
-import { create } from 'zustand'
 
 type CharacterStoreState = {
   characters: Character[]
@@ -24,7 +24,7 @@ function buildIndex(characters: Character[]): Partial<Record<CharacterId, Charac
   }, {} as Partial<Record<CharacterId, Character>>)
 }
 
-export const useCharacterStore = create<CharacterStore>()((set, get) => ({
+export const useCharacterStore = createTabAwareStore<CharacterStore>((set, get) => ({
   characters: [],
   charactersById: {},
 

@@ -28,15 +28,18 @@ export function LayoutHeader() {
   return (
     <header className={classes.header} style={{ height: HEADER_HEIGHT }}>
       <Flex align='center' justify='space-between' className={classes.headerInner}>
-        <Flex>
-          <Button
-            variant='transparent'
-            leftSection={isOpenMenuSidebar ? <IconX size={16} /> : <IconMenu2 size={16} />}
-            onClick={toggleMenuSidebar}
-            className={classes.menuButton}
-          />
+        <Flex gap={8}>
+          <Flex align='center' justify='center' style={{ width: 48, minWidth: 48 }}>
+            <Button
+              variant='transparent'
+              onClick={toggleMenuSidebar}
+              className={classes.menuButton}
+            >
+              {isOpenMenuSidebar ? <IconX size={16} /> : <IconMenu2 size={16} />}
+            </Button>
+          </Flex>
           <a href={BASE_PATH}>
-            <Flex align='center' className={classes.logoLink}>
+            <Flex align='center'>
               <img src={Assets.getLogo()} className={classes.logo} />
               <div className={classes.title}>
                 Fribbels Honkai Star Rail Optimizer

@@ -13,7 +13,7 @@ export function LayoutSider() {
   const { isLocked, offset } = useScrollLockState()
   const { isOpen: isOpenMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
 
-  const siderWidth = isOpenMenuSidebar ? 200 : 48
+  const siderWidth = isOpenMenuSidebar ? 160 : 48
 
   return (
     <Flex

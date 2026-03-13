@@ -31,6 +31,7 @@ export function FilterBar() {
       <TextInput
         // Revisit width of search + filters with Remembrance path
         style={{ fontSize: 14, borderRadius: 8 }}
+        styles={{ input: { height: 40, lineHeight: '40px' } }}
         w={200}
         placeholder={t('SearchPlaceholder') /* Search */}
         onChange={(e) => {

@@ -3,7 +3,7 @@
 .header {
   display: flex;
   align-items: center;
-  padding-left: 30px;
+  padding-left: 0;
   width: 100%;
   background-color: var(--bg-app);
   background-image: linear-gradient(rgb(0 0 0/60%) 0 0);
@@ -15,13 +15,6 @@
 
 .menuButton {
   font-size: 16px;
-  position: relative;
-  left: -20px;
-}
-
-.logoLink {
-  position: relative;
-  left: -10px;
 }
 
 .logo {
@@ -43,7 +36,8 @@
 /* LayoutSider */
 
 .siderPanel {
-  background: var(--mantine-color-dark-7);
+  background: var(--mantine-color-dark-8);
+  border-right: 1px solid var(--mantine-color-dark-6);
   height: 100vh;
   position: sticky;
   top: 0;

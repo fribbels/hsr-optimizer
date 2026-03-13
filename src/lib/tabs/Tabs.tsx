@@ -14,6 +14,7 @@ import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import { WebgpuTab } from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { WorkerPool } from 'lib/worker/workerPool'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import React, {
   ReactElement,
   useEffect,
@@ -89,11 +90,15 @@ function TabRenderer({ activeKey, tabKey, content }: {
   tabKey: AppPages
   content: ReactElement
 }) {
+  const isActive = activeKey === tabKey
+
   return (
     <ErrorBoundary fallbackRender={defaultErrorRender}>
-      <div style={{ display: activeKey === tabKey ? 'contents' : 'none' }} id={tabKey}>
-        {content}
-      </div>
+      <TabVisibilityContext value={isActive}>
+        <div style={{ display: isActive ? 'contents' : 'none' }} id={tabKey}>
+          {content}
+        </div>
+      </TabVisibilityContext>
     </ErrorBoundary>
   )
 }

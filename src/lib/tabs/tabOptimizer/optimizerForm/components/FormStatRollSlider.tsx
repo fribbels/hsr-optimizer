@@ -47,7 +47,7 @@ export function FormStatRollSliders() {
 
   return (
     <Flex gap={10}>
-      <Flex direction="column" w='max-content' gap={3}>
+      <Flex direction="column" w='max-content' gap={7}>
         {StatSliders.map((stat) => (
           <span style={{ textWrap: 'nowrap', height: 24, display: 'flex', alignItems: 'center' }} key={stat.name}>
             {t(stat.text)}
@@ -56,7 +56,7 @@ export function FormStatRollSliders() {
       </Flex>
       <Flex
         direction="column"
-        gap={3}
+        gap={7}
         style={{
           width: '100%',
           marginLeft: 10,

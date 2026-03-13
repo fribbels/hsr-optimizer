@@ -20,6 +20,18 @@ let saveTimeout: NodeJS.Timeout | null
 
 const STATE_KEY = 'state'
 
+// Flush any pending debounced save before the page unloads.
+// Vite's dev server calls location.reload() when it can't HMR a change,
+// which destroys the JS context and kills pending setTimeout callbacks.
+// Without this, a delayedSave() scheduled within the last 5 seconds is lost
+// and the next page load reads stale data from localStorage.
+window.addEventListener('beforeunload', () => {
+  if (saveTimeout) {
+    clearTimeout(saveTimeout)
+    SaveState.save()
+  }
+})
+
 export const SaveState = {
   save: () => {
     const globalState = useGlobalStore.getState()

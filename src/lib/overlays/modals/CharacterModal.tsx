@@ -23,6 +23,7 @@ import {
 } from 'types/character'
 import { Form } from 'types/form'
 import { LightConeId } from 'types/lightCone'
+import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 
 export type CharacterModalForm = {
   characterId?: CharacterId | null,
@@ -33,12 +34,29 @@ export type CharacterModalForm = {
   teamRelicSet?: string,
 }
 
-export function CharacterModal({ open, onOk, setOpen, initialCharacter }: {
-  open: boolean
-  onOk: (form: Form) => void
-  setOpen: (open: boolean) => void
-  initialCharacter?: { form: CharacterModalForm } | null
-}) {
+export function CharacterModal() {
+  const open = useCharacterModalStore((s) => s.open)
+  const closeOverlay = useCharacterModalStore((s) => s.closeOverlay)
+
+  return (
+    <Modal
+      opened={open}
+      size={400}
+      centered
+      onClose={closeOverlay}
+    >
+      {open && <CharacterModalContent />}
+    </Modal>
+  )
+}
+
+function CharacterModalContent() {
+  const config = useCharacterModalStore((s) => s.config)!
+  const closeOverlay = useCharacterModalStore((s) => s.closeOverlay)
+
+  const initialCharacter = config.initialCharacter
+  const onOk = config.onOk
+
   const characterForm = useForm<CharacterModalForm>({
     initialValues: {
       characterId: undefined,
@@ -61,7 +79,7 @@ export function CharacterModal({ open, onOk, setOpen, initialCharacter }: {
   const teammateRelicSetOptions: OptionRender[] = useMemo(renderTeammateRelicSetOptions(tTeammateCard), [tTeammateCard])
   const teammateOrnamentSetOptions: OptionRender[] = useMemo(renderTeammateOrnamentSetOptions(tTeammateCard), [tTeammateCard])
 
-  useFormOnOpen(characterForm, open, () => {
+  useFormOnOpen(characterForm, true, () => {
     setCharacterId(initialCharacter?.form.characterId ?? null)
     return {
       characterId: initialCharacter?.form.characterId,
@@ -76,20 +94,15 @@ export function CharacterModal({ open, onOk, setOpen, initialCharacter }: {
   function onModalOk() {
     const formValues = characterForm.getValues() as unknown as Form
     onOk(formValues)
-    setOpen(false)
+    closeOverlay()
   }
 
   const handleCancel = () => {
-    setOpen(false)
+    closeOverlay()
   }
 
   return (
-    <Modal
-      opened={open}
-      size={400}
-      centered
-      onClose={handleCancel}
-    >
+    <>
       <div>
         <Flex direction="column" gap={10}>
           <Flex direction="column" gap={5}>
@@ -212,8 +225,6 @@ export function CharacterModal({ open, onOk, setOpen, initialCharacter }: {
           {tCommon('Save')}
         </Button>
       </Flex>
-    </Modal>
+    </>
   )
 }
-
-

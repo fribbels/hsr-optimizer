@@ -5,9 +5,7 @@ import { ConfirmModalProvider } from 'lib/interactions/confirmModal'
 import { checkForUpdatesNotification } from 'lib/interactions/notifications'
 import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'
-import { GettingStartedDrawer } from 'lib/overlays/drawers/GettingStartedDrawer'
-import { SettingsDrawer } from 'lib/overlays/drawers/SettingsDrawer'
-import { StatTracesDrawer } from 'lib/overlays/drawers/StatTracesDrawer'
+import { GlobalModals } from 'lib/overlays/GlobalModals'
 import { Gradient } from 'lib/rendering/gradient'
 import { createMantineTheme } from 'lib/rendering/theme'
 import { useGlobalStore } from 'lib/stores/appStore'
@@ -48,11 +46,9 @@ export default function App() {
               >
                 <Tabs />
               </div>
-              <SettingsDrawer />
-              <GettingStartedDrawer />
-              <StatTracesDrawer />
             </div>
           </div>
+          <GlobalModals />
         </ConfirmModalProvider>
       </ModalsProvider>
     </MantineProvider>

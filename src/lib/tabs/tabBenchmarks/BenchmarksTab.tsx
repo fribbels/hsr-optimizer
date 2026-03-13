@@ -16,7 +16,7 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
+import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { Jade } from 'lib/conditionals/character/1300/Jade'
@@ -42,7 +42,6 @@ import {
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
-import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
 import {
   generateSpdPresets,
@@ -109,10 +108,6 @@ export function BenchmarksTab(): ReactElement {
     initialValues: defaultForm as BenchmarkForm,
   })
   const {
-    isCharacterModalOpen,
-    characterModalInitialCharacter,
-    setCharacterModalOpen,
-    onCharacterModalOk,
     updateTeammate,
     teammate0,
     teammate1,
@@ -145,13 +140,6 @@ export function BenchmarksTab(): ReactElement {
       <DPSScoreDisclaimer />
 
       <BenchmarkResults />
-
-      <CharacterModal
-        onOk={onCharacterModalOk}
-        open={isCharacterModalOpen}
-        setOpen={setCharacterModalOpen}
-        initialCharacter={characterModalInitialCharacter ? { form: characterModalInitialCharacter } : undefined}
-      />
     </Flex>
   )
 }
@@ -267,7 +255,6 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           </Button>
         </Flex>
 
-        <FormSetConditionals id={OpenCloseIDs.BENCHMARKS_SETS_DRAWER} />
       </Flex>
 
       <Flex direction="column" gap={GAP}>
@@ -356,8 +343,7 @@ function TeammatesSection() {
 function Teammate({ index }: { index: number }) {
   const { t } = useTranslation('common')
   const {
-    setCharacterModalOpen,
-    setCharacterModalInitialCharacter,
+    onCharacterModalOk,
     setSelectedTeammateIndex,
     teammate0,
     teammate1,
@@ -375,9 +361,11 @@ function Teammate({ index }: { index: number }) {
       className={`custom-grid ${teammateClasses.teammateCard}`}
       style={{ cursor: 'pointer' }}
       onClick={() => {
-        setCharacterModalInitialCharacter(teammate)
-        setCharacterModalOpen(true)
         setSelectedTeammateIndex(index)
+        useCharacterModalStore.getState().openOverlay({
+          initialCharacter: teammate ? { form: teammate } : undefined,
+          onOk: onCharacterModalOk,
+        })
       }}
     >
       <Flex direction="column" align='center'>

@@ -31,6 +31,7 @@ import {
   relicsAreDifferent,
   renderMainStat,
 } from 'lib/overlays/modals/relicModalHelpers'
+import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
 import { SubstatInput } from 'lib/overlays/modals/SubstatInput'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
@@ -50,7 +51,6 @@ import React, {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 import { useGlobalStore } from 'lib/stores/appStore'
 
@@ -68,18 +68,30 @@ function partSegmentData(value: string, src: string) {
   }
 }
 
-type RelicModalProps = {
-  open: boolean,
-  setOpen: (open: boolean) => void,
-  onOk: (relic: Relic) => void,
-  selectedRelic: Relic | null,
-  selectedPart?: Parts | null,
-  defaultWearer?: CharacterId,
-  next?: () => void,
-  prev?: () => void,
+export function RelicModal() {
+  const open = useRelicModalStore((s) => s.open)
+  const closeOverlay = useRelicModalStore((s) => s.closeOverlay)
+  const isLiveImport = useScannerState((s) => s.ingest)
+
+  return (
+    <div>
+      <Modal
+        size={560}
+        centered
+        withCloseButton={!isLiveImport}
+        opened={open}
+        onClose={closeOverlay}
+      >
+        {open && <RelicModalContent />}
+      </Modal>
+    </div>
+  )
 }
 
-export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, defaultWearer, next, prev }: RelicModalProps) {
+function RelicModalContent() {
+  const config = useRelicModalStore((s) => s.config)
+  const closeOverlay = useRelicModalStore((s) => s.closeOverlay)
+
   const { t } = useTranslation(['modals', 'common', 'gameData'])
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
 
@@ -92,7 +104,11 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
 
   const isLiveImport = useScannerState((s) => s.ingest)
 
-  useScrollLock(open)
+  useScrollLock(true)
+
+  if (!config) return null
+
+  const { selectedRelic, selectedPart, defaultWearer, onOk, next, prev } = config
 
   const characterOptions = useMemo(() => {
     return generateCharacterList({ currentCharacters: characters, longNameLabel: true }, tCharacters)
@@ -171,7 +187,7 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
     onValuesChange(defaultValues)
 
     relicForm.setValues(defaultValues)
-  }, [selectedRelic, open])
+  }, [selectedRelic])
 
   useEffect(() => {
     let mainStatOptions: MainStatOption[] = []
@@ -210,11 +226,11 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
     }
 
     onOk(relic)
-    setOpen(false)
+    closeOverlay()
   }
   const onFinishFailed = () => {
     Message.error(t('Relic.Messages.SubmitFail') /* Submit failed! */)
-    setOpen(false)
+    closeOverlay()
   }
   const onValuesChange = (formValues: RelicForm) => {
     let mainStatOptions: MainStatOption[] = []
@@ -285,7 +301,7 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
   }
 
   const handleCancel = () => {
-    setOpen(false)
+    closeOverlay()
   }
   const handleOk = () => {
     const values = relicForm.getValues()
@@ -313,205 +329,195 @@ export function RelicModal({ selectedRelic, selectedPart, onOk, setOpen, open, d
   }, [])
 
   return (
-    <div>
-      <Modal
-        size={560}
-        centered
-        withCloseButton={!isLiveImport}
-        opened={open}
-        onClose={() => setOpen(false)}
-      >
+    <Flex direction="column" gap={5}>
+      {isLiveImport && (
+        <Alert color='yellow'>{t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */}</Alert>
+      )}
+      {prev && (
+        <IconChevronLeft
+          onClick={prev}
+          className={modalClasses.navArrowLeft}
+        />
+      )}
+      {next && (
+        <IconChevronRight
+          onClick={next}
+          className={modalClasses.navArrowRight}
+        />
+      )}
+      <Flex gap={10}>
         <Flex direction="column" gap={5}>
-          {isLiveImport && (
-            <Alert color='yellow'>{t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */}</Alert>
-          )}
-          {prev && (
-            <IconChevronLeft
-              onClick={prev}
-              className={modalClasses.navArrowLeft}
-            />
-          )}
-          {next && (
-            <IconChevronRight
-              onClick={next}
-              className={modalClasses.navArrowRight}
-            />
-          )}
+          <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
+
+          <SegmentedControl
+            data={[
+              partSegmentData(Constants.Parts.Head, Assets.getPart(Constants.Parts.Head)),
+              partSegmentData(Constants.Parts.Hands, Assets.getPart(Constants.Parts.Hands)),
+              partSegmentData(Constants.Parts.Body, Assets.getPart(Constants.Parts.Body)),
+              partSegmentData(Constants.Parts.Feet, Assets.getPart(Constants.Parts.Feet)),
+              partSegmentData(Constants.Parts.PlanarSphere, Assets.getPart(Constants.Parts.PlanarSphere)),
+              partSegmentData(Constants.Parts.LinkRope, Assets.getPart(Constants.Parts.LinkRope)),
+            ]}
+            {...relicForm.getInputProps('part')}
+          />
+
+          <HeaderText>{t('Relic.Set') /* Set */}</HeaderText>
+          <Select
+            searchable
+            clearable
+            style={{
+              width: 300,
+            }}
+            maxDropdownHeight={350}
+            placeholder={t('Relic.Set') /* Set */}
+            data={setOptions}
+            renderOption={({ option }) => (
+              <Flex align='center' gap={10}>
+                <img className={iconClasses.icon22} src={Assets.getSetImage(option.value)} />
+                {option.label}
+              </Flex>
+            )}
+            {...relicForm.getInputProps('set')}
+          />
+
+          <HeaderText>{t('Relic.Enhance') /* Enhance / Grade */}</HeaderText>
+
           <Flex gap={10}>
-            <Flex direction="column" gap={5}>
-              <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
+            <Select
+              searchable
+              style={{ width: 115 }}
+              data={enhanceOptions}
+              {...relicForm.getInputProps('enhance')}
+              value={relicForm.getValues().enhance?.toString()}
+              onChange={(val) => {
+                relicForm.setFieldValue('enhance', val != null ? Number(val) : undefined)
+              }}
+            />
 
-              <SegmentedControl
-                data={[
-                  partSegmentData(Constants.Parts.Head, Assets.getPart(Constants.Parts.Head)),
-                  partSegmentData(Constants.Parts.Hands, Assets.getPart(Constants.Parts.Hands)),
-                  partSegmentData(Constants.Parts.Body, Assets.getPart(Constants.Parts.Body)),
-                  partSegmentData(Constants.Parts.Feet, Assets.getPart(Constants.Parts.Feet)),
-                  partSegmentData(Constants.Parts.PlanarSphere, Assets.getPart(Constants.Parts.PlanarSphere)),
-                  partSegmentData(Constants.Parts.LinkRope, Assets.getPart(Constants.Parts.LinkRope)),
-                ]}
-                {...relicForm.getInputProps('part')}
-              />
+            <Button style={{ width: 50 }} onClick={plusThree}>
+              +3
+            </Button>
 
-              <HeaderText>{t('Relic.Set') /* Set */}</HeaderText>
-              <Select
-                searchable
-                clearable
-                style={{
-                  width: 300,
-                }}
-                maxDropdownHeight={350}
-                placeholder={t('Relic.Set') /* Set */}
-                data={setOptions}
-                renderOption={({ option }) => (
-                  <Flex align='center' gap={10}>
-                    <img className={iconClasses.icon22} src={Assets.getSetImage(option.value)} />
-                    {option.label}
-                  </Flex>
-                )}
-                {...relicForm.getInputProps('set')}
-              />
-
-              <HeaderText>{t('Relic.Enhance') /* Enhance / Grade */}</HeaderText>
-
-              <Flex gap={10}>
-                <Select
-                  searchable
-                  style={{ width: 115 }}
-                  data={enhanceOptions}
-                  {...relicForm.getInputProps('enhance')}
-                  value={relicForm.getValues().enhance?.toString()}
-                  onChange={(val) => {
-                    relicForm.setFieldValue('enhance', val != null ? Number(val) : undefined)
-                  }}
-                />
-
-                <Button style={{ width: 50 }} onClick={plusThree}>
-                  +3
-                </Button>
-
-                <Select
-                  searchable
-                  style={{ width: 115 }}
-                  data={[
-                    { value: '2', label: '2 ★' },
-                    { value: '3', label: '3 ★' },
-                    { value: '4', label: '4 ★' },
-                    { value: '5', label: '5 ★' },
-                  ]}
-                  value={relicForm.getValues().grade?.toString()}
-                  onChange={(val) => {
-                    relicForm.setFieldValue('grade', val != null ? Number(val) : undefined)
-                    resetUpgradeValues()
-                  }}
-                />
-              </Flex>
-
-              <HeaderText>{t('Relic.Mainstat') /* Main stat */}</HeaderText>
-
-              <Flex gap={10}>
-                <Select
-                  searchable
-                  style={{
-                    width: 210,
-                  }}
-                  data={mainStatOptions}
-                  renderOption={({ option }) => (
-                    <Flex align='center' gap={10}>
-                      <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
-                      {option.label}
-                    </Flex>
-                  )}
-                  disabled={mainStatOptions.length <= 1}
-                  {...relicForm.getInputProps('mainStatType')}
-                />
-
-                <NumberInput hideControls disabled style={{ width: 80 }} value={relicForm.getValues().mainStatValue} />
-              </Flex>
-            </Flex>
-
-            <div className={modalClasses.spacer} />
-
-            <Flex direction="column" gap={5} style={{}}>
-              <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
-              <Select
-                searchable
-                style={{ height: 35 }}
-                data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
-                renderOption={({ option }) => {
-                  const match = characterOptions.find((o) => o.value === option.value)
-                  return match?.label ?? option.label
-                }}
-                {...relicForm.getInputProps('equippedBy')}
-              />
-
-              <div className={modalClasses.previewContainer}>
-                <img
-                  style={{ width: '100%' }}
-                  src={Assets.getCharacterPreviewById(equippedBy == 'None' ? '' : equippedBy)}
-                />
-              </div>
-            </Flex>
+            <Select
+              searchable
+              style={{ width: 115 }}
+              data={[
+                { value: '2', label: '2 ★' },
+                { value: '3', label: '3 ★' },
+                { value: '4', label: '4 ★' },
+                { value: '5', label: '5 ★' },
+              ]}
+              value={relicForm.getValues().grade?.toString()}
+              onChange={(val) => {
+                relicForm.setFieldValue('grade', val != null ? Number(val) : undefined)
+                resetUpgradeValues()
+              }}
+            />
           </Flex>
 
-          <Flex gap={20}>
-            <Flex direction="column" gap={5} w='100%'>
-              <Flex justify='space-between'>
-                <HeaderText>{t('Relic.Substat') /* Substats */}</HeaderText>
-                <Flex w={180}>
-                  <HeaderText>{t('Relic.Upgrades') /* Substat upgrades */}</HeaderText>
+          <HeaderText>{t('Relic.Mainstat') /* Main stat */}</HeaderText>
+
+          <Flex gap={10}>
+            <Select
+              searchable
+              style={{
+                width: 210,
+              }}
+              data={mainStatOptions}
+              renderOption={({ option }) => (
+                <Flex align='center' gap={10}>
+                  <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+                  {option.label}
                 </Flex>
-              </Flex>
+              )}
+              disabled={mainStatOptions.length <= 1}
+              {...relicForm.getInputProps('mainStatType')}
+            />
 
-              <SubstatInput
-                index={0}
-                upgrades={upgradeValues}
-                relicForm={relicForm}
-                resetUpgradeValues={resetUpgradeValues}
-                plusThree={plusThree}
-              />
+            <NumberInput hideControls disabled style={{ width: 80 }} value={relicForm.getValues().mainStatValue} />
+          </Flex>
+        </Flex>
 
-              <SubstatInput
-                index={1}
-                upgrades={upgradeValues}
-                relicForm={relicForm}
-                resetUpgradeValues={resetUpgradeValues}
-                plusThree={plusThree}
-              />
+        <div className={modalClasses.spacer} />
 
-              <SubstatInput
-                index={2}
-                upgrades={upgradeValues}
-                relicForm={relicForm}
-                resetUpgradeValues={resetUpgradeValues}
-                plusThree={plusThree}
-              />
+        <Flex direction="column" gap={5} style={{}}>
+          <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
+          <Select
+            searchable
+            style={{ height: 35 }}
+            data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
+            renderOption={({ option }) => {
+              const match = characterOptions.find((o) => o.value === option.value)
+              return match?.label ?? option.label
+            }}
+            {...relicForm.getInputProps('equippedBy')}
+          />
 
-              <SubstatInput
-                index={3}
-                upgrades={upgradeValues}
-                relicForm={relicForm}
-                resetUpgradeValues={resetUpgradeValues}
-                plusThree={plusThree}
-              />
+          <div className={modalClasses.previewContainer}>
+            <img
+              style={{ width: '100%' }}
+              src={Assets.getCharacterPreviewById(equippedBy == 'None' ? '' : equippedBy)}
+            />
+          </div>
+        </Flex>
+      </Flex>
+
+      <Flex gap={20}>
+        <Flex direction="column" gap={5} w='100%'>
+          <Flex justify='space-between'>
+            <HeaderText>{t('Relic.Substat') /* Substats */}</HeaderText>
+            <Flex w={180}>
+              <HeaderText>{t('Relic.Upgrades') /* Substat upgrades */}</HeaderText>
             </Flex>
           </Flex>
-        </Flex>
-        <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'} style={{ marginTop: 16 }}>
-          <Flex className={modalClasses.locatorFlex}>
-            {selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={selectedRelic} />}
-          </Flex>
 
-          <Flex gap={10} style={{ width: 180 }}>
-            <Button onClick={handleCancel} style={{ flex: 1 }}>
-              {t('common:Cancel')}
-            </Button>
-            <Button onClick={handleOk} style={{ flex: 1 }}>
-              {t('common:Submit')}
-            </Button>
-          </Flex>
+          <SubstatInput
+            index={0}
+            upgrades={upgradeValues}
+            relicForm={relicForm}
+            resetUpgradeValues={resetUpgradeValues}
+            plusThree={plusThree}
+          />
+
+          <SubstatInput
+            index={1}
+            upgrades={upgradeValues}
+            relicForm={relicForm}
+            resetUpgradeValues={resetUpgradeValues}
+            plusThree={plusThree}
+          />
+
+          <SubstatInput
+            index={2}
+            upgrades={upgradeValues}
+            relicForm={relicForm}
+            resetUpgradeValues={resetUpgradeValues}
+            plusThree={plusThree}
+          />
+
+          <SubstatInput
+            index={3}
+            upgrades={upgradeValues}
+            relicForm={relicForm}
+            resetUpgradeValues={resetUpgradeValues}
+            plusThree={plusThree}
+          />
         </Flex>
-      </Modal>
-    </div>
+      </Flex>
+      <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'} style={{ marginTop: 16 }}>
+        <Flex className={modalClasses.locatorFlex}>
+          {selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={selectedRelic} />}
+        </Flex>
+
+        <Flex gap={10} style={{ width: 180 }}>
+          <Button onClick={handleCancel} style={{ flex: 1 }}>
+            {t('common:Cancel')}
+          </Button>
+          <Button onClick={handleOk} style={{ flex: 1 }}>
+            {t('common:Submit')}
+          </Button>
+        </Flex>
+      </Flex>
+    </Flex>
   )
 }

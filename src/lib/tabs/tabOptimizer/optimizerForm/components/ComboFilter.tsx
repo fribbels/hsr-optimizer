@@ -23,7 +23,6 @@ import {
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import {
   TurnAbilitySelector,
@@ -89,7 +88,6 @@ export function ComboFilters() {
           {t('RotationButton')}
         </Button>
       </Flex>
-      <ComboDrawer />
     </Flex>
   )
 }

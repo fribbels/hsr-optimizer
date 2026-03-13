@@ -10,6 +10,7 @@ import { CUSTOM_TEAM } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { defaultTeammate } from 'lib/optimization/defaultForm'
 import styles from 'lib/overlays/modals/BuildsModal.module.css'
+import { useBuildsModalStore } from 'lib/overlays/modals/buildsModalStore'
 import { Assets } from 'lib/rendering/assets'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import { AppPages } from 'lib/constants/appPages'
@@ -41,46 +42,52 @@ import { Teammate } from 'types/form'
 
 // FIXME LOW
 
-export function BuildsModal(props: { selectedCharacter: Character | null, isOpen: boolean, close: () => void }) {
-  const {
-    selectedCharacter,
-    isOpen,
-    close,
-  } = props
+export function BuildsModal() {
+  const open = useBuildsModalStore((s) => s.open)
+  const closeOverlay = useBuildsModalStore((s) => s.closeOverlay)
+
+  return (
+    <Modal
+      opened={open}
+      size={open ? 1550 : 300}
+      centered
+      onClose={closeOverlay}
+    >
+      {open && <BuildsModalContent />}
+    </Modal>
+  )
+}
+
+function BuildsModalContent() {
+  const config = useBuildsModalStore((s) => s.config)
+  const closeOverlay = useBuildsModalStore((s) => s.closeOverlay)
+  const selectedCharacter = config?.selectedCharacter ?? null
+
   const { t } = useTranslation(['modals', 'gameData', 'common'])
   const [selectedBuild, setSelectedBuild] = useState<null | number>(null)
   const confirm = useConfirmAction()
   const { loading, trigger: screenshot } = useScreenshotAction('buildPreview')
 
-  useScrollLock(isOpen)
+  useScrollLock(true)
 
   // When opening, pick the first build if there are any
   useEffect(() => {
-    if (isOpen && selectedCharacter?.builds?.length) {
+    if (selectedCharacter?.builds?.length) {
       setSelectedBuild(0)
     }
-  }, [isOpen, selectedCharacter])
+  }, [selectedCharacter])
 
   if (!selectedCharacter?.builds?.length) {
     return (
-      <Modal
-        opened={isOpen}
-        size={300}
-        onClose={close}
-        centered
-      >
+      <>
         {t('Builds.NoBuilds.NoneSaved') /* No saved builds */}
-      </Modal>
+      </>
     )
-  }
-
-  function onModalOk() {
-    close()
   }
 
   const handleCancel = () => {
     setSelectedBuild(null)
-    close()
+    closeOverlay()
   }
 
   const handleDeleteAllBuilds = async () => {
@@ -91,7 +98,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
       buildService.clearBuilds(selectedCharacter?.id)
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageAll', { characterName: characterName }) /* Successfully deleted all builds for {{characterName}} */)
-      close()
+      closeOverlay()
     }
   }
 
@@ -104,7 +111,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
       Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name }) /* Successfully deleted build: {{name}} */)
 
       if (selectedCharacter?.builds?.length == 0) {
-        close()
+        closeOverlay()
       }
     }
   }
@@ -161,12 +168,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
     : null
 
   return (
-    <Modal
-      opened={isOpen}
-      size={1550}
-      centered
-      onClose={handleCancel}
-    >
+    <>
       <Flex gap={10}>
         <BuildList
           character={selectedCharacter}
@@ -174,7 +176,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
           setSelectedBuild={setSelectedBuild}
           handleEquip={handleEquip}
           handleDelete={handleDeleteSingleBuild}
-          closeModal={close}
+          closeModal={closeOverlay}
         />
 
         <BuildPreview character={selectedCharacter} build={build} />
@@ -205,7 +207,7 @@ export function BuildsModal(props: { selectedCharacter: Character | null, isOpen
           {t('common:Cancel') /* Cancel */}
         </Button>
       </Flex>
-    </Modal>
+    </>
   )
 }
 

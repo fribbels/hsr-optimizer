@@ -53,8 +53,6 @@ type OrnamentSetSelection = {
 }
 
 type BenchmarksTabState = {
-  characterModalInitialCharacter: SimpleCharacter | undefined,
-  isCharacterModalOpen: boolean,
   selectedTeammateIndex: number | undefined,
   teammate0: SimpleCharacterSets | undefined,
   teammate1: SimpleCharacterSets | undefined,
@@ -69,8 +67,6 @@ type BenchmarksTabState = {
   updateTeammate: (index: number, data?: SimpleCharacterSets) => void,
   onCharacterModalOk: (character: Form) => void,
 
-  setCharacterModalOpen: (isOpen: boolean) => void,
-  setCharacterModalInitialCharacter: (character: SimpleCharacter | undefined) => void,
   setSelectedTeammateIndex: (index: number | undefined) => void,
   setResults: (
     orchestrators: BenchmarkSimulationOrchestrator[],
@@ -82,8 +78,6 @@ type BenchmarksTabState = {
 }
 
 export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((set, get) => ({
-  characterModalInitialCharacter: undefined,
-  isCharacterModalOpen: false,
   selectedTeammateIndex: undefined,
   teammate0: undefined,
   teammate1: undefined,
@@ -124,13 +118,10 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
     }
 
     set({
-      isCharacterModalOpen: false,
       selectedTeammateIndex: undefined,
     })
   },
 
-  setCharacterModalOpen: (isOpen) => set({ isCharacterModalOpen: isOpen }),
-  setCharacterModalInitialCharacter: (character?: SimpleCharacter) => set({ characterModalInitialCharacter: character }),
   setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),
   setResults: (orchestrators, mergedStoredRelics, mergedStoredOrnaments) =>
     set((state) => {

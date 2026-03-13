@@ -6,6 +6,7 @@ import { Parts, ShowcaseColorMode } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { showcaseOnAddOk, showcaseOnEditOk } from 'lib/characterPreview/characterPreviewController'
+import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
 import { useMemo, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { Character, SavedBuild } from 'types/character'
@@ -21,13 +22,31 @@ export function useCharacterPreviewState(
   savedBuildOverride?: SavedBuild | null,
 ) {
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
-  const [selectedPart, setSelectedPart] = useState<Parts | null>(null)
-  const [relicModalOpen, setRelicModalOpen] = useState(false)
-  const setEditModalOpen = (open: boolean) => setRelicModalOpen(open)
-  const setAddModalOpen = (open: boolean, part: Parts) => {
-    setSelectedPart(part)
-    setSelectedRelic(null)
-    setRelicModalOpen(open)
+  const setEditModalOpen = (_open: boolean, relic?: Relic) => {
+    if (relic) {
+      useRelicModalStore.getState().openOverlay({
+        selectedRelic: relic,
+        defaultWearer: character?.id,
+        onOk: (editedRelic: Relic) => {
+          const currentConfig = useRelicModalStore.getState().config
+          if (currentConfig?.selectedRelic) {
+            showcaseOnEditOk(editedRelic, currentConfig.selectedRelic, setSelectedRelic)
+          } else {
+            showcaseOnAddOk(editedRelic, setSelectedRelic)
+          }
+        },
+      })
+    }
+  }
+  const setAddModalOpen = (_open: boolean, part: Parts, relic?: Relic) => {
+    useRelicModalStore.getState().openOverlay({
+      selectedRelic: relic ?? null,
+      selectedPart: part,
+      defaultWearer: character?.id,
+      onOk: (editedRelic: Relic) => {
+        showcaseOnAddOk(editedRelic, setSelectedRelic)
+      },
+    })
   }
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
@@ -80,20 +99,9 @@ export function useCharacterPreviewState(
     return getShowcaseStats(character, previewRelics.displayRelics, metadata)
   }, [character, previewRelics])
 
-  const onRelicModalOk = (relic: Relic) => {
-    if (selectedRelic) {
-      showcaseOnEditOk(relic, selectedRelic, setSelectedRelic)
-    } else {
-      showcaseOnAddOk(relic, setSelectedRelic)
-    }
-  }
-
   return {
     selectedRelic,
     setSelectedRelic,
-    selectedPart,
-    relicModalOpen,
-    setRelicModalOpen,
     setEditModalOpen,
     setAddModalOpen,
     editPortraitModalOpen,
@@ -119,6 +127,5 @@ export function useCharacterPreviewState(
     scoringMetadata,
     previewRelics,
     finalStats,
-    onRelicModalOk,
   }
 }

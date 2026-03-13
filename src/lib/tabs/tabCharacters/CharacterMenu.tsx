@@ -9,7 +9,11 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
+import { AppPages } from 'lib/constants/appPages'
 import { Message } from 'lib/interactions/message'
+import { useBuildsModalStore } from 'lib/overlays/modals/buildsModalStore'
+import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
+import { useSaveBuildModalStore } from 'lib/overlays/modals/saveBuildModalStore'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
@@ -65,15 +69,17 @@ export function CharacterMenu() {
 function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean>, t: TFunction<'charactersTab'>) {
   async function onClick(e: { key: string }) {
     const key = e.key as ReturnType<typeof generateItems>[number]['children'][number]['key']
-    const { focusCharacter, setCharacterModalInitialCharacter, setCharacterModalOpen } = useCharacterTabStore.getState()
+    const { focusCharacter } = useCharacterTabStore.getState()
     const selectedCharacter = getCharacterById(focusCharacter ?? undefined)
     if (!selectedCharacter && !(key === 'scoring' || key === 'sortByScore' || key === 'add')) {
       return Message.error(t('Messages.NoSelectedCharacter')) // No selected character
     }
     switch (key) {
       case 'add':
-        setCharacterModalInitialCharacter(null)
-        setCharacterModalOpen(true)
+        useCharacterModalStore.getState().openOverlay({
+          initialCharacter: null,
+          onOk: CharacterTabController.onCharacterModalOk,
+        })
         break
 
       case 'sortByScore':
@@ -98,8 +104,10 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'edit':
-        setCharacterModalInitialCharacter(selectedCharacter ?? null)
-        setCharacterModalOpen(true)
+        useCharacterModalStore.getState().openOverlay({
+          initialCharacter: selectedCharacter ?? null,
+          onOk: CharacterTabController.onCharacterModalOk,
+        })
         break
 
       case 'moveToTop':
@@ -107,7 +115,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'saveBuild':
-        useCharacterTabStore.getState().setSaveBuildModalOpen(true)
+        useSaveBuildModalStore.getState().openOverlay({ source: AppPages.CHARACTERS, character: selectedCharacter ?? null })
         break
 
       case 'switchRelics':
@@ -120,7 +128,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'viewBuilds':
-        useCharacterTabStore.getState().setBuildsModalOpen(true)
+        useBuildsModalStore.getState().openOverlay({ selectedCharacter: selectedCharacter ?? null })
         break
 
       default:

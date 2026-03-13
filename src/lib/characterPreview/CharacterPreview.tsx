@@ -35,8 +35,6 @@ import {
   parentH,
 } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
-import { RelicModal } from 'lib/overlays/modals/RelicModal'
-
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { AppPages } from 'lib/constants/appPages'
@@ -142,17 +140,6 @@ export function CharacterPreview({
 
   return (
     <Flex direction="column" style={{ width: source === ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
-      {source !== ShowcaseSource.BUILDS_MODAL && (
-        <RelicModal
-          selectedRelic={state.selectedRelic}
-          selectedPart={state.selectedPart}
-          onOk={state.onRelicModalOk}
-          setOpen={state.setRelicModalOpen}
-          open={state.relicModalOpen}
-          defaultWearer={character.id}
-        />
-      )}
-
       {
         /*
         Will only render (<></>) if source == ShowcaseSource.BUILDS_MODAL

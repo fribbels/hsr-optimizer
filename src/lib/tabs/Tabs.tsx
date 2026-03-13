@@ -1,5 +1,4 @@
 import { Flex } from '@mantine/core'
-import { ScoringModal } from 'lib/overlays/modals/ScoringModal'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
@@ -77,10 +76,6 @@ const Tabs = () => {
       {tabs.map(([tabKey, content]) => (
         <TabRenderer key={tabKey} activeKey={activeKey} tabKey={tabKey} content={content} />
       ))}
-
-      <ErrorBoundary fallbackRender={defaultErrorRender}>
-        <ScoringModal />
-      </ErrorBoundary>
     </Flex>
   )
 }

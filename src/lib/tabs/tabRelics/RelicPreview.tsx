@@ -43,8 +43,8 @@ export const RelicPreview = memo(function RelicPreview(props: {
   characterId?: CharacterId | null,
   score?: RelicScoringResult,
   scoringType?: ScoringType,
-  setEditModalOpen?: (open: boolean) => void,
-  setAddModalOpen?: (open: boolean, part: Parts) => void,
+  setEditModalOpen?: (open: boolean, relic?: Relic) => void,
+  setAddModalOpen?: (open: boolean, part: Parts, relic?: Relic) => void,
   setSelectedRelic?: (relic: Relic) => void,
   showcaseTheme?: ShowcaseTheme,
   unhoverable?: boolean,
@@ -87,10 +87,10 @@ export const RelicPreview = memo(function RelicPreview(props: {
       relic.grade = 5
       relic.part = props.relic?.part ?? Parts.Head
       setSelectedRelic?.(relic)
-      setAddModalOpen?.(true, relic.part)
+      setAddModalOpen?.(true, relic.part, relic)
     } else {
       setSelectedRelic?.(relic)
-      setEditModalOpen?.(true)
+      setEditModalOpen?.(true, relic)
     }
   }
 

@@ -22,7 +22,7 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
+import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
@@ -40,8 +40,6 @@ import {
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import {
-  Dispatch,
-  SetStateAction,
   useEffect,
   useMemo,
   useState,
@@ -139,9 +137,6 @@ function CharacterPreviewSelection() {
   const onCharacterModalOk = useShowcaseTabStore((s) => s.onCharacterModalOk)
   const importClicked = useShowcaseTabStore((s) => s.importClicked)
   const onSelectionChanged = useShowcaseTabStore((s) => s.onSelectionChanged)
-
-  const [isCharacterModalOpen, setCharacterModalOpen] = useState(false)
-  const [characterModalInitialCharacter, setCharacterModalInitialCharacter] = useState(selectedCharacter)
   const { loading: screenshotLoading, trigger: screenshotTrigger } = useScreenshotAction('relicScorerPreview')
   const { loading: downloadLoading, trigger: downloadTrigger } = useScreenshotAction('relicScorerPreview')
 
@@ -153,8 +148,25 @@ function CharacterPreviewSelection() {
   }, [selectedCharacter?.id, setScoringAlgorithmFocusCharacter])
 
   function simulateClicked() {
-    setCharacterModalOpen(true)
-    setCharacterModalInitialCharacter(selectedCharacter)
+    useCharacterModalStore.getState().openOverlay({
+      initialCharacter: selectedCharacter,
+      onOk: onCharacterModalOk,
+    })
+  }
+
+  // Adapters for CharacterPreview prop-threading: setInitialCharacter opens the overlay,
+  // setOpen(true) is a no-op since the overlay is already open.
+  function setOriginalCharacterModalInitialCharacter(character: Character | null) {
+    useCharacterModalStore.getState().openOverlay({
+      initialCharacter: character,
+      onOk: onCharacterModalOk,
+    })
+  }
+
+  function setOriginalCharacterModalOpen(open: boolean) {
+    if (!open) {
+      useCharacterModalStore.getState().closeOverlay()
+    }
   }
 
   function clipboardClicked() {
@@ -299,17 +311,10 @@ function CharacterPreviewSelection() {
             character={selectedCharacter as Character | null}
             source={ShowcaseSource.SHOWCASE_TAB}
             id='relicScorerPreview'
-            setOriginalCharacterModalOpen={setCharacterModalOpen}
-            setOriginalCharacterModalInitialCharacter={setCharacterModalInitialCharacter as Dispatch<SetStateAction<Character | null>>}
+            setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+            setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
           />
         </div>
-
-        <CharacterModal
-          onOk={onCharacterModalOk}
-          open={isCharacterModalOpen}
-          setOpen={setCharacterModalOpen}
-          initialCharacter={characterModalInitialCharacter}
-        />
       </Flex>
     </Flex>
   )

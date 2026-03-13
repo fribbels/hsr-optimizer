@@ -90,10 +90,9 @@ const TraceTreeNode = ({
   )
 }
 
-export const StatTracesDrawer = () => {
+function StatTracesDrawerContent({ close }: { close: () => void }) {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
-  const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
   const statTraceDrawerFocusCharacter = useGlobalStore((s) => s.statTracesDrawerFocusCharacter)
   const scoringMetadata = useScoringMetadata(statTraceDrawerFocusCharacter)
@@ -182,44 +181,53 @@ export const StatTracesDrawer = () => {
     setTimeout(() => {
       Message.success(tCommon('Saved'))
       setLoading(false)
-      closeTracesDrawer()
+      close()
     }, 500)
-  }, [statTraceDrawerFocusCharacter, nodesById, checkedKeys, closeTracesDrawer, tCommon])
+  }, [statTraceDrawerFocusCharacter, nodesById, checkedKeys, close, tCommon])
+
+  return (
+    <Flex direction="column" gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
+      <HeaderText>
+        {t('Header') /* Activated stat traces (all enabled by default) */}
+      </HeaderText>
+
+      <div className={classes.treeContainer}>
+        {treeData.map((node) => (
+          <TraceTreeNode
+            key={node.id}
+            node={node}
+            checkedKeys={checkedKeys}
+            onToggle={onToggle}
+            tCommon={tCommon}
+            level={0}
+          />
+        ))}
+      </div>
+
+      <Button
+        fullWidth
+        loading={loading}
+        onClick={handleSave}
+      >
+        {t('ButtonText') /* Save changes */}
+      </Button>
+    </Flex>
+  )
+}
+
+export const StatTracesDrawer = () => {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
+  const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 
   return (
     <Drawer
-      title={t('Title')} // 'Custom stat traces'
+      title={t('Title')}
       position="right"
       onClose={closeTracesDrawer}
       opened={isOpenTracesDrawer}
       size={400}
     >
-      <Flex direction="column" gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
-        <HeaderText>
-          {t('Header') /* Activated stat traces (all enabled by default) */}
-        </HeaderText>
-
-        <div className={classes.treeContainer}>
-          {treeData.map((node) => (
-            <TraceTreeNode
-              key={node.id}
-              node={node}
-              checkedKeys={checkedKeys}
-              onToggle={onToggle}
-              tCommon={tCommon}
-              level={0}
-            />
-          ))}
-        </div>
-
-        <Button
-          fullWidth
-          loading={loading}
-          onClick={handleSave}
-        >
-          {t('ButtonText') /* Save changes */}
-        </Button>
-      </Flex>
+      {isOpenTracesDrawer && <StatTracesDrawerContent close={closeTracesDrawer} />}
     </Drawer>
   )
 }

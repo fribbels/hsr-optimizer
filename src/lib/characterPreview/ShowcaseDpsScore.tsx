@@ -490,6 +490,7 @@ function ShowcaseTeamSelectPanel(props: {
           open={isCharacterModalOpen}
           setOpen={setCharacterModalOpen}
           initialCharacter={characterModalInitialCharacter}
+          withSetSelection
         />
       </ConfigProvider>
 

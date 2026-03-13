@@ -45,6 +45,7 @@ export default function CharacterModal(props: {
   onOk: (form: Form) => void,
   setOpen: (open: boolean) => void,
   initialCharacter?: Character | null,
+  withSetSelection?: boolean,
 }) {
   const [characterForm] = AntDForm.useForm<Form>()
 
@@ -173,37 +174,39 @@ export default function CharacterModal(props: {
             </AntDForm.Item>
           </Flex>
 
-          <Flex vertical gap={5}>
-            <HeaderText>{t('Sets')}</HeaderText>
+          {props.withSetSelection && (
+            <Flex vertical gap={5}>
+              <HeaderText>{t('Sets')}</HeaderText>
 
-            <AntDForm.Item name={`teamRelicSet`}>
-              <Select
-                className='teammate-set-select'
-                options={teammateRelicSetOptions}
-                placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
-                allowClear
-                popupMatchSelectWidth={false}
-                optionLabelProp='desc'
-                optionRender={optionRenderer()}
-                labelRender={labelRenderer}
-                disabled={false}
-              />
-            </AntDForm.Item>
+              <AntDForm.Item name={`teamRelicSet`}>
+                <Select
+                  className='teammate-set-select'
+                  options={teammateRelicSetOptions}
+                  placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
+                  allowClear
+                  popupMatchSelectWidth={false}
+                  optionLabelProp='desc'
+                  optionRender={optionRenderer()}
+                  labelRender={labelRenderer}
+                  disabled={false}
+                />
+              </AntDForm.Item>
 
-            <AntDForm.Item name={`teamOrnamentSet`}>
-              <Select
-                className='teammate-set-select'
-                options={teammateOrnamentSetOptions}
-                placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
-                allowClear
-                popupMatchSelectWidth={false}
-                optionLabelProp='desc'
-                optionRender={optionRenderer()}
-                labelRender={labelRenderer}
-                disabled={false}
-              />
-            </AntDForm.Item>
-          </Flex>
+              <AntDForm.Item name={`teamOrnamentSet`}>
+                <Select
+                  className='teammate-set-select'
+                  options={teammateOrnamentSetOptions}
+                  placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
+                  allowClear
+                  popupMatchSelectWidth={false}
+                  optionLabelProp='desc'
+                  optionRender={optionRenderer()}
+                  labelRender={labelRenderer}
+                  disabled={false}
+                />
+              </AntDForm.Item>
+            </Flex>
+          )}
         </Flex>
       </AntDForm>
     </Modal>

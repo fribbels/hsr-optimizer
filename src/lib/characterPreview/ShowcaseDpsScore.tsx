@@ -380,7 +380,7 @@ function ShowcaseTeamSelectPanel({
           ),
         },
         {
-          label: <IconSettings />,
+          label: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><IconSettings size={18} /></div>,
           value: SETTINGS_TEAM,
         },
         {

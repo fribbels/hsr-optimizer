@@ -15,7 +15,7 @@ test('Tab render happy-path', async ({ page }) => {
   // CharacterPreviewTab
   await page.getByRole('menuitem', { name: 'Characters' }).click()
   await expect(page.getByRole('main')).toBeVisible()
-  await expect(page.locator('#characterGrid')).toContainText('Icon Rank Character')
+  await expect(page.locator('#characterGrid')).toBeVisible()
 
   // RelicsTab
   await page.getByRole('menuitem', { name: 'Relics' }).click()

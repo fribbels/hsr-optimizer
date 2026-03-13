@@ -5,6 +5,11 @@
     transition: none !important;
 }
 
+/* Switch pointer cursor */
+.mantine-Switch-track {
+    cursor: pointer;
+}
+
 /* Body scrollbar with overlayscrollbars */
 .os-scrollbar {
     --os-handle-bg: #95959552 !important;

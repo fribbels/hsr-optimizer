@@ -88,14 +88,14 @@ export function EstimatedTbpRelicsDisplay({
 
   return (
     <Flex direction="column" align='center' className={styles.fullWidth}>
-      <Flex direction="column" gap={35} className={styles.grid}>
+      <div className={styles.grid}>
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Head} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Hands} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Body} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Feet} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.PlanarSphere} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.LinkRope} />
-      </Flex>
+      </div>
     </Flex>
   )
 }

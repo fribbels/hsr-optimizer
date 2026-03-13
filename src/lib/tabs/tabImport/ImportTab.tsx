@@ -70,6 +70,7 @@ function SaveDataSubmenu() {
   async function saveClicked() {
     try {
       const stateString = SaveState.save()
+      if (!stateString) return
 
       const blob = new Blob(
         [stateString],

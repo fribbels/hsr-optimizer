@@ -1,5 +1,3 @@
-import 'ag-grid-community/styles/ag-grid.css'
-import 'ag-grid-community/styles/ag-theme-balham.css'
 import { Flex } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -60,9 +58,7 @@ export default function CharacterTab() {
         <Flex direction="column" gap={defaultGap} miw={240}>
           <div
             id='characterGrid'
-            className='ag-theme-balham-dark'
             style={{
-              display: 'block',
               width: '100%',
               height: parentH,
             }}

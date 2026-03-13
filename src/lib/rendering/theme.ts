@@ -1,5 +1,7 @@
+import { createTheme, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
+
 export type ColorThemeOverrides = {
-  colorPrimary: string,
+  colorPrimary: string
 }
 
 export const Themes: { [key: string]: ColorThemeOverrides } = {
@@ -7,8 +9,6 @@ export const Themes: { [key: string]: ColorThemeOverrides } = {
     colorPrimary: '#1677FF',
   },
 }
-
-import { createTheme, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
 
 const primaryShades: MantineColorsTuple = [
   '#f3f0ff', '#e5deff', '#c9b8ff', '#ab8eff', '#9070fc',
@@ -31,24 +31,88 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       xl: '16px',
     },
     components: {
-      Input: { defaultProps: { size: 'xs' }, styles: { input: { '--input-padding-inline-start': '6px', '--input-padding-inline-end': '6px', lineHeight: '30px' } } },
-      InputWrapper: { defaultProps: { size: 'xs' } },
-      Select: { defaultProps: { size: 'xs', checkIconPosition: 'right', comboboxProps: { keepMounted: false } } },
-      MultiSelect: { defaultProps: { size: 'xs', comboboxProps: { keepMounted: false } } },
-      TextInput: { defaultProps: { size: 'xs' } },
-      NumberInput: { defaultProps: { size: 'xs' } },
-      ColorInput: { defaultProps: { size: 'xs' } },
-      Checkbox: { defaultProps: { size: 'xs' } },
-      Switch: { defaultProps: { size: 'sm' } },
-      Radio: { defaultProps: { size: 'xs' } },
-      SegmentedControl: { defaultProps: { size: 'xs' } },
-      Button: { defaultProps: { size: 'xs' }, styles: { label: { fontSize: '14px', fontWeight: 'normal' } } },
-      Pagination: { defaultProps: { size: 'xs' } },
-      Slider: { defaultProps: { size: 'xs' } },
-      Tabs: { defaultProps: { size: 'xs' } },
-      Modal: { defaultProps: { lockScroll: false } },
-      Drawer: { defaultProps: { lockScroll: false, transitionProps: { duration: 150 } } },
-      Accordion: { styles: { item: { borderBottom: 'none' } } },
+      Input: {
+        defaultProps: { size: 'xs' },
+        styles: {
+          input: {
+            '--input-padding-inline-start': '6px',
+            '--input-padding-inline-end': '6px',
+            lineHeight: '30px',
+          },
+        },
+      },
+      InputWrapper: {
+        defaultProps: { size: 'xs' },
+      },
+      Select: {
+        defaultProps: {
+          size: 'xs',
+          checkIconPosition: 'right',
+          comboboxProps: { keepMounted: false },
+        },
+      },
+      MultiSelect: {
+        defaultProps: {
+          size: 'xs',
+          comboboxProps: { keepMounted: false },
+        },
+      },
+      TextInput: {
+        defaultProps: { size: 'xs' },
+      },
+      NumberInput: {
+        defaultProps: { size: 'xs' },
+      },
+      ColorInput: {
+        defaultProps: { size: 'xs' },
+      },
+      Checkbox: {
+        defaultProps: { size: 'xs' },
+      },
+      Switch: {
+        defaultProps: { size: 'sm' },
+      },
+      Radio: {
+        defaultProps: { size: 'xs' },
+      },
+      SegmentedControl: {
+        defaultProps: {
+          size: 'xs',
+          withItemsBorders: false,
+        },
+      },
+      Button: {
+        defaultProps: { size: 'xs' },
+        styles: {
+          label: {
+            fontSize: '14px',
+            fontWeight: 'normal',
+          },
+        },
+      },
+      Pagination: {
+        defaultProps: { size: 'xs' },
+      },
+      Slider: {
+        defaultProps: { size: 'xs' },
+      },
+      Tabs: {
+        defaultProps: { size: 'xs' },
+      },
+      Modal: {
+        defaultProps: { lockScroll: false },
+      },
+      Drawer: {
+        defaultProps: {
+          lockScroll: false,
+          transitionProps: { duration: 150 },
+        },
+      },
+      Accordion: {
+        styles: {
+          item: { borderBottom: 'none' },
+        },
+      },
     },
   })
 }

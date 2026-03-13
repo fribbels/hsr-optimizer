@@ -13,7 +13,7 @@ import { LightConeId } from 'types/lightCone'
 import { ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
 import { BasicForm } from 'types/optimizer'
 import { Relic } from 'types/relic'
-import { create } from 'zustand'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 // showcase tab characters use a different format for equipped relics and have only a minimal form
 export type ShowcaseTabCharacter = Omit<Character, 'equipped' | 'rank' | 'builds' | 'form'> & {
@@ -57,7 +57,7 @@ type ShowcaseTabState = {
   importClicked: (mode: 'relics' | 'singleCharacter' | 'multiCharacter') => void,
 }
 
-export const useShowcaseTabStore = create<ShowcaseTabState>()((set, get) => ({
+export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabState>((set, get) => ({
   latestRefreshDate: null,
   loading: false,
   availableCharacters: null,

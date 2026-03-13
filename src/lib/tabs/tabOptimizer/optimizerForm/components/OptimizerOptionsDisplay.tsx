@@ -125,7 +125,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
                 }
                 recalculatePermutations()
               }}
-              comboboxProps={{ width: 225 }}
+              comboboxProps={{ keepMounted: false, width: 225 }}
               maxDropdownHeight={500}
               placeholder={t('Priority.Header') /* Priority */}
               searchable

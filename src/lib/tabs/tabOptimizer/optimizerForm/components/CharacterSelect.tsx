@@ -36,7 +36,6 @@ interface SingleCharacterSelectProps extends BaseCharacterSelectProps {
 
 type CharacterSelectProps = SingleCharacterSelectProps | MultiCharacterSelectProps
 
-const parentW = 100
 const parentH = 150
 const innerW = 150
 const innerH = 170
@@ -148,7 +147,7 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
               if (onChange) onChange(null)
             }}
             onDropdownOpen={resetAndOpen}
-            comboboxProps={{ styles: { dropdown: { display: 'none' } } }}
+            comboboxProps={{ keepMounted: false, styles: { dropdown: { display: 'none' } } }}
             rightSection={null}
           />
         )
@@ -182,81 +181,83 @@ function CharacterSelect({ value, onChange, selectStyle, multipleSelect, withIco
           if (setExternalOpen) setExternalOpen(false)
         }}
       >
-        <Flex direction="column" gap={12} miw={350}>
-          <Flex gap={12} wrap='wrap'>
-            <Flex style={{ flexGrow: 1 }} gap={10}>
-              <TextInput
-                className={classes.searchInput}
-                placeholder={t('SearchPlaceholder') /* Search character name */}
-                ref={inputRef}
-                onChange={setNameFilter}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    const first = characterOptions.find(applyFilters)
-                    if (first) {
-                      handleClick(first.id)
+        {(open || !!externalOpen) && (
+          <Flex direction="column" gap={12} miw={350}>
+            <Flex gap={12} wrap='wrap'>
+              <Flex style={{ flexGrow: 1 }} gap={10}>
+                <TextInput
+                  className={classes.searchInput}
+                  placeholder={t('SearchPlaceholder') /* Search character name */}
+                  ref={inputRef}
+                  onChange={setNameFilter}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      const first = characterOptions.find(applyFilters)
+                      if (first) {
+                        handleClick(first.id)
+                      }
                     }
-                  }
-                }}
-              />
-              {multipleSelect && (
-                <Flex gap={12}>
-                  <Button
-                    variant="default"
-                    onClick={excludeAll}
-                    className={classes.bulkActionButton}
-                  >
-                    {t('ExcludeButton') /* Exclude all */}
-                  </Button>
-                  <Button
-                    variant="default"
-                    onClick={includeAll}
-                    className={classes.bulkActionButton}
-                  >
-                    {t('ClearButton') /* Clear */}
-                  </Button>
-                </Flex>
-              )}
-            </Flex>
-            <Flex wrap='wrap' className={classes.filterWrapper} gap={12}>
-              <Flex wrap='wrap' className={classes.filterWrapper}>
-                <SegmentedFilterRow
-                  tags={generateElementTags()}
-                  flexBasis='14.2%'
-                  currentFilter={currentFilters.element}
-                  setCurrentFilters={setElementFilter}
-                />
-              </Flex>
-              <Flex wrap='wrap' className={classes.filterWrapper}>
-                <SegmentedFilterRow
-                  tags={generatePathTags()}
-                  flexBasis='11.111%'
-                  currentFilter={currentFilters.path}
-                  setCurrentFilters={setPathFilter}
-                />
-              </Flex>
-            </Flex>
-          </Flex>
-
-          <div className={classes.characterGrid}>
-            {characterOptions
-              .sort(Utils.sortRarityDesc)
-              .filter(applyFilters)
-              .map((option) => (
-                <Paper
-                  key={option.id}
-                  className={classes.characterCard}
-                  style={{
-                    background: selected.get(option.id) ? 'grey' : (option.rarity === 5 ? goldBg : purpleBg),
-                    ...(selected.get(option.id) ? { opacity: 0.25 } : {}),
                   }}
-                  onMouseDown={() => handleClick(option.id)}
-                >
-                  <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={1} />
-                </Paper>
-              ))}
-          </div>
-        </Flex>
+                />
+                {multipleSelect && (
+                  <Flex gap={12}>
+                    <Button
+                      variant="default"
+                      onClick={excludeAll}
+                      className={classes.bulkActionButton}
+                    >
+                      {t('ExcludeButton') /* Exclude all */}
+                    </Button>
+                    <Button
+                      variant="default"
+                      onClick={includeAll}
+                      className={classes.bulkActionButton}
+                    >
+                      {t('ClearButton') /* Clear */}
+                    </Button>
+                  </Flex>
+                )}
+              </Flex>
+              <Flex wrap='wrap' className={classes.filterWrapper} gap={12}>
+                <Flex wrap='wrap' className={classes.filterWrapper}>
+                  <SegmentedFilterRow
+                    tags={generateElementTags()}
+                    flexBasis='14.2%'
+                    currentFilter={currentFilters.element}
+                    setCurrentFilters={setElementFilter}
+                  />
+                </Flex>
+                <Flex wrap='wrap' className={classes.filterWrapper}>
+                  <SegmentedFilterRow
+                    tags={generatePathTags()}
+                    flexBasis='11.111%'
+                    currentFilter={currentFilters.path}
+                    setCurrentFilters={setPathFilter}
+                  />
+                </Flex>
+              </Flex>
+            </Flex>
+
+            <div className={classes.characterGrid}>
+              {characterOptions
+                .sort(Utils.sortRarityDesc)
+                .filter(applyFilters)
+                .map((option) => (
+                  <Paper
+                    key={option.id}
+                    className={classes.characterCard}
+                    style={{
+                      background: selected.get(option.id) ? 'grey' : (option.rarity === 5 ? goldBg : purpleBg),
+                      ...(selected.get(option.id) ? { opacity: 0.25 } : {}),
+                    }}
+                    onMouseDown={() => handleClick(option.id)}
+                  >
+                    <CardGridItemContent imgSrc={Assets.getCharacterPreviewById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={1} />
+                  </Paper>
+                ))}
+            </div>
+          </Flex>
+        )}
       </Modal>
     </>
   )

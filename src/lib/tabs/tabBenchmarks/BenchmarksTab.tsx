@@ -325,7 +325,7 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
         rightSection={
           <Select
             className={styles.spdSelect}
-            comboboxProps={{ width: 'fit-content' }}
+            comboboxProps={{ keepMounted: false, width: 'fit-content' }}
             data={options}
             maxDropdownHeight={800}
             value={null}

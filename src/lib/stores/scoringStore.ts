@@ -1,10 +1,10 @@
 import { SubStats } from 'lib/constants/constants'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import { Utils } from 'lib/utils/utils'
 import { CharacterId } from 'types/character'
 import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
-import { create } from 'zustand'
 
 type ScoringStoreState = {
   scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>
@@ -19,7 +19,7 @@ type ScoringStoreActions = {
 
 export type ScoringStore = ScoringStoreState & ScoringStoreActions
 
-export const useScoringStore = create<ScoringStore>()((set, get) => ({
+export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => ({
   scoringMetadataOverrides: {},
 
   setScoringMetadataOverrides: (overrides) => set({ scoringMetadataOverrides: overrides }),

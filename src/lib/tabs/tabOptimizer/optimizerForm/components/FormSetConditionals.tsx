@@ -87,7 +87,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
       <Select
         maxDropdownHeight={500}
         style={{ width: setConditionalsWidth }}
-        comboboxProps={{ styles: { dropdown: { width: 'fit-content' } } }}
+        comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 'fit-content' } } }}
         data={stringSelectOptions}
         value={value != null ? String(value) : null}
         onChange={(val) => handleConditionalChange(itemName, val != null ? Number(val) : val)}

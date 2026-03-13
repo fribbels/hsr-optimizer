@@ -30,7 +30,7 @@ export function OptimizerSetsSection({ simType }: { simType: string }) {
   return (
     <>
       <Select
-        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
         maxDropdownHeight={700}
         clearable
@@ -41,7 +41,7 @@ export function OptimizerSetsSection({ simType }: { simType: string }) {
         searchable
       />
       <Select
-        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
         maxDropdownHeight={700}
         clearable
@@ -52,7 +52,7 @@ export function OptimizerSetsSection({ simType }: { simType: string }) {
         searchable
       />
       <Select
-        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
         maxDropdownHeight={600}
         clearable
@@ -82,7 +82,7 @@ export function SetsSection({ simType, form }: { simType: string; form: UseFormR
   return (
     <>
       <Select
-        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
         maxDropdownHeight={700}
         clearable
@@ -93,7 +93,7 @@ export function SetsSection({ simType, form }: { simType: string; form: UseFormR
         searchable
       />
       <Select
-        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
         maxDropdownHeight={700}
         clearable
@@ -104,7 +104,7 @@ export function SetsSection({ simType, form }: { simType: string; form: UseFormR
         searchable
       />
       <Select
-        comboboxProps={{ styles: { dropdown: { width: 250 } } }}
+        comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 250 } } }}
         style={{ maxHeight: 32 }}
         maxDropdownHeight={600}
         clearable

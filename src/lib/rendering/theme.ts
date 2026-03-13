@@ -33,8 +33,8 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
     components: {
       Input: { defaultProps: { size: 'xs' }, styles: { input: { '--input-padding-inline-start': '6px', '--input-padding-inline-end': '6px', lineHeight: '30px' } } },
       InputWrapper: { defaultProps: { size: 'xs' } },
-      Select: { defaultProps: { size: 'xs', checkIconPosition: 'right' } },
-      MultiSelect: { defaultProps: { size: 'xs' } },
+      Select: { defaultProps: { size: 'xs', checkIconPosition: 'right', comboboxProps: { keepMounted: false } } },
+      MultiSelect: { defaultProps: { size: 'xs', comboboxProps: { keepMounted: false } } },
       TextInput: { defaultProps: { size: 'xs' } },
       NumberInput: { defaultProps: { size: 'xs' } },
       ColorInput: { defaultProps: { size: 'xs' } },

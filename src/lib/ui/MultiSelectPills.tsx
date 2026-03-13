@@ -168,7 +168,7 @@ export function MultiSelectPills({
 
       <Combobox.Dropdown>
         <Combobox.Options mah={maxDropdownHeight} style={{ overflowY: 'auto' }}>
-          {renderOptions()}
+          {combobox.dropdownOpened && renderOptions()}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

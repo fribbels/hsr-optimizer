@@ -192,7 +192,7 @@ export function CharacterSelectorDisplay() {
         value={resultSort}
         onChange={(val) => useOptimizerRequestStore.getState().setResultSort((val ?? undefined) as keyof typeof SortOption | undefined)}
         maxDropdownHeight={900}
-        comboboxProps={{ width: 250 }}
+        comboboxProps={{ keepMounted: false, width: 250 }}
         placeholder={t('CharacterSelector.TargetPlaceholder')} // 'Sorted by'
       />
     </Flex>

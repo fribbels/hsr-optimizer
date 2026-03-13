@@ -4,12 +4,6 @@
   width: 130px;
 }
 
-.sidebarCard {
-  background-color: var(--bg-sidebar);
-  box-shadow: var(--card-shadow);
-  border-radius: var(--border-radius-card);
-  padding: 11px;
-}
 
 .centeredHeader {
   text-align: center;

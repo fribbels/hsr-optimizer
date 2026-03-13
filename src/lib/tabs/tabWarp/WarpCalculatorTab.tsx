@@ -185,7 +185,7 @@ function Inputs() {
                     <Select
                       style={{ flex: 1 }}
                       data={generateStarlightOptions()}
-                      comboboxProps={{ width: 'fit-content' }}
+                      comboboxProps={{ keepMounted: false, width: 'fit-content' }}
                       value={form.getValues().starlight}
                       onChange={(val) => {
                         if (val != null) form.setFieldValue('starlight', val as StarlightRefund)
@@ -201,7 +201,7 @@ function Inputs() {
                     clearable
                     searchable={false}
                     data={generateIncomeOptions()}
-                    comboboxProps={{ width: 500 }}
+                    comboboxProps={{ keepMounted: false, width: 500 }}
                     styles={{ pill: { display: 'none' } }}
                     {...form.getInputProps('income')}
                   />

@@ -17,7 +17,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Nullable } from 'types/common'
 import { Relic } from 'types/relic'
-import { create } from 'zustand'
+import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 type LocatorFilters = { set: Sets | null, part: Parts | null }
 
@@ -33,7 +33,7 @@ type RelicLocatorStateValues = typeof defaultStateValues
 type RelicLocatorState = RelicLocatorStateValues & RelicLocatorStateActions
 
 // use a store to allow access when loading/creating a savefile
-export const useRelicLocatorStore = create<RelicLocatorState>()((set) => ({
+export const useRelicLocatorStore = createTabAwareStore<RelicLocatorState>((set) => ({
   ...defaultStateValues,
 
   setInventoryWidth: (width) => set({ inventoryWidth: width ?? defaultStateValues.inventoryWidth }),

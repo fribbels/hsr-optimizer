@@ -208,7 +208,7 @@ export function CharacterPreview({
         />
 
         {/* Portrait left panel */}
-        <Flex direction="column" gap={8} className='character-build-portrait'>
+        <Flex direction="column" gap={8} className='character-build-portrait' style={{ zIndex: 1 }}>
           <ShowcasePortrait
             source={source}
             character={character}

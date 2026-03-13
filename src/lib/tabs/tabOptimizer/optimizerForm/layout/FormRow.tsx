@@ -31,7 +31,7 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
         transitionDuration={100}
         styles={{
           control: { fontSize: 20, alignItems: 'baseline' },
-          content: { paddingBlock: 0 },
+          content: { paddingBlock: 0, paddingBottom: 10 },
           chevron: { paddingInlineStart: 12 },
         }}
       >

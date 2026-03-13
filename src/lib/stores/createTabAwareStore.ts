@@ -1,5 +1,5 @@
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
-import { useCallback, useContext, useRef, useSyncExternalStore } from 'react'
+import { useCallback, useContext, useSyncExternalStore } from 'react'
 import { createStore, StateCreator, StoreApi } from 'zustand/vanilla'
 
 type ExtractState<S> = S extends { getState: () => infer T } ? T : never
@@ -16,8 +16,12 @@ type ReadonlyStoreApi<T> = Pick<StoreApi<T>, 'getState' | 'getInitialState' | 's
  * based on TabVisibilityContext.
  *
  * Hidden tab: store updates internally, React is never notified → zero re-renders.
- * Tab becomes active: subscribe function identity changes → useSyncExternalStore
- * re-subscribes → calls getSnapshot() → catches up in one render.
+ * Tab becomes active: activation listener fires onStoreChange →
+ *   useSyncExternalStore calls getSnapshot() → only re-renders if value changed.
+ * Tab becomes inactive: isActiveRef flipped, no context change → zero re-renders.
+ *
+ * The context value is STABLE (never changes identity), so useContext never
+ * triggers consumer re-renders. Only actual store value changes cause re-renders.
  *
  * Components use useMyStore(selector) exactly like normal Zustand.
  * Imperative access (getState, subscribe, setState) is unaffected.
@@ -30,22 +34,30 @@ export function createTabAwareStore<T>(
 
   const useTabAwareHook = (<U>(selector?: (state: T) => U) => {
     const sel = (selector ?? identity) as (state: T) => U
-    const isActive = useContext(TabVisibilityContext)
-    const isActiveRef = useRef(isActive)
-    isActiveRef.current = isActive
+    const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
 
+    // STABLE subscribe — never changes identity.
+    // Subscribes to both the store (gated) and activation events (for catch-up).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const subscribe = useCallback(
       (onStoreChange: () => void) => {
-        return api.subscribe(() => {
+        // Gate store notifications by tab visibility
+        const unsubStore = api.subscribe(() => {
           if (isActiveRef.current) {
             onStoreChange()
           }
         })
+
+        // On activation: fire onStoreChange so useSyncExternalStore
+        // calls getSnapshot() — re-renders only if value actually changed
+        const unsubActivation = addActivationListener(onStoreChange)
+
+        return () => {
+          unsubStore()
+          unsubActivation()
+        }
       },
-      // isActive in deps → identity changes on tab switch →
-      // useSyncExternalStore re-subscribes → getSnapshot() called → catch-up
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [isActive],
+      [], // stable — context value never changes
     )
 
     const getSnapshot = useCallback(

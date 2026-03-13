@@ -127,65 +127,67 @@ function LightConeSelect(
           if (setExternalOpen) setExternalOpen(false)
         }}
       >
-        <Flex direction="column" gap={12}>
-          <Flex gap={12} wrap='wrap'>
-            <Flex direction="column" wrap='wrap' style={{ minWidth: 300, flexGrow: 1 }}>
-              <TextInput
-                style={{ height: 40 }}
-                placeholder={t('Placeholder') /* Select a lightcone */}
-                ref={inputRef}
-                onChange={setNameFilter}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    const first = lightConeOptions.find(applyFilters)
-                    if (first) {
-                      handleClick(first.id)
+        {(open || !!externalOpen) && (
+          <Flex direction="column" gap={12}>
+            <Flex gap={12} wrap='wrap'>
+              <Flex direction="column" wrap='wrap' style={{ minWidth: 300, flexGrow: 1 }}>
+                <TextInput
+                  style={{ height: 40 }}
+                  placeholder={t('Placeholder') /* Select a lightcone */}
+                  ref={inputRef}
+                  onChange={setNameFilter}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      const first = lightConeOptions.find(applyFilters)
+                      if (first) {
+                        handleClick(first.id)
+                      }
                     }
-                  }
-                }}
-              />
-            </Flex>
-            <Flex wrap='wrap' style={{ flexGrow: 1 }} gap={12}>
-              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
-                <SegmentedFilterRow
-                  tags={generatePathTags()}
-                  flexBasis='11.111%'
-                  currentFilter={currentFilters.path}
-                  setCurrentFilters={setPathFilter}
-                />
-              </Flex>
-              <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
-                <SegmentedFilterRow
-                  tags={generateRarityTags()}
-                  flexBasis='14.2%'
-                  currentFilter={currentFilters.rarity}
-                  setCurrentFilters={setRarityFilter}
-                />
-              </Flex>
-            </Flex>
-          </Flex>
-
-          <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fill, minmax(${parentW}px, 1fr))`, gridGap: 8 }}>
-            {lightConeOptions
-              .sort(Utils.sortRarityDesc)
-              .filter(applyFilters)
-              .map((option) => (
-                <Paper
-                  key={option.id}
-                  style={{
-                    background: rarityToBg[option.rarity],
-                    overflow: 'hidden',
-                    height: `${parentH}px`,
-                    cursor: 'pointer',
-                    padding: 1,
                   }}
-                  onMouseDown={() => handleClick(option.id)}
-                >
-                  <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={2} />
-                </Paper>
-              ))}
-          </div>
-        </Flex>
+                />
+              </Flex>
+              <Flex wrap='wrap' style={{ flexGrow: 1 }} gap={12}>
+                <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
+                  <SegmentedFilterRow
+                    tags={generatePathTags()}
+                    flexBasis='11.111%'
+                    currentFilter={currentFilters.path}
+                    setCurrentFilters={setPathFilter}
+                  />
+                </Flex>
+                <Flex wrap='wrap' style={{ minWidth: 350, flexGrow: 1 }}>
+                  <SegmentedFilterRow
+                    tags={generateRarityTags()}
+                    flexBasis='14.2%'
+                    currentFilter={currentFilters.rarity}
+                    setCurrentFilters={setRarityFilter}
+                  />
+                </Flex>
+              </Flex>
+            </Flex>
+
+            <div style={{ display: 'grid', gridTemplateColumns: `repeat(auto-fill, minmax(${parentW}px, 1fr))`, gridGap: 8 }}>
+              {lightConeOptions
+                .sort(Utils.sortRarityDesc)
+                .filter(applyFilters)
+                .map((option) => (
+                  <Paper
+                    key={option.id}
+                    style={{
+                      background: rarityToBg[option.rarity],
+                      overflow: 'hidden',
+                      height: `${parentH}px`,
+                      cursor: 'pointer',
+                      padding: 1,
+                    }}
+                    onMouseDown={() => handleClick(option.id)}
+                  >
+                    <CardGridItemContent imgSrc={Assets.getLightConeIconById(option.id)} text={option.label} innerW={innerW} innerH={innerH} rows={2} />
+                  </Paper>
+                ))}
+            </div>
+          </Flex>
+        )}
       </Modal>
     </>
   )

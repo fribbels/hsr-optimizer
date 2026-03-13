@@ -164,7 +164,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
               placeholder={t('RelicsPlaceholder')}
               clearable
-              comboboxProps={{ width: 'auto' }}
+              comboboxProps={{ keepMounted: false, width: 'auto' }}
               disabled={disabled}
             />
 
@@ -175,7 +175,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
               placeholder={t('OrnamentsPlaceholder')}
               clearable
-              comboboxProps={{ width: 'auto' }}
+              comboboxProps={{ keepMounted: false, width: 'auto' }}
               disabled={disabled}
             />
           </Flex>

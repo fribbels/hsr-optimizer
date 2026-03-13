@@ -1,4 +1,4 @@
-import { Flex, Text } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { ScoringModal } from 'lib/overlays/modals/ScoringModal'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
@@ -21,7 +21,7 @@ import React, {
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
 const defaultErrorRender = ({ error }: FallbackProps) =>
-  <Text>Something went wrong: {error instanceof Error ? error.message : String(error)}</Text>
+  <div>Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
 
 const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.HOME, HomeTab],

@@ -1,6 +1,6 @@
 import { IconTrash } from '@tabler/icons-react'
 import { PopConfirm } from 'lib/ui/PopConfirm'
-import { Button, Flex, Text } from '@mantine/core'
+import { Button, Flex } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
 import {
@@ -27,9 +27,9 @@ export function ClearDataSubmenu() {
 
   return (
     <Flex direction="column" gap={5}>
-      <Text>
+      <div>
         {t('Label') /* Clear all optimizer data. */}
-      </Text>
+      </div>
       <PopConfirm
         title={t('WarningTitle') /* Erase all data */}
         description={t('WarningDescription') /* Are you sure you want to clear all relics and characters */}

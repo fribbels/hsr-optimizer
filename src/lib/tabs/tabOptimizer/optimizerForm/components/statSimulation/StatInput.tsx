@@ -1,4 +1,4 @@
-import { Flex, NumberInput, Text } from '@mantine/core'
+import { Flex, NumberInput } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { STAT_SIMULATION_INPUT_WIDTH, STAT_SIMULATION_STATS_WIDTH, useStatSimStat } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 
@@ -14,9 +14,9 @@ export function StatInput({ label, name, simType }: { label: string; name: strin
 
   return (
     <Flex justify='space-between' w={STAT_SIMULATION_STATS_WIDTH}>
-      <Text>
+      <div>
         {label}
-      </Text>
+      </div>
       <NumberInput
         hideControls
         value={value}

@@ -1,5 +1,3 @@
-import { Text } from '@mantine/core'
-
 import gameData from 'data/game_data.json'
 import i18next from 'i18next'
 import {
@@ -160,11 +158,11 @@ export class KelzFormatParser { // TODO abstract class
       console.log(`Current: ${buildVersion}, Latest: ${this.config.latestBuildVersion}`)
       Message.warning(
         (
-          <Text>
+          <div>
             {/* `Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:` */}
             {tError('OutdatedVersion', { buildVersion })}{' '}
             <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
-          </Text>
+          </div>
         ),
         15,
       )

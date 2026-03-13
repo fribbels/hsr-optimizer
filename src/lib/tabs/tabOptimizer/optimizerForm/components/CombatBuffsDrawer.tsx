@@ -1,4 +1,4 @@
-import { Drawer, Flex, Text } from '@mantine/core'
+import { Drawer, Flex } from '@mantine/core'
 import { CombatBuffs } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
@@ -44,9 +44,9 @@ function CombatBuff({ title, name }: { title: string; name: string }) {
 
   return (
     <Flex justify='space-between'>
-      <Text>
+      <div>
         {title}
-      </Text>
+      </div>
       <InputNumberStyled
         hideControls
         value={value}

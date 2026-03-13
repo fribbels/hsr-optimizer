@@ -1,5 +1,5 @@
 import { IconChevronDown } from '@tabler/icons-react'
-import { Button, Flex, Menu, Text } from '@mantine/core'
+import { Button, Flex, Menu } from '@mantine/core'
 import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_CPU,
@@ -72,7 +72,7 @@ export function ComputeEngineSelect() {
         <Button variant="default" className='custom-dropdown-button' style={{ padding: 3 }}>
           <Flex justify='space-around' align='center' w='100%'>
             <div style={{ width: 1 }} />
-            <Text>
+            <div>
               {
                 t(`Display.${computeEngine}`)
                 /*
@@ -81,7 +81,7 @@ export function ComputeEngineSelect() {
                   [COMPUTE_ENGINE_CPU]: 'GPU acceleration: Disabled',
                 */
               }
-            </Text>
+            </div>
             <IconChevronDown />
           </Flex>
         </Button>

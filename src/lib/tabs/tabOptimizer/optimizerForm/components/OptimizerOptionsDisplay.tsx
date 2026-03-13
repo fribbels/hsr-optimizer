@@ -1,4 +1,4 @@
-import { Flex, SegmentedControl, Select, Switch, Text } from '@mantine/core'
+import { Flex, SegmentedControl, Select, Switch } from '@mantine/core'
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
@@ -84,7 +84,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             onChange={(event) => setFilterAndRecalculate('includeEquippedRelics', event.currentTarget.checked)}
             className={classes.switchRow}
           />
-          <Text>{t('AllowEquipped') /* Allow equipped relics */}</Text>
+          <div>{t('AllowEquipped') /* Allow equipped relics */}</div>
         </Flex>
 
         <Flex align='center'>
@@ -93,7 +93,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             onChange={(event) => setFilterAndRecalculate('rankFilter', event.currentTarget.checked)}
             className={classes.switchRow}
           />
-          <Text>{t('PriorityFilter') /* Character priority filter */}</Text>
+          <div>{t('PriorityFilter') /* Character priority filter */}</div>
         </Flex>
 
         <Flex align='center'>
@@ -102,7 +102,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             onChange={(event) => setFilterAndRecalculate('keepCurrentRelics', event.currentTarget.checked)}
             className={classes.switchRow}
           />
-          <Text>{t('KeepCurrent') /* Keep current relics */}</Text>
+          <div>{t('KeepCurrent') /* Keep current relics */}</div>
         </Flex>
 
         <Flex gap={optimizerTabDefaultGap} className={classes.sectionSpacerTop}>

@@ -9,7 +9,7 @@ import {
   IconSettings,
 } from '@tabler/icons-react'
 import { useForm } from '@mantine/form'
-import { Accordion, Button, Flex, Menu, Popover, SegmentedControl, Text, TextInput } from '@mantine/core'
+import { Accordion, Button, Flex, Menu, Popover, SegmentedControl, TextInput } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -84,14 +84,14 @@ export function ShowcaseTab() {
       <Flex direction="column" align='center'>
         {SHOWCASE_DOWNTIME && (
           <Flex gap={10} direction="column" align='center'>
-            <Text>
+            <div>
               <h3 className={styles.downtimeWarning}>{t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}</h3>
-            </Text>
+            </div>
           </Flex>
         )}
 
         <Flex gap={10} direction="column" align='center'>
-          <Text>
+          <div>
             {officialOnly
               ? t('Header.WithoutVersion')
               : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
@@ -99,7 +99,7 @@ export function ShowcaseTab() {
               // "WithoutVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly."
               // "WithVersion": "Enter your account UID to score your profile character at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}} )",
             }
-          </Text>
+          </div>
         </Flex>
         <form onSubmit={showcaseForm.onSubmit(submitForm)}>
           <Flex className={styles.formRow} justify='center' align='center' gap={10}>

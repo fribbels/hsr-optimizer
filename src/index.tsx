@@ -1,4 +1,3 @@
-import { Text } from '@mantine/core'
 import App from 'App'
 import 'lib/i18n/i18n'
 import { Constants } from 'lib/constants/constants'
@@ -61,8 +60,8 @@ SaveState.load(false, false)
 void verifyWebgpuSupport(false)
 
 const defaultErrorRender = ({ error }: FallbackProps) =>
-  <Text>
-    Something went wrong: {error instanceof Error ? error.message : String(error)}</Text>
+  <div>
+    Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 

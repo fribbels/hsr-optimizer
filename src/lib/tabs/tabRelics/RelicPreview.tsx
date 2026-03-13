@@ -103,17 +103,17 @@ export const RelicPreview = memo(function RelicPreview(props: {
   return (
     <Paper
       p="xs"
-      withBorder
+      withBorder={source != null}
       onClick={cardClicked}
       style={{
-        width: 200,
-        minWidth: 200,
+        width: 211,
+        minWidth: 211,
         height: 280,
         backgroundColor: showcaseTheme?.cardBackgroundColor,
         borderColor: showcaseTheme?.cardBorderColor,
         transition: showcaseTransition(),
         borderRadius: 6,
-        boxShadow: source == null ? undefined : showcaseShadow + showcaseShadowInsetAddition,
+        boxShadow: source == null ? 'inset 0 0 0 1px var(--border-color)' : showcaseShadow + showcaseShadowInsetAddition,
         cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
       }}
     >

@@ -8,12 +8,12 @@ import { CSSProperties, ReactNode } from 'react'
 const defaultGap = 5
 
 const smallWidth = panelWidth
-const mediumWidth = 373
-const largeWidth = 1183
+const mediumWidth = 398
+const largeWidth = 1258
 
 const dimsBySize: Record<string, number> = {
   small: smallWidth,
-  narrow: 233,
+  narrow: 248,
   medium: mediumWidth,
   large: largeWidth,
 }

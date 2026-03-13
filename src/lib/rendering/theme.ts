@@ -42,7 +42,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       Switch: { defaultProps: { size: 'sm' } },
       Radio: { defaultProps: { size: 'xs' } },
       SegmentedControl: { defaultProps: { size: 'xs' } },
-      Button: { defaultProps: { size: 'xs' } },
+      Button: { defaultProps: { size: 'xs' }, styles: { label: { fontSize: '14px', fontWeight: 'normal' } } },
       Pagination: { defaultProps: { size: 'xs' } },
       Slider: { defaultProps: { size: 'xs' } },
       Tabs: { defaultProps: { size: 'xs' } },

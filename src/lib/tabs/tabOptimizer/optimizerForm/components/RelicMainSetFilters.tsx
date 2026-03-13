@@ -36,24 +36,156 @@ function handleMainStatChange(field: MainStatPart, val: string[]) {
   recalculatePermutations()
 }
 
-export function RelicMainSetFilters() {
-  const { t } = useTranslation(['optimizerTab', 'common'])
+const mainStatStyle = { width: panelWidth }
 
-  const mainBody = useOptimizerRequestStore((s) => s.mainBody)
-  const mainFeet = useOptimizerRequestStore((s) => s.mainFeet)
-  const mainPlanarSphere = useOptimizerRequestStore((s) => s.mainPlanarSphere)
-  const mainLinkRope = useOptimizerRequestStore((s) => s.mainLinkRope)
+function MainStatBody() {
+  const { t } = useTranslation('common')
+  const value = useOptimizerRequestStore((s) => s.mainBody)
+  return (
+    <MultiSelectPills
+      clearable
+      style={mainStatStyle}
+      placeholder={t('Parts.Body')}
+      rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
+      value={value}
+      onChange={(val) => handleMainStatChange('mainBody', val)}
+      data={[
+        { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
+        { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
+        { value: Constants.Stats.DEF_P, label: t('ShortStats.DEF%') },
+        { value: Constants.Stats.CR, label: t('ShortStats.CRIT Rate') },
+        { value: Constants.Stats.CD, label: t('ShortStats.CRIT DMG') },
+        { value: Constants.Stats.EHR, label: t('ShortStats.Effect Hit Rate') },
+        { value: Constants.Stats.OHB, label: t('ShortStats.Outgoing Healing Boost') },
+      ]}
+    />
+  )
+}
+
+function MainStatFeet() {
+  const { t } = useTranslation('common')
+  const value = useOptimizerRequestStore((s) => s.mainFeet)
+  return (
+    <MultiSelectPills
+      clearable
+      style={mainStatStyle}
+      placeholder={t('Parts.Feet')}
+      rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
+      value={value}
+      onChange={(val) => handleMainStatChange('mainFeet', val)}
+      data={[
+        { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
+        { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
+        { value: Constants.Stats.DEF_P, label: t('ShortStats.DEF%') },
+        { value: Constants.Stats.SPD, label: t('ShortStats.SPD') },
+      ]}
+    />
+  )
+}
+
+function MainStatPlanarSphere() {
+  const { t } = useTranslation('common')
+  const value = useOptimizerRequestStore((s) => s.mainPlanarSphere)
+  return (
+    <MultiSelectPills
+      clearable
+      style={mainStatStyle}
+      placeholder={t('Parts.PlanarSphere')}
+      maxDropdownHeight={400}
+      rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
+      value={value}
+      onChange={(val) => handleMainStatChange('mainPlanarSphere', val)}
+      data={[
+        { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
+        { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
+        { value: Constants.Stats.DEF_P, label: t('ShortStats.DEF%') },
+        { value: Constants.Stats.Physical_DMG, label: t('ShortStats.Physical DMG Boost') },
+        { value: Constants.Stats.Fire_DMG, label: t('ShortStats.Fire DMG Boost') },
+        { value: Constants.Stats.Ice_DMG, label: t('ShortStats.Ice DMG Boost') },
+        { value: Constants.Stats.Lightning_DMG, label: t('ShortStats.Lightning DMG Boost') },
+        { value: Constants.Stats.Wind_DMG, label: t('ShortStats.Wind DMG Boost') },
+        { value: Constants.Stats.Quantum_DMG, label: t('ShortStats.Quantum DMG Boost') },
+        { value: Constants.Stats.Imaginary_DMG, label: t('ShortStats.Imaginary DMG Boost') },
+      ]}
+    />
+  )
+}
+
+function MainStatLinkRope() {
+  const { t } = useTranslation('common')
+  const value = useOptimizerRequestStore((s) => s.mainLinkRope)
+  return (
+    <MultiSelectPills
+      clearable
+      style={mainStatStyle}
+      placeholder={t('Parts.LinkRope')}
+      rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
+      value={value}
+      onChange={(val) => handleMainStatChange('mainLinkRope', val)}
+      data={[
+        { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
+        { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
+        { value: Constants.Stats.DEF_P, label: t('ShortStats.DEF%') },
+        { value: Constants.Stats.BE, label: t('ShortStats.Break Effect') },
+        { value: Constants.Stats.ERR, label: t('ShortStats.Energy Regeneration Rate') },
+      ]}
+    />
+  )
+}
+
+function RelicSetSelector() {
+  const { t } = useTranslation('optimizerTab')
   const relicSets = useOptimizerRequestStore((s) => s.relicSets)
-  const ornamentSets = useOptimizerRequestStore((s) => s.ornamentSets)
-
-  // Convert relicSets (array of tuples) to encoded string values for MultiSelect
   const relicSetsValue = useMemo(
     () => (relicSets ?? []).map((tuple) => encodeRelicSetValue(tuple)),
     [relicSets],
   )
-
   const setsGroupedOptions = useMemo(() => GenerateSetsGroupedOptions(), [t])
+
+  return (
+    <MultiSelectPills
+      placeholder={t('RelicSetSelector.Placeholder')}
+      data={setsGroupedOptions}
+      maxDropdownHeight={400}
+      maxDisplayedValues={1}
+      searchable
+      clearable
+      value={relicSetsValue}
+      onChange={(val) => {
+        const decoded = val.map((v) => decodeRelicSetValue(v)) as typeof relicSets
+        useOptimizerRequestStore.getState().setRelicSets(decoded)
+        recalculatePermutations()
+      }}
+      renderOption={(option) => RelicSetTagRenderer(option.value)}
+    />
+  )
+}
+
+function OrnamentSetSelector() {
+  const { t } = useTranslation('optimizerTab')
+  const ornamentSets = useOptimizerRequestStore((s) => s.ornamentSets)
   const ornamentOptions = useOrnamentsOptions()
+
+  return (
+    <MultiSelectPills
+      dropdownWidth={250}
+      maxDropdownHeight={800}
+      maxDisplayedValues={1}
+      clearable
+      style={mainStatStyle}
+      data={ornamentOptions.map((opt) => ({ value: opt.value, label: opt.value }))}
+      placeholder={t('OrnamentSetSelector.Placeholder')}
+      value={ornamentSets}
+      onChange={(val) => {
+        useOptimizerRequestStore.getState().setOrnamentSets(val as typeof ornamentSets)
+        recalculatePermutations()
+      }}
+    />
+  )
+}
+
+export function RelicMainSetFilters() {
+  const { t } = useTranslation('optimizerTab')
 
   return (
     <Flex direction="column" gap={optimizerTabDefaultGap}>
@@ -62,84 +194,10 @@ export function RelicMainSetFilters() {
         <TooltipImage type={Hint.mainStats()} />
       </Flex>
       <Flex direction="column" gap={7}>
-        <MultiSelectPills
-          clearable
-          style={{
-            width: panelWidth,
-          }}
-          placeholder={t('common:Parts.Body')}
-          rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
-          value={mainBody}
-          onChange={(val) => handleMainStatChange('mainBody', val)}
-          data={[
-            { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
-            { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
-            { value: Constants.Stats.DEF_P, label: t('common:ShortStats.DEF%') },
-            { value: Constants.Stats.CR, label: t('common:ShortStats.CRIT Rate') },
-            { value: Constants.Stats.CD, label: t('common:ShortStats.CRIT DMG') },
-            { value: Constants.Stats.EHR, label: t('common:ShortStats.Effect Hit Rate') },
-            { value: Constants.Stats.OHB, label: t('common:ShortStats.Outgoing Healing Boost') },
-          ]}
-        />
-
-        <MultiSelectPills
-          clearable
-          style={{
-            width: panelWidth,
-          }}
-          placeholder={t('common:Parts.Feet')}
-          rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
-          value={mainFeet}
-          onChange={(val) => handleMainStatChange('mainFeet', val)}
-          data={[
-            { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
-            { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
-            { value: Constants.Stats.DEF_P, label: t('common:ShortStats.DEF%') },
-            { value: Constants.Stats.SPD, label: t('common:ShortStats.SPD') },
-          ]}
-        />
-
-        <MultiSelectPills
-          clearable
-          style={{
-            width: panelWidth,
-          }}
-          placeholder={t('common:Parts.PlanarSphere')}
-          maxDropdownHeight={400}
-          rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
-          value={mainPlanarSphere}
-          onChange={(val) => handleMainStatChange('mainPlanarSphere', val)}
-          data={[
-            { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
-            { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
-            { value: Constants.Stats.DEF_P, label: t('common:ShortStats.DEF%') },
-            { value: Constants.Stats.Physical_DMG, label: t('common:ShortStats.Physical DMG Boost') },
-            { value: Constants.Stats.Fire_DMG, label: t('common:ShortStats.Fire DMG Boost') },
-            { value: Constants.Stats.Ice_DMG, label: t('common:ShortStats.Ice DMG Boost') },
-            { value: Constants.Stats.Lightning_DMG, label: t('common:ShortStats.Lightning DMG Boost') },
-            { value: Constants.Stats.Wind_DMG, label: t('common:ShortStats.Wind DMG Boost') },
-            { value: Constants.Stats.Quantum_DMG, label: t('common:ShortStats.Quantum DMG Boost') },
-            { value: Constants.Stats.Imaginary_DMG, label: t('common:ShortStats.Imaginary DMG Boost') },
-          ]}
-        />
-
-        <MultiSelectPills
-          clearable
-          style={{
-            width: panelWidth,
-          }}
-          placeholder={t('common:Parts.LinkRope')}
-          rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
-          value={mainLinkRope}
-          onChange={(val) => handleMainStatChange('mainLinkRope', val)}
-          data={[
-            { value: Constants.Stats.HP_P, label: t('common:ShortStats.HP%') },
-            { value: Constants.Stats.ATK_P, label: t('common:ShortStats.ATK%') },
-            { value: Constants.Stats.DEF_P, label: t('common:ShortStats.DEF%') },
-            { value: Constants.Stats.BE, label: t('common:ShortStats.Break Effect') },
-            { value: Constants.Stats.ERR, label: t('common:ShortStats.Energy Regeneration Rate') },
-          ]}
-        />
+        <MainStatBody />
+        <MainStatFeet />
+        <MainStatPlanarSphere />
+        <MainStatLinkRope />
       </Flex>
 
       <Flex justify='space-between' align='center' className={classes.setsHeader}>
@@ -148,39 +206,8 @@ export function RelicMainSetFilters() {
       </Flex>
 
       <Flex direction="column" gap={7}>
-        <MultiSelectPills
-          placeholder={t('RelicSetSelector.Placeholder')}
-          data={setsGroupedOptions}
-          maxDropdownHeight={400}
-          maxDisplayedValues={1}
-          searchable
-          clearable
-          value={relicSetsValue}
-          onChange={(val) => {
-            // Convert encoded string values back to tuples for the store
-            const decoded = val.map((v) => decodeRelicSetValue(v)) as typeof relicSets
-            useOptimizerRequestStore.getState().setRelicSets(decoded)
-            recalculatePermutations()
-          }}
-          renderOption={(option) => RelicSetTagRenderer(option.value)}
-        />
-
-        <MultiSelectPills
-          dropdownWidth={250}
-          maxDropdownHeight={800}
-          maxDisplayedValues={1}
-          clearable
-          style={{
-            width: panelWidth,
-          }}
-          data={ornamentOptions.map((opt) => ({ value: opt.value, label: opt.value }))}
-          placeholder={t('OrnamentSetSelector.Placeholder')}
-          value={ornamentSets}
-          onChange={(val) => {
-            useOptimizerRequestStore.getState().setOrnamentSets(val as typeof ornamentSets)
-            recalculatePermutations()
-          }}
-        />
+        <RelicSetSelector />
+        <OrnamentSetSelector />
         <Button
           variant="default"
           onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}

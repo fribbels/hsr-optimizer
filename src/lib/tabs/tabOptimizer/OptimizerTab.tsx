@@ -17,7 +17,6 @@ import { useGlobalStore } from 'lib/stores/appStore'
 
 export default function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
-  console.log('======================================================================= RENDER OptimizerTab')
 
   return (
     <Flex>

@@ -81,7 +81,6 @@ export function useCharacterPreviewState(
   const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
     useGlobalStore.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
-  const activeKey = useGlobalStore((s) => s.activeKey)
   const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
 
   // Using this to trigger updates on scoring metadata changes
@@ -122,7 +121,6 @@ export function useCharacterPreviewState(
     setSeedColor,
     colorMode,
     setColorMode,
-    activeKey,
     darkMode,
     scoringMetadata,
     previewRelics,

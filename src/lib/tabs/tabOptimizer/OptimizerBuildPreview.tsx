@@ -1,11 +1,10 @@
 import { Flex } from '@mantine/core'
+import { useCallback } from 'react'
 import { Parts } from 'lib/constants/constants'
 
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
 import { RelicScorer } from 'lib/relics/relicScorerPotential'
-import { useGlobalStore } from 'lib/stores/appStore'
-import { AppPages } from 'lib/constants/appPages'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -53,13 +52,9 @@ export function OptimizerBuildPreview() {
   const optimizerBuild = useOptimizerDisplayStore((s) => s.optimizerBuild)
   const relicsById = useRelicStore((s) => s.relicsById)
   const characterId = useOptimizerDisplayStore((s) => s.focusCharacterId)
-  const activeKey = useGlobalStore((s) => s.activeKey)
 
-  if (activeKey !== AppPages.OPTIMIZER || characterId == undefined) {
-    return null
-  }
-
-  const openRelicModal = (_open: boolean, relic?: Relic) => {
+  // Stable ref — reads stores imperatively, no reactive deps
+  const openRelicModal = useCallback((_open: boolean, relic?: Relic) => {
     if (relic) {
       useRelicModalStore.getState().openOverlay({
         selectedRelic: relic,
@@ -70,6 +65,10 @@ export function OptimizerBuildPreview() {
         prev,
       })
     }
+  }, [])
+
+  if (characterId == undefined) {
+    return null
   }
 
   const headRelic = optimizerBuild?.Head ? relicsById[optimizerBuild.Head] : undefined

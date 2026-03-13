@@ -12,10 +12,12 @@ import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import { WebgpuTab } from 'lib/tabs/tabWebgpu/WebgpuTab'
+import { afterPaint } from 'lib/utils/afterPaint'
 import { WorkerPool } from 'lib/worker/workerPool'
 import { TabVisibilityContext, TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {
   ReactElement,
+  useDeferredValue,
   useEffect,
   useRef,
   useState,
@@ -43,6 +45,9 @@ let optimizerInitialized = false
 
 const Tabs = () => {
   const activeKey = useGlobalStore((s) => s.activeKey).split('?')[0] as AppPages
+  // Deferred key lets React paint the menu/nav immediately, then re-render
+  // the tab content in a lower-priority pass — avoids blocking the menu.
+  const deferredActiveKey = useDeferredValue(activeKey)
 
   const tabs = React.useMemo(
     () => TAB_COMPONENTS.map(([key, Component]) => [key, <Component />] as const),
@@ -74,7 +79,7 @@ const Tabs = () => {
   return (
     <Flex justify='space-around' w='100%'>
       {tabs.map(([tabKey, content]) => (
-        <TabRenderer key={tabKey} activeKey={activeKey} tabKey={tabKey} content={content} />
+        <TabRenderer key={tabKey} activeKey={deferredActiveKey} tabKey={tabKey} content={content} />
       ))}
     </Flex>
   )
@@ -105,11 +110,10 @@ function TabRenderer({ activeKey, tabKey, content }: {
     },
   }))
 
-  // On activation (hidden → visible): notify all listeners via microtask.
-  // Each listener calls useSyncExternalStore's onStoreChange, which checks
-  // getSnapshot() — only components with actual value changes re-render.
+  // On activation (hidden → visible): notify listeners after the tab becomes visible.
+  // Fires after the deferred display switch so components render with fresh data.
   if (isActive && !prevActiveRef.current) {
-    queueMicrotask(() => {
+    afterPaint(() => {
       for (const listener of listenersRef.current) {
         listener()
       }

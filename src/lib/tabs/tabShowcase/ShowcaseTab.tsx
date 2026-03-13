@@ -322,7 +322,6 @@ function CharacterPreviewSelection() {
 
 function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
   const [open, setOpen] = useState(useShowcaseTabStore.getState().savedSession.sidebarOpen)
-  const activeKey = useGlobalStore((s) => s.activeKey)
 
   useEffect(() => {
     useShowcaseTabStore.getState().setSidebarOpen(open)
@@ -348,7 +347,6 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
                 width: preset.rerun ? RERUN_PRESET_SIZE + 2 : PRESET_SIZE + 8,
                 height: preset.rerun ? RERUN_PRESET_SIZE + 2 : PRESET_SIZE + 8,
                 paddingTop: 2,
-                display: activeKey === AppPages.SHOWCASE ? 'flex' : 'none',
               }}
               onClick={() => props.presetClicked(preset)}
             >
@@ -358,7 +356,7 @@ function Sidebar(props: { presetClicked: (preset: Preset) => void }) {
         })}
       </Flex>
     )
-  }, [props, activeKey])
+  }, [props])
 
   return (
     <Flex

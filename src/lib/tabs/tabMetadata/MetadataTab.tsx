@@ -13,8 +13,6 @@ import {
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Assets } from 'lib/rendering/assets'
-import { AppPages } from 'lib/constants/appPages'
-import { useGlobalStore } from 'lib/stores/appStore'
 import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import {
   Fragment,
@@ -32,13 +30,6 @@ const sets = gameData.relics.toReversed()
 const setToIndex: StringToNumberMap = Object.fromEntries(sets.map((set, i) => [set.name, i]))
 
 export default function MetadataTab(): ReactElement {
-  const activeKey = useGlobalStore((s) => s.activeKey)
-
-  if (activeKey != AppPages.METADATA_TEST) {
-    // Don't load unless tab active
-    return <></>
-  }
-
   return (
     <Flex direction="column" style={{ width: '100%', height: 'fit-content' }}>
       <h1 style={{ marginLeft: 20 }}>

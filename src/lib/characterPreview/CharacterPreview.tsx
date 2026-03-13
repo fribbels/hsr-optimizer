@@ -84,10 +84,7 @@ export function CharacterPreview({
 
   const state = useCharacterPreviewState(source, character, savedBuildOverride)
 
-  // Hooks must be called unconditionally before early return to satisfy Rules of Hooks
-  if (!character
-    || (state.activeKey !== AppPages.CHARACTERS && state.activeKey !== AppPages.SHOWCASE && state.activeKey !== AppPages.OPTIMIZER)
-    || (source === ShowcaseSource.CHARACTER_TAB && state.activeKey === AppPages.OPTIMIZER)) {
+  if (!character) {
     return (
       <div
         style={{

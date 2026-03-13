@@ -1,7 +1,5 @@
 import { Flex, Pagination, Title } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { useGlobalStore } from 'lib/stores/appStore'
-import { AppPages } from 'lib/constants/appPages'
 import { ChangelogContent, getChangelogContent } from 'lib/tabs/tabChangelog/changelogData'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, { useMemo, useState } from 'react'
@@ -52,13 +50,8 @@ function ChangelogEntry(props: { contentUpdate: ChangelogContent }) {
 }
 
 export default function ChangelogTab(): React.JSX.Element {
-  const activeKey = useGlobalStore((s) => s.activeKey)
   const changelogContent = useMemo(() => getChangelogContent(), [])
   const [page, setPage] = useState(1)
-
-  if (activeKey != AppPages.CHANGELOG) {
-    return <></>
-  }
 
   const totalPages = Math.ceil(changelogContent.length / PAGE_SIZE)
   const paginatedItems = changelogContent.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)

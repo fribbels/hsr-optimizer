@@ -58,24 +58,19 @@ export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImag
   }, [storedImg, src, style])
 
   useEffect(() => {
-    let blurTimeout: ReturnType<typeof setTimeout>
     if (finishedLoading) {
-      blurTimeout = setTimeout(() => {
-        setBlur(false)
-      }, 20)
-
       setStoredImg({
         src: pendingImage!.src,
         style: pendingImage!.style,
       })
 
+      setBlur(false)
       setFinishedLoading(false)
 
       if (callback) {
         callback(pendingImage!.src)
       }
     }
-    return () => clearTimeout(blurTimeout)
   }, [finishedLoading])
 
   return (

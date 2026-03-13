@@ -104,6 +104,8 @@ export const Optimizer = {
     WorkerPool.cancel()
   },
 
+  getFilteredRelicCounts: (request: Form) => RelicFilters.getFilteredRelicCounts(request),
+
   getFilteredRelics: (request: Form) => {
     let relics = getRelics()
 

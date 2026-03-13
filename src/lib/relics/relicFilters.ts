@@ -17,6 +17,7 @@ import {
 } from 'lib/gpu/webgpuTypes'
 import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { getCharacterById, getCharacters } from 'lib/stores/characterStore'
+import { getRelics } from 'lib/stores/relicStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
@@ -38,7 +39,151 @@ const statScalings = {
   [Constants.Stats.BE]: 64.8 / 64.8,
 }
 
+export type PartCounts = Record<Parts, number>
+
+const RELIC_PARTS: ReadonlySet<string> = new Set([Parts.Head, Parts.Hands, Parts.Body, Parts.Feet])
+
+function zeroCounts(): PartCounts {
+  return { Head: 0, Hands: 0, Body: 0, Feet: 0, PlanarSphere: 0, LinkRope: 0 }
+}
+
+function computeWeightScore(relic: Relic, weights: Record<string, number>, upgradeLevel: number): number {
+  let score = 0
+  for (const sub of relic.substats) {
+    score += (sub.value || 0) * (weights[sub.stat] || 0) * (statScalings[sub.stat] || 0)
+  }
+  if (upgradeLevel) {
+    for (let i = 0; i < relic.previewSubstats.length; i++) {
+      if (relic.enhance + 3 * i >= upgradeLevel) break
+      const sub = relic.previewSubstats[i]
+      score += (sub.value || 0) * (weights[sub.stat] || 0) * (statScalings[sub.stat] || 0)
+    }
+  }
+  return score
+}
+
 export const RelicFilters = {
+  // Count-only variant of getFilteredRelics — single pass, no clone, no mutation
+  getFilteredRelicCounts: (request: Form): { counts: PartCounts; preCounts: PartCounts } => {
+    const allRelics = getRelics()
+    const characters = getCharacters()
+    const selfId = request.characterId || '99999999'
+
+    // Consolidate equipped/rank/exclude into one blacklist
+    const blacklist = new Set<string>()
+    const excludeSet = request.exclude?.length ? new Set(request.exclude) : null
+
+    for (let i = 0; i < characters.length; i++) {
+      const char = characters[i]
+      if (char.id === selfId) continue
+
+      const excluded = !request.includeEquippedRelics
+        || (request.rankFilter && i < request.rank)
+        || (excludeSet != null && excludeSet.has(char.id))
+      if (!excluded) continue
+
+      for (const id of Object.values(char.equipped)) {
+        if (id != null) blacklist.add(id)
+      }
+    }
+
+    // Set filter lookups
+    let relicSetsAllowed: number[] | null = null
+    if (request.relicSets?.length) {
+      relicSetsAllowed = Utils.arrayOfZeroes(Object.values(SetsRelics).length)
+      for (const rs of request.relicSets) {
+        if (rs[0] === RelicSetFilterOptions.relic4Piece && rs.length === 2) {
+          relicSetsAllowed[RelicSetToIndex[rs[1]]] = 1
+        } else if (rs[0] === RelicSetFilterOptions.relic2PlusAny) {
+          relicSetsAllowed = Utils.arrayOfValue(Object.values(SetsRelics).length, 1)
+        } else if (rs[0] === RelicSetFilterOptions.relic2Plus2Piece && rs.length === 3) {
+          relicSetsAllowed[RelicSetToIndex[rs[1]]] = 1
+          relicSetsAllowed[RelicSetToIndex[rs[2]]] = 1
+        }
+      }
+    }
+
+    let ornamentSetsAllowed: number[] | null = null
+    if (request.ornamentSets?.length) {
+      ornamentSetsAllowed = Utils.arrayOfZeroes(Object.values(SetsOrnaments).length)
+      for (const os of request.ornamentSets) {
+        ornamentSetsAllowed[OrnamentSetToIndex[os]] = 1
+      }
+    }
+
+    // Weight score thresholds
+    const weights: Record<string, number> = { ...(request.weights || {}) }
+    weights[Constants.Stats.ATK] = weights[Constants.Stats.ATK_P] || 0
+    weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P] || 0
+    weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P] || 0
+
+    const minWeightScore: Record<string, number> = {
+      [Parts.Head]: (weights.headHands ?? 0) * 6.48 * 0.8,
+      [Parts.Hands]: (weights.headHands ?? 0) * 6.48 * 0.8,
+      [Parts.Body]: (weights.bodyFeet ?? 0) * 6.48 * 0.8,
+      [Parts.Feet]: (weights.bodyFeet ?? 0) * 6.48 * 0.8,
+      [Parts.PlanarSphere]: (weights.sphereRope ?? 0) * 6.48 * 0.8,
+      [Parts.LinkRope]: (weights.sphereRope ?? 0) * 6.48 * 0.8,
+    }
+
+    // Main stat filters (Head/Hands have no main stat constraints)
+    const mainFilters: Partial<Record<Parts, string[]>> = {
+      [Parts.Body]: request.mainBody,
+      [Parts.Feet]: request.mainFeet,
+      [Parts.PlanarSphere]: request.mainPlanarSphere,
+      [Parts.LinkRope]: request.mainLinkRope,
+    }
+
+    // keepCurrentRelics locks specific parts to one relic
+    const lockedParts: Partial<Record<Parts, string>> = {}
+    if (request.keepCurrentRelics) {
+      const equipped = getCharacterById(request.characterId)?.equipped
+      if (equipped) {
+        for (const part of Object.values(Parts)) {
+          if (equipped[part]) lockedParts[part] = equipped[part]
+        }
+      }
+    }
+
+    // Single pass
+    const preCounts = zeroCounts()
+    const counts = zeroCounts()
+    const lockedFound: Partial<Record<Parts, boolean>> = {}
+
+    for (const relic of allRelics) {
+      const part = relic.part as Parts
+
+      if (relic.grade && relic.grade < request.grade) continue
+      if (relic.enhance < request.enhance) continue
+      if (blacklist.has(relic.id)) continue
+
+      preCounts[part]++
+
+      const mainFilter = mainFilters[part]
+      if (mainFilter?.length && !mainFilter.includes(relic.main.stat)) continue
+
+      const isRelic = RELIC_PARTS.has(part)
+      if (isRelic && relicSetsAllowed && relicSetsAllowed[RelicSetToIndex[relic.set as SetsRelics]] !== 1) continue
+      if (!isRelic && ornamentSetsAllowed && ornamentSetsAllowed[OrnamentSetToIndex[relic.set as SetsOrnaments]] !== 1) continue
+
+      if (computeWeightScore(relic, weights, request.mainStatUpscaleLevel) < minWeightScore[part]) continue
+
+      if (lockedParts[part]) {
+        if (relic.id === lockedParts[part]) lockedFound[part] = true
+        continue
+      }
+
+      counts[part]++
+    }
+
+    // Resolve locked parts: count is 0 or 1
+    for (const part of Object.values(Parts)) {
+      if (lockedParts[part]) counts[part] = lockedFound[part] ? 1 : 0
+    }
+
+    return { counts, preCounts }
+  },
+
   calculateWeightScore: (request: Form, relics: Relic[]) => {
     const weights = request.weights || {}
 

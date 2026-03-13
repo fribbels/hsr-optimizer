@@ -11,7 +11,6 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
-import { getGridTheme } from 'lib/rendering/theme'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   DIGITS_5,
@@ -135,7 +134,6 @@ export function OptimizerGrid() {
             resize: 'vertical',
             overflow: 'hidden',
             boxShadow: 'var(--card-shadow-flat)',
-            ...getGridTheme(),
           }}
         >
           <AgGridReact

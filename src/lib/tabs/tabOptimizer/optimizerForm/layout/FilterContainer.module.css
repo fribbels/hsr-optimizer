@@ -4,8 +4,8 @@
   padding-bottom: 10px;
   background: var(--bg-translucent);
   box-shadow: var(--card-shadow-flat);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
   border: var(--subtle-border);
   width: 1227px;
 }

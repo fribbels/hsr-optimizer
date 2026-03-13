@@ -135,30 +135,30 @@ export function recalculatePermutations(): void {
   if (!state.characterId) return
 
   const request = displayToInternal(state)
-  const [relics, preFilteredRelicsByPart] = Optimizer.getFilteredRelics(request)
+  const { counts, preCounts } = Optimizer.getFilteredRelicCounts(request)
 
   const permutationDetails = {
-    Head: relics.Head.length,
-    Hands: relics.Hands.length,
-    Body: relics.Body.length,
-    Feet: relics.Feet.length,
-    PlanarSphere: relics.PlanarSphere.length,
-    LinkRope: relics.LinkRope.length,
-    HeadTotal: preFilteredRelicsByPart.Head.length,
-    HandsTotal: preFilteredRelicsByPart.Hands.length,
-    BodyTotal: preFilteredRelicsByPart.Body.length,
-    FeetTotal: preFilteredRelicsByPart.Feet.length,
-    PlanarSphereTotal: preFilteredRelicsByPart.PlanarSphere.length,
-    LinkRopeTotal: preFilteredRelicsByPart.LinkRope.length,
+    Head: counts.Head,
+    Hands: counts.Hands,
+    Body: counts.Body,
+    Feet: counts.Feet,
+    PlanarSphere: counts.PlanarSphere,
+    LinkRope: counts.LinkRope,
+    HeadTotal: preCounts.Head,
+    HandsTotal: preCounts.Hands,
+    BodyTotal: preCounts.Body,
+    FeetTotal: preCounts.Feet,
+    PlanarSphereTotal: preCounts.PlanarSphere,
+    LinkRopeTotal: preCounts.LinkRope,
   }
   useOptimizerDisplayStore.getState().setPermutationDetails(permutationDetails)
   useOptimizerDisplayStore.getState().setPermutations(
-    relics.Head.length
-      * relics.Hands.length
-      * relics.Body.length
-      * relics.Feet.length
-      * relics.PlanarSphere.length
-      * relics.LinkRope.length,
+    counts.Head
+      * counts.Hands
+      * counts.Body
+      * counts.Feet
+      * counts.PlanarSphere
+      * counts.LinkRope,
   )
 }
 

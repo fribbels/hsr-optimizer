@@ -22,6 +22,9 @@
   --showcase-outline-light: rgba(255, 255, 255, 0.20) solid 1px;
   --subtle-border: 1px solid rgba(255, 255, 255, 0.10);
 
+  /* Text shadows */
+  --text-shadow-showcase: 0px 0px 10px black;
+
   /* Backdrop filters */
   --backdrop-blur: blur(5px);
   --showcase-backdrop: blur(3px);

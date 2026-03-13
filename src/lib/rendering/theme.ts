@@ -8,17 +8,7 @@ export const Themes: { [key: string]: ColorThemeOverrides } = {
   },
 }
 
-export function getGridTheme() {
-  return {
-    '--ag-background-color': 'var(--mantine-color-dark-7)',
-    '--ag-odd-row-background-color': 'var(--mantine-color-dark-6)',
-    '--ag-header-background-color': 'var(--bg-app)',
-    '--ag-border-color': 'var(--border-color)',
-    '--ag-row-hover-color': 'var(--mantine-color-primary-light)',
-  }
-}
-
-import { createTheme, Input, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
+import { createTheme, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
 
 const primaryShades: MantineColorsTuple = [
   '#e5f0ff', '#ccdcff', '#99b5fb', '#6389f5', '#3868f0',
@@ -34,14 +24,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
     fontFamily: 'inherit',
     defaultRadius: 'sm',
     components: {
-      Input: Input.extend({
-        defaultProps: { size: 'xs' },
-        vars: () => ({
-          wrapper: {
-            '--input-padding': '4px',
-          },
-        }),
-      }),
+      Input: { defaultProps: { size: 'xs' } },
       InputWrapper: { defaultProps: { size: 'xs' } },
       Select: { defaultProps: { size: 'xs' } },
       MultiSelect: { defaultProps: { size: 'xs' } },

@@ -10,7 +10,7 @@
   border-radius: 4px;
   font-size: 12px;
   white-space: nowrap;
-  text-shadow: 0 0 10px black;
-  outline: rgba(255, 255, 255, 0.40) solid 1px;
+  text-shadow: var(--text-shadow-showcase);
+  outline: var(--showcase-outline);
   line-height: 12px;
 }

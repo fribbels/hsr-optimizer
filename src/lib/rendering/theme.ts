@@ -11,8 +11,8 @@ export const Themes: { [key: string]: ColorThemeOverrides } = {
 import { createTheme, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
 
 const primaryShades: MantineColorsTuple = [
-  '#e5f0ff', '#ccdcff', '#99b5fb', '#6389f5', '#3868f0',
-  '#1b54ee', '#0a49ef', '#0039d4', '#002fbe', '#1677FF',
+  '#f3f0ff', '#e5deff', '#c9b8ff', '#ab8eff', '#9070fc',
+  '#7C5CFC', '#6b4ae6', '#5a3ad0', '#4a2db8', '#381fa0',
 ]
 
 export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThemeOverride {
@@ -32,7 +32,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       NumberInput: { defaultProps: { size: 'xs' } },
       ColorInput: { defaultProps: { size: 'xs' } },
       Checkbox: { defaultProps: { size: 'xs' } },
-      Switch: { defaultProps: { size: 'xs' } },
+      Switch: { defaultProps: { size: 'sm' } },
       Radio: { defaultProps: { size: 'xs' } },
       SegmentedControl: { defaultProps: { size: 'xs' } },
       Button: { defaultProps: { size: 'xs' } },

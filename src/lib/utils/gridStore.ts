@@ -10,10 +10,16 @@ export const gridStore = {
   // Optimizer grid
   setOptimizerGrid(ref: RefObject<AgGridReact<OptimizerDisplayDataStatSim> | null>) { _optimizerGrid = ref },
   getOptimizerGrid() { return _optimizerGrid },
-  optimizerGridApi() { return _optimizerGrid?.current?.api },
+  optimizerGridApi() {
+    const api = _optimizerGrid?.current?.api
+    return api && !api.isDestroyed() ? api : undefined
+  },
 
   // Relics grid
   setRelicsGrid(ref: RefObject<AgGridReact<ScoredRelic> | null>) { _relicsGrid = ref },
   getRelicsGrid() { return _relicsGrid },
-  relicsGridApi() { return _relicsGrid?.current?.api },
+  relicsGridApi() {
+    const api = _relicsGrid?.current?.api
+    return api && !api.isDestroyed() ? api : undefined
+  },
 }

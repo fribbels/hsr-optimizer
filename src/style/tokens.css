@@ -41,4 +41,13 @@
   --link-color: #91bfff;
   --gold-color: #e1a564;
   --standard-accent: #799ef4;
+
+  /* Sidebar nav */
+  --nav-accent: #7c5cbf;
+  --nav-accent-subtle: #5b3fa0;
+  --nav-text-muted: #8a7ea5;
+  --nav-text-hover: #c8b8e8;
+  --nav-text-active: #e0dce8;
+  --nav-group-label: #5a5074;
+  --nav-separator: #2d2640;
 }

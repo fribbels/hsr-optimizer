@@ -21,6 +21,7 @@ import {
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/SubstatWeightFilters'
 import { TeammateCard } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
+import { TeammateCardDebugPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCardDebugPanel'
 import { FilterContainer } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import { FormCard } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
@@ -95,6 +96,8 @@ export function OptimizerForm() {
           <TeammateCard index={1} dbMetadata={dbMetadata} />
           <TeammateCard index={2} dbMetadata={dbMetadata} />
         </TeammateFormRow>
+
+        <TeammateCardDebugPanel />
 
         <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
           <StatSimulationDisplay />

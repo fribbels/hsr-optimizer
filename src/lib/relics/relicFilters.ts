@@ -117,13 +117,14 @@ export const RelicFilters = {
     weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P] || 0
     weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P] || 0
 
+    const rollThreshold = (weights.minWeightedRolls ?? 0) * 6.48 * 0.8
     const minWeightScore: Record<string, number> = {
-      [Parts.Head]: (weights.headHands ?? 0) * 6.48 * 0.8,
-      [Parts.Hands]: (weights.headHands ?? 0) * 6.48 * 0.8,
-      [Parts.Body]: (weights.bodyFeet ?? 0) * 6.48 * 0.8,
-      [Parts.Feet]: (weights.bodyFeet ?? 0) * 6.48 * 0.8,
-      [Parts.PlanarSphere]: (weights.sphereRope ?? 0) * 6.48 * 0.8,
-      [Parts.LinkRope]: (weights.sphereRope ?? 0) * 6.48 * 0.8,
+      [Parts.Head]: rollThreshold,
+      [Parts.Hands]: rollThreshold,
+      [Parts.Body]: rollThreshold,
+      [Parts.Feet]: rollThreshold,
+      [Parts.PlanarSphere]: rollThreshold,
+      [Parts.LinkRope]: rollThreshold,
     }
 
     // Main stat filters (Head/Hands have no main stat constraints)
@@ -211,18 +212,11 @@ export const RelicFilters = {
 
   applyTopFilter: (request: Form, relics: RelicsByPart) => {
     const weights = request.weights || {}
-    const partMinRolls = {
-      [Parts.Head]: weights.headHands ?? 0,
-      [Parts.Hands]: weights.headHands ?? 0,
-      [Parts.Body]: weights.bodyFeet ?? 0,
-      [Parts.Feet]: weights.bodyFeet ?? 0,
-      [Parts.PlanarSphere]: weights.sphereRope ?? 0,
-      [Parts.LinkRope]: weights.sphereRope ?? 0,
-    }
+    const minRolls = (weights.minWeightedRolls ?? 0) * 6.48 * 0.8
 
     for (const part of Object.values(Constants.Parts)) {
       const partition: Relic[] = relics[part]
-      relics[part] = partition.filter((relic) => relic.weightScore >= partMinRolls[part] * 6.48 * 0.8)
+      relics[part] = partition.filter((relic) => relic.weightScore >= minRolls)
     }
 
     return relics

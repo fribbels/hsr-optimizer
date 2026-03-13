@@ -1,10 +1,6 @@
 import { Flex, NumberInput, Slider } from '@mantine/core'
-import {
-  Constants,
-  Parts,
-} from 'lib/constants/constants'
-import { Assets } from 'lib/rendering/assets'
-import { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { Constants } from 'lib/constants/constants'
+import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { Utils } from 'lib/utils/utils'
@@ -37,6 +33,8 @@ function WeightSlider({ stat }: { stat: string }) {
         marginLeft: 'auto',
         marginRight: 'auto',
       }}
+      label={(val) => val.toFixed(1)}
+      styles={{ label: { padding: '2px 6px' } }}
       value={value as number ?? 0}
       onChange={(val) => useOptimizerRequestStore.getState().setWeight(stat as keyof OptimizerRequestState['weights'], val)}
       onChangeEnd={() => recalculatePermutations()}
@@ -51,7 +49,7 @@ export function FormStatRollSliders() {
     <Flex gap={10}>
       <Flex direction="column" w='max-content' gap={3}>
         {StatSliders.map((stat) => (
-          <span style={{ textWrap: 'nowrap' }} key={stat.name}>
+          <span style={{ textWrap: 'nowrap', height: 24, display: 'flex', alignItems: 'center' }} key={stat.name}>
             {t(stat.text)}
           </span>
         ))}
@@ -64,10 +62,9 @@ export function FormStatRollSliders() {
           marginLeft: 10,
           marginRight: 10,
         }}
-        align='flex-end'
       >
         {StatSliders.map((stat) => (
-          <div style={{ width: '100%', alignContent: 'end', alignSelf: 'end' }} key={stat.name}>
+          <div style={{ width: '100%', height: 24, display: 'flex', alignItems: 'center' }} key={stat.name}>
             <WeightSlider stat={stat.name} />
           </div>
         ))}
@@ -76,57 +73,29 @@ export function FormStatRollSliders() {
   )
 }
 
-const partsPerSlotIndex: Record<number, string[]> = {
-  0: [Parts.Head, Parts.Hands],
-  1: [Parts.Body, Parts.Feet],
-  2: [Parts.PlanarSphere, Parts.LinkRope],
-}
-
-const formNamePerSlotIndex: Record<number, string> = {
-  0: 'headHands',
-  1: 'bodyFeet',
-  2: 'sphereRope',
-} as const
-
 const MAX_ROLLS = 5
 
-export function FormStatRollSliderTopPercent({ index }: { index: number }) {
-  const parts = partsPerSlotIndex[index]
-  const name = formNamePerSlotIndex[index]
-
-  const value = useOptimizerRequestStore((s) => s.weights[name as keyof typeof s.weights] as number ?? 0)
+export function FormStatRollSliderMinWeightedRolls() {
+  const value = useOptimizerRequestStore((s) => s.weights.minWeightedRolls as number ?? 0)
 
   return (
-    <Flex gap={5} style={{ marginBottom: 0 }} align='center'>
-      <Flex gap={5} style={{ minWidth: 50 }}>
-        <img src={Assets.getPart(parts[0])} style={{ width: 18 }} />
-        <img src={Assets.getPart(parts[1])} style={{ width: 18 }} />
-      </Flex>
-
-      <Flex align='center' gap={10}>
-        <Slider
-          min={0}
-          max={MAX_ROLLS}
-          step={0.5}
-          style={{
-            minWidth: 105,
-            marginTop: 0,
-            marginBottom: 0,
-            marginLeft: 0,
-            marginRight: 5,
-          }}
-          label={(value) => `${Utils.precisionRound(value)}`}
-          value={value}
-          onChange={(val) => useOptimizerRequestStore.getState().setWeight(name as keyof OptimizerRequestState['weights'], val)}
-          onChangeEnd={() => recalculatePermutations()}
-        />
-      </Flex>
+    <Flex gap={5} align='center'>
+      <Slider
+        min={0}
+        max={MAX_ROLLS}
+        step={0.5}
+        style={{ minWidth: 105, marginRight: 5 }}
+        label={(value) => `${Utils.precisionRound(value)}`}
+        value={value}
+        onChange={(val) => {
+          useOptimizerRequestStore.getState().setWeight('minWeightedRolls', val)
+          recalculatePermutations()
+        }}
+      />
 
       <NumberInput
         className='center-input-text'
-        style={{
-          width: 40,
-        }}
+        style={{ width: 40 }}
         hideControls
         min={0}
         max={MAX_ROLLS}
@@ -134,7 +103,7 @@ export function FormStatRollSliderTopPercent({ index }: { index: number }) {
         value={value}
         onChange={(x) => {
           if (x != null && typeof x === 'number') {
-            useOptimizerRequestStore.getState().setWeight(name as keyof OptimizerRequestState['weights'], x)
+            useOptimizerRequestStore.getState().setWeight('minWeightedRolls', x)
           }
           recalculatePermutations()
         }}

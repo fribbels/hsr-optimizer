@@ -47,7 +47,8 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       Slider: { defaultProps: { size: 'xs' } },
       Tabs: { defaultProps: { size: 'xs' } },
       Modal: { defaultProps: { lockScroll: false } },
-      Drawer: { defaultProps: { lockScroll: false } },
+      Drawer: { defaultProps: { lockScroll: false, transitionProps: { duration: 150 } } },
+      Accordion: { styles: { item: { borderBottom: 'none' } } },
     },
   })
 }

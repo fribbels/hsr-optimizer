@@ -30,16 +30,14 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
         variant='default'
         transitionDuration={100}
         styles={{
-          control: { paddingTop: 0, paddingBottom: 0, fontSize: 20, alignItems: 'baseline' },
+          control: { fontSize: 20, alignItems: 'baseline' },
           content: { paddingBlock: 0 },
           chevron: { paddingInlineStart: 12 },
         }}
       >
         <Accordion.Item value={id}>
           <Accordion.Control>
-            <Flex style={{ paddingTop: 6 }}>
-              {label ?? t(`${id}` as never)}
-            </Flex>
+            {label ?? t(`${id}` as never)}
           </Accordion.Control>
           <Accordion.Panel>
             <Flex gap={10}>

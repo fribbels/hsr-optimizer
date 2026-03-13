@@ -198,6 +198,7 @@ export function resetAll(): void {
     relics: [],
     characters: [],
   }
+  SaveState.permitEmptySave()
   loadSaveData(saveFormat)
 }
 

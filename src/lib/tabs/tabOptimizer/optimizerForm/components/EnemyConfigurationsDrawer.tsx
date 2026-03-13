@@ -89,6 +89,7 @@ export function EnemyConfigurationsDrawer() {
       onClose={closeEnemyDrawer}
       opened={isOpenEnemyDrawer}
       size={300}
+      keepMounted
     >
       <Flex direction="column" gap={5}>
         <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>

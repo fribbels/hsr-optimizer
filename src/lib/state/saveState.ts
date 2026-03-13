@@ -17,14 +17,11 @@ import { Relic } from 'types/relic'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
 let saveTimeout: NodeJS.Timeout | null
+let allowEmptySave = false
 
 const STATE_KEY = 'state'
 
-// Flush any pending debounced save before the page unloads.
-// Vite's dev server calls location.reload() when it can't HMR a change,
-// which destroys the JS context and kills pending setTimeout callbacks.
-// Without this, a delayedSave() scheduled within the last 5 seconds is lost
-// and the next page load reads stale data from localStorage.
+// Flush pending saves before page unload (e.g. HMR full reload)
 window.addEventListener('beforeunload', () => {
   if (saveTimeout) {
     clearTimeout(saveTimeout)
@@ -34,6 +31,32 @@ window.addEventListener('beforeunload', () => {
 
 export const SaveState = {
   save: () => {
+    const characters = getCharacters()
+    const relics = getRelics()
+
+    // Block saves that would wipe existing data (e.g. broken metadata during HMR reload)
+    if (!allowEmptySave) {
+      const existing = localStorage.getItem(STATE_KEY)
+      if (existing) {
+        try {
+          const parsed = JSON.parse(existing) as HsrOptimizerSaveFormat
+          if (characters.length === 0 && parsed.characters?.length > 0) {
+            console.warn(`SaveState: Blocked save — would delete ${parsed.characters.length} characters`)
+            saveTimeout = null
+            return
+          }
+          if (relics.length === 0 && parsed.relics?.length > 0) {
+            console.warn(`SaveState: Blocked save — would delete ${parsed.relics.length} relics`)
+            saveTimeout = null
+            return
+          }
+        } catch {
+          // If we can't parse existing state, allow the save
+        }
+      }
+    }
+    allowEmptySave = false
+
     const globalState = useGlobalStore.getState()
     const relicsTabState = useRelicsTabStore.getState()
     const showcaseTabSession = useShowcaseTabStore.getState().savedSession
@@ -44,8 +67,8 @@ export const SaveState = {
     const scannerState = useScannerState.getState()
 
     const state: HsrOptimizerSaveFormat = {
-      relics: getRelics().map(({ augmentedStats, ...rest }) => rest) as Relic[],
-      characters: getCharacters(),
+      relics: relics.map(({ augmentedStats, ...rest }) => rest) as Relic[],
+      characters: characters,
       scoringMetadataOverrides: useScoringStore.getState().scoringMetadataOverrides,
       showcasePreferences: useShowcaseTabStore.getState().showcasePreferences,
       optimizerMenuState: useOptimizerDisplayStore.getState().menuState,
@@ -85,6 +108,11 @@ export const SaveState = {
     saveTimeout = setTimeout(() => {
       SaveState.save()
     }, ms)
+  },
+
+  // Bypass the empty-save guard for the next save (used by "Clear data")
+  permitEmptySave: () => {
+    allowEmptySave = true
   },
 
   load: (autosave = true, sanitize = true) => {

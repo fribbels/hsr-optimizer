@@ -21,33 +21,43 @@ export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImag
   const callbackRef = useRef(callback)
   callbackRef.current = callback
 
+  // Capture the latest style in a ref so the onload callback always applies
+  // the position that was current when the image finished loading
+  const styleRef = useRef(style)
+  styleRef.current = style
+
   // Initialize without blur if the image is already browser-cached
+  const cached = isImageCached(src)
   const [storedSrc, setStoredSrc] = useState<string | undefined>(() =>
-    isImageCached(src) ? src : undefined
+    cached ? src : undefined
   )
-  const [blur, setBlur] = useState<boolean>(() => !storedSrc)
+  const [storedStyle, setStoredStyle] = useState<CSSProperties>(style)
+  const [blur, setBlur] = useState<boolean>(() => !cached)
 
   useEffect(() => {
     // Already loaded this src — nothing to do
     if (src === storedSrc) {
+      setStoredStyle(styleRef.current)
       return
     }
 
     // Check if browser has it cached — skip blur entirely
     if (isImageCached(src)) {
       setStoredSrc(src)
+      setStoredStyle(styleRef.current)
       setBlur(false)
       callbackRef.current?.(src)
       return
     }
 
-    // Not cached — show blur and load
+    // Not cached — show blur, keep old style/position until new image loads
     setBlur(true)
 
     const img = new Image()
     img.src = src
     img.onload = () => {
       setStoredSrc(src)
+      setStoredStyle(styleRef.current)
       setBlur(false)
       callbackRef.current?.(src)
     }
@@ -60,7 +70,7 @@ export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImag
       src={storedSrc}
       loading='eager'
       style={{
-        ...style,
+        ...storedStyle,
         filter: blur ? 'blur(6px)' : 'none',
         transition: blur ? '' : 'filter 0.35s cubic-bezier(.41,.65,.39,.99)',
       }}

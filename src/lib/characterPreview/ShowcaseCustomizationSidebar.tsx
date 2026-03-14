@@ -10,8 +10,8 @@ import {
 import { Button, ColorInput, Flex, NumberInput, SegmentedControl, Select } from '@mantine/core'
 
 import i18next from 'i18next'
+import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseColorService'
 import {
-  DEFAULT_SHOWCASE_COLOR,
   editShowcasePreferences,
 } from 'lib/characterPreview/showcaseCustomizationController'
 import {
@@ -33,7 +33,6 @@ import {
 import { AppPages } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/appStore'
-import { getCharacterById } from 'lib/stores/characterStore'
 import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -41,51 +40,30 @@ import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimiz
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import {
-  modifyCustomColor,
-  organizeColors,
-  selectClosestColor,
-} from 'lib/utils/colorUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
-import {
-  getPalette,
-  PaletteResponse,
-} from 'lib/utils/vibrantFork'
 import React, {
-  Ref,
-  useImperativeHandle,
   useMemo,
-  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Character,
   CharacterId,
 } from 'types/character'
-import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
-import { ShowcasePreferences } from 'types/metadata'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 import classes from './ShowcaseCustomizationSidebar.module.css'
-
-export interface ShowcaseCustomizationSidebarRef {
-  onPortraitLoad: (src: string, characterId: CharacterId) => void
-}
 
 export interface ShowcaseCustomizationSidebarProps {
   id: string
   source: ShowcaseSource
   characterId: CharacterId
-  showcasePreferences: ShowcasePreferences
   scoringResult: SimulationScore | null
   scoringType: ScoringType
   seedColor: string
-  setSeedColor: (color: string) => void
-  colorMode: ShowcaseColorMode
-  setColorMode: (colorMode: ShowcaseColorMode) => void
+  effectiveColorMode: ShowcaseColorMode
+  portraitSwatches: string[]
 }
 
-function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSidebarProps & { ref?: Ref<ShowcaseCustomizationSidebarRef> }) {
+export function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebarProps) {
     const {
       id,
       source,
@@ -93,16 +71,12 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
       scoringResult,
       scoringType,
       seedColor,
-      setSeedColor,
-      colorMode,
-      setColorMode,
+      effectiveColorMode,
+      portraitSwatches,
     } = props
 
     const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
     const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
-    const [colors, setColors] = useState<string[]>([])
-    const globalShowcasePreferences = useShowcaseTabStore((s) => s.showcasePreferences)
-    const setGlobalShowcasePreferences = useShowcaseTabStore((s) => s.setShowcasePreferences)
     const { loading, trigger: screenshot } = useScreenshotAction(id)
     const showcaseDarkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
     const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
@@ -111,53 +85,13 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
     const spdValue = scoringMetadata.stats[Stats.SPD]
     const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
 
-    useImperativeHandle(ref, () => ({
-      onPortraitLoad: (img: string, characterId: CharacterId) => {
-        if (getCharacterById(characterId)?.portrait) {
-          getPalette(img, (palette: PaletteResponse) => {
-            const primary = modifyCustomColor(
-              selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
-            )
-
-            setSeedColor(primary)
-            urlToColorCache[img] = primary
-
-            setColors(organizeColors(palette))
-          })
-        } else {
-          setTimeout(() => {
-            // Delayed to update color palette after render
-            getPalette(img, (palette: PaletteResponse) => {
-              setColors(organizeColors(palette))
-            })
-          }, 1000)
-        }
-      },
-    }))
-
     function onColorSelectorChange(newColor: string) {
-      if (newColor == DEFAULT_SHOWCASE_COLOR) return
-
-      editShowcasePreferences(
-        characterId,
-        globalShowcasePreferences,
-        setGlobalShowcasePreferences,
-        { color: newColor, colorMode: ShowcaseColorMode.CUSTOM },
-      )
-
-      setColorMode(ShowcaseColorMode.CUSTOM)
-      setSeedColor(newColor)
+      if (newColor === DEFAULT_SHOWCASE_COLOR) return
+      editShowcasePreferences(characterId, { color: newColor, colorMode: ShowcaseColorMode.CUSTOM })
     }
 
     function onColorModeChange(newColorMode: ShowcaseColorMode) {
-      editShowcasePreferences(
-        characterId,
-        globalShowcasePreferences,
-        setGlobalShowcasePreferences,
-        { colorMode: newColorMode },
-      )
-
-      setColorMode(newColorMode)
+      editShowcasePreferences(characterId, { colorMode: newColorMode })
     }
 
     function onBrightnessModeChange(darkMode: boolean) {
@@ -218,7 +152,7 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
       }
     }
 
-    const swatchColors = [...colors]
+    const swatchColors = portraitSwatches
 
     const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } = useMemo(() => {
       return {
@@ -384,7 +318,7 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
               { value: ShowcaseColorMode.CUSTOM, label: tCustomization('Modes.Custom') },
               { value: ShowcaseColorMode.STANDARD, label: tCustomization('Modes.Standard') },
             ]}
-            value={colorMode}
+            value={effectiveColorMode}
             onChange={(value) => onColorModeChange(value as ShowcaseColorMode)}
           />
 
@@ -443,8 +377,6 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
       </Flex>
     )
 }
-
-export default ShowcaseCustomizationSidebar
 
 function SelectSpdPresets(props: {
   characterId: string,
@@ -521,42 +453,6 @@ const cardStyle = {
   padding: defaultPadding,
 }
 
-const STANDARD_COLOR = '#799ef4'
-
-export function standardShowcasePreferences() {
-  return {
-    color: STANDARD_COLOR,
-    colorMode: ShowcaseColorMode.STANDARD,
-  }
-}
-
-export function defaultShowcasePreferences(color: string) {
-  return {
-    color: color,
-    colorMode: ShowcaseColorMode.AUTO,
-  }
-}
-
-export const urlToColorCache: Record<string, string> = {}
-
-export function getOverrideColorMode(
-  colorMode: ShowcaseColorMode,
-  globalShowcasePreferences: Record<string, ShowcasePreferences>,
-  character: Character,
-) {
-  if (colorMode == ShowcaseColorMode.STANDARD) {
-    return ShowcaseColorMode.STANDARD
-  }
-
-  const savedColorMode = globalShowcasePreferences[character.id]?.colorMode
-
-  if (!savedColorMode || savedColorMode == ShowcaseColorMode.STANDARD) {
-    return ShowcaseColorMode.AUTO
-  }
-
-  return savedColorMode
-}
-
 function getActiveCharacterName() {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
   let charId: CharacterId | null | undefined
@@ -572,21 +468,4 @@ function getActiveCharacterName() {
   }
   if (!charId) return
   return t(`${charId}.LongName`)
-}
-
-export function getDefaultColor(characterId: CharacterId, portraitUrl: string, colorMode: ShowcaseColorMode) {
-  if (colorMode == ShowcaseColorMode.STANDARD) {
-    return STANDARD_COLOR
-  }
-
-  if (getCharacterById(characterId)?.portrait && urlToColorCache[portraitUrl]) {
-    return urlToColorCache[portraitUrl]
-  }
-
-  const configColor = getCharacterConfig(characterId)?.display.showcaseColor
-  if (configColor) {
-    return configColor
-  }
-
-  return '#000000'
 }

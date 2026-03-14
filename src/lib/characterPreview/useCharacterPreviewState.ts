@@ -87,10 +87,8 @@ export function useCharacterPreviewState(
   // resolveShowcaseLayout re-reads the latest values via resolveDpsScoreSimulationMetadata.
   const scoringMetadata = useScoringMetadata(character?.id)
 
-  // Hooks must be called unconditionally before early return to satisfy Rules of Hooks
   const previewRelics = useMemo(() => {
     if (!character) return null
-    if (source !== ShowcaseSource.SHOWCASE_TAB && Object.keys(relicsById).length === 0) return null
     return getPreviewRelics(source, character, relicsById, savedBuildOverride)
   }, [source, character, relicsById, savedBuildOverride])
 

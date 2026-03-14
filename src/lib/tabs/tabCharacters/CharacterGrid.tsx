@@ -13,6 +13,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
+import { OverlayScrollbarsComponent, OverlayScrollbarsComponentRef } from 'overlayscrollbars-react'
 import { ActionIcon, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { useMergedRef } from '@mantine/hooks'
@@ -27,6 +28,7 @@ import { useGlobalStore } from 'lib/stores/appStore'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import React, {
   memo,
@@ -38,17 +40,21 @@ import React, {
 } from 'react'
 import { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/afterPaint'
-import { CharacterGridDebugPanel, DebugToggles, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
+import { applyColorTransform, CharacterGridDebugPanel, ColorTransform, DebugToggles, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import classes from './CharacterGrid.module.css'
 
 export function CharacterGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
+  const osRef = useCallback((instance: OverlayScrollbarsComponentRef<'div'> | null) => {
+    (gridRef as React.MutableRefObject<HTMLDivElement | null>).current = instance?.getElement() ?? null
+  }, [])
   const characters = useCharacterStore((s) => s.characters)
   const filters = useCharacterTabStore((s) => s.filters)
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
 
   const [localFocus, setLocalFocus] = useState<CharacterId | null>(null)
   const [toggles, setToggles] = useState<DebugToggles>(DEFAULT_TOGGLES)
+  const [colorTransform, setColorTransform] = useState<ColorTransform>(DEFAULT_COLOR_TRANSFORM)
 
   useEffect(() => {
     setLocalFocus(null)
@@ -138,11 +144,12 @@ export function CharacterGrid() {
 
   return (
     <>
-      <CharacterGridDebugPanel targetRef={gridRef} toggles={toggles} onTogglesChange={setToggles} />
-      <div
-        ref={gridRef}
+      <CharacterGridDebugPanel targetRef={gridRef} toggles={toggles} onTogglesChange={setToggles} colorTransform={colorTransform} onColorTransformChange={setColorTransform} />
+      <OverlayScrollbarsComponent
+        ref={osRef}
         className={classes.gridContainer}
         data-container-border={toggles.showContainerBorder}
+        options={{ scrollbars: { autoHide: 'move', autoHideDelay: 500 } }}
         tabIndex={0}
         onKeyDown={handleKeyDown}
       >
@@ -154,6 +161,7 @@ export function CharacterGrid() {
                 character={character}
                 isFocused={character.id === displayFocus}
                 toggles={toggles}
+                colorTransform={colorTransform}
                 onClick={handleRowClick}
                 onDoubleClick={handleRowDoubleClick}
                 onEdit={handleEdit}
@@ -162,7 +170,7 @@ export function CharacterGrid() {
             ))}
           </SortableContext>
         </DndContext>
-      </div>
+      </OverlayScrollbarsComponent>
     </>
   )
 }
@@ -171,13 +179,14 @@ type CharacterRowProps = {
   character: Character
   isFocused: boolean
   toggles: DebugToggles
+  colorTransform: ColorTransform
   onClick: (id: CharacterId) => void
   onDoubleClick: (id: CharacterId) => void
   onEdit: (id: CharacterId) => void
   onRemove: (id: CharacterId) => void
 }
 
-function SortableCharacterRow({ character, isFocused, toggles, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+function SortableCharacterRow({ character, isFocused, toggles, colorTransform, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: character.id,
     animateLayoutChanges: () => false,
@@ -192,9 +201,12 @@ function SortableCharacterRow({ character, isFocused, toggles, onClick, onDouble
 
   const mergedRef = useMergedRef(setNodeRef, scrollRef)
 
+  const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
+
   const style: React.CSSProperties = {
     transform: CSS.Translate.toString(transform),
     transition: transform ? transition : undefined,
+    backgroundColor: showcaseColor ? applyColorTransform(showcaseColor, colorTransform) : undefined,
   }
 
   return (
@@ -236,7 +248,6 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, toggl
   const superimposition = character.form?.lightConeSuperimposition ?? 1
 
   const rank = character.rank + 1
-  const isTopRank = rank <= 3
 
   return (
     <>
@@ -257,20 +268,16 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, toggl
 
       {/* Content */}
       <div className={classes.inner}>
-        {/* Drag grip */}
-        {toggles.showDragGrip && (
-          <div className={classes.dragGrip}>
-            <span className={classes.gripLine} />
-            <span className={classes.gripLine} />
-            <span className={classes.gripLine} />
-          </div>
-        )}
-
-        {/* Rank */}
+        {/* Rank / drag grip — grip replaces rank on hover */}
         {toggles.showRank && (
-          <span className={classes.rank} data-top={isTopRank}>
-            {rank}
-          </span>
+          <div className={classes.rankGripSlot}>
+            <span className={classes.rank}>{rank}</span>
+            <div className={classes.dragGrip}>
+              <span className={classes.gripLine} />
+              <span className={classes.gripLine} />
+              <span className={classes.gripLine} />
+            </div>
+          </div>
         )}
 
         {/* Name + subtitle (E/S badges) */}

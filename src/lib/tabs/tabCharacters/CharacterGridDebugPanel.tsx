@@ -1,3 +1,4 @@
+import chroma from 'chroma-js'
 import { useState, useCallback, useRef, useEffect } from 'react'
 
 type SliderConfig = {
@@ -13,30 +14,112 @@ type SliderConfig = {
 const SLIDERS: SliderConfig[] = [
   { label: 'List Width', cssVar: '--cr-list-width', min: 200, max: 400, step: 5, defaultValue: 320, unit: 'px' },
   { label: 'Row Height', cssVar: '--cr-row-height', min: 36, max: 72, step: 1, defaultValue: 64, unit: 'px' },
-  { label: 'Row Gap', cssVar: '--cr-row-gap', min: 0, max: 8, step: 1, defaultValue: 0, unit: 'px' },
-  { label: 'Portrait X', cssVar: '--cr-portrait-x', min: 20, max: 150, step: 1, defaultValue: 34, unit: '%' },
+  { label: 'Row Gap', cssVar: '--cr-row-gap', min: 0, max: 8, step: 1, defaultValue: 1, unit: 'px' },
+  { label: 'Portrait X', cssVar: '--cr-portrait-x', min: 20, max: 150, step: 1, defaultValue: 40, unit: '%' },
   { label: 'Portrait Y', cssVar: '--cr-portrait-y', min: 10, max: 60, step: 1, defaultValue: 31, unit: '%' },
-  { label: 'Portrait Scale', cssVar: '--cr-portrait-scale', min: 25, max: 175, step: 5, defaultValue: 75, unit: '%' },
+  { label: 'Portrait Scale', cssVar: '--cr-portrait-scale', min: 25, max: 175, step: 5, defaultValue: 65, unit: '%' },
   { label: 'LC Icon Size', cssVar: '--cr-lc-size', min: 14, max: 56, step: 1, defaultValue: 48, unit: 'px' },
-  { label: 'Badge Size', cssVar: '--cr-badge-size', min: 10, max: 24, step: 1, defaultValue: 18, unit: 'px' },
-  { label: 'Content Offset', cssVar: '--cr-content-offset', min: 0, max: 60, step: 1, defaultValue: 23, unit: '%' },
-  { label: 'LC Right Pad', cssVar: '--cr-lc-right-pad', min: 0, max: 24, step: 1, defaultValue: 4, unit: 'px' },
-  { label: 'LC Strip Width', cssVar: '--cr-lc-strip-width', min: 30, max: 120, step: 1, defaultValue: 56, unit: 'px' },
+  { label: 'Badge Size', cssVar: '--cr-badge-size', min: 10, max: 24, step: 1, defaultValue: 16, unit: 'px' },
+  { label: 'Content Offset', cssVar: '--cr-content-offset', min: 0, max: 60, step: 1, defaultValue: 25, unit: '%' },
+  { label: 'LC Right Pad', cssVar: '--cr-lc-right-pad', min: 0, max: 24, step: 1, defaultValue: 1, unit: 'px' },
+  { label: 'LC Strip Width', cssVar: '--cr-lc-strip-width', min: 30, max: 120, step: 1, defaultValue: 52, unit: 'px' },
   { label: 'Scrim 0%', cssVar: '--cr-scrim-0', min: 0, max: 1, step: 0.01, defaultValue: 0.94, unit: '' },
   { label: 'Scrim 40%', cssVar: '--cr-scrim-40', min: 0, max: 1, step: 0.01, defaultValue: 0.85, unit: '' },
   { label: 'Scrim 65%', cssVar: '--cr-scrim-65', min: 0, max: 1, step: 0.01, defaultValue: 0.30, unit: '' },
   { label: 'Scrim 85%', cssVar: '--cr-scrim-85', min: 0, max: 1, step: 0.01, defaultValue: 0.07, unit: '' },
-  { label: 'Scrim 100%', cssVar: '--cr-scrim-100', min: 0, max: 1, step: 0.01, defaultValue: 0.17, unit: '' },
+  { label: 'Scrim 100%', cssVar: '--cr-scrim-100', min: 0, max: 1, step: 0.01, defaultValue: 0.15, unit: '' },
 ]
 
 const FROST_SLIDERS: SliderConfig[] = [
-  { label: 'Frost Blur', cssVar: '--cr-frost-blur', min: 0, max: 24, step: 0.5, defaultValue: 5, unit: 'px' },
-  { label: 'Frost Brightness', cssVar: '--cr-frost-brightness', min: 0.1, max: 1.0, step: 0.05, defaultValue: 0.85, unit: '' },
-  { label: 'Frost Saturate', cssVar: '--cr-frost-saturate', min: 0.5, max: 2.0, step: 0.05, defaultValue: 1.0, unit: '' },
-  { label: 'Frost Tint', cssVar: '--cr-frost-tint', min: 0, max: 0.5, step: 0.01, defaultValue: 0.25, unit: '' },
-  { label: 'Frost Fade Start', cssVar: '--cr-frost-fade-start', min: 0, max: 100, step: 1, defaultValue: 25, unit: '%' },
-  { label: 'Frost Fade End', cssVar: '--cr-frost-fade-end', min: 0, max: 100, step: 1, defaultValue: 55, unit: '%' },
+  { label: 'Frost Blur', cssVar: '--cr-frost-blur', min: 0, max: 24, step: 0.5, defaultValue: 16, unit: 'px' },
+  { label: 'Frost Brightness', cssVar: '--cr-frost-brightness', min: 0.1, max: 1.0, step: 0.05, defaultValue: 0.8, unit: '' },
+  { label: 'Frost Saturate', cssVar: '--cr-frost-saturate', min: 0.5, max: 2.0, step: 0.05, defaultValue: 1.2, unit: '' },
+  { label: 'Frost Tint', cssVar: '--cr-frost-tint', min: 0, max: 0.5, step: 0.01, defaultValue: 0.2, unit: '' },
+  { label: 'Frost Fade Start', cssVar: '--cr-frost-fade-start', min: 0, max: 100, step: 1, defaultValue: 27, unit: '%' },
+  { label: 'Frost Fade End', cssVar: '--cr-frost-fade-end', min: 0, max: 100, step: 1, defaultValue: 42, unit: '%' },
 ]
+
+// --- Character BG color transforms ---
+
+export type ColorTransform = {
+  luminance: number    // target luminance 0.00-0.10
+  saturate: number     // chroma saturate (positive) / desaturate (negative) -3 to 3
+  darken: number       // chroma darken amount 0-5
+  alpha: number        // opacity 0-100%
+  brighten: number     // chroma brighten amount 0-3
+}
+
+export const DEFAULT_COLOR_TRANSFORM: ColorTransform = {
+  luminance: 0.035,
+  saturate: -0.3,
+  darken: 0,
+  alpha: 70,
+  brighten: 0.3,
+}
+
+type ColorPreset = { label: string; transform: ColorTransform }
+
+const COLOR_PRESETS: ColorPreset[] = [
+  { label: 'Off', transform: { luminance: 0, saturate: 0, darken: 0, alpha: 0, brighten: 0 } },
+  // --- Card-style (based on showcaseCardBackgroundColor) ---
+  { label: 'Card', transform: { luminance: 0.025, saturate: -0.8, darken: 0, alpha: 68, brighten: 0 } },
+  { label: 'Card+', transform: { luminance: 0.03, saturate: -0.5, darken: 0, alpha: 75, brighten: 0 } },
+  // --- Whisper family: barely-there tints ---
+  { label: 'Whisper', transform: { luminance: 0.015, saturate: -1.5, darken: 0, alpha: 35, brighten: 0 } },
+  { label: 'Breath', transform: { luminance: 0.02, saturate: -1.0, darken: 0, alpha: 40, brighten: 0 } },
+  { label: 'Hint', transform: { luminance: 0.025, saturate: -0.8, darken: 0, alpha: 50, brighten: 0 } },
+  // --- Subtle family: gentle presence ---
+  { label: 'Subtle', transform: { luminance: 0.03, saturate: -0.7, darken: 0, alpha: 55, brighten: 0 } },
+  { label: 'Haze', transform: { luminance: 0.035, saturate: -1.0, darken: 0, alpha: 60, brighten: 0 } },
+  { label: 'Wash', transform: { luminance: 0.02, saturate: -0.3, darken: 0, alpha: 50, brighten: 0 } },
+  // --- Pastel family: soft colored ---
+  { label: 'Pastel', transform: { luminance: 0.04, saturate: -0.5, darken: 0, alpha: 70, brighten: 0 } },
+  { label: 'Soft', transform: { luminance: 0.035, saturate: -0.6, darken: 0, alpha: 65, brighten: 0 } },
+  { label: 'Cloud', transform: { luminance: 0.045, saturate: -1.2, darken: 0, alpha: 60, brighten: 0 } },
+  { label: 'Bloom', transform: { luminance: 0.04, saturate: -0.2, darken: 0, alpha: 65, brighten: 0 } },
+  { label: 'Dusk', transform: { luminance: 0.02, saturate: -0.4, darken: 0.5, alpha: 80, brighten: 0 } },
+  // --- Saturated family: more color ---
+  { label: 'Tint', transform: { luminance: 0.03, saturate: 0, darken: 0, alpha: 55, brighten: 0 } },
+  { label: 'Glow', transform: { luminance: 0.05, saturate: 0, darken: 0, alpha: 60, brighten: 0 } },
+  { label: 'Ember', transform: { luminance: 0.03, saturate: 0, darken: 0.3, alpha: 75, brighten: 0 } },
+  // --- Dark family: moody ---
+  { label: 'Shadow', transform: { luminance: 0.01, saturate: -0.5, darken: 1, alpha: 80, brighten: 0 } },
+  { label: 'Ink', transform: { luminance: 0.01, saturate: -1.5, darken: 0.5, alpha: 90, brighten: 0 } },
+  { label: 'Slate', transform: { luminance: 0.02, saturate: -2.0, darken: 0, alpha: 70, brighten: 0 } },
+  // --- Warm/lifted: brighten to push color upward then darken back ---
+  { label: 'Lifted', transform: { luminance: 0.03, saturate: -0.3, darken: 0, alpha: 65, brighten: 0.5 } },
+  { label: 'Warm', transform: { luminance: 0.035, saturate: 0.3, darken: 0.2, alpha: 60, brighten: 0.4 } },
+  { label: 'Velvet', transform: { luminance: 0.02, saturate: 0.5, darken: 0.8, alpha: 85, brighten: 0 } },
+  // --- Boosted saturation: punch up the color ---
+  { label: 'Vivid', transform: { luminance: 0.03, saturate: 0.8, darken: 0.5, alpha: 70, brighten: 0 } },
+  { label: 'Jewel', transform: { luminance: 0.025, saturate: 1.0, darken: 0.8, alpha: 80, brighten: 0 } },
+  // --- Ultra-subtle near-monochrome ---
+  { label: 'Ash', transform: { luminance: 0.025, saturate: -2.5, darken: 0, alpha: 80, brighten: 0 } },
+  { label: 'Fog', transform: { luminance: 0.04, saturate: -2.0, darken: 0, alpha: 50, brighten: 0.3 } },
+  // --- Bright + desaturated: pastel-like but with brighten ---
+  { label: 'Pearl', transform: { luminance: 0.05, saturate: -1.0, darken: 0, alpha: 55, brighten: 0.5 } },
+  { label: 'Opal', transform: { luminance: 0.04, saturate: -0.5, darken: 0, alpha: 60, brighten: 0.8 } },
+  { label: 'Dawn', transform: { luminance: 0.035, saturate: -0.3, darken: 0, alpha: 70, brighten: 0.3 } },
+]
+
+const COLOR_SLIDERS: { key: keyof ColorTransform; label: string; min: number; max: number; step: number; unit: string }[] = [
+  { key: 'luminance', label: 'Luminance', min: 0, max: 0.1, step: 0.005, unit: '' },
+  { key: 'saturate', label: 'Saturate', min: -3, max: 3, step: 0.1, unit: '' },
+  { key: 'darken', label: 'Darken', min: 0, max: 5, step: 0.1, unit: '' },
+  { key: 'brighten', label: 'Brighten', min: 0, max: 3, step: 0.1, unit: '' },
+  { key: 'alpha', label: 'Opacity', min: 0, max: 100, step: 5, unit: '%' },
+]
+
+/** Apply chroma-js transforms to a hex color */
+export function applyColorTransform(hex: string, transform: ColorTransform): string {
+  if (transform.alpha === 0) return 'transparent'
+  let c = chroma(hex).luminance(transform.luminance)
+  if (transform.saturate > 0) c = c.saturate(transform.saturate)
+  else if (transform.saturate < 0) c = c.desaturate(-transform.saturate)
+  if (transform.darken) c = c.darken(transform.darken)
+  if (transform.brighten) c = c.brighten(transform.brighten)
+  return c.alpha(transform.alpha / 100).css()
+}
 
 export type ScrimMode = 'black' | 'themed' | 'solid-fade' | 'frosted' | 'bg-light'
 export type LcStyle = 'none' | 'pill' | 'frosted' | 'shadow'
@@ -58,7 +141,6 @@ export const LC_STYLES: { value: LcStyle; label: string }[] = [
 
 export type DebugToggles = {
   showRank: boolean
-  showDragGrip: boolean
   showPortrait: boolean
   showActionButtons: boolean
   showEidolon: boolean
@@ -72,7 +154,6 @@ export type DebugToggles = {
 
 export const DEFAULT_TOGGLES: DebugToggles = {
   showRank: true,
-  showDragGrip: false,
   showPortrait: true,
   showActionButtons: true,
   showEidolon: true,
@@ -88,7 +169,6 @@ type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle'>
 
 const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   showRank: 'Rank',
-  showDragGrip: 'Drag Grip',
   showPortrait: 'Portrait',
   showActionButtons: 'Actions',
   showEidolon: 'Eidolon',
@@ -98,10 +178,12 @@ const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   nameShadow: 'Name Shadow',
 }
 
-export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange }: {
+export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, colorTransform, onColorTransformChange }: {
   targetRef: React.RefObject<HTMLDivElement | null>
   toggles: DebugToggles
   onTogglesChange: (toggles: DebugToggles) => void
+  colorTransform: ColorTransform
+  onColorTransformChange: (ct: ColorTransform) => void
 }) {
   const [collapsed, setCollapsed] = useState(false)
   const [values, setValues] = useState<Record<string, number>>(() => {
@@ -142,7 +224,8 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange }:
     setValues(init)
     applyVars(init)
     onTogglesChange({ ...DEFAULT_TOGGLES })
-  }, [applyVars, onTogglesChange])
+    onColorTransformChange({ ...DEFAULT_COLOR_TRANSFORM })
+  }, [applyVars, onTogglesChange, onColorTransformChange])
 
   const handleCopy = useCallback(() => {
     const allSliders = [...SLIDERS, ...FROST_SLIDERS]
@@ -153,9 +236,12 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange }:
     const toggleLines = (Object.keys(toggles) as Array<keyof DebugToggles>).map((key) => {
       return `  ${key}: ${toggles[key]}`
     })
-    const output = `/* Sliders */\n${sliderLines.join('\n')}\n\n/* Toggles */\n${toggleLines.join('\n')}`
+    const colorLines = (Object.keys(colorTransform) as Array<keyof ColorTransform>).map((key) => {
+      return `  ${key}: ${colorTransform[key]}`
+    })
+    const output = `/* Sliders */\n${sliderLines.join('\n')}\n\n/* Toggles */\n${toggleLines.join('\n')}\n\n/* Color Transform */\n${colorLines.join('\n')}`
     void navigator.clipboard.writeText(output)
-  }, [values, toggles])
+  }, [values, toggles, colorTransform])
 
   const handleToggle = useCallback((key: BooleanToggleKeys) => {
     onTogglesChange({ ...toggles, [key]: !toggles[key] })
@@ -298,6 +384,48 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange }:
                 >
                   {s.label}
                 </span>
+              ))}
+            </div>
+          </div>
+
+          {/* BG color presets */}
+          <div>
+            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>BG COLOR</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {COLOR_PRESETS.map((preset) => {
+                const active = colorTransform.luminance === preset.transform.luminance
+                  && colorTransform.saturate === preset.transform.saturate
+                  && colorTransform.darken === preset.transform.darken
+                  && colorTransform.brighten === preset.transform.brighten
+                  && colorTransform.alpha === preset.transform.alpha
+                return (
+                  <span
+                    key={preset.label}
+                    style={pillStyle(active)}
+                    onClick={() => onColorTransformChange({ ...preset.transform })}
+                  >
+                    {preset.label}
+                  </span>
+                )
+              })}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
+              {COLOR_SLIDERS.map((s) => (
+                <div key={s.key}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
+                    <span style={{ color: '#999' }}>{s.label}</span>
+                    <span style={{ color: '#7c5cfc' }}>{colorTransform[s.key]}{s.unit}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={s.min}
+                    max={s.max}
+                    step={s.step}
+                    value={colorTransform[s.key]}
+                    onChange={(e) => onColorTransformChange({ ...colorTransform, [s.key]: parseFloat(e.target.value) })}
+                    style={{ width: '100%', accentColor: '#7c5cfc', height: 14 }}
+                  />
+                </div>
               ))}
             </div>
           </div>

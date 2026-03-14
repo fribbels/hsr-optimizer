@@ -40,6 +40,8 @@ import {
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import {
+  startTransition,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -156,18 +158,16 @@ function CharacterPreviewSelection() {
 
   // Adapters for CharacterPreview prop-threading: setInitialCharacter opens the overlay,
   // setOpen(true) is a no-op since the overlay is already open.
-  function setOriginalCharacterModalInitialCharacter(character: Character | null) {
+  const setOriginalCharacterModalInitialCharacter = useCallback((character: Character | null) => {
     useCharacterModalStore.getState().openOverlay({
       initialCharacter: character,
-      onOk: onCharacterModalOk,
+      onOk: useShowcaseTabStore.getState().onCharacterModalOk,
     })
-  }
+  }, [])
 
-  function setOriginalCharacterModalOpen(open: boolean) {
-    if (!open) {
-      useCharacterModalStore.getState().closeOverlay()
-    }
-  }
+  const setOriginalCharacterModalOpen = useCallback((open: boolean) => {
+    if (!open) useCharacterModalStore.getState().closeOverlay()
+  }, [])
 
   function clipboardClicked() {
     screenshotTrigger('clipboard')
@@ -302,7 +302,7 @@ function CharacterPreviewSelection() {
           className={styles.segmentedControl}
           data={options}
           fullWidth
-          onChange={(value) => onSelectionChanged(value as CharacterId)}
+          onChange={(value) => startTransition(() => onSelectionChanged(value as CharacterId))}
           value={selectedCharacter?.id}
         />
 

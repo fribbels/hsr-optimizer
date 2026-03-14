@@ -194,6 +194,7 @@ export function CharacterGrid() {
               <SortableCharacterRow
                 key={character.id}
                 character={character}
+                rank={characters.indexOf(character)}
                 isFocused={character.id === displayFocus}
                 toggles={toggles}
                 colorTransform={colorTransform}
@@ -208,6 +209,7 @@ export function CharacterGrid() {
             {activeId && getCharacterById(activeId) && (
               <DragOverlayRow
                 character={getCharacterById(activeId)!}
+                rank={characters.findIndex((c) => c.id === activeId)}
                 toggles={toggles}
                 colorTransform={colorTransform}
               />
@@ -221,6 +223,7 @@ export function CharacterGrid() {
 
 type CharacterRowProps = {
   character: Character
+  rank: number
   isFocused: boolean
   toggles: DebugToggles
   colorTransform: ColorTransform
@@ -230,7 +233,7 @@ type CharacterRowProps = {
   onRemove: (id: CharacterId) => void
 }
 
-const SortableCharacterRow = memo(function SortableCharacterRow({ character, isFocused, toggles, colorTransform, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, toggles, colorTransform, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: character.id,
     animateLayoutChanges: () => false,
@@ -268,6 +271,7 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, isF
     >
       <CharacterRowContent
         character={character}
+        rank={rank}
         toggles={toggles}
         onEdit={onEdit}
         onRemove={onRemove}
@@ -276,15 +280,16 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, isF
   )
 }, (prev, next) => {
   return prev.character.id === next.character.id
-    && prev.character.rank === next.character.rank
+    && prev.rank === next.rank
     && prev.character.form === next.character.form
     && prev.isFocused === next.isFocused
     && prev.toggles === next.toggles
     && prev.colorTransform === next.colorTransform
 })
 
-function DragOverlayRow({ character, toggles, colorTransform }: {
+function DragOverlayRow({ character, rank, toggles, colorTransform }: {
   character: Character
+  rank: number
   toggles: DebugToggles
   colorTransform: ColorTransform
 }) {
@@ -304,6 +309,7 @@ function DragOverlayRow({ character, toggles, colorTransform }: {
     >
       <CharacterRowContent
         character={character}
+        rank={rank}
         toggles={toggles}
         onEdit={noop}
         onRemove={noop}
@@ -312,8 +318,9 @@ function DragOverlayRow({ character, toggles, colorTransform }: {
   )
 }
 
-const CharacterRowContent = memo(function CharacterRowContent({ character, toggles, onEdit, onRemove }: {
+const CharacterRowContent = memo(function CharacterRowContent({ character, rank, toggles, onEdit, onRemove }: {
   character: Character
+  rank: number
   toggles: DebugToggles
   onEdit: (id: CharacterId) => void
   onRemove: (id: CharacterId) => void
@@ -326,8 +333,6 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, toggl
   const eidolon = character.form?.characterEidolon ?? 0
   const lightConeId = character.form?.lightCone
   const superimposition = character.form?.lightConeSuperimposition ?? 1
-
-  const rank = character.rank + 1
 
   return (
     <>
@@ -351,7 +356,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, toggl
         {/* Rank / drag grip — grip replaces rank on hover */}
         {toggles.showRank && (
           <div className={classes.rankGripSlot}>
-            <span className={classes.rank}>{rank}</span>
+            <span className={classes.rank}>{rank + 1}</span>
             <div className={classes.dragGrip}>
               <span className={classes.gripLine} />
               <span className={classes.gripLine} />
@@ -419,7 +424,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, toggl
   )
 }, (prev, next) => {
   return prev.character.id === next.character.id
-    && prev.character.rank === next.character.rank
+    && prev.rank === next.rank
     && prev.character.form === next.character.form
     && prev.toggles === next.toggles
 })

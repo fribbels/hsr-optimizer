@@ -128,12 +128,10 @@ const ACTION_BTN_PRESETS: ActionBtnPreset[] = [
     label: 'Bright',
     value: 'bright',
     vars: {
-      '--cr-action-bg': 'rgba(255, 255, 255, 0.15)',
+      '--cr-action-bg': 'rgba(80, 80, 90, 0.45)',
       '--cr-action-color': '#fff',
-      '--cr-action-blur': 'blur(6px)',
-      '--cr-action-border': '1px solid rgba(255, 255, 255, 0.15)',
-      '--cr-action-hover-bg': 'rgba(255, 255, 255, 0.25)',
-      '--cr-action-hover-color': '#fff',
+      '--cr-action-blur': 'none',
+      '--cr-action-border': '1px solid rgba(255, 255, 255, 0.08)',
     },
   },
 ]
@@ -202,7 +200,7 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
   colorTransform: ColorTransform
   onColorTransformChange: (ct: ColorTransform) => void
 }) {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
   const [values, setValues] = useState<Record<string, number>>(() => {
     const init: Record<string, number> = {}
     for (const s of [...SLIDERS, ...FROST_SLIDERS]) init[s.cssVar] = s.defaultValue
@@ -210,7 +208,7 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
   })
 
   // Drag state
-  const [pos, setPos] = useState({ x: 20, y: 100 })
+  const [pos, setPos] = useState({ x: window.innerWidth - 310, y: 50 })
   const dragging = useRef(false)
   const dragOffset = useRef({ x: 0, y: 0 })
 

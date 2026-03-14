@@ -54,9 +54,9 @@ export const useCharacterStore = createTabAwareStore<CharacterStore>((set, get) 
     if (index < 0) {
       index = characters.length
     }
-    const character = get().charactersById[id]
-    if (!character) return console.warn('No matching character to insert', id, index)
-    const removed = characters.splice(character.rank, 1)
+    const currentIndex = characters.findIndex((c) => c.id === id)
+    if (currentIndex === -1) return console.warn('No matching character to insert', id, index)
+    const removed = characters.splice(currentIndex, 1)
     characters.splice(index, 0, removed[0])
     get().setCharacters(characters)
   },

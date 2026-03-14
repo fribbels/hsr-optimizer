@@ -5,7 +5,7 @@ import { RelicScorer } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { getCharacterById } from 'lib/stores/characterStore'
+import { getCharacters } from 'lib/stores/characterStore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import classes from 'lib/tabs/tabRelics/RecentRelicCard.module.css'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
@@ -52,6 +52,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
   // Calculate top characters for the relic
   const topCharacters = useMemo(() => {
     const chars = getGameMetadata().characters
+    const characterList = getCharacters()
 
     return relic && (Object.keys(chars) as (keyof typeof chars)[])
       .filter((id) => !excludedRelicPotentialCharacters.includes(id) && !buffedCharacters[id])
@@ -75,7 +76,9 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
           return rarityDiff
         }
 
-        return (getCharacterById(a.id)?.rank ?? 999) - (getCharacterById(b.id)?.rank ?? 999)
+        const aRank = characterList.findIndex((c) => c.id === a.id)
+        const bRank = characterList.findIndex((c) => c.id === b.id)
+        return (aRank === -1 ? 999 : aRank) - (bRank === -1 ? 999 : bRank)
       })
       .slice(0, 5)
   }, [relic, scoringCharacter, excludedRelicPotentialCharacters, tCharacters])

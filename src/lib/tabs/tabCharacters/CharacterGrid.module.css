@@ -303,17 +303,18 @@
   position: absolute;
   right: 6px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) scale(0.92);
   z-index: 5;
   display: flex;
   gap: 6px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.12s;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .root:hover .actions {
   opacity: 1;
+  transform: translateY(-50%) scale(1);
   pointer-events: auto;
 }
 
@@ -323,23 +324,19 @@
   min-width: 24px;
   min-height: 24px;
   border-radius: var(--cr-radius);
-  background: var(--cr-action-bg, rgba(255, 255, 255, 0.15));
-  color: var(--cr-action-color, #fff);
-  backdrop-filter: var(--cr-action-blur, blur(6px));
-  border: var(--cr-action-border, 1px solid rgba(255, 255, 255, 0.15)) !important;
+  background: var(--cr-action-bg, rgba(80, 80, 90, 0.45)) !important;
+  color: var(--cr-action-color, #fff) !important;
+  backdrop-filter: none !important;
+  border: var(--cr-action-border, 1px solid rgba(255, 255, 255, 0.08)) !important;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  transition: background 0.1s, color 0.1s;
+  transition: none;
 }
 
-.actionBtn:hover {
-  background: var(--cr-action-hover-bg, rgba(255, 255, 255, 0.25));
-  color: var(--cr-action-hover-color, #fff);
-}
 
 /* ============================================================
  * SELECTED STATE

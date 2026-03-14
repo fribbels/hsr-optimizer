@@ -52,9 +52,9 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
     ), [characters, optimizerTabFocusCharacter, tCharacters])
 
   const characterPriorityOptions = useMemo(() => {
-    return characters.map((x) => {
+    return characters.map((x, i) => {
       return {
-        value: x.rank,
+        value: i,
         label: (
           <Flex gap={5}>
             <img
@@ -62,10 +62,10 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               className={classes.characterAvatar}
             />
 
-            {t('Priority.Label', { rank: x.rank + 1, id: x.id })}
+            {t('Priority.Label', { rank: i + 1, id: x.id })}
           </Flex>
         ),
-        name: t('Priority.Name', { rank: x.rank + 1 }),
+        name: t('Priority.Name', { rank: i + 1 }),
       }
     })
   }, [characters, t])

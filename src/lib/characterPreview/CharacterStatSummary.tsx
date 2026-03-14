@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react'
 import { Flex } from '@mantine/core'
 import { StatRow } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
@@ -16,7 +17,7 @@ import classes from './CharacterStatSummary.module.css'
 
 const epsilon = 0.001
 
-export function CharacterStatSummary({
+export const CharacterStatSummary = memo(function CharacterStatSummary({
   characterId,
   finalStats,
   elementalDmgValue,
@@ -35,7 +36,7 @@ export function CharacterStatSummary({
   simScore?: number
   showAll?: boolean
 }) {
-  const edits = calculateStatCustomizations(characterId)
+  const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
   // For callers that don't pass scoring props (CharacterScoringSummary, BenchmarkResults),
@@ -90,7 +91,7 @@ export function CharacterStatSummary({
       </Flex>
     </StatText>
   )
-}
+})
 
 function calculateStatCustomizations(characterId: CharacterId) {
   if (!characterId) return {}

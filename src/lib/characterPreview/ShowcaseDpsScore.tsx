@@ -36,6 +36,7 @@ import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import i18next from 'i18next'
 import {
+  memo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -49,7 +50,7 @@ import {
 } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 
-export function ShowcaseDpsScorePanel({
+export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   characterId,
   scoringDone,
   scoringResult,
@@ -99,9 +100,9 @@ export function ShowcaseDpsScorePanel({
       />
     </Flex>
   )
-}
+})
 
-export function ShowcaseCombatScoreDetailsFooter({ scoringDone, scoringResult }: {
+export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScoreDetailsFooter({ scoringDone, scoringResult }: {
   scoringDone: boolean
   scoringResult: SimulationScore | null
 }) {
@@ -117,7 +118,7 @@ export function ShowcaseCombatScoreDetailsFooter({ scoringDone, scoringResult }:
       <CharacterCardCombatStats result={scoringResult} />
     </Flex>
   )
-}
+})
 
 function getTeammate(index: number, form: OptimizerForm) {
   if (index === 0) return form.teammate0
@@ -198,7 +199,7 @@ function CharacterPreviewScoringTeammate({
   )
 }
 
-export function ShowcaseDpsScoreHeader({ relics, scoringDone, scoringResult }: {
+export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader({ relics, scoringDone, scoringResult }: {
   relics: SingleRelicByPart
   scoringDone: boolean
   scoringResult: SimulationScore | null
@@ -241,7 +242,7 @@ export function ShowcaseDpsScoreHeader({ relics, scoringDone, scoringResult }: {
       {textDisplay}
     </Flex>
   )
-}
+})
 
 function formatSpd(n: number) {
   return Utils.truncate10ths(n).toFixed(1)

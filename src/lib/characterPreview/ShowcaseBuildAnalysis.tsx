@@ -11,7 +11,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
-import { useDeferredValue } from 'react'
+import { memo, useDeferredValue } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGlobalStore } from 'lib/stores/appStore'
 
@@ -24,7 +24,7 @@ interface ShowcaseBuildAnalysisProps {
   setScoringType: (s: ScoringType) => void
 }
 
-export function ShowcaseBuildAnalysis({
+export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   scoringType,
   scoringDone,
   scoringResult,
@@ -114,7 +114,7 @@ export function ShowcaseBuildAnalysis({
       />
     </Flex>
   )
-}
+})
 
 function StatScoringSummary({ scoringType, displayRelics, showcaseMetadata }: {
   scoringType: ScoringType

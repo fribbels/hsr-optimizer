@@ -64,6 +64,8 @@ import {
   CustomImagePayload,
 } from 'types/customImage'
 
+const EMPTY_SWATCHES: string[] = []
+
 interface InteractiveCharacterPreviewProps {
   setOriginalCharacterModalOpen: (open: boolean) => void
   setOriginalCharacterModalInitialCharacter: (character: Character) => void
@@ -169,6 +171,22 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     })
   }, [character.id])
 
+  // ===== Stable callback refs for child components =====
+  const handleEditPortraitOk = useCallback(
+    (payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, state.setCustomPortrait, state.setEditPortraitModalOpen),
+    [character, state.setCustomPortrait, state.setEditPortraitModalOpen],
+  )
+
+  const handleSetOriginalCharacterModalInitialCharacter = useCallback(
+    (character: Character) => setOriginalCharacterModalInitialCharacter?.(character),
+    [setOriginalCharacterModalInitialCharacter],
+  )
+
+  const handleSetOriginalCharacterModalOpen = useCallback(
+    (open: boolean) => setOriginalCharacterModalOpen?.(open),
+    [setOriginalCharacterModalOpen],
+  )
+
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
   const cacheKey = useMemo(
     () => {
@@ -226,7 +244,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         scoringType={scoringType}
         seedColor={seedColor}
         effectiveColorMode={effectiveColorMode}
-        portraitSwatches={state.portraitSwatchesByCharacterId[character.id] ?? []}
+        portraitSwatches={state.portraitSwatchesByCharacterId[character.id] ?? EMPTY_SWATCHES}
       />
 
       {/* Showcase full card — CSS custom properties for card theme allow imperative
@@ -276,10 +294,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             customPortrait={portraitToUse}
             editPortraitModalOpen={state.editPortraitModalOpen}
             setEditPortraitModalOpen={state.setEditPortraitModalOpen}
-            onEditPortraitOk={(payload: CustomImagePayload) => showcaseOnEditPortraitOk(character, payload, state.setCustomPortrait, state.setEditPortraitModalOpen)}
+            onEditPortraitOk={handleEditPortraitOk}
             artistName={artistName}
-            setOriginalCharacterModalInitialCharacter={(character) => setOriginalCharacterModalInitialCharacter?.(character)}
-            setOriginalCharacterModalOpen={(open) => setOriginalCharacterModalOpen?.(open)}
+            setOriginalCharacterModalInitialCharacter={handleSetOriginalCharacterModalInitialCharacter}
+            setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
             onPortraitLoad={handlePortraitLoad}
           />
 

@@ -40,6 +40,8 @@ type ShowcaseTabState = {
   showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
   showcaseTeamPreferenceById: Partial<Record<CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>,
   showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
+  portraitColorByCharacterId: Partial<Record<CharacterId, string>>,
+  portraitSwatchesByCharacterId: Partial<Record<CharacterId, string[]>>,
 
   setLatestRefreshDate: (date: Date | null) => void,
   setLoading: (loading: boolean) => void,
@@ -51,6 +53,7 @@ type ShowcaseTabState = {
   setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
   setShowcaseTeamPreferenceById: (characterId: CharacterId, team: typeof CUSTOM_TEAM | typeof DEFAULT_TEAM) => void,
   setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
+  setPortraitPalette: (characterId: CharacterId, color: string | undefined, swatches: string[]) => void,
 
   onSelectionChanged: (selected: CharacterId) => void,
   onCharacterModalOk: (form: ShowcaseTabCharacter['form']) => void,
@@ -69,6 +72,8 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabState>((set, g
   showcasePreferences: {},
   showcaseTeamPreferenceById: {},
   showcaseTemporaryOptionsByCharacter: {},
+  portraitColorByCharacterId: {},
+  portraitSwatchesByCharacterId: {},
 
   setLatestRefreshDate: (latestRefreshDate: Date | null) => set({ latestRefreshDate }),
   setLoading: (loading: boolean) => set({ loading }),
@@ -83,6 +88,13 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabState>((set, g
       showcaseTeamPreferenceById: { ...state.showcaseTeamPreferenceById, [characterId]: team },
     })),
   setShowcaseTemporaryOptionsByCharacter: (showcaseTemporaryOptionsByCharacter) => set({ showcaseTemporaryOptionsByCharacter }),
+  setPortraitPalette: (characterId, color, swatches) =>
+    set((s) => ({
+      portraitColorByCharacterId: color != null
+        ? { ...s.portraitColorByCharacterId, [characterId]: color }
+        : s.portraitColorByCharacterId,
+      portraitSwatchesByCharacterId: { ...s.portraitSwatchesByCharacterId, [characterId]: swatches },
+    })),
 
   onSelectionChanged: (selected: CharacterId) =>
     set((s) => {

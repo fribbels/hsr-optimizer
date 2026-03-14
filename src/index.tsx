@@ -20,7 +20,7 @@ import { Renderer } from 'lib/rendering/renderer'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
 
-import { WorkerPool } from 'lib/worker/workerPool'
+import { workerPool } from 'lib/worker/workerPool'
 import { OverlayScrollbars } from 'overlayscrollbars'
 import ReactDOM from 'react-dom/client'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
@@ -36,7 +36,7 @@ import 'style/components.css'
 import 'style/mantine-overrides.css'
 
 window.__HSR_DEBUG = {
-  WorkerPool,
+  workerPool,
   Constants,
   DataParser: Metadata,
   Assets,

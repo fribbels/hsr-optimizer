@@ -13,7 +13,7 @@ import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import { WebgpuTab } from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { afterPaint } from 'lib/utils/afterPaint'
-import { WorkerPool } from 'lib/worker/workerPool'
+import { workerPool } from 'lib/worker/workerPool'
 import { TabVisibilityContext, TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {
   ReactElement,
@@ -69,7 +69,7 @@ const Tabs = () => {
       // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
       if (!optimizerInitialized) {
         optimizerInitialized = true
-        WorkerPool.initializeAllWorkers()
+        workerPool.initialize()
       }
     } else {
       window.scrollTo(0, 0)

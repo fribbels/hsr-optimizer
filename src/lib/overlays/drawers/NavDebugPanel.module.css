@@ -1,0 +1,234 @@
+/* ---- FAB toggle ---- */
+
+.fab {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(124, 92, 191, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+
+.fab:hover {
+  background: rgba(124, 92, 191, 1);
+  transform: scale(1.06);
+}
+
+/* ---- Slide-in panel ---- */
+
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  z-index: 999;
+  background: rgba(20, 17, 28, 0.95);
+  backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panelHidden {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+/* ---- Header / Footer ---- */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.footer {
+  padding: 10px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ---- Content ---- */
+
+.content {
+  flex: 1;
+  min-height: 0;
+}
+
+.contentInner {
+  padding: 8px 10px 16px;
+}
+
+/* ---- Presets ---- */
+
+.presetGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.presetPill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px 5px 7px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.55);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.presetPill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.presetPillActive {
+  background: rgba(124, 92, 191, 0.22);
+  border-color: rgba(124, 92, 191, 0.45);
+  color: white;
+}
+
+.presetPillActive .presetPillIcon {
+  color: rgba(200, 175, 255, 0.9);
+}
+
+.presetPillIcon {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.35);
+  transition: color 0.15s;
+}
+
+.presetPill:hover .presetPillIcon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.presetPillRandom {
+  border-style: dashed;
+}
+
+.presetPillRandom:hover {
+  border-style: solid;
+}
+
+/* ---- Control rows ---- */
+
+.controlRow {
+  margin-bottom: 6px;
+}
+
+.controlHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1px;
+}
+
+.controlLabel {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.controlValue {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  font-variant-numeric: tabular-nums;
+}
+
+.changedDot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e8a44a;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* ---- Accordion overrides ---- */
+
+.accordion :global(.mantine-Accordion-control) {
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.accordion :global(.mantine-Accordion-label) {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.accordion :global(.mantine-Accordion-panel) {
+  padding: 0 6px 8px;
+}
+
+.accordion :global(.mantine-Accordion-content) {
+  padding: 4px 4px 0;
+}
+
+.accordion :global(.mantine-Accordion-chevron) {
+  width: 14px;
+  height: 14px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.accordion :global(.mantine-Accordion-item) {
+  border-color: rgba(255, 255, 255, 0.04);
+}
+
+/* ---- Section badge ---- */
+
+.sectionBadge {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e8a44a;
+  margin-left: 6px;
+}
+
+/* ---- Hue slider rainbow track ---- */
+
+.hueSlider :global(.mantine-Slider-track) {
+  background: linear-gradient(
+    to right,
+    hsl(0, 70%, 55%),
+    hsl(60, 70%, 55%),
+    hsl(120, 70%, 55%),
+    hsl(180, 70%, 55%),
+    hsl(240, 70%, 55%),
+    hsl(300, 70%, 55%),
+    hsl(360, 70%, 55%)
+  );
+}
+
+.hueSlider :global(.mantine-Slider-bar) {
+  background: transparent;
+}

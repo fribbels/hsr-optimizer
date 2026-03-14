@@ -1,3 +1,9 @@
+/* ---- Debug wrapper ---- */
+
+.debugWrapper {
+  height: 100%;
+}
+
 /* ---- Layout ---- */
 
 .root {
@@ -9,18 +15,20 @@
   overflow: hidden;
 }
 
-/* ---- Sliding indicator (H3 gradient band with left accent) ---- */
+/* ---- Sliding indicator ---- */
 
 .indicator {
   position: absolute;
   left: 0;
   right: 0;
-  background: linear-gradient(90deg, rgba(124, 92, 191, 0.18), rgba(124, 92, 191, 0.06));
-  border-left: 2px solid var(--nav-accent);
+  background: var(--dbg-indicator-bg, linear-gradient(90deg, rgba(124, 92, 252, 0.18), rgba(124, 92, 252, 0.06)));
+  border-left: var(--dbg-indicator-thickness, 2px) solid var(--nav-accent);
   pointer-events: none;
   z-index: 0;
-
-  transition: opacity 0.1s ease;
+  transition:
+    top var(--dbg-indicator-speed, 150ms) ease,
+    height var(--dbg-indicator-speed, 150ms) ease,
+    opacity 0.1s ease;
 }
 
 /* ---- Group sections ---- */
@@ -31,19 +39,19 @@
 }
 
 .groupLabel {
-  font-size: 10px;
+  font-size: var(--dbg-group-font-size, 10px);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--dbg-group-spacing, 0.08em);
   color: var(--nav-group-label);
-  padding: 10px 14px 4px;
+  padding: 10px calc(var(--dbg-item-h-pad, 14px) + var(--dbg-item-inset, 0px)) 4px;
   user-select: none;
 }
 
 .groupItems {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--dbg-item-gap, 1px);
 }
 
 /* ---- Nav items ---- */
@@ -52,14 +60,22 @@
 .item.item {
   display: flex;
   align-items: center;
-  gap: 9px;
-  width: 100%;
-  padding: 7px 14px;
+  gap: var(--dbg-icon-gap, 9px);
+  align-self: stretch;
+  padding: var(--dbg-item-v-pad, 7px) var(--dbg-item-h-pad, 14px);
+  margin: 0 var(--dbg-item-inset, 0px);
   position: relative;
   z-index: 1;
-  border-radius: 0;
-  transition: background 0.08s ease;
+  border-radius: var(--dbg-item-radius, 0px);
+  transition:
+    background 0.08s ease,
+    transform 0.15s ease;
   cursor: pointer;
+}
+
+.item:hover {
+  background: var(--dbg-hover-bg, transparent);
+  transform: translateX(var(--dbg-hover-shift, 0px));
 }
 
 .item:hover .itemLabel {
@@ -72,7 +88,7 @@
 
 .item[data-active] .itemLabel {
   color: var(--nav-text-active);
-  font-weight: 500;
+  font-weight: var(--dbg-active-weight, 500);
 }
 
 .item[data-active] .itemIcon {
@@ -82,7 +98,7 @@
 /* Also highlight focused drawer items (Settings, Get Started) */
 .item[data-focused] .itemLabel {
   color: var(--nav-text-active);
-  font-weight: 500;
+  font-weight: var(--dbg-active-weight, 500);
 }
 
 .item[data-focused] .itemIcon {
@@ -90,9 +106,9 @@
 }
 
 .itemIcon {
-  width: 16px;
-  min-width: 16px;
-  height: 16px;
+  width: var(--dbg-icon-size, 16px);
+  min-width: var(--dbg-icon-size, 16px);
+  height: var(--dbg-icon-size, 16px);
   color: var(--nav-text-muted);
   transition: color 0.1s ease;
   display: flex;
@@ -102,12 +118,13 @@
 
 /* Size the icon SVGs consistently */
 .itemIcon svg {
-  width: 16px;
-  height: 16px;
+  width: var(--dbg-icon-size, 16px);
+  height: var(--dbg-icon-size, 16px);
 }
 
 .itemLabel {
-  font-size: 14px;
+  font-size: var(--dbg-font-size, 14px);
+  font-weight: var(--dbg-label-weight, 400);
   color: var(--nav-text-muted);
   transition: color 0.1s ease;
   white-space: nowrap;
@@ -144,7 +161,7 @@
 }
 
 .itemCollapsed:hover {
-  background: rgba(124, 92, 191, 0.06);
+  background: var(--dbg-hover-bg, rgba(124, 92, 252, 0.06));
 }
 
 .itemCollapsed:hover .itemIcon {
@@ -153,4 +170,106 @@
 
 .itemCollapsed[data-active] .itemIcon {
   color: var(--nav-text-hover);
+}
+
+/* ==================================================================
+   Data-attribute driven variants (set by debug panel)
+   ================================================================== */
+
+/* ---- Indicator position: right ---- */
+
+.debugWrapper[data-indicator="right"] .indicator {
+  border-left: none;
+  border-right: var(--dbg-indicator-thickness, 2px) solid var(--nav-accent);
+  background: var(--dbg-indicator-bg-reverse, linear-gradient(270deg, rgba(124, 92, 252, 0.18), rgba(124, 92, 252, 0.06)));
+}
+
+/* ---- Indicator position: background (full-width highlight) ---- */
+
+.debugWrapper[data-indicator="background"] .indicator {
+  border-left: none;
+  left: var(--dbg-item-inset, 0px);
+  right: var(--dbg-item-inset, 0px);
+  border-radius: var(--dbg-item-radius, 0px);
+}
+
+/* ---- Indicator position: none ---- */
+
+.debugWrapper[data-indicator="none"] .indicator {
+  display: none;
+}
+
+/* ---- Group label case: titlecase ---- */
+
+.debugWrapper[data-group-case="titlecase"] .groupLabel {
+  text-transform: capitalize;
+}
+
+/* ---- Group label case: hidden ---- */
+
+.debugWrapper[data-group-case="hidden"] .groupLabel {
+  display: none;
+}
+
+/* ---- Group dividers ---- */
+
+.debugWrapper[data-dividers] .group + .group {
+  padding-top: 4px;
+}
+
+.debugWrapper[data-dividers] .group + .group::before {
+  content: '';
+  display: block;
+  margin: 0 calc(var(--dbg-item-h-pad, 14px) + var(--dbg-item-inset, 0px)) 4px;
+}
+
+.debugWrapper[data-dividers="solid"] .group + .group::before {
+  height: 1px;
+  background: var(--nav-separator);
+}
+
+.debugWrapper[data-dividers="dashed"] .group + .group::before {
+  height: 0;
+  border-top: 1px dashed var(--nav-separator);
+}
+
+.debugWrapper[data-dividers="gradient"] .group + .group::before {
+  height: 1px;
+  background: var(--dbg-divider-gradient);
+}
+
+/* ---- Icon container: circle ---- */
+
+.debugWrapper[data-icon-container="circle"] .itemIcon {
+  width: var(--dbg-icon-container-size, 28px);
+  min-width: var(--dbg-icon-container-size, 28px);
+  height: var(--dbg-icon-container-size, 28px);
+  border-radius: 50%;
+  background: var(--dbg-icon-container-bg);
+}
+
+/* ---- Icon container: rounded-square ---- */
+
+.debugWrapper[data-icon-container="rounded-square"] .itemIcon {
+  width: var(--dbg-icon-container-size, 28px);
+  min-width: var(--dbg-icon-container-size, 28px);
+  height: var(--dbg-icon-container-size, 28px);
+  border-radius: 6px;
+  background: var(--dbg-icon-container-bg);
+}
+
+/* ---- Active glow ---- */
+
+.debugWrapper[data-active-glow] .item[data-active] {
+  box-shadow: 0 0 var(--dbg-glow-strength, 8px) var(--dbg-glow-color, transparent);
+}
+
+/* ---- Bottom-pinned links section ---- */
+
+.debugWrapper[data-bottom-pinned] .root {
+  min-height: 100%;
+}
+
+.debugWrapper[data-bottom-pinned] .root > .group:last-child {
+  margin-top: auto;
 }

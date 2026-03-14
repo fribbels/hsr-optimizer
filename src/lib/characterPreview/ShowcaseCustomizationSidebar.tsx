@@ -43,7 +43,9 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import React, {
+  useEffect,
   useMemo,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -85,7 +87,11 @@ export function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebar
     const spdValue = scoringMetadata.stats[Stats.SPD]
     const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
 
-    function onColorSelectorChange(newColor: string) {
+    // Local color state for responsive ColorInput during drag — store only updates on drag end
+    const [localColor, setLocalColor] = useState(seedColor)
+    useEffect(() => { setLocalColor(seedColor) }, [seedColor])
+
+    function onColorChangeEnd(newColor: string) {
       if (newColor === DEFAULT_SHOWCASE_COLOR) return
       editShowcasePreferences(characterId, { color: newColor, colorMode: ShowcaseColorMode.CUSTOM })
     }
@@ -301,10 +307,9 @@ export function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebar
 
           <ColorInput
             swatches={swatchColors}
-            value={seedColor}
-            onChange={(color: string) => {
-              onColorSelectorChange(color)
-            }}
+            value={localColor}
+            onChange={setLocalColor}
+            onChangeEnd={onColorChangeEnd}
             format="hex"
           />
 

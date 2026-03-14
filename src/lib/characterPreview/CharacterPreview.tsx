@@ -125,6 +125,9 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const scoringResults = state.previewRelics?.scoringResults ?? null
 
   // ===== Layout (character-dependent, no color) =====
+  // scoringMetadata is not a direct input — it busts the memo cache when scoring overrides
+  // change (SPD weight, buff priority), ensuring resolveShowcaseLayout re-reads the latest
+  // values from the scoring store via resolveDpsScoreSimulationMetadata.
   const layout = useMemo(
     () => resolveShowcaseLayout({
       character,
@@ -132,7 +135,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       storedScoringType: state.storedScoringType,
       savedBuildOverride,
     }),
-    [character, state.teamSelectionByCharacter, state.storedScoringType, savedBuildOverride],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [character, state.teamSelectionByCharacter, state.storedScoringType, savedBuildOverride, state.scoringMetadata],
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====

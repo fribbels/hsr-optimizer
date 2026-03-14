@@ -82,10 +82,10 @@ export function useCharacterPreviewState(
   const [storedScoringType, setScoringType] = useState(useGlobalStore.getState().savedSession.scoringType)
   const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
 
-  // Re-render trigger: value is not read directly, but the subscription to useScoringStore causes
-  // re-renders when scoring metadata overrides change (SPD weight, deprioritize buffs), allowing
-  // resolveShowcaseLayout to pick up the latest getScoringMetadata() values.
-  useScoringMetadata(character?.id)
+  // Cache-buster for layout useMemo: when scoring metadata overrides change (SPD weight,
+  // deprioritize buffs), the reference changes, busting the layout memo so
+  // resolveShowcaseLayout re-reads the latest values via resolveDpsScoreSimulationMetadata.
+  const scoringMetadata = useScoringMetadata(character?.id)
 
   // Hooks must be called unconditionally before early return to satisfy Rules of Hooks
   const previewRelics = useMemo(() => {
@@ -119,6 +119,7 @@ export function useCharacterPreviewState(
     storedScoringType,
     setScoringType,
     darkMode,
+    scoringMetadata,
     previewRelics,
     finalStats,
   }

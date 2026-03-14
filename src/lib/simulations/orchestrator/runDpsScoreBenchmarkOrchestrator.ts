@@ -59,7 +59,7 @@ export function resolveDpsScoreSimulationMetadata(
   const simulation = TsUtils.clone(getGameMetadata().characters[characterId].scoringMetadata.simulation)
 
   if (!simulation || !customSimulation) {
-    console.warn('No scoring sim defined for this character')
+    console.log('No scoring sim defined for this character')
     return null
   }
 

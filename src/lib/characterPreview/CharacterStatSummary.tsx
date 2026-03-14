@@ -1,15 +1,13 @@
 import { Flex } from '@mantine/core'
 import { StatRow } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
-import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import { PathNames, Stats } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
-import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { ScoringType, SimulationScore } from 'lib/scoring/simScoringUtils'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -22,7 +20,8 @@ export function CharacterStatSummary({
   characterId,
   finalStats,
   elementalDmgValue,
-  asyncSimScoringExecution,
+  scoringDone,
+  scoringResult,
   scoringType,
   simScore,
   showAll,
@@ -30,14 +29,18 @@ export function CharacterStatSummary({
   characterId: CharacterId
   finalStats: BasicStatsObject | ComputedStatsObjectExternal
   elementalDmgValue: string
-  asyncSimScoringExecution: AsyncSimScoringExecution | null
+  scoringDone?: boolean
+  scoringResult?: SimulationScore | null
   scoringType?: ScoringType
   simScore?: number
   showAll?: boolean
 }) {
   const edits = calculateStatCustomizations(characterId)
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
-  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
+
+  // For callers that don't pass scoring props (CharacterScoringSummary, BenchmarkResults),
+  // scoringResult defaults to undefined (treated as "no scoring")
+  const hasScoring = scoringResult !== undefined
 
   return (
     <StatText className={classes.statSummary}>
@@ -52,10 +55,10 @@ export function CharacterStatSummary({
         <StatRow finalStats={finalStats} stat={Stats.RES} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.BE} edits={edits} />
 
-        {(showAll || (!asyncSimScoringExecution && finalStats[Stats.OHB] > epsilon))
+        {(showAll || (!hasScoring && finalStats[Stats.OHB] > epsilon))
           && <StatRow finalStats={finalStats} stat={Stats.OHB} edits={edits} />}
 
-        {((showAll || finalStats[Stats.ERR] > epsilon) || asyncSimScoringExecution == null)
+        {((showAll || finalStats[Stats.ERR] > epsilon) || !hasScoring)
           && <StatRow finalStats={finalStats} stat={Stats.ERR} edits={edits} />}
 
         <StatRow finalStats={finalStats} stat={elementalDmgValue} edits={edits} />
@@ -64,8 +67,8 @@ export function CharacterStatSummary({
           && <StatRow finalStats={finalStats} stat={Stats.Elation} edits={edits} />}
 
         {scoringType === ScoringType.COMBAT_SCORE
-          && !asyncSimScoringExecution?.done
-          && asyncSimScoringExecution?.result == null
+          && !scoringDone
+          && scoringResult == null
           && (
             <StatRow
               finalStats={finalStats}
@@ -75,13 +78,13 @@ export function CharacterStatSummary({
           )}
 
         {scoringType === ScoringType.COMBAT_SCORE
-          && asyncSimScoringExecution?.result != null
+          && scoringResult != null
           && (
             <StatRow
               finalStats={finalStats}
               stat='simScore'
-              value={simScoringExecution?.result?.originalSimResult.simScore}
-              loading={!simScoringExecution?.done}
+              value={scoringResult?.originalSimResult.simScore}
+              loading={!scoringDone}
             />
           )}
       </Flex>

@@ -12,7 +12,6 @@ import {
 import styles from 'lib/characterPreview/ShowcaseDpsScore.module.css'
 import teammateClasses from 'style/teammateCard.module.css'
 import { StatText } from 'lib/characterPreview/StatText'
-import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
@@ -25,7 +24,6 @@ import { Message } from 'lib/interactions/message'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
 import {
-  AsyncSimScoringExecution,
   getSimScoreGrade,
 } from 'lib/scoring/dpsScore'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
@@ -54,14 +52,16 @@ import { SimulationMetadata } from 'types/metadata'
 
 export function ShowcaseDpsScorePanel({
   characterId,
-  asyncSimScoringExecution,
+  scoringDone,
+  scoringResult,
   teamSelection: teamSelectionProp,
   displayRelics,
   setRedrawTeammates,
   source,
 }: {
   characterId: CharacterId
-  asyncSimScoringExecution: AsyncSimScoringExecution
+  scoringDone: boolean
+  scoringResult: SimulationScore | null
   teamSelection: string
   displayRelics: SingleRelicByPart
   setRedrawTeammates: (n: number) => void
@@ -71,16 +71,13 @@ export function ShowcaseDpsScorePanel({
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
 
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
-  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
-  if (!simScoringExecution?.done) {
+  if (!scoringDone || !scoringResult) {
     return (
       <span className={styles.loadingBlur}>
       </span>
     )
   }
-
-  const result = simScoringExecution.result!
 
   return (
     <Flex
@@ -91,7 +88,7 @@ export function ShowcaseDpsScorePanel({
           <CharacterPreviewScoringTeammate
             key={index}
             index={index}
-            result={result}
+            result={scoringResult}
             characterId={characterId}
             teamSelection={teamSelection}
             setSelectedTeammateIndex={setSelectedTeammateIndex}
@@ -112,24 +109,20 @@ export function ShowcaseDpsScorePanel({
   )
 }
 
-export function ShowcaseCombatScoreDetailsFooter({ asyncSimScoringExecution }: {
-  asyncSimScoringExecution: AsyncSimScoringExecution | null
+export function ShowcaseCombatScoreDetailsFooter({ scoringDone, scoringResult }: {
+  scoringDone: boolean
+  scoringResult: SimulationScore | null
 }) {
-
-  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
-
-  if (!simScoringExecution?.done) {
+  if (!scoringDone || !scoringResult) {
     return (
       <span className={styles.loadingBlurSmall}>
       </span>
     )
   }
 
-  const result = simScoringExecution.result!
-
   return (
     <Flex direction="column" gap={defaultGap}>
-      <CharacterCardCombatStats result={result} />
+      <CharacterCardCombatStats result={scoringResult} />
     </Flex>
   )
 }
@@ -215,21 +208,21 @@ function CharacterPreviewScoringTeammate({
   )
 }
 
-export function ShowcaseDpsScoreHeader({ relics, asyncSimScoringExecution }: {
+export function ShowcaseDpsScoreHeader({ relics, scoringDone, scoringResult }: {
   relics: SingleRelicByPart
-  asyncSimScoringExecution: AsyncSimScoringExecution
+  scoringDone: boolean
+  scoringResult: SimulationScore | null
 }) {
   const { t } = useTranslation(['charactersTab'])
-  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
   const verified = Object.values(relics).filter((x) => x?.verified).length === 6
   const numRelics = Object.values(relics).filter((x) => !!x).length
 
-  const lightCone = !!simScoringExecution?.result?.simulationForm.lightCone
+  const lightCone = !!scoringResult?.simulationForm.lightCone
 
-  const titleRender = simScoringExecution?.result?.spdBenchmark == null
+  const titleRender = scoringResult?.spdBenchmark == null
     ? t('CharacterPreview.ScoreHeader.Title') // Combat Sim
-    : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(simScoringExecution?.result?.spdBenchmark ?? 0) }) // Benchmark vs {{spd}} SPD
+    : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(scoringResult?.spdBenchmark ?? 0) }) // Benchmark vs {{spd}} SPD
 
   const textDisplay = (
     <Flex align='center' direction="column" className={styles.scoreHeaderWrapper}>
@@ -238,13 +231,13 @@ export function ShowcaseDpsScoreHeader({ relics, asyncSimScoringExecution }: {
       </StatText>
       <StatText className={styles.scoreHeaderText}>
         {
-          !simScoringExecution?.done
+          !scoringDone
             ? 'DPS Score Loading...'
             : t(
               'CharacterPreview.ScoreHeader.Score',
               {
-                score: localeNumber_0(Utils.truncate10ths(Math.max(0, (simScoringExecution?.result?.percent ?? 0) * 100))),
-                grade: getSimScoreGrade(simScoringExecution?.result?.percent ?? 0, verified, numRelics, lightCone),
+                score: localeNumber_0(Utils.truncate10ths(Math.max(0, (scoringResult?.percent ?? 0) * 100))),
+                grade: getSimScoreGrade(scoringResult?.percent ?? 0, verified, numRelics, lightCone),
               },
             )
           /* DPS Score {{score}}% {{grade}} */
@@ -254,7 +247,7 @@ export function ShowcaseDpsScoreHeader({ relics, asyncSimScoringExecution }: {
   )
 
   return (
-    <Flex direction="column" style={{ filter: !simScoringExecution?.done ? 'blur(2px)' : 'none' }}>
+    <Flex direction="column" style={{ filter: !scoringDone ? 'blur(2px)' : 'none' }}>
       {textDisplay}
     </Flex>
   )
@@ -312,6 +305,7 @@ function ShowcaseTeamSelectPanel({
     <SegmentedControl
       disabled={readonly}
       className={styles.teamSelectPanel}
+      styles={{ root: { background: 'rgba(0, 0, 0, 0.25)' } }}
       onChange={(selection) => {
         if (selection === SETTINGS_TEAM) {
           getConfirmModal()?.info({

@@ -193,7 +193,8 @@ export function CharacterScoringSummary({
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
             showAll={true}
-            asyncSimScoringExecution={null}
+            scoringDone={true}
+            scoringResult={null}
           />
         </Flex>
 
@@ -209,7 +210,8 @@ export function CharacterScoringSummary({
             elementalDmgValue={elementalDmgValue}
             simScore={simResult.simScore}
             showAll={true}
-            asyncSimScoringExecution={null}
+            scoringDone={true}
+            scoringResult={null}
           />
         </Flex>
 

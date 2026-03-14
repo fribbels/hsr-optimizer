@@ -8,96 +8,11 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
   RelicBuild,
-  SimulationScore,
 } from 'lib/scoring/simScoringUtils'
-import {
-  resolveDpsScoreSimulationMetadata,
-  retrieveBenchmarkCache,
-  runDpsScoreBenchmarkOrchestrator,
-  setBenchmarkCache,
-} from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
-  Character,
-  SavedBuild,
-} from 'types/character'
-import {
-  ShowcaseTemporaryOptions,
-  SimulationMetadata,
-} from 'types/metadata'
-
-export type AsyncSimScoringExecution = {
-  done: boolean,
-  result: SimulationScore | null,
-  promise: Promise<SimulationScore | null> | null,
-}
-
-export function getShowcaseSimScoringExecution(
-  character: Character,
-  displayRelics: RelicBuild,
-  teamSelection: string,
-  showcaseTemporaryOptions: ShowcaseTemporaryOptions = {},
-  buildOverride?: SavedBuild | null,
-): AsyncSimScoringExecution {
-  const characterMetadata = getGameMetadata().characters[character.id]
-  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection, buildOverride)
-  const singleRelicByPart = displayRelics as SingleRelicByPart
-
-  const asyncResult: AsyncSimScoringExecution = {
-    done: false,
-    result: null,
-    promise: null,
-  }
-
-  if (!simulationMetadata) {
-    asyncResult.done = true
-    return asyncResult
-  }
-
-  const {
-    cacheKey,
-    cachedOrchestrator,
-  } = retrieveBenchmarkCache(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
-  if (cachedOrchestrator) {
-    // console.debug('CACHED')
-    const simScore = cachedOrchestrator.simulationScore!
-    asyncResult.done = true
-    asyncResult.promise = Promise.resolve(simScore)
-    asyncResult.result = simScore
-    return asyncResult
-  } else {
-    // console.debug('NEW EXECUTION')
-  }
-
-  async function runSimulation() {
-    try {
-      const simulationOrchestrator = await runDpsScoreBenchmarkOrchestrator(character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
-      const simulationScore = simulationOrchestrator.simulationScore
-
-      if (!simulationScore) return null
-
-      simulationScore.characterMetadata = characterMetadata
-      asyncResult.result = simulationScore
-      asyncResult.done = true
-
-      setBenchmarkCache(cacheKey, simulationOrchestrator)
-
-      return simulationScore
-    } catch (error) {
-      console.error('Error in simulation:', error)
-      asyncResult.done = true
-      throw error
-    }
-  }
-
-  asyncResult.promise = runSimulation()
-
-  return asyncResult
-}
+import { SimulationMetadata } from 'types/metadata'
 
 export type SimulationSets = {
   relicSet1: SetsRelics,

@@ -6,7 +6,6 @@ import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Character,
-  CharacterId,
   SavedBuild,
 } from 'types/character'
 import {
@@ -41,33 +40,6 @@ export async function runDpsScoreBenchmarkOrchestrator(
   orchestrator.calculateResults()
 
   return orchestrator
-}
-
-const cache: Record<string, BenchmarkSimulationOrchestrator> = {}
-
-export function retrieveBenchmarkCache(
-  character: Character,
-  simulationMetadata: SimulationMetadata,
-  singleRelicByPart: SingleRelicByPart,
-  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
-) {
-  const form = character.form
-
-  const cacheKey = TsUtils.objectHash({
-    form,
-    singleRelicByPart,
-    simulationMetadata,
-    showcaseTemporaryOptions,
-  })
-
-  return {
-    cacheKey: cacheKey,
-    cachedOrchestrator: cache[cacheKey],
-  }
-}
-
-export function setBenchmarkCache(cacheKey: string, orchestator: BenchmarkSimulationOrchestrator) {
-  cache[cacheKey] = orchestator
 }
 
 export function resolveDpsScoreSimulationMetadata(

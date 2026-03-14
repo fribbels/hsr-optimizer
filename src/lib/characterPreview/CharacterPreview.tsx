@@ -25,7 +25,7 @@ import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
-import { computeShowcaseDerivedData } from 'lib/characterPreview/useShowcaseDerivedData'
+import { computeShowcaseVisualData } from 'lib/characterPreview/useShowcaseDerivedData'
 import {
   Parts,
 } from 'lib/constants/constants'
@@ -35,13 +35,24 @@ import {
   parentH,
 } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
+import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import {
+  computeScoringCacheKey,
+  requestScore,
+} from 'lib/scoring/scoringService'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { AppPages } from 'lib/constants/appPages'
 import {
   showcaseBackgroundColor,
   showcaseTransition,
 } from 'lib/utils/colorUtils'
+import {
+  memo,
+  useEffect,
+  useMemo,
+} from 'react'
 import {
   Character,
   SavedBuild,
@@ -71,7 +82,7 @@ interface CharacterPreviewPropsBase {
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
-export function CharacterPreview({
+export const CharacterPreview = memo(function CharacterPreview({
   source,
   character,
   setOriginalCharacterModalOpen,
@@ -103,16 +114,13 @@ export function CharacterPreview({
   const { scoringResults, displayRelics } = state.previewRelics!
   const scoredRelics = scoringResults.relics || []
 
-  // ===== Derived data (simulation, portrait, color, theme, display) =====
+  // ===== Visual data (memoized, no side effects) =====
 
-  const derived = computeShowcaseDerivedData({
+  const visualData = computeShowcaseVisualData({
     character,
-    prevCharId: state.prevCharId,
-    prevSeedColor: state.prevSeedColor,
+    prevSeedColor: state.prevSeedColor.current,
     teamSelectionByCharacter: state.teamSelectionByCharacter,
-    showcaseTemporaryOptionsByCharacter: state.showcaseTemporaryOptionsByCharacter,
     globalShowcasePreferences: state.globalShowcasePreferences,
-    displayRelics,
     storedScoringType: state.storedScoringType,
     colorMode: state.colorMode,
     darkMode: state.darkMode,
@@ -122,7 +130,6 @@ export function CharacterPreview({
   const {
     showcaseMetadata,
     currentSelection,
-    asyncSimScoringExecution,
     scoringType,
     portraitToUse,
     portraitUrl,
@@ -130,7 +137,34 @@ export function CharacterPreview({
     derivedShowcaseTheme,
     displayDimensions,
     artistName,
-  } = derived
+  } = visualData
+
+  // --- Ref side effects (isolated in effects) ---
+  useEffect(() => { state.prevCharId.current = character.id }, [character.id])
+  useEffect(() => { state.prevSeedColor.current = visualData.overrideSeedColor }, [visualData.overrideSeedColor])
+
+  // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
+  const cacheKey = useMemo(
+    () => computeScoringCacheKey(
+      character, currentSelection, displayRelics as SingleRelicByPart,
+      state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
+      savedBuildOverride,
+    ),
+    [character, currentSelection, displayRelics, state.showcaseTemporaryOptionsByCharacter, savedBuildOverride],
+  )
+
+  const requestFn = useMemo(() => {
+    if (!cacheKey || !visualData.simulationMetadata) return null
+    return () => requestScore(
+      cacheKey, character, visualData.simulationMetadata!,
+      displayRelics as SingleRelicByPart,
+      state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
+    )
+    // cacheKey is a content hash of all scoring inputs — sufficient proxy for deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cacheKey])
+
+  const { done: scoringDone, result: scoringResult } = useScoringExecution(cacheKey, requestFn)
 
   const yOffset = 0
   const zoom = 150
@@ -148,10 +182,10 @@ export function CharacterPreview({
         source={source}
         id={id}
         characterId={character.id}
-        asyncSimScoringExecution={asyncSimScoringExecution}
-        showcasePreferences={derived.characterShowcasePreferences}
+        scoringResult={scoringResult}
+        showcasePreferences={visualData.characterShowcasePreferences}
         scoringType={scoringType}
-        seedColor={derived.overrideSeedColor}
+        seedColor={visualData.overrideSeedColor}
         setSeedColor={state.setSeedColor}
         colorMode={overrideColorMode}
         setColorMode={state.setColorMode}
@@ -249,23 +283,25 @@ export function CharacterPreview({
               finalStats={state.finalStats!}
               elementalDmgValue={showcaseMetadata.elementalDmgType}
               scoringType={scoringType}
-              asyncSimScoringExecution={asyncSimScoringExecution}
+              scoringDone={scoringDone}
+              scoringResult={scoringResult}
             />
 
             {scoringType === ScoringType.COMBAT_SCORE && (
               <>
-                <ShowcaseDpsScoreHeader asyncSimScoringExecution={asyncSimScoringExecution} relics={displayRelics} />
+                <ShowcaseDpsScoreHeader scoringDone={scoringDone} scoringResult={scoringResult} relics={displayRelics} />
 
                 <ShowcaseDpsScorePanel
                   characterId={showcaseMetadata.characterId}
-                  asyncSimScoringExecution={asyncSimScoringExecution}
+                  scoringDone={scoringDone}
+                  scoringResult={scoringResult}
                   teamSelection={currentSelection}
                   displayRelics={displayRelics}
                   setRedrawTeammates={state.setRedrawTeammates}
                   source={source}
                 />
 
-                <ShowcaseCombatScoreDetailsFooter asyncSimScoringExecution={asyncSimScoringExecution} />
+                <ShowcaseCombatScoreDetailsFooter scoringDone={scoringDone} scoringResult={scoringResult} />
               </>
             )}
 
@@ -311,13 +347,14 @@ export function CharacterPreview({
 
       <CharacterAnnouncement
         characterId={showcaseMetadata.characterId}
-        asyncSimScoringExecution={asyncSimScoringExecution}
+        scoringResult={scoringResult}
       />
 
       {/* Showcase analysis footer */}
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <ShowcaseBuildAnalysis
-          asyncSimScoringExecution={asyncSimScoringExecution}
+          scoringDone={scoringDone}
+          scoringResult={scoringResult}
           showcaseMetadata={showcaseMetadata}
           scoringType={state.storedScoringType}
           displayRelics={displayRelics}
@@ -326,6 +363,6 @@ export function CharacterPreview({
       )}
     </Flex>
   )
-}
+})
 
 injectBenchmarkDebuggers()

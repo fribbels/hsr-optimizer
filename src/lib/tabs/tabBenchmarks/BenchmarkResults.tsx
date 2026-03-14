@@ -221,7 +221,8 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           characterId={characterId}
           finalStats={basicStats}
           elementalDmgValue={ElementToDamage[element]}
-          asyncSimScoringExecution={null}
+          scoringDone={true}
+          scoringResult={null}
           simScore={result.simScore}
           showAll={true}
         />
@@ -236,7 +237,8 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           characterId={characterId}
           finalStats={combatStats}
           elementalDmgValue={ElementToDamage[element]}
-          asyncSimScoringExecution={null}
+          scoringDone={true}
+          scoringResult={null}
           simScore={result.simScore}
           showAll={true}
         />

@@ -36,6 +36,7 @@ import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigReg
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import React, {
   memo,
+  startTransition,
   useCallback,
   useEffect,
   useMemo,
@@ -149,7 +150,7 @@ export function CharacterGrid() {
 
   const handleRowClick = useCallback((characterId: CharacterId) => {
     setLocalFocus(characterId)
-    afterPaint(() => useCharacterTabStore.getState().setFocusCharacter(characterId))
+    startTransition(() => useCharacterTabStore.getState().setFocusCharacter(characterId))
   }, [])
 
   const handleRowDoubleClick = useCallback((characterId: CharacterId) => {

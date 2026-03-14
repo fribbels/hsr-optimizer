@@ -56,8 +56,8 @@
 }
 
 .root:hover {
-  transform: translateY(var(--cr-hover-lift, -2px));
-  box-shadow: var(--cr-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.4));
+  transform: translateY(var(--cr-hover-lift, -1px));
+  box-shadow: var(--cr-hover-shadow, 0 1px 4px rgba(0, 0, 0, 0.2));
 }
 
 .root[data-dragging='true'] {

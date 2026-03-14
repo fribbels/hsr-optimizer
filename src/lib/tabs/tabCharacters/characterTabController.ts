@@ -9,6 +9,7 @@ import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { CharacterId } from 'types/character'
 import { Form } from 'types/form'
 
 export const CharacterTabController = {
@@ -40,6 +41,17 @@ export const CharacterTabController = {
     equipmentService.unequipCharacter(focusCharacter)
     SaveState.delayedSave()
     Message.success(t('UnequipSuccess'))
+  },
+
+  removeCharacter: (characterId: CharacterId) => {
+    const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
+    equipmentService.removeCharacter(characterId)
+    const { focusCharacter } = useCharacterTabStore.getState()
+    if (focusCharacter === characterId) {
+      useCharacterTabStore.getState().setFocusCharacter(null)
+    }
+    SaveState.delayedSave()
+    Message.success(t('RemoveSuccess'))
   },
 
   removeFocusCharacter: () => {

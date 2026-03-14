@@ -13,16 +13,20 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { Flex } from '@mantine/core'
+import { ActionIcon, Tooltip } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import { useMergedRef } from '@mantine/hooks'
+import { IconPencil, IconX } from '@tabler/icons-react'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/constants/appPages'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
-import { useCharacterStore } from 'lib/stores/characterStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useGlobalStore } from 'lib/stores/appStore'
+import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import React, {
   memo,
@@ -34,14 +38,17 @@ import React, {
 } from 'react'
 import { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/afterPaint'
+import { CharacterGridDebugPanel, DebugToggles, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import classes from './CharacterGrid.module.css'
 
 export function CharacterGrid() {
+  const gridRef = useRef<HTMLDivElement>(null)
   const characters = useCharacterStore((s) => s.characters)
   const filters = useCharacterTabStore((s) => s.filters)
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
 
   const [localFocus, setLocalFocus] = useState<CharacterId | null>(null)
+  const [toggles, setToggles] = useState<DebugToggles>(DEFAULT_TOGGLES)
 
   useEffect(() => {
     setLocalFocus(null)
@@ -109,43 +116,68 @@ export function CharacterGrid() {
     updateCharacter(characterId)
   }, [])
 
+  const handleEdit = useCallback((characterId: CharacterId) => {
+    useCharacterModalStore.getState().openOverlay({
+      initialCharacter: getCharacterById(characterId) ?? null,
+      onOk: CharacterTabController.onCharacterModalOk,
+    })
+  }, [])
+
+  const handleRemove = useCallback((characterId: CharacterId) => {
+    const t = i18next.getFixedT(null, 'charactersTab')
+    modals.openConfirmModal({
+      title: i18next.t('common:Confirm'),
+      children: t('Messages.DeleteWarning', { charId: characterId }),
+      labels: { confirm: i18next.t('common:Confirm'), cancel: i18next.t('common:Cancel') },
+      centered: true,
+      onConfirm: () => CharacterTabController.removeCharacter(characterId),
+    })
+  }, [])
+
   const itemIds = useMemo(() => filteredCharacters.map((c) => c.id), [filteredCharacters])
 
   return (
-    <div
-      className={classes.gridContainer}
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-    >
-      <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToVerticalAxis, restrictToParentElement]} onDragEnd={handleDragEnd}>
-        <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
-          {filteredCharacters.map((character) => (
-            <SortableCharacterRow
-              key={character.id}
-              character={character}
-              isFocused={character.id === displayFocus}
-              onClick={handleRowClick}
-              onDoubleClick={handleRowDoubleClick}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
-    </div>
+    <>
+      <CharacterGridDebugPanel targetRef={gridRef} toggles={toggles} onTogglesChange={setToggles} />
+      <div
+        ref={gridRef}
+        className={classes.gridContainer}
+        data-container-border={toggles.showContainerBorder}
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+      >
+        <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToVerticalAxis, restrictToParentElement]} onDragEnd={handleDragEnd}>
+          <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
+            {filteredCharacters.map((character) => (
+              <SortableCharacterRow
+                key={character.id}
+                character={character}
+                isFocused={character.id === displayFocus}
+                toggles={toggles}
+                onClick={handleRowClick}
+                onDoubleClick={handleRowDoubleClick}
+                onEdit={handleEdit}
+                onRemove={handleRemove}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+      </div>
+    </>
   )
 }
-
-// Thin wrapper — useSortable forces re-renders on every drag move via context.
-// This component is intentionally minimal: just the drag transform wrapper.
-// The expensive content is in CharacterRowContent which is memoized separately.
 
 type CharacterRowProps = {
   character: Character
   isFocused: boolean
+  toggles: DebugToggles
   onClick: (id: CharacterId) => void
   onDoubleClick: (id: CharacterId) => void
+  onEdit: (id: CharacterId) => void
+  onRemove: (id: CharacterId) => void
 }
 
-function SortableCharacterRow({ character, isFocused, onClick, onDoubleClick }: CharacterRowProps) {
+function SortableCharacterRow({ character, isFocused, toggles, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: character.id,
     animateLayoutChanges: () => false,
@@ -163,66 +195,147 @@ function SortableCharacterRow({ character, isFocused, onClick, onDoubleClick }: 
   const style: React.CSSProperties = {
     transform: CSS.Translate.toString(transform),
     transition: transform ? transition : undefined,
-    opacity: isDragging ? 0.5 : 1,
   }
 
   return (
     <div
       ref={mergedRef}
-      className={`${classes.row} ${isFocused ? classes.rowFocused : ''}`}
+      className={classes.root}
+      data-selected={isFocused}
+      data-dragging={isDragging}
+      data-scrim-mode={toggles.scrimMode}
       style={style}
       onClick={() => onClick(character.id)}
       onDoubleClick={() => onDoubleClick(character.id)}
       {...attributes}
       {...listeners}
     >
-      <CharacterRowContent character={character} />
+      <CharacterRowContent
+        character={character}
+        toggles={toggles}
+        onEdit={onEdit}
+        onRemove={onRemove}
+      />
     </div>
   )
 }
 
-// Memoized content — skips re-rendering during drag because props don't change.
-// Only re-renders when character data (id, rank, equipped) actually changes.
-
-const CharacterRowContent = memo(function CharacterRowContent({ character }: { character: Character }) {
+const CharacterRowContent = memo(function CharacterRowContent({ character, toggles, onEdit, onRemove }: {
+  character: Character
+  toggles: DebugToggles
+  onEdit: (id: CharacterId) => void
+  onRemove: (id: CharacterId) => void
+}) {
   const tGameData = i18next.getFixedT(null, 'gameData', 'Characters')
-  const characterNameString = tGameData(`${character.id}.LongName`)
+  const meta = getGameMetadata().characters[character.id]
+  const characterName = tGameData(`${character.id}.LongName`)
 
-  const nameSections = characterNameString.includes(' (')
-    ? characterNameString.split(' (')
-      .map((section) => section.trim())
-      .map((section, index) => index === 1 ? ` (${section} ` : section)
-    : characterNameString.split(/ - |•/)
-      .map((section) => section.trim())
+  // Form data for eidolon/LC
+  const eidolon = character.form?.characterEidolon ?? 0
+  const lightConeId = character.form?.lightCone
+  const superimposition = character.form?.lightConeSuperimposition ?? 1
 
-  const nameSectionRender = nameSections
-    .map((section, index) => <span key={index} className={classes.nameSection}>{section}</span>)
-
-  const equippedNumber = character.equipped ? Object.values(character.equipped).filter((x) => x != undefined).length : 0
-  let color = '#81d47e'
-  if (equippedNumber < 6) color = 'rgb(229, 135, 66)'
-  if (equippedNumber < 1) color = '#d72f2f'
+  const rank = character.rank + 1
+  const isTopRank = rank <= 3
 
   return (
     <>
-      <div className={classes.iconCell}>
-        <img src={Assets.getCharacterAvatarById(character.id)} className={classes.characterIcon} />
-      </div>
-
-      <div className={classes.rankCell}>
-        <span>{character.rank + 1}</span>
-      </div>
-
-      <Flex align='center' className={classes.nameContainer}>
-        <div className={classes.nameText}>
-          {nameSectionRender}
+      {/* Portrait background */}
+      {toggles.showPortrait && (
+        <div className={classes.portraitBg}>
+          <img src={Assets.getCharacterPreviewById(character.id)} alt="" draggable={false} loading="lazy" />
         </div>
-        <div className={classes.equippedIndicator} style={{ backgroundColor: color }} />
-      </Flex>
+      )}
+
+      {/* Scrim gradient */}
+      <div className={classes.scrim} data-scrim-mode={toggles.scrimMode} />
+
+      {/* Right-side frosted strip for LC area */}
+      {toggles.showLcStrip && (
+        <div className={classes.lcStrip} />
+      )}
+
+      {/* Content */}
+      <div className={classes.inner}>
+        {/* Drag grip */}
+        {toggles.showDragGrip && (
+          <div className={classes.dragGrip}>
+            <span className={classes.gripLine} />
+            <span className={classes.gripLine} />
+            <span className={classes.gripLine} />
+          </div>
+        )}
+
+        {/* Rank */}
+        {toggles.showRank && (
+          <span className={classes.rank} data-top={isTopRank}>
+            {rank}
+          </span>
+        )}
+
+        {/* Name + subtitle (E/S badges) */}
+        <div
+          className={classes.info}
+          data-name-shadow={toggles.nameShadow}
+          data-name-constrain={toggles.nameConstrain}
+          data-name-backdrop={toggles.nameBackdrop}
+          data-name-fade={toggles.nameFade}
+        >
+          <div className={classes.name}>{characterName}</div>
+          <div className={classes.subtitle}>
+            {toggles.showEidolon && (
+              <span className={classes.subtitleBadge}>E{eidolon}</span>
+            )}
+            {toggles.showLightCone && lightConeId && (
+              <span className={classes.subtitleBadge}>S{superimposition}</span>
+            )}
+          </div>
+        </div>
+
+        {/* Light cone icon */}
+        {toggles.showLightCone && lightConeId && (
+          <div className={classes.lcWrap} data-lc-style={toggles.lcStyle}>
+            <img src={Assets.getLightConeIconById(lightConeId)} alt="" draggable={false} />
+          </div>
+        )}
+      </div>
+
+      {/* Hover action buttons — overlay on the left */}
+      {toggles.showActionButtons && (
+        <div className={classes.actions}>
+          <Tooltip label="Edit" position="top" withArrow>
+            <ActionIcon
+              size={24}
+              variant="subtle"
+              className={classes.actionBtn}
+              onClick={(e) => {
+                e.stopPropagation()
+                onEdit(character.id)
+              }}
+            >
+              <IconPencil size={12} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Remove" position="top" withArrow>
+            <ActionIcon
+              size={24}
+              variant="subtle"
+              className={classes.actionBtn}
+              onClick={(e) => {
+                e.stopPropagation()
+                onRemove(character.id)
+              }}
+            >
+              <IconX size={12} />
+            </ActionIcon>
+          </Tooltip>
+        </div>
+      )}
     </>
   )
 }, (prev, next) => {
   return prev.character.id === next.character.id
     && prev.character.rank === next.character.rank
-    && prev.character.equipped === next.character.equipped
+    && prev.character.form === next.character.form
+    && prev.toggles === next.toggles
 })

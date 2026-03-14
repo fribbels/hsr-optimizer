@@ -15,6 +15,7 @@ const optimizerGridGradient = chroma.scale(['#5A1A06', '#343127', '#38821F']).do
 
 // this default is overwritten on page load, Gradient.setTheme() in App.tsx
 let relicGridGradient = chroma.scale(['#343127', '#38821F'])
+let relicGradientCache = new Map<number, { backgroundColor: string }>()
 
 const relicColumnRanges = {
   'augmentedStats.HP': 169.35,
@@ -78,6 +79,7 @@ export const Gradient = {
 
   setTheme(colorTheme: ColorThemeOverrides) {
     relicGridGradient = chroma.scale([chroma(colorTheme.colorPrimary).darken(3).desaturate(2).hex(), colorTheme.colorPrimary])
+    relicGradientCache = new Map()
   },
 
   getRelicGradient(params: CellClassParams<ScoredRelic>) {
@@ -99,10 +101,15 @@ export const Gradient = {
       range = value / relicColumnRanges[col as `augmentedStats.${SubStats}` | 'cv']
     }
 
-    const color = Gradient.getColor(Math.min(Math.max(range, 0), 1), relicGridGradient)
+    const clamped = Math.min(Math.max(range, 0), 1)
+    // Quantize to ~200 buckets to maximize cache hits
+    const key = Math.round(clamped * 200)
+    const cached = relicGradientCache.get(key)
+    if (cached) return cached
 
-    return {
-      backgroundColor: color,
-    }
+    const color = Gradient.getColor(clamped, relicGridGradient)
+    const style = { backgroundColor: color }
+    relicGradientCache.set(key, style)
+    return style
   },
 }

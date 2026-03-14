@@ -107,7 +107,9 @@ export default function ImportTab() {
       <Flex direction='column' gap={5} ml={20} w={1200}>
         <Tabs
           defaultValue='Import'
+          variant='outline'
           mb={32}
+          styles={{ tab: { height: 42, paddingInline: 32 }, panel: { paddingTop: 'var(--mantine-spacing-xl)' } }}
         >
           <Tabs.List>
             <Tabs.Tab value='Import'>{t('Import')}</Tabs.Tab>

@@ -127,13 +127,13 @@ export function BenchmarksTab(): ReactElement {
   }, [teammate0, teammate1, teammate2])
 
   return (
-    <Flex direction="column" className={styles.container} align='center' gap={8}>
+    <Flex direction="column" className={styles.container} align='center' gap="xl">
       <ColorizedTitleWithInfo
         text={t('Title') /* 'Benchmark Generator' */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Paper p="xs" withBorder className={styles.inputPaper}>
+      <Paper p="xl" withBorder className={styles.inputPaper}>
         <BenchmarkInputs form={benchmarkForm} />
       </Paper>
 

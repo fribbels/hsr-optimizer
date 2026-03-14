@@ -14,10 +14,18 @@ import useRelicsTabStore, {
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { CharacterId } from 'types/character'
 
 export function RelicInsightsPanel() {
-  const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore()
+  const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore(
+    useShallow((s) => ({
+      insightsCharacters: s.insightsCharacters,
+      insightsMode: s.insightsMode,
+      selectedRelicId: s.selectedRelicId,
+      excludedRelicPotentialCharacters: s.excludedRelicPotentialCharacters,
+    })),
+  )
   const scoringMetadataOverrides = useScoringStore((s) => s.scoringMetadataOverrides)
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null

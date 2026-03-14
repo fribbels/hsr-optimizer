@@ -108,6 +108,9 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
           transitionProps: { duration: 150 },
         },
       },
+      Timeline: {
+        defaultProps: { size: 'md' },
+      },
       Accordion: {
         styles: {
           item: { borderBottom: 'none' },

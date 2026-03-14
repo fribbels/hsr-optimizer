@@ -29,9 +29,11 @@ import {
 } from 'react'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { useScoringStore } from 'lib/stores/scoringStore'
+import { useShallow } from 'zustand/react/shallow'
 
 const gridOptions: GridOptions<ScoredRelic> = {
   rowHeight: 33,
+  rowBuffer: 15,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
@@ -55,7 +57,14 @@ export function RelicsGrid() {
   const relics = useRelicStore((s) => s.relics)
   const scoringMetadataOverrides = useScoringStore((s) => s.scoringMetadataOverrides)
 
-  const { focusCharacter, excludedRelicPotentialCharacters } = useRelicsTabStore()
+  const { focusCharacter, excludedRelicPotentialCharacters, filters, valueColumns } = useRelicsTabStore(
+    useShallow((s) => ({
+      focusCharacter: s.focusCharacter,
+      excludedRelicPotentialCharacters: s.excludedRelicPotentialCharacters,
+      filters: s.filters,
+      valueColumns: s.valueColumns,
+    })),
+  )
 
   const gridRef = useRef<AgGridReact<ScoredRelic>>(null)
   gridStore.setRelicsGrid(gridRef)
@@ -63,8 +72,6 @@ export function RelicsGrid() {
   const scoredRelics = useMemo(() => {
     return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringMetadataOverrides)
   }, [relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
-
-  const { filters, valueColumns } = useRelicsTabStore()
 
   const columnDefs = useMemo(() => {
     return generateBaselineColDefs(t)

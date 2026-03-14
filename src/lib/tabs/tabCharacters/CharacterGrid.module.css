@@ -1,86 +1,448 @@
+/* ============================================================
+ * CharacterGrid.module.css — Character priority list
+ * ============================================================ */
+
+/* --- Container --- */
+
 .gridContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-row-gap, 0px);
+  width: var(--cr-list-width, 320px);
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   outline: none;
-  border: 1px solid #424242;
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  height: 46px;
-  cursor: grab;
-  user-select: none;
-  border-bottom: 1px solid #424242;
+.gridContainer[data-container-border='true'] {
+  border: 1px solid var(--mantine-color-dark-5);
+  border-radius: var(--mantine-radius-sm);
+  padding: 2px;
 }
 
-.rowFocused {
-  background-color: #005880;
-}
+/* --- Row container + design tokens --- */
 
-.row:hover:not(.rowFocused) {
-  background-color: #383838;
-}
+.root {
+  /* Overridable design tokens (scoped to row) */
+  --cr-bg: var(--mantine-color-dark-7);
+  --cr-border-subtle: var(--mantine-color-dark-5);
+  --cr-text-primary: var(--mantine-color-text);
+  --cr-text-secondary: var(--mantine-color-dimmed);
+  --cr-text-muted: var(--mantine-color-dark-3);
+  --cr-primary: var(--mantine-primary-color-filled);
+  --cr-primary-tint: color-mix(in srgb, var(--cr-primary) 10%, transparent);
+  --cr-primary-border: color-mix(in srgb, var(--cr-primary) 15%, transparent);
+  --cr-radius: var(--mantine-radius-sm);
+  --cr-gap: var(--mantine-spacing-xs);
+  --cr-padding: var(--mantine-spacing-sm);
 
-.row:active {
-  background-color: #004a6b;
-}
-
-.iconCell {
-  width: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* Layout — box-shadow for border so it doesn't affect row height */
+  position: relative;
+  height: var(--cr-row-height, 64px);
   flex-shrink: 0;
-}
-
-.rankCell {
-  width: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.nameCell {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  height: 100%;
-}
-
-.nameContainer {
-  height: 100%;
-  width: 100%;
-}
-
-.nameText {
-  margin: auto;
-  padding: 0 5px;
-  text-align: center;
+  border-radius: var(--cr-radius);
   overflow: hidden;
-  white-space: break-spaces;
-  text-wrap: wrap;
-  font-size: 14px;
-  width: 100%;
-  line-height: 18px;
+  cursor: grab;
+  transition: box-shadow 0.15s, filter 0.15s;
+  box-shadow: inset 0 0 0 1px transparent;
+  user-select: none;
 }
 
-.nameSection {
-  display: inline-block;
+.root:hover {
+  box-shadow: inset 0 0 0 1px var(--cr-border-subtle);
 }
 
-.equippedIndicator {
+.root[data-dragging='true'] {
+  box-shadow: inset 0 0 0 1px var(--cr-border-subtle), 0 4px 16px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  cursor: grabbing;
+}
+
+/* --- Portrait background --- */
+
+.portraitBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  transition: filter 0.2s;
+}
+
+.portraitBg img {
+  position: absolute;
+  width: var(--cr-portrait-scale, 75%);
+  height: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(
+    calc(-1 * var(--cr-portrait-x, 34%)),
+    calc(-1 * var(--cr-portrait-y, 31%))
+  );
   display: block;
-  width: 3px;
-  height: 100%;
-  z-index: 2;
 }
 
-.characterIcon {
-  flex: 0 0 auto;
-  max-width: 100%;
-  width: 48px;
+.root:hover .portraitBg {
+  filter: brightness(1.2) saturate(1.15);
+}
+
+/* --- Scrim gradient --- */
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: background 0.15s, backdrop-filter 0.15s;
+}
+
+/* Mode A: Pure black (original) */
+.scrim[data-scrim-mode='black'] {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, var(--cr-scrim-0, 0.93)) 0%,
+    rgba(0, 0, 0, var(--cr-scrim-40, 0.86)) 40%,
+    rgba(0, 0, 0, var(--cr-scrim-65, 0.30)) 65%,
+    rgba(0, 0, 0, var(--cr-scrim-85, 0.07)) 85%,
+    rgba(0, 0, 0, var(--cr-scrim-100, 0.17)) 100%
+  );
+}
+
+/* Mode B: Theme-matched — fades toward the actual UI background instead of pure black */
+.scrim[data-scrim-mode='themed'] {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--cr-bg) 93%, transparent) 0%,
+    color-mix(in srgb, var(--cr-bg) 86%, transparent) 40%,
+    color-mix(in srgb, var(--cr-bg) 30%, transparent) 65%,
+    color-mix(in srgb, var(--cr-bg) 7%, transparent) 85%,
+    color-mix(in srgb, var(--cr-bg) 17%, transparent) 100%
+  );
+}
+
+/* Mode C: Solid left → transparent right */
+.scrim[data-scrim-mode='solid-fade'] {
+  background: linear-gradient(
+    90deg,
+    var(--cr-bg) 0%,
+    var(--cr-bg) 30%,
+    color-mix(in srgb, var(--cr-bg) 40%, transparent) 55%,
+    transparent 75%
+  );
+}
+
+/* Mode D: Frosted glass — mask fades out the blur toward the portrait face */
+.scrim[data-scrim-mode='frosted'] {
+  backdrop-filter:
+    blur(var(--cr-frost-blur, 6.5px))
+    brightness(var(--cr-frost-brightness, 0.85))
+    saturate(var(--cr-frost-saturate, 1.2));
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, var(--cr-frost-tint, 0.33)) 0%,
+    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.33) * 0.5)) 50%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    black 0%,
+    black var(--cr-frost-fade-start, 47%),
+    transparent var(--cr-frost-fade-end, 57%)
+  );
+  mask-image: linear-gradient(
+    90deg,
+    black 0%,
+    black var(--cr-frost-fade-start, 47%),
+    transparent var(--cr-frost-fade-end, 57%)
+  );
+}
+
+/* Mode E: Solid row BG + light scrim overlay */
+.scrim[data-scrim-mode='bg-light'] {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.10) 40%,
+    transparent 65%
+  );
+}
+
+/* bg-light mode needs a solid background on .root */
+.root[data-scrim-mode='bg-light'] {
+  background: var(--cr-bg);
+}
+
+/* --- Right-side frosted strip (LC area) --- */
+
+.lcStrip {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--cr-lc-strip-width, 56px);
+  z-index: 1;
+  backdrop-filter: blur(6px) brightness(0.5) saturate(1.2);
+}
+
+/* --- Inner content layout --- */
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 0 0 var(--cr-padding);
+  gap: var(--cr-gap);
+}
+
+/* --- Drag grip --- */
+
+.dragGrip {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.12s;
+  cursor: grab;
+}
+
+.root:hover .dragGrip {
+  opacity: 0.4;
+}
+
+.gripLine {
+  display: block;
+  width: 8px;
+  height: 1.5px;
+  background: var(--cr-text-secondary);
+  border-radius: 1px;
+}
+
+/* --- Subtitle (E/S badges + path under name) --- */
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+}
+
+.subtitleBadge {
+  font-size: calc(var(--mantine-font-size-xs) - 1px);
+  font-weight: 700;
+  font-family: var(--mantine-font-family-monospace, monospace);
+  color: var(--cr-text-secondary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Light cone icon --- */
+
+.lcWrap {
+  position: relative;
+  width: var(--cr-lc-size, 48px);
+  height: var(--cr-lc-size, 48px);
+  flex-shrink: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-right: var(--cr-lc-right-pad, 4px);
+}
+
+.lcWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* LC style: dark pill backing */
+.lcWrap[data-lc-style='pill'] {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 3px;
+  border-radius: 5px;
+}
+
+/* LC style: frosted glass backing */
+.lcWrap[data-lc-style='frosted'] {
+  backdrop-filter: blur(6px) brightness(0.5) saturate(1.2);
+  padding: 3px;
+  border-radius: 5px;
+}
+
+/* LC style: drop shadow */
+.lcWrap[data-lc-style='shadow'] {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+}
+
+/* --- Rank number --- */
+
+.rank {
+  font-family: var(--mantine-font-family-monospace, monospace);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cr-text-muted);
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.rank[data-top='true'] {
+  color: var(--cr-primary);
+}
+
+/* --- Name + Path --- */
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Name readability: text shadow */
+.info[data-name-shadow='true'] .name,
+.info[data-name-shadow='true'] .subtitleBadge {
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.7),
+    0 0 6px rgba(0, 0, 0, 0.5),
+    0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Name readability: max-width constraint */
+.info[data-name-constrain='true'] {
+  max-width: var(--cr-name-max-width, 55%);
+}
+
+/* Name readability: backdrop pill */
+.info[data-name-backdrop='true'] {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* Name readability: gradient text fade */
+.info[data-name-fade='true'] {
+  -webkit-mask-image: linear-gradient(90deg, black 60%, transparent 100%);
+  mask-image: linear-gradient(90deg, black 60%, transparent 100%);
+}
+
+.name {
+  font-size: calc(var(--mantine-font-size-sm) - 0.5px);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--cr-text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+
+/* --- Hover action buttons (overlay on left) --- */
+
+.actions {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s;
+}
+
+.root:hover .actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.actionBtn {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  border-radius: var(--cr-radius);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--cr-text-secondary);
+  backdrop-filter: blur(4px);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.1s, color 0.1s;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--cr-text-primary);
+}
+
+/* ============================================================
+ * SELECTED STATE
+ * ============================================================ */
+
+.root[data-selected='true'] {
+  box-shadow: inset 0 0 0 1px var(--cr-primary-border);
+}
+
+/* --- Selected scrims --- */
+
+.root[data-selected='true'] .scrim[data-scrim-mode='black'],
+.root[data-selected='true'] .scrim[data-scrim-mode='themed'] {
+  background: linear-gradient(
+    90deg,
+    var(--cr-primary-tint) 0%,
+    rgba(0, 0, 0, 0.88) 25%,
+    rgba(0, 0, 0, 0.50) 65%,
+    rgba(0, 0, 0, 0.15) 85%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+}
+
+.root[data-selected='true'] .scrim[data-scrim-mode='solid-fade'] {
+  background: linear-gradient(
+    90deg,
+    var(--cr-primary-tint) 0%,
+    var(--cr-bg) 20%,
+    var(--cr-bg) 30%,
+    color-mix(in srgb, var(--cr-bg) 40%, transparent) 55%,
+    transparent 75%
+  );
+}
+
+.root[data-selected='true'] .scrim[data-scrim-mode='frosted'] {
+  backdrop-filter:
+    blur(var(--cr-frost-blur, 6.5px))
+    brightness(calc(var(--cr-frost-brightness, 0.85) * 0.85))
+    saturate(calc(var(--cr-frost-saturate, 1.2) * 1.1));
+  background: linear-gradient(
+    90deg,
+    var(--cr-primary-tint) 0%,
+    rgba(0, 0, 0, var(--cr-frost-tint, 0.33)) 30%,
+    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.33) * 0.4)) 60%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    black 0%,
+    black var(--cr-frost-fade-start, 47%),
+    transparent var(--cr-frost-fade-end, 57%)
+  );
+  mask-image: linear-gradient(
+    90deg,
+    black 0%,
+    black var(--cr-frost-fade-start, 47%),
+    transparent var(--cr-frost-fade-end, 57%)
+  );
+}
+
+.root[data-selected='true'] .scrim[data-scrim-mode='bg-light'] {
+  background: linear-gradient(
+    90deg,
+    var(--cr-primary-tint) 0%,
+    rgba(0, 0, 0, 0.20) 30%,
+    rgba(0, 0, 0, 0.08) 50%,
+    transparent 65%
+  );
 }

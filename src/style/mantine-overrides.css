@@ -10,6 +10,17 @@
     cursor: pointer;
 }
 
+/* Timeline bullet — fix light-dark() not resolving in dark theme */
+[data-mantine-color-scheme='dark'] .mantine-Timeline-itemBullet {
+    background-color: var(--mantine-color-dark-7);
+    border-color: var(--mantine-color-dark-4);
+}
+
+[data-mantine-color-scheme='dark'] .mantine-Timeline-itemBullet[data-active] {
+    background-color: var(--mantine-primary-color-filled);
+    border-color: var(--mantine-primary-color-filled);
+}
+
 /* Body scrollbar with overlayscrollbars */
 .os-scrollbar {
     --os-handle-bg: #95959552 !important;

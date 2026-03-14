@@ -1,5 +1,4 @@
 import { Flex, SegmentedControl, useMantineTheme } from '@mantine/core'
-import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
@@ -12,7 +11,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
-import { useMemo } from 'react'
+import { useDeferredValue } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGlobalStore } from 'lib/stores/appStore'
 
@@ -102,7 +101,7 @@ export function ShowcaseBuildAnalysis({
         </Flex>
       </Flex>
       {scoringType === ScoringType.COMBAT_SCORE && (
-        <MemoizedCharacterScoringSummary
+        <DeferredCharacterScoringSummary
           simScoringResult={scoringResult ?? undefined}
           displayRelics={displayRelics}
           showcaseMetadata={showcaseMetadata}
@@ -143,25 +142,18 @@ function StatScoringSummary({ scoringType, displayRelics, showcaseMetadata }: {
   )
 }
 
-function MemoizedCharacterScoringSummary(props: {
+function DeferredCharacterScoringSummary(props: {
   simScoringResult?: SimulationScore
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) {
-  const delayedProps = useDelayedProps(props, 250)
+  const deferredProps = useDeferredValue(props)
 
-  const memoizedCharacterScoringSummary = useMemo(() => {
-    return delayedProps
-      ? (
-        <CharacterScoringSummary
-          simScoringResult={delayedProps.simScoringResult}
-          displayRelics={delayedProps.displayRelics}
-          showcaseMetadata={delayedProps.showcaseMetadata}
-        />
-      )
-      : null
-  }, [delayedProps])
-
-  if (!delayedProps) return null
-  return memoizedCharacterScoringSummary
+  return (
+    <CharacterScoringSummary
+      simScoringResult={deferredProps.simScoringResult}
+      displayRelics={deferredProps.displayRelics}
+      showcaseMetadata={deferredProps.showcaseMetadata}
+    />
+  )
 }

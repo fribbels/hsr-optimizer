@@ -21,7 +21,7 @@ import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/utils/colorUtils'
 import { Assets } from 'lib/rendering/assets'
 import { Character, SavedBuild } from 'types/character'
-import { ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
+import { ShowcasePreferences } from 'types/metadata'
 
 interface ShowcaseVisualDataParams {
   character: Character

@@ -33,7 +33,6 @@ import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import i18next from 'i18next'
 import {
@@ -55,16 +54,12 @@ export function ShowcaseDpsScorePanel({
   scoringDone,
   scoringResult,
   teamSelection: teamSelectionProp,
-  displayRelics,
-  setRedrawTeammates,
   source,
 }: {
   characterId: CharacterId
   scoringDone: boolean
   scoringResult: SimulationScore | null
   teamSelection: string
-  displayRelics: SingleRelicByPart
-  setRedrawTeammates: (n: number) => void
   source: ShowcaseSource
 }) {
   const readonly = source === ShowcaseSource.BUILDS_MODAL
@@ -92,7 +87,6 @@ export function ShowcaseDpsScorePanel({
             characterId={characterId}
             teamSelection={teamSelection}
             setSelectedTeammateIndex={setSelectedTeammateIndex}
-            setRedrawTeammates={setRedrawTeammates}
             readonly={readonly}
           />
         ))}
@@ -101,8 +95,6 @@ export function ShowcaseDpsScorePanel({
       <ShowcaseTeamSelectPanel
         characterId={characterId}
         teamSelection={teamSelection}
-        selectedTeammateIndex={selectedTeammateIndex!}
-        setRedrawTeammates={setRedrawTeammates}
         readonly={readonly}
       />
     </Flex>
@@ -139,7 +131,6 @@ function CharacterPreviewScoringTeammate({
   characterId,
   teamSelection,
   setSelectedTeammateIndex,
-  setRedrawTeammates,
   readonly,
 }: {
   index: number
@@ -147,7 +138,6 @@ function CharacterPreviewScoringTeammate({
   characterId: CharacterId
   teamSelection: string
   setSelectedTeammateIndex: (i: number | undefined) => void
-  setRedrawTeammates: (n: number) => void
   readonly?: boolean
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -166,7 +156,7 @@ function CharacterPreviewScoringTeammate({
         setSelectedTeammateIndex(index)
         useCharacterModalStore.getState().openOverlay({
           initialCharacter: { form: teammate } as Character,
-          onOk: createOnCharacterModalOk(characterId, index, teamSelection, setRedrawTeammates),
+          onOk: createOnCharacterModalOk(characterId, index, teamSelection),
         })
       }}
       className={`${teammateClasses.teammateCard} ${readonly ? 'readonly-custom-grid' : 'custom-grid'}`}
@@ -261,7 +251,6 @@ function createOnCharacterModalOk(
   characterId: CharacterId,
   selectedTeammateIndex: number,
   teamSelection: string,
-  setRedrawTeammates: (n: number) => void,
 ) {
   return (form: Form) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'CharacterPreview.Messages')
@@ -280,21 +269,16 @@ function createOnCharacterModalOk(
     useScoringStore.getState().updateSimulationOverrides(characterId, update)
     SaveState.delayedSave()
     setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
-    setRedrawTeammates(Math.random())
   }
 }
 
 function ShowcaseTeamSelectPanel({
   characterId,
   teamSelection,
-  selectedTeammateIndex,
-  setRedrawTeammates,
   readonly,
 }: {
   characterId: CharacterId
   teamSelection: string
-  selectedTeammateIndex: number
-  setRedrawTeammates: (random: number) => void
   readonly?: boolean
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -321,7 +305,6 @@ function ShowcaseTeamSelectPanel({
                       useScoringStore.getState().clearSimulationOverrides(characterId)
                       SaveState.delayedSave()
                       if (teamSelection !== DEFAULT_TEAM) setTeamSelectionByCharacter(characterId, DEFAULT_TEAM)
-                      setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.ResetSuccessMsg') /* Reset to default teams */)
                     }}
@@ -349,7 +332,6 @@ function ShowcaseTeamSelectPanel({
                       useScoringStore.getState().updateSimulationOverrides(characterId, update)
                       SaveState.delayedSave()
                       if (teamSelection !== CUSTOM_TEAM) setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
-                      setRedrawTeammates(Math.random())
 
                       Message.success(t('modals:ScoreFooter.SyncSuccessMsg') /* Synced teammates */)
                     }}

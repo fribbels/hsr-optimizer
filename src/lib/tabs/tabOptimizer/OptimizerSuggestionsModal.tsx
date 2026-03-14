@@ -40,7 +40,7 @@ export function activateZeroPermutationsSuggestionsModal(request: Form) {
  */
 export function activateZeroResultSuggestionsModal(request: Form) {
   rootCauses = detectZeroResultCauses(request)
-  setOpen(OpenCloseIDs.ZERO_PERMS_MODAL)
+  setOpen(OpenCloseIDs.ZERO_RESULTS_MODAL)
 }
 
 function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRootCause, t: TFunction<'modals', undefined>): ReactElement {
@@ -65,10 +65,8 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
 }
 
 export function ZeroPermutationsSuggestionsModal() {
-  const { t } = useTranslation('modals')
   const { close: closeZeroPermsModal, isOpen: isOpenZeroPermsModal } = useOpenClose(OpenCloseIDs.ZERO_PERMS_MODAL)
-
-  const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
+  const { t } = useTranslation('modals')
 
   return (
     <Modal
@@ -78,27 +76,33 @@ export function ZeroPermutationsSuggestionsModal() {
       centered
       onClose={closeZeroPermsModal}
     >
-      <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
-        <div>
-          {
-            t(
-              '0Perms.Description',
-            ) /* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */
-          }
-        </div>
-        <HorizontalDivider />
-        {rootCauseDisplay}
-      </Flex>
+      {isOpenZeroPermsModal && <ZeroPermutationsSuggestionsContent close={closeZeroPermsModal} />}
     </Modal>
+  )
+}
+
+function ZeroPermutationsSuggestionsContent({ close: _close }: { close: () => void }) {
+  const { t } = useTranslation('modals')
+  const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
+
+  return (
+    <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
+      <div>
+        {
+          t(
+            '0Perms.Description',
+          ) /* This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar. */
+        }
+      </div>
+      <HorizontalDivider />
+      {rootCauseDisplay}
+    </Flex>
   )
 }
 
 export function ZeroResultSuggestionModal() {
   const { close: closeZeroResultsModal, isOpen: isOpenZeroResultsModal } = useOpenClose(OpenCloseIDs.ZERO_RESULTS_MODAL)
-
   const { t } = useTranslation('modals')
-
-  const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
 
   return (
     <Modal
@@ -108,30 +112,39 @@ export function ZeroResultSuggestionModal() {
       centered
       onClose={closeZeroResultsModal}
     >
-      <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
-        <Flex justify='space-between' align='center' h={45}>
-          <div>
-            {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}
-          </div>
-          <Button
-            onClick={() => {
-              for (const rootCause of rootCauses as ZeroResultRootCause[]) {
-                if (rootCause == ZeroResultRootCause.STAT_VIEW) continue
-                ZeroResultRootCauseFixes[rootCause].applyFix()
-              }
-              const setStatDisplay = useOptimizerRequestStore.getState().setStatDisplay
-              setStatDisplay('combat')
-              Message.success(t('0Results.ResetAll.SuccessMessage')) /* Cleared all filters */
-              closeZeroResultsModal()
-            }}
-            style={{ width: 350 }}
-          >
-            {t('0Results.ResetAll.ButtonText') /* Reset all filters */}
-          </Button>
-        </Flex>
-        <HorizontalDivider />
-        {rootCauseDisplay}
-      </Flex>
+      {isOpenZeroResultsModal && <ZeroResultSuggestionContent close={closeZeroResultsModal} />}
     </Modal>
+  )
+}
+
+function ZeroResultSuggestionContent({ close: closeZeroResultsModal }: { close: () => void }) {
+  const { t } = useTranslation('modals')
+  const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
+
+  return (
+    <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
+      <Flex justify='space-between' align='center' h={45}>
+        <div>
+          {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}
+        </div>
+        <Button
+          onClick={() => {
+            for (const rootCause of rootCauses as ZeroResultRootCause[]) {
+              if (rootCause == ZeroResultRootCause.STAT_VIEW) continue
+              ZeroResultRootCauseFixes[rootCause].applyFix()
+            }
+            const setStatDisplay = useOptimizerRequestStore.getState().setStatDisplay
+            setStatDisplay('combat')
+            Message.success(t('0Results.ResetAll.SuccessMessage')) /* Cleared all filters */
+            closeZeroResultsModal()
+          }}
+          style={{ width: 350 }}
+        >
+          {t('0Results.ResetAll.ButtonText') /* Reset all filters */}
+        </Button>
+      </Flex>
+      <HorizontalDivider />
+      {rootCauseDisplay}
+    </Flex>
   )
 }

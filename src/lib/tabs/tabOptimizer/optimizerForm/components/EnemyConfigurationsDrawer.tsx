@@ -21,9 +21,24 @@ function setEnemyAndRecalculate<K extends keyof EnemyConfigFields>(field: K, val
 }
 
 export function EnemyConfigurationsDrawer() {
+  const { close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'EnemyConfiguration' })
 
-  const { close: closeEnemyDrawer, isOpen: isOpenEnemyDrawer } = useOpenClose(OpenCloseIDs.ENEMY_DRAWER)
+  return (
+    <Drawer
+      title={t('Title')} // 'Enemy configurations'
+      position='right'
+      onClose={closeEnemyDrawer}
+      opened={isOpenEnemyDrawer}
+      size={300}
+    >
+      {isOpenEnemyDrawer && <EnemyConfigurationsDrawerContent />}
+    </Drawer>
+  )
+}
+
+function EnemyConfigurationsDrawerContent() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'EnemyConfiguration' })
 
   const {
     enemyLevel,
@@ -83,77 +98,68 @@ export function EnemyConfigurationsDrawer() {
   [t])
 
   return (
-    <Drawer
-      title={t('Title')} // 'Enemy configurations'
-      position='right'
-      onClose={closeEnemyDrawer}
-      opened={isOpenEnemyDrawer}
-      size={300}
-      keepMounted
-    >
-      <Flex direction="column" gap={5}>
-        <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>
-          <HeaderText>{t('StatHeader') /* Enemy stat options */}</HeaderText>
-          <TooltipImage type={Hint.enemyOptions()} />
-        </Flex>
-
-        <Select
-          searchable
-          data={enemyLevelOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-          value={enemyLevel != null ? String(enemyLevel) : null}
-          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyLevel', Number(val)) }}
-        />
-
-        <Select
-          searchable
-          data={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-          value={enemyResistance != null ? String(enemyResistance) : null}
-          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyResistance', Number(val)) }}
-        />
-
-        <Select
-          searchable
-          data={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-          value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
-          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyEffectResistance', Number(val)) }}
-        />
-
-        <Select
-          searchable
-          data={enemyMaxToughnessOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-          value={enemyMaxToughness != null ? String(enemyMaxToughness) : null}
-          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyMaxToughness', Number(val)) }}
-        />
-
-        <Select
-          searchable
-          data={enemyCountOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-          value={enemyCount != null ? String(enemyCount) : null}
-          onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyCount', Number(val)) }}
-        />
-
-        <Flex align='center'>
-          <Switch
-            onLabel={<IconCheck />}
-            offLabel={<IconX />}
-            checked={enemyElementalWeak}
-            onChange={(event) => setEnemyAndRecalculate('enemyElementalWeak', event.currentTarget.checked)}
-            style={{ width: 45, marginRight: 5 }}
-          />
-          <div>{t('WeaknessLabel') /* Elemental weakness */}</div>
-        </Flex>
-
-        <Flex align='center'>
-          <Switch
-            onLabel={<IconCheck />}
-            offLabel={<IconX />}
-            checked={enemyWeaknessBroken}
-            onChange={(event) => setEnemyAndRecalculate('enemyWeaknessBroken', event.currentTarget.checked)}
-            style={{ width: 45, marginRight: 5 }}
-          />
-          <div>{t('BrokenLabel') /* Weakness broken */}</div>
-        </Flex>
+    <Flex direction="column" gap={5}>
+      <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>
+        <HeaderText>{t('StatHeader') /* Enemy stat options */}</HeaderText>
+        <TooltipImage type={Hint.enemyOptions()} />
       </Flex>
-    </Drawer>
+
+      <Select
+        searchable
+        data={enemyLevelOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+        value={enemyLevel != null ? String(enemyLevel) : null}
+        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyLevel', Number(val)) }}
+      />
+
+      <Select
+        searchable
+        data={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+        value={enemyResistance != null ? String(enemyResistance) : null}
+        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyResistance', Number(val)) }}
+      />
+
+      <Select
+        searchable
+        data={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+        value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
+        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyEffectResistance', Number(val)) }}
+      />
+
+      <Select
+        searchable
+        data={enemyMaxToughnessOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+        value={enemyMaxToughness != null ? String(enemyMaxToughness) : null}
+        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyMaxToughness', Number(val)) }}
+      />
+
+      <Select
+        searchable
+        data={enemyCountOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+        value={enemyCount != null ? String(enemyCount) : null}
+        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyCount', Number(val)) }}
+      />
+
+      <Flex align='center'>
+        <Switch
+          onLabel={<IconCheck />}
+          offLabel={<IconX />}
+          checked={enemyElementalWeak}
+          onChange={(event) => setEnemyAndRecalculate('enemyElementalWeak', event.currentTarget.checked)}
+          style={{ width: 45, marginRight: 5 }}
+        />
+        <div>{t('WeaknessLabel') /* Elemental weakness */}</div>
+      </Flex>
+
+      <Flex align='center'>
+        <Switch
+          onLabel={<IconCheck />}
+          offLabel={<IconX />}
+          checked={enemyWeaknessBroken}
+          onChange={(event) => setEnemyAndRecalculate('enemyWeaknessBroken', event.currentTarget.checked)}
+          style={{ width: 45, marginRight: 5 }}
+        />
+        <div>{t('BrokenLabel') /* Weakness broken */}</div>
+      </Flex>
+    </Flex>
   )
 }

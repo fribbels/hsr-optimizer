@@ -2,6 +2,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 import {
   CSSProperties,
   useEffect,
+  useRef,
   useState,
 } from 'react'
 
@@ -13,72 +14,60 @@ interface LoadingBlurredImageProps {
 
 type ImageProperties = {
   src: string
-  style: CSSProperties
+  styleHash: string
+}
+
+function isImageCached(src: string): boolean {
+  const img = new Image()
+  img.src = src
+  return img.complete && img.naturalWidth > 0
 }
 
 export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImageProps) {
-  const [storedImg, setStoredImg] = useState<ImageProperties | undefined>()
-  const [pendingImage, setPendingImage] = useState<ImageProperties | undefined>()
+  const styleHash = TsUtils.objectHash(style)
+  const callbackRef = useRef(callback)
+  callbackRef.current = callback
 
-  const [finishedLoading, setFinishedLoading] = useState<boolean>(false)
-  const [blur, setBlur] = useState<boolean>(true)
+  // Initialize without blur if the image is already browser-cached
+  const [storedImg, setStoredImg] = useState<ImageProperties | undefined>(() =>
+    isImageCached(src) ? { src, styleHash } : undefined
+  )
+  const [blur, setBlur] = useState<boolean>(() => !storedImg)
 
   useEffect(() => {
-    if (src === storedImg?.src && TsUtils.objectHash(style) === TsUtils.objectHash(storedImg?.style)) {
-      // Do nothing as its already loaded
+    // Already stored with same src+style — nothing to do
+    if (src === storedImg?.src && styleHash === storedImg?.styleHash) {
       return
     }
 
-    if (src === pendingImage?.src && TsUtils.objectHash(style) === TsUtils.objectHash(pendingImage?.style)) {
-      // Do nothing as its already pending
+    // Check if browser has it cached — skip blur entirely
+    if (isImageCached(src)) {
+      setStoredImg({ src, styleHash })
+      setBlur(false)
+      callbackRef.current?.(src)
       return
     }
 
+    // Not cached — show blur and load
     setBlur(true)
-    setPendingImage({
-      src: src,
-      style: style,
-    })
 
     const img = new Image()
     img.src = src
-
-    if (img.complete || img.naturalWidth > 0) {
-      // Pulled from cache
-      setFinishedLoading(true)
-      return
-    }
-
-    setFinishedLoading(false)
-
-    // We have to load the pending image before it can be stored
     img.onload = () => {
-      setFinishedLoading(true)
-    }
-  }, [storedImg, src, style])
-
-  useEffect(() => {
-    if (finishedLoading) {
-      setStoredImg({
-        src: pendingImage!.src,
-        style: pendingImage!.style,
-      })
-
+      setStoredImg({ src, styleHash })
       setBlur(false)
-      setFinishedLoading(false)
-
-      if (callback) {
-        callback(pendingImage!.src)
-      }
+      callbackRef.current?.(src)
     }
-  }, [finishedLoading])
+
+    return () => { img.onload = null }
+  }, [src, styleHash])
 
   return (
     <img
       src={storedImg?.src}
       loading='eager'
       style={{
-        ...storedImg?.style,
+        ...style,
         filter: blur ? 'blur(6px)' : 'none',
         transition: blur ? '' : 'filter 0.35s cubic-bezier(.41,.65,.39,.99)',
       }}

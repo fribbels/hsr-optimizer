@@ -82,19 +82,10 @@ interface CharacterPreviewPropsBase {
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
-export const CharacterPreview = memo(function CharacterPreview({
-  source,
+export function CharacterPreview({
   character,
-  setOriginalCharacterModalOpen,
-  setOriginalCharacterModalInitialCharacter,
-  savedBuildOverride,
-  id,
+  ...rest
 }: CharacterPreviewProps) {
-
-  const mantineTheme = useMantineTheme()
-
-  const state = useCharacterPreviewState(source, character, savedBuildOverride)
-
   if (!character) {
     return (
       <div
@@ -109,23 +100,47 @@ export const CharacterPreview = memo(function CharacterPreview({
     )
   }
 
+  return <CharacterPreviewInner character={character} {...rest} />
+}
+
+type CharacterPreviewInnerProps = Omit<CharacterPreviewProps, 'character'> & { character: Character }
+
+const CharacterPreviewInner = memo(function CharacterPreviewInner({
+  source,
+  character,
+  setOriginalCharacterModalOpen,
+  setOriginalCharacterModalInitialCharacter,
+  savedBuildOverride,
+  id,
+}: CharacterPreviewInnerProps) {
+
+  const mantineTheme = useMantineTheme()
+
+  const state = useCharacterPreviewState(source, character, savedBuildOverride)
+
   // ===== Relics =====
 
   const { scoringResults, displayRelics } = state.previewRelics!
   const scoredRelics = scoringResults.relics || []
 
   // ===== Visual data (memoized, no side effects) =====
+  // prevSeedColor.current is intentionally read during render — it represents the previous frame's value.
+  // The ref is updated in a useEffect below, so it changes identity after this memoization runs.
 
-  const visualData = computeShowcaseVisualData({
-    character,
-    prevSeedColor: state.prevSeedColor.current,
-    teamSelectionByCharacter: state.teamSelectionByCharacter,
-    globalShowcasePreferences: state.globalShowcasePreferences,
-    storedScoringType: state.storedScoringType,
-    colorMode: state.colorMode,
-    darkMode: state.darkMode,
-    savedBuildOverride,
-  })
+  const visualData = useMemo(
+    () => computeShowcaseVisualData({
+      character,
+      prevSeedColor: state.prevSeedColor.current,
+      teamSelectionByCharacter: state.teamSelectionByCharacter,
+      globalShowcasePreferences: state.globalShowcasePreferences,
+      storedScoringType: state.storedScoringType,
+      colorMode: state.colorMode,
+      darkMode: state.darkMode,
+      savedBuildOverride,
+    }),
+    [character, state.teamSelectionByCharacter, state.globalShowcasePreferences,
+     state.storedScoringType, state.colorMode, state.darkMode, savedBuildOverride],
+  )
 
   const {
     showcaseMetadata,
@@ -197,7 +212,7 @@ export const CharacterPreview = memo(function CharacterPreview({
         className='characterPreview'
         style={{
           position: 'relative',
-          display: character ? 'flex' : 'none',
+          display: 'flex',
           height: parentH,
           background: showcaseBackgroundColor(mantineTheme.colors.dark[8], state.darkMode),
           backgroundBlendMode: 'screen',

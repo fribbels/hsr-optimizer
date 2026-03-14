@@ -122,16 +122,18 @@ export function ShowcasePortrait({
           </>
         )}
       </Flex>
-      <EditImageModal
-        title={t('CharacterPreview.EditPortrait') /* Edit portrait */}
-        aspectRatio={parentW / parentH}
-        existingConfig={customPortrait ?? character.portrait}
-        open={editPortraitModalOpen}
-        setOpen={setEditPortraitModalOpen}
-        onOk={onEditPortraitOk}
-        defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
-        width={500}
-      />
+      {editPortraitModalOpen && (
+        <EditImageModal
+          title={t('CharacterPreview.EditPortrait') /* Edit portrait */}
+          aspectRatio={parentW / parentH}
+          existingConfig={customPortrait ?? character.portrait}
+          open={editPortraitModalOpen}
+          setOpen={setEditPortraitModalOpen}
+          onOk={onEditPortraitOk}
+          defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
+          width={500}
+        />
+      )}
       <Flex
         direction="column"
         gap={3}

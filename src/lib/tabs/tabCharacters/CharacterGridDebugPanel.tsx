@@ -13,11 +13,11 @@ type SliderConfig = {
 
 const SLIDERS: SliderConfig[] = [
   { label: 'List Width', cssVar: '--cr-list-width', min: 200, max: 400, step: 5, defaultValue: 320, unit: 'px' },
-  { label: 'Row Height', cssVar: '--cr-row-height', min: 36, max: 72, step: 1, defaultValue: 64, unit: 'px' },
+  { label: 'Row Height', cssVar: '--cr-row-height', min: 36, max: 72, step: 1, defaultValue: 72, unit: 'px' },
   { label: 'Row Gap', cssVar: '--cr-row-gap', min: 0, max: 8, step: 1, defaultValue: 1, unit: 'px' },
   { label: 'Portrait X', cssVar: '--cr-portrait-x', min: 20, max: 150, step: 1, defaultValue: 40, unit: '%' },
   { label: 'Portrait Y', cssVar: '--cr-portrait-y', min: 10, max: 60, step: 1, defaultValue: 31, unit: '%' },
-  { label: 'Portrait Scale', cssVar: '--cr-portrait-scale', min: 25, max: 175, step: 5, defaultValue: 65, unit: '%' },
+  { label: 'Portrait Scale', cssVar: '--cr-portrait-scale', min: 25, max: 175, step: 5, defaultValue: 70, unit: '%' },
   { label: 'LC Icon Size', cssVar: '--cr-lc-size', min: 14, max: 56, step: 1, defaultValue: 48, unit: 'px' },
   { label: 'Badge Size', cssVar: '--cr-badge-size', min: 10, max: 24, step: 1, defaultValue: 16, unit: 'px' },
   { label: 'Content Offset', cssVar: '--cr-content-offset', min: 0, max: 60, step: 1, defaultValue: 25, unit: '%' },
@@ -42,67 +42,70 @@ const FROST_SLIDERS: SliderConfig[] = [
 // --- Character BG color transforms ---
 
 export type ColorTransform = {
-  luminance: number    // target luminance 0.00-0.10
-  saturate: number     // chroma saturate (positive) / desaturate (negative) -3 to 3
-  darken: number       // chroma darken amount 0-5
-  alpha: number        // opacity 0-100%
-  brighten: number     // chroma brighten amount 0-3
+  maxLightness: number  // clamp HSL lightness down to this before transforms (extracts hue from pale colors)
+  luminance: number     // target luminance 0.00-0.10
+  saturate: number      // chroma saturate (positive) / desaturate (negative) -3 to 3
+  darken: number        // chroma darken amount 0-5
+  alpha: number         // opacity 0-100%
+  brighten: number      // chroma brighten amount 0-3
 }
 
 export const DEFAULT_COLOR_TRANSFORM: ColorTransform = {
+  maxLightness: 0.75,
   luminance: 0.035,
-  saturate: -0.3,
+  saturate: 0,
   darken: 0,
-  alpha: 70,
-  brighten: 0.3,
+  alpha: 60,
+  brighten: 0.5,
 }
 
 type ColorPreset = { label: string; transform: ColorTransform }
 
 const COLOR_PRESETS: ColorPreset[] = [
-  { label: 'Off', transform: { luminance: 0, saturate: 0, darken: 0, alpha: 0, brighten: 0 } },
-  // --- Card-style (based on showcaseCardBackgroundColor) ---
-  { label: 'Card', transform: { luminance: 0.025, saturate: -0.8, darken: 0, alpha: 68, brighten: 0 } },
-  { label: 'Card+', transform: { luminance: 0.03, saturate: -0.5, darken: 0, alpha: 75, brighten: 0 } },
-  // --- Whisper family: barely-there tints ---
-  { label: 'Whisper', transform: { luminance: 0.015, saturate: -1.5, darken: 0, alpha: 35, brighten: 0 } },
-  { label: 'Breath', transform: { luminance: 0.02, saturate: -1.0, darken: 0, alpha: 40, brighten: 0 } },
-  { label: 'Hint', transform: { luminance: 0.025, saturate: -0.8, darken: 0, alpha: 50, brighten: 0 } },
-  // --- Subtle family: gentle presence ---
-  { label: 'Subtle', transform: { luminance: 0.03, saturate: -0.7, darken: 0, alpha: 55, brighten: 0 } },
-  { label: 'Haze', transform: { luminance: 0.035, saturate: -1.0, darken: 0, alpha: 60, brighten: 0 } },
-  { label: 'Wash', transform: { luminance: 0.02, saturate: -0.3, darken: 0, alpha: 50, brighten: 0 } },
-  // --- Pastel family: soft colored ---
-  { label: 'Pastel', transform: { luminance: 0.04, saturate: -0.5, darken: 0, alpha: 70, brighten: 0 } },
-  { label: 'Soft', transform: { luminance: 0.035, saturate: -0.6, darken: 0, alpha: 65, brighten: 0 } },
-  { label: 'Cloud', transform: { luminance: 0.045, saturate: -1.2, darken: 0, alpha: 60, brighten: 0 } },
-  { label: 'Bloom', transform: { luminance: 0.04, saturate: -0.2, darken: 0, alpha: 65, brighten: 0 } },
-  { label: 'Dusk', transform: { luminance: 0.02, saturate: -0.4, darken: 0.5, alpha: 80, brighten: 0 } },
-  // --- Saturated family: more color ---
-  { label: 'Tint', transform: { luminance: 0.03, saturate: 0, darken: 0, alpha: 55, brighten: 0 } },
-  { label: 'Glow', transform: { luminance: 0.05, saturate: 0, darken: 0, alpha: 60, brighten: 0 } },
-  { label: 'Ember', transform: { luminance: 0.03, saturate: 0, darken: 0.3, alpha: 75, brighten: 0 } },
-  // --- Dark family: moody ---
-  { label: 'Shadow', transform: { luminance: 0.01, saturate: -0.5, darken: 1, alpha: 80, brighten: 0 } },
-  { label: 'Ink', transform: { luminance: 0.01, saturate: -1.5, darken: 0.5, alpha: 90, brighten: 0 } },
-  { label: 'Slate', transform: { luminance: 0.02, saturate: -2.0, darken: 0, alpha: 70, brighten: 0 } },
-  // --- Warm/lifted: brighten to push color upward then darken back ---
-  { label: 'Lifted', transform: { luminance: 0.03, saturate: -0.3, darken: 0, alpha: 65, brighten: 0.5 } },
-  { label: 'Warm', transform: { luminance: 0.035, saturate: 0.3, darken: 0.2, alpha: 60, brighten: 0.4 } },
-  { label: 'Velvet', transform: { luminance: 0.02, saturate: 0.5, darken: 0.8, alpha: 85, brighten: 0 } },
-  // --- Boosted saturation: punch up the color ---
-  { label: 'Vivid', transform: { luminance: 0.03, saturate: 0.8, darken: 0.5, alpha: 70, brighten: 0 } },
-  { label: 'Jewel', transform: { luminance: 0.025, saturate: 1.0, darken: 0.8, alpha: 80, brighten: 0 } },
-  // --- Ultra-subtle near-monochrome ---
-  { label: 'Ash', transform: { luminance: 0.025, saturate: -2.5, darken: 0, alpha: 80, brighten: 0 } },
-  { label: 'Fog', transform: { luminance: 0.04, saturate: -2.0, darken: 0, alpha: 50, brighten: 0.3 } },
-  // --- Bright + desaturated: pastel-like but with brighten ---
-  { label: 'Pearl', transform: { luminance: 0.05, saturate: -1.0, darken: 0, alpha: 55, brighten: 0.5 } },
-  { label: 'Opal', transform: { luminance: 0.04, saturate: -0.5, darken: 0, alpha: 60, brighten: 0.8 } },
-  { label: 'Dawn', transform: { luminance: 0.035, saturate: -0.3, darken: 0, alpha: 70, brighten: 0.3 } },
+  { label: 'Off', transform: { maxLightness: 1, luminance: 0, saturate: 0, darken: 0, alpha: 0, brighten: 0 } },
+  // --- Card-style ---
+  { label: 'Card', transform: { maxLightness: 0.55, luminance: 0.025, saturate: -0.8, darken: 0, alpha: 68, brighten: 0 } },
+  { label: 'Card+', transform: { maxLightness: 0.55, luminance: 0.03, saturate: -0.5, darken: 0, alpha: 75, brighten: 0 } },
+  // --- Whisper family ---
+  { label: 'Whisper', transform: { maxLightness: 0.55, luminance: 0.015, saturate: -1.5, darken: 0, alpha: 35, brighten: 0 } },
+  { label: 'Breath', transform: { maxLightness: 0.55, luminance: 0.02, saturate: -1.0, darken: 0, alpha: 40, brighten: 0 } },
+  { label: 'Hint', transform: { maxLightness: 0.55, luminance: 0.025, saturate: -0.8, darken: 0, alpha: 50, brighten: 0 } },
+  // --- Subtle family ---
+  { label: 'Subtle', transform: { maxLightness: 0.55, luminance: 0.03, saturate: -0.7, darken: 0, alpha: 55, brighten: 0 } },
+  { label: 'Haze', transform: { maxLightness: 0.55, luminance: 0.035, saturate: -1.0, darken: 0, alpha: 60, brighten: 0 } },
+  { label: 'Wash', transform: { maxLightness: 0.55, luminance: 0.02, saturate: -0.3, darken: 0, alpha: 50, brighten: 0 } },
+  // --- Pastel family ---
+  { label: 'Pastel', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -0.5, darken: 0, alpha: 70, brighten: 0 } },
+  { label: 'Soft', transform: { maxLightness: 0.55, luminance: 0.035, saturate: -0.6, darken: 0, alpha: 65, brighten: 0 } },
+  { label: 'Cloud', transform: { maxLightness: 0.55, luminance: 0.045, saturate: -1.2, darken: 0, alpha: 60, brighten: 0 } },
+  { label: 'Bloom', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -0.2, darken: 0, alpha: 65, brighten: 0 } },
+  { label: 'Dusk', transform: { maxLightness: 0.55, luminance: 0.02, saturate: -0.4, darken: 0.5, alpha: 80, brighten: 0 } },
+  // --- Saturated family ---
+  { label: 'Tint', transform: { maxLightness: 0.5, luminance: 0.03, saturate: 0, darken: 0, alpha: 55, brighten: 0 } },
+  { label: 'Glow', transform: { maxLightness: 0.5, luminance: 0.05, saturate: 0, darken: 0, alpha: 60, brighten: 0 } },
+  { label: 'Ember', transform: { maxLightness: 0.5, luminance: 0.03, saturate: 0, darken: 0.3, alpha: 75, brighten: 0 } },
+  // --- Dark family ---
+  { label: 'Shadow', transform: { maxLightness: 0.55, luminance: 0.01, saturate: -0.5, darken: 1, alpha: 80, brighten: 0 } },
+  { label: 'Ink', transform: { maxLightness: 0.55, luminance: 0.01, saturate: -1.5, darken: 0.5, alpha: 90, brighten: 0 } },
+  { label: 'Slate', transform: { maxLightness: 0.6, luminance: 0.02, saturate: -2.0, darken: 0, alpha: 70, brighten: 0 } },
+  // --- Warm/lifted ---
+  { label: 'Lifted', transform: { maxLightness: 0.55, luminance: 0.03, saturate: -0.3, darken: 0, alpha: 65, brighten: 0.5 } },
+  { label: 'Warm', transform: { maxLightness: 0.5, luminance: 0.035, saturate: 0.3, darken: 0.2, alpha: 60, brighten: 0.4 } },
+  { label: 'Velvet', transform: { maxLightness: 0.5, luminance: 0.02, saturate: 0.5, darken: 0.8, alpha: 85, brighten: 0 } },
+  // --- Boosted saturation ---
+  { label: 'Vivid', transform: { maxLightness: 0.45, luminance: 0.03, saturate: 0.8, darken: 0.5, alpha: 70, brighten: 0 } },
+  { label: 'Jewel', transform: { maxLightness: 0.45, luminance: 0.025, saturate: 1.0, darken: 0.8, alpha: 80, brighten: 0 } },
+  // --- Near-monochrome ---
+  { label: 'Ash', transform: { maxLightness: 0.6, luminance: 0.025, saturate: -2.5, darken: 0, alpha: 80, brighten: 0 } },
+  { label: 'Fog', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -2.0, darken: 0, alpha: 50, brighten: 0.3 } },
+  // --- Bright + desaturated ---
+  { label: 'Pearl', transform: { maxLightness: 0.55, luminance: 0.05, saturate: -1.0, darken: 0, alpha: 55, brighten: 0.5 } },
+  { label: 'Opal', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -0.5, darken: 0, alpha: 60, brighten: 0.8 } },
+  { label: 'Dawn', transform: { maxLightness: 0.55, luminance: 0.035, saturate: -0.3, darken: 0, alpha: 70, brighten: 0.3 } },
 ]
 
 const COLOR_SLIDERS: { key: keyof ColorTransform; label: string; min: number; max: number; step: number; unit: string }[] = [
+  { key: 'maxLightness', label: 'Max Lightness', min: 0.3, max: 1, step: 0.05, unit: '' },
   { key: 'luminance', label: 'Luminance', min: 0, max: 0.1, step: 0.005, unit: '' },
   { key: 'saturate', label: 'Saturate', min: -3, max: 3, step: 0.1, unit: '' },
   { key: 'darken', label: 'Darken', min: 0, max: 5, step: 0.1, unit: '' },
@@ -113,13 +116,93 @@ const COLOR_SLIDERS: { key: keyof ColorTransform; label: string; min: number; ma
 /** Apply chroma-js transforms to a hex color */
 export function applyColorTransform(hex: string, transform: ColorTransform): string {
   if (transform.alpha === 0) return 'transparent'
-  let c = chroma(hex).luminance(transform.luminance)
+
+  // Normalize: clamp lightness down so pale colors (e.g. #ffeef5) express their hue
+  // HSL lightness 0.5 is where hue is most vivid; near 1.0 it's just white
+  let c = chroma(hex)
+  const [h, s, l] = c.hsl()
+  if (l > transform.maxLightness) {
+    c = chroma.hsl(isNaN(h) ? 0 : h, s, transform.maxLightness)
+  }
+
+  c = c.luminance(transform.luminance)
   if (transform.saturate > 0) c = c.saturate(transform.saturate)
   else if (transform.saturate < 0) c = c.desaturate(-transform.saturate)
   if (transform.darken) c = c.darken(transform.darken)
   if (transform.brighten) c = c.brighten(transform.brighten)
   return c.alpha(transform.alpha / 100).css()
 }
+
+export type HoverEffect = 'bright' | 'lift' | 'desaturate' | 'lift-bright' | 'subtle'
+
+type HoverPreset = {
+  label: string
+  value: HoverEffect
+  vars: Record<string, string>
+}
+
+const HOVER_PRESETS: HoverPreset[] = [
+  {
+    label: 'Bright (default)',
+    value: 'bright',
+    vars: {
+      '--cr-hover-rest-brightness': '1',
+      '--cr-hover-rest-saturate': '1',
+      '--cr-hover-brightness': '1.2',
+      '--cr-hover-saturate': '1.15',
+      '--cr-hover-lift': '0px',
+      '--cr-hover-shadow': 'none',
+    },
+  },
+  {
+    label: 'Lift + Shadow',
+    value: 'lift',
+    vars: {
+      '--cr-hover-rest-brightness': '1',
+      '--cr-hover-rest-saturate': '1',
+      '--cr-hover-brightness': '1',
+      '--cr-hover-saturate': '1',
+      '--cr-hover-lift': '-3px',
+      '--cr-hover-shadow': '0 6px 16px rgba(0, 0, 0, 0.5)',
+    },
+  },
+  {
+    label: 'Desaturate → Restore',
+    value: 'desaturate',
+    vars: {
+      '--cr-hover-rest-brightness': '0.9',
+      '--cr-hover-rest-saturate': '0.7',
+      '--cr-hover-brightness': '1',
+      '--cr-hover-saturate': '1',
+      '--cr-hover-lift': '0px',
+      '--cr-hover-shadow': 'none',
+    },
+  },
+  {
+    label: 'Lift + Bright',
+    value: 'lift-bright',
+    vars: {
+      '--cr-hover-rest-brightness': '1',
+      '--cr-hover-rest-saturate': '1',
+      '--cr-hover-brightness': '1.02',
+      '--cr-hover-saturate': '1.05',
+      '--cr-hover-lift': '-2px',
+      '--cr-hover-shadow': '0 4px 12px rgba(0, 0, 0, 0.4)',
+    },
+  },
+  {
+    label: 'Subtle',
+    value: 'subtle',
+    vars: {
+      '--cr-hover-rest-brightness': '1',
+      '--cr-hover-rest-saturate': '1',
+      '--cr-hover-brightness': '1.05',
+      '--cr-hover-saturate': '1.05',
+      '--cr-hover-lift': '0px',
+      '--cr-hover-shadow': 'none',
+    },
+  },
+]
 
 export type ScrimMode = 'black' | 'themed' | 'solid-fade' | 'frosted' | 'bg-light'
 export type LcStyle = 'none' | 'pill' | 'frosted' | 'shadow'
@@ -150,6 +233,7 @@ export type DebugToggles = {
   nameShadow: boolean
   scrimMode: ScrimMode
   lcStyle: LcStyle
+  hoverEffect: HoverEffect
 }
 
 export const DEFAULT_TOGGLES: DebugToggles = {
@@ -163,9 +247,10 @@ export const DEFAULT_TOGGLES: DebugToggles = {
   nameShadow: true,
   scrimMode: 'frosted',
   lcStyle: 'none',
+  hoverEffect: 'bright',
 }
 
-type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle'>
+type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle' | 'hoverEffect'>
 
 const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   showRank: 'Rank',
@@ -197,14 +282,20 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, c
   const dragging = useRef(false)
   const dragOffset = useRef({ x: 0, y: 0 })
 
-  const applyVars = useCallback((newValues: Record<string, number>) => {
+  const applyVars = useCallback((newValues: Record<string, number>, hoverEffect?: HoverEffect) => {
     const el = targetRef.current
     if (!el) return
     for (const s of [...SLIDERS, ...FROST_SLIDERS]) {
       const val = newValues[s.cssVar] ?? s.defaultValue
       el.style.setProperty(s.cssVar, `${val}${s.unit}`)
     }
-  }, [targetRef])
+    const preset = HOVER_PRESETS.find((p) => p.value === (hoverEffect ?? toggles.hoverEffect))
+    if (preset) {
+      for (const [k, v] of Object.entries(preset.vars)) {
+        el.style.setProperty(k, v)
+      }
+    }
+  }, [targetRef, toggles.hoverEffect])
 
   useEffect(() => {
     applyVars(values)
@@ -222,7 +313,7 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, c
     const init: Record<string, number> = {}
     for (const s of [...SLIDERS, ...FROST_SLIDERS]) init[s.cssVar] = s.defaultValue
     setValues(init)
-    applyVars(init)
+    applyVars(init, DEFAULT_TOGGLES.hoverEffect)
     onTogglesChange({ ...DEFAULT_TOGGLES })
     onColorTransformChange({ ...DEFAULT_COLOR_TRANSFORM })
   }, [applyVars, onTogglesChange, onColorTransformChange])
@@ -388,12 +479,37 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, c
             </div>
           </div>
 
+          {/* Hover effect */}
+          <div>
+            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>HOVER EFFECT</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {HOVER_PRESETS.map((preset) => (
+                <span
+                  key={preset.value}
+                  style={pillStyle(toggles.hoverEffect === preset.value)}
+                  onClick={() => {
+                    onTogglesChange({ ...toggles, hoverEffect: preset.value })
+                    const el = targetRef.current
+                    if (el) {
+                      for (const [k, v] of Object.entries(preset.vars)) {
+                        el.style.setProperty(k, v)
+                      }
+                    }
+                  }}
+                >
+                  {preset.label}
+                </span>
+              ))}
+            </div>
+          </div>
+
           {/* BG color presets */}
           <div>
             <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>BG COLOR</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
               {COLOR_PRESETS.map((preset) => {
-                const active = colorTransform.luminance === preset.transform.luminance
+                const active = colorTransform.maxLightness === preset.transform.maxLightness
+                  && colorTransform.luminance === preset.transform.luminance
                   && colorTransform.saturate === preset.transform.saturate
                   && colorTransform.darken === preset.transform.darken
                   && colorTransform.brighten === preset.transform.brighten

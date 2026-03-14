@@ -5,12 +5,16 @@
 /* --- Container --- */
 
 .gridContainer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--cr-row-gap, 0px);
   width: var(--cr-list-width, 320px);
   height: 100%;
   outline: none;
+}
+
+/* OverlayScrollbars injects wrapper divs; target the content container for flex layout */
+.gridContainer :global([data-overlayscrollbars-contents]) {
+  display: flex !important;
+  flex-direction: column;
+  gap: var(--cr-row-gap, 1px);
 }
 
 .gridContainer[data-container-border='true'] {
@@ -31,7 +35,7 @@
   --cr-primary: var(--mantine-primary-color-filled);
   --cr-primary-tint: color-mix(in srgb, var(--cr-primary) 10%, transparent);
   --cr-primary-border: color-mix(in srgb, var(--cr-primary) 15%, transparent);
-  --cr-radius: var(--mantine-radius-sm);
+  --cr-radius: 0;
   --cr-gap: var(--mantine-spacing-sm);
   --cr-padding: 6px;
 
@@ -69,7 +73,7 @@
 
 .portraitBg img {
   position: absolute;
-  width: var(--cr-portrait-scale, 65%);
+  width: var(--cr-portrait-scale, 70%);
   height: auto;
   left: 50%;
   top: 50%;
@@ -80,8 +84,22 @@
   display: block;
 }
 
+.portraitBg {
+  filter: brightness(var(--cr-hover-rest-brightness, 1)) saturate(var(--cr-hover-rest-saturate, 1));
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.root {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.root:hover {
+  transform: translateY(var(--cr-hover-lift, 0px));
+  box-shadow: var(--cr-hover-shadow, none);
+}
+
 .root:hover .portraitBg {
-  filter: brightness(1.2) saturate(1.15);
+  filter: brightness(var(--cr-hover-brightness, 1.2)) saturate(var(--cr-hover-saturate, 1.15));
 }
 
 /* --- Scrim gradient --- */

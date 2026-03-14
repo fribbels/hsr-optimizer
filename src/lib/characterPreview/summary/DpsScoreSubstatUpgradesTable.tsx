@@ -40,6 +40,7 @@ export function DpsScoreSubstatUpgradesTable({ simScore }: {
 
   return (
     <Table
+      className={styles.table}
       style={tableStyle}
     >
       <Table.Thead>

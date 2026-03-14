@@ -1,23 +1,32 @@
 .upgradeTable {
-  flex: 1 1 calc(30% - 10px);
-  border: var(--panel-border);
-  box-shadow: var(--card-shadow-flat);
+  width: 100%;
+  box-shadow: var(--card-shadow);
   border-radius: var(--border-radius-card);
   overflow: hidden;
+  background-color: var(--panel-bg);
+}
+
+.upgradeTable thead {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.upgradeTable tbody td:first-child {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .columnHeader {
-  text-align: center;
+  text-align: center !important;
   width: 110px;
 }
 
 .substatHeader {
-  text-align: center;
+  text-align: center !important;
   width: 100px;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .centeredCell {
-  text-align: center;
+  text-align: center !important;
 }
 
 .statIcon {
@@ -28,7 +37,8 @@
 }
 
 .upgradesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 10px;
+  width: 100%;
 }

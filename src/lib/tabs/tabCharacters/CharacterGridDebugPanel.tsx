@@ -20,7 +20,6 @@ const SLIDERS: SliderConfig[] = [
   { label: 'LC Icon Size', cssVar: '--cr-lc-size', min: 14, max: 56, step: 1, defaultValue: 48, unit: 'px' },
   { label: 'Badge Size', cssVar: '--cr-badge-size', min: 10, max: 24, step: 1, defaultValue: 18, unit: 'px' },
   { label: 'Content Offset', cssVar: '--cr-content-offset', min: 0, max: 60, step: 1, defaultValue: 23, unit: '%' },
-  { label: 'Name Max Width', cssVar: '--cr-name-max-width', min: 30, max: 80, step: 1, defaultValue: 55, unit: '%' },
   { label: 'LC Right Pad', cssVar: '--cr-lc-right-pad', min: 0, max: 24, step: 1, defaultValue: 4, unit: 'px' },
   { label: 'LC Strip Width', cssVar: '--cr-lc-strip-width', min: 30, max: 120, step: 1, defaultValue: 56, unit: 'px' },
   { label: 'Scrim 0%', cssVar: '--cr-scrim-0', min: 0, max: 1, step: 0.01, defaultValue: 0.94, unit: '' },
@@ -67,9 +66,6 @@ export type DebugToggles = {
   showContainerBorder: boolean
   showLcStrip: boolean
   nameShadow: boolean
-  nameConstrain: boolean
-  nameBackdrop: boolean
-  nameFade: boolean
   scrimMode: ScrimMode
   lcStyle: LcStyle
 }
@@ -83,10 +79,7 @@ export const DEFAULT_TOGGLES: DebugToggles = {
   showLightCone: true,
   showContainerBorder: true,
   showLcStrip: true,
-  nameShadow: false,
-  nameConstrain: false,
-  nameBackdrop: false,
-  nameFade: false,
+  nameShadow: true,
   scrimMode: 'frosted',
   lcStyle: 'none',
 }
@@ -103,9 +96,6 @@ const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   showContainerBorder: 'List Border',
   showLcStrip: 'LC Strip',
   nameShadow: 'Name Shadow',
-  nameConstrain: 'Name Constrain',
-  nameBackdrop: 'Name Backdrop',
-  nameFade: 'Name Fade',
 }
 
 export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange }: {

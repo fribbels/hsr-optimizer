@@ -72,12 +72,16 @@ function AnalysisRender({ analysis }: { analysis: OptimizerResultAnalysis }) {
     <FilterContainer>
       <FormRow id={OptimizerMenuIds.analysis}>
         <Flex justify='space-between' style={{ width: '100%', paddingTop: 4 }} gap={10}>
-          <Flex direction="column" gap={10}>
+          <Flex direction="column" gap={10} style={{ flex: 1 }}>
             <StatsDiffCard analysis={analysis} />
             <DamageSplits analysis={analysis} />
             <Flex gap={10} align='start'>
-              <DamageTagPieChart analysis={analysis} />
-              <DamageUpgrades analysis={analysis} />
+              <Flex style={{ flex: 1, minWidth: 0 }}>
+                <DamageTagPieChart analysis={analysis} />
+              </Flex>
+              <Flex style={{ flex: 1, minWidth: 0 }}>
+                <DamageUpgrades analysis={analysis} />
+              </Flex>
             </Flex>
           </Flex>
 

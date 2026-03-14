@@ -56,7 +56,7 @@ import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae
 import { TrailblazerHarmonyCaelus, TrailblazerHarmonyStelle } from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
-import { runComputeOptimalSimulationWorker } from 'lib/simulations/workerPool'
+import { runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'

@@ -48,11 +48,7 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import {
-  WorkerPool,
-  WorkerResult,
-  WorkerTask,
-} from 'lib/worker/workerPool'
+import { WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import {
   Form,
@@ -67,7 +63,32 @@ import {
 // A per-run cancellation token would be more robust but is not yet implemented.
 let CANCEL = false
 
-const TESTING = false
+type OptimizerWorkerResult = {
+  buffer: ArrayBuffer
+}
+
+// Buffer pool managed by the optimizer
+const optimizerBuffers: ArrayBuffer[] = []
+
+function acquireBuffer(): ArrayBuffer {
+  if (optimizerBuffers.length > 0) {
+    const buffer = optimizerBuffers.pop()!
+    BufferPacker.cleanFloatBuffer(buffer)
+    return buffer
+  }
+  return BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH)
+}
+
+function releaseBuffer(buffer: ArrayBuffer): void {
+  optimizerBuffers.push(buffer)
+}
+
+/** Release buffer allocated by prepareInput on retry (prevents leak when buffer was cloned, not transferred) */
+function releaseRetryBuffer(taskInput: { buffer: ArrayBuffer }, resultBuffer: ArrayBuffer): void {
+  if (taskInput.buffer.byteLength > 0 && taskInput.buffer !== resultBuffer) {
+    releaseBuffer(taskInput.buffer)
+  }
+}
 
 export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   let relics = getRelics()
@@ -101,7 +122,7 @@ export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
 export const Optimizer = {
   cancel: () => {
     CANCEL = true
-    WorkerPool.cancel()
+    workerPool.cancelQueue()
   },
 
   getFilteredRelicCounts: (request: Form) => RelicFilters.getFilteredRelicCounts(request),
@@ -139,7 +160,7 @@ export const Optimizer = {
 
     // Cancel any in-progress optimization before starting a new one
     if (useOptimizerDisplayStore.getState().optimizationInProgress) {
-      WorkerPool.cancel()
+      workerPool.cancelQueue()
     }
     CANCEL = false
 
@@ -246,48 +267,69 @@ export const Optimizer = {
         })
       }
 
-      let inProgress = runs.length
+      let inProgress = 0
+      let nextRunIndex = 0
 
       useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
       useOptimizerDisplayStore.getState().setOptimizerRunningEngine(COMPUTE_ENGINE_CPU)
-      for (const run of runs) {
-        const task: WorkerTask = {
-          attempts: 0,
-          input: {
-            context: clonedContext,
-            request: request,
-            relics: relics,
-            WIDTH: run.runSize,
-            skip: run.skip,
-            permutations: permutations,
-            relicSetSolutions: bitpackBooleanArray(relicSetSolutions),
-            ornamentSetSolutions: bitpackBooleanArray(ornamentSetSolutions),
-            workerType: WorkerType.OPTIMIZER,
-          },
-          getMinFilter: (): number => {
-            return queueResults.size() && queueResults.size() >= request.resultsLimit! ? (queueResults.top()![gridSortColumn] as number) : 0
-          },
+
+      function dispatchNextRun() {
+        if (CANCEL || nextRunIndex >= runs.length) return
+        const run = runs[nextRunIndex++]
+        inProgress++
+
+        const buffer = acquireBuffer()
+        const taskInput = {
+          context: clonedContext,
+          request: request,
+          relics: relics,
+          WIDTH: run.runSize,
+          skip: run.skip,
+          permutations: permutations,
+          relicSetSolutions: bitpackBooleanArray(relicSetSolutions),
+          ornamentSetSolutions: bitpackBooleanArray(ornamentSetSolutions),
+          workerType: WorkerType.OPTIMIZER,
+          buffer,
         }
 
-        const callback = (result: WorkerResult) => {
+        workerPool.runTask<typeof taskInput, OptimizerWorkerResult>(taskInput, {
+          transferables: [buffer],
+          maxRetries: 10,
+          prepareInput: (input) => {
+            // Re-acquire buffer if the previous one was lost in a worker crash
+            // (transferred buffers become detached/zero-length when the worker dies)
+            if (input.buffer.byteLength === 0) {
+              input.buffer = acquireBuffer()
+            }
+            // Rising min-filter floor: computed at dispatch time, not creation time.
+            // As results accumulate from completed workers, later-dispatched tasks
+            // get tighter thresholds and skip more permutations.
+            input.request.resultMinFilter = queueResults.size() && queueResults.size() >= request.resultsLimit!
+              ? (queueResults.top()![gridSortColumn] as number)
+              : 0
+          },
+        }).then((result) => {
           searched += run.runSize
-          inProgress -= 1
+          inProgress--
 
           if (CANCEL && resultsShown) {
+            releaseBuffer(result.buffer)
+            releaseRetryBuffer(taskInput, result.buffer)
             return
           }
 
           const resultArr = new Float32Array(result.buffer)
-          // console.log(`Optimizer results`, result, resultArr, run)
-
-          BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, task.input.skip)
-          // console.log(`Thread complete - status: inProgress ${inProgress}, results: ${results.length}`)
+          BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, taskInput.skip)
 
           useOptimizerDisplayStore.getState().setPermutationsResults(queueResults.size())
           useOptimizerDisplayStore.getState().setPermutationsSearched(Math.min(permutations, searched))
           useOptimizerDisplayStore.getState().setOptimizerEndTime(Date.now())
 
-          if (inProgress == 0 || CANCEL) {
+          // Release buffers after extraction is complete
+          releaseBuffer(result.buffer)
+          releaseRetryBuffer(taskInput, result.buffer)
+
+          if ((inProgress === 0 && nextRunIndex >= runs.length) || CANCEL) {
             useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
             results = queueResults.toArray()
 
@@ -300,23 +342,24 @@ export const Optimizer = {
             if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
             return
           }
-        }
 
-        if (!TESTING) {
-          WorkerPool.execute(task, callback)
-        } else {
-          useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
-          results = queueResults.toArray()
+          dispatchNextRun()
+        }).catch((error) => {
+          // Guard against cancellation — cancelQueue() and terminate() reject with
+          // WorkerCancelledError. Don't decrement inProgress or create buffers for these.
+          if (error instanceof WorkerCancelledError || CANCEL) return
+          console.warn('Optimizer worker error:', error)
+          inProgress--
+          // Buffer is lost when worker dies — create replacement for the pool
+          releaseBuffer(BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH))
+          dispatchNextRun()
+        })
+      }
 
-          OptimizerTabController.setRows(results)
-          setSortColumn(gridSortColumn)
-
-          gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-          console.log('Done', results.length)
-          resultsShown = true
-          if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
-          return
-        }
+      // Seed pool with initial tasks — one per available worker
+      const initialBatch = Math.min(runs.length, workerPool.getPoolSize())
+      for (let i = 0; i < initialBatch; i++) {
+        dispatchNextRun()
       }
     }
   },

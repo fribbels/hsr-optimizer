@@ -121,14 +121,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   const state = useCharacterPreviewState(source, character, savedBuildOverride)
 
-  // ===== Relics =====
-
-  if (!state.previewRelics || !state.finalStats) {
-    return null
-  }
-
-  const { scoringResults, displayRelics } = state.previewRelics
-  const scoredRelics = scoringResults.relics || []
+  const displayRelics = state.previewRelics?.displayRelics ?? null
+  const scoringResults = state.previewRelics?.scoringResults ?? null
 
   // ===== Layout (character-dependent, no color) =====
   const layout = useMemo(
@@ -157,15 +151,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     [seedColor, state.darkMode],
   )
 
-  const {
-    showcaseMetadata,
-    scoringType,
-    portraitUrl,
-    portraitToUse,
-    displayDimensions,
-    artistName,
-  } = layout
-
   // ===== Portrait load → store =====
   const handlePortraitLoad = useCallback((imgSrc: string) => {
     const hasCustomPortrait = !!getCharacterById(character.id)?.portrait
@@ -182,15 +167,18 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
   const cacheKey = useMemo(
-    () => computeScoringCacheKey(
-      character, layout.simulationMetadata, displayRelics as SingleRelicByPart,
-      state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
-    ),
+    () => {
+      if (!displayRelics) return null
+      return computeScoringCacheKey(
+        character, layout.simulationMetadata, displayRelics as SingleRelicByPart,
+        state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
+      )
+    },
     [character, layout.simulationMetadata, displayRelics, state.showcaseTemporaryOptionsByCharacter],
   )
 
   const requestFn = useMemo(() => {
-    if (!cacheKey || !layout.simulationMetadata) return null
+    if (!cacheKey || !layout.simulationMetadata || !displayRelics) return null
     return () => requestScore(
       cacheKey, character, layout.simulationMetadata!,
       displayRelics as SingleRelicByPart,
@@ -201,6 +189,22 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   }, [cacheKey])
 
   const { done: scoringDone, result: scoringResult } = useScoringExecution(cacheKey, requestFn)
+
+  // ===== Early return after all hooks =====
+  if (!state.previewRelics || !state.finalStats || !displayRelics || !scoringResults) {
+    return null
+  }
+
+  const {
+    showcaseMetadata,
+    scoringType,
+    portraitUrl,
+    portraitToUse,
+    displayDimensions,
+    artistName,
+  } = layout
+
+  const scoredRelics = scoringResults.relics || []
 
   return (
     <Flex direction="column" style={{ width: source === ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>

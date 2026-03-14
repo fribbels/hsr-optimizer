@@ -1,4 +1,4 @@
-import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker&inline'
+import ComputeOptimalSimulationWorker from 'lib/worker/baseWorker.ts?worker'
 import {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,

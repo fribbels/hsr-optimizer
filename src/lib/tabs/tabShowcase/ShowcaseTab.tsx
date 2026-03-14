@@ -40,8 +40,8 @@ import {
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import {
+  startTransition,
   useCallback,
-  useDeferredValue,
   useEffect,
   useMemo,
   useState,
@@ -135,11 +135,17 @@ function CharacterPreviewSelection() {
   const setScoringAlgorithmFocusCharacter = useGlobalStore((s) => s.setScoringAlgorithmFocusCharacter)
 
   const selectedCharacter = useShowcaseTabStore((s) => s.selectedCharacter)
-  const deferredCharacter = useDeferredValue(selectedCharacter)
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
   const onCharacterModalOk = useShowcaseTabStore((s) => s.onCharacterModalOk)
   const importClicked = useShowcaseTabStore((s) => s.importClicked)
   const onSelectionChanged = useShowcaseTabStore((s) => s.onSelectionChanged)
+
+  // Optimistic local state for instant SegmentedControl feedback (mirrors Characters tab pattern)
+  const [localSelectedId, setLocalSelectedId] = useState<CharacterId | null>(null)
+  useEffect(() => {
+    setLocalSelectedId(null)
+  }, [selectedCharacter?.id])
+  const displaySelectedId = localSelectedId ?? selectedCharacter?.id
   const { loading: screenshotLoading, trigger: screenshotTrigger } = useScreenshotAction('relicScorerPreview')
   const { loading: downloadLoading, trigger: downloadTrigger } = useScreenshotAction('relicScorerPreview')
 
@@ -215,18 +221,20 @@ function CharacterPreviewSelection() {
 
 
 
-  const options = availableCharacters?.map((char, i) => ({
-    label: (
-      <Flex align='center' justify='space-around'>
-        <img
-          className={styles.avatarImage}
-          src={Assets.getCharacterAvatarById(char.id)}
-        />
-      </Flex>
-    ),
-    value: char.id,
-    key: i,
-  })) ?? []
+  const options = useMemo(() =>
+    availableCharacters?.map((char) => ({
+      label: (
+        <Flex align='center' justify='space-around'>
+          <img
+            className={styles.avatarImage}
+            src={Assets.getCharacterAvatarById(char.id)}
+          />
+        </Flex>
+      ),
+      value: char.id,
+      key: char.id,
+    })) ?? [],
+  [availableCharacters])
 
   return (
     <Flex className={styles.outerWrapper} justify='space-around'>
@@ -303,13 +311,17 @@ function CharacterPreviewSelection() {
           className={styles.segmentedControl}
           data={options}
           fullWidth
-          onChange={(value) => onSelectionChanged(value as CharacterId)}
-          value={selectedCharacter?.id}
+          onChange={(value) => {
+            const id = value as CharacterId
+            setLocalSelectedId(id)
+            startTransition(() => onSelectionChanged(id))
+          }}
+          value={displaySelectedId}
         />
 
         <div id='previewWrapper' className={styles.previewWrapper}>
           <CharacterPreview
-            character={deferredCharacter as Character | null}
+            character={selectedCharacter as Character | null}
             source={ShowcaseSource.SHOWCASE_TAB}
             id='relicScorerPreview'
             setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}

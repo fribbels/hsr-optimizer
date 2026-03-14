@@ -27,9 +27,6 @@ import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { computeShowcaseVisualData } from 'lib/characterPreview/useShowcaseDerivedData'
 import {
-  Parts,
-} from 'lib/constants/constants'
-import {
   defaultGap,
   middleColumnWidth,
   parentH,
@@ -43,7 +40,6 @@ import {
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
-import { AppPages } from 'lib/constants/appPages'
 import {
   showcaseBackgroundColor,
   showcaseTransition,
@@ -120,7 +116,11 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   // ===== Relics =====
 
-  const { scoringResults, displayRelics } = state.previewRelics!
+  if (!state.previewRelics || !state.finalStats) {
+    return null
+  }
+
+  const { scoringResults, displayRelics } = state.previewRelics
   const scoredRelics = scoringResults.relics || []
 
   // ===== Visual data (memoized, no side effects) =====
@@ -161,11 +161,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
   const cacheKey = useMemo(
     () => computeScoringCacheKey(
-      character, currentSelection, displayRelics as SingleRelicByPart,
+      character, visualData.simulationMetadata, displayRelics as SingleRelicByPart,
       state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
-      savedBuildOverride,
     ),
-    [character, currentSelection, displayRelics, state.showcaseTemporaryOptionsByCharacter, savedBuildOverride],
+    [character, visualData.simulationMetadata, displayRelics, state.showcaseTemporaryOptionsByCharacter],
   )
 
   const requestFn = useMemo(() => {
@@ -180,9 +179,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   }, [cacheKey])
 
   const { done: scoringDone, result: scoringResult } = useScoringExecution(cacheKey, requestFn)
-
-  const yOffset = 0
-  const zoom = 150
 
   return (
     <Flex direction="column" style={{ width: source === ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
@@ -228,9 +224,9 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             backgroundImage: `url(${portraitUrl})`,
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            backgroundSize: `${zoom}%`,
+            backgroundSize: '150%',
             position: 'absolute',
-            top: -yOffset,
+            top: 0,
             left: 0,
             right: 0,
             bottom: 0,
@@ -295,7 +291,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
             <CharacterStatSummary
               characterId={character.id}
-              finalStats={state.finalStats!}
+              finalStats={state.finalStats}
               elementalDmgValue={showcaseMetadata.elementalDmgType}
               scoringType={scoringType}
               scoringDone={scoringDone}
@@ -311,8 +307,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                   scoringDone={scoringDone}
                   scoringResult={scoringResult}
                   teamSelection={currentSelection}
-                  displayRelics={displayRelics}
-                  setRedrawTeammates={state.setRedrawTeammates}
                   source={source}
                 />
 
@@ -365,7 +359,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         scoringResult={scoringResult}
       />
 
-      {/* Showcase analysis footer */}
+      {/* Showcase analysis footer — uses storedScoringType (user's preference) not resolved scoringType,
+          so the SegmentedControl reflects their selection even when combat score is unavailable */}
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <ShowcaseBuildAnalysis
           scoringDone={scoringDone}

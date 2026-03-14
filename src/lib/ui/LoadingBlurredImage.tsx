@@ -1,4 +1,3 @@
-import { TsUtils } from 'lib/utils/TsUtils'
 import {
   CSSProperties,
   useEffect,
@@ -12,11 +11,6 @@ interface LoadingBlurredImageProps {
   callback?: (img: string) => void
 }
 
-type ImageProperties = {
-  src: string
-  styleHash: string
-}
-
 function isImageCached(src: string): boolean {
   const img = new Image()
   img.src = src
@@ -24,25 +18,24 @@ function isImageCached(src: string): boolean {
 }
 
 export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImageProps) {
-  const styleHash = TsUtils.objectHash(style)
   const callbackRef = useRef(callback)
   callbackRef.current = callback
 
   // Initialize without blur if the image is already browser-cached
-  const [storedImg, setStoredImg] = useState<ImageProperties | undefined>(() =>
-    isImageCached(src) ? { src, styleHash } : undefined
+  const [storedSrc, setStoredSrc] = useState<string | undefined>(() =>
+    isImageCached(src) ? src : undefined
   )
-  const [blur, setBlur] = useState<boolean>(() => !storedImg)
+  const [blur, setBlur] = useState<boolean>(() => !storedSrc)
 
   useEffect(() => {
-    // Already stored with same src+style — nothing to do
-    if (src === storedImg?.src && styleHash === storedImg?.styleHash) {
+    // Already loaded this src — nothing to do
+    if (src === storedSrc) {
       return
     }
 
     // Check if browser has it cached — skip blur entirely
     if (isImageCached(src)) {
-      setStoredImg({ src, styleHash })
+      setStoredSrc(src)
       setBlur(false)
       callbackRef.current?.(src)
       return
@@ -54,17 +47,17 @@ export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImag
     const img = new Image()
     img.src = src
     img.onload = () => {
-      setStoredImg({ src, styleHash })
+      setStoredSrc(src)
       setBlur(false)
       callbackRef.current?.(src)
     }
 
     return () => { img.onload = null }
-  }, [src, styleHash])
+  }, [src])
 
   return (
     <img
-      src={storedImg?.src}
+      src={storedSrc}
       loading='eager'
       style={{
         ...style,

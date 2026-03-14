@@ -1,14 +1,12 @@
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
-  resolveDpsScoreSimulationMetadata,
   runDpsScoreBenchmarkOrchestrator,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Character,
-  SavedBuild,
 } from 'types/character'
 import {
   ShowcaseTemporaryOptions,
@@ -39,12 +37,10 @@ function notifyListeners() {
 
 export function computeScoringCacheKey(
   character: Character,
-  teamSelection: string,
+  simulationMetadata: SimulationMetadata | null,
   singleRelicByPart: SingleRelicByPart,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
-  buildOverride?: SavedBuild | null,
 ): string | null {
-  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, teamSelection, buildOverride)
   if (!simulationMetadata) return null
 
   return TsUtils.objectHash({

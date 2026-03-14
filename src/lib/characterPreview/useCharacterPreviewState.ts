@@ -74,16 +74,18 @@ export function useCharacterPreviewState(
   const [storedScoringType, setScoringType] = useState(useGlobalStore.getState().savedSession.scoringType)
   const prevCharId = useRef<string | undefined>(undefined)
   const prevSeedColor = useRef<string>(DEFAULT_SHOWCASE_COLOR)
-  const [_redrawTeammates, setRedrawTeammates] = useState<number>(0)
-
   const sidebarRef = useRef<ShowcaseCustomizationSidebarRef>(null)
+  // Re-render trigger: value is not read directly, but setSeedColor is called from the sidebar's
+  // onPortraitLoad to force a re-render that picks up urlToColorCache mutations (module-level mutable).
   const [seedColor, setSeedColor] = useState<string>(DEFAULT_SHOWCASE_COLOR)
   const [colorMode, setColorMode] = useState<ShowcaseColorMode>(
     useGlobalStore.getState().savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
   const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
 
-  // Using this to trigger updates on scoring metadata changes
+  // Re-render trigger: value is not read directly, but the subscription to useScoringStore causes
+  // re-renders when scoring metadata overrides change, allowing computeShowcaseVisualData to pick
+  // up the latest getScoringMetadata() values.
   const scoringMetadata = useScoringMetadata(character?.id)
 
   // Hooks must be called unconditionally before early return to satisfy Rules of Hooks
@@ -115,7 +117,6 @@ export function useCharacterPreviewState(
     setScoringType,
     prevCharId,
     prevSeedColor,
-    setRedrawTeammates,
     sidebarRef,
     seedColor,
     setSeedColor,

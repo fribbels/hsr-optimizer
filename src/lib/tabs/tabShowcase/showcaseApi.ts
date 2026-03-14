@@ -11,6 +11,7 @@ import {
   processEnkaData,
   processMihomoData,
 } from 'lib/tabs/tabShowcase/dataProcessors'
+import { Assets } from 'lib/rendering/assets'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
@@ -98,6 +99,10 @@ export function submitForm(form: ShowcaseTabForm) {
       converted.forEach((x, index) => x.index = index)
 
       setAvailableCharacters(converted)
+      for (const char of converted) {
+        const img = new Image()
+        img.src = Assets.getCharacterPortraitById(char.id)
+      }
       if (converted.length) {
         setSelectedCharacter(converted[0])
       }

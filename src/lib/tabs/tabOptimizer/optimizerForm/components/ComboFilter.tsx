@@ -196,15 +196,15 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
             cancelText={tCommon('Cancel')}
             placement='bottom-end'
           >
-            <Button variant='outline' disabled={disabled}>
+            <Button variant='outline' size='xs' h={24} fullWidth disabled={disabled}>
               {tCommon('Reset')}
             </Button>
           </PopConfirm>
           <Flex gap={5}>
-            <Button variant='outline' style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
+            <Button variant='outline' size='xs' h={24} style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
               {t('RowControls.Add')}
             </Button>
-            <Button variant='outline' style={{ flex: 1 }} onClick={() => minus()} disabled={disabled}>
+            <Button variant='outline' size='xs' h={24} style={{ flex: 1 }} onClick={() => minus()} disabled={disabled}>
               {t('RowControls.Remove')}
             </Button>
           </Flex>
@@ -214,12 +214,13 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
           <HeaderText>{t('RowControls.PresetsHeader') /*Presets*/}</HeaderText>
           <SegmentedControl
             fullWidth
+            size='xs'
             disabled={disabled}
             value={String(comboPreprocessor)}
             onChange={(value) => useOptimizerRequestStore.getState().setComboPreprocessor(value === 'true')}
             data={[
-              { label: <IconCheck />, value: 'true' },
-              { label: <IconX />, value: 'false' },
+              { label: <Flex align='center' justify='center'><IconCheck size={14} /></Flex>, value: 'true' },
+              { label: <Flex align='center' justify='center'><IconX size={14} /></Flex>, value: 'false' },
             ]}
           />
         </Flex>

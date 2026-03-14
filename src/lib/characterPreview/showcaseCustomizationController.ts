@@ -1,41 +1,30 @@
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SaveState } from 'lib/state/saveState'
-import { TsUtils } from 'lib/utils/TsUtils'
-import { ShowcasePreferences } from 'types/metadata'
 import { useGlobalStore } from 'lib/stores/appStore'
-
-export const DEFAULT_SHOWCASE_COLOR = '#2473e1'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { CharacterId } from 'types/character'
+import { ShowcasePreferences } from 'types/metadata'
 
 export function editShowcasePreferences(
-  characterId: string,
-  globalShowcasePreferences: Record<string, ShowcasePreferences>,
-  setGlobalShowcasePreferences: (x: Record<string, ShowcasePreferences>) => void,
-  changed: ShowcasePreferences,
+  characterId: CharacterId,
+  changed: Partial<ShowcasePreferences>,
 ) {
-  const existing = globalShowcasePreferences[characterId] ?? {}
-  const finalized = {
-    ...existing,
+  const store = useShowcaseTabStore.getState()
+  const existing = store.showcasePreferences[characterId] ?? {}
+  const updated = { ...existing, ...changed }
+
+  store.setShowcasePreferences({
+    ...store.showcasePreferences,
+    [characterId]: updated,
+  })
+
+  if (changed.colorMode != null) {
+    useGlobalStore.getState().setSavedSessionKey(
+      SavedSessionKeys.showcaseStandardMode,
+      changed.colorMode === ShowcaseColorMode.STANDARD,
+    )
   }
 
-  let changesMade = false
-
-  if (changed.color && (finalized.color || changed.color != DEFAULT_SHOWCASE_COLOR)) {
-    finalized.color = changed.color
-    changesMade = true
-  }
-
-  if (changed.colorMode && (finalized.colorMode || changed.colorMode != ShowcaseColorMode.AUTO)) {
-    finalized.colorMode = changed.colorMode
-    changesMade = true
-  }
-
-  if (changesMade) {
-    globalShowcasePreferences[characterId] = finalized
-
-    setGlobalShowcasePreferences(TsUtils.clone(globalShowcasePreferences))
-    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcaseStandardMode, changed.colorMode === ShowcaseColorMode.STANDARD)
-
-    SaveState.delayedSave()
-  }
+  SaveState.delayedSave()
 }

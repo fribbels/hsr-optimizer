@@ -10,7 +10,7 @@ import {
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
-import ShowcaseCustomizationSidebar from 'lib/characterPreview/ShowcaseCustomizationSidebar'
+import { ShowcaseCustomizationSidebar } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import {
   ShowcaseCombatScoreDetailsFooter,
   ShowcaseDpsScoreHeader,
@@ -25,7 +25,8 @@ import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
-import { computeShowcaseVisualData } from 'lib/characterPreview/useShowcaseDerivedData'
+import { resolveShowcaseLayout } from 'lib/characterPreview/useShowcaseDerivedData'
+import { resolveShowcaseColor, resolveShowcaseTheme } from 'lib/characterPreview/showcaseColorService'
 import {
   defaultGap,
   middleColumnWidth,
@@ -40,13 +41,19 @@ import {
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
+import { getCharacterById } from 'lib/stores/characterStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import {
   showcaseBackgroundColor,
   showcaseTransition,
+  modifyCustomColor,
+  organizeColors,
+  selectClosestColor,
 } from 'lib/utils/colorUtils'
+import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import {
   memo,
-  useEffect,
+  useCallback,
   useMemo,
 } from 'react'
 import {
@@ -123,54 +130,69 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const { scoringResults, displayRelics } = state.previewRelics
   const scoredRelics = scoringResults.relics || []
 
-  // ===== Visual data (memoized, no side effects) =====
-  // prevSeedColor.current is intentionally read during render — it represents the previous frame's value.
-  // The ref is updated in a useEffect below, so it changes identity after this memoization runs.
-
-  const visualData = useMemo(
-    () => computeShowcaseVisualData({
+  // ===== Layout (character-dependent, no color) =====
+  const layout = useMemo(
+    () => resolveShowcaseLayout({
       character,
-      prevSeedColor: state.prevSeedColor.current,
       teamSelectionByCharacter: state.teamSelectionByCharacter,
-      globalShowcasePreferences: state.globalShowcasePreferences,
       storedScoringType: state.storedScoringType,
-      colorMode: state.colorMode,
-      darkMode: state.darkMode,
       savedBuildOverride,
     }),
-    [character, state.teamSelectionByCharacter, state.globalShowcasePreferences,
-     state.storedScoringType, state.colorMode, state.darkMode, savedBuildOverride],
+    [character, state.teamSelectionByCharacter, state.storedScoringType, savedBuildOverride],
+  )
+
+  // ===== Color + Theme (color-dependent, cheap) =====
+  const { effectiveColorMode, seedColor } = useMemo(
+    () => resolveShowcaseColor(
+      character.id,
+      state.globalColorMode,
+      state.globalShowcasePreferences[character.id],
+      state.portraitColorByCharacterId[character.id],
+    ),
+    [character.id, state.globalColorMode, state.globalShowcasePreferences, state.portraitColorByCharacterId],
+  )
+
+  const derivedShowcaseTheme = useMemo(
+    () => resolveShowcaseTheme(seedColor, state.darkMode),
+    [seedColor, state.darkMode],
   )
 
   const {
     showcaseMetadata,
-    currentSelection,
     scoringType,
-    portraitToUse,
     portraitUrl,
-    overrideColorMode,
-    derivedShowcaseTheme,
+    portraitToUse,
     displayDimensions,
     artistName,
-  } = visualData
+  } = layout
 
-  // --- Ref side effects (isolated in effects) ---
-  useEffect(() => { state.prevCharId.current = character.id }, [character.id])
-  useEffect(() => { state.prevSeedColor.current = visualData.overrideSeedColor }, [visualData.overrideSeedColor])
+  // ===== Portrait load → store =====
+  const handlePortraitLoad = useCallback((imgSrc: string) => {
+    const hasCustomPortrait = !!getCharacterById(character.id)?.portrait
+    getPalette(imgSrc, (palette: PaletteResponse) => {
+      const swatches = organizeColors(palette)
+      const color = hasCustomPortrait
+        ? modifyCustomColor(
+            selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
+          )
+        : undefined
+      useShowcaseTabStore.getState().setPortraitPalette(character.id, color, swatches)
+    })
+  }, [character.id])
 
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
   const cacheKey = useMemo(
     () => computeScoringCacheKey(
-      character, visualData.simulationMetadata, displayRelics as SingleRelicByPart,
+      character, layout.simulationMetadata, displayRelics as SingleRelicByPart,
       state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
     ),
-    [character, visualData.simulationMetadata, displayRelics, state.showcaseTemporaryOptionsByCharacter],
+    [character, layout.simulationMetadata, displayRelics, state.showcaseTemporaryOptionsByCharacter],
   )
 
   const requestFn = useMemo(() => {
-    if (!cacheKey || !visualData.simulationMetadata) return null
+    if (!cacheKey || !layout.simulationMetadata) return null
     return () => requestScore(
-      cacheKey, character, visualData.simulationMetadata!,
+      cacheKey, character, layout.simulationMetadata!,
       displayRelics as SingleRelicByPart,
       state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
     )
@@ -189,17 +211,14 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       */
       }
       <ShowcaseCustomizationSidebar
-        ref={state.sidebarRef}
         source={source}
         id={id}
         characterId={character.id}
         scoringResult={scoringResult}
-        showcasePreferences={visualData.characterShowcasePreferences}
         scoringType={scoringType}
-        seedColor={visualData.overrideSeedColor}
-        setSeedColor={state.setSeedColor}
-        colorMode={overrideColorMode}
-        setColorMode={state.setColorMode}
+        seedColor={seedColor}
+        effectiveColorMode={effectiveColorMode}
+        portraitSwatches={state.portraitSwatchesByCharacterId[character.id] ?? []}
       />
 
       {/* Showcase full card */}
@@ -250,7 +269,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             artistName={artistName}
             setOriginalCharacterModalInitialCharacter={(character) => setOriginalCharacterModalInitialCharacter?.(character)}
             setOriginalCharacterModalOpen={(open) => setOriginalCharacterModalOpen?.(open)}
-            onPortraitLoad={(img: string) => state.sidebarRef.current?.onPortraitLoad!(img, character.id)}
+            onPortraitLoad={handlePortraitLoad}
           />
 
           {scoringType === ScoringType.COMBAT_SCORE && (
@@ -306,7 +325,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                   characterId={showcaseMetadata.characterId}
                   scoringDone={scoringDone}
                   scoringResult={scoringResult}
-                  teamSelection={currentSelection}
+                  teamSelection={layout.currentSelection}
                   source={source}
                 />
 

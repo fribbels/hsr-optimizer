@@ -10,7 +10,7 @@ import {
 import { Button, ColorInput, Flex, NumberInput, SegmentedControl, Select } from '@mantine/core'
 
 import i18next from 'i18next'
-import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/showcaseColorService'
+import { DEFAULT_SHOWCASE_COLOR, resolveShowcaseTheme } from 'lib/characterPreview/showcaseColorService'
 import {
   editShowcasePreferences,
 } from 'lib/characterPreview/showcaseCustomizationController'
@@ -90,6 +90,17 @@ export function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebar
     // Local color state for responsive ColorInput during drag — store only updates on drag end
     const [localColor, setLocalColor] = useState(seedColor)
     useEffect(() => { setLocalColor(seedColor) }, [seedColor])
+
+    function onColorDrag(newColor: string) {
+      setLocalColor(newColor)
+      // Imperatively update CSS vars for instant card preview without React re-render
+      const theme = resolveShowcaseTheme(newColor, showcaseDarkMode)
+      const el = document.getElementById(id)
+      if (el) {
+        el.style.setProperty('--showcase-card-bg', theme.cardBackgroundColor)
+        el.style.setProperty('--showcase-card-border', theme.cardBorderColor)
+      }
+    }
 
     function onColorChangeEnd(newColor: string) {
       if (newColor === DEFAULT_SHOWCASE_COLOR) return
@@ -308,7 +319,7 @@ export function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebar
           <ColorInput
             swatches={swatchColors}
             value={localColor}
-            onChange={setLocalColor}
+            onChange={onColorDrag}
             onChangeEnd={onColorChangeEnd}
             format="hex"
           />

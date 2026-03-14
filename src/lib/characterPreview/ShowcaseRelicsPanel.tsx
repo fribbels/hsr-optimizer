@@ -10,7 +10,6 @@ import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   RelicPreview,
-  ShowcaseTheme,
 } from 'lib/tabs/tabRelics/RelicPreview'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
@@ -36,7 +35,6 @@ export function ShowcaseRelicsPanel({
   scoringType,
   characterId,
   scoredRelics,
-  showcaseColors,
 }: {
   setSelectedRelic: (r: Relic) => void
   setEditModalOpen: (b: boolean, relic?: Relic) => void
@@ -46,7 +44,6 @@ export function ShowcaseRelicsPanel({
   scoringType: ScoringType
   characterId: CharacterId
   scoredRelics: RelicScoringResult[]
-  showcaseColors?: ShowcaseTheme
 }) {
   const renderColumn = (parts: typeof leftParts | typeof rightParts) => (
     <Flex direction="column" gap={defaultGap}>
@@ -61,7 +58,7 @@ export function ShowcaseRelicsPanel({
           characterId={characterId}
           score={scoredRelics.find((x) => x.part === part)}
           scoringType={scoringType}
-          showcaseTheme={showcaseColors}
+          useShowcaseColors
         />
       ))}
     </Flex>

@@ -229,11 +229,14 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         portraitSwatches={state.portraitSwatchesByCharacterId[character.id] ?? []}
       />
 
-      {/* Showcase full card */}
+      {/* Showcase full card — CSS custom properties for card theme allow imperative
+          color updates during drag without React re-renders */}
       <Flex
         id={id}
         className='characterPreview'
         style={{
+          '--showcase-card-bg': derivedShowcaseTheme.cardBackgroundColor,
+          '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
           position: 'relative',
           display: 'flex',
           height: parentH,
@@ -242,7 +245,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           overflow: 'hidden',
           borderRadius: 7,
           transition: showcaseTransition(),
-        }}
+        } as React.CSSProperties}
         gap={defaultGap}
       >
         {/* Background */}
@@ -300,14 +303,14 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               height: '100%',
               borderRadius: 8,
               zIndex: 10,
-              backgroundColor: derivedShowcaseTheme.cardBackgroundColor,
+              backgroundColor: 'var(--showcase-card-bg)',
               transition: showcaseTransition(),
               flex: 1,
               paddingRight: 2,
               paddingLeft: 2,
               paddingBottom: 3,
               boxShadow: showcaseShadow + showcaseShadowInsetAddition,
-              border: `1px solid ${derivedShowcaseTheme.cardBorderColor}`,
+              border: '1px solid var(--showcase-card-border)',
             }}
             justify='space-between'
           >
@@ -377,7 +380,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           scoringType={scoringType}
           characterId={showcaseMetadata.characterId}
           scoredRelics={scoredRelics}
-          showcaseColors={derivedShowcaseTheme}
         />
       </Flex>
 

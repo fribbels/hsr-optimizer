@@ -46,7 +46,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
   setEditModalOpen?: (open: boolean, relic?: Relic) => void,
   setAddModalOpen?: (open: boolean, part: Parts, relic?: Relic) => void,
   setSelectedRelic?: (relic: Relic) => void,
-  showcaseTheme?: ShowcaseTheme,
+  useShowcaseColors?: boolean,
   unhoverable?: boolean,
 }) {
   const {
@@ -57,7 +57,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
     setEditModalOpen,
     setAddModalOpen,
     setSelectedRelic,
-    showcaseTheme,
+    useShowcaseColors,
     unhoverable,
   } = props
   const placeholderRelic: Partial<Relic> = {
@@ -109,8 +109,8 @@ export const RelicPreview = memo(function RelicPreview(props: {
         minWidth: 211,
         height: 280,
         padding: 12,
-        backgroundColor: showcaseTheme?.cardBackgroundColor,
-        borderColor: showcaseTheme?.cardBorderColor,
+        backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : undefined,
+        borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,
         transition: showcaseTransition(),
         borderRadius: 6,
         boxShadow: source == null ? 'inset 0 0 0 1px var(--border-color)' : showcaseShadow + showcaseShadowInsetAddition,

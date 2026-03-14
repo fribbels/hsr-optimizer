@@ -40,8 +40,8 @@ import {
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import {
-  startTransition,
   useCallback,
+  useDeferredValue,
   useEffect,
   useMemo,
   useState,
@@ -135,6 +135,7 @@ function CharacterPreviewSelection() {
   const setScoringAlgorithmFocusCharacter = useGlobalStore((s) => s.setScoringAlgorithmFocusCharacter)
 
   const selectedCharacter = useShowcaseTabStore((s) => s.selectedCharacter)
+  const deferredCharacter = useDeferredValue(selectedCharacter)
   const availableCharacters = useShowcaseTabStore((s) => s.availableCharacters)
   const onCharacterModalOk = useShowcaseTabStore((s) => s.onCharacterModalOk)
   const importClicked = useShowcaseTabStore((s) => s.importClicked)
@@ -302,13 +303,13 @@ function CharacterPreviewSelection() {
           className={styles.segmentedControl}
           data={options}
           fullWidth
-          onChange={(value) => startTransition(() => onSelectionChanged(value as CharacterId))}
+          onChange={(value) => onSelectionChanged(value as CharacterId)}
           value={selectedCharacter?.id}
         />
 
         <div id='previewWrapper' className={styles.previewWrapper}>
           <CharacterPreview
-            character={selectedCharacter as Character | null}
+            character={deferredCharacter as Character | null}
             source={ShowcaseSource.SHOWCASE_TAB}
             id='relicScorerPreview'
             setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}

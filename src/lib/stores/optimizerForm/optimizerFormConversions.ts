@@ -351,15 +351,17 @@ function internalToRatingFilters(form: Partial<Form>): RatingFilterState {
 /** 0 → undefined; percentage stats × 100 */
 function unsetMin(value: number | undefined, percent: boolean = false): number | undefined {
   if (value == null) return undefined
-  if (value === 0) return undefined
-  return parseFloat((percent ? value * 100 : value).toFixed(3))
+  const n = Number(value)
+  if (!n) return undefined
+  return parseFloat((percent ? n * 100 : n).toFixed(3))
 }
 
 /** MAX_INT → undefined; percentage stats × 100 */
 function unsetMax(value: number | undefined, percent: boolean = false): number | undefined {
   if (value == null) return undefined
-  if (value === MAX_INT) return undefined
-  return parseFloat((percent ? value * 100 : value).toFixed(3))
+  const n = Number(value)
+  if (n >= MAX_INT) return undefined
+  return parseFloat((percent ? n * 100 : n).toFixed(3))
 }
 
 function teammateToTeammateState(teammate: Teammate | undefined): TeammateState {

@@ -27,12 +27,28 @@ export type SwitchRelicsForm = {
   selectedCharacter: SwitchRelicsFormSelectedCharacter,
 }
 
+const panelWidth = 325 - 47
+
 export function SwitchRelicsModal() {
+  const { isOpen, close } = useOpenClose(OpenCloseIDs.SWITCH_RELICS_MODAL)
+
+  return (
+    <Modal
+      opened={isOpen}
+      size={panelWidth + 47}
+      centered
+      onClose={close}
+    >
+      {isOpen && <SwitchRelicsModalContent close={close} />}
+    </Modal>
+  )
+}
+
+function SwitchRelicsModalContent({ close }: { close: () => void }) {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const currentCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
   const characterForm = useForm({ initialValues: { selectedCharacter: null as string | null } })
   const characters = useCharacterStore((s) => s.characters)
-  const { isOpen, close } = useOpenClose(OpenCloseIDs.SWITCH_RELICS_MODAL)
 
   const { t } = useTranslation('modals', { keyPrefix: 'SwitchRelics' })
   const { t: tCommon } = useTranslation('common')
@@ -50,7 +66,7 @@ export function SwitchRelicsModal() {
       tCharacters,
     ), [characters, currentCharacter, tCharacters])
 
-  useFormOnOpen(characterForm, isOpen, () => ({
+  useFormOnOpen(characterForm, true, () => ({
     selectedCharacter: null,
   }))
 
@@ -60,15 +76,8 @@ export function SwitchRelicsModal() {
     close()
   }
 
-  const panelWidth = 325 - 47
-
   return (
-    <Modal
-      opened={isOpen}
-      size={panelWidth + 47}
-      centered
-      onClose={close}
-    >
+    <>
       <div>
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('Title') /* Switch relics with character */}</HeaderText>
@@ -97,6 +106,6 @@ export function SwitchRelicsModal() {
           {tCommon('Save') /* Save */}
         </Button>
       </Flex>
-    </Modal>
+    </>
   )
 }

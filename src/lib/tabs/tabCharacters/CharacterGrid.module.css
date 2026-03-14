@@ -23,6 +23,11 @@
   padding: 2px;
 }
 
+/* Suppress row transitions for one frame after drop to prevent stale-position animation */
+.gridContainer[data-suppress-transition] .root {
+  transition: none !important;
+}
+
 /* --- Row container + design tokens --- */
 
 .root {
@@ -94,12 +99,12 @@
 }
 
 .root:hover {
-  transform: translateY(var(--cr-hover-lift, 0px));
-  box-shadow: var(--cr-hover-shadow, none);
+  transform: translateY(var(--cr-hover-lift, -2px));
+  box-shadow: var(--cr-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
 .root:hover .portraitBg {
-  filter: brightness(var(--cr-hover-brightness, 1.2)) saturate(var(--cr-hover-saturate, 1.15));
+  filter: brightness(var(--cr-hover-brightness, 1.05)) saturate(var(--cr-hover-saturate, 1.05));
 }
 
 /* --- Scrim gradient --- */
@@ -304,7 +309,7 @@
 
 /* LC style: drop shadow */
 .lcWrap[data-lc-style='shadow'] {
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
 }
 
 /* --- Rank number --- */
@@ -351,7 +356,7 @@
   transform: translateY(-50%);
   z-index: 5;
   display: flex;
-  gap: 2px;
+  gap: 6px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.12s;
@@ -368,10 +373,11 @@
   min-width: 24px;
   min-height: 24px;
   border-radius: var(--cr-radius);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--cr-text-secondary);
-  backdrop-filter: blur(4px);
-  border: none;
+  background: var(--cr-action-bg, rgba(255, 255, 255, 0.15));
+  color: var(--cr-action-color, #fff);
+  backdrop-filter: var(--cr-action-blur, blur(6px));
+  border: var(--cr-action-border, 1px solid rgba(255, 255, 255, 0.15)) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -381,8 +387,8 @@
 }
 
 .actionBtn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--cr-text-primary);
+  background: var(--cr-action-hover-bg, rgba(255, 255, 255, 0.25));
+  color: var(--cr-action-hover-color, #fff);
 }
 
 /* ============================================================

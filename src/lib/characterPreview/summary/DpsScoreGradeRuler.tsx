@@ -1,7 +1,7 @@
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import { renderThousandsK } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import { Languages } from 'lib/utils/i18nUtils'
-import { useId } from 'react'
+import { memo, useId } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Bar,
@@ -26,7 +26,7 @@ const liftedGrades: Record<string, boolean> = {
 
 const reversedLanguages: Partial<Record<Languages, boolean>> = {}
 
-export function DpsScoreGradeRuler({ score: rawScore, maximum, benchmark, minimum }: {
+export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ score: rawScore, maximum, benchmark, minimum }: {
   score: number
   maximum: number
   benchmark: number
@@ -190,4 +190,4 @@ export function DpsScoreGradeRuler({ score: rawScore, maximum, benchmark, minimu
       </BarChart>
     </div>
   )
-}
+})

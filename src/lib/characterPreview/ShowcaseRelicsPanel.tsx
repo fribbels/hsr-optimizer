@@ -11,6 +11,7 @@ import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   RelicPreview,
 } from 'lib/tabs/tabRelics/RelicPreview'
+import { memo, useMemo } from 'react'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 
@@ -26,7 +27,7 @@ const rightParts = [
   { key: 'LinkRope' as const, part: Constants.Parts.LinkRope },
 ]
 
-export function ShowcaseRelicsPanel({
+export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
   setSelectedRelic,
   setEditModalOpen,
   setAddModalOpen,
@@ -45,6 +46,22 @@ export function ShowcaseRelicsPanel({
   characterId: CharacterId
   scoredRelics: RelicScoringResult[]
 }) {
+  const relicByPart = useMemo(() => {
+    const map: Record<string, Relic> = {}
+    for (const { key, part } of [...leftParts, ...rightParts]) {
+      map[key] = { ...displayRelics[key], part }
+    }
+    return map
+  }, [displayRelics])
+
+  const scoreByPart = useMemo(() => {
+    const map: Record<string, RelicScoringResult | undefined> = {}
+    for (const { part } of [...leftParts, ...rightParts]) {
+      map[part] = scoredRelics.find((x) => x.part === part)
+    }
+    return map
+  }, [scoredRelics])
+
   const renderColumn = (parts: typeof leftParts | typeof rightParts) => (
     <Flex direction="column" gap={defaultGap}>
       {parts.map(({ key, part }) => (
@@ -53,10 +70,10 @@ export function ShowcaseRelicsPanel({
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           setAddModalOpen={setAddModalOpen}
-          relic={{ ...displayRelics[key], part }}
+          relic={relicByPart[key]}
           source={source}
           characterId={characterId}
-          score={scoredRelics.find((x) => x.part === part)}
+          score={scoreByPart[part]}
           scoringType={scoringType}
           useShowcaseColors
         />
@@ -70,4 +87,4 @@ export function ShowcaseRelicsPanel({
       {renderColumn(rightParts)}
     </Flex>
   )
-}
+})

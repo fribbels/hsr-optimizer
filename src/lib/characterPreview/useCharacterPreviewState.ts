@@ -5,7 +5,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { showcaseOnAddOk, showcaseOnEditOk } from 'lib/characterPreview/characterPreviewController'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { Character, SavedBuild } from 'types/character'
 import { CustomImageConfig } from 'types/customImage'
@@ -21,7 +21,7 @@ export function useCharacterPreviewState(
   savedBuildOverride?: SavedBuild | null,
 ) {
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
-  const setEditModalOpen = (_open: boolean, relic?: Relic) => {
+  const setEditModalOpen = useCallback((_open: boolean, relic?: Relic) => {
     if (relic) {
       useRelicModalStore.getState().openOverlay({
         selectedRelic: relic,
@@ -36,8 +36,8 @@ export function useCharacterPreviewState(
         },
       })
     }
-  }
-  const setAddModalOpen = (_open: boolean, part: Parts, relic?: Relic) => {
+  }, [character?.id, setSelectedRelic])
+  const setAddModalOpen = useCallback((_open: boolean, part: Parts, relic?: Relic) => {
     useRelicModalStore.getState().openOverlay({
       selectedRelic: relic ?? null,
       selectedPart: part,
@@ -46,7 +46,7 @@ export function useCharacterPreviewState(
         showcaseOnAddOk(editedRelic, setSelectedRelic)
       },
     })
-  }
+  }, [character?.id, setSelectedRelic])
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
 

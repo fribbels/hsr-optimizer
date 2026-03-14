@@ -43,6 +43,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import React, {
+  memo,
   useEffect,
   useMemo,
   useState,
@@ -65,7 +66,7 @@ export interface ShowcaseCustomizationSidebarProps {
   portraitSwatches: string[]
 }
 
-export function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebarProps) {
+export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebarProps) {
     const {
       id,
       source,
@@ -392,7 +393,7 @@ export function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebar
         </Flex>
       </Flex>
     )
-}
+})
 
 function SelectSpdPresets(props: {
   characterId: string,

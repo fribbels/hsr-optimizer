@@ -31,10 +31,215 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
+import { memo, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
+import { CharacterId } from 'types/character'
 
-export function CharacterScoringSummary({
+function ScoringSet(props: {
+  set: string
+}) {
+  return (
+    <Flex direction="column" align='center' gap={2}>
+      <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
+    </Flex>
+  )
+}
+
+function ScoringStat(props: {
+  stat: string
+  part: string
+}) {
+  const display = props.stat?.replace('Boost', '') || ''
+  return (
+    <Flex align='center' gap={10}>
+      <img src={Assets.getPart(props.part)} className={classes.partImage}/>
+      <pre style={{ margin: 0 }}>{display}</pre>
+    </Flex>
+  )
+}
+
+function ScoringNumber(props: {
+  label: string
+  number?: number
+  precision?: number
+  useGrouping?: boolean
+}) {
+  const precision = props.precision ?? 1
+  const value = props.number ?? 0
+  const show = value !== 0
+  return (
+    <Flex gap={15} justify='space-between'>
+      <pre style={{ margin: 0 }}>{props.label}</pre>
+      <pre className={classes.preTextRight}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
+    </Flex>
+  )
+}
+
+function ScoringInteger(props: {
+  label: string
+  number?: number
+  valueWidth?: number
+}) {
+  const value = props.number ?? 0
+  return (
+    <Flex gap={9} justify='space-between'>
+      <pre style={{ margin: 0 }}>{props.label}</pre>
+      <pre style={{ margin: 0, width: props.valueWidth }}>{value}</pre>
+    </Flex>
+  )
+}
+
+function ScoringText(props: {
+  label: string
+  text?: string
+}) {
+  const value = props.text ?? ''
+  return (
+    <Flex align='center' gap={1} justify='space-between'>
+      <pre style={{ margin: 0 }}>{props.label}</pre>
+      <pre className={classes.preTextRight}>{value}</pre>
+    </Flex>
+  )
+}
+
+function ScoringColumn(props: {
+  simulation: Simulation
+  originalSimResult: RunStatSimulationsResult
+  percent: number
+  precision: number
+  type: 'Character' | 'Benchmark' | 'Perfect'
+  characterId: CharacterId
+  elementalDmgValue: string
+  element: ElementName
+  characterMetadata: { path: string }
+
+}) {
+  const { t } = useTranslation(['charactersTab', 'common'])
+
+  const simulation = useMemo(() => TsUtils.clone(props.simulation), [props.simulation])
+  const simRequest = simulation.request
+  const simResult = simulation.result!
+
+  const basicStats = toBasicStatsObject(simResult.ca)
+  const combatStats = props.originalSimResult.x.toComputedStatsObject()
+
+  const highlight = props.type === 'Character'
+  const color = 'rgb(225, 165, 100)'
+  ;(combatStats as Record<string, number>)[props.elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, props.element)
+
+  if (props.characterMetadata.path === PathNames.Elation) {
+    combatStats[Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
+  }
+
+  const diminishingReturns: Record<string, number> = {}
+  if (props.type === 'Benchmark') {
+    for (const [stat, rolls] of Object.entries(simRequest.stats)) {
+      const mainsCount = [
+        simRequest.simBody,
+        simRequest.simFeet,
+        simRequest.simPlanarSphere,
+        simRequest.simLinkRope,
+        Stats.ATK,
+        Stats.HP,
+      ].filter((x) => x === stat).length
+      if (stat === Stats.SPD) {
+        diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
+      } else {
+        diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+      }
+    }
+  }
+
+  const precision = props.precision
+
+  return (
+    <Flex direction="column" gap={25} style={{ margin: 'auto' }}>
+      <Flex direction="column" gap={defaultGap}>
+        <Flex justify='space-around'>
+          <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
+            <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: Utils.truncate10ths(Utils.precisionRound(props.percent * 100)) })}</u>
+          </pre>
+          {/* Character/Benchmark/Perfect build ({{score}}%) */}
+        </Flex>
+      </Flex>
+
+      <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
+        <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
+          {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
+        </pre>
+        {/* Character/100% benchmark/200% prefect basic stats */}
+        <CharacterStatSummary
+          characterId={props.characterId}
+          finalStats={basicStats}
+          elementalDmgValue={props.elementalDmgValue}
+          simScore={simResult.simScore}
+          showAll={true}
+          scoringDone={true}
+          scoringResult={null}
+        />
+      </Flex>
+
+      <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
+        <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
+          <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
+            build type <u>combat stats</u>
+          </Trans>
+        </pre>
+        <CharacterStatSummary
+          characterId={props.characterId}
+          finalStats={combatStats}
+          elementalDmgValue={props.elementalDmgValue}
+          simScore={simResult.simScore}
+          showAll={true}
+          scoringDone={true}
+          scoringResult={null}
+        />
+      </Flex>
+
+      <Flex direction="column" gap={defaultGap}>
+        <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
+          {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
+        </pre>
+        {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
+
+        <SubstatRollsSummary
+          simRequest={simulation.request}
+          precision={precision}
+          diminish={props.type === 'Benchmark'}
+          columns={2}
+        />
+      </Flex>
+
+      <Flex direction="column" gap={defaultGap}>
+        <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
+          {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
+        </pre>
+        {/* Character main stats/100% benchmark main stats/200% perfect main stats */}
+        <Flex gap={defaultGap} justify='space-around'>
+          <Flex direction="column" gap={10}>
+            <ScoringStat stat={simRequest.simBody ? t(`common:ReadableStats.${simRequest.simBody as MainStats}`) : ''} part={Parts.Body}/>
+            <ScoringStat stat={simRequest.simFeet ? t(`common:ReadableStats.${simRequest.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
+            <ScoringStat stat={simRequest.simPlanarSphere ? t(`common:ReadableStats.${simRequest.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
+            <ScoringStat stat={simRequest.simLinkRope ? t(`common:ReadableStats.${simRequest.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
+          </Flex>
+        </Flex>
+      </Flex>
+
+      <Flex direction="column" gap={20} className={classes.abilityDamageSection}>
+        <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
+          {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
+        </pre>
+        {/* Character/100% benchmark/200% perfect ability damage */}
+        <AbilityDamageSummary
+          simResult={simulation.result!}
+        />
+      </Flex>
+    </Flex>
+  )
+}
+
+export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   simScoringResult,
   displayRelics,
   showcaseMetadata,
@@ -45,81 +250,16 @@ export function CharacterScoringSummary({
 }) {
   const { t, i18n } = useTranslation(['charactersTab', 'common'])
 
-  if (!simScoringResult) return null
+  const result = useMemo(
+    () => simScoringResult ? TsUtils.clone(simScoringResult) : undefined,
+    [simScoringResult],
+  )
 
-  const result = TsUtils.clone(simScoringResult)
+  if (!simScoringResult || !result) return null
 
   const characterId = result.simulationForm.characterId
   const characterMetadata = getGameMetadata().characters[characterId]
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
-
-  function ScoringSet(props: {
-    set: string
-  }) {
-    return (
-      <Flex direction="column" align='center' gap={2}>
-        <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
-      </Flex>
-    )
-  }
-
-  function ScoringStat(props: {
-    stat: string
-    part: string
-  }) {
-    const display = props.stat?.replace('Boost', '') || ''
-    return (
-      <Flex align='center' gap={10}>
-        <img src={Assets.getPart(props.part)} className={classes.partImage}/>
-        <pre style={{ margin: 0 }}>{display}</pre>
-      </Flex>
-    )
-  }
-
-  function ScoringNumber(props: {
-    label: string
-    number?: number
-    precision?: number
-    useGrouping?: boolean
-  }) {
-    const precision = props.precision ?? 1
-    const value = props.number ?? 0
-    const show = value !== 0
-    return (
-      <Flex gap={15} justify='space-between'>
-        <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre className={classes.preTextRight}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
-      </Flex>
-    )
-  }
-
-  function ScoringInteger(props: {
-    label: string
-    number?: number
-    valueWidth?: number
-  }) {
-    const value = props.number ?? 0
-    return (
-      <Flex gap={9} justify='space-between'>
-        <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre style={{ margin: 0, width: props.valueWidth }}>{value}</pre>
-      </Flex>
-    )
-  }
-
-  function ScoringText(props: {
-    label: string
-    text?: string
-  }) {
-    const value = props.text ?? ''
-    return (
-      <Flex align='center' gap={1} justify='space-between'>
-        <pre style={{ margin: 0 }}>{props.label}</pre>
-        <pre className={classes.preTextRight}>{value}</pre>
-      </Flex>
-    )
-  }
-
   const element = characterMetadata.element as ElementName
 
   const divider = (
@@ -127,135 +267,6 @@ export function CharacterScoringSummary({
       <Divider orientation='vertical' className={classes.columnDivider}/>
     </Flex>
   )
-
-  function ScoringColumn(props: {
-    simulation: Simulation
-    originalSimResult: RunStatSimulationsResult // Original (non-cloned) for Container method access
-    percent: number
-    precision: number
-    type: 'Character' | 'Benchmark' | 'Perfect'
-  }) {
-    const simulation = TsUtils.clone(props.simulation)
-    const simRequest = simulation.request
-    const simResult = simulation.result!
-
-    const basicStats = toBasicStatsObject(simResult.ca)
-    const combatStats = props.originalSimResult.x.toComputedStatsObject()
-
-    const highlight = props.type === 'Character'
-    const color = 'rgb(225, 165, 100)'
-    combatStats[elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, element)
-
-    if (characterMetadata.path === PathNames.Elation) {
-      combatStats[Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
-    }
-
-    const diminishingReturns: Record<string, number> = {}
-    if (props.type === 'Benchmark') {
-      for (const [stat, rolls] of Object.entries(simRequest.stats)) {
-        const mainsCount = [
-          simRequest.simBody,
-          simRequest.simFeet,
-          simRequest.simPlanarSphere,
-          simRequest.simLinkRope,
-          Stats.ATK,
-          Stats.HP,
-        ].filter((x) => x === stat).length
-        if (stat === Stats.SPD) {
-          diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
-        } else {
-          diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
-        }
-      }
-    }
-
-    const precision = props.precision
-
-    return (
-      <Flex direction="column" gap={25} style={{ margin: 'auto' }}>
-        <Flex direction="column" gap={defaultGap}>
-          <Flex justify='space-around'>
-            <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
-              <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: Utils.truncate10ths(Utils.precisionRound(props.percent * 100)) })}</u>
-            </pre>
-            {/* Character/Benchmark/Perfect build ({{score}}%) */}
-          </Flex>
-        </Flex>
-
-        <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
-          <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
-            {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
-          </pre>
-          {/* Character/100% benchmark/200% prefect basic stats */}
-          <CharacterStatSummary
-            characterId={characterId}
-            finalStats={basicStats}
-            elementalDmgValue={elementalDmgValue}
-            simScore={simResult.simScore}
-            showAll={true}
-            scoringDone={true}
-            scoringResult={null}
-          />
-        </Flex>
-
-        <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
-          <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
-            <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
-              build type <u>combat stats</u>
-            </Trans>
-          </pre>
-          <CharacterStatSummary
-            characterId={characterId}
-            finalStats={combatStats}
-            elementalDmgValue={elementalDmgValue}
-            simScore={simResult.simScore}
-            showAll={true}
-            scoringDone={true}
-            scoringResult={null}
-          />
-        </Flex>
-
-        <Flex direction="column" gap={defaultGap}>
-          <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
-            {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
-          </pre>
-          {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
-
-          <SubstatRollsSummary
-            simRequest={simulation.request}
-            precision={precision}
-            diminish={props.type === 'Benchmark'}
-            columns={2}
-          />
-        </Flex>
-
-        <Flex direction="column" gap={defaultGap}>
-          <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
-            {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
-          </pre>
-          {/* Character main stats/100% benchmark main stats/200% perfect main stats */}
-          <Flex gap={defaultGap} justify='space-around'>
-            <Flex direction="column" gap={10}>
-              <ScoringStat stat={simRequest.simBody ? t(`common:ReadableStats.${simRequest.simBody as MainStats}`) : ''} part={Parts.Body}/>
-              <ScoringStat stat={simRequest.simFeet ? t(`common:ReadableStats.${simRequest.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
-              <ScoringStat stat={simRequest.simPlanarSphere ? t(`common:ReadableStats.${simRequest.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
-              <ScoringStat stat={simRequest.simLinkRope ? t(`common:ReadableStats.${simRequest.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
-            </Flex>
-          </Flex>
-        </Flex>
-
-        <Flex direction="column" gap={20} className={classes.abilityDamageSection}>
-          <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
-            {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
-          </pre>
-          {/* Character/100% benchmark/200% perfect ability damage */}
-          <AbilityDamageSummary
-            simResult={simulation.result!}
-          />
-        </Flex>
-      </Flex>
-    )
-  }
 
   return (
     <Flex direction="column" gap={15} align='center' className={classes.rootContainer}>
@@ -379,6 +390,10 @@ export function CharacterScoringSummary({
           percent={result.percent}
           precision={2}
           type='Character'
+          characterId={characterId}
+          elementalDmgValue={elementalDmgValue}
+          element={element}
+          characterMetadata={characterMetadata}
         />
 
         {divider}
@@ -389,6 +404,10 @@ export function CharacterScoringSummary({
           percent={1.00}
           precision={0}
           type='Benchmark'
+          characterId={characterId}
+          elementalDmgValue={elementalDmgValue}
+          element={element}
+          characterMetadata={characterMetadata}
         />
 
         {divider}
@@ -399,6 +418,10 @@ export function CharacterScoringSummary({
           percent={2.00}
           precision={0}
           type='Perfect'
+          characterId={characterId}
+          elementalDmgValue={elementalDmgValue}
+          element={element}
+          characterMetadata={characterMetadata}
         />
       </Flex>
 
@@ -415,7 +438,7 @@ export function CharacterScoringSummary({
       </Flex>
     </Flex>
   )
-}
+})
 
 export function ScoringTeammate({ result, index }: {
   result: SimulationScore

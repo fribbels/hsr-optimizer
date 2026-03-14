@@ -46,7 +46,7 @@ export default function CharacterTab() {
       <Flex direction="column" gap={defaultGap}>
         <CharacterMenu />
 
-        <Flex direction="column" gap={defaultGap} miw={240}>
+        <Flex direction="column" gap={defaultGap} miw={320}>
           <div
             id='characterGrid'
             style={{

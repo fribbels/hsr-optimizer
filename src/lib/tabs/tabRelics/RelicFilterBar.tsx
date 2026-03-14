@@ -35,6 +35,7 @@ import {
 } from 'lib/utils/i18nUtils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 import { useGlobalStore } from 'lib/stores/appStore'
@@ -54,7 +55,19 @@ export function RelicFilterBar() {
     setExcludedRelicPotentialCharacters,
     valueColumns,
     setValueColumns,
-  } = useRelicsTabStore()
+  } = useRelicsTabStore(
+    useShallow((s) => ({
+      filters: s.filters,
+      setFilter: s.setFilter,
+      resetFilters: s.resetFilters,
+      focusCharacter: s.focusCharacter,
+      setFocusCharacter: s.setFocusCharacter,
+      excludedRelicPotentialCharacters: s.excludedRelicPotentialCharacters,
+      setExcludedRelicPotentialCharacters: s.setExcludedRelicPotentialCharacters,
+      valueColumns: s.valueColumns,
+      setValueColumns: s.setValueColumns,
+    })),
+  )
 
   const { t, i18n } = useTranslation('relicsTab')
   const { t: tValueColumn } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
@@ -109,12 +122,12 @@ export function RelicFilterBar() {
     setOpen(OpenCloseIDs.SCORING_MODAL)
   }
 
-  const gradeData = generateGradeTags([2, 3, 4, 5])
-  const verifiedData = generateVerifiedTags([true, false])
-  const partsData = generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x))
-  const enhanceData = generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']])
-  const equippedByData = generateEquippedByTags([true, false])
-  const initialRollsData = generateInitialRollsTags([4, 3])
+  const gradeData = useMemo(() => generateGradeTags([2, 3, 4, 5]), [])
+  const verifiedData = useMemo(() => generateVerifiedTags([true, false]), [])
+  const partsData = useMemo(() => generatePartsTags(Object.values(Constants.Parts), (x) => Assets.getPart(x)), [])
+  const enhanceData = useMemo(() => generateTextTags([[0, '+0'], [3, '+3'], [6, '+6'], [9, '+9'], [12, '+12'], [15, '+15']]), [])
+  const equippedByData = useMemo(() => generateEquippedByTags([true, false]), [])
+  const initialRollsData = useMemo(() => generateInitialRollsTags([4, 3]), [])
 
   return (
     <Flex direction="column" gap={2}>

@@ -99,7 +99,7 @@ function Inputs() {
 
   return (
     <div style={{ width: 900 }}>
-      <Paper style={{ width: 900 }} p="md">
+      <Paper style={{ width: 900 }} p="xl" withBorder>
         <Flex style={{ marginBottom: 30 }}>
           <Flex direction="column" flex={1}>
             <Title>

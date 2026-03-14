@@ -1,9 +1,9 @@
 .table {
   width: 100%;
-  border: var(--panel-border);
-  box-shadow: var(--card-shadow-flat);
+  box-shadow: var(--card-shadow);
   border-radius: var(--border-radius-card);
   overflow: hidden;
+  background-color: var(--panel-bg);
 }
 
 .centeredCell {

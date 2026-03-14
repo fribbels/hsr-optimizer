@@ -2,7 +2,7 @@ import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import React, { createContext } from 'react'
 
-const cardShadow = '0 4px 8px rgba(0,0,0,0.3)'
+const cardShadow = 'var(--card-shadow)'
 
 export type DesignOptions = {
   rowHeight: number,

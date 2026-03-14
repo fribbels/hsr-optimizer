@@ -188,6 +188,7 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
     <Tabs
       variant='outline'
       defaultValue='200'
+      styles={{ tab: { height: 36, paddingInline: 32 } }}
     >
       <Tabs.List className={styles.tabsList}>
         {items.map((item) => <Tabs.Tab key={item.key} value={item.key}>{item.label}</Tabs.Tab>)}

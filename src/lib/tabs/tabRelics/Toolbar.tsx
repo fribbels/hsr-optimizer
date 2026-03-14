@@ -11,6 +11,7 @@ import useRelicsTabStore, {
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import classes from './Toolbar.module.css'
 
 export function Toolbar() {
@@ -22,7 +23,17 @@ export function Toolbar() {
     insightsCharacters,
     setInsightsCharacters,
     deleteConfirmOpen,
-  } = useRelicsTabStore()
+  } = useRelicsTabStore(
+    useShallow((s) => ({
+      selectedRelicId: s.selectedRelicId,
+      selectedRelicsIds: s.selectedRelicsIds,
+      insightsMode: s.insightsMode,
+      setInsightsMode: s.setInsightsMode,
+      insightsCharacters: s.insightsCharacters,
+      setInsightsCharacters: s.setInsightsCharacters,
+      deleteConfirmOpen: s.deleteConfirmOpen,
+    })),
+  )
   const { ingest: isLiveImport } = useScannerState()
   const { t } = useTranslation('relicsTab', { keyPrefix: 'Toolbar' })
   const { t: tCommon } = useTranslation('common')

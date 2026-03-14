@@ -15,12 +15,19 @@ import { Toolbar } from 'lib/tabs/tabRelics/Toolbar'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { Relic } from 'types/relic'
 
 export const TAB_WIDTH = 1460
 
 export function RelicsTab() {
-  const { focusCharacter, selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore()
+  const { focusCharacter, selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore(
+    useShallow((s) => ({
+      focusCharacter: s.focusCharacter,
+      selectedRelicId: s.selectedRelicId,
+      setSelectedRelicsIds: s.setSelectedRelicsIds,
+    })),
+  )
   const { recentRelics } = useScannerState()
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
   const { t } = useTranslation('relicsTab')

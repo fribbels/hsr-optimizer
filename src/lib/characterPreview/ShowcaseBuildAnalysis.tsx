@@ -3,11 +3,9 @@ import { useDelayedProps } from 'hooks/useDelayedProps'
 import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 
-import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import {
   ScoringType,
   SimulationScore,
@@ -20,7 +18,8 @@ import { useGlobalStore } from 'lib/stores/appStore'
 
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType
-  asyncSimScoringExecution: AsyncSimScoringExecution | null
+  scoringDone: boolean
+  scoringResult: SimulationScore | null
   showcaseMetadata: ShowcaseMetadata
   displayRelics: SingleRelicByPart
   setScoringType: (s: ScoringType) => void
@@ -28,7 +27,8 @@ interface ShowcaseBuildAnalysisProps {
 
 export function ShowcaseBuildAnalysis({
   scoringType,
-  asyncSimScoringExecution,
+  scoringDone,
+  scoringResult,
   showcaseMetadata,
   displayRelics,
   setScoringType,
@@ -39,9 +39,7 @@ export function ShowcaseBuildAnalysis({
 
   const { characterMetadata } = showcaseMetadata
 
-  const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
-
-  if (!simScoringExecution?.done) {
+  if (!scoringDone) {
     return (
       <span
         style={{
@@ -52,8 +50,6 @@ export function ShowcaseBuildAnalysis({
       </span>
     )
   }
-
-  const result = simScoringExecution.result!
 
   return (
     <Flex direction="column" style={{ minHeight: 1000 }}>
@@ -107,13 +103,13 @@ export function ShowcaseBuildAnalysis({
       </Flex>
       {scoringType === ScoringType.COMBAT_SCORE && (
         <MemoizedCharacterScoringSummary
-          simScoringResult={result}
+          simScoringResult={scoringResult ?? undefined}
           displayRelics={displayRelics}
           showcaseMetadata={showcaseMetadata}
         />
       )}
       <StatScoringSummary
-        scoringType={result ? scoringType : ScoringType.SUBSTAT_SCORE}
+        scoringType={scoringResult ? scoringType : ScoringType.SUBSTAT_SCORE}
         displayRelics={displayRelics}
         showcaseMetadata={showcaseMetadata}
       />

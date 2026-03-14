@@ -14,39 +14,32 @@ import {
   urlToColorCache,
 } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
 import { ShowcaseColorMode } from 'lib/constants/constants'
-import { getShowcaseSimScoringExecution } from 'lib/scoring/dpsScore'
-import { RelicBuild, ScoringType } from 'lib/scoring/simScoringUtils'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { resolveDpsScoreSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/utils/colorUtils'
 import { Assets } from 'lib/rendering/assets'
-import { MutableRefObject } from 'react'
 import { Character, SavedBuild } from 'types/character'
 import { ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
 
-interface ShowcaseDerivedDataParams {
+interface ShowcaseVisualDataParams {
   character: Character
-  prevCharId: MutableRefObject<string | undefined>
-  prevSeedColor: MutableRefObject<string>
+  prevSeedColor: string
   teamSelectionByCharacter: Record<string, string>
-  showcaseTemporaryOptionsByCharacter: Partial<Record<string, ShowcaseTemporaryOptions>>
   globalShowcasePreferences: Partial<Record<string, ShowcasePreferences>>
-  displayRelics: RelicBuild
   storedScoringType: ScoringType
   colorMode: ShowcaseColorMode
   darkMode: boolean
   savedBuildOverride?: SavedBuild | null
 }
 
-export function computeShowcaseDerivedData(params: ShowcaseDerivedDataParams) {
+export function computeShowcaseVisualData(params: ShowcaseVisualDataParams) {
   const {
     character,
-    prevCharId,
     prevSeedColor,
     teamSelectionByCharacter,
-    showcaseTemporaryOptionsByCharacter,
     globalShowcasePreferences,
-    displayRelics,
     storedScoringType,
     colorMode,
     darkMode,
@@ -57,18 +50,12 @@ export function computeShowcaseDerivedData(params: ShowcaseDerivedDataParams) {
 
   const showcaseMetadata = getShowcaseMetadata(character)
 
-  // ===== Simulation =====
+  // ===== Team selection + simulation metadata (no scoring execution) =====
 
-  const currentSelection = handleTeamSelection(character, prevCharId, teamSelectionByCharacter)
-  const showcaseTemporaryOptions = showcaseTemporaryOptionsByCharacter[character.id]
-  const asyncSimScoringExecution = getShowcaseSimScoringExecution(
-    character,
-    displayRelics,
-    currentSelection,
-    showcaseTemporaryOptions,
-    savedBuildOverride,
-  )
-  const scoringType = resolveScoringType(storedScoringType, asyncSimScoringExecution)
+  const currentSelection = handleTeamSelection(character, teamSelectionByCharacter)
+  const simulationMetadata = resolveDpsScoreSimulationMetadata(character, currentSelection, savedBuildOverride)
+  const hasSimulation = simulationMetadata != null
+  const scoringType = resolveScoringType(storedScoringType, hasSimulation)
 
   // ===== Portrait =====
 
@@ -91,15 +78,13 @@ export function computeShowcaseDerivedData(params: ShowcaseDerivedDataParams) {
         ? (overrideColorMode == ShowcaseColorMode.AUTO)
           ? defaultColor
           : (characterShowcasePreferences.color ?? defaultColor)
-        : prevSeedColor.current
+        : prevSeedColor
     )
     : (
       (overrideColorMode == ShowcaseColorMode.AUTO)
         ? defaultColor
         : (characterShowcasePreferences.color ?? defaultColor)
     )
-
-  prevSeedColor.current = overrideSeedColor
 
   // ===== Theme =====
 
@@ -116,7 +101,8 @@ export function computeShowcaseDerivedData(params: ShowcaseDerivedDataParams) {
   return {
     showcaseMetadata,
     currentSelection,
-    asyncSimScoringExecution,
+    simulationMetadata,
+    hasSimulation,
     scoringType,
     portraitToUse,
     portraitUrl,

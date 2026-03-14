@@ -14,7 +14,6 @@ import {
   DEFAULT_SHOWCASE_COLOR,
   editShowcasePreferences,
 } from 'lib/characterPreview/showcaseCustomizationController'
-import { useAsyncSimScoringExecution } from 'lib/characterPreview/useAsyncSimScoringExecution'
 import {
   ShowcaseColorMode,
   Stats,
@@ -27,7 +26,6 @@ import {
 import { Assets } from 'lib/rendering/assets'
 
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
-import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import {
   ScoringType,
   SimulationScore,
@@ -79,7 +77,7 @@ export interface ShowcaseCustomizationSidebarProps {
   source: ShowcaseSource
   characterId: CharacterId
   showcasePreferences: ShowcasePreferences
-  asyncSimScoringExecution: AsyncSimScoringExecution | null
+  scoringResult: SimulationScore | null
   scoringType: ScoringType
   seedColor: string
   setSeedColor: (color: string) => void
@@ -92,7 +90,7 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
       id,
       source,
       characterId,
-      asyncSimScoringExecution,
+      scoringResult,
       scoringType,
       seedColor,
       setSeedColor,
@@ -112,7 +110,6 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
     const scoringMetadata = useScoringMetadata(characterId)
     const spdValue = scoringMetadata.stats[Stats.SPD]
     const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
-    const simScoringExecution = useAsyncSimScoringExecution(asyncSimScoringExecution)
 
     useImperativeHandle(ref, () => ({
       onPortraitLoad: (img: string, characterId: CharacterId) => {
@@ -324,10 +321,10 @@ function ShowcaseCustomizationSidebar({ ref, ...props }: ShowcaseCustomizationSi
                   value={sanitizePositiveNumberElseUndefined(useShowcaseTabStore.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
                   rightSection={
                     <SelectSpdPresets
-                      spdFilter={simScoringExecution?.result?.originalSpd}
+                      spdFilter={scoringResult?.originalSpd}
                       onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
                       characterId={characterId}
-                      simScoringResult={simScoringExecution?.result ?? null}
+                      simScoringResult={scoringResult ?? null}
                     />
                   }
                   placeholder='...'

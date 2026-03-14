@@ -20,7 +20,6 @@
 .gridContainer[data-container-border='true'] {
   border: 1px solid var(--mantine-color-dark-5);
   border-radius: var(--mantine-radius-sm);
-  padding: 2px;
 }
 
 /* Suppress row transitions for one frame after drop to prevent stale-position animation */

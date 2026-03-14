@@ -28,7 +28,6 @@ import {
   RelicScoringResult,
 } from 'lib/relics/relicScorerPotential'
 import { Assets } from 'lib/rendering/assets'
-import { AsyncSimScoringExecution } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
@@ -42,7 +41,6 @@ import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions
 import { filterNonNull } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { MutableRefObject } from 'react'
 import {
   Character,
   CharacterId,
@@ -136,11 +134,11 @@ function getRelic(relicsById: Partial<Record<string, Relic>>, character: Charact
   return null
 }
 
-export function resolveScoringType(storedScoringType: ScoringType, asyncSimScoringExecution: AsyncSimScoringExecution) {
+export function resolveScoringType(storedScoringType: ScoringType, hasSimulation: boolean) {
   if (storedScoringType === ScoringType.NONE || storedScoringType === ScoringType.SUBSTAT_SCORE) {
     return storedScoringType
   }
-  if (storedScoringType === ScoringType.COMBAT_SCORE && asyncSimScoringExecution.promise != null) {
+  if (storedScoringType === ScoringType.COMBAT_SCORE && hasSimulation) {
     return storedScoringType
   }
   return ScoringType.SUBSTAT_SCORE
@@ -267,7 +265,6 @@ export function showcaseOnEditPortraitOk(
 
 export function handleTeamSelection(
   character: Character,
-  prevCharId: MutableRefObject<string | undefined>,
   teamSelection: Record<string, string>,
 ) {
   let currentSelection: string | undefined = teamSelection[character.id]
@@ -283,8 +280,6 @@ export function handleTeamSelection(
       currentSelection = CUSTOM_TEAM
     }
   }
-
-  prevCharId.current = character.id
 
   return currentSelection ?? DEFAULT_TEAM
 }

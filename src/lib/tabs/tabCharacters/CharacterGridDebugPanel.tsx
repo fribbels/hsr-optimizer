@@ -1,5 +1,5 @@
 import chroma from 'chroma-js'
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { memo, useState, useCallback, useRef, useEffect } from 'react'
 
 type SliderConfig = {
   label: string
@@ -51,8 +51,8 @@ export type ColorTransform = {
 }
 
 export const DEFAULT_COLOR_TRANSFORM: ColorTransform = {
-  maxLightness: 0.75,
-  luminance: 0.035,
+  maxLightness: 0.7,
+  luminance: 0.04,
   saturate: 0,
   darken: 0,
   alpha: 60,
@@ -184,7 +184,7 @@ const HOVER_PRESETS: HoverPreset[] = [
     vars: {
       '--cr-hover-rest-brightness': '1',
       '--cr-hover-rest-saturate': '1',
-      '--cr-hover-brightness': '1.02',
+      '--cr-hover-brightness': '1.05',
       '--cr-hover-saturate': '1.05',
       '--cr-hover-lift': '-2px',
       '--cr-hover-shadow': '0 4px 12px rgba(0, 0, 0, 0.4)',
@@ -200,6 +200,77 @@ const HOVER_PRESETS: HoverPreset[] = [
       '--cr-hover-saturate': '1.05',
       '--cr-hover-lift': '0px',
       '--cr-hover-shadow': 'none',
+    },
+  },
+]
+
+export type ActionBtnStyle = 'dark' | 'glass' | 'outlined' | 'bright' | 'subtle'
+
+type ActionBtnPreset = {
+  label: string
+  value: ActionBtnStyle
+  vars: Record<string, string>
+}
+
+const ACTION_BTN_PRESETS: ActionBtnPreset[] = [
+  {
+    label: 'Dark',
+    value: 'dark',
+    vars: {
+      '--cr-action-bg': 'rgba(0, 0, 0, 0.4)',
+      '--cr-action-color': '#ddd',
+      '--cr-action-blur': 'blur(6px)',
+      '--cr-action-border': '1px solid rgba(255, 255, 255, 0.20)',
+      '--cr-action-hover-bg': 'rgba(0, 0, 0, 0.6)',
+      '--cr-action-hover-color': '#fff',
+    },
+  },
+  {
+    label: 'Glass',
+    value: 'glass',
+    vars: {
+      '--cr-action-bg': 'rgba(255, 255, 255, 0.06)',
+      '--cr-action-color': 'var(--cr-text-secondary)',
+      '--cr-action-blur': 'blur(4px)',
+      '--cr-action-border': 'none',
+      '--cr-action-hover-bg': 'rgba(255, 255, 255, 0.12)',
+      '--cr-action-hover-color': 'var(--cr-text-primary)',
+    },
+  },
+  {
+    label: 'Outlined',
+    value: 'outlined',
+    vars: {
+      '--cr-action-bg': 'rgba(0, 0, 0, 0.2)',
+      '--cr-action-color': '#ddd',
+      '--cr-action-blur': 'blur(6px)',
+      '--cr-action-border': '1px solid rgba(255, 255, 255, 0.3)',
+      '--cr-action-hover-bg': 'rgba(0, 0, 0, 0.4)',
+      '--cr-action-hover-color': '#fff',
+    },
+  },
+  {
+    label: 'Bright',
+    value: 'bright',
+    vars: {
+      '--cr-action-bg': 'rgba(255, 255, 255, 0.15)',
+      '--cr-action-color': '#fff',
+      '--cr-action-blur': 'blur(6px)',
+      '--cr-action-border': '1px solid rgba(255, 255, 255, 0.15)',
+      '--cr-action-hover-bg': 'rgba(255, 255, 255, 0.25)',
+      '--cr-action-hover-color': '#fff',
+    },
+  },
+  {
+    label: 'Subtle',
+    value: 'subtle',
+    vars: {
+      '--cr-action-bg': 'transparent',
+      '--cr-action-color': 'rgba(255, 255, 255, 0.5)',
+      '--cr-action-blur': 'none',
+      '--cr-action-border': 'none',
+      '--cr-action-hover-bg': 'rgba(0, 0, 0, 0.3)',
+      '--cr-action-hover-color': '#ddd',
     },
   },
 ]
@@ -234,6 +305,7 @@ export type DebugToggles = {
   scrimMode: ScrimMode
   lcStyle: LcStyle
   hoverEffect: HoverEffect
+  actionBtnStyle: ActionBtnStyle
 }
 
 export const DEFAULT_TOGGLES: DebugToggles = {
@@ -246,11 +318,12 @@ export const DEFAULT_TOGGLES: DebugToggles = {
   showLcStrip: true,
   nameShadow: true,
   scrimMode: 'frosted',
-  lcStyle: 'none',
-  hoverEffect: 'bright',
+  lcStyle: 'shadow',
+  hoverEffect: 'lift-bright',
+  actionBtnStyle: 'bright',
 }
 
-type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle' | 'hoverEffect'>
+type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle' | 'hoverEffect' | 'actionBtnStyle'>
 
 const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   showRank: 'Rank',
@@ -263,7 +336,7 @@ const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   nameShadow: 'Name Shadow',
 }
 
-export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, colorTransform, onColorTransformChange }: {
+export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, colorTransform, onColorTransformChange }: {
   targetRef: React.RefObject<HTMLDivElement | null>
   toggles: DebugToggles
   onTogglesChange: (toggles: DebugToggles) => void
@@ -289,13 +362,19 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, c
       const val = newValues[s.cssVar] ?? s.defaultValue
       el.style.setProperty(s.cssVar, `${val}${s.unit}`)
     }
-    const preset = HOVER_PRESETS.find((p) => p.value === (hoverEffect ?? toggles.hoverEffect))
-    if (preset) {
-      for (const [k, v] of Object.entries(preset.vars)) {
+    const hoverPreset = HOVER_PRESETS.find((p) => p.value === (hoverEffect ?? toggles.hoverEffect))
+    if (hoverPreset) {
+      for (const [k, v] of Object.entries(hoverPreset.vars)) {
         el.style.setProperty(k, v)
       }
     }
-  }, [targetRef, toggles.hoverEffect])
+    const actionPreset = ACTION_BTN_PRESETS.find((p) => p.value === toggles.actionBtnStyle)
+    if (actionPreset) {
+      for (const [k, v] of Object.entries(actionPreset.vars)) {
+        el.style.setProperty(k, v)
+      }
+    }
+  }, [targetRef, toggles.hoverEffect, toggles.actionBtnStyle])
 
   useEffect(() => {
     applyVars(values)
@@ -503,6 +582,30 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, c
             </div>
           </div>
 
+          {/* Action button style */}
+          <div>
+            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>ACTION BUTTONS</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {ACTION_BTN_PRESETS.map((preset) => (
+                <span
+                  key={preset.value}
+                  style={pillStyle(toggles.actionBtnStyle === preset.value)}
+                  onClick={() => {
+                    onTogglesChange({ ...toggles, actionBtnStyle: preset.value })
+                    const el = targetRef.current
+                    if (el) {
+                      for (const [k, v] of Object.entries(preset.vars)) {
+                        el.style.setProperty(k, v)
+                      }
+                    }
+                  }}
+                >
+                  {preset.label}
+                </span>
+              ))}
+            </div>
+          </div>
+
           {/* BG color presets */}
           <div>
             <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>BG COLOR</div>
@@ -607,4 +710,4 @@ export function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, c
       )}
     </div>
   )
-}
+})

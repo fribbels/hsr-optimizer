@@ -1,11 +1,15 @@
 import {
   closestCenter,
+  defaultDropAnimationSideEffects,
   DndContext,
   DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
+import type { DropAnimation } from '@dnd-kit/core'
 import {
   SortableContext,
   useSortable,
@@ -43,6 +47,17 @@ import { afterPaint } from 'lib/utils/afterPaint'
 import { applyColorTransform, CharacterGridDebugPanel, ColorTransform, DebugToggles, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import classes from './CharacterGrid.module.css'
 
+const noop = () => {}
+const DROP_ANIMATION_DURATION = 200
+
+const dropAnimationConfig: DropAnimation = {
+  duration: DROP_ANIMATION_DURATION,
+  easing: 'ease',
+  sideEffects: defaultDropAnimationSideEffects({
+    styles: { active: { opacity: '0' } },
+  }),
+}
+
 export function CharacterGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
   const osRef = useCallback((instance: OverlayScrollbarsComponentRef<'div'> | null) => {
@@ -53,6 +68,7 @@ export function CharacterGrid() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
 
   const [localFocus, setLocalFocus] = useState<CharacterId | null>(null)
+  const [activeId, setActiveId] = useState<CharacterId | null>(null)
   const [toggles, setToggles] = useState<DebugToggles>(DEFAULT_TOGGLES)
   const [colorTransform, setColorTransform] = useState<ColorTransform>(DEFAULT_COLOR_TRANSFORM)
 
@@ -80,7 +96,22 @@ export function CharacterGrid() {
     useSensor(PointerSensor, { activationConstraint: { distance: 3 } }),
   )
 
+  function handleDragStart(event: DragStartEvent) {
+    setActiveId(event.active.id as CharacterId)
+  }
+
   function handleDragEnd(event: DragEndEvent) {
+    // Suppress row transitions for one paint so reordered rows snap into place
+    // instead of animating from stale positions (the "float from top" glitch)
+    const container = gridRef.current
+    if (container) {
+      container.setAttribute('data-suppress-transition', 'true')
+      afterPaint(() => container.removeAttribute('data-suppress-transition'))
+    }
+
+    // Clear activeId after drop animation so the overlay content stays rendered
+    setTimeout(() => setActiveId(null), DROP_ANIMATION_DURATION)
+
     const { active, over } = event
     if (!over || active.id === over.id) return
 
@@ -91,6 +122,10 @@ export function CharacterGrid() {
     void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions')
       .then(({ recalculatePermutations }) => recalculatePermutations())
     SaveState.delayedSave()
+  }
+
+  function handleDragCancel() {
+    setTimeout(() => setActiveId(null), DROP_ANIMATION_DURATION)
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -153,7 +188,7 @@ export function CharacterGrid() {
         tabIndex={0}
         onKeyDown={handleKeyDown}
       >
-        <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToVerticalAxis, restrictToParentElement]} onDragEnd={handleDragEnd}>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToVerticalAxis, restrictToParentElement]} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={handleDragCancel}>
           <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
             {filteredCharacters.map((character) => (
               <SortableCharacterRow
@@ -169,6 +204,15 @@ export function CharacterGrid() {
               />
             ))}
           </SortableContext>
+          <DragOverlay dropAnimation={dropAnimationConfig} modifiers={[restrictToVerticalAxis]}>
+            {activeId && getCharacterById(activeId) && (
+              <DragOverlayRow
+                character={getCharacterById(activeId)!}
+                toggles={toggles}
+                colorTransform={colorTransform}
+              />
+            )}
+          </DragOverlay>
         </DndContext>
       </OverlayScrollbarsComponent>
     </>
@@ -186,7 +230,7 @@ type CharacterRowProps = {
   onRemove: (id: CharacterId) => void
 }
 
-function SortableCharacterRow({ character, isFocused, toggles, colorTransform, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+const SortableCharacterRow = memo(function SortableCharacterRow({ character, isFocused, toggles, colorTransform, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: character.id,
     animateLayoutChanges: () => false,
@@ -207,6 +251,7 @@ function SortableCharacterRow({ character, isFocused, toggles, colorTransform, o
     transform: CSS.Translate.toString(transform),
     transition: transform ? transition : undefined,
     backgroundColor: showcaseColor ? applyColorTransform(showcaseColor, colorTransform) : undefined,
+    opacity: isDragging ? 0.4 : undefined,
   }
 
   return (
@@ -214,7 +259,6 @@ function SortableCharacterRow({ character, isFocused, toggles, colorTransform, o
       ref={mergedRef}
       className={classes.root}
       data-selected={isFocused}
-      data-dragging={isDragging}
       data-scrim-mode={toggles.scrimMode}
       style={style}
       onClick={() => onClick(character.id)}
@@ -227,6 +271,42 @@ function SortableCharacterRow({ character, isFocused, toggles, colorTransform, o
         toggles={toggles}
         onEdit={onEdit}
         onRemove={onRemove}
+      />
+    </div>
+  )
+}, (prev, next) => {
+  return prev.character.id === next.character.id
+    && prev.character.rank === next.character.rank
+    && prev.character.form === next.character.form
+    && prev.isFocused === next.isFocused
+    && prev.toggles === next.toggles
+    && prev.colorTransform === next.colorTransform
+})
+
+function DragOverlayRow({ character, toggles, colorTransform }: {
+  character: Character
+  toggles: DebugToggles
+  colorTransform: ColorTransform
+}) {
+  const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
+
+  const style: React.CSSProperties = {
+    backgroundColor: showcaseColor ? applyColorTransform(showcaseColor, colorTransform) : undefined,
+    cursor: 'grabbing',
+  }
+
+  return (
+    <div
+      className={classes.root}
+      data-dragging="true"
+      data-scrim-mode={toggles.scrimMode}
+      style={style}
+    >
+      <CharacterRowContent
+        character={character}
+        toggles={toggles}
+        onEdit={noop}
+        onRemove={noop}
       />
     </div>
   )

@@ -24,7 +24,6 @@ export type Character = {
   id: CharacterId,
   equipped: Build,
   form: Form,
-  rank: number, // order in character tab
   builds?: SavedBuild[],
   portrait?: CustomImageConfig,
 }

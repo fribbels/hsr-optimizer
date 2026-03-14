@@ -29,10 +29,6 @@ export const useCharacterStore = createTabAwareStore<CharacterStore>((set, get) 
   charactersById: {},
 
   setCharacters: (characters) => {
-    // Assign ranks
-    for (let i = 0; i < characters.length; i++) {
-      characters[i] = { ...characters[i], rank: i }
-    }
     set({ characters, charactersById: buildIndex(characters) })
   },
 

@@ -72,7 +72,7 @@ function generateRequest(request: Form) {
   // Filters
   for (const [key, value] of Object.entries(request)) {
     if ((key.startsWith('min') || key.startsWith('max'))) {
-      wgsl += `const ${key}: f32 = ${value};\n`
+      wgsl += `const ${key}: f32 = ${Number(value) || (key.startsWith('min') ? 0 : Constants.MAX_INT)};\n`
     }
   }
   wgsl += '\n'

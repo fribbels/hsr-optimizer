@@ -277,9 +277,6 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, toggl
         <div
           className={classes.info}
           data-name-shadow={toggles.nameShadow}
-          data-name-constrain={toggles.nameConstrain}
-          data-name-backdrop={toggles.nameBackdrop}
-          data-name-fade={toggles.nameFade}
         >
           <div className={classes.name}>{characterName}</div>
           <div className={classes.subtitle}>

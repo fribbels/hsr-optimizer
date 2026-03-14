@@ -7,12 +7,21 @@
 }
 
 .centeredCell {
-  text-align: center;
+  text-align: center !important;
 }
 
 .headerCell {
-  text-align: center;
+  text-align: center !important;
   width: 200px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.table thead {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.table tbody td:first-child {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .partIcon {

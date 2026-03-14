@@ -105,11 +105,11 @@ export function DamageTagPieChart({ analysis }: {
       }}>
         <thead>
           <tr>
-            <th style={{ paddingBottom: 6 }} />
-            <th style={{ textAlign: 'right', fontWeight: 400, fontSize: 12, color: '#6b7d99', paddingBottom: 6 }}>
+            <th style={{ paddingBottom: 6, width: '100%' }} />
+            <th style={{ textAlign: 'right', fontWeight: 400, fontSize: 12, color: '#6b7d99', paddingBottom: 6, width: '1%', whiteSpace: 'nowrap' }}>
               #
             </th>
-            <th style={{ textAlign: 'right', fontWeight: 400, fontSize: 12, color: '#6b7d99', paddingBottom: 6, paddingLeft: 12 }}>
+            <th style={{ textAlign: 'right', fontWeight: 400, fontSize: 12, color: '#6b7d99', paddingBottom: 6, paddingLeft: 20, width: '1%', whiteSpace: 'nowrap' }}>
               %
             </th>
           </tr>
@@ -132,7 +132,7 @@ export function DamageTagPieChart({ analysis }: {
               <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 4, paddingBottom: 4 }}>
                 {localeNumberComma(Math.floor(slice.value))}
               </td>
-              <td style={{ textAlign: 'right', fontSize: 13, color: '#8899aa', paddingTop: 4, paddingBottom: 4, paddingLeft: 12 }}>
+              <td style={{ textAlign: 'right', fontSize: 13, color: '#8899aa', paddingTop: 4, paddingBottom: 4, paddingLeft: 20 }}>
                 {(slice.percent * 100).toFixed(1)}%
               </td>
             </tr>
@@ -146,7 +146,7 @@ export function DamageTagPieChart({ analysis }: {
             <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 6, borderTop: '1px solid var(--border-color)' }}>
               {localeNumberComma(Math.floor(grandTotal))}
             </td>
-            <td style={{ textAlign: 'right', fontSize: 13, color: '#8899aa', paddingTop: 6, borderTop: '1px solid var(--border-color)', paddingLeft: 12 }}>
+            <td style={{ textAlign: 'right', fontSize: 13, color: '#8899aa', paddingTop: 6, borderTop: '1px solid var(--border-color)', paddingLeft: 20 }}>
               100.0%
             </td>
           </tr>

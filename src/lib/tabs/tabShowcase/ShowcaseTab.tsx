@@ -143,7 +143,9 @@ function CharacterPreviewSelection() {
   // Optimistic local state for instant SegmentedControl feedback (mirrors Characters tab pattern)
   const [localSelectedId, setLocalSelectedId] = useState<CharacterId | null>(null)
   useEffect(() => {
-    setLocalSelectedId(null)
+    if (localSelectedId != null) {
+      setLocalSelectedId(null)
+    }
   }, [selectedCharacter?.id])
   const displaySelectedId = localSelectedId ?? selectedCharacter?.id
   const { loading: screenshotLoading, trigger: screenshotTrigger } = useScreenshotAction('relicScorerPreview')
@@ -185,18 +187,22 @@ function CharacterPreviewSelection() {
     downloadTrigger('download', name)
   }
 
-  function presetClicked(e: Preset) {
+  const presetClicked = useCallback((e: Preset) => {
     if (e.custom) {
-      return simulateClicked()
+      useCharacterModalStore.getState().openOverlay({
+        initialCharacter: useShowcaseTabStore.getState().selectedCharacter,
+        onOk: useShowcaseTabStore.getState().onCharacterModalOk,
+      })
+      return
     }
 
-    onCharacterModalOk({
+    useShowcaseTabStore.getState().onCharacterModalOk({
       characterId: e.characterId,
       lightCone: e.lightConeId,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     })
-  }
+  }, [])
 
   const items = [
     {

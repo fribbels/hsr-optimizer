@@ -16,6 +16,11 @@
     border-color: var(--mantine-primary-color-filled);
 }
 
+/* Remove bold from SegmentedControl labels */
+.mantine-SegmentedControl-label {
+    font-weight: normal;
+}
+
 /* Body scrollbar with overlayscrollbars */
 .os-scrollbar {
     --os-handle-bg: #95959552 !important;

@@ -10,8 +10,6 @@
   gap: var(--cr-row-gap, 0px);
   width: var(--cr-list-width, 320px);
   height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
   outline: none;
 }
 
@@ -34,8 +32,8 @@
   --cr-primary-tint: color-mix(in srgb, var(--cr-primary) 10%, transparent);
   --cr-primary-border: color-mix(in srgb, var(--cr-primary) 15%, transparent);
   --cr-radius: var(--mantine-radius-sm);
-  --cr-gap: var(--mantine-spacing-xs);
-  --cr-padding: var(--mantine-spacing-sm);
+  --cr-gap: var(--mantine-spacing-sm);
+  --cr-padding: 6px;
 
   /* Layout — box-shadow for border so it doesn't affect row height */
   position: relative;
@@ -71,12 +69,12 @@
 
 .portraitBg img {
   position: absolute;
-  width: var(--cr-portrait-scale, 75%);
+  width: var(--cr-portrait-scale, 65%);
   height: auto;
   left: 50%;
   top: 50%;
   transform: translate(
-    calc(-1 * var(--cr-portrait-x, 34%)),
+    calc(-1 * var(--cr-portrait-x, 40%)),
     calc(-1 * var(--cr-portrait-y, 31%))
   );
   display: block;
@@ -178,9 +176,9 @@
   right: 0;
   top: 0;
   bottom: 0;
-  width: var(--cr-lc-strip-width, 56px);
+  width: var(--cr-lc-strip-width, 52px);
   z-index: 1;
-  backdrop-filter: blur(6px) brightness(0.5) saturate(1.2);
+  backdrop-filter: blur(6px) brightness(0.7) saturate(1.2);
 }
 
 /* --- Inner content layout --- */
@@ -195,19 +193,37 @@
   gap: var(--cr-gap);
 }
 
-/* --- Drag grip --- */
+/* --- Rank / drag grip slot --- */
 
-.dragGrip {
+.rankGripSlot {
+  position: relative;
+  width: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rankGripSlot .rank {
+  transition: opacity 0.12s;
+}
+
+.rankGripSlot .dragGrip {
+  position: absolute;
   display: flex;
   flex-direction: column;
   gap: 1.5px;
-  flex-shrink: 0;
+  align-items: center;
   opacity: 0;
   transition: opacity 0.12s;
   cursor: grab;
 }
 
-.root:hover .dragGrip {
+.root:hover .rankGripSlot .rank {
+  opacity: 0;
+}
+
+.root:hover .rankGripSlot .dragGrip {
   opacity: 0.4;
 }
 
@@ -233,7 +249,6 @@
   font-weight: 700;
   font-family: var(--mantine-font-family-monospace, monospace);
   color: var(--cr-text-secondary);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 /* --- Light cone icon --- */
@@ -245,7 +260,7 @@
   flex-shrink: 0;
   border-radius: 3px;
   overflow: hidden;
-  margin-right: var(--cr-lc-right-pad, 4px);
+  margin-right: var(--cr-lc-right-pad, 1px);
 }
 
 .lcWrap img {
@@ -278,16 +293,10 @@
 
 .rank {
   font-family: var(--mantine-font-family-monospace, monospace);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--cr-text-muted);
-  width: 14px;
   text-align: center;
-  flex-shrink: 0;
-}
-
-.rank[data-top='true'] {
-  color: var(--cr-primary);
 }
 
 /* --- Name + Path --- */
@@ -298,12 +307,10 @@
 }
 
 /* Name readability: text shadow */
-.info[data-name-shadow='true'] .name,
-.info[data-name-shadow='true'] .subtitleBadge {
+.info[data-name-shadow='true'] .name {
   text-shadow:
-    0 1px 4px rgba(0, 0, 0, 0.9),
-    0 0 8px rgba(0, 0, 0, 0.7),
-    0 0 16px rgba(0, 0, 0, 0.4);
+    0 1px 3px rgba(0, 0, 0, 0.8),
+    0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 .name {

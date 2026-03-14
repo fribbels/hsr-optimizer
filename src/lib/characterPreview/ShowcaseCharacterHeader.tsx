@@ -4,10 +4,11 @@ import { ShowcaseRarity } from 'lib/characterPreview/ShowcaseRarity'
 import { StatText } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './ShowcaseCharacterHeader.module.css'
 
-export function ShowcaseCharacterHeader({ showcaseMetadata, scoringType }: {
+export const ShowcaseCharacterHeader = memo(function ShowcaseCharacterHeader({ showcaseMetadata, scoringType }: {
   showcaseMetadata: ShowcaseMetadata
   scoringType?: ScoringType
 }) {
@@ -47,4 +48,4 @@ export function ShowcaseCharacterHeader({ showcaseMetadata, scoringType }: {
       </Flex>
     </Flex>
   )
-}
+})

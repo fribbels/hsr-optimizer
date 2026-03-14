@@ -33,12 +33,12 @@ import {
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { ReactElement } from 'react'
+import { memo, ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DBMetadataCharacter } from 'types/metadata'
 import { useGlobalStore } from 'lib/stores/appStore'
 
-export function CharacterCardCombatStats({ result }: {
+export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ result }: {
   result: SimulationScore
 }) {
   const { t } = useTranslation('common')
@@ -90,7 +90,7 @@ export function CharacterCardCombatStats({ result }: {
       {rows}
     </Flex>
   )
-}
+})
 
 type StatDisplayWrapper = {
   stat: StatsValues,

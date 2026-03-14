@@ -1,10 +1,11 @@
 import { Flex } from '@mantine/core'
 import { ScoringResults } from 'lib/characterPreview/characterPreviewController'
 import { StatText } from 'lib/characterPreview/StatText'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './ShowcaseStatScore.module.css'
 
-export function ShowcaseStatScore({ scoringResults }: {
+export const ShowcaseStatScore = memo(function ShowcaseStatScore({ scoringResults }: {
   scoringResults: ScoringResults
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -19,4 +20,4 @@ export function ShowcaseStatScore({ scoringResults }: {
       </StatText>
     </Flex>
   )
-}
+})

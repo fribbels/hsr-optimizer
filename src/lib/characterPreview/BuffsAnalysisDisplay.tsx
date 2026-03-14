@@ -34,6 +34,7 @@ import {
 } from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
+  memo,
   ReactElement,
   useMemo,
   useState,
@@ -53,7 +54,7 @@ export enum BuffDisplaySize {
   LARGE = 450,
 }
 
-export function BuffsAnalysisDisplay({
+export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   result,
   perActionBuffGroups: perActionBuffGroupsProp,
   size,
@@ -157,7 +158,7 @@ export function BuffsAnalysisDisplay({
       </FilterContext.Provider>
     </DesignContext.Provider>
   )
-}
+})
 
 function GroupedLayout({ buffGroups }: { buffGroups: BuffGroups }) {
   const groups: ReactElement[] = []

@@ -17,6 +17,7 @@ import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import {
@@ -25,7 +26,7 @@ import {
 } from 'types/customImage'
 import { useGlobalStore } from 'lib/stores/appStore'
 
-export function ShowcasePortrait({
+export const ShowcasePortrait = memo(function ShowcasePortrait({
   source,
   character,
   scoringType,
@@ -160,4 +161,4 @@ export function ShowcasePortrait({
       </Flex>
     </div>
   )
-}
+})

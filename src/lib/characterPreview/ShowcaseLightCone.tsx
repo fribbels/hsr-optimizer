@@ -11,6 +11,7 @@ import { StatText, StatTextEllipses } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 
@@ -22,7 +23,7 @@ type ShowcaseLightConeProps = {
   setOriginalCharacterModalOpen?: (b: boolean) => void,
 }
 
-export function ShowcaseLightConeSmall({
+export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
   character,
   displayDimensions,
   setOriginalCharacterModalInitialCharacter,
@@ -93,9 +94,9 @@ export function ShowcaseLightConeSmall({
       </Flex>
     </Flex>
   )
-}
+})
 
-export function ShowcaseLightConeLarge({
+export const ShowcaseLightConeLarge = memo(function ShowcaseLightConeLarge({
   character,
   displayDimensions,
   setOriginalCharacterModalInitialCharacter,
@@ -141,9 +142,9 @@ export function ShowcaseLightConeLarge({
       />
     </div>
   )
-}
+})
 
-export function ShowcaseLightConeLargeName({ showcaseMetadata }: {
+export const ShowcaseLightConeLargeName = memo(function ShowcaseLightConeLargeName({ showcaseMetadata }: {
   showcaseMetadata: ShowcaseMetadata
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -168,4 +169,4 @@ export function ShowcaseLightConeLargeName({ showcaseMetadata }: {
       </StatText>
     </Flex>
   )
-}
+})

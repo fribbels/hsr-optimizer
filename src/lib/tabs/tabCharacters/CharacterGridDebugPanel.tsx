@@ -19,15 +19,8 @@ const SLIDERS: SliderConfig[] = [
   { label: 'Portrait Y', cssVar: '--cr-portrait-y', min: 10, max: 60, step: 1, defaultValue: 31, unit: '%' },
   { label: 'Portrait Scale', cssVar: '--cr-portrait-scale', min: 25, max: 175, step: 5, defaultValue: 70, unit: '%' },
   { label: 'LC Icon Size', cssVar: '--cr-lc-size', min: 14, max: 56, step: 1, defaultValue: 48, unit: 'px' },
-  { label: 'Badge Size', cssVar: '--cr-badge-size', min: 10, max: 24, step: 1, defaultValue: 16, unit: 'px' },
-  { label: 'Content Offset', cssVar: '--cr-content-offset', min: 0, max: 60, step: 1, defaultValue: 25, unit: '%' },
   { label: 'LC Right Pad', cssVar: '--cr-lc-right-pad', min: 0, max: 24, step: 1, defaultValue: 1, unit: 'px' },
   { label: 'LC Strip Width', cssVar: '--cr-lc-strip-width', min: 30, max: 120, step: 1, defaultValue: 52, unit: 'px' },
-  { label: 'Scrim 0%', cssVar: '--cr-scrim-0', min: 0, max: 1, step: 0.01, defaultValue: 0.94, unit: '' },
-  { label: 'Scrim 40%', cssVar: '--cr-scrim-40', min: 0, max: 1, step: 0.01, defaultValue: 0.85, unit: '' },
-  { label: 'Scrim 65%', cssVar: '--cr-scrim-65', min: 0, max: 1, step: 0.01, defaultValue: 0.30, unit: '' },
-  { label: 'Scrim 85%', cssVar: '--cr-scrim-85', min: 0, max: 1, step: 0.01, defaultValue: 0.07, unit: '' },
-  { label: 'Scrim 100%', cssVar: '--cr-scrim-100', min: 0, max: 1, step: 0.01, defaultValue: 0.15, unit: '' },
 ]
 
 const FROST_SLIDERS: SliderConfig[] = [
@@ -63,42 +56,8 @@ type ColorPreset = { label: string; transform: ColorTransform }
 
 const COLOR_PRESETS: ColorPreset[] = [
   { label: 'Off', transform: { maxLightness: 1, luminance: 0, saturate: 0, darken: 0, alpha: 0, brighten: 0 } },
-  // --- Card-style ---
-  { label: 'Card', transform: { maxLightness: 0.55, luminance: 0.025, saturate: -0.8, darken: 0, alpha: 68, brighten: 0 } },
-  { label: 'Card+', transform: { maxLightness: 0.55, luminance: 0.03, saturate: -0.5, darken: 0, alpha: 75, brighten: 0 } },
-  // --- Whisper family ---
-  { label: 'Whisper', transform: { maxLightness: 0.55, luminance: 0.015, saturate: -1.5, darken: 0, alpha: 35, brighten: 0 } },
-  { label: 'Breath', transform: { maxLightness: 0.55, luminance: 0.02, saturate: -1.0, darken: 0, alpha: 40, brighten: 0 } },
-  { label: 'Hint', transform: { maxLightness: 0.55, luminance: 0.025, saturate: -0.8, darken: 0, alpha: 50, brighten: 0 } },
-  // --- Subtle family ---
-  { label: 'Subtle', transform: { maxLightness: 0.55, luminance: 0.03, saturate: -0.7, darken: 0, alpha: 55, brighten: 0 } },
-  { label: 'Haze', transform: { maxLightness: 0.55, luminance: 0.035, saturate: -1.0, darken: 0, alpha: 60, brighten: 0 } },
-  { label: 'Wash', transform: { maxLightness: 0.55, luminance: 0.02, saturate: -0.3, darken: 0, alpha: 50, brighten: 0 } },
-  // --- Pastel family ---
-  { label: 'Pastel', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -0.5, darken: 0, alpha: 70, brighten: 0 } },
-  { label: 'Soft', transform: { maxLightness: 0.55, luminance: 0.035, saturate: -0.6, darken: 0, alpha: 65, brighten: 0 } },
-  { label: 'Cloud', transform: { maxLightness: 0.55, luminance: 0.045, saturate: -1.2, darken: 0, alpha: 60, brighten: 0 } },
-  { label: 'Bloom', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -0.2, darken: 0, alpha: 65, brighten: 0 } },
-  { label: 'Dusk', transform: { maxLightness: 0.55, luminance: 0.02, saturate: -0.4, darken: 0.5, alpha: 80, brighten: 0 } },
-  // --- Saturated family ---
-  { label: 'Tint', transform: { maxLightness: 0.5, luminance: 0.03, saturate: 0, darken: 0, alpha: 55, brighten: 0 } },
-  { label: 'Glow', transform: { maxLightness: 0.5, luminance: 0.05, saturate: 0, darken: 0, alpha: 60, brighten: 0 } },
-  { label: 'Ember', transform: { maxLightness: 0.5, luminance: 0.03, saturate: 0, darken: 0.3, alpha: 75, brighten: 0 } },
-  // --- Dark family ---
-  { label: 'Shadow', transform: { maxLightness: 0.55, luminance: 0.01, saturate: -0.5, darken: 1, alpha: 80, brighten: 0 } },
-  { label: 'Ink', transform: { maxLightness: 0.55, luminance: 0.01, saturate: -1.5, darken: 0.5, alpha: 90, brighten: 0 } },
-  { label: 'Slate', transform: { maxLightness: 0.6, luminance: 0.02, saturate: -2.0, darken: 0, alpha: 70, brighten: 0 } },
-  // --- Warm/lifted ---
-  { label: 'Lifted', transform: { maxLightness: 0.55, luminance: 0.03, saturate: -0.3, darken: 0, alpha: 65, brighten: 0.5 } },
-  { label: 'Warm', transform: { maxLightness: 0.5, luminance: 0.035, saturate: 0.3, darken: 0.2, alpha: 60, brighten: 0.4 } },
-  { label: 'Velvet', transform: { maxLightness: 0.5, luminance: 0.02, saturate: 0.5, darken: 0.8, alpha: 85, brighten: 0 } },
-  // --- Boosted saturation ---
-  { label: 'Vivid', transform: { maxLightness: 0.45, luminance: 0.03, saturate: 0.8, darken: 0.5, alpha: 70, brighten: 0 } },
-  { label: 'Jewel', transform: { maxLightness: 0.45, luminance: 0.025, saturate: 1.0, darken: 0.8, alpha: 80, brighten: 0 } },
-  // --- Near-monochrome ---
   { label: 'Ash', transform: { maxLightness: 0.6, luminance: 0.025, saturate: -2.5, darken: 0, alpha: 80, brighten: 0 } },
   { label: 'Fog', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -2.0, darken: 0, alpha: 50, brighten: 0.3 } },
-  // --- Bright + desaturated ---
   { label: 'Pearl', transform: { maxLightness: 0.55, luminance: 0.05, saturate: -1.0, darken: 0, alpha: 55, brighten: 0.5 } },
   { label: 'Opal', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -0.5, darken: 0, alpha: 60, brighten: 0.8 } },
   { label: 'Dawn', transform: { maxLightness: 0.55, luminance: 0.035, saturate: -0.3, darken: 0, alpha: 70, brighten: 0.3 } },
@@ -133,7 +92,7 @@ export function applyColorTransform(hex: string, transform: ColorTransform): str
   return c.alpha(transform.alpha / 100).css()
 }
 
-export type HoverEffect = 'bright' | 'lift' | 'desaturate' | 'lift-bright' | 'subtle'
+export type HoverEffect = 'lift-bright'
 
 type HoverPreset = {
   label: string
@@ -142,42 +101,6 @@ type HoverPreset = {
 }
 
 const HOVER_PRESETS: HoverPreset[] = [
-  {
-    label: 'Bright (default)',
-    value: 'bright',
-    vars: {
-      '--cr-hover-rest-brightness': '1',
-      '--cr-hover-rest-saturate': '1',
-      '--cr-hover-brightness': '1.2',
-      '--cr-hover-saturate': '1.15',
-      '--cr-hover-lift': '0px',
-      '--cr-hover-shadow': 'none',
-    },
-  },
-  {
-    label: 'Lift + Shadow',
-    value: 'lift',
-    vars: {
-      '--cr-hover-rest-brightness': '1',
-      '--cr-hover-rest-saturate': '1',
-      '--cr-hover-brightness': '1',
-      '--cr-hover-saturate': '1',
-      '--cr-hover-lift': '-3px',
-      '--cr-hover-shadow': '0 6px 16px rgba(0, 0, 0, 0.5)',
-    },
-  },
-  {
-    label: 'Desaturate → Restore',
-    value: 'desaturate',
-    vars: {
-      '--cr-hover-rest-brightness': '0.9',
-      '--cr-hover-rest-saturate': '0.7',
-      '--cr-hover-brightness': '1',
-      '--cr-hover-saturate': '1',
-      '--cr-hover-lift': '0px',
-      '--cr-hover-shadow': 'none',
-    },
-  },
   {
     label: 'Lift + Bright',
     value: 'lift-bright',
@@ -190,21 +113,9 @@ const HOVER_PRESETS: HoverPreset[] = [
       '--cr-hover-shadow': '0 4px 12px rgba(0, 0, 0, 0.4)',
     },
   },
-  {
-    label: 'Subtle',
-    value: 'subtle',
-    vars: {
-      '--cr-hover-rest-brightness': '1',
-      '--cr-hover-rest-saturate': '1',
-      '--cr-hover-brightness': '1.05',
-      '--cr-hover-saturate': '1.05',
-      '--cr-hover-lift': '0px',
-      '--cr-hover-shadow': 'none',
-    },
-  },
 ]
 
-export type ActionBtnStyle = 'dark' | 'glass' | 'outlined' | 'bright' | 'subtle'
+export type ActionBtnStyle = 'bright'
 
 type ActionBtnPreset = {
   label: string
@@ -213,42 +124,6 @@ type ActionBtnPreset = {
 }
 
 const ACTION_BTN_PRESETS: ActionBtnPreset[] = [
-  {
-    label: 'Dark',
-    value: 'dark',
-    vars: {
-      '--cr-action-bg': 'rgba(0, 0, 0, 0.4)',
-      '--cr-action-color': '#ddd',
-      '--cr-action-blur': 'blur(6px)',
-      '--cr-action-border': '1px solid rgba(255, 255, 255, 0.20)',
-      '--cr-action-hover-bg': 'rgba(0, 0, 0, 0.6)',
-      '--cr-action-hover-color': '#fff',
-    },
-  },
-  {
-    label: 'Glass',
-    value: 'glass',
-    vars: {
-      '--cr-action-bg': 'rgba(255, 255, 255, 0.06)',
-      '--cr-action-color': 'var(--cr-text-secondary)',
-      '--cr-action-blur': 'blur(4px)',
-      '--cr-action-border': 'none',
-      '--cr-action-hover-bg': 'rgba(255, 255, 255, 0.12)',
-      '--cr-action-hover-color': 'var(--cr-text-primary)',
-    },
-  },
-  {
-    label: 'Outlined',
-    value: 'outlined',
-    vars: {
-      '--cr-action-bg': 'rgba(0, 0, 0, 0.2)',
-      '--cr-action-color': '#ddd',
-      '--cr-action-blur': 'blur(6px)',
-      '--cr-action-border': '1px solid rgba(255, 255, 255, 0.3)',
-      '--cr-action-hover-bg': 'rgba(0, 0, 0, 0.4)',
-      '--cr-action-hover-color': '#fff',
-    },
-  },
   {
     label: 'Bright',
     value: 'bright',
@@ -261,29 +136,13 @@ const ACTION_BTN_PRESETS: ActionBtnPreset[] = [
       '--cr-action-hover-color': '#fff',
     },
   },
-  {
-    label: 'Subtle',
-    value: 'subtle',
-    vars: {
-      '--cr-action-bg': 'transparent',
-      '--cr-action-color': 'rgba(255, 255, 255, 0.5)',
-      '--cr-action-blur': 'none',
-      '--cr-action-border': 'none',
-      '--cr-action-hover-bg': 'rgba(0, 0, 0, 0.3)',
-      '--cr-action-hover-color': '#ddd',
-    },
-  },
 ]
 
-export type ScrimMode = 'black' | 'themed' | 'solid-fade' | 'frosted' | 'bg-light'
+export type ScrimMode = 'frosted'
 export type LcStyle = 'none' | 'pill' | 'frosted' | 'shadow'
 
 export const SCRIM_MODES: { value: ScrimMode; label: string }[] = [
-  { value: 'black', label: 'Black' },
-  { value: 'themed', label: 'Themed' },
-  { value: 'solid-fade', label: 'Solid→Fade' },
   { value: 'frosted', label: 'Frosted' },
-  { value: 'bg-light', label: 'BG+Light' },
 ]
 
 export const LC_STYLES: { value: LcStyle; label: string }[] = [
@@ -526,22 +385,6 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
             </div>
           </div>
 
-          {/* Scrim mode */}
-          <div>
-            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>SCRIM MODE</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-              {SCRIM_MODES.map((mode) => (
-                <span
-                  key={mode.value}
-                  style={pillStyle(toggles.scrimMode === mode.value)}
-                  onClick={() => onTogglesChange({ ...toggles, scrimMode: mode.value })}
-                >
-                  {mode.label}
-                </span>
-              ))}
-            </div>
-          </div>
-
           {/* LC style */}
           <div>
             <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>LC STYLE</div>
@@ -553,54 +396,6 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
                   onClick={() => onTogglesChange({ ...toggles, lcStyle: s.value })}
                 >
                   {s.label}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Hover effect */}
-          <div>
-            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>HOVER EFFECT</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-              {HOVER_PRESETS.map((preset) => (
-                <span
-                  key={preset.value}
-                  style={pillStyle(toggles.hoverEffect === preset.value)}
-                  onClick={() => {
-                    onTogglesChange({ ...toggles, hoverEffect: preset.value })
-                    const el = targetRef.current
-                    if (el) {
-                      for (const [k, v] of Object.entries(preset.vars)) {
-                        el.style.setProperty(k, v)
-                      }
-                    }
-                  }}
-                >
-                  {preset.label}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Action button style */}
-          <div>
-            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>ACTION BUTTONS</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-              {ACTION_BTN_PRESETS.map((preset) => (
-                <span
-                  key={preset.value}
-                  style={pillStyle(toggles.actionBtnStyle === preset.value)}
-                  onClick={() => {
-                    onTogglesChange({ ...toggles, actionBtnStyle: preset.value })
-                    const el = targetRef.current
-                    if (el) {
-                      for (const [k, v] of Object.entries(preset.vars)) {
-                        el.style.setProperty(k, v)
-                      }
-                    }
-                  }}
-                >
-                  {preset.label}
                 </span>
               ))}
             </div>
@@ -649,37 +444,33 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
             </div>
           </div>
 
-          {/* Frost sliders — only visible in frosted mode */}
-          {toggles.scrimMode === 'frosted' && (
-            <>
-              <div style={{ borderTop: '1px solid #333' }} />
-              <div>
-                <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>FROST TUNING</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {FROST_SLIDERS.map((s) => {
-                    const val = values[s.cssVar] ?? s.defaultValue
-                    return (
-                      <div key={s.cssVar}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
-                          <span style={{ color: '#999' }}>{s.label}</span>
-                          <span style={{ color: '#7c5cfc' }}>{val}{s.unit}</span>
-                        </div>
-                        <input
-                          type="range"
-                          min={s.min}
-                          max={s.max}
-                          step={s.step}
-                          value={val}
-                          onChange={(e) => handleChange(s.cssVar, parseFloat(e.target.value))}
-                          style={{ width: '100%', accentColor: '#7c5cfc', height: 14 }}
-                        />
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            </>
-          )}
+          {/* Frost tuning */}
+          <div style={{ borderTop: '1px solid #333' }} />
+          <div>
+            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>FROST TUNING</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {FROST_SLIDERS.map((s) => {
+                const val = values[s.cssVar] ?? s.defaultValue
+                return (
+                  <div key={s.cssVar}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
+                      <span style={{ color: '#999' }}>{s.label}</span>
+                      <span style={{ color: '#7c5cfc' }}>{val}{s.unit}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={s.min}
+                      max={s.max}
+                      step={s.step}
+                      value={val}
+                      onChange={(e) => handleChange(s.cssVar, parseFloat(e.target.value))}
+                      style={{ width: '100%', accentColor: '#7c5cfc', height: 14 }}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
 
           <div style={{ borderTop: '1px solid #333' }} />
 

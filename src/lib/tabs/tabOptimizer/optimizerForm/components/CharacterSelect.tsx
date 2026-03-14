@@ -36,7 +36,6 @@ interface SingleCharacterSelectProps extends BaseCharacterSelectProps {
 
 type CharacterSelectProps = SingleCharacterSelectProps | MultiCharacterSelectProps
 
-const parentH = 150
 const innerW = 150
 const innerH = 170
 

@@ -13,14 +13,7 @@ import { useTranslation } from 'react-i18next'
 
 export function CombatBuffsDrawer() {
   const { close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
-
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
-
-  const combatBuffsList = useMemo(() => {
-    return Object.values(CombatBuffs).map((x) => (
-      <CombatBuff title={t(`${x.key}` as never)} name={x.key} key={x.key} />
-    ))
-  }, [t])
 
   return (
     <Drawer
@@ -30,12 +23,26 @@ export function CombatBuffsDrawer() {
       opened={isOpenBuffsDrawer}
       size={300}
     >
-      <Flex direction="column" gap={defaultGap}>
-        <Flex direction="column" gap={optimizerTabDefaultGap}>
-          {combatBuffsList}
-        </Flex>
-      </Flex>
+      {isOpenBuffsDrawer && <CombatBuffsDrawerContent />}
     </Drawer>
+  )
+}
+
+function CombatBuffsDrawerContent() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
+
+  const combatBuffsList = useMemo(() => {
+    return Object.values(CombatBuffs).map((x) => (
+      <CombatBuff title={t(`${x.key}` as never)} name={x.key} key={x.key} />
+    ))
+  }, [t])
+
+  return (
+    <Flex direction="column" gap={defaultGap}>
+      <Flex direction="column" gap={optimizerTabDefaultGap}>
+        {combatBuffsList}
+      </Flex>
+    </Flex>
   )
 }
 

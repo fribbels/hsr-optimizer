@@ -18,6 +18,7 @@ import {
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -36,8 +37,7 @@ export function ComboDrawer() {
   const selectActivationState = useRef(true)
   const lastSelectedKeyState = useRef<string | undefined>(undefined)
 
-  useScrollLock(isOpenComboDrawer)
-
+  // Lifecycle effect stays in outer: needs to fire on close after inner unmounts
   useEffect(() => {
     if (isOpenComboDrawer) {
       const form = getForm()
@@ -63,69 +63,93 @@ export function ComboDrawer() {
       size={1625}
       styles={{ body: { paddingTop: 0 } }}
     >
-      <div style={drawerContentStyle}>
-        <StateDisplay comboState={comboState} onComboStateChange={setComboState} />
-        <Selecto
-          className='selecto-selection'
-          // The container to add a selection element
-          // container={'.comboDrawer'}
-          // The area to drag selection element (default: container)
-          // dragContainer={window}
-          // Targets to select. You can register a queryselector or an Element.
-          selectableTargets={['.selectable']}
-          // Whether to select by click (default: true)
-          selectByClick={true}
-          // Whether to select from the target inside (default: true)
-          selectFromInside={true}
-          // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
-          continueSelect={true}
-          // Determines which key to continue selecting the next target via keydown and keyup.
-          // toggleContinueSelect='shift'
-          // The container for keydown and keyup events
-          keyContainer={window}
-          // The rate at which the target overlaps the drag area to be selected. (default: 100)
-          hitRate={0}
-          onDrag={(e) => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            const selectedKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
-            if (selectedKey != lastSelectedKeyState.current) {
-              const partitionResult = updatePartitionActivation(selectedKey, comboState)
-              if (partitionResult) setComboState(partitionResult)
-              lastSelectedKeyState.current = selectedKey
-            }
-          }}
-          onDragStart={(e) => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            const startKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
-            const located = locateActivations(startKey, comboState)
-
-            selectActivationState.current = !(located && located.value)
-            lastSelectedKeyState.current = undefined
-          }}
-          onSelect={(e) => {
-            let newState = {
-              ...comboState,
-            }
-
-            e.added.forEach((el) => {
-              updateActivation(elementToDataKey(el), selectActivationState.current, newState)
-            })
-            e.removed.forEach((el) => {
-              updateActivation(elementToDataKey(el), selectActivationState.current, newState)
-            })
-
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            const selectedKey: string = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
-            if (selectedKey != lastSelectedKeyState.current) {
-              const partitionResult = updatePartitionActivation(selectedKey, newState)
-              if (partitionResult) newState = partitionResult
-              lastSelectedKeyState.current = selectedKey
-            }
-
-            setComboState(newState)
-          }}
+      {isOpenComboDrawer && (
+        <ComboDrawerContent
+          comboState={comboState}
+          onComboStateChange={setComboState}
+          comboStateRef={comboStateRef}
+          selectActivationState={selectActivationState}
+          lastSelectedKeyState={lastSelectedKeyState}
         />
-      </div>
+      )}
     </Drawer>
+  )
+}
+
+interface ComboDrawerContentProps {
+  comboState: ComboState
+  onComboStateChange: (state: ComboState) => void
+  comboStateRef: React.MutableRefObject<ComboState>
+  selectActivationState: React.MutableRefObject<boolean>
+  lastSelectedKeyState: React.MutableRefObject<string | undefined>
+}
+
+function ComboDrawerContent({
+  comboState,
+  onComboStateChange,
+  comboStateRef: _comboStateRef,
+  selectActivationState,
+  lastSelectedKeyState,
+}: ComboDrawerContentProps) {
+  useScrollLock(true)
+
+  const handleDrag = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onDrag'] & {}>[0]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const selectedKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
+    if (selectedKey != lastSelectedKeyState.current) {
+      const partitionResult = updatePartitionActivation(selectedKey, comboState)
+      if (partitionResult) onComboStateChange(partitionResult)
+      lastSelectedKeyState.current = selectedKey
+    }
+  }, [comboState, onComboStateChange, lastSelectedKeyState])
+
+  const handleDragStart = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onDragStart'] & {}>[0]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const startKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
+    const located = locateActivations(startKey, comboState)
+
+    selectActivationState.current = !(located && located.value)
+    lastSelectedKeyState.current = undefined
+  }, [comboState, selectActivationState, lastSelectedKeyState])
+
+  const handleSelect = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onSelect'] & {}>[0]) => {
+    let newState = {
+      ...comboState,
+    }
+
+    e.added.forEach((el) => {
+      updateActivation(elementToDataKey(el), selectActivationState.current, newState)
+    })
+    e.removed.forEach((el) => {
+      updateActivation(elementToDataKey(el), selectActivationState.current, newState)
+    })
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const selectedKey: string = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
+    if (selectedKey != lastSelectedKeyState.current) {
+      const partitionResult = updatePartitionActivation(selectedKey, newState)
+      if (partitionResult) newState = partitionResult
+      lastSelectedKeyState.current = selectedKey
+    }
+
+    onComboStateChange(newState)
+  }, [comboState, onComboStateChange, selectActivationState, lastSelectedKeyState])
+
+  return (
+    <div style={drawerContentStyle}>
+      <StateDisplay comboState={comboState} onComboStateChange={onComboStateChange} />
+      <Selecto
+        className='selecto-selection'
+        selectableTargets={['.selectable']}
+        selectByClick={true}
+        selectFromInside={true}
+        continueSelect={true}
+        keyContainer={window}
+        hitRate={0}
+        onDrag={handleDrag}
+        onDragStart={handleDragStart}
+        onSelect={handleSelect}
+      />
+    </div>
   )
 }

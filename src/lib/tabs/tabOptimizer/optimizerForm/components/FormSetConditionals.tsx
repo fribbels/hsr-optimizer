@@ -143,6 +143,22 @@ function isRelicSet(set: Sets): set is SetsRelics {
 export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
   const { close, isOpen } = useOpenClose(id)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
+
+  return (
+    <Drawer
+      title={t('Title')} // 'Conditional set effects'
+      position='right'
+      onClose={close}
+      opened={isOpen}
+      size={750}
+    >
+      {isOpen && <FormSetConditionalsContent />}
+    </Drawer>
+  )
+}
+
+function FormSetConditionalsContent() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
   const { t: tSelectOptions } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
 
   const { relicOptions, ornamentOptions } = useMemo(() => {
@@ -178,30 +194,22 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
   }, [tSelectOptions, t])
 
   return (
-    <Drawer
-      title={t('Title')} // 'Conditional set effects'
-      position='right'
-      onClose={close}
-      opened={isOpen}
-      size={750}
-    >
-      <Flex justify='center'>
-        <Flex direction="column" gap={defaultGap}>
-          <Flex gap={defaultGap} align='center'>
-            <div style={{ width: setConditionalsIconWidth }} />
-            <div style={{ width: setConditionalsNameWidth }} />
-          </Flex>
-          {relicOptions}
+    <Flex justify='center'>
+      <Flex direction="column" gap={defaultGap}>
+        <Flex gap={defaultGap} align='center'>
+          <div style={{ width: setConditionalsIconWidth }} />
+          <div style={{ width: setConditionalsNameWidth }} />
         </Flex>
-        <VerticalDivider />
-        <Flex direction="column" gap={defaultGap} style={{ marginLeft: 5 }}>
-          <Flex gap={defaultGap} align='center'>
-            <div style={{ width: setConditionalsIconWidth }} />
-            <div style={{ width: setConditionalsNameWidth }} />
-          </Flex>
-          {ornamentOptions}
-        </Flex>
+        {relicOptions}
       </Flex>
-    </Drawer>
+      <VerticalDivider />
+      <Flex direction="column" gap={defaultGap} style={{ marginLeft: 5 }}>
+        <Flex gap={defaultGap} align='center'>
+          <div style={{ width: setConditionalsIconWidth }} />
+          <div style={{ width: setConditionalsNameWidth }} />
+        </Flex>
+        {ornamentOptions}
+      </Flex>
+    </Flex>
   )
 }

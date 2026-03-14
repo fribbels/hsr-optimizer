@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Box, Tooltip, UnstyledButton } from '@mantine/core'
+import { Box, Portal, Tooltip, UnstyledButton } from '@mantine/core'
 import {
   IconBook,
   IconChartBar,
@@ -24,6 +24,8 @@ import { OpenCloseIDs, setOpen, useIsOpen } from 'lib/hooks/useOpenClose'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
+import { configToCssVars, configToDataAttrs, useNavDebugStore } from './navDebugStore'
+import { NavDebugPanel } from './NavDebugPanel'
 import classes from './MenuDrawer.module.css'
 
 // ---- Types ----
@@ -83,6 +85,19 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
     })
     return () => cancelAnimationFrame(frame)
   }, [activeKey, focusedKey, moveIndicator])
+
+  // Reposition indicator when layout shifts (debug panel CSS variable changes)
+  useEffect(() => {
+    const nav = navRef.current
+    if (!nav) return
+    const ro = new ResizeObserver(() => {
+      moveIndicator(highlightedRef.current)
+    })
+    ro.observe(nav)
+    // Also observe all nav items so position shifts from items above are caught
+    nav.querySelectorAll('button').forEach((el) => ro.observe(el))
+    return () => ro.disconnect()
+  }, [moveIndicator])
 
   const handleClick = (item: NavItem) => {
     if (DRAWER_KEYS.has(item.key)) {
@@ -234,9 +249,20 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
     setActiveKey(item.key as AppPages)
   }, [setActiveKey])
 
-  if (collapsed) {
-    return <SidebarNavCollapsed groups={groups} activeKey={activeKey} onNavigate={handleNavigate} />
-  }
+  const debugConfig = useNavDebugStore()
+  const cssVars = configToCssVars(debugConfig)
+  const dataAttrs = configToDataAttrs(debugConfig)
 
-  return <SidebarNavExpanded groups={groups} activeKey={activeKey} onNavigate={handleNavigate} anyDrawerOpen={anyDrawerOpen} />
+  const nav = collapsed
+    ? <SidebarNavCollapsed groups={groups} activeKey={activeKey} onNavigate={handleNavigate} />
+    : <SidebarNavExpanded groups={groups} activeKey={activeKey} onNavigate={handleNavigate} anyDrawerOpen={anyDrawerOpen} />
+
+  return (
+    <div className={classes.debugWrapper} style={cssVars} {...dataAttrs}>
+      {nav}
+      <Portal>
+        <NavDebugPanel />
+      </Portal>
+    </div>
+  )
 }

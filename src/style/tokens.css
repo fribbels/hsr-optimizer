@@ -42,12 +42,12 @@
   --gold-color: #e1a564;
   --standard-accent: #799ef4;
 
-  /* Sidebar nav */
-  --nav-accent: #7c5cbf;
-  --nav-accent-subtle: #5b3fa0;
-  --nav-text-muted: #8a7ea5;
-  --nav-text-hover: #c8b8e8;
-  --nav-text-active: #e0dce8;
-  --nav-group-label: #5a5074;
-  --nav-separator: #2d2640;
+  /* Sidebar nav — derived from Mantine primary palette */
+  --nav-accent: var(--mantine-color-primary-5);
+  --nav-accent-subtle: var(--mantine-color-primary-7);
+  --nav-text-muted: #8378a3;
+  --nav-text-hover: var(--mantine-color-primary-2);
+  --nav-text-active: var(--mantine-color-primary-1);
+  --nav-group-label: #524b75;
+  --nav-separator: #211e2c;
 }

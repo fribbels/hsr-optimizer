@@ -13,7 +13,6 @@ import {
   WorkerCancelledError,
   workerPool,
 } from 'lib/worker/workerPool'
-import { DEBUG } from 'lib/worker/computeOptimalSimulationWorker'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { Form } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
@@ -34,8 +33,6 @@ export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
 export interface ComputeOptimalSimulationWorkerOutput extends BaseWorkerOutput {
   simulation: Simulation | null
 }
-
-DEBUG()
 
 export async function runComputeOptimalSimulationWorker(
   input: ComputeOptimalSimulationWorkerInput,

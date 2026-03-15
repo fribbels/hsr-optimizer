@@ -1,4 +1,4 @@
-import { Flex, SegmentedControl, Select, Switch } from '@mantine/core'
+import { Combobox, Flex, Input, InputBase, SegmentedControl, Select, Switch, useCombobox } from '@mantine/core'
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
@@ -15,9 +15,85 @@ import {
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { memo, ReactElement, useMemo } from 'react'
+import { memo, ReactElement, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './OptimizerOptionsDisplay.module.css'
+
+function PriorityCombobox(props: {
+  options: { value: string; label: string }[]
+  rank: number | undefined
+  placeholder: string
+}) {
+  const { options, rank, placeholder } = props
+  const [search, setSearch] = useState('')
+
+  const combobox = useCombobox({
+    onDropdownOpen: () => combobox.focusSearchInput(),
+    onDropdownClose: () => {
+      combobox.resetSelectedOption()
+      setSearch('')
+    },
+  })
+
+  const rankStr = rank != null ? String(rank) : null
+
+  const selectedLabel = rank != null ? `# ${rank + 1}` : null
+
+  const filteredOptions = useMemo(() => {
+    const lowerSearch = search.toLowerCase().trim()
+    if (!lowerSearch) return options
+    return options.filter((opt) => opt.label.toLowerCase().includes(lowerSearch))
+  }, [options, search])
+
+  return (
+    <Combobox
+      store={combobox}
+      width={300}
+      onOptionSubmit={(val) => {
+        const numVal = Number(val)
+        useOptimizerRequestStore.getState().setRelicFilterField('rank', numVal)
+        const characterId = useOptimizerRequestStore.getState().characterId
+        if (characterId && getCharacterById(characterId)) {
+          useCharacterStore.getState().insertCharacter(characterId, numVal)
+          void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations: rc }) => rc())
+        }
+        recalculatePermutations()
+        combobox.closeDropdown()
+      }}
+    >
+      <Combobox.Target>
+        <InputBase
+          component="button"
+          type="button"
+          size="xs"
+          pointer
+          rightSection={<Combobox.Chevron />}
+          rightSectionPointerEvents="none"
+          onClick={() => combobox.toggleDropdown()}
+          style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
+        >
+          {selectedLabel || <Input.Placeholder>{placeholder}</Input.Placeholder>}
+        </InputBase>
+      </Combobox.Target>
+
+      <Combobox.Dropdown>
+        <Combobox.Search
+          value={search}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+          placeholder={placeholder}
+        />
+        <Combobox.Options mah={500} style={{ overflowY: 'auto' }}>
+          {filteredOptions.map((opt) => (
+            <Combobox.Option key={opt.value} value={opt.value} active={opt.value === rankStr} style={{ whiteSpace: 'nowrap' }}>
+              {opt.label}
+            </Combobox.Option>
+          ))}
+          {filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
+  )
+}
 
 function setFilterAndRecalculate<K extends keyof RelicFilterFields>(field: K, value: RelicFilterFields[K]) {
   useOptimizerRequestStore.getState().setRelicFilterField(field, value)
@@ -54,18 +130,8 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
   const characterPriorityOptions = useMemo(() => {
     return characters.map((x, i) => {
       return {
-        value: i,
-        label: (
-          <Flex gap={5}>
-            <img
-              src={Assets.getCharacterAvatarById(x.id)}
-              className={classes.characterAvatar}
-            />
-
-            {t('Priority.Label', { rank: i + 1, id: x.id })}
-          </Flex>
-        ),
-        name: t('Priority.Name', { rank: i + 1 }),
+        value: String(i),
+        label: t('Priority.Label', { rank: i + 1, id: x.id }),
       }
     })
   }, [characters, t])
@@ -110,25 +176,10 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             <HeaderText>
               {t('Priority.Header') /* Priority */}
             </HeaderText>
-            <Select
-              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
-              data={characterPriorityOptions.map((opt) => ({ value: String(opt.value), label: opt.name }))}
-              value={rank != null ? String(rank) : null}
-              onChange={(val) => {
-                if (val == null) return
-                const numVal = Number(val)
-                useOptimizerRequestStore.getState().setRelicFilterField('rank', numVal)
-                const characterId = useOptimizerRequestStore.getState().characterId
-                if (characterId && getCharacterById(characterId)) {
-                  useCharacterStore.getState().insertCharacter(characterId, numVal)
-                  void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations: rc }) => rc())
-                }
-                recalculatePermutations()
-              }}
-              comboboxProps={{ keepMounted: false, width: 225 }}
-              maxDropdownHeight={500}
+            <PriorityCombobox
+              options={characterPriorityOptions}
+              rank={rank}
               placeholder={t('Priority.Header') /* Priority */}
-              searchable
             />
           </Flex>
           <Flex direction="column" gap={2}>

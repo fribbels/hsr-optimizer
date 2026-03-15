@@ -37,7 +37,7 @@
   width: 100%;
   text-align: center;
   background: var(--card-footer-bg);
-  color: #D0D0D2;
+  color: var(--card-text-color);
   padding: 0 6px;
   line-height: 16px;
   font-size: 13px;

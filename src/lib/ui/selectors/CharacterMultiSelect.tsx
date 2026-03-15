@@ -1,6 +1,5 @@
 import { Button, Flex, Modal, MultiSelect, TextInput } from '@mantine/core'
-import { ElementName, PathName } from 'lib/constants/constants'
-import { generateCharacterOptions, CharacterOptions } from 'lib/rendering/optionGenerator'
+import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import {
   generateElementTags,
   generatePathTags,
@@ -8,7 +7,18 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { Assets } from 'lib/rendering/assets'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
-import { CHARACTER_CARD_IMAGE_HEIGHT, CHARACTER_CARD_IMAGE_WIDTH, CHARACTER_CARD_IMAGE_X_OFFSET, CHARACTER_CARD_IMAGE_Y_OFFSET } from 'lib/ui/selectors/selectConstants'
+import {
+  CHARACTER_CARD_IMAGE_HEIGHT,
+  CHARACTER_CARD_IMAGE_WIDTH,
+  CHARACTER_CARD_IMAGE_X_OFFSET,
+  CHARACTER_CARD_IMAGE_Y_OFFSET,
+  CHARACTER_MODAL_STYLES,
+  CharacterFilters,
+  OVERLAY_SCROLLBAR_OPTIONS,
+  SEARCH_INPUT_STYLES,
+  applyCharacterFilters,
+  defaultCharacterFilters,
+} from 'lib/ui/selectors/selectConstants'
 import { useSelectModal } from 'lib/ui/selectors/useSelectModal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { CSSProperties, useMemo, useState } from 'react'
@@ -16,17 +26,8 @@ import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import classes from './SelectCardGrid.module.css'
 
-type CharacterFilters = {
-  element: ElementName[]
-  path: PathName[]
-  name: string
-}
-
-const defaultCharacterFilters: CharacterFilters = {
-  element: [],
-  path: [],
-  name: '',
-}
+const elementTags = generateElementTags()
+const pathTags = generatePathTags()
 
 export function CharacterMultiSelect({
   value,
@@ -39,7 +40,7 @@ export function CharacterMultiSelect({
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
-  const [excluded, setExcluded] = useState<Set<CharacterId>>(() => new Set(value))
+  const [excluded, setExcluded] = useState<Set<CharacterId>>(() => new Set())
 
   const {
     isOpen,
@@ -58,13 +59,6 @@ export function CharacterMultiSelect({
     openModal()
   }
 
-  function applyFilters(x: CharacterOptions[CharacterId]) {
-    if (filters.element.length && !filters.element.includes(x.element)) return false
-    if (filters.path.length && !filters.path.includes(x.path)) return false
-    if (!x.label.toLowerCase().includes(filters.name)) return false
-    return true
-  }
-
   const handleToggle = (id: CharacterId) => {
     setExcluded((prev) => {
       const next = new Set(prev)
@@ -78,7 +72,7 @@ export function CharacterMultiSelect({
   }
 
   const filteredOptions = useMemo(
-    () => characterOptions.filter(applyFilters),
+    () => characterOptions.filter((x) => applyCharacterFilters(filters, x)),
     [characterOptions, filters],
   )
 
@@ -133,7 +127,7 @@ export function CharacterMultiSelect({
         onClose={handleClose}
         centered
         size="90%"
-        styles={{ content: { height: '80%', maxWidth: 1450 }, body: { height: 'calc(100% - 60px)', overflow: 'hidden' } }}
+        styles={CHARACTER_MODAL_STYLES}
         title={t('MultiSelect.ModalTitle')}
       >
         {isOpen && (
@@ -142,7 +136,7 @@ export function CharacterMultiSelect({
               <Flex style={{ flexGrow: 1 }} gap={10}>
                 <TextInput
                   className={classes.searchInput}
-                  styles={{ wrapper: { height: 40 }, input: { height: 40, minHeight: 40 } }}
+                  styles={SEARCH_INPUT_STYLES}
                   placeholder={t('SearchPlaceholder')}
                   ref={inputRef}
                   autoFocus
@@ -160,7 +154,7 @@ export function CharacterMultiSelect({
               <Flex wrap="wrap" className={classes.filterWrapper} gap={12}>
                 <Flex wrap="wrap" className={classes.filterWrapper}>
                   <SegmentedFilterRow
-                    tags={generateElementTags()}
+                    tags={elementTags}
                     flexBasis="14.2%"
                     currentFilter={filters.element}
                     setCurrentFilters={(v) => updateFilter('element', v)}
@@ -168,7 +162,7 @@ export function CharacterMultiSelect({
                 </Flex>
                 <Flex wrap="wrap" className={classes.filterWrapper}>
                   <SegmentedFilterRow
-                    tags={generatePathTags()}
+                    tags={pathTags}
                     flexBasis="11.111%"
                     currentFilter={filters.path}
                     setCurrentFilters={(v) => updateFilter('path', v)}
@@ -177,7 +171,7 @@ export function CharacterMultiSelect({
               </Flex>
             </Flex>
 
-            <OverlayScrollbarsComponent className={classes.scrollArea} defer options={{ scrollbars: { autoHide: 'move', autoHideDelay: 500 } }}>
+            <OverlayScrollbarsComponent className={classes.scrollArea} defer options={OVERLAY_SCROLLBAR_OPTIONS}>
               <SelectCardGrid<CharacterId>
                 options={filteredOptions}
                 onSelect={handleToggle}

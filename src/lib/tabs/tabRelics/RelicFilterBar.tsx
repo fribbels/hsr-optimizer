@@ -109,6 +109,11 @@ export function RelicFilterBar() {
     }
   }, [i18n.resolvedLanguage])
 
+  const excludedRelicPotentialCharactersSet = useMemo(
+    () => new Set(excludedRelicPotentialCharacters),
+    [excludedRelicPotentialCharacters],
+  )
+
   function onExcludedCharactersChange(excluded: Set<CharacterId>) {
     setExcludedRelicPotentialCharacters([...excluded])
     SaveState.delayedSave()
@@ -256,7 +261,7 @@ export function RelicFilterBar() {
         <Flex direction="column" flex={0.25}>
           <HeaderText>{t('RelicFilterBar.CustomCharsHeader') /* Custom potential characters */}</HeaderText>
           <CharacterMultiSelect
-            value={new Set(excludedRelicPotentialCharacters)}
+            value={excludedRelicPotentialCharactersSet}
             selectStyle={{ flex: 1 }}
             onChange={onExcludedCharactersChange}
           />

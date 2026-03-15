@@ -1,4 +1,4 @@
-import { CheckIcon, CloseButton, Combobox, Group, Input, Pill, PillsInput, useCombobox } from '@mantine/core'
+import { CheckIcon, CloseButton, Combobox, Group, Input, MantineSize, Pill, PillsInput, PillsInputProps, useCombobox } from '@mantine/core'
 import { CSSProperties, ReactNode, useMemo, useState } from 'react'
 
 type SimpleOption = { value: string; label: string }
@@ -26,6 +26,9 @@ export function MultiSelectPills({
   style,
   rightSection,
   renderOption,
+  size,
+  styles,
+  height,
 }: {
   data: DataItem[]
   value: string[]
@@ -39,7 +42,26 @@ export function MultiSelectPills({
   style?: CSSProperties
   rightSection?: ReactNode
   renderOption?: (option: SimpleOption, active: boolean) => ReactNode
+  size?: MantineSize
+  styles?: PillsInputProps['styles']
+  height?: number
 }) {
+  const heightStyles = useMemo<PillsInputProps['styles'] | undefined>(() => {
+    if (height == null) return styles
+    const borderWidth = 1
+    const innerHeight = height - borderWidth * 2
+    const inputStyle: CSSProperties = {
+      minHeight: height,
+      height: height,
+      paddingTop: 0,
+      paddingBottom: 0,
+      display: 'flex',
+      alignItems: 'center',
+      ...((styles as Record<string, CSSProperties>)?.input),
+    }
+    return { ...styles, input: inputStyle } as PillsInputProps['styles']
+  }, [height, styles])
+
   const combobox = useCombobox({
     onDropdownClose: () => {
       combobox.resetSelectedOption()
@@ -70,11 +92,12 @@ export function MultiSelectPills({
 
   // +N display logic from Mantine's MaxDisplayedItems example
   const max = maxDisplayedValues
-  const visibleValues = value.slice(0, max >= value.length ? max : max - 1)
+  const visibleValues = max === 0 ? [] : value.slice(0, max >= value.length ? max : max - 1)
   const overflowCount = value.length - visibleValues.length
 
+  const pillStyle = height != null ? { '--pill-height': '20px' } as CSSProperties : undefined
   const pills = visibleValues.map((item) => (
-    <Pill key={item} withRemoveButton onRemove={() => handleValueRemove(item)}>
+    <Pill key={item} style={pillStyle} withRemoveButton onRemove={() => handleValueRemove(item)}>
       {labelMap.get(item) ?? item}
     </Pill>
   ))
@@ -127,6 +150,8 @@ export function MultiSelectPills({
       <Combobox.DropdownTarget>
         <PillsInput
           pointer
+          size={size}
+          styles={heightStyles}
           onClick={() => combobox.toggleDropdown()}
           rightSection={
             showClear
@@ -135,19 +160,19 @@ export function MultiSelectPills({
           }
           style={style}
         >
-          <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden' }}>
+          <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden', alignItems: 'center' }}>
             {value.length > 0
               ? (
                 <>
                   {pills}
-                  {overflowCount > 0 && <Pill>+{overflowCount} more</Pill>}
+                  {overflowCount > 0 && <Pill style={pillStyle}>+{overflowCount}</Pill>}
                 </>
               )
               : <Input.Placeholder>{placeholder}</Input.Placeholder>}
 
             <Combobox.EventsTarget>
               <PillsInput.Field
-                type={searchable ? undefined : 'hidden'}
+                type={searchable && combobox.dropdownOpened ? undefined : 'hidden'}
                 value={search}
                 onChange={(e) => {
                   setSearch(e.currentTarget.value)

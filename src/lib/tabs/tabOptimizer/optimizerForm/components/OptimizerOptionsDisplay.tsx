@@ -136,9 +136,11 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               {t('Exclude') /* Exclude */}
             </HeaderText>
             <MultiSelectPills
-              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2, height: 32 }}
+              height={30}
+              style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
               dropdownWidth={250}
               maxDropdownHeight={500}
+              maxDisplayedValues={0}
               clearable
               searchable
               placeholder={t('Exclude') /* Exclude */}

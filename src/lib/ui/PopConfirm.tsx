@@ -1,10 +1,12 @@
 import { Button, Flex, Popover, PopoverProps, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { ReactElement, ReactNode, Ref } from 'react'
+import { CSSProperties, ReactElement, ReactNode, Ref } from 'react'
+
+const contentsStyle: CSSProperties = { display: 'contents' }
 
 function PopConfirmTarget({ children, onClick, ref, ...rest }: { children: ReactElement; onClick: () => void; ref?: Ref<HTMLSpanElement> }) {
   return (
-    <span ref={ref} onClick={onClick} {...rest}>{children}</span>
+    <span ref={ref} onClick={onClick} style={contentsStyle} {...rest}>{children}</span>
   )
 }
 

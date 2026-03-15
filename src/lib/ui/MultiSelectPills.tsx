@@ -48,7 +48,8 @@ export function MultiSelectPills({
   styles?: PillsInputProps['styles']
   height?: number
 }) {
-  const compactHeight = height ?? (size === 'xs' ? 30 : undefined)
+  const compact = size === 'xs'
+  const compactHeight = height ?? (compact ? 30 : undefined)
 
   const heightStyles = useMemo<PillsInputProps['styles'] | undefined>(() => {
     if (compactHeight == null) return styles
@@ -152,7 +153,7 @@ export function MultiSelectPills({
       <Combobox.DropdownTarget>
         <PillsInput
           pointer
-          size={size === 'xs' ? undefined : size}
+          size={compact ? undefined : size}
           styles={heightStyles}
           onClick={() => combobox.toggleDropdown()}
           rightSection={

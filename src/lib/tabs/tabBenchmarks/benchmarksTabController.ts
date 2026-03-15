@@ -139,7 +139,7 @@ function invalidBenchmarkForm(benchmarkForm: BenchmarkForm) {
   return false
 }
 
-export function handleCharacterSelectChange(id: CharacterId | null | undefined, formInstance: UseFormReturnType<BenchmarkForm>) {
+export function handleCharacterSelectChange(id: CharacterId | null, formInstance: UseFormReturnType<BenchmarkForm>) {
   if (!id) return
   const t = i18next.getFixedT(null, 'benchmarksTab', 'Messages.Error')
 

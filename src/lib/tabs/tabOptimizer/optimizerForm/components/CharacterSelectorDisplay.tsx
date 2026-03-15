@@ -9,8 +9,8 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
-import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
   optimizerTabDefaultGap,
@@ -122,7 +122,7 @@ export function CharacterSelectorDisplay() {
       </Flex>
       <Flex direction="column" gap={optimizerTabDefaultGap}>
         <CharacterSelect
-          value={characterId}
+          value={characterId ?? null}
           onChange={(id) => {
             if (id) {
               useOptimizerDisplayStore.getState().setFocusCharacterId(id)
@@ -131,8 +131,8 @@ export function CharacterSelectorDisplay() {
             }
           }}
           selectStyle={{ width: panelWidth }}
-          externalOpen={optimizerTabFocusCharacterSelectModalOpen}
-          setExternalOpen={setOptimizerTabFocusCharacterSelectModalOpen}
+          opened={optimizerTabFocusCharacterSelectModalOpen}
+          onOpenChange={setOptimizerTabFocusCharacterSelectModalOpen}
         />
         <SegmentedControl
           fullWidth

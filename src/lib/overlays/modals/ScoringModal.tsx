@@ -15,7 +15,7 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { useCharacterStore } from 'lib/stores/characterStore'
 import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
-import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -140,7 +140,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
   const scoringAlgorithmFocusCharacter = useGlobalStore((s) => s.scoringAlgorithmFocusCharacter)
   const setScoringAlgorithmFocusCharacter = useGlobalStore((s) => s.setScoringAlgorithmFocusCharacter)
 
-  function characterSelectorChange(id: CharacterId | null | undefined) {
+  function characterSelectorChange(id: CharacterId | null) {
     setScoringAlgorithmFocusCharacter(id)
   }
 
@@ -201,7 +201,6 @@ function ScoringModalContent({ close }: { close: () => void }) {
           <Flex direction="column" gap={5}>
             <CharacterSelect
               value={scoringAlgorithmForm.getValues().characterId || null}
-              selectStyle={{}}
               onChange={characterSelectorChange}
             />
             <div className={classes.previewContainer} style={{ height: 230, width: panelWidth }}>

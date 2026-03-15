@@ -5,8 +5,8 @@ import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { getCharacterById } from 'lib/stores/characterStore'
-import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
-import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   OptionRender,
   renderTeammateOrnamentSetOptions,
@@ -109,8 +109,7 @@ function CharacterModalContent() {
             <HeaderText>{t('Character')}</HeaderText>
             <CharacterSelect
               value={characterForm.getValues().characterId ?? null}
-              withIcon={true}
-              onChange={(characterId: CharacterId | null | undefined) => {
+              onChange={(characterId: CharacterId | null) => {
                 characterForm.setFieldValue('characterId', characterId ?? undefined)
                 setCharacterId(characterId)
                 const dbCharacter = getCharacterById(characterId!)
@@ -142,7 +141,6 @@ function CharacterModalContent() {
             <HeaderText>{t('Lightcone')}</HeaderText>
             <LightConeSelect
               value={characterForm.getValues().lightCone ?? null}
-              withIcon={true}
               characterId={characterId}
               onChange={(lightCone) => {
                 characterForm.setFieldValue('lightCone', lightCone ?? undefined)

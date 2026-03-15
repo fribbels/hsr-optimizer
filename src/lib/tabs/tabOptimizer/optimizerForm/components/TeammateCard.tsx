@@ -5,8 +5,8 @@ import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
-import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
-import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   renderTeammateOrnamentSetOptions,
   renderTeammateRelicSetOptions,
@@ -106,8 +106,8 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
                 }
               }}
               selectStyle={{ flex: 1 }}
-              externalOpen={teammateSelectModalOpen}
-              setExternalOpen={setTeammateSelectModalOpen}
+              opened={teammateSelectModalOpen}
+              onOpenChange={setTeammateSelectModalOpen}
             />
 
             <ActionIcon
@@ -200,8 +200,8 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               }}
               selectStyle={{ flex: 1 }}
               characterId={teammateCharacterId}
-              externalOpen={teammateLightConeSelectOpen}
-              setExternalOpen={setTeammateLightConeSelectOpen}
+              opened={teammateLightConeSelectOpen}
+              onOpenChange={setTeammateLightConeSelectOpen}
             />
           </Group>
 

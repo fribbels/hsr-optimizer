@@ -48,11 +48,13 @@ export function MultiSelectPills({
   styles?: PillsInputProps['styles']
   height?: number
 }) {
+  const compactHeight = height ?? (size === 'xs' ? 30 : undefined)
+
   const heightStyles = useMemo<PillsInputProps['styles'] | undefined>(() => {
-    if (height == null) return styles
+    if (compactHeight == null) return styles
     const inputStyle: CSSProperties = {
-      minHeight: height,
-      height: height,
+      minHeight: compactHeight,
+      height: compactHeight,
       paddingTop: 0,
       paddingBottom: 0,
       display: 'flex',
@@ -60,7 +62,7 @@ export function MultiSelectPills({
       ...((styles as Record<string, CSSProperties>)?.input),
     }
     return { ...styles, input: inputStyle } as PillsInputProps['styles']
-  }, [height, styles])
+  }, [compactHeight, styles])
 
   const combobox = useCombobox({
     onDropdownClose: () => {
@@ -95,7 +97,7 @@ export function MultiSelectPills({
   const visibleValues = max === 0 ? [] : value.slice(0, max >= value.length ? max : max - 1)
   const overflowCount = value.length - visibleValues.length
 
-  const pillStyle = height != null ? compactPillStyle : undefined
+  const pillStyle = compactHeight != null ? compactPillStyle : undefined
   const pills = visibleValues.map((item) => (
     <Pill key={item} style={pillStyle} withRemoveButton onRemove={() => handleValueRemove(item)}>
       {labelMap.get(item) ?? item}
@@ -115,9 +117,9 @@ export function MultiSelectPills({
         {renderOption
           ? renderOption(opt, active)
           : (
-            <Group gap="sm">
-              {active && <CheckIcon size={12} />}
+            <Group gap="sm" justify="space-between">
               <span>{opt.label}</span>
+              {active && <CheckIcon size={12} />}
             </Group>
           )}
       </Combobox.Option>
@@ -150,7 +152,7 @@ export function MultiSelectPills({
       <Combobox.DropdownTarget>
         <PillsInput
           pointer
-          size={size}
+          size={size === 'xs' ? undefined : size}
           styles={heightStyles}
           onClick={() => combobox.toggleDropdown()}
           rightSection={
@@ -160,7 +162,7 @@ export function MultiSelectPills({
           }
           style={style}
         >
-          <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden', alignItems: 'center' }}>
+          <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden', alignItems: 'center', gap: compactHeight != null ? 4 : undefined }}>
             {value.length > 0
               ? (
                 <>

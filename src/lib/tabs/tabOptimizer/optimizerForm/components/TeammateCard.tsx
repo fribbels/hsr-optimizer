@@ -86,7 +86,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
       style={{ borderRadius: debug.cardBorderRadius }}
     >
       {/* ======== Character area ======== */}
-      <Flex style={{ flex: 1, overflow: 'hidden' }} gap={debug.rightColGap}>
+      <Flex style={{ overflow: 'hidden' }} gap={debug.rightColGap}>
         {/* Left — character select + conditionals */}
         <Flex
           direction="column"
@@ -136,7 +136,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
           direction="column"
           w={debug.rightColWidth}
           p={debug.zonePx}
-          gap={6}
+          gap={16}
           className={classes.rightCol}
         >
           <SegmentedControl
@@ -159,48 +159,39 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
             style={{ alignSelf: 'center' }}
           />
 
-          <Box w="100%">
-            <Text fz={9} c="dimmed" lts={0.2}>
-              {t('RelicsPlaceholder')}
-            </Text>
+          <Flex direction="column" w="100%" gap={6}>
             <Select
               data={teammateRelicSelectData}
               value={teammateTeamRelicSet}
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
               placeholder={t('RelicsPlaceholder')}
               clearable
+              rightSectionWidth={24}
               comboboxProps={{ keepMounted: false, width: 'auto' }}
               disabled={disabled}
-              mt={2}
               styles={{
-                input: { fontSize: 11, height: 24, minHeight: 24 },
+                input: { height: 30, minHeight: 30 },
               }}
             />
-          </Box>
-
-          <Box w="100%">
-            <Text fz={9} c="dimmed" lts={0.2}>
-              {t('OrnamentsPlaceholder')}
-            </Text>
             <Select
               data={teammateOrnamentSelectData}
               value={teammateTeamOrnamentSet}
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
               placeholder={t('OrnamentsPlaceholder')}
               clearable
+              rightSectionWidth={24}
               comboboxProps={{ keepMounted: false, width: 'auto' }}
               disabled={disabled}
-              mt={2}
               styles={{
-                input: { fontSize: 11, height: 24, minHeight: 24 },
+                input: { height: 30, minHeight: 30 },
               }}
             />
-          </Box>
+          </Flex>
         </Flex>
       </Flex>
 
       {/* ======== LC area ======== */}
-      <Flex style={{ overflow: 'hidden' }} gap={debug.rightColGap}>
+      <Flex style={{ flex: 1, overflow: 'hidden' }} gap={debug.rightColGap}>
         {/* Left — LC select + conditionals */}
         <Flex
           direction="column"

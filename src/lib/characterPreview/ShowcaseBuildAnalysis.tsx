@@ -11,7 +11,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
-import { memo, useDeferredValue } from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGlobalStore } from 'lib/stores/appStore'
 
@@ -101,7 +101,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
         </Flex>
       </Flex>
       {scoringType === ScoringType.COMBAT_SCORE && (
-        <DeferredCharacterScoringSummary
+        <CharacterScoringSummary
           simScoringResult={scoringResult ?? undefined}
           displayRelics={displayRelics}
           showcaseMetadata={showcaseMetadata}
@@ -142,18 +142,3 @@ function StatScoringSummary({ scoringType, displayRelics, showcaseMetadata }: {
   )
 }
 
-function DeferredCharacterScoringSummary(props: {
-  simScoringResult?: SimulationScore
-  displayRelics: SingleRelicByPart
-  showcaseMetadata: ShowcaseMetadata
-}) {
-  const deferredProps = useDeferredValue(props)
-
-  return (
-    <CharacterScoringSummary
-      simScoringResult={deferredProps.simScoringResult}
-      displayRelics={deferredProps.displayRelics}
-      showcaseMetadata={deferredProps.showcaseMetadata}
-    />
-  )
-}

@@ -54,6 +54,7 @@ import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import {
   memo,
   useCallback,
+  useDeferredValue,
   useMemo,
 } from 'react'
 import {
@@ -211,6 +212,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   }, [cacheKey])
 
   const { done: scoringDone, result: scoringResult } = useScoringExecution(cacheKey, requestFn)
+
+  // Defer analysis section props so the card renders first, analysis follows in subsequent frame
+  const deferredScoringDone = useDeferredValue(scoringDone)
+  const deferredScoringResult = useDeferredValue(scoringResult)
 
   // ===== Early return after all hooks =====
   if (!state.previewRelics || !state.finalStats || !displayRelics || !scoringResults) {
@@ -410,8 +415,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           so the SegmentedControl reflects their selection even when combat score is unavailable */}
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <ShowcaseBuildAnalysis
-          scoringDone={scoringDone}
-          scoringResult={scoringResult}
+          scoringDone={deferredScoringDone}
+          scoringResult={deferredScoringResult}
           showcaseMetadata={showcaseMetadata}
           scoringType={state.storedScoringType}
           displayRelics={displayRelics}

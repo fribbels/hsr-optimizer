@@ -31,10 +31,40 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { memo, useMemo } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { CharacterId } from 'types/character'
+
+/**
+ * Progressively reveals content across frames using requestAnimationFrame.
+ * On first mount or when `key` changes, resets to phase 0 and advances
+ * one phase per frame until reaching `maxPhase`.
+ *
+ * Each phase gate (`phase >= N && jsx`) mounts one section per frame,
+ * keeping individual frame render costs low.
+ */
+function useProgressivePhase(key: unknown, maxPhase: number): number {
+  const [phase, setPhase] = useState(0)
+  const prevKeyRef = useRef<unknown>(undefined)
+
+  // Reset phase when key changes (inline setState during render — React 19 pattern)
+  if (key != null && key !== prevKeyRef.current) {
+    prevKeyRef.current = key
+    if (phase !== 0) {
+      setPhase(0)
+    }
+  }
+
+  // Advance one phase per animation frame
+  useEffect(() => {
+    if (key == null || phase >= maxPhase) return
+    const id = requestAnimationFrame(() => setPhase((p) => Math.min(p + 1, maxPhase)))
+    return () => cancelAnimationFrame(id)
+  }, [key, phase, maxPhase])
+
+  return phase
+}
 
 function ScoringSet(props: {
   set: string
@@ -255,21 +285,30 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
     [simScoringResult],
   )
 
-  if (!simScoringResult || !result) return null
+  const phase = useProgressivePhase(result, 4)
 
-  const characterId = result.simulationForm.characterId
-  const characterMetadata = getGameMetadata().characters[characterId]
-  const elementalDmgValue = ElementToDamage[characterMetadata.element]
-  const element = characterMetadata.element as ElementName
+  // Derived values — computed safely with optional chaining so hooks below can run
+  // unconditionally (React requires hooks to be called in the same order every render).
+  const characterId = result?.simulationForm.characterId
+  const characterMetadata = characterId ? getGameMetadata().characters[characterId] : undefined
+  const elementalDmgValue = characterMetadata ? ElementToDamage[characterMetadata.element] : undefined
+  const element = characterMetadata?.element as ElementName | undefined
 
-  const divider = (
+  const divider = useMemo(() => (
     <Flex direction="column">
       <Divider orientation='vertical' className={classes.columnDivider}/>
     </Flex>
-  )
+  ), [])
 
-  return (
-    <Flex direction="column" gap={15} align='center' className={classes.rootContainer}>
+  // Memoize each section's JSX so phase increments don't re-render already-visible sections.
+  // When phase advances (state change → re-render), React sees the same element references
+  // for existing sections and bails out of reconciling them.
+  // Each useMemo guards on `result` to handle the pre-scoring state safely.
+
+  // Phase 0: Grade ruler (always visible)
+  const gradeRulerJsx = useMemo(() => {
+    if (!result) return null
+    return (
       <Flex align='center' direction="column" gap={5}>
         <pre className={classes.mainTitle}>
           <ColorizedTitleWithInfo
@@ -285,104 +324,129 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           benchmark={result.benchmarkSimScore}
         />
       </Flex>
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result])
 
-      <Flex gap={defaultGap} direction="column" w='100%' align='center'>
-        <pre className={classes.sectionTitle}>
-          {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
-        </pre>
-        <DpsScoreSubstatUpgradesTable simScore={result}/>
-      </Flex>
-
-      <Flex gap={defaultGap} direction="column" w='100%' align='center'>
-        <pre className={classes.sectionTitle}>
-          {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
-        </pre>
-        <DpsScoreMainStatUpgradesTable simScore={result}/>
-      </Flex>
-
-      <Flex gap={defaultGap} direction="column" className={classes.relicRaritySection} align='center'>
-        <ColorizedTitleWithInfo
-          text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')/* Relic rarity upgrade comparisons */}
-          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
-        />
-        <Alert
-          color='blue'
-          className={classes.relicRarityAlert}
-        >
-          {t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
-        </Alert>
-        <EstimatedTbpRelicsDisplay
-          displayRelics={displayRelics}
-          showcaseMetadata={showcaseMetadata}
-          scoringType={ScoringType.COMBAT_SCORE}
-        />
-      </Flex>
-
-      <pre className={classes.sectionTitle}>
-        {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')/* Simulated benchmark builds */}
-      </pre>
-
-      <Flex gap={25} w='100%' justify='space-around'>
-        <Flex direction="column" gap={defaultGap}>
-          <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
+  // Phase 1: Upgrade tables
+  const upgradeTablesJsx = useMemo(() => {
+    if (!result) return null
+    return (
+      <>
+        <Flex gap={defaultGap} direction="column" w='100%' align='center'>
+          <pre className={classes.sectionTitle}>
+            {t('CharacterPreview.SubstatUpgradeComparisons.Header')/* Substat upgrade comparisons */}
           </pre>
-          <Flex gap={15}>
-            <ScoringTeammate result={result} index={0}/>
-            <ScoringTeammate result={result} index={1}/>
-            <ScoringTeammate result={result} index={2}/>
-          </Flex>
+          <DpsScoreSubstatUpgradesTable simScore={result}/>
         </Flex>
 
-        <VerticalDivider/>
-
-        <Flex direction="column" gap={defaultGap}>
-          <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.SimulationSets')/* Simulation sets */}
+        <Flex gap={defaultGap} direction="column" w='100%' align='center'>
+          <pre className={classes.sectionTitle}>
+            {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')/* Main stat upgrade comparisons */}
           </pre>
-          <Flex direction="column" gap={defaultGap}>
-            <Flex>
-              <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
-              <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
-            </Flex>
-            <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
-          </Flex>
+          <DpsScoreMainStatUpgradesTable simScore={result}/>
         </Flex>
+      </>
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result])
 
-        <VerticalDivider/>
-
-        <Flex direction="column" gap={defaultGap}>
-          <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.Rotation.Header')/* Combo damage rotation */}
-          </pre>
-          <ComboRotationSummary
-            simMetadata={result.simulationMetadata}
+  // Phase 2: Relic rarity + simulated benchmarks
+  const relicBenchmarksJsx = useMemo(() => {
+    if (!result) return null
+    return (
+      <>
+        <Flex gap={defaultGap} direction="column" className={classes.relicRaritySection} align='center'>
+          <ColorizedTitleWithInfo
+            text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')/* Relic rarity upgrade comparisons */}
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
+          />
+          <Alert
+            color='blue'
+            className={classes.relicRarityAlert}
+          >
+            {t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
+          </Alert>
+          <EstimatedTbpRelicsDisplay
+            displayRelics={displayRelics}
+            showcaseMetadata={showcaseMetadata}
+            scoringType={ScoringType.COMBAT_SCORE}
           />
         </Flex>
 
-        <VerticalDivider/>
+        <pre className={classes.sectionTitle}>
+          {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')/* Simulated benchmark builds */}
+        </pre>
 
-        <Flex direction="column" gap={10}>
-          <pre style={{ margin: '5px auto' }}>
-            {t('CharacterPreview.BuildAnalysis.CombatResults.Header')/* Combat damage results */}
-          </pre>
-          <Flex direction="column" gap={10} className={classes.combatResultsWidth}>
-            <ScoringText
-              label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
-              text={
-                // @ts-expect-error - type of key is not specific enough for ts to know that t() will resolve properly
-                t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
-              }
+        <Flex gap={25} w='100%' justify='space-around'>
+          <Flex direction="column" gap={defaultGap}>
+            <pre style={{ margin: '5px auto' }}>
+              {t('CharacterPreview.BuildAnalysis.SimulationTeammates')/* Simulation teammates */}
+            </pre>
+            <Flex gap={15}>
+              <ScoringTeammate result={result} index={0}/>
+              <ScoringTeammate result={result} index={1}/>
+              <ScoringTeammate result={result} index={2}/>
+            </Flex>
+          </Flex>
+
+          <VerticalDivider/>
+
+          <Flex direction="column" gap={defaultGap}>
+            <pre style={{ margin: '5px auto' }}>
+              {t('CharacterPreview.BuildAnalysis.SimulationSets')/* Simulation sets */}
+            </pre>
+            <Flex direction="column" gap={defaultGap}>
+              <Flex>
+                <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
+                <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
+              </Flex>
+              <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
+            </Flex>
+          </Flex>
+
+          <VerticalDivider/>
+
+          <Flex direction="column" gap={defaultGap}>
+            <pre style={{ margin: '5px auto' }}>
+              {t('CharacterPreview.BuildAnalysis.Rotation.Header')/* Combo damage rotation */}
+            </pre>
+            <ComboRotationSummary
+              simMetadata={result.simulationMetadata}
             />
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
-            <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
+          </Flex>
+
+          <VerticalDivider/>
+
+          <Flex direction="column" gap={10}>
+            <pre style={{ margin: '5px auto' }}>
+              {t('CharacterPreview.BuildAnalysis.CombatResults.Header')/* Combat damage results */}
+            </pre>
+            <Flex direction="column" gap={10} className={classes.combatResultsWidth}>
+              <ScoringText
+                label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
+                text={
+                  // @ts-expect-error - type of key is not specific enough for ts to know that t() will resolve properly
+                  t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
+                }
+              />
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
+            </Flex>
           </Flex>
         </Flex>
-      </Flex>
+      </>
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result, displayRelics, showcaseMetadata])
 
+  // Phase 3: Scoring columns
+  const scoringColumnsJsx = useMemo(() => {
+    if (!result || !simScoringResult || !characterId || !characterMetadata || !elementalDmgValue || !element) return null
+    return (
       <Flex>
         <ScoringColumn
           simulation={result.originalSim}
@@ -424,7 +488,14 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           characterMetadata={characterMetadata}
         />
       </Flex>
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result, simScoringResult])
 
+  // Phase 4: Buffs analysis
+  const buffsJsx = useMemo(() => {
+    if (!result) return null
+    return (
       <Flex direction="column" align='center' w='100%'>
         <pre className={classes.sectionTitle}>
           {
@@ -436,6 +507,20 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 
         <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE} twoColumn/>
       </Flex>
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result])
+
+  // Early return after all hooks
+  if (!simScoringResult || !result) return null
+
+  return (
+    <Flex direction="column" gap={15} align='center' className={classes.rootContainer}>
+      {gradeRulerJsx}
+      {phase >= 1 && upgradeTablesJsx}
+      {phase >= 2 && relicBenchmarksJsx}
+      {phase >= 3 && scoringColumnsJsx}
+      {phase >= 4 && buffsJsx}
     </Flex>
   )
 })

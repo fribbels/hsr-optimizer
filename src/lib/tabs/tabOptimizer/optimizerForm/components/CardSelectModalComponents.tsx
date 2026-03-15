@@ -1,4 +1,4 @@
-import { Flex, Text, UnstyledButton, useMantineTheme } from '@mantine/core'
+import { Flex, UnstyledButton, useMantineTheme } from '@mantine/core'
 import {
   ElementName,
   ElementToDamage,
@@ -8,42 +8,6 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import { ReactElement } from 'react'
 import classes from './CardSelectModalComponents.module.css'
-
-const parentW = 100
-const parentH = 150
-
-export function CardGridItemContent({ imgSrc, text, innerW, innerH, rows }: {
-  imgSrc: string
-  text: string
-  innerW: number
-  innerH: number
-  rows: number
-}) {
-  return (
-    <div>
-      <img
-        width={innerW}
-        src={imgSrc}
-        style={{
-          transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(innerH - parentH) / 2 / innerH * -100}%)`,
-        }}
-      />
-      <Text
-        component="div"
-        lineClamp={rows}
-        className={classes.cardTextOverlay}
-        style={{ height: 18 * rows }}
-      >
-        <div
-          className={classes.cardTextInner}
-          style={{ maxHeight: 18 * rows }}
-        >
-          {text}
-        </div>
-      </Text>
-    </div>
-  )
-}
 
 export function generatePathTags() {
   return Object.keys(PathNames).map((x) => {

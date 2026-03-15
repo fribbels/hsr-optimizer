@@ -37,6 +37,15 @@
   --bg-translucent: rgba(26, 27, 30, 0.73);
   --bg-sidebar: var(--mantine-color-dark-7);
 
+  /* Rarity card gradients */
+  --rarity-5-start: #8A6700;
+  --rarity-5-end: #D6A100;
+  --rarity-4-start: #5F388C;
+  --rarity-4-end: #9F6CD9;
+  --rarity-3-start: #2d4cc5;
+  --rarity-3-end: #4A85C8;
+  --card-footer-bg: #282B31;
+
   /* Accent colors */
   --link-color: #91bfff;
   --gold-color: #e1a564;

@@ -24,7 +24,8 @@ import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
 import { SaveState } from 'lib/state/saveState'
 import { SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
-import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { CharacterMultiSelect } from 'lib/ui/selectors/CharacterMultiSelect'
 import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -108,12 +109,8 @@ export function RelicFilterBar() {
     }
   }, [i18n.resolvedLanguage])
 
-  function onExcludedCharactersChange(map: Map<CharacterId, boolean> | null) {
-    const excludedCharacterIds: Array<CharacterId> = []
-    map?.forEach((selected, id) => {
-      if (selected) excludedCharacterIds.push(id)
-    })
-    setExcludedRelicPotentialCharacters(excludedCharacterIds)
+  function onExcludedCharactersChange(excluded: Set<CharacterId>) {
+    setExcludedRelicPotentialCharacters([...excluded])
     SaveState.delayedSave()
   }
 
@@ -220,10 +217,8 @@ export function RelicFilterBar() {
               value={focusCharacter}
               selectStyle={{ flex: 1 }}
               onChange={(characterId) => {
-                // Wait until after modal closes to update
-                setTimeout(() => setFocusCharacter(characterId ?? null), 20)
+                setFocusCharacter(characterId)
               }}
-              withIcon={true}
             />
             <Button
               variant="default"
@@ -260,11 +255,10 @@ export function RelicFilterBar() {
 
         <Flex direction="column" flex={0.25}>
           <HeaderText>{t('RelicFilterBar.CustomCharsHeader') /* Custom potential characters */}</HeaderText>
-          <CharacterSelect
-            value={excludedRelicPotentialCharacters}
+          <CharacterMultiSelect
+            value={new Set(excludedRelicPotentialCharacters)}
             selectStyle={{ flex: 1 }}
             onChange={onExcludedCharactersChange}
-            multipleSelect={true}
           />
         </Flex>
       </Flex>

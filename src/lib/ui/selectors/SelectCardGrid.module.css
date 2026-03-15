@@ -1,0 +1,112 @@
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  height: 150px;
+  cursor: pointer;
+  padding: 1px;
+  border-radius: 4px;
+  content-visibility: auto;
+  contain-intrinsic-size: 100px 150px;
+}
+
+.card:hover {
+  filter: brightness(1.1);
+}
+
+.cardExcluded {
+  opacity: 0.25;
+  background: grey !important;
+}
+
+.cardImage {
+  width: var(--card-image-width, 135px);
+  display: block;
+  transform: translateX(var(--card-image-x-offset, -13%)) translateY(var(--card-image-y-offset, -6%));
+}
+
+.textOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background: var(--card-footer-bg);
+  color: #D0D0D2;
+  padding: 0 6px;
+  line-height: 16px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textInner {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.rarity5Card {
+  background: linear-gradient(
+    var(--rarity-5-start) 0px,
+    var(--rarity-5-end) 63px,
+    var(--rarity-5-end) var(--card-image-height, 130px),
+    var(--card-footer-bg) var(--card-image-height, 130px),
+    var(--card-footer-bg) 100%
+  );
+}
+
+.rarity4Card {
+  background: linear-gradient(
+    var(--rarity-4-start) 0px,
+    var(--rarity-4-end) 63px,
+    var(--rarity-4-end) var(--card-image-height, 130px),
+    var(--card-footer-bg) var(--card-image-height, 130px),
+    var(--card-footer-bg) 100%
+  );
+}
+
+.rarity3Card {
+  background: linear-gradient(
+    var(--rarity-3-start) 0px,
+    var(--rarity-3-end) 63px,
+    var(--rarity-3-end) var(--card-image-height, 130px),
+    var(--card-footer-bg) var(--card-image-height, 130px),
+    var(--card-footer-bg) 100%
+  );
+}
+
+.searchInput {
+  flex: 1;
+  flex-shrink: 0;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scrollArea {
+  flex: 1;
+  min-height: 0;
+}
+
+.filterWrapper {
+  min-width: 350px;
+  flex-grow: 1;
+}
+
+.bulkActionButton {
+  height: 100%;
+  width: 120px;
+}

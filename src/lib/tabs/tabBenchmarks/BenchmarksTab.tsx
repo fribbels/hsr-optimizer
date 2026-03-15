@@ -41,8 +41,8 @@ import {
   SimpleCharacterSets,
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { CharacterSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelect'
-import { LightConeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/LightConeSelect'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   generateSpdPresets,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -119,7 +119,7 @@ export function BenchmarksTab(): ReactElement {
     updateTeammate(0, defaultForm.teammate0)
     updateTeammate(1, defaultForm.teammate1)
     updateTeammate(2, defaultForm.teammate2)
-    handleCharacterSelectChange(defaultForm.characterId, benchmarkForm)
+    handleCharacterSelectChange(defaultForm.characterId ?? null, benchmarkForm)
   }, [])
 
   useEffect(() => {
@@ -194,7 +194,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
         <HeaderText>{t('CharacterHeader') /* Character */}</HeaderText>
         <CharacterSelect
           value={form.getValues().characterId}
-          onChange={(id: CharacterId | null | undefined) => {
+          onChange={(id: CharacterId | null) => {
             if (id) form.setFieldValue('characterId', id)
             handleCharacterSelectChange(id, form)
           }}

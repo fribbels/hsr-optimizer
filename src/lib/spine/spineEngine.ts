@@ -19,55 +19,71 @@ interface SkeletonEntry {
   animState: AnimationState
 }
 
+// WebGL blend factor constants (WebGLRenderingContext enum values)
+const GL_ONE = 1
+const GL_ONE_MINUS_SRC_COLOR = 0x0301
+const GL_ONE_MINUS_SRC_ALPHA = 0x0303
+
+/**
+ * Override spine-webgl's blend modes so Multiply/Screen compositing works on a
+ * transparent canvas. The patched blendFuncSeparate values match PixiJS's blend
+ * table (verified against nanoka.cc):
+ *
+ *   Normal:   (SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA)
+ *   Additive: (SRC_ALPHA, ONE,                 ONE, ONE_MINUS_SRC_ALPHA)
+ *   Multiply: (DST_COLOR, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA)
+ *   Screen:   (ONE,       ONE_MINUS_SRC_COLOR, ONE, ONE_MINUS_SRC_ALPHA)
+ *
+ * Alpha channel always uses Porter-Duff "over" (srcA=ONE, dstA=ONE_MINUS_SRC_ALPHA)
+ * so shadow/shading overlays never destroy framebuffer alpha. Screen's color
+ * equation uses dst×(1-src.rgb) (true Photoshop Screen) instead of dst×(1-src.a).
+ *
+ * Screen is detected by srcAlpha===ONE_MINUS_SRC_COLOR, which is unique to Screen
+ * in spine-webgl's WebGLBlendModeConverter. Coupled to spine-webgl 4.1.x — if
+ * upgrading, verify PolygonBatcher still calls blendFuncSeparate for all modes.
+ *
+ * Lost on WebGL context restore (silent degradation). Would need full re-creation.
+ */
+function patchBlendModes(gl: WebGLRenderingContext): void {
+  const orig = gl.blendFuncSeparate.bind(gl)
+  gl.blendFuncSeparate = (srcRGB: number, dstRGB: number, srcAlpha: number, _dstAlpha: number) => {
+    if (srcAlpha === GL_ONE_MINUS_SRC_COLOR) {
+      // Screen: fix dstRGB to ONE_MINUS_SRC_COLOR for correct Screen formula
+      orig(srcRGB, GL_ONE_MINUS_SRC_COLOR, GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+    } else {
+      // Normal / Additive / Multiply: color unchanged, alpha fixed to Porter-Duff
+      orig(srcRGB, dstRGB, GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+    }
+  }
+}
+
 export async function createSpineInstance(
   canvas: HTMLCanvasElement,
   baseUrl: string,
   files: { skelFile: string; atlasFile: string }[],
 ): Promise<SpineInstance> {
-  // premultipliedAlpha:true — framebuffer naturally contains premultiplied values
-  // from blending on transparent (rgb = src * alpha). Without this the browser
-  // multiplies by alpha AGAIN, double-darkening semi-transparent edges.
+  // --- WebGL context ---
+
+  // premultipliedAlpha:true because blending naturally produces premultiplied
+  // output on a cleared framebuffer — tells browser not to multiply again.
+  // drawSkeleton uses PMA=false because atlas textures are straight (un-premultiplied).
   const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: true })
     || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true })
   if (!glContext) throw new Error('WebGL not available')
   const gl = glContext
 
-  // Fix spine-webgl blend modes for transparent canvas compositing.
-  // spine-webgl's PolygonBatcher shares dstBlend for color AND alpha, which:
-  // 1. Destroys framebuffer alpha for Multiply/Screen (dst=ONE_MINUS_SRC_ALPHA
-  //    → when src.a=1: alpha becomes 0)
-  // 2. Uses wrong Screen color formula: dst*(1-src.a) instead of dst*(1-src.rgb)
-  //
-  // Fix matches PixiJS blend mode table (proven on nanoka.cc):
-  //   Normal:   (SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA)
-  //   Additive: (SRC_ALPHA, ONE,                 ONE, ONE_MINUS_SRC_ALPHA)
-  //   Multiply: (DST_COLOR, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA)
-  //   Screen:   (ONE,       ONE_MINUS_SRC_COLOR, ONE, ONE_MINUS_SRC_ALPHA)
-  const ONE = 1
-  const ONE_MINUS_SRC_COLOR = 0x0301
-  const ONE_MINUS_SRC_ALPHA = 0x0303
-  const origBlendFuncSeparate = gl.blendFuncSeparate.bind(gl)
-  gl.blendFuncSeparate = (srcRGB: number, dstRGB: number, srcAlpha: number, _dstAlpha: number) => {
-    if (srcAlpha === ONE_MINUS_SRC_COLOR) {
-      // Screen: also fix dstRGB to ONE_MINUS_SRC_COLOR for true Screen formula
-      // src.rgb + dst.rgb * (1-src.rgb) — dark overlays let body show through
-      origBlendFuncSeparate(srcRGB, ONE_MINUS_SRC_COLOR, ONE, ONE_MINUS_SRC_ALPHA)
-    } else {
-      // Normal/Additive/Multiply: keep color equation, fix alpha to Porter-Duff
-      origBlendFuncSeparate(srcRGB, dstRGB, ONE, ONE_MINUS_SRC_ALPHA)
-    }
-  }
+  patchBlendModes(gl)
+
+  // --- Asset loading ---
 
   const context = new ManagedWebGLRenderingContext(gl)
   const assetManager = new AssetManager(context, baseUrl)
 
-  // Queue all skeleton + atlas files for loading
   for (const { skelFile, atlasFile } of files) {
     assetManager.loadBinary(skelFile)
     assetManager.loadTextureAtlas(atlasFile)
   }
 
-  // Poll until all assets are loaded
   await new Promise<void>((resolve, reject) => {
     function check() {
       if (assetManager.isLoadingComplete()) {
@@ -81,9 +97,10 @@ export async function createSpineInstance(
     check()
   })
 
+  // --- Bounds calculation (scale=1) ---
+
   const canvasSize = canvas.width
 
-  // Pass 1: parse all skeletons at scale 1 to compute combined bounds
   let minX = Infinity
   let minY = Infinity
   let maxX = -Infinity
@@ -119,7 +136,8 @@ export async function createSpineInstance(
   const camX = Math.round(nativeCx * fitScale)
   const camY = Math.round(nativeCy * fitScale)
 
-  // Pass 2: re-parse all skeletons at fitted scale, create animation states
+  // --- Skeleton setup (fitted scale) ---
+
   const entries: SkeletonEntry[] = []
 
   for (const { skelFile, atlasFile } of files) {
@@ -133,7 +151,7 @@ export async function createSpineInstance(
     skeleton.setToSetupPose()
 
     const stateData = new AnimationStateData(skelData)
-    stateData.defaultMix = 0.2
+    stateData.defaultMix = 0.2 // 200ms cross-fade between animations
     const animState = new AnimationState(stateData)
 
     const defaultAnim = skelData.animations.find((a) => a.name.toLowerCase().includes('idle'))
@@ -146,14 +164,15 @@ export async function createSpineInstance(
     entries.push({ skeleton, animState })
   }
 
+  // --- Render loop ---
+
   const renderer = new SceneRenderer(canvas, context)
 
-  // Render loop
   let rafId: number | null = null
   let lastTime = performance.now()
 
   function loop(now: number) {
-    const delta = Math.min((now - lastTime) / 1000, 0.1)
+    const delta = Math.min((now - lastTime) / 1000, 0.1) // clamp to 100ms to avoid animation jumps on tab-resume
     lastTime = now
 
     for (const entry of entries) {
@@ -182,6 +201,8 @@ export async function createSpineInstance(
   }
 
   rafId = requestAnimationFrame(loop)
+
+  // --- Cleanup handle ---
 
   return {
     dispose() {

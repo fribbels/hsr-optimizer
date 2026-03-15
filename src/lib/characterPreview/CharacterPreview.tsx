@@ -23,6 +23,7 @@ import {
 } from 'lib/characterPreview/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
+import { useProgressivePhase } from 'lib/characterPreview/useProgressivePhase'
 import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { resolveShowcaseLayout } from 'lib/characterPreview/useShowcaseDerivedData'
@@ -54,7 +55,6 @@ import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
 import {
   memo,
   useCallback,
-  useDeferredValue,
   useMemo,
 } from 'react'
 import {
@@ -213,9 +213,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   const { done: scoringDone, result: scoringResult } = useScoringExecution(cacheKey, requestFn)
 
-  // Defer analysis section props so the card renders first, analysis follows in subsequent frame
-  const deferredScoringDone = useDeferredValue(scoringDone)
-  const deferredScoringResult = useDeferredValue(scoringResult)
+  // Defer analysis section: card renders fully first, analysis phases in after
+  const analysisPhase = useProgressivePhase(character.id, 1)
 
   // ===== Early return after all hooks =====
   if (!state.previewRelics || !state.finalStats || !displayRelics || !scoringResults) {
@@ -415,8 +414,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           so the SegmentedControl reflects their selection even when combat score is unavailable */}
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <ShowcaseBuildAnalysis
-          scoringDone={deferredScoringDone}
-          scoringResult={deferredScoringResult}
+          scoringDone={analysisPhase >= 1 && scoringDone}
+          scoringResult={analysisPhase >= 1 ? scoringResult : null}
           showcaseMetadata={showcaseMetadata}
           scoringType={state.storedScoringType}
           displayRelics={displayRelics}

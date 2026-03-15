@@ -58,7 +58,7 @@ export function SelectCardGrid<TId extends string>({
         '--card-image-height': cardImageHeight,
         '--card-image-width': imageWidth ?? '150px',
         '--card-image-x-offset': imageXOffset ?? '-13%',
-        '--card-image-y-offset': imageYOffset ?? '-6%',
+        '--card-image-y-offset': imageYOffset ?? '10%',
       } as React.CSSProperties}
       onMouseDown={handleGridMouseDown}
     >

@@ -21,13 +21,13 @@
 
 .cardExcluded {
   opacity: 0.25;
-  background: grey !important;
+  background: var(--card-excluded-bg) !important;
 }
 
 .cardImage {
   width: var(--card-image-width, 135px);
   display: block;
-  transform: translateX(var(--card-image-x-offset, -13%)) translateY(var(--card-image-y-offset, -6%));
+  transform: translateX(var(--card-image-x-offset, -13%)) translateY(var(--card-image-y-offset, 10%));
 }
 
 .textOverlay {

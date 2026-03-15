@@ -9,7 +9,15 @@ import {
   SegmentedFilterRow,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
-import { LC_CARD_IMAGE_HEIGHT, LC_CARD_IMAGE_WIDTH, LC_CARD_IMAGE_X_OFFSET, LC_CARD_IMAGE_Y_OFFSET } from 'lib/ui/selectors/selectConstants'
+import {
+  LC_CARD_IMAGE_HEIGHT,
+  LC_CARD_IMAGE_WIDTH,
+  LC_CARD_IMAGE_X_OFFSET,
+  LC_CARD_IMAGE_Y_OFFSET,
+  LC_MODAL_STYLES,
+  OVERLAY_SCROLLBAR_OPTIONS,
+  SEARCH_INPUT_STYLES,
+} from 'lib/ui/selectors/selectConstants'
 import { useSelectModal } from 'lib/ui/selectors/useSelectModal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { CSSProperties, useMemo } from 'react'
@@ -23,6 +31,9 @@ type LightConeFilters = {
   path: PathName[]
   name: string
 }
+
+const lcPathTags = generatePathTags()
+const lcRarityTags = generateRarityTags()
 
 export function LightConeSelect({
   value,
@@ -63,12 +74,6 @@ export function LightConeSelect({
     onOpenChange,
   })
 
-  function applyFilters(x: LcOptions[LightConeId]) {
-    if (filters.rarity.length && !filters.rarity.includes(x.rarity)) return false
-    if (filters.path.length && !filters.path.includes(x.path)) return false
-    return x.label.toLowerCase().includes(filters.name)
-  }
-
   const handleSelect = (id: LightConeId) => {
     onChange(id)
     close()
@@ -80,7 +85,11 @@ export function LightConeSelect({
   }, [value, lightConeOptions])
 
   const filteredOptions = useMemo(
-    () => lightConeOptions.filter(applyFilters),
+    () => lightConeOptions.filter((x: LcOptions[LightConeId]) => {
+      if (filters.rarity.length && !filters.rarity.includes(x.rarity)) return false
+      if (filters.path.length && !filters.path.includes(x.path)) return false
+      return x.label.toLowerCase().includes(filters.name)
+    }),
     [lightConeOptions, filters],
   )
 
@@ -104,7 +113,7 @@ export function LightConeSelect({
         onClose={close}
         centered
         size="90%"
-        styles={{ content: { height: '70%', maxWidth: 1200 }, body: { height: 'calc(100% - 60px)', overflow: 'hidden' } }}
+        styles={LC_MODAL_STYLES}
         title={t('Title')}
       >
         {isOpen && (
@@ -112,7 +121,7 @@ export function LightConeSelect({
             <Flex gap={12} wrap="wrap">
               <TextInput
                 className={classes.searchInput}
-                styles={{ wrapper: { height: 40 }, input: { height: 40, minHeight: 40 } }}
+                styles={SEARCH_INPUT_STYLES}
                 placeholder={t('Placeholder')}
                 ref={inputRef}
                 autoFocus
@@ -127,7 +136,7 @@ export function LightConeSelect({
               <Flex wrap="wrap" className={classes.filterWrapper} gap={12}>
                 <Flex wrap="wrap" className={classes.filterWrapper}>
                   <SegmentedFilterRow
-                    tags={generatePathTags()}
+                    tags={lcPathTags}
                     flexBasis="11.111%"
                     currentFilter={filters.path}
                     setCurrentFilters={(v) => updateFilter('path', v)}
@@ -135,7 +144,7 @@ export function LightConeSelect({
                 </Flex>
                 <Flex wrap="wrap" className={classes.filterWrapper}>
                   <SegmentedFilterRow
-                    tags={generateRarityTags()}
+                    tags={lcRarityTags}
                     flexBasis="14.2%"
                     currentFilter={filters.rarity}
                     setCurrentFilters={(v) => updateFilter('rarity', v)}
@@ -144,7 +153,7 @@ export function LightConeSelect({
               </Flex>
             </Flex>
 
-            <OverlayScrollbarsComponent className={classes.scrollArea} defer options={{ scrollbars: { autoHide: 'move', autoHideDelay: 500 } }}>
+            <OverlayScrollbarsComponent className={classes.scrollArea} defer options={OVERLAY_SCROLLBAR_OPTIONS}>
               <SelectCardGrid<LightConeId>
                 options={filteredOptions}
                 onSelect={handleSelect}

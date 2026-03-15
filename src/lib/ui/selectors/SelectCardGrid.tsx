@@ -34,15 +34,12 @@ export function SelectCardGrid<TId extends string>({
     [options],
   )
 
-  // Pre-compute className per card (avoids string concat in render loop)
-  const cardClassNames = useMemo(() => {
-    return sortedOptions.map((option) => {
-      const isExcluded = excludedIds?.has(option.id)
-      return `${classes.card} ${rarityClass[option.rarity] ?? ''} ${isExcluded ? classes.cardExcluded : ''}`
-    })
-  }, [sortedOptions, excludedIds])
+  // Stable base classNames — only recomputed when sort order changes, not on every toggle
+  const baseClassNames = useMemo(
+    () => sortedOptions.map((o) => `${classes.card} ${rarityClass[o.rarity] ?? ''}`),
+    [sortedOptions],
+  )
 
-  // Static text style — same for all cards, computed once
   const textOverlayStyle = useMemo(() => ({ height: 18 * textRows }), [textRows])
   const textInnerStyle = useMemo(() => ({ WebkitLineClamp: textRows, maxHeight: 18 * textRows }), [textRows])
 
@@ -59,14 +56,18 @@ export function SelectCardGrid<TId extends string>({
       className={classes.cardGrid}
       style={{
         '--card-image-height': cardImageHeight,
-        '--card-image-width': imageWidth ?? '135px',
+        '--card-image-width': imageWidth ?? '150px',
         '--card-image-x-offset': imageXOffset ?? '-13%',
         '--card-image-y-offset': imageYOffset ?? '-6%',
       } as React.CSSProperties}
       onMouseDown={handleGridMouseDown}
     >
       {sortedOptions.map((option, i) => (
-        <div key={option.id} className={cardClassNames[i]} data-id={option.id}>
+        <div
+          key={option.id}
+          className={`${baseClassNames[i]} ${excludedIds?.has(option.id) ? classes.cardExcluded : ''}`}
+          data-id={option.id}
+        >
           <img
             className={classes.cardImage}
             src={getImageSrc(option.id)}

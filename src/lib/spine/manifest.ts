@@ -1,39 +1,56 @@
-const manifestCache = new Map<string, Record<string, string>>()
-const manifestPromises = new Map<string, Promise<Record<string, string>>>()
+import { BASE_PATH } from 'lib/constants/appPages'
 
-export async function getManifest(cdnBase: string): Promise<Record<string, string>> {
-  const cached = manifestCache.get(cdnBase)
-  if (cached) return cached
+const SPINE_BASE = new URL(BASE_PATH + '/assets/spine', import.meta.url).href
 
-  let promise = manifestPromises.get(cdnBase)
-  if (!promise) {
-    promise = fetch(`${cdnBase}/manifest.json`)
+let manifestCache: Record<string, number> | null = null
+let manifestPromise: Promise<Record<string, number>> | null = null
+
+async function getManifest(): Promise<Record<string, number>> {
+  if (manifestCache) return manifestCache
+  if (!manifestPromise) {
+    manifestPromise = fetch(`${SPINE_BASE}/manifest.json`)
       .then((r) => r.json())
-      .then((data: Record<string, string>) => {
-        manifestCache.set(cdnBase, data)
+      .then((data: Record<string, number>) => {
+        manifestCache = data
         return data
       })
       .catch((err) => {
-        manifestPromises.delete(cdnBase)
+        manifestPromise = null
         throw err
       })
-    manifestPromises.set(cdnBase, promise)
   }
-  return promise
+  return manifestPromise
 }
 
-/**
- * Returns the skeleton name for a character, or null if unsupported.
- * Multi-skeleton characters (pipe-separated entries) are excluded.
- */
-export function toBaseCharacterId(characterId: string): string {
+function toBaseCharacterId(characterId: string): string {
   return characterId.substring(0, 4)
 }
 
-export async function getSkeletonName(characterId: string, cdnBase: string): Promise<string | null> {
-  const manifest = await getManifest(cdnBase)
-  const entry = manifest[toBaseCharacterId(characterId)]
-  if (!entry) return null
-  if (entry.includes('|')) return null
-  return entry
+/**
+ * Returns the number of skeletons for a character, or null if not in manifest.
+ */
+export async function getSkeletonCount(characterId: string): Promise<number | null> {
+  const manifest = await getManifest()
+  const count = manifest[toBaseCharacterId(characterId)]
+  return count ?? null
+}
+
+/**
+ * Derives asset file paths from character ID and skeleton count.
+ * Single skeleton: {charId}.skel, {charId}.atlas
+ * Multi skeleton:  {charId}_0.skel, {charId}_0.atlas, {charId}_1.skel, ...
+ */
+export function getSkeletonFiles(characterId: string, count: number): { skelFile: string; atlasFile: string }[] {
+  const baseId = toBaseCharacterId(characterId)
+  if (count === 1) {
+    return [{ skelFile: `${baseId}.skel`, atlasFile: `${baseId}.atlas` }]
+  }
+  return Array.from({ length: count }, (_, i) => ({
+    skelFile: `${baseId}_${i}.skel`,
+    atlasFile: `${baseId}_${i}.atlas`,
+  }))
+}
+
+export function getSpineAssetBaseUrl(characterId: string): string {
+  return `${SPINE_BASE}/${toBaseCharacterId(characterId)}/`
 }

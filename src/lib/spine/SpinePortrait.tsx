@@ -1,18 +1,16 @@
 import { CSSProperties, useEffect, useRef } from 'react'
 import { CharacterId } from 'types/character'
-import { getSkeletonName } from './manifest'
+import { getSkeletonCount, getSkeletonFiles, getSpineAssetBaseUrl } from './manifest'
 import { createSpineInstance, SpineInstance } from './spineEngine'
 
 const CANVAS_SIZE = 2048
 
 export function SpinePortrait({
   characterId,
-  cdnBase,
   style,
   onUnsupported,
 }: {
   characterId: CharacterId
-  cdnBase: string
   style?: CSSProperties
   onUnsupported?: () => void
 }) {
@@ -27,19 +25,19 @@ export function SpinePortrait({
 
     async function init() {
       try {
-        const skeletonName = await getSkeletonName(characterId, cdnBase)
+        const count = await getSkeletonCount(characterId)
 
-        if (!skeletonName) {
+        if (count == null) {
           if (!disposed) onUnsupportedRef.current?.()
           return
         }
 
         if (disposed) return
 
-        const instance = await createSpineInstance(canvas, skeletonName, {
-          cdnBase,
-          characterId,
-        })
+        const files = getSkeletonFiles(characterId, count)
+        const baseUrl = getSpineAssetBaseUrl(characterId)
+
+        const instance = await createSpineInstance(canvas, baseUrl, files)
 
         if (disposed) {
           instance.dispose()
@@ -60,7 +58,7 @@ export function SpinePortrait({
       instanceRef.current?.dispose()
       instanceRef.current = null
     }
-  }, [characterId, cdnBase])
+  }, [characterId])
 
   return (
     <canvas

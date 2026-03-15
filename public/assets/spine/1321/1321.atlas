@@ -1,0 +1,686 @@
+1321.webp
+	size: 2047, 2047
+	filter: Linear, Linear
+	scale: 0.32
+L_eye_1
+	bounds: 1937, 537, 17, 26
+L_eye_2
+	bounds: 2018, 1345, 24, 22
+L_eye_3
+	bounds: 98, 1325, 15, 17
+L_eye_4
+	bounds: 997, 354, 15, 13
+L_eye_5
+	bounds: 57, 1290, 11, 4
+L_eye_6
+	bounds: 23, 1200, 4, 4
+L_eye_7
+	bounds: 3, 1026, 13, 14
+L_eye_8
+	bounds: 95, 373, 20, 20
+L_hand_10
+	bounds: 1360, 334, 33, 37
+	rotate: 90
+L_hand_11
+	bounds: 98, 1347, 17, 41
+L_hand_12
+	bounds: 2024, 848, 20, 31
+L_hand_13
+	bounds: 2023, 1290, 20, 33
+L_hand_14
+	bounds: 101, 758, 13, 28
+L_hand_15
+	bounds: 1937, 2024, 22, 20
+L_hand_16
+	bounds: 127, 77, 28, 17
+L_hand_17
+	bounds: 1956, 1001, 22, 42
+	rotate: 270
+L_hand_18
+	bounds: 3, 1372, 18, 14
+L_hand_2
+	bounds: 95, 1253, 20, 63
+L_hand_20
+	bounds: 1277, 4, 30, 24
+	rotate: 180
+L_hand_21
+	bounds: 1036, 35, 20, 34
+	rotate: 90
+L_hand_22
+	bounds: 26, 1447, 85, 18
+L_hand_24
+	bounds: 1937, 1408, 22, 47
+L_hand_25
+	bounds: 60, 1394, 53, 47
+L_hand_26
+	bounds: 909, 8, 126, 65
+L_hand_3
+	bounds: 997, 279, 23, 15
+L_hand_4
+	bounds: 32, 1233, 46, 36
+	rotate: 270
+L_hand_5
+	bounds: 796, 5, 29, 12
+L_hand_6
+	bounds: 44, 1212, 41, 10
+L_hand_9
+	bounds: 1937, 714, 21, 35
+	rotate: 90
+L_leg_1
+	bounds: 1937, 736, 74, 123
+R_eye_1
+	bounds: 102, 1156, 12, 14
+R_eye_2
+	bounds: 3, 1141, 10, 21
+R_eye_3
+	bounds: 46, 906, 9, 12
+R_eye_4
+	bounds: 3, 1266, 5, 14
+R_eye_5
+	bounds: 3, 1286, 11, 20
+R_eye_6
+	bounds: 67, 1384, 4, 4
+R_eye_7
+	bounds: 70, 1364, 9, 12
+R_eye_8
+	bounds: 3, 1235, 10, 18
+R_hand_1
+	bounds: 1551, 3, 38, 18
+R_hand_10
+	bounds: 103, 1192, 12, 12
+R_hand_11
+	bounds: 726, 25, 87, 36
+R_hand_12
+	bounds: 1937, 1461, 28, 27
+R_hand_13
+	bounds: 2020, 475, 59, 24
+	rotate: 90
+R_hand_14
+	bounds: 1992, 540, 50, 63
+R_hand_15
+	bounds: 1063, 339, 29, 27
+R_hand_16
+	bounds: 228, 6, 75, 27
+R_hand_17
+	bounds: 2021, 413, 28, 21
+	rotate: 90
+R_hand_18
+	bounds: 2006, 1064, 38, 40
+R_hand_19
+	bounds: 758, 8, 32, 11
+R_hand_20
+	bounds: 1243, 165, 20, 24
+	offsets: 0, 0, 20, 26
+	rotate: 90
+R_hand_3
+	bounds: 2006, 1006, 52, 28
+	rotate: 90
+R_hand_4
+	bounds: 1408, 5, 106, 46
+R_hand_5
+	bounds: 1453, 336, 31, 28
+	rotate: 90
+R_hand_7
+	bounds: 3, 1312, 35, 51
+R_hand_8
+	bounds: 94, 713, 19, 39
+R_hand_9
+	bounds: 381, 6, 84, 55
+R_leg_1
+	bounds: 1937, 1329, 86, 159
+R_leg_3
+	bounds: 3, 654, 112, 280
+R_leg_4
+	bounds: 2015, 1836, 33, 26
+	rotate: 90
+bg_13
+	bounds: 1937, 587, 155, 99
+	offsets: 0, 0, 155, 110
+	rotate: 90
+bg_19
+	bounds: 1821, 6, 29, 19
+	offsets: 0, 0, 31, 20
+bg_2
+	bounds: 1937, 1494, 116, 90
+	rotate: 90
+bg_20
+	bounds: 1312, 5, 61, 48
+	offsets: 0, 2, 65, 51
+	rotate: 90
+bg_22
+	bounds: 121, 373, 1671, 1810
+	rotate: 90
+bg_25
+	bounds: 3, 100, 267, 375
+	rotate: 90
+bg_3
+	bounds: 309, 10, 66, 84
+bg_34
+	bounds: 1946, 244, 42, 55
+	rotate: 90
+bg_4
+	bounds: 659, 4, 57, 61
+	rotate: 90
+bg_6
+	bounds: 1078, 5, 31, 34
+	rotate: 270
+bg_7
+	bounds: 709, 67, 282, 300
+bg_9
+	bounds: 1401, 288, 77, 79
+	offsets: 4, 0, 81, 79
+	rotate: 180
+bird_10
+	bounds: 1937, 1821, 223, 107
+	rotate: 90
+bird_13
+	bounds: 997, 299, 68, 68
+bird_14
+	bounds: 1937, 358, 54, 31
+	offsets: 0, 5, 54, 36
+bird_17
+	bounds: 3, 1201, 14, 22
+bird_18
+	bounds: 1856, 4, 37, 19
+bird_20
+	bounds: 2027, 885, 35, 17
+	rotate: 90
+bird_21
+	bounds: 3, 379, 31, 24
+	rotate: 270
+bird_22
+	bounds: 3, 778, 10, 8
+bird_23
+	bounds: 104, 792, 11, 16
+bird_24
+	bounds: 1259, 358, 17, 9
+bird_25
+	bounds: 1937, 1907, 11, 12
+bird_26
+	bounds: 1937, 1921, 14, 12
+	offsets: 0, 0, 14, 14
+bird_27
+	bounds: 893, 39, 20, 22
+	offsets: 1, 0, 21, 22
+bird_28
+	bounds: 2029, 1418, 15, 18
+bird_29
+	bounds: 1524, 5, 21, 16
+bird_30
+	bounds: 1097, 353, 19, 14
+bird_31
+	bounds: 997, 203, 19, 19
+bird_32
+	bounds: 100, 654, 12, 12
+bird_33
+	bounds: 261, 39, 17, 6
+	offsets: 0, 0, 17, 7
+bird_34
+	bounds: 101, 940, 12, 10
+bird_35
+	bounds: 161, 87, 15, 7
+bird_36
+	bounds: 1937, 1943, 13, 14
+bird_37
+	bounds: 106, 1447, 7, 6
+bird_38
+	bounds: 44, 1413, 8, 8
+bird_39
+	bounds: 2022, 363, 26, 22
+	rotate: 90
+bird_40
+	bounds: 3, 925, 111, 282
+bird_43
+	bounds: 1482, 4, 23, 36
+	rotate: 270
+bird_44
+	bounds: 127, 29, 177, 65
+	offsets: 6, 0, 183, 65
+bird_5
+	bounds: 997, 79, 35, 21
+	rotate: 90
+bird_6
+	bounds: 2000, 1624, 45, 42
+	rotate: 90
+bird_9
+	bounds: 997, 63, 304, 517
+	rotate: 90
+body_14
+	bounds: 82, 654, 52, 29
+	rotate: 90
+body_16_light
+	bounds: 1999, 1735, 114, 35
+	rotate: 90
+body_19
+	bounds: 3, 1011, 9, 9
+body_22
+	bounds: 2000, 1675, 44, 54
+body_23
+	bounds: 1025, 10, 173, 300
+	rotate: 270
+body_25
+	bounds: 2011, 2001, 33, 43
+body_27
+	bounds: 1358, 10, 110, 118
+	rotate: 90
+body_29
+	bounds: 1937, 851, 93, 172
+body_3
+	bounds: 3, 10, 118, 84
+body_30
+	bounds: 2002, 1110, 34, 111
+body_35
+	bounds: 471, 7, 54, 92
+	rotate: 90
+body_36
+	bounds: 1995, 705, 44, 66
+body_37
+	bounds: 127, 6, 67, 25
+body_38
+	bounds: 2013, 774, 31, 68
+body_40
+	bounds: 1344, 67, 35, 37
+	rotate: 180
+body_42
+	bounds: 2025, 609, 17, 22
+body_6
+	bounds: 101, 1480, 13, 14
+body_9
+	bounds: 70, 1226, 22, 160
+face_1
+	bounds: 108, 1469, 4, 5
+face_3
+	bounds: 88, 456, 25, 18
+face_4
+	bounds: 3, 926, 22, 24
+face_5
+	bounds: 94, 1098, 21, 52
+face_6
+	bounds: 43, 1427, 9, 15
+face_7
+	bounds: 3, 376, 106, 98
+fir_3
+	bounds: 3, 1203, 291, 61
+	rotate: 90
+fir_5
+	bounds: 384, 67, 300, 319
+	rotate: 90
+fir_6
+	bounds: 1795, 31, 205, 243
+	rotate: 90
+fir_9
+	bounds: 1937, 358, 82, 242
+	offsets: 0, 0, 84, 243
+hair_1
+	bounds: 1946, 292, 93, 60
+hair_12
+	bounds: 1937, 862, 85, 49
+	rotate: 90
+hair_19
+	bounds: 1937, 1170, 103, 175
+hair_3
+	bounds: 1586, 3, 18, 50
+	rotate: 90
+hair_31
+	bounds: 1937, 396, 131, 36
+	rotate: 90
+hair_32
+	bounds: 2007, 246, 40, 29
+	rotate: 90
+hair_4
+	bounds: 1937, 1282, 47, 41
+	rotate: 270
+hair_9
+	bounds: 997, 120, 30, 75
+hat_1
+	bounds: 2029, 1442, 46, 15
+	rotate: 90
+hat_3
+	bounds: 1177, 190, 34, 12
+hat_4
+	bounds: 1288, 347, 41, 20
+hat_5
+	bounds: 3, 792, 62, 23
+	rotate: 90
+hat_6
+	bounds: 28, 1459, 75, 35
+hat_9
+	bounds: 3, 854, 64, 37
+	rotate: 90
+ly1
+	bounds: 2015, 1227, 57, 27
+	rotate: 90
+ly3
+	bounds: 569, 15, 84, 46
+ly4
+	bounds: 3, 480, 168, 99
+	rotate: 90
+lyb1
+	bounds: 819, 23, 68, 38
+lyb2
+	bounds: 91, 1210, 37, 23
+	rotate: 90
+lyb4
+	bounds: 205, 3, 23, 17
+	rotate: 90
+lyb5
+	bounds: 1129, 354, 43, 13
+mouth_1
+	bounds: 43, 1265, 16, 19
+mouth_2
+	bounds: 1030, 163, 16, 16
+mouth_3
+	bounds: 20, 1294, 11, 12
+nose
+	bounds: 1336, 353, 18, 14
+rain_1
+	bounds: 1520, 27, 209, 269
+	rotate: 90
+rain_10
+	bounds: 1488, 241, 126, 452
+	rotate: 90
+rain_11
+	bounds: 3, 1499, 113, 545
+	offsets: 0, 0, 113, 736
+rain_12
+	bounds: 1937, 1616, 57, 199
+rain_2
+	bounds: 1937, 1029, 63, 136
+rain_6
+	bounds: 726, 3, 26, 16
+rain_9
+	bounds: 1795, 7, 20, 18
+shabu_1
+	bounds: 1004, 5, 68, 23
+
+1321_2.webp
+	size: 2048, 1156
+	filter: Linear, Linear
+	scale: 0.32
+L_hand_1
+	bounds: 753, 14, 148, 123
+	offsets: 0, 0, 150, 123
+L_hand_19
+	bounds: 493, 931, 37, 53
+L_hand_27
+	bounds: 1124, 665, 68, 72
+L_hand_7
+	bounds: 1389, 768, 99, 81
+L_hand_8
+	bounds: 552, 103, 109, 160
+L_leg_2
+	bounds: 1250, 709, 195, 298
+L_leg_3
+	bounds: 721, 417, 167, 277
+	rotate: 90
+R_hand_2
+	bounds: 1781, 151, 152, 264
+	rotate: 90
+R_hand_21
+	bounds: 1011, 803, 34, 34
+R_hand_6
+	bounds: 1915, 956, 29, 45
+R_leg_2
+	bounds: 1883, 89, 162, 155
+bg_1
+	bounds: 436, 459, 178, 195
+	rotate: 90
+bg_10
+	bounds: 1872, 811, 35, 48
+	offsets: 1, 0, 36, 53
+bg_11
+	bounds: 1915, 1117, 24, 36
+	offsets: 1, 0, 33, 36
+bg_12
+	bounds: 864, 1127, 27, 26
+	offsets: 4, 0, 31, 27
+bg_14
+	bounds: 296, 58, 132, 108
+	offsets: 0, 0, 132, 116
+bg_15
+	bounds: 1314, 696, 55, 46
+bg_16
+	bounds: 338, 171, 194, 141
+	offsets: 0, 1, 199, 142
+bg_17
+	bounds: 1304, 1051, 85, 81
+	offsets: 0, 0, 85, 84
+bg_18
+	bounds: 1430, 1126, 31, 27
+	offsets: 3, 4, 34, 32
+bg_21
+	bounds: 2000, 934, 45, 29
+bg_23
+	bounds: 3, 3, 189, 220
+	rotate: 90
+bg_35
+	bounds: 247, 376, 126, 227
+bg_36
+	bounds: 1825, 379, 126, 227
+bg_37
+	bounds: 3, 588, 429, 131
+	offsets: 0, 0, 429, 245
+bg_5
+	bounds: 1411, 856, 40, 33
+bg_8
+	bounds: 1685, 469, 134, 116
+bird_1
+	bounds: 1547, 372, 471, 292
+	rotate: 270
+bird_11
+	bounds: 669, 826, 66, 92
+bird_12
+	bounds: 1222, 770, 49, 57
+bird_15
+	bounds: 379, 506, 54, 63
+	offsets: 0, 0, 66, 63
+bird_16
+	bounds: 779, 1113, 41, 40
+	offsets: 2, 0, 43, 40
+bird_19
+	bounds: 493, 1103, 35, 25
+bird_2
+	bounds: 991, 106, 137, 139
+bird_3
+	bounds: 723, 1085, 56, 68
+bird_4
+	bounds: 1376, 736, 44, 26
+bird_41
+	bounds: 773, 418, 58, 50
+bird_42
+	bounds: 866, 1082, 93, 71
+bird_45
+	bounds: 1469, 968, 202, 185
+bird_46
+	bounds: 719, 419, 59, 70
+bird_8
+	bounds: 512, 1027, 238, 126
+body_1
+	bounds: 736, 870, 54, 65
+body_10
+	bounds: 914, 51, 71, 134
+body_11
+	bounds: 1915, 973, 125, 180
+body_12
+	bounds: 419, 72, 181, 144
+	rotate: 90
+body_13
+	bounds: 1913, 697, 132, 173
+body_15
+	bounds: 746, 230, 154, 309
+	offsets: 0, 1, 154, 310
+	rotate: 90
+body_16
+	bounds: 637, 336, 268, 260
+	rotate: 180
+body_17
+	bounds: 1691, 524, 354, 329
+body_18
+	bounds: 455, 259, 301, 161
+body_2
+	bounds: 1466, 292, 353, 151
+body_20
+	bounds: 846, 707, 66, 36
+body_21
+	bounds: 437, 657, 71, 62
+body_24
+	bounds: 1633, 99, 126, 149
+	rotate: 90
+body_26
+	bounds: 1477, 393, 70, 165
+body_28
+	bounds: 461, 359, 123, 94
+body_31
+	bounds: 780, 1028, 71, 33
+body_32
+	bounds: 3, 401, 236, 194
+body_33
+	bounds: 1629, 456, 56, 69
+body_34
+	bounds: 493, 747, 184, 177
+	rotate: 90
+body_39
+	bounds: 493, 878, 31, 48
+body_4
+	bounds: 1014, 294, 455, 208
+	rotate: 180
+body_41
+	bounds: 965, 1107, 50, 46
+body_43
+	bounds: 514, 641, 109, 34
+body_44
+	bounds: 40, 172, 242, 229
+body_45
+	bounds: 1130, 358, 228, 428
+	rotate: 90
+body_5
+	bounds: 834, 415, 72, 36
+body_7
+	bounds: 629, 73, 118, 66
+body_8
+	bounds: 891, 677, 230, 132
+face_2
+	bounds: 1631, 1126, 44, 27
+fir_1
+	bounds: 1270, 795, 60, 66
+	offsets: 10, 0, 70, 76
+fir_10
+	bounds: 1957, 443, 69, 75
+fir_11
+	bounds: 857, 183, 143, 253
+	rotate: 90
+fir_2
+	bounds: 912, 705, 115, 54
+fir_4
+	bounds: 1696, 933, 213, 220
+fir_7
+	bounds: 1339, 180, 212, 174
+	rotate: 180
+fir_8
+	bounds: 1976, 795, 69, 91
+	offsets: 0, 4, 69, 95
+hair_10
+	bounds: 1779, 19, 107, 81
+hair_11
+	bounds: 1556, 202, 88, 87
+hair_13
+	bounds: 1435, 78, 124, 115
+hair_14
+	bounds: 3, 87, 200, 144
+hair_15
+	bounds: 667, 120, 252, 232
+	rotate: 180
+hair_16
+	bounds: 168, 87, 179, 165
+hair_17
+	bounds: 1485, 25, 141, 121
+	rotate: 180
+hair_18
+	bounds: 1575, 1022, 131, 113
+	rotate: 90
+hair_2
+	bounds: 571, 349, 59, 104
+hair_20
+	bounds: 454, 17, 92, 96
+hair_21
+	bounds: 1796, 56, 237, 94
+hair_22
+	bounds: 1108, 646, 116, 35
+hair_23
+	bounds: 1691, 675, 160, 105
+hair_24
+	bounds: 1928, 941, 117, 108
+hair_25
+	bounds: 1184, 448, 51, 79
+hair_26
+	bounds: 91, 281, 357, 172
+	rotate: 180
+hair_27
+	bounds: 1057, 413, 84, 64
+hair_28
+	bounds: 67, 386, 97, 84
+hair_29
+	bounds: 1102, 125, 338, 167
+	rotate: 180
+hair_30
+	bounds: 1122, 58, 292, 197
+	rotate: 180
+hair_33
+	bounds: 841, 387, 76, 52
+hair_34
+	bounds: 1261, 335, 57, 72
+hair_35
+	bounds: 1528, 592, 65, 73
+hair_36
+	bounds: 1650, 392, 155, 71
+hair_37
+	bounds: 981, 658, 127, 52
+hair_5
+	bounds: 1615, 1067, 44, 39
+hair_6
+	bounds: 658, 1112, 52, 41
+hair_7
+	bounds: 1274, 672, 28, 31
+hair_8
+	bounds: 168, 410, 55, 55
+hat_10
+	bounds: 689, 772, 164, 168
+hat_2
+	bounds: 852, 1055, 53, 33
+hat_7
+	bounds: 756, 1051, 105, 102
+hat_8
+	bounds: 1532, 69, 266, 275
+ly2
+	bounds: 1565, 1112, 44, 23
+rain_3
+	bounds: 3, 725, 484, 428
+rain_5
+	bounds: 1618, 8, 132, 188
+	rotate: 90
+rain_7
+	bounds: 994, 31, 149, 253
+	offsets: 9, 0, 324, 316
+	rotate: 270
+rain_8
+	bounds: 1430, 922, 37, 50
+	offsets: 0, 0, 37, 51
+shabu_2
+	bounds: 1241, 485, 668, 780
+	rotate: 270
+shabu_3
+	bounds: 493, 628, 525, 919
+	offsets: 5, 20, 530, 939
+	rotate: 90
+shabu_4
+	bounds: 493, 918, 723, 235
+	offsets: 40, 0, 763, 246
+	rotate: 180
+shabu_42
+	bounds: 1300, 276, 154, 40
+shabu_5
+	bounds: 678, 519, 633, 171
+	offsets: 40, 0, 673, 171
+shabu_6
+	bounds: 1709, 229, 336, 163
+	rotate: 180

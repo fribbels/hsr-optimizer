@@ -27,8 +27,6 @@ import {
 } from 'types/customImage'
 import { useGlobalStore } from 'lib/stores/appStore'
 
-const SPINE_CDN_BASE = 'https://static.nanoka.cc/assets/hsr/spine'
-
 export const ShowcasePortrait = memo(function ShowcasePortrait({
   source,
   character,
@@ -110,7 +108,6 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         : (
           <SpinePortrait
             characterId={character.id}
-            cdnBase={SPINE_CDN_BASE}
             style={portraitStyle}
             onUnsupported={handleSpineUnsupported}
           />

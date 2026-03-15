@@ -12,7 +12,7 @@ export function useGridLocale(translationNs: string, keyPrefix?: string) {
       of: t('Of'),
       page: t('Page'),
       pageSizeSelectorLabel: t('PageSelectorLabel'),
-      loadingOoo: t('Loading'),
+      loadingOoo: '...',
       noRowsToShow: '',
     }
     return localeLookup[param.key] ?? param.defaultValue

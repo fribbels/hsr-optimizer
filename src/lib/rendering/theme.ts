@@ -41,6 +41,9 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
           },
         },
       },
+      InputBase: {
+        defaultProps: { size: 'xs' },
+      },
       InputWrapper: {
         defaultProps: { size: 'xs' },
       },

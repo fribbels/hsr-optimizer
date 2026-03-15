@@ -15,9 +15,10 @@ import {
 import { EditImageModal } from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { SpinePortrait } from 'lib/spine/SpinePortrait'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { memo } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Character } from 'types/character'
 import {
@@ -25,6 +26,8 @@ import {
   CustomImagePayload,
 } from 'types/customImage'
 import { useGlobalStore } from 'lib/stores/appStore'
+
+const SPINE_CDN_BASE = 'https://static.nanoka.cc/assets/hsr/spine'
 
 export const ShowcasePortrait = memo(function ShowcasePortrait({
   source,
@@ -57,15 +60,26 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
   const uid = useShowcaseTabStore((s) => s.savedSession.scorerId)
 
+  const [spineFallback, setSpineFallback] = useState(false)
+  const handleSpineUnsupported = useCallback(() => setSpineFallback(true), [])
+
+  // Reset fallback when character changes
+  useEffect(() => setSpineFallback(false), [character.id])
+
   const showUid = source === ShowcaseSource.SHOWCASE_TAB && showcaseUID
 
   const {
     tempInnerW,
     tempParentH,
-    newLcHeight,
-    newLcMargin,
     charCenter,
   } = displayDimensions
+
+  const portraitStyle = {
+    position: 'absolute' as const,
+    left: -charCenter.x * charCenter.z / 2 * tempInnerW / 1024 + parentW / 2,
+    top: -charCenter.y * charCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
+    width: tempInnerW * charCenter.z,
+  }
 
   return (
     <div
@@ -76,25 +90,29 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         boxShadow: showcaseShadow,
       }}
     >
-      {(character.portrait ?? customPortrait)
-        ? (
-          <CharacterCustomPortrait
-            customPortrait={customPortrait ?? character.portrait!}
-            parentW={parentW}
-            scoringType={scoringType}
-            onPortraitLoad={onPortraitLoad}
-          />
-        )
+      {spineFallback
+        ? (character.portrait ?? customPortrait)
+          ? (
+            <CharacterCustomPortrait
+              customPortrait={customPortrait ?? character.portrait!}
+              parentW={parentW}
+              scoringType={scoringType}
+              onPortraitLoad={onPortraitLoad}
+            />
+          )
+          : (
+            <LoadingBlurredImage
+              src={Assets.getCharacterPortraitById(character.id)}
+              style={portraitStyle}
+              callback={onPortraitLoad}
+            />
+          )
         : (
-          <LoadingBlurredImage
-            src={Assets.getCharacterPortraitById(character.id)}
-            style={{
-              position: 'absolute',
-              left: -charCenter.x * charCenter.z / 2 * tempInnerW / 1024 + parentW / 2,
-              top: -charCenter.y * charCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
-              width: tempInnerW * charCenter.z,
-            }}
-            callback={onPortraitLoad}
+          <SpinePortrait
+            characterId={character.id}
+            cdnBase={SPINE_CDN_BASE}
+            style={portraitStyle}
+            onUnsupported={handleSpineUnsupported}
           />
         )}
 

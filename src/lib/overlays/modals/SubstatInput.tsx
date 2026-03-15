@@ -22,7 +22,6 @@ import { Utils } from 'lib/utils/utils'
 import {
   useMemo,
   useRef,
-  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -34,7 +33,6 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
   plusThree: () => void
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [hovered, setHovered] = useState(false)
   const statTypeField = `substatType${index}` as `substatType${typeof index}`
   const statValueField = `substatValue${index}` as `substatValue${typeof index}`
   const isPreviewField = `substat${index}IsPreview` as `substat${typeof index}IsPreview`
@@ -92,8 +90,8 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
       }
     }
     return (
-      <div style={{ width: 12, marginTop: 7, cursor: 'pointer' }}>
-        {isPreview ? <IconLock onClick={onClick} /> : <IconChevronRight onClick={onClick} />}
+      <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+        {isPreview ? <IconLock size={18} onClick={onClick} /> : <IconChevronRight size={18} onClick={onClick} />}
       </div>
     )
   }
@@ -125,7 +123,7 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
   const stat = relicForm.getValues()[statTypeField] as RelicForm[typeof statTypeField]
 
   return (
-    <Flex gap={10} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <div style={{ display: 'contents' }}>
       <Flex gap={10}>
         <Select
           searchable
@@ -174,12 +172,16 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
           />
         </Tooltip>
       </Flex>
-      <PreviewToggle />
-      <Flex gap={5} miw={180}>
+
+      <Flex align='center' justify='center' h='100%'>
+        <PreviewToggle />
+      </Flex>
+
+      <Flex gap={5}>
         <UpgradeButton quality='low' />
         <UpgradeButton quality='mid' />
         <UpgradeButton quality='high' />
       </Flex>
-    </Flex>
+    </div>
   )
 }

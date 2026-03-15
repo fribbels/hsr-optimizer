@@ -5,6 +5,8 @@ type SimpleOption = { value: string; label: string }
 type GroupedOption = { group: string; items: SimpleOption[] }
 type DataItem = SimpleOption | GroupedOption
 
+const compactPillStyle = { '--pill-height': '20px' } as CSSProperties
+
 function isGrouped(item: DataItem): item is GroupedOption {
   return 'group' in item
 }
@@ -48,8 +50,6 @@ export function MultiSelectPills({
 }) {
   const heightStyles = useMemo<PillsInputProps['styles'] | undefined>(() => {
     if (height == null) return styles
-    const borderWidth = 1
-    const innerHeight = height - borderWidth * 2
     const inputStyle: CSSProperties = {
       minHeight: height,
       height: height,
@@ -95,7 +95,7 @@ export function MultiSelectPills({
   const visibleValues = max === 0 ? [] : value.slice(0, max >= value.length ? max : max - 1)
   const overflowCount = value.length - visibleValues.length
 
-  const pillStyle = height != null ? { '--pill-height': '20px' } as CSSProperties : undefined
+  const pillStyle = height != null ? compactPillStyle : undefined
   const pills = visibleValues.map((item) => (
     <Pill key={item} style={pillStyle} withRemoveButton onRemove={() => handleValueRemove(item)}>
       {labelMap.get(item) ?? item}

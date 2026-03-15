@@ -55,7 +55,6 @@ function PriorityCombobox(props: {
         const characterId = useOptimizerRequestStore.getState().characterId
         if (characterId && getCharacterById(characterId)) {
           useCharacterStore.getState().insertCharacter(characterId, numVal)
-          void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations: rc }) => rc())
         }
         recalculatePermutations()
         combobox.closeDropdown()

@@ -98,7 +98,7 @@ function EnemyConfigurationsDrawerContent() {
   [t])
 
   return (
-    <Flex direction="column" gap={5}>
+    <Flex direction="column" gap={10}>
       <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>
         <HeaderText>{t('StatHeader') /* Enemy stat options */}</HeaderText>
         <TooltipImage type={Hint.enemyOptions()} />

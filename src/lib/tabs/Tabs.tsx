@@ -49,10 +49,21 @@ const Tabs = () => {
   // the tab content in a lower-priority pass — avoids blocking the menu.
   const deferredActiveKey = useDeferredValue(activeKey)
 
-  const tabs = React.useMemo(
-    () => TAB_COMPONENTS.map(([key, Component]) => [key, <Component />] as const),
+  // Create all element descriptions once (stable references, but not mounted until included in tree)
+  const tabElements = React.useMemo(
+    () => new Map(TAB_COMPONENTS.map(([key, Component]) => [key, <Component />] as const)),
     [],
   )
+
+  // Start with only the active tab mounted. All others mount after the active tab paints.
+  const [allMounted, setAllMounted] = useState(false)
+
+  useEffect(() => {
+    // After active tab renders, mount all remaining tabs in the next frame
+    requestAnimationFrame(() => {
+      setAllMounted(true)
+    })
+  }, [])
 
   useEffect(() => {
     let route = PageToRoute[activeKey]
@@ -78,8 +89,10 @@ const Tabs = () => {
 
   return (
     <Flex justify='space-around' w='100%'>
-      {tabs.map(([tabKey, content]) => (
-        <TabRenderer key={tabKey} activeKey={deferredActiveKey} tabKey={tabKey} content={content} />
+      {TAB_COMPONENTS.map(([tabKey]) => (
+        <TabRenderer key={tabKey} activeKey={deferredActiveKey} tabKey={tabKey}>
+          {(allMounted || tabKey === activeKey) ? tabElements.get(tabKey)! : null}
+        </TabRenderer>
       ))}
     </Flex>
   )
@@ -87,10 +100,10 @@ const Tabs = () => {
 
 export default Tabs
 
-function TabRenderer({ activeKey, tabKey, content }: {
+function TabRenderer({ activeKey, tabKey, children }: {
   activeKey: AppPages
   tabKey: AppPages
-  content: ReactElement
+  children: ReactElement | null
 }) {
   const isActive = activeKey === tabKey
   const prevActiveRef = useRef(isActive)
@@ -125,7 +138,7 @@ function TabRenderer({ activeKey, tabKey, content }: {
     <ErrorBoundary fallbackRender={defaultErrorRender}>
       <TabVisibilityContext value={contextValue}>
         <div style={{ display: isActive ? 'contents' : 'none' }} id={tabKey}>
-          {content}
+          {children}
         </div>
       </TabVisibilityContext>
     </ErrorBoundary>

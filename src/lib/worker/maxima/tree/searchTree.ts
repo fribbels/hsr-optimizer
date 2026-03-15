@@ -26,11 +26,60 @@ export interface TreeConfig {
   refinementLimit: number
 }
 
+export interface SearchTreeProfile {
+  damageFunctionTimeMs: number
+  damageFunctionCalls: number
+  cacheHits: number
+  cacheMisses: number
+  feasibilityCheckTimeMs: number
+  feasibilityChecks: number
+  feasibilityRejects: number
+  validatorCheckTimeMs: number
+  validatorChecks: number
+  validatorRejects: number
+  splitTimeMs: number
+  representativeGenTimeMs: number
+  neighborScanTimeMs: number
+  neighborScanCalls: number
+  neighborScanBetterPoints: number
+  neighborScanOffsets: number
+  neighborScanDmgCalls: number
+  evaluateTimeMs: number
+  evaluateStaleSkips: number
+  evaluateCalls: number
+}
+
+function createEmptyProfile(): SearchTreeProfile {
+  return {
+    damageFunctionTimeMs: 0,
+    damageFunctionCalls: 0,
+    cacheHits: 0,
+    cacheMisses: 0,
+    feasibilityCheckTimeMs: 0,
+    feasibilityChecks: 0,
+    feasibilityRejects: 0,
+    validatorCheckTimeMs: 0,
+    validatorChecks: 0,
+    validatorRejects: 0,
+    splitTimeMs: 0,
+    representativeGenTimeMs: 0,
+    neighborScanTimeMs: 0,
+    neighborScanCalls: 0,
+    neighborScanBetterPoints: 0,
+    neighborScanOffsets: 0,
+    neighborScanDmgCalls: 0,
+    evaluateTimeMs: 0,
+    evaluateStaleSkips: 0,
+    evaluateCalls: 0,
+  }
+}
+
 export interface ProtoTreeStatNode {
   region: TreeStatRegion
   representative: SubstatCounts
   damage: number
   volume: number
+  logVolume: number
   nodeId: number
   measurement: number
   evaluated: boolean
@@ -101,6 +150,7 @@ export class SearchTree {
   public startTime = 0
   public endTime = 0
   public completed = false
+  public profile: SearchTreeProfile = createEmptyProfile()
 
   public dimensionVarianceTracker: Record<string, {
     totalVariance: number,
@@ -130,7 +180,7 @@ export class SearchTree {
     })
 
     this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
-    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => Math.log(b.volume) * b.damage - Math.log(a.volume) * a.damage)
+    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.logVolume * b.damage - a.logVolume * a.damage)
 
     this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
 
@@ -176,15 +226,27 @@ export class SearchTree {
 
   public getBest() {
     const benchmark = this.targetSum == 54 ? 200 : 100
+    const p = this.profile
+    const total = this.endTime - this.startTime
+    const accounted = p.damageFunctionTimeMs + p.feasibilityCheckTimeMs + p.validatorCheckTimeMs
+      + p.representativeGenTimeMs + p.neighborScanTimeMs + p.splitTimeMs
+    const overhead = total - accounted
 
-    console.log(
-      '=============',
-      `${this.dimensions}-D ${benchmark}%`,
-      this.bestNode?.measurement,
-      this.measurements,
-      this.mainStats.slice(2).join(' / '),
-      `${Math.floor(this.endTime - this.startTime)}ms`,
-    )
+    // console.log(
+    //   '=============',
+    //   `${this.dimensions}-D ${benchmark}%`,
+    //   this.bestNode?.measurement,
+    //   this.measurements,
+    //   this.mainStats.slice(2).join(' / '),
+    //   `${Math.floor(total)}ms`,
+    // )
+    console.log(`  [perf] ${JSON.stringify({
+      dim: this.dimensions, bench: benchmark, ms: Math.round(total),
+      dmgFn: Math.round(p.damageFunctionTimeMs), nbrMs: Math.round(p.neighborScanTimeMs),
+      nbrScans: p.neighborScanCalls, nbrOffsets: p.neighborScanOffsets, nbrDmg: p.neighborScanDmgCalls,
+      evals: p.evaluateCalls, stale: p.evaluateStaleSkips, overhead: Math.round(overhead),
+    })}`)
+
     return this.bestNode!.representative!
   }
 
@@ -192,26 +254,31 @@ export class SearchTree {
    * Splits a node into two child regions
    */
   public evaluate(queue: PriorityQueue<ProtoTreeStatNode>) {
+    const t0 = performance.now()
+    this.profile.evaluateCalls++
+
     const node = queue.pop()
     if (node == null) {
       this.completed = true
       return
     }
-    if (node.evaluated) return
+    if (node.evaluated) {
+      this.profile.evaluateStaleSkips++
+      return
+    }
 
     const splitDimension = this.pickSplitDimension(node)
     if (!splitDimension) return
 
     const parentNode = node as TreeStatNode
+
+    const tSplit = performance.now()
     const {
       midpoint,
       lowerRegion,
       upperRegion,
     } = splitNode(parentNode, splitDimension)
-
-    // if (parentNode.nodeId == 1872) {
-    //   console.log('debug')
-    // }
+    this.profile.splitTimeMs += performance.now() - tSplit
 
     const lowerChild = this.generateChild(parentNode, lowerRegion, splitDimension, false)
     const upperChild = this.generateChild(parentNode, upperRegion, splitDimension, true)
@@ -229,6 +296,8 @@ export class SearchTree {
       tracker.splitCount++
       tracker.avgVariance = tracker.totalVariance / tracker.splitCount
     }
+
+    this.profile.evaluateTimeMs += performance.now() - t0
   }
 
   /**
@@ -240,17 +309,27 @@ export class SearchTree {
     dimension: string,
     upper: boolean,
   ) {
-    // if (this.nodeId == 1282) {
-    //   console.log('debug')
-    // }
+    const tFeasibility = performance.now()
+    const feasible = isRegionFeasible(region, this)
+    this.profile.feasibilityCheckTimeMs += performance.now() - tFeasibility
+    this.profile.feasibilityChecks++
 
-    if (!isRegionFeasible(region, this)) {
+    if (!feasible) {
+      this.profile.feasibilityRejects++
       return null
     }
 
+    const tRepGen = performance.now()
     const representative = this.generateRepresentative(region, dimension, upper)
+    this.profile.representativeGenTimeMs += performance.now() - tRepGen
 
-    if (!this.substatValidator.isValidDistributionSimple(representative)) {
+    const tValidator = performance.now()
+    const valid = this.substatValidator.isValidDistributionSimple(representative)
+    this.profile.validatorCheckTimeMs += performance.now() - tValidator
+    this.profile.validatorChecks++
+
+    if (!valid) {
+      this.profile.validatorRejects++
       return null
     }
 
@@ -259,6 +338,7 @@ export class SearchTree {
       representative: representative,
       damage: 0,
       volume: 0,
+      logVolume: 0,
       nodeId: this.nodeId++,
       measurement: this.measurements,
       evaluated: false,
@@ -502,6 +582,7 @@ export class SearchTree {
       representative: representative,
       damage: 0,
       volume: 0,
+      logVolume: 0,
       nodeId: this.nodeId++,
       measurement: this.measurements,
       evaluated: false,
@@ -521,13 +602,19 @@ export class SearchTree {
   public calculateDamage(node: ProtoTreeStatNode) {
     const id = pointToBitwiseId(node.representative, this.activeStats)
     const value = this.cache[id]
-    if (value) {
+    if (value !== undefined) {
       this.collisions++
+      this.profile.cacheHits++
       node.damage = value
       return value
     }
 
+    this.profile.cacheMisses++
+    const t0 = performance.now()
     const damage = this.damageFunction(node.representative)
+    this.profile.damageFunctionTimeMs += performance.now() - t0
+    this.profile.damageFunctionCalls++
+
     this.measurements++
     this.cache[id] = damage
     node.damage = damage
@@ -559,16 +646,21 @@ export class SearchTree {
     }
 
     node.volume = volume
+    node.logVolume = Math.log(volume)
     return volume
   }
 
   public scanPointNeighbors(centerPoint: SubstatCounts) {
-    const comparisonDmg = this.bestDamage
+    const t0 = performance.now()
+    this.profile.neighborScanCalls++
+
     let betterPoints = 0
 
     // Generate all offset combinations that sum to 0
     const validOffsets = this.generateZeroSumOffsets(this.activeStats.length, centerPoint)
+    this.profile.neighborScanOffsets += validOffsets.length
     const testPoint = { ...centerPoint }
+    let neighborDmgCalls = 0
 
     for (const offsets of validOffsets) {
       // Apply offsets in-place
@@ -582,8 +674,14 @@ export class SearchTree {
 
       const id = pointToBitwiseId(testPoint, this.activeStats)
       const value = this.cache[id]
-      if (!value) {
+      if (value === undefined) {
+        const tDmg = performance.now()
         const damage = this.damageFunction(testPoint)
+        this.profile.damageFunctionTimeMs += performance.now() - tDmg
+        this.profile.damageFunctionCalls++
+        this.profile.cacheMisses++
+        neighborDmgCalls++
+
         this.measurements++
         this.cache[id] = damage
 
@@ -593,10 +691,14 @@ export class SearchTree {
 
           this.insertIntoTree(newPoint, this.root as TreeStatNode)
         }
+      } else {
+        this.profile.cacheHits++
       }
     }
 
-    // console.log('Better points: ', betterPoints)
+    this.profile.neighborScanBetterPoints += betterPoints
+    this.profile.neighborScanDmgCalls += neighborDmgCalls
+    this.profile.neighborScanTimeMs += performance.now() - t0
   }
 
   private insertIntoTree(point: SubstatCounts, root: TreeStatNode): ProtoTreeStatNode {
@@ -618,6 +720,7 @@ export class SearchTree {
       representative: point,
       damage: 0,
       volume: 0,
+      logVolume: 0,
       nodeId: this.nodeId++,
       measurement: this.measurements,
       evaluated: false,

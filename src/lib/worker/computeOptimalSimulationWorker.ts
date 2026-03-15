@@ -99,14 +99,17 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
   const cachedComputedStatsContainer = new ComputedStatsContainer()
   cachedComputedStatsContainer.initializeArrays(context.maxContainerArrayLength, context)
 
+  const mergedScoringParams = {
+    ...scoringParams,
+    substatRollsModifier: scoringParams.substatRollsModifier,
+    simulationFlags: simulationFlags,
+    stabilize: false,
+  }
+
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
-    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, {
-      ...scoringParams,
-      substatRollsModifier: scoringParams.substatRollsModifier,
-      simulationFlags: simulationFlags,
-      stabilize: stabilize,
-    }, cachedComputedStatsContainer)[0]
+    mergedScoringParams.stabilize = stabilize
+    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
     applyScoringFunction(currentSimulation.result, metadata)
     return currentSimulation.result.simScore

@@ -14,8 +14,14 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
+        manualChunks(id) {
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) return 'react-vendor'
+          if (id.includes('node_modules/ag-grid')) return 'ag-grid'
+          if (id.includes('node_modules/recharts') || id.includes('node_modules/d3-')) return 'recharts'
+          if (id.includes('node_modules/@mantine')) return 'mantine'
+          if (id.includes('node_modules/@esotericsoftware')) return 'spine'
+          if (id.includes('node_modules/i18next') || id.includes('node_modules/js-yaml') || id.includes('node_modules/react-i18next')) return 'i18n'
+          if (id.includes('node_modules/node-vibrant') || id.includes('node_modules/@vibrant')) return 'vibrant'
         },
       },
     },

@@ -24,10 +24,39 @@ export async function createSpineInstance(
   baseUrl: string,
   files: { skelFile: string; atlasFile: string }[],
 ): Promise<SpineInstance> {
-  const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false, antialias: true })
-    || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false, antialias: true })
+  // premultipliedAlpha:true — framebuffer naturally contains premultiplied values
+  // from blending on transparent (rgb = src * alpha). Without this the browser
+  // multiplies by alpha AGAIN, double-darkening semi-transparent edges.
+  const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: true })
+    || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true })
   if (!glContext) throw new Error('WebGL not available')
   const gl = glContext
+
+  // Fix spine-webgl blend modes for transparent canvas compositing.
+  // spine-webgl's PolygonBatcher shares dstBlend for color AND alpha, which:
+  // 1. Destroys framebuffer alpha for Multiply/Screen (dst=ONE_MINUS_SRC_ALPHA
+  //    → when src.a=1: alpha becomes 0)
+  // 2. Uses wrong Screen color formula: dst*(1-src.a) instead of dst*(1-src.rgb)
+  //
+  // Fix matches PixiJS blend mode table (proven on nanoka.cc):
+  //   Normal:   (SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA)
+  //   Additive: (SRC_ALPHA, ONE,                 ONE, ONE_MINUS_SRC_ALPHA)
+  //   Multiply: (DST_COLOR, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA)
+  //   Screen:   (ONE,       ONE_MINUS_SRC_COLOR, ONE, ONE_MINUS_SRC_ALPHA)
+  const ONE = 1
+  const ONE_MINUS_SRC_COLOR = 0x0301
+  const ONE_MINUS_SRC_ALPHA = 0x0303
+  const origBlendFuncSeparate = gl.blendFuncSeparate.bind(gl)
+  gl.blendFuncSeparate = (srcRGB: number, dstRGB: number, srcAlpha: number, _dstAlpha: number) => {
+    if (srcAlpha === ONE_MINUS_SRC_COLOR) {
+      // Screen: also fix dstRGB to ONE_MINUS_SRC_COLOR for true Screen formula
+      // src.rgb + dst.rgb * (1-src.rgb) — dark overlays let body show through
+      origBlendFuncSeparate(srcRGB, ONE_MINUS_SRC_COLOR, ONE, ONE_MINUS_SRC_ALPHA)
+    } else {
+      // Normal/Additive/Multiply: keep color equation, fix alpha to Porter-Duff
+      origBlendFuncSeparate(srcRGB, dstRGB, ONE, ONE_MINUS_SRC_ALPHA)
+    }
+  }
 
   const context = new ManagedWebGLRenderingContext(gl)
   const assetManager = new AssetManager(context, baseUrl)
@@ -136,8 +165,6 @@ export async function createSpineInstance(
     gl.viewport(0, 0, canvasSize, canvasSize)
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
-    gl.enable(gl.BLEND)
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 
     renderer.camera.position.x = camX
     renderer.camera.position.y = camY

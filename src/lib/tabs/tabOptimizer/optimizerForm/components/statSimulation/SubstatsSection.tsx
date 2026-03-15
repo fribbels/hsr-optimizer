@@ -1,8 +1,9 @@
-import { Flex, NumberInput } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { Stats } from 'lib/constants/constants'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_STATS_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { StatInput } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/StatInput'
+import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
@@ -26,11 +27,11 @@ export function SubstatsSection({ simType, title, total }: { simType: StatSimTyp
         <StatInput simType={simType} name={Stats.EHR} label={t('SubstatSelectorLabel', { stat: Stats.EHR })} />
         <StatInput simType={simType} name={Stats.RES} label={t('SubstatSelectorLabel', { stat: Stats.RES })} />
         {(simType === StatSimTypes.SubstatRolls) && (
-          <Flex justify='space-between' w={STAT_SIMULATION_STATS_WIDTH}>
+          <Flex justify='space-between' align='center' w={STAT_SIMULATION_STATS_WIDTH}>
             <div>
               {t('TotalRolls')}
             </div>
-            <NumberInput
+            <InputNumberStyled
               hideControls
               disabled={true}
               value={Utils.truncate10ths(total)}

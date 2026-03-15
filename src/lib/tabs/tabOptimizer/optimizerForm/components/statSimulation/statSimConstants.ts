@@ -1,7 +1,7 @@
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 
 export const STAT_SIMULATION_ROW_HEIGHT = 425
-export const STAT_SIMULATION_GRID_WIDTH = 680
+export const STAT_SIMULATION_GRID_WIDTH = 750
 export const STAT_SIMULATION_OPTIONS_WIDTH = 215
 export const STAT_SIMULATION_STATS_WIDTH = 190
 export const STAT_SIMULATION_INPUT_WIDTH = 70

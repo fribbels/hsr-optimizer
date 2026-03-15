@@ -30,8 +30,7 @@ const fullSizeOuterStyle: CSSProperties = { display: 'flex', flexDirection: 'col
 const compactOuterStyle: CSSProperties = { display: 'flex', flexDirection: 'row-reverse' }
 const controlsGapStyle: CSSProperties = { marginBottom: 2 }
 const startButtonStyle: CSSProperties = { flex: 1, minWidth: 211 }
-const flexOneStyle: CSSProperties = { flex: 1 }
-const buttonStyle: CSSProperties = { width: '100px' }
+const buttonStyle: CSSProperties = { flex: 1 }
 const statViewStyle: CSSProperties = { flex: 1, minWidth: 211 }
 
 export const OptimizerControlsSection = memo(function OptimizerControlsSection({ isFullSize }: { isFullSize: boolean }) {
@@ -93,7 +92,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
 
           {isFullSize && <ComputeEngineSelect />}
 
-          <Flex gap={defaultGap} justify='space-around'>
+          <Flex gap={defaultGap}>
             <Button variant="default" onClick={cancelClicked} style={buttonStyle}>
               {tCommon('Cancel') /* Cancel */}
             </Button>

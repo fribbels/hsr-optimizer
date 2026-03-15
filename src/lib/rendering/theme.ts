@@ -47,11 +47,16 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       InputWrapper: {
         defaultProps: { size: 'xs' },
       },
+      Combobox: {
+        defaultProps: {
+          width: 'auto',
+        },
+      },
       Select: {
         defaultProps: {
           size: 'xs',
           checkIconPosition: 'right',
-          comboboxProps: { keepMounted: false },
+          comboboxProps: { keepMounted: false, width: 'auto' },
         },
       },
       MultiSelect: {

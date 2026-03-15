@@ -1,5 +1,5 @@
 import { IconRefresh } from '@tabler/icons-react'
-import { ActionIcon, Avatar, Box, Flex, Group, SegmentedControl, Select, Text } from '@mantine/core'
+import { ActionIcon, Avatar, CloseButton, Combobox, Flex, Group, Input, InputBase, SegmentedControl, useCombobox } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -160,31 +160,19 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
           />
 
           <Flex direction="column" w="100%" gap={6}>
-            <Select
+            <ClearableCombobox
               data={teammateRelicSelectData}
               value={teammateTeamRelicSet}
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
               placeholder={t('RelicsPlaceholder')}
-              clearable
-              rightSectionWidth={24}
-              comboboxProps={{ keepMounted: false, width: 'auto' }}
               disabled={disabled}
-              styles={{
-                input: { height: 30, minHeight: 30 },
-              }}
             />
-            <Select
+            <ClearableCombobox
               data={teammateOrnamentSelectData}
               value={teammateTeamOrnamentSet}
               onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
               placeholder={t('OrnamentsPlaceholder')}
-              clearable
-              rightSectionWidth={24}
-              comboboxProps={{ keepMounted: false, width: 'auto' }}
               disabled={disabled}
-              styles={{
-                input: { height: 30, minHeight: 30 },
-              }}
             />
           </Flex>
         </Flex>
@@ -256,3 +244,64 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
     </Flex>
   )
 })
+
+function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
+  data: { value: string; label: string }[]
+  value: string | undefined
+  onChange: (val: string | undefined) => void
+  placeholder: string
+  disabled: boolean
+}) {
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  })
+
+  const selectedLabel = data.find((d) => d.value === value)?.label ?? null
+
+  return (
+    <Combobox
+      store={combobox}
+      onOptionSubmit={(val) => {
+        onChange(val)
+        combobox.closeDropdown()
+      }}
+    >
+      <Combobox.Target>
+        <InputBase
+          component="button"
+          type="button"
+          pointer
+          disabled={disabled}
+          rightSection={
+            value != null ? (
+              <CloseButton
+                size="sm"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => onChange(undefined)}
+              />
+            ) : (
+              <Combobox.Chevron />
+            )
+          }
+          rightSectionPointerEvents={value == null ? 'none' : 'all'}
+          onClick={() => combobox.toggleDropdown()}
+          styles={{
+            input: { height: 30, minHeight: 30, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', paddingInlineEnd: 22 },
+          }}
+        >
+          {selectedLabel || <Input.Placeholder>{placeholder}</Input.Placeholder>}
+        </InputBase>
+      </Combobox.Target>
+
+      <Combobox.Dropdown>
+        <Combobox.Options>
+          {data.map((item) => (
+            <Combobox.Option value={item.value} key={item.value}>
+              {item.label}
+            </Combobox.Option>
+          ))}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
+  )
+}

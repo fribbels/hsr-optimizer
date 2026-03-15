@@ -27,7 +27,7 @@ export type TeammateCardDebugStore = TeammateCardDebugState & TeammateCardDebugA
 const DEFAULTS: TeammateCardDebugState = {
   cardHeight: 490,
   cardBorderRadius: 5,
-  rightColWidth: 125,
+  rightColWidth: 135,
   rightColGap: 3,
   avatarSize: 96,
   lcIconSize: 96,

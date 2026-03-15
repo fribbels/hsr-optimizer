@@ -1,8 +1,4 @@
-import {
-  IconCheck,
-  IconX,
-} from '@tabler/icons-react'
-import { Drawer, Flex, Select, Switch } from '@mantine/core'
+import { Combobox, Drawer, Flex, Input, InputBase, Switch, useCombobox } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -12,7 +8,7 @@ import { EnemyConfigFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -104,36 +100,31 @@ function EnemyConfigurationsDrawerContent() {
         <TooltipImage type={Hint.enemyOptions()} />
       </Flex>
 
-      <Select
-        searchable
+      <SearchableCombobox
         data={enemyLevelOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyLevel != null ? String(enemyLevel) : null}
         onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyLevel', Number(val)) }}
       />
 
-      <Select
-        searchable
+      <SearchableCombobox
         data={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyResistance != null ? String(enemyResistance) : null}
         onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyResistance', Number(val)) }}
       />
 
-      <Select
-        searchable
+      <SearchableCombobox
         data={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
         onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyEffectResistance', Number(val)) }}
       />
 
-      <Select
-        searchable
+      <SearchableCombobox
         data={enemyMaxToughnessOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyMaxToughness != null ? String(enemyMaxToughness) : null}
         onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyMaxToughness', Number(val)) }}
       />
 
-      <Select
-        searchable
+      <SearchableCombobox
         data={enemyCountOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyCount != null ? String(enemyCount) : null}
         onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyCount', Number(val)) }}
@@ -141,25 +132,86 @@ function EnemyConfigurationsDrawerContent() {
 
       <Flex align='center'>
         <Switch
-          onLabel={<IconCheck />}
-          offLabel={<IconX />}
           checked={enemyElementalWeak}
           onChange={(event) => setEnemyAndRecalculate('enemyElementalWeak', event.currentTarget.checked)}
-          style={{ width: 45, marginRight: 5 }}
+          style={{ marginRight: 5 }}
         />
         <div>{t('WeaknessLabel') /* Elemental weakness */}</div>
       </Flex>
 
       <Flex align='center'>
         <Switch
-          onLabel={<IconCheck />}
-          offLabel={<IconX />}
           checked={enemyWeaknessBroken}
           onChange={(event) => setEnemyAndRecalculate('enemyWeaknessBroken', event.currentTarget.checked)}
-          style={{ width: 45, marginRight: 5 }}
+          style={{ marginRight: 5 }}
         />
         <div>{t('BrokenLabel') /* Weakness broken */}</div>
       </Flex>
     </Flex>
+  )
+}
+
+function SearchableCombobox({ data, value, onChange }: {
+  data: { value: string; label: string }[]
+  value: string | null
+  onChange: (val: string | null) => void
+}) {
+  const [search, setSearch] = useState('')
+  const combobox = useCombobox({
+    onDropdownClose: () => {
+      combobox.resetSelectedOption()
+      combobox.focusTarget()
+      setSearch('')
+    },
+    onDropdownOpen: () => {
+      combobox.focusSearchInput()
+    },
+  })
+
+  const selectedLabel = data.find((d) => d.value === value)?.label ?? null
+
+  const filteredOptions = data.filter((item) =>
+    item.label.toLowerCase().includes(search.toLowerCase().trim()),
+  )
+
+  return (
+    <Combobox
+      store={combobox}
+      width="target"
+      onOptionSubmit={(val) => {
+        onChange(val)
+        combobox.closeDropdown()
+      }}
+    >
+      <Combobox.Target>
+        <InputBase
+          component="button"
+          type="button"
+          pointer
+          rightSection={<Combobox.Chevron />}
+          rightSectionPointerEvents="none"
+          onClick={() => combobox.toggleDropdown()}
+        >
+          {selectedLabel || <Input.Placeholder>Select...</Input.Placeholder>}
+        </InputBase>
+      </Combobox.Target>
+
+      <Combobox.Dropdown>
+        <Combobox.Search
+          value={search}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+          placeholder="Search..."
+        />
+        <Combobox.Options>
+          {filteredOptions.length > 0
+            ? filteredOptions.map((item) => (
+              <Combobox.Option value={item.value} key={item.value} selected={item.value === value}>
+                {item.label}
+              </Combobox.Option>
+            ))
+            : <Combobox.Empty>No results</Combobox.Empty>}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
   )
 }

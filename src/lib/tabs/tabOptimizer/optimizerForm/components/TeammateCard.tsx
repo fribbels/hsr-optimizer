@@ -86,7 +86,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
       style={{ borderRadius: debug.cardBorderRadius }}
     >
       {/* ======== Character area ======== */}
-      <Flex style={{ overflow: 'hidden' }} gap={debug.rightColGap}>
+      <Flex style={{ overflow: 'hidden' }} gap={0}>
         {/* Left — character select + conditionals */}
         <Flex
           direction="column"
@@ -111,7 +111,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
             />
 
             <ActionIcon
-              size="sm"
+              size={30}
               variant="default"
               disabled={disabled}
               onClick={() => {
@@ -120,7 +120,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               }}
               aria-label="Sync from roster"
             >
-              <IconRefresh size={14} />
+              <IconRefresh size={16} />
             </ActionIcon>
           </Group>
 
@@ -179,7 +179,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
       </Flex>
 
       {/* ======== LC area ======== */}
-      <Flex style={{ flex: 1, overflow: 'hidden' }} gap={debug.rightColGap}>
+      <Flex style={{ flex: 1, overflow: 'hidden' }} gap={0}>
         {/* Left — LC select + conditionals */}
         <Flex
           direction="column"

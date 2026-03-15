@@ -251,6 +251,7 @@ function NumberXInput({ disabled, defaultValue, value }: {
   return (
     <InputNumberStyled
       leftSection='⨯'
+      leftSectionWidth={22}
       disabled={disabled}
       value={disabled ? defaultValue : value}
       onChange={(val) => {
@@ -259,6 +260,7 @@ function NumberXInput({ disabled, defaultValue, value }: {
         }
       }}
       style={{ width: '100%' }}
+      styles={{ input: { paddingInlineStart: 18 } }}
       className='comboInputNumber'
     />
   )

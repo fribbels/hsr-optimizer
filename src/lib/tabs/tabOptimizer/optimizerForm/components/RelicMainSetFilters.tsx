@@ -44,6 +44,7 @@ function MainStatBody() {
   return (
     <MultiSelectPills
       clearable
+      size="xs"
       style={mainStatStyle}
       placeholder={t('Parts.Body')}
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
@@ -68,6 +69,7 @@ function MainStatFeet() {
   return (
     <MultiSelectPills
       clearable
+      size="xs"
       style={mainStatStyle}
       placeholder={t('Parts.Feet')}
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
@@ -89,6 +91,7 @@ function MainStatPlanarSphere() {
   return (
     <MultiSelectPills
       clearable
+      size="xs"
       style={mainStatStyle}
       placeholder={t('Parts.PlanarSphere')}
       maxDropdownHeight={400}
@@ -117,6 +120,7 @@ function MainStatLinkRope() {
   return (
     <MultiSelectPills
       clearable
+      size="xs"
       style={mainStatStyle}
       placeholder={t('Parts.LinkRope')}
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}

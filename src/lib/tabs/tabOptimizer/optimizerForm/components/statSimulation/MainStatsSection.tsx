@@ -1,6 +1,5 @@
-import { Flex, Select } from '@mantine/core'
+import { CheckIcon, Combobox, Flex, Group, Input, InputBase, useCombobox } from '@mantine/core'
 import { Parts, Stats } from 'lib/constants/constants'
-import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
   STAT_SIMULATION_OPTIONS_WIDTH,
@@ -20,19 +19,55 @@ function MainStatSelector({ simType, placeholder, part, options }: { simType: st
   const field = 'sim' + part
   const value = useStatSimField<string>(simType, field)
 
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  })
+
+  const selectedLabel = useMemo(() => {
+    return options.find((opt) => opt.value === value)?.short ?? null
+  }, [options, value])
+
   return (
-    <Select
-      placeholder={placeholder}
-      style={{ flex: 1 }}
-      clearable
-      rightSection={<img style={{ width: 16 }} src={Assets.getPart(part)} />}
-      data={options.map((opt) => ({ value: opt.value, label: opt.short }))}
-      value={value}
-      onChange={(val) => useOptimizerRequestStore.getState().updateStatSimField(simType, field, val)}
-      maxDropdownHeight={750}
-      comboboxProps={{ keepMounted: false, width: 200 }}
-      searchable
-    />
+    <Combobox
+      store={combobox}
+      width={200}
+      onOptionSubmit={(val) => {
+        useOptimizerRequestStore.getState().updateStatSimField(simType, field, val)
+        combobox.closeDropdown()
+      }}
+    >
+      <Combobox.Target>
+        <InputBase
+          component="button"
+          type="button"
+          size="xs"
+          pointer
+          rightSection={
+            value
+              ? <Combobox.ClearButton onClear={() => useOptimizerRequestStore.getState().updateStatSimField(simType, field, null)} />
+              : <Combobox.Chevron />
+          }
+          rightSectionPointerEvents={value ? 'all' : 'none'}
+          onClick={() => combobox.toggleDropdown()}
+          style={{ flex: 1 }}
+        >
+          {selectedLabel || <Input.Placeholder>{placeholder}</Input.Placeholder>}
+        </InputBase>
+      </Combobox.Target>
+
+      <Combobox.Dropdown>
+        <Combobox.Options mah={750} style={{ overflowY: 'auto' }}>
+          {options.map((opt) => (
+            <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
+              <Group gap={6} justify='space-between'>
+                {opt.short}
+                {opt.value === value && <CheckIcon size={12} />}
+              </Group>
+            </Combobox.Option>
+          ))}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
   )
 }
 

@@ -41,6 +41,22 @@ const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.METADATA_TEST, MetadataTab],
 ]
 
+// Mount priority: active tab is instant, then stagger one per frame in this order.
+// URL-reachable tabs first, then internal tabs, then dev/test tabs last.
+const MOUNT_PRIORITY: AppPages[] = [
+  AppPages.SHOWCASE,
+  AppPages.OPTIMIZER,
+  AppPages.HOME,
+  AppPages.WARP,
+  AppPages.BENCHMARKS,
+  AppPages.CHANGELOG,
+  AppPages.CHARACTERS,
+  AppPages.RELICS,
+  AppPages.IMPORT,
+  AppPages.WEBGPU_TEST,
+  AppPages.METADATA_TEST,
+]
+
 let optimizerInitialized = false
 
 const Tabs = () => {
@@ -55,15 +71,36 @@ const Tabs = () => {
     [],
   )
 
-  // Start with only the active tab mounted. All others mount after the active tab paints.
-  const [allMounted, setAllMounted] = useState(false)
+  // Start with only the active tab mounted. Remaining tabs mount one-at-a-time in priority order
+  // with a delay between each to keep the main thread responsive.
+  const [mountedTabs, setMountedTabs] = useState<Set<AppPages>>(() => new Set([activeKey]))
+
+  // Immediately mount any tab the user navigates to, even if the stagger hasn't reached it yet.
+  useEffect(() => {
+    setMountedTabs((prev) => {
+      if (prev.has(activeKey)) return prev
+      return new Set(prev).add(activeKey)
+    })
+  }, [activeKey])
 
   useEffect(() => {
-    // After active tab renders, mount all remaining tabs in the next frame
-    requestAnimationFrame(() => {
-      setAllMounted(true)
-    })
-  }, [])
+    const queue = MOUNT_PRIORITY.filter((page) => page !== activeKey)
+    let i = 0
+    let timerId: ReturnType<typeof setTimeout>
+
+    function mountNext() {
+      if (i < queue.length) {
+        setMountedTabs((prev) => new Set(prev).add(queue[i]))
+        i++
+        // Space out mounts so the browser stays responsive between heavy tabs
+        timerId = setTimeout(mountNext, 100)
+      }
+    }
+
+    // Start staggering after the active tab has had time to fully paint
+    timerId = setTimeout(mountNext, 100)
+    return () => clearTimeout(timerId)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     let route = PageToRoute[activeKey]
@@ -91,7 +128,7 @@ const Tabs = () => {
     <Flex justify='space-around' w='100%'>
       {TAB_COMPONENTS.map(([tabKey]) => (
         <TabRenderer key={tabKey} activeKey={deferredActiveKey} tabKey={tabKey}>
-          {(allMounted || tabKey === activeKey) ? tabElements.get(tabKey)! : null}
+          {mountedTabs.has(tabKey) ? tabElements.get(tabKey)! : null}
         </TabRenderer>
       ))}
     </Flex>

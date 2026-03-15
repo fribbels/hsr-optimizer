@@ -24,11 +24,15 @@ import useRelicsTabStore, { ValueColumnField } from 'lib/tabs/tabRelics/useRelic
 import { gridStore } from 'lib/utils/gridStore'
 import {
   useCallback,
+  useContext,
+  useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { useScoringStore } from 'lib/stores/scoringStore'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useShallow } from 'zustand/react/shallow'
 
 const gridOptions: GridOptions<ScoredRelic> = {
@@ -69,9 +73,22 @@ export function RelicsGrid() {
   const gridRef = useRef<AgGridReact<ScoredRelic>>(null)
   gridStore.setRelicsGrid(gridRef)
 
+  // Defer scoring until the tab is visible — avoids ~1s main thread block on hidden mount.
+  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
+  const [activated, setActivated] = useState(isActiveRef.current)
+
+  useEffect(() => {
+    if (isActiveRef.current) {
+      setActivated(true)
+      return
+    }
+    return addActivationListener(() => setActivated(true))
+  }, [isActiveRef, addActivationListener])
+
   const scoredRelics = useMemo(() => {
+    if (!activated) return null
     return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringMetadataOverrides)
-  }, [relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
+  }, [activated, relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
 
   const columnDefs = useMemo(() => {
     return generateBaselineColDefs(t)

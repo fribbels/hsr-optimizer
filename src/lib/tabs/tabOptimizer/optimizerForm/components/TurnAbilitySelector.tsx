@@ -1,4 +1,3 @@
-import { ComboboxItem, Select } from '@mantine/core'
 import { TFunction } from 'i18next'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -14,6 +13,7 @@ import {
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState, updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { CascaderData, CascaderGroup, CascaderSelect } from 'lib/ui/CascaderSelect'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -26,11 +26,14 @@ const compactInputStyles = {
     height: 18,
     minHeight: 18,
     fontSize: 12,
+    display: 'flex',
+    alignItems: 'center',
+    paddingBlock: 0,
   },
 }
 
 function IndexLabel({ index }: { index: number }) {
-  return <span style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{`${index}.`}</span>
+  return <span style={{ fontSize: 12, whiteSpace: 'nowrap', width: '100%', textAlign: 'left' }}>{`${index}.`}</span>
 }
 
 export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 'ComboFilter'>): string {
@@ -49,15 +52,10 @@ export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 
   }
 }
 
-export type AbilityGroupedData = {
-  group: string
-  items: ComboboxItem[]
-}
-
-function mapKindToGroup(kind: string, group: string, t: TFunction<'optimizerTab', 'ComboFilter'>): AbilityGroupedData {
+function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimizerTab', 'ComboFilter'>): CascaderGroup {
   return {
-    group: group,
-    items: Object.values(TurnMarker).map((marker) => {
+    label: groupLabel,
+    options: Object.values(TurnMarker).map((marker) => {
       const turnAbility = createAbility(kind, marker)
       return {
         value: turnAbility.name,
@@ -67,7 +65,7 @@ function mapKindToGroup(kind: string, group: string, t: TFunction<'optimizerTab'
   }
 }
 
-export function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): AbilityGroupedData[] {
+export function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): CascaderData {
   if (characterId && characterEidolon != null) {
     const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
       characterId: characterId as CharacterId,
@@ -96,7 +94,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number; disabl
   }
 
   return (
-    <Select
+    <CascaderSelect
       data={options}
       value={value || null}
       placeholder='Ability'
@@ -104,7 +102,6 @@ export function TurnAbilitySelector({ index, disabled }: { index: number; disabl
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}
       styles={compactInputStyles}
-      allowDeselect={false}
       disabled={disabled}
       onChange={handleChange}
     />
@@ -120,7 +117,7 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
   }
 
   return (
-    <Select
+    <CascaderSelect
       data={options}
       value={value}
       placeholder='Ability'
@@ -129,6 +126,7 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
       leftSectionWidth={24}
       styles={compactInputStyles}
       disabled={true}
+      onChange={() => {}}
     />
   )
 }
@@ -152,6 +150,8 @@ export function ControlledTurnAbilitySelector({
   const options = useMemo(() => generateAbilityGroupedOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   function handleChange(selectedValue: string | null) {
+    // Guards both: (1) null from CascaderSelect clear action, (2) any unexpected null
+    // The clear path is handled by onClear below
     if (!selectedValue) return
     const newState = updateAbilityRotation(comboState, index, selectedValue as TurnAbilityName)
     if (newState) onComboStateChange(newState)
@@ -163,19 +163,15 @@ export function ControlledTurnAbilitySelector({
   }
 
   return (
-    <Select
+    <CascaderSelect
       style={style}
       data={options}
       value={value || null}
       placeholder='Ability'
-      styles={{
-        input: {
-          fontSize: 12,
-        },
-      }}
+      styles={{ input: { fontSize: 12 } }}
       clearable
-      onChange={handleChange}
       onClear={handleClear}
+      onChange={handleChange}
     />
   )
 }

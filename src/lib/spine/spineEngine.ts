@@ -9,22 +9,20 @@ import {
   SkeletonBinary,
   Vector2,
 } from '@esotericsoftware/spine-webgl'
-import { toBaseCharacterId } from './manifest'
 
 export interface SpineInstance {
-  setAnimation(name: string, loop?: boolean): void
-  getAnimations(): string[]
   dispose(): void
+}
+
+interface SkeletonEntry {
+  skeleton: Skeleton
+  animState: AnimationState
 }
 
 export async function createSpineInstance(
   canvas: HTMLCanvasElement,
-  skeletonName: string,
-  options: {
-    cdnBase: string
-    characterId: string
-    animation?: string
-  },
+  baseUrl: string,
+  files: { skelFile: string; atlasFile: string }[],
 ): Promise<SpineInstance> {
   const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false, antialias: true })
     || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false, antialias: true })
@@ -32,14 +30,13 @@ export async function createSpineInstance(
   const gl = glContext
 
   const context = new ManagedWebGLRenderingContext(gl)
-  const baseUrl = `${options.cdnBase}/${toBaseCharacterId(options.characterId)}/`
   const assetManager = new AssetManager(context, baseUrl)
 
-  const skelFile = skeletonName + '.skel'
-  const atlasFile = skeletonName + '.atlas'
-
-  assetManager.loadBinary(skelFile)
-  assetManager.loadTextureAtlas(atlasFile)
+  // Queue all skeleton + atlas files for loading
+  for (const { skelFile, atlasFile } of files) {
+    assetManager.loadBinary(skelFile)
+    assetManager.loadTextureAtlas(atlasFile)
+  }
 
   // Poll until all assets are loaded
   await new Promise<void>((resolve, reject) => {
@@ -55,51 +52,74 @@ export async function createSpineInstance(
     check()
   })
 
-  const atlas = assetManager.require(atlasFile)
-  const atlasLoader = new AtlasAttachmentLoader(atlas)
-  const binary = new SkeletonBinary(atlasLoader)
-
-  // Auto-fit: measure bounds at scale 1, then re-parse at fitted scale
-  binary.scale = 1
-  const rawSkelData = binary.readSkeletonData(assetManager.require(skelFile))
-  const rawSkeleton = new Skeleton(rawSkelData)
-  rawSkeleton.setToSetupPose()
-  rawSkeleton.updateWorldTransform()
-
-  const boundsOffset = new Vector2()
-  const boundsSize = new Vector2()
-  rawSkeleton.getBounds(boundsOffset, boundsSize, [])
-
-  const nativeCx = boundsOffset.x + boundsSize.x / 2
-  const nativeCy = boundsOffset.y + boundsSize.y / 2
   const canvasSize = canvas.width
-  const fitScale = canvasSize / Math.max(boundsSize.x, boundsSize.y)
 
-  // Re-parse at fitted scale — spine applies scale during parsing
-  binary.scale = fitScale
-  const skelData = binary.readSkeletonData(assetManager.require(skelFile))
-  const skeleton = new Skeleton(skelData)
-  skeleton.setToSetupPose()
+  // Pass 1: parse all skeletons at scale 1 to compute combined bounds
+  let minX = Infinity
+  let minY = Infinity
+  let maxX = -Infinity
+  let maxY = -Infinity
+
+  for (const { skelFile, atlasFile } of files) {
+    const atlas = assetManager.require(atlasFile)
+    const atlasLoader = new AtlasAttachmentLoader(atlas)
+    const binary = new SkeletonBinary(atlasLoader)
+    binary.scale = 1
+
+    const skelData = binary.readSkeletonData(assetManager.require(skelFile))
+    const skeleton = new Skeleton(skelData)
+    skeleton.setToSetupPose()
+    skeleton.updateWorldTransform()
+
+    const offset = new Vector2()
+    const size = new Vector2()
+    skeleton.getBounds(offset, size, [])
+
+    minX = Math.min(minX, offset.x)
+    minY = Math.min(minY, offset.y)
+    maxX = Math.max(maxX, offset.x + size.x)
+    maxY = Math.max(maxY, offset.y + size.y)
+  }
+
+  const boundsW = maxX - minX
+  const boundsH = maxY - minY
+  const nativeCx = minX + boundsW / 2
+  const nativeCy = minY + boundsH / 2
+  const fitScale = canvasSize / Math.max(boundsW, boundsH)
 
   const camX = Math.round(nativeCx * fitScale)
   const camY = Math.round(nativeCy * fitScale)
 
-  const stateData = new AnimationStateData(skelData)
-  stateData.defaultMix = 0.2
-  const animState = new AnimationState(stateData)
+  // Pass 2: re-parse all skeletons at fitted scale, create animation states
+  const entries: SkeletonEntry[] = []
 
-  // Set initial animation
-  const defaultAnim = skelData.animations.find((a) => a.name.toLowerCase().includes('idle'))
-    || skelData.animations[0]
-  if (defaultAnim) {
-    animState.setAnimation(0, options.animation ?? defaultAnim.name, true)
+  for (const { skelFile, atlasFile } of files) {
+    const atlas = assetManager.require(atlasFile)
+    const atlasLoader = new AtlasAttachmentLoader(atlas)
+    const binary = new SkeletonBinary(atlasLoader)
+    binary.scale = fitScale
+
+    const skelData = binary.readSkeletonData(assetManager.require(skelFile))
+    const skeleton = new Skeleton(skelData)
+    skeleton.setToSetupPose()
+
+    const stateData = new AnimationStateData(skelData)
+    stateData.defaultMix = 0.2
+    const animState = new AnimationState(stateData)
+
+    const defaultAnim = skelData.animations.find((a) => a.name.toLowerCase().includes('idle'))
+      || skelData.animations[0]
+    if (defaultAnim) {
+      animState.setAnimation(0, defaultAnim.name, true)
+    }
+
+    skeleton.updateWorldTransform()
+    entries.push({ skeleton, animState })
   }
 
   const renderer = new SceneRenderer(canvas, context)
-  skeleton.updateWorldTransform()
 
-  // Render loop — GL state and camera must be set every frame because
-  // SceneRenderer.begin()/end() modifies GL state internally
+  // Render loop
   let rafId: number | null = null
   let lastTime = performance.now()
 
@@ -107,9 +127,11 @@ export async function createSpineInstance(
     const delta = Math.min((now - lastTime) / 1000, 0.1)
     lastTime = now
 
-    animState.update(delta)
-    animState.apply(skeleton)
-    skeleton.updateWorldTransform()
+    for (const entry of entries) {
+      entry.animState.update(delta)
+      entry.animState.apply(entry.skeleton)
+      entry.skeleton.updateWorldTransform()
+    }
 
     gl.viewport(0, 0, canvasSize, canvasSize)
     gl.clearColor(0, 0, 0, 0)
@@ -124,7 +146,9 @@ export async function createSpineInstance(
     renderer.camera.update()
 
     renderer.begin()
-    renderer.drawSkeleton(skeleton, false)
+    for (const entry of entries) {
+      renderer.drawSkeleton(entry.skeleton, false)
+    }
     renderer.end()
 
     rafId = requestAnimationFrame(loop)
@@ -133,12 +157,6 @@ export async function createSpineInstance(
   rafId = requestAnimationFrame(loop)
 
   return {
-    setAnimation(name: string, loop = true) {
-      animState.setAnimation(0, name, loop)
-    },
-    getAnimations() {
-      return skelData.animations.map((a) => a.name)
-    },
     dispose() {
       if (rafId != null) cancelAnimationFrame(rafId)
       renderer.dispose()

@@ -173,7 +173,6 @@ export function CharacterSelectorDisplay() {
       </Flex>
 
       <Select
-        searchable
         style={{ width: panelWidth }}
         data={resultLimitOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={resultsLimit != null ? String(resultsLimit) : null}
@@ -183,7 +182,6 @@ export function CharacterSelectorDisplay() {
       />
 
       <Select
-        searchable
         style={{ width: panelWidth }}
         data={resultSortOptions.map((group) => ({
           group: group.label,

@@ -10,56 +10,28 @@ import {
  * However, this does not say that there is a valid point in the region, just that there could be one.
  */
 export function isRegionFeasible(region: TreeStatRegion, tree: SearchTree): boolean {
-  const { sumMin, sumMax } = calculateSums(region, tree)
-
-  if (!isValidBoundarySums(region, tree, sumMin, sumMax)) return false
-  if (!isValidDistributableSlots(region, tree, sumMin)) return false
-  
-  // Disabled validations:
-  // if (!isValidEligibleStats(region, tree)) return false
-  // if (!isValidMinimumRolls(region, tree)) return false
-
-  return true
-}
-
-function calculateSums(region: TreeStatRegion, tree: SearchTree) {
   let sumMin = 0
   let sumMax = 0
-
-  for (let i = 0; i < tree.allStats.length; i++) {
-    const stat = tree.allStats[i]
-    sumMin += region.lower[stat]
-    sumMax += region.upper[stat]
-  }
-
-  return {
-    sumMin: Math.ceil(sumMin),
-    sumMax: Math.ceil(sumMax),
-  }
-}
-
-function isValidBoundarySums(region: TreeStatRegion, tree: SearchTree, sumMin: number, sumMax: number) {
-  // The possible ranges must include the target
-  if ((sumMin > tree.targetSum || sumMax < tree.targetSum)) return false
-
-  return true
-}
-
-// Find the unfixable possible slot deficits
-// If n slots need to be filled, then we need at least n remaining rolls to distribute in order to fix it
-function isValidDistributableSlots(region: TreeStatRegion, tree: SearchTree, sumMin: number) {
   let sumPossibleSlots = 0
+
   for (let i = 0; i < tree.allStats.length; i++) {
     const stat = tree.allStats[i]
-    const availablePieces = tree.getAvailablePieces(stat)
-    const possibleSlots = Math.min(region.lower[stat], availablePieces)
-    sumPossibleSlots += possibleSlots
+    const lowerVal = region.lower[stat]
+    sumMin += lowerVal
+    sumMax += region.upper[stat]
+    sumPossibleSlots += Math.min(lowerVal, tree.getAvailablePieces(stat))
   }
+
+  sumMin = Math.ceil(sumMin)
+  sumMax = Math.ceil(sumMax)
+
+  // The possible ranges must include the target
+  if (sumMin > tree.targetSum || sumMax < tree.targetSum) return false
+
+  // Find the unfixable possible slot deficits
   const slotsThatNeedToBeFilled = 24 - Math.ceil(sumPossibleSlots)
   const remainingSubstatRolls = tree.targetSum - sumMin
-  if (slotsThatNeedToBeFilled > remainingSubstatRolls) {
-    return false
-  }
+  if (slotsThatNeedToBeFilled > remainingSubstatRolls) return false
 
   return true
 }

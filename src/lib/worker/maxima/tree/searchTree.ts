@@ -6,6 +6,7 @@ import {
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import {
   calculateMinMaxMetadata,
+  calculateRegionMidpoint,
   getSearchTreeConfig,
   pointToBitwiseId,
   splitNode,
@@ -158,6 +159,10 @@ export class SearchTree {
     avgVariance: number,
   }> = {}
 
+  // Pre-allocated buffers for generateRepresentative (200% benchmark)
+  private potentialMinPiecesAssignments: number[] = []
+  private maxPiecesDiff: number[] = []
+
   constructor(
     public targetSum: number,
     public lower: SubstatCounts,
@@ -273,11 +278,17 @@ export class SearchTree {
     const parentNode = node as TreeStatNode
 
     const tSplit = performance.now()
-    const {
-      midpoint,
-      lowerRegion,
-      upperRegion,
-    } = splitNode(parentNode, splitDimension)
+    const midpoint = calculateRegionMidpoint(parentNode.region, splitDimension)
+    // Shared bounds optimization: region bounds are immutable after creation, so unchanged
+    // bounds can be shared by reference instead of copied. DO NOT mutate region bounds in place.
+    const lowerRegion: TreeStatRegion = {
+      lower: parentNode.region.lower,
+      upper: { ...parentNode.region.upper, [splitDimension]: midpoint - 1 },
+    }
+    const upperRegion: TreeStatRegion = {
+      lower: { ...parentNode.region.lower, [splitDimension]: midpoint },
+      upper: parentNode.region.upper,
+    }
     this.profile.splitTimeMs += performance.now() - tSplit
 
     const lowerChild = this.generateChild(parentNode, lowerRegion, splitDimension, false)
@@ -383,7 +394,7 @@ export class SearchTree {
     // The 100% benchmark can assume that simple round-robin will never generate an invalid distribution
     let assignmentsNeeded
     if (this.targetSum == 54) {
-      const potentialMinPiecesAssignments: number[] = []
+      const potentialMinPiecesAssignments = this.potentialMinPiecesAssignments
       let totalCurrentMins = 0
       for (let i = 0; i < this.activeStats.length; i++) {
         const stat = this.activeStats[i]
@@ -415,7 +426,7 @@ export class SearchTree {
 
       // Fixes the totalMaxAssignments validation
       let totalMaxAssignments = 0
-      const maxPiecesDiff = []
+      const maxPiecesDiff = this.maxPiecesDiff
       for (let i = 0; i < this.allStats.length; i++) {
         const stat = this.allStats[i]
         const rolls = representative[stat]

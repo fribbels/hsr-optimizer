@@ -1,11 +1,9 @@
 import { Flex } from '@mantine/core'
-import { RightIcon } from 'icons/RightIcon'
 import { SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
 import { Renderer } from 'lib/rendering/renderer'
 import { Utils } from 'lib/utils/utils'
-import { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Relic,
@@ -65,9 +63,22 @@ function generateRolls(stat: SubstatDetails) {
   if (!stat.addedRolls) {
     return <div></div>
   }
-  const result: ReactElement[] = []
-  for (let i = 0; i < stat.addedRolls; i++) {
-    result.push(<RightIcon key={i} style={{ marginRight: -5, opacity: 0.75 }} />)
-  }
-  return result
+
+  const count = stat.addedRolls
+  const step = 5
+  const chevronSize = 10
+  const totalWidth = step * (count - 1) + chevronSize
+  const scale = chevronSize / 24
+
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={totalWidth} height={chevronSize} viewBox={`0 0 ${totalWidth} ${chevronSize}`} style={{ opacity: 0.75 }}>
+      {Array.from({ length: count }, (_, i) => (
+        <g key={i} transform={`translate(${i * step} 0) scale(${scale})`}>
+          <g transform="translate(24 1) scale(-1 1)">
+            <path fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="3" d="M8 12L15 5M8 12L15 19" />
+          </g>
+        </g>
+      ))}
+    </svg>
+  )
 }

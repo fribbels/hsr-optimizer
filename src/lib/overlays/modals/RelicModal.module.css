@@ -14,9 +14,11 @@
   cursor: pointer;
 }
 
-.spacer {
-  display: block;
-  min-width: 12px;
+.relicGrid {
+  display: grid;
+  grid-template-columns: 300px 12px 1fr;
+  column-gap: 10px;
+  align-items: start;
 }
 
 .previewContainer {

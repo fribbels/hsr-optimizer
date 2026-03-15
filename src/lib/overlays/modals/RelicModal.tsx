@@ -60,10 +60,12 @@ function partSegmentData(value: string, src: string) {
   return {
     value,
     label: (
-      <img
-        style={{ width: 30 }}
-        src={src}
-      />
+      <Flex align='center' justify='center'>
+        <img
+          style={{ width: 20 }}
+          src={src}
+        />
+      </Flex>
     ),
   }
 }
@@ -345,11 +347,12 @@ function RelicModalContent() {
           className={modalClasses.navArrowRight}
         />
       )}
-      <Flex gap={10}>
+      <div className={modalClasses.relicGrid}>
         <Flex direction="column" gap={5}>
           <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
 
           <SegmentedControl
+            size='md'
             data={[
               partSegmentData(Constants.Parts.Head, Assets.getPart(Constants.Parts.Head)),
               partSegmentData(Constants.Parts.Hands, Assets.getPart(Constants.Parts.Hands)),
@@ -365,9 +368,6 @@ function RelicModalContent() {
           <Select
             searchable
             clearable
-            style={{
-              width: 300,
-            }}
             maxDropdownHeight={350}
             placeholder={t('Relic.Set') /* Set */}
             data={setOptions}
@@ -438,13 +438,12 @@ function RelicModalContent() {
           </Flex>
         </Flex>
 
-        <div className={modalClasses.spacer} />
+        <div />
 
-        <Flex direction="column" gap={5} style={{}}>
+        <Flex direction="column" gap={5}>
           <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
           <Select
             searchable
-            style={{ height: 35 }}
             data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
             renderOption={({ option }) => {
               const match = characterOptions.find((o) => o.value === option.value)
@@ -460,50 +459,45 @@ function RelicModalContent() {
             />
           </div>
         </Flex>
-      </Flex>
+      </div>
 
-      <Flex gap={20}>
-        <Flex direction="column" gap={5} w='100%'>
-          <Flex justify='space-between'>
-            <HeaderText>{t('Relic.Substat') /* Substats */}</HeaderText>
-            <Flex w={180}>
-              <HeaderText>{t('Relic.Upgrades') /* Substat upgrades */}</HeaderText>
-            </Flex>
-          </Flex>
+      <div className={modalClasses.relicGrid} style={{ rowGap: 5 }}>
+        <HeaderText>{t('Relic.Substat') /* Substats */}</HeaderText>
+        <div />
+        <HeaderText>{t('Relic.Upgrades') /* Substat upgrades */}</HeaderText>
 
-          <SubstatInput
-            index={0}
-            upgrades={upgradeValues}
-            relicForm={relicForm}
-            resetUpgradeValues={resetUpgradeValues}
-            plusThree={plusThree}
-          />
+        <SubstatInput
+          index={0}
+          upgrades={upgradeValues}
+          relicForm={relicForm}
+          resetUpgradeValues={resetUpgradeValues}
+          plusThree={plusThree}
+        />
 
-          <SubstatInput
-            index={1}
-            upgrades={upgradeValues}
-            relicForm={relicForm}
-            resetUpgradeValues={resetUpgradeValues}
-            plusThree={plusThree}
-          />
+        <SubstatInput
+          index={1}
+          upgrades={upgradeValues}
+          relicForm={relicForm}
+          resetUpgradeValues={resetUpgradeValues}
+          plusThree={plusThree}
+        />
 
-          <SubstatInput
-            index={2}
-            upgrades={upgradeValues}
-            relicForm={relicForm}
-            resetUpgradeValues={resetUpgradeValues}
-            plusThree={plusThree}
-          />
+        <SubstatInput
+          index={2}
+          upgrades={upgradeValues}
+          relicForm={relicForm}
+          resetUpgradeValues={resetUpgradeValues}
+          plusThree={plusThree}
+        />
 
-          <SubstatInput
-            index={3}
-            upgrades={upgradeValues}
-            relicForm={relicForm}
-            resetUpgradeValues={resetUpgradeValues}
-            plusThree={plusThree}
-          />
-        </Flex>
-      </Flex>
+        <SubstatInput
+          index={3}
+          upgrades={upgradeValues}
+          relicForm={relicForm}
+          resetUpgradeValues={resetUpgradeValues}
+          plusThree={plusThree}
+        />
+      </div>
       <Flex key='footer' justify={showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes ? 'space-between' : 'flex-end'} style={{ marginTop: 16 }}>
         <Flex className={modalClasses.locatorFlex}>
           {selectedRelic && showLocator === SettingOptions.ShowLocatorInRelicsModal.Yes && <RelicLocator relic={selectedRelic} />}

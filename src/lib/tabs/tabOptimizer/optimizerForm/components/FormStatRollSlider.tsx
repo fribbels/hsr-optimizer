@@ -1,9 +1,10 @@
-import { Flex, NumberInput, Slider } from '@mantine/core'
+import { Flex, Slider } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { Utils } from 'lib/utils/utils'
+import { HeaderText } from 'lib/ui/HeaderText'
+import { Fragment, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const StatSliders = [
@@ -18,6 +19,11 @@ const StatSliders = [
   { text: 'BEFilterText', name: Constants.Stats.BE },
 ] as const
 
+const labelStyle = { textWrap: 'nowrap', height: 24, display: 'flex', alignItems: 'center' } as const
+const sliderRowStyle = { width: '100%', height: 24, display: 'flex', alignItems: 'center' } as const
+const sliderStyle = { width: '100%', marginTop: 0, marginBottom: 0, marginLeft: 'auto', marginRight: 'auto' } as const
+const sliderStyles = { label: { padding: '2px 6px' } } as const
+
 function WeightSlider({ stat }: { stat: string }) {
   const value = useOptimizerRequestStore((s) => s.weights[stat as keyof typeof s.weights])
 
@@ -26,15 +32,9 @@ function WeightSlider({ stat }: { stat: string }) {
       min={0}
       max={1}
       step={0.25}
-      style={{
-        width: '100%',
-        marginTop: 0,
-        marginBottom: 0,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-      }}
-      label={(val) => val.toFixed(1)}
-      styles={{ label: { padding: '2px 6px' } }}
+      style={sliderStyle}
+      label={(val) => val.toFixed(2)}
+      styles={sliderStyles}
       value={value as number ?? 0}
       onChange={(val) => useOptimizerRequestStore.getState().setWeight(stat as keyof OptimizerRequestState['weights'], val)}
       onChangeEnd={() => recalculatePermutations()}
@@ -42,72 +42,46 @@ function WeightSlider({ stat }: { stat: string }) {
   )
 }
 
-export function FormStatRollSliders() {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
-
-  return (
-    <Flex gap={10}>
-      <Flex direction="column" w='max-content' gap={7}>
-        {StatSliders.map((stat) => (
-          <span style={{ textWrap: 'nowrap', height: 24, display: 'flex', alignItems: 'center' }} key={stat.name}>
-            {t(stat.text)}
-          </span>
-        ))}
-      </Flex>
-      <Flex
-        direction="column"
-        gap={7}
-        style={{
-          width: '100%',
-          marginLeft: 10,
-          marginRight: 10,
-        }}
-      >
-        {StatSliders.map((stat) => (
-          <div style={{ width: '100%', height: 24, display: 'flex', alignItems: 'center' }} key={stat.name}>
-            <WeightSlider stat={stat.name} />
-          </div>
-        ))}
-      </Flex>
-    </Flex>
-  )
-}
-
 const MAX_ROLLS = 5
 
-export function FormStatRollSliderMinWeightedRolls() {
+function MinWeightedRollsSlider() {
   const value = useOptimizerRequestStore((s) => s.weights.minWeightedRolls as number ?? 0)
 
   return (
-    <Flex gap={5} align='center'>
-      <Slider
-        min={0}
-        max={MAX_ROLLS}
-        step={0.5}
-        style={{ minWidth: 105, marginRight: 5 }}
-        label={(value) => `${Utils.precisionRound(value)}`}
-        value={value}
-        onChange={(val) => {
-          useOptimizerRequestStore.getState().setWeight('minWeightedRolls', val)
-          recalculatePermutations()
-        }}
-      />
+    <Slider
+      min={0}
+      max={MAX_ROLLS}
+      step={0.5}
+      style={sliderStyle}
+      label={(val) => val.toFixed(1)}
+      styles={sliderStyles}
+      value={value}
+      onChange={(val) => useOptimizerRequestStore.getState().setWeight('minWeightedRolls', val)}
+      onChangeEnd={() => recalculatePermutations()}
+    />
+  )
+}
 
-      <NumberInput
-        className='center-input-text'
-        style={{ width: 40 }}
-        hideControls
-        min={0}
-        max={MAX_ROLLS}
-        variant='unstyled'
-        value={value}
-        onChange={(x) => {
-          if (x != null && typeof x === 'number') {
-            useOptimizerRequestStore.getState().setWeight('minWeightedRolls', x)
-          }
-          recalculatePermutations()
-        }}
-      />
-    </Flex>
+export function FormStatRollSliders({ rollsHeader }: { rollsHeader?: ReactNode }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'WeightFilter' })
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'max-content 1fr', columnGap: 20, rowGap: 7 }}>
+      {StatSliders.map((stat) => (
+        <Fragment key={stat.name}>
+          <span style={labelStyle}>{t(stat.text)}</span>
+          <div style={sliderRowStyle}><WeightSlider stat={stat.name} /></div>
+        </Fragment>
+      ))}
+      {rollsHeader && (
+        <>
+          <div style={{ gridColumn: '1 / -1', marginTop: 8 }}>
+            <HeaderText>{rollsHeader}</HeaderText>
+          </div>
+          <span style={labelStyle}>#</span>
+          <div style={sliderRowStyle}><MinWeightedRollsSlider /></div>
+        </>
+      )}
+    </div>
   )
 }

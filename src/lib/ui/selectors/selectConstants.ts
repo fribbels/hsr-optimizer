@@ -41,7 +41,7 @@ export const LC_MODAL_STYLES = {
 /** Shared search input styles — 40px to match SegmentedFilterRow height */
 export const SEARCH_INPUT_STYLES = {
   wrapper: { height: 40 },
-  input: { height: 40, minHeight: 40 },
+  input: { height: 40, minHeight: 40, fontSize: 14 },
 }
 
 /** Character filter types shared between CharacterSelect and CharacterMultiSelect */

@@ -6,6 +6,4 @@ const IconSVG = () => (
   </svg>
 )
 
-export const GithubIcon = (props: React.HTMLAttributes<HTMLSpanElement>) => {
-  return <span role='img' {...props}><IconSVG /></span>
-}
+export const GithubIcon = () => <IconSVG />

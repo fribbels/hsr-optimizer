@@ -56,6 +56,13 @@
 
 /* ---- Nav items ---- */
 
+/* Reset anchor styling for link items */
+a.item,
+a.itemCollapsed {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Double selector to beat Mantine UnstyledButton reset (padding: 0) */
 .item.item {
   display: flex;

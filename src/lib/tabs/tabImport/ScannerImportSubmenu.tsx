@@ -285,7 +285,7 @@ export function ScannerImportSubmenu() {
                 }}
               />
             </Flex>
-            <Divider label={t('Import.LiveImport.Title') /* Live Import Controls */} labelPosition='center' />
+            <Divider w="100%" my={20} label={t('Import.LiveImport.Title') /* Live Import Controls */} labelPosition='center' />
             <Flex direction="column" gap={10}>
               <div>
                 {
@@ -388,7 +388,7 @@ export function ScannerImportSubmenu() {
                             onChange={(e) => setWebsocketUrl(e.target.value)}
                           />
                           <Tooltip label={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
-                            <Button leftSection={<IconRefresh size={16} />} onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} variant="default" />
+                            <Button onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} variant="default"><IconRefresh size={16} /></Button>
                           </Tooltip>
                         </Flex>
                       </Flex>

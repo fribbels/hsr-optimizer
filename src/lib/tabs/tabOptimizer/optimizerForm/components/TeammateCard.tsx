@@ -1,7 +1,9 @@
 import { IconRefresh } from '@tabler/icons-react'
 import { ActionIcon, Avatar, CloseButton, Combobox, Flex, Group, Input, InputBase, SegmentedControl, useCombobox } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
+import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
@@ -72,8 +74,8 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
   const teammateRelicSetOptions = useMemo(renderTeammateRelicSetOptions(t), [t])
   const teammateOrnamentSetOptions = useMemo(renderTeammateOrnamentSetOptions(t), [t])
 
-  const teammateRelicSelectData = useMemo(() => teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc })), [teammateRelicSetOptions])
-  const teammateOrnamentSelectData = useMemo(() => teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc })), [teammateOrnamentSetOptions])
+  const teammateRelicSelectData = useMemo(() => teammateRelicSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc })), [teammateRelicSetOptions])
+  const teammateOrnamentSelectData = useMemo(() => teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc })), [teammateOrnamentSetOptions])
 
   const insetClass = debug.showInsetShadow ? classes.insetShadow : undefined
 
@@ -108,6 +110,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               selectStyle={{ flex: 1 }}
               opened={teammateSelectModalOpen}
               onOpenChange={setTeammateSelectModalOpen}
+              showIcon={false}
             />
 
             <ActionIcon
@@ -246,7 +249,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 })
 
 function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
-  data: { value: string; label: string }[]
+  data: { value: string; desc: string }[]
   value: string | undefined
   onChange: (val: string | undefined) => void
   placeholder: string
@@ -256,7 +259,7 @@ function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
     onDropdownClose: () => combobox.resetSelectedOption(),
   })
 
-  const selectedLabel = data.find((d) => d.value === value)?.label ?? null
+  const selected = data.find((d) => d.value === value)
 
   return (
     <Combobox
@@ -273,6 +276,7 @@ function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
           type="button"
           pointer
           disabled={disabled}
+          leftSection={value ? <img src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : undefined}
           rightSection={
             value != null ? (
               <CloseButton
@@ -287,10 +291,18 @@ function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
           rightSectionPointerEvents={value == null ? 'none' : 'all'}
           onClick={() => combobox.toggleDropdown()}
           styles={{
-            input: { height: 30, minHeight: 30, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', paddingInlineEnd: 22 },
+            input: {
+              height: 30,
+              minHeight: 30,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              paddingInlineEnd: 22,
+              ...(!value ? { '--input-padding-inline-start': '6px' } : {}),
+            },
           }}
         >
-          {selectedLabel || <Input.Placeholder>{placeholder}</Input.Placeholder>}
+          {selected?.desc || <Input.Placeholder>{placeholder}</Input.Placeholder>}
         </InputBase>
       </Combobox.Target>
 
@@ -298,7 +310,10 @@ function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
         <Combobox.Options>
           {data.map((item) => (
             <Combobox.Option value={item.value} key={item.value}>
-              {item.label}
+              <Flex gap={10} align='center'>
+                <img src={Assets.getSetImage(item.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
+                {item.desc}
+              </Flex>
             </Combobox.Option>
           ))}
         </Combobox.Options>

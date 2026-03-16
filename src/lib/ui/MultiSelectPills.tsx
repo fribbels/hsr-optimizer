@@ -31,6 +31,7 @@ export function MultiSelectPills({
   size,
   styles,
   height,
+  className,
 }: {
   data: DataItem[]
   value: string[]
@@ -47,6 +48,7 @@ export function MultiSelectPills({
   size?: MantineSize
   styles?: PillsInputProps['styles']
   height?: number
+  className?: string
 }) {
   const compact = size === 'xs'
   const compactHeight = height ?? (compact ? 30 : undefined)
@@ -154,6 +156,7 @@ export function MultiSelectPills({
         <PillsInput
           pointer
           size={compact ? undefined : size}
+          className={className}
           styles={heightStyles}
           onClick={() => combobox.toggleDropdown()}
           rightSection={

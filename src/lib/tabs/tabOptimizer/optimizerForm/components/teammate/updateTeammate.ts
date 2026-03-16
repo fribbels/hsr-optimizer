@@ -4,12 +4,8 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import {
-  calculateTeammateSets,
-  countTeammates,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
+import { calculateTeammateSets } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import {
   Form,
   TeammateProperty,
@@ -24,8 +20,6 @@ export function updateTeammate(changedValues: Partial<Form>) {
   const updatedTeammate = property && changedValues[property]
   if (!updatedTeammate) return
   const teammateIndex = PROPERTY_TO_INDEX[property]
-
-  useOptimizerDisplayStore.getState().setTeammateCount(countTeammates())
 
   if (updatedTeammate.lightCone) {
     const store = useOptimizerRequestStore.getState()

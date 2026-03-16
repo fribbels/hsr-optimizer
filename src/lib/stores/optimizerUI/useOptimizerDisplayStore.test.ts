@@ -91,9 +91,8 @@ describe('initial state', () => {
     expect(state.selectedStatSimulations).toEqual([])
   })
 
-  it('has 0 teammate count and closed modal', () => {
+  it('has closed modal', () => {
     const state = useOptimizerDisplayStore.getState()
-    expect(state.teammateCount).toBe(0)
     expect(state.characterSelectModalOpen).toBe(false)
   })
 
@@ -203,11 +202,6 @@ describe('setters', () => {
   it('setSelectedStatSimulations updates selected keys', () => {
     useOptimizerDisplayStore.getState().setSelectedStatSimulations(['key1', 'key2'])
     expect(useOptimizerDisplayStore.getState().selectedStatSimulations).toEqual(['key1', 'key2'])
-  })
-
-  it('setTeammateCount updates count', () => {
-    useOptimizerDisplayStore.getState().setTeammateCount(3)
-    expect(useOptimizerDisplayStore.getState().teammateCount).toBe(3)
   })
 
   it('setCharacterSelectModalOpen updates modal state', () => {

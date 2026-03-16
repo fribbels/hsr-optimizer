@@ -36,12 +36,14 @@ export function CharacterSelect({
   selectStyle,
   opened,
   onOpenChange,
+  showIcon = true,
 }: {
   value: CharacterId | null
   onChange: (id: CharacterId | null) => void
   selectStyle?: CSSProperties
   opened?: boolean
   onOpenChange?: (open: boolean) => void
+  showIcon?: boolean
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
@@ -83,7 +85,7 @@ export function CharacterSelect({
         value={selectedLabel}
         placeholder={t('SingleSelect.Placeholder')}
         onClick={open}
-        leftSection={value ? <img src={Assets.getCharacterAvatarById(value)} className={iconClasses.icon20} /> : null}
+        leftSection={showIcon && value ? <img src={Assets.getCharacterAvatarById(value)} className={iconClasses.icon20} /> : null}
         rightSectionPointerEvents="all"
         rightSection={value
           ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(null) }} />

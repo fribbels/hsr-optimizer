@@ -31,7 +31,7 @@ const DEFAULTS: TeammateCardDebugState = {
   rightColGap: 3,
   avatarSize: 96,
   lcIconSize: 96,
-  zonePx: 8,
+  zonePx: 11,
   showInsetShadow: false,
 }
 

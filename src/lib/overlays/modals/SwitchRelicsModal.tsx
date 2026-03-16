@@ -93,7 +93,7 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
               data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
               leftSection={(() => {
                 const val = characterForm.getValues().selectedCharacter
-                return val ? <img src={Assets.getCharacterAvatarById(val)} className={iconClasses.icon22} /> : null
+                return val ? <img src={Assets.getCharacterAvatarById(val)} className={iconClasses.icon20} /> : null
               })()}
               renderOption={({ option }) => {
                 return (

@@ -1,8 +1,5 @@
 import { Accordion, Flex } from '@mantine/core'
-import {
-  ReactNode,
-  useMemo,
-} from 'react'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 
@@ -52,15 +49,9 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
 
 export function TeammateFormRow({ id, children }: { id: string; children: ReactNode }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateRow' })
-  const teammateCount = useOptimizerDisplayStore((s) => s.teammateCount)
-
-  const label = useMemo(() => {
-    return t('Header', { teammateCount: teammateCount ? ` (${teammateCount})` : '' })
-    // Teammates / Teammates (1/2/3)
-  }, [teammateCount, t])
 
   return (
-    <FormRow id={id} label={label}>
+    <FormRow id={id} label={t('Header')}>
       {children}
     </FormRow>
   )

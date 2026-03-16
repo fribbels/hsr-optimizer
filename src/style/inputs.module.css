@@ -1,6 +1,8 @@
-/* Compact inline padding for inputs without leftSection/rightSection */
+/* Compact inline padding for inputs.
+   When a leftSection is present, Mantine's [data-with-left-section] rule
+   overrides padding-inline-start with --input-left-section-size automatically. */
 
-.compactPadding input {
+.compactPadding [class*='Input-input'] {
   --input-padding-inline-start: 6px;
   --input-padding-inline-end: 6px;
 }

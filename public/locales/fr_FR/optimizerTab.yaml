@@ -245,7 +245,7 @@ Sidebar:
     Header: Builds
     Save: Enregistrer
 TeammateRow:
-  Header: 'Coéquipiers {{teammateCount}}'
+  Header: 'Coéquipiers'
 FormRowLabels:
   Character options: Paramètres du personnage
   Relic & stat filters: Filtres de relique & stats

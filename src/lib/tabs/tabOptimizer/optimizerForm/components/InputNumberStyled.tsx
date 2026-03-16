@@ -1,5 +1,6 @@
 import { NumberInput, NumberInputProps } from '@mantine/core'
 import { type CSSProperties, type Ref } from 'react'
+import inputClasses from 'style/inputs.module.css'
 
 function InputNumberStyled({ ref, ...props }: NumberInputProps & { ref?: Ref<HTMLInputElement> }) {
   const inputStyle: CSSProperties | undefined = typeof props.styles === 'object' ? props.styles?.input as CSSProperties | undefined : undefined
@@ -7,6 +8,7 @@ function InputNumberStyled({ ref, ...props }: NumberInputProps & { ref?: Ref<HTM
     <NumberInput
       ref={ref}
       {...props}
+      className={inputClasses.compactPadding}
       style={{ width: 60, ...props.style }}
       styles={{ input: { height: 24, minHeight: 24, ...inputStyle } }}
     />

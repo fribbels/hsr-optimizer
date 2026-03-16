@@ -6476,7 +6476,7 @@ interface Resources {
       }
     },
     "TeammateRow": {
-      "Header": "Teammates {{teammateCount}}"
+      "Header": "Teammates"
     },
     "FormRowLabels": {
       "Character options": "Character options",

@@ -327,7 +327,7 @@ Sidebar:
     Save: Save
     Load: Load
 TeammateRow:
-  Header: 'Teammates {{teammateCount}}'
+  Header: 'Teammates'
 FormRowLabels:
   Character options: Character options
   Relic & stat filters: Relic & stat filters

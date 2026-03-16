@@ -230,7 +230,7 @@ Sidebar:
     Header: ビルド
     Save: 保存
 TeammateRow:
-  Header: 'チーム編成 {{teammateCount}}'
+  Header: 'チーム編成'
 FormRowLabels:
   Character options: キャラクター設定
   Relic & stat filters: 遺物とステータスのフィルター

@@ -245,7 +245,7 @@ Sidebar:
     Header: Builds
     Save: Salvar
 TeammateRow:
-  Header: 'Membros de equipe {{teammateCount}}'
+  Header: 'Membros de equipe'
 FormRowLabels:
   Character options: Opções do personagem
   Relic & stat filters: Filtros de relíquias e atributos

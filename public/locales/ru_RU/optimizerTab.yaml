@@ -245,7 +245,7 @@ Sidebar:
     Header: Сборки
     Save: Сохранить
 TeammateRow:
-  Header: 'Союзников {{teammateCount}}'
+  Header: 'Союзников'
 FormRowLabels:
   Character options: Настройки персонажа
   Relic & stat filters: Фильтры реликвий и статов

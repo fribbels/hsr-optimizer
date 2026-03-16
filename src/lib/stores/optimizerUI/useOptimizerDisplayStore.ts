@@ -27,7 +27,6 @@ type OptimizerDisplayActions = {
   replaceSimulation: (oldKey: Simulation['key'], sim: Simulation) => void
   clearSimulations: () => void
   setSelectedStatSimulations: (keys: Simulation['key'][]) => void
-  setTeammateCount: (count: number) => void
   setCharacterSelectModalOpen: (open: boolean) => void
   setMenuState: (state: Record<string, boolean>) => void
 }
@@ -64,7 +63,6 @@ const initialState: OptimizerDisplayState = {
   statSimulationDisplay: StatSimTypes.Disabled,
   statSimulations: [],
   selectedStatSimulations: [],
-  teammateCount: 0,
   characterSelectModalOpen: false,
   menuState: {},
 }
@@ -92,7 +90,6 @@ export const useOptimizerDisplayStore = createTabAwareStore<OptimizerDisplayStor
   replaceSimulation: (oldKey, sim) => set((s) => ({ statSimulations: s.statSimulations.map((x) => x.key === oldKey ? sim : x) })),
   clearSimulations: () => set({ statSimulations: [] }),
   setSelectedStatSimulations: (keys) => set({ selectedStatSimulations: keys }),
-  setTeammateCount: (count) => set({ teammateCount: count }),
   setCharacterSelectModalOpen: (open) => set({ characterSelectModalOpen: open }),
   setMenuState: (menuState) => set({ menuState }),
 }))

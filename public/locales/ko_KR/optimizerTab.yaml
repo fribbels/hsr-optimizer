@@ -246,7 +246,7 @@ Sidebar:
     Header: 빌드
     Save: 저장
 TeammateRow:
-  Header: '팀 {{teammateCount}}'
+  Header: '팀'
 FormRowLabels:
   Character options: 캐릭터 설정
   Relic & stat filters: 유물 & 스텟 필터

@@ -22,6 +22,7 @@ import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
+import inputClasses from 'style/inputs.module.css'
 import classes from './RelicMainSetFilters.module.css'
 
 function handleMainStatChange(field: MainStatPart, val: string[]) {
@@ -37,6 +38,7 @@ function MainStatBody() {
     <MultiSelectPills
       clearable
       size="xs"
+      className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.Body')}
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
@@ -68,6 +70,7 @@ function MainStatFeet() {
     <MultiSelectPills
       clearable
       size="xs"
+      className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.Feet')}
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
@@ -96,6 +99,7 @@ function MainStatPlanarSphere() {
     <MultiSelectPills
       clearable
       size="xs"
+      className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.PlanarSphere')}
       maxDropdownHeight={400}
@@ -131,6 +135,7 @@ function MainStatLinkRope() {
     <MultiSelectPills
       clearable
       size="xs"
+      className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.LinkRope')}
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}

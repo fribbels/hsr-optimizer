@@ -245,7 +245,7 @@ Sidebar:
     Header: Equipamientos
     Save: Guardar
 TeammateRow:
-  Header: 'Aliados {{teammateCount}}'
+  Header: 'Aliados'
 FormRowLabels:
   Character options: Opciones de personaje
   Relic & stat filters: Filtros de artefacto y atributo

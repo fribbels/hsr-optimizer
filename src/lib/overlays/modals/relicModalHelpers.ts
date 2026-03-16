@@ -43,7 +43,7 @@ export function defaultSubstatValues(relic: Relic): SubstatValues {
       case 3:
         acc[`substatType${idx}`] = substat?.stat
         const rawValue = isPreview ? 0 : substat?.value
-        acc[`substatValue${idx}`] = (!isPreview && statUsesDecimal(substat?.stat, relic.verified))
+        acc[`substatValue${idx}`] = (!isPreview && statUsesDecimal(substat?.stat, !!relic.verified))
           ? rawValue!.toFixed(1)
           : rawValue?.toString()
         acc[`substat${idx}IsPreview`] = isPreview ? substat?.value : isPreview

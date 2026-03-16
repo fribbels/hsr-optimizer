@@ -45,7 +45,6 @@ export type OptimizerDisplayState = {
   statSimulationDisplay: StatSimTypes
   statSimulations: Simulation[]
   selectedStatSimulations: Simulation['key'][]
-  teammateCount: number
   characterSelectModalOpen: boolean
   menuState: Record<string, boolean>
 }

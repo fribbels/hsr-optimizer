@@ -230,7 +230,7 @@ Sidebar:
     Header: Lối lên đồ
     Save: Lưu
 TeammateRow:
-  Header: '{{teammateCount}} đồng đội'
+  Header: 'đồng đội'
 FormRowLabels:
   Character options: Lựa chọn nhân vật
   Relic & stat filters: Bộ lọc di vật và chỉ số

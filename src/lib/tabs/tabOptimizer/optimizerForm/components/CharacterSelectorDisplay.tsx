@@ -150,6 +150,7 @@ export function CharacterSelectorDisplay() {
           selectStyle={{ width: panelWidth }}
           opened={optimizerTabFocusCharacterSelectModalOpen}
           onOpenChange={setOptimizerTabFocusCharacterSelectModalOpen}
+          showIcon={false}
         />
         <SegmentedControl
           fullWidth

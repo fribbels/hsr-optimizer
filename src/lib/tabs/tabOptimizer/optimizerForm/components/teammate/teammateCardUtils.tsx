@@ -10,7 +10,7 @@ import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfi
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
 import { getRelicById } from 'lib/stores/relicStore'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { Character } from 'types/character'
 import { ReactElement } from 'types/components'
@@ -113,11 +113,6 @@ export function calculateTeammateSets(teammateCharacter: Character) {
   }
 
   return activeTeammateSets
-}
-
-export function countTeammates() {
-  const state = useOptimizerRequestStore.getState()
-  return state.teammates.filter((teammate) => teammate?.characterId).length
 }
 
 export type OptionRender = {

@@ -324,7 +324,7 @@ Sidebar:
     Save: 保存
     Load: 加载
 TeammateRow:
-  Header: '队友 {{teammateCount}}'
+  Header: '队友'
 FormRowLabels:
   Character options: 角色选项
   Relic & stat filters: 遗器和属性筛选

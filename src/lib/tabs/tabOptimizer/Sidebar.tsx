@@ -10,7 +10,7 @@ export default function Sidebar() {
   const xl = useMediaQuery('(min-width: 1200px)')
   const xxl = useMediaQuery('(min-width: 1600px)')
 
-  const sidebarBehavior = useGlobalStore((s) => s.settings[SettingOptions.PermutationsSidebarBehavior.name])
+  const sidebarBehavior = useGlobalStore((s) => s.settings.PermutationsSidebarBehavior)
   const breakpointNoShow = sidebarBehavior == SettingOptions.PermutationsSidebarBehavior.NoShow
   const breakpointShowXL = sidebarBehavior == SettingOptions.PermutationsSidebarBehavior.ShowXL
   const breakpointShowXXL = sidebarBehavior == SettingOptions.PermutationsSidebarBehavior.ShowXXL

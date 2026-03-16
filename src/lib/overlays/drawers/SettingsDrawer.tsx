@@ -20,39 +20,34 @@ const SelectOptionWordWrap = (props: React.ComponentPropsWithoutRef<'span'>) => 
 
 export const SettingOptions = {
   RelicEquippingBehavior: {
-    name: 'RelicEquippingBehavior',
     Replace: 'Replace',
     Swap: 'Swap',
   },
   PermutationsSidebarBehavior: {
-    name: 'PermutationsSidebarBehavior',
     ShowXL: 'Show XL',
     ShowXXL: 'Show XXL',
     NoShow: 'Do Not Show',
   },
   ExpandedInfoPanelPosition: {
-    name: 'ExpandedInfoPanelPosition',
     Above: 'Above',
     Below: 'Below',
   },
   ShowLocatorInRelicsModal: {
-    name: 'ShowLocatorInRelicsModal',
     No: 'No',
     Yes: 'Yes',
   },
   ShowComboDmgWarning: {
-    name: 'ShowComboDmgWarning',
     Show: 'Show',
     Hide: 'Hide',
   },
 } as const satisfies Record<keyof UserSettings, Record<string, string>>
 
 export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
-  [SettingOptions.RelicEquippingBehavior.name]: SettingOptions.RelicEquippingBehavior.Replace,
-  [SettingOptions.PermutationsSidebarBehavior.name]: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-  [SettingOptions.ExpandedInfoPanelPosition.name]: SettingOptions.ExpandedInfoPanelPosition.Below,
-  [SettingOptions.ShowLocatorInRelicsModal.name]: SettingOptions.ShowLocatorInRelicsModal.No,
-  [SettingOptions.ShowComboDmgWarning.name]: SettingOptions.ShowComboDmgWarning.Show,
+  RelicEquippingBehavior: SettingOptions.RelicEquippingBehavior.Replace,
+  PermutationsSidebarBehavior: SettingOptions.PermutationsSidebarBehavior.ShowXL,
+  ExpandedInfoPanelPosition: SettingOptions.ExpandedInfoPanelPosition.Below,
+  ShowLocatorInRelicsModal: SettingOptions.ShowLocatorInRelicsModal.No,
+  ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Show,
 }
 
 export const SettingsDrawer = () => {
@@ -88,7 +83,6 @@ function SettingsDrawerContent({ close: _close }: { close: () => void }) {
   for (const key of Object.keys(SettingOptions) as (keyof typeof SettingOptions)[]) {
     const group = SettingOptions[key]
     optionsMap[key] = Object.entries(group)
-      .filter(([k]) => k !== 'name')
       .map(([optionKey, value]) => ({ value, label: t(`${key}.${optionKey}`) }))
   }
 
@@ -109,7 +103,7 @@ function SettingsDrawerContent({ close: _close }: { close: () => void }) {
               style={{ width: 500 }}
               data={optionsMap[option]}
               renderOption={({ option }) => <SelectOptionWordWrap>{option.label}</SelectOptionWordWrap>}
-              {...settingsForm.getInputProps(SettingOptions[option].name)}
+              {...settingsForm.getInputProps(option)}
             />
           </Flex>
         ))}

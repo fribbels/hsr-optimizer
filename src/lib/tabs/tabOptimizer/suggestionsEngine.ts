@@ -86,7 +86,6 @@ export const ZeroPermRootCauseFixes = {
     buttonTextKey: '0Perms.RootCauses.PRIORITY.ButtonText',
     applyFix: () => {
       useCharacterStore.getState().insertCharacter(useOptimizerDisplayStore.getState().focusCharacterId!, 0)
-      void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => recalculatePermutations())
     },
     successMessageKey: '0Perms.RootCauses.PRIORITY.SuccessMessage',
   },

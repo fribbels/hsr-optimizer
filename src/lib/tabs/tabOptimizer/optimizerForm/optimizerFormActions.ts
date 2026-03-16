@@ -127,8 +127,8 @@ export function handleConditionalChange(
 
 /**
  * Recalculate permutation counts from current store state.
- * Call this after any form change that affects relic filtering.
- * Replaces external calls to `window.onOptimizerFormValuesChange({} as Form, form)`.
+ * Prefer letting the auto-subscription handle this — only call manually
+ * when external data (relic/character DB) changes without a store field update.
  */
 export function recalculatePermutations(): void {
   const state = useOptimizerRequestStore.getState()
@@ -161,6 +161,33 @@ export function recalculatePermutations(): void {
       * counts.LinkRope,
   )
 }
+
+/**
+ * Store fields that affect permutation counts. When any of these change,
+ * permutations are automatically recalculated via the subscription below.
+ */
+const PERMUTATION_KEYS = [
+  'characterId', 'rank', 'rankFilter',
+  'enhance', 'grade', 'exclude',
+  'includeEquippedRelics', 'keepCurrentRelics',
+  'mainBody', 'mainFeet', 'mainPlanarSphere', 'mainLinkRope',
+  'mainStatUpscaleLevel', 'setFilters', 'weights',
+] as const
+
+let permutationRafId: number | null = null
+
+useOptimizerRequestStore.subscribe((state, prev) => {
+  for (const key of PERMUTATION_KEYS) {
+    if (state[key] !== prev[key]) {
+      if (permutationRafId != null) cancelAnimationFrame(permutationRafId)
+      permutationRafId = requestAnimationFrame(() => {
+        permutationRafId = null
+        recalculatePermutations()
+      })
+      return
+    }
+  }
+})
 
 // ----- Functions moved from OptimizerTabController -----
 
@@ -255,7 +282,6 @@ export function equipClicked(): void {
   OptimizerTabController.setTopRow(row)
   useOptimizerDisplayStore.getState().setOptimizerBuild(build)
   SaveState.delayedSave()
-  recalculatePermutations()
 }
 
 /**
@@ -288,7 +314,6 @@ export function resetFilters(): void {
 
   useOptimizerRequestStore.getState().resetFilters()
   useOptimizerRequestStore.getState().loadForm(newForm as Form)
-  recalculatePermutations()
 }
 
 /**
@@ -327,8 +352,6 @@ export function updateCharacter(characterId: CharacterId): void {
   const currentRequest = displayToInternal(useOptimizerRequestStore.getState())
   generateContext(currentRequest)
   calculateCurrentlyEquippedRow(currentRequest)
-
-  recalculatePermutations()
 }
 
 /**

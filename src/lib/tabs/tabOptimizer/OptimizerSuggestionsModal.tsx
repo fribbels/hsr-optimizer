@@ -7,7 +7,6 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   detectZeroPermutationCauses,
   detectZeroResultCauses,
@@ -53,7 +52,6 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
       <Button
         onClick={() => {
           fixes.applyFix()
-          recalculatePermutations()
           Message.success(t(fixes.successMessageKey), 2)
         }}
         style={{ width: 350 }}

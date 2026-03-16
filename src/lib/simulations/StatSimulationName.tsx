@@ -37,7 +37,7 @@ function renderStat(x: Stat, simType: string, t: (key: string) => string) {
 
 export function StatSimulationName(props: { sim: Simulation }) {
   return (
-    <Flex gap={5}>
+    <Flex gap={5} align="center">
       <SimSetsDisplay sim={props.sim} />
 
       <span>|</span>
@@ -104,9 +104,9 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
       {renderArray.map((x) => {
         return (
           <Flex key={x.stat}>
-            <Badge style={{ paddingInline: '5px', marginInlineEnd: '5px' }}>
+            <span style={{ border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: 4, paddingInline: 3, paddingBlock: 1, marginInlineEnd: 5, fontSize: 11.5, whiteSpace: 'nowrap', background: 'rgba(255, 255, 255, 0.06)' }}>
               {renderStat(x, props.sim.simType, t)}
-            </Badge>
+            </span>
           </Flex>
         )
       })}

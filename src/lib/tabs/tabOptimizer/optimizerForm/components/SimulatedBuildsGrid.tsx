@@ -1,5 +1,5 @@
 import { IconX } from '@tabler/icons-react'
-import { Flex, Table } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { deleteStatSimulationBuild } from 'lib/simulations/statSimulationController'
@@ -70,35 +70,33 @@ export function SimulatedBuildsGrid() {
           </Flex>
         )
         : (
-          <Table>
-            <Table.Tbody>
-              {statSimulations.map((record) => (
-                <Table.Tr
-                  key={record.key}
-                  onClick={() => onRowClick(record.key)}
-                  style={{
-                    cursor: 'pointer',
-                    backgroundColor: selectedStatSimulations[0] === record.key ? 'var(--mantine-color-primary-light)' : undefined,
+          <Flex direction="column">
+            {statSimulations.map((record) => (
+              <Flex
+                key={record.key}
+                onClick={() => onRowClick(record.key)}
+                align="center"
+                style={{
+                  cursor: 'pointer',
+                  backgroundColor: selectedStatSimulations[0] === record.key ? 'var(--mantine-color-primary-light)' : undefined,
+                  padding: '6px 8px',
+                }}
+              >
+                <div style={{ flex: 1, overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                  <StatSimulationName sim={record as Simulation} />
+                </div>
+                <a
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    deleteStatSimulationBuild(record)
                   }}
+                  style={{ display: 'flex', flexShrink: 0, paddingLeft: 8, cursor: 'pointer' }}
                 >
-                  <Table.Td style={{ width: 560, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    <StatSimulationName sim={record as Simulation} />
-                  </Table.Td>
-                  <Table.Td style={{ width: 36 }}>
-                    <a
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        deleteStatSimulationBuild(record)
-                      }}
-                      style={{ display: 'flex', justifyContent: 'center' }}
-                    >
-                      <IconX />
-                    </a>
-                  </Table.Td>
-                </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
+                  <IconX size={18} />
+                </a>
+              </Flex>
+            ))}
+          </Flex>
         )}
     </div>
   )

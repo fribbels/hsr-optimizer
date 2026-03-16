@@ -67,8 +67,8 @@ export async function createSpineInstance(
   // premultipliedAlpha:true because blending naturally produces premultiplied
   // output on a cleared framebuffer — tells browser not to multiply again.
   // drawSkeleton uses PMA=false because atlas textures are straight (un-premultiplied).
-  const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: true })
-    || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true })
+  const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: true, preserveDrawingBuffer: true })
+    || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true, preserveDrawingBuffer: true })
   if (!glContext) throw new Error('WebGL not available')
   const gl = glContext
 

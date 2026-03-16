@@ -178,7 +178,7 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
           ))}
         </Flex>
 
-        <Flex direction="column" flex={1} className={classes.abilitiesColumn} style={{ display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
+        <Flex direction="column" flex={1} className={`${classes.abilitiesColumn} ${classes.simpleAbilities}`} style={{ display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} />)}
         </Flex>
       </Flex>
@@ -265,7 +265,6 @@ function NumberXInput({ disabled, defaultValue, value }: {
       }}
       style={{ width: '100%' }}
       styles={{ input: { paddingInlineStart: 18 } }}
-      className='comboInputNumber'
     />
   )
 }

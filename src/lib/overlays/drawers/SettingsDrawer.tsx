@@ -83,7 +83,7 @@ function SettingsDrawerContent({ close: _close }: { close: () => void }) {
   for (const key of Object.keys(SettingOptions) as (keyof typeof SettingOptions)[]) {
     const group = SettingOptions[key]
     optionsMap[key] = Object.entries(group)
-      .map(([optionKey, value]) => ({ value, label: t(`${key}.${optionKey}`) }))
+      .map(([optionKey, value]) => ({ value, label: t(`${key}.${optionKey}` as any) as string }))
   }
 
   useEffect(() => {

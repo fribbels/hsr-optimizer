@@ -6,6 +6,7 @@ import {
   useStatSimField,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { HeaderText } from 'lib/ui/HeaderText'
+import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -15,7 +16,7 @@ type SelectorOptions = {
   label: string
 }
 
-function MainStatSelector({ simType, placeholder, part, options }: { simType: string; placeholder: string; part: string; options: SelectorOptions[] }) {
+function MainStatSelector({ simType, placeholder, part, options }: { simType: StatSimType; placeholder: string; part: string; options: SelectorOptions[] }) {
   const field = 'sim' + part
   const value = useStatSimField<string>(simType, field)
 
@@ -53,7 +54,7 @@ function MainStatSelector({ simType, placeholder, part, options }: { simType: st
 
       <Combobox.Dropdown>
         <Combobox.Options mah={750} style={{ overflowY: 'auto' }}>
-          {options.map((opt) => (
+          {combobox.dropdownOpened && options.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
               <Group gap={6} justify='space-between'>
                 {opt.short}
@@ -67,7 +68,7 @@ function MainStatSelector({ simType, placeholder, part, options }: { simType: st
   )
 }
 
-export function MainStatsSection({ simType }: { simType: string }) {
+export function MainStatsSection({ simType }: { simType: StatSimType }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation.MainStatsSelection' })
   const BodyStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.EHR, Stats.OHB]

@@ -1,5 +1,6 @@
 import { CombatBuffs, ConditionalDataType, Constants } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
+import { DEFAULT_SET_FILTERS, expandSetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalConversions'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
   OptimizerRequestState,
@@ -93,8 +94,8 @@ export function displayToInternal(state: OptimizerRequestState): Form {
     mainPlanarSphere: state.mainPlanarSphere,
     mainStatUpscaleLevel: state.mainStatUpscaleLevel,
     rankFilter: state.rankFilter,
-    ornamentSets: state.ornamentSets,
-    relicSets: state.relicSets,
+    ...expandSetFilters(state.setFilters),
+    setFilters: state.setFilters,
     statDisplay: state.statDisplay,
     memoDisplay: state.memoDisplay,
 
@@ -241,8 +242,7 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
     mainPlanarSphere: form.mainPlanarSphere ?? [],
     mainStatUpscaleLevel: form.mainStatUpscaleLevel ?? 15,
     rankFilter: form.rankFilter,
-    relicSets: form.relicSets,
-    ornamentSets: form.ornamentSets,
+    setFilters: form.setFilters ?? DEFAULT_SET_FILTERS,
     statDisplay: form.statDisplay,
     memoDisplay: form.memoDisplay,
 
@@ -300,7 +300,7 @@ export function internalToDisplay(form: Partial<Form>): {
   }
 }
 
-function internalToStatFilters(form: Partial<Form>): StatFilterState {
+export function internalToStatFilters(form: Partial<Form>): StatFilterState {
   return {
     minAtk: unsetMin(form.minAtk),
     maxAtk: unsetMax(form.maxAtk),

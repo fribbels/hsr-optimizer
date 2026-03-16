@@ -12,6 +12,7 @@ import { ComboDrawer } from 'lib/tabs/tabOptimizer/combo/ComboDrawer'
 import { CombatBuffsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/components/CombatBuffsDrawer'
 import { EnemyConfigurationsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/components/EnemyConfigurationsDrawer'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
+import { RelicSetFilterModal } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal'
 import { ZeroPermutationsSuggestionsModal, ZeroResultSuggestionModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
@@ -32,6 +33,7 @@ export function GlobalModals() {
       <FormSetConditionals id={OpenCloseIDs.BENCHMARKS_SETS_DRAWER} />
 
       {/* Modals */}
+      <RelicSetFilterModal />
       <ErrorBoundary fallbackRender={defaultErrorRender}>
         <ScoringModal />
       </ErrorBoundary>

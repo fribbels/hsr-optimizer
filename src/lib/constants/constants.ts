@@ -49,6 +49,18 @@ export const Stats = {
 export type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
 
+export const TwoPieceStatTags = [
+  Stats.ATK_P,
+  Stats.HP_P,
+  Stats.DEF_P,
+  Stats.SPD_P,
+  Stats.CR,
+  Stats.CD,
+  Stats.OHB,
+  Stats.BE,
+] as const
+export type TwoPieceStatTag = (typeof TwoPieceStatTags)[number]
+
 export const MainStats = [
   Stats.HP_P,
   Stats.ATK_P,

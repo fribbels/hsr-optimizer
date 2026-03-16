@@ -4,6 +4,7 @@ import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerCon
 import type { Prettify } from 'types/common'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type { CustomImageConfig } from 'types/customImage'
+import type { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
 import type {
   Form,
   OrnamentSetFilters,
@@ -44,10 +45,7 @@ export type BuildOptimizerMetadata = {
   comboTurnAbilities?: Form['comboTurnAbilities'],
   comboType?: Form['comboType'],
   statFilters: StatFilters | null,
-  setFilters: {
-    ornaments: OrnamentSetFilters,
-    relics: RelicSetFilters,
-  },
+  setFilters?: SetFilters,
   setConditionals: SetConditionals,
   presets: boolean,
 }

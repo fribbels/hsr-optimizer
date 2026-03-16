@@ -1,6 +1,7 @@
 import type { ComboType } from 'lib/optimization/rotation/comboType'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import {
   EnemyConfigFields,
   MainStatPart,
@@ -8,6 +9,7 @@ import {
   RatingFilterState,
   RelicFilterFields,
   StatFilterState,
+  StatSimType,
   TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import {
@@ -23,7 +25,8 @@ import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimi
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 import { ConditionalValueMap } from 'types/conditionals'
-import { Form, OrnamentSetFilters, RelicSetFilters } from 'types/form'
+import { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import { Form } from 'types/form'
 import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
 import { MemoDisplay, StatDisplay } from 'types/store'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
@@ -48,14 +51,13 @@ type OptimizerRequestActions = {
   setResultSort: (sort: keyof typeof SortOption | undefined) => void
   setResultsLimit: (limit: number) => void
   setStatSim: (sim: OptimizerRequestState['statSim']) => void
-  updateStatSimField: (simType: string, field: string, value: unknown) => void
+  updateStatSimField: (simType: StatSimType, field: string, value: unknown) => void
   setTeammateField: <K extends keyof TeammateState>(index: 0 | 1 | 2, key: K, value: TeammateState[K]) => void
 
   // Complex actions (Task 10)
   setRelicFilterField: <K extends keyof RelicFilterFields>(key: K, value: RelicFilterFields[K]) => void
   setMainStats: (part: MainStatPart, stats: string[]) => void
-  setRelicSets: (sets: RelicSetFilters) => void
-  setOrnamentSets: (sets: OrnamentSetFilters) => void
+  setSetFilters: (display: SetFilters) => void
   setWeight: (stat: keyof OptimizerRequestState['weights'], value: number) => void
   setEidolon: (eidolon: Eidolon) => void
   setLightCone: (lcId: LightConeId | undefined) => void
@@ -118,8 +120,8 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
   setStatSim: (sim) => set({ statSim: sim }),
 
   updateStatSimField: (simType, field, value) => set((state) => {
-    const current = state.statSim ?? {} as NonNullable<OptimizerRequestState['statSim']>
-    const simSection = (current as unknown as Record<string, Record<string, unknown>>)[simType] ?? {}
+    const current = state.statSim ?? { key: '', benchmarks: {} as SimulationRequest, substatRolls: {} as SimulationRequest }
+    const simSection = current[simType] ?? {}
     return {
       statSim: {
         ...current,
@@ -143,9 +145,7 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
 
   setMainStats: (part, stats) => set({ [part]: stats }),
 
-  setRelicSets: (sets) => set({ relicSets: sets }),
-
-  setOrnamentSets: (sets) => set({ ornamentSets: sets }),
+  setSetFilters: (display) => set({ setFilters: display }),
 
   setWeight: (stat, value) => set((state) => ({
     weights: { ...state.weights, [stat]: value },

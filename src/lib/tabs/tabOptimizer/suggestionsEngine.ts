@@ -59,7 +59,8 @@ export const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.RELIC_SETS.Description',
     buttonTextKey: '0Perms.RootCauses.RELIC_SETS.ButtonText',
     applyFix: () => {
-      useOptimizerRequestStore.getState().setRelicSets([])
+      const current = useOptimizerRequestStore.getState().setFilters
+      useOptimizerRequestStore.getState().setSetFilters({ ...current, fourPiece: [], twoPieceCombos: [] })
     },
     successMessageKey: '0Perms.RootCauses.RELIC_SETS.SuccessMessage',
   },
@@ -67,7 +68,8 @@ export const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.ORNAMENT_SETS.Description',
     buttonTextKey: '0Perms.RootCauses.ORNAMENT_SETS.ButtonText',
     applyFix: () => {
-      useOptimizerRequestStore.getState().setOrnamentSets([])
+      const current = useOptimizerRequestStore.getState().setFilters
+      useOptimizerRequestStore.getState().setSetFilters({ ...current, ornaments: [] })
     },
     successMessageKey: '0Perms.RootCauses.ORNAMENT_SETS.SuccessMessage',
   },

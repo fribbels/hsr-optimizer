@@ -2,6 +2,7 @@ import {
   ConditionalDataType,
   SetKey,
   Sets,
+  TwoPieceStatTag,
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
@@ -334,3 +335,18 @@ export function generateSetConditionalsInitializer(setConditionals: SetCondition
     .map((f) => `${record[f.fieldName]},${debug ? ` // ${f.fieldName}` : ''}`)
     .join('\n    ')
 }
+
+export function buildStatTagToSets(): Partial<Record<TwoPieceStatTag, SetsRelics[]>> {
+  const result: Partial<Record<TwoPieceStatTag, SetsRelics[]>> = {}
+
+  for (const config of relicIndexToSetConfig) {
+    const tag = config.info.twoPieceStatTag
+    if (tag) {
+      if (!result[tag]) result[tag] = []
+      result[tag]!.push(config.id as SetsRelics)
+    }
+  }
+  return result
+}
+
+export const STAT_TAG_TO_SETS = buildStatTagToSets()

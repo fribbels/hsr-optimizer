@@ -3,6 +3,7 @@ import {
   SACERDOS_RELIVED_ORDEAL_1_STACK,
   SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
+  Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
@@ -30,6 +31,7 @@ const info = {
   index: 20,
   setType: SetType.RELIC,
   ingameId: '121',
+  twoPieceStatTag: Stats.SPD_P,
 } as const satisfies SetInfo
 
 const display = {

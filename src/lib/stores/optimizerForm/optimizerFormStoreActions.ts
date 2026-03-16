@@ -2,11 +2,11 @@ import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConve
 import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { OptimizerRequestState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import type { MainConditionalType, TeammateConditionalType } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { Form, OrnamentSetFilters, RelicSetFilters } from 'types/form'
+import { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import { Form } from 'types/form'
 
 export type SuggestionFixes = {
-  relicSets?: RelicSetFilters
-  ornamentSets?: OrnamentSetFilters
+  setFilters?: SetFilters
   mainBody?: string[]
   mainFeet?: string[]
   mainPlanarSphere?: string[]
@@ -35,8 +35,7 @@ export function computeResetFilters(state: OptimizerRequestState): Partial<Optim
     mainFeet: defaults.mainFeet,
     mainPlanarSphere: defaults.mainPlanarSphere,
     mainLinkRope: defaults.mainLinkRope,
-    relicSets: defaults.relicSets,
-    ornamentSets: defaults.ornamentSets,
+    setFilters: defaults.setFilters,
     // Preserve character/LC
     characterId: state.characterId,
     characterEidolon: state.characterEidolon,
@@ -51,8 +50,7 @@ export function computeResetFilters(state: OptimizerRequestState): Partial<Optim
  */
 export function computeApplySuggestionFixes(_state: OptimizerRequestState, fixes: SuggestionFixes): Partial<OptimizerRequestState> {
   const patch: Partial<OptimizerRequestState> = {}
-  if (fixes.relicSets !== undefined) patch.relicSets = fixes.relicSets
-  if (fixes.ornamentSets !== undefined) patch.ornamentSets = fixes.ornamentSets
+  if (fixes.setFilters !== undefined) patch.setFilters = fixes.setFilters
   if (fixes.mainBody !== undefined) patch.mainBody = fixes.mainBody
   if (fixes.mainFeet !== undefined) patch.mainFeet = fixes.mainFeet
   if (fixes.mainPlanarSphere !== undefined) patch.mainPlanarSphere = fixes.mainPlanarSphere
@@ -128,7 +126,8 @@ export function computeSetSetConditional(
   value: boolean | number,
 ): Partial<OptimizerRequestState> {
   const setConditionals = { ...state.setConditionals } as Record<string, [undefined, boolean | number]>
-  const tuple = [...setConditionals[key]] as [undefined, boolean | number]
+  const existing = setConditionals[key]
+  const tuple: [undefined, boolean | number] = existing ? [...existing] : [undefined, value]
   tuple[1] = value
   setConditionals[key] = tuple
   return { setConditionals }

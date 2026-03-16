@@ -4,6 +4,7 @@ import {
   ConditionalDataType,
   SetKey,
   Sets,
+  TwoPieceStatTag,
 } from 'lib/constants/constants'
 import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -29,6 +30,7 @@ export type SetInfo = {
   index: number
   setType: SetType
   ingameId: string
+  twoPieceStatTag: TwoPieceStatTag | null
 }
 
 export type SetConditionals = {

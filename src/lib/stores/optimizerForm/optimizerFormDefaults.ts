@@ -122,8 +122,7 @@ export function createDefaultFormState(): OptimizerRequestState {
     mainFeet: [],
     mainPlanarSphere: [],
     mainLinkRope: [],
-    relicSets: [],
-    ornamentSets: [],
+    setFilters: { fourPiece: [], twoPieceCombos: [], ornaments: [] },
 
     // Weights
     weights: {} as OptimizerRequestState['weights'],

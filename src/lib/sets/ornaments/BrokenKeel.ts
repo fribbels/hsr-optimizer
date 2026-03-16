@@ -43,6 +43,7 @@ const info = {
   index: 9,
   setType: SetType.ORNAMENT,
   ingameId: '310',
+  twoPieceStatTag: null,
 } as const satisfies SetInfo
 
 const display = {

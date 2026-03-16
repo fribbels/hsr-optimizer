@@ -1,6 +1,7 @@
 import {
   ConditionalDataType,
   Sets,
+  Stats,
 } from 'lib/constants/constants'
 import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
@@ -27,6 +28,7 @@ const info = {
   index: 12,
   setType: SetType.RELIC,
   ingameId: '113',
+  twoPieceStatTag: Stats.HP_P,
 } as const satisfies SetInfo
 
 const display = {

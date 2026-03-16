@@ -67,7 +67,7 @@ export function SearchableCombobox(props: {
           placeholder={placeholder}
         />
         <Combobox.Options mah={dropdownMaxHeight} style={{ overflowY: 'auto' }}>
-          {filteredOptions.map((opt) => (
+          {combobox.dropdownOpened && filteredOptions.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
               <Group gap={6} justify='space-between'>
                 {opt.label}
@@ -75,7 +75,7 @@ export function SearchableCombobox(props: {
               </Group>
             </Combobox.Option>
           ))}
-          {filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

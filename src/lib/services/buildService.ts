@@ -16,6 +16,7 @@ import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+import { displayToInternal, internalToStatFilters } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
   Build,
@@ -24,7 +25,7 @@ import {
   CharacterId,
   SavedBuild,
 } from 'types/character'
-import { StatFilters } from 'types/form'
+import type { Form, StatFilters } from 'types/form'
 
 export function saveBuild(
   name: string,
@@ -44,12 +45,22 @@ export function saveBuild(
   switch (source) {
     case SavedBuildSource.OPTIMIZER: {
       const state = useOptimizerRequestStore.getState()
+      const internalForm = displayToInternal(state)
+      const statFilters: StatFilters = {
+        minAtk: internalForm.minAtk, maxAtk: internalForm.maxAtk,
+        minHp: internalForm.minHp, maxHp: internalForm.maxHp,
+        minDef: internalForm.minDef, maxDef: internalForm.maxDef,
+        minSpd: internalForm.minSpd, maxSpd: internalForm.maxSpd,
+        minCr: internalForm.minCr, maxCr: internalForm.maxCr,
+        minCd: internalForm.minCd, maxCd: internalForm.maxCd,
+        minEhr: internalForm.minEhr, maxEhr: internalForm.maxEhr,
+        minRes: internalForm.minRes, maxRes: internalForm.maxRes,
+        minBe: internalForm.minBe, maxBe: internalForm.maxBe,
+        minErr: internalForm.minErr, maxErr: internalForm.maxErr,
+      }
       const optimizerMetadata: BuildOptimizerMetadata = {
-        setFilters: {
-          relics: TsUtils.clone(state.relicSets),
-          ornaments: TsUtils.clone(state.ornamentSets),
-        },
-        statFilters: TsUtils.clone(state.statFilters) as unknown as StatFilters,
+        setFilters: TsUtils.clone(state.setFilters),
+        statFilters,
         comboStateJson: TsUtils.clone(state.comboStateJson),
         setConditionals: TsUtils.clone(state.setConditionals),
         presets: state.comboPreprocessor,
@@ -251,8 +262,7 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
     patch.comboPreprocessor = true
     patch.comboStateJson = '{}'
     patch.setConditionals = TsUtils.clone(dbCharForm.setConditionals)
-    patch.relicSets = TsUtils.clone(dbCharForm.relicSets)
-    patch.ornamentSets = TsUtils.clone(dbCharForm.ornamentSets)
+    patch.setFilters = TsUtils.clone(dbCharForm.setFilters) ?? { fourPiece: [], twoPieceCombos: [], ornaments: [] }
     patch.statFilters = {
       minAtk: undefined, maxAtk: undefined, minHp: undefined, maxHp: undefined,
       minDef: undefined, maxDef: undefined, minSpd: undefined, maxSpd: undefined,
@@ -269,10 +279,9 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
       patch.comboType = ComboType.SIMPLE
     }
     if (meta.statFilters) {
-      patch.statFilters = TsUtils.clone(meta.statFilters)
+      patch.statFilters = internalToStatFilters(meta.statFilters as Partial<Form>)
     }
-    patch.relicSets = TsUtils.clone(meta.setFilters.relics)
-    patch.ornamentSets = TsUtils.clone(meta.setFilters.ornaments)
+    patch.setFilters = TsUtils.clone(meta.setFilters) ?? { fourPiece: [], twoPieceCombos: [], ornaments: [] }
     patch.setConditionals = TsUtils.clone(meta.setConditionals)
 
     // Apply saved conditionals from build-level fields
@@ -301,11 +310,8 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
   }
 
   // Apply all overrides to store at once, then navigate.
-  void import('lib/stores/optimizerForm/useOptimizerRequestStore').then(({ useOptimizerRequestStore }) => {
-    useOptimizerRequestStore.setState(patch)
-
-    useGlobalStore.getState().setActiveKey(AppPages.OPTIMIZER)
-    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
-    SaveState.delayedSave()
-  })
+  useOptimizerRequestStore.setState(patch)
+  useGlobalStore.getState().setActiveKey(AppPages.OPTIMIZER)
+  useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
+  SaveState.delayedSave()
 }

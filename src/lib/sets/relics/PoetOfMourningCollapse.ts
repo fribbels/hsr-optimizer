@@ -27,6 +27,7 @@ const info = {
   index: 23,
   setType: SetType.RELIC,
   ingameId: '124',
+  twoPieceStatTag: null,
 } as const satisfies SetInfo
 
 const display = {

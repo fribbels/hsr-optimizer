@@ -4,6 +4,7 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
+import { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
 
 beforeEach(() => {
   useOptimizerRequestStore.setState(useOptimizerRequestStore.getInitialState())
@@ -142,16 +143,14 @@ describe('complex actions', () => {
     expect(useOptimizerRequestStore.getState().mainBody).toEqual(['HP%', 'ATK%'])
   })
 
-  it('setRelicSets updates', () => {
-    const sets = [['set1', 'set2']] as any
-    useOptimizerRequestStore.getState().setRelicSets(sets)
-    expect(useOptimizerRequestStore.getState().relicSets).toEqual(sets)
-  })
-
-  it('setOrnamentSets updates', () => {
-    const sets = ['orn1'] as any
-    useOptimizerRequestStore.getState().setOrnamentSets(sets)
-    expect(useOptimizerRequestStore.getState().ornamentSets).toEqual(sets)
+  it('setSetFilters updates', () => {
+    const display: SetFilters = {
+      fourPiece: ['Musketeer of Wild Wheat' as any],
+      twoPieceCombos: [],
+      ornaments: ['Rutilant Arena' as any],
+    }
+    useOptimizerRequestStore.getState().setSetFilters(display)
+    expect(useOptimizerRequestStore.getState().setFilters).toEqual(display)
   })
 
   it('setWeight updates a single weight', () => {
@@ -226,7 +225,11 @@ describe('complex actions', () => {
     useOptimizerRequestStore.getState().setRelicFilterField('enhance', 15)
     useOptimizerRequestStore.getState().setRelicFilterField('grade', 4 as any)
     useOptimizerRequestStore.getState().setMainStats('mainBody', ['HP%'])
-    useOptimizerRequestStore.getState().setRelicSets([['set1', 'set2']] as any)
+    useOptimizerRequestStore.getState().setSetFilters({
+      fourPiece: ['set1' as any],
+      twoPieceCombos: [],
+      ornaments: [],
+    })
 
     // Reset
     useOptimizerRequestStore.getState().resetFilters()
@@ -243,19 +246,22 @@ describe('complex actions', () => {
     expect(state.enhance).toBe(9)
     expect(state.grade).toBe(5)
     expect(state.mainBody).toEqual([])
-    expect(state.relicSets).toEqual([])
+    expect(state.setFilters).toEqual({ fourPiece: [], twoPieceCombos: [], ornaments: [] })
   })
 
   it('applySuggestionFixes applies partial fixes', () => {
     useOptimizerRequestStore.getState().applySuggestionFixes({
-      relicSets: [['setA', 'setB']] as any,
+      setFilters: {
+        fourPiece: [],
+        twoPieceCombos: [],
+        ornaments: [],
+      },
       mainBody: ['DEF%'],
     })
     const state = useOptimizerRequestStore.getState()
-    expect(state.relicSets).toEqual([['setA', 'setB']])
+    expect(state.setFilters).toEqual({ fourPiece: [], twoPieceCombos: [], ornaments: [] })
     expect(state.mainBody).toEqual(['DEF%'])
     // Fields not provided should remain unchanged
     expect(state.mainFeet).toEqual([])
-    expect(state.ornamentSets).toEqual([])
   })
 })

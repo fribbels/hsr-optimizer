@@ -1,4 +1,4 @@
-import { IconSettings } from '@tabler/icons-react'
+import { IconFilter, IconSettings } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
 import {
   Constants,
@@ -12,14 +12,8 @@ import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
-import { RelicSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetTagRenderer'
-import {
-  decodeRelicSetValue,
-  encodeRelicSetValue,
-  GenerateSetsGroupedOptions,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+import { SetFilterSummary } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterSummary'
 import {
   optimizerTabDefaultGap,
   panelWidth,
@@ -27,7 +21,6 @@ import {
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './RelicMainSetFilters.module.css'
 
@@ -137,54 +130,16 @@ function MainStatLinkRope() {
   )
 }
 
-function RelicSetSelector() {
-  const { t } = useTranslation('optimizerTab')
-  const relicSets = useOptimizerRequestStore((s) => s.relicSets)
-  const relicSetsValue = useMemo(
-    () => (relicSets ?? []).map((tuple) => encodeRelicSetValue(tuple)),
-    [relicSets],
-  )
-  const setsGroupedOptions = useMemo(() => GenerateSetsGroupedOptions(), [t])
-
+function SetFilterButton() {
   return (
-    <MultiSelectPills
-      placeholder={t('RelicSetSelector.Placeholder')}
-      data={setsGroupedOptions}
-      maxDropdownHeight={400}
-      maxDisplayedValues={1}
-      searchable
-      clearable
-      value={relicSetsValue}
-      onChange={(val) => {
-        const decoded = val.map((v) => decodeRelicSetValue(v)) as typeof relicSets
-        useOptimizerRequestStore.getState().setRelicSets(decoded)
-        recalculatePermutations()
-      }}
-      renderOption={(option) => RelicSetTagRenderer(option.value)}
-    />
-  )
-}
-
-function OrnamentSetSelector() {
-  const { t } = useTranslation('optimizerTab')
-  const ornamentSets = useOptimizerRequestStore((s) => s.ornamentSets)
-  const ornamentOptions = useOrnamentsOptions()
-
-  return (
-    <MultiSelectPills
-      dropdownWidth={250}
-      maxDropdownHeight={800}
-      maxDisplayedValues={1}
-      clearable
-      style={mainStatStyle}
-      data={ornamentOptions.map((opt) => ({ value: opt.value, label: opt.value }))}
-      placeholder={t('OrnamentSetSelector.Placeholder')}
-      value={ornamentSets}
-      onChange={(val) => {
-        useOptimizerRequestStore.getState().setOrnamentSets(val as typeof ornamentSets)
-        recalculatePermutations()
-      }}
-    />
+    <Button
+      variant="default"
+      fullWidth
+      onClick={() => setOpen(OpenCloseIDs.RELIC_SET_FILTER_MODAL)}
+      leftSection={<IconFilter size={16} />}
+    >
+      Set filters
+    </Button>
   )
 }
 
@@ -210,8 +165,6 @@ export function RelicMainSetFilters() {
       </Flex>
 
       <Flex direction="column" gap={7}>
-        <RelicSetSelector />
-        <OrnamentSetSelector />
         <Button
           variant="default"
           onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
@@ -219,6 +172,8 @@ export function RelicMainSetFilters() {
         >
           {t('SetConditionals.Title') /* Conditional set effects */}
         </Button>
+        <SetFilterButton />
+        <SetFilterSummary mt={10} />
       </Flex>
     </Flex>
   )

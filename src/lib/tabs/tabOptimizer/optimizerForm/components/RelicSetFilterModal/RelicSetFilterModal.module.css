@@ -1,0 +1,68 @@
+.resultsCollector {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px 12px;
+}
+
+.gridColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.setRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: var(--mantine-radius-default);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.setRow:hover {
+  background: var(--mantine-color-default-hover);
+}
+
+.setRowChecked {
+  border-color: var(--mantine-color-primary-light);
+  background: var(--mantine-color-primary-light);
+}
+
+.setRowDimmed {
+  opacity: 0.075;
+}
+
+.setImg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.collectorImg {
+  width: 24px;
+  height: 24px;
+}
+
+.collectorBlank {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--mantine-radius-sm);
+  border: 1.5px dashed var(--mantine-color-dimmed);
+  opacity: 0.5;
+}
+
+.collectorRow {
+  min-height: 32px;
+}
+
+.footer {
+  border-top: 1px solid var(--border-color);
+}

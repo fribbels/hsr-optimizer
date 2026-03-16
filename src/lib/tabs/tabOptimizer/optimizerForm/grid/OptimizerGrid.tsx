@@ -23,6 +23,7 @@ import {
   optimizerGridOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
+import { useTranslation } from 'react-i18next'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -47,7 +48,8 @@ export const GRID_DIMENSIONS = {
 export function OptimizerGrid() {
 
 
-  const { getLocaleText, paginationNumberFormatter, t } = useGridLocale('optimizerTab', 'Grid')
+  const { getLocaleText, paginationNumberFormatter } = useGridLocale('optimizerTab', 'Grid')
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'Grid' })
   const { gridDestroyed } = useGridLocaleRebuild()
   const optimizerGrid = useRef<AgGridReact<OptimizerDisplayDataStatSim> | null>(null)
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
@@ -95,7 +97,7 @@ export function OptimizerGrid() {
             valueFormatter: Renderer.floor,
             minWidth: DIGITS_5,
             flex: 12,
-            headerName: t(`Headers.Basic.${action.actionType}`),
+            headerName: t(`Headers.Basic.${action.actionType}` as any) as string,
           })
         }
       }

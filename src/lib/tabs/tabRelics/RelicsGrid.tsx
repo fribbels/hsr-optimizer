@@ -9,6 +9,7 @@ import {
   AgGridReactProps,
 } from 'ag-grid-react'
 import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
+import { useTranslation } from 'react-i18next'
 import {
   ScoredRelic,
   scoreRelics,
@@ -52,7 +53,8 @@ const paginationSettings: AgGridReactProps<ScoredRelic> = {
 }
 
 export function RelicsGrid() {
-  const { getLocaleText, paginationNumberFormatter, t } = useGridLocale('relicsTab', 'RelicGrid')
+  const { getLocaleText, paginationNumberFormatter } = useGridLocale('relicsTab', 'RelicGrid')
+  const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
   
 

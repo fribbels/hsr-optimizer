@@ -19,6 +19,7 @@ import React, {
   useMemo,
   useState,
 } from 'react'
+import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { TraceNode } from 'types/metadata'
 import classes from './StatTracesDrawer.module.css'
@@ -33,7 +34,7 @@ const TraceTreeNode = ({
   node: TraceNode
   checkedKeys: React.Key[]
   onToggle: (node: TraceNode, checked: boolean) => void
-  tCommon: (key: string) => string
+  tCommon: TFunction<'common'>
   level: number
 }) => {
   const [expanded, setExpanded] = useState(true)

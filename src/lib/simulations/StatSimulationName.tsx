@@ -10,6 +10,7 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { Utils } from 'lib/utils/utils'
+import type { TFunction } from 'i18next'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stat } from 'types/relic'
@@ -29,7 +30,7 @@ const substatToPriority: Record<string, number> = {
   [Stats.RES]: 11,
 }
 
-function renderStat(x: Stat, simType: string, t: (key: string) => string) {
+function renderStat(x: Stat, simType: string, t: TFunction<'common', 'ShortStats'>) {
   return simType == StatSimTypes.SubstatRolls
     ? `${t(x.stat)} x ${x.value}`
     : `${t(x.stat)} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`

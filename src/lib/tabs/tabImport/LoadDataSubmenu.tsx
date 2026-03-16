@@ -11,6 +11,7 @@ import {
 } from 'lib/tabs/tabImport/importerTabUiConstants'
 import { RefObject, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { TFunction } from 'i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
 import classes from './LoadDataSubmenu.module.css'
 
@@ -20,14 +21,14 @@ enum Stages {
   FINISHED = 2,
 }
 
-type TFunction = (key: string, options?: Record<string, unknown>) => string
+type LoadDataTranslate = TFunction<'importSaveTab', 'LoadData'>
 
 function UploadFileStage(props: {
   loading: boolean
   fileInputRef: RefObject<HTMLInputElement | null>
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onUploadClick: () => void
-  t: TFunction
+  t: LoadDataTranslate
 }) {
   return (
     <Flex className={classes.stageContainer}>
@@ -61,7 +62,7 @@ function ConfirmDataStage(props: {
   currentStage: Stages
   loading: boolean
   onConfirm: () => void
-  t: TFunction
+  t: LoadDataTranslate
 }) {
   const isVisible = props.currentStage >= Stages.CONFIRM_DATA
   const displayStyle = { display: isVisible ? 'flex' : 'none' }
@@ -96,7 +97,7 @@ function ConfirmDataStage(props: {
   )
 }
 
-function CompletedStage(props: { currentStage: Stages; t: TFunction }) {
+function CompletedStage(props: { currentStage: Stages; t: LoadDataTranslate }) {
   return (
     <Flex className={classes.stageContainer}>
       <Flex direction='column' gap={10} style={{ display: props.currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>

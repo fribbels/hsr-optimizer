@@ -22,6 +22,12 @@
   max-width: 1600px;
   height: 900px;
   max-height: 900px;
+  background-image:
+    linear-gradient(to top, transparent 99.5%, var(--mantine-color-body) 100%),
+    linear-gradient(to bottom, transparent 99.5%, var(--mantine-color-body) 100%),
+    linear-gradient(to left, transparent 98%, var(--mantine-color-body) 99.5%),
+    linear-gradient(to right, transparent 98%, var(--mantine-color-body) 99.5%),
+    var(--home-bg-image);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -41,12 +47,21 @@
   cursor: default;
   font-size: 16px;
   min-width: 500px;
+  padding: 0;
+  overflow: hidden;
+  /* !important needed to override Mantine Paper's inline background-color */
+  background-color: var(--mantine-color-dark-6) !important;
 }
 
-.featureCardTitle {
-  font-size: 20px;
+.featureCardHeader {
+  font-size: 18px;
   font-weight: 500;
-  margin-bottom: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--mantine-color-dark-4);
+}
+
+.featureCardBody {
+  padding: 12px 16px 16px;
 }
 
 .headerSection {
@@ -82,12 +97,6 @@
   font-size: 16px;
   opacity: 0.8;
   margin-right: 2px;
-}
-
-.searchButton {
-  width: 60px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
 }
 
 .featuresContainer {

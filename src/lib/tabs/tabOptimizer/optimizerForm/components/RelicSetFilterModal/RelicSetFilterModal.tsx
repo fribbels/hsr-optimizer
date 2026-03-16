@@ -9,7 +9,6 @@ export function RelicSetFilterModal() {
     <Modal
       opened={isOpen}
       onClose={close}
-      title="Relic & Ornament Set Filter"
       size={900}
       centered
     >

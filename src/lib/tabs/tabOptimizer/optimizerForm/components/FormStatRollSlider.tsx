@@ -2,7 +2,7 @@ import { Flex, Slider } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Fragment, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -37,7 +37,6 @@ function WeightSlider({ stat }: { stat: string }) {
       styles={sliderStyles}
       value={value as number ?? 0}
       onChange={(val) => useOptimizerRequestStore.getState().setWeight(stat as keyof OptimizerRequestState['weights'], val)}
-      onChangeEnd={() => recalculatePermutations()}
     />
   )
 }
@@ -57,7 +56,6 @@ function MinWeightedRollsSlider() {
       styles={sliderStyles}
       value={value}
       onChange={(val) => useOptimizerRequestStore.getState().setWeight('minWeightedRolls', val)}
-      onChangeEnd={() => recalculatePermutations()}
     />
   )
 }

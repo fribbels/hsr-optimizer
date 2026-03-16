@@ -7,7 +7,6 @@ import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { RelicFilterFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   optimizerTabDefaultGap,
   panelWidth,
@@ -56,7 +55,6 @@ function PriorityCombobox(props: {
         if (characterId && getCharacterById(characterId)) {
           useCharacterStore.getState().insertCharacter(characterId, numVal)
         }
-        recalculatePermutations()
         combobox.closeDropdown()
       }}
     >
@@ -96,7 +94,6 @@ function PriorityCombobox(props: {
 
 function setFilterAndRecalculate<K extends keyof RelicFilterFields>(field: K, value: RelicFilterFields[K]) {
   useOptimizerRequestStore.getState().setRelicFilterField(field, value)
-  recalculatePermutations()
 }
 
 export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): ReactElement {

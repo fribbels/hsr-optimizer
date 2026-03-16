@@ -14,7 +14,7 @@ import { Relic } from 'types/relic'
  * Reads the swap setting from the global store.
  */
 function getSwapSetting(): boolean {
-  return useGlobalStore.getState().settings[SettingOptions.RelicEquippingBehavior.name] == SettingOptions.RelicEquippingBehavior.Swap
+  return useGlobalStore.getState().settings.RelicEquippingBehavior == SettingOptions.RelicEquippingBehavior.Swap
 }
 
 /**

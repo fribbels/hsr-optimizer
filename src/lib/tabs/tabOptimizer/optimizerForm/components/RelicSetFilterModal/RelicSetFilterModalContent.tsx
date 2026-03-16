@@ -4,7 +4,6 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { relicIndexToSetConfig, ornamentIndexToSetConfig, SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
 import { TwoPieceSlot, TwoPieceSlotNonAny, TwoPieceSlotType, TwoPieceCombo, ModalState, RelicSetMode } from './relicSetFilterModalTypes'
 import { parseDisplayToModalState, buildDisplayFromModalState } from './relicSetFilterModalConversions'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { SetGrid } from './SetGrid'
 import { StatChips } from './StatChips'
 import { ResultsCollector } from './ResultsCollector'
@@ -23,7 +22,6 @@ function combosEqual(a: TwoPieceCombo, b: TwoPieceCombo): boolean {
 
 function syncToStore(state: ModalState) {
   useOptimizerRequestStore.getState().setSetFilters(buildDisplayFromModalState(state))
-  recalculatePermutations()
 }
 
 const EMPTY_CHECKED = new Set<string>()

@@ -142,32 +142,11 @@ export function CharacterGrid() {
     if (newIndex === -1) return
 
     useCharacterStore.getState().insertCharacter(active.id as CharacterId, newIndex)
-    void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions')
-      .then(({ recalculatePermutations }) => recalculatePermutations())
     SaveState.delayedSave()
   }
 
   function handleDragCancel() {
     setTimeout(() => setActiveId(null), DROP_ANIMATION_DURATION)
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return
-    e.preventDefault()
-
-    const currentIndex = filteredCharacters.findIndex((c) => c.id === focusCharacter)
-    let nextIndex: number
-    if (e.key === 'ArrowUp') {
-      nextIndex = Math.max(0, currentIndex - 1)
-    } else {
-      nextIndex = Math.min(filteredCharacters.length - 1, currentIndex + 1)
-    }
-    if (nextIndex < 0 || nextIndex >= filteredCharacters.length) return
-
-    const nextChar = filteredCharacters[nextIndex]
-    if (nextChar) {
-      useCharacterTabStore.getState().setFocusCharacter(nextChar.id)
-    }
   }
 
   const handleRowClick = useCallback((characterId: CharacterId) => {
@@ -209,7 +188,6 @@ export function CharacterGrid() {
         data-container-border={toggles.showContainerBorder}
         options={{ scrollbars: { autoHide: 'move', autoHideDelay: 500 } }}
         tabIndex={0}
-        onKeyDown={handleKeyDown}
       >
         <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToVerticalAxis, restrictToParentElement]} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={handleDragCancel}>
           <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>

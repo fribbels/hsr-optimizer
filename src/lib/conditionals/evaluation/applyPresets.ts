@@ -1,7 +1,6 @@
 import type { UseFormReturnType } from '@mantine/form'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   Constants,
   ElementNames,
@@ -66,7 +65,6 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
 
   // Load the modified internal form back into store
   useOptimizerRequestStore.getState().loadForm(form)
-  recalculatePermutations()
 }
 
 export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {

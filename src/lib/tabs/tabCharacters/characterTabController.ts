@@ -68,7 +68,6 @@ export const CharacterTabController = {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
     if (!focusCharacter) return
     useCharacterStore.getState().insertCharacter(focusCharacter, 0)
-    void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => recalculatePermutations())
     SaveState.delayedSave()
   },
 

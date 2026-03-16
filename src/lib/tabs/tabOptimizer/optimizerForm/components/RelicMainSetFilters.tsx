@@ -12,7 +12,6 @@ import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { SetFilterSummary } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterSummary'
 import {
   optimizerTabDefaultGap,
@@ -26,7 +25,6 @@ import classes from './RelicMainSetFilters.module.css'
 
 function handleMainStatChange(field: MainStatPart, val: string[]) {
   useOptimizerRequestStore.getState().setMainStats(field, val)
-  recalculatePermutations()
 }
 
 const mainStatStyle = { width: panelWidth }

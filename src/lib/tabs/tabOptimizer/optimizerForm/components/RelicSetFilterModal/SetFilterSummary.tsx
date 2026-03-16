@@ -2,7 +2,6 @@ import { useCallback, useMemo } from 'react'
 import { Badge, Group, MantineSpacing, Stack } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { FourPieceBadges, TwoPieceComboBadges, OrnamentBadges } from './SetFilterBadges'
 import classes from './RelicSetFilterModal.module.css'
 
@@ -20,19 +19,19 @@ export function SetFilterSummary({ mt }: { mt?: MantineSpacing }) {
   const remove4p = useCallback((name: SetsRelics) => {
     const current = useOptimizerRequestStore.getState().setFilters
     useOptimizerRequestStore.getState().setSetFilters({ ...current, fourPiece: current.fourPiece.filter((s) => s !== name) })
-    recalculatePermutations()
+
   }, [])
 
   const removeCombo = useCallback((index: number) => {
     const current = useOptimizerRequestStore.getState().setFilters
     useOptimizerRequestStore.getState().setSetFilters({ ...current, twoPieceCombos: current.twoPieceCombos.filter((_, i) => i !== index) })
-    recalculatePermutations()
+
   }, [])
 
   const removeOrnament = useCallback((name: SetsOrnaments) => {
     const current = useOptimizerRequestStore.getState().setFilters
     useOptimizerRequestStore.getState().setSetFilters({ ...current, ornaments: current.ornaments.filter((s) => s !== name) })
-    recalculatePermutations()
+
   }, [])
 
   const relicTotal = checked4p.size + combos.length

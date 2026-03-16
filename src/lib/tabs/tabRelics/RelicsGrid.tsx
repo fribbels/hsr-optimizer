@@ -146,7 +146,7 @@ export function RelicsGrid() {
           isExternalFilterPresent={isExternalFilterPresent}
           doesExternalFilterPass={doesExternalFilterPass}
           getLocaleText={getLocaleText}
-          headerHeight={24}
+          headerHeight={48}
           animateRows={true}
           rowSelection={{ mode: 'multiRow', checkboxes: false, headerCheckbox: false, enableClickSelection: true }}
           paginationNumberFormatter={paginationNumberFormatter}

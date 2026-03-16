@@ -36,7 +36,7 @@
   left: 0;
   width: 100%;
   text-align: center;
-  background: rgba(40, 43, 49, 0.8);
+  background: rgba(40, 43, 49, 0.85);
   color: var(--card-text-color);
   padding: 0 6px;
   line-height: 16px;
@@ -57,9 +57,7 @@
   background: linear-gradient(
     var(--rarity-5-start) 0px,
     var(--rarity-5-end) 63px,
-    var(--rarity-5-end) var(--card-image-height, 130px),
-    var(--card-footer-bg) var(--card-image-height, 130px),
-    var(--card-footer-bg) 100%
+    var(--rarity-5-end) 100%
   );
 }
 
@@ -67,9 +65,7 @@
   background: linear-gradient(
     var(--rarity-4-start) 0px,
     var(--rarity-4-end) 63px,
-    var(--rarity-4-end) var(--card-image-height, 130px),
-    var(--card-footer-bg) var(--card-image-height, 130px),
-    var(--card-footer-bg) 100%
+    var(--rarity-4-end) 100%
   );
 }
 
@@ -77,9 +73,7 @@
   background: linear-gradient(
     var(--rarity-3-start) 0px,
     var(--rarity-3-end) 63px,
-    var(--rarity-3-end) var(--card-image-height, 130px),
-    var(--card-footer-bg) var(--card-image-height, 130px),
-    var(--card-footer-bg) 100%
+    var(--rarity-3-end) 100%
   );
 }
 

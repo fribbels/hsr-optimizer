@@ -25,6 +25,12 @@ export const defaultMainStatPerPart = {
   [Parts.LinkRope]: Stats.HP_P,
 }
 
+function statUsesDecimal(stat: string | undefined, verified: boolean): boolean {
+  if (!stat) return false
+  if (stat === Stats.SPD) return verified
+  return !Utils.isFlat(stat)
+}
+
 export function defaultSubstatValues(relic: Relic): SubstatValues {
   const substatCount = relic.substats.length
   return relic.substats.concat(relic.previewSubstats).reduce((acc, _, idx) => {
@@ -36,7 +42,10 @@ export function defaultSubstatValues(relic: Relic): SubstatValues {
       case 2:
       case 3:
         acc[`substatType${idx}`] = substat?.stat
-        acc[`substatValue${idx}`] = (isPreview ? 0 : substat?.value)?.toString()
+        const rawValue = isPreview ? 0 : substat?.value
+        acc[`substatValue${idx}`] = (!isPreview && statUsesDecimal(substat?.stat, relic.verified))
+          ? rawValue!.toFixed(1)
+          : rawValue?.toString()
         acc[`substat${idx}IsPreview`] = isPreview ? substat?.value : isPreview
         break
       default:

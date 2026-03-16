@@ -2,6 +2,7 @@ import { Combobox, Flex, Input, InputBase, SegmentedControl, Select, Switch, use
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
@@ -191,10 +192,16 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               clearable
               searchable
               placeholder={t('Exclude') /* Exclude */}
+              renderOption={(option) => (
+                <Flex align='center' gap={10}>
+                  <img src={Assets.getCharacterAvatarById(option.value)} className={iconClasses.icon22} />
+                  {option.label}
+                </Flex>
+              )}
               data={characterExcludeOptions.map((opt) => ({ value: opt.value, label: opt.title }))}
               value={exclude}
               onChange={(val) => setFilterAndRecalculate('exclude', val as typeof exclude)}
-/>
+            />
           </Flex>
         </Flex>
 

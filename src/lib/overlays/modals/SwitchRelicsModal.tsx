@@ -1,5 +1,7 @@
 import { useForm } from '@mantine/form'
 import { Button, Flex, Modal, Select } from '@mantine/core'
+import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
@@ -89,9 +91,17 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
               searchable
               style={{ width: panelWidth }}
               data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
+              leftSection={(() => {
+                const val = characterForm.getValues().selectedCharacter
+                return val ? <img src={Assets.getCharacterAvatarById(val)} className={iconClasses.icon22} /> : null
+              })()}
               renderOption={({ option }) => {
-                const match = characterOptions.find((o) => o.value === option.value)
-                return match?.label ?? option.label
+                return (
+                  <Flex align='center' gap={10}>
+                    <img src={Assets.getCharacterAvatarById(option.value)} className={iconClasses.icon22} />
+                    {option.label}
+                  </Flex>
+                )
               }}
               {...characterForm.getInputProps('selectedCharacter')}
             />

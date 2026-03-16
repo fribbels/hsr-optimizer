@@ -1,0 +1,6 @@
+/* Compact inline padding for inputs without leftSection/rightSection */
+
+.compactPadding input {
+  --input-padding-inline-start: 6px;
+  --input-padding-inline-end: 6px;
+}

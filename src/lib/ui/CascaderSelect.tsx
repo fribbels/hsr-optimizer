@@ -114,16 +114,7 @@ export function CascaderSelect(props: CascaderSelectProps) {
           rightSectionPointerEvents={clearable && value != null ? 'all' : 'none'}
           disabled={disabled}
           style={style}
-          styles={{
-            ...styles,
-            input: {
-              // When a leftSection is present, the theme's --input-padding-inline-start
-              // override (6px) clobbers the wrapper CSS that sets it to --input-left-section-size.
-              // Restore the correct padding so content doesn't overlap the section.
-              ...(leftSection ? { paddingInlineStart: 'var(--input-left-section-size)' } : {}),
-              ...styles?.input,
-            },
-          }}
+          styles={styles}
           className={className}
         >
           {selectedLabel || <Input.Placeholder>{placeholder}</Input.Placeholder>}

@@ -369,6 +369,10 @@ function RelicModalContent() {
             maxDropdownHeight={350}
             placeholder={t('Relic.Set') /* Set */}
             data={setOptions}
+            leftSection={(() => {
+              const val = relicForm.getValues().set
+              return val ? <img src={Assets.getSetImage(val)} className={iconClasses.icon20} /> : null
+            })()}
             renderOption={({ option }) => (
               <Flex align='center' gap={10}>
                 <img className={iconClasses.icon22} src={Assets.getSetImage(option.value)} />
@@ -422,6 +426,10 @@ function RelicModalContent() {
                 width: 210,
               }}
               data={mainStatOptions}
+              leftSection={(() => {
+                const val = relicForm.getValues().mainStatType
+                return val ? <img src={Assets.getStatIcon(val, true)} className={iconClasses.icon20} /> : null
+              })()}
               renderOption={({ option }) => (
                 <Flex align='center' gap={10}>
                   <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
@@ -443,9 +451,18 @@ function RelicModalContent() {
           <Select
             searchable
             data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
+            leftSection={(() => {
+              const val = relicForm.getValues().equippedBy
+              return val && val !== 'None' ? <img src={Assets.getCharacterAvatarById(val)} className={iconClasses.icon20} /> : null
+            })()}
             renderOption={({ option }) => {
               const match = characterOptions.find((o) => o.value === option.value)
-              return match?.label ?? option.label
+              return (
+                <Flex align='center' gap={10}>
+                  <img src={Assets.getCharacterAvatarById(option.value)} className={iconClasses.icon22} />
+                  {match?.label ?? option.label}
+                </Flex>
+              )
             }}
             {...relicForm.getInputProps('equippedBy')}
           />

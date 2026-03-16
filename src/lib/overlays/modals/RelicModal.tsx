@@ -73,14 +73,12 @@ function partSegmentData(value: string, src: string) {
 export function RelicModal() {
   const open = useRelicModalStore((s) => s.open)
   const closeOverlay = useRelicModalStore((s) => s.closeOverlay)
-  const isLiveImport = useScannerState((s) => s.ingest)
 
   return (
     <div>
       <Modal
         size={560}
         centered
-        withCloseButton={!isLiveImport}
         opened={open}
         onClose={closeOverlay}
       >

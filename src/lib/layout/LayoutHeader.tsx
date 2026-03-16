@@ -9,14 +9,15 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { LanguageSelector } from 'lib/i18n/LanguageSelector'
 import { Assets } from 'lib/rendering/assets'
-import { BASE_PATH } from 'lib/constants/appPages'
+import { AppPages, BASE_PATH } from 'lib/constants/appPages'
+import { useGlobalStore } from 'lib/stores/appStore'
 import classes from 'lib/layout/layout.module.css'
 
 export const HEADER_HEIGHT = 48
 
 function SocialLink(props: { href: string; src: string; mr: number }) {
   return (
-    <a href={props.href} target='_blank' rel='noreferrer'>
+    <a href={props.href} target='_blank' rel='noreferrer' style={{ display: 'flex', alignItems: 'center' }}>
       <img src={props.src} className={classes.socialIcon} style={{ marginRight: props.mr }} />
     </a>
   )
@@ -38,7 +39,15 @@ export function LayoutHeader() {
               {isOpenMenuSidebar ? <IconX size={16} /> : <IconMenu2 size={16} />}
             </Button>
           </Flex>
-          <a href={BASE_PATH}>
+          <a
+            href={BASE_PATH}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+            onClick={(e) => {
+              if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return
+              e.preventDefault()
+              useGlobalStore.getState().setActiveKey(AppPages.HOME)
+            }}
+          >
             <Flex align='center'>
               <img src={Assets.getLogo()} className={classes.logo} />
               <div className={classes.title}>
@@ -47,7 +56,7 @@ export function LayoutHeader() {
             </Flex>
           </a>
         </Flex>
-        <Flex>
+        <Flex align='center'>
           <LanguageSelector />
           <SocialLink href='https://ko-fi.com/fribbels' src={Assets.getKofi()} mr={6} />
           <SocialLink href='https://github.com/fribbels/hsr-optimizer' src={Assets.getGithub()} mr={6} />

@@ -47,7 +47,9 @@ export function LanguageSelector() {
             console.log('setting language to:', i18n.resolvedLanguage)
           })
       }}
-      style={{ width: 135, marginRight: 6, height: 36 }}
+      size="sm"
+      style={{ width: 135, marginRight: 6 }}
+      styles={{ input: { height: 36, minHeight: 36 } }}
       maxDropdownHeight={400}
       comboboxProps={{ keepMounted: false, width: 210 }}
       defaultValue={i18n.resolvedLanguage}

@@ -121,14 +121,8 @@ function HeaderImage() {
     <div
       className={classes.headerImage}
       style={{
-        backgroundImage: `
-            linear-gradient(to top, rgba(24, 34, 57, 0) 99.5%, rgba(24, 34, 57, 1) 100%),
-            linear-gradient(to bottom, rgba(24, 34, 57, 0) 99.5%, rgba(24, 34, 57, 1) 100%),
-            linear-gradient(to left, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
-            linear-gradient(to right, rgba(24, 34, 57, 0) 98%, rgba(24, 34, 57, 1) 99.5%),
-            url(${Assets.getHomeBackground('evernight')})
-          `,
-      }}
+        '--home-bg-image': `url(${Assets.getHomeBackground('evernight')})`,
+      } as React.CSSProperties}
     />
   )
 }
@@ -151,29 +145,27 @@ function FeatureCard({ title, id, content, url }: { title: string, id: string, c
   const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
   return (
     <Paper
-      p="xs"
       withBorder
       className={classes.featureCard}
+      radius="md"
     >
-      <CardImage id={id} />
-      <div style={{ padding: '12px 0 0 0' }}>
-        <div className={classes.featureCardTitle}>
-          {title}
-        </div>
-        <Flex align='center' gap={10} justify='space-between'>
-          <span>
-            {content}
-          </span>
-          <Button
-            component='a'
-            href={url}
-            target='_blank'
-            leftSection={<IconExternalLink size={16} />}
-          >
-            {t('LearnMore') /* Learn more */}
-          </Button>
-        </Flex>
+      <div className={classes.featureCardHeader}>
+        {title}
       </div>
+      <CardImage id={id} />
+      <Flex align='center' gap={10} justify='space-between' className={classes.featureCardBody}>
+        <span>{content}</span>
+        <Button
+          component='a'
+          href={url}
+          target='_blank'
+          variant='default'
+          leftSection={<IconExternalLink size={16} />}
+          style={{ flexShrink: 0 }}
+        >
+          {t('LearnMore') /* Learn more */}
+        </Button>
+      </Flex>
     </Paper>
   )
 }
@@ -287,19 +279,21 @@ function SearchBar() {
           <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
         </Flex>
       </Flex>
-      <Flex w='100%'>
+      <Flex w='100%' gap={0}>
         <Button
-          leftSection={<IconSearch size={16} />}
-          className={classes.searchButton}
+          size="md"
           onClick={handleSearchSubmit}
-        />
+          aria-label="Search"
+          style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+        >
+          <IconSearch size={20} />
+        </Button>
         <TextInput
           ref={inputRef}
+          size="md"
           placeholder={t('Placeholder') /* 'UID' */}
-          style={{
-            flex: 1,
-          }}
-          styles={{ input: { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 } }}
+          style={{ flex: 1 }}
+          styles={{ input: { fontSize: 16, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 } }}
           defaultValue={scorerId ?? ''}
           onKeyDown={(e) => { if (e.key === 'Enter') handleSearchSubmit() }}
         />

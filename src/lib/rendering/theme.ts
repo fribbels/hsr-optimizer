@@ -111,6 +111,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       Drawer: {
         defaultProps: {
           lockScroll: false,
+          padding: 16,
           transitionProps: { duration: 150 },
         },
       },

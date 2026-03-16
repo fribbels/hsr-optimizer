@@ -5,11 +5,12 @@ import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/co
 import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { useStatSimField } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
+import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 // Optimizer-tab version: reads/writes from Zustand store (no AntD Form context needed)
-export function OptimizerSetsSection({ simType }: { simType: string }) {
+export function OptimizerSetsSection({ simType }: { simType: StatSimType }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
 
   const simRelicSet1 = useStatSimField<string>(simType, 'simRelicSet1')
@@ -57,7 +58,7 @@ export function OptimizerSetsSection({ simType }: { simType: string }) {
 }
 
 // BenchmarksTab version: uses Mantine form instance passed as prop
-export function SetsSection({ simType, form }: { simType: string; form: UseFormReturnType<BenchmarkForm> }) {
+export function SetsSection({ simType, form }: { simType: StatSimType; form: UseFormReturnType<BenchmarkForm> }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   const ornamentOptions = useOrnamentsOptions()
 

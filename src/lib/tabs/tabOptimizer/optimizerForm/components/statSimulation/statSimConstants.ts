@@ -1,3 +1,4 @@
+import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 
 export const STAT_SIMULATION_ROW_HEIGHT = 425
@@ -7,17 +8,17 @@ export const STAT_SIMULATION_STATS_WIDTH = 190
 export const STAT_SIMULATION_INPUT_WIDTH = 70
 
 // Helper to read a field from the statSim store
-export function useStatSimField<T = unknown>(simType: string, field: string): T | undefined {
+export function useStatSimField<T = unknown>(simType: StatSimType, field: string): T | undefined {
   return useOptimizerRequestStore((s) => {
-    const sim = s.statSim as Record<string, Record<string, unknown>> | undefined
-    return sim?.[simType]?.[field] as T | undefined
+    const section = s.statSim?.[simType] as Record<string, unknown> | undefined
+    return section?.[field] as T | undefined
   })
 }
 
 // Helper to read a stat value from the statSim store
-export function useStatSimStat(simType: string, statName: string): number | undefined {
+export function useStatSimStat(simType: StatSimType, statName: string): number | undefined {
   return useOptimizerRequestStore((s) => {
-    const sim = s.statSim as Record<string, Record<string, Record<string, number>>> | undefined
-    return sim?.[simType]?.stats?.[statName]
+    const section = s.statSim?.[simType] as Record<string, Record<string, number>> | undefined
+    return section?.stats?.[statName]
   })
 }

@@ -60,7 +60,7 @@ function patchBlendModes(gl: WebGLRenderingContext): void {
 export async function createSpineInstance(
   canvas: HTMLCanvasElement,
   baseUrl: string,
-  files: { skelFile: string; atlasFile: string }[],
+  files: { skelFile: string, atlasFile: string }[],
 ): Promise<SpineInstance> {
   // --- WebGL context ---
 

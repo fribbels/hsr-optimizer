@@ -9,7 +9,7 @@ import { CharacterId } from 'types/character'
  */
 export const CHARACTER_CARD_IMAGE_WIDTH = '150px'
 export const CHARACTER_CARD_IMAGE_X_OFFSET = '-13%'
-export const CHARACTER_CARD_IMAGE_Y_OFFSET = '10%'
+export const CHARACTER_CARD_IMAGE_Y_OFFSET = '-5%'
 
 /**
  * Light cone card: image rendered at 115px wide in a ~100px card.

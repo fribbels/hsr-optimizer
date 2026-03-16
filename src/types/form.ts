@@ -30,6 +30,7 @@ import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
+import type { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
 
 export type Teammate = {
   characterId: CharacterId,
@@ -87,6 +88,7 @@ export type Form =
     rankFilter: boolean,
     ornamentSets: OrnamentSetFilters,
     relicSets: RelicSetFilters,
+    setFilters?: SetFilters,
     statDisplay: StatDisplay,
     memoDisplay: MemoDisplay,
 

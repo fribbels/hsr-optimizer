@@ -36,7 +36,7 @@
   left: 0;
   width: 100%;
   text-align: center;
-  background: var(--card-footer-bg);
+  background: rgba(40, 43, 49, 0.8);
   color: var(--card-text-color);
   padding: 0 6px;
   line-height: 16px;

@@ -5,11 +5,14 @@ import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 import { ConditionalValueMap } from 'types/conditionals'
-import { Form, OrnamentSetFilters, RelicSetFilters } from 'types/form'
+import { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import { Form } from 'types/form'
 import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
 import { ScoringMetadata } from 'types/metadata'
 import { RelicEnhance, RelicGrade } from 'types/relic'
 import { MemoDisplay, StatDisplay } from 'types/store'
+
+export type StatSimType = 'benchmarks' | 'substatRolls'
 
 // ---- Teammate ----
 
@@ -147,8 +150,7 @@ export type OptimizerRequestState = {
   mainPlanarSphere: string[]
   mainStatUpscaleLevel: number
   rankFilter: boolean
-  ornamentSets: OrnamentSetFilters
-  relicSets: RelicSetFilters
+  setFilters: SetFilters
 
   // ── Result Filters (affect which builds pass post-optimization) ──
   statFilters: StatFilterState

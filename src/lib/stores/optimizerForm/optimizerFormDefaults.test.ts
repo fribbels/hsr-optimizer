@@ -120,8 +120,7 @@ describe('createDefaultFormState', () => {
     expect(form.mainFeet).toEqual([])
     expect(form.mainPlanarSphere).toEqual([])
     expect(form.mainLinkRope).toEqual([])
-    expect(form.relicSets).toEqual([])
-    expect(form.ornamentSets).toEqual([])
+    expect(form.setFilters).toEqual({ fourPiece: [], twoPieceCombos: [], ornaments: [] })
   })
 
   it('should have correct enemy defaults', () => {

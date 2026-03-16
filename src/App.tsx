@@ -20,8 +20,10 @@ export default function App() {
     Gradient.setTheme(colorTheme)
   }, [colorTheme])
 
+  // Defer update notification past initial load to avoid blocking the first paint.
   useEffect(() => {
-    checkForUpdatesNotification(useGlobalStore.getState().version)
+    const timerId = setTimeout(() => checkForUpdatesNotification(useGlobalStore.getState().version), 5000)
+    return () => clearTimeout(timerId)
   }, [])
 
   return (

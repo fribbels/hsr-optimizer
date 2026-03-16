@@ -64,13 +64,12 @@ export function Toolbar() {
           className={classes.actionButton}
           disabled={selectedRelicsIds.length === 0 || isLiveImport}
           onClick={() => modals.openConfirmModal({
-              title: tCommon('Confirm'),
-              children: t('DeleteRelic.Warning', { count: selectedRelicsIds.length }),
-              labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-              centered: true,
-              onConfirm: RelicsTabController.deleteConfirmed,
-            })
-          }}
+            title: tCommon('Confirm'),
+            children: t('DeleteRelic.Warning', { count: selectedRelicsIds.length }),
+            labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+            centered: true,
+            onConfirm: RelicsTabController.deleteConfirmed,
+          })}
         >
           {t('DeleteRelic.ButtonText') /* Delete relic */}
         </Button>

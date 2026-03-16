@@ -53,7 +53,6 @@ const defaultState: RelicsTabStateValues = {
     'weights.potentialAllCustom.averagePct',
     'weights.potentialAllCustom.bestPct',
   ],
-  deleteConfirmOpen: false,
   excludedRelicPotentialCharacters: [],
   filters: {
     part: [],
@@ -77,7 +76,6 @@ interface RelicsTabStateValues {
   selectedRelicsIds: Array<Relic['id']>
   relicModalOpen: boolean
   valueColumns: ValueColumnField[]
-  deleteConfirmOpen: boolean
   excludedRelicPotentialCharacters: Array<CharacterId>
   filters: RelicTabFilters
   insightsMode: RelicInsights
@@ -89,7 +87,6 @@ interface RelicsTabStateActions {
   setSelectedRelicsIds: (relic: RelicsTabStateValues['selectedRelicsIds']) => void
   setRelicModalOpen: (relicModalOpen: RelicsTabStateValues['relicModalOpen']) => void
   setValueColumns: (cols: RelicsTabStateValues['valueColumns']) => void
-  setDeleteConfirmOpen: (open: RelicsTabStateValues['deleteConfirmOpen']) => void
   setExcludedRelicPotentialCharacters: (characters: RelicsTabStateValues['excludedRelicPotentialCharacters']) => void
 
   setFilters: (filters: RelicsTabStateValues['filters']) => void
@@ -112,7 +109,6 @@ const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set) => ({
   },
   setRelicModalOpen: (relicModalOpen) => set({ relicModalOpen }),
   setValueColumns: (cols) => set({ valueColumns: [...cols] }),
-  setDeleteConfirmOpen: (deleteConfirmOpen) => set({ deleteConfirmOpen }),
   setExcludedRelicPotentialCharacters: (excludedRelicPotentialCharacters) => set({ excludedRelicPotentialCharacters }),
 
   setFilters: (filters) => set({ filters }),

@@ -1,17 +1,40 @@
-import { CheckIcon, Combobox, Group, Input, InputBase, useCombobox } from '@mantine/core'
-import { useMemo, useState } from 'react'
+import { CheckIcon, Combobox, Flex, Group, Input, InputBase, useCombobox } from '@mantine/core'
+import iconClasses from 'style/icons.module.css'
+import { ReactNode, useMemo, useState } from 'react'
+
+export type SearchableComboboxOption = {
+  value: string
+  label: string
+  icon?: string
+}
 
 export function SearchableCombobox(props: {
-  options: { value: string; label: string }[]
+  options: SearchableComboboxOption[]
   value: string | null | undefined
   onChange: (value: string | null) => void
-  placeholder: string
+  placeholder?: string
   dropdownWidth?: number | 'auto'
   dropdownMaxHeight?: number
   style?: React.CSSProperties
   clearable?: boolean
+  disabled?: boolean
+  leftSection?: ReactNode
+  renderOption?: (option: SearchableComboboxOption) => ReactNode
 }) {
-  const { options, value, onChange, placeholder, dropdownWidth = 'auto', dropdownMaxHeight = 700, style, clearable } = props
+  const {
+    options,
+    value,
+    onChange,
+    placeholder,
+    dropdownWidth = 'auto',
+    dropdownMaxHeight = 700,
+    style,
+    clearable,
+    disabled,
+    leftSection,
+    renderOption,
+  } = props
+
   const [search, setSearch] = useState('')
 
   const combobox = useCombobox({
@@ -22,8 +45,8 @@ export function SearchableCombobox(props: {
     },
   })
 
-  const selectedLabel = useMemo(() => {
-    return options.find((opt) => opt.value === value)?.label ?? null
+  const selected = useMemo(() => {
+    return options.find((opt) => opt.value === value) ?? null
   }, [options, value])
 
   const filteredOptions = useMemo(() => {
@@ -31,6 +54,9 @@ export function SearchableCombobox(props: {
     if (!lowerSearch) return options
     return options.filter((opt) => opt.label.toLowerCase().includes(lowerSearch))
   }, [options, search])
+
+  const resolvedLeftSection = leftSection
+    ?? (selected?.icon ? <img src={selected.icon} className={iconClasses.icon20} /> : null)
 
   return (
     <Combobox
@@ -47,6 +73,8 @@ export function SearchableCombobox(props: {
           type="button"
           size="xs"
           pointer
+          disabled={disabled}
+          leftSection={resolvedLeftSection}
           rightSection={
             clearable && value
               ? <Combobox.ClearButton onClear={() => onChange(null)} />
@@ -56,7 +84,7 @@ export function SearchableCombobox(props: {
           onClick={() => combobox.toggleDropdown()}
           style={style}
         >
-          {selectedLabel || <Input.Placeholder>{placeholder}</Input.Placeholder>}
+          {selected?.label || <Input.Placeholder>{placeholder}</Input.Placeholder>}
         </InputBase>
       </Combobox.Target>
 
@@ -69,8 +97,15 @@ export function SearchableCombobox(props: {
         <Combobox.Options mah={dropdownMaxHeight} style={{ overflowY: 'auto' }}>
           {combobox.dropdownOpened && filteredOptions.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
-              <Group gap={6} justify='space-between'>
-                {opt.label}
+              <Group gap={6} justify='space-between' wrap='nowrap'>
+                {renderOption
+                  ? renderOption(opt)
+                  : (
+                    <Flex gap={6} align="center">
+                      {opt.icon && <img src={opt.icon} className={iconClasses.icon22} />}
+                      {opt.label}
+                    </Flex>
+                  )}
                 {opt.value === value && <CheckIcon size={12} />}
               </Group>
             </Combobox.Option>

@@ -198,6 +198,8 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
             if (id) form.setFieldValue('characterId', id)
             handleCharacterSelectChange(id, form)
           }}
+          showIcon={false}
+          clearable={false}
         />
         <CharacterEidolonFormRadio form={form} />
       </Flex>
@@ -210,6 +212,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           onChange={(id) => {
             if (id) form.setFieldValue('lightCone', id)
           }}
+          clearable={false}
         />
         <LightConeSuperimpositionFormRadio form={form} />
       </Flex>

@@ -1,17 +1,20 @@
+/* 280px = half of Modal size={560} */
 .navArrowLeft {
-  position: absolute;
-  top: 240px;
-  right: 560px;
-  font-size: 40px;
+  position: fixed;
+  top: 50%;
+  right: calc(50% + 280px + 16px);
+  transform: translateY(-50%) rotate(90deg);
   cursor: pointer;
+  z-index: 201;
 }
 
 .navArrowRight {
-  position: absolute;
-  top: 240px;
-  left: 560px;
-  font-size: 40px;
+  position: fixed;
+  top: 50%;
+  left: calc(50% + 280px + 16px);
+  transform: translateY(-50%) rotate(-90deg);
   cursor: pointer;
+  z-index: 201;
 }
 
 .relicGrid {

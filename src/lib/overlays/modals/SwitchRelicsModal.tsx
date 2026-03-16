@@ -1,7 +1,6 @@
 import { useForm } from '@mantine/form'
-import { Button, Flex, Modal, Select } from '@mantine/core'
+import { Button, Flex, Modal } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import iconClasses from 'style/icons.module.css'
 import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
@@ -17,6 +16,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { ReactElement } from 'types/components'
+import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 
 export type SwitchRelicsFormSelectedCharacter = {
   key: string,
@@ -68,6 +68,15 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
       tCharacters,
     ), [characters, currentCharacter, tCharacters])
 
+  const comboboxOptions = useMemo(() =>
+    characterOptions.map((opt) => ({
+      value: opt.value,
+      label: opt.title ?? opt.value,
+      icon: Assets.getCharacterAvatarById(opt.value),
+    })),
+    [characterOptions],
+  )
+
   useFormOnOpen(characterForm, true, () => ({
     selectedCharacter: null,
   }))
@@ -87,23 +96,12 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
 
         <Flex direction="column" gap={defaultGap}>
           <Flex gap={defaultGap}>
-            <Select
-              searchable
+            <SearchableCombobox
+              options={comboboxOptions}
+              value={characterForm.getValues().selectedCharacter}
+              onChange={(val) => characterForm.setFieldValue('selectedCharacter', val)}
+              placeholder={t('Placeholder')}
               style={{ width: panelWidth }}
-              data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
-              leftSection={(() => {
-                const val = characterForm.getValues().selectedCharacter
-                return val ? <img src={Assets.getCharacterAvatarById(val)} className={iconClasses.icon20} /> : null
-              })()}
-              renderOption={({ option }) => {
-                return (
-                  <Flex align='center' gap={10}>
-                    <img src={Assets.getCharacterAvatarById(option.value)} className={iconClasses.icon22} />
-                    {option.label}
-                  </Flex>
-                )
-              }}
-              {...characterForm.getInputProps('selectedCharacter')}
             />
           </Flex>
         </Flex>

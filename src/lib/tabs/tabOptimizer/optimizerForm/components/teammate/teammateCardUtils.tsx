@@ -118,6 +118,7 @@ export function calculateTeammateSets(teammateCharacter: Character) {
 export type OptionRender = {
   value: string
   desc: string
+  text: string
   label: ReactElement
 }
 
@@ -126,6 +127,7 @@ export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'Team
     return teammateRelicOptions.map((option) => ({
       value: option.value,
       desc: option.desc(t),
+      text: option.label(t),
       label: labelRender(option.value, option.label(t)),
     }))
   }
@@ -136,6 +138,7 @@ export function renderTeammateOrnamentSetOptions(t: TFunction<'optimizerTab', 'T
     return teammateOrnamentOptions.map((option) => ({
       value: option.value,
       desc: option.desc(t),
+      text: option.label(t),
       label: labelRender(option.value, option.label(t)),
     }))
   }

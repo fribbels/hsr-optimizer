@@ -169,7 +169,6 @@ function CharacterModalContent() {
 
             <Select
               className='teammate-set-select'
-              styles={{ input: { '--input-padding-inline-start': '6px', '--input-padding-inline-end': '6px' } }}
               data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
               placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
               clearable
@@ -193,7 +192,6 @@ function CharacterModalContent() {
 
             <Select
               className='teammate-set-select'
-              styles={{ input: { '--input-padding-inline-start': '6px', '--input-padding-inline-end': '6px' } }}
               data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
               placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
               clearable

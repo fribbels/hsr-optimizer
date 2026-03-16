@@ -14,6 +14,7 @@ export type SubstatValues = Pick<RelicForm, `substatType${0 | 1 | 2 | 3}` | `sub
 export type MainStatOption = {
   label: string,
   value: string,
+  icon?: string,
 }
 
 export const defaultMainStatPerPart = {

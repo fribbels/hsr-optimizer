@@ -38,7 +38,7 @@ export function CharacterMenu() {
 
   return (
     <>
-      <Menu trigger='hover' position='top-start'>
+      <Menu trigger='hover' position='top-start' width="target">
         <Menu.Target>
           <Button
             style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 8 }}

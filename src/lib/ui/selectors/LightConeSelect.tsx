@@ -42,6 +42,7 @@ export function LightConeSelect({
   selectStyle,
   opened,
   onOpenChange,
+  clearable = true,
 }: {
   value: LightConeId | null
   onChange: (id: LightConeId | null) => void
@@ -49,6 +50,7 @@ export function LightConeSelect({
   selectStyle?: CSSProperties
   opened?: boolean
   onOpenChange?: (open: boolean) => void
+  clearable?: boolean
 }) {
   const metadata = getGameMetadata()
   const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
@@ -101,11 +103,11 @@ export function LightConeSelect({
         value={selectedLabel}
         placeholder={t('Placeholder')}
         onClick={open}
-        rightSectionPointerEvents="all"
-        rightSection={value
+        rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
+        rightSection={clearable && value
           ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(null) }} />
           : null}
-        styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: value ? 28 : undefined, fontSize: 14 } }}
+        styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: clearable && value ? 28 : undefined, fontSize: 14 } }}
       />
 
       <Modal

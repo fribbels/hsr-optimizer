@@ -37,6 +37,7 @@ export function CharacterSelect({
   opened,
   onOpenChange,
   showIcon = true,
+  clearable = true,
 }: {
   value: CharacterId | null
   onChange: (id: CharacterId | null) => void
@@ -44,6 +45,7 @@ export function CharacterSelect({
   opened?: boolean
   onOpenChange?: (open: boolean) => void
   showIcon?: boolean
+  clearable?: boolean
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
@@ -86,11 +88,11 @@ export function CharacterSelect({
         placeholder={t('SingleSelect.Placeholder')}
         onClick={open}
         leftSection={showIcon && value ? <img src={Assets.getCharacterAvatarById(value)} className={iconClasses.icon20} /> : null}
-        rightSectionPointerEvents="all"
-        rightSection={value
+        rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
+        rightSection={clearable && value
           ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(null) }} />
           : null}
-        styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: value ? 28 : undefined, fontSize: 14 } }}
+        styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: clearable && value ? 28 : undefined, fontSize: 14 } }}
       />
 
       <Modal

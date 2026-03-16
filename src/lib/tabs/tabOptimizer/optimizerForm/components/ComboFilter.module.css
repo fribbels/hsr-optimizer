@@ -9,3 +9,10 @@
 .advancedButtonContainer {
   margin-top: 8px;
 }
+
+.simpleAbilities [data-disabled] {
+  background: transparent !important;
+  border-color: transparent !important;
+  opacity: 1 !important;
+  cursor: default !important;
+}

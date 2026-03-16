@@ -49,14 +49,14 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       },
       Combobox: {
         defaultProps: {
-          width: 'auto',
+          width: 'target',
         },
       },
       Select: {
         defaultProps: {
           size: 'xs',
           checkIconPosition: 'right',
-          comboboxProps: { keepMounted: false, width: 'auto' },
+          comboboxProps: { keepMounted: false, width: 'target' },
         },
       },
       MultiSelect: {

@@ -261,6 +261,7 @@ function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
   return (
     <Combobox
       store={combobox}
+      width="auto"
       onOptionSubmit={(val) => {
         onChange(val)
         combobox.closeDropdown()

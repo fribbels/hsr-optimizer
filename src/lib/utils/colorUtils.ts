@@ -1,6 +1,6 @@
 import chroma, { Color } from 'chroma-js'
 import { scaleTowardsRange } from 'lib/utils/mathUtils'
-import { PaletteResponse } from 'lib/utils/vibrantFork'
+import type { PaletteResponse } from 'lib/utils/vibrantFork'
 
 export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
   const scaleFactor = 0.96

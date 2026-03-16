@@ -51,7 +51,7 @@ import {
   organizeColors,
   selectClosestColor,
 } from 'lib/utils/colorUtils'
-import { getPalette, PaletteResponse } from 'lib/utils/vibrantFork'
+import type { PaletteResponse } from 'lib/utils/vibrantFork'
 import {
   memo,
   useCallback,
@@ -159,9 +159,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   // ===== Portrait load → store =====
+  // Dynamic import of vibrantFork — defers loading node-vibrant until the first portrait loads.
   const handlePortraitLoad = useCallback((imgSrc: string) => {
     const hasCustomPortrait = !!getCharacterById(character.id)?.portrait
-    getPalette(imgSrc, (palette: PaletteResponse) => {
+    void import('lib/utils/vibrantFork').then(({ getPalette }) => getPalette(imgSrc, (palette: PaletteResponse) => {
       const swatches = organizeColors(palette)
       const color = hasCustomPortrait
         ? modifyCustomColor(
@@ -169,7 +170,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           )
         : undefined
       useShowcaseTabStore.getState().setPortraitPalette(character.id, color, swatches)
-    })
+    }))
   }, [character.id])
 
   // ===== Stable callback refs for child components =====

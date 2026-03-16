@@ -127,3 +127,9 @@ export function currentLocale() {
 export function isStatsValues(key: string): key is StatsValues {
   return i18next.exists(`common:Stats.${key}`)
 }
+
+// Formats a number as compact thousands, e.g. 12345 → "12K".
+// Lives here instead of DamageSplitsChart to avoid pulling recharts into components that only need this formatter.
+export function renderThousandsK(n: number) {
+  return `${Math.floor(Number(n) / 1000)}${i18next.t('common:ThousandsSuffix')}`
+}

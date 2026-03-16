@@ -6,7 +6,7 @@ import {
   decodeDamageTypeLabel,
   getDamageTypeColor,
 } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
-import { localeNumberComma } from 'lib/utils/i18nUtils'
+import { localeNumberComma, renderThousandsK } from 'lib/utils/i18nUtils'
 import { ReactNode, useMemo, useState } from 'react'
 import {
   Bar,
@@ -286,6 +286,3 @@ function CustomTooltip(props: {
   )
 }
 
-export function renderThousandsK(n: number) {
-  return `${Math.floor(Number(n) / 1000)}${i18next.t('common:ThousandsSuffix')}`
-}

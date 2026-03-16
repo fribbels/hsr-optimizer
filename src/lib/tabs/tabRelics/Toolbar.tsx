@@ -1,5 +1,5 @@
 import { Button, Flex, Select, Tooltip } from '@mantine/core'
-import { PopConfirm } from 'lib/ui/PopConfirm'
+import { modals } from '@mantine/modals'
 import { Hint } from 'lib/interactions/hint'
 import { getRelicById } from 'lib/stores/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
@@ -22,7 +22,6 @@ export function Toolbar() {
     setInsightsMode,
     insightsCharacters,
     setInsightsCharacters,
-    deleteConfirmOpen,
   } = useRelicsTabStore(
     useShallow((s) => ({
       selectedRelicId: s.selectedRelicId,
@@ -31,7 +30,6 @@ export function Toolbar() {
       setInsightsMode: s.setInsightsMode,
       insightsCharacters: s.insightsCharacters,
       setInsightsCharacters: s.setInsightsCharacters,
-      deleteConfirmOpen: s.deleteConfirmOpen,
     })),
   )
   const { ingest: isLiveImport } = useScannerState()
@@ -61,22 +59,22 @@ export function Toolbar() {
         {t('EditRelic')}
       </Button>
 
-      <PopConfirm
-        title={tCommon('Confirm')}
-        description={t('DeleteRelic.Warning', { count: selectedRelicsIds.length })}
-        placement='bottom'
-        okText={tCommon('Yes')}
-        cancelText={tCommon('Cancel')}
-        onOpenChange={RelicsTabController.deleteClicked}
-        onConfirm={RelicsTabController.deleteConfirmed}
-        open={deleteConfirmOpen}
-      >
-        <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''}>
-          <Button className={classes.actionButton} disabled={selectedRelicsIds.length === 0 || isLiveImport}>
-            {t('DeleteRelic.ButtonText') /* Delete relic */}
-          </Button>
-        </Tooltip>
-      </PopConfirm>
+      <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''}>
+        <Button
+          className={classes.actionButton}
+          disabled={selectedRelicsIds.length === 0 || isLiveImport}
+          onClick={() => modals.openConfirmModal({
+              title: tCommon('Confirm'),
+              children: t('DeleteRelic.Warning', { count: selectedRelicsIds.length }),
+              labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+              centered: true,
+              onConfirm: RelicsTabController.deleteConfirmed,
+            })
+          }}
+        >
+          {t('DeleteRelic.ButtonText') /* Delete relic */}
+        </Button>
+      </Tooltip>
 
       <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''}>
         <Button

@@ -28,7 +28,6 @@ import {
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
 import { Form } from 'types/form'
 
 export function saveStatSimulationBuildFromForm(startSim = true) {
@@ -146,8 +145,8 @@ export function overwriteStatSimulationBuild() {
   startOptimizerStatSimulation()
 }
 
-export function deleteStatSimulationBuild(record: { key: React.Key }) {
-  useOptimizerDisplayStore.getState().removeSimulation(record.key as string)
+export function deleteStatSimulationBuild(record: { key: string }) {
+  useOptimizerDisplayStore.getState().removeSimulation(record.key)
   autosave()
 }
 

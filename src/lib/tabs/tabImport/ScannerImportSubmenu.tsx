@@ -3,7 +3,7 @@ import {
   IconUpload,
 } from '@tabler/icons-react'
 import { Accordion, Alert, Button, Checkbox, Divider, Flex, Switch, TextInput, Timeline, Tooltip } from '@mantine/core'
-import { PopConfirm } from 'lib/ui/PopConfirm'
+import { modals } from '@mantine/modals'
 import {
   HoyolabData,
   hoyolabParser,
@@ -451,21 +451,22 @@ export function ScannerImportSubmenu() {
             label={t('Import.Stage2.CharactersImport.OnlyImportExisting') /* Only import existing characters */}
           />
 
-          <PopConfirm
-            title={t('Import.Stage2.CharactersImport.WarningTitle')}
-            description={t('Import.Stage2.CharactersImport.WarningDescription')}
-            onConfirm={mergeCharactersConfirmed}
-            placement='bottom'
-            okText={t('common:Yes')}
-            cancelText={t('common:Cancel')}
+          <Button
+            style={{ width: importerTabButtonWidth }}
+            loading={loading2}
+            onClick={() => modals.openConfirmModal({
+              title: t('Import.Stage2.CharactersImport.WarningTitle'),
+              children: t('Import.Stage2.CharactersImport.WarningDescription'),
+              labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
+              centered: true,
+              onConfirm: mergeCharactersConfirmed,
+            })}
           >
-            <Button style={{ width: importerTabButtonWidth }} loading={loading2}>
-              {t('Import.Stage2.CharactersImport.ButtonText', {
-                relicCount: currentRelics.length ?? 0,
-                characterCount: currentCharacters?.length ?? 0,
-              })}
-            </Button>
-          </PopConfirm>
+            {t('Import.Stage2.CharactersImport.ButtonText', {
+              relicCount: currentRelics.length ?? 0,
+              characterCount: currentCharacters?.length ?? 0,
+            })}
+          </Button>
         </Flex>
       </Flex>
     )

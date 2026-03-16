@@ -4,7 +4,7 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import { Button, Flex, SegmentedControl } from '@mantine/core'
-import { PopConfirm } from 'lib/ui/PopConfirm'
+import { modals } from '@mantine/modals'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
@@ -188,18 +188,22 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
       <Flex direction="column" gap={20} flex={1} align='flex-start'>
         <Flex direction="column" w='100%' gap={5}>
           <HeaderText>{t('RowControls.Header') /* Controls */}</HeaderText>
-          <PopConfirm
-            title={tCommon('Confirm')}
-            description={t('RowControls.ResetConfirm.Description')}
-            onConfirm={() => resetClicked()}
-            okText={tCommon('Yes')}
-            cancelText={tCommon('Cancel')}
-            placement='bottom-end'
+          <Button
+            variant='outline'
+            size='xs'
+            h={24}
+            fullWidth
+            disabled={disabled}
+            onClick={() => modals.openConfirmModal({
+              title: tCommon('Confirm'),
+              children: t('RowControls.ResetConfirm.Description'),
+              labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+              centered: true,
+              onConfirm: () => resetClicked(),
+            })}
           >
-            <Button variant='outline' size='xs' h={24} fullWidth disabled={disabled}>
-              {tCommon('Reset')}
-            </Button>
-          </PopConfirm>
+            {tCommon('Reset')}
+          </Button>
           <Flex gap={5}>
             <Button variant='outline' size='xs' h={24} style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
               {t('RowControls.Add')}

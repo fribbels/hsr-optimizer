@@ -1,8 +1,8 @@
 import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
-import stringify from 'json-stable-stringify'
 import {Constants} from 'lib/constants/constants'
 import {Message} from 'lib/interactions/message.js'
+import {TsUtils} from 'lib/utils/TsUtils'
 
 console.debug = (...args) => {
   const messageConfig = '%c%s '
@@ -13,7 +13,7 @@ console.debug = (...args) => {
 export const Utils = {
   // Hashes an object for uniqueness checks
   objectHash: (obj) => {
-    return stringify(obj)
+    return TsUtils.objectHash(obj)
   },
 
   // Fill array of size n with 0s

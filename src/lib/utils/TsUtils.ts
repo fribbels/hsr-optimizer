@@ -4,8 +4,25 @@ import i18next, {
   Namespace,
   TFunction,
 } from 'i18next'
-import stringify from 'json-stable-stringify'
 import { Constants } from 'lib/constants/constants'
+
+/**
+ * Recursively sorts object keys and returns a new object.
+ * Arrays are preserved as-is (elements processed recursively).
+ * Primitives pass through unchanged.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function sortKeys(val: any): any {
+  if (val === null || typeof val !== 'object') return val
+  if (Array.isArray(val)) return val.map(sortKeys)
+  const keys = Object.keys(val)
+  keys.sort()
+  const sorted: Record<string, unknown> = Object.create(null)
+  for (let i = 0; i < keys.length; i++) {
+    sorted[keys[i]] = sortKeys(val[keys[i]])
+  }
+  return sorted
+}
 
 export const TsUtils = {
   // Returns the same object
@@ -15,7 +32,21 @@ export const TsUtils = {
   },
 
   objectHash<T>(obj: T): string {
-    return stringify(obj)!
+    return JSON.stringify(sortKeys(obj))
+  },
+
+  /**
+   * Compares two semver version strings (e.g. 'v4.0.4', 'v4.0.5').
+   * Returns true if `current` is older than `latest`.
+   */
+  isVersionOutdated(current: string, latest: string): boolean {
+    const pa = current.replace(/^v/, '').split('.').map(Number)
+    const pb = latest.replace(/^v/, '').split('.').map(Number)
+    for (let i = 0; i < 3; i++) {
+      if ((pa[i] || 0) < (pb[i] || 0)) return true
+      if ((pa[i] || 0) > (pb[i] || 0)) return false
+    }
+    return false
   },
 
   // [1, 2, 3] => 6

@@ -7,6 +7,7 @@ import { Optimizer } from 'lib/optimization/optimizer'
 import { AppPages } from 'lib/constants/appPages'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { useCharacterStore } from 'lib/stores/characterStore'
+import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { getRelics } from 'lib/stores/relicStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -86,6 +87,7 @@ export const ZeroPermRootCauseFixes = {
     buttonTextKey: '0Perms.RootCauses.PRIORITY.ButtonText',
     applyFix: () => {
       useCharacterStore.getState().insertCharacter(useOptimizerDisplayStore.getState().focusCharacterId!, 0)
+      recalculatePermutations()
     },
     successMessageKey: '0Perms.RootCauses.PRIORITY.SuccessMessage',
   },

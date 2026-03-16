@@ -1,4 +1,4 @@
-import { Combobox, Flex, Input, InputBase, SegmentedControl, Select, Switch, useCombobox } from '@mantine/core'
+import { CheckIcon, Combobox, Flex, Group, Input, InputBase, SegmentedControl, Select, Switch, useCombobox } from '@mantine/core'
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
@@ -83,7 +83,10 @@ function PriorityCombobox(props: {
         <Combobox.Options mah={500} style={{ overflowY: 'auto' }}>
           {filteredOptions.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === rankStr} style={{ whiteSpace: 'nowrap' }}>
-              {opt.label}
+              <Group gap={6} justify='space-between' wrap='nowrap'>
+                {opt.label}
+                {opt.value === rankStr && <CheckIcon size={12} />}
+              </Group>
             </Combobox.Option>
           ))}
           {filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}

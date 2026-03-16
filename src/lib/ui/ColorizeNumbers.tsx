@@ -9,6 +9,7 @@ export function ColorizeNumbers(text: string, color: string = '#ebb434') {
 
   if (text) {
     text.split('::BR::').forEach((item) => {
+      let plainText = ''
       let num = ''
       let isNum = false
       if (ret.length > 0) {
@@ -23,6 +24,10 @@ export function ColorizeNumbers(text: string, color: string = '#ebb434') {
           || (item[i] === 'A' && item[i + 1] && /[2,4,6]/.test(item[i + 1]))
           || (item[i] === 'E' && item[i + 1] && /[0-6]/.test(item[i + 1]))
         ) {
+          if (plainText) {
+            ret.push(<span key={key++}>{plainText}</span>)
+            plainText = ''
+          }
           num += item[i]
           isNum = true
         } else {
@@ -31,12 +36,15 @@ export function ColorizeNumbers(text: string, color: string = '#ebb434') {
             num = ''
             isNum = false
           }
-          ret.push(<span key={key++}>{item[i]}</span>)
+          plainText += item[i]
         }
       }
 
       if (isNum) {
         ret.push(<span key={key++} style={{ color: color }}>{num}</span>)
+      }
+      if (plainText) {
+        ret.push(<span key={key++}>{plainText}</span>)
       }
     })
   }

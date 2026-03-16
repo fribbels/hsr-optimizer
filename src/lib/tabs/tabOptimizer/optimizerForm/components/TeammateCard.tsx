@@ -1,5 +1,5 @@
 import { IconRefresh } from '@tabler/icons-react'
-import { ActionIcon, Avatar, CloseButton, Combobox, Flex, Group, Input, InputBase, SegmentedControl, useCombobox } from '@mantine/core'
+import { ActionIcon, Avatar, CheckIcon, CloseButton, Combobox, Flex, Group, Input, InputBase, SegmentedControl, useCombobox } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
@@ -74,8 +74,8 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
   const teammateRelicSetOptions = useMemo(renderTeammateRelicSetOptions(t), [t])
   const teammateOrnamentSetOptions = useMemo(renderTeammateOrnamentSetOptions(t), [t])
 
-  const teammateRelicSelectData = useMemo(() => teammateRelicSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc })), [teammateRelicSetOptions])
-  const teammateOrnamentSelectData = useMemo(() => teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc })), [teammateOrnamentSetOptions])
+  const teammateRelicSelectData = useMemo(() => teammateRelicSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc, text: opt.text })), [teammateRelicSetOptions])
+  const teammateOrnamentSelectData = useMemo(() => teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc, text: opt.text })), [teammateOrnamentSetOptions])
 
   const insetClass = debug.showInsetShadow ? classes.insetShadow : undefined
 
@@ -249,7 +249,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 })
 
 function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
-  data: { value: string; desc: string }[]
+  data: { value: string; desc: string; text: string }[]
   value: string | undefined
   onChange: (val: string | undefined) => void
   placeholder: string
@@ -302,18 +302,21 @@ function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
             },
           }}
         >
-          {selected?.desc || <Input.Placeholder>{placeholder}</Input.Placeholder>}
+          {selected?.text || <Input.Placeholder>{placeholder}</Input.Placeholder>}
         </InputBase>
       </Combobox.Target>
 
       <Combobox.Dropdown>
         <Combobox.Options>
-          {data.map((item) => (
+          {combobox.dropdownOpened && data.map((item) => (
             <Combobox.Option value={item.value} key={item.value}>
-              <Flex gap={10} align='center'>
-                <img src={Assets.getSetImage(item.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
-                {item.desc}
-              </Flex>
+              <Group gap={6} justify='space-between' wrap='nowrap'>
+                <Flex gap={10} align='center'>
+                  <img src={Assets.getSetImage(item.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
+                  {item.desc}
+                </Flex>
+                {item.value === value && <CheckIcon size={12} />}
+              </Group>
             </Combobox.Option>
           ))}
         </Combobox.Options>

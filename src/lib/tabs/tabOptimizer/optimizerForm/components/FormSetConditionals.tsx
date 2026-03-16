@@ -58,19 +58,15 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
   })
 
   const content = (
-    <Flex direction="column" gap={10}>
-      <Flex direction="column">
-        <HeaderText>
-          <p>{t('DescriptionHeader') /* Set description */}</p>
-        </HeaderText>
-        <p>{ColorizeNumbers(description)}</p>
+    <Flex direction="column" gap={12}>
+      <Flex direction="column" gap={4}>
+        <HeaderText>{t('DescriptionHeader') /* Set description */}</HeaderText>
+        <Text size="xs">{ColorizeNumbers(description)}</Text>
       </Flex>
 
-      <Flex direction="column">
-        <HeaderText>
-          <p>{t('EffectHeader') /* Enabled effect */}</p>
-        </HeaderText>
-        <p>{conditional}</p>
+      <Flex direction="column" gap={4}>
+        <HeaderText>{t('EffectHeader') /* Enabled effect */}</HeaderText>
+        <Text size="xs">{conditional}</Text>
       </Flex>
     </Flex>
   )
@@ -87,7 +83,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
       <Select
         maxDropdownHeight={500}
         style={{ width: setConditionalsWidth }}
-        comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 'fit-content' } } }}
+        comboboxProps={{ keepMounted: false, width: 120 }}
         data={stringSelectOptions}
         value={value != null ? String(value) : null}
         onChange={(val) => handleConditionalChange(itemName, val != null ? Number(val) : val)}
@@ -104,7 +100,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
   }
 
   return (
-    <Popover width={600} position='bottom' withArrow>
+    <Popover width={400} position='left' withArrow>
       <Popover.Target>
         <Flex gap={defaultGap} align='center' style={{ cursor: 'pointer' }}>
           <Flex style={{ width: setConditionalsIconWidth }}>
@@ -128,8 +124,8 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
           </Flex>
         </Flex>
       </Popover.Target>
-      <Popover.Dropdown>
-        <Text fw={600} mb={4}>{t('SetName', { id: setToId[set] })}</Text>
+      <Popover.Dropdown style={{ fontSize: 13 }}>
+        <Text fw={600} mb={4} size="sm">{t('SetName', { id: setToId[set] })}</Text>
         {content}
       </Popover.Dropdown>
     </Popover>

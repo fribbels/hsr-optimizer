@@ -1,9 +1,9 @@
 import {
-  IconChevronLeft,
-  IconChevronRight,
+  IconTriangleInvertedFilled,
 } from '@tabler/icons-react'
 import { useForm } from '@mantine/form'
-import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl, Select } from '@mantine/core'
+import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl } from '@mantine/core'
+import { SearchableCombobox, SearchableComboboxOption } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 import {
   Constants,
   MainStats,
@@ -34,7 +34,6 @@ import {
 import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
 import { SubstatInput } from 'lib/overlays/modals/SubstatInput'
 import { Assets } from 'lib/rendering/assets'
-import iconClasses from 'style/icons.module.css'
 import modalClasses from './RelicModal.module.css'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { useScrollLock } from 'lib/rendering/scrollController'
@@ -73,6 +72,8 @@ function partSegmentData(value: string, src: string) {
 export function RelicModal() {
   const open = useRelicModalStore((s) => s.open)
   const closeOverlay = useRelicModalStore((s) => s.closeOverlay)
+  const prev = useRelicModalStore((s) => s.config?.prev)
+  const next = useRelicModalStore((s) => s.config?.next)
 
   return (
     <div>
@@ -84,9 +85,30 @@ export function RelicModal() {
       >
         {open && <RelicModalContent />}
       </Modal>
+      {open && prev && (
+        <IconTriangleInvertedFilled
+          size={24}
+          onClick={prev}
+          className={modalClasses.navArrowLeft}
+        />
+      )}
+      {open && next && (
+        <IconTriangleInvertedFilled
+          size={24}
+          onClick={next}
+          className={modalClasses.navArrowRight}
+        />
+      )}
     </div>
   )
 }
+
+const GRADE_OPTIONS = [
+  { value: '2', label: '2 ★' },
+  { value: '3', label: '3 ★' },
+  { value: '4', label: '4 ★' },
+  { value: '5', label: '5 ★' },
+]
 
 function RelicModalContent() {
   const config = useRelicModalStore((s) => s.config)
@@ -108,35 +130,31 @@ function RelicModalContent() {
 
   if (!config) return null
 
-  const { selectedRelic, selectedPart, defaultWearer, onOk, next, prev } = config
+  const { selectedRelic, selectedPart, defaultWearer, onOk } = config
 
   const characterOptions = useMemo(() => {
     return generateCharacterList({ currentCharacters: characters, longNameLabel: true }, tCharacters)
   }, [characters, tCharacters])
 
   const relicOptions = useMemo(() => {
-    const setOptions: {
-      label: string,
-      value: string,
-    }[] = []
+    const setOptions: SearchableComboboxOption[] = []
     for (const entry of Object.entries(SetsRelics).filter((x) => !UnreleasedSets[x[1]])) {
       setOptions.push({
         label: t(`gameData:RelicSets.${setToId[entry[1]]}.Name`),
         value: entry[1],
+        icon: Assets.getSetImage(entry[1]),
       })
     }
     return setOptions
   }, [t])
 
   const planarOptions = useMemo(() => {
-    const setOptions: {
-      label: string,
-      value: string,
-    }[] = []
+    const setOptions: SearchableComboboxOption[] = []
     for (const entry of Object.entries(SetsOrnaments).filter((x) => !UnreleasedSets[x[1]])) {
       setOptions.push({
         label: t(`gameData:RelicSets.${setToId[entry[1]]}.Name`),
         value: entry[1],
+        icon: Assets.getSetImage(entry[1]),
       })
     }
     return setOptions
@@ -196,6 +214,7 @@ function RelicModalContent() {
       mainStatOptions = Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
         label: t(`common:Stats.${entry[1]}`),
         value: entry[1],
+        icon: Assets.getStatIcon(entry[1], true),
       }))
     }
 
@@ -239,6 +258,7 @@ function RelicModalContent() {
       mainStatOptions = Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
         label: t(`common:Stats.${entry[1]}`),
         value: entry[1],
+        icon: Assets.getStatIcon(entry[1], true),
       }))
       setMainStatOptions(mainStatOptions)
       relicForm.setFieldValue('mainStatType', mainStatOptions[0]?.value as MainStats)
@@ -333,18 +353,6 @@ function RelicModalContent() {
       {isLiveImport && (
         <Alert color='yellow'>{t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */}</Alert>
       )}
-      {prev && (
-        <IconChevronLeft
-          onClick={prev}
-          className={modalClasses.navArrowLeft}
-        />
-      )}
-      {next && (
-        <IconChevronRight
-          onClick={next}
-          className={modalClasses.navArrowRight}
-        />
-      )}
       <div className={modalClasses.relicGrid}>
         <Flex direction="column" gap={5}>
           <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
@@ -363,33 +371,21 @@ function RelicModalContent() {
           />
 
           <HeaderText>{t('Relic.Set') /* Set */}</HeaderText>
-          <Select
-            searchable
+          <SearchableCombobox
             clearable
-            maxDropdownHeight={350}
+            dropdownMaxHeight={350}
             placeholder={t('Relic.Set') /* Set */}
-            data={setOptions}
-            leftSection={(() => {
-              const val = relicForm.getValues().set
-              return val ? <img src={Assets.getSetImage(val)} className={iconClasses.icon20} /> : null
-            })()}
-            renderOption={({ option }) => (
-              <Flex align='center' gap={10}>
-                <img className={iconClasses.icon22} src={Assets.getSetImage(option.value)} />
-                {option.label}
-              </Flex>
-            )}
-            {...relicForm.getInputProps('set')}
+            options={setOptions}
+            value={relicForm.getValues().set}
+            onChange={(val) => relicForm.setFieldValue('set', val as RelicForm['set'])}
           />
 
           <HeaderText>{t('Relic.Enhance') /* Enhance / Grade */}</HeaderText>
 
           <Flex gap={10}>
-            <Select
-              searchable
+            <SearchableCombobox
               style={{ width: 115 }}
-              data={enhanceOptions}
-              {...relicForm.getInputProps('enhance')}
+              options={enhanceOptions}
               value={relicForm.getValues().enhance?.toString()}
               onChange={(val) => {
                 relicForm.setFieldValue('enhance', val != null ? Number(val) : undefined)
@@ -400,15 +396,9 @@ function RelicModalContent() {
               +3
             </Button>
 
-            <Select
-              searchable
+            <SearchableCombobox
               style={{ width: 115 }}
-              data={[
-                { value: '2', label: '2 ★' },
-                { value: '3', label: '3 ★' },
-                { value: '4', label: '4 ★' },
-                { value: '5', label: '5 ★' },
-              ]}
+              options={GRADE_OPTIONS}
               value={relicForm.getValues().grade?.toString()}
               onChange={(val) => {
                 relicForm.setFieldValue('grade', val != null ? Number(val) : undefined)
@@ -420,24 +410,12 @@ function RelicModalContent() {
           <HeaderText>{t('Relic.Mainstat') /* Main stat */}</HeaderText>
 
           <Flex gap={10}>
-            <Select
-              searchable
-              style={{
-                width: 210,
-              }}
-              data={mainStatOptions}
-              leftSection={(() => {
-                const val = relicForm.getValues().mainStatType
-                return val ? <img src={Assets.getStatIcon(val, true)} className={iconClasses.icon20} /> : null
-              })()}
-              renderOption={({ option }) => (
-                <Flex align='center' gap={10}>
-                  <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
-                  {option.label}
-                </Flex>
-              )}
+            <SearchableCombobox
+              style={{ width: 210 }}
+              options={mainStatOptions}
               disabled={mainStatOptions.length <= 1}
-              {...relicForm.getInputProps('mainStatType')}
+              value={relicForm.getValues().mainStatType}
+              onChange={(val) => relicForm.setFieldValue('mainStatType', val as RelicForm['mainStatType'])}
             />
 
             <NumberInput hideControls disabled style={{ width: 80 }} value={relicForm.getValues().mainStatValue} />
@@ -448,23 +426,14 @@ function RelicModalContent() {
 
         <Flex direction="column" gap={5}>
           <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
-          <Select
-            searchable
-            data={characterOptions.map((opt) => ({ value: opt.value, label: opt.title ?? opt.value }))}
-            leftSection={(() => {
-              const val = relicForm.getValues().equippedBy
-              return val && val !== 'None' ? <img src={Assets.getCharacterAvatarById(val)} className={iconClasses.icon20} /> : null
-            })()}
-            renderOption={({ option }) => {
-              const match = characterOptions.find((o) => o.value === option.value)
-              return (
-                <Flex align='center' gap={10}>
-                  <img src={Assets.getCharacterAvatarById(option.value)} className={iconClasses.icon22} />
-                  {match?.label ?? option.label}
-                </Flex>
-              )
-            }}
-            {...relicForm.getInputProps('equippedBy')}
+          <SearchableCombobox
+            options={characterOptions.map((opt) => ({
+              value: opt.value,
+              label: opt.title ?? opt.value,
+              icon: opt.value === 'None' ? Assets.getBlank() : Assets.getCharacterAvatarById(opt.value),
+            }))}
+            value={relicForm.getValues().equippedBy}
+            onChange={(val) => relicForm.setFieldValue('equippedBy', val as RelicForm['equippedBy'])}
           />
 
           <div className={modalClasses.previewContainer}>

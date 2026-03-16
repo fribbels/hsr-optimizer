@@ -1,27 +1,53 @@
 import { UseFormReturnType } from '@mantine/form'
+import { Constants, UnreleasedSets } from 'lib/constants/constants'
+import { Assets } from 'lib/rendering/assets'
+import { SetsOrnaments, SetsRelics, setToId } from 'lib/sets/setConfigRegistry'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
-import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { useStatSimField } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
-import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
+import { SearchableCombobox, SearchableComboboxOption } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
+function useRelicSetOptions(): SearchableComboboxOption[] {
+  const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
+  return useMemo(() =>
+    Object.values(SetsRelics)
+      .filter((x) => !UnreleasedSets[x])
+      .map((x) => ({
+        value: x,
+        label: t(`${setToId[x]}.Name`),
+        icon: Assets.getSetImage(x, Constants.Parts.Head),
+      })),
+  [t, i18n.resolvedLanguage])
+}
+
+function useOrnamentSetOptions(): SearchableComboboxOption[] {
+  const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
+  return useMemo(() =>
+    Object.values(SetsOrnaments)
+      .filter((x) => !UnreleasedSets[x])
+      .map((x) => ({
+        value: x,
+        label: t(`${setToId[x]}.Name`),
+        icon: Assets.getSetImage(x, Constants.Parts.PlanarSphere),
+      })),
+  [t, i18n.resolvedLanguage])
+}
+
 // Optimizer-tab version: reads/writes from Zustand store (no AntD Form context needed)
 export function OptimizerSetsSection({ simType }: { simType: StatSimType }) {
-  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
 
   const simRelicSet1 = useStatSimField<string>(simType, 'simRelicSet1')
   const simRelicSet2 = useStatSimField<string>(simType, 'simRelicSet2')
   const simOrnamentSet = useStatSimField<string>(simType, 'simOrnamentSet')
-  const ornamentOptions = useOrnamentsOptions()
 
   const updateField = useOptimizerRequestStore.getState().updateStatSimField
 
-  const relicSetData = useMemo(() => GenerateBasicSetsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [i18n.resolvedLanguage])
-  const ornamentSetData = useMemo(() => ornamentOptions.map((opt) => ({ value: opt.value, label: opt.value })), [ornamentOptions])
+  const relicSetData = useRelicSetOptions()
+  const ornamentSetData = useOrnamentSetOptions()
 
   // Save a click by assuming the first relic set is a 4p
   const handleRelicSet1Change = (value: string | null) => {
@@ -59,11 +85,10 @@ export function OptimizerSetsSection({ simType }: { simType: StatSimType }) {
 
 // BenchmarksTab version: uses Mantine form instance passed as prop
 export function SetsSection({ simType, form }: { simType: StatSimType; form: UseFormReturnType<BenchmarkForm> }) {
-  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
-  const ornamentOptions = useOrnamentsOptions()
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
 
-  const relicSetData = useMemo(() => GenerateBasicSetsOptions().map((opt) => ({ value: opt.value, label: typeof opt.label === 'string' ? opt.label : opt.value })), [i18n.resolvedLanguage])
-  const ornamentSetData = useMemo(() => ornamentOptions.map((opt) => ({ value: opt.value, label: opt.value })), [ornamentOptions])
+  const relicSetData = useRelicSetOptions()
+  const ornamentSetData = useOrnamentSetOptions()
 
   // Save a click by assuming the first relic set is a 4p
   const handleRelicSet1Change = (value: string | null) => {

@@ -340,6 +340,7 @@ SaveBuild:
     OverwriteDisabled: No build with this name exists. Click on an existing build, or type in its name, in order to be able to overwrite it.
 SwitchRelics:
   Title: Switch relics with character
+  Placeholder: Search characters
 Builds:
   DeleteAll: Delete All
   Equip: Equip

@@ -3,7 +3,7 @@ import {
   IconLock,
 } from '@tabler/icons-react'
 import { UseFormReturnType } from '@mantine/form'
-import { Button, Flex, Select, TextInput, Tooltip } from '@mantine/core'
+import { Button, Flex, TextInput, Tooltip } from '@mantine/core'
 import {
   Constants,
   Stats,
@@ -13,7 +13,6 @@ import {
   RelicUpgradeValues,
 } from 'lib/overlays/modals/relicModalController'
 import { Assets } from 'lib/rendering/assets'
-import iconClasses from 'style/icons.module.css'
 import {
   localeNumber,
   localeNumber_0,
@@ -24,6 +23,7 @@ import {
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 
 export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, plusThree }: {
   index: 0 | 1 | 2 | 3
@@ -62,18 +62,13 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
   }
 
   const substatOptionsMemoized = useMemo(() => {
-    const output: {
-      label: string,
-      value: string,
-    }[] = []
-    for (const entry of Object.entries(Constants.SubStats)) {
-      output.push({
-        label: tStats(entry[1]),
-        value: entry[1],
-      })
-    }
-    return output
+    return Object.entries(Constants.SubStats).map((entry) => ({
+      label: tStats(entry[1]),
+      value: entry[1],
+      icon: Assets.getStatIcon(entry[1], true),
+    }))
   }, [tStats])
+
 
   function PreviewToggle() {
     const onClick = () => {
@@ -125,26 +120,9 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
   return (
     <div style={{ display: 'contents' }}>
       <Flex gap={10}>
-        <Select
-          searchable
-          clearable
-          style={{
-            width: 210,
-          }}
-          placeholder={t('SubstatPlaceholder')}
-          data={substatOptionsMemoized}
-          maxDropdownHeight={750}
-          leftSection={(() => {
-            const val = relicForm.getValues()[statTypeField]
-            return val ? <img src={Assets.getStatIcon(val, true)} className={iconClasses.icon20} /> : null
-          })()}
-          renderOption={({ option }) => (
-            <Flex align='center' gap={10}>
-              <img className={iconClasses.icon22} src={Assets.getStatIcon(option.value, true)} />
-              {option.label}
-            </Flex>
-          )}
-          {...relicForm.getInputProps(statTypeField)}
+        <SearchableCombobox
+          options={substatOptionsMemoized}
+          value={stat ?? null}
           onChange={(val) => {
             relicForm.setFieldValue(statTypeField, val as any)
             if (val) {
@@ -154,7 +132,10 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
             }
             resetUpgradeValues()
           }}
-          tabIndex={0}
+          placeholder={t('SubstatPlaceholder')}
+          style={{ width: 210 }}
+          dropdownMaxHeight={750}
+          clearable
         />
 
         <Tooltip

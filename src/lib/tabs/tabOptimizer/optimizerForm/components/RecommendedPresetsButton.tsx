@@ -30,7 +30,7 @@ export function RecommendedPresetsButton() {
     const groupedChildren = categories.map((category) => {
       const presetItems = Object.values(category.presets).map((preset) => ({
         ...preset,
-        label: <div style={{ minWidth: 450, lineHeight: '18px' }}>{preset.label}</div>,
+        label: <div style={{ minWidth: 450 }}>{preset.label}</div>,
       }))
 
       return { type: 'group' as const, label: category.label, children: presetItems }
@@ -68,8 +68,9 @@ export function RecommendedPresetsButton() {
       </Flex>
       <Menu.Dropdown>
         {items.map((item) =>
-          item.children.map((group) => (
+          item.children.map((group, groupIndex) => (
             <React.Fragment key={group.label}>
+              {groupIndex > 0 && <Menu.Divider />}
               <Menu.Label>{group.label}</Menu.Label>
               {group.children.map((child) => (
                 <Menu.Item key={child.key} onClick={() => handlePresetClick(child.key)} disabled={child.disabled}>

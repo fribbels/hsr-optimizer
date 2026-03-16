@@ -38,7 +38,7 @@ export function initializeGpuPipeline(
   // Workgroups dispatched per pass — scaled to ensure enough iterations for UI responsiveness
   const TARGET_ITERATIONS = 4
   const MIN_WORKGROUPS = 64
-  const MAX_WORKGROUPS = true // Temporarily setting all users to experimental settings
+  const MAX_WORKGROUPS = computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL
     ? Math.min(2048, device.limits.maxComputeWorkgroupsPerDimension)
     : 512
   const neededWorkgroups = 2 ** Math.floor(Math.log2(permutations / WORKGROUP_SIZE / CYCLES_PER_INVOCATION / TARGET_ITERATIONS))

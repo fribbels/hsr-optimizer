@@ -1,5 +1,7 @@
 import { CheckIcon, Combobox, Flex, Group, Input, InputBase, useCombobox } from '@mantine/core'
 import { Parts, Stats } from 'lib/constants/constants'
+import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
   STAT_SIMULATION_OPTIONS_WIDTH,
@@ -57,7 +59,10 @@ function MainStatSelector({ simType, placeholder, part, options }: { simType: St
           {combobox.dropdownOpened && options.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
               <Group gap={6} justify='space-between'>
-                {opt.short}
+                <Flex align='center' gap={6}>
+                  <img src={Assets.getStatIcon(opt.value, true)} className={iconClasses.icon22} />
+                  {opt.short}
+                </Flex>
                 {opt.value === value && <CheckIcon size={12} />}
               </Group>
             </Combobox.Option>

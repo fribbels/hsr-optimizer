@@ -1,4 +1,5 @@
 import { Flex, SegmentedControl, Select } from '@mantine/core'
+import { Stats } from 'lib/constants/constants'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import {
@@ -6,6 +7,7 @@ import {
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -21,7 +23,22 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
 import { useShallow } from 'zustand/react/shallow'
+
+const sortKeyToStat: Record<string, string> = {
+  HP: Stats.HP,
+  ATK: Stats.ATK,
+  DEF: Stats.DEF,
+  SPD: Stats.SPD,
+  CR: Stats.CR,
+  CD: Stats.CD,
+  EHR: Stats.EHR,
+  RES: Stats.RES,
+  BE: Stats.BE,
+  OHB: Stats.OHB,
+  ERR: Stats.ERR,
+}
 
 export function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
@@ -187,6 +204,15 @@ export function CharacterSelectorDisplay() {
           group: group.label,
           items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
         }))}
+        renderOption={({ option }) => {
+          const stat = sortKeyToStat[option.value]
+          return (
+            <Flex align="center" gap={6}>
+              {stat && <img src={Assets.getStatIcon(stat)} className={iconClasses.icon20} />}
+              <span>{option.label}</span>
+            </Flex>
+          )
+        }}
         value={resultSort}
         onChange={(val) => useOptimizerRequestStore.getState().setResultSort((val ?? undefined) as keyof typeof SortOption | undefined)}
         maxDropdownHeight={900}

@@ -35,8 +35,6 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
         defaultProps: { size: 'xs' },
         styles: {
           input: {
-            '--input-padding-inline-start': '6px',
-            '--input-padding-inline-end': '6px',
             lineHeight: '30px',
           },
         },

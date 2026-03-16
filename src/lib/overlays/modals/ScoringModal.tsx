@@ -23,6 +23,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
 import { ScoringMetadata } from 'types/metadata'
+import iconClasses from 'style/icons.module.css'
 import classes from './ScoringModal.module.css'
 
 const TitleDivider = (props: React.ComponentPropsWithoutRef<typeof Divider>) => (
@@ -224,6 +225,12 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.Body')}
+                    renderOption={({ option }) => (
+                      <Flex align='center' gap={10}>
+                        <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+                        {option.label}
+                      </Flex>
+                    )}
                     data={[
                       { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
                       { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
@@ -245,6 +252,12 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.Feet')}
+                    renderOption={({ option }) => (
+                      <Flex align='center' gap={10}>
+                        <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+                        {option.label}
+                      </Flex>
+                    )}
                     data={[
                       { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
                       { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
@@ -264,6 +277,12 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.PlanarSphere')}
                     maxDropdownHeight={400}
+                    renderOption={({ option }) => (
+                      <Flex align='center' gap={10}>
+                        <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+                        {option.label}
+                      </Flex>
+                    )}
                     data={[
                       { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
                       { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
@@ -288,6 +307,12 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.LinkRope')}
+                    renderOption={({ option }) => (
+                      <Flex align='center' gap={10}>
+                        <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+                        {option.label}
+                      </Flex>
+                    )}
                     data={[
                       { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
                       { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },

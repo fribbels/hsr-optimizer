@@ -21,6 +21,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
 import classes from './RelicMainSetFilters.module.css'
 
 function handleMainStatChange(field: MainStatPart, val: string[]) {
@@ -41,6 +42,12 @@ function MainStatBody() {
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
       value={value}
       onChange={(val) => handleMainStatChange('mainBody', val)}
+      renderOption={(option) => (
+        <Flex align='center' gap={10}>
+          <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+          {option.label}
+        </Flex>
+      )}
       data={[
         { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
         { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
@@ -66,6 +73,12 @@ function MainStatFeet() {
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
       value={value}
       onChange={(val) => handleMainStatChange('mainFeet', val)}
+      renderOption={(option) => (
+        <Flex align='center' gap={10}>
+          <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+          {option.label}
+        </Flex>
+      )}
       data={[
         { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
         { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
@@ -89,6 +102,12 @@ function MainStatPlanarSphere() {
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
       value={value}
       onChange={(val) => handleMainStatChange('mainPlanarSphere', val)}
+      renderOption={(option) => (
+        <Flex align='center' gap={10}>
+          <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+          {option.label}
+        </Flex>
+      )}
       data={[
         { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
         { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
@@ -117,6 +136,12 @@ function MainStatLinkRope() {
       rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
       value={value}
       onChange={(val) => handleMainStatChange('mainLinkRope', val)}
+      renderOption={(option) => (
+        <Flex align='center' gap={10}>
+          <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+          {option.label}
+        </Flex>
+      )}
       data={[
         { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
         { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },

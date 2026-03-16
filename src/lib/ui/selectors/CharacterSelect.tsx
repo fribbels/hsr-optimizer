@@ -24,6 +24,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { CSSProperties, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterId } from 'types/character'
+import iconClasses from 'style/icons.module.css'
 import classes from './SelectCardGrid.module.css'
 
 const elementTags = generateElementTags()
@@ -82,6 +83,7 @@ export function CharacterSelect({
         value={selectedLabel}
         placeholder={t('SingleSelect.Placeholder')}
         onClick={open}
+        leftSection={value ? <img src={Assets.getCharacterAvatarById(value)} className={iconClasses.icon20} /> : null}
         rightSectionPointerEvents="all"
         rightSection={value
           ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(null) }} />

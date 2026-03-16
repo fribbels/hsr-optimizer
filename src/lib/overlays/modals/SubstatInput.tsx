@@ -134,6 +134,10 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
           placeholder={t('SubstatPlaceholder')}
           data={substatOptionsMemoized}
           maxDropdownHeight={750}
+          leftSection={(() => {
+            const val = relicForm.getValues()[statTypeField]
+            return val ? <img src={Assets.getStatIcon(val, true)} className={iconClasses.icon20} /> : null
+          })()}
           renderOption={({ option }) => (
             <Flex align='center' gap={10}>
               <img className={iconClasses.icon22} src={Assets.getStatIcon(option.value, true)} />

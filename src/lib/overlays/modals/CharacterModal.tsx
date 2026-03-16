@@ -43,7 +43,6 @@ export function CharacterModal() {
       opened={open}
       size={400}
       centered
-      withCloseButton={false}
       onClose={closeOverlay}
     >
       {open && <CharacterModalContent />}

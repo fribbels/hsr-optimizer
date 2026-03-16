@@ -63,9 +63,9 @@
 }
 
 .ag-header-cell-label {
-    padding-top: 4px !important;
     text-align: center;
     justify-content: space-around;
+    align-items: center;
     text-overflow: clip;
     width: 40px;
 }
@@ -84,7 +84,6 @@
     overflow: hidden;
     text-overflow: clip !important;
     min-width: unset !important;
-    margin-top: -4px;
 }
 
 .ag-header-cell-comp-wrapper {

@@ -142,7 +142,7 @@ export function OptimizerGrid() {
             columnDefs={columnDefs}
             defaultColDef={optimizerGridDefaultColDef}
             gridOptions={optimizerGridOptions}
-            headerHeight={24}
+            headerHeight={36}
             onCellClicked={onCellClicked}
             ref={optimizerGrid}
             paginationNumberFormatter={paginationNumberFormatter}

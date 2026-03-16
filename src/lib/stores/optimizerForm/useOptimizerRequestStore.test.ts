@@ -115,7 +115,7 @@ describe('simple setters', () => {
   })
 
   it('setStatSim updates', () => {
-    const sim = { key: 'test', benchmarks: {}, substatRolls: {}, simulations: [] } as any
+    const sim = { key: 'test', benchmarks: {}, substatRolls: {} } as any
     useOptimizerRequestStore.getState().setStatSim(sim)
     expect(useOptimizerRequestStore.getState().statSim).toBe(sim)
   })

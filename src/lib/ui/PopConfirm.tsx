@@ -6,7 +6,7 @@ const contentsStyle: CSSProperties = { display: 'contents' }
 
 function PopConfirmTarget({ children, onClick, ref, ...rest }: { children: ReactElement; onClick: () => void; ref?: Ref<HTMLSpanElement> }) {
   return (
-    <span ref={ref} onClick={onClick} style={contentsStyle} {...rest}>{children}</span>
+    <span {...rest} ref={ref} onClick={onClick} style={contentsStyle}>{children}</span>
   )
 }
 
@@ -42,7 +42,7 @@ export function PopConfirm(props: {
   }
 
   return (
-    <Popover opened={opened} onClose={close} position={props.placement ?? 'bottom'}>
+    <Popover opened={opened} onClose={close} position={props.placement ?? 'bottom'} withinPortal>
       <Popover.Target>
         <PopConfirmTarget onClick={open}>{props.children}</PopConfirmTarget>
       </Popover.Target>

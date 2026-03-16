@@ -40,15 +40,15 @@ export function StatSimulationName(props: { sim: Simulation }) {
     <Flex gap={5}>
       <SimSetsDisplay sim={props.sim} />
 
-      |
+      <span>|</span>
 
       <SimMainsDisplay sim={props.sim} />
 
-      |
+      <span>|</span>
 
-      {props.sim.name}
+      {props.sim.name && <span>{props.sim.name}</span>}
 
-      {props.sim.name && '|'}
+      {props.sim.name && <span>|</span>}
 
       <SimSubstatsDisplay sim={props.sim} />
     </Flex>

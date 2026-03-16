@@ -1,29 +1,15 @@
 import { IconX } from '@tabler/icons-react'
-import { IRowNode } from 'ag-grid-community'
 import { Flex, Table } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { deleteStatSimulationBuild } from 'lib/simulations/statSimulationController'
 import { StatSimulationName } from 'lib/simulations/StatSimulationName'
-import {
-  Simulation,
-  StatSimTypes,
-} from 'lib/simulations/statSimulationTypes'
+import { Simulation } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-
-// FIXME MED
-
-interface DataType {
-  key: string
-  name: string
-  simType: string
-  request: object
-  hash: string
-}
 
 function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: T): T {
   for (const [key, value] of Object.entries(obj)) {
@@ -38,50 +24,32 @@ export function SimulatedBuildsGrid() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
   const statSimulations = useOptimizerDisplayStore((s) => s.statSimulations)
   const selectedStatSimulations = useOptimizerDisplayStore((s) => s.selectedStatSimulations)
-  const setSelectedStatSimulations = useOptimizerDisplayStore((s) => s.setSelectedStatSimulations)
 
-  // Links the table -> form & grid
-  function updateSimulationForm(key: string) {
-    // Check to avoid update loop
-    if (selectedStatSimulations[0] != key) {
-      setSelectedStatSimulations(key != null ? [key] : [])
-    }
+  function onRowClick(key: string) {
+    useOptimizerDisplayStore.getState().setSelectedStatSimulations([key])
 
-    const statSim = statSimulations.find((s) => s.key === key)
+    const sim = statSimulations.find((s) => s.key === key)
+    if (!sim) return
 
-    if (!statSim) return
-
-    // Match the selected sim on the optimizer grid and select it
-    let matchingNode: IRowNode | undefined
-    gridStore.optimizerGridApi()?.forEachNode((node) => {
-      if (node.data?.statSim?.key == statSim.key) {
-        matchingNode = node
-      }
-    })
-    if (matchingNode) {
-      matchingNode.setSelected(true, true)
-    }
-
-    // Update the form with selected sim
-    const cloneRequest = TsUtils.clone(statSim.request)
+    // Sync form with selected sim
+    const cloneRequest = TsUtils.clone(sim.request)
     zeroesToNull(cloneRequest.stats)
     const currentStatSim = useOptimizerRequestStore.getState().statSim
     if (currentStatSim) {
       useOptimizerRequestStore.getState().setStatSim({
         ...currentStatSim,
-        [statSim.simType]: cloneRequest,
+        [sim.simType]: cloneRequest,
       })
     }
-    useOptimizerDisplayStore.getState().setStatSimulationDisplay(statSim.simType)
+    useOptimizerDisplayStore.getState().setStatSimulationDisplay(sim.simType)
+
+    // Select matching optimizer grid node
+    gridStore.optimizerGridApi()?.forEachNode((node) => {
+      if (node.data?.statSim?.key === key) {
+        node.setSelected(true, true)
+      }
+    })
   }
-
-  useEffect(() => {
-    if (selectedStatSimulations.length) {
-      updateSimulationForm(selectedStatSimulations[0]!)
-    }
-  }, [selectedStatSimulations])
-
-  const data = statSimulations as DataType[]
 
   return (
     <div
@@ -95,7 +63,7 @@ export function SimulatedBuildsGrid() {
         maxHeight: 300,
       }}
     >
-      {data.length === 0
+      {statSimulations.length === 0
         ? (
           <Flex justify='center' align='center' style={{ padding: 16, opacity: 0.5 }}>
             {t('NoStatSimulations') /* 'No custom stat simulations selected' */}
@@ -104,12 +72,10 @@ export function SimulatedBuildsGrid() {
         : (
           <Table>
             <Table.Tbody>
-              {data.map((record) => (
+              {statSimulations.map((record) => (
                 <Table.Tr
                   key={record.key}
-                  onClick={() => {
-                    setSelectedStatSimulations(record.key != null ? [record.key] : [])
-                  }}
+                  onClick={() => onRowClick(record.key)}
                   style={{
                     cursor: 'pointer',
                     backgroundColor: selectedStatSimulations[0] === record.key ? 'var(--mantine-color-primary-light)' : undefined,

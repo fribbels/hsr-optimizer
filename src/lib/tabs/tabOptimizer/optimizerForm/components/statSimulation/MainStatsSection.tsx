@@ -42,12 +42,8 @@ function MainStatSelector({ simType, placeholder, part, options }: { simType: st
           type="button"
           size="xs"
           pointer
-          rightSection={
-            value
-              ? <Combobox.ClearButton onClear={() => useOptimizerRequestStore.getState().updateStatSimField(simType, field, null)} />
-              : <Combobox.Chevron />
-          }
-          rightSectionPointerEvents={value ? 'all' : 'none'}
+          rightSection={<Combobox.Chevron />}
+          rightSectionPointerEvents="none"
           onClick={() => combobox.toggleDropdown()}
           style={{ flex: 1 }}
         >

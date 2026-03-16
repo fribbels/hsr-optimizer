@@ -6,8 +6,8 @@ import {
   IconSettings,
   IconTrash,
 } from '@tabler/icons-react'
-import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Flex, SegmentedControl } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import {
   OpenCloseIDs,
   setOpen,
@@ -102,22 +102,20 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
             >
               <IconArrowsExchange />
             </Button>
-            <PopConfirm
-              title={t('DeletePopup.Title')}
-              description={t('DeletePopup.Description')}
-              onConfirm={deleteAllStatSimulationBuilds}
-              placement='bottom'
-              okText={tCommon('Yes')}
-              cancelText={tCommon('Cancel')}
+            <Button
+              variant="default"
+              style={{ width: 35, height: 35, padding: 0 }}
+              disabled={isHidden()}
+              onClick={() => modals.openConfirmModal({
+                title: t('DeletePopup.Title'),
+                children: t('DeletePopup.Description'),
+                labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                centered: true,
+                onConfirm: deleteAllStatSimulationBuilds,
+              })}
             >
-              <Button
-                variant="default"
-                style={{ width: 35, height: 35, padding: 0 }}
-                disabled={isHidden()}
-              >
-                <IconTrash />
-              </Button>
-            </PopConfirm>
+              <IconTrash />
+            </Button>
           </Flex>
         </Flex>
 

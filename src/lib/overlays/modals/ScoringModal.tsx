@@ -1,6 +1,6 @@
 import { UseFormReturnType, useForm } from '@mantine/form'
-import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Divider, Flex, Modal, MultiSelect, NumberInput } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import {
   Parts,
   Stats,
@@ -99,15 +99,18 @@ function ResetAllCharactersButton({ focusCharacter, form }: {
   }
 
   return (
-    <PopConfirm
-      title={t('Scoring.ResetAllConfirm.Title') /* Reset the scoring algorithm for all characters? */}
-      description={t('Scoring.ResetAllConfirm.Description') /* You will lose any custom scoring settings you have set on any character. */}
-      onConfirm={resetAllCharacters}
-      okText={t('common:Yes') /* Yes */}
-      cancelText={t('common:No') /* No */}
+    <Button
+      color="red"
+      onClick={() => modals.openConfirmModal({
+        title: t('Scoring.ResetAllConfirm.Title'),
+        children: t('Scoring.ResetAllConfirm.Description'),
+        labels: { confirm: t('common:Yes'), cancel: t('common:No') },
+        centered: true,
+        onConfirm: resetAllCharacters,
+      })}
     >
-      <Button color="red">{t('Scoring.Footer.ResetAll') /* Reset all characters */}</Button>
-    </PopConfirm>
+      {t('Scoring.Footer.ResetAll') /* Reset all characters */}
+    </Button>
   )
 }
 

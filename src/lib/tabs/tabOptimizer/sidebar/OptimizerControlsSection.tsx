@@ -18,7 +18,7 @@ import { MemoViewSelect } from 'lib/tabs/tabOptimizer/sidebar/MemoViewSelect'
 import { ProgressDisplay } from 'lib/tabs/tabOptimizer/sidebar/ProgressDisplay'
 import { StatsViewSelect } from 'lib/tabs/tabOptimizer/sidebar/StatsViewSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { PopConfirm } from 'lib/ui/PopConfirm'
+import { modals } from '@mantine/modals'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { CSSProperties, memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -97,18 +97,19 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
               {tCommon('Cancel') /* Cancel */}
             </Button>
 
-            <PopConfirm
-              title={t('ControlsGroup.ResetConfirm.Title')} // 'Reset all filters?'
-              description={t('ControlsGroup.ResetConfirm.Description')} // 'All filters will be reset to their default values'
-              onConfirm={resetClicked}
-              okText={tCommon('Yes')} // 'Yes'
-              cancelText={tCommon('No')} // 'No'
-              placement='bottom-end'
+            <Button
+              variant="default"
+              style={buttonStyle}
+              onClick={() => modals.openConfirmModal({
+                title: t('ControlsGroup.ResetConfirm.Title'),
+                children: t('ControlsGroup.ResetConfirm.Description'),
+                labels: { confirm: tCommon('Yes'), cancel: tCommon('No') },
+                centered: true,
+                onConfirm: resetClicked,
+              })}
             >
-              <Button variant="default" style={buttonStyle}>
-                {tCommon('Reset') /* Reset */}
-              </Button>
-            </PopConfirm>
+              {tCommon('Reset') /* Reset */}
+            </Button>
           </Flex>
         </Flex>
       </Flex>

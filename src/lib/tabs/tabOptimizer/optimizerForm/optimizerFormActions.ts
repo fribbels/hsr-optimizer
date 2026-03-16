@@ -170,9 +170,11 @@ export function recalculatePermutations(): void {
 export function getForm(): Form {
   const form = displayToInternal(useOptimizerRequestStore.getState())
   const simulations = useOptimizerDisplayStore.getState().statSimulations
-  form.statSim = {
-    ...form.statSim,
-    simulations,
+  if (form.statSim) {
+    form.statSim = {
+      ...form.statSim,
+      simulations,
+    }
   }
   return form
 }

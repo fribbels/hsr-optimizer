@@ -1,6 +1,6 @@
 import { IconFileImport } from '@tabler/icons-react'
-import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Drawer, Flex } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import sampleSave from 'data/sample-save.json'
 import {
   OpenCloseIDs,
@@ -40,24 +40,23 @@ export const GettingStartedDrawer = () => {
           url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
         />
 
-        <PopConfirm
-          title={t('common:Confirm')} // Confirm!
-          description={
-            <Flex
-              style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}
-            >
-              {t('TryOut.description') /* 'Load a sample save file?' */}
-            </Flex>
-          }
-          onConfirm={tryItOutClicked}
-          placement='bottom-start'
-          okText={t('common:Yes')} // 'Yes'
-          cancelText={t('common:Cancel')} // 'Cancel'
+        <Button
+          leftSection={<IconFileImport size={16} />}
+          style={{ width: 200 }}
+          onClick={() => modals.openConfirmModal({
+            title: t('common:Confirm'),
+            children: (
+              <Flex style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}>
+                {t('TryOut.description')}
+              </Flex>
+            ),
+            labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
+            centered: true,
+            onConfirm: tryItOutClicked,
+          })}
         >
-          <Button leftSection={<IconFileImport size={16} />} style={{ width: 200 }}>
-            {t('TryOut.ButtonText') /* Try it out! */}
-          </Button>
-        </PopConfirm>
+          {t('TryOut.ButtonText') /* Try it out! */}
+        </Button>
       </Flex>
     </Drawer>
   )

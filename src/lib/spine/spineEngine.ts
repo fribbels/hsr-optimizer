@@ -27,7 +27,7 @@ const GL_ONE_MINUS_SRC_ALPHA = 0x0303
 /**
  * Override spine-webgl's blend modes so Multiply/Screen compositing works on a
  * transparent canvas. The patched blendFuncSeparate values match PixiJS's blend
- * table (verified against nanoka.cc):
+ * table:
  *
  *   Normal:   (SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ONE_MINUS_SRC_ALPHA)
  *   Additive: (SRC_ALPHA, ONE,                 ONE, ONE_MINUS_SRC_ALPHA)

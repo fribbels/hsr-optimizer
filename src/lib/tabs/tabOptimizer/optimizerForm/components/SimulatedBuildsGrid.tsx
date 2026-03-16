@@ -8,7 +8,6 @@ import { Simulation } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: T): T {
@@ -20,9 +19,11 @@ function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: 
   return obj
 }
 
+type StoredSimulation = Simulation & { key: string }
+
 export function SimulatedBuildsGrid() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
-  const statSimulations = useOptimizerDisplayStore((s) => s.statSimulations)
+  const statSimulations = useOptimizerDisplayStore((s) => s.statSimulations) as StoredSimulation[]
   const selectedStatSimulations = useOptimizerDisplayStore((s) => s.selectedStatSimulations)
 
   function onRowClick(key: string) {
@@ -83,7 +84,7 @@ export function SimulatedBuildsGrid() {
                 }}
               >
                 <div style={{ flex: 1, overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                  <StatSimulationName sim={record as Simulation} />
+                  <StatSimulationName sim={record} />
                 </div>
                 <a
                   onClick={(e) => {

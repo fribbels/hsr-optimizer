@@ -1,6 +1,6 @@
 import { IconTrash } from '@tabler/icons-react'
-import { PopConfirm } from 'lib/ui/PopConfirm'
 import { Button, Flex } from '@mantine/core'
+import { modals } from '@mantine/modals'
 import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
 import {
@@ -30,18 +30,20 @@ export function ClearDataSubmenu() {
       <div>
         {t('Label') /* Clear all optimizer data. */}
       </div>
-      <PopConfirm
-        title={t('WarningTitle') /* Erase all data */}
-        description={t('WarningDescription') /* Are you sure you want to clear all relics and characters */}
-        onConfirm={clearDataClicked}
-        placement='bottom'
-        okText={tCommon('Yes') /* Yes */}
-        cancelText={tCommon('Cancel') /* Cancel */}
+      <Button
+        leftSection={<IconTrash size={16} />}
+        loading={loading}
+        w={importerTabButtonWidth}
+        onClick={() => modals.openConfirmModal({
+          title: t('WarningTitle'),
+          children: t('WarningDescription'),
+          labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+          centered: true,
+          onConfirm: clearDataClicked,
+        })}
       >
-        <Button leftSection={<IconTrash size={16} />} loading={loading} w={importerTabButtonWidth}>
-          {t('ButtonText') /* Clear data */}
-        </Button>
-      </PopConfirm>
+        {t('ButtonText') /* Clear data */}
+      </Button>
     </Flex>
   )
 }

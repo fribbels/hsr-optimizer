@@ -59,6 +59,11 @@ const dropAnimationConfig: DropAnimation = {
   }),
 }
 
+// Progressive image loading: set src on the first visible rows immediately,
+// then trickle one-by-one to avoid concurrent requests competing for bandwidth.
+const INITIAL_LOAD_COUNT = 12
+const TRICKLE_DELAY = 50
+
 export function CharacterGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
   const osRef = useCallback((instance: OverlayScrollbarsComponentRef<'div'> | null) => {
@@ -73,13 +78,15 @@ export function CharacterGrid() {
   const [toggles, setToggles] = useState<DebugToggles>(DEFAULT_TOGGLES)
   const [colorTransform, setColorTransform] = useState<ColorTransform>(DEFAULT_COLOR_TRANSFORM)
 
+  const [loadedCount, setLoadedCount] = useState(INITIAL_LOAD_COUNT)
+
   useEffect(() => {
     setLocalFocus(null)
   }, [focusCharacter])
 
   const displayFocus = localFocus ?? focusCharacter
 
-  const tGameData = i18next.getFixedT(null, 'gameData', 'Characters')
+  const tGameData = useMemo(() => i18next.getFixedT(null, 'gameData', 'Characters'), [i18next.language])
 
   const filteredCharacters = useMemo(() => {
     if (filters.element.length + filters.path.length + filters.name.length === 0) {
@@ -92,6 +99,21 @@ export function CharacterGrid() {
       return tGameData(`${meta.id}.LongName`).toLowerCase().includes(filters.name)
     })
   }, [characters, filters, tGameData])
+
+  const rankMap = useMemo(
+    () => new Map(characters.map((c, i) => [c.id, i])),
+    [characters],
+  )
+
+  useEffect(() => {
+    setLoadedCount(INITIAL_LOAD_COUNT)
+  }, [filteredCharacters])
+
+  useEffect(() => {
+    if (loadedCount >= filteredCharacters.length) return
+    const timer = setTimeout(() => setLoadedCount((c) => c + 1), TRICKLE_DELAY)
+    return () => clearTimeout(timer)
+  }, [loadedCount, filteredCharacters.length])
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 3 } }),
@@ -191,12 +213,13 @@ export function CharacterGrid() {
       >
         <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToVerticalAxis, restrictToParentElement]} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={handleDragCancel}>
           <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
-            {filteredCharacters.map((character) => (
+            {filteredCharacters.map((character, i) => (
               <SortableCharacterRow
                 key={character.id}
                 character={character}
-                rank={characters.indexOf(character)}
+                rank={rankMap.get(character.id) ?? 0}
                 isFocused={character.id === displayFocus}
+                loadImages={i < loadedCount}
                 toggles={toggles}
                 colorTransform={colorTransform}
                 onClick={handleRowClick}
@@ -210,7 +233,7 @@ export function CharacterGrid() {
             {activeId && getCharacterById(activeId) && (
               <DragOverlayRow
                 character={getCharacterById(activeId)!}
-                rank={characters.findIndex((c) => c.id === activeId)}
+                rank={rankMap.get(activeId) ?? 0}
                 toggles={toggles}
                 colorTransform={colorTransform}
               />
@@ -226,6 +249,7 @@ type CharacterRowProps = {
   character: Character
   rank: number
   isFocused: boolean
+  loadImages: boolean
   toggles: DebugToggles
   colorTransform: ColorTransform
   onClick: (id: CharacterId) => void
@@ -234,7 +258,7 @@ type CharacterRowProps = {
   onRemove: (id: CharacterId) => void
 }
 
-const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, toggles, colorTransform, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, loadImages, toggles, colorTransform, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: character.id,
     animateLayoutChanges: () => false,
@@ -251,10 +275,15 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
 
   const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
 
+  const backgroundColor = useMemo(
+    () => showcaseColor ? applyColorTransform(showcaseColor, colorTransform) : undefined,
+    [showcaseColor, colorTransform],
+  )
+
   const style: React.CSSProperties = {
     transform: CSS.Translate.toString(transform),
     transition: transform ? transition : undefined,
-    backgroundColor: showcaseColor ? applyColorTransform(showcaseColor, colorTransform) : undefined,
+    backgroundColor,
     opacity: isDragging ? 0.4 : undefined,
   }
 
@@ -273,6 +302,7 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
       <CharacterRowContent
         character={character}
         rank={rank}
+        loadImages={loadImages}
         toggles={toggles}
         onEdit={onEdit}
         onRemove={onRemove}
@@ -284,6 +314,7 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
     && prev.rank === next.rank
     && prev.character.form === next.character.form
     && prev.isFocused === next.isFocused
+    && prev.loadImages === next.loadImages
     && prev.toggles === next.toggles
     && prev.colorTransform === next.colorTransform
 })
@@ -311,6 +342,7 @@ function DragOverlayRow({ character, rank, toggles, colorTransform }: {
       <CharacterRowContent
         character={character}
         rank={rank}
+        loadImages={true}
         toggles={toggles}
         onEdit={noop}
         onRemove={noop}
@@ -319,9 +351,10 @@ function DragOverlayRow({ character, rank, toggles, colorTransform }: {
   )
 }
 
-const CharacterRowContent = memo(function CharacterRowContent({ character, rank, toggles, onEdit, onRemove }: {
+const CharacterRowContent = memo(function CharacterRowContent({ character, rank, loadImages, toggles, onEdit, onRemove }: {
   character: Character
   rank: number
+  loadImages: boolean
   toggles: DebugToggles
   onEdit: (id: CharacterId) => void
   onRemove: (id: CharacterId) => void
@@ -340,7 +373,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
       {/* Portrait background */}
       {toggles.showPortrait && (
         <div className={classes.portraitBg}>
-          <img src={Assets.getCharacterPreviewById(character.id)} alt="" draggable={false} loading="lazy" />
+          <img src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined} alt="" draggable={false} decoding="async" />
         </div>
       )}
 
@@ -385,7 +418,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         {/* Light cone icon */}
         {toggles.showLightCone && lightConeId && (
           <div className={classes.lcWrap} data-lc-style={toggles.lcStyle}>
-            <img src={Assets.getLightConeIconById(lightConeId)} alt="" draggable={false} />
+            <img src={loadImages ? Assets.getLightConeIconById(lightConeId) : undefined} alt="" draggable={false} decoding="async" />
           </div>
         )}
       </div>
@@ -427,5 +460,6 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
   return prev.character.id === next.character.id
     && prev.rank === next.rank
     && prev.character.form === next.character.form
+    && prev.loadImages === next.loadImages
     && prev.toggles === next.toggles
 })

@@ -57,16 +57,6 @@ export const RelicsTabController = {
     setRelicModalOpen(true)
   },
 
-  deleteClicked(isOpen: boolean) {
-    const { selectedRelicsIds, setDeleteConfirmOpen } = useRelicsTabStore.getState()
-    const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
-    if (!selectedRelicsIds.length) {
-      setDeleteConfirmOpen(false)
-      return Message.error(t('NoRelicSelected'))
-    }
-    setDeleteConfirmOpen(isOpen)
-  },
-
   deleteConfirmed() {
     const { selectedRelicsIds, setSelectedRelicsIds } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')

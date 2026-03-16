@@ -108,7 +108,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
         defaultProps: { size: 'xs' },
       },
       Modal: {
-        defaultProps: { lockScroll: false },
+        defaultProps: { lockScroll: false, padding: 16 },
       },
       Drawer: {
         defaultProps: {

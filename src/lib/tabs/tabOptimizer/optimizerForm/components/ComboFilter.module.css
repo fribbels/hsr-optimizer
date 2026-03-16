@@ -10,6 +10,7 @@
   margin-top: 8px;
 }
 
+/* Override Mantine's high-specificity [data-disabled] styles on inputs */
 .simpleAbilities [data-disabled] {
   background: transparent !important;
   border-color: transparent !important;

@@ -4,14 +4,15 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function useGridLocale(translationNs: string, keyPrefix?: string) {
-  const { t, i18n } = useTranslation(translationNs, keyPrefix ? { keyPrefix } : undefined)
+  const { t, i18n } = useTranslation(translationNs as any, keyPrefix ? { keyPrefix: keyPrefix as any } : undefined)
 
+  const tStr = t as unknown as (key: string) => string
   const getLocaleText = useCallback((param: GetLocaleTextParams) => {
     const localeLookup: Partial<Record<string, string>> = {
-      to: t('To'),
-      of: t('Of'),
-      page: t('Page'),
-      pageSizeSelectorLabel: t('PageSelectorLabel'),
+      to: tStr('To'),
+      of: tStr('Of'),
+      page: tStr('Page'),
+      pageSizeSelectorLabel: tStr('PageSelectorLabel'),
       loadingOoo: '...',
       noRowsToShow: '',
     }
@@ -22,7 +23,7 @@ export function useGridLocale(translationNs: string, keyPrefix?: string) {
     return localeNumber(param.value)
   }, [i18n.resolvedLanguage])
 
-  return { getLocaleText, paginationNumberFormatter, t, i18n }
+  return { getLocaleText, paginationNumberFormatter, i18n }
 }
 
 export function useGridLocaleRebuild() {

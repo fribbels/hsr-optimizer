@@ -22,6 +22,10 @@ type OptimizerDisplayActions = {
   setOptimizerSelectedRowData: (data: OptimizerDisplayDataStatSim | null) => void
   setStatSimulationDisplay: (display: StatSimTypes) => void
   setStatSimulations: (sims: Simulation[]) => void
+  addSimulation: (sim: Simulation) => void
+  removeSimulation: (key: Simulation['key']) => void
+  replaceSimulation: (oldKey: Simulation['key'], sim: Simulation) => void
+  clearSimulations: () => void
   setSelectedStatSimulations: (keys: Simulation['key'][]) => void
   setTeammateCount: (count: number) => void
   setCharacterSelectModalOpen: (open: boolean) => void
@@ -83,6 +87,10 @@ export const useOptimizerDisplayStore = createTabAwareStore<OptimizerDisplayStor
   setOptimizerSelectedRowData: (data) => set({ optimizerSelectedRowData: data }),
   setStatSimulationDisplay: (display) => set({ statSimulationDisplay: display }),
   setStatSimulations: (sims) => set({ statSimulations: sims }),
+  addSimulation: (sim) => set((s) => ({ statSimulations: [...s.statSimulations, sim] })),
+  removeSimulation: (key) => set((s) => ({ statSimulations: s.statSimulations.filter((x) => x.key !== key) })),
+  replaceSimulation: (oldKey, sim) => set((s) => ({ statSimulations: s.statSimulations.map((x) => x.key === oldKey ? sim : x) })),
+  clearSimulations: () => set({ statSimulations: [] }),
   setSelectedStatSimulations: (keys) => set({ selectedStatSimulations: keys }),
   setTeammateCount: (count) => set({ teammateCount: count }),
   setCharacterSelectModalOpen: (open) => set({ characterSelectModalOpen: open }),

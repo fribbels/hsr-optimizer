@@ -168,7 +168,13 @@ export function recalculatePermutations(): void {
  * Get a form that's ready for optimizer submission.
  */
 export function getForm(): Form {
-  return displayToInternal(useOptimizerRequestStore.getState())
+  const form = displayToInternal(useOptimizerRequestStore.getState())
+  const simulations = useOptimizerDisplayStore.getState().statSimulations
+  form.statSim = {
+    ...form.statSim,
+    simulations,
+  }
+  return form
 }
 
 /**

@@ -1,7 +1,7 @@
 import type { ComboType } from 'lib/optimization/rotation/comboType'
 import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { Simulation, SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterId, Eidolon } from 'types/character'
 import { ConditionalValueMap } from 'types/conditionals'
@@ -188,7 +188,6 @@ export type OptimizerRequestState = {
     key: string
     benchmarks: SimulationRequest
     substatRolls: SimulationRequest
-    simulations: Simulation[]
   } | undefined
 }
 

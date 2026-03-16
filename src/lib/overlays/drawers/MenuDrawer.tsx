@@ -56,7 +56,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
 }) {
   const navRef = useRef<HTMLDivElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
-  const highlightedRef = useRef<HTMLButtonElement>(null)
+  const highlightedRef = useRef<HTMLElement>(null)
   const [indicatorVisible, setIndicatorVisible] = useState(false)
   // Track which drawer item is visually focused (Settings / Get Started)
   const [focusedKey, setFocusedKey] = useState<string | null>(null)
@@ -95,7 +95,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
     })
     ro.observe(nav)
     // Also observe all nav items so position shifts from items above are caught
-    nav.querySelectorAll('button').forEach((el) => ro.observe(el))
+    nav.querySelectorAll('button, a').forEach((el) => ro.observe(el))
     return () => ro.disconnect()
   }, [moveIndicator])
 
@@ -127,17 +127,25 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
               const isHighlighted = item.key === highlightedKey
               const isActive = item.key === activeKey
               const isFocused = item.key === focusedKey
-              return (
-                <UnstyledButton
-                  key={item.key}
-                  ref={isHighlighted ? highlightedRef : undefined}
-                  className={classes.item}
-                  data-active={isActive || undefined}
-                  data-focused={isFocused || undefined}
-                  onClick={() => handleClick(item)}
-                >
+              const ref = isHighlighted ? highlightedRef : undefined
+              const dataProps = {
+                className: classes.item,
+                'data-active': isActive || undefined,
+                'data-focused': isFocused || undefined,
+              }
+              const content = (
+                <>
                   <div className={classes.itemIcon}>{item.icon}</div>
                   <span className={classes.itemLabel}>{item.label}</span>
+                </>
+              )
+              return item.href ? (
+                <a key={item.key} ref={ref as React.Ref<HTMLAnchorElement>} {...dataProps} href={item.href} target="_blank" rel="noopener noreferrer">
+                  {content}
+                </a>
+              ) : (
+                <UnstyledButton key={item.key} ref={ref as React.Ref<HTMLButtonElement>} {...dataProps} onClick={() => handleClick(item)}>
+                  {content}
                 </UnstyledButton>
               )
             })}
@@ -162,15 +170,28 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
           <div className={classes.groupItems}>
             {group.items.map((item) => {
               const isActive = item.key === activeKey
+              const iconContent = <Box className={classes.itemIcon}>{item.icon}</Box>
               return (
                 <Tooltip key={item.key} label={item.label} position="right" withArrow>
-                  <UnstyledButton
-                    className={classes.itemCollapsed}
-                    data-active={isActive || undefined}
-                    onClick={() => onNavigate(item)}
-                  >
-                    <Box className={classes.itemIcon}>{item.icon}</Box>
-                  </UnstyledButton>
+                  {item.href ? (
+                    <a
+                      className={classes.itemCollapsed}
+                      data-active={isActive || undefined}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {iconContent}
+                    </a>
+                  ) : (
+                    <UnstyledButton
+                      className={classes.itemCollapsed}
+                      data-active={isActive || undefined}
+                      onClick={() => onNavigate(item)}
+                    >
+                      {iconContent}
+                    </UnstyledButton>
+                  )}
                 </Tooltip>
               )
             })}
@@ -241,11 +262,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
 
   const handleNavigate = useCallback((item: NavItem) => {
     item.onClick?.()
-    if (item.href) {
-      window.open(item.href, '_blank', 'noopener,noreferrer')
-      return
-    }
-    if (item.key.startsWith('link ')) return
+    if (item.href || item.key.startsWith('link ')) return
     setActiveKey(item.key as AppPages)
   }, [setActiveKey])
 

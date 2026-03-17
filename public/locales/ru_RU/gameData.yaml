@@ -236,6 +236,12 @@ Characters:
   "1504":
     Name: Ashveil
     LongName: Ashveil
+  "1505":
+    Name: Evanescia
+    LongName: Evanescia
+  "1506":
+    Name: Silver Wolf LV.<unbreak>999</unbreak>
+    LongName: Silver Wolf LV.<unbreak>999</unbreak>
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -260,6 +266,12 @@ Characters:
   "8008":
     Name: Стелла
     LongName: Стелла (Память)
+  "8009":
+    Name: "{NICKNAME}"
+    LongName: "{NICKNAME}"
+  "8010":
+    Name: "{NICKNAME}"
+    LongName: "{NICKNAME}"
   1212b1:
     Name: Цзинлю
     LongName: Цзинлю
@@ -473,10 +485,10 @@ RelicSets:
     Description2pc: Повышает крит. урон владельца на 16%. Если в течение одного хода расходуется 3 или более очков навыков, крит. урон владельца дополнительно повышается на 32% на 3 хода.
   "325":
     Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%.
+    Description2pc: Increases the wearer's Elation by <unbreak>8%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in combat, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>32%</unbreak>.
   "326":
     Name: City of Converging Stars
-    Description2pc: When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack.
+    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> in the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -668,6 +680,8 @@ Lightcones:
     Name: Вечный ресторан лабиринта
   "22006":
     Name: Полёт к розовому завтра
+  "22007":
+    Name: We'll face the Hereafter together
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -780,6 +794,10 @@ Lightcones:
     Name: Когда она решилась увидеть
   "23056":
     Name: The Finale of a Lie
+  "23057":
+    Name: Welcome to Cosmic City
+  "23058":
+    Name: A Rendezvous in the Next Flower Season
   "24000":
     Name: О падении Эона
   "24001":

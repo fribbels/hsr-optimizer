@@ -245,7 +245,7 @@ const display = {
 }
 
 export const SilverWolfLv999: CharacterConfig = {
-  id: '1501', // TODO: verify character ID
+  id: '1506',
   display,
   conditionals,
   get scoring() {

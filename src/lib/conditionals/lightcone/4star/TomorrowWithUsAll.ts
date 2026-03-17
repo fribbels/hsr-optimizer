@@ -3,7 +3,7 @@ import {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION, } from 'lib/constants/constants'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'

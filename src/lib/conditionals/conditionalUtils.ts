@@ -126,6 +126,13 @@ export const AbilityEidolon = {
     talent: ability(5),
     elationSkill: tripleAbility(),
   },
+  ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5: {
+    basic: ability(3),
+    skill: ability(5),
+    ult: ability(3),
+    talent: ability(5),
+    elationSkill: tripleAbility(),
+  },
 }
 
 export function countTeamPath(context: OptimizerContext, path: PathName) {

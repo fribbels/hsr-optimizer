@@ -236,6 +236,12 @@ Characters:
   "1504":
     Name: Ashveil
     LongName: Ashveil
+  "1505":
+    Name: Evanescia
+    LongName: Evanescia
+  "1506":
+    Name: Silver Wolf LV.<unbreak>999</unbreak>
+    LongName: Silver Wolf LV.<unbreak>999</unbreak>
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -260,6 +266,12 @@ Characters:
   "8008":
     Name: Estela
     LongName: Estela (Reminiscencia)
+  "8009":
+    Name: "{NICKNAME}"
+    LongName: "{NICKNAME}"
+  "8010":
+    Name: "{NICKNAME}"
+    LongName: "{NICKNAME}"
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -473,10 +485,10 @@ RelicSets:
     Description2pc: El Daño CRIT del portador aumenta en un 16%. Si el portador consume 3 o más pts. de habilidad básica en el mismo turno, su Daño CRIT aumenta en un 32% adicional durante 3 turnos.
   "325":
     Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%.
+    Description2pc: Increases the wearer's Elation by <unbreak>8%</unbreak>. When Elation reaches <unbreak>40%</unbreak>/<unbreak>80%</unbreak> for the first time in combat, increases the wearer's CRIT DMG by <unbreak>20%</unbreak>/<unbreak>32%</unbreak>.
   "326":
     Name: City of Converging Stars
-    Description2pc: When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack.
+    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by <unbreak>24%</unbreak> for <unbreak>2</unbreak> turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by <unbreak>12%</unbreak> in the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Flechas
@@ -668,6 +680,8 @@ Lightcones:
     Name: Viandas sin fin
   "22006":
     Name: Volando hacia un mañana rosado
+  "22007":
+    Name: We'll face the Hereafter together
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -780,6 +794,10 @@ Lightcones:
     Name: Cuando se decidió a ver
   "23056":
     Name: The Finale of a Lie
+  "23057":
+    Name: Welcome to Cosmic City
+  "23058":
+    Name: A Rendezvous in the Next Flower Season
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

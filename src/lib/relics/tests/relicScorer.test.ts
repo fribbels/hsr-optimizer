@@ -5,7 +5,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { AugmentedStats } from 'lib/relics/relicAugmenter'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { getScoringMetadata } from 'lib/stores/scoringStore'

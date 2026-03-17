@@ -1,0 +1,90 @@
+import {
+  Constants,
+  SubStats,
+  SubStatValues,
+} from 'lib/constants/constants'
+import {
+  DMG_MAINSTATS,
+  FLAT_STAT_SCALING,
+  POSSIBLE_SUBSTATS,
+  STAT_NORMALIZATION,
+} from 'lib/relics/scoring/scoringConstants'
+import type { ScorerMetadata } from 'lib/relics/scoring/types'
+import { getScoreCategory } from 'lib/scoring/scoreComparison'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { getScoringMetadata } from 'lib/stores/scoringStore'
+import { TsUtils } from 'lib/utils/TsUtils'
+import { Utils } from 'lib/utils/utils'
+import { CharacterId } from 'types/character'
+
+export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
+  const scoringMetadata = Utils.clone(getScoringMetadata(id)) as ScorerMetadata
+
+  const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
+  scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })
+
+  scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * FLAT_STAT_SCALING.HP
+  scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * FLAT_STAT_SCALING.ATK
+  scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * FLAT_STAT_SCALING.DEF
+
+  scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
+    .filter((x) => POSSIBLE_SUBSTATS.has(x[0]))
+    .sort((a, b) => {
+      return b[1] * STAT_NORMALIZATION[b[0]] * SubStatValues[b[0]][5].high - a[1] * STAT_NORMALIZATION[a[0]] * SubStatValues[a[0]][5].high
+    })
+
+  scoringMetadata.groupedSubstats = new Map()
+  for (const [stat, weight] of scoringMetadata.sortedSubstats) {
+    if (!scoringMetadata.groupedSubstats.has(weight)) {
+      scoringMetadata.groupedSubstats.set(weight, [])
+    }
+    scoringMetadata.groupedSubstats.get(weight)!.push(stat)
+  }
+  for (const stats of scoringMetadata.groupedSubstats.values()) {
+    stats.sort()
+  }
+
+  let weightedDmgTypes = 0
+  Object.entries(scoringMetadata.stats).forEach(([stat, value]) => {
+    // @ts-ignore
+    if (DMG_MAINSTATS.includes(stat) && value) weightedDmgTypes++
+  })
+
+  let validDmgMains = 0
+  scoringMetadata.parts.PlanarSphere.forEach((mainstat) => {
+    // @ts-ignore
+    if (DMG_MAINSTATS.includes(mainstat)) validDmgMains++
+  })
+
+  if (weightedDmgTypes < 2 && validDmgMains < 2) {
+    const hashParts = [
+      scoringMetadata.parts.Head,
+      scoringMetadata.parts.Hands,
+      scoringMetadata.parts.Body,
+      scoringMetadata.parts.Feet,
+      // @ts-ignore
+      scoringMetadata.parts.PlanarSphere.filter((x) => !DMG_MAINSTATS.includes(x)),
+      scoringMetadata.parts.LinkRope,
+    ]
+    scoringMetadata.greedyHash = TsUtils.objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
+    scoringMetadata.hash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+  } else {
+    scoringMetadata.greedyHash = TsUtils.objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
+    scoringMetadata.hash = scoringMetadata.greedyHash
+  }
+
+  // Pre-compute contributions: weight * normalization per stat (one lookup instead of two in hot loops)
+  const contributions = {} as Record<SubStats, number>
+  const highRollScores = {} as Record<SubStats, number>
+  const midRollScores = {} as Record<SubStats, number>
+  for (const [stat] of scoringMetadata.sortedSubstats) {
+    contributions[stat] = (scoringMetadata.stats[stat] || 0) * STAT_NORMALIZATION[stat]
+    highRollScores[stat] = contributions[stat] * SubStatValues[stat][5].high
+    midRollScores[stat] = contributions[stat] * SubStatValues[stat][5].mid
+  }
+  scoringMetadata.contributions = contributions
+  scoringMetadata.highRollScores = highRollScores
+  scoringMetadata.midRollScores = midRollScores
+
+  return scoringMetadata
+}

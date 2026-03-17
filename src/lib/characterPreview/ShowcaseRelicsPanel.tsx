@@ -6,7 +6,7 @@ import {
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
+import { RelicScoringResult } from 'lib/relics/scoring/relicScorer'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   RelicPreview,

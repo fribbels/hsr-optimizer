@@ -7,7 +7,7 @@ import {
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Parts } from 'lib/constants/constants'
 import iconClasses from 'style/icons.module.css'
-import { RelicScoringResult } from 'lib/relics/relicScorerPotential'
+import { RelicScoringResult } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'

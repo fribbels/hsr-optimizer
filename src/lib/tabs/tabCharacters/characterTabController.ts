@@ -1,7 +1,7 @@
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { SwitchRelicsFormSelectedCharacter } from 'lib/overlays/modals/SwitchRelicsModal'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { SavedBuildSource } from 'lib/constants/appPages'
 import * as buildService from 'lib/services/buildService'
 import * as equipmentService from 'lib/services/equipmentService'

@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import {
   getYaoguangAhaPunchlineValue,
@@ -21,6 +22,7 @@ import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDec
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -48,7 +50,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -74,7 +75,7 @@ export const EvanesciaAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evanescia')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -225,8 +226,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ultCertifiedBangerStacks = Math.max(240, certifiedBangerStacks)
 
       // Trace: Ult bounce bonus by enemy count
-      const traceBouncebonus = context.enemyCount >= 3 ? 1 : context.enemyCount === 2 ? 2 : 4
-      const totalBounceCount = 5 + traceBouncebonus
+      const traceBounceBonus = context.enemyCount >= 3 ? 1 : (context.enemyCount === 2 ? 2 : 4)
+      const totalBounceCount = 5 + traceBounceBonus
 
       // E1: extra Elation Skill trigger
       const e1ElationSkillMultiplier = (e >= 1 && r.e1ResPen) ? 2 : 1
@@ -410,6 +411,7 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_SKILL,
     WHOLE_SKILL,
     WHOLE_ELATION_SKILL,
+    WHOLE_ELATION_SKILL,
     WHOLE_UNIQUE,
   ],
   comboDot: 0,
@@ -427,7 +429,7 @@ const simulation = (): SimulationMetadata => ({
   teammates: [
     {
       characterId: Yaoguang.id,
-      lightCone: WhenSheDecidedToSee,
+      lightCone: WhenSheDecidedToSee.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -480,7 +482,7 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
-  sortOption: SortOption.ULT,
+  sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
 })

@@ -43,7 +43,9 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 
@@ -344,17 +346,20 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_SKILL,
     WHOLE_SKILL,
     WHOLE_ELATION_SKILL,
+    WHOLE_ELATION_SKILL,
   ],
   comboDot: 0,
   errRopeEidolon: 0,
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
+    [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,
-    Sets.TengokuLivestream,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
     {

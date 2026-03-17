@@ -220,10 +220,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
 
-      const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? 999 : 0)
-      const hrMultiplier = 1 + hiddenRankingDmgBonus * r.hiddenRanking
-      const e1ElationBoost = (e >= 1 && r.e1MysteryBoxElation) ? 2.00 : 0
-
       // E4: Elation Skill +999 Punchline
       const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? 999 : 0)
       const hrMultiplier = 1 + hiddenRankingDmgBonus * r.hiddenRanking
@@ -294,7 +290,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const elationSkillHits: HitDefinition[] = []
 
       if (r.invinciblePlayer) {
-        // Enhanced Elation Skill: Honkai-Level DPS Showcase
+        // Enhanced Elation Skill
         elationSkillHits.push(
           HitDefinitionBuilder.elation()
             .damageType(DamageTag.ELATION)

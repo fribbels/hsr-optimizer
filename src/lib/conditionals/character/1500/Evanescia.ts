@@ -484,11 +484,11 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 1024,
-    y: 1024,
-    z: 1,
+    x: 1050,
+    y: 950,
+    z: 1.10,
   },
-  showcaseColor: '#ffffff', // TODO: set showcase color
+  showcaseColor: '#e6aadc',
 }
 
 export const Evanescia: CharacterConfig = {

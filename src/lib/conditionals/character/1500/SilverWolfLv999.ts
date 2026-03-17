@@ -548,11 +548,11 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 1024,
-    y: 1024,
-    z: 1,
+    x: 1015,
+    y: 850,
+    z: 1.10,
   },
-  showcaseColor: '#ffffff', // TODO: set showcase color
+  showcaseColor: '#5671dc',
 }
 
 export const SilverWolfLv999: CharacterConfig = {

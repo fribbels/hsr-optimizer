@@ -5,8 +5,8 @@ import {
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
 
-// const poolSize = 10
-const poolSize = 1
+const poolSize = 10
+// const poolSize = 1
 
 // Base interfaces for worker input and output
 export interface BaseWorkerInput {

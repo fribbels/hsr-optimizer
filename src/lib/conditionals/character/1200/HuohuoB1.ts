@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import {
   AbilityEidolon,
   Conditionals,
@@ -6,6 +7,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
+  CURRENT_DATA_VERSION,
   Parts,
   Stats,
 } from 'lib/constants/constants'
@@ -16,6 +18,8 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -28,7 +32,6 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 export const HuohuoB1Entities = createEnum('HuohuoB1')
 export const HuohuoB1Abilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -38,7 +41,9 @@ export const HuohuoB1Abilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.HuohuoB1')
+  // TODO
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Huohuo')
   const { basic, ult, skill, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,
@@ -80,20 +85,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultBuff',
       formItem: 'switch',
       text: t('Content.ultBuff.text'),
-      content: t('Content.ultBuff.content', { ultBuffValue: TsUtils.precisionRound(100 * ultBuffValue) }),
+      content: betaContent,
     },
     skillBuff: {
       id: 'skillBuff',
       formItem: 'switch',
       text: t('Content.skillBuff.text'),
-      content: t('Content.skillBuff.content'),
+      content: betaContent,
       disabled: e < 1,
     },
     e6DmgBuff: {
       id: 'e6DmgBuff',
       formItem: 'switch',
       text: t('Content.e6DmgBuff.text'),
-      content: t('Content.e6DmgBuff.content'),
+      content: betaContent,
       disabled: e < 6,
     },
   }
@@ -157,14 +162,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      x.buff(StatKey.OHB, (e >= 1 && r.skillBuff) ? 1.00 : 0, x.source(SOURCE_E1))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.ATK_P, (m.ultBuff) ? ultBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
-      x.buff(StatKey.SPD_P, (e >= 1 && m.skillBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.SPD_P, (e >= 1 && m.skillBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
       x.buff(StatKey.DMG_BOOST, (e >= 6 && m.e6DmgBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+
+      x.buff(StatKey.ATK_P, (m.ultBuff && context.baseEnergy >= 160) ? 0.24 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

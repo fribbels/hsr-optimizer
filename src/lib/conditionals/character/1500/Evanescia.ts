@@ -428,6 +428,18 @@ const simulation = (): SimulationMetadata => ({
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
+    {
+      characterId: Yaoguang.id, // TODO: placeholder teammate
+      lightCone: '23038',
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Yaoguang.id, // TODO: placeholder teammate
+      lightCone: '23038',
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
 })
 

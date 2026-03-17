@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -7,19 +8,29 @@ import {
   ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversionContainer,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
+  ConditionalActivation,
+  ConditionalType,
+  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
 } from 'lib/constants/constants'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -59,7 +70,8 @@ export const WeltB1Abilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.WeltB1')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Welt')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -75,25 +87,58 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E6,
   } = Source.character(WeltB1.id)
 
-  const skillExtraHitsMax = (e >= 6) ? 3 : 2
+  const skillExtraHitsMax = 4
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.72, 0.792)
   const ultScaling = ult(e, 1.50, 1.62)
-  const talentScaling = talent(e, 0.60, 0.66)
+  const talentScaling = talent(e, 1.00, 1.10)
+
+  // Trace: Judge - Additional DMG on Basic (80% of Basic mult) and Skill (120% of Skill mult)
+  const basicTraceAdditionalScaling = 0.80 * basicScaling
+  const skillTraceAdditionalScaling = 1.20 * skillScaling
+
+  const defaults = {
+    enemySlowed: true,
+    enemyWeightless: true,
+    enemyDmgTakenDebuff: true,
+    ehrToAtkBoost: true,
+    skillExtraHits: skillExtraHitsMax,
+    e1WeightlessAdditionalDmg: true,
+    e4SlowedCrCdBoost: true,
+    e6WeightlessResPen: true,
+  }
+
+  const teammateDefaults = {
+    enemyWeightless: true,
+    enemyDmgTakenDebuff: true,
+    e6WeightlessResPen: true,
+  }
 
   const content: ContentDefinition<typeof defaults> = {
-    enemyDmgTakenDebuff: {
-      id: 'enemyDmgTakenDebuff',
-      formItem: 'switch',
-      text: t('Content.enemyDmgTakenDebuff.text'),
-      content: t('Content.enemyDmgTakenDebuff.content'),
-    },
     enemySlowed: {
       id: 'enemySlowed',
       formItem: 'switch',
       text: t('Content.enemySlowed.text'),
-      content: t('Content.enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
+      content: betaContent,
+    },
+    enemyWeightless: {
+      id: 'enemyWeightless',
+      formItem: 'switch',
+      text: 'Enemy Weightless',
+      content: betaContent,
+    },
+    enemyDmgTakenDebuff: {
+      id: 'enemyDmgTakenDebuff',
+      formItem: 'switch',
+      text: t('Content.enemyDmgTakenDebuff.text'),
+      content: betaContent,
+    },
+    ehrToAtkBoost: {
+      id: 'ehrToAtkBoost',
+      formItem: 'switch',
+      text: 'EHR to ATK boost',
+      content: betaContent,
     },
     skillExtraHits: {
       id: 'skillExtraHits',
@@ -103,28 +148,33 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: skillExtraHitsMax,
     },
-    e1EnhancedState: {
-      id: 'e1EnhancedState',
+    e1WeightlessAdditionalDmg: {
+      id: 'e1WeightlessAdditionalDmg',
       formItem: 'switch',
-      text: t('Content.e1EnhancedState.text'),
-      content: t('Content.e1EnhancedState.content'),
+      text: 'E1 Weightless Additional DMG',
+      content: betaContent,
       disabled: (e < 1),
+    },
+    e4SlowedCrCdBoost: {
+      id: 'e4SlowedCrCdBoost',
+      formItem: 'switch',
+      text: 'E4 Slowed CR/CD boost',
+      content: betaContent,
+      disabled: (e < 4),
+    },
+    e6WeightlessResPen: {
+      id: 'e6WeightlessResPen',
+      formItem: 'switch',
+      text: 'E6 Weightless RES reduction',
+      content: betaContent,
+      disabled: (e < 6),
     },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    enemyWeightless: content.enemyWeightless,
     enemyDmgTakenDebuff: content.enemyDmgTakenDebuff,
-  }
-
-  const defaults = {
-    enemySlowed: true,
-    enemyDmgTakenDebuff: true,
-    skillExtraHits: skillExtraHitsMax,
-    e1EnhancedState: true,
-  }
-
-  const teammateDefaults = {
-    enemyDmgTakenDebuff: true,
+    e6WeightlessResPen: content.e6WeightlessResPen,
   }
 
   return {
@@ -146,14 +196,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Calculate additional damage scaling for talent + E1
-      const basicAdditionalScaling = r.enemySlowed
-        ? talentScaling + (e >= 1 && r.e1EnhancedState ? 0.50 * basicScaling : 0)
-        : 0
-      const skillAdditionalScaling = r.enemySlowed
-        ? talentScaling + (e >= 1 && r.e1EnhancedState ? 0.80 * skillScaling : 0)
-        : 0
-      const ultAdditionalScaling = r.enemySlowed ? talentScaling : 0
+      // Talent: Additional DMG when hitting Slowed enemy
+      const talentAdditionalScaling = r.enemySlowed ? talentScaling : 0
+
+      // E1: Skill/Ult hitting Weightless target → Additional DMG = 40% of Ult mult
+      const e1AdditionalScaling = (e >= 1 && r.e1WeightlessAdditionalDmg && r.enemyWeightless) ? 0.40 * ultScaling : 0
 
       // Skill total scaling includes base hit + extra bounces
       const skillTotalScaling = skillScaling * (1 + r.skillExtraHits)
@@ -167,11 +214,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .atkScaling(basicScaling)
               .toughnessDmg(10)
               .build(),
-            ...(basicAdditionalScaling > 0
+            // Trace: Judge - Basic Additional DMG (80% of Basic mult)
+            HitDefinitionBuilder.standardAdditional()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(basicTraceAdditionalScaling)
+              .build(),
+            // Talent: Additional DMG when hitting Slowed enemy
+            ...(talentAdditionalScaling > 0
               ? [
                 HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Imaginary)
-                  .atkScaling(basicAdditionalScaling)
+                  .atkScaling(talentAdditionalScaling)
                   .build(),
               ]
               : []),
@@ -184,11 +237,26 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .atkScaling(skillTotalScaling)
               .toughnessDmg(skillToughness)
               .build(),
-            ...(skillAdditionalScaling > 0
+            // Trace: Judge - Skill Additional DMG (120% of Skill mult)
+            HitDefinitionBuilder.standardAdditional()
+              .damageElement(ElementTag.Imaginary)
+              .atkScaling(skillTraceAdditionalScaling)
+              .build(),
+            // Talent: Additional DMG when hitting Slowed enemy
+            ...(talentAdditionalScaling > 0
               ? [
                 HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Imaginary)
-                  .atkScaling(skillAdditionalScaling)
+                  .atkScaling(talentAdditionalScaling)
+                  .build(),
+              ]
+              : []),
+            // E1: Skill hitting Weightless target
+            ...(e1AdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(e1AdditionalScaling)
                   .build(),
               ]
               : []),
@@ -201,11 +269,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .atkScaling(ultScaling)
               .toughnessDmg(20)
               .build(),
-            ...(ultAdditionalScaling > 0
+            // Talent: Additional DMG when hitting Slowed enemy
+            ...(talentAdditionalScaling > 0
               ? [
                 HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Imaginary)
-                  .atkScaling(ultAdditionalScaling)
+                  .atkScaling(talentAdditionalScaling)
+                  .build(),
+              ]
+              : []),
+            // E1: Ult hitting Weightless target
+            ...(e1AdditionalScaling > 0
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(e1AdditionalScaling)
                   .build(),
               ]
               : []),
@@ -221,20 +299,68 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionModifiers: () => [],
 
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // Trace: +20% Elemental DMG when enemy weakness broken
-      const isWeaknessBroken = action.config.enemyWeaknessBroken
-      x.buff(StatKey.DMG_BOOST, isWeaknessBroken ? 0.20 : 0, x.source(SOURCE_TRACE))
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // E4: Skill/Ult hitting Slow target → CR_BOOST +20%, CD_BOOST +50%
+      x.buff(StatKey.CR_BOOST, (e >= 4 && r.e4SlowedCrCdBoost) ? 0.20 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.CD_BOOST, (e >= 4 && r.e4SlowedCrCdBoost) ? 0.50 : 0, x.source(SOURCE_E4))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.VULNERABILITY, (m.enemyDmgTakenDebuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      // Trace: Retribution - Vulnerability 35%
+      x.buff(StatKey.VULNERABILITY, (m.enemyDmgTakenDebuff) ? 0.35 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+
+      // Talent: Weightless DEF shred 40%
+      x.buff(StatKey.DEF_PEN, (m.enemyWeightless) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+
+      // E6: Weightless All-Type RES -30%
+      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6WeightlessResPen && m.enemyWeightless) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+
+    // Trace: Punishment - EHR > 40% → every 10% over gives +20% ATK, max 80%
+    dynamicConditionals: [{
+      id: 'WeltB1EhrToAtkConditional',
+      type: ConditionalType.ABILITY,
+      activation: ConditionalActivation.CONTINUOUS,
+      dependsOn: [Stats.EHR],
+      chainsTo: [Stats.ATK],
+      condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals as Conditionals<typeof content>
+        return r.ehrToAtkBoost && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) > 0.40
+      },
+      effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+        dynamicStatConversionContainer(
+          Stats.EHR,
+          Stats.ATK,
+          this,
+          x,
+          action,
+          context,
+          SOURCE_TRACE,
+          (convertibleValue) => Math.min(0.80, 0.20 * Math.floor((convertibleValue - 0.40) / 0.10)) * context.baseATK,
+        )
+      },
+      gpu: function(action: OptimizerAction, context: OptimizerContext) {
+        const r = action.characterConditionals as Conditionals<typeof content>
+        const config = action.config
+
+        return gpuDynamicStatConversion(
+          Stats.EHR,
+          Stats.ATK,
+          this,
+          action,
+          context,
+          `min(0.80, 0.20 * floor((convertibleValue - 0.40) / 0.10)) * baseATK`,
+          `${wgslTrue(r.ehrToAtkBoost)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)} > 0.40`,
+        )
+      },
+    }],
   }
 }
 

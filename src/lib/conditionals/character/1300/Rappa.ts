@@ -36,17 +36,17 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   AbilityKind,
-  END_BASIC,
+  DEFAULT_BASIC,
+  DEFAULT_BREAK,
   END_BREAK,
   NULL_TURN_ABILITY_NAME,
   START_BASIC,
+  START_SKILL,
   START_ULT,
-  WHOLE_BASIC,
-  WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS, } from 'lib/scoring/scoringConstants'
+import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -326,6 +326,8 @@ const simulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
+      Stats.CR,
+      Stats.CD,
     ],
     [Parts.Feet]: [
       Stats.SPD,
@@ -352,11 +354,17 @@ const simulation = (): SimulationMetadata => ({
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
-    END_BASIC,
-    WHOLE_BASIC,
-    START_BASIC,
+    DEFAULT_BASIC,
+    DEFAULT_BREAK,
     END_BREAK,
-    WHOLE_SKILL,
+    START_BASIC,
+    DEFAULT_BREAK,
+    END_BREAK,
+    START_BASIC,
+    DEFAULT_BREAK,
+    END_BREAK,
+    START_SKILL,
+    END_BREAK,
   ],
   comboDot: 0,
   relicSets: [

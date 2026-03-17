@@ -90,28 +90,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_UNIQUE,
   } = Source.character(SilverWolfLv999.id)
 
-  // Basic ATK (lv6 / lv7 with E3+1)
   const basicScaling = basic(e, 1.00, 1.10)
-
-  // Enhanced Basic ATK - Bounce (lv6 / lv7 with E3+1)
-  // 100 bounces totaling bounceScaling, converted to Elation DMG by talent
   const enhancedBasicBounceScaling = basic(e, 1.60, 1.76)
-  // Final Hit: split evenly among all enemies
   const enhancedBasicFinalHitScaling = basic(e, 0.60, 0.66)
-  // Hidden Ranking DMG bonus: +0.3% per point
   const hiddenRankingDmgBonus = 0.003
 
-  // Skill (lv10 / lv12 with E3+2)
   const skillScaling = skill(e, 1.60, 1.76)
 
-  // Ult - Mystery Box elation scaling (lv10 / lv12 with E5+2)
   const mysteryBoxElationScaling = ult(e, 0.34, 0.374)
 
-  // Talent (lv10 / lv12 with E5+2)
   const talentCBElationScaling = talent(e, 0.40, 0.44)
   const talentCdBuff = talent(e, 0.30, 0.33)
 
-  // Enhanced Elation Skill: "Honkai-Level DPS Showcase" (lv10 / lv11 E3 / lv12 E5)
   const elationSkillEnhancedScaling = elationSkill(e, 2.00, 2.10, 2.20)
 
   const defaults = {
@@ -138,12 +128,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Invincible Player state',
       content: betaContent,
     },
-    certifiedBanger: {
-      id: 'certifiedBanger',
-      formItem: 'switch',
-      text: 'Certified Banger',
-      content: betaContent,
-    },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
@@ -151,6 +135,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       min: 0,
       max: 100,
+    },
+    certifiedBanger: {
+      id: 'certifiedBanger',
+      formItem: 'switch',
+      text: 'Certified Banger',
+      content: betaContent,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
@@ -230,22 +220,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
 
-      // E4: Enhanced Elation Skill additionally takes into account +999 Punchline
       const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? 999 : 0)
-
-      // Hidden Ranking DMG multiplier for Enhanced Basic ATK
       const hrMultiplier = 1 + hiddenRankingDmgBonus * r.hiddenRanking
-
-      // E1: Mystery Box Elation floor (+200% Elation minimum on Mystery Box DMG)
       const e1ElationBoost = (e >= 1 && r.e1MysteryBoxElation) ? 2.00 : 0
 
-      // ============== BASIC ==============
+      // E4: Elation Skill +999 Punchline
+      const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? 999 : 0)
+      const hrMultiplier = 1 + hiddenRankingDmgBonus * r.hiddenRanking
+      // E1: Mystery Box +200% Elation floor
+      const e1ElationBoost = (e >= 1 && r.e1MysteryBoxElation) ? 2.00 : 0
 
       const basicHits: HitDefinition[] = []
 
       if (r.invinciblePlayer) {
-        // Enhanced Basic ATK: 100 bounces averaged per enemy + Final Hit split among all enemies
-        // Converted to Elation DMG by talent
+        // Enhanced Basic: bounces + final hit averaged per enemy, converted to Elation
         const enhancedBasicElationScaling = (
           (enhancedBasicBounceScaling + enhancedBasicFinalHitScaling) / context.enemyCount
         ) * hrMultiplier
@@ -260,7 +248,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         )
       } else {
-        // Normal Basic ATK: standard ATK damage
         basicHits.push(
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Imaginary)
@@ -270,7 +257,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         )
       }
 
-      // Talent: CB elation hit on Basic ATK (normal or enhanced)
+      // Talent: CB elation hit on Basic
       if (r.certifiedBanger) {
         basicHits.push(
           HitDefinitionBuilder.elation()
@@ -283,9 +270,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         )
       }
 
-      // ============== SKILL ==============
-
-      // Skill: AoE Imaginary DMG
       const skillHit = HitDefinitionBuilder.standardSkill()
         .damageElement(ElementTag.Imaginary)
         .atkScaling(skillScaling)
@@ -307,12 +291,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         )
       }
 
-      // ============== ELATION SKILL ==============
-
       const elationSkillHits: HitDefinition[] = []
 
       if (r.invinciblePlayer) {
-        // Enhanced Elation Skill: "Honkai-Level DPS Showcase" — 200% Elation DMG AoE
+        // Enhanced Elation Skill: Honkai-Level DPS Showcase
         elationSkillHits.push(
           HitDefinitionBuilder.elation()
             .damageType(DamageTag.ELATION)
@@ -323,12 +305,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .build(),
         )
       }
-      // Normal Elation Skill: "Hall-of-Fame Rewind" — gains 20 HR, no damage
-
-      // ============== UNIQUE (Premium Supply Mystery Box) ==============
-      // Single trigger per rotation entry — trigger count controlled by combo rotation
-      // E1: +200% Elation floor on Mystery Box DMG
-
+      // Premium Supply Mystery Box
       const uniqueHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Imaginary)
@@ -355,17 +332,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Talent: CD +30% in Invincible Player state
       x.buff(StatKey.CD, (r.invinciblePlayer) ? talentCdBuff : 0, x.source(SOURCE_TALENT))
-
-      // E6: Merrymake +25%
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.25 : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // E2: Zone enemies All-Type RES reduced by 20%
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
@@ -373,7 +346,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
-    // Trace: False End Speedrun — ATK > 2000 → +5% Elation per 100 ATK, max 120%
+    // Trace: ATK to Elation conversion
     dynamicConditionals: [{
       id: 'SilverWolfLv999AtkElationConditional',
       type: ConditionalType.ABILITY,

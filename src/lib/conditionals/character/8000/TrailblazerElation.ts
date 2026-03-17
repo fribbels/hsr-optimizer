@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
@@ -19,6 +20,7 @@ import { WelcomeToTheCityOfStars } from 'lib/conditionals/lightcone/5star/Welcom
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -44,7 +46,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -68,7 +69,8 @@ export const TrailblazerElationAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerElation')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  // const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerElation')
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_TALENT_ELATION_SKILL_3_ULT_BASIC_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -85,19 +87,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_ELATION_SKILL,
   } = Source.character(TrailblazerElationStelle.id)
 
-  // Basic ATK (lv6 / lv7 with E5+1)
   const basicScaling = basic(e, 1.00, 1.10)
-
-  // Skill AoE ATK scaling (lv10 / lv12 with E3+2)
   const skillScaling = skill(e, 0.60, 0.66)
-
-  // Ult CD buff (lv10 / lv12 with E5+2)
   const ultCdBuffValue = ult(e, 0.50, 0.54)
-
-  // Talent: Skill Elation DMG (lv10 / lv12 with E3+2)
   const talentSkillElationScaling = talent(e, 0.30, 0.33)
 
-  // Elation Skill: 8 bounces + AoE final (lv10 / lv11 E3 / lv12 E5)
   const elationSkillBounceCount = 8
   const elationSkillBounceScaling = elationSkill(e, 0.20, 0.21, 0.22)
   const elationSkillAoeScaling = elationSkill(e, 0.60, 0.63, 0.66)
@@ -120,25 +114,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    certifiedBanger: {
-      id: 'certifiedBanger',
-      formItem: 'switch',
-      text: 'Certified Banger',
-      content: t('Content.certifiedBanger.content'),
-    },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
       text: 'Punchline stacks',
-      content: t('Content.punchlineStacks.content'),
+      content: betaContent,
       min: 0,
       max: 100,
+    },
+    certifiedBanger: {
+      id: 'certifiedBanger',
+      formItem: 'switch',
+      text: 'Certified Banger',
+      content: betaContent,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
       text: 'Certified Banger stacks',
-      content: t('Content.certifiedBangerStacks.content'),
+      content: betaContent,
       min: 0,
       max: 200,
     },
@@ -146,33 +140,33 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultCdBuff',
       formItem: 'switch',
       text: 'Ult CD buff',
-      content: t('Content.ultCdBuff.content'),
+      content: betaContent,
     },
     atkToElation: {
       id: 'atkToElation',
       formItem: 'switch',
       text: 'ATK to Elation conversion',
-      content: t('Content.atkToElation.content'),
+      content: betaContent,
     },
     e2UltElation: {
       id: 'e2UltElation',
       formItem: 'switch',
       text: 'E2 Ult Elation',
-      content: t('Content.e2UltElation.content'),
+      content: betaContent,
       disabled: e < 2,
     },
     e4Vulnerability: {
       id: 'e4Vulnerability',
       formItem: 'switch',
       text: 'E4 Vulnerability',
-      content: t('Content.e4Vulnerability.content'),
+      content: betaContent,
       disabled: e < 4,
     },
     e6SelfUltBuff: {
       id: 'e6SelfUltBuff',
       formItem: 'switch',
       text: 'E6 self Ult buff',
-      content: t('Content.e6SelfUltBuff.content'),
+      content: betaContent,
       disabled: e < 6,
     },
   }
@@ -205,15 +199,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
 
-      // ============== BASIC ==============
-
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Lightning)
         .atkScaling(basicScaling)
         .toughnessDmg(10)
         .build()
-
-      // ============== SKILL ==============
 
       const skillHit = HitDefinitionBuilder.standardSkill()
         .damageElement(ElementTag.Lightning)
@@ -223,8 +213,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       const skillHits: HitDefinition[] = [skillHit]
 
-      // Talent: Skill additionally deals 30% Lightning Elation DMG to all enemies (with CB)
-      // Uses highest CB value among all allies = certifiedBangerStacks slider
+      // Talent: Skill elation hit using highest CB among allies
       if (r.certifiedBanger) {
         skillHits.push(
           HitDefinitionBuilder.elation()
@@ -237,9 +226,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         )
       }
 
-      // ============== ELATION SKILL ==============
-
-      // 8 bounces averaged per enemy + AoE final split among all enemies
+      // Elation Skill: bounces averaged per enemy + AoE split
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Lightning)
@@ -267,23 +254,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Trace: Game Over With You — CR +15%
       x.buff(StatKey.CR, 0.15, x.source(SOURCE_TRACE))
-
-      // E6: When Ult targets another ally, TB also gains the Ult CD buff
       x.buff(StatKey.CD, (e >= 6 && r.e6SelfUltBuff) ? ultCdBuffValue : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Ult: CD +50% to designated ally
       x.buff(StatKey.CD, (m.ultCdBuff) ? ultCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
-
-      // E2: Ult additionally increases designated ally's Elation by 12%
       x.buff(StatKey.ELATION, (e >= 2 && m.e2UltElation) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
-
-      // E4: Elation Skill increases DMG taken by enemies by 10%
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vulnerability) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
 
@@ -291,7 +270,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
-    // Trace: Faster! Faster! — ATK > 1000 → +10% Elation per 200 ATK, max 60%
+    // Trace: ATK to Elation conversion
     dynamicConditionals: [{
       id: 'TrailblazerElationAtkElationConditional',
       type: ConditionalType.ABILITY,

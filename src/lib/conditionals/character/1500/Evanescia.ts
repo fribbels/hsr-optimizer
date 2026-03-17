@@ -100,10 +100,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const talentSkillElationScaling = talent(e, 0.16, 0.176)
   const talentUltAoeElationScaling = talent(e, 0.22, 0.242)
   const talentUltBounceElationScaling = talent(e, 0.25, 0.276)
-  const foxTeacherElationScaling = 0.25 // Fixed, not affected by talent level
+  const foxTeacherElationScaling = 0.25
 
   const elationSkillScaling = elationSkill(e, 1.00, 1.05, 1.10)
-
   const foxTeacherVulnStacksMax = e >= 2 ? 2 : 1
 
   const defaults = {
@@ -123,25 +122,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    certifiedBanger: {
-      id: 'certifiedBanger',
-      formItem: 'switch',
-      text: 'Certified Banger',
-      content: t('Content.certifiedBanger.content'),
-    },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
       text: 'Punchline stacks',
-      content: t('Content.punchlineStacks.content'),
+      content: betaContent,
       min: 0,
       max: 100,
+    },
+    certifiedBanger: {
+      id: 'certifiedBanger',
+      formItem: 'switch',
+      text: 'Certified Banger',
+      content: betaContent,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
       text: 'Certified Banger stacks',
-      content: t('Content.certifiedBangerStacks.content'),
+      content: betaContent,
       min: 0,
       max: 200,
     },
@@ -149,13 +148,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'cdToElation',
       formItem: 'switch',
       text: 'CD to Elation conversion',
-      content: t('Content.cdToElation.content'),
+      content: betaContent,
     },
     foxTeacherVulnStacks: {
       id: 'foxTeacherVulnStacks',
       formItem: 'slider',
       text: 'Vulnerability stacks',
-      content: t('Content.foxTeacherVulnStacks.content'),
+      content: betaContent,
       min: 0,
       max: foxTeacherVulnStacksMax,
     },
@@ -163,28 +162,28 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'e1ResPen',
       formItem: 'switch',
       text: 'E1 RES PEN',
-      content: t('Content.e1ResPen.content'),
+      content: betaContent,
       disabled: e < 1,
     },
     e2Elation: {
       id: 'e2Elation',
       formItem: 'switch',
       text: 'E2 Elation boost',
-      content: t('Content.e2Elation.content'),
+      content: betaContent,
       disabled: e < 2,
     },
     e4DefPen: {
       id: 'e4DefPen',
       formItem: 'switch',
       text: 'E4 DEF PEN',
-      content: t('Content.e4DefPen.content'),
+      content: betaContent,
       disabled: e < 4,
     },
     e6Merrymake: {
       id: 'e6Merrymake',
       formItem: 'switch',
       text: 'E6 Merrymake',
-      content: t('Content.e6Merrymake.content'),
+      content: betaContent,
       disabled: e < 6,
     },
   }
@@ -222,25 +221,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
 
-      // Ult: CB treated as at least 240 for elation hits
+      // Ult CB floor = max energy
       const ultCertifiedBangerStacks = Math.max(240, certifiedBangerStacks)
 
-      // Trace: Shared Exultation — Ult bounce bonus based on enemy count
+      // Trace: Ult bounce bonus by enemy count
       const traceBouncebonus = context.enemyCount >= 3 ? 1 : context.enemyCount === 2 ? 2 : 4
       const totalBounceCount = 5 + traceBouncebonus
 
-      // E1: Fox Teacher triggers extra Elation Skill
+      // E1: extra Elation Skill trigger
       const e1ElationSkillMultiplier = (e >= 1 && r.e1ResPen) ? 2 : 1
-
-      // ============== BASIC ==============
 
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Physical)
         .atkScaling(basicScaling)
         .toughnessDmg(10)
         .build()
-
-      // ============== SKILL ==============
 
       const skillHit = HitDefinitionBuilder.standardSkill()
         .damageElement(ElementTag.Physical)
@@ -250,7 +245,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       const skillHits: HitDefinition[] = [skillHit]
 
-      // Talent: Skill elation hit (16% to target)
+      // Talent: Skill elation hit
       if (r.certifiedBanger) {
         skillHits.push(
           HitDefinitionBuilder.elation()
@@ -263,9 +258,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         )
       }
 
-      // ============== ULT ==============
-
-      // AoE hit + bounces averaged per enemy
+      // Ult: AoE + bounces averaged per enemy
       const ultHit = HitDefinitionBuilder.standardUlt()
         .damageElement(ElementTag.Physical)
         .atkScaling(ultAoeScaling + ultBounceScaling * totalBounceCount / context.enemyCount)
@@ -274,7 +267,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       const ultHits: HitDefinition[] = [ultHit]
 
-      // Talent: Ult AoE elation hit (22% to all enemies) + bounce elation hit (25% to random)
+      // Talent: Ult elation hits
       if (r.certifiedBanger) {
         ultHits.push(
           HitDefinitionBuilder.elation()
@@ -287,9 +280,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         )
       }
 
-      // ============== ELATION SKILL ==============
-
-      // Elation Skill: 100% Elation DMG to all enemies (E1: triggers twice)
+      // Elation Skill (E1: triggers twice)
       const elationSkillHit = HitDefinitionBuilder.elation()
         .sourceEntity(EvanesciaEntities.FoxTeacher)
         .damageType(DamageTag.ELATION)
@@ -299,9 +290,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .toughnessDmg(20)
         .build()
 
-      // ============== UNIQUE: Fox Teacher 240-energy passive ==============
-
-      // Talent: When energy accumulated to 240, Fox Teacher deals 25% Physical Elation DMG to all enemies
+      // Fox Teacher 240-energy passive
       const foxTeacherHits: HitDefinition[] = []
       if (r.certifiedBanger) {
         foxTeacherHits.push(
@@ -334,26 +323,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Trace: Shared Exultation — CR +30%
       x.buff(StatKey.CR, 0.30, x.source(SOURCE_TRACE))
-
-      // E1: All-Type RES PEN +20%
       x.buff(StatKey.RES_PEN, (e >= 1 && r.e1ResPen) ? 0.20 : 0, x.source(SOURCE_E1))
-
-      // E2: Elation +25%
       x.buff(StatKey.ELATION, (e >= 2 && r.e2Elation) ? 0.25 : 0, x.source(SOURCE_E2))
-
-      // E4: DEF PEN +15%
       x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefPen) ? 0.15 : 0, x.source(SOURCE_E4))
-
-      // E6: Merrymake +25%
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.25 : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Trace: Fulfilled Adjudication — Fox Teacher Vulnerability (12% per stack, E2: up to 2 stacks)
       x.buff(StatKey.VULNERABILITY, m.foxTeacherVulnStacks * 0.12, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
@@ -361,7 +340,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
-    // Talent: CD → Elation conversion (25% of CD)
+    // Talent: CD to Elation conversion
     dynamicConditionals: [{
       id: 'EvanesciaCdElationConditional',
       type: ConditionalType.ABILITY,

@@ -231,6 +231,7 @@ interface Resources {
             "MEMO_SKILL": "SKILLᴹ DMG",
             "MEMO_TALENT": "TALENTᴹ DMG",
             "ELATION_SKILL": "ELATION SKILL DMG",
+            "UNIQUE": "UNIQUE DMG",
             "COMBO": "COMBO DMG"
           }
         },
@@ -481,6 +482,7 @@ interface Resources {
       "Memo_Skill": "Skillᴹ DMG",
       "Memo_Talent": "Talentᴹ DMG",
       "Elation_Skill": "Elation Skill DMG",
+      "Unique": "Unique DMG",
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"
@@ -6250,6 +6252,7 @@ interface Resources {
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
       "ELATION_SKILL": "Sorted by Elation Skill DMG",
+      "UNIQUE": "Sorted by Unique DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
@@ -6358,6 +6361,7 @@ interface Resources {
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
           "ELATION_SKILL": "ELATION\nSKILL",
+          "UNIQUE": "UNIQUE\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6396,6 +6400,7 @@ interface Resources {
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
           "ELATION_SKILL": "ELATION\nSKILL",
+          "UNIQUE": "UNIQUE\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6765,6 +6770,7 @@ interface Resources {
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
         "ElationSkill": "Elation Skill",
+        "Unique": "Unique",
         "BasicHeal": "Basic HEAL",
         "SkillHeal": "Skill HEAL",
         "UltHeal": "Ult HEAL",
@@ -6979,6 +6985,7 @@ interface Resources {
           "E4": "E4",
           "E6": "E6",
           "ElationSkill": "Elation Skill",
+          "Unique": "Unique",
           "LightCone": "Light Cone",
           "Set": "Set"
         },

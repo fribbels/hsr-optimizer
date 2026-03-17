@@ -36,6 +36,7 @@ import {
   START_ULT,
   WHOLE_ELATION_SKILL,
   WHOLE_SKILL,
+  WHOLE_UNIQUE,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
@@ -63,6 +64,7 @@ export const EvanesciaAbilities: AbilityKind[] = [
   AbilityKind.SKILL,
   AbilityKind.ULT,
   AbilityKind.ELATION_SKILL,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -292,13 +294,29 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .toughnessDmg(20)
         .build()
 
-      // TODO: Fox Teacher passive (25% Elation DMG to all at 240 energy) — separate ability type
+      // ============== UNIQUE: Fox Teacher 240-energy passive ==============
+
+      // Talent: When energy accumulated to 240, Fox Teacher deals 25% Physical Elation DMG to all enemies
+      const foxTeacherHits: HitDefinition[] = []
+      if (r.certifiedBanger) {
+        foxTeacherHits.push(
+          HitDefinitionBuilder.elation()
+            .sourceEntity(EvanesciaEntities.FoxTeacher)
+            .damageType(DamageTag.ELATION)
+            .damageElement(ElementTag.Physical)
+            .elationScaling(foxTeacherElationScaling)
+            .punchlineStacks(certifiedBangerStacks)
+            .toughnessDmg(0)
+            .build(),
+        )
+      }
 
       return {
         [AbilityKind.BASIC]: { hits: [basicHit] },
         [AbilityKind.SKILL]: { hits: skillHits },
         [AbilityKind.ULT]: { hits: ultHits },
         [AbilityKind.ELATION_SKILL]: { hits: [elationSkillHit] },
+        [AbilityKind.UNIQUE]: { hits: foxTeacherHits },
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
@@ -409,6 +427,7 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_SKILL,
     WHOLE_SKILL,
     WHOLE_ELATION_SKILL,
+    WHOLE_UNIQUE,
   ],
   comboDot: 0,
   relicSets: [

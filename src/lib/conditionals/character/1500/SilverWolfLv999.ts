@@ -1,7 +1,9 @@
-import {
-  getYaoguangAhaPunchlineValue,
-  Yaoguang,
-} from 'lib/conditionals/character/1500/Yaoguang'
+import i18next from 'i18next'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
+
+import { getYaoguangAhaPunchlineValue } from 'lib/conditionals/character/1500/Yaoguang'
+import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
 import {
   AbilityEidolon,
   Conditionals,
@@ -13,9 +15,13 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { TomorrowWithUsAll } from 'lib/conditionals/lightcone/4star/TomorrowWithUsAll'
+import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -31,20 +37,18 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
-  DEFAULT_BASIC,
-  DEFAULT_SKILL,
+  END_BASIC,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_BASIC,
   WHOLE_ELATION_SKILL,
+  WHOLE_UNIQUE,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
-
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
 import { CharacterConditionalsController } from 'types/conditionals'
@@ -63,12 +67,12 @@ export const SilverWolfLv999Abilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ELATION_SKILL,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
-  // TODO: Add AbilityKind.UNIQUE when implemented (Premium Supply Mystery Box)
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolfLv999')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -83,6 +87,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
     SOURCE_ELATION_SKILL,
+    SOURCE_UNIQUE,
   } = Source.character(SilverWolfLv999.id)
 
   // Basic ATK (lv6 / lv7 with E3+1)
@@ -95,8 +100,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const enhancedBasicFinalHitScaling = basic(e, 0.60, 0.66)
   // Hidden Ranking DMG bonus: +0.3% per point
   const hiddenRankingDmgBonus = 0.003
-  // Bounce count
-  const enhancedBasicBounceCount = 100
 
   // Skill (lv10 / lv12 with E3+2)
   const skillScaling = skill(e, 1.60, 1.76)
@@ -117,11 +120,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     punchlineStacks: 30,
     certifiedBangerStacks: 60,
     hiddenRanking: 80,
-    // TODO: Uncomment when AbilityKind.UNIQUE is implemented
-    // mysteryBoxTriggers: 4,
     atkToElation: true,
-    // TODO: Uncomment when AbilityKind.UNIQUE is implemented
-    // e1MysteryBoxElation: true,
+    e1MysteryBoxElation: true,
     e2ResPen: true,
     e4PunchlineBoost: true,
     e6Merrymake: true,
@@ -136,19 +136,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'invinciblePlayer',
       formItem: 'switch',
       text: 'Invincible Player state',
-      content: t('Content.invinciblePlayer.content'),
+      content: betaContent,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
       text: 'Certified Banger',
-      content: t('Content.certifiedBanger.content'),
+      content: betaContent,
     },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
       text: 'Punchline stacks',
-      content: t('Content.punchlineStacks.content'),
+      content: betaContent,
       min: 0,
       max: 100,
     },
@@ -156,7 +156,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'certifiedBangerStacks',
       formItem: 'slider',
       text: 'Certified Banger stacks',
-      content: t('Content.certifiedBangerStacks.content'),
+      content: betaContent,
       min: 0,
       max: 200,
     },
@@ -164,53 +164,42 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'hiddenRanking',
       formItem: 'slider',
       text: 'Hidden Ranking stacks',
-      content: t('Content.hiddenRanking.content'),
+      content: betaContent,
       min: 0,
       max: 160,
     },
-    // TODO: Uncomment when AbilityKind.UNIQUE is implemented
-    // mysteryBoxTriggers: {
-    //   id: 'mysteryBoxTriggers',
-    //   formItem: 'slider',
-    //   text: 'Mystery Box triggers',
-    //   content: t('Content.mysteryBoxTriggers.content'),
-    //   min: 0,
-    //   max: 4,
-    // },
     atkToElation: {
       id: 'atkToElation',
       formItem: 'switch',
       text: 'ATK to Elation conversion',
-      content: t('Content.atkToElation.content'),
+      content: betaContent,
     },
-    // TODO: Uncomment when AbilityKind.UNIQUE is implemented
-    // E1: Mystery Box +2 Punchline, +200% Elation on Mystery Box DMG
-    // e1MysteryBoxElation: {
-    //   id: 'e1MysteryBoxElation',
-    //   formItem: 'switch',
-    //   text: 'E1 Mystery Box Elation',
-    //   content: t('Content.e1MysteryBoxElation.content'),
-    //   disabled: e < 1,
-    // },
+    e1MysteryBoxElation: {
+      id: 'e1MysteryBoxElation',
+      formItem: 'switch',
+      text: 'E1 Mystery Box Elation',
+      content: betaContent,
+      disabled: e < 1,
+    },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
       text: 'E2 RES PEN',
-      content: t('Content.e2ResPen.content'),
+      content: betaContent,
       disabled: e < 2,
     },
     e4PunchlineBoost: {
       id: 'e4PunchlineBoost',
       formItem: 'switch',
       text: 'E4 Punchline boost',
-      content: t('Content.e4PunchlineBoost.content'),
+      content: betaContent,
       disabled: e < 4,
     },
     e6Merrymake: {
       id: 'e6Merrymake',
       formItem: 'switch',
       text: 'E6 Merrymake',
-      content: t('Content.e6Merrymake.content'),
+      content: betaContent,
       disabled: e < 6,
     },
   }
@@ -247,19 +236,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Hidden Ranking DMG multiplier for Enhanced Basic ATK
       const hrMultiplier = 1 + hiddenRankingDmgBonus * r.hiddenRanking
 
-      // Mystery Box triggers during Enhanced Basic: 2 base + 1 at HR>=40 + 1 at HR>=80
-      // const mysteryBoxTriggersFromHR = 2 + (r.hiddenRanking >= 40 ? 1 : 0) + (r.hiddenRanking >= 80 ? 1 : 0)
+      // E1: Mystery Box Elation floor (+200% Elation minimum on Mystery Box DMG)
+      const e1ElationBoost = (e >= 1 && r.e1MysteryBoxElation) ? 2.00 : 0
 
       // ============== BASIC ==============
 
       const basicHits: HitDefinition[] = []
 
       if (r.invinciblePlayer) {
-        // Enhanced Basic ATK: 100 bounces + Final Hit, converted to Elation DMG by talent
-        // Bounces averaged per enemy + Final Hit split among all enemies
+        // Enhanced Basic ATK: 100 bounces averaged per enemy + Final Hit split among all enemies
+        // Converted to Elation DMG by talent
         const enhancedBasicElationScaling = (
-          enhancedBasicBounceScaling * enhancedBasicBounceCount / context.enemyCount / enhancedBasicBounceCount
-          + enhancedBasicFinalHitScaling / context.enemyCount
+          (enhancedBasicBounceScaling + enhancedBasicFinalHitScaling) / context.enemyCount
         ) * hrMultiplier
 
         basicHits.push(
@@ -338,39 +326,28 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Normal Elation Skill: "Hall-of-Fame Rewind" — gains 20 HR, no damage
 
       // ============== UNIQUE (Premium Supply Mystery Box) ==============
-      // TODO: Uncomment when AbilityKind.UNIQUE is implemented
-      // Mystery Box triggers during Enhanced Basic: 2 base + 1 at HR>=40 + 1 at HR>=80
-      // Zone Mystery Box: triggered when ally spends SP in Zone (probabilistic)
-      // E1: +200% Elation on Mystery Box DMG, +2 Punchline
-      //
-      // const mysteryBoxTriggers = r.mysteryBoxTriggers
-      // const e1ElationBoost = (e >= 1 && r.e1MysteryBoxElation) ? 2.00 : 0
-      //
-      // const uniqueHits: HitDefinition[] = []
-      // if (mysteryBoxTriggers > 0) {
-      //   uniqueHits.push(
-      //     HitDefinitionBuilder.elation()
-      //       .damageType(DamageTag.ELATION)
-      //       .damageElement(ElementTag.Imaginary)
-      //       .elationScaling(mysteryBoxElationScaling * mysteryBoxTriggers)
-      //       .punchlineStacks(certifiedBangerStacks)
-      //       .minElationOverride(e1ElationBoost)
-      //       .toughnessDmg(5 * mysteryBoxTriggers)
-      //       .build(),
-      //   )
-      // }
+      // Single trigger per rotation entry — trigger count controlled by combo rotation
+      // E1: +200% Elation floor on Mystery Box DMG
+
+      const uniqueHit = HitDefinitionBuilder.elation()
+        .damageType(DamageTag.ELATION)
+        .damageElement(ElementTag.Imaginary)
+        .elationScaling(mysteryBoxElationScaling)
+        .punchlineStacks(certifiedBangerStacks)
+        .minElationOverride(e1ElationBoost)
+        .toughnessDmg(5)
+        .build()
 
       return {
         [AbilityKind.BASIC]: { hits: basicHits },
         [AbilityKind.SKILL]: { hits: skillHits },
         [AbilityKind.ELATION_SKILL]: { hits: elationSkillHits },
+        [AbilityKind.UNIQUE]: { hits: [uniqueHit] },
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
           ],
         },
-        // TODO: Uncomment when AbilityKind.UNIQUE is implemented
-        // [AbilityKind.UNIQUE]: { hits: uniqueHits },
       }
     },
     actionModifiers: () => [],
@@ -455,7 +432,6 @@ const simulation = (): SimulationMetadata => ({
       Stats.ATK_P,
     ],
     [Parts.LinkRope]: [
-      Stats.ERR,
       Stats.ATK_P,
     ],
   },
@@ -468,13 +444,20 @@ const simulation = (): SimulationMetadata => ({
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
-    DEFAULT_BASIC,
+    END_BASIC,
+    WHOLE_UNIQUE,
+    WHOLE_UNIQUE,
+    WHOLE_ELATION_SKILL,
     WHOLE_BASIC,
+    WHOLE_UNIQUE,
+    WHOLE_UNIQUE,
     WHOLE_BASIC,
-    DEFAULT_SKILL,
+    WHOLE_UNIQUE,
+    WHOLE_UNIQUE,
     WHOLE_ELATION_SKILL,
   ],
   comboDot: 0,
+  errRopeEidolon: 0,
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -487,20 +470,20 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Yaoguang.id,
-      lightCone: '23038', // TODO: verify lightcone
+      characterId: Sparxie.id,
+      lightCone: DazzledByAFloweryWorld.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Yaoguang.id, // TODO: placeholder teammate
-      lightCone: '23038',
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      characterId: TrailblazerElationStelle.id,
+      lightCone: TomorrowWithUsAll.id,
+      characterEidolon: 6,
+      lightConeSuperimposition: 5,
     },
     {
-      characterId: Yaoguang.id, // TODO: placeholder teammate
-      lightCone: '23038',
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

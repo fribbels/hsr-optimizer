@@ -1,9 +1,7 @@
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
-import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
-import {
-  getYaoguangAhaPunchlineValue,
-  Yaoguang,
-} from 'lib/conditionals/character/1500/Yaoguang'
+import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
+import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
+import { getYaoguangAhaPunchlineValue } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   AbilityEidolon,
   Conditionals,
@@ -15,8 +13,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
-import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
+import { WelcomeToTheCityOfStars } from 'lib/conditionals/lightcone/5star/WelcomeToTheCityOfStars'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -35,7 +34,6 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
-  DEFAULT_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_ELATION_SKILL,
@@ -247,7 +245,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .damageElement(ElementTag.Lightning)
         .elationScaling(
           elationSkillBounceScaling * elationSkillBounceCount / context.enemyCount
-          + elationSkillAoeScaling / context.enemyCount,
+            + elationSkillAoeScaling / context.enemyCount,
         )
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(20)
@@ -352,7 +350,6 @@ const simulation = (): SimulationMetadata => ({
       Stats.ATK_P,
     ],
     [Parts.LinkRope]: [
-      Stats.ERR,
       Stats.ATK_P,
     ],
   },
@@ -365,11 +362,12 @@ const simulation = (): SimulationMetadata => ({
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
-    DEFAULT_SKILL,
+    WHOLE_SKILL,
     WHOLE_SKILL,
     WHOLE_ELATION_SKILL,
   ],
   comboDot: 0,
+  errRopeEidolon: 0,
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -381,14 +379,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Evanescia.id,
-      lightCone: '23038', // TODO: verify lightcone
+      characterId: SilverWolfLv999.id,
+      lightCone: WelcomeToTheCityOfStars.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Yaoguang.id,
-      lightCone: WhenSheDecidedToSee.id,
+      characterId: Sparxie.id,
+      lightCone: DazzledByAFloweryWorld.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

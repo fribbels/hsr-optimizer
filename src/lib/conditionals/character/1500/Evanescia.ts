@@ -1,7 +1,9 @@
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
+import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
 import {
   AbilityEidolon,
   Conditionals,
@@ -13,6 +15,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { TomorrowWithUsAll } from 'lib/conditionals/lightcone/4star/TomorrowWithUsAll'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -411,7 +416,6 @@ const simulation = (): SimulationMetadata => ({
       Stats.ATK_P,
     ],
     [Parts.LinkRope]: [
-      Stats.ERR,
       Stats.ATK_P,
     ],
   },
@@ -430,6 +434,7 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_UNIQUE,
   ],
   comboDot: 0,
+  errRopeEidolon: 0,
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -443,19 +448,19 @@ const simulation = (): SimulationMetadata => ({
   teammates: [
     {
       characterId: Yaoguang.id,
-      lightCone: '23038', // TODO: verify lightcone
+      lightCone: WhenSheDecidedToSee,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Yaoguang.id, // TODO: placeholder teammate
-      lightCone: '23038',
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      characterId: TrailblazerElationStelle.id,
+      lightCone: TomorrowWithUsAll.id,
+      characterEidolon: 6,
+      lightConeSuperimposition: 5,
     },
     {
-      characterId: Yaoguang.id, // TODO: placeholder teammate
-      lightCone: '23038',
+      characterId: Huohuo.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

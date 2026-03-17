@@ -159,9 +159,6 @@ export type OptimizerContext = CharacterMetadata & {
   enemyElementalWeak: boolean,
   enemyWeaknessBroken: boolean,
 
-  comboDot: number,
-  dotAbilities: number,
-
   lightConeController: LightConeConditionalsController,
 }
 

@@ -131,7 +131,6 @@ CharacterPreview:
       FUA: FUA
       MEMO_SKILL: SKILLᴹ
       MEMO_TALENT: TALENTᴹ
-      DOTS: 'DOTS:'
       BREAKS: 'BREAKS:'
     CombatResults:
       Header: Combat damage results

@@ -50,7 +50,6 @@ export type SimulationMetadata = {
   errRopeEidolon?: number,
   deprioritizeBuffs?: boolean,
   comboTurnAbilities: TurnAbilityName[],
-  comboDot: number,
   relicSets: SetsRelics[][],
   ornamentSets: SetsOrnaments[],
   teammates: {

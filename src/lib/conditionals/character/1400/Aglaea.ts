@@ -484,7 +484,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_MEMO_SKILL,
     WHOLE_BASIC,
   ],
-  comboDot: 0,
   errRopeEidolon: 0,
   relicSets: [
     [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],

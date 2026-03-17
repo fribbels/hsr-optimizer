@@ -55,11 +55,9 @@ export function generateFullDefaultForm(
   const simulationMetadata = getGameMetadata().characters[characterId].scoringMetadata?.simulation
   if (simulationMetadata) {
     simulationForm.comboTurnAbilities = [...simulationMetadata.comboTurnAbilities]
-    simulationForm.comboDot = simulationMetadata.comboDot
   } else {
     // @ts-ignore
     simulationForm.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
-    simulationForm.comboDot = 0
   }
 
   return simulationForm

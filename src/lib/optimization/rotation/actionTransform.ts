@@ -13,7 +13,6 @@ import {
 } from 'lib/optimization/engine/container/computedStatsContainer'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
-  countDotAbilities,
   defineAction,
   getComboTypeAbilities,
   precomputeConditionals,
@@ -34,7 +33,7 @@ import {
 } from 'types/optimizer'
 
 export function newTransformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {
-  const { comboTurnAbilities, comboDot } = getComboTypeAbilities(request)
+  const { comboTurnAbilities } = getComboTypeAbilities(request)
   calculateActionDeclarations(request, context)
 
   // ========== PHASE 1: STRUCTURE DEFINITION ==========
@@ -183,8 +182,6 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   // ========== FINALIZE CONTEXT ==========
 
-  context.dotAbilities = countDotAbilities(rotationActions)
-  context.comboDot = comboDot || 0
 }
 
 function computeEntityBaseStats(def: EntityDefinition, context: OptimizerContext) {

@@ -298,7 +298,6 @@ const simulation = (): SimulationMetadata => ({
     END_SKILL,
     WHOLE_SKILL,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

@@ -86,6 +86,7 @@ export const KafkaB1Abilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.KafkaB1.Content')
+  const tDot = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.DotTickCoefficient')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -111,6 +112,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
   const defaults = {
+    dotTickCoefficient: 4,
     ehrBasedBuff: true,
     e1DotDmgReceivedDebuff: true,
     e2TeamDotDmg: true,
@@ -128,6 +130,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('ehrBasedBuff.text'),
       content: t('ehrBasedBuff.content'),
+    },
+    dotTickCoefficient: {
+      id: 'dotTickCoefficient',
+      formItem: 'slider',
+      text: tDot('Text'),
+      content: tDot('Content'),
+      min: 0,
+      max: 20,
+      percent: true,
     },
     e1DotDmgReceivedDebuff: {
       id: 'e1DotDmgReceivedDebuff',
@@ -168,6 +179,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     actionDeclaration: () => [...KafkaB1Abilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
       // E6: DoT scaling bonus
       const dotTotalScaling = dotScaling + ((e >= 6) ? 1.56 : 0)
 
@@ -214,6 +227,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Lightning)
               .dotBaseChance(1.00)
               .atkScaling(dotTotalScaling)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
           ],
         },
@@ -351,7 +365,6 @@ const simulation = (): SimulationMetadata => ({
     END_DOT,
     DEFAULT_FUA,
   ],
-  comboDot: 16,
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
   relicSets: [

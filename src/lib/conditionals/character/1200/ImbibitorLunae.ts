@@ -243,7 +243,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_BASIC,
     WHOLE_BASIC,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
     [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],

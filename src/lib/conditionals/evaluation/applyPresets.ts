@@ -72,7 +72,6 @@ export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMe
   Utils.mergeUndefinedValues(form, getDefaultForm())
 
   form.comboTurnAbilities = scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
-  form.comboDot = scoringMetadata?.simulation?.comboDot ?? 0
 
   // @ts-ignore
   form.maxSpd = undefined

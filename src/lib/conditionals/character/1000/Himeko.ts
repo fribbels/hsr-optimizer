@@ -270,7 +270,6 @@ const simulation = (): SimulationMetadata => ({
     END_BREAK,
     DEFAULT_FUA,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

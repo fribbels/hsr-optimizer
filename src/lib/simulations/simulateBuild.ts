@@ -139,7 +139,6 @@ export function simulateBuild(
       rotationBuffSteps!.push({ actionType: action.actionType, snapshot: captureSnapshot(x) })
     }
 
-    const dotComboMultiplier = getDotComboMultiplier(action, context)
     let sum = 0
 
     for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
@@ -154,7 +153,7 @@ export function simulateBuild(
       if (hit.recorded !== false) {
         sum += dmg
         if (hit.outputTag == OutputTag.DAMAGE) {
-          comboDmg += dmg * dotComboMultiplier
+          comboDmg += dmg
         }
       }
     }
@@ -270,17 +269,4 @@ export function emptyRelicWithSetAndSubstats(): SimulationRelic {
     set: '',
     condensedStats: [],
   }
-}
-
-/**
- * Returns the combo multiplier for a rotation action.
- * DOT actions get their damage multiplied by (comboDot / dotAbilities) to represent
- * multiple ticks of DOT damage occurring during the rotation.
- * Non-DOT actions get a multiplier of 1.
- */
-function getDotComboMultiplier(action: OptimizerAction, context: OptimizerContext): number {
-  if (action.actionType === AbilityKind.DOT && context.comboDot > 0 && context.dotAbilities > 0) {
-    return context.comboDot / context.dotAbilities
-  }
-  return 1
 }

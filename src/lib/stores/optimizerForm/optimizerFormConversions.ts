@@ -110,7 +110,6 @@ export function displayToInternal(state: OptimizerRequestState): Form {
     comboTurnAbilities: state.comboTurnAbilities,
     comboPreprocessor: state.comboPreprocessor,
     comboType: state.comboType,
-    comboDot: state.comboDot,
 
     // Scoring / display
     resultSort: state.resultSort,
@@ -257,7 +256,6 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
     comboTurnAbilities: form.comboTurnAbilities,
     comboPreprocessor: form.comboPreprocessor ?? true,
     comboType: form.comboType,
-    comboDot: form.comboDot,
 
     // Scoring / display
     resultSort: form.resultSort,

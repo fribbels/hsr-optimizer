@@ -474,7 +474,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_BASIC,
     DEFAULT_MEMO_SKILL,
   ],
-  comboDot: 0,
   deprioritizeBuffs: true,
   relicSets: [
     [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],

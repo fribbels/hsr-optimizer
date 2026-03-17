@@ -28,9 +28,6 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
           />
         ))}
       </Flex>
-      <Flex direction='column' gap={2}>
-        <ScoringInteger label={t('CharacterPreview.BuildAnalysis.Rotation.DOTS')} number={simMetadata.comboDot} />
-      </Flex>
     </Flex>
   )
 }
@@ -49,20 +46,6 @@ function ScoringAbility({ comboTurnAbilities, index }: {
   return (
     <Flex align='center' gap={15}>
       <pre className={classes.preText}>{`#${index} - ${displayValue}`}</pre>
-    </Flex>
-  )
-}
-
-function ScoringInteger({ label, number, valueWidth }: {
-  label: string
-  number?: number
-  valueWidth?: number
-}) {
-  const value = number ?? 0
-  return (
-    <Flex gap={9} justify='space-between'>
-      <pre className={classes.preText}>{label}</pre>
-      <pre className={classes.preText} style={{ width: valueWidth }}>{value}</pre>
     </Flex>
   )
 }

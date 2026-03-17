@@ -65,6 +65,7 @@ export const LukaAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Luka')
+  const tDot = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.DotTickCoefficient')
   const { basic, skill, ult } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
     SOURCE_BASIC,
@@ -90,6 +91,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const dotScaling = skill(e, 3.38, 3.718)
 
   const defaults = {
+    dotTickCoefficient: 1,
     basicEnhanced: true,
     targetUltDebuffed: true,
     e1TargetBleeding: true,
@@ -121,6 +123,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: t('Content.basicEnhancedExtraHits.content'),
       min: 0,
       max: 3,
+    },
+    dotTickCoefficient: {
+      id: 'dotTickCoefficient',
+      formItem: 'slider',
+      text: tDot('Text'),
+      content: tDot('Content'),
+      min: 0,
+      max: 5,
+      percent: true,
     },
     e1TargetBleeding: {
       id: 'e1TargetBleeding',
@@ -201,6 +212,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Physical)
               .atkScaling(dotScaling)
               .dotBaseChance(1.00)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
           ],
         },
@@ -270,7 +282,6 @@ const simulation = (): SimulationMetadata => ({
     END_DOT,
     DEFAULT_DOT,
   ],
-  comboDot: 5,
   relicSets: [
     [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

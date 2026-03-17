@@ -429,7 +429,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_MEMO_SKILL,
     DEFAULT_MEMO_TALENT,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

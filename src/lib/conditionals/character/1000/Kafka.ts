@@ -68,6 +68,7 @@ export const KafkaAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Kafka')
+  const tDot = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.DotTickCoefficient')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -94,6 +95,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
   const defaults = {
+    dotTickCoefficient: 4,
     e1DotDmgReceivedDebuff: true,
     e2TeamDotBoost: true,
   }
@@ -104,6 +106,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const content: ContentDefinition<typeof defaults> = {
+    dotTickCoefficient: {
+      id: 'dotTickCoefficient',
+      formItem: 'slider',
+      text: tDot('Text'),
+      content: tDot('Content'),
+      min: 0,
+      max: 20,
+      percent: true,
+    },
     e1DotDmgReceivedDebuff: {
       id: 'e1DotDmgReceivedDebuff',
       formItem: 'switch',
@@ -142,6 +153,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     actionDeclaration: () => [...KafkaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -185,6 +198,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .dotBaseChance(1.30)
               .damageElement(ElementTag.Lightning)
               .atkScaling(dotScaling + (e >= 6 ? e6DotScaling : 0))
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
           ],
         },
@@ -256,7 +270,6 @@ const simulation = (): SimulationMetadata => ({
     END_DOT,
     DEFAULT_FUA,
   ],
-  comboDot: 16,
   relicSets: [
     [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

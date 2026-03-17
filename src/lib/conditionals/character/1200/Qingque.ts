@@ -253,7 +253,6 @@ const simulation = (): SimulationMetadata => ({
     END_BASIC,
     DEFAULT_FUA,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],

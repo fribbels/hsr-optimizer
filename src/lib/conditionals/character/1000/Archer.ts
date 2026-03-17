@@ -262,7 +262,6 @@ const simulation = (): SimulationMetadata => ({
     END_SKILL,
     DEFAULT_FUA,
   ],
-  comboDot: 0,
   errRopeEidolon: 0,
   relicSets: [
     [Sets.WavestriderCaptain, Sets.WavestriderCaptain],

@@ -258,7 +258,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     WHOLE_BASIC,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.LongevousDisciple, Sets.LongevousDisciple],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

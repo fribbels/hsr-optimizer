@@ -90,11 +90,6 @@ describe('simple setters', () => {
     expect(useOptimizerRequestStore.getState().comboTurnAbilities).toEqual(['BASIC', 'SKILL'])
   })
 
-  it('setComboDot updates', () => {
-    useOptimizerRequestStore.getState().setComboDot(3)
-    expect(useOptimizerRequestStore.getState().comboDot).toBe(3)
-  })
-
   it('setComboPreprocessor updates', () => {
     useOptimizerRequestStore.getState().setComboPreprocessor(false)
     expect(useOptimizerRequestStore.getState().comboPreprocessor).toBe(false)

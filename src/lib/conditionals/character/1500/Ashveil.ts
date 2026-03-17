@@ -339,7 +339,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_SKILL,
     DEFAULT_FUA,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],

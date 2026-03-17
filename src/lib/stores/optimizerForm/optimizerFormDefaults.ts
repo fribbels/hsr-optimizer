@@ -144,7 +144,6 @@ export function createDefaultFormState(): OptimizerRequestState {
     comboType: ComboType.SIMPLE,
     comboStateJson: '{}',
     comboPreprocessor: true,
-    comboDot: 0,
     comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
 
     // Scoring / display

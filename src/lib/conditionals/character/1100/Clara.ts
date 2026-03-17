@@ -252,7 +252,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     DEFAULT_FUA,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.ChampionOfStreetwiseBoxing, Sets.ChampionOfStreetwiseBoxing],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

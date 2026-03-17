@@ -439,7 +439,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_BASIC,
     END_ULT,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

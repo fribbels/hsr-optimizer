@@ -429,7 +429,6 @@ const simulation = (): SimulationMetadata => ({
     END_BASIC,
     WHOLE_ELATION_SKILL,
   ],
-  comboDot: 0,
   errRopeEidolon: 0,
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],

@@ -12,7 +12,6 @@ import {
 } from 'lib/sets/setConfigRegistry'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import {
-  AbilityKind,
   DEFAULT_BASIC,
   getAbilityKind,
   NULL_TURN_ABILITY_NAME,
@@ -273,7 +272,6 @@ export function getDefaultComboTurnAbilities(characterId: CharacterId, character
   const simulation = getGameMetadata().characters[characterId]?.scoringMetadata?.simulation
   return {
     comboTurnAbilities: simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
-    comboDot: simulation?.comboDot ?? 0,
   }
 }
 
@@ -284,7 +282,6 @@ export function getComboTypeAbilities(form: OptimizerForm) {
 
   return {
     comboTurnAbilities: form.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
-    comboDot: form.comboDot ?? 0,
   }
 }
 
@@ -302,6 +299,3 @@ function overrideSetConditionals(setConditionals: SetConditional, context: Optim
   return setConditionals
 }
 
-export function countDotAbilities(actions: OptimizerAction[]) {
-  return actions.filter((x) => x.actionType == AbilityKind.DOT).length
-}

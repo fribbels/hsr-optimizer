@@ -356,7 +356,6 @@ const simulation = (): SimulationMetadata => ({
     START_SKILL,
     END_SKILL,
   ],
-  comboDot: 0,
   errRopeEidolon: 0,
   deprioritizeBuffs: false,
   relicSets: [

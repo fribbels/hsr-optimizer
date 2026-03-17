@@ -359,7 +359,6 @@ const simulation = (): SimulationMetadata => ({
     END_BREAK,
     WHOLE_SKILL,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
     [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],

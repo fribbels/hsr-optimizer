@@ -106,7 +106,6 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
 
   if (scoringMetadata?.simulation?.comboTurnAbilities) {
     defaultForm.comboTurnAbilities = scoringMetadata.simulation.comboTurnAbilities
-    defaultForm.comboDot = scoringMetadata.simulation.comboDot
   }
 
   return defaultForm as Form

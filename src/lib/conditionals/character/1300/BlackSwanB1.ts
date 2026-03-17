@@ -73,6 +73,7 @@ export const BlackSwanB1Abilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.BlackSwanB1')
+  const tDot = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.DotTickCoefficient')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
     SOURCE_BASIC,
@@ -102,6 +103,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const arcanaStackLimit = e >= 6 ? 80 : 50
 
   const defaults = {
+    dotTickCoefficient: 2,
     skillDefShred: true,
     epiphanyDebuff: true,
     arcanaStacks: arcanaStackLimit,
@@ -148,6 +150,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.ehrToDmgBoost.text'),
       content: t('Content.ehrToDmgBoost.content', {}),
+    },
+    dotTickCoefficient: {
+      id: 'dotTickCoefficient',
+      formItem: 'slider',
+      text: tDot('Text'),
+      content: tDot('Content'),
+      min: 0,
+      max: 10,
+      percent: true,
     },
     e1ResReduction: {
       id: 'e1ResReduction',
@@ -238,6 +249,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Wind)
               .damageType(DamageTag.DOT)
               .atkScaling(dotScaling + arcanaStackMultiplier * r.arcanaStacks)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
           ],
         },
@@ -335,7 +347,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_BASIC,
     DEFAULT_DOT,
   ],
-  comboDot: 8,
   relicSets: [
     [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

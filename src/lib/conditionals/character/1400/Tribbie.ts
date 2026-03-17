@@ -374,7 +374,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     DEFAULT_FUA,
   ],
-  comboDot: 0,
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
   relicSets: [

@@ -23,7 +23,6 @@ import {
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import {
   TurnAbilitySelector,
   TurnAbilitySelectorSimple,
@@ -127,10 +126,8 @@ function resetClicked() {
   if (!characterMetadata) return
 
   const defaultComboTurnAbilities = characterMetadata.scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
-  const defaultComboDot = characterMetadata.scoringMetadata?.simulation?.comboDot ?? 0
 
   useOptimizerRequestStore.getState().setComboTurnAbilities(defaultComboTurnAbilities)
-  useOptimizerRequestStore.getState().setComboDot(defaultComboDot)
   useOptimizerRequestStore.getState().setComboStateJson('{}')
 }
 
@@ -142,7 +139,6 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
     characterId,
     characterEidolon,
     comboPreprocessor,
-    comboDot,
     comboTurnAbilities,
   } = useOptimizerRequestStore(
     useShallow((s) => ({
@@ -150,14 +146,12 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
       characterId: s.characterId,
       characterEidolon: s.characterEidolon,
       comboPreprocessor: s.comboPreprocessor,
-      comboDot: s.comboDot,
       comboTurnAbilities: s.comboTurnAbilities,
     })),
   )
 
   const {
     comboTurnAbilities: defaultComboTurnAbilities,
-    comboDot: defaultComboDot,
   } = getDefaultComboTurnAbilities(characterId!, characterEidolon)
 
   const disabled = comboType == ComboType.SIMPLE
@@ -229,10 +223,6 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
           />
         </Flex>
 
-        <Flex direction="column" gap={5}>
-          <HeaderText>{t('CounterLabels.Dot')}</HeaderText>
-          <NumberXInput disabled={disabled} defaultValue={defaultComboDot} value={comboDot} />
-        </Flex>
       </Flex>
     </Flex>
   )
@@ -245,26 +235,4 @@ function ComboOptionRowSelect({ index, disabled }: { index: number; disabled: bo
   return shouldRenderSegmented
     ? <TurnAbilitySelector index={index} disabled={disabled} />
     : null
-}
-
-function NumberXInput({ disabled, defaultValue, value }: {
-  disabled: boolean
-  defaultValue?: number
-  value: number
-}) {
-  return (
-    <InputNumberStyled
-      leftSection='⨯'
-      leftSectionWidth={22}
-      disabled={disabled}
-      value={disabled ? defaultValue : value}
-      onChange={(val) => {
-        if (!disabled && val != null) {
-          useOptimizerRequestStore.getState().setComboDot(val as number)
-        }
-      }}
-      style={{ width: '100%' }}
-      styles={{ input: { paddingInlineStart: 18 } }}
-    />
-  )
 }

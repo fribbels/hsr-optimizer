@@ -72,6 +72,7 @@ export const HysilensEntities = createEnum('Hysilens')
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hysilens')
+  const tDot = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.DotTickCoefficient')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -101,6 +102,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const maxUltDotInstances = e >= 6 ? 12 : 8
 
   const defaults = {
+    dotTickCoefficient: 1.25,
     skillVulnerability: true,
     ultZone: true,
     ultDotStacks: maxUltDotInstances,
@@ -159,6 +161,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.cyreneSpecialEffect.text'),
       content: t('Content.cyreneSpecialEffect.content'),
+    },
+    dotTickCoefficient: {
+      id: 'dotTickCoefficient',
+      formItem: 'slider',
+      text: tDot('Text'),
+      content: tDot('Content'),
+      min: 0,
+      max: 5,
+      percent: true,
     },
     e1Buffs: {
       id: 'e1Buffs',
@@ -273,26 +284,31 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Fire)
               .atkScaling(actualTalentDot)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Wind)
               .atkScaling(actualTalentDot)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Lightning)
               .atkScaling(actualTalentDot)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
               .atkScaling(actualTalentDot)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
               .atkScaling(actualUltDot)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
           ],
         },
@@ -398,7 +414,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_BASIC,
     DEFAULT_DOT,
   ],
-  comboDot: 5,
   errRopeEidolon: 0,
   relicSets: [
     [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],

@@ -293,7 +293,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     WHOLE_SKILL,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
     [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],

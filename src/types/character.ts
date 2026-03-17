@@ -41,9 +41,6 @@ export type SavedBuild = Prettify<
 
 export type BuildOptimizerMetadata = {
   comboStateJson: string | null,
-  comboDot?: Form['comboDot'],
-  comboTurnAbilities?: Form['comboTurnAbilities'],
-  comboType?: Form['comboType'],
   statFilters: StatFilters | null,
   setFilters?: SetFilters,
   setConditionals: SetConditionals,

@@ -63,6 +63,7 @@ export const SampoAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sampo')
+  const tDot = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Common.DotTickCoefficient')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_ULT,
@@ -78,6 +79,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const maxExtraHits = e < 1 ? 4 : 5
   const defaults = {
+    dotTickCoefficient: 20,
     targetDotTakenDebuff: true,
     skillExtraHits: maxExtraHits,
     targetWindShear: true,
@@ -107,6 +109,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.targetWindShear.text'),
       content: t('Content.targetWindShear.content'),
+    },
+    dotTickCoefficient: {
+      id: 'dotTickCoefficient',
+      formItem: 'slider',
+      text: tDot('Text'),
+      content: tDot('Content'),
+      min: 0,
+      max: 100,
+      percent: true,
     },
   }
 
@@ -174,6 +185,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Wind)
               .atkScaling(totalDotScaling)
               .dotBaseChance(0.65)
+              .dotTickCoefficient(r.dotTickCoefficient)
               .build(),
           ],
         },
@@ -241,7 +253,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_SKILL,
     DEFAULT_DOT,
   ],
-  comboDot: 60,
   relicSets: [
     [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

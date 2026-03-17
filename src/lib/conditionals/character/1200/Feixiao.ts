@@ -315,7 +315,6 @@ const simulation = (): SimulationMetadata => ({
     END_FUA,
     DEFAULT_FUA,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.TheWindSoaringValorous, Sets.TheWindSoaringValorous],
     [Sets.TheAshblazingGrandDuke, Sets.TheAshblazingGrandDuke],

@@ -139,7 +139,6 @@ describe('createDefaultFormState', () => {
     expect(form.comboType).toBe(ComboType.SIMPLE)
     expect(form.comboStateJson).toBe('{}')
     expect(form.comboPreprocessor).toBe(true)
-    expect(form.comboDot).toBe(0)
     expect(form.comboTurnAbilities).toHaveLength(2)
     expect(form.comboTurnAbilities[0]).toBe('NULL')
   })

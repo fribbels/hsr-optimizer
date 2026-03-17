@@ -382,7 +382,6 @@ const simulation = (): SimulationMetadata => ({
     START_BASIC,
     END_BREAK,
   ],
-  comboDot: 0,
   relicSets: [
     [Sets.ThiefOfShootingMeteor, Sets.WatchmakerMasterOfDreamMachinations],
     [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],

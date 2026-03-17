@@ -572,7 +572,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_MEMO_SKILL,
     DEFAULT_MEMO_SKILL,
   ],
-  comboDot: 0,
   deprioritizeBuffs: true,
   errRopeEidolon: 0,
   relicSets: [

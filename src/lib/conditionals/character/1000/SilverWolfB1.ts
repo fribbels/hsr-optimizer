@@ -348,7 +348,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_BASIC,
   ],
   deprioritizeBuffs: true,
-  comboDot: 0,
   errRopeEidolon: 0,
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],

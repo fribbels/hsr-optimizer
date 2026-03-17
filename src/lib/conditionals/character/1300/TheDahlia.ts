@@ -449,7 +449,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     WHOLE_BASIC,
   ],
-  comboDot: 0,
   deprioritizeBuffs: true,
   relicSets: [
     [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],

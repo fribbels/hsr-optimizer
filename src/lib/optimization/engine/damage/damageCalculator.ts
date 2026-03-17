@@ -213,6 +213,8 @@ export const DotDamageFunction: DamageFunction = {
     const ehrMulti = calculateEhrMultiFromHit(x, hit, hitIndex, context)
     const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
 
+    const dotTickCoefficientMulti = hit.dotTickCoefficient ?? 1
+
     const dmg = m.baseUniversalMulti
       * m.defMulti
       * m.resMulti
@@ -222,6 +224,7 @@ export const DotDamageFunction: DamageFunction = {
       * abilityMulti
       * ehrMulti
       * trueDmgMulti
+      * dotTickCoefficientMulti
 
     return dmg
   },
@@ -250,6 +253,7 @@ export const DotDamageFunction: DamageFunction = {
     const dotBaseChance = hit.dotBaseChance
     const dotSplit = hit.dotSplit ?? 0
     const dotStacks = hit.dotStacks ?? 1
+    const dotTickCoefficientMulti = hit.dotTickCoefficient ?? 1
     const shouldRecord = hit.recorded !== false
 
     const enemyEffectRes = context.enemyEffectResistance
@@ -297,7 +301,8 @@ export const DotDamageFunction: DamageFunction = {
     * dmgBoostMulti
     * abilityMulti
     * ehrMulti
-    * trueDmgMulti;
+    * trueDmgMulti
+    * ${dotTickCoefficientMulti};
 
   ${shouldRecord ? 'comboDmg += damage;' : ''}
 

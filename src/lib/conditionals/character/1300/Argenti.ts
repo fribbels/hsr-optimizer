@@ -254,7 +254,6 @@ const simulation = (): SimulationMetadata => ({
     START_ULT,
     END_SKILL,
   ],
-  comboDot: 0,
   errRopeEidolon: 0,
   relicSets: [
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],

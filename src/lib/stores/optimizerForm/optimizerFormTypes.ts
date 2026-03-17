@@ -170,7 +170,6 @@ export type OptimizerRequestState = {
   comboStateJson: string
   comboTurnAbilities: TurnAbilityName[]
   comboPreprocessor: boolean
-  comboDot: number
 
   // ── Optimization Settings (affect optimizer behavior) ──
   resultSort: keyof typeof SortOption | undefined

@@ -302,7 +302,6 @@ const simulation = (): SimulationMetadata => ({
     START_BASIC,
     END_BREAK,
   ],
-  comboDot: 0,
   deprioritizeBuffs: true,
   relicSets: [
     [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],

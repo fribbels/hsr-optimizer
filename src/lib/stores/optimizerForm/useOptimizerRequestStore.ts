@@ -45,7 +45,6 @@ type OptimizerRequestActions = {
   setComboStateJson: (json: string) => void
   setComboType: (type: ComboType) => void
   setComboTurnAbilities: (abilities: TurnAbilityName[]) => void
-  setComboDot: (dot: number) => void
   setComboPreprocessor: (enabled: boolean) => void
   setDeprioritizeBuffs: (enabled: boolean) => void
   setResultSort: (sort: keyof typeof SortOption | undefined) => void
@@ -106,8 +105,6 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
   setComboType: (type) => set({ comboType: type }),
 
   setComboTurnAbilities: (abilities) => set({ comboTurnAbilities: abilities }),
-
-  setComboDot: (dot) => set({ comboDot: dot }),
 
   setComboPreprocessor: (enabled) => set({ comboPreprocessor: enabled }),
 

@@ -494,7 +494,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_BASIC,
     WHOLE_ELATION_SKILL,
   ],
-  comboDot: 0,
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
   breakpoints: {

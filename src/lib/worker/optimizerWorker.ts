@@ -33,7 +33,6 @@ import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
 import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   SortOption,
   SortOptionProperties,
@@ -256,7 +255,6 @@ export function optimizerWorker(e: MessageEvent) {
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
-      const dotComboMultiplier = getDotComboMultiplier(action, context)
       let sum = 0
       for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
         const hit = action.hits![hitIndex]
@@ -266,7 +264,7 @@ export function optimizerWorker(e: MessageEvent) {
         // Only accumulate recorded damage hits to sum and comboDmg (not heals/shields)
         if (hit.outputTag == OutputTag.DAMAGE && hit.recorded !== false) {
           sum += dmg
-          comboDmg += dmg * dotComboMultiplier
+          comboDmg += dmg
         }
       }
       x.setActionRegisterValue(action.registerIndex, sum)
@@ -487,17 +485,4 @@ function generateResultMinFilter(request: Form, context: OptimizerContext) {
     failsBasicThresholdFilter: pass,
     failsComputedThresholdFilter: (x: ComputedStatsContainer) => getComputedValue(x) < threshold,
   }
-}
-
-/**
- * Returns the combo multiplier for a rotation action.
- * DOT actions get their damage multiplied by (comboDot / dotAbilities) to represent
- * multiple ticks of DOT damage occurring during the rotation.
- * Non-DOT actions get a multiplier of 1.
- */
-function getDotComboMultiplier(action: OptimizerAction, context: OptimizerContext): number {
-  if (action.actionType === AbilityKind.DOT && context.comboDot > 0 && context.dotAbilities > 0) {
-    return context.comboDot / context.dotAbilities
-  }
-  return 1
 }

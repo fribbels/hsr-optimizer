@@ -21,6 +21,9 @@ Common:
     Ult: 'Shielding ability: Ult'
     Talent: 'Shielding ability: Talent'
     Trace: 'Shielding ability: Trace'
+  DotTickCoefficient:
+    Text: 'DOT tick coefficient'
+    Content: 'DOT damage percentage per rotation action, accounting for total ticks from enemy turns, detonations, and other sources. 100% = 1 tick of DOT damage.'
 Lightcones:
   AGroundedAscent:
     Content:

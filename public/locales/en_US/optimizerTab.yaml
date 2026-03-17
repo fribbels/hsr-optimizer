@@ -566,8 +566,6 @@ ComboFilter:
     ResetConfirm:
       Description: Reset all Simple / Advanced rotation settings to default?
     PresetsHeader: Presets
-  CounterLabels:
-    Dot: Dots
   ComboOptions:
     None: 'None'
     Basic: Basic

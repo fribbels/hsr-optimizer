@@ -120,7 +120,6 @@ export type Form =
     comboTurnAbilities: TurnAbilityName[],
     comboPreprocessor: boolean,
     comboType: ComboType,
-    comboDot: number,
 
     teammate0: Teammate,
     teammate1: Teammate,

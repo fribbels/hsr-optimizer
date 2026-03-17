@@ -55,6 +55,7 @@ export interface DotHitDefinition extends BaseHitDefinition {
   dotBaseChance: number
   dotSplit?: number
   dotStacks?: number
+  dotTickCoefficient?: number
 }
 
 export interface BreakHitDefinition extends BaseHitDefinition {

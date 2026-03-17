@@ -1,15 +1,22 @@
 import i18next from 'i18next'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
+import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
+import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
+import {
+  TrailblazerElationCaelus,
+  TrailblazerElationStelle,
+} from 'lib/conditionals/character/8000/TrailblazerElation'
+import { TomorrowWithUsAll } from 'lib/conditionals/lightcone/4star/TomorrowWithUsAll'
+import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
+import { EncounterAtFloweringsComing } from 'lib/conditionals/lightcone/5star/EncounterAtFloweringsComing'
+import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
+import { WelcomeToTheCityOfStars } from 'lib/conditionals/lightcone/5star/WelcomeToTheCityOfStars'
 import {
   CharacterConverter,
   UnconvertedCharacter,
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
-import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
-import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
-import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
-import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
-import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
-import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import DB, {
   AppPages,
   PageToRoute,
@@ -40,6 +47,8 @@ export type Preset = CharacterPreset | FillerPreset
 export type CharacterPreset = {
   characterId: CharacterId | null,
   lightConeId: LightConeId | null,
+  characterEidolon?: number,
+  lightConeSuperimposition?: number,
   rerun?: boolean,
   custom?: never,
 }
@@ -57,7 +66,10 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
-    { characterId: char(Yaoguang.id), lightConeId: lc(WhenSheDecidedToSee.id) },
+    { characterId: char(SilverWolfLv999.id), lightConeId: lc(WelcomeToTheCityOfStars.id) },
+    { characterId: char(Evanescia.id), lightConeId: lc(EncounterAtFloweringsComing.id) },
+    { characterId: char(TrailblazerElationStelle.id), lightConeId: lc(TomorrowWithUsAll.id), characterEidolon: 6, lightConeSuperimposition: 5 },
+    { characterId: char(TrailblazerElationCaelus.id), lightConeId: lc(TomorrowWithUsAll.id), characterEidolon: 6, lightConeSuperimposition: 5 },
     { characterId: char(Sparxie.id), lightConeId: lc(DazzledByAFloweryWorld.id) },
     { characterId: char(Ashveil.id), lightConeId: lc(TheFinaleOfALie.id) },
 

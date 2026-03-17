@@ -424,11 +424,11 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 1040,
-    y: 1000,
-    z: 1.1,
+    x: 1050,
+    y: 1100,
+    z: 1.00,
   },
-  showcaseColor: '#8d7abc',
+  showcaseColor: '#9874e2',
 }
 
 export const TrailblazerElationCaelus: CharacterConfig = {

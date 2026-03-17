@@ -9,8 +9,8 @@ Characters:
     Name: 姬子
     LongName: 姬子
   "1004":
-    Name: 瓦爾特
-    LongName: 瓦爾特
+    Name: ⚰️ 瓦爾特
+    LongName: ⚰️ 瓦爾特
   "1005":
     Name: ⚰️ 卡芙卡
     LongName: ⚰️ 卡芙卡
@@ -36,8 +36,8 @@ Characters:
     Name: 布洛妮婭
     LongName: 布洛妮婭
   "1102":
-    Name: 希兒
-    LongName: 希兒
+    Name: ⚰️ 希兒
+    LongName: ⚰️ 希兒
   "1103":
     Name: 希露瓦
     LongName: 希露瓦
@@ -114,8 +114,8 @@ Characters:
     Name: 寒鴉
     LongName: 寒鴉
   "1217":
-    Name: 藿藿
-    LongName: 藿藿
+    Name: ⚰️ 藿藿
+    LongName: ⚰️ 藿藿
   "1218":
     Name: 椒丘
     LongName: 椒丘
@@ -165,8 +165,8 @@ Characters:
     Name: 知更鳥
     LongName: 知更鳥
   "1310":
-    Name: 流螢
-    LongName: 流螢
+    Name: ⚰️ 流螢
+    LongName: ⚰️ 流螢
   "1312":
     Name: 米沙
     LongName: 米沙
@@ -267,11 +267,11 @@ Characters:
     Name: 星
     LongName: 星 (記憶)
   "8009":
-    Name: "{NICKNAME}"
-    LongName: "{NICKNAME}"
+    Name: 穹
+    LongName: 穹 (歡愉)
   "8010":
-    Name: "{NICKNAME}"
-    LongName: "{NICKNAME}"
+    Name: 星
+    LongName: 星 (歡愉)
   1212b1:
     Name: 鏡流
     LongName: 鏡流
@@ -290,6 +290,18 @@ Characters:
   1306b1:
     Name: 花火
     LongName: 花火
+  1004b1:
+    Name: 瓦爾特
+    LongName: 瓦爾特
+  1102b1:
+    Name: 希兒
+    LongName: 希兒
+  1217b1:
+    Name: 藿藿
+    LongName: 藿藿
+  1310b1:
+    Name: 流螢
+    LongName: 流螢
 RelicSets:
   "101":
     Name: 雲無留跡的過客

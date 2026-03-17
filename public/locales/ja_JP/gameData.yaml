@@ -9,8 +9,8 @@ Characters:
     Name: 姫子
     LongName: 姫子
   "1004":
-    Name: ヴェルト
-    LongName: ヴェルト
+    Name: ⚰️ ヴェルト
+    LongName: ⚰️ ヴェルト
   "1005":
     Name: ⚰️ カフカ
     LongName: ⚰️ カフカ
@@ -36,8 +36,8 @@ Characters:
     Name: ブローニャ
     LongName: ブローニャ
   "1102":
-    Name: ゼーレ
-    LongName: ゼーレ
+    Name: ⚰️ ゼーレ
+    LongName: ⚰️ ゼーレ
   "1103":
     Name: セーバル
     LongName: セーバル
@@ -114,8 +114,8 @@ Characters:
     Name: 寒鴉
     LongName: 寒鴉
   "1217":
-    Name: フォフォ
-    LongName: フォフォ
+    Name: ⚰️ フォフォ
+    LongName: ⚰️ フォフォ
   "1218":
     Name: 椒丘
     LongName: 椒丘
@@ -165,8 +165,8 @@ Characters:
     Name: ロビン
     LongName: ロビン
   "1310":
-    Name: ホタル
-    LongName: ホタル
+    Name: ⚰️ ホタル
+    LongName: ⚰️ ホタル
   "1312":
     Name: ミーシャ
     LongName: ミーシャ
@@ -267,11 +267,11 @@ Characters:
     Name: 星
     LongName: 星 (記憶)
   "8009":
-    Name: "{NICKNAME}"
-    LongName: "{NICKNAME}"
+    Name: 穹
+    LongName: 穹 (愉悦)
   "8010":
-    Name: "{NICKNAME}"
-    LongName: "{NICKNAME}"
+    Name: 星
+    LongName: 星 (愉悦)
   1212b1:
     Name: 鏡流
     LongName: 鏡流
@@ -290,6 +290,18 @@ Characters:
   1306b1:
     Name: 花火
     LongName: 花火
+  1004b1:
+    Name: ヴェルト
+    LongName: ヴェルト
+  1102b1:
+    Name: ゼーレ
+    LongName: ゼーレ
+  1217b1:
+    Name: フォフォ
+    LongName: フォフォ
+  1310b1:
+    Name: ホタル
+    LongName: ホタル
 RelicSets:
   "101":
     Name: 流雲無痕の過客

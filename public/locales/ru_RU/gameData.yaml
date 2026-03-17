@@ -9,8 +9,8 @@ Characters:
     Name: Химеко
     LongName: Химеко
   "1004":
-    Name: Вельт
-    LongName: Вельт
+    Name: ⚰️ Вельт
+    LongName: ⚰️ Вельт
   "1005":
     Name: ⚰️ Кафка
     LongName: ⚰️ Кафка
@@ -36,8 +36,8 @@ Characters:
     Name: Броня
     LongName: Броня
   "1102":
-    Name: Зеле
-    LongName: Зеле
+    Name: ⚰️ Зеле
+    LongName: ⚰️ Зеле
   "1103":
     Name: Сервал
     LongName: Сервал
@@ -114,8 +114,8 @@ Characters:
     Name: Ханья
     LongName: Ханья
   "1217":
-    Name: Хохо
-    LongName: Хохо
+    Name: ⚰️ Хохо
+    LongName: ⚰️ Хохо
   "1218":
     Name: Цзяоцю
     LongName: Цзяоцю
@@ -165,8 +165,8 @@ Characters:
     Name: Зарянка
     LongName: Зарянка
   "1310":
-    Name: Светлячок
-    LongName: Светлячок
+    Name: ⚰️ Светлячок
+    LongName: ⚰️ Светлячок
   "1312":
     Name: Миша
     LongName: Миша
@@ -267,11 +267,11 @@ Characters:
     Name: Стелла
     LongName: Стелла (Память)
   "8009":
-    Name: "{NICKNAME}"
-    LongName: "{NICKNAME}"
+    Name: Келус
+    LongName: Келус (Радость)
   "8010":
-    Name: "{NICKNAME}"
-    LongName: "{NICKNAME}"
+    Name: Стелла
+    LongName: Стелла (Радость)
   1212b1:
     Name: Цзинлю
     LongName: Цзинлю
@@ -290,6 +290,18 @@ Characters:
   1306b1:
     Name: Искорка
     LongName: Искорка
+  1004b1:
+    Name: Вельт
+    LongName: Вельт
+  1102b1:
+    Name: Зеле
+    LongName: Зеле
+  1217b1:
+    Name: Хохо
+    LongName: Хохо
+  1310b1:
+    Name: Светлячок
+    LongName: Светлячок
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака

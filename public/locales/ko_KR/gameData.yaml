@@ -9,8 +9,8 @@ Characters:
     Name: 히메코
     LongName: 히메코
   "1004":
-    Name: 웰트
-    LongName: 웰트
+    Name: ⚰️ 웰트
+    LongName: ⚰️ 웰트
   "1005":
     Name: ⚰️ 카프카
     LongName: ⚰️ 카프카
@@ -36,8 +36,8 @@ Characters:
     Name: 브로냐
     LongName: 브로냐
   "1102":
-    Name: 제레
-    LongName: 제레
+    Name: ⚰️ 제레
+    LongName: ⚰️ 제레
   "1103":
     Name: 서벌
     LongName: 서벌
@@ -114,8 +114,8 @@ Characters:
     Name: 한아
     LongName: 한아
   "1217":
-    Name: 곽향
-    LongName: 곽향
+    Name: ⚰️ 곽향
+    LongName: ⚰️ 곽향
   "1218":
     Name: 초구
     LongName: 초구
@@ -165,8 +165,8 @@ Characters:
     Name: 로빈
     LongName: 로빈
   "1310":
-    Name: 반디
-    LongName: 반디
+    Name: ⚰️ 반디
+    LongName: ⚰️ 반디
   "1312":
     Name: 미샤
     LongName: 미샤
@@ -267,11 +267,11 @@ Characters:
     Name: 스텔레
     LongName: 스텔레 (기억)
   "8009":
-    Name: "{NICKNAME}"
-    LongName: "{NICKNAME}"
+    Name: 카일루스
+    LongName: 카일루스 (환락)
   "8010":
-    Name: "{NICKNAME}"
-    LongName: "{NICKNAME}"
+    Name: 스텔레
+    LongName: 스텔레 (환락)
   1212b1:
     Name: 경류
     LongName: 경류
@@ -290,6 +290,18 @@ Characters:
   1306b1:
     Name: 스파클
     LongName: 스파클
+  1004b1:
+    Name: 웰트
+    LongName: 웰트
+  1102b1:
+    Name: 제레
+    LongName: 제레
+  1217b1:
+    Name: 곽향
+    LongName: 곽향
+  1310b1:
+    Name: 반디
+    LongName: 반디
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"

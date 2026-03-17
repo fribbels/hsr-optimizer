@@ -49,9 +49,7 @@ import {
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
+import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS, } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -256,6 +254,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES, (r.enhancedStateActive) ? talentResBuff : 0, x.source(SOURCE_TALENT))
       x.buff(StatKey.SPD, (r.enhancedStateActive && r.enhancedStateSpdBuff) ? ultSpdBuff : 0, x.source(SOURCE_ULT))
       x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (r.enhancedStateActive) ? 0.50 : 0, x.source(SOURCE_ULT))
+
+      // Trace: BE +25% during Complete Combustion
+      x.buff(StatKey.BE, (r.enhancedStateActive) ? 0.25 : 0, x.source(SOURCE_TRACE))
       x.multiplicativeComplement(StatKey.DMG_RED, (r.enhancedStateActive && r.talentDmgReductionBuff) ? talentDmgReductionBuff : 0, x.source(SOURCE_TALENT))
 
       // Break vulnerability (only to weakness-broken enemies)
@@ -282,8 +283,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Super break modifier based on BE thresholds
       const be = x.getActionValue(StatKey.BE, FireflyB1Entities.FireflyB1)
-      x.buff(StatKey.SUPER_BREAK_MODIFIER, (r.superBreakDmg && r.enhancedStateActive && be >= 2.00) ? 0.35 : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.SUPER_BREAK_MODIFIER, (r.superBreakDmg && r.enhancedStateActive && be >= 3.60) ? 0.15 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.SUPER_BREAK_MODIFIER, (r.superBreakDmg && r.enhancedStateActive && be >= 1.50) ? 1.00 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.SUPER_BREAK_MODIFIER, (r.superBreakDmg && r.enhancedStateActive && be >= 3.00) ? 0.50 : 0, x.source(SOURCE_TRACE))
     },
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -292,11 +293,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       return wgsl`
 let be = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)};
 
-if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 2.00) {
-  ${buff.action(AKey.SUPER_BREAK_MODIFIER, 0.35).wgsl(action)}
+if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 1.50) {
+  ${buff.action(AKey.SUPER_BREAK_MODIFIER, 1.00).wgsl(action)}
 }
-if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.60) {
-  ${buff.action(AKey.SUPER_BREAK_MODIFIER, 0.15).wgsl(action)}
+if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.00) {
+  ${buff.action(AKey.SUPER_BREAK_MODIFIER, 0.50).wgsl(action)}
 }
       `
     },

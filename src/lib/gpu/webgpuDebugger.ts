@@ -71,6 +71,9 @@ function mapActionNameToField(actionName: string): string | null {
   // Elation variations
   if (upperName === 'ELATION_SKILL' || upperName.includes('ELATION_SKILL')) return 'ELATION_SKILL'
 
+  // Unique variations
+  if (upperName === 'UNIQUE' || upperName.includes('UNIQUE')) return 'UNIQUE'
+
   return null
 }
 
@@ -88,6 +91,7 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
     MEMO_SKILL: 0,
     MEMO_TALENT: 0,
     ELATION_SKILL: 0,
+    UNIQUE: 0,
     DOT: 0,
     BREAK: 0,
     COMBO: 0,

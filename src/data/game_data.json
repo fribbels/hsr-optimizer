@@ -7643,74 +7643,74 @@
       },
       "traceTree": [
         {
-          "id": "1504201_4.1v4",
+          "id": "1504201",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1504202_4.1v4",
+          "id": "1504202",
           "stat": "Lightning DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1504203_4.1v4",
+              "id": "1504203",
               "stat": "CRIT DMG",
               "value": 0.053,
-              "pre": "1504202_4.1v4",
+              "pre": "1504202",
               "children": []
             }
           ]
         },
         {
-          "id": "1504204_4.1v4",
+          "id": "1504204",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1504205_4.1v4",
+          "id": "1504205",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1504206_4.1v4",
+              "id": "1504206",
               "stat": "Lightning DMG Boost",
               "value": 0.048,
-              "pre": "1504205_4.1v4",
+              "pre": "1504205",
               "children": []
             }
           ]
         },
         {
-          "id": "1504207_4.1v4",
+          "id": "1504207",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": []
         },
         {
-          "id": "1504208_4.1v4",
+          "id": "1504208",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1504209_4.1v4",
+              "id": "1504209",
               "stat": "Lightning DMG Boost",
               "value": 0.064,
-              "pre": "1504208_4.1v4",
+              "pre": "1504208",
               "children": []
             },
             {
-              "id": "1504210_4.1v4",
+              "id": "1504210",
               "stat": "CRIT DMG",
               "value": 0.107,
-              "pre": "1504208_4.1v4",
+              "pre": "1504208",
               "children": []
             }
           ]
@@ -7722,6 +7722,202 @@
         "ATK": 776.16,
         "DEF": 388.08,
         "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1505": {
+      "id": "1505",
+      "name": "Evanescia",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Physical",
+      "traces": {
+        "SPD": 5,
+        "Elation": 0.18,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1505201_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1505202_4.1v4",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1505203_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1505204_4.1v4",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1505205_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1505206_4.1v4",
+              "stat": "Elation",
+              "value": 0.06,
+              "pre": "1505205_4.1v4",
+              "children": [
+                {
+                  "id": "1505207_4.1v4",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1505206_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1505208_4.1v4",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1505209_4.1v4",
+              "stat": "Elation",
+              "value": 0.08,
+              "pre": "1505208_4.1v4",
+              "children": [
+                {
+                  "id": "1505210_4.1v4",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1505209_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 480,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 737.352,
+        "DEF": 460.845,
+        "SPD": 104,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1506": {
+      "id": "1506",
+      "name": "Silver Wolf LV.<unbreak>999</unbreak>",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Imaginary",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "Elation": 0.18,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1506201_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506202_4.1v4",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506203_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506204_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506205_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1506206_4.1v4",
+              "stat": "Elation",
+              "value": 0.06,
+              "pre": "1506205_4.1v4",
+              "children": [
+                {
+                  "id": "1506207_4.1v4",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1506206_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1506208_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1506209_4.1v4",
+              "stat": "Elation",
+              "value": 0.08,
+              "pre": "1506208_4.1v4",
+              "children": [
+                {
+                  "id": "1506210_4.1v4",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1506209_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 80,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 543.312,
+        "DEF": 679.14,
+        "SPD": 99,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -8509,6 +8705,301 @@
       },
       "unreleased": false
     },
+    "8009": {
+      "id": "8009",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Lightning",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "CRIT Rate": 0.12,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "8009201_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8009202_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8009203_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8009204_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8009205_4.1v4",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8009206_4.1v4",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "8009205_4.1v4",
+              "children": [
+                {
+                  "id": "8009207_4.1v4",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "8009206_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8009208_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "8009209_4.1v4",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "8009208_4.1v4",
+              "children": [
+                {
+                  "id": "8009210_4.1v4",
+                  "stat": "ATK%",
+                  "value": 0.08,
+                  "pre": "8009209_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 160,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 465.696,
+        "DEF": 630.63,
+        "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "8010": {
+      "id": "8010",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Lightning",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "CRIT Rate": 0.12,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "8010201_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8010202_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8010203_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8010204_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8010205_4.1v4",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8010206_4.1v4",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "8010205_4.1v4",
+              "children": [
+                {
+                  "id": "8010207_4.1v4",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "8010206_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8010208_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "8010209_4.1v4",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "8010208_4.1v4",
+              "children": [
+                {
+                  "id": "8010210_4.1v4",
+                  "stat": "ATK%",
+                  "value": 0.08,
+                  "pre": "8010209_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 160,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 465.696,
+        "DEF": 630.63,
+        "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1004b1": {
+      "id": "1004b1",
+      "name": "Welt",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Imaginary",
+      "traces": {
+        "Imaginary DMG Boost": 0.144,
+        "Effect RES": 0.1,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "11004201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11004210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "11004201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11004202",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "11004203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "11004202",
+              "children": [
+                {
+                  "id": "11004204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "11004203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11004205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11004206",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.048,
+              "pre": "11004205",
+              "children": [
+                {
+                  "id": "11004207",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "11004206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11004208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11004209",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 120,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 620.928,
+        "DEF": 509.355,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
     "1005b1": {
       "id": "1005b1",
       "name": "Kafka",
@@ -8702,6 +9193,103 @@
         "ATK": 640.332,
         "DEF": 460.845,
         "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1102b1": {
+      "id": "1102b1",
+      "name": "Seele",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Quantum",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "CRIT DMG": 0.24
+      },
+      "traceTree": [
+        {
+          "id": "11102201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11102202",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "11102203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "11102202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11102204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11102205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11102206",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "11102205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11102207",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11102208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "11102209",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "11102208",
+              "children": []
+            },
+            {
+              "id": "11102210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "11102208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 120,
+      "stats": {
+        "HP": 931.392,
+        "ATK": 640.332,
+        "DEF": 363.825,
+        "SPD": 115,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -8905,6 +9493,104 @@
       },
       "unreleased": false
     },
+    "1217b1": {
+      "id": "1217b1",
+      "name": "Huohuo",
+      "rarity": 5,
+      "path": "Abundance",
+      "element": "Wind",
+      "traces": {
+        "HP%": 0.28,
+        "Effect RES": 0.18,
+        "SPD": 5
+      },
+      "traceTree": [
+        {
+          "id": "11217201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11217202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11217203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "11217202",
+              "children": [
+                {
+                  "id": "11217204",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "11217203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11217205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11217206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "11217205",
+              "children": [
+                {
+                  "id": "11217207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "11217206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11217208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11217209",
+          "stat": "Effect RES",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11217210",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 601.524,
+        "DEF": 509.355,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
     "1306b1": {
       "id": "1306b1",
       "name": "Sparkle",
@@ -9097,6 +9783,105 @@
         "ATK": 659.736,
         "DEF": 485.1,
         "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1310b1": {
+      "id": "1310b1",
+      "name": "Firefly",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Fire",
+      "traces": {
+        "SPD": 5,
+        "Break Effect": 0.373,
+        "Effect RES": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "11310201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11310202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11310203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "11310202",
+              "children": [
+                {
+                  "id": "11310204",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "11310203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11310205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "11310206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "11310205",
+              "children": [
+                {
+                  "id": "11310207",
+                  "stat": "Break Effect",
+                  "value": 0.08,
+                  "pre": "11310206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11310208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "11310209",
+              "stat": "Effect RES",
+              "value": 0.08,
+              "pre": "11310208",
+              "children": []
+            },
+            {
+              "id": "11310210",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "11310208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 240,
+      "stats": {
+        "HP": 814.968,
+        "ATK": 523.908,
+        "DEF": 776.16,
+        "SPD": 104,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -11598,6 +12383,40 @@
       },
       "unreleased": false
     },
+    "22007": {
+      "id": "22007",
+      "name": "We'll face the Hereafter together",
+      "rarity": 4,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": 13,
+        "s": 1.07
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.12
+        },
+        "2": {
+          "CriticalDamageBase": 0.15
+        },
+        "3": {
+          "CriticalDamageBase": 0.18
+        },
+        "4": {
+          "CriticalDamageBase": 0.21
+        },
+        "5": {
+          "CriticalDamageBase": 0.24
+        }
+      },
+      "unreleased": true
+    },
     "23000": {
       "id": "23000",
       "name": "Night on the Milky Way",
@@ -13445,6 +14264,74 @@
           "CriticalChanceBase": 0.3
         }
       },
+      "unreleased": false
+    },
+    "23057": {
+      "id": "23057",
+      "name": "Welcome to Cosmic City",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 10,
+        "y": -115,
+        "s": 1.6
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.64
+        },
+        "2": {
+          "AttackAddedRatio": 0.8
+        },
+        "3": {
+          "AttackAddedRatio": 0.96
+        },
+        "4": {
+          "AttackAddedRatio": 1.12
+        },
+        "5": {
+          "AttackAddedRatio": 1.28
+        }
+      },
+      "unreleased": true
+    },
+    "23058": {
+      "id": "23058",
+      "name": "A Rendezvous in the Next Flower Season",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": -4,
+        "y": -28,
+        "s": 1.17
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.6
+        },
+        "2": {
+          "CriticalDamageBase": 0.825
+        },
+        "3": {
+          "CriticalDamageBase": 1.05
+        },
+        "4": {
+          "CriticalDamageBase": 1.275
+        },
+        "5": {
+          "CriticalDamageBase": 1.5
+        }
+      },
       "unreleased": true
     },
     "24000": {
@@ -13667,7 +14554,7 @@
           "AttackAddedRatio": 0.4
         }
       },
-      "unreleased": true
+      "unreleased": false
     }
   },
   "relics": [
@@ -13944,12 +14831,12 @@
     {
       "id": "325",
       "name": "Punklorde Stage Zero",
-      "skills": "Increases the wearer's Elation by <b>8%</b>. When Elation reaches <b>40%</b>/<b>80%</b> for the first time in battle, increases the wearer's CRIT DMG by <b>20%</b>/<b>32%</b>."
+      "skills": "Increases the wearer's Elation by <b>8%</b>. When Elation reaches <b>40%</b>/<b>80%</b> for the first time in combat, increases the wearer's CRIT DMG by <b>20%</b>/<b>32%</b>."
     },
     {
       "id": "326",
       "name": "City of Converging Stars",
-      "skills": "When the wearer uses a Follow-Up ATK, increases their ATK by <b>24%</b> for <b>2</b> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <b>12%</b> for the rest of the current battle. This effect cannot stack."
+      "skills": "When the wearer uses Follow-Up ATK, increases ATK by <b>24%</b> for <b>2</b> turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by <b>12%</b> in the current battle. This effect cannot stack."
     }
   ]
 }

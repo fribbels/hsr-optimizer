@@ -29,6 +29,7 @@ import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
+  DamageTag,
   ElementTag,
   SELF_ENTITY_INDEX,
   TargetTag,
@@ -103,6 +104,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enemyWeightless: true,
     enemyDmgTakenDebuff: true,
     ehrToAtkBoost: true,
+    traceAdditionalDmg: true,
     skillExtraHits: skillExtraHitsMax,
     e1WeightlessAdditionalDmg: true,
     e4SlowedCrCdBoost: true,
@@ -138,6 +140,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ehrToAtkBoost',
       formItem: 'switch',
       text: 'EHR to ATK boost',
+      content: betaContent,
+    },
+    traceAdditionalDmg: {
+      id: 'traceAdditionalDmg',
+      formItem: 'switch',
+      text: 'Trace Additional DMG',
       content: betaContent,
     },
     skillExtraHits: {
@@ -215,10 +223,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(10)
               .build(),
             // Trace: Judge - Basic Additional DMG (80% of Basic mult)
-            HitDefinitionBuilder.standardAdditional()
-              .damageElement(ElementTag.Imaginary)
-              .atkScaling(basicTraceAdditionalScaling)
-              .build(),
+            ...(r.traceAdditionalDmg
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(basicTraceAdditionalScaling)
+                  .build(),
+              ]
+              : []),
             // Talent: Additional DMG when hitting Slowed enemy
             ...(talentAdditionalScaling > 0
               ? [
@@ -238,10 +250,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(skillToughness)
               .build(),
             // Trace: Judge - Skill Additional DMG (120% of Skill mult)
-            HitDefinitionBuilder.standardAdditional()
-              .damageElement(ElementTag.Imaginary)
-              .atkScaling(skillTraceAdditionalScaling)
-              .build(),
+            ...(r.traceAdditionalDmg
+              ? [
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(skillTraceAdditionalScaling)
+                  .build(),
+              ]
+              : []),
             // Talent: Additional DMG when hitting Slowed enemy
             ...(talentAdditionalScaling > 0
               ? [
@@ -301,9 +317,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // E4: Skill/Ult hitting Slow target → CR_BOOST +20%, CD_BOOST +50%
-      x.buff(StatKey.CR_BOOST, (e >= 4 && r.e4SlowedCrCdBoost) ? 0.20 : 0, x.source(SOURCE_E4))
-      x.buff(StatKey.CD_BOOST, (e >= 4 && r.e4SlowedCrCdBoost) ? 0.50 : 0, x.source(SOURCE_E4))
+      // E4: Skill/Ult hitting Slow target → CR +20%, CD +50%
+      x.buff(StatKey.CR, (e >= 4 && r.e4SlowedCrCdBoost) ? 0.20 : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E4))
+      x.buff(StatKey.CD, (e >= 4 && r.e4SlowedCrCdBoost) ? 0.50 : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E4))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

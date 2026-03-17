@@ -45,6 +45,7 @@ import {
   WHOLE_SKILL,
   WHOLE_UNIQUE,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
@@ -481,7 +482,10 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.BANANA_SET,
+    PresetEffects.fnPioneerSet(4),
+  ],
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),

@@ -21,6 +21,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const { SOURCE_LC } = Source.lightCone(EncounterAtFloweringsComing.id)
 
   const sValuesVulnerability = [0.15, 0.21, 0.28, 0.34, 0.40]
+  const sValuesErr = [0.10, 0.115, 0.13, 0.145, 0.16]
 
   const defaults = {
     maxEnergyErrConversion: true,
@@ -60,11 +61,13 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      const errValue = (r.maxEnergyErrConversion && context.baseEnergy > 120)
+      x.buff(StatKey.ERR, sValuesErr[s], x.source(SOURCE_LC))
+
+      const conditionalErr = (r.maxEnergyErrConversion && context.baseEnergy > 120)
         ? Math.min(360, context.baseEnergy - 120) / 10 * 0.003
         : 0
-      x.buff(StatKey.ERR, errValue, x.source(SOURCE_LC))
-      x.buff(StatKey.UNCONVERTIBLE_ERR_BUFF, errValue, x.source(SOURCE_LC))
+      x.buff(StatKey.ERR, conditionalErr, x.source(SOURCE_LC))
+      x.buff(StatKey.UNCONVERTIBLE_ERR_BUFF, conditionalErr, x.source(SOURCE_LC))
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>

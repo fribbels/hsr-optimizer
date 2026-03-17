@@ -1,5 +1,4 @@
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
-import { Qingque } from 'lib/conditionals/character/1200/Qingque'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import {
@@ -509,6 +508,7 @@ const simulation = (): SimulationMetadata => ({
   ornamentSets: [
     // TODO: Add Sets.PunklordeStageZero during 4.1
     Sets.TengokuLivestream,
+    Sets.PunklordeStageZero,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
     ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,

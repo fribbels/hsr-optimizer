@@ -46,9 +46,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
+import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS, } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
@@ -338,6 +336,7 @@ const simulation = (): SimulationMetadata => ({
     ],
     [Parts.LinkRope]: [
       Stats.BE,
+      Stats.ATK_P,
     ],
   },
   substats: [

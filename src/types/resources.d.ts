@@ -4273,8 +4273,8 @@ interface Resources {
         "LongName": "Himeko"
       },
       "1004": {
-        "Name": "Welt",
-        "LongName": "Welt"
+        "Name": "⚰️ Welt",
+        "LongName": "⚰️ Welt"
       },
       "1005": {
         "Name": "⚰️ Kafka",
@@ -4309,8 +4309,8 @@ interface Resources {
         "LongName": "Bronya"
       },
       "1102": {
-        "Name": "Seele",
-        "LongName": "Seele"
+        "Name": "⚰️ Seele",
+        "LongName": "⚰️ Seele"
       },
       "1103": {
         "Name": "Serval",
@@ -4413,8 +4413,8 @@ interface Resources {
         "LongName": "Hanya"
       },
       "1217": {
-        "Name": "Huohuo",
-        "LongName": "Huohuo"
+        "Name": "⚰️ Huohuo",
+        "LongName": "⚰️ Huohuo"
       },
       "1218": {
         "Name": "Jiaoqiu",
@@ -4481,8 +4481,8 @@ interface Resources {
         "LongName": "Robin"
       },
       "1310": {
-        "Name": "Firefly",
-        "LongName": "Firefly"
+        "Name": "⚰️ Firefly",
+        "LongName": "⚰️ Firefly"
       },
       "1312": {
         "Name": "Misha",
@@ -4576,6 +4576,14 @@ interface Resources {
         "Name": "Ashveil",
         "LongName": "Ashveil"
       },
+      "1505": {
+        "Name": "Evanescia",
+        "LongName": "Evanescia"
+      },
+      "1506": {
+        "Name": "Silver Wolf LV.999",
+        "LongName": "Silver Wolf LV.999"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -4608,6 +4616,14 @@ interface Resources {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
       },
+      "8009": {
+        "Name": "Caelus",
+        "LongName": "Caelus (Elation)"
+      },
+      "8010": {
+        "Name": "Stelle",
+        "LongName": "Stelle (Elation)"
+      },
       "1212b1": {
         "Name": "Jingliu",
         "LongName": "Jingliu"
@@ -4631,6 +4647,22 @@ interface Resources {
       "1306b1": {
         "Name": "Sparkle",
         "LongName": "Sparkle"
+      },
+      "1004b1": {
+        "Name": "Welt",
+        "LongName": "Welt"
+      },
+      "1102b1": {
+        "Name": "Seele",
+        "LongName": "Seele"
+      },
+      "1217b1": {
+        "Name": "Huohuo",
+        "LongName": "Huohuo"
+      },
+      "1310b1": {
+        "Name": "Firefly",
+        "LongName": "Firefly"
       }
     },
     "RelicSets": {
@@ -4882,11 +4914,11 @@ interface Resources {
       },
       "325": {
         "Name": "Punklorde Stage Zero",
-        "Description2pc": "Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%."
+        "Description2pc": "Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%."
       },
       "326": {
         "Name": "City of Converging Stars",
-        "Description2pc": "When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack."
+        "Description2pc": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack."
       }
     },
     "Lightcones": {
@@ -5175,6 +5207,9 @@ interface Resources {
       "22006": {
         "Name": "Fly Into a Pink Tomorrow"
       },
+      "22007": {
+        "Name": "We'll face the Hereafter together"
+      },
       "23000": {
         "Name": "Night on the Milky Way"
       },
@@ -5342,6 +5377,12 @@ interface Resources {
       },
       "23056": {
         "Name": "The Finale of a Lie"
+      },
+      "23057": {
+        "Name": "Welcome to Cosmic City"
+      },
+      "23058": {
+        "Name": "A Rendezvous in the Next Flower Season"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"

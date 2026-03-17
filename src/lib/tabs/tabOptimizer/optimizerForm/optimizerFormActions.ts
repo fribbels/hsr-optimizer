@@ -3,6 +3,7 @@ import {
   Constants,
   DEFAULT_STAT_DISPLAY,
 } from 'lib/constants/constants'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Message } from 'lib/interactions/message'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -339,6 +340,12 @@ export function updateCharacter(characterId: CharacterId): void {
   const character = getCharacterById(characterId)
 
   const form = character ? character.form : getDefaultForm({ id: characterId })
+
+  // Merge saved conditionals with current defaults so newly added conditionals get their default values
+  const controller = CharacterConditionalsResolver.get({ characterId, characterEidolon: form.characterEidolon })
+  if (controller.defaults) {
+    Utils.mergeUndefinedValues(form.characterConditionals, controller.defaults())
+  }
 
   // Load form into store (replaces formToDisplay + setFieldsValue)
   useOptimizerRequestStore.getState().loadForm(form)

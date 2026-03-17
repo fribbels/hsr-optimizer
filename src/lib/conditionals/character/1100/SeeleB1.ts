@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -12,6 +13,7 @@ import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBat
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
+  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -57,7 +59,8 @@ export const SeeleB1Abilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SeeleB1')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Seele')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
     SOURCE_SKILL,
@@ -70,15 +73,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const speedBoostStacksMax = e >= 2 ? 2 : 1
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 2.20, 2.42)
-  const ultScaling = ult(e, 4.25, 4.59)
-
-  // E6: Additional damage equal to 15% of Seele's Ult multiplier
-  const e6AdditionalDmgScaling = 0.15 * ultScaling
+  const skillScaling = skill(e, 3.60, 3.96)
+  const ultScaling = ult(e, 7.20, 7.92)
 
   const defaults = {
     buffedState: true,
     speedBoostStacks: speedBoostStacksMax,
+    dmgBoostStacks: 3,
     e1EnemyHp80CrBoost: false,
     e6UltTargetDebuff: true,
   }
@@ -97,6 +98,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: t('Content.speedBoostStacks.content'),
       min: 0,
       max: speedBoostStacksMax,
+    },
+    dmgBoostStacks: {
+      id: 'dmgBoostStacks',
+      formItem: 'slider',
+      text: 'DMG boost stacks',
+      content: betaContent,
+      min: 0,
+      max: 3,
     },
     e1EnemyHp80CrBoost: {
       id: 'e1EnemyHp80CrBoost',
@@ -140,15 +149,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Quantum)
               .atkScaling(basicScaling)
               .toughnessDmg(10)
+              .trueDmgModifier(e6Active ? 0.30 * (ultScaling / basicScaling) : 0)
               .build(),
-            ...(e6Active
-              ? [
-                HitDefinitionBuilder.standardAdditional()
-                  .damageElement(ElementTag.Quantum)
-                  .atkScaling(e6AdditionalDmgScaling)
-                  .build(),
-              ]
-              : []),
           ],
         },
         [AbilityKind.SKILL]: {
@@ -157,15 +159,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Quantum)
               .atkScaling(skillScaling)
               .toughnessDmg(20)
+              .trueDmgModifier(e6Active ? 0.30 * (ultScaling / skillScaling) : 0)
               .build(),
-            ...(e6Active
-              ? [
-                HitDefinitionBuilder.standardAdditional()
-                  .damageElement(ElementTag.Quantum)
-                  .atkScaling(e6AdditionalDmgScaling)
-                  .build(),
-              ]
-              : []),
           ],
         },
         [AbilityKind.ULT]: {
@@ -174,15 +169,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Quantum)
               .atkScaling(ultScaling)
               .toughnessDmg(30)
+              .trueDmgModifier(e6Active ? 0.30 : 0)
               .build(),
-            ...(e6Active
-              ? [
-                HitDefinitionBuilder.standardAdditional()
-                  .damageElement(ElementTag.Quantum)
-                  .atkScaling(e6AdditionalDmgScaling)
-                  .build(),
-              ]
-              : []),
           ],
         },
         [AbilityKind.BREAK]: {
@@ -198,10 +186,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.CR, (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.DEF_PEN, (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.20 : 0, x.source(SOURCE_E1))
       x.buff(StatKey.SPD_P, 0.25 * r.speedBoostStacks, x.source(SOURCE_SKILL))
 
+      x.buff(StatKey.DMG_BOOST, r.dmgBoostStacks * 0.50, x.source(SOURCE_TRACE))
       x.buff(StatKey.DMG_BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
-      x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.25 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -243,6 +233,7 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_SKILL,
     DEFAULT_SKILL,
     END_SKILL,
+    DEFAULT_SKILL,
   ],
   comboDot: 0,
   relicSets: [

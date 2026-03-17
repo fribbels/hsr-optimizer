@@ -7,7 +7,8 @@ import { rollCounter } from 'lib/importer/characterConverter'
 import {
   RelicScorer,
   RelicScoringResult,
-} from 'lib/relics/relicScorerPotential'
+  ScoringCache,
+} from 'lib/relics/scoring/relicScorer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -43,20 +44,21 @@ export function enrichRelicAnalysis(
   scoringMetadata: ScoringMetadata,
   characterId: CharacterId,
 ): EnrichedRelics {
+  const scorer = new ScoringCache()
   return {
-    LinkRope: enrichSingleRelicAnalysis(relics.LinkRope, estTbpRunnerOutput.LinkRope, scoringMetadata, characterId),
-    PlanarSphere: enrichSingleRelicAnalysis(relics.PlanarSphere, estTbpRunnerOutput.PlanarSphere, scoringMetadata, characterId),
-    Feet: enrichSingleRelicAnalysis(relics.Feet, estTbpRunnerOutput.Feet, scoringMetadata, characterId),
-    Body: enrichSingleRelicAnalysis(relics.Body, estTbpRunnerOutput.Body, scoringMetadata, characterId),
-    Hands: enrichSingleRelicAnalysis(relics.Hands, estTbpRunnerOutput.Hands, scoringMetadata, characterId),
-    Head: enrichSingleRelicAnalysis(relics.Head, estTbpRunnerOutput.Head, scoringMetadata, characterId),
+    LinkRope: enrichSingleRelicAnalysis(relics.LinkRope, estTbpRunnerOutput.LinkRope, scoringMetadata, characterId, scorer),
+    PlanarSphere: enrichSingleRelicAnalysis(relics.PlanarSphere, estTbpRunnerOutput.PlanarSphere, scoringMetadata, characterId, scorer),
+    Feet: enrichSingleRelicAnalysis(relics.Feet, estTbpRunnerOutput.Feet, scoringMetadata, characterId, scorer),
+    Body: enrichSingleRelicAnalysis(relics.Body, estTbpRunnerOutput.Body, scoringMetadata, characterId, scorer),
+    Hands: enrichSingleRelicAnalysis(relics.Hands, estTbpRunnerOutput.Hands, scoringMetadata, characterId, scorer),
+    Head: enrichSingleRelicAnalysis(relics.Head, estTbpRunnerOutput.Head, scoringMetadata, characterId, scorer),
   }
 }
 
-export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMetadata: ScoringMetadata, characterId: CharacterId) {
+export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMetadata: ScoringMetadata, characterId: CharacterId, scorer: ScoringCache) {
   if (!relic) return undefined
-  const score = RelicScorer.scoreCurrentRelic(relic, characterId)
-  const potentials = RelicScorer.scoreRelicPotential(relic, characterId)
+  const score = scorer.getCurrentRelicScore(relic, characterId)
+  const potentials = scorer.scoreRelicPotential(relic, characterId)
 
   const weightedRolls = countRelicRolls(relic, scoringMetadata)
   const valid = validMainStat(relic, scoringMetadata)

@@ -1,7 +1,7 @@
 import { Divider, Flex, Progress, Tooltip, useMantineTheme } from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'

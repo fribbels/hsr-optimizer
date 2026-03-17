@@ -1,7 +1,7 @@
 import { Accordion, Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getRelicById } from 'lib/stores/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'

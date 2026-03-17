@@ -1,4 +1,4 @@
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { getRelicById } from 'lib/stores/relicStore'
@@ -60,11 +60,13 @@ export function scoreRelics(
     cacheParams = { focusCharacter, excludedIds, metadataRef: scoringMetadataOverrides }
   }
 
+  const excludedSet = new Set(excludedRelicPotentialCharacters)
+
   const scored = relics.map((relic) => {
     const cached = scoreCache.get(relic)
     if (cached) return cached
 
-    const result = scoreSingleRelic(relic, characterIds, excludedRelicPotentialCharacters, focusCharacter, relicScorer)
+    const result = scoreSingleRelic(relic, characterIds, excludedSet, focusCharacter, relicScorer)
     scoreCache.set(relic, result)
     return result
   })
@@ -75,7 +77,7 @@ export function scoreRelics(
 function scoreSingleRelic(
   relic: Relic,
   characterIds: Array<CharacterId>,
-  excludedRelicPotentialCharacters: Array<CharacterId>,
+  excludedSet: Set<CharacterId>,
   focusCharacter: Nullable<CharacterId>,
   relicScorer: RelicScorer,
 ): ScoredRelic {
@@ -129,9 +131,9 @@ function scoreSingleRelic(
     }
     const equippedRelic = getRelicById(getCharacterById(focusCharacter)?.equipped?.[relic.part])
     if (equippedRelic) {
-      weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected - relicScorer.scoreRelicPotential(equippedRelic, focusCharacter).averagePct
-      weights.blockedRerollAvgSelectedEquippedDelta = weights.blockedRerollAvgSelected
-        - relicScorer.scoreRelicPotential(equippedRelic, focusCharacter).averagePct
+      const equippedPotential = relicScorer.scoreRelicPotential(equippedRelic, focusCharacter)
+      weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected - equippedPotential.averagePct
+      weights.blockedRerollAvgSelectedEquippedDelta = weights.blockedRerollAvgSelected - equippedPotential.averagePct
     }
   }
 
@@ -144,7 +146,7 @@ function scoreSingleRelic(
     weights.rerollAllAll = Math.max(pct.rerollAvgPct, weights.rerollAllAll)
     weights.blockedRerollAllAll = Math.max(pct.blockedRerollAvgPct, weights.blockedRerollAllAll)
 
-    if (excludedRelicPotentialCharacters.includes(id)) continue
+    if (excludedSet.has(id)) continue
 
     weights.potentialAllCustom = {
       bestPct: Math.max(pct.bestPct, weights.potentialAllCustom.bestPct),
@@ -154,6 +156,5 @@ function scoreSingleRelic(
     weights.blockedRerollAllCustom = Math.max(pct.blockedRerollAvgPct, weights.blockedRerollAllCustom)
   }
 
-  weights.rerollAvgSelected = Math.max(0, weights.potentialSelected.rerollAvgPct)
   return { ...relic, weights }
 }

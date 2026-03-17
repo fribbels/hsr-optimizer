@@ -3,8 +3,9 @@ import {
   Parts,
   RelicSetFilterOptions,
   StatsValues,
-  SubStatValues,
 } from 'lib/constants/constants'
+import { FLAT_STAT_SCALING, STAT_NORMALIZATION } from 'lib/relics/scoring/scoringConstants'
+import { weightedSubstatScore } from 'lib/relics/scoring/substatScoring'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
@@ -23,22 +24,6 @@ import { Utils } from 'lib/utils/utils'
 import { Form } from 'types/form'
 import { Relic } from 'types/relic'
 
-const statScalings = {
-  [Constants.Stats.HP_P]: 64.8 / 43.2,
-  [Constants.Stats.ATK_P]: 64.8 / 43.2,
-  [Constants.Stats.DEF_P]: 64.8 / 54,
-  [Constants.Stats.HP]: (64.8 / 43.2) * SubStatValues[Constants.Stats.HP_P][5].high / SubStatValues[Constants.Stats.HP][5].high,
-  [Constants.Stats.ATK]: (64.8 / 43.2) * SubStatValues[Constants.Stats.ATK_P][5].high / SubStatValues[Constants.Stats.ATK][5].high,
-  [Constants.Stats.DEF]: (64.8 / 54) * SubStatValues[Constants.Stats.DEF_P][5].high / SubStatValues[Constants.Stats.DEF][5].high,
-  [Constants.Stats.CR]: 64.8 / 32.4,
-  [Constants.Stats.CD]: 64.8 / 64.8,
-  [Constants.Stats.OHB]: 64.8 / 34.5,
-  [Constants.Stats.EHR]: 64.8 / 43.2,
-  [Constants.Stats.RES]: 64.8 / 43.2,
-  [Constants.Stats.SPD]: 64.8 / 25,
-  [Constants.Stats.BE]: 64.8 / 64.8,
-}
-
 export type PartCounts = Record<Parts, number>
 
 const RELIC_PARTS: ReadonlySet<string> = new Set([Parts.Head, Parts.Hands, Parts.Body, Parts.Feet])
@@ -48,15 +33,12 @@ function zeroCounts(): PartCounts {
 }
 
 function computeWeightScore(relic: Relic, weights: Record<string, number>, upgradeLevel: number): number {
-  let score = 0
-  for (const sub of relic.substats) {
-    score += (sub.value || 0) * (weights[sub.stat] || 0) * (statScalings[sub.stat] || 0)
-  }
+  let score = weightedSubstatScore(relic.substats, weights as Record<StatsValues, number>)
   if (upgradeLevel) {
     for (let i = 0; i < relic.previewSubstats.length; i++) {
       if (relic.enhance + 3 * i >= upgradeLevel) break
       const sub = relic.previewSubstats[i]
-      score += (sub.value || 0) * (weights[sub.stat] || 0) * (statScalings[sub.stat] || 0)
+      score += (sub.value || 0) * (weights[sub.stat] || 0) * (STAT_NORMALIZATION[sub.stat] || 0)
     }
   }
   return score
@@ -113,9 +95,9 @@ export const RelicFilters = {
 
     // Weight score thresholds
     const weights: Record<string, number> = { ...(request.weights || {}) }
-    weights[Constants.Stats.ATK] = weights[Constants.Stats.ATK_P] || 0
-    weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P] || 0
-    weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P] || 0
+    weights[Constants.Stats.ATK] = (weights[Constants.Stats.ATK_P] || 0) * FLAT_STAT_SCALING.ATK
+    weights[Constants.Stats.DEF] = (weights[Constants.Stats.DEF_P] || 0) * FLAT_STAT_SCALING.DEF
+    weights[Constants.Stats.HP] = (weights[Constants.Stats.HP_P] || 0) * FLAT_STAT_SCALING.HP
 
     const rollThreshold = (weights.minWeightedRolls ?? 0) * 6.48 * 0.8
     const minWeightScore: Record<string, number> = {
@@ -188,23 +170,16 @@ export const RelicFilters = {
   calculateWeightScore: (request: Form, relics: Relic[]) => {
     const weights = request.weights || {}
 
-    weights[Constants.Stats.ATK] = weights[Constants.Stats.ATK_P]
-    weights[Constants.Stats.DEF] = weights[Constants.Stats.DEF_P]
-    weights[Constants.Stats.HP] = weights[Constants.Stats.HP_P]
+    weights[Constants.Stats.ATK] = (weights[Constants.Stats.ATK_P] || 0) * FLAT_STAT_SCALING.ATK
+    weights[Constants.Stats.DEF] = (weights[Constants.Stats.DEF_P] || 0) * FLAT_STAT_SCALING.DEF
+    weights[Constants.Stats.HP] = (weights[Constants.Stats.HP_P] || 0) * FLAT_STAT_SCALING.HP
 
     for (const weight of Object.keys(weights) as Array<keyof typeof weights>) {
       if (!weights[weight]) weights[weight] = 0
     }
 
     for (const relic of relics) {
-      let sum = 0
-      for (const substat of relic.substats) {
-        const weight = weights[substat.stat] || 0
-        const scale = statScalings[substat.stat] || 0
-        const value = substat.value || 0
-        sum += value * weight * scale
-      }
-      relic.weightScore = sum
+      relic.weightScore = weightedSubstatScore(relic.substats, weights as Record<StatsValues, number>)
     }
 
     return relics

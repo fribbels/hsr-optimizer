@@ -26,7 +26,7 @@ import { RelicFilters } from 'lib/relics/relicFilters'
 import {
   RelicScorer,
   RelicScoringResult,
-} from 'lib/relics/relicScorerPotential'
+} from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/simulateBuild'

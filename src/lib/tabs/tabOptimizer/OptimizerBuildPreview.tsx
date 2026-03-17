@@ -4,7 +4,7 @@ import { Parts } from 'lib/constants/constants'
 
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
-import { RelicScorer } from 'lib/relics/relicScorerPotential'
+import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'

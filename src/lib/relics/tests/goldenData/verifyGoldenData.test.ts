@@ -95,16 +95,8 @@ describe('golden scoring verification', () => {
         const expected = expectedResults[i]
 
         let t0 = performance.now()
-        const current = scorer.getCurrentRelicScore(relic, charId as CharacterId)
+        const [current, future, potential] = scorer.scoreAllThree(relic, charId as CharacterId)
         currentMs += performance.now() - t0
-
-        t0 = performance.now()
-        const future = scorer.getFutureRelicScore(relic, charId as CharacterId)
-        futureMs += performance.now() - t0
-
-        t0 = performance.now()
-        const potential = scorer.scoreRelicPotential(relic, charId as CharacterId)
-        potentialMs += performance.now() - t0
 
         const actual = [
           r6(current.scoreNumber),

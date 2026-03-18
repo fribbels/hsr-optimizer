@@ -23,7 +23,8 @@ export type { ScorerMetadata, RelicScoringResult, FutureScoringResult, Potential
  */
 export class ScoringCache {
   private metaCache = new Map<CharacterId, ScorerMetadata>()
-  private optimalCache = new Map<string, number>()
+  private _optimalHash = ''
+  private _optimalScores: Record<string, Record<string, number>> = {}
   private currentCache = new Map<RelicId, Map<string, RelicScoringResult>>()
   private futureCache = new Map<RelicId, Map<string, FutureScoringResult>>()
 
@@ -38,11 +39,19 @@ export class ScoringCache {
 
   getOptimalScore(part: Parts, mainstat: MainStats, id: CharacterId): number {
     const meta = this.getMeta(id)
-    const key = `${meta.greedyHash}:${part}:${mainstat}`
-    let score = this.optimalCache.get(key)
+    if (meta.greedyHash !== this._optimalHash) {
+      this._optimalScores = {}
+      this._optimalHash = meta.greedyHash
+    }
+    let partScores = this._optimalScores[part]
+    if (!partScores) {
+      partScores = {}
+      this._optimalScores[part] = partScores
+    }
+    let score = partScores[mainstat]
     if (score == null) {
       score = computeOptimalScore(part, mainstat, meta)
-      this.optimalCache.set(key, score)
+      partScores[mainstat] = score
     }
     return score
   }
@@ -104,6 +113,17 @@ export class ScoringCache {
     const meta = this.getMeta(id)
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
     return computePotentialScores(relic, meta, futureScore)
+  }
+
+  /**
+   * Combined scoring: returns [current, future, potential] in a single call.
+   * Avoids 2 extra getMeta + cache lookups vs calling 3 methods separately.
+   */
+  scoreAllThree(relic: Relic, id: CharacterId): [RelicScoringResult, FutureScoringResult, PotentialResult] {
+    const current = this.getCurrentRelicScore(relic, id)
+    const future = this.getFutureRelicScore(relic, id)
+    const potential = this.scoreRelicPotential(relic, id)
+    return [current, future, potential]
   }
 
   scoreCharacterWithRelics(

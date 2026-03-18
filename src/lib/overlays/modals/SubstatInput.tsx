@@ -57,7 +57,7 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
   const formatStat = (value?: string | number) => {
     const stat = relicForm.getValues()[`substatType${index}`]
     if (!value) return ''
-    if (Utils.isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
+    if (stat && Utils.isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
     return localeNumber_0(Number(value))
   }
 

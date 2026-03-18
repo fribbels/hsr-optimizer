@@ -1,11 +1,11 @@
 
-import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { CharacterId } from 'types/character'
-import { Form } from 'types/form'
-import { LightConeId } from 'types/lightCone'
+import type { CharacterId } from 'types/character'
+import type { Form } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
-import {
+import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
@@ -104,9 +104,7 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
       characterEidolon: form.characterEidolon,
       lightCone: form.lightCone,
       lightConeSuperimposition: form.lightConeSuperimposition,
-      // @ts-ignore
       teamRelicSet: form.teamRelicSet,
-      // @ts-ignore
       teamOrnamentSet: form.teamOrnamentSet,
     }
 

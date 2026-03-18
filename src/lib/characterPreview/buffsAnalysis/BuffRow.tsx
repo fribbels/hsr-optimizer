@@ -17,7 +17,7 @@ import {
   getSourceLabelStyle,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { buffMatchesFilter } from 'lib/characterPreview/buffsAnalysis/FilterBar'
-import { Buff } from 'lib/optimization/basicStatsArray'
+import type { Buff } from 'lib/optimization/basicStatsArray'
 import {
   BUFF_ABILITY,
   BUFF_TYPE,

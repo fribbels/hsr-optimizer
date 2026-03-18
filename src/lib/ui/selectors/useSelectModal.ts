@@ -1,5 +1,5 @@
 import { TsUtils } from 'lib/utils/TsUtils'
-import { ChangeEvent, useCallback, useRef, useState } from 'react'
+import { type ChangeEvent, useCallback, useRef, useState } from 'react'
 
 export interface UseSelectModalOptions<TFilters extends Record<string, unknown>> {
   defaultFilters: TFilters

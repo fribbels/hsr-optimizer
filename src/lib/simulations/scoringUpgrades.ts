@@ -86,10 +86,10 @@ export function generateStatImprovements(
       const originalSimClone: Simulation = TsUtils.clone(originalSim)
       const simMainName = partsToFilterMapping[part]
       const simMainStat: string = originalSimClone.request[simMainName]
-      if (flags.forceErrRope && simMainStat == Stats.ERR) continue
-      if (upgradeMainStat == simMainStat) continue
-      if (upgradeMainStat == Stats.SPD) continue
-      if (simMainStat == Stats.SPD) continue
+      if (flags.forceErrRope && simMainStat === Stats.ERR) continue
+      if (upgradeMainStat === simMainStat) continue
+      if (upgradeMainStat === Stats.SPD) continue
+      if (simMainStat === Stats.SPD) continue
 
       originalSimClone.request[simMainName] = upgradeMainStat
       const mainUpgradeResult = runStatSimulations([originalSimClone], simulationForm, context, {

@@ -1,6 +1,6 @@
 import { CheckIcon, Combobox, Flex, Group, Input, InputBase, useCombobox } from '@mantine/core'
 import iconClasses from 'style/icons.module.css'
-import { ReactNode, useMemo, useState } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 
 export type SearchableComboboxOption = {
   value: string

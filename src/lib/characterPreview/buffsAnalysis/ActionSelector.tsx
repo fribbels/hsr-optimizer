@@ -4,11 +4,9 @@ import {
   ACTION_COLORS,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { TEXT_DIM, TEXT_PRIMARY } from 'lib/characterPreview/buffsAnalysis/designContext'
-import {
-  AbilityKind,
-  AbilityMeta,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import { RotationStepEntry } from 'lib/simulations/combatBuffsAnalysis'
+import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { RotationStepEntry } from 'lib/simulations/combatBuffsAnalysis'
 import { useTranslation } from 'react-i18next'
 import classes from './ActionSelector.module.css'
 

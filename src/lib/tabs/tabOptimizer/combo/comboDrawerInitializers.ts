@@ -148,7 +148,6 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
   const modified: string[] = []
 
   for (const [key, value] of Object.entries(defaultForm.setConditionals)) {
-    // @ts-ignore
     const defaultValue = value[1]
     const comboSet = comboState.comboCharacter.setConditionals[key]
     if (!comboSet) {

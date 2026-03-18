@@ -1,4 +1,4 @@
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { OptimizerContext } from 'types/optimizer'

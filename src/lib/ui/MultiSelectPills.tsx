@@ -1,5 +1,5 @@
-import { CheckIcon, CloseButton, Combobox, Group, Input, MantineSize, Pill, PillsInput, PillsInputProps, useCombobox } from '@mantine/core'
-import { CSSProperties, ReactNode, useMemo, useState } from 'react'
+import { CheckIcon, CloseButton, Combobox, Group, Input, type MantineSize, Pill, PillsInput, type PillsInputProps, useCombobox } from '@mantine/core'
+import { type CSSProperties, type ReactNode, useMemo, useState } from 'react'
 
 type SimpleOption = { value: string; label: string }
 type GroupedOption = { group: string; items: SimpleOption[] }

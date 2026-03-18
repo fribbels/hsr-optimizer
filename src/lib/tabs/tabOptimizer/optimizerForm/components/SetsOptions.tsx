@@ -1,5 +1,5 @@
-import { ComboboxItem, Flex } from '@mantine/core'
-import { ReactElement } from 'react'
+import { Flex, type ComboboxItem } from '@mantine/core'
+import type { ReactElement } from 'react'
 import i18next from 'i18next'
 import {
   Constants,

@@ -1,5 +1,3 @@
-// Move into session store
-
 export enum SavedSessionKeys {
   optimizerCharacterId = 'optimizerCharacterId',
   scoringType = 'scoringType',

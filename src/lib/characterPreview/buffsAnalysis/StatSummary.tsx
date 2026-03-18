@@ -1,11 +1,10 @@
 import { Flex } from '@mantine/core'
 import { HitDefinitionRows } from 'lib/characterPreview/buffsAnalysis/HitDefinitionDisplay'
-import { OptimizerContext } from 'types/optimizer'
+import type { OptimizerContext } from 'types/optimizer'
+import type { AbilityColorKey, TagColorEntry } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import {
-  AbilityColorKey,
   ABILITY_COLORS,
   DAMAGE_TAG_ENTRIES,
-  TagColorEntry,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import {
   CardHeader,
@@ -25,10 +24,10 @@ import {
   getSourceLabelStyle,
   GROUP_ORDER,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
-import { Buff } from 'lib/optimization/basicStatsArray'
+import type { Buff } from 'lib/optimization/basicStatsArray'
 import { AKeyNames } from 'lib/optimization/engine/config/keys'
-import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
+import type { DamageTag } from 'lib/optimization/engine/config/tag'
+import type { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 

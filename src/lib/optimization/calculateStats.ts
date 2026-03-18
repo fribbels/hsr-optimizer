@@ -7,7 +7,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
-import { OptimizerAction, OptimizerContext, SetConditional, } from 'types/optimizer'
+import type { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
 
 export function calculateSetCounts(
   sets: number[],

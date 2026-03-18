@@ -10,7 +10,7 @@ export function arrayToMap<
   return array.reduce((map, obj) => {
     map[obj[key]] = obj
     return map
-    // @ts-ignore
+    // @ts-expect-error - T[K] is a valid key type at runtime but TS can't prove it statically
   }, {} as Record<T[K], T>)
 }
 

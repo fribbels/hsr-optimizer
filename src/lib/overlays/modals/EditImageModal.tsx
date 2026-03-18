@@ -27,7 +27,7 @@ import styles from 'lib/overlays/modals/EditImageModal.module.css'
 import * as React from 'react'
 import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
-import {
+import type {
   CroppedArea,
   CustomImageConfig,
   CustomImageParams,

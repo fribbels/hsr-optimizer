@@ -128,7 +128,7 @@ function ZeroResultSuggestionContent({ close: closeZeroResultsModal }: { close: 
         <Button
           onClick={() => {
             for (const rootCause of rootCauses as ZeroResultRootCause[]) {
-              if (rootCause == ZeroResultRootCause.STAT_VIEW) continue
+              if (rootCause === ZeroResultRootCause.STAT_VIEW) continue
               ZeroResultRootCauseFixes[rootCause].applyFix()
             }
             const setStatDisplay = useOptimizerRequestStore.getState().setStatDisplay

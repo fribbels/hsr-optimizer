@@ -1,17 +1,19 @@
 import {
   Constants,
-  MainStats,
   Parts,
+} from 'lib/constants/constants'
+import type {
+  MainStats,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Utils } from 'lib/utils/utils'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
-import { DBMetadataSets } from 'types/metadata'
-import { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+import type { DBMetadataSets } from 'types/metadata'
+import type { Relic } from 'types/relic'
 
 type HoyolabRelic = {
   id: number,

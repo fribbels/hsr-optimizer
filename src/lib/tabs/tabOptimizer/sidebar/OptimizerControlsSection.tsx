@@ -20,7 +20,8 @@ import { StatsViewSelect } from 'lib/tabs/tabOptimizer/sidebar/StatsViewSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { modals } from '@mantine/modals'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { CSSProperties, memo, useCallback, useState } from 'react'
+import type { CSSProperties } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { useGlobalStore } from 'lib/stores/appStore'
@@ -56,8 +57,8 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
   const startClicked = useCallback(() => {
     if (
       permutations < 1000000000
-      || computeEngine == COMPUTE_ENGINE_GPU_EXPERIMENTAL
-      || computeEngine == COMPUTE_ENGINE_GPU_STABLE
+      || computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL
+      || computeEngine === COMPUTE_ENGINE_GPU_STABLE
     ) {
       startOptimization()
     } else {

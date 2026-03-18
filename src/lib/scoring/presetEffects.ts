@@ -1,5 +1,5 @@
 import { Sets } from 'lib/constants/constants'
-import {
+import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'

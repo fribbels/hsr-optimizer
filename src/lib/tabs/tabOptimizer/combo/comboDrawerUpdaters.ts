@@ -14,7 +14,7 @@ import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { Form } from 'types/form'
+import type { Form } from 'types/form'
 
 import {
   ComboConditionals,

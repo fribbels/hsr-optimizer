@@ -18,16 +18,14 @@ import {
   OutputTag,
 } from 'lib/optimization/engine/config/tag'
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
-import {
-  AbilityKind,
-  AbilityMeta,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   Fragment,
   useContext,
 } from 'react'
-import { Hit } from 'types/hitConditionalTypes'
-import { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import type { Hit } from 'types/hitConditionalTypes'
+import type { OptimizerAction, OptimizerContext } from 'types/optimizer'
 
 function pct(v: number): string {
   return `${Math.round(v * 100)}%`

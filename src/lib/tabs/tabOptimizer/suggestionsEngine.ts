@@ -128,33 +128,33 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
   const allRelics = getRelics()
 
   // Zero relics overrides everything else
-  if (allRelics.length == 0) {
+  if (allRelics.length === 0) {
     return [ZeroPermRootCause.IMPORT]
   }
 
   // Main stats
-  if (counts.Body == 0 && request.mainBody.length > 0 && preCounts.Body > 0) {
+  if (counts.Body === 0 && request.mainBody.length > 0 && preCounts.Body > 0) {
     causes.push(ZeroPermRootCause.BODY_MAIN)
   }
-  if (counts.Feet == 0 && request.mainFeet.length > 0 && preCounts.Feet > 0) {
+  if (counts.Feet === 0 && request.mainFeet.length > 0 && preCounts.Feet > 0) {
     causes.push(ZeroPermRootCause.FEET_MAIN)
   }
-  if (counts.PlanarSphere == 0 && request.mainPlanarSphere.length > 0 && preCounts.PlanarSphere > 0) {
+  if (counts.PlanarSphere === 0 && request.mainPlanarSphere.length > 0 && preCounts.PlanarSphere > 0) {
     causes.push(ZeroPermRootCause.PLANAR_SPHERE_MAIN)
   }
-  if (counts.LinkRope == 0 && request.mainLinkRope.length > 0 && preCounts.LinkRope > 0) {
+  if (counts.LinkRope === 0 && request.mainLinkRope.length > 0 && preCounts.LinkRope > 0) {
     causes.push(ZeroPermRootCause.LINK_ROPE_MAIN)
   }
 
   // Ornament sets
-  if (counts.PlanarSphere == 0 || counts.LinkRope == 0) {
+  if (counts.PlanarSphere === 0 || counts.LinkRope === 0) {
     if (request.ornamentSets.length > 0) {
       causes.push(ZeroPermRootCause.ORNAMENT_SETS)
     }
   }
 
   // Relic sets
-  if (counts.Head == 0 || counts.Hands == 0 || counts.Body == 0 || counts.Feet == 0) {
+  if (counts.Head === 0 || counts.Hands === 0 || counts.Body === 0 || counts.Feet === 0) {
     if (request.relicSets.length > 0) {
       causes.push(ZeroPermRootCause.RELIC_SETS)
     }
@@ -166,7 +166,7 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
   }
 
   // Priority
-  if (request.rank != 0) {
+  if (request.rank !== 0) {
     causes.push(ZeroPermRootCause.PRIORITY)
   }
 
@@ -186,7 +186,7 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
   }
 
   // Fallback: default to import issue
-  if (causes.length == 0) {
+  if (causes.length === 0) {
     causes.push(ZeroPermRootCause.IMPORT)
   }
 
@@ -319,7 +319,7 @@ export function detectZeroResultCauses(request: Form): ZeroResultRootCause[] {
   const causes: ZeroResultRootCause[] = []
 
   // Always suggest switching between combat/basic views
-  if (useOptimizerRequestStore.getState().statDisplay == 'base') causes.push(ZeroResultRootCause.STAT_VIEW)
+  if (useOptimizerRequestStore.getState().statDisplay === 'base') causes.push(ZeroResultRootCause.STAT_VIEW)
 
   if (request.minHp) causes.push(ZeroResultRootCause.MIN_HP)
   if (request.maxHp < MAX_INT) causes.push(ZeroResultRootCause.MAX_HP)

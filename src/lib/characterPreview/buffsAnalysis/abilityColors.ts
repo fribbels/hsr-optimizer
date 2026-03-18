@@ -21,7 +21,7 @@ export const ABILITY_COLORS = {
 
 export type AbilityColorKey = keyof typeof ABILITY_COLORS
 export type TagColorEntry = { key: AbilityColorKey, label: string, color: string }
-export type DamageTagEntry = TagColorEntry & { tag: DamageTag }
+type DamageTagEntry = TagColorEntry & { tag: DamageTag }
 
 export const DAMAGE_TAG_ENTRIES: DamageTagEntry[] = [
   { tag: DamageTag.BASIC, key: 'BASIC', label: 'BASIC', color: ABILITY_COLORS.BASIC },

@@ -3,11 +3,13 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { PartialSimulationWrapper } from 'lib/scoring/simScoringUtils'
+import type { PartialSimulationWrapper } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
-import {
+import type {
   Simulation,
   SimulationRequest,
+} from 'lib/simulations/statSimulationTypes'
+import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 

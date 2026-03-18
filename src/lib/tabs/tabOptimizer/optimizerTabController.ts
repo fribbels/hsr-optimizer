@@ -174,7 +174,7 @@ export const OptimizerTabController = {
 
     return {
       getRows: (params: IGetRowsParams) => {
-        // @ts-ignore
+        // @ts-expect-error - reset aggregations to undefined between data source loads
         controllerState.aggregations = undefined
 
         // fast clickers can race unmount/remount and cause NPE here.

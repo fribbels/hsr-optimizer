@@ -8,8 +8,8 @@ import {
 } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'
 import { BASE_PATH } from 'lib/constants/appPages'
-import { Languages } from 'lib/utils/i18nUtils'
-import { Nullable } from 'types/common'
+import { type Languages } from 'lib/utils/i18nUtils'
+import { type Nullable } from 'types/common'
 
 function getImageUrl(name: string) {
   return new URL(BASE_PATH + `/assets` + name, import.meta.url).href

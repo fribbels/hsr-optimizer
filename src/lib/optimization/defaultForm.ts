@@ -23,7 +23,7 @@ import {
 
 // FIXME HIGH
 
-export function getDefaultWeights(characterId?: CharacterId): Form['weights'] {
+function getDefaultWeights(characterId?: CharacterId): Form['weights'] {
   if (characterId) {
     const scoringMetadata = TsUtils.clone(getScoringMetadata(characterId))
     scoringMetadata.stats.minWeightedRolls = 0
@@ -123,7 +123,7 @@ export function defaultTeammate() {
   return teammate
 }
 
-export function defaultEnemyOptions() {
+function defaultEnemyOptions() {
   return {
     enemyLevel: 95,
     enemyCount: 1,

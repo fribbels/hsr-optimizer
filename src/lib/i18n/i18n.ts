@@ -6,10 +6,8 @@ import {
   BASE_PATH,
   BasePath,
 } from 'lib/constants/appPages'
-import {
-  Languages,
-  languages,
-} from 'lib/utils/i18nUtils'
+import type { Languages } from 'lib/utils/i18nUtils'
+import { languages } from 'lib/utils/i18nUtils'
 import { initReactI18next } from 'react-i18next'
 
 window.yaml = yaml

@@ -1,4 +1,5 @@
-import chroma, { Color } from 'chroma-js'
+import chroma from 'chroma-js'
+import type { Color } from 'chroma-js'
 import { scaleTowardsRange } from 'lib/utils/mathUtils'
 import type { PaletteResponse } from 'lib/utils/vibrantFork'
 
@@ -15,7 +16,7 @@ export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
 
   const finalColor = adjustedColor
     .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.03, 0.93))
-    .alpha(darkMode ? 0.68 : 0.68)
+    .alpha(0.68)
 
   return darkModeModifier(finalColor, darkMode).css()
 }
@@ -131,7 +132,7 @@ export function organizeColors(palette: PaletteResponse) {
 }
 
 export function modifyCustomColor(hex: string) {
-  if (hex == TARGET_BLUE) return hex
+  if (hex === TARGET_BLUE) return hex
 
   const color = chroma(hex)
 

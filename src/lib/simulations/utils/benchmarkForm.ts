@@ -8,13 +8,13 @@ import {
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Utils } from 'lib/utils/utils'
-import { CharacterId } from 'types/character'
-import {
+import type { CharacterId } from 'types/character'
+import type {
   CharacterConditionalsController,
   LightConeConditionalsController,
 } from 'types/conditionals'
-import { Form } from 'types/form'
-import { LightConeId } from 'types/lightCone'
+import type { Form } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
 
 export function generateFullDefaultForm(
   characterId: CharacterId,
@@ -23,7 +23,7 @@ export function generateFullDefaultForm(
   lightConeSuperimposition: number,
   teammate = false,
 ): Form {
-  // @ts-ignore
+  // @ts-expect-error - Legacy pattern: returns null typed as Form for missing characterId
   if (!characterId) return null
 
   const dbMetadata = getGameMetadata()
@@ -56,7 +56,6 @@ export function generateFullDefaultForm(
   if (simulationMetadata) {
     simulationForm.comboTurnAbilities = [...simulationMetadata.comboTurnAbilities]
   } else {
-    // @ts-ignore
     simulationForm.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
   }
 

@@ -1,4 +1,5 @@
-import { DependencyList, useEffect } from "react";
+import type { DependencyList } from 'react'
+import { useEffect } from 'react'
 
 let idCounter = 0;
 export class EventEmitter<T> {

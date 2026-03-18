@@ -13,7 +13,7 @@ import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nU
 import { TsUtils } from 'lib/utils/TsUtils'
 import { ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { scannerChannel, useScannerState } from '../tabImport/ScannerWebsocketClient'
+import { scannerChannel, useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import classes from './WarpCalculatorTab.module.css'
 
 export function WarpCalculatorTab() {

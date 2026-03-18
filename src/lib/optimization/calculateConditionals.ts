@@ -37,7 +37,7 @@ export function calculateContextConditionalRegistry(
   action.conditionalState = {}
 }
 
-export function registerTeammateConditionals(
+function registerTeammateConditionals(
   conditionalRegistry: ConditionalRegistry,
   teammateMetadata: CharacterMetadata,
   action: OptimizerAction,

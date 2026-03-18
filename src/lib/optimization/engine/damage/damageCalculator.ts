@@ -892,7 +892,7 @@ export const ElationDamageFunction: DamageFunction = {
   },
 }
 
-export const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> = {
+const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> = {
   [DamageFunctionType.Default]: DefaultDamageFunction,
   [DamageFunctionType.Crit]: CritDamageFunction,
   [DamageFunctionType.Dot]: DotDamageFunction,

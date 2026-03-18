@@ -12,8 +12,8 @@ import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { memo, useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
-import { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { Relic } from 'types/relic'
 
 interface RelicCardProps {
   relic?: Relic

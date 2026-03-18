@@ -4,7 +4,7 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { deleteStatSimulationBuild } from 'lib/simulations/statSimulationController'
 import { StatSimulationName } from 'lib/simulations/StatSimulationName'
-import { Simulation } from 'lib/simulations/statSimulationTypes'
+import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -13,7 +13,8 @@ import { useTranslation } from 'react-i18next'
 function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: T): T {
   for (const [key, value] of Object.entries(obj)) {
     if (value === 0) {
-      ;(obj as Record<string, number | null>)[key] = null
+      const record = obj as Record<string, number | null>
+      record[key] = null
     }
   }
   return obj

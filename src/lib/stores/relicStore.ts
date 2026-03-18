@@ -63,6 +63,3 @@ export function getRelicById(id: string | undefined): Relic | undefined {
   return useRelicStore.getState().relicsById[id]
 }
 
-export function getRelicsById(): Partial<Record<string, Relic>> {
-  return useRelicStore.getState().relicsById
-}

@@ -4,7 +4,7 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { RelicForm } from 'lib/overlays/modals/relicModalController'
+import type { RelicForm } from 'lib/overlays/modals/relicModalController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
 import type { Relic } from 'types/relic'

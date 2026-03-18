@@ -38,10 +38,10 @@ export function initializeContextConditionals(context: OptimizerContext) {
 function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
   if (teammateMetadata?.characterId) {
     const teammateCharacterConditionalController = CharacterConditionalsResolver.get(teammateMetadata)
-    ;(teammateCharacterConditionalController.teammateDynamicConditionals ?? [])
-      .forEach((dynamicConditional: DynamicConditional) => {
-        const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)
-        action.teammateDynamicConditionals.push(wrapped)
-      })
+    const dynamicConditionals = teammateCharacterConditionalController.teammateDynamicConditionals ?? []
+    dynamicConditionals.forEach((dynamicConditional: DynamicConditional) => {
+      const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)
+      action.teammateDynamicConditionals.push(wrapped)
+    })
   }
 }

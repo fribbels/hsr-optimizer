@@ -1,7 +1,9 @@
-import { SetKey } from 'lib/constants/constants'
-import { BasicKeyType, WgslStatName } from 'lib/optimization/basicStatsArray'
+import type { SetKey } from 'lib/constants/constants'
+import type { BasicKeyType } from 'lib/optimization/basicStatsArray'
+import { WgslStatName } from 'lib/optimization/basicStatsArray'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
-import { SetConfig, SetType } from 'types/setConfig'
+import type { SetConfig } from 'types/setConfig'
+import { SetType } from 'types/setConfig'
 
 export enum GpuSetMatcher {
   RELIC_2P = 'relic2p',
@@ -10,10 +12,10 @@ export enum GpuSetMatcher {
 }
 
 export type BasicSetEffectEntry = {
-  stat: BasicKeyType
-  value: number
-  matchFn: GpuSetMatcher
-  setId: SetKey
+  stat: BasicKeyType,
+  value: number,
+  matchFn: GpuSetMatcher,
+  setId: SetKey,
 }
 
 const WGSL_BASE_VARIABLE: Record<string, string> = {

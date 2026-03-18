@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { SetConfig } from 'types/setConfig'
+import type { SetConfig } from 'types/setConfig'
 import { SetRow } from './SetRow'
 import classes from './RelicSetFilterModal.module.css'
 

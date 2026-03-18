@@ -126,7 +126,7 @@ function ContentRows({
 
   return (
     <Flex direction="column">
-      {content.length == 0
+      {content.length === 0
         ? <div style={{ marginLeft: 5 }}>{t('NoConditionals') /* No conditional passives */}</div>
         : content}
     </Flex>

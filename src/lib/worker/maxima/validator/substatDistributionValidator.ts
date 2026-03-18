@@ -32,7 +32,7 @@ export class SubstatDistributionValidator {
     },
   ) {
     this.target = target
-    this.maxSingleStatRollsPerPiece = target == 54 ? 6 : 5
+    this.maxSingleStatRollsPerPiece = target === 54 ? 6 : 5
     this.mainStats = [
       mainStats.simLinkRope,
       mainStats.simPlanarSphere,
@@ -56,7 +56,7 @@ export class SubstatDistributionValidator {
 
     for (const stat of SubStats) {
       const rolls = stats[stat]
-      if (rolls == 0) continue
+      if (rolls === 0) continue
 
       totalMaxAssignments += Math.min(rolls, this.getAvailablePieces(stat))
     }
@@ -90,7 +90,7 @@ export class SubstatDistributionValidator {
       sum += rolls
     }
 
-    if (Math.ceil(sum) != this.target) {
+    if (Math.ceil(sum) !== this.target) {
       return false
     }
 
@@ -108,7 +108,7 @@ export class SubstatDistributionValidator {
 
     for (const stat of SubStats) {
       const rolls = stats[stat]
-      if (rolls == 0) continue
+      if (rolls === 0) continue
 
       const constraints = {
         stat,
@@ -159,7 +159,7 @@ export class SubstatDistributionValidator {
       const mainStat = this.mainStats[pieceIndex]
       let eligibleStatsForPiece = 0
       for (const constraint of statConstraints) {
-        if (constraint.rolls > 0 && constraint.stat != mainStat) {
+        if (constraint.rolls > 0 && constraint.stat !== mainStat) {
           eligibleStatsForPiece++
         }
       }

@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
 import type { Ref } from 'react'
-import { IconExtractedProps } from 'types/components'
+import type { IconExtractedProps } from 'types/components'
 
 const IconSVG = (props: { color?: string }) => {
   const { color } = props

@@ -10,7 +10,7 @@ import {
   getSourceLabelStyle,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import { useContext } from 'react'
-import { OptimizerContext } from 'types/optimizer'
+import type { OptimizerContext } from 'types/optimizer'
 
 type EnemyRow = { label: string; value: string }
 

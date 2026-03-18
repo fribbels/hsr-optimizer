@@ -37,7 +37,7 @@ export function saveStatSimulationBuildFromForm(startSim = true) {
   const simType: StatSimTypes = useOptimizerDisplayStore.getState().statSimulationDisplay
 
   // Check for invalid button presses
-  if (simType == StatSimTypes.Disabled || !form.statSim?.[simType]) {
+  if (simType === StatSimTypes.Disabled || !form.statSim?.[simType]) {
     console.warn('Invalid sim', form, simType)
     return null
   }
@@ -56,17 +56,17 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
   const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
   const key = TsUtils.uuid()
   const name = simRequest.name ?? undefined
-  const simulation = {
+  const simulation: Simulation = {
     name: name,
     key: key,
     simType: simType,
     request: simRequest,
-  } as Simulation
+  }
 
   // Check for dupes
   const hash = hashSim(simulation)
   for (const sim of existingSimulations) {
-    if (hash == hashSim(sim)) {
+    if (hash === hashSim(sim)) {
       Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))
       return null
     }
@@ -82,10 +82,9 @@ export function saveStatSimulationRequest(simRequest: SimulationRequest, simType
 }
 
 function hashSim(sim: Simulation) {
-  const cleanedRequest = {}
+  const cleanedRequest: Record<string, unknown> = {}
   for (const entry of Object.entries(sim.request)) {
     if (entry[1] != null) {
-      // @ts-ignore
       cleanedRequest[entry[0]] = entry[1]
     }
   }
@@ -110,7 +109,7 @@ export function overwriteStatSimulationBuild() {
   const form = { statSim: storeState.statSim } as Form
   const simType: StatSimTypes = useOptimizerDisplayStore.getState().statSimulationDisplay
 
-  if (simType == StatSimTypes.Disabled || !form.statSim?.[simType]) {
+  if (simType === StatSimTypes.Disabled || !form.statSim?.[simType]) {
     console.warn('Invalid sim', form, simType)
     return
   }
@@ -126,14 +125,14 @@ export function overwriteStatSimulationBuild() {
     key: TsUtils.uuid(),
     simType: simType,
     request: simRequest,
-  } as Simulation
+  }
 
   // Check for dupes, excluding the sim being overwritten
   const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
   const hash = hashSim(newSim)
   for (const sim of existingSimulations) {
     if (sim.key === selectedKey) continue
-    if (hash == hashSim(sim)) {
+    if (hash === hashSim(sim)) {
       Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))
       return
     }
@@ -159,7 +158,7 @@ export function startOptimizerStatSimulation() {
   const form = getForm()
   const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
 
-  if (existingSimulations.length == 0) return
+  if (existingSimulations.length === 0) return
   if (!validateForm(form)) return
 
   const context = generateContext(form)
@@ -179,7 +178,7 @@ export function startOptimizerStatSimulation() {
   gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
 
   const sortOption = SortOption[form.resultSort!]
-  const gridSortColumn = form.statDisplay == 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
+  const gridSortColumn = form.statDisplay === 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
 
   autosave()

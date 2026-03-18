@@ -1,5 +1,5 @@
 import { DamageTag, OutputTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { OptimizerAction } from 'types/optimizer'
 

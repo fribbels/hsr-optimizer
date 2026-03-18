@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type { RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { FormStatTextStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
 import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'

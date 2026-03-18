@@ -7,18 +7,17 @@ import {
   getIconStyle,
   TEXT_SECONDARY,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
-import {
-  SetKey,
-  Sets,
-} from 'lib/constants/constants'
-import { Buff } from 'lib/optimization/basicStatsArray'
+import type { SetKey } from 'lib/constants/constants'
+import { Sets } from 'lib/constants/constants'
+import type { Buff } from 'lib/optimization/basicStatsArray'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { Assets } from 'lib/rendering/assets'
 import { setToId } from 'lib/sets/setConfigRegistry'
-import { ReactNode, useContext } from 'react'
+import type { ReactNode } from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 
 function getBuffSourceIcon(id: string, buffType: BUFF_TYPE) {
   if (buffType === BUFF_TYPE.PRIMARY || buffType === BUFF_TYPE.CHARACTER) return Assets.getCharacterAvatarById(id)

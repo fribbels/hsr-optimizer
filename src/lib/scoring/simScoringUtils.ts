@@ -5,7 +5,7 @@ import {
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import {
   AKeyValue,
   GlobalRegister,
@@ -13,8 +13,8 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
-import {
+import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import type {
   RunStatSimulationsResult,
   Simulation,
 } from 'lib/simulations/statSimulationTypes'
@@ -231,7 +231,6 @@ export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: n
   }
 
   const previousRolls = rolls - 1
-  const previousValue = spdDiminishingReturnsFormula(mainsCount, previousRolls) * rollValue
 
   if (current === target) {
     return rolls

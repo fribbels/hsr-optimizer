@@ -3,7 +3,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { relic4p, SetKeys } from 'lib/optimization/setMatching'
 import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import type { OptimizerAction } from 'types/optimizer'
 

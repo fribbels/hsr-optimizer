@@ -30,7 +30,7 @@ const substatToPriority: Record<string, number> = {
 }
 
 function renderStat(x: Stat, simType: string, t: TFunction<'common', 'ShortStats'>) {
-  return simType == StatSimTypes.SubstatRolls
+  return simType === StatSimTypes.SubstatRolls
     ? `${t(x.stat)} x ${x.value}`
     : `${t(x.stat)} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
 }

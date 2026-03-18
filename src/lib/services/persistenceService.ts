@@ -78,7 +78,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
         if (savedBuild.characterConditionals !== undefined) return savedBuild
         // Sub-migration: relocate conditionals from optimizerMetadata into top-level build fields
         const updatedBuild = { ...savedBuild }
-        // @ts-ignore
+        // @ts-expect-error - Migration: legacy save format field not in current types
         const oldConditionals: Record<CharacterId | LightConeId, ConditionalValueMap> | undefined = savedBuild.optimizerMetadata?.conditionals
         updatedBuild.characterConditionals = oldConditionals?.[character.id]
         updatedBuild.lightConeConditionals = oldConditionals?.[savedBuild.lightConeId!]
@@ -87,7 +87,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
           characterConditionals: oldConditionals?.[x.characterId],
           lightConeConditionals: oldConditionals?.[x.lightConeId!],
         }))
-        // @ts-ignore
+        // @ts-expect-error - Migration: legacy save format field not in current types
         if (updatedBuild.optimizerMetadata) delete updatedBuild.optimizerMetadata.conditionals
         return updatedBuild
       }
@@ -453,7 +453,7 @@ function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['ch
   character.form.lightConeLevel = 80
 
   // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
-  // @ts-ignore
+  // @ts-expect-error - Migration: legacy save format field not in current types
   if (character.form.resultSort === 'WEIGHT') {
     character.form.resultSort = 'SPD'
   }
@@ -487,7 +487,7 @@ function processRelics(
   charactersById: Record<string, Character>,
 ) {
   for (const relic of relics) {
-    // @ts-ignore temporary while migrating relic object format
+    // @ts-expect-error - Migration: legacy relic format had weights field
     delete relic.weights
     RelicAugmenter.augment(relic)
     const character = charactersById[relic.equippedBy!]

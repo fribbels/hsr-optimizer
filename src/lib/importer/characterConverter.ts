@@ -1,16 +1,18 @@
 import {
   Constants,
-  MainStats,
   Parts,
+} from 'lib/constants/constants'
+import type {
+  MainStats,
   SubStats,
 } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { Utils } from 'lib/utils/utils'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
-import { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+import type { Relic } from 'types/relic'
 
 const partConversion = {
   1: Constants.Parts.Head,
@@ -150,18 +152,18 @@ function convertRelic(preRelic: PreRelic) {
     const enhance: Relic['enhance'] = preRelic.level || 0
 
     let setId = tid.substring(1, 4)
-    // @ts-ignore
+    // @ts-expect-error - tidOverrides keys are numeric but tid is string
     if (tidOverrides[tid]) {
-      // @ts-ignore
+      // @ts-expect-error - tidOverrides keys are numeric but tid is string
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       setId = tidOverrides[tid].set
     }
     const setName = metadata.relicSets[setId].name
 
     let partId = tid.substring(4, 5) as '1' | '2' | '3' | '4' | '5' | '6'
-    // @ts-ignore
+    // @ts-expect-error - tidOverrides keys are numeric but tid is string
     if (tidOverrides[tid]) {
-      // @ts-ignore
+      // @ts-expect-error - tidOverrides keys are numeric but tid is string
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       partId = tidOverrides[tid].part
     }
@@ -174,13 +176,13 @@ function convertRelic(preRelic: PreRelic) {
     if (!mainId) {
       mainId = Number(
         Object.values(metadata.relicMainAffixes[`${grade}${partId}`].affixes)
-          .find((x) => x.property == preRelic.main_affix.type)!.affix_id,
+          .find((x) => x.property === preRelic.main_affix.type)!.affix_id,
       )
     }
     let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
-    // @ts-ignore
+    // @ts-expect-error - tidOverrides keys are numeric but tid is string
     if (tidOverrides[tid]) {
-      // @ts-ignore
+      // @ts-expect-error - tidOverrides keys are numeric but tid is string
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       mainData = metadata.relicMainAffixes[tidOverrides[tid].main].affixes[mainId]
     }
@@ -201,7 +203,7 @@ function convertRelic(preRelic: PreRelic) {
       if (!subId) {
         subId = Number(
           Object.values(metadata.relicSubAffixes[`${grade}`].affixes)
-            .find((x) => x.property == sub.type)!.affix_id,
+            .find((x) => x.property === sub.type)!.affix_id,
         )
       }
       const count: number = sub.cnt ?? sub.count
@@ -255,7 +257,7 @@ export function rollCounter(count: number | undefined, step: number | undefined)
     rolls.low = count
 
     for (let i = 0; i < step; i++) {
-      if (rolls.low == 0) {
+      if (rolls.low === 0) {
         rolls.high++
         rolls.mid--
       } else {

@@ -73,7 +73,7 @@ function calculateConditionals(request: Form, context: OptimizerContext) {
   transformComboState(request, context)
 }
 
-export const ElementToBreakScaling = {
+const ElementToBreakScaling = {
   Physical: 2.0,
   Fire: 2.0,
   Ice: 1.0,

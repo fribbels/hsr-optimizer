@@ -16,7 +16,7 @@ import { afterPaint } from 'lib/utils/afterPaint'
 import { workerPool } from 'lib/worker/workerPool'
 import { TabVisibilityContext, TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {
-  ReactElement,
+  type ReactElement,
   useDeferredValue,
   useEffect,
   useRef,
@@ -136,6 +136,7 @@ const Tabs = () => {
 }
 
 export { Tabs }
+
 
 function TabRenderer({ activeKey, tabKey, children }: {
   activeKey: AppPages

@@ -1,8 +1,9 @@
 import { Badge, CloseButton, Group } from '@mantine/core'
 import { IconSquareAsteriskFilled } from '@tabler/icons-react'
 import { Assets } from 'lib/rendering/assets'
-import { TwoPieceSlotNonAny, TwoPieceSlotSet, TwoPieceSlotStat, TwoPieceSlotType, TwoPieceCombo } from './relicSetFilterModalTypes'
-import { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
+import type { TwoPieceSlotNonAny, TwoPieceSlotSet, TwoPieceSlotStat, TwoPieceCombo } from './relicSetFilterModalTypes'
+import { TwoPieceSlotType } from './relicSetFilterModalTypes'
+import type { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
 import classes from './RelicSetFilterModal.module.css'
 
 function slotIcon(slot: TwoPieceSlotSet | TwoPieceSlotStat): string {
@@ -23,7 +24,7 @@ function comboKey(combo: TwoPieceCombo): string {
   return `2p-${slotKey(combo.a)}+${combo.b.type === TwoPieceSlotType.Any ? 'any' : slotKey(combo.b)}`
 }
 
-export function IconBadge({ onRemove, children }: {
+function IconBadge({ onRemove, children }: {
   onRemove: () => void
   children: React.ReactNode
 }) {

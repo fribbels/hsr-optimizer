@@ -5,7 +5,7 @@ import {
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
-import { ReactElement } from 'types/components'
+import type { ReactElement } from 'types/components'
 import { decodeRelicSetValue } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet

@@ -29,9 +29,9 @@ import { ReliquaryDescription } from 'lib/tabs/tabImport/ReliquaryDescription'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
-import { Form } from 'types/form'
-import { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { Form } from 'types/form'
+import type { Relic } from 'types/relic'
 import {
   DEFAULT_WEBSOCKET_URL,
   useScannerState,

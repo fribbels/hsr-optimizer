@@ -4,7 +4,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { generateContext } from 'lib/optimization/context/calculateContext'
@@ -15,8 +15,8 @@ import {
 import {
   calculateSetNames,
   calculateSimSets,
-  SimulationSets,
 } from 'lib/scoring/dpsScore'
+import type { SimulationSets } from 'lib/scoring/dpsScore'
 import {
   calculateMaxSubstatRollCounts,
   calculateMinSubstatRollCounts,
@@ -36,10 +36,8 @@ import {
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateBenchmarkBuild'
-import {
-  generateStatImprovements,
-  SimulationStatUpgrade,
-} from 'lib/simulations/scoringUpgrades'
+import { generateStatImprovements } from 'lib/simulations/scoringUpgrades'
+import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationUtils'
 import {
@@ -57,20 +55,20 @@ import { TrailblazerHarmonyCaelus, TrailblazerHarmonyStelle } from 'lib/conditio
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import type { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
-import {
+import type {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { WorkerType } from 'lib/worker/workerUtils'
-import {
+import type {
   Form,
   OptimizerForm,
 } from 'types/form'
-import { SimulationMetadata } from 'types/metadata'
-import { OptimizerContext } from 'types/optimizer'
+import type { SimulationMetadata } from 'types/metadata'
+import type { OptimizerContext } from 'types/optimizer'
 
 export class BenchmarkSimulationOrchestrator {
   public metadata: SimulationMetadata
@@ -143,9 +141,6 @@ export class BenchmarkSimulationOrchestrator {
     }
     if (addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
       metadata.parts[Parts.LinkRope].push(Stats.BE)
-    }
-    if (addBreakEffect && !metadata.relicSets.find((sets) => sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
-      metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
     }
     if (addBreakEffect && !metadata.relicSets.find((sets) => sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
       metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])

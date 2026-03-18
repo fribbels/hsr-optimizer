@@ -1,9 +1,9 @@
 import { Stats } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
-import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import type { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkForm) {

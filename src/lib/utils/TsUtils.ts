@@ -1,4 +1,5 @@
-import i18next, {
+import i18next from 'i18next'
+import type {
   DefaultNamespace,
   KeyPrefix,
   Namespace,

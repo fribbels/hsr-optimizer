@@ -13,7 +13,7 @@ import {
   CHARACTER_CARD_IMAGE_X_OFFSET,
   CHARACTER_CARD_IMAGE_Y_OFFSET,
   CHARACTER_MODAL_STYLES,
-  CharacterFilters,
+  type CharacterFilters,
   OVERLAY_SCROLLBAR_OPTIONS,
   SEARCH_INPUT_STYLES,
   applyCharacterFilters,
@@ -21,9 +21,9 @@ import {
 } from 'lib/ui/selectors/selectConstants'
 import { useSelectModal } from 'lib/ui/selectors/useSelectModal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
-import { CSSProperties, useMemo, useState } from 'react'
+import { type CSSProperties, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
+import type { CharacterId } from 'types/character'
 import classes from './SelectCardGrid.module.css'
 
 const elementTags = generateElementTags()

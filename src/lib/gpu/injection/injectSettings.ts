@@ -2,13 +2,13 @@ import {
   Constants,
   Stats,
 } from 'lib/constants/constants'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
-import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
+import type { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
+import type { Form } from 'types/form'
+import type { OptimizerContext } from 'types/optimizer'
 
 export function injectSettings(wgsl: string, context: OptimizerContext, request: Form, relics: RelicsByPart) {
   const merged: Record<string, number> = {}

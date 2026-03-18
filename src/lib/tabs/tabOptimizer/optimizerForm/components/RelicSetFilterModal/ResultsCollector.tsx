@@ -1,6 +1,6 @@
 import { Button, Group, Stack, Text } from '@mantine/core'
-import { TwoPieceSlotNonAny, TwoPieceCombo } from './relicSetFilterModalTypes'
-import { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
+import type { TwoPieceSlotNonAny, TwoPieceCombo } from './relicSetFilterModalTypes'
+import type { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
 import { FourPieceBadges, TwoPieceComboBadges, PendingSlotBadge, OrnamentBadges } from './SetFilterBadges'
 import classes from './RelicSetFilterModal.module.css'
 

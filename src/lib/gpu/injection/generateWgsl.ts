@@ -1,13 +1,13 @@
 import { Constants } from 'lib/constants/constants'
-import { uniformCompatible } from 'lib/gpu/webgpuDevice'
+import { generateBasicSetEffectsWgsl } from 'lib/gpu/injection/generateBasicSetEffects'
 import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
-import { generateBasicSetEffectsWgsl } from 'lib/gpu/injection/generateBasicSetEffects'
 import { generateSetBitConstants } from 'lib/gpu/injection/setIndexMap'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import {
+import { uniformCompatible } from 'lib/gpu/webgpuDevice'
+import type {
   GpuConstants,
   RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
@@ -19,8 +19,8 @@ import {
   generateSetConditionalsInitializer,
   generateSetConditionalsStruct,
 } from 'lib/sets/setConfigRegistry'
-import { Form } from 'types/form'
-import {
+import type { Form } from 'types/form'
+import type {
   OptimizerContext,
   ShaderVariables,
 } from 'types/optimizer'
@@ -116,7 +116,6 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
 
   return wgsl
 }
-
 
 function injectComputeShader(wgsl: string) {
   wgsl += generateSetBitConstants()

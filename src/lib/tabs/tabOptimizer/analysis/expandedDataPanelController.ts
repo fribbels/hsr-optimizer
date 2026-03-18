@@ -1,11 +1,13 @@
-import { ElementToDamage, PathNames, Stats, StatsValues, SubStats, } from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { ElementToDamage, PathNames, Stats, SubStats } from 'lib/constants/constants'
+import type { StatsValues } from 'lib/constants/constants'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { aggregatePerActionBuffs, PerActionBuffGroups } from 'lib/simulations/combatBuffsAnalysis'
+import { aggregatePerActionBuffs } from 'lib/simulations/combatBuffsAnalysis'
+import type { PerActionBuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
@@ -13,11 +15,11 @@ import {
   ornamentSetIndexToName,
   relicSetIndexToNames,
 } from 'lib/simulations/statSimulationUtils'
-import {
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import type {
   Simulation,
   SimulationRelicByPart,
   SimulationRequest,
-  StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'

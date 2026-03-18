@@ -137,7 +137,7 @@ export class SearchTree {
     this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
     this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.logVolume * b.damage - a.logVolume * a.damage)
 
-    this.maxStatRollsPerPiece = this.targetSum == 54 ? 6 : 5
+    this.maxStatRollsPerPiece = this.targetSum === 54 ? 6 : 5
 
     this.config = getSearchTreeConfig(this)
     this.root = this.generateRoot(lower, upper)!
@@ -180,7 +180,7 @@ export class SearchTree {
   }
 
   public getBest() {
-    const benchmark = this.targetSum == 54 ? 200 : 100
+    const benchmark = this.targetSum === 54 ? 200 : 100
     const total = this.endTime - this.startTime
 
     console.log(
@@ -312,7 +312,7 @@ export class SearchTree {
     // This only needs to be checked for the 200% benchmark
     // The 100% benchmark can assume that simple round-robin will never generate an invalid distribution
     let assignmentsNeeded
-    if (this.targetSum == 54) {
+    if (this.targetSum === 54) {
       const potentialMinPiecesAssignments = this.potentialMinPiecesAssignments
       let totalCurrentMins = 0
       for (let i = 0; i < this.activeStats.length; i++) {
@@ -406,7 +406,7 @@ export class SearchTree {
         break
       }
 
-      if (i == this.activeStats.length - 1) {
+      if (i === this.activeStats.length - 1) {
         i = -1
       }
     }
@@ -441,7 +441,7 @@ export class SearchTree {
     let maxRange = 0
     let maxStat = null
     for (const stat of this.activeStats) {
-      if (stat == Stats.SPD) continue
+      if (stat === Stats.SPD) continue
       const range = node.region.upper[stat] - node.region.lower[stat]
       if (range > maxRange) {
         maxRange = range
@@ -458,7 +458,7 @@ export class SearchTree {
 
   // Any dimension with 2 points can be split, except SPD
   public isStatSplitPossible(stat: string, node: ProtoTreeStatNode) {
-    if (stat == Stats.SPD) return false
+    if (stat === Stats.SPD) return false
     return node.region.upper[stat] - node.region.lower[stat] > 0
   }
 
@@ -497,7 +497,7 @@ export class SearchTree {
         break
       }
 
-      if (i == this.activeStats.length - 1) {
+      if (i === this.activeStats.length - 1) {
         i = -1
         // Infinite loop guard
         if (looped) {
@@ -550,8 +550,8 @@ export class SearchTree {
     if (node.damage > this.bestDamage) {
       this.bestDamage = node.damage
       this.bestNode = node
-      this.bestHistory.push(node.nodeId!)
-      this.bestHistoryDamage.push(node.damage!)
+      this.bestHistory.push(node.nodeId)
+      this.bestHistoryDamage.push(node.damage)
 
       if (this.measurements > this.config.explorationLimit) {
         this.scanPointNeighbors(node.representative)

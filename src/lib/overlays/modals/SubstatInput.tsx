@@ -2,13 +2,13 @@ import {
   IconChevronRight,
   IconLock,
 } from '@tabler/icons-react'
-import { UseFormReturnType } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
 import { Button, Flex, TextInput, Tooltip } from '@mantine/core'
 import {
   Constants,
   Stats,
 } from 'lib/constants/constants'
-import {
+import type {
   RelicForm,
   RelicUpgradeValues,
 } from 'lib/overlays/modals/relicModalController'

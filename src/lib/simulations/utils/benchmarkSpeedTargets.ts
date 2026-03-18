@@ -1,6 +1,6 @@
 import { BasicKey } from 'lib/optimization/basicStatsArray'
-import { SimulationFlags } from 'lib/scoring/simScoringUtils'
-import { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
+import type { SimulationFlags } from 'lib/scoring/simScoringUtils'
+import type { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 
 export function applyBasicSpeedTargetFlag(
   simulationFlags: SimulationFlags,

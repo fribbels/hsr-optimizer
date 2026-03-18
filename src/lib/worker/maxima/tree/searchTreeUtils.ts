@@ -11,7 +11,7 @@ export function calculateMinMaxMetadata(lower: SubstatCounts, upper: SubstatCoun
   const fixedStats: SubstatCounts = {}
   const activeStats: string[] = []
   for (const stat of Object.keys(lower)) {
-    if (lower[stat] == upper[stat]) {
+    if (lower[stat] === upper[stat]) {
       fixedStats[stat] = upper[stat]
     } else {
       activeStats.push(stat)
@@ -87,7 +87,7 @@ export function getSearchTreeConfig(tree: SearchTree): TreeConfig {
     case 8:
       return generateConfig(20000)
     default:
-      throw new Error()
+      throw new Error(`Unsupported search tree dimensions: ${tree.dimensions}`)
   }
 }
 

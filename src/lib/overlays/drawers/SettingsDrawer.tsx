@@ -11,7 +11,7 @@ import {
   useEffect,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { UserSettings } from 'types/store'
+import { type UserSettings } from 'types/store'
 import { useGlobalStore } from 'lib/stores/appStore'
 
 const SelectOptionWordWrap = (props: React.ComponentPropsWithoutRef<'span'>) => (
@@ -62,12 +62,12 @@ export function SettingsDrawer() {
       opened={isOpenSettingsDrawer}
       size={900}
     >
-      {isOpenSettingsDrawer && <SettingsDrawerContent close={closeSettingsDrawer} />}
+      {isOpenSettingsDrawer && <SettingsDrawerContent />}
     </Drawer>
   )
 }
 
-function SettingsDrawerContent({ close: _close }: { close: () => void }) {
+function SettingsDrawerContent() {
   const setSettingsRef = useGlobalStore((s) => s.setSettings)
   const settings = useGlobalStore((s) => s.settings)
   const { t } = useTranslation('settings')
@@ -79,7 +79,7 @@ function SettingsDrawerContent({ close: _close }: { close: () => void }) {
     },
   })
 
-  const optionsMap = {} as Record<keyof UserSettings, { value: string; label: string }[]>
+  const optionsMap: Partial<Record<keyof UserSettings, { value: string; label: string }[]>> = {}
   for (const key of Object.keys(SettingOptions) as (keyof typeof SettingOptions)[]) {
     const group = SettingOptions[key]
     optionsMap[key] = Object.entries(group)

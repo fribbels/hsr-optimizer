@@ -2,26 +2,28 @@ import gameData from 'data/game_data.json'
 import i18next from 'i18next'
 import {
   Constants,
+  PathNames,
+} from 'lib/constants/constants'
+import type {
   MainStats,
   Parts,
   PathName,
-  PathNames,
   Sets,
   SubStats,
 } from 'lib/constants/constants'
 import { rollCounter } from 'lib/importer/characterConverter'
-import { ScannerConfig } from 'lib/importer/importConfig'
+import type { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Utils } from 'lib/utils/utils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
+import type {
   Character,
   CharacterId,
 } from 'types/character'
-import { Form } from 'types/form'
-import {
+import type { Form } from 'types/form'
+import type {
   Relic,
   RelicSubstatMetadata,
   UnaugmentedRelic,

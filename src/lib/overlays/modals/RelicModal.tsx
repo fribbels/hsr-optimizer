@@ -3,7 +3,7 @@ import {
 } from '@tabler/icons-react'
 import { useForm } from '@mantine/form'
 import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl } from '@mantine/core'
-import { SearchableCombobox, SearchableComboboxOption } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
+import { SearchableCombobox, type SearchableComboboxOption } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 import {
   Constants,
   MainStats,
@@ -20,14 +20,14 @@ import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import {
   calculateUpgradeValues,
-  RelicForm,
-  RelicUpgradeValues,
+  type RelicForm,
+  type RelicUpgradeValues,
   validateRelic,
 } from 'lib/overlays/modals/relicModalController'
 import {
   defaultMainStatPerPart,
   defaultSubstatValues,
-  MainStatOption,
+  type MainStatOption,
   relicsAreDifferent,
   renderMainStat,
 } from 'lib/overlays/modals/relicModalHelpers'
@@ -222,7 +222,7 @@ function RelicModalContent() {
   useEffect(() => {
     if (mainStatOptions.length > 0) {
       const mainStatValues = mainStatOptions.map((item) => item.value)
-      // @ts-ignore
+      // @ts-expect-error - MainStats vs string type mismatch in includes check
       if (mainStatValues.includes(selectedRelic?.main?.stat)) {
         relicForm.setFieldValue('mainStatType', selectedRelic?.main?.stat as MainStats)
       } else {
@@ -262,11 +262,11 @@ function RelicModalContent() {
 
       const defaultSet = getSetOptions(part)[0].value
       if (part === Parts.PlanarSphere || part === Parts.LinkRope) {
-        // @ts-ignore
+        // @ts-expect-error - Sets vs string type mismatch in includes check
         if (!Object.values(SetsOrnaments).includes(formValues.set)) {
           relicForm.setFieldValue('set', defaultSet as RelicForm['set'])
         }
-        // @ts-ignore
+        // @ts-expect-error - Sets vs string type mismatch in includes check
       } else if (!Object.values(SetsRelics).includes(formValues.set)) {
         relicForm.setFieldValue('set', defaultSet as RelicForm['set'])
       }
@@ -280,7 +280,6 @@ function RelicModalContent() {
       const specialStats = [
         Stats.OHB,
         Stats.Physical_DMG,
-        Stats.Physical_DMG,
         Stats.Fire_DMG,
         Stats.Ice_DMG,
         Stats.Lightning_DMG,
@@ -292,10 +291,10 @@ function RelicModalContent() {
 
       let mainStatValue = TsUtils.calculateRelicMainStatValue(mainStatType, grade, enhance)
 
-      // @ts-ignore TS doesn't like mismatched types when using .includes
+      // @ts-expect-error - MainStats vs Stats type mismatch in includes check
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
         mainStatValue = Utils.truncate10ths(mainStatValue)
-        // @ts-ignore TS doesn't like mismatched types when using .includes
+        // @ts-expect-error - MainStats vs Stats type mismatch in includes check
       } else if (floorStats.includes(mainStatType)) {
         mainStatValue = Math.floor(mainStatValue)
       } else {

@@ -28,7 +28,7 @@ import {
   getForm,
   optimizerFormCache,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import { sleep, smoothScrollNearest } from 'lib/utils/frontendUtils'
 import type {
   Form,

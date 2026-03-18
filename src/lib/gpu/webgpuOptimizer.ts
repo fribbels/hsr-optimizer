@@ -26,7 +26,7 @@ import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/Re
 import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import { type Form } from 'types/form'
 import { type OptimizerContext } from 'types/optimizer'
 

@@ -17,7 +17,7 @@ import {
 } from 'lib/tabs/tabImport/scannerStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/frontendUtils'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import useWebSocket from 'partysocket/use-ws'
 import {
   useEffect,

@@ -9,7 +9,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import { type OptimizerContext } from 'types/optimizer'
 import { precisionRound } from 'lib/utils/mathUtils'
 

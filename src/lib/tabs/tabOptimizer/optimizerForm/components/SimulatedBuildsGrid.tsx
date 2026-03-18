@@ -6,7 +6,7 @@ import { deleteStatSimulationBuild } from 'lib/simulations/statSimulationControl
 import { StatSimulationName } from 'lib/simulations/StatSimulationName'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import { clone } from 'lib/utils/objectUtils'
 import { useTranslation } from 'react-i18next'
 

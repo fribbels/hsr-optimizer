@@ -6,7 +6,7 @@ import { useGlobalStore } from 'lib/stores/appStore'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getRelicById, getRelics, useRelicStore } from 'lib/stores/relicStore'
 import { debounceEffect } from 'lib/utils/frontendUtils'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import type { Character, CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'
 

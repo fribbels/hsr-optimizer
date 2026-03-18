@@ -15,13 +15,6 @@ export const RELICS_2P_SPEED = [
   Sets.WarriorGoddessOfSunAndThunder,
 ]
 
-export const RELICS_2P_ATK = [
-  Sets.MusketeerOfWildWheat,
-  Sets.PrisonerInDeepConfinement,
-  Sets.TheWindSoaringValorous,
-  Sets.HeroOfTriumphantSong,
-]
-
 export const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],

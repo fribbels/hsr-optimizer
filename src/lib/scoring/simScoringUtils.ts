@@ -258,7 +258,7 @@ export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: n
   return mid
 }
 
-export function isSpdBoots(simulation: Simulation) {
+function isSpdBoots(simulation: Simulation) {
   return simulation.request.simFeet == Stats.SPD
 }
 
@@ -294,7 +294,7 @@ export function applyScoringFunction(result: RunStatSimulationsResult, metadata:
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }
 
-export function calculatePenaltyMultiplier(
+function calculatePenaltyMultiplier(
   simulationResult: RunStatSimulationsResult,
   metadata: SimulationMetadata,
   user = false,

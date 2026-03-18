@@ -55,7 +55,7 @@ import {
 import { ShowcaseSource } from './CharacterPreviewComponents'
 import classes from './ShowcaseCustomizationSidebar.module.css'
 
-export interface ShowcaseCustomizationSidebarProps {
+interface ShowcaseCustomizationSidebarProps {
   id: string
   source: ShowcaseSource
   characterId: CharacterId

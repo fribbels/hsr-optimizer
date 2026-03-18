@@ -1,5 +1,5 @@
-import { LightConeConditionalsController } from 'types/conditionals'
-import { LightConeConfig } from 'types/lightConeConfig'
+import { type LightConeConditionalsController } from 'types/conditionals'
+import { type LightConeConfig } from 'types/lightConeConfig'
 
 const conditionals = (): LightConeConditionalsController => {
   return {

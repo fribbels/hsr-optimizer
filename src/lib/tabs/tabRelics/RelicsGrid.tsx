@@ -1,17 +1,17 @@
 import {
-  GetRowIdParams,
-  GridOptions,
-  IRowNode,
-  IsExternalFilterPresentParams,
+  type GetRowIdParams,
+  type GridOptions,
+  type IRowNode,
+  type IsExternalFilterPresentParams,
 } from 'ag-grid-community'
 import {
   AgGridReact,
-  AgGridReactProps,
+  type AgGridReactProps,
 } from 'ag-grid-react'
 import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
 import { useTranslation } from 'react-i18next'
 import {
-  ScoredRelic,
+  type ScoredRelic,
   scoreRelics,
 } from 'lib/relics/scoreRelics'
 import {
@@ -21,7 +21,7 @@ import {
 } from 'lib/tabs/tabRelics/columnDefs'
 import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
-import { useRelicsTabStore, ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useRelicsTabStore, type ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { gridStore } from 'lib/utils/gridStore'
 import {
   useCallback,

@@ -1,6 +1,6 @@
 import {
-  SearchTree,
-  TreeStatRegion,
+  type SearchTree,
+  type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
 
 /**

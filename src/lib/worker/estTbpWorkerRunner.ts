@@ -1,8 +1,8 @@
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
-import { BaseWorkerInput, WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
+import { type BaseWorkerInput, WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
-import { Relic } from 'types/relic'
+import { type Relic } from 'types/relic'
 
 export type EstTbpRunnerInput = {
   displayRelics: SingleRelicByPart,

@@ -1,4 +1,4 @@
-import { V4ParserRelic } from 'lib/importer/kelzFormatParser'
+import { type V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicRerollModal } from 'lib/overlays/modals/RelicRerollModal'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
@@ -12,7 +12,7 @@ import {
   handleUpdateRelic,
   initialScan,
   scannerChannel,
-  ScannerEvent,
+  type ScannerEvent,
   usePrivateScannerState,
 } from 'lib/tabs/tabImport/scannerStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'

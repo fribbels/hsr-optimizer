@@ -17,7 +17,7 @@ import {
   getCombatColumnDefs,
   getMemoBasicColumnDefs,
   getMemoCombatColumnDefs,
-  OptimizerGridColumnDef,
+  type OptimizerGridColumnDef,
   optimizerGridDefaultColDef,
   optimizerGridOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'

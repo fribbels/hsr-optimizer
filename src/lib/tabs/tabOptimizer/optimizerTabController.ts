@@ -4,7 +4,7 @@ import type {
 } from 'ag-grid-community'
 import {
   Constants,
-  Parts,
+  type Parts,
 } from 'lib/constants/constants'
 import type {
   RelicsByPart,

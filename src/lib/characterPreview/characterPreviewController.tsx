@@ -25,7 +25,7 @@ import { RelicModalController } from 'lib/overlays/modals/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import {
   RelicScorer,
-  RelicScoringResult,
+  type RelicScoringResult,
 } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'

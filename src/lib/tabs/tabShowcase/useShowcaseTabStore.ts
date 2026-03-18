@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { CUSTOM_TEAM, DEFAULT_TEAM, Parts } from 'lib/constants/constants'
+import { type CUSTOM_TEAM, type DEFAULT_TEAM, type Parts } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'

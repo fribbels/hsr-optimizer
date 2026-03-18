@@ -11,7 +11,7 @@ import {
   setToId,
 } from 'lib/sets/setConfigRegistry'
 import {
-  OpenCloseIDs,
+  type OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import {

@@ -28,13 +28,13 @@ import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
 import {
-  ShowcaseTabForm,
+  type ShowcaseTabForm,
   submitForm,
 } from 'lib/tabs/tabShowcase/showcaseApi'
 import {
-  CharacterPreset,
+  type CharacterPreset,
   initialiseShowcaseTab,
-  Preset,
+  type Preset,
   presetCharacters,
 } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'

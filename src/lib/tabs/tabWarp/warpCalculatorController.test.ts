@@ -7,7 +7,7 @@ import {
   NONE_WARP_INCOME_OPTION,
   StarlightRefund,
   SuperimpositionLevel,
-  WarpRequest,
+  type WarpRequest,
   WarpStrategy,
 } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {

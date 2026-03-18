@@ -18,7 +18,7 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   Fragment,
-  ReactNode,
+  type ReactNode,
   useMemo,
 } from 'react'
 import {

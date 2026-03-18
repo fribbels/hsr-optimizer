@@ -3,10 +3,10 @@ import { ComboType } from 'lib/optimization/rotation/comboType'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import {
-  OptimizerRequestState,
-  RatingFilterState,
-  StatFilterState,
-  TeammateState,
+  type OptimizerRequestState,
+  type RatingFilterState,
+  type StatFilterState,
+  type TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 

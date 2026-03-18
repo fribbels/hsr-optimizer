@@ -7,27 +7,27 @@ import {
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import {
   HKey,
-  HKeyValue,
+  type HKeyValue,
   StatKey,
-  StatKeyValue,
+  type StatKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  AdditionalHit,
-  BreakHit,
-  CritHit,
-  DotHit,
-  ElationHit,
-  HealHit,
-  HealTallyHit,
-  Hit,
-  ShieldHit,
-  SuperBreakHit,
+  type AdditionalHit,
+  type BreakHit,
+  type CritHit,
+  type DotHit,
+  type ElationHit,
+  type HealHit,
+  type HealTallyHit,
+  type Hit,
+  type ShieldHit,
+  type SuperBreakHit,
 } from 'types/hitConditionalTypes'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 const cLevelConst = 20 + 80

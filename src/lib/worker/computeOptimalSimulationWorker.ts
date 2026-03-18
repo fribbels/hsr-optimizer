@@ -7,14 +7,14 @@ import {
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
-  Simulation,
-  SubstatCounts,
+  type Simulation,
+  type SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
-  ComputeOptimalSimulationWorkerInput,
-  ComputeOptimalSimulationWorkerOutput,
+  type ComputeOptimalSimulationWorkerInput,
+  type ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'

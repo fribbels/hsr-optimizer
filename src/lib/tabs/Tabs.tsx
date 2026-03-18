@@ -14,7 +14,7 @@ import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import { WebgpuTab } from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { afterPaint } from 'lib/utils/afterPaint'
 import { workerPool } from 'lib/worker/workerPool'
-import { TabVisibilityContext, TabVisibilityValue } from 'lib/hooks/useTabVisibility'
+import { TabVisibilityContext, type TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {
   type ReactElement,
   useDeferredValue,

@@ -17,8 +17,8 @@ import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import type { CharacterId } from 'types/character'
 import {
-  Form,
-  Teammate,
+  type Form,
+  type Teammate,
 } from 'types/form'
 
 // FIXME HIGH

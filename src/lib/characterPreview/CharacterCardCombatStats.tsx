@@ -3,24 +3,24 @@ import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import {
-  ElementName,
+  type ElementName,
   ElementToDamage,
   ElementToStatKeyDmgBoost,
   PathNames,
   Stats,
-  StatsValues,
+  type StatsValues,
   SubStats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import iconClasses from 'style/icons.module.css'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
 import {
-  SimulationScore,
+  type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { PrimaryActionStats } from 'lib/simulations/statSimulationTypes'
+import { type PrimaryActionStats } from 'lib/simulations/statSimulationTypes'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   filterUnique,
@@ -33,9 +33,9 @@ import {
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { memo, ReactElement } from 'react'
+import { memo, type ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DBMetadataCharacter } from 'types/metadata'
+import { type DBMetadataCharacter } from 'types/metadata'
 import { useGlobalStore } from 'lib/stores/appStore'
 
 export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ result }: {

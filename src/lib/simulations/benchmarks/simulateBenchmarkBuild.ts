@@ -4,7 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import type { PartialSimulationWrapper } from 'lib/scoring/simScoringUtils'
-import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { type BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import type {
   Simulation,
   SimulationRequest,

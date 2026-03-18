@@ -1,16 +1,16 @@
 import type { ComboType } from 'lib/optimization/rotation/comboType'
-import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
+import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { type SortOption } from 'lib/optimization/sortOptions'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import {
-  EnemyConfigFields,
-  MainStatPart,
-  OptimizerRequestState,
-  RatingFilterState,
-  RelicFilterFields,
-  StatFilterState,
-  StatSimType,
-  TeammateState,
+  type EnemyConfigFields,
+  type MainStatPart,
+  type OptimizerRequestState,
+  type RatingFilterState,
+  type RelicFilterFields,
+  type StatFilterState,
+  type StatSimType,
+  type TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import {
   computeApplySuggestionFixes,
@@ -19,16 +19,16 @@ import {
   computeSetMainCharacterConditional,
   computeSetSetConditional,
   computeSetTeammateConditional,
-  SuggestionFixes,
+  type SuggestionFixes,
 } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { CharacterId, Eidolon } from 'types/character'
-import { ConditionalValueMap } from 'types/conditionals'
-import { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
-import { Form } from 'types/form'
-import { LightConeId, SuperImpositionLevel } from 'types/lightCone'
-import { MemoDisplay, StatDisplay } from 'types/store'
+import { type CharacterId, type Eidolon } from 'types/character'
+import { type ConditionalValueMap } from 'types/conditionals'
+import { type SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import { type Form } from 'types/form'
+import { type LightConeId, type SuperImpositionLevel } from 'types/lightCone'
+import { type MemoDisplay, type StatDisplay } from 'types/store'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 export type MainConditionalType = 'characterConditionals' | 'lightConeConditionals'

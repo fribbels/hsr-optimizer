@@ -2,25 +2,25 @@ import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_CPU,
   Constants,
-  ElementName,
+  type ElementName,
   ElementToStatKeyDmgBoost,
-  Parts,
+  type Parts,
   Stats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import { type RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   BufferPacker,
   ElementToBasicKeyDmgBoost,
-  OptimizerDisplayData,
+  type OptimizerDisplayData,
 } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import {
   bitpackBooleanArray,
@@ -32,8 +32,8 @@ import { RelicFilters } from 'lib/relics/relicFilters'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import {
-  SimulationRelic,
-  SimulationRelicByPart,
+  type SimulationRelic,
+  type SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { getCharacterById } from 'lib/stores/characterStore'
@@ -51,8 +51,8 @@ import { Utils } from 'lib/utils/utils'
 import { WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import {
-  Form,
-  OptimizerForm,
+  type Form,
+  type OptimizerForm,
 } from 'types/form'
 
 // Module-level cancellation flag shared across optimization runs.

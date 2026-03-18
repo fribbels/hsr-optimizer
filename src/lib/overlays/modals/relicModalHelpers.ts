@@ -1,8 +1,8 @@
 import {
-  MainStats,
+  type MainStats,
   Parts,
   Stats,
-  SubStats,
+  type SubStats,
 } from 'lib/constants/constants'
 import type { RelicForm } from 'lib/overlays/modals/relicModalController'
 import { TsUtils } from 'lib/utils/TsUtils'

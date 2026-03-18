@@ -16,7 +16,7 @@ import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import { Relic } from 'types/relic'
+import { type Relic } from 'types/relic'
 
 export const TAB_WIDTH = 1460
 

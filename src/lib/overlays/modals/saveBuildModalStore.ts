@@ -1,5 +1,5 @@
 import { createOverlayStore } from 'lib/stores/createOverlayStore'
-import { AppPages } from 'lib/constants/appPages'
+import { type AppPages } from 'lib/constants/appPages'
 import type { Character } from 'types/character'
 
 export type SaveBuildModalConfig = {

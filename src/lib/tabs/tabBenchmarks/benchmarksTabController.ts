@@ -6,13 +6,13 @@ import {
 } from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
-import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { type BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import {
-  BenchmarkForm,
-  SimpleCharacter,
+  type BenchmarkForm,
+  type SimpleCharacter,
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'

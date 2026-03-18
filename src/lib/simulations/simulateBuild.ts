@@ -1,7 +1,7 @@
 import type { ElementName } from 'lib/constants/constants'
 import {
   ElementToStatKeyDmgBoost,
-  Parts,
+  type Parts,
   PartsArray,
 } from 'lib/constants/constants'
 import type { BasicStatsArray } from 'lib/optimization/basicStatsArray'
@@ -27,7 +27,7 @@ import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { type AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   SetsOrnaments,
   SetsRelics,

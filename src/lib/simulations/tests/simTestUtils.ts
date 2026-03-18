@@ -1,32 +1,32 @@
 import {
-  MainStats,
+  type MainStats,
   Parts,
-  Sets,
+  type Sets,
   Stats,
-  SubStats,
+  type SubStats,
 } from 'lib/constants/constants'
 import {
-  SetsOrnaments,
-  SetsRelics,
+  type SetsOrnaments,
+  type SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
-import { AKeyValue, getAKeyName, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { type AKeyValue, getAKeyName, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
-  RunStatSimulationsResult,
-  Simulation,
+  type RunStatSimulationsResult,
+  type Simulation,
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { CharacterId } from 'types/character'
-import { Form } from 'types/form'
-import { LightConeId } from 'types/lightCone'
-import { Relic } from 'types/relic'
+import { type CharacterId } from 'types/character'
+import { type Form } from 'types/form'
+import { type LightConeId } from 'types/lightCone'
+import { type Relic } from 'types/relic'
 
 export type SimTestUtils = {
   characterId: CharacterId,

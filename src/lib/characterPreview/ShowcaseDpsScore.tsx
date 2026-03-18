@@ -18,7 +18,7 @@ import {
   SETTINGS_TEAM,
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
@@ -26,7 +26,7 @@ import { Assets } from 'lib/rendering/assets'
 import {
   getSimScoreGrade,
 } from 'lib/scoring/dpsScore'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import { type SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
@@ -41,14 +41,14 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Character,
-  CharacterId,
+  type Character,
+  type CharacterId,
 } from 'types/character'
 import {
-  Form,
-  OptimizerForm,
+  type Form,
+  type OptimizerForm,
 } from 'types/form'
-import { SimulationMetadata } from 'types/metadata'
+import { type SimulationMetadata } from 'types/metadata'
 
 export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   characterId,

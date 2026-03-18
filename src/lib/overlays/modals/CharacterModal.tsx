@@ -8,7 +8,7 @@ import { getCharacterById } from 'lib/stores/characterStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
-  OptionRender,
+  type OptionRender,
   renderTeammateOrnamentSetOptions,
   renderTeammateRelicSetOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'

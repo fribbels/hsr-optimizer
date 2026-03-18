@@ -6,8 +6,8 @@ import {
 import { Stats } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
-import { TestInput } from 'lib/simulations/tests/simTestUtils'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import { type TestInput } from 'lib/simulations/tests/simTestUtils'
+import { type BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { expect } from 'vitest'
 

@@ -1,8 +1,8 @@
 import {
   Constants,
-  MainStats,
+  type MainStats,
   Stats,
-  SubStats,
+  type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
 import { precisionRound } from 'lib/utils/mathUtils'

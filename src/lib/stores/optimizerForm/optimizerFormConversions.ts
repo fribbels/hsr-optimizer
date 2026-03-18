@@ -3,13 +3,13 @@ import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { DEFAULT_SET_FILTERS, expandSetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalConversions'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
-  OptimizerRequestState,
-  OptimizerRequest,
-  RatingFilterState,
-  StatFilterState,
-  TeammateState,
+  type OptimizerRequestState,
+  type OptimizerRequest,
+  type RatingFilterState,
+  type StatFilterState,
+  type TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { Form, Teammate } from 'types/form'
+import { type Form, type Teammate } from 'types/form'
 
 const MAX_INT = Constants.MAX_INT
 

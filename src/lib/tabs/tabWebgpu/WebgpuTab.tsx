@@ -6,9 +6,9 @@ import {
 import { Accordion, Button, Flex, Table } from '@mantine/core'
 import {
   generateAllTests,
-  WebgpuTest,
+  type WebgpuTest,
 } from 'lib/gpu/tests/webgpuTestGenerator'
-import { StatDelta } from 'lib/gpu/tests/webgpuTestUtils'
+import { type StatDelta } from 'lib/gpu/tests/webgpuTestUtils'
 import { useState } from 'react'
 
 export function WebgpuTab() {

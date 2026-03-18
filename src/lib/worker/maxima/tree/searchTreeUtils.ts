@@ -1,10 +1,10 @@
-import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
+import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
 import {
-  SearchTree,
-  TreeConfig,
-  TreeStatNode,
-  TreeStatRegion,
+  type SearchTree,
+  type TreeConfig,
+  type TreeStatNode,
+  type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
 
 export function calculateMinMaxMetadata(lower: SubstatCounts, upper: SubstatCounts) {

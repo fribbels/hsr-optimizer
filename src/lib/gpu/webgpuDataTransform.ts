@@ -1,16 +1,16 @@
 
 import {
-  GpuExecutionContext,
-  RelicsByPart,
+  type GpuExecutionContext,
+  type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
-import { StringToNumberMap } from 'types/common'
-import { Relic } from 'types/relic'
+import { type StringToNumberMap } from 'types/common'
+import { type Relic } from 'types/relic'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
-  SetsOrnaments,
-  SetsRelics,
+  type SetsOrnaments,
+  type SetsRelics,
   SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
 

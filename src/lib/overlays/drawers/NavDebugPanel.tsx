@@ -35,7 +35,7 @@ import {
   generateCSSExport,
   NAV_DEBUG_DEFAULTS,
   NAV_DEBUG_PRESETS,
-  NavDebugConfig,
+  type NavDebugConfig,
   useNavDebugStore,
 } from './navDebugStore'
 import classes from './NavDebugPanel.module.css'

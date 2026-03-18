@@ -1,11 +1,11 @@
 import {
-  MainStats,
-  Parts,
-  Sets,
-  SubStats,
+  type MainStats,
+  type Parts,
+  type Sets,
+  type SubStats,
 } from 'lib/constants/constants'
 import { getRelicById } from 'lib/stores/relicStore'
-import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
+import { type generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import { TsUtils } from 'lib/utils/TsUtils'
 import type { CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'

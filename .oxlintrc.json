@@ -120,6 +120,7 @@
     "unicorn/prefer-set-size": "warn",
     "unicorn/prefer-string-starts-ends-with": "warn",
     // Custom
+    "typescript/consistent-type-imports": ["warn", { "prefer": "type-imports", "fixStyle": "inline-type-imports" }],
     "sort-keys": "off",
     "numeric-separators-style": "off",
     "no-zero-fractions": "off",

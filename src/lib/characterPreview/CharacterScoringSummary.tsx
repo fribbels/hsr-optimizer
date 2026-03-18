@@ -1,7 +1,7 @@
 import { Alert, Divider, Flex } from '@mantine/core'
 import classes from './CharacterScoringSummary.module.css'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
-import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
@@ -10,20 +10,20 @@ import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsS
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
-import { ElementName, ElementToDamage, MainStats, PathNames, Parts, Stats } from 'lib/constants/constants'
+import { type ElementName, ElementToDamage, type MainStats, PathNames, Parts, Stats } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
 import {
   diminishingReturnsFormula,
   getElementalDmgFromContainer,
   ScoringType,
-  SimulationScore,
+  type SimulationScore,
   spdDiminishingReturnsFormula,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { RunStatSimulationsResult, Simulation } from 'lib/simulations/statSimulationTypes'
+import { type RunStatSimulationsResult, type Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
@@ -34,7 +34,7 @@ import { memo, useMemo } from 'react'
 import { useProgressivePhase } from 'lib/characterPreview/useProgressivePhase'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
-import { CharacterId } from 'types/character'
+import { type CharacterId } from 'types/character'
 
 function ScoringSet(props: {
   set: string

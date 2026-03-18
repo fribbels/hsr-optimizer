@@ -4,10 +4,10 @@ import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import i18next from 'i18next'
 import {
   Constants,
-  Parts,
-  Sets,
+  type Parts,
+  type Sets,
   Stats,
-  StatsValues,
+  type StatsValues,
   UnreleasedSets,
 } from 'lib/constants/constants'
 import {

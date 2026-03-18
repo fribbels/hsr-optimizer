@@ -10,9 +10,9 @@ import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamage
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import {
-  ElementName,
+  type ElementName,
   ElementToDamage,
-  SubStats,
+  type SubStats,
 } from 'lib/constants/constants'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'

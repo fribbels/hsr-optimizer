@@ -1,19 +1,19 @@
 import { Flex } from '@mantine/core'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { type ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   Constants,
-  Parts,
+  type Parts,
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { RelicScoringResult } from 'lib/relics/scoring/relicScorer'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { type RelicScoringResult } from 'lib/relics/scoring/relicScorer'
+import { type ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   RelicPreview,
 } from 'lib/tabs/tabRelics/RelicPreview'
 import { memo, useMemo } from 'react'
-import { CharacterId } from 'types/character'
-import { Relic } from 'types/relic'
+import { type CharacterId } from 'types/character'
+import { type Relic } from 'types/relic'
 
 const leftParts = [
   { key: 'Head' as const, part: Constants.Parts.Head },

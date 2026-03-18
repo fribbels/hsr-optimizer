@@ -5,14 +5,14 @@ import {
   mergeRelicsIntoArray,
 } from 'lib/gpu/webgpuDataTransform'
 import {
-  GpuExecutionContext,
-  GpuResult,
-  RelicsByPart,
+  type GpuExecutionContext,
+  type GpuResult,
+  type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
 import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { bitpackBooleanArray } from 'lib/optimization/relicSetSolver'
-import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
+import { type Form } from 'types/form'
+import { type OptimizerContext } from 'types/optimizer'
 
 export function initializeGpuPipeline(
   device: GPUDevice,
@@ -137,14 +137,12 @@ export function initializeGpuPipeline(
   const bindGroups2: [GPUBindGroup, GPUBindGroup] = [0, 1].map((i) =>
     device.createBindGroup({
       layout: computePipeline.getBindGroupLayout(2),
-      entries: [
-        ...(DEBUG
+      entries: (DEBUG
           ? [{ binding: 0, resource: { buffer: resultMatrixBuffers[i] } }]
           : [
             { binding: 1, resource: { buffer: compactCountBuffers[i] } },
             { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
           ]),
-      ],
     })
   ) as [GPUBindGroup, GPUBindGroup]
 

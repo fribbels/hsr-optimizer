@@ -1,4 +1,4 @@
-import { createTheme, MantineColorsTuple, MantineThemeOverride } from '@mantine/core'
+import { createTheme, type MantineColorsTuple, type MantineThemeOverride } from '@mantine/core'
 
 export type ColorThemeOverrides = {
   colorPrimary: string

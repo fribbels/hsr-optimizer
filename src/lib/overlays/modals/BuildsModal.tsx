@@ -26,7 +26,7 @@ import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
-  CSSProperties,
+  type CSSProperties,
   Fragment,
   memo,
   useEffect,

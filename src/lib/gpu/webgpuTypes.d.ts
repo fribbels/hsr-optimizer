@@ -1,7 +1,7 @@
-import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
-import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
-import { Relic } from 'types/relic'
+import { type FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { type Form } from 'types/form'
+import { type OptimizerContext } from 'types/optimizer'
+import { type Relic } from 'types/relic'
 
 export type GpuResult = {
   index: number,

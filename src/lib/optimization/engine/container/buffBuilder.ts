@@ -1,5 +1,5 @@
 import {
-  BuffSource,
+  type BuffSource,
   Source,
 } from 'lib/optimization/buffSource'
 import {
@@ -7,13 +7,13 @@ import {
   ALL_DIRECTNESS_TAGS,
   ALL_ELEMENT_TAGS,
   DamageTag,
-  DirectnessTag,
-  ElementTag,
+  type DirectnessTag,
+  type ElementTag,
   OutputTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainerConfig } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainerConfig } from 'lib/optimization/engine/container/computedStatsContainer'
 
 export class BuffBuilder<_Completed extends boolean = false, _HasHitFilter extends boolean = false> {
   private readonly _completionBrand!: _Completed

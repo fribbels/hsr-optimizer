@@ -1,7 +1,7 @@
 import { IconChevronsRight } from '@tabler/icons-react'
 import { Flex, Modal, Text } from '@mantine/core'
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
-import { V4ParserRelic } from 'lib/importer/kelzFormatParser'
+import { type V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'

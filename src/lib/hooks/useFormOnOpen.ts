@@ -1,5 +1,5 @@
-import { UseFormReturnType } from '@mantine/form'
-import { DependencyList, useEffect } from 'react'
+import { type UseFormReturnType } from '@mantine/form'
+import { type DependencyList, useEffect } from 'react'
 
 export function useFormOnOpen<T extends Record<string, unknown>>(
   form: UseFormReturnType<T>,

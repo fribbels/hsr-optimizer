@@ -3,8 +3,8 @@ import {
   showcaseShadow,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
-  ShowcaseDisplayDimensions,
-  ShowcaseMetadata,
+  type ShowcaseDisplayDimensions,
+  type ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import styles from 'lib/characterPreview/ShowcaseLightCone.module.css'
 import { StatText, StatTextEllipses } from 'lib/characterPreview/StatText'
@@ -13,7 +13,7 @@ import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { type Character } from 'types/character'
 
 type ShowcaseLightConeProps = {
   character: Character,

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { expandSetFilters, parseDisplayToModalState, buildDisplayFromModalState, DEFAULT_SET_FILTERS } from './relicSetFilterModalConversions'
-import { SetFilters, TwoPieceSlotType } from './relicSetFilterModalTypes'
-import { SetsRelics, SetsOrnaments, STAT_TAG_TO_SETS } from 'lib/sets/setConfigRegistry'
+import { type SetFilters, TwoPieceSlotType } from './relicSetFilterModalTypes'
+import { type SetsRelics, type SetsOrnaments, STAT_TAG_TO_SETS } from 'lib/sets/setConfigRegistry'
 import { Stats } from 'lib/constants/constants'
 
 const SET_A = 'Musketeer of Wild Wheat' as SetsRelics

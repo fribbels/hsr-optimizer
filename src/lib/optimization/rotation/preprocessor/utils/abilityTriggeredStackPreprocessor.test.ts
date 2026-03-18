@@ -9,7 +9,7 @@ import {
   DEFAULT_ULT,
   WHOLE_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import {
   beforeEach,
   expect,

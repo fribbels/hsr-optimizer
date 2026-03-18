@@ -1,7 +1,7 @@
 import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_CPU,
-  ComputeEngine,
+  type ComputeEngine,
 } from 'lib/constants/constants'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'

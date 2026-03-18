@@ -3,9 +3,9 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { CharacterId } from 'types/character'
-import { OptimizerContext } from 'types/optimizer'
-import { PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
+import { type CharacterId } from 'types/character'
+import { type OptimizerContext } from 'types/optimizer'
+import { type PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
 
 beforeEach(() => {
   useOptimizerDisplayStore.setState(useOptimizerDisplayStore.getInitialState())

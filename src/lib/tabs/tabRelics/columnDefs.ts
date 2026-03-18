@@ -1,10 +1,10 @@
 import {
-  ColDef,
-  ValueGetterParams,
+  type ColDef,
+  type ValueGetterParams,
 } from 'ag-grid-community'
 import type { TFunction } from 'i18next'
 import { Stats } from 'lib/constants/constants'
-import { ScoredRelic } from 'lib/relics/scoreRelics'
+import { type ScoredRelic } from 'lib/relics/scoreRelics'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 

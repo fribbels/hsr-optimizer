@@ -3,11 +3,11 @@ import {
   getHitIndex,
 } from 'lib/gpu/injection/injectUtils'
 import {
-  AKeyValue,
+  type AKeyValue,
   getAKeyName,
   getHKeyName,
   HKey,
-  HKeyValue,
+  type HKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import {
   ALL_DAMAGE_TAGS,
@@ -15,13 +15,13 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   DirectnessTag,
-  ElementTag,
+  type ElementTag,
   OutputTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { OptimizerEntity } from 'lib/optimization/engine/container/computedStatsContainer'
-import { OptimizerAction } from 'types/optimizer'
+import { type OptimizerEntity } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type OptimizerAction } from 'types/optimizer'
 
 export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag, entities?: OptimizerEntity[]): boolean {
   if (targetTag & TargetTag.FullTeam) return true

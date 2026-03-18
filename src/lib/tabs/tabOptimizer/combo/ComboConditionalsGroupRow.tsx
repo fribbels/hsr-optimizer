@@ -3,11 +3,11 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   ConditionalDataType,
-  Sets,
+  type Sets,
 } from 'lib/constants/constants'
 import {
-  SetsOrnaments,
-  SetsRelics,
+  type SetsOrnaments,
+  type SetsRelics,
   setToConditionalKey,
   setToId,
 } from 'lib/sets/setConfigRegistry'

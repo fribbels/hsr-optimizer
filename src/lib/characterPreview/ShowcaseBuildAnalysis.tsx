@@ -1,13 +1,13 @@
 import { Flex, SegmentedControl, useMantineTheme } from '@mantine/core'
-import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 
 import {
   ScoringType,
-  SimulationScore,
+  type SimulationScore,
 } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'

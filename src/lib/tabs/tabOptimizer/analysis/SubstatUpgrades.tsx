@@ -1,6 +1,6 @@
 import { Flex, Table } from '@mantine/core'
 import type { SubStats } from 'lib/constants/constants'
-import { AKeyType, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { type AKeyType, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
 import { calculateStatUpgrades } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'

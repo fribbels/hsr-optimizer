@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { ScoringResults } from 'lib/characterPreview/characterPreviewController'
+import { type ScoringResults } from 'lib/characterPreview/characterPreviewController'
 import { StatText } from 'lib/characterPreview/StatText'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'

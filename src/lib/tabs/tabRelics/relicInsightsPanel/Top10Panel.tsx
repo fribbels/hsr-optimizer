@@ -4,7 +4,7 @@ import {
   setOpen,
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
-import { PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
+import { type PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,13 +16,13 @@ import {
   Scatter,
   ScatterChart,
   Tooltip,
-  TooltipContentProps,
+  type TooltipContentProps,
   XAxis,
   YAxis,
 } from 'recharts'
 import {
-  NameType,
-  ValueType,
+  type NameType,
+  type ValueType,
 } from 'recharts/types/component/DefaultTooltipContent'
 import type { CharacterId } from 'types/character'
 import { useGlobalStore } from 'lib/stores/appStore'

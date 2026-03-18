@@ -3,9 +3,9 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { CharacterId } from 'types/character'
-import { Nullable } from 'types/common'
-import { ScoringMetadata } from 'types/metadata'
+import { type CharacterId } from 'types/character'
+import { type Nullable } from 'types/common'
+import { type ScoringMetadata } from 'types/metadata'
 
 export function useScoringMetadata(id: CharacterId): ScoringMetadata
 export function useScoringMetadata(id: Nullable<CharacterId>): null | ScoringMetadata

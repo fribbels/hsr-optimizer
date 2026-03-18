@@ -1,27 +1,38 @@
+import {
+  ActionIcon,
+  Avatar,
+  CheckIcon,
+  CloseButton,
+  Combobox,
+  Flex,
+  Group,
+  Input,
+  InputBase,
+  SegmentedControl,
+  useCombobox,
+} from '@mantine/core'
 import { IconRefresh } from '@tabler/icons-react'
-import { ActionIcon, Avatar, CheckIcon, CloseButton, Combobox, Flex, Group, Input, InputBase, SegmentedControl, useCombobox } from '@mantine/core'
-import { Message } from 'lib/interactions/message'
 import { Constants } from 'lib/constants/constants'
+import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import iconClasses from 'style/icons.module.css'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
-import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
-import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   renderTeammateOrnamentSetOptions,
   renderTeammateRelicSetOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
-import { useTeammateCardDebugValues } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCardDebugPanel'
 import { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/updateTeammate'
+import { useTeammateCardDebugValues } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCardDebugPanel'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   memo,
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
+import iconClasses from 'style/icons.module.css'
 import type {
   CharacterId,
 } from 'types/character'
@@ -33,6 +44,7 @@ import type {
   SuperImpositionLevel,
 } from 'types/lightCone'
 import type { DBMetadata } from 'types/metadata'
+import { useShallow } from 'zustand/react/shallow'
 import classes from './TeammateCard.module.css'
 
 const EIDOLON_DATA = ['0', '1', '2', '3', '4', '5', '6'].map((v) => ({ value: v, label: v }))
@@ -41,8 +53,8 @@ const SI_DATA = ['1', '2', '3', '4', '5'].map((v) => ({ value: v, label: v }))
 const CARD_WIDTH = 420
 
 export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
-  index: number
-  dbMetadata: DBMetadata
+  index: number,
+  dbMetadata: DBMetadata,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
   const tmIndex = index as 0 | 1 | 2
@@ -74,14 +86,18 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
   const teammateRelicSetOptions = useMemo(renderTeammateRelicSetOptions(t), [t])
   const teammateOrnamentSetOptions = useMemo(renderTeammateOrnamentSetOptions(t), [t])
 
-  const teammateRelicSelectData = useMemo(() => teammateRelicSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc, text: opt.text })), [teammateRelicSetOptions])
-  const teammateOrnamentSelectData = useMemo(() => teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc, text: opt.text })), [teammateOrnamentSetOptions])
+  const teammateRelicSelectData = useMemo(() => teammateRelicSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc, text: opt.text })), [
+    teammateRelicSetOptions,
+  ])
+  const teammateOrnamentSelectData = useMemo(() => teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc, text: opt.text })), [
+    teammateOrnamentSetOptions,
+  ])
 
   const insetClass = debug.showInsetShadow ? classes.insetShadow : undefined
 
   return (
     <Flex
-      direction="column"
+      direction='column'
       className={classes.card}
       w={CARD_WIDTH}
       h={debug.cardHeight}
@@ -91,12 +107,12 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
       <Flex style={{ overflow: 'hidden' }} gap={0}>
         {/* Left — character select + conditionals */}
         <Flex
-          direction="column"
+          direction='column'
           className={`hide-scrollbar ${insetClass ?? ''}`}
           p={debug.zonePx}
           style={{ flex: 1, minWidth: 0, overflow: 'auto' }}
         >
-          <Group gap={6} wrap="nowrap" mb={6}>
+          <Group gap={6} wrap='nowrap' mb={6}>
             <CharacterSelect
               value={teammateCharacterId}
               onChange={(id) => {
@@ -115,13 +131,13 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
             <ActionIcon
               size={30}
-              variant="default"
+              variant='default'
               disabled={disabled}
               onClick={() => {
                 updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: teammateCharacterId } })
                 Message.success(t('TeammateSyncSuccessMessage'))
               }}
-              aria-label="Sync from roster"
+              aria-label='Sync from roster'
             >
               <IconRefresh size={16} />
             </ActionIcon>
@@ -136,14 +152,14 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
         {/* Right — eidolon + avatar + team sets */}
         <Flex
-          direction="column"
+          direction='column'
           w={debug.rightColWidth}
           p={debug.zonePx}
           gap={16}
           className={classes.rightCol}
         >
           <SegmentedControl
-            size="xs"
+            size='xs'
             data={EIDOLON_DATA}
             value={String(teammateEidolon ?? 0)}
             onChange={(v) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'characterEidolon', Number(v))}
@@ -162,7 +178,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
             style={{ alignSelf: 'center' }}
           />
 
-          <Flex direction="column" w="100%" gap={6}>
+          <Flex direction='column' w='100%' gap={6}>
             <ClearableCombobox
               data={teammateRelicSelectData}
               value={teammateTeamRelicSet}
@@ -185,12 +201,12 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
       <Flex style={{ flex: 1, overflow: 'hidden' }} gap={0}>
         {/* Left — LC select + conditionals */}
         <Flex
-          direction="column"
+          direction='column'
           className={insetClass}
           p={debug.zonePx}
           style={{ flex: 1, minWidth: 0 }}
         >
-          <Group gap={6} wrap="nowrap" mb={6}>
+          <Group gap={6} wrap='nowrap' mb={6}>
             <LightConeSelect
               value={teammateLightConeId ?? null}
               onChange={(id) => {
@@ -218,14 +234,14 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
         {/* Right — SI + LC icon */}
         <Flex
-          direction="column"
+          direction='column'
           w={debug.rightColWidth}
           p={debug.zonePx}
           gap={6}
           className={classes.rightColLc}
         >
           <SegmentedControl
-            size="xs"
+            size='xs'
             data={SI_DATA}
             value={String(teammateSuperimposition ?? 1)}
             onChange={(v) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', Number(v))}
@@ -238,7 +254,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
           <Avatar
             src={Assets.getLightConeIconById(teammateLightConeId)}
             size={debug.lcIconSize}
-            radius="sm"
+            radius='sm'
             style={{ cursor: 'pointer', alignSelf: 'center' }}
             onClick={() => setTeammateLightConeSelectOpen(true)}
           />
@@ -249,11 +265,11 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 })
 
 function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
-  data: { value: string; desc: string; text: string }[]
-  value: string | undefined
-  onChange: (val: string | undefined) => void
-  placeholder: string
-  disabled: boolean
+  data: { value: string, desc: string, text: string }[],
+  value: string | undefined,
+  onChange: (val: string | undefined) => void,
+  placeholder: string,
+  disabled: boolean,
 }) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
@@ -264,7 +280,7 @@ function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
   return (
     <Combobox
       store={combobox}
-      width="auto"
+      width='auto'
       onOptionSubmit={(val) => {
         onChange(val)
         combobox.closeDropdown()
@@ -272,22 +288,20 @@ function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
     >
       <Combobox.Target>
         <InputBase
-          component="button"
-          type="button"
+          component='button'
+          type='button'
           pointer
           disabled={disabled}
           leftSection={value ? <img src={Assets.getSetImage(value, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : undefined}
-          rightSection={
-            value != null ? (
+          rightSection={value != null
+            ? (
               <CloseButton
-                size="sm"
+                size='sm'
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => onChange(undefined)}
               />
-            ) : (
-              <Combobox.Chevron />
             )
-          }
+            : <Combobox.Chevron />}
           rightSectionPointerEvents={value == null ? 'none' : 'all'}
           onClick={() => combobox.toggleDropdown()}
           styles={{

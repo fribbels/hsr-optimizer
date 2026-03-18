@@ -1,9 +1,9 @@
 import { ConditionalActivation } from 'lib/constants/constants'
-import { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
+import { type ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { ConditionalValueMap } from 'types/conditionals'
-import { OptimizerAction, OptimizerContext, TeammateAction, } from 'types/optimizer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ConditionalValueMap } from 'types/conditionals'
+import { type OptimizerAction, type OptimizerContext, type TeammateAction, } from 'types/optimizer'
 
 export type DynamicConditional = {
   id: string,

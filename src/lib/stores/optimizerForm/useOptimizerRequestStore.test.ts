@@ -2,9 +2,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
-import { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import { type CharacterId } from 'types/character'
+import { type LightConeId } from 'types/lightCone'
+import { type SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
 
 beforeEach(() => {
   useOptimizerRequestStore.setState(useOptimizerRequestStore.getInitialState())

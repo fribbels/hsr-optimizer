@@ -1,5 +1,5 @@
 import { modals } from '@mantine/modals'
-import { ReactNode, useCallback } from 'react'
+import { type ReactNode, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function useConfirmAction() {

@@ -2,14 +2,14 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import {
-  ActionModifier,
-  ModifierContext,
+  type ActionModifier,
+  type ModifierContext,
 } from 'lib/optimization/context/calculateActions'
 import { computeTargetMask } from 'lib/optimization/engine/config/tag'
 import {
   ComputedStatsContainer,
   ComputedStatsContainerConfig,
-  OptimizerEntity,
+  type OptimizerEntity,
 } from 'lib/optimization/engine/container/computedStatsContainer'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
@@ -18,18 +18,18 @@ import {
   precomputeConditionals,
   transformConditionals,
 } from 'lib/optimization/rotation/comboStateTransform'
-import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { CharacterConditionalsController } from 'types/conditionals'
+import { type CharacterConditionalsController } from 'types/conditionals'
 import {
-  Form,
-  OptimizerForm,
+  type Form,
+  type OptimizerForm,
 } from 'types/form'
-import { EntityDefinition, Hit } from 'types/hitConditionalTypes'
+import { type EntityDefinition, type Hit } from 'types/hitConditionalTypes'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 export function newTransformStateActions(comboState: ComboState, request: Form, context: OptimizerContext) {

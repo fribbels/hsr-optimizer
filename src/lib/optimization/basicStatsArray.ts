@@ -1,11 +1,11 @@
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   Stats,
-  StatsValues,
+  type StatsValues,
 } from 'lib/constants/constants'
-import { AKeyType } from 'lib/optimization/engine/config/keys'
-import { BuffSource } from 'lib/optimization/buffSource'
-import { SetCounts } from 'lib/optimization/setMatching'
+import { type AKeyType } from 'lib/optimization/engine/config/keys'
+import { type BuffSource } from 'lib/optimization/buffSource'
+import { type SetCounts } from 'lib/optimization/setMatching'
 
 export type Buff = {
   stat: AKeyType | BasicKeyType,

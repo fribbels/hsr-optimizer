@@ -1,7 +1,7 @@
 import {
   Constants,
   Stats,
-  SubStats,
+  type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
 

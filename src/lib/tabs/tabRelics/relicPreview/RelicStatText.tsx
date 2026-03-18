@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { Languages } from 'lib/utils/i18nUtils'
+import { type Languages } from 'lib/utils/i18nUtils'
 
 function generateStyling(language?: Languages): CSSProperties {
   switch (language) {

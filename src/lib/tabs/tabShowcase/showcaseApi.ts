@@ -1,13 +1,13 @@
 import i18next from 'i18next'
 import {
   CharacterConverter,
-  UnconvertedCharacter,
+  type UnconvertedCharacter,
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
 import {
-  APIResponse,
+  type APIResponse,
   processEnkaData,
   processMihomoData,
 } from 'lib/tabs/tabShowcase/dataProcessors'

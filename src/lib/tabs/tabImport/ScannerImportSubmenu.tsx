@@ -5,7 +5,7 @@ import {
 import { Accordion, Alert, Button, Checkbox, Divider, Flex, Switch, TextInput, Timeline, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import {
-  HoyolabData,
+  type HoyolabData,
   hoyolabParser,
 } from 'lib/importer/hoyoLabFormatParser'
 import {
@@ -14,7 +14,7 @@ import {
   ScannerSourceToParser,
   ValidScannerSources,
 } from 'lib/importer/importConfig'
-import { ScannerParserJson } from 'lib/importer/kelzFormatParser'
+import { type ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import { AppPages } from 'lib/constants/appPages'
 import * as persistenceService from 'lib/services/persistenceService'

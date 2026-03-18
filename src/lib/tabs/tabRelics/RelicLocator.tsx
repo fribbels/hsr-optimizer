@@ -1,8 +1,8 @@
 import { IconSettings } from '@tabler/icons-react'
 import { Flex, NumberInput, Popover } from '@mantine/core'
 import {
-  Parts,
-  Sets,
+  type Parts,
+  type Sets,
 } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'

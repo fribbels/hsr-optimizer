@@ -1,10 +1,10 @@
 import {
-  ElementName,
+  type ElementName,
   ElementToStatKeyDmgBoost,
 } from 'lib/constants/constants'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 
 const SIZE = 76

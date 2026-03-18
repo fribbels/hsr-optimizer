@@ -4,8 +4,8 @@ import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import {
   AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
   createEnum,
   findTeamAction,
   findTeamMeta,
@@ -27,14 +27,14 @@ import {
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { ModifierContext } from 'lib/optimization/context/calculateActions'
+import { type ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   AbilityKind,
@@ -54,17 +54,17 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
-  CharacterConditionalFunction,
-  CharacterConfig,
+  type CharacterConditionalFunction,
+  type CharacterConfig,
 } from 'types/characterConfig'
-import { ElationHit } from 'types/hitConditionalTypes'
+import { type ElationHit } from 'types/hitConditionalTypes'
 import {
-  ScoringMetadata,
-  SimulationMetadata,
+  type ScoringMetadata,
+  type SimulationMetadata,
 } from 'types/metadata'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 export const YaoguangEntities = createEnum('Yaoguang')

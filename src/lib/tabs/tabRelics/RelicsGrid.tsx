@@ -22,7 +22,7 @@ import {
 import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import { useRelicsTabStore, type ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import {
   useCallback,
   useContext,

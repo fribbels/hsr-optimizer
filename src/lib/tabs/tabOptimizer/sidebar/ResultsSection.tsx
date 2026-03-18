@@ -6,7 +6,7 @@ import { equipClicked } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormA
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 

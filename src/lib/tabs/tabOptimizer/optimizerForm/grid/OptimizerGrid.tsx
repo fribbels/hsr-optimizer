@@ -27,7 +27,7 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { isRemembrance } from 'lib/tabs/tabOptimizer/sidebar/MemoViewSelect'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import {
   useCallback,
   useEffect,

@@ -45,7 +45,7 @@ import {
 } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import { clone } from 'lib/utils/objectUtils'
 import { WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'

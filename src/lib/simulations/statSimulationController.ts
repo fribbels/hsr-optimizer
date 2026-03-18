@@ -26,7 +26,7 @@ import {
   validateForm,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import { objectHash } from 'lib/utils/objectUtils'
 import { uuid } from 'lib/utils/miscUtils'
 import type { Form } from 'types/form'

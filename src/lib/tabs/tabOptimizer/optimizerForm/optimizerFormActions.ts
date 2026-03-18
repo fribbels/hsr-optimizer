@@ -18,7 +18,7 @@ import { type MainConditionalType, type TeammateConditionalType, useOptimizerReq
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { initializeComboState, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { gridStore } from 'lib/utils/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
 import type { Build, CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import { mergeUndefinedValues } from 'lib/utils/objectUtils'

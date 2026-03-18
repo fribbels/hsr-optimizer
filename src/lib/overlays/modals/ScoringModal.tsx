@@ -1,4 +1,4 @@
-import { UseFormReturnType, useForm } from '@mantine/form'
+import { type UseFormReturnType, useForm } from '@mantine/form'
 import { Button, Divider, Flex, Modal, MultiSelect, NumberInput } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import {
@@ -44,7 +44,7 @@ function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata): ScoringAl
   const scoringMetadataForForm: ScoringAlgorithmForm = { ...scoringMetadata }
   for (const x of Object.entries(scoringMetadataForForm.stats)) {
     if (x[1] === 0) {
-      // @ts-ignore
+      // @ts-expect-error - Setting stat weight to null for display (form shows empty instead of 0)
       scoringMetadataForForm.stats[x[0]] = null
     }
   }
@@ -64,10 +64,7 @@ function StatValueRow({ stat, form }: { stat: string, form: UseFormReturnType<Sc
       <Flex>
         <img src={Assets.getStatIcon(stat)} className={classes.statIcon}></img>
         <div className={classes.statText}>
-          {
-            // @ts-ignore
-            t(`ReadableStats.${stat}`)
-          }
+          {t(`ReadableStats.${stat}`)}
         </div>
       </Flex>
     </Flex>
@@ -148,10 +145,6 @@ function ScoringModalContent({ close }: { close: () => void }) {
     setScoringAlgorithmFocusCharacter(id)
   }
 
-  function getScoringValuesForOverrides(scoringMetadata: ScoringAlgorithmForm) {
-    return scoringMetadata
-  }
-
   useEffect(() => {
     const id = scoringAlgorithmFocusCharacter
     if (id) {
@@ -163,7 +156,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
 
   function onModalOk() {
     const values = scoringAlgorithmForm.getValues()
-    onFinish(getScoringValuesForOverrides(values))
+    onFinish(values)
     close()
   }
 

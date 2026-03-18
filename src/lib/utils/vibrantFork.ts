@@ -1,10 +1,8 @@
 import chroma from 'chroma-js'
 import Vibrant from 'node-vibrant'
-import {
-  Palette,
-  Swatch,
-} from 'node-vibrant/lib/color'
-import { Generator } from 'node-vibrant/lib/typing'
+import type { Palette } from 'node-vibrant/lib/color'
+import { Swatch } from 'node-vibrant/lib/color'
+import type { Generator } from 'node-vibrant/lib/typing'
 import { hslToRgb } from 'node-vibrant/lib/util'
 
 interface DefaultGeneratorOptions {
@@ -335,12 +333,12 @@ export function getPalette(src: string, callback: (r: PaletteResponse) => void) 
       const colors = (palette.colors as unknown as { _hsl: number[], _population: number, _rgb: [number, number, number] }[])
         .map((x) => chroma(x._rgb).hex()).filter((color: string) => {
           return (
-            color != defaults.Vibrant
-            && color != defaults.DarkVibrant
-            && color != defaults.Muted
-            && color != defaults.DarkMuted
-            && color != defaults.LightVibrant
-            && color != defaults.LightMuted
+            color !== defaults.Vibrant
+            && color !== defaults.DarkVibrant
+            && color !== defaults.Muted
+            && color !== defaults.DarkMuted
+            && color !== defaults.LightVibrant
+            && color !== defaults.LightMuted
           )
         })
 

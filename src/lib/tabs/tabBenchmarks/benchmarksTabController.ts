@@ -17,8 +17,8 @@ import {
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 
 export type BenchmarkResultWrapper = {
   fullHash: string,

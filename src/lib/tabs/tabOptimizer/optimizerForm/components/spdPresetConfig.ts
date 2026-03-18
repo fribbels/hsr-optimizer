@@ -1,7 +1,7 @@
-import { ApplyColumnStateParams } from 'ag-grid-community'
-import { TFunction } from 'i18next'
+import type { ApplyColumnStateParams } from 'ag-grid-community'
+import type { TFunction } from 'i18next'
 import { gridStore } from 'lib/utils/gridStore'
-import { ReactElement } from 'types/components'
+import type { ReactElement } from 'types/components'
 
 export type SpdPresets = Record<string, {
   key: string,

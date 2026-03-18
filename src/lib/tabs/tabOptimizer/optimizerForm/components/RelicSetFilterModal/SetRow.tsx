@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react'
 import { Text, UnstyledButton } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import { setToId } from 'lib/sets/setConfigRegistry'
-import { SetConfig } from 'types/setConfig'
+import type { SetConfig } from 'types/setConfig'
 import { useTranslation } from 'react-i18next'
 import classes from './RelicSetFilterModal.module.css'
 

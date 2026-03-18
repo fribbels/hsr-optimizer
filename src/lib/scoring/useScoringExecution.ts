@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useSyncExternalStore } from 'react'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
   getCachedResult,
   hasExceededRetries,

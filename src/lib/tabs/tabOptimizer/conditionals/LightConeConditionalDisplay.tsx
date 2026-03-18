@@ -15,7 +15,7 @@ import type {
 } from 'types/lightCone'
 import type { DBMetadata } from 'types/metadata'
 
-export interface LightConeConditionalDisplayProps {
+interface LightConeConditionalDisplayProps {
   id?: LightConeId
   superImposition: SuperImpositionLevel
   teammateIndex?: number
@@ -26,7 +26,7 @@ export const LightConeConditionalDisplay = memo(function LightConeConditionalDis
   const { t } = useTranslation('optimizerTab')
 
   const storeState = useOptimizerRequestStore.getState()
-  const wearerId: CharacterId = teammateIndex == undefined
+  const wearerId: CharacterId = teammateIndex == null
     ? storeState.characterId!
     : storeState.teammates[teammateIndex as 0 | 1 | 2].characterId!
 

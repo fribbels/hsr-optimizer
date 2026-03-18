@@ -24,7 +24,7 @@ function expectSingleResultsToMatch(actual: TestResultByName, expected: TestResu
     try {
       expect(actual[key]).toBeCloseTo(value)
     } catch (error: unknown) {
-      // @ts-ignore
+      // @ts-expect-error - Error type narrowing in test assertion
       const message = error.message
       throw new Error(`
 ${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} ${key} ${view}

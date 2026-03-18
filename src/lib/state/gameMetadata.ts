@@ -1,4 +1,4 @@
-import { DBMetadata } from 'types/metadata'
+import type { DBMetadata } from 'types/metadata'
 
 let metadata: DBMetadata = {} as DBMetadata
 

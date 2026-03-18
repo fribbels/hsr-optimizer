@@ -1,6 +1,6 @@
-import { ElementName, PathName } from 'lib/constants/constants'
-import { CharacterOptions } from 'lib/rendering/optionGenerator'
-import { CharacterId } from 'types/character'
+import type { ElementName, PathName } from 'lib/constants/constants'
+import type { CharacterOptions } from 'lib/rendering/optionGenerator'
+import type { CharacterId } from 'types/character'
 
 /**
  * Character card: image rendered at 150px wide in a ~100px card.

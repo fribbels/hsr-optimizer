@@ -279,14 +279,10 @@ export class AnaxaCyreneEffectPreprocessor extends AbilityPreprocessorBase {
   }
 
   processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
-    const { kind, marker } = turnAbility
+    const { marker } = turnAbility
 
     if (marker == TurnMarker.START || marker == TurnMarker.WHOLE) {
-      if (this.state.cyreneSpecialEffect) {
-        this.state.cyreneSpecialEffect = false
-      } else {
-        this.state.cyreneSpecialEffect = true
-      }
+      this.state.cyreneSpecialEffect = !this.state.cyreneSpecialEffect
     }
     setComboBooleanCategoryCharacterActivation(comboState, 'cyreneSpecialEffect', index, this.state.cyreneSpecialEffect)
   }
@@ -316,7 +312,7 @@ export class CyrenePreprocessor extends AbilityPreprocessorBase {
   }
 
   processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
-    const { kind, marker } = turnAbility
+    const { kind } = turnAbility
 
     if (kind == AbilityKind.MEMO_SKILL && this.state.memoSkillCounter >= 3) {
       this.state.memoSkillCounter = 0

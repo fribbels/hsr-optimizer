@@ -1,4 +1,4 @@
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { CharacterId } from 'types/character'
@@ -8,15 +8,15 @@ import {
   createAbility,
   NULL_TURN_ABILITY,
   NULL_TURN_ABILITY_NAME,
-  TurnAbility,
-  TurnAbilityName,
   TurnMarker,
+  type TurnAbility,
+  type TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ComboState, updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { CascaderData, CascaderGroup, CascaderSelect } from 'lib/ui/CascaderSelect'
-import { CSSProperties, useMemo } from 'react'
+import { updateAbilityRotation, type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { CascaderSelect, type CascaderData, type CascaderGroup } from 'lib/ui/CascaderSelect'
+import { useMemo, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterConditionalsController } from 'types/conditionals'
+import type { CharacterConditionalsController } from 'types/conditionals'
 
 const start = '['
 const end = ']'

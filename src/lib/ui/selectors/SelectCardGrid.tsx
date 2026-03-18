@@ -1,5 +1,5 @@
 import { Utils } from 'lib/utils/utils'
-import { MouseEvent, useMemo } from 'react'
+import { type MouseEvent, useMemo } from 'react'
 import classes from './SelectCardGrid.module.css'
 
 const rarityClass: Record<number, string> = {

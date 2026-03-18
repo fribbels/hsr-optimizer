@@ -25,7 +25,7 @@ import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilities } from 'lib/optimization/rotation/turnPreprocessor'
 import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
-import { ThusBurnsTheDawnPreprocessor } from './preprocessLightCones'
+import { ThusBurnsTheDawnPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessLightCones'
 
 export const characterPreprocessors: AbilityPreprocessorBase[] = [
   new AshveilPreprocessor(),

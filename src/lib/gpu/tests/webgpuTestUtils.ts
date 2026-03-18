@@ -6,13 +6,13 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
+import type { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import {
   destroyPipeline,
   generateExecutionPass,
   initializeGpuPipeline,
 } from 'lib/gpu/webgpuInternals'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import type { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import {
   AKeyNames,
@@ -22,11 +22,11 @@ import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { AugmentedStats } from 'lib/relics/relicAugmenter'
+import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
-import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
-import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
+import type { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
+import type { Form } from 'types/form'
+import type { OptimizerContext } from 'types/optimizer'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
   request.resultSort = SortOption.COMBO.key

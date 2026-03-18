@@ -43,7 +43,7 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
 function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   // Manual adjustment for Hysilens scoring - Using non-EHR light cones forces the benchmark to be unable to hit 120%
   // EHR due to diminishing returns. To fix, relax diminishing returns on non-EHR LC builds
-  if (input.context.characterId == Hysilens.id) {
+  if (input.context.characterId === Hysilens.id) {
     const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
     if (!ehrLightCone) {
       return (rolls: number, stat: string, sim: Simulation) =>
@@ -76,7 +76,7 @@ export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWo
     simulationFlags,
   } = input
 
-  scoringParams.substatRollsModifier = scoringParams.quality == 0.8
+  scoringParams.substatRollsModifier = scoringParams.quality === 0.8
     ? getSubstatRollsModifier(input)
     : (rolls: number) => rolls
 

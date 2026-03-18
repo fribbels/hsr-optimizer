@@ -1,6 +1,6 @@
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
-import { CSSProperties } from 'react'
+import type { CSSProperties } from 'react'
 
 export function CenteredImage({ src, containerW, containerH, imageOffset }: {
   src: string

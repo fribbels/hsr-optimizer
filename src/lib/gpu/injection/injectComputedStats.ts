@@ -1,5 +1,5 @@
+import type { GpuConstants } from 'lib/gpu/webgpuTypes'
 import { AKeyNames } from 'lib/optimization/engine/config/keys'
-import { GpuConstants } from 'lib/gpu/webgpuTypes'
 
 export function injectComputedStats(wgsl: string, gpuParams: GpuConstants) {
   let out = 'struct ComputedStats {\n'

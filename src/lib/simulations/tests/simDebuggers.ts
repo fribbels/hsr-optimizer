@@ -27,7 +27,7 @@ import { useScoringStore } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 export function injectBenchmarkDebuggers() {
-  // @ts-ignore
+  // @ts-expect-error - Injecting debug helper onto globalThis for dev tooling
   globalThis.equipTestCharacter = equipTestCharacter
 }
 
@@ -54,7 +54,7 @@ function equipTestCharacter() {
   })
   SaveState.delayedSave()
 
-  // @ts-ignore
+  // @ts-expect-error - Test helper passes partial character data
   persistenceService.upsertCharacterFromForm(testInput.character)
   SaveState.delayedSave()
 

@@ -16,7 +16,7 @@ import {
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import { CharacterId } from 'types/character'
+import type { CharacterId } from 'types/character'
 
 export function RelicInsightsPanel() {
   const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore(

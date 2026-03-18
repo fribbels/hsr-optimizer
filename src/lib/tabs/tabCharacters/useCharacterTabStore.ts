@@ -4,7 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
+import type {
   CharacterId,
 } from 'types/character'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'

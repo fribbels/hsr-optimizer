@@ -1,9 +1,9 @@
 import { Flex } from '@mantine/core'
-import { TFunction } from 'i18next'
+import { type TFunction } from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { currentLocale } from 'lib/utils/i18nUtils'
-import { ReactNode } from 'react'
-import { Character } from 'types/character'
+import { type ReactNode } from 'react'
+import { type Character } from 'types/character'
 
 type GenerateCharacterListOptions = {
   currentCharacters: Character[],

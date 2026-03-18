@@ -1,11 +1,11 @@
 import { Drawer, Flex, Popover, Select, Switch, Text } from '@mantine/core'
 import {
   Constants,
-  Sets,
+  type Sets,
 } from 'lib/constants/constants'
 import {
-  SetsOrnaments,
-  SetsRelics,
+  type SetsOrnaments,
+  type SetsRelics,
   SetsRelicsNames,
   setToConditionalKey,
   setToId,

@@ -11,7 +11,7 @@ import type {
   Eidolon,
 } from 'types/character'
 
-export interface CharacterConditionalDisplayProps {
+interface CharacterConditionalDisplayProps {
   id?: CharacterId
   eidolon: Eidolon
   teammateIndex?: number

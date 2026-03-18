@@ -108,7 +108,7 @@ function BuildsModalContent() {
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name: name }) /* Successfully deleted build: {{name}} */)
 
-      if (selectedCharacter?.builds?.length == 0) {
+      if (selectedCharacter?.builds?.length === 0) {
         closeOverlay()
       }
     }

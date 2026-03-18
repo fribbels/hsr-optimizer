@@ -5,17 +5,17 @@ import {
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import {
+import type {
   PartialSimulationWrapper,
   ScoringParams,
   SimulationFlags,
 } from 'lib/scoring/simScoringUtils'
-import {
+import type {
   RunStatSimulationsResult,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { isSubstat } from 'lib/utils/statUtils'
-import { SimulationMetadata } from 'types/metadata'
+import type { SimulationMetadata } from 'types/metadata'
 
 export function calculateMinSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,

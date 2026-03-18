@@ -213,7 +213,7 @@ export function computeFutureScores(
   let blockerAvg = 0
   let blockedStat: SubStats | undefined
 
-  if (relic.grade === 5 && allSubstats.length == 4) {
+  if (relic.grade === 5 && allSubstats.length === 4) {
     const totalRolls = Math.min(addedRollsSum, 5)
     blockedStat = worstUpgradeStat
 

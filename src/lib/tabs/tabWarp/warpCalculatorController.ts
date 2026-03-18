@@ -380,7 +380,7 @@ function enrichWarpRequest(request: WarpRequest) {
   // Treat null form values as empty and use defaults
   for (const [key, value] of Object.entries(request)) {
     if (value == null) {
-      // @ts-ignore
+      // @ts-expect-error - Dynamic key assignment for null form value fallback
       request[key] = DEFAULT_WARP_REQUEST[key]
     }
   }

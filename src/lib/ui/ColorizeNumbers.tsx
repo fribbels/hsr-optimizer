@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 
 // Colorizes numbers in a string with JSX elements
 export function ColorizeNumbers(text: string, color: string = '#ebb434') {

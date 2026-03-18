@@ -1,6 +1,6 @@
 import {
   Divider,
-  DividerProps,
+  type DividerProps,
   Flex,
 } from '@mantine/core'
 

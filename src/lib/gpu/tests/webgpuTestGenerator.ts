@@ -22,11 +22,11 @@ import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernights
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
   generateTestRelics,
-  StatDeltaAnalysis,
   testWrapper,
 } from 'lib/gpu/tests/webgpuTestUtils'
+import type { StatDeltaAnalysis } from 'lib/gpu/tests/webgpuTestUtils'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
-import { RelicsByPart } from 'lib/gpu/webgpuTypes'
+import type { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { SortOption } from 'lib/optimization/sortOptions'
 
 import i18next from 'i18next'
@@ -37,10 +37,10 @@ import {
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { CharacterId } from 'types/character'
-import { Form } from 'types/form'
-import { LightConeId } from 'types/lightCone'
-import {
+import type { CharacterId } from 'types/character'
+import type { Form } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
+import type {
   DBMetadata,
   DBMetadataLightCone,
 } from 'types/metadata'

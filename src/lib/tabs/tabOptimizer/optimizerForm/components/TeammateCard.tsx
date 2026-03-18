@@ -22,17 +22,17 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import {
+import type {
   CharacterId,
 } from 'types/character'
-import {
+import type {
   TeammateProperty,
 } from 'types/form'
-import {
+import type {
   LightConeId,
   SuperImpositionLevel,
 } from 'types/lightCone'
-import { DBMetadata } from 'types/metadata'
+import type { DBMetadata } from 'types/metadata'
 import classes from './TeammateCard.module.css'
 
 const EIDOLON_DATA = ['0', '1', '2', '3', '4', '5', '6'].map((v) => ({ value: v, label: v }))

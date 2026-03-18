@@ -2,8 +2,8 @@ import {
   IconCircleCheckFilled,
   IconCircleXFilled,
 } from '@tabler/icons-react'
-import { ValueFormatterParams } from 'ag-grid-community'
-import { CustomCellRendererProps } from 'ag-grid-react'
+import { type ValueFormatterParams } from 'ag-grid-community'
+import { type CustomCellRendererProps } from 'ag-grid-react'
 import { Flex, Tooltip } from '@mantine/core'
 import i18next from 'i18next'
 import { CircleIcon } from 'icons/CircleIcon'
@@ -12,11 +12,11 @@ import { RingedCircleCheckIcon } from 'icons/RingedCircleCheckIcon'
 import { RingedCircleIcon } from 'icons/RingedCircleIcon'
 import {
   Constants,
-  Parts,
-  StatsValues,
+  type Parts,
+  type StatsValues,
 } from 'lib/constants/constants'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
-import { ScoredRelic } from 'lib/relics/scoreRelics'
+import { type OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { type ScoredRelic } from 'lib/relics/scoreRelics'
 import { Assets } from 'lib/rendering/assets'
 import {
   currentLocale,
@@ -25,8 +25,8 @@ import {
 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
 import {
-  Relic,
-  Stat,
+  type Relic,
+  type Stat,
 } from 'types/relic'
 import {
   OrnamentSetToIndex,

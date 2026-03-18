@@ -2,7 +2,7 @@ import { evaluateDependencyOrder } from 'lib/conditionals/evaluation/dependencyE
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants } from 'lib/constants/constants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   getActionIndex,
@@ -13,10 +13,10 @@ import {
   indent,
   wgsl,
 } from 'lib/gpu/injection/wgslUtils'
-import { GpuConstants } from 'lib/gpu/webgpuTypes'
+import type { GpuConstants } from 'lib/gpu/webgpuTypes'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   AKey,
-  AKeyValue,
   GLOBAL_REGISTERS_LENGTH,
   GlobalRegister,
 } from 'lib/optimization/engine/config/keys'
@@ -25,18 +25,19 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { generateSetCombatWgsl, generateSetTerminalWgsl } from 'lib/sets/setConfigRegistry'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import type { SortOptionKey } from 'lib/optimization/sortOptions'
+import { SortOption } from 'lib/optimization/sortOptions'
 import {
-  SortOption,
-  SortOptionKey,
-} from 'lib/optimization/sortOptions'
-import {
+  generateSetCombatWgsl,
+  generateSetTerminalWgsl,
+} from 'lib/sets/setConfigRegistry'
+import type {
   CharacterConditionalsController,
   LightConeConditionalsController,
 } from 'types/conditionals'
-import { Form } from 'types/form'
-import {
+import type { Form } from 'types/form'
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'

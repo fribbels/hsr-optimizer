@@ -32,15 +32,15 @@ export enum ScoringCase {
  */
 export function getHandlingCase(meta: ScorerMetadata): ScoringCase {
   const substats = meta.sortedSubstats
-  if (substats[0][1] == 0) return ScoringCase.NONE
-  if (substats[1][1] == 0) return ScoringCase.SINGLE_STAT
+  if (substats[0][1] === 0) return ScoringCase.NONE
+  if (substats[1][1] === 0) return ScoringCase.SINGLE_STAT
   if (substats[2][1] > 0) return ScoringCase.NORMAL
-  if (substats[1][0] == Constants.Stats.HP && substats[0][0] == Constants.Stats.HP_P) return ScoringCase.HP
-  if (substats[1][0] == Constants.Stats.HP_P && substats[0][0] == Constants.Stats.HP) return ScoringCase.HP
-  if (substats[1][0] == Constants.Stats.ATK && substats[0][0] == Constants.Stats.ATK_P) return ScoringCase.ATK
-  if (substats[1][0] == Constants.Stats.ATK_P && substats[0][0] == Constants.Stats.ATK) return ScoringCase.ATK
-  if (substats[1][0] == Constants.Stats.DEF && substats[0][0] == Constants.Stats.DEF_P) return ScoringCase.DEF
-  if (substats[1][0] == Constants.Stats.DEF_P && substats[0][0] == Constants.Stats.DEF) return ScoringCase.DEF
+  if (substats[1][0] === Constants.Stats.HP && substats[0][0] === Constants.Stats.HP_P) return ScoringCase.HP
+  if (substats[1][0] === Constants.Stats.HP_P && substats[0][0] === Constants.Stats.HP) return ScoringCase.HP
+  if (substats[1][0] === Constants.Stats.ATK && substats[0][0] === Constants.Stats.ATK_P) return ScoringCase.ATK
+  if (substats[1][0] === Constants.Stats.ATK_P && substats[0][0] === Constants.Stats.ATK) return ScoringCase.ATK
+  if (substats[1][0] === Constants.Stats.DEF && substats[0][0] === Constants.Stats.DEF_P) return ScoringCase.DEF
+  if (substats[1][0] === Constants.Stats.DEF_P && substats[0][0] === Constants.Stats.DEF) return ScoringCase.DEF
   return ScoringCase.NORMAL
 }
 
@@ -61,8 +61,8 @@ export function computeOptimalScore(part: Parts, mainstat: MainStats, meta: Scor
       const stat1 = meta.sortedSubstats[0][0]
       const stat2 = meta.sortedSubstats[1][0]
       if (
-        part == Constants.Parts.Head && handlingCase == ScoringCase.HP
-        || part == Constants.Parts.Hands && handlingCase == ScoringCase.ATK
+        part === Constants.Parts.Head && handlingCase === ScoringCase.HP
+        || part === Constants.Parts.Hands && handlingCase === ScoringCase.ATK
       ) {
         return 6 * meta.highRollScores[stat1]
       }
@@ -95,7 +95,7 @@ export function resolveOptimalMainstat(part: Parts, mainstat: MainStats, meta: S
   const optimalMainStats = meta.parts[part] || []
 
   // Fast paths: already optimal, weight == 1, or Head/Hands (no selectable mainstat)
-  if (optimalMainStats.includes(mainstat) || meta.stats[mainstat] == 1 || !hasMainStat(part)) {
+  if (optimalMainStats.includes(mainstat) || meta.stats[mainstat] === 1 || !hasMainStat(part)) {
     return mainstat
   }
 
@@ -103,16 +103,16 @@ export function resolveOptimalMainstat(part: Parts, mainstat: MainStats, meta: S
   const scoreEntries = AllStats
     .map((stat) => {
       const value = meta.stats[stat] ?? 0
-      if (optimalMainStats.includes(stat) || meta.stats[stat] == 1) {
+      if (optimalMainStats.includes(stat) || meta.stats[stat] === 1) {
         return [stat, 1] as [StatsValues, number]
       } else return [stat, value] as [StatsValues, number]
     })
     .sort((a, b) => {
       // We give the mainstat-only stats a score of 6.48 * weight simply to get them in the right area
       // The exact score does not matter as long as the final array is still sorted by weight
-      // @ts-ignore
+      // @ts-expect-error - POSSIBLE_SUBSTATS.has() expects SubStats but receives StatsValues
       const scoreA = !POSSIBLE_SUBSTATS.has(a[0]) ? a[1] * 6.48 : a[1] * STAT_NORMALIZATION[a[0] as SubStats] * SubStatValues[a[0] as SubStats][5].high
-      // @ts-ignore
+      // @ts-expect-error - POSSIBLE_SUBSTATS.has() expects SubStats but receives StatsValues
       const scoreB = !POSSIBLE_SUBSTATS.has(b[0]) ? b[1] * 6.48 : b[1] * STAT_NORMALIZATION[b[0] as SubStats] * SubStatValues[b[0] as SubStats][5].high
       return scoreB - scoreA
     })
@@ -126,7 +126,7 @@ export function resolveOptimalMainstat(part: Parts, mainstat: MainStats, meta: S
    */
   // First candidate (i.e. has the highest weight)
   const possibleMainStats = PartsMainStats[part] as MainStats[]
-  // @ts-ignore typescript wants name to have the same type as the elements of possibleMainStats
+  // @ts-expect-error - StatsValues vs MainStats union mismatch in .includes()
   const mainStatIndex = scoreEntries.findIndex(([name, _weight]) => possibleMainStats.includes(name))
   const mainStatWeight = scoreEntries[mainStatIndex][1]
   let mainStat = scoreEntries[mainStatIndex][0] as MainStats
@@ -137,15 +137,15 @@ export function resolveOptimalMainstat(part: Parts, mainstat: MainStats, meta: S
   // Look at all stats of weight equal to the highest weight stat and find any 'better' mainstats
   for (let i = mainStatIndex; i < scoreEntries.length; i++) {
     const [name, weight] = scoreEntries[i]
-    if (weight != mainStatWeight) break // sorted by weight, weight no longer equal means all following will be lesser
-    // @ts-ignore typescript wants name to have the same type as the elements of possibleMainStats
+    if (weight !== mainStatWeight) break // sorted by weight, weight no longer equal means all following will be lesser
+    // @ts-expect-error - StatsValues vs MainStats union mismatch in .includes()
     if (!possibleMainStats.includes(name)) continue // check for possible mainstat
     const newIsIdeal = optimalMainStats.includes(name)
-    // @ts-ignore typescript wants name to have the same type as the elements of POSSIBLE_SUBSTATS
+    // @ts-expect-error - StatsValues vs SubStats union mismatch in .has()
     const newIsSubstat = POSSIBLE_SUBSTATS.has(name)
     if (isIdeal && !newIsIdeal) continue // prefer ideal mainstats
     if (!isSubstat && newIsSubstat) continue // prefer mainstats that can't be substats
-    if (isIdeal === newIsIdeal && isSubstat == newIsSubstat) continue
+    if (isIdeal === newIsIdeal && isSubstat === newIsSubstat) continue
     mainStat = name as MainStats
     isIdeal = newIsIdeal
     isSubstat = newIsSubstat

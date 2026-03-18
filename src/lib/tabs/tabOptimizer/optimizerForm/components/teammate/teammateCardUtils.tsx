@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import {
   Constants,
   SACERDOS_RELIVED_ORDEAL_1_STACK,
@@ -12,8 +12,8 @@ import iconClasses from 'style/icons.module.css'
 import { getRelicById } from 'lib/stores/relicStore'
 
 import { ArrayFilters } from 'lib/utils/arrayUtils'
-import { Character } from 'types/character'
-import { ReactElement } from 'types/components'
+import type { Character } from 'types/character'
+import type { ReactElement } from 'types/components'
 
 export const rightPanelWidth = 110
 

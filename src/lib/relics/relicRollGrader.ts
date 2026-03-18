@@ -77,10 +77,10 @@ export const RelicRollGrader = {
     // Band-aid for overcounted rolls
     if (totalAddedRolls > Math.floor(relic.enhance / 3)) {
       const highestRolledSubstat = relic.substats.reduce(
-        // @ts-ignore addedRolls potentially undefined per the type
+        // @ts-expect-error - addedRolls potentially undefined per the type
         (max, substat) => max.addedRolls > substat.addedRolls ? max : substat,
       )
-      // @ts-ignore addedRolls potentially undefined per the type
+      // @ts-expect-error - addedRolls potentially undefined per the type
       highestRolledSubstat.addedRolls -= 1
     }
     calculateInitialRolls(relic)

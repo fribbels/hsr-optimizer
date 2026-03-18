@@ -130,7 +130,7 @@ export function generateSimRelics(simulation: Simulation, params: RunSimulations
 function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: RunSimulationsParams) {
   const request = sim.request
   for (const substat of SubStats) {
-    const value = sim.simType == StatSimTypes.SubstatRolls
+    const value = sim.simType === StatSimTypes.SubstatRolls
       ? convertRollCountsToSubstatTotal(substat, sim, params)
       : request.stats[substat]
 
@@ -141,7 +141,7 @@ function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: Run
 
 function convertRollCountsToSubstatTotal(substat: SubStats, sim: Simulation, params: RunSimulationsParams) {
   const substatScale = isFlat(substat) ? 1 : 0.01
-  const substatValue = substat == Stats.SPD
+  const substatValue = substat === Stats.SPD
     ? params.speedRollValue
     : StatCalculator.getMaxedSubstatValue(substat, params.quality)
 

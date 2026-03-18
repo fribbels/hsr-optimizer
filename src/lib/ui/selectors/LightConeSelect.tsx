@@ -1,7 +1,7 @@
 import { CloseButton, Flex, Modal, TextInput } from '@mantine/core'
-import { PathName } from 'lib/constants/constants'
+import type { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { generateLightConeOptions, LcOptions } from 'lib/rendering/optionGenerator'
+import { generateLightConeOptions, type LcOptions } from 'lib/rendering/optionGenerator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   generatePathTags,
@@ -20,10 +20,10 @@ import {
 } from 'lib/ui/selectors/selectConstants'
 import { useSelectModal } from 'lib/ui/selectors/useSelectModal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
-import { CSSProperties, useMemo } from 'react'
+import { type CSSProperties, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 import classes from './SelectCardGrid.module.css'
 
 type LightConeFilters = {

@@ -56,10 +56,10 @@ import {
   useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
+import type {
   CharacterId,
 } from 'types/character'
-import { ReactElement } from 'types/components'
+import type { ReactElement } from 'types/components'
 import styles from './BenchmarksTab.module.css'
 import teammateClasses from 'style/teammateCard.module.css'
 

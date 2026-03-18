@@ -103,7 +103,7 @@ export const BasicStatToKey: Record<StatsValues, number> = {
   [Stats.Elation]: BasicKey.ELATION,
 }
 
-export function baseBasicStatsArray() {
+function baseBasicStatsArray() {
   return Float32Array.from(Object.values(baseCharacterStats))
 }
 

@@ -60,7 +60,7 @@ export async function expectBenchmarkResultsToMatch(
     expect(benchmarkSimScore).toBeCloseTo(benchmarkDmg, 5)
     expect(perfectionSimScore).toBeCloseTo(perfectionDmg, 5)
   } catch (error: unknown) {
-    // @ts-ignore
+    // @ts-expect-error - Error type narrowing in test assertion
     const message = error.message
     throw new Error(`
 ${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} BENCHMARK

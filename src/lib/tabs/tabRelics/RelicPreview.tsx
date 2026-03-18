@@ -26,8 +26,8 @@ import {
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Fragment } from 'react/jsx-runtime'
-import { CharacterId } from 'types/character'
-import {
+import type { CharacterId } from 'types/character'
+import type {
   Relic,
   RelicSubstatMetadata,
 } from 'types/relic'

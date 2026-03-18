@@ -1,9 +1,7 @@
 // Represents the version of the latest info, which should be the beta leaks version at the time of the major update
 import gameData from 'data/game_data.json' with { type: 'json' }
-import {
-  StatKey,
-  StatKeyValue,
-} from 'lib/optimization/engine/config/keys'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v4.0.5'
@@ -548,7 +546,6 @@ export const Constants = {
   StatsToReadable,
   PartsToReadable,
   PartsMainStats,
-  // StatMaxes,
   MAX_INT: 2147483647,
   THREAD_BUFFER_LENGTH: 150000,
 } as const

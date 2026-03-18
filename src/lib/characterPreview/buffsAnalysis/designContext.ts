@@ -1,10 +1,11 @@
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { DamageTag } from 'lib/optimization/engine/config/tag'
-import React, { createContext } from 'react'
+import type { DamageTag } from 'lib/optimization/engine/config/tag'
+import type React from 'react'
+import { createContext } from 'react'
 
 const cardShadow = 'var(--card-shadow)'
 
-export type DesignOptions = {
+type DesignOptions = {
   rowHeight: number,
   iconSize: number,
   tintIntensity: number,
@@ -15,7 +16,7 @@ export type DesignOptions = {
   cardPadding: number,
 }
 
-export const BORDER_RADIUS = 5
+const BORDER_RADIUS = 5
 export const GROUP_SPACING = 10
 
 export const TEXT_DIM = '#ffffff40'

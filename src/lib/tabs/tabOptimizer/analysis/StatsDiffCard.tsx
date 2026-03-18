@@ -5,7 +5,7 @@ import {
 } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
 import { Stats } from 'lib/constants/constants'
-import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
@@ -100,7 +100,7 @@ function DiffRow({ oldStats, newStats, stat }: {
   return (
     <Flex gap={12} align='center'>
       <div className={classes.oldStatColumn}>
-        <StatRow finalStats={oldStats} stat={stat == 'COMBO_DMG' ? 'simScore' : stat} value={stat == 'COMBO_DMG' ? oldValue : undefined} />
+        <StatRow finalStats={oldStats} stat={stat === 'COMBO_DMG' ? 'simScore' : stat} value={stat === 'COMBO_DMG' ? oldValue : undefined} />
       </div>
 
       <span className={classes.arrow}>
@@ -118,7 +118,7 @@ function DiffRow({ oldStats, newStats, stat }: {
 
 function RenderValue({ value, stat, comboDiff }: { value: string | number, stat: string, comboDiff?: boolean }) {
   const { t } = useTranslation('common')
-  if (stat == 'COMBO_DMG') {
+  if (stat === 'COMBO_DMG') {
     return value + (comboDiff ? '%' : t('ThousandsSuffix'))
   } else if (Utils.isFlat(stat)) {
     return value
@@ -138,7 +138,7 @@ export function arrowDirection(increase: boolean) {
 }
 
 function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: number, stat: string }) {
-  if (visualDiff(newValue, oldValue, stat) == 0) return null
+  if (visualDiff(newValue, oldValue, stat) === 0) return null
 
   const increase = newValue > oldValue
   const diff = increase ? visualDiff(newValue, oldValue, stat) : -visualDiff(newValue, oldValue, stat)
@@ -157,7 +157,7 @@ function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: 
 }
 
 function getStatDiffRenderValues(statValue: number, customValue: number, stat: string) {
-  if (stat == 'COMBO_DMG') {
+  if (stat === 'COMBO_DMG') {
     const valueDisplay = `${Utils.truncate10ths(Utils.precisionRound(customValue ?? 0)).toFixed(1)}`
     const value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
     return {
@@ -169,11 +169,11 @@ function getStatDiffRenderValues(statValue: number, customValue: number, stat: s
 }
 
 function visualDiff(n1: number, n2: number, stat: string) {
-  if (stat == Stats.SPD) {
+  if (stat === Stats.SPD) {
     return TsUtils.precisionRound(Utils.truncate10ths(n1) - Utils.truncate10ths(n2))
   } else if (Utils.isFlat(stat)) {
     return TsUtils.precisionRound(Math.floor(n1) - Math.floor(n2))
-  } else if (stat == 'COMBO_DMG') {
+  } else if (stat === 'COMBO_DMG') {
     return TsUtils.precisionRound((n1 / n2 - 1) * 100)
   } else {
     return TsUtils.precisionRound(Utils.truncate1000ths(n1) - Utils.truncate1000ths(n2))

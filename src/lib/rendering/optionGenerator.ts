@@ -2,11 +2,11 @@ import i18next from 'i18next'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
+import { type CharacterId } from 'types/character'
+import { type LightConeId } from 'types/lightCone'
 import {
-  DBMetadataCharacter,
-  DBMetadataLightCone,
+  type DBMetadataCharacter,
+  type DBMetadataLightCone,
 } from 'types/metadata'
 
 export function generateCharacterOptions() {

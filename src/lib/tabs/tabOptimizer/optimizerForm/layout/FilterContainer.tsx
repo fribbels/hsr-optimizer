@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import classes from './FilterContainer.module.css'
 
 export function FilterContainer({ children }: { children: ReactElement | ReactElement[] }) {

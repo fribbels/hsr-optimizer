@@ -5,7 +5,7 @@ import iconClasses from 'style/icons.module.css'
 import { Renderer } from 'lib/rendering/renderer'
 import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
-import {
+import type {
   Relic,
   StatRolls,
 } from 'types/relic'

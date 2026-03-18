@@ -21,21 +21,19 @@ import {
 } from 'lib/characterPreview/buffsAnalysis/StatSummary'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { DamageTag } from 'lib/optimization/engine/config/tag'
+import type { DamageTag } from 'lib/optimization/engine/config/tag'
 import { Assets } from 'lib/rendering/assets'
-import {
-  originalScoringParams,
-  SimulationScore,
-} from 'lib/scoring/simScoringUtils'
-import {
-  aggregatePerActionBuffs,
+import { originalScoringParams } from 'lib/scoring/simScoringUtils'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import { aggregatePerActionBuffs } from 'lib/simulations/combatBuffsAnalysis'
+import type {
   BuffGroups,
   PerActionBuffGroups,
 } from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
+import type { ReactElement } from 'react'
 import {
   memo,
-  ReactElement,
   useMemo,
   useState,
 } from 'react'

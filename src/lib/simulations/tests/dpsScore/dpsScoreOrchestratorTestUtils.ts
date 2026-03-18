@@ -43,7 +43,7 @@ export async function expectDpsScoreResultsToMatch(
   try {
     expect(simScore.percent).toBeCloseTo(percent, 5)
   } catch (error: unknown) {
-    // @ts-ignore
+    // @ts-expect-error - Error type narrowing in test assertion
     const message = error.message
     throw new Error(`
 ${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} BENCHMARK

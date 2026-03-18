@@ -23,7 +23,7 @@ export function calculateProgressText(
     endTime = optimizerEndTime
   }
 
-  const searched = optimizerRunningEngine == COMPUTE_ENGINE_CPU ? permutationsSearched : Math.max(permutationsSearched, 65536 * 512)
+  const searched = optimizerRunningEngine === COMPUTE_ENGINE_CPU ? permutationsSearched : Math.max(permutationsSearched, 65536 * 512)
 
   const msDiff = endTime - startTime
   if (!optimizerEndTime && msDiff < 5_000 && permutationsSearched < 5_000_000 || !permutationsSearched) {

@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react'
-import { Badge, Group, MantineSpacing, Stack } from '@mantine/core'
+import { Badge, Group, type MantineSpacing, Stack } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
+import type { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
 import { FourPieceBadges, TwoPieceComboBadges, OrnamentBadges } from './SetFilterBadges'
 import classes from './RelicSetFilterModal.module.css'
 

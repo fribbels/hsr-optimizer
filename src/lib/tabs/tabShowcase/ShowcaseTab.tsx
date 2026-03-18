@@ -50,8 +50,8 @@ import {
   Trans,
   useTranslation,
 } from 'react-i18next'
-import { Character, CharacterId } from 'types/character'
-import { SettingOptions } from '../../overlays/drawers/SettingsDrawer'
+import type { Character, CharacterId } from 'types/character'
+import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import styles from './ShowcaseTab.module.css'
 
 const RERUN_PRESET_SIZE = 45

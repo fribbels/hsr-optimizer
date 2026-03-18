@@ -9,7 +9,7 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import React, { Suspense, useCallback } from 'react'
-import { Character } from 'types/character'
+import type { Character } from 'types/character'
 
 const defaultGap = 8
 const parentH = 280 * 3 + defaultGap * 2

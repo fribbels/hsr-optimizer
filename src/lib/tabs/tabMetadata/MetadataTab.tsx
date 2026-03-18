@@ -19,9 +19,9 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StringToNumberMap } from 'types/common'
-import { ReactElement } from 'types/components'
-import { DBMetadataCharacter } from 'types/metadata'
+import type { StringToNumberMap } from 'types/common'
+import type { ReactElement } from 'types/components'
+import type { DBMetadataCharacter } from 'types/metadata'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 
 const iconSize = 40

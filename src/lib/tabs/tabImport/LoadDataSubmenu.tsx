@@ -12,7 +12,7 @@ import {
 import { RefObject, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
-import { HsrOptimizerSaveFormat } from 'types/store'
+import type { HsrOptimizerSaveFormat } from 'types/store'
 import classes from './LoadDataSubmenu.module.css'
 
 enum Stages {

@@ -18,7 +18,7 @@ import {
   YAxis,
 } from 'recharts'
 
-export const DAMAGE_SPLITS_CHART_WIDTH = 730
+const DAMAGE_SPLITS_CHART_WIDTH = 730
 const BAR_HEIGHT = 48
 const CHART_PADDING = 80
 

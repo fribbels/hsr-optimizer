@@ -8,12 +8,12 @@ export function scoreToRating(
   part?: string,
   mainStatScore?: number,
 ): string {
-  if (grade != null && grade != 5) return '?'
+  if (grade != null && grade !== 5) return '?'
 
   const index = Math.min(Math.floor(score / (MIN_ROLL_VALUE / 2)), RATINGS.length - 1)
   if (index < 0) return '?'
 
-  if (part != Parts.Head && part != Parts.Hands && mainStatScore != null && TsUtils.precisionRound(mainStatScore) <= 0) {
+  if (part !== Parts.Head && part !== Parts.Hands && mainStatScore != null && TsUtils.precisionRound(mainStatScore) <= 0) {
     return '?'
   }
 

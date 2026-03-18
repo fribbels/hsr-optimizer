@@ -1,13 +1,13 @@
-import { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
+import type { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { Stats } from 'lib/constants/constants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import { indent } from 'lib/gpu/injection/wgslUtils'
-import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import {
+import type { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
+import type {
   Form,
   Teammate,
 } from 'types/form'
-import {
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
@@ -18,9 +18,9 @@ function getRequestTeammateIndex(request: Form, conditional: DynamicConditional)
   else if (conditional.teammateIndex === 1) teammate = request.teammate1
   else teammate = request.teammate2
 
-  // @ts-ignore
+  // @ts-expect-error - Teammate type doesn't include teammate* variants yet
   teammate.teammateCharacterConditionals = teammate.characterConditionals
-  // @ts-ignore
+  // @ts-expect-error - Teammate type doesn't include teammate* variants yet
   teammate.teammateLightConeConditionals = teammate.lightConeConditionals
 
   return teammate

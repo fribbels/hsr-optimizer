@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import { StatsValues } from 'lib/constants/constants'
+import type { StatsValues } from 'lib/constants/constants'
 
 export const languages = {
   de_DE: {
@@ -101,8 +101,6 @@ export function numberToLocaleString(number: number, decimals: number = 0, useGr
 
 const GROUPED = { maximumFractionDigits: 0, minimumFractionDigits: 0, useGrouping: true }
 const GROUPED_0 = { maximumFractionDigits: 1, minimumFractionDigits: 1, useGrouping: true }
-const GROUPED_00 = { maximumFractionDigits: 2, minimumFractionDigits: 2, useGrouping: true }
-const GROUPED_000 = { maximumFractionDigits: 3, minimumFractionDigits: 3, useGrouping: true }
 
 const UNGROUPED = { maximumFractionDigits: 0, minimumFractionDigits: 0, useGrouping: false }
 const UNGROUPED_0 = { maximumFractionDigits: 1, minimumFractionDigits: 1, useGrouping: false }

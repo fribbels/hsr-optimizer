@@ -1,4 +1,4 @@
-import {
+import type {
   CellClickedEvent,
   IRowNode,
   NavigateToNextCellParams,
@@ -6,7 +6,7 @@ import {
 import { AgGridReact } from 'ag-grid-react'
 import { Flex } from '@mantine/core'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Renderer } from 'lib/rendering/renderer'
@@ -24,7 +24,7 @@ import {
 import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
 import { useTranslation } from 'react-i18next'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { isRemembrance } from 'lib/tabs/tabOptimizer/Sidebar'
+import { isRemembrance } from 'lib/tabs/tabOptimizer/sidebar/MemoViewSelect'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/utils/gridStore'
@@ -38,7 +38,7 @@ const defaultHiddenColumns = [
   SortOption.OHB,
 ]
 
-export const GRID_DIMENSIONS = {
+const GRID_DIMENSIONS = {
   WIDTH: 1302,
   HEIGHT: 600,
   MIN_HEIGHT: 300,

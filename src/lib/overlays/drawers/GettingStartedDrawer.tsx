@@ -11,7 +11,7 @@ import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useTranslation } from 'react-i18next'
-import { HsrOptimizerSaveFormat } from 'types/store'
+import { type HsrOptimizerSaveFormat } from 'types/store'
 
 export function GettingStartedDrawer() {
   const { t } = useTranslation(['getStartedTab', 'common'])

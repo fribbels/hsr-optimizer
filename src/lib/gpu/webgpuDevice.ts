@@ -14,7 +14,7 @@ export async function getWebgpuDevice(notify?: boolean) {
     const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
 
     if (!adapter) {
-      throw new Error()
+      throw new Error('WebGPU adapter not available')
     }
 
     return await adapter.requestDevice({

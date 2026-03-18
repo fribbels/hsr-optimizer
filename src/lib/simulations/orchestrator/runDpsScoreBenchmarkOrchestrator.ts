@@ -1,14 +1,14 @@
 import { CUSTOM_TEAM } from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
+import type {
   Character,
   SavedBuild,
 } from 'types/character'
-import {
+import type {
   ScoringMetadata,
   ShowcaseTemporaryOptions,
   SimulationMetadata,

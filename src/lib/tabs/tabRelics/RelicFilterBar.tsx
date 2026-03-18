@@ -37,8 +37,8 @@ import {
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import { CharacterId } from 'types/character'
-import { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { Relic } from 'types/relic'
 import { useGlobalStore } from 'lib/stores/appStore'
 import classes from './RelicFilterBar.module.css'
 

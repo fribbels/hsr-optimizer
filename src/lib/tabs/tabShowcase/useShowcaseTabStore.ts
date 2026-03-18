@@ -4,15 +4,15 @@ import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
+import type {
   Character,
   CharacterId,
 } from 'types/character'
-import { Form } from 'types/form'
-import { LightConeId } from 'types/lightCone'
-import { ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
-import { BasicForm } from 'types/optimizer'
-import { Relic } from 'types/relic'
+import type { Form } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
+import type { ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
+import type { BasicForm } from 'types/optimizer'
+import type { Relic } from 'types/relic'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 // showcase tab characters use a different format for equipped relics and have only a minimal form

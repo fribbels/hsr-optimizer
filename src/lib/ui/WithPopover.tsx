@@ -1,7 +1,7 @@
 import { Popover, Text } from '@mantine/core'
 import {
-  ComponentType,
-  ReactNode,
+  type ComponentType,
+  type ReactNode,
   useCallback,
   useRef,
   useState,

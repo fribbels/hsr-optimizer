@@ -59,7 +59,7 @@ export async function runEstTbpWorker(
 const errorResult = { days: 0 }
 
 export async function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstTbpWorkerOutput> {
-  if (!relic || relic.grade != 5) return errorResult
+  if (!relic || relic.grade !== 5) return errorResult
 
   RelicRollGrader.calculateRelicSubstatRolls(relic)
 

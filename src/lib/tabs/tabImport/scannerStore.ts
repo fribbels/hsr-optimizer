@@ -15,7 +15,7 @@ import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { getRelicById, getRelics } from 'lib/stores/relicStore'
 import { EventEmitter } from 'lib/utils/events'
-import { CharacterId } from 'types/character'
+import type { CharacterId } from 'types/character'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 type ScannerState = {

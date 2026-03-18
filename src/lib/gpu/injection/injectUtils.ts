@@ -1,14 +1,14 @@
-import {
+import type {
   AKeyValue,
-  AToHKey,
-  GLOBAL_REGISTERS_LENGTH,
   HKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import {
-  ComputedStatsContainerConfig,
-} from 'lib/optimization/engine/container/computedStatsContainer'
-import { Hit } from 'types/hitConditionalTypes'
-import {
+  AToHKey,
+  GLOBAL_REGISTERS_LENGTH,
+} from 'lib/optimization/engine/config/keys'
+import type { ComputedStatsContainerConfig } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { Hit } from 'types/hitConditionalTypes'
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
@@ -101,4 +101,3 @@ export function p_containerActionVal(entityIndex: number, actionKey: AKeyValue, 
 export function containerHitRegister(hitRegisterIndex: number, config: ComputedStatsContainerConfig) {
   return `(*p_container)[${getHitRegisterIndex(hitRegisterIndex, config)}]`
 }
-

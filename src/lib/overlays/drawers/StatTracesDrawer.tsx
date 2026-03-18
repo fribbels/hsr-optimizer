@@ -21,7 +21,7 @@ import React, {
 } from 'react'
 import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { TraceNode } from 'types/metadata'
+import { type TraceNode } from 'types/metadata'
 import classes from './StatTracesDrawer.module.css'
 
 const TraceTreeNode = ({

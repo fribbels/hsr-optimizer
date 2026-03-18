@@ -15,8 +15,8 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Nullable } from 'types/common'
-import { Relic } from 'types/relic'
+import type { Nullable } from 'types/common'
+import type { Relic } from 'types/relic'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 type LocatorFilters = { set: Sets | null, part: Parts | null }

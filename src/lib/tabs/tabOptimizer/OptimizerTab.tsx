@@ -24,7 +24,7 @@ export function OptimizerTab() {
         <OptimizerGrid />
         <Flex
           gap={10}
-          style={{ flexDirection: expandedPanelPosition == SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
+          style={{ flexDirection: expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
         >
           <OptimizerBuildPreview />
           <ExpandedDataPanel />

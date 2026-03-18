@@ -1,14 +1,14 @@
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
   runDpsScoreBenchmarkOrchestrator,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
+import type {
   Character,
 } from 'types/character'
-import {
+import type {
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'

@@ -15,7 +15,7 @@ import * as equipmentService from 'lib/services/equipmentService'
 import { getRelicById } from 'lib/stores/relicStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { gridStore } from 'lib/utils/gridStore'
-import { Relic } from 'types/relic'
+import type { Relic } from 'types/relic'
 
 export const RelicsTabController = {
   nodeClickedCallback(node: IRowNode<ScoredRelic>) {

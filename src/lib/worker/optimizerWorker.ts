@@ -89,9 +89,9 @@ export function optimizerWorker(e: MessageEvent) {
   const relicSetSolutions = data.relicSetSolutions
   const ornamentSetSolutions = data.ornamentSetSolutions
 
-  const combatDisplay = request.statDisplay == 'combat'
+  const combatDisplay = request.statDisplay === 'combat'
   const baseDisplay = !combatDisplay
-  const memoDisplay = request.memoDisplay == 'memo'
+  const memoDisplay = request.memoDisplay === 'memo'
   const summonerDisplay = !memoDisplay
   let passCount = 0
 

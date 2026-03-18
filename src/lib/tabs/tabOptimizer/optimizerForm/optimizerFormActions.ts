@@ -49,7 +49,7 @@ const teammateKeyToIndex: Record<string, 0 | 1 | 2> = {
 /**
  * Called when a main character conditional (characterConditionals or lightConeConditionals) changes.
  */
-export function handleMainCharacterConditionalChange(
+function handleMainCharacterConditionalChange(
   condType: MainConditionalType,
   key: string,
   value: boolean | number,
@@ -65,7 +65,7 @@ export function handleMainCharacterConditionalChange(
 /**
  * Called when a teammate conditional changes.
  */
-export function handleTeammateConditionalChange(
+function handleTeammateConditionalChange(
   teammateIndex: 0 | 1 | 2,
   condType: TeammateConditionalType,
   key: string,
@@ -83,7 +83,7 @@ export function handleTeammateConditionalChange(
 /**
  * Called when a set conditional changes.
  */
-export function handleSetConditionalChange(
+function handleSetConditionalChange(
   key: string,
   value: boolean | number,
 ) {

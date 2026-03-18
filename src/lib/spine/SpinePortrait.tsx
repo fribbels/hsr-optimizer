@@ -1,7 +1,9 @@
-import { CSSProperties, useEffect, useRef } from 'react'
-import { CharacterId } from 'types/character'
-import { getSkeletonCount, getSkeletonFiles, getSpineAssetBaseUrl } from './manifest'
-import { createSpineInstance, SpineInstance } from './spineEngine'
+import { useEffect, useRef } from 'react'
+import type { CSSProperties } from 'react'
+import type { CharacterId } from 'types/character'
+import { getSkeletonCount, getSkeletonFiles, getSpineAssetBaseUrl } from 'lib/spine/manifest'
+import { createSpineInstance } from 'lib/spine/spineEngine'
+import type { SpineInstance } from 'lib/spine/spineEngine'
 
 const CANVAS_SIZE = 2048
 

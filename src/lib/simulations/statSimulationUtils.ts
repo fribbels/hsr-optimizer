@@ -41,20 +41,20 @@ export function convertRelicsToSimulation(
 ) {
   const relics = Object.values(relicsByPart)
   const accumulatedSubstatRolls = {} as Record<SubStats, number>
-  SubStats.map((x) => accumulatedSubstatRolls[x] = 0)
+  SubStats.forEach((x) => accumulatedSubstatRolls[x] = 0)
 
   // Sum up substat rolls
   for (const relic of relics) {
     if (relic && relic.substats) {
       for (const substat of relic.substats) {
         accumulatedSubstatRolls[substat.stat] += substat.value
-          / (substat.stat == Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
+          / (substat.stat === Stats.SPD ? speedRollValue : StatCalculator.getMaxedSubstatValue(substat.stat, quality))
       }
     }
   }
 
   // Round them to 4 precision
-  SubStats.map((x) => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
+  SubStats.forEach((x) => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
 
   // Generate the fake request and submit it
   return {

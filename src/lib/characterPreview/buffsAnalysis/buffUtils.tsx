@@ -1,15 +1,13 @@
 import i18next from 'i18next'
 import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { TEXT_DIM, PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
-import { AKeyType } from 'lib/optimization/engine/config/keys'
-import {
-  newStatsConfig,
-  StatConfigEntry,
-} from 'lib/optimization/engine/config/statsConfig'
+import type { AKeyType } from 'lib/optimization/engine/config/keys'
+import type { StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { ReactElement } from 'react'
-import {
+import type { ReactElement } from 'react'
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'

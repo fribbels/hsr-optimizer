@@ -43,7 +43,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { Character, CharacterId } from 'types/character'
+import type { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/afterPaint'
 import { applyColorTransform, CharacterGridDebugPanel, ColorTransform, DebugToggles, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import classes from './CharacterGrid.module.css'

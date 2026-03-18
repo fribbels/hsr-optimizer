@@ -63,9 +63,9 @@ export function computeMainStatScore(relic: Relic, meta: ScorerMetadata): number
 
 export function hasMainStat(part: Parts): boolean {
   return (
-    part == Constants.Parts.Body
-    || part == Constants.Parts.Feet
-    || part == Constants.Parts.LinkRope
-    || part == Constants.Parts.PlanarSphere
+    part === Constants.Parts.Body
+    || part === Constants.Parts.Feet
+    || part === Constants.Parts.LinkRope
+    || part === Constants.Parts.PlanarSphere
   )
 }

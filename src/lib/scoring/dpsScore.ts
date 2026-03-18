@@ -11,7 +11,7 @@ import {
   RelicBuild,
 } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { SimulationMetadata } from 'types/metadata'
+import type { SimulationMetadata } from 'types/metadata'
 
 export type SimulationSets = {
   relicSet1: SetsRelics,

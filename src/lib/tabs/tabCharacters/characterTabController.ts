@@ -9,8 +9,8 @@ import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { CharacterId } from 'types/character'
-import { Form } from 'types/form'
+import type { CharacterId } from 'types/character'
+import type { Form } from 'types/form'
 
 export const CharacterTabController = {
   onCharacterModalOk: (form: Form) => {

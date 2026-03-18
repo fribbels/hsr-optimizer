@@ -1,10 +1,10 @@
-import {
+import type {
   ColDef,
   GetRowIdParams,
   GridOptions,
 } from 'ag-grid-community'
-import { TFunction } from 'i18next'
-import {
+import type { TFunction } from 'i18next'
+import type {
   OptimizerDisplayData,
   OptimizerDisplayDataStatSim,
 } from 'lib/optimization/bufferPacker'
@@ -16,10 +16,10 @@ import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Utils } from 'lib/utils/utils'
 
-export const DIGITS_3 = 46
-export const DIGITS_4 = 50
+const DIGITS_3 = 46
+const DIGITS_4 = 50
 export const DIGITS_5 = 56
-export const DIGITS_6 = 62
+const DIGITS_6 = 62
 
 export const optimizerTabDefaultGap = 5
 export const panelWidth = 226

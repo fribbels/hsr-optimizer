@@ -7,8 +7,8 @@ import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDec
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 
 export type Preset = CharacterPreset | FillerPreset

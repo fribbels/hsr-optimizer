@@ -7,12 +7,12 @@ import {
   Parts,
   PartsMainStats,
   Stats,
-  StatsValues,
 } from 'lib/constants/constants'
-import { getGameMetadata, setGameMetadata } from 'lib/state/gameMetadata'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
-import {
+import type { StatsValues } from 'lib/constants/constants'
+import { setGameMetadata } from 'lib/state/gameMetadata'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+import type {
   DBMetadata,
   DBMetadataCharacter,
   DBMetadataLightCone,

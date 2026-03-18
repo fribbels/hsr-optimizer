@@ -26,7 +26,7 @@ const mockNumberActivation = vi.fn()
 
 const createMockComboState = (): ComboState => ({
   comboCharacter: {
-    // @ts-ignore
+    // @ts-expect-error - Partial mock for test
     metadata: {},
   },
 })

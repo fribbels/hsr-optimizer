@@ -25,7 +25,7 @@ import {
 import {
   SelectConditionalActivationRow,
 } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/SelectConditionalActivationRow'
-import {
+import type {
   ComboBooleanConditional,
   ComboCharacter,
   ComboConditionalCategory,
@@ -37,7 +37,7 @@ import {
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
+import type {
   CharacterConditionalsController,
   ContentItem,
   LightConeConditionalsController,

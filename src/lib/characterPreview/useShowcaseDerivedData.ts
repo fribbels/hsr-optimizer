@@ -4,6 +4,8 @@ import {
   getShowcaseMetadata,
   handleTeamSelection,
   resolveScoringType,
+} from 'lib/characterPreview/characterPreviewController'
+import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
@@ -11,9 +13,9 @@ import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { resolveDpsScoreSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { Assets } from 'lib/rendering/assets'
-import { Character, SavedBuild } from 'types/character'
-import { CustomImageConfig } from 'types/customImage'
-import { SimulationMetadata } from 'types/metadata'
+import type { Character, SavedBuild } from 'types/character'
+import type { CustomImageConfig } from 'types/customImage'
+import type { SimulationMetadata } from 'types/metadata'
 
 // ===== Layout Resolution (character-dependent, no color) =====
 

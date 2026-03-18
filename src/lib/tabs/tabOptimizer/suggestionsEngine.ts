@@ -1,4 +1,4 @@
-import { Parts } from 'lib/constants/constants'
+import { Constants, Parts } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
   setClose,
@@ -309,7 +309,7 @@ export const ZeroResultRootCauseFixes = {
   },
 } as const
 
-const MAX_INT = 2147483647
+const MAX_INT = Constants.MAX_INT
 
 /**
  * Detects root causes for zero results. Pure logic -- returns the list

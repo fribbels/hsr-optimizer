@@ -1,6 +1,7 @@
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useCallback, useContext, useSyncExternalStore } from 'react'
-import { createStore, StateCreator, StoreApi } from 'zustand/vanilla'
+import type { StateCreator, StoreApi } from 'zustand/vanilla'
+import { createStore } from 'zustand/vanilla'
 
 type ExtractState<S> = S extends { getState: () => infer T } ? T : never
 

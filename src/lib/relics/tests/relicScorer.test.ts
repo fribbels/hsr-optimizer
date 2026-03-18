@@ -4,12 +4,12 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { AugmentedStats } from 'lib/relics/relicAugmenter'
+import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
-import { Relic } from 'types/relic'
+import type { Relic } from 'types/relic'
 import {
   expect,
   test,

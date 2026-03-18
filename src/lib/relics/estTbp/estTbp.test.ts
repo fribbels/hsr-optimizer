@@ -12,8 +12,8 @@ import {
   substatGenerator,
   substatGeneratorFromRelic,
 } from 'lib/relics/estTbp/estTbp'
-import { AugmentedStats } from 'lib/relics/relicAugmenter'
-import { Relic } from 'types/relic'
+import type { AugmentedStats } from 'lib/relics/relicAugmenter'
+import type { Relic } from 'types/relic'
 import {
   expect,
   test,

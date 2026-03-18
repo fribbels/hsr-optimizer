@@ -5,6 +5,7 @@ import { ScoringCache } from 'lib/relics/scoring/relicScorer'
 import { useAsyncComputation } from 'lib/hooks/useAsyncComputation'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useShallow } from 'zustand/react/shallow'
 import {
   EstTbpWorkerOutput,
   handleWork,
@@ -12,7 +13,12 @@ import {
 import { memo, useMemo } from 'react'
 
 export const EstbpCard = memo(() => {
-  const { selectedRelic, focusCharacter } = useRelicsTabStore()
+  const { selectedRelic, focusCharacter } = useRelicsTabStore(
+    useShallow((s) => ({
+      selectedRelic: s.selectedRelic,
+      focusCharacter: s.focusCharacter,
+    })),
+  )
 
   const weights = useScoringMetadata(focusCharacter)
 

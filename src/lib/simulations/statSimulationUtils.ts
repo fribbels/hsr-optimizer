@@ -3,9 +3,9 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { Utils } from 'lib/utils/utils'
 import {
   OrnamentSetToIndex,
@@ -83,7 +83,7 @@ export function convertRelicsToSimulation(
   }
 }
 
-export function calculateRelicSets(relicSets: (string | number)[], nameProvided = false) {
+function calculateRelicSets(relicSets: (string | number)[], nameProvided = false) {
   const relicSetNames: string[] = []
   while (relicSets.length > 0) {
     const value = relicSets[0]
@@ -100,7 +100,7 @@ export function calculateRelicSets(relicSets: (string | number)[], nameProvided 
   return relicSetNames
 }
 
-export function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = true): string | undefined {
+function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = true): string | undefined {
   if (ornamentSets[0] != null && ornamentSets[0] == ornamentSets[1]) {
     return (
       nameProvided

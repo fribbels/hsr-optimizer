@@ -58,7 +58,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>({
   const handleChange = (tag: T, checked: boolean) => {
     const nextSelectedTags = checked
       ? [...currentFilter, tag]
-      : currentFilter.filter((t) => t != tag)
+      : currentFilter.filter((t) => t !== tag)
 
     setCurrentFilters(nextSelectedTags)
   }

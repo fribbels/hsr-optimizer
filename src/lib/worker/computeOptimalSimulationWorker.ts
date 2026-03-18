@@ -64,7 +64,7 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   return substatRollsModifier
 }
 
-export function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInput) {
+function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInput) {
   const {
     partialSimulationWrapper,
     inputMinSubstatRollCounts,

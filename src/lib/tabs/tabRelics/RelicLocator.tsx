@@ -15,6 +15,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
@@ -43,7 +44,14 @@ export const useRelicLocatorStore = createTabAwareStore<RelicLocatorState>((set)
 export function RelicLocator(props: { relic: Relic | null }) {
   const { relic } = props
 
-  const { setInventoryWidth, setRowLimit, inventoryWidth, rowLimit } = useRelicLocatorStore()
+  const { setInventoryWidth, setRowLimit, inventoryWidth, rowLimit } = useRelicLocatorStore(
+    useShallow((s) => ({
+      setInventoryWidth: s.setInventoryWidth,
+      setRowLimit: s.setRowLimit,
+      inventoryWidth: s.inventoryWidth,
+      rowLimit: s.rowLimit,
+    })),
+  )
 
   const { t } = useTranslation('relicsTab', { keyPrefix: 'Toolbar.RelicLocator' })
 

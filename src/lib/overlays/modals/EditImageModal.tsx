@@ -46,7 +46,7 @@ interface EditImageModalProps {
   defaultImageUrl?: string // default image, passed in to this component to edit its config
 }
 
-const EditImageModal: React.FC<EditImageModalProps> = ({
+export const EditImageModal: React.FC<EditImageModalProps> = ({
   existingConfig,
   aspectRatio,
   open,
@@ -490,5 +490,3 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
     </div>
   )
 }
-
-export { EditImageModal }

@@ -1,16 +1,16 @@
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
-import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { transformOptimizerDisplayData } from 'lib/simulations/optimizerDisplayDataTransform'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import {
+import type {
   Simulation,
   SimulationRequest,
-  StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import {
   convertRelicsToSimulation,
   ornamentSetIndexToName,
@@ -28,7 +28,7 @@ import {
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Form } from 'types/form'
+import type { Form } from 'types/form'
 
 export function saveStatSimulationBuildFromForm(startSim = true) {
   const storeState = useOptimizerRequestStore.getState()

@@ -2,14 +2,14 @@ import { Flex } from '@mantine/core'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
-import {
+import { updateSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type {
   ComboCharacter,
   ComboState,
-  updateSelectedSets,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'types/components'
+import type { ReactElement } from 'types/components'
 
 function SetSelector({ selected, options, placeholder, submit }: {
   selected: string[]

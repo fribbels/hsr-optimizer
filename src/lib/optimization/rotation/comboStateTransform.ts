@@ -122,7 +122,6 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
 
   const container = action.precomputedStats
 
-
   lightConeConditionals.initializeConfigurationsContainer?.(container, action, context)
   characterConditionals.initializeConfigurationsContainer?.(container, action, context)
 

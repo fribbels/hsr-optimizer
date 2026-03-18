@@ -21,7 +21,7 @@ export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
   return darkModeModifier(finalColor, darkMode).css()
 }
 
-export function darkModeModifier(color: Color, darkMode: boolean) {
+function darkModeModifier(color: Color, darkMode: boolean) {
   return !darkMode
     ? color
     : color
@@ -72,7 +72,7 @@ export function selectClosestColor(colors: string[]): string {
   })
 }
 
-export function measureOrangeness(color: string): number {
+function measureOrangeness(color: string): number {
   const targetHue = 37.5
   const orangeRange = 40
   const [hue, saturation, lightness] = chroma(color).hsl()
@@ -87,7 +87,7 @@ export function measureOrangeness(color: string): number {
   return orangeness
 }
 
-export function colorSorter(a: string, b: string): number {
+function colorSorter(a: string, b: string): number {
   const [hueA, , lightnessA] = chroma(a).hsl()
   const [hueB, , lightnessB] = chroma(b).hsl()
 
@@ -98,7 +98,7 @@ export function colorSorter(a: string, b: string): number {
 }
 
 // Sort colors into groups by lightness, then by hue within groups
-export function sortColorsByGroups(colors: string[], groupSize: number): string[] {
+function sortColorsByGroups(colors: string[], groupSize: number): string[] {
   const sortedColors = colors.sort(colorSorter)
 
   const groupedColors: string[] = []

@@ -44,7 +44,7 @@ export const Stats = {
   Elation: 'Elation',
 } as const
 
-export type StatsKeys = keyof typeof Stats
+type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
 
 export const TwoPieceStatTags = [
@@ -543,8 +543,6 @@ export const Constants = {
   MainStats,
   MainStatsValues,
   SubStats,
-  StatsToReadable,
-  PartsToReadable,
   PartsMainStats,
   MAX_INT: 2147483647,
   THREAD_BUFFER_LENGTH: 150000,

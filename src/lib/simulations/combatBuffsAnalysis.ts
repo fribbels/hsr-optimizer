@@ -1,21 +1,19 @@
-import {
-  statConversionEntries,
-  UnconvertibleProperty,
-} from 'lib/conditionals/evaluation/statConversionConfig'
+import type { UnconvertibleProperty } from 'lib/conditionals/evaluation/statConversionConfig'
+import { statConversionEntries } from 'lib/conditionals/evaluation/statConversionConfig'
 import { PathNames } from 'lib/constants/constants'
-import {
+import type {
   BasicKeyType,
   Buff,
 } from 'lib/optimization/basicStatsArray'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
-import { AKeyType } from 'lib/optimization/engine/config/keys'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
+import type { AKeyType } from 'lib/optimization/engine/config/keys'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type {
   ActionBuffSnapshot,
   RotationBuffStep,
 } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { OptimizerForm } from 'types/form'
+import type { OptimizerForm } from 'types/form'
 
 const unconvertibleStatNames = new Set<AKeyType | BasicKeyType>()
 const mainStatToUnconvertibleStat = new Map<AKeyType | BasicKeyType, UnconvertibleProperty>()

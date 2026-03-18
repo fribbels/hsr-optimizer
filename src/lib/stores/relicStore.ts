@@ -1,6 +1,6 @@
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
-import { Relic } from 'types/relic'
+import type { Relic } from 'types/relic'
 
 type RelicStoreState = {
   relics: Relic[]

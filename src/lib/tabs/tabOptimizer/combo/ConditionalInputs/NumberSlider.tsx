@@ -6,14 +6,14 @@ import { Button, Flex } from '@mantine/core'
 import { buttonStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
 import { getTeammateIndex } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import {
-  ComboState,
   updateAddPartition,
   updateDeletePartition,
   updateNumberDefaultSelection,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
-import { ContentItem } from 'types/conditionals'
+import type { ContentItem } from 'types/conditionals'
 
 export function NumberSlider({ contentItem, value, sourceKey, partitionIndex, comboState, onComboStateChange }: {
   contentItem: ContentItem

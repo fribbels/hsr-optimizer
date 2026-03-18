@@ -1,10 +1,10 @@
-import {
+import type {
   CellPosition,
   IRowNode,
   NavigateToNextCellParams,
 } from 'ag-grid-community'
-import { AgGridReact } from 'ag-grid-react'
-import { RefObject } from 'react'
+import type { AgGridReact } from 'ag-grid-react'
+import type { RefObject } from 'react'
 
 const KEY_LEFT = 'ArrowLeft'
 const KEY_UP = 'ArrowUp'

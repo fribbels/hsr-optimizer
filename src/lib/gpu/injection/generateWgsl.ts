@@ -25,7 +25,7 @@ import type {
   ShaderVariables,
 } from 'types/optimizer'
 
-export function generateShaderVariables(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
+function generateShaderVariables(context: OptimizerContext, request: Form, gpuParams: GpuConstants) {
   // All sort options need all actions generated for proper stat computation
   const actionLength = context.defaultActions.length + context.rotationActions.length
 
@@ -52,9 +52,9 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectUnrolledActions(wgsl, request, context, gpuParams)
   wgsl = injectConditionalsNew(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
-  wgsl = injectBasicFilters(wgsl, request, context, gpuParams)
-  wgsl = injectSetFilters(wgsl, request, gpuParams)
-  wgsl = injectComputedStats(wgsl, gpuParams)
+  wgsl = injectBasicFilters(wgsl, request)
+  wgsl = injectSetFilters(wgsl, request)
+  wgsl = injectComputedStats(wgsl)
 
   return wgsl
 }
@@ -133,7 +133,7 @@ ${injectedStructs}
 function filterFn(request: Form) {
   return (text: string) => {
     if (text.length === 0) return text
-    const [variable, stat, threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
+    const [, , threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
     const min = threshold.includes('min')
     const max = threshold.includes('max')
 
@@ -148,7 +148,7 @@ function format(text: string, levels: number = 2) {
   return indent(text.length > 0 ? text : 'false', levels)
 }
 
-function injectSetFilters(wgsl: string, request: Form, gpuParams: GpuConstants) {
+function injectSetFilters(wgsl: string, request: Form) {
   const hasRelicFilter = (request.relicSets?.length ?? 0) > 0
   const hasOrnamentFilter = (request.ornamentSets?.length ?? 0) > 0
 
@@ -186,7 +186,7 @@ if (${conditions.join('\n || ')}) {
   )
 }
 
-export function injectBasicFilters(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
+function injectBasicFilters(wgsl: string, request: Form) {
   const sortOption = SortOption[request.resultSort!]
   const sortKey: string = sortOption.key
   const sortOptionComputed = sortOption.isComputedRating

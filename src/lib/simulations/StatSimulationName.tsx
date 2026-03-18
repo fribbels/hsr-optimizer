@@ -1,18 +1,16 @@
 import { Flex } from '@mantine/core'
+import type { SubStats } from 'lib/constants/constants'
 import {
   Constants,
   Stats,
-  SubStats,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import {
-  Simulation,
-  StatSimTypes,
-} from 'lib/simulations/statSimulationTypes'
+import type { Simulation } from 'lib/simulations/statSimulationTypes'
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { Utils } from 'lib/utils/utils'
 import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { Stat } from 'types/relic'
+import type { Stat } from 'types/relic'
 
 const substatToPriority: Record<string, number> = {
   [Stats.ATK_P]: 0,

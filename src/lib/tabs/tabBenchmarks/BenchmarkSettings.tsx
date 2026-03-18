@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { UseFormReturnType } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
 import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'

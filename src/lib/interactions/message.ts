@@ -1,5 +1,5 @@
 import { notifications } from '@mantine/notifications'
-import React from 'react'
+import type React from 'react'
 
 export const Message = {
   success: (content: React.ReactNode, duration: number = 3) => {

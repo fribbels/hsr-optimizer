@@ -5,7 +5,7 @@ import { TsUtils } from 'lib/utils/TsUtils'
 export function scoreToRating(
   score: number,
   grade?: number,
-  part?: string,
+  part?: Parts,
   mainStatScore?: number,
 ): string {
   if (grade != null && grade !== 5) return '?'

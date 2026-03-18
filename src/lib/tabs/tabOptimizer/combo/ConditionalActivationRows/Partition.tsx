@@ -2,11 +2,11 @@ import { Flex } from '@mantine/core'
 import { BoxArray } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BoxArray'
 import { NumberSelect } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/NumberSelect'
 import { NumberSlider } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/NumberSlider'
-import {
+import type {
   ComboState,
   ComboSubNumberConditional,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { ContentItem } from 'types/conditionals'
+import type { ContentItem } from 'types/conditionals'
 
 export function Partition({
   partition,

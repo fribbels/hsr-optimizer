@@ -1,4 +1,3 @@
-
 import type { ComboType } from 'lib/optimization/rotation/comboType'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { SortOption } from 'lib/optimization/sortOptions'

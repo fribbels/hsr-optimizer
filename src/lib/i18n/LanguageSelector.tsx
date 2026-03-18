@@ -8,10 +8,8 @@ import {
   BASE_PATH,
   BasePath,
 } from 'lib/constants/appPages'
-import {
-  Languages,
-  languages,
-} from 'lib/utils/i18nUtils'
+import type { Languages } from 'lib/utils/i18nUtils'
+import { languages } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
 
 export function LanguageSelector() {

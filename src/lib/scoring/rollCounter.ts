@@ -15,7 +15,6 @@ import type {
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { isSubstat } from 'lib/utils/statUtils'
-import type { SimulationMetadata } from 'types/metadata'
 
 export function calculateMinSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,

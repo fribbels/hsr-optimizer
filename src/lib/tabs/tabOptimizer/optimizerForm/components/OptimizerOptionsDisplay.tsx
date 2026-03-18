@@ -81,7 +81,7 @@ function PriorityCombobox(props: {
           placeholder={placeholder}
         />
         <Combobox.Options mah={500} style={{ overflowY: 'auto' }}>
-          {filteredOptions.map((opt) => (
+          {combobox.dropdownOpened && filteredOptions.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === rankStr} style={{ whiteSpace: 'nowrap' }}>
               <Group gap={6} justify='space-between' wrap='nowrap'>
                 {opt.label}
@@ -89,7 +89,7 @@ function PriorityCombobox(props: {
               </Group>
             </Combobox.Option>
           ))}
-          {filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

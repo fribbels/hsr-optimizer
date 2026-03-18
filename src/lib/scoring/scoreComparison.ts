@@ -3,7 +3,7 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { ScoringMetadata } from 'types/metadata'
+import type { ScoringMetadata } from 'types/metadata'
 
 export enum ScoreCategory {
   DEFAULT,

@@ -1,5 +1,6 @@
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
-import { Languages, renderThousandsK } from 'lib/utils/i18nUtils'
+import type { Languages } from 'lib/utils/i18nUtils'
+import { renderThousandsK } from 'lib/utils/i18nUtils'
 import { memo, useId } from 'react'
 import { useTranslation } from 'react-i18next'
 import {

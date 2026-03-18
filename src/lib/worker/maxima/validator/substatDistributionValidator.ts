@@ -4,7 +4,7 @@ import {
 } from 'lib/constants/constants'
 import type { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 
-export interface StatConstraints {
+interface StatConstraints {
   stat: string
   rolls: number
   availablePieces: number

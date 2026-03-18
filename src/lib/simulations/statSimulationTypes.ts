@@ -1,9 +1,9 @@
 
-import { Buff } from 'lib/optimization/basicStatsArray'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SimulationFlags } from 'lib/scoring/simScoringUtils'
-import {
+import type { Buff } from 'lib/optimization/basicStatsArray'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { SimulationFlags } from 'lib/scoring/simScoringUtils'
+import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'

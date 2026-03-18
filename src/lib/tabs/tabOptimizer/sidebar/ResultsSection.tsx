@@ -44,10 +44,6 @@ function clearPinned() {
   }
 }
 
-function filterClicked() {
-  OptimizerTabController.applyRowFilters()
-}
-
 export const ResultsSection = React.memo(function ResultsSection({ isFullSize }: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.ResultsGroup' })
   return (
@@ -60,7 +56,7 @@ export const ResultsSection = React.memo(function ResultsSection({ isFullSize }:
         <Button onClick={equipClicked} style={buttonStyle}>
           {t('Equip') /* Equip */}
         </Button>
-        <Button variant="default" onClick={filterClicked} style={buttonStyle}>
+        <Button variant="default" onClick={OptimizerTabController.applyRowFilters} style={buttonStyle}>
           {t('Filter') /* Filter */}
         </Button>
       </Flex>

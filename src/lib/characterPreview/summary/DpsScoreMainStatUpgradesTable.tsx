@@ -1,19 +1,19 @@
 import { Flex, Table, Tooltip } from '@mantine/core'
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
-import { SubstatUpgradeItem } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
-import {
+import type { SubstatUpgradeItem } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
+import type {
   MainStats,
   Parts,
   Sets,
-  Stats,
 } from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
-import { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
-import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import {
   arrowColor,
   arrowDirection,
@@ -22,7 +22,7 @@ import {
   localeNumber_0,
   localeNumber_00,
 } from 'lib/utils/i18nUtils'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type MainStatUpgradeItem = {

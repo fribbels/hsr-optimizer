@@ -39,11 +39,6 @@ export function filterUniqueStringify<T>(arr: T[]) {
   })
 }
 
-/** [0, 1, 2, null, 3] => [0, 1, 2, 3] */
-export function filterNonNull<T>(arr: T[]) {
-  return arr.filter(ArrayFilters.nonNullable)
-}
-
 /** [1, 2], 2 => 1 */
 export function getIndexOf<T>(array: readonly T[], item: unknown): number {
   return array.indexOf(item as T)

@@ -1,7 +1,7 @@
 import { Alert } from '@mantine/core'
 import { CharacterAnnouncementMessages } from 'lib/constants/constants'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
-import { CharacterId } from 'types/character'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import type { CharacterId } from 'types/character'
 
 export function CharacterAnnouncement({ characterId, scoringResult }: {
   characterId: CharacterId

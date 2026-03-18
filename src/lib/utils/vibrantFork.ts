@@ -277,7 +277,7 @@ function _generateEmptySwatches(palette: Palette, maxPopulation: number, opts: D
 }
 
 // Forked from Vibrant.Generator.Default
-export const CustomGenerator: Generator = (swatches: Array<Swatch>, opts?: object): Palette => {
+const CustomGenerator: Generator = (swatches: Array<Swatch>, opts?: object): Palette => {
   const options = {
     ...DefaultOpts,
     ...opts,
@@ -288,8 +288,7 @@ export const CustomGenerator: Generator = (swatches: Array<Swatch>, opts?: objec
   const palette = _generateVariationColors(swatches, maxPopulation, options)
   _generateEmptySwatches(palette, maxPopulation, options)
 
-  // @ts-ignore
-  // palette.colors = swatches
+  // @ts-expect-error - Custom 'colors' field not in Palette type, added by our fork
   palette.colors = swatches.sort((a, b) => b._population - a._population)
 
   return palette

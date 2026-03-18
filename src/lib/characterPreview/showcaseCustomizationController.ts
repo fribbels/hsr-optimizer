@@ -3,8 +3,8 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { CharacterId } from 'types/character'
-import { ShowcasePreferences } from 'types/metadata'
+import type { CharacterId } from 'types/character'
+import type { ShowcasePreferences } from 'types/metadata'
 
 export function editShowcasePreferences(
   characterId: CharacterId,

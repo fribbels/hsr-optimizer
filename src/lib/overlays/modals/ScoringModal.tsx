@@ -24,7 +24,7 @@ import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadata } from 'types/metadata'
 import iconClasses from 'style/icons.module.css'
-import classes from './ScoringModal.module.css'
+import classes from 'lib/overlays/modals/ScoringModal.module.css'
 
 const TitleDivider = (props: React.ComponentPropsWithoutRef<typeof Divider>) => (
   <Divider my={10} {...props} />

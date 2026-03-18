@@ -6,7 +6,8 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import { Button, Flex, NumberInput, Paper, SegmentedControl, Select } from '@mantine/core'
-import { useForm, UseFormReturnType } from '@mantine/form'
+import { useForm } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
 import {
   OverlayText,
 } from 'lib/characterPreview/CharacterPreviewComponents'

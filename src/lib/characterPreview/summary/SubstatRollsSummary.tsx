@@ -1,9 +1,7 @@
 import { Flex } from '@mantine/core'
 import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
-import {
-  Stats,
-  SubStats,
-} from 'lib/constants/constants'
+import type { SubStats } from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
   diminishingReturnsFormula,

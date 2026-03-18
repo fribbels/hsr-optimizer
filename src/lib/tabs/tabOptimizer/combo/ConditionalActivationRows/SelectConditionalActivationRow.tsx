@@ -1,11 +1,11 @@
 import { Flex } from '@mantine/core'
 import { Partition } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/Partition'
 import { PartitionDivider } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/PartitionDivider'
-import {
+import type {
   ComboSelectConditional,
   ComboState,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { ContentItem } from 'types/conditionals'
+import type { ContentItem } from 'types/conditionals'
 
 export function SelectConditionalActivationRow({ comboConditional, contentItem, actionCount, sourceKey, comboState, onComboStateChange }: {
   comboConditional: ComboSelectConditional

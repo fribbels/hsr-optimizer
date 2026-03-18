@@ -1,24 +1,24 @@
+import type { MainStatParts } from 'lib/constants/constants'
 import {
-  MainStatParts,
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import {
-  applyScoringFunction,
+import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
+import type {
   ScoringParams,
   SimulationFlags,
 } from 'lib/scoring/simScoringUtils'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import {
+import type {
   RunStatSimulationsResult,
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
 import { partsToFilterMapping } from 'lib/simulations/utils/benchmarkUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Form } from 'types/form'
-import { SimulationMetadata } from 'types/metadata'
-import { OptimizerContext } from 'types/optimizer'
+import type { Form } from 'types/form'
+import type { SimulationMetadata } from 'types/metadata'
+import type { OptimizerContext } from 'types/optimizer'
 
 export type SimulationStatUpgrade = {
   simulation: Simulation,

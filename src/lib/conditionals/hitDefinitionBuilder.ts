@@ -30,19 +30,6 @@ const BASE_HIT_DEFAULTS = {
   defScaling: 0,
 }
 
-const dotHitSchema = schemaBuilder<
-  DotHitDefinition,
-  Pick<DotHitDefinition, 'damageFunctionType' | 'directHit' | 'outputTag'>,
-  Pick<DotHitDefinition, 'dotBaseChance' | 'damageElement'>
->({
-  defaults: {
-    damageFunctionType: DamageFunctionType.Dot,
-    directHit: false,
-    outputTag: OutputTag.DAMAGE,
-  },
-  required: ['dotBaseChance', 'damageElement'],
-})
-
 const critHitSchema = schemaBuilder<
   CritHitDefinition,
   Pick<CritHitDefinition, 'damageFunctionType' | 'directHit' | 'outputTag' | 'skillPointsUsed'>,

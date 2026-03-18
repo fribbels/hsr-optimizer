@@ -3,7 +3,7 @@ import {
   Parts,
   SACERDOS_RELIVED_ORDEAL_1_STACK,
   SACERDOS_RELIVED_ORDEAL_2_STACK,
-  Sets,
+  type Sets,
   Stats,
 } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'

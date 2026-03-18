@@ -24,25 +24,25 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import {
+import type {
   Build,
   Character,
   CharacterId,
   SavedBuild,
 } from 'types/character'
-import { ConditionalValueMap } from 'types/conditionals'
-import { Form } from 'types/form'
-import { LightConeId } from 'types/lightCone'
-import { DBMetadata, ScoringMetadata } from 'types/metadata'
-import {
+import type { ConditionalValueMap } from 'types/conditionals'
+import type { Form } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
+import type { DBMetadata, ScoringMetadata } from 'types/metadata'
+import type {
   Relic,
   Stat,
 } from 'types/relic'
-import {
+import type {
   GlobalSavedSession,
   HsrOptimizerSaveFormat,
 } from 'types/store'
-import { Simulation } from 'lib/simulations/statSimulationTypes'
+import type { Simulation } from 'lib/simulations/statSimulationTypes'
 
 // ─── Public API ────────────────────────────────────────────────
 

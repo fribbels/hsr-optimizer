@@ -34,7 +34,7 @@ import {
 import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
 import { SubstatInput } from 'lib/overlays/modals/SubstatInput'
 import { Assets } from 'lib/rendering/assets'
-import modalClasses from './RelicModal.module.css'
+import modalClasses from 'lib/overlays/modals/RelicModal.module.css'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import { useCharacterStore } from 'lib/stores/characterStore'

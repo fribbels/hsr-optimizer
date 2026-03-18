@@ -1,12 +1,12 @@
 import { Flex } from '@mantine/core'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { abilityGap, abilityWidth } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
-import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { ControlledTurnAbilitySelector } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'types/components'
+import type { ReactElement } from 'types/components'
 
 function AbilitySelector({ comboTurnAbilities, index, comboState, onComboStateChange }: {
   comboTurnAbilities: TurnAbilityName[]

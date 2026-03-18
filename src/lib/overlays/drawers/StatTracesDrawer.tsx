@@ -13,7 +13,8 @@ import { useGlobalStore } from 'lib/stores/appStore'
 import { useScoringStore } from 'lib/stores/scoringStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Utils } from 'lib/utils/utils'
-import React, {
+import type React from 'react'
+import {
   useCallback,
   useEffect,
   useMemo,

@@ -7,7 +7,7 @@ import { getDefaultActiveKey } from 'lib/constants/appPages'
 import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { Themes } from 'lib/rendering/theme'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import {
+import type {
   GlobalSavedSession,
   HsrOptimizerStore,
 } from 'types/store'

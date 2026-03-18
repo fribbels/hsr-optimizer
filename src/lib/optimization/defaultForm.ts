@@ -15,7 +15,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { CharacterId } from 'types/character'
+import type { CharacterId } from 'types/character'
 import {
   Form,
   Teammate,

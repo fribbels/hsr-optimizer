@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Box, Portal, Tooltip, UnstyledButton } from '@mantine/core'
 import {
   IconBook,
-  IconChartBar,
   IconChartRadar,
   IconDiamond,
   IconHome,

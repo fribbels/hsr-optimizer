@@ -9,13 +9,13 @@ import { ComboDrawerTitle } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
 import { StateDisplay } from 'lib/tabs/tabOptimizer/combo/StateDisplay'
 import { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import {
-  ComboState,
   initializeComboState,
   locateActivations,
   updateActivation,
   updateFormState,
   updatePartitionActivation,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import {
   useCallback,

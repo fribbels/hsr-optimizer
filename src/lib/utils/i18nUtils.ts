@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import type { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
 import type { StatsValues } from 'lib/constants/constants'
 
 export const languages = {
@@ -130,4 +131,22 @@ export function isStatsValues(key: string): key is StatsValues {
 // Lives here instead of DamageSplitsChart to avoid pulling recharts into components that only need this formatter.
 export function renderThousandsK(n: number) {
   return `${Math.floor(Number(n) / 1000)}${i18next.t('common:ThousandsSuffix')}`
+}
+
+const getEmptyT = <
+  Ns extends Namespace | null = DefaultNamespace,
+  TKPrefix extends KeyPrefix<ActualNs> = undefined,
+  ActualNs extends Namespace = Ns extends null ? DefaultNamespace : Ns,
+>(): TFunction<ActualNs, TKPrefix> => {
+  return (() => {
+    return ''
+  }) as TFunction<ActualNs, TKPrefix>
+}
+
+export function wrappedFixedT(withContent: boolean) {
+  return {
+    get: withContent
+      ? i18next.getFixedT
+      : getEmptyT,
+  }
 }

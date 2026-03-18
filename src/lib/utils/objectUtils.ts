@@ -1,0 +1,72 @@
+function sortKeys(val: unknown): unknown {
+  if (val === null || typeof val !== 'object') return val
+  if (Array.isArray(val)) return val.map(sortKeys)
+  const obj = val as Record<string, unknown>
+  const keys = Object.keys(obj)
+  keys.sort()
+  const sorted: Record<string, unknown> = Object.create(null)
+  for (let i = 0; i < keys.length; i++) {
+    sorted[keys[i]] = sortKeys(obj[keys[i]])
+  }
+  return sorted
+}
+
+/** Deep clone via JSON round-trip. Returns the input unchanged if falsy. */
+export function clone<T>(obj: T): T {
+  if (!obj) return obj
+  return JSON.parse(JSON.stringify(obj)) as T
+}
+
+/** Deterministic JSON hash of an object (sorted keys). */
+export function objectHash<T>(obj: T): string {
+  return JSON.stringify(sortKeys(obj))
+}
+
+/** Swap keys and values in a string→string mapping. */
+export function flipStringMapping(obj: Record<string, string>): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [value, key]),
+  )
+}
+
+/**
+ * Copy defined (non-null/undefined) values from source onto target's existing keys.
+ * Mutates and returns target.
+ */
+export function mergeDefinedValues<T extends Record<string, unknown>>(target: T, source: Partial<T> | undefined): T {
+  if (!source) return target
+  for (const key of Object.keys(target) as Array<keyof T>) {
+    if (source[key] != null) {
+      target[key] = source[key] as T[keyof T]
+    }
+  }
+  return target
+}
+
+/**
+ * Fill undefined keys in target with values from source.
+ * Mutates and returns target.
+ */
+export function mergeUndefinedValues<T extends Record<string, unknown>>(target: T, source: Partial<T>): T {
+  for (const key of Object.keys(source) as Array<keyof T>) {
+    if (target[key] == null) {
+      target[key] = source[key] as T[keyof T]
+    }
+  }
+  return target
+}
+
+/** Convert snake_case/kebab-case keys to camelCase, recursively. */
+export function recursiveToCamel<T>(item: T): T {
+  if (Array.isArray(item)) {
+    return item.map((el) => recursiveToCamel(el)) as T
+  } else if (typeof item === 'function' || item !== Object(item)) {
+    return item
+  }
+  return Object.fromEntries(
+    Object.entries(item as Record<string, unknown>).map(([key, value]) => [
+      key.replace(/([-_][a-z])/gi, (c) => c.toUpperCase().replace(/[-_]/g, '')),
+      recursiveToCamel(value),
+    ]),
+  ) as T
+}

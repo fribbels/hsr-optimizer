@@ -20,7 +20,7 @@ import type {
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { precisionRound } from 'lib/utils/mathUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type { OptimizerContext } from 'types/optimizer'
@@ -146,7 +146,7 @@ function convertRollCountsToSubstatTotal(substat: SubStats, sim: Simulation, par
   let substatCount = sim.request.stats[substat] || 0
   substatCount = params.substatRollsModifier(substatCount, substat, sim)
 
-  return precisionRound(substatCount * substatValue * substatScale)
+  return TsUtils.precisionRound(substatCount * substatValue * substatScale)
 }
 
 // Hardcoded

@@ -5,7 +5,7 @@ import {
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
-import { precisionRound } from 'lib/utils/mathUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 import { isFlat } from 'lib/utils/statUtils'
 
 const maxedMainStats = {
@@ -33,17 +33,17 @@ const maxedMainStats = {
 export const StatCalculator = {
   getMaxedSubstatValue: (stat: SubStats, quality = 1) => {
     if (quality == 0.8) {
-      return precisionRound(SubStatValues[stat][5].low)
+      return TsUtils.precisionRound(SubStatValues[stat][5].low)
     }
     if (quality == 0.9) {
-      return precisionRound(SubStatValues[stat][5].mid)
+      return TsUtils.precisionRound(SubStatValues[stat][5].mid)
     }
-    return precisionRound(SubStatValues[stat][5].high)
+    return TsUtils.precisionRound(SubStatValues[stat][5].high)
   },
   getMaxedStatValue: (stat: MainStats) => {
     if (!stat) return 0
     const scaling = isFlat(stat) ? 1 : 100
-    return precisionRound(maxedMainStats[stat][3] / scaling)
+    return TsUtils.precisionRound(maxedMainStats[stat][3] / scaling)
   },
 
   getZeroes: () => {

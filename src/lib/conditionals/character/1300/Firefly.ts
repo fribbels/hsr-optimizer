@@ -52,7 +52,6 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -67,6 +66,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const FireflyEntities = createEnum('Firefly')
 export const FireflyAbilities: AbilityKind[] = [
@@ -144,8 +144,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.talentDmgReductionBuff.text'),
       content: t('Content.talentDmgReductionBuff.content', {
-        talentResBuff: TsUtils.precisionRound(100 * talentResBuff),
-        talentDmgReductionBuff: TsUtils.precisionRound(100 * talentDmgReductionBuff),
+        talentResBuff: precisionRound(100 * talentResBuff),
+        talentDmgReductionBuff: precisionRound(100 * talentDmgReductionBuff),
       }),
     },
     e1DefShred: {

@@ -27,7 +27,6 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -38,6 +37,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const RobinEntities = createEnum('Robin')
 export const RobinAbilities: AbilityKind[] = [
@@ -95,22 +95,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.concertoActive.text'),
       content: t('Content.concertoActive.content', {
-        ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue),
+        ultAtkBuffScalingValue: precisionRound(100 * ultAtkBuffScalingValue),
         ultAtkBuffFlatValue: ultAtkBuffFlatValue,
-        ultScaling: TsUtils.precisionRound(100 * ultScaling),
+        ultScaling: precisionRound(100 * ultScaling),
       }),
     },
     skillDmgBuff: {
       id: 'skillDmgBuff',
       formItem: 'switch',
       text: t('Content.skillDmgBuff.text'),
-      content: t('Content.skillDmgBuff.content', { skillDmgBuffValue: TsUtils.precisionRound(100 * skillDmgBuffValue) }),
+      content: t('Content.skillDmgBuff.content', { skillDmgBuffValue: precisionRound(100 * skillDmgBuffValue) }),
     },
     talentCdBuff: {
       id: 'talentCdBuff',
       formItem: 'switch',
       text: t('Content.talentCdBuff.text'),
-      content: t('Content.talentCdBuff.content', { talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue) }),
+      content: t('Content.talentCdBuff.content', { talentCdBuffValue: precisionRound(100 * talentCdBuffValue) }),
     },
     e1UltResPen: {
       id: 'e1UltResPen',
@@ -150,8 +150,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('TeammateContent.teammateATKValue.text'),
       content: t('TeammateContent.teammateATKValue.content', {
-        ultAtkBuffFlatValue: TsUtils.precisionRound(ultAtkBuffFlatValue),
-        ultAtkBuffScalingValue: TsUtils.precisionRound(100 * ultAtkBuffScalingValue),
+        ultAtkBuffFlatValue: precisionRound(ultAtkBuffFlatValue),
+        ultAtkBuffScalingValue: precisionRound(100 * ultAtkBuffScalingValue),
       }),
       min: 0,
       max: 10000,

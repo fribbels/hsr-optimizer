@@ -35,7 +35,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -49,6 +48,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TrailblazerDestructionEntities = createEnum('TrailblazerDestruction')
 export const TrailblazerDestructionAbilities: AbilityKind[] = [
@@ -94,16 +94,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.enhancedUlt.text'),
       content: t('Content.enhancedUlt.content', {
-        ultScaling: TsUtils.precisionRound(100 * ultScaling),
-        ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling),
-        ultEnhancedScaling2: TsUtils.precisionRound(100 * ultEnhancedScaling2),
+        ultScaling: precisionRound(100 * ultScaling),
+        ultEnhancedScaling: precisionRound(100 * ultEnhancedScaling),
+        ultEnhancedScaling2: precisionRound(100 * ultEnhancedScaling2),
       }),
     },
     talentStacks: {
       id: 'talentStacks',
       formItem: 'slider',
       text: t('Content.talentStacks.text'),
-      content: t('Content.talentStacks.content', { talentAtkScalingValue: TsUtils.precisionRound(100 * talentAtkScalingValue) }),
+      content: t('Content.talentStacks.content', { talentAtkScalingValue: precisionRound(100 * talentAtkScalingValue) }),
       min: 0,
       max: 2,
     },

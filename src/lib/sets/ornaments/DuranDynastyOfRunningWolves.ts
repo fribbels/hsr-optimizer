@@ -7,7 +7,6 @@ import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -22,6 +21,7 @@ import {
   type SetInfo,
   SetType,
 } from 'types/setConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const info = {
   index: 14,
@@ -57,7 +57,7 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 6 }).map((_val, i) => {
-    const label = i === 5 ? t('Duran.Label5') : t('Duran.Label', { stackCount: i, buffValue: TsUtils.precisionRound(5 * i) })
+    const label = i === 5 ? t('Duran.Label5') : t('Duran.Label', { stackCount: i, buffValue: precisionRound(5 * i) })
     return {
       display: t('Duran.Display', { stackCount: i }),
       value: i,

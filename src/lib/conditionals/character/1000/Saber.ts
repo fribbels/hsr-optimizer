@@ -35,7 +35,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -48,6 +47,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SaberEntities = createEnum('Saber')
 export const SaberAbilities: AbilityKind[] = [
@@ -111,13 +111,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedSkill',
       formItem: 'switch',
       text: t('enhancedSkill.text'),
-      content: t('enhancedSkill.content', { CoreResonanceExtraScaling: TsUtils.precisionRound(100 * skillStackScaling) }),
+      content: t('enhancedSkill.content', { CoreResonanceExtraScaling: precisionRound(100 * skillStackScaling) }),
     },
     talentDmgBuff: {
       id: 'talentDmgBuff',
       formItem: 'switch',
       text: t('talentDmgBuff.text'),
-      content: t('talentDmgBuff.content', { TalentDmgBuff: TsUtils.precisionRound(100 * talentDmgBuffScaling) }),
+      content: t('talentDmgBuff.content', { TalentDmgBuff: precisionRound(100 * talentDmgBuffScaling) }),
     },
     coreResonanceCdBuff: {
       id: 'coreResonanceCdBuff',
@@ -129,7 +129,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'coreResonanceStacks',
       formItem: 'slider',
       text: t('coreResonanceStacks.text'),
-      content: t('coreResonanceStacks.content', { CoreResonanceExtraScaling: TsUtils.precisionRound(100 * skillStackScaling) }),
+      content: t('coreResonanceStacks.content', { CoreResonanceExtraScaling: precisionRound(100 * skillStackScaling) }),
       min: 0,
       max: 45,
     },

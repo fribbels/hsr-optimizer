@@ -54,7 +54,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -67,6 +66,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const EvernightEntities = createEnum(
   'Evernight',
@@ -156,7 +156,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.memoTalentDmgBuff.text'),
       content: t('Content.memoTalentDmgBuff.content', {
-        MemoTalentDmgBuff: TsUtils.precisionRound(100 * memoTalentDmgBoost),
+        MemoTalentDmgBuff: precisionRound(100 * memoTalentDmgBoost),
       }),
     },
     traceCritBuffs: {
@@ -170,7 +170,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.skillMemoCdBuff.text'),
       content: t('Content.skillMemoCdBuff.content', {
-        SkillMemoCdBuff: TsUtils.precisionRound(100 * skillCdScaling),
+        SkillMemoCdBuff: precisionRound(100 * skillCdScaling),
       }),
     },
     talentMemoCdBuff: {
@@ -178,7 +178,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.talentMemoCdBuff.text'),
       content: t('Content.talentMemoCdBuff.content', {
-        TalentCdScaling: TsUtils.precisionRound(100 * talentCdScaling),
+        TalentCdScaling: precisionRound(100 * talentCdScaling),
       }),
     },
     memoriaStacks: {
@@ -186,9 +186,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('Content.memoriaStacks.text'),
       content: t('Content.memoriaStacks.content', {
-        MemoSkillScaling: TsUtils.precisionRound(100 * memoSkillScaling),
-        MemoSkillAdditionalScaling: TsUtils.precisionRound(100 * memoSkillAdditionalScaling),
-        MemoSkillEnhancedScaling: TsUtils.precisionRound(100 * memoSkillEnhancedScaling),
+        MemoSkillScaling: precisionRound(100 * memoSkillScaling),
+        MemoSkillAdditionalScaling: precisionRound(100 * memoSkillAdditionalScaling),
+        MemoSkillEnhancedScaling: precisionRound(100 * memoSkillEnhancedScaling),
       }),
       min: 0,
       max: 40,
@@ -198,8 +198,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.enhancedState.text'),
       content: t('Content.enhancedState.content', {
-        UltVulnScaling: TsUtils.precisionRound(100 * ultVulnScaling),
-        UltDmgBoostScaling: TsUtils.precisionRound(100 * ultDmgBoostScaling),
+        UltVulnScaling: precisionRound(100 * ultVulnScaling),
+        UltDmgBoostScaling: precisionRound(100 * ultDmgBoostScaling),
       }),
     },
     cyreneSpecialEffect: {
@@ -245,13 +245,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillMemoCdBuff',
       formItem: 'switch',
       text: t('TeammateContent.skillMemoCdBuff.text'),
-      content: t('TeammateContent.skillMemoCdBuff.content', { SkillCdScaling: TsUtils.precisionRound(100 * skillCdScaling) }),
+      content: t('TeammateContent.skillMemoCdBuff.content', { SkillCdScaling: precisionRound(100 * skillCdScaling) }),
     },
     evernightCombatCD: {
       id: 'evernightCombatCD',
       formItem: 'slider',
       text: t('TeammateContent.evernightCombatCD.text'),
-      content: t('TeammateContent.evernightCombatCD.content', { SkillCdScaling: TsUtils.precisionRound(100 * skillCdScaling) }),
+      content: t('TeammateContent.evernightCombatCD.content', { SkillCdScaling: precisionRound(100 * skillCdScaling) }),
       min: 0,
       max: 5.00,
       percent: true,
@@ -304,7 +304,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // MEMO_SKILL scaling varies based on memoriaStacks
       const memoSkillHpScaling = r.memoriaStacks >= 16
         ? memoSkillEnhancedScaling * r.memoriaStacks
-        : memoSkillScaling + Math.floor(TsUtils.precisionRound(r.memoriaStacks / 4)) * memoSkillAdditionalScaling
+        : memoSkillScaling + Math.floor(precisionRound(r.memoriaStacks / 4)) * memoSkillAdditionalScaling
       const memoSkillToughness = r.memoriaStacks >= 16 ? 10 : 30
 
       return {

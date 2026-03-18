@@ -5,7 +5,6 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -14,6 +13,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TheForeverVictual.Content')
@@ -31,7 +31,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'atkStacks',
       formItem: 'slider',
       text: t('atkStacks.text'),
-      content: t('atkStacks.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]) }),
+      content: t('atkStacks.content', { AtkBuff: precisionRound(100 * sValuesAtk[s]) }),
       min: 0,
       max: 3,
     },

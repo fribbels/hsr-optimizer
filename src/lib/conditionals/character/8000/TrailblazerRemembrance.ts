@@ -33,7 +33,6 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -43,6 +42,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TrailblazerRemembranceAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -129,15 +129,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedBasic',
       formItem: 'switch',
       text: t('Content.enhancedBasic.text'),
-      content: t('Content.enhancedBasic.content', { Scaling: TsUtils.precisionRound(100 * enhancedBasicScaling) }),
+      content: t('Content.enhancedBasic.content', { Scaling: precisionRound(100 * enhancedBasicScaling) }),
     },
     memoSkillHits: {
       id: 'memoSkillHits',
       formItem: 'slider',
       text: t('Content.memoSkillHits.text'),
       content: t('Content.memoSkillHits.content', {
-        SingleScaling: TsUtils.precisionRound(memoSkillHitScaling * 100),
-        AoeScaling: TsUtils.precisionRound(memoSkillFinalScaling * 100),
+        SingleScaling: precisionRound(memoSkillHitScaling * 100),
+        AoeScaling: precisionRound(memoSkillFinalScaling * 100),
       }),
       min: 0,
       max: 4,
@@ -147,15 +147,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.teamCdBuff.text'),
       content: t('Content.teamCdBuff.content', {
-        ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100),
-        FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100),
+        ScalingBuff: precisionRound(memoTalentCdBuffScaling * 100),
+        FlatBuff: precisionRound(memoTalentCdBuffFlat * 100),
       }),
     },
     memsSupport: {
       id: 'memsSupport',
       formItem: 'switch',
       text: t('Content.memsSupport.text'),
-      content: t('Content.memsSupport.content', { TrueDmgScaling: TsUtils.precisionRound(trueDmgScaling * 100) }),
+      content: t('Content.memsSupport.content', { TrueDmgScaling: precisionRound(trueDmgScaling * 100) }),
     },
     energyTrueDmgValue: {
       id: 'energyTrueDmgValue',
@@ -193,8 +193,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('TeammateContent.memCDValue.text'),
       content: t('TeammateContent.memCDValue.content', {
-        ScalingBuff: TsUtils.precisionRound(memoTalentCdBuffScaling * 100),
-        FlatBuff: TsUtils.precisionRound(memoTalentCdBuffFlat * 100),
+        ScalingBuff: precisionRound(memoTalentCdBuffScaling * 100),
+        FlatBuff: precisionRound(memoTalentCdBuffFlat * 100),
       }),
       min: 0,
       max: 4.00,

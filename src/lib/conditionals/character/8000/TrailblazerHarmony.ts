@@ -19,7 +19,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type ScoringMetadata } from 'types/metadata'
@@ -32,6 +31,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TrailblazerHarmonyEntities = createEnum('TrailblazerHarmony')
 export const TrailblazerHarmonyAbilities: AbilityKind[] = [
@@ -86,7 +86,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'backupDancer',
       formItem: 'switch',
       text: t('Content.backupDancer.text'),
-      content: t('Content.backupDancer.content', { ultBeScaling: TsUtils.precisionRound(100 * ultBeScaling) }),
+      content: t('Content.backupDancer.content', { ultBeScaling: precisionRound(100 * ultBeScaling) }),
     },
     superBreakDmg: {
       id: 'superBreakDmg',

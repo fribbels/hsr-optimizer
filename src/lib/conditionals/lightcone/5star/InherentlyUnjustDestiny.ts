@@ -6,12 +6,12 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
 import { type OptimizerAction, type OptimizerContext } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.InherentlyUnjustDestiny')
@@ -35,7 +35,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'shieldCdBuff',
       formItem: 'switch',
       text: t('Content.shieldCdBuff.text'),
-      content: t('Content.shieldCdBuff.content', { CritBuff: TsUtils.precisionRound(100 * sValuesCd[s]) }),
+      content: t('Content.shieldCdBuff.content', { CritBuff: precisionRound(100 * sValuesCd[s]) }),
     },
     targetVulnerability: {
       lc: true,
@@ -43,8 +43,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       formItem: 'switch',
       text: t('Content.targetVulnerability.text'),
       content: t('Content.targetVulnerability.content', {
-        baseChance: TsUtils.precisionRound(100 + 15 * s),
-        Vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]),
+        baseChance: precisionRound(100 + 15 * s),
+        Vulnerability: precisionRound(100 * sValuesVulnerability[s]),
       }),
     },
   }

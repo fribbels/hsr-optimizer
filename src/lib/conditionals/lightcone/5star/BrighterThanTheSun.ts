@@ -5,12 +5,12 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
 import { type OptimizerAction, type OptimizerContext } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.BrighterThanTheSun')
@@ -30,8 +30,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       formItem: 'slider',
       text: t('Content.dragonsCallStacks.text'),
       content: t('Content.dragonsCallStacks.content', {
-        AtkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),
-        RegenBuff: TsUtils.precisionRound(100 * sValuesErr[s]),
+        AtkBuff: precisionRound(100 * sValuesAtk[s]),
+        RegenBuff: precisionRound(100 * sValuesErr[s]),
       }),
       min: 0,
       max: 2,

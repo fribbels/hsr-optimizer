@@ -36,7 +36,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -50,6 +49,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const DanHengEntities = createEnum('DanHeng')
 export const DanHengAbilities: AbilityKind[] = [
@@ -95,7 +95,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentPenBuff',
       formItem: 'switch',
       text: t('Content.talentPenBuff.text'),
-      content: t('Content.talentPenBuff.content', { extraPenValue: TsUtils.precisionRound(100 * extraPenValue) }),
+      content: t('Content.talentPenBuff.content', { extraPenValue: precisionRound(100 * extraPenValue) }),
     },
     enemySlowed: {
       id: 'enemySlowed',

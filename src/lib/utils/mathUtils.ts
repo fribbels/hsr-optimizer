@@ -44,3 +44,8 @@ export function nullUndefinedToZero(x: number | null | undefined): number {
   if (x == null) return 0
   return x
 }
+
+export function precisionRound(number: number, precision: number = 5): number {
+  const factor = Math.pow(10, precision)
+  return Math.round(number * factor) / factor
+}

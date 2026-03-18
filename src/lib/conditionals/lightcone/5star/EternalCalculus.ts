@@ -5,12 +5,12 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
 import { type OptimizerAction, type OptimizerContext } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.EternalCalculus')
@@ -30,7 +30,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'atkBuffStacks',
       formItem: 'slider',
       text: t('Content.atkBuffStacks.text'),
-      content: t('Content.atkBuffStacks.content', { AtkBuff: TsUtils.precisionRound(100 * sValuesAtkBuff[s]) }),
+      content: t('Content.atkBuffStacks.content', { AtkBuff: precisionRound(100 * sValuesAtkBuff[s]) }),
       min: 0,
       max: 5,
     },
@@ -39,7 +39,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'spdBuff',
       formItem: 'switch',
       text: t('Content.spdBuff.text'),
-      content: t('Content.spdBuff.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
+      content: t('Content.spdBuff.content', { SpdBuff: precisionRound(100 * sValuesSpdBuff[s]) }),
     },
   }
 

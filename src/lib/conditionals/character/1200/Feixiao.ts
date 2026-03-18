@@ -45,7 +45,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const FeixiaoEntities = createEnum('Feixiao')
 export const FeixiaoAbilities: AbilityKind[] = [
@@ -135,8 +135,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.talentDmgBuff.text'),
       content: t('Content.talentDmgBuff.content', {
-        FuaMultiplier: TsUtils.precisionRound(100 * fuaScaling),
-        DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff),
+        FuaMultiplier: precisionRound(100 * fuaScaling),
+        DmgBuff: precisionRound(100 * talentDmgBuff),
       }),
     },
     skillAtkBuff: {

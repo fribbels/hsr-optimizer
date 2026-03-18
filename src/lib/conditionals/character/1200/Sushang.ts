@@ -22,7 +22,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -51,6 +50,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SushangEntities = createEnum('Sushang')
 export const SushangAbilities: AbilityKind[] = [
@@ -99,7 +99,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultBuffedState',
       formItem: 'switch',
       text: t('Content.ultBuffedState.text'),
-      content: t('Content.ultBuffedState.content', { ultBuffedAtk: TsUtils.precisionRound(100 * ultBuffedAtk) }),
+      content: t('Content.ultBuffedState.content', { ultBuffedAtk: precisionRound(100 * ultBuffedAtk) }),
     },
     skillExtraHits: {
       id: 'skillExtraHits',
@@ -121,7 +121,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentSpdBuffStacks',
       formItem: 'slider',
       text: t('Content.talentSpdBuffStacks.text'),
-      content: t('Content.talentSpdBuffStacks.content', { talentSpdBuffValue: TsUtils.precisionRound(100 * talentSpdBuffValue) }),
+      content: t('Content.talentSpdBuffStacks.content', { talentSpdBuffValue: precisionRound(100 * talentSpdBuffValue) }),
       min: 0,
       max: talentSpdBuffStacksMax,
     },

@@ -37,7 +37,6 @@ import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -52,6 +51,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SampoEntities = createEnum('Sampo')
 export const SampoAbilities: AbilityKind[] = [
@@ -95,7 +95,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'targetDotTakenDebuff',
       formItem: 'switch',
       text: t('Content.targetDotTakenDebuff.text'),
-      content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: TsUtils.precisionRound(100 * dotVulnerabilityValue) }),
+      content: t('Content.targetDotTakenDebuff.content', { dotVulnerabilityValue: precisionRound(100 * dotVulnerabilityValue) }),
     },
     skillExtraHits: {
       id: 'skillExtraHits',

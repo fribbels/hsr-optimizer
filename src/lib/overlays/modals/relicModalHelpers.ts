@@ -5,11 +5,10 @@ import {
   type SubStats,
 } from 'lib/constants/constants'
 import type { RelicForm } from 'lib/overlays/modals/relicModalController'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { objectHash } from 'lib/utils/objectUtils'
 import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths, truncate1000ths } from 'lib/utils/mathUtils'
+import { truncate10ths, truncate1000ths, precisionRound } from 'lib/utils/mathUtils'
 
 export type SubstatValues = Pick<RelicForm, `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`>
 
@@ -108,7 +107,7 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
   } else {
     return {
       stat: stat,
-      value: truncate10ths(TsUtils.precisionRound(Math.floor(value * 10) / 10)),
+      value: truncate10ths(precisionRound(Math.floor(value * 10) / 10)),
     }
   }
 }
@@ -122,7 +121,7 @@ function relicHash(relic: Relic) {
     mainStatType: relic.main?.stat,
     substats: relic.substats.map((stat) => ({
       stat: stat.stat,
-      value: truncate1000ths(TsUtils.precisionRound(stat.value)),
+      value: truncate1000ths(precisionRound(stat.value)),
     })),
   })
 }

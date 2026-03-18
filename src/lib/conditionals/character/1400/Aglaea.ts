@@ -63,7 +63,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -77,6 +76,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const AglaeaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -153,13 +153,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'supremeStanceState',
       formItem: 'switch',
       text: t('Content.supremeStanceState.text'),
-      content: t('Content.supremeStanceState.content', { SpdBuff: TsUtils.precisionRound(ultSpdBoost * 100) }),
+      content: t('Content.supremeStanceState.content', { SpdBuff: precisionRound(ultSpdBoost * 100) }),
     },
     seamStitch: {
       id: 'seamStitch',
       formItem: 'switch',
       text: t('Content.seamStitch.text'),
-      content: t('Content.seamStitch.content', { Scaling: TsUtils.precisionRound(talentAdditionalDmg * 100) }),
+      content: t('Content.seamStitch.content', { Scaling: precisionRound(talentAdditionalDmg * 100) }),
     },
     memoSpdStacks: {
       id: 'memoSpdStacks',

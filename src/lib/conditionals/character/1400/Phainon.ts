@@ -45,7 +45,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -58,6 +57,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export enum PhainonEnhancedSkillType {
   FOUNDATION = 0,
@@ -127,9 +127,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('transformedState.text'),
       content: t('transformedState.content', {
-        UltAtkBuff: TsUtils.precisionRound(100 * talentAtkBuffScaling),
-        UltCdBuff: TsUtils.precisionRound(100 * talentCdBuffScaling),
-        UltHPBuff: TsUtils.precisionRound(100 * talentHpBuffScaling),
+        UltAtkBuff: precisionRound(100 * talentAtkBuffScaling),
+        UltCdBuff: precisionRound(100 * talentCdBuffScaling),
+        UltHPBuff: precisionRound(100 * talentHpBuffScaling),
       }),
     },
     enhancedSkillType: {
@@ -163,7 +163,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'cdBuff',
       formItem: 'switch',
       text: t('cdBuff.text'),
-      content: t('cdBuff.content', { TalentCdBuff: TsUtils.precisionRound(100 * talentCdBuffScaling) }),
+      content: t('cdBuff.content', { TalentCdBuff: precisionRound(100 * talentCdBuffScaling) }),
     },
     sustainDmgBuff: {
       id: 'sustainDmgBuff',

@@ -32,7 +32,6 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -42,6 +41,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const CerydraEntities = createEnum('Cerydra')
 export const CerydraAbilities: AbilityKind[] = [
@@ -139,7 +139,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'militaryMerit',
       formItem: 'switch',
       text: t('TeammateContent.militaryMerit.text'),
-      content: t('TeammateContent.militaryMerit.content', { TalentAtkConversion: TsUtils.precisionRound(talentAtkScaling * 100) }),
+      content: t('TeammateContent.militaryMerit.content', { TalentAtkConversion: precisionRound(talentAtkScaling * 100) }),
     },
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
@@ -152,15 +152,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('TeammateContent.peerage.text'),
       content: t('TeammateContent.peerage.content', {
-        SkillCdBuff: TsUtils.precisionRound(100 * skillCdScaling),
-        SkillResPenBuff: TsUtils.precisionRound(100 * skillResPenScaling),
+        SkillCdBuff: precisionRound(100 * skillCdScaling),
+        SkillResPenBuff: precisionRound(100 * skillResPenScaling),
       }),
     },
     teammateATKValue: {
       id: 'teammateATKValue',
       formItem: 'slider',
       text: t('TeammateContent.teammateATKValue.text'),
-      content: t('TeammateContent.teammateATKValue.content', { TalentAtkConversion: TsUtils.precisionRound(talentAtkScaling * 100) }),
+      content: t('TeammateContent.teammateATKValue.content', { TalentAtkConversion: precisionRound(talentAtkScaling * 100) }),
       min: 0,
       max: 10000,
     },

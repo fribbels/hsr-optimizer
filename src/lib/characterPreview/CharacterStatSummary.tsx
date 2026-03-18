@@ -11,9 +11,9 @@ import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/contai
 import { ScoringType, type SimulationScore } from 'lib/scoring/simScoringUtils'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { type CharacterId } from 'types/character'
 import classes from './CharacterStatSummary.module.css'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const epsilon = 0.001
 
@@ -102,7 +102,7 @@ function calculateStatCustomizations(characterId: CharacterId) {
   const edits: Record<string, boolean> = {}
 
   for (const [stat, value] of Object.entries(defaultTraces)) {
-    if (TsUtils.precisionRound(customTraces[stat]) !== TsUtils.precisionRound(value)) {
+    if (precisionRound(customTraces[stat]) !== precisionRound(value)) {
       edits[stat] = true
       if (stat === Stats.ATK_P) edits[Stats.ATK] = true
       if (stat === Stats.DEF_P) edits[Stats.DEF] = true

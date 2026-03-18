@@ -39,7 +39,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -53,6 +52,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const MishaEntities = createEnum('Misha')
 export const MishaAbilities: AbilityKind[] = [
@@ -100,7 +100,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultHitsOnTarget',
       formItem: 'slider',
       text: t('Content.ultHitsOnTarget.text'),
-      content: t('Content.ultHitsOnTarget.content', { ultStackScaling: TsUtils.precisionRound(100 * ultStackScaling) }),
+      content: t('Content.ultHitsOnTarget.content', { ultStackScaling: precisionRound(100 * ultStackScaling) }),
       min: 1,
       max: 10,
     },

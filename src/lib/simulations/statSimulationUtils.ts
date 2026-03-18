@@ -12,7 +12,7 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export function relicSetIndexToNames(relicSetIndex: number) {
   const numSetsR = Object.values(SetsRelics).length
@@ -54,7 +54,7 @@ export function convertRelicsToSimulation(
   }
 
   // Round them to 4 precision
-  SubStats.forEach((x) => accumulatedSubstatRolls[x] = TsUtils.precisionRound(accumulatedSubstatRolls[x], 4))
+  SubStats.forEach((x) => accumulatedSubstatRolls[x] = precisionRound(accumulatedSubstatRolls[x], 4))
 
   // Generate the fake request and submit it
   return {

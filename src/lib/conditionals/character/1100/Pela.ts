@@ -20,7 +20,6 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -32,6 +31,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const PelaEntities = createEnum('Pela')
 export const PelaAbilities: AbilityKind[] = [
@@ -97,7 +97,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultDefPenDebuff',
       formItem: 'switch',
       text: t('Content.ultDefPenDebuff.text'),
-      content: t('Content.ultDefPenDebuff.content', { ultDefPenValue: TsUtils.precisionRound(100 * ultDefPenValue) }),
+      content: t('Content.ultDefPenDebuff.content', { ultDefPenValue: precisionRound(100 * ultDefPenValue) }),
     },
     e4SkillResShred: {
       id: 'e4SkillResShred',

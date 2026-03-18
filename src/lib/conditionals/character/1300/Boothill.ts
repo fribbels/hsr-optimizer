@@ -49,7 +49,6 @@ import {
   RELICS_2P_BREAK_EFFECT_SPEED,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -65,6 +64,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const BoothillEntities = createEnum('Boothill')
 export const BoothillAbilities: AbilityKind[] = [
@@ -119,7 +119,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'standoffActive',
       formItem: 'switch',
       text: t('Content.standoffActive.text'),
-      content: t('Content.standoffActive.content', { standoffVulnerabilityBoost: TsUtils.precisionRound(100 * standoffVulnerabilityBoost) }),
+      content: t('Content.standoffActive.content', { standoffVulnerabilityBoost: precisionRound(100 * standoffVulnerabilityBoost) }),
     },
     pocketTrickshotStacks: {
       id: 'pocketTrickshotStacks',

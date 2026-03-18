@@ -1,8 +1,8 @@
 import { type MainStats, type Parts, Stats, SubStats, } from 'lib/constants/constants'
 import { getRollQualityDistribution, thresholdProbability, } from 'lib/relics/estTbp/convolution'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { clone } from 'lib/utils/objectUtils'
 import type { Relic } from 'types/relic'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export function scoreTbp(preRelic: Relic, weights: { [stat: string]: number }): number {
   const relic = clone(preRelic)
@@ -11,7 +11,7 @@ export function scoreTbp(preRelic: Relic, weights: { [stat: string]: number }): 
     relic.substats.push(s)
   })
   // Round away the floating point errors from weight products
-  const scoreToBeat = TsUtils.precisionRound(simpleSubstatScoreOfRelic(relic, weights))
+  const scoreToBeat = precisionRound(simpleSubstatScoreOfRelic(relic, weights))
 
   const pMain = probabilityOfCorrectSet()
     * probabilityOfCorrectSlot(relic.part)

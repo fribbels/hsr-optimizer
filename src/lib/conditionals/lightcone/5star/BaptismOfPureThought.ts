@@ -6,12 +6,12 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
 import { type OptimizerAction, type OptimizerContext } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.BaptismOfPureThought')
@@ -32,7 +32,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'debuffCdStacks',
       formItem: 'slider',
       text: t('Content.debuffCdStacks.text'),
-      content: t('Content.debuffCdStacks.content', { DmgStep: TsUtils.precisionRound(100 * sValuesCd[s]) }),
+      content: t('Content.debuffCdStacks.content', { DmgStep: precisionRound(100 * sValuesCd[s]) }),
       min: 0,
       max: 3,
     },
@@ -42,8 +42,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       formItem: 'switch',
       text: t('Content.postUltBuff.text'),
       content: t('Content.postUltBuff.content', {
-        DmgStep: TsUtils.precisionRound(100 * sValuesDmg[s]),
-        DefIgnore: TsUtils.precisionRound(100 * sValuesFuaPen[s]),
+        DmgStep: precisionRound(100 * sValuesDmg[s]),
+        DefIgnore: precisionRound(100 * sValuesFuaPen[s]),
       }),
     },
   }

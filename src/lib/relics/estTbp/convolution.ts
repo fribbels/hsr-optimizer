@@ -17,7 +17,7 @@
 // this function starts out with a relic that already has its substats picked out
 // we assume that a roll into any of the 4 given substats is uniform for now
 
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 type Distribution = Map<number, number> // TODO: can potentially pick a better data structure
 // Needs to be 100 to support 0.75 weight ATK%
@@ -41,7 +41,7 @@ export function getRollQualityDistribution(substatWeights: number[], numUpgrades
 // total probability of all values strictly higher than `threshold`
 export function thresholdProbability(dist: Distribution, threshold: number): number {
   return [...dist.entries()]
-    .filter(([k]) => TsUtils.precisionRound(k) > threshold)
+    .filter(([k]) => precisionRound(k) > threshold)
     .reduce((acc, [, v]) => acc + v, 0)
 }
 

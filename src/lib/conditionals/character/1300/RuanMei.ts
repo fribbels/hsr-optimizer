@@ -25,7 +25,6 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -35,6 +34,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const RuanMeiEntities = createEnum('RuanMei')
 export const RuanMeiAbilities: AbilityKind[] = [
@@ -86,7 +86,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillOvertoneBuff',
       formItem: 'switch',
       text: t('Content.skillOvertoneBuff.text'),
-      content: t('Content.skillOvertoneBuff.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+      content: t('Content.skillOvertoneBuff.content', { skillScaling: precisionRound(100 * skillScaling) }),
     },
     teamBEBuff: {
       id: 'teamBEBuff',
@@ -98,7 +98,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultFieldActive',
       formItem: 'switch',
       text: t('Content.ultFieldActive.text'),
-      content: t('Content.ultFieldActive.content', { fieldResPenValue: TsUtils.precisionRound(100 * fieldResPenValue) }),
+      content: t('Content.ultFieldActive.content', { fieldResPenValue: precisionRound(100 * fieldResPenValue) }),
     },
     e2AtkBoost: {
       id: 'e2AtkBoost',
@@ -122,7 +122,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'teamSpdBuff',
       formItem: 'switch',
       text: t('TeammateContent.teamSpdBuff.text'),
-      content: t('TeammateContent.teamSpdBuff.content', { talentSpdScaling: TsUtils.precisionRound(100 * talentSpdScaling) }),
+      content: t('TeammateContent.teamSpdBuff.content', { talentSpdScaling: precisionRound(100 * talentSpdScaling) }),
     },
     teamBEBuff: content.teamBEBuff,
     teamDmgBuff: {
@@ -217,7 +217,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       // Trace: DMG boost based on BE over 120%
       const be = x.getActionValue(StatKey.BE, RuanMeiEntities.RuanMei)
-      const beOver = Math.floor(TsUtils.precisionRound((be * 100 - 120) / 10))
+      const beOver = Math.floor(precisionRound((be * 100 - 120) / 10))
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
       x.buff(StatKey.DMG_BOOST, buffValue, x.source(SOURCE_TRACE))
     },

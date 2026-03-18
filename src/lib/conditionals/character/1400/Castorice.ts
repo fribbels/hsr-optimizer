@@ -45,7 +45,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type CharacterConfig } from 'types/characterConfig'
 import {
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const CastoriceEntities = createEnum(
   'Castorice',
@@ -142,7 +142,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'memospriteActive',
       formItem: 'switch',
       text: t('memospriteActive.text'),
-      content: t('memospriteActive.content', { ResDown: TsUtils.precisionRound(100 * ultTerritoryResPen) }),
+      content: t('memospriteActive.content', { ResDown: precisionRound(100 * ultTerritoryResPen) }),
     },
     spdBuff: {
       id: 'spdBuff',
@@ -160,7 +160,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentDmgStacks',
       formItem: 'slider',
       text: t('talentDmgStacks.text'),
-      content: t('talentDmgStacks.content', { DmgBuff: TsUtils.precisionRound(100 * talentDmgBoost) }),
+      content: t('talentDmgStacks.content', { DmgBuff: precisionRound(100 * talentDmgBoost) }),
       min: 0,
       max: 3,
     },
@@ -169,8 +169,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('memoSkillEnhances.text'),
       content: t('memoSkillEnhances.content', {
-        Multiplier1Enhance: TsUtils.precisionRound(100 * memoSkillScaling2),
-        Multiplier2Enhance: TsUtils.precisionRound(100 * memoSkillScaling3),
+        Multiplier1Enhance: precisionRound(100 * memoSkillScaling2),
+        Multiplier2Enhance: precisionRound(100 * memoSkillScaling3),
       }),
       min: 1,
       max: 3,
@@ -189,7 +189,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('memoTalentHits.text'),
       content: t('memoTalentHits.content', {
         BounceCount: e >= 6 ? 9 : 6,
-        Scaling: TsUtils.precisionRound(100 * memoTalentScaling),
+        Scaling: precisionRound(100 * memoTalentScaling),
       }),
       min: 0,
       max: e >= 6 ? 9 : 6,

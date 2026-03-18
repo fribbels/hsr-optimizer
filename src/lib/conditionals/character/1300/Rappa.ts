@@ -49,7 +49,6 @@ import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -64,6 +63,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const RappaEntities = createEnum('Rappa')
 export const RappaAbilities: AbilityKind[] = [
@@ -120,7 +120,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'sealformActive',
       formItem: 'switch',
       text: t('Content.sealformActive.text'),
-      content: t('Content.sealformActive.content', { ultBeBuff: TsUtils.precisionRound(100 * ultBeBuff) }),
+      content: t('Content.sealformActive.content', { ultBeBuff: precisionRound(100 * ultBeBuff) }),
     },
     atkToBreakVulnerability: {
       id: 'atkToBreakVulnerability',
@@ -132,7 +132,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'chargeStacks',
       formItem: 'slider',
       text: t('Content.chargeStacks.text'),
-      content: t('Content.chargeStacks.content', { talentChargeMultiplier: TsUtils.precisionRound(100 * talentChargeMultiplier) }),
+      content: t('Content.chargeStacks.content', { talentChargeMultiplier: precisionRound(100 * talentChargeMultiplier) }),
       min: 0,
       max: maxChargeStacks,
     },
@@ -304,7 +304,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       if (r.atkToBreakVulnerability) {
         const atk = x.getActionValue(StatKey.ATK, RappaEntities.Rappa)
-        const atkOverStacks = Math.floor(TsUtils.precisionRound((atk - 2400) / 100))
+        const atkOverStacks = Math.floor(precisionRound((atk - 2400) / 100))
         const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
 
         x.buff(StatKey.VULNERABILITY, buffValue, x.damageType(DamageTag.BREAK).source(SOURCE_TRACE))

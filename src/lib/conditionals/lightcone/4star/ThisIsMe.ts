@@ -1,10 +1,10 @@
 import { type ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type LightConeConfig } from 'types/lightConeConfig'
 import { type SuperImpositionLevel } from 'types/lightCone'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisIsMe')
@@ -23,7 +23,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'defScalingUltDmg',
       formItem: 'switch',
       text: t('Content.defScalingUltDmg.text'),
-      content: t('Content.defScalingUltDmg.content', { Multiplier: TsUtils.precisionRound(100 * sValues[s]) }),
+      content: t('Content.defScalingUltDmg.content', { Multiplier: precisionRound(100 * sValues[s]) }),
     },
   }
 

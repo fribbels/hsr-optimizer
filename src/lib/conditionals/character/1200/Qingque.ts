@@ -31,7 +31,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const QingqueEntities = createEnum('Qingque')
 export const QingqueAbilities: AbilityKind[] = [
@@ -119,7 +119,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'basicEnhanced',
       formItem: 'switch',
       text: t('Content.basicEnhanced.text'),
-      content: t('Content.basicEnhanced.content', { talentAtkBuff: TsUtils.precisionRound(100 * talentAtkBuff) }),
+      content: t('Content.basicEnhanced.content', { talentAtkBuff: precisionRound(100 * talentAtkBuff) }),
     },
     basicEnhancedSpdBuff: {
       id: 'basicEnhancedSpdBuff',
@@ -131,7 +131,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillDmgIncreaseStacks',
       formItem: 'slider',
       text: t('Content.skillDmgIncreaseStacks.text'),
-      content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: TsUtils.precisionRound(100 * skillStackDmg) }),
+      content: t('Content.skillDmgIncreaseStacks.content', { skillStackDmg: precisionRound(100 * skillStackDmg) }),
       min: 0,
       max: 4,
     },

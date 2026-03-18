@@ -43,8 +43,7 @@ import type {
 } from 'types/store'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths } from 'lib/utils/mathUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
 
 // ─── Public API ────────────────────────────────────────────────
 
@@ -519,7 +518,7 @@ function hashRelic(relic: Relic) {
       substatValues.push(Math.floor(substat.value))
     } else {
       // Other values we match to 1 decimal point due to OCR
-      substatValues.push(TsUtils.precisionRound(truncate10ths(substat.value)))
+      substatValues.push(precisionRound(truncate10ths(substat.value)))
     }
     substatStats.push(substat.stat)
   }
@@ -612,8 +611,8 @@ function compareSameTypeSubstat(oldSubstat: Stat, newSubstat: Stat) {
     newValue = Math.floor(newSubstat.value)
   } else {
     // Other values we match to 1 decimal point due to OCR
-    oldValue = TsUtils.precisionRound(truncate10ths(oldSubstat.value))
-    newValue = TsUtils.precisionRound(truncate10ths(newSubstat.value))
+    oldValue = precisionRound(truncate10ths(oldSubstat.value))
+    newValue = precisionRound(truncate10ths(newSubstat.value))
   }
 
   if (oldValue === newValue) return 0

@@ -5,12 +5,12 @@ import type { AKeyType } from 'lib/optimization/engine/config/keys'
 import type { StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { currentLocale } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import type { ReactElement } from 'react'
 import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export function getStatConfig(stat: string): StatConfigEntry | undefined {
   return newStatsConfig[stat as AKeyType]
@@ -53,8 +53,8 @@ export function translatedLabel(stat: string, isMemo = false): string {
 }
 
 export function formatBuffValue(value: number, percent: boolean): string {
-  if (percent) return TsUtils.precisionRound(value * 100, 2).toLocaleString(currentLocale()) + ' %'
-  return TsUtils.precisionRound(value, 0).toLocaleString(currentLocale())
+  if (percent) return precisionRound(value * 100, 2).toLocaleString(currentLocale()) + ' %'
+  return precisionRound(value, 0).toLocaleString(currentLocale())
 }
 
 export function renderPill(key: string, color: string, label: string, dimmed?: boolean): ReactElement {

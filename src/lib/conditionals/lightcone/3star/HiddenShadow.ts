@@ -8,7 +8,6 @@ import {
   DamageTag,
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type Hit } from 'types/hitConditionalTypes'
@@ -18,6 +17,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.HiddenShadow')
@@ -34,7 +34,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta:
       id: 'basicAtkBuff',
       formItem: 'switch',
       text: t('Content.basicAtkBuff.text'),
-      content: t('Content.basicAtkBuff.content', { MultiplierBonus: TsUtils.precisionRound(100 * sValues[s]) }),
+      content: t('Content.basicAtkBuff.content', { MultiplierBonus: precisionRound(100 * sValues[s]) }),
     },
   }
 

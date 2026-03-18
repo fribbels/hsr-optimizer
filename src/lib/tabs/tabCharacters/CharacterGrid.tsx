@@ -44,7 +44,7 @@ import React, {
   useState,
 } from 'react'
 import type { Character, CharacterId } from 'types/character'
-import { afterPaint } from 'lib/utils/afterPaint'
+import { afterPaint } from 'lib/utils/frontendUtils'
 import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import classes from './CharacterGrid.module.css'
 

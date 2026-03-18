@@ -46,7 +46,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const DrRatioEntities = createEnum('DrRatio')
 export const DrRatioAbilities: AbilityKind[] = [
@@ -135,7 +135,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enemyDebuffStacks',
       formItem: 'slider',
       text: t('Content.enemyDebuffStacks.text'),
-      content: t('Content.enemyDebuffStacks.content', { FuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+      content: t('Content.enemyDebuffStacks.content', { FuaScaling: precisionRound(100 * fuaScaling) }),
       min: 0,
       max: debuffStacksMax,
     },

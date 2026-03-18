@@ -48,7 +48,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type CharacterConditionalFunction,
@@ -63,6 +62,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SparxieEntities = createEnum('Sparxie')
 export const SparxieAbilities: AbilityKind[] = [
@@ -148,10 +148,10 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       formItem: 'slider',
       text: t('certifiedBangerStacks.text'),
       content: t('certifiedBangerStacks.content', {
-        ebaAdjacentScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling),
-        ebaPrimaryScaling: TsUtils.precisionRound(100 * talentMainElationScaling),
-        ebaBounceScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling),
-        ultElationScaling: TsUtils.precisionRound(100 * talentUltElationScaling),
+        ebaAdjacentScaling: precisionRound(100 * talentEngagementElationScaling),
+        ebaPrimaryScaling: precisionRound(100 * talentMainElationScaling),
+        ebaBounceScaling: precisionRound(100 * talentEngagementElationScaling),
+        ultElationScaling: precisionRound(100 * talentUltElationScaling),
       }),
       min: 0,
       max: 200,
@@ -160,7 +160,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       id: 'engagementFarmingStacks',
       formItem: 'slider',
       text: t('engagementFarmingStacks.text'),
-      content: t('engagementFarmingStacks.content', { ebaBounceScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling) }),
+      content: t('engagementFarmingStacks.content', { ebaBounceScaling: precisionRound(100 * talentEngagementElationScaling) }),
       min: 0,
       max: 20,
     },
@@ -169,10 +169,10 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       formItem: 'switch',
       text: t('certifiedBanger.text'),
       content: t('certifiedBanger.content', {
-        ebaAdjacentScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling),
-        ebaPrimaryScaling: TsUtils.precisionRound(100 * talentMainElationScaling),
-        ebaBounceScaling: TsUtils.precisionRound(100 * talentEngagementElationScaling),
-        ultElationScaling: TsUtils.precisionRound(100 * talentUltElationScaling),
+        ebaAdjacentScaling: precisionRound(100 * talentEngagementElationScaling),
+        ebaPrimaryScaling: precisionRound(100 * talentMainElationScaling),
+        ebaBounceScaling: precisionRound(100 * talentEngagementElationScaling),
+        ultElationScaling: precisionRound(100 * talentUltElationScaling),
       }),
     },
     atkToElation: {

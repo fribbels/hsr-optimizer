@@ -29,11 +29,11 @@ import {
   currentLocale,
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { uuid } from 'lib/utils/miscUtils'
 import { Fragment, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styles from './BenchmarkResults.module.css'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 type BenchmarkRow = {
   key: string,
@@ -175,12 +175,12 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
   const items = useMemo(() => [
     {
       key: '100',
-      label: t('100', { Speed: TsUtils.precisionRound(spd).toLocaleString(currentLocale()) }),
+      label: t('100', { Speed: precisionRound(spd).toLocaleString(currentLocale()) }),
       children: <BenchmarkTable dataSource={dataSource100} />,
     },
     {
       key: '200',
-      label: t('200', { Speed: TsUtils.precisionRound(spd).toLocaleString(currentLocale()) }),
+      label: t('200', { Speed: precisionRound(spd).toLocaleString(currentLocale()) }),
       children: <BenchmarkTable dataSource={dataSource200} />,
     },
   ], [t, spd, dataSource100, dataSource200])

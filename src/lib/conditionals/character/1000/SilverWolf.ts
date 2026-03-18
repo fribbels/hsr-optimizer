@@ -19,7 +19,6 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -30,6 +29,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SilverWolfEntities = createEnum('SilverWolf')
 export const SilverWolfAbilities: AbilityKind[] = [
@@ -85,25 +85,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillResShredDebuff',
       formItem: 'switch',
       text: t('Content.skillResShredDebuff.text'),
-      content: t('Content.skillResShredDebuff.content', { skillResShredValue: TsUtils.precisionRound(100 * skillResShredValue) }),
+      content: t('Content.skillResShredDebuff.content', { skillResShredValue: precisionRound(100 * skillResShredValue) }),
     },
     skillWeaknessResShredDebuff: {
       id: 'skillWeaknessResShredDebuff',
       formItem: 'switch',
       text: t('Content.skillWeaknessResShredDebuff.text'),
-      content: t('Content.skillWeaknessResShredDebuff.content', { implantChance: TsUtils.precisionRound(skill(e, 85, 87)) }),
+      content: t('Content.skillWeaknessResShredDebuff.content', { implantChance: precisionRound(skill(e, 85, 87)) }),
     },
     talentDefShredDebuff: {
       id: 'talentDefShredDebuff',
       formItem: 'switch',
       text: t('Content.talentDefShredDebuff.text'),
-      content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: TsUtils.precisionRound(100 * talentDefShredDebuffValue) }),
+      content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: precisionRound(100 * talentDefShredDebuffValue) }),
     },
     ultDefShredDebuff: {
       id: 'ultDefShredDebuff',
       formItem: 'switch',
       text: t('Content.ultDefShredDebuff.text'),
-      content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: TsUtils.precisionRound(100 * ultDefShredValue) }),
+      content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: precisionRound(100 * ultDefShredValue) }),
     },
     targetDebuffs: {
       id: 'targetDebuffs',

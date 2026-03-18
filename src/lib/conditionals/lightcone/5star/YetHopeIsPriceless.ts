@@ -9,7 +9,6 @@ import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag, SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -18,6 +17,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.YetHopeIsPriceless')
@@ -37,14 +37,14 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'fuaDmgBoost',
       formItem: 'switch',
       text: t('Content.fuaDmgBoost.text'),
-      content: t('Content.fuaDmgBoost.content', { DmgBuff: TsUtils.precisionRound(sValuesFuaDmg[s] * 100) }),
+      content: t('Content.fuaDmgBoost.content', { DmgBuff: precisionRound(sValuesFuaDmg[s] * 100) }),
     },
     ultFuaDefShred: {
       lc: true,
       id: 'ultFuaDefShred',
       formItem: 'switch',
       text: t('Content.ultFuaDefShred.text'),
-      content: t('Content.ultFuaDefShred.content', { DefShred: TsUtils.precisionRound(sValuesFuaDmg[s] * 100) }),
+      content: t('Content.ultFuaDefShred.content', { DefShred: precisionRound(sValuesFuaDmg[s] * 100) }),
     },
   }
 

@@ -34,8 +34,7 @@ import {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths } from 'lib/utils/mathUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
 
 const gradeToColor = {
   5: '#efb679',
@@ -68,12 +67,12 @@ export const Renderer = {
 
   x100Tenths: <T,>(x: ValueFormatterParams<T, number>) => {
     if (x?.value == null) return ''
-    return localeNumber_0(Math.floor(TsUtils.precisionRound(x.value * 100) * 10) / 10)
+    return localeNumber_0(Math.floor(precisionRound(x.value * 100) * 10) / 10)
   },
 
   tenths: <T,>(x: ValueFormatterParams<T, number>) => {
     if (x?.value == null) return ''
-    return localeNumber_0(Math.floor(TsUtils.precisionRound(x.value) * 10) / 10)
+    return localeNumber_0(Math.floor(precisionRound(x.value) * 10) / 10)
   },
 
   relicSet: (x: CustomCellRendererProps<OptimizerDisplayDataStatSim, number>) => {
@@ -191,7 +190,7 @@ export const Renderer = {
   hideZeroes10thsRelicTabSpd: (x: ValueFormatterParams<ScoredRelic, number>) => {
     if (!x.value) return ''
 
-    const value = TsUtils.precisionRound(Math.floor(x.value * 10) / 10)
+    const value = precisionRound(Math.floor(x.value * 10) / 10)
     return x.data?.verified ? localeNumber_0(value) : localeNumber(value)
   },
 

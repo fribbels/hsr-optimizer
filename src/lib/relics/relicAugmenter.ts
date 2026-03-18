@@ -8,7 +8,7 @@ import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import type { Relic, UnaugmentedRelic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
 import { uuid } from 'lib/utils/miscUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export type AugmentedStats = Record<StatsValues, number> & {
   mainStat: string,
@@ -35,7 +35,7 @@ export const RelicAugmenter = {
 
     for (const substat of relic.substats) {
       const stat = substat.stat
-      substat.value = TsUtils.precisionRound(substat.value)
+      substat.value = precisionRound(substat.value)
       substat.value = RelicRollFixer.fixSubStatValue(stat, substat.value, relic.grade)
       augmentedStats[stat] = substat.value
     }

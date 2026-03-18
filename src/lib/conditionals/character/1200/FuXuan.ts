@@ -25,7 +25,6 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -39,6 +38,7 @@ import {
 } from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 export const FuXuanEntities = createEnum('FuXuan')
 export const FuXuanAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -91,15 +91,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentActive',
       formItem: 'switch',
       text: t('Content.talentActive.text'),
-      content: t('Content.talentActive.content', { talentDmgReductionValue: TsUtils.precisionRound(100 * talentDmgReductionValue) }),
+      content: t('Content.talentActive.content', { talentDmgReductionValue: precisionRound(100 * talentDmgReductionValue) }),
     },
     skillActive: {
       id: 'skillActive',
       formItem: 'switch',
       text: t('Content.skillActive.text'),
       content: t('Content.skillActive.content', {
-        skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue),
-        skillCrBuffValue: TsUtils.precisionRound(100 * skillCrBuffValue),
+        skillHpBuffValue: precisionRound(100 * skillHpBuffValue),
+        skillCrBuffValue: precisionRound(100 * skillCrBuffValue),
       }),
     },
     e6TeamHpLostPercent: {
@@ -121,7 +121,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'teammateHPValue',
       formItem: 'slider',
       text: t('TeammateContent.teammateHPValue.text'),
-      content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: TsUtils.precisionRound(100 * skillHpBuffValue) }),
+      content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: precisionRound(100 * skillHpBuffValue) }),
       min: 0,
       max: 10000,
     },

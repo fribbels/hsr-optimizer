@@ -39,7 +39,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -52,6 +51,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const AcheronEntities = createEnum('Acheron')
 export const AcheronAbilities: AbilityKind[] = [
@@ -117,8 +117,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('Content.crimsonKnotStacks.text'),
       content: t('Content.crimsonKnotStacks.content', {
-        RainbladeScaling: TsUtils.precisionRound(100 * ultRainbladeScaling),
-        CrimsonKnotScaling: TsUtils.precisionRound(100 * ultCrimsonKnotScaling),
+        RainbladeScaling: precisionRound(100 * ultRainbladeScaling),
+        CrimsonKnotScaling: precisionRound(100 * ultCrimsonKnotScaling),
       }),
       min: 0,
       max: maxCrimsonKnotStacks,

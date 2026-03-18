@@ -24,7 +24,7 @@ import { useTranslation } from 'react-i18next'
 import { type TraceNode } from 'types/metadata'
 import classes from './StatTracesDrawer.module.css'
 import { isFlat } from 'lib/utils/statUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const TraceTreeNode = ({
   node,
@@ -69,7 +69,7 @@ const TraceTreeNode = ({
             {`${
               isFlat(node.stat)
                 ? node.value
-                : TsUtils.precisionRound(node.value * 100) + '%'
+                : precisionRound(node.value * 100) + '%'
             } - ${tCommon(`Stats.${node.stat}`)}`}
           </div>
         </Flex>

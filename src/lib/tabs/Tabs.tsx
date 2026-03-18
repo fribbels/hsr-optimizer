@@ -12,7 +12,7 @@ import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 import { WebgpuTab } from 'lib/tabs/tabWebgpu/WebgpuTab'
-import { afterPaint } from 'lib/utils/afterPaint'
+import { afterPaint } from 'lib/utils/frontendUtils'
 import { workerPool } from 'lib/worker/workerPool'
 import { TabVisibilityContext, type TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {

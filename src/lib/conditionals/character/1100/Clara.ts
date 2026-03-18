@@ -45,7 +45,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const ClaraEntities = createEnum('Clara')
 export const ClaraAbilities: AbilityKind[] = [
@@ -115,15 +115,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
-        ultFuaExtraScaling: TsUtils.precisionRound(100 * ultFuaExtraScaling),
-        ultDmgReductionValue: TsUtils.precisionRound(100 * ultDmgReductionValue),
+        ultFuaExtraScaling: precisionRound(100 * ultFuaExtraScaling),
+        ultDmgReductionValue: precisionRound(100 * ultDmgReductionValue),
       }),
     },
     talentEnemyMarked: {
       id: 'talentEnemyMarked',
       formItem: 'switch',
       text: t('Content.talentEnemyMarked.text'),
-      content: t('Content.talentEnemyMarked.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+      content: t('Content.talentEnemyMarked.content', { skillScaling: precisionRound(100 * skillScaling) }),
     },
     e2UltAtkBuff: {
       id: 'e2UltAtkBuff',

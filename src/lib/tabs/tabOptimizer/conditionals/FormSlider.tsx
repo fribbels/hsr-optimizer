@@ -4,7 +4,6 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { WithPopover } from 'lib/ui/WithPopover'
-import { TsUtils } from 'lib/utils/TsUtils'
 import type {
   ComponentProps,
   ComponentType,
@@ -13,6 +12,7 @@ import {
   useEffect,
   useState,
 } from 'react'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const inputWidth = 61
 const numberWidth = 55
@@ -79,7 +79,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
           handleChange(newValue / multiplier)
         }
       }}
-      value={TsUtils.precisionRound((displayValue ?? 0) * multiplier)}
+      value={precisionRound((displayValue ?? 0) * multiplier)}
       suffix={symbol || undefined}
     />
   )
@@ -95,7 +95,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
         marginBottom: 0,
         marginLeft: 1,
       }}
-      label={(val) => `${TsUtils.precisionRound((val ?? 0) * multiplier)}${symbol}`}
+      label={(val) => `${precisionRound((val ?? 0) * multiplier)}${symbol}`}
       disabled={disabled}
       onChange={(newValue) => {
         setDragState(newValue)
@@ -130,7 +130,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
             textAlign: 'center',
           }}
         >
-          {`${TsUtils.precisionRound(max * multiplier)}${symbol}`}
+          {`${precisionRound(max * multiplier)}${symbol}`}
         </Text>
       </Flex>
     </Flex>

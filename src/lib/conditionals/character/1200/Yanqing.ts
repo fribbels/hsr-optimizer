@@ -27,7 +27,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -56,6 +55,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const YanqingEntities = createEnum('Yanqing')
 export const YanqingAbilities: AbilityKind[] = [
@@ -107,16 +107,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultBuffActive',
       formItem: 'switch',
       text: t('Content.ultBuffActive.text'),
-      content: t('Content.ultBuffActive.content', { ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue) }),
+      content: t('Content.ultBuffActive.content', { ultCdBuffValue: precisionRound(100 * ultCdBuffValue) }),
     },
     soulsteelBuffActive: {
       id: 'soulsteelBuffActive',
       formItem: 'switch',
       text: t('Content.soulsteelBuffActive.text'),
       content: t('Content.soulsteelBuffActive.content', {
-        talentCdBuffValue: TsUtils.precisionRound(100 * talentCdBuffValue),
-        talentCrBuffValue: TsUtils.precisionRound(100 * talentCrBuffValue),
-        ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue),
+        talentCdBuffValue: precisionRound(100 * talentCdBuffValue),
+        talentCrBuffValue: precisionRound(100 * talentCrBuffValue),
+        ultCdBuffValue: precisionRound(100 * ultCdBuffValue),
       }),
     },
     critSpdBuff: {

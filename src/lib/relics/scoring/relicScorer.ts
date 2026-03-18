@@ -37,10 +37,6 @@ export class ScoringCache {
     return meta
   }
 
-  getOptimalScore(part: Parts, mainstat: MainStats, id: CharacterId): number {
-    return this._getOptimalWithMeta(part, mainstat, this.getMeta(id))
-  }
-
   private _getOptimalWithMeta(part: Parts, mainstat: MainStats, meta: ScorerMetadata): number {
     if (meta.greedyHash !== this._optimalHash) {
       this._optimalScores = {}
@@ -150,17 +146,8 @@ export class ScoringCache {
  * Also supports `ReturnType<typeof RelicScorer.scoreRelicPotential>` type extraction.
  */
 export class RelicScorer extends ScoringCache {
-  // Alias for backward compatibility with code using getRelicScoreMeta
-  getRelicScoreMeta(id: CharacterId): ScorerMetadata {
-    return this.getMeta(id)
-  }
-
   static scoreCurrentRelic(relic: Relic, id: CharacterId) {
     return new RelicScorer().getCurrentRelicScore(relic, id)
-  }
-
-  static scoreFutureRelic(relic: Relic, characterId: CharacterId, withMeta: boolean = false) {
-    return new RelicScorer().getFutureRelicScore(relic, characterId, withMeta)
   }
 
   static scoreCharacterWithRelics(character: Character, relics: (Relic | undefined)[]) {

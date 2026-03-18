@@ -172,17 +172,6 @@ export function createEnum<T extends string>(...values: T[]) {
 }
 
 
-export function teammateConditionalActive(action: OptimizerAction, teammateId: string, conditionalId: string) {
-  const teammateAction = [
-    action.teammate0,
-    action.teammate1,
-    action.teammate2,
-  ].find((x) => x && x.actorId == teammateId)
-  if (!teammateAction) return false
-
-  return teammateAction.characterConditionals[conditionalId]
-}
-
 // Returns the entity index of the memosprite, or -1 if not found
 export function findMemospriteIndex(action: OptimizerAction): number {
   const config = action.config

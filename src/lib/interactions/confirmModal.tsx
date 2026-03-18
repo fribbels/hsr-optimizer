@@ -1,11 +1,10 @@
 import { Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import React, { createContext, useEffect, useMemo, useState } from 'react'
 
 type ConfirmModalOptions = {
   content: React.ReactNode
   width?: string | number
-  okText?: string
   closeOnClickOutside?: boolean
 }
 
@@ -14,12 +13,6 @@ type ConfirmModalContextType = {
 }
 
 const ConfirmModalContext = createContext<ConfirmModalContextType | null>(null)
-
-export function useConfirmModal() {
-  const context = useContext(ConfirmModalContext)
-  if (!context) throw new Error('useConfirmModal must be used within ConfirmModalProvider')
-  return context
-}
 
 // Module-level ref for imperative access (replaces window.modalApi)
 let globalConfirmModal: ConfirmModalContextType | null = null

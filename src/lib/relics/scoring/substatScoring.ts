@@ -40,16 +40,6 @@ export function mainStatWeight(part: Parts, mainStat: MainStats, meta: ScorerMet
   return meta.stats[mainStat] ?? 0
 }
 
-export function mainStatDeduction(
-  part: Parts,
-  mainStat: MainStats,
-  meta: ScorerMetadata,
-  maxMainstat: number,
-): number {
-  if (!hasMainStat(part)) return 0
-  return (mainStatWeight(part, mainStat, meta) - 1) * maxMainstat
-}
-
 export function normalizeDisplayScore(rawScore: number, idealScore: number, bonus: number): number {
   return rawScore / idealScore * 100 * PERCENT_TO_SCORE + bonus
 }

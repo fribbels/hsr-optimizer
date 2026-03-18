@@ -45,13 +45,14 @@ const dotHitSchema = schemaBuilder<
 
 const critHitSchema = schemaBuilder<
   CritHitDefinition,
-  Pick<CritHitDefinition, 'damageFunctionType' | 'directHit' | 'outputTag'>,
+  Pick<CritHitDefinition, 'damageFunctionType' | 'directHit' | 'outputTag' | 'skillPointsUsed'>,
   Pick<CritHitDefinition, 'damageElement'>
 >({
   defaults: {
     damageFunctionType: DamageFunctionType.Crit,
     directHit: true,
     outputTag: OutputTag.DAMAGE,
+    skillPointsUsed: 0,
   },
   required: ['damageElement'],
 })
@@ -94,6 +95,7 @@ HitDefinitionBuilder.standardBasic = () =>
     damageType: DamageTag.BASIC,
     outputTag: OutputTag.DAMAGE,
     directHit: true,
+    skillPointsUsed: 0,
   })
 
 HitDefinitionBuilder.standardSkill = () =>
@@ -103,6 +105,7 @@ HitDefinitionBuilder.standardSkill = () =>
     damageType: DamageTag.SKILL,
     outputTag: OutputTag.DAMAGE,
     directHit: true,
+    skillPointsUsed: 1,
   })
 
 HitDefinitionBuilder.standardUlt = () =>
@@ -112,6 +115,7 @@ HitDefinitionBuilder.standardUlt = () =>
     damageType: DamageTag.ULT,
     outputTag: OutputTag.DAMAGE,
     directHit: true,
+    skillPointsUsed: 0,
   })
 
 HitDefinitionBuilder.standardFua = () =>
@@ -121,6 +125,7 @@ HitDefinitionBuilder.standardFua = () =>
     damageType: DamageTag.FUA,
     outputTag: OutputTag.DAMAGE,
     directHit: true,
+    skillPointsUsed: 0,
   })
 
 HitDefinitionBuilder.standardBreak = (e: ElementTag) =>

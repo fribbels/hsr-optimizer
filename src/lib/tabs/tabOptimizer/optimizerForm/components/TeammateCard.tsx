@@ -17,9 +17,12 @@ import {
   SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
 } from 'lib/constants/constants'
-import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
+import {
+  teammateOrnamentOptions,
+  teammateRelicOptions,
+} from 'lib/sets/setConfigRegistry'
 import DB from 'lib/state/db'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'

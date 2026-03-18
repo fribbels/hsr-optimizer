@@ -19,7 +19,7 @@ import {
 } from 'recharts'
 
 export const DAMAGE_SPLITS_CHART_WIDTH = 730
-const BAR_HEIGHT = 65
+const BAR_HEIGHT = 48
 const CHART_PADDING = 80
 
 type FlattenedBar = {
@@ -57,14 +57,13 @@ function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: Flatten
       row[key] = seg.damage
 
       const isFirst = segIdx === 0
-      const isLast = segIdx === entry.segments.length - 1
       const color = getDamageTypeColor(seg.damageType)
       bars.push({
         key,
         damageType: seg.damageType,
         label: seg.label,
         color,
-        shape: GapBar(color, isFirst, isLast),
+        shape: GapBar(color, isFirst),
       })
 
       if (!seenDamageTypes.has(seg.damageType)) {
@@ -107,10 +106,10 @@ function renderBarLabel(props: LabelProps) {
   )
 }
 
-function GapBar(color: string, isFirst: boolean, isLast: boolean) {
+function GapBar(color: string, isFirst: boolean) {
   return (props: { x: number; y: number; width: number; height: number }) => {
     if (props.width <= 0) return null
-    if (isFirst || isLast) {
+    if (isFirst) {
       return (
         <rect
           x={props.x}
@@ -191,8 +190,8 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
       <BarChart
         layout='vertical'
         data={rows}
-        margin={{ top: 15, right: 60, bottom: 20, left: 30 }}
-        barCategoryGap='25%'
+        margin={{ top: 15, right: 60, bottom: 20, left: 25 }}
+        barCategoryGap='10%'
         width={DAMAGE_SPLITS_CHART_WIDTH}
         height={chartHeight}
       >
@@ -208,7 +207,7 @@ export function DamageSplitsChart(props: { data: DamageSplitEntry[] }) {
           axisLine={false}
           tickLine={false}
           tick={dimNumberLeftTick}
-          tickMargin={10}
+          tickMargin={15}
           width={80}
         />
         <Tooltip

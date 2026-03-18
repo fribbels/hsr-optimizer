@@ -1,4 +1,5 @@
 
+import { Buff } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SimulationFlags } from 'lib/scoring/simScoringUtils'
@@ -58,10 +59,22 @@ export type PrimaryActionStats = {
 
 export type ActionDamage = Partial<Record<AbilityKind, number>>
 
+export type ActionBuffSnapshot = {
+  buffs: Buff[]
+  buffsMemo: Buff[]
+}
+
+export type RotationBuffStep = {
+  actionType: string
+  snapshot: ActionBuffSnapshot
+}
+
 export type SimulateBuildResult = {
   x: ComputedStatsContainer
   primaryActionStats: PrimaryActionStats
   actionDamage: ActionDamage
+  actionBuffSnapshots?: Record<string, ActionBuffSnapshot>
+  rotationBuffSteps?: RotationBuffStep[]
 }
 
 export type RunStatSimulationsResult = {
@@ -72,6 +85,8 @@ export type RunStatSimulationsResult = {
   key?: string,
   primaryActionStats?: PrimaryActionStats,
   actionDamage?: ActionDamage,
+  actionBuffSnapshots?: Record<string, ActionBuffSnapshot>,
+  rotationBuffSteps?: RotationBuffStep[],
 }
 
 export type SimulationRelic = {

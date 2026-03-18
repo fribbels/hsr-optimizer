@@ -15,6 +15,11 @@ import {
  * Helper methods used in conditional files
  */
 
+export type Mutual<S, T> = {
+  [K in keyof S]: K extends keyof T ? S[K] extends T[K] ? T[K] : never
+    : never
+}
+
 export type ContentDefinition<T extends Record<string, unknown>> = {
   [K in keyof T]:
     & ContentItem
@@ -38,6 +43,17 @@ export const tripleAbility = () => {
   return function(eidolon: number, value1: number, value2: number, value3: number): number {
     if (eidolon >= 5) return value3
     if (eidolon >= 3) return value2
+    return value1
+  }
+}
+
+// Flexible helper for UNIQUE ability eidolon scaling.
+// Single breakpoint: uniqueAbility(5) → call as unique(e, base, upgraded)
+// Dual breakpoints:  uniqueAbility(3, 5) → call as unique(e, base, mid, max)
+export const uniqueAbility = (breakpoint1: number, breakpoint2?: number) => {
+  return function(eidolon: number, value1: number, value2: number, value3?: number): number {
+    if (breakpoint2 !== undefined && value3 !== undefined && eidolon >= breakpoint2) return value3
+    if (eidolon >= breakpoint1) return value2
     return value1
   }
 }
@@ -121,6 +137,20 @@ export const AbilityEidolon = {
     talent: ability(5),
     elationSkill: tripleAbility(),
   },
+  ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5: {
+    basic: ability(3),
+    skill: ability(5),
+    ult: ability(3),
+    talent: ability(5),
+    elationSkill: tripleAbility(),
+  },
+  SKILL_TALENT_ELATION_SKILL_3_ULT_BASIC_ELATION_SKILL_5: {
+    basic: ability(5),
+    skill: ability(3),
+    ult: ability(5),
+    talent: ability(3),
+    elationSkill: tripleAbility(),
+  },
 }
 
 export function countTeamPath(context: OptimizerContext, path: PathName) {
@@ -193,7 +223,6 @@ export function teammateConditionalActive(action: OptimizerAction, teammateId: s
 
   return teammateAction.characterConditionals[conditionalId]
 }
-
 
 // Returns the entity index of the memosprite, or -1 if not found
 export function findMemospriteIndex(action: OptimizerAction): number {

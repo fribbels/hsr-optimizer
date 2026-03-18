@@ -129,6 +129,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Lightning)
               .atkScaling(skillScaling)
               .toughnessDmg(20)
+              .skillPointsUsed(0)
               .build(),
           ],
         },
@@ -278,7 +279,6 @@ const display = {
 
 export const Arlan: CharacterConfig = {
   id: '1008',
-  info: {},
   display,
   conditionals,
   get scoring() {

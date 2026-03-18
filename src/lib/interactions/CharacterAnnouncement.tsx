@@ -27,14 +27,16 @@ export function CharacterAnnouncement(props: { characterId: string, asyncSimScor
     }
   }
 
-  if (messages.length == 0) {
+  const uniqueMessages = [...new Set(messages)]
+
+  if (uniqueMessages.length == 0) {
     return <></>
   }
 
   const render: ReactElement[] = []
 
-  for (let i = 0; i < messages.length; i++) {
-    const message = messages[i]
+  for (let i = 0; i < uniqueMessages.length; i++) {
+    const message = uniqueMessages[i]
     render.push(
       <Alert
         message={message}

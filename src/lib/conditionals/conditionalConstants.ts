@@ -29,6 +29,7 @@ export enum AbilityType {
   MEMO_SKILL = 64,
   MEMO_TALENT = 128,
   ELATION_SKILL = 256,
+  UNIQUE = 512,
 }
 
 export const NONE_DMG_TYPE: number = 0

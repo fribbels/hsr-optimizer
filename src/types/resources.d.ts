@@ -231,6 +231,7 @@ interface Resources {
             "MEMO_SKILL": "SKILLᴹ DMG",
             "MEMO_TALENT": "TALENTᴹ DMG",
             "ELATION_SKILL": "ELATION SKILL DMG",
+            "UNIQUE": "UNIQUE DMG",
             "COMBO": "COMBO DMG"
           }
         },
@@ -481,6 +482,7 @@ interface Resources {
       "Memo_Skill": "Skillᴹ DMG",
       "Memo_Talent": "Talentᴹ DMG",
       "Elation_Skill": "Elation Skill DMG",
+      "Unique": "Unique DMG",
       "Dot": "Dot DMG",
       "Break": "Break DMG",
       "CV": "CV"
@@ -608,6 +610,18 @@ interface Resources {
           }
         }
       },
+      "DazzledByAFloweryWorld": {
+        "Content": {
+          "spConsumedStacks": {
+            "text": "DEF PEN stacks",
+            "content": "For every 1 Skill Point the wearer consumes, enables the Elation DMG dealt by this unit to ignore {{defShred}}% of enemy targets' DEF, stacking up to 4 times."
+          },
+          "elationBuff": {
+            "text": "Elation buff",
+            "content": "If 4 or more Skill Points are consumed in the same turn, the wearer gains \"Stream Promo,\" which increases all allies' Elation by {{elationBuff}}%."
+          }
+        }
+      },
       "EarthlyEscapade": {
         "Content": {
           "maskActive": {
@@ -621,6 +635,14 @@ interface Resources {
           "postUltSpdBuff": {
             "text": "Post Ult SPD buff",
             "content": "After the wearer uses an attack, for each different enemy target the wearer hits, regenerates {{EnergyRecovered}} Energy. Each attack can regenerate Energy up to 3 times this way. After the wearer uses their Ultimate, all allies gain {{SpdBuff}} SPD for 1 turn."
+          }
+        }
+      },
+      "ElationBrimmingWithBlessings": {
+        "Content": {
+          "elationBuff": {
+            "text": "Elation buff",
+            "content": "After the wearer uses their Skill or Ultimate on one ally character, increases the target's Elation stat by {{elationBuff}}% for 2 turns."
           }
         }
       },
@@ -944,6 +966,14 @@ interface Resources {
           }
         }
       },
+      "TheFinaleOfALie": {
+        "Content": {
+          "umbraDevourerBuff": {
+            "text": "Umbra Devourer",
+            "content": "At the start of battle or for every 4 instances of Follow-Up ATK the wearer uses, the wearer gains \"Umbra Devourer,\" lasting for 3 turns. While the wearer has \"Umbra Devourer,\" increases ATK by {{atkBuff}}% and increases the DMG taken by all enemies by {{vulnerability}}%."
+          }
+        }
+      },
       "TheHellWhereIdealsBurn": {
         "Content": {
           "spAtkBuff": {
@@ -1025,6 +1055,14 @@ interface Resources {
           "maxStacksBasicDmgBoost": {
             "text": "Stacked Basic DMG boost",
             "content": "After the wearer and the wearer's memosprite attacks, the wearer gains 1 stack of \"Brocade.\"::BR:: Each stack of \"Brocade\" increases the wearer and their memosprite's CRIT DMG by {{CdBuff}}%, stacking up to 6 times.::BR:: When reaching maximum stacks, each \"Brocade\" stack will additionally increase Basic ATK DMG dealt by {{DmgBuff}}%."
+          }
+        }
+      },
+      "WhenSheDecidedToSee": {
+        "Content": {
+          "greatFortune": {
+            "text": "Team buffs",
+            "content": "When the wearer enters combat or uses Ultimate on an ally target, the wearer gains \"Great Fortune\" for 3 turns. While the wearer holds \"Great Fortune,\" all allies' CRIT Rate increases by {{critRateBuff}}%, CRIT DMG increases by {{critDamageBuff}}%, and the wearer's Energy Regeneration Rate increases by {{errBuff}}%."
           }
         }
       },
@@ -1288,6 +1326,14 @@ interface Resources {
           }
         }
       },
+      "MushyShroomysAdventure": {
+        "Content": {
+          "elationVulnerability": {
+            "text": "Elation vulnerability",
+            "content": "When the wearer uses an Elation Skill, increases Elation DMG taken by all enemies by {{vulnerability}}% for 2 turns."
+          }
+        }
+      },
       "NinjaRecordSoundHunt": {
         "Content": {
           "cdBuff": {
@@ -1496,6 +1542,14 @@ interface Resources {
           }
         }
       },
+      "TodaysGoodLuck": {
+        "Content": {
+          "elationStacks": {
+            "text": "Elation buff stacks",
+            "content": "When the wearer uses an Elation Skill, increases Elation by {{elationBuff}}%, stacking up to 2 times."
+          }
+        }
+      },
       "UnderTheBlueSky": {
         "Content": {
           "defeatedEnemyCrBuff": {
@@ -1616,6 +1670,14 @@ interface Resources {
           }
         }
       },
+      "LingeringTear": {
+        "Content": {
+          "cdBuff": {
+            "text": "Punchline CD buff",
+            "content": "When the Punchline held is 10 or more, the wearer's CRIT DMG increases by {{cdBuff}}%."
+          }
+        }
+      },
       "Loop": {
         "Content": {
           "enemySlowedDmgBuff": {
@@ -1661,6 +1723,14 @@ interface Resources {
           "enemyHp50Buff": {
             "text": "Enemy HP > 50% DMG buff",
             "content": "The wearer deals {{DmgBuff}}% more DMG to enemy targets whose HP percentage is greater than 50%."
+          }
+        }
+      },
+      "Sneering": {
+        "Content": {
+          "elationBuff": {
+            "text": "Elation Skill buff",
+            "content": "When Aha Instant is activated, the wearer's Elation increases by {{elationBuff}}%, lasting until Aha Instant ends."
           }
         }
       },
@@ -1831,6 +1901,42 @@ interface Resources {
           "selfCurrentHpPercent": {
             "text": "Self current HP%",
             "content": "Based on Arlan's current missing HP percentage, gains DMG bonus, up to a maximum increase of {{talentMissingHpDmgBoostMax}}% DMG dealt by Arlan."
+          }
+        }
+      },
+      "Ashveil": {
+        "Content": {
+          "baitActive": {
+            "text": "Bait active",
+            "content": "When \"Bait\" exists on the field, all enemies' DEF is reduced by {{baitActiveDefPen}}%."
+          },
+          "targetBait": {
+            "text": "Target is Bait",
+            "content": "If the target of Ashveil's skill is already marked as \"Bait,\" additionally deals Lightning DMG equal to {{baitHitAdditionalScaling}}% of Ashveil's ATK to the target"
+          },
+          "enhancedFua": {
+            "text": "Enhanced Fua",
+            "content": "After casting his ultimate, Ashveil will launch an enhanced Follow-Up Attack. ::BR:: When \"Gluttony\" is in possession, for every 4 stacks of \"Gluttony\" consumed, this Attack additionally deals 1 instance of Lightning DMG equal to {{enhancedFuaGluttonyScaling}}% of Ashveil's ATK."
+          },
+          "gluttonyStacks": {
+            "text": "Gluttony stacks",
+            "content": "After casting his ultimate, Ashveil will launch an enhanced Follow-Up Attack. ::BR:: When \"Gluttony\" is in possession, for every 4 stacks of \"Gluttony\" consumed, this Attack additionally deals 1 instance of Lightning DMG equal to {{enhancedFuaGluttonyScaling}}% of Ashveil's ATK. ::BR:: A4: DMG dealt by Ashveil's Follow-Up ATK increases by 80%, and for every 1 stacks of \"Gluttony\" in possession, DMG dealt by Follow-Up ATK additionally increases by 10%."
+          },
+          "e1DmgVulnerability": {
+            "text": "E1 DMG vulnerability",
+            "content": "While Ashveil is on the field, increases DMG taken by all enemies by 24%. When an enemy target's current HP percentage is 50% or lower, the DMG they take increases to 36%."
+          },
+          "e1TargetHpBelow50": {
+            "text": "E1 target HP ≤ 50%",
+            "content": "While Ashveil is on the field, increases DMG taken by all enemies by 24%. When an enemy target's current HP percentage is 50% or lower, the DMG they take increases to 36%."
+          },
+          "e4AtkBuff": {
+            "text": "E4 ATK buff",
+            "content": "When Ashveil uses his Ultimate, increases ATK by 40% for 3 turns."
+          },
+          "e6GluttonyGainedStacks": {
+            "text": "E6 Gluttony stacks",
+            "content": "While \"Bait\" exists on the field, reduces all enemies' All-Type RES by 20%. For each stack of \"Gluttony\" Ashveil has gained, his DMG dealt increases by 4.0%."
           }
         }
       },
@@ -3586,6 +3692,54 @@ interface Resources {
           }
         }
       },
+      "Sparxie": {
+        "Content": {
+          "enhancedBasic": {
+            "text": "Enhanced Basic",
+            "content": "Sparxie's skill allows her to enhance her basic attack up to 20 times. When enhanced, the basic attack will become blast and additionally deals Elation damage based on the number of enhancements"
+          },
+          "punchlineStacks": {
+            "text": "Punchline stacks",
+            "content": "A6: For every 1 Punchline currently owned, increases all allies' CRIT DMG by 8%, up to a max increase of 80%. ::BR:: E1: For every 1 Punchline owned, increases All-Type RES PEN for all allies by 1.5%, up to a max increase of 15%. ::BR:: E6: For every 1 Punchline taken into account, the number of additional DMG instances dealt by the Elation Skill increases by 1, up to a max of 40."
+          },
+          "certifiedBangerStacks": {
+            "text": "Certified Banger stacks",
+            "content": "While Sparxie holds \"Certified Banger\": ::BR:: Using Enhanced Basic ATK deals {{ebaPrimaryScaling}}% Fire Elation DMG to one designated enemy, and {{ebaAdjacentScaling}}% Fire Elation DMG to their adjacent targets. Additionally, for every 1 instance of \"Engagement Farming\" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target. ::BR:: Using Ultimate deals {{ultElationScaling}}% Fire Elation DMG to all enemies."
+          },
+          "engagementFarmingStacks": {
+            "text": "Engagement Farming stacks",
+            "content": "For every 1 instance of \"Engagement Farming\" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target."
+          },
+          "certifiedBanger": {
+            "text": "Certified Banger",
+            "content": "While Sparxie holds \"Certified Banger\": ::BR:: Using Enhanced Basic ATK deals {{ebaPrimaryScaling}}% Fire Elation DMG to one designated enemy, and {{ebaAdjacentScaling}}% Fire Elation DMG to their adjacent targets. Additionally, for every 1 instance of \"Engagement Farming\" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target. ::BR:: Using Ultimate deals {{ultElationScaling}}% Fire Elation DMG to all enemies."
+          },
+          "atkToElation": {
+            "text": "ATK to Elation conversion",
+            "content": "For every 100 of Sparxie's ATK that exceeds 2000, increases this unit's Elation by 5.0%, up to a maximum increase of 80.0%."
+          },
+          "punchlineCritDmg": {
+            "text": "Punchline CD",
+            "content": "For every 1 Punchline currently owned, increases all allies' CRIT DMG by 8%, up to a max increase of 80%."
+          },
+          "e1PunchlineResPen": {
+            "text": "E1 RES PEN",
+            "content": "For every 1 Punchline owned, increases All-Type RES PEN for all allies by 1.5%, up to a max increase of 15%."
+          },
+          "e2ThrillStacks": {
+            "text": "E2 CD stacks",
+            "content": "For every 1 \"Thrill\" consumed, increases this unit's CRIT DMG by 10%, lasting for 2 turns and stacking up to 4 times."
+          },
+          "e4UltElation": {
+            "text": "E4 Ult Elation buff",
+            "content": "When using Ultimate, additionally gains 5 Punchline and increases this unit's Elation by 36% for 3 turns."
+          },
+          "e6ResPen": {
+            "text": "E6 RES PEN",
+            "content": "Increases All-Type RES PEN by 20%."
+          }
+        }
+      },
       "Sunday": {
         "Content": {
           "skillDmgBuff": {
@@ -3984,6 +4138,68 @@ interface Resources {
           }
         }
       },
+      "Yaoguang": {
+        "Content": {
+          "punchlineStacks": {
+            "text": "Punchline stacks",
+            "content": "Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills."
+          },
+          "certifiedBangerStacks": {
+            "text": "Certified Banger stacks",
+            "content": "Select the number of Certified Banger Yao Guang possesses. This is used to calculate the damage of \"Great Boon\"."
+          },
+          "skillZoneActive": {
+            "text": "Skill Zone active",
+            "content": "While the Zone is active, increases all allies' Elation by an amount equal to {{elationConversion}}% of Yao Guang's Elation."
+          },
+          "ultResPenBuff": {
+            "text": "Ult RES PEN buff",
+            "content": "After casting her ultimate, Yaoguang increases all allies' All-Type RES PEN by {{resPen}}% for 3 turns."
+          },
+          "certifiedBanger": {
+            "text": "Certified Banger",
+            "content": "While Yao Guang holds \"Certified Banger\": ::BR:: After an ally target uses an attack, triggers the \"Great Boon\" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target. ::BR:: If this attack consumes Skill Points, then additionally triggers \"Great Boon\" 1 time. ::BR:: When triggering the \"Great Boon\" effect, if the attacker's Elation is lower than that of Yao Guang, then this instance of Elation DMG will take Yao Guang's Elation into calculation."
+          },
+          "yaoguangAhaInstant": {
+            "text": "Ult Aha Instant",
+            "content": "Damage calculations for Elation skills will be done with a fixed {{punchlineCount}} punchline taken into account. ::BR:: E1: In Aha's extra turn triggered by Ultimate, the fixed amount of Punchline taken into account increases to 40. ::BR:: E4: In Aha's extra turn triggered by Yao Guang's Ultimate, the DMG dealt by all ally characters' Elation Skill becomes 150% of the original DMG."
+          },
+          "woesWhisperVulnerability": {
+            "text": "Woe's Whisper vulnerability",
+            "content": "Enemy targets under the \"Woe's Whisper\" state take {{woeWhisperVulnerability}}% increased DMG."
+          },
+          "traceSpdElation": {
+            "text": "SPD Elation buff",
+            "content": "When Yao Guang's SPD is 120 or higher, increases this unit's Elation by 30%. For every 1 SPD exceeded, increases this unit's Elation by 1%. Up to a max of 200 excess SPD can be taken into account for this effect."
+          },
+          "e1DefPen": {
+            "text": "E1 Elation DEF PEN",
+            "content": "When dealing Elation DMG, all ally targets ignore 20% of the target's DEF."
+          },
+          "e2ZoneSpdBuff": {
+            "text": "E2 Zone SPD buff",
+            "content": "While the Zone is active, increases all ally targets' SPD by 12%, and additionally increases Elation by 16%."
+          },
+          "e6Merrymaking": {
+            "text": "E6 Merrymaking",
+            "content": "All ally targets' Elation DMG merrymakes by 25%. Increases the DMG multiplier of Yao Guang's Elation Skill by 100% of its original multiplier."
+          }
+        },
+        "TeammateContent": {
+          "consumesSkillPoints": {
+            "text": "Consumes skill points",
+            "content": "Whether or not the DPS consumed skill points in this attack. Triggers \"Great Boon\" 1 additional time. ::BR:: After an ally target uses an attack, triggers the \"Great Boon\" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target. If this attack consumes Skill Points, then additionally triggers \"Great Boon\" 1 time."
+          },
+          "teammateCertifiedBangerStacks": {
+            "text": "Yao Guang's Certified Banger stacks",
+            "content": "Select the number of Certified Banger the character possesses. This is used to calculate damage of \"Great boon\"."
+          },
+          "teammateElationValue": {
+            "text": "Yao Guang's Elation",
+            "content": "Yao Guang's combat Elation. Used to calculate damage dealt by \"Great Boon\" ::BR:: When triggering the \"Great Boon\" effect, if the attacker's Elation is lower than that of Yao Guang, then this instance of Elation DMG will take Yao Guang's Elation into calculation."
+          }
+        }
+      },
       "Yukong": {
         "Content": {
           "teamImaginaryDmgBoost": {
@@ -4057,8 +4273,8 @@ interface Resources {
         "LongName": "Himeko"
       },
       "1004": {
-        "Name": "Welt",
-        "LongName": "Welt"
+        "Name": "⚰️ Welt",
+        "LongName": "⚰️ Welt"
       },
       "1005": {
         "Name": "⚰️ Kafka",
@@ -4093,8 +4309,8 @@ interface Resources {
         "LongName": "Bronya"
       },
       "1102": {
-        "Name": "Seele",
-        "LongName": "Seele"
+        "Name": "⚰️ Seele",
+        "LongName": "⚰️ Seele"
       },
       "1103": {
         "Name": "Serval",
@@ -4197,8 +4413,8 @@ interface Resources {
         "LongName": "Hanya"
       },
       "1217": {
-        "Name": "Huohuo",
-        "LongName": "Huohuo"
+        "Name": "⚰️ Huohuo",
+        "LongName": "⚰️ Huohuo"
       },
       "1218": {
         "Name": "Jiaoqiu",
@@ -4265,8 +4481,8 @@ interface Resources {
         "LongName": "Robin"
       },
       "1310": {
-        "Name": "Firefly",
-        "LongName": "Firefly"
+        "Name": "⚰️ Firefly",
+        "LongName": "⚰️ Firefly"
       },
       "1312": {
         "Name": "Misha",
@@ -4360,6 +4576,14 @@ interface Resources {
         "Name": "Ashveil",
         "LongName": "Ashveil"
       },
+      "1505": {
+        "Name": "Evanescia",
+        "LongName": "Evanescia"
+      },
+      "1506": {
+        "Name": "Silver Wolf LV.999",
+        "LongName": "Silver Wolf LV.999"
+      },
       "8001": {
         "Name": "Caelus",
         "LongName": "Caelus (Destruction)"
@@ -4392,6 +4616,14 @@ interface Resources {
         "Name": "Stelle",
         "LongName": "Stelle (Remembrance)"
       },
+      "8009": {
+        "Name": "Caelus",
+        "LongName": "Caelus (Elation)"
+      },
+      "8010": {
+        "Name": "Stelle",
+        "LongName": "Stelle (Elation)"
+      },
       "1212b1": {
         "Name": "Jingliu",
         "LongName": "Jingliu"
@@ -4415,6 +4647,22 @@ interface Resources {
       "1306b1": {
         "Name": "Sparkle",
         "LongName": "Sparkle"
+      },
+      "1004b1": {
+        "Name": "Welt",
+        "LongName": "Welt"
+      },
+      "1102b1": {
+        "Name": "Seele",
+        "LongName": "Seele"
+      },
+      "1217b1": {
+        "Name": "Huohuo",
+        "LongName": "Huohuo"
+      },
+      "1310b1": {
+        "Name": "Firefly",
+        "LongName": "Firefly"
       }
     },
     "RelicSets": {
@@ -4666,11 +4914,11 @@ interface Resources {
       },
       "325": {
         "Name": "Punklorde Stage Zero",
-        "Description2pc": "Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%."
+        "Description2pc": "Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%."
       },
       "326": {
         "Name": "City of Converging Stars",
-        "Description2pc": "When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack."
+        "Description2pc": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack."
       }
     },
     "Lightcones": {
@@ -4959,6 +5207,9 @@ interface Resources {
       "22006": {
         "Name": "Fly Into a Pink Tomorrow"
       },
+      "22007": {
+        "Name": "We'll face the Hereafter together"
+      },
       "23000": {
         "Name": "Night on the Milky Way"
       },
@@ -5126,6 +5377,12 @@ interface Resources {
       },
       "23056": {
         "Name": "The Finale of a Lie"
+      },
+      "23057": {
+        "Name": "Welcome to Cosmic City"
+      },
+      "23058": {
+        "Name": "A Rendezvous in the Next Flower Season"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -6013,6 +6270,7 @@ interface Resources {
     "ResultLimitN": "Find top {{limit}} results",
     "MainStats": "Main stats",
     "Sets": "Sets",
+    "UnreleasedDisclaimer": "Calculations for {{nameList}} are not complete yet, optimizer results will not be accurate",
     "RelicSetSelector": {
       "Placeholder": "Relic set",
       "4pcLabel": "4 Piece",
@@ -6035,6 +6293,7 @@ interface Resources {
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
       "ELATION_SKILL": "Sorted by Elation Skill DMG",
+      "UNIQUE": "Sorted by Unique DMG",
       "DOT": "Sorted by DoT DMG",
       "BREAK": "Sorted by Break DMG",
       "HEAL": "Sorted by Heal",
@@ -6143,6 +6402,7 @@ interface Resources {
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
           "ELATION_SKILL": "ELATION\nSKILL",
+          "UNIQUE": "UNIQUE\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6181,6 +6441,7 @@ interface Resources {
           "MEMO_SKILL": "SKILLᴹ\nDMG",
           "MEMO_TALENT": "TALENTᴹ\nDMG",
           "ELATION_SKILL": "ELATION\nSKILL",
+          "UNIQUE": "UNIQUE\nDMG",
           "DOT": "DOT\nDMG",
           "BREAK": "BREAK\nDMG",
           "BASIC_HEAL": "BASIC\nHEAL",
@@ -6550,6 +6811,7 @@ interface Resources {
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
         "ElationSkill": "Elation Skill",
+        "Unique": "Unique",
         "BasicHeal": "Basic HEAL",
         "SkillHeal": "Skill HEAL",
         "UltHeal": "Ult HEAL",
@@ -6714,7 +6976,7 @@ interface Resources {
         }
       },
       "DamageSplits": {
-        "Title": "Damage Type Distribution",
+        "Title": "Combo Breakdown",
         "Legend": {
           "abilityDmg": "Ability",
           "breakDmg": "Break",
@@ -6763,8 +7025,13 @@ interface Resources {
           "E2": "E2",
           "E4": "E4",
           "E6": "E6",
-          "ElationSkill": "Elation Skill"
+          "ElationSkill": "Elation Skill",
+          "Unique": "Unique",
+          "LightCone": "Light Cone",
+          "Set": "Set"
         },
+        "DefaultAction": "Default",
+        "SummaryLabel": "BUFF TOTALS",
         "Stats": {
           "CompositeLabels": {
             "Label": "{{prefix}} {{suffix}}",

@@ -171,6 +171,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Quantum)
               .atkScaling(skillScaling)
               .toughnessDmg(20)
+              .skillPointsUsed(2)
               .build(),
           ],
         },
@@ -352,7 +353,6 @@ const display = {
 
 export const Archer: CharacterConfig = {
   id: '1015',
-  info: {},
   display,
   conditionals,
   get scoring() {

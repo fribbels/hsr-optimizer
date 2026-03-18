@@ -18,7 +18,15 @@ import {
   OverlayText,
   showcaseOutline,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { Jade } from 'lib/conditionals/character/1300/Jade'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance } from 'lib/conditionals/evaluation/applyPresets'
+import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
+import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import { Sets } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -27,14 +35,6 @@ import {
 import CharacterModal from 'lib/overlays/modals/CharacterModal'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { Jade } from 'lib/conditionals/character/1300/Jade'
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
-import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
-import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
-import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
-import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
-import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import DB from 'lib/state/db'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
@@ -164,6 +164,7 @@ export default function BenchmarksTab(): ReactElement {
         open={isCharacterModalOpen}
         setOpen={setCharacterModalOpen}
         initialCharacter={characterModalInitialCharacter ? { form: characterModalInitialCharacter } as unknown as Character : undefined}
+        withSetSelection
       />
     </Flex>
   )

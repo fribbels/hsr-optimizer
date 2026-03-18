@@ -17,6 +17,7 @@ interface HitRuntime {
   registerIndex: number
   sourceEntityIndex: number
   scalingEntityIndex: number // Entity whose ATK/HP/DEF to use for scaling (defaults to sourceEntityIndex)
+  computedTrueDmgModifier?: number // Set during simulation for chart rendering, not used in damage calc
 }
 
 // Base properties shared by all hit types
@@ -46,6 +47,7 @@ export interface CritHitDefinition extends BaseHitDefinition {
   beScaling?: number // BE-based ATK scaling
   beCap?: number // Maximum BE value for scaling
   elationAtkScaling?: number // Elation-based ATK scaling
+  skillPointsUsed: number
 }
 
 export interface DotHitDefinition extends BaseHitDefinition {

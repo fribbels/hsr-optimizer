@@ -42,19 +42,12 @@ import {
 } from 'types/optimizer'
 
 export function transformComboState(request: Form, context: OptimizerContext) {
-  // console.log('transformComboState')
+  const merge = request.comboType == ComboType.ADVANCED
+    && !!request.comboStateJson
+    && request.comboStateJson != '{}'
 
-  if (!request.comboStateJson || request.comboStateJson == '{}') {
-    request.comboType = ComboType.SIMPLE
-  }
-
-  if (request.comboType == ComboType.ADVANCED) {
-    const comboState = initializeComboState(request, true)
-    newTransformStateActions(comboState, request, context)
-  } else {
-    const comboState = initializeComboState(request, false)
-    newTransformStateActions(comboState, request, context)
-  }
+  const comboState = initializeComboState(request, merge)
+  newTransformStateActions(comboState, request, context)
 }
 
 export function defineAction(

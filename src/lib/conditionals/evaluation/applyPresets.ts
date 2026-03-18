@@ -1,4 +1,10 @@
 import { FormInstance } from 'antd/es/form/hooks/useForm'
+import { Moze } from 'lib/conditionals/character/1200/Moze'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   Constants,
   ElementNames,
@@ -14,11 +20,6 @@ import {
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
-import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
-import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import { Moze } from 'lib/conditionals/character/1200/Moze'
-import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import DB from 'lib/state/db'
 import {
   BenchmarkForm,
@@ -148,6 +149,11 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
 
   if (allyIds.includes(TheDahlia.id)) {
     form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = true
+  }
+
+  // DHPT gives a summon to the primary character, enabling banana set conditional
+  if (allyIds.includes(PermansorTerrae.id)) {
+    form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
   }
 }
 

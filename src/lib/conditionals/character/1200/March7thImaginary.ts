@@ -12,44 +12,55 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag, TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
 
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
-import { ScoringMetadata, SimulationMetadata } from 'types/metadata'
+import {
+  ScoringMetadata,
+  SimulationMetadata,
+} from 'types/metadata'
 
-import { CharacterConditionalsController } from 'types/conditionals'
-import {
-  OptimizerAction,
-  OptimizerContext,
-} from 'types/optimizer'
-import {
-  DEFAULT_BREAK,
-  DEFAULT_FUA,
-  END_BASIC,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  WHOLE_BASIC,
-  AbilityKind,
-} from 'lib/optimization/rotation/turnAbilityConfig'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import {
+  AbilityKind,
+  DEFAULT_BREAK,
+  DEFAULT_FUA,
+  END_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_BASIC,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import { CharacterConditionalsController } from 'types/conditionals'
+import {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 export const March7thImaginaryEntities = createEnum('March7thImaginary')
 export const March7thImaginaryAbilities: AbilityKind[] = [
@@ -210,11 +221,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ...(
               (basicAdditionalScaling > 0)
                 ? [
-                    HitDefinitionBuilder.standardAdditional()
-                      .damageElement(ElementTag.Imaginary)
-                      .atkScaling(basicAdditionalScaling)
-                      .build(),
-                  ]
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Imaginary)
+                    .atkScaling(basicAdditionalScaling)
+                    .build(),
+                ]
                 : []
             ),
           ],
@@ -229,19 +240,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           ],
         },
         [AbilityKind.FUA]: {
-          hits: [
-            ...(
-              (e >= 2)
-                ? [
-                    HitDefinitionBuilder.standardFua()
-                      .damageElement(ElementTag.Imaginary)
-                      .atkScaling(0.60)
-                      .toughnessDmg(10)
-                      .build(),
-                  ]
-                : []
-            ),
-          ],
+          hits: (
+            (e >= 2)
+              ? [
+                HitDefinitionBuilder.standardFua()
+                  .damageElement(ElementTag.Imaginary)
+                  .atkScaling(0.60)
+                  .toughnessDmg(10)
+                  .build(),
+              ]
+              : []
+          ),
         },
         [AbilityKind.BREAK]: {
           hits: [
@@ -280,7 +289,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
   }
 }
-
 
 const simulation = (): SimulationMetadata => ({
   parts: {
@@ -404,8 +412,9 @@ const display = {
 
 export const March7thImaginary: CharacterConfig = {
   id: '1224',
-  info: { displayName: 'March 7th (Hunt)' },
   display,
   conditionals,
-  get scoring() { return scoring() },
+  get scoring() {
+    return scoring()
+  },
 }

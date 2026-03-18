@@ -1,5 +1,6 @@
 import type data from 'data/game_data.json'
 import { Parts } from 'lib/constants/constants'
+import { ComboType } from 'lib/optimization/rotation/comboStateTransform'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import type { Prettify } from 'types/common'
@@ -41,8 +42,10 @@ export type SavedBuild = Prettify<
 >
 
 export type BuildOptimizerMetadata = {
-  conditionals: Partial<Record<CharacterId | LightConeId, ConditionalValueMap>>,
   comboStateJson: string | null,
+  comboDot?: Form['comboDot'],
+  comboTurnAbilities?: Form['comboTurnAbilities'],
+  comboType?: Form['comboType'],
   statFilters: StatFilters | null,
   setFilters: {
     ornaments: OrnamentSetFilters,
@@ -59,4 +62,6 @@ export type BuildTeammate = {
   superimposition: number,
   relicSet?: string,
   ornamentSet?: string,
+  characterConditionals: ConditionalValueMap | undefined,
+  lightConeConditionals: ConditionalValueMap | undefined,
 }

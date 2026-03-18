@@ -17,11 +17,6 @@ import {
   Sets,
 } from 'lib/constants/constants'
 import {
-  SetsOrnaments,
-  SetsRelics,
-  setToId,
-} from 'lib/sets/setConfigRegistry'
-import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
@@ -33,6 +28,12 @@ import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import { Assets } from 'lib/rendering/assets'
 import { useScrollLock } from 'lib/rendering/scrollController'
+import {
+  SetsOrnaments,
+  SetsRelics,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
+import { setToConditionalKey } from 'lib/sets/setConfigRegistry'
 import {
   ComboBooleanConditional,
   ComboCharacter,
@@ -56,7 +57,6 @@ import {
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
-import { setToConditionalKey } from 'lib/sets/setConfigRegistry'
 import { OrnamentSetTagRenderer } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentSetTagRenderer'
 import GenerateOrnamentsOptions from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
@@ -85,10 +85,7 @@ const buttonStyle = {
 export function ComboDrawer() {
   const { close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
 
-  const formValues = window.store((s) => s.formValues)
-
-  const comboState = window.store((s) => s.comboState)
-  const setComboState = window.store((s) => s.setComboState)
+  const { comboState, setComboState } = window.store()
 
   const selectActivationState = useRef(true)
   const lastSelectedKeyState = useRef<string | undefined>(undefined)
@@ -109,7 +106,7 @@ export function ComboDrawer() {
       comboState.comboTurnAbilities = preprocessTurnAbilityNames(comboState.comboTurnAbilities)
       updateFormState(comboState)
     }
-  }, [formValues, isOpenComboDrawer])
+  }, [isOpenComboDrawer])
 
   return (
     <Drawer

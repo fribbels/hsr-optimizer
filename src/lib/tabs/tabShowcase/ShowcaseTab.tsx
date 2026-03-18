@@ -190,8 +190,8 @@ function CharacterPreviewSelection() {
     onCharacterModalOk({
       characterId: e.characterId,
       lightCone: e.lightConeId,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      characterEidolon: e.characterEidolon ?? 0,
+      lightConeSuperimposition: e.lightConeSuperimposition ?? 1,
     })
   }
 

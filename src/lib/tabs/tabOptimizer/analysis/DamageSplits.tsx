@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import { extractDamageSplits } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
+import { chartColor, extractDamageSplits } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { DamageSplitsChart } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { cardShadowNonInset } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
@@ -62,6 +62,7 @@ export function DamageSplits(props: {
     <Flex
       vertical
       align='center'
+      className='pre-font'
       gap={8}
       style={{
         background: '#243356',
@@ -71,7 +72,7 @@ export function DamageSplits(props: {
         padding: '10px 0',
       }}
     >
-      <span style={{ fontSize: 14, borderBottom: '1px solid #354b7d', paddingBottom: 4 }}>
+      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid #354b7d', paddingBottom: 4 }}>
         Combo Breakdown
       </span>
       <ModeToggle mode={mode} onModeChange={setMode} />

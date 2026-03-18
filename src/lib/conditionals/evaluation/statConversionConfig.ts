@@ -1,5 +1,9 @@
 import { Stats } from 'lib/constants/constants'
-import { AKey, AKeyType, AKeyValue } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  AKeyType,
+  AKeyValue,
+} from 'lib/optimization/engine/config/keys'
 
 type StatConversionConfigEntry = {
   stat: string,
@@ -165,6 +169,8 @@ const convertibleStats = [
 ]
 
 export type ConvertibleStatsType = (typeof convertibleStats)[number]
+
+export const statConversionEntries: StatConversionConfigEntry[] = Object.values(statConversionConfig)
 
 // Reverse map: AKeyValue -> ConvertibleStatsType
 export const aKeyToConvertibleStat = Object.fromEntries(

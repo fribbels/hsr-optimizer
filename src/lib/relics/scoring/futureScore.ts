@@ -45,6 +45,11 @@ export function computeFutureScores(
   const allSubstats: RelicSubstatMetadata[] = relic.previewSubstats.length > 0
     ? relic.substats.concat(relic.previewSubstats)
     : relic.substats
+
+  if (allSubstats.length === 0) {
+    return { current: 0, best: 0, average: 0, worst: 0, rerollAvg: 0, blockerAvg: 0, meta: EMPTY_FUTURE_META }
+  }
+
   const mainStat = relic.main.stat
   const needsFill = allSubstats.length < 4
   // Only compute availableSubstats when needed — skips 238K filter+array allocations for 4-substat relics

@@ -17,7 +17,7 @@ import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { displayToInternal, internalToStatFilters } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import type {
   BuildOptimizerMetadata,
   BuildTeammate,
@@ -58,10 +58,10 @@ export function saveBuild(
         minErr: internalForm.minErr, maxErr: internalForm.maxErr,
       }
       const optimizerMetadata: BuildOptimizerMetadata = {
-        setFilters: TsUtils.clone(state.setFilters),
+        setFilters: clone(state.setFilters),
         statFilters,
-        comboStateJson: TsUtils.clone(state.comboStateJson),
-        setConditionals: TsUtils.clone(state.setConditionals),
+        comboStateJson: clone(state.comboStateJson),
+        setConditionals: clone(state.setConditionals),
         presets: state.comboPreprocessor,
       }
       state.teammates.forEach((teammate) => {
@@ -72,8 +72,8 @@ export function saveBuild(
           superimposition: teammate.lightConeSuperimposition,
           relicSet: teammate.teamRelicSet,
           ornamentSet: teammate.teamOrnamentSet,
-          characterConditionals: TsUtils.clone(teammate.characterConditionals),
-          lightConeConditionals: TsUtils.clone(teammate.lightConeConditionals),
+          characterConditionals: clone(teammate.characterConditionals),
+          lightConeConditionals: clone(teammate.lightConeConditionals),
         })
       })
 
@@ -82,8 +82,8 @@ export function saveBuild(
         eidolon: state.characterEidolon,
         lightConeId: state.lightCone!,
         superimposition: state.lightConeSuperimposition,
-        characterConditionals: TsUtils.clone(state.characterConditionals),
-        lightConeConditionals: TsUtils.clone(state.lightConeConditionals),
+        characterConditionals: clone(state.characterConditionals),
+        lightConeConditionals: clone(state.lightConeConditionals),
         name,
         equipped: useOptimizerDisplayStore.getState().optimizerBuild ?? {},
         optimizerMetadata,
@@ -260,8 +260,8 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
     patch.comboType = ComboType.SIMPLE
     patch.comboPreprocessor = true
     patch.comboStateJson = '{}'
-    patch.setConditionals = TsUtils.clone(dbCharForm.setConditionals)
-    patch.setFilters = TsUtils.clone(dbCharForm.setFilters) ?? { fourPiece: [], twoPieceCombos: [], ornaments: [] }
+    patch.setConditionals = clone(dbCharForm.setConditionals)
+    patch.setFilters = clone(dbCharForm.setFilters) ?? { fourPiece: [], twoPieceCombos: [], ornaments: [] }
     patch.statFilters = {
       minAtk: undefined, maxAtk: undefined, minHp: undefined, maxHp: undefined,
       minDef: undefined, maxDef: undefined, minSpd: undefined, maxSpd: undefined,
@@ -273,22 +273,22 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
     if (meta.comboStateJson) {
       patch.comboType = ComboType.ADVANCED
       patch.comboPreprocessor = meta.presets
-      patch.comboStateJson = TsUtils.clone(meta.comboStateJson)
+      patch.comboStateJson = clone(meta.comboStateJson)
     } else {
       patch.comboType = ComboType.SIMPLE
     }
     if (meta.statFilters) {
       patch.statFilters = internalToStatFilters(meta.statFilters as Partial<Form>)
     }
-    patch.setFilters = TsUtils.clone(meta.setFilters) ?? { fourPiece: [], twoPieceCombos: [], ornaments: [] }
-    patch.setConditionals = TsUtils.clone(meta.setConditionals)
+    patch.setFilters = clone(meta.setFilters) ?? { fourPiece: [], twoPieceCombos: [], ornaments: [] }
+    patch.setConditionals = clone(meta.setConditionals)
 
     // Apply saved conditionals from build-level fields
     if (build.characterConditionals) {
-      patch.characterConditionals = TsUtils.clone(build.characterConditionals) as Record<string, unknown>
+      patch.characterConditionals = clone(build.characterConditionals) as Record<string, unknown>
     }
     if (build.lightConeConditionals) {
-      patch.lightConeConditionals = TsUtils.clone(build.lightConeConditionals) as Record<string, unknown>
+      patch.lightConeConditionals = clone(build.lightConeConditionals) as Record<string, unknown>
     }
 
     build.team.forEach((teammate, idx) => {
@@ -296,13 +296,13 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
       if (teammate.characterConditionals) {
         teammateStates[idx] = {
           ...teammateStates[idx],
-          characterConditionals: TsUtils.clone(teammate.characterConditionals),
+          characterConditionals: clone(teammate.characterConditionals),
         }
       }
       if (teammate.lightConeConditionals) {
         teammateStates[idx] = {
           ...teammateStates[idx],
-          lightConeConditionals: TsUtils.clone(teammate.lightConeConditionals),
+          lightConeConditionals: clone(teammate.lightConeConditionals),
         }
       }
     })

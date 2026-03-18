@@ -30,6 +30,7 @@ import {
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { uuid } from 'lib/utils/miscUtils'
 import { Fragment, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styles from './BenchmarkResults.module.css'
@@ -342,7 +343,7 @@ function aggregateCandidates(candidates: Simulation[], top: number, baseline: nu
 
     const benchmarkRow: BenchmarkRow = {
       ...request,
-      key: TsUtils.uuid(),
+      key: uuid(),
       comboDmg,
       deltaPercent: delta * 100,
       deltaBaselinePercent: deltaBaselinePercent * 100,

@@ -26,7 +26,7 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/utils/gridStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { OptimizerForm } from 'types/form'
 import type { OptimizerContext } from 'types/optimizer'
@@ -63,7 +63,7 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
   const statUpgrades: StatUpgrade[] = []
 
   for (const substat of SubStats) {
-    const upgradeSim = TsUtils.clone(simulationRequest)
+    const upgradeSim = clone(simulationRequest)
     upgradeSim.stats[substat] = (upgradeSim.stats[substat] ?? 0) + 1.0
 
     const simResult = runStatSimulations([{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation], request, context)[0]
@@ -82,9 +82,9 @@ export function generateAnalysisData(
   selectedRowData: OptimizerDisplayData,
   form: OptimizerForm,
 ): OptimizerResultAnalysis | null {
-  const oldRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form))
-  const newRelics = TsUtils.clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form))
-  const request = TsUtils.clone(form)
+  const oldRelics = clone(OptimizerTabController.calculateRelicsFromId(currentRowData.id, form))
+  const newRelics = clone(OptimizerTabController.calculateRelicsFromId(selectedRowData.id, form))
+  const request = clone(form)
 
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(oldRelics)
   RelicFilters.condenseSingleRelicByPartSubstatsForOptimizer(newRelics)

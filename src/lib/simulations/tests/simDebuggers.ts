@@ -24,7 +24,7 @@ import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { useScoringStore } from 'lib/stores/scoringStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { uuid } from 'lib/utils/miscUtils'
 
 export function injectBenchmarkDebuggers() {
   // @ts-expect-error - Injecting debug helper onto globalThis for dev tooling
@@ -80,7 +80,7 @@ function equipTestCharacter() {
 
   Object.values(singleRelicByPart)
     .forEach((relic) => {
-      relic.id = TsUtils.uuid()
+      relic.id = uuid()
       relic.equippedBy = testInput.character.characterId
       RelicAugmenter.augment(relic)
     })

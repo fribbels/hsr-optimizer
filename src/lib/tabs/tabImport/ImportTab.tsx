@@ -9,7 +9,7 @@ import {
   ScannerWebsocket,
   useScannerState,
 } from 'lib/tabs/tabImport/ScannerWebsocketClient'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { consoleWarnWrapper } from 'lib/utils/miscUtils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -42,7 +42,7 @@ const saveFile = async (blob: Blob, suggestedName: string) => {
       await writable.write(blob)
       await writable.close()
     } catch (err: unknown) {
-      TsUtils.consoleWarnWrapper(err)
+      consoleWarnWrapper(err)
     }
   } else {
     // Fallback if the File System Access API is not supported…

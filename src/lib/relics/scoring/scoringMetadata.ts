@@ -13,7 +13,7 @@ import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import { getScoreCategory } from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { objectHash } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import type { CharacterId } from 'types/character'
 
@@ -63,10 +63,10 @@ export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
       scoringMetadata.parts.PlanarSphere.filter((x) => !(DMG_MAINSTATS as string[]).includes(x)),
       scoringMetadata.parts.LinkRope,
     ]
-    scoringMetadata.greedyHash = TsUtils.objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
-    scoringMetadata.hash = TsUtils.objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+    scoringMetadata.greedyHash = objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
+    scoringMetadata.hash = objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
   } else {
-    scoringMetadata.greedyHash = TsUtils.objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
+    scoringMetadata.greedyHash = objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
     scoringMetadata.hash = scoringMetadata.greedyHash
   }
 

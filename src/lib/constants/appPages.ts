@@ -1,4 +1,4 @@
-import { TsUtils } from 'lib/utils/TsUtils'
+import { stripTrailingSlashes } from 'lib/utils/miscUtils'
 
 export enum SavedBuildSource {
   SHOWCASE = 'showcase',
@@ -57,7 +57,7 @@ const RouteToPage: Record<string, AppPages> = {
 }
 
 export function getDefaultActiveKey() {
-  const pathname = TsUtils.stripTrailingSlashes(window.location.pathname)
+  const pathname = stripTrailingSlashes(window.location.pathname)
   const page = RouteToPage[pathname + window.location.hash.split('?')[0] as Route]
   return page ?? AppPages.HOME
 }

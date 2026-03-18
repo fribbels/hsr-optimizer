@@ -1,4 +1,4 @@
-import { TsUtils } from 'lib/utils/TsUtils'
+import { objectHash } from 'lib/utils/objectUtils'
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import {
   getActivatedBuffs,
@@ -273,8 +273,8 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
 
       // Check if any other properties changed
       if (
-        TsUtils.objectHash(existingForComparison)
-          !== TsUtils.objectHash(newForComparison)
+        objectHash(existingForComparison)
+          !== objectHash(newForComparison)
       ) {
         shouldUpdateRecentRelics = true
       }

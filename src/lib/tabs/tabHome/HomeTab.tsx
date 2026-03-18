@@ -12,7 +12,7 @@ import { AppPages } from 'lib/constants/appPages'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { type Languages } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { validateUuid } from 'lib/utils/miscUtils'
 import { useRef, useState } from 'react'
 import classes from './HomeTab.module.css'
 import {
@@ -251,7 +251,7 @@ function SearchBar() {
     const uuid = inputRef.current?.value
     if (!uuid) return
 
-    const validated = TsUtils.validateUuid(uuid)
+    const validated = validateUuid(uuid)
     if (!validated) {
       return Message.warning(t('Message') /* 'Invalid input - This should be your 9 digit ingame UUID' */)
     }

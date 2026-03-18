@@ -29,7 +29,7 @@ import type {
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import type { PresetDefinition } from 'lib/scoring/presetEffects'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
@@ -39,7 +39,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   if (!characterId) return
 
   const character = getGameMetadata().characters[characterId]
-  const metadata = TsUtils.clone(character.scoringMetadata)
+  const metadata = clone(character.scoringMetadata)
 
   // Get current form in internal format
   const form = displayToInternal(useOptimizerRequestStore.getState())

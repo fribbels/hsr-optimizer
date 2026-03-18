@@ -14,7 +14,7 @@ import { ComboType } from 'lib/optimization/rotation/comboType'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import {
   type Form,
@@ -25,7 +25,7 @@ import {
 
 function getDefaultWeights(characterId?: CharacterId): Form['weights'] {
   if (characterId) {
-    const scoringMetadata = TsUtils.clone(getScoringMetadata(characterId))
+    const scoringMetadata = clone(getScoringMetadata(characterId))
     scoringMetadata.stats.minWeightedRolls = 0
     return scoringMetadata.stats
   }
@@ -56,7 +56,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   const combatBuffs = {} as Record<typeof CombatBuffs[keyof typeof CombatBuffs]['key'], number>
   Object.values(CombatBuffs).forEach((x) => { combatBuffs[x.key] = 0 })
 
-  const defaultForm: Partial<Form> = TsUtils.clone({
+  const defaultForm: Partial<Form> = clone({
     characterId: initialCharacter?.id,
     mainBody: parts[Constants.Parts.Body] || [],
     mainFeet: parts[Constants.Parts.Feet] || [],

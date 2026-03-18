@@ -28,7 +28,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import { memo, useMemo } from 'react'
 import { useProgressivePhase } from 'lib/characterPreview/useProgressivePhase'
@@ -117,7 +117,7 @@ function ScoringColumn(props: {
 }) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
-  const simulation = useMemo(() => TsUtils.clone(props.simulation), [props.simulation])
+  const simulation = useMemo(() => clone(props.simulation), [props.simulation])
   const simRequest = simulation.request
   const simResult = simulation.result!
 
@@ -251,7 +251,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   const { t } = useTranslation(['charactersTab', 'common'])
 
   const result = useMemo(
-    () => simScoringResult ? TsUtils.clone(simScoringResult) : undefined,
+    () => simScoringResult ? clone(simScoringResult) : undefined,
     [simScoringResult],
   )
 

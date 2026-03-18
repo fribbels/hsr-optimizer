@@ -7,7 +7,7 @@ import { StatSimulationName } from 'lib/simulations/StatSimulationName'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { gridStore } from 'lib/utils/gridStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { useTranslation } from 'react-i18next'
 
 function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: T): T {
@@ -34,7 +34,7 @@ export function SimulatedBuildsGrid() {
     if (!sim) return
 
     // Sync form with selected sim
-    const cloneRequest = TsUtils.clone(sim.request)
+    const cloneRequest = clone(sim.request)
     zeroesToNull(cloneRequest.stats)
     const currentStatSim = useOptimizerRequestStore.getState().statSim
     if (currentStatSim) {

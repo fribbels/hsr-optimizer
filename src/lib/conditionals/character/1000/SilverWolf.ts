@@ -20,6 +20,7 @@ import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -39,7 +40,7 @@ export const SilverWolfAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
     SOURCE_BASIC,

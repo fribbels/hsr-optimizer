@@ -5,7 +5,7 @@ import {
   type TestInput,
 } from 'lib/simulations/tests/simTestUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { type Character } from 'types/character'
 import { expect } from 'vitest'
 
@@ -23,7 +23,7 @@ export async function expectDpsScoreResultsToMatch(
     },
   } as Character
 
-  const simulationMetadata = TsUtils.clone(getGameMetadata().characters[input.character.characterId].scoringMetadata.simulation!)
+  const simulationMetadata = clone(getGameMetadata().characters[input.character.characterId].scoringMetadata.simulation!)
   const showcaseTemporaryOptions = { spdBenchmark: spdBenchmark }
   const singleRelicByPart = generateTestSingleRelicsByPart(input.sets, input.mains, input.stats)
   simulationMetadata.teammates[0] = input.teammate0

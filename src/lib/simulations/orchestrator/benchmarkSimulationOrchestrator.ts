@@ -59,6 +59,8 @@ import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedT
 import { runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
+import { uuid } from 'lib/utils/miscUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
 import type {
   ComputeOptimalSimulationWorkerInput,
@@ -192,7 +194,7 @@ export class BenchmarkSimulationOrchestrator {
   }
 
   public setOriginalSimRequestWithRelics(relicsByPart: SingleRelicByPart) {
-    const relics = TsUtils.clone(relicsByPart)
+    const relics = clone(relicsByPart)
     const { relicSetNames, ornamentSetName } = calculateSetNames(relics)
     const scoringParams = benchmarkScoringParams
 
@@ -349,12 +351,12 @@ export class BenchmarkSimulationOrchestrator {
     const baselineSimResult = this.baselineSimResult!
 
     // Clone to remove functions
-    const clonedContext = TsUtils.clone(context)
-    const clonedBenchmarkScoringParams = TsUtils.clone(benchmarkScoringParams)
+    const clonedContext = clone(context)
+    const clonedBenchmarkScoringParams = clone(benchmarkScoringParams)
 
     const partialSimulationWrappers = generatePartialSimulations(this)
 
-    const id = TsUtils.uuid()
+    const id = uuid()
     console.time('===== Benchmark runner time ' + id)
 
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
@@ -423,11 +425,11 @@ export class BenchmarkSimulationOrchestrator {
     const baselineSimResult = this.baselineSimResult!
     const flags = this.flags
 
-    const clonedContext = TsUtils.clone(context)
-    const clonedPerfectionScoringParams = TsUtils.clone(maximumScoringParams)
+    const clonedContext = clone(context)
+    const clonedPerfectionScoringParams = clone(maximumScoringParams)
 
     const partialSimulationWrappers = generatePartialSimulations(this)
-    const id = TsUtils.uuid()
+    const id = uuid()
     console.time('===== Perfection runner time ' + id)
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
@@ -457,7 +459,7 @@ export class BenchmarkSimulationOrchestrator {
         simulationForm: form,
         context: clonedContext,
         metadata: metadata,
-        scoringParams: TsUtils.clone(maximumScoringParams),
+        scoringParams: clone(maximumScoringParams),
         simulationFlags: flags,
       }
 

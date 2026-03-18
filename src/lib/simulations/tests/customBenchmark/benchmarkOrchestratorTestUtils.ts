@@ -8,7 +8,7 @@ import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import { type TestInput } from 'lib/simulations/tests/simTestUtils'
 import { type BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { expect } from 'vitest'
 
 export async function expectBenchmarkResultsToMatch(
@@ -43,7 +43,7 @@ export async function expectBenchmarkResultsToMatch(
     teammate0: teammate0,
     teammate1: teammate1,
     teammate2: teammate2,
-    setConditionals: TsUtils.clone(defaultSetConditionals),
+    setConditionals: clone(defaultSetConditionals),
   }
 
   applySetConditionalPresets(benchmarkForm)

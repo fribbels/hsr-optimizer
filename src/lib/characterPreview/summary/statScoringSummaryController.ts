@@ -9,6 +9,7 @@ import { ScoringCache } from 'lib/relics/scoring/relicScorer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { objectHash } from 'lib/utils/objectUtils'
 import type { EstTbpRunnerOutput } from 'lib/worker/estTbpWorkerRunner'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadata } from 'types/metadata'
@@ -124,7 +125,7 @@ export function flatReduction(stat: string) {
 
 // Scoring type isn't strictly needed in the hash, but it helps work around some rendering issues with switching score type
 export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: CharacterId, scoringType: ScoringType, scoringMetadata: ScoringMetadata) {
-  return TsUtils.objectHash({
+  return objectHash({
     weights: scoringMetadata.stats,
     parts: scoringMetadata.parts,
     scoringType,
@@ -135,7 +136,7 @@ export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: Cha
 
 function hashRelic(relic: Relic) {
   if (!relic) return '-'
-  return TsUtils.objectHash({
+  return objectHash({
     enhance: relic.enhance,
     equippedBy: relic.equippedBy,
     grade: relic.grade,

@@ -6,7 +6,7 @@ import {
 } from 'lib/constants/constants'
 import { getRelicById } from 'lib/stores/relicStore'
 import { type generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
@@ -112,7 +112,7 @@ const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set) => ({
 
   setFilters: (filters) => set({ filters }),
   setFilter: (key) => (value) => set((s) => ({ filters: { ...s.filters, [key]: value } })),
-  resetFilters: () => set({ filters: TsUtils.clone(defaultState.filters) }),
+  resetFilters: () => set({ filters: clone(defaultState.filters) }),
 
   setInsightsMode: (insightsMode) => set({ insightsMode }),
   setInsightsCharacters: (insightsCharacters) => set({ insightsCharacters }),

@@ -1,7 +1,7 @@
 import i18next from 'i18next'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { type CharacterId } from 'types/character'
 import { type LightConeId } from 'types/lightCone'
 import {
@@ -11,7 +11,7 @@ import {
 
 export function generateCharacterOptions() {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
-  const characterData = TsUtils.clone(getGameMetadata().characters) as CharacterOptions
+  const characterData = clone(getGameMetadata().characters) as CharacterOptions
 
   for (const value of Object.values(characterData)) {
     value.value = value.id
@@ -24,7 +24,7 @@ export function generateCharacterOptions() {
 // Light cone selector options from current db metadata
 export function generateLightConeOptions(characterId?: CharacterId) {
   const t = i18next.getFixedT(null, 'gameData', 'Lightcones')
-  const lcData = TsUtils.clone(getGameMetadata().lightCones) as LcOptions
+  const lcData = clone(getGameMetadata().lightCones) as LcOptions
 
   let pathFilter = null
   if (characterId) {

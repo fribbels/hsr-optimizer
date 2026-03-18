@@ -16,7 +16,7 @@ import {
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone, objectHash } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
@@ -73,7 +73,7 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
           teammate2,
         }
 
-        const fullHash = TsUtils.objectHash(mergedBenchmarkForm)
+        const fullHash = objectHash(mergedBenchmarkForm)
 
         if (customBenchmarkCache[fullHash]) {
           promiseWrappers[fullHash] = {
@@ -168,7 +168,7 @@ export function handleCharacterSelectChange(id: CharacterId | null, formInstance
   form.simOrnamentSet = simulationMetadata.ornamentSets[0]
   form.subDps = !!simulationMetadata.deprioritizeBuffs
 
-  form.setConditionals = TsUtils.clone(defaultSetConditionals)
+  form.setConditionals = clone(defaultSetConditionals)
   applySetConditionalPresets(form)
   applyScoringMetadataPresets(form)
 

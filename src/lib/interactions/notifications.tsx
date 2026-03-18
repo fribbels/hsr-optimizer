@@ -7,12 +7,12 @@ import { AppPages } from 'lib/constants/appPages'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { Trans } from 'react-i18next'
 import { notifications } from '@mantine/notifications'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { isVersionOutdated } from 'lib/utils/miscUtils'
 
 export function checkForUpdatesNotification(version: string) {
   const t = i18next.getFixedT(null, 'notifications', 'Changelog')
   try {
-    const isOutOfDate = !version || TsUtils.isVersionOutdated(version, CURRENT_OPTIMIZER_VERSION)
+    const isOutOfDate = !version || isVersionOutdated(version, CURRENT_OPTIMIZER_VERSION)
     console.log(`Is out of date? ${isOutOfDate}`, version, CURRENT_OPTIMIZER_VERSION)
     if (!isOutOfDate) {
       return

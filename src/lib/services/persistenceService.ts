@@ -22,7 +22,7 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone, objectHash } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import type {
   Build,
@@ -205,8 +205,8 @@ export function resetAll(): void {
 // We overwrite any existing relics with imported ones.
 export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
   const oldRelics = getRelics()
-  newRelics = TsUtils.clone(newRelics) ?? []
-  newCharacters = TsUtils.clone(newCharacters) ?? []
+  newRelics = clone(newRelics) ?? []
+  newCharacters = clone(newCharacters) ?? []
 
   // Add new characters
   if (newCharacters) {
@@ -368,8 +368,8 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
  * We keep the existing set of relics and only overwrite ones that match an imported one.
  */
 export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { id: CharacterId }[] = []): void {
-  const oldRelics = TsUtils.clone(getRelics()) || []
-  newRelics = TsUtils.clone(newRelics)
+  const oldRelics = clone(getRelics()) || []
+  newRelics = clone(newRelics)
 
   // Tracking these for debug / messaging
   const updatedOldRelics: Relic[] = []
@@ -532,7 +532,7 @@ function hashRelic(relic: Relic) {
     substatStats: substatStats,
   }
 
-  return TsUtils.objectHash(hashObject)
+  return objectHash(hashObject)
 }
 
 function partialHashRelic(relic: Relic) {
@@ -543,7 +543,7 @@ function partialHashRelic(relic: Relic) {
     mainStat: relic.main.stat,
   }
 
-  return TsUtils.objectHash(hashObject)
+  return objectHash(hashObject)
 }
 
 function findRelicMatch(relic: Relic, oldRelics: Relic[]) {

@@ -24,7 +24,7 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import { useConfirmAction } from 'lib/hooks/useConfirmAction'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import {
   type CSSProperties,
   Fragment,
@@ -121,7 +121,7 @@ function BuildsModalContent() {
         Object.values(build.equipped),
         selectedCharacter?.id,
       )
-      const simulation = TsUtils.clone(getScoringMetadata(selectedCharacter.id).simulation)
+      const simulation = clone(getScoringMetadata(selectedCharacter.id).simulation)
       if (simulation) {
         simulation.deprioritizeBuffs = build.deprioritizeBuffs
         for (let i = 0; i <= 2; i++) {

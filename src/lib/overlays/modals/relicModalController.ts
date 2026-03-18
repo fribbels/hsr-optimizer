@@ -23,6 +23,7 @@ import {
   partIsRelic,
 } from 'lib/utils/relicUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import type {
   Relic,
@@ -291,7 +292,7 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
       const value10ths = Utils.truncate10ths(Utils.precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
-      const upgrades: RelicUpgradeValues = TsUtils.clone(SubStatValues[stat as SubStats][relicForm.grade as 5 | 4 | 3 | 2])
+      const upgrades: RelicUpgradeValues = clone(SubStatValues[stat as SubStats][relicForm.grade as 5 | 4 | 3 | 2])
 
       if (isPreview) {
         const previewValue = RelicRollFixer.fixSubStatValue(stat, Utils.truncate10ths(Utils.precisionRound(isPreview)), 5)

@@ -4,7 +4,7 @@ import {
   runDpsScoreBenchmarkOrchestrator,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { objectHash } from 'lib/utils/objectUtils'
 import type {
   Character,
 } from 'types/character'
@@ -43,7 +43,7 @@ export function computeScoringCacheKey(
 ): string | null {
   if (!simulationMetadata) return null
 
-  return TsUtils.objectHash({
+  return objectHash({
     form: character.form,
     singleRelicByPart,
     simulationMetadata,

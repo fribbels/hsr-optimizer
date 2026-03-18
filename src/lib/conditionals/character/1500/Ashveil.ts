@@ -46,6 +46,7 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type CharacterConditionalFunction,
   type CharacterConfig,
@@ -84,7 +85,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     SOURCE_E6,
   } = Source.character(Ashveil.id)
 
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Ashveil.Content')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Ashveil.Content')
 
   const basicScaling = basic(e, 1.00, 1.10)
 

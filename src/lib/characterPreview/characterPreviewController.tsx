@@ -38,7 +38,7 @@ import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import * as equipmentService from 'lib/services/equipmentService'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import type {
   Character,
@@ -194,7 +194,7 @@ export function getShowcaseStats(
   displayRelics: SingleRelicByPart,
   showcaseMetadata: ShowcaseMetadata,
 ) {
-  const statCalculationRelics = TsUtils.clone(displayRelics)
+  const statCalculationRelics = clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
   const form = normalizeForm(character.form)
   const context = generateContext(form)

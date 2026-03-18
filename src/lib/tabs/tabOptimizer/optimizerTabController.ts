@@ -29,7 +29,7 @@ import {
   optimizerFormCache,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { gridStore } from 'lib/utils/gridStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { sleep, smoothScrollNearest } from 'lib/utils/frontendUtils'
 import type {
   Form,
   OptimizerForm,
@@ -93,7 +93,7 @@ export const OptimizerTabController = {
   scrollToGrid: () => {
     const element = document.getElementById('optimizerGridContainer')
     if (element) {
-      TsUtils.smoothScrollNearest(element, 250)
+      smoothScrollNearest(element, 250)
     }
   },
 
@@ -181,7 +181,7 @@ export const OptimizerTabController = {
         gridStore.optimizerGridApi()?.setGridOption('loading', true)
 
         // Give it time to show the loading page before we block
-        void TsUtils.sleep(100)
+        void sleep(100)
           .then(() => {
             if (params.sortModel.length > 0 && params.sortModel[0] != controllerState.sortModel) {
               controllerState.sortModel = params.sortModel[0]

@@ -11,7 +11,7 @@ import {
   type SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import {
   type ComputeOptimalSimulationWorkerInput,
   type ComputeOptimalSimulationWorkerOutput,
@@ -84,7 +84,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   const maxSubstatRollCounts = inputMaxSubstatRollCounts
 
   const goal = scoringParams.substatGoal
-  const currentSimulation: Simulation = TsUtils.clone(partialSimulationWrapper.simulation)
+  const currentSimulation: Simulation = clone(partialSimulationWrapper.simulation)
 
   if (scoringParams.enforcePossibleDistribution) {
     maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD]) // Fixes SPD

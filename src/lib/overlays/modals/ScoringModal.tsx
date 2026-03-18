@@ -18,7 +18,7 @@ import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
@@ -40,7 +40,7 @@ const panelWidth = 220
 
 // Cleans up 0's to not show up on the form
 function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata): ScoringAlgorithmForm {
-  scoringMetadata = TsUtils.clone(scoringMetadata)
+  scoringMetadata = clone(scoringMetadata)
   const scoringMetadataForForm: ScoringAlgorithmForm = { ...scoringMetadata }
   for (const x of Object.entries(scoringMetadataForForm.stats)) {
     if (x[1] === 0) {

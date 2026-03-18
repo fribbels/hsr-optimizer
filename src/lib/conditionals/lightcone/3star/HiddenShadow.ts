@@ -9,6 +9,7 @@ import {
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type Hit } from 'types/hitConditionalTypes'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -19,7 +20,7 @@ import {
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.HiddenShadow')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.HiddenShadow')
 
   const sValues = [0.60, 0.75, 0.90, 1.05, 1.20]
 

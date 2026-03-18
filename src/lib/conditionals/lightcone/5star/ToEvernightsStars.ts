@@ -7,6 +7,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
@@ -16,7 +17,7 @@ import {
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ToEvernightsStars.Content')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ToEvernightsStars.Content')
   const { SOURCE_LC } = Source.lightCone(ToEvernightsStars.id)
 
   const sValuesDefPen = [0.20, 0.225, 0.25, 0.275, 0.30]

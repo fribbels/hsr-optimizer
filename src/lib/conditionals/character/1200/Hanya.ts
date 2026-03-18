@@ -26,6 +26,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -46,7 +47,7 @@ export const HanyaAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hanya')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Hanya')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,

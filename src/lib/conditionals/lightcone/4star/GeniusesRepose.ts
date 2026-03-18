@@ -6,13 +6,14 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type LightConeConfig } from 'types/lightConeConfig'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type OptimizerAction, type OptimizerContext } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.GeniusesRepose')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.GeniusesRepose')
   const { SOURCE_LC } = Source.lightCone(GeniusesRepose.id)
 
   const sValues = [0.24, 0.30, 0.36, 0.42, 0.48]

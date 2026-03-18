@@ -6,6 +6,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type LightConeConditionalFunction,
   type LightConeConfig,
@@ -18,7 +19,7 @@ import {
 const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(TodaysGoodLuck.id)
 
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TodaysGoodLuck.Content')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.TodaysGoodLuck.Content')
 
   const sValues = [0.12, 0.14, 0.16, 0.18, 0.20]
 

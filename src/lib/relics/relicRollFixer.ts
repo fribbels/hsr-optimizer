@@ -2,6 +2,7 @@ import { Constants } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { flipStringMapping } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import type { UnaugmentedRelic } from 'types/relic'
 
@@ -67,8 +68,8 @@ export const RelicRollFixer = {
   initialize: () => {
     initialized = true
     const conversions = CharacterConverter.getConstantConversions()
-    optimizerStatToAffixStat = TsUtils.flipStringMapping(conversions.statConversion)
-    optimizerPartToPartId = TsUtils.flipStringMapping(conversions.partConversion)
+    optimizerStatToAffixStat = flipStringMapping(conversions.statConversion)
+    optimizerPartToPartId = flipStringMapping(conversions.partConversion)
 
     optimizerStatToJsonSubStat = Utils.flipMapping({
       'ATK': Constants.Stats.ATK,

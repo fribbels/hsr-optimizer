@@ -5,7 +5,7 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { SaveState } from 'lib/state/saveState'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import {
   useEffect,
@@ -87,7 +87,7 @@ function SettingsDrawerContent() {
   }
 
   useEffect(() => {
-    const initialSettings: UserSettings = TsUtils.clone(DefaultSettingOptions)
+    const initialSettings: UserSettings = clone(DefaultSettingOptions)
     const newSettings: UserSettings = Utils.mergeDefinedValues(initialSettings, settings)
     setSettingsRef(newSettings)
     settingsForm.setValues(newSettings)

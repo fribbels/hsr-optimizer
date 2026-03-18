@@ -32,6 +32,7 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
@@ -68,7 +69,7 @@ export const YunliAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Yunli')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,

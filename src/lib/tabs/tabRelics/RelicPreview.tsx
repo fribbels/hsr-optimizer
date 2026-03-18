@@ -14,9 +14,9 @@ import { Renderer } from 'lib/rendering/renderer'
 import { ScoreCategory } from 'lib/scoring/scoreComparison'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
-  GenerateStat,
+  RelicStatRow,
   type SubstatDetails,
-} from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
+} from 'lib/tabs/tabRelics/relicPreview/RelicStatRow'
 import { RelicStatText } from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { showcaseTransition } from 'lib/utils/colorUtils'
 import {
@@ -25,7 +25,6 @@ import {
 } from 'lib/utils/i18nUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Fragment } from 'react/jsx-runtime'
 import type { CharacterId } from 'types/character'
 import type {
   Relic,
@@ -152,14 +151,14 @@ export const RelicPreview = memo(function RelicPreview(props: {
 
           <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
-          {GenerateStat(relic.main as SubstatDetails, true, relic)}
+          <RelicStatRow stat={relic.main as SubstatDetails} main={true} relic={relic} />
 
           <Divider style={{ margin: '6px 0px 6px 0px' }} />
 
           <Flex direction="column" gap={STAT_GAP}>
-            {relic.substats.map((s, idx) => <Fragment key={`substats-${idx}`}>{GenerateStat(s, false, relic)}</Fragment>)}
-            {relic.previewSubstats.map((s, idx) => <Fragment key={`previews-${idx}`}>{GenerateStat(s, false, relic, true)}</Fragment>)}
-            {fillerStats.map((x, idx) => <Fragment key={`fillers-${idx}`}>{GenerateStat(x, false, relic)}</Fragment>)}
+            {relic.substats.map((s, idx) => <RelicStatRow key={`substats-${idx}`} stat={s} main={false} relic={relic} />)}
+            {relic.previewSubstats.map((s, idx) => <RelicStatRow key={`previews-${idx}`} stat={s} main={false} relic={relic} isPreview={true} />)}
+            {fillerStats.map((x, idx) => <RelicStatRow key={`fillers-${idx}`} stat={x} main={false} relic={relic} />)}
           </Flex>
 
           {scoringType !== ScoringType.NONE && <ScoreFooter score={score} />}

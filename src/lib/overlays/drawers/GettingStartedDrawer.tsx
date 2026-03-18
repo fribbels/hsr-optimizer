@@ -33,31 +33,33 @@ export function GettingStartedDrawer() {
       opened={isOpenBeginnerDrawer}
       size={250}
     >
-      <Flex direction="column" gap={20}>
-        <ColorizedLinkWithIcon
-          text={t('TryOut.DocumentationTitle') /* See full guide */}
-          linkIcon={true}
-          url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
-        />
+      {isOpenBeginnerDrawer && (
+        <Flex direction="column" gap={20}>
+          <ColorizedLinkWithIcon
+            text={t('TryOut.DocumentationTitle') /* See full guide */}
+            linkIcon={true}
+            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
+          />
 
-        <Button
-          leftSection={<IconFileImport size={16} />}
-          style={{ width: 200 }}
-          onClick={() => modals.openConfirmModal({
-            title: t('common:Confirm'),
-            children: (
-              <Flex style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}>
-                {t('TryOut.description')}
-              </Flex>
-            ),
-            labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
-            centered: true,
-            onConfirm: tryItOutClicked,
-          })}
-        >
-          {t('TryOut.ButtonText') /* Try it out! */}
-        </Button>
-      </Flex>
+          <Button
+            leftSection={<IconFileImport size={16} />}
+            style={{ width: 200 }}
+            onClick={() => modals.openConfirmModal({
+              title: t('common:Confirm'),
+              children: (
+                <Flex style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}>
+                  {t('TryOut.description')}
+                </Flex>
+              ),
+              labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
+              centered: true,
+              onConfirm: tryItOutClicked,
+            })}
+          >
+            {t('TryOut.ButtonText') /* Try it out! */}
+          </Button>
+        </Flex>
+      )}
     </Drawer>
   )
 }

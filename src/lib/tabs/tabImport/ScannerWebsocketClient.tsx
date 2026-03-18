@@ -16,7 +16,7 @@ import {
   usePrivateScannerState,
 } from 'lib/tabs/tabImport/scannerStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { debounceEffect } from 'lib/utils/debounceUtils'
+import { debounceEffect } from 'lib/utils/frontendUtils'
 import { gridStore } from 'lib/utils/gridStore'
 import useWebSocket from 'partysocket/use-ws'
 import {

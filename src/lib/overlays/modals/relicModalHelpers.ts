@@ -7,8 +7,9 @@ import {
 import type { RelicForm } from 'lib/overlays/modals/relicModalController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { objectHash } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
 import type { Relic } from 'types/relic'
+import { isFlat } from 'lib/utils/statUtils'
+import { truncate10ths, truncate1000ths } from 'lib/utils/mathUtils'
 
 export type SubstatValues = Pick<RelicForm, `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`>
 
@@ -30,7 +31,7 @@ export const defaultMainStatPerPart = {
 function statUsesDecimal(stat: string | undefined, verified: boolean): boolean {
   if (!stat) return false
   if (stat === Stats.SPD) return verified
-  return !Utils.isFlat(stat)
+  return !isFlat(stat)
 }
 
 export function defaultSubstatValues(relic: Relic): SubstatValues {
@@ -91,15 +92,15 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
     if (relic?.verified) {
       return {
         stat: stat,
-        value: Utils.truncate10ths(value),
+        value: truncate10ths(value),
       }
     } else {
       return {
         stat: stat,
-        value: value % 1 !== 0 ? Utils.truncate10ths(Number(value.toFixed(1))) : Math.floor(value),
+        value: value % 1 !== 0 ? truncate10ths(Number(value.toFixed(1))) : Math.floor(value),
       }
     }
-  } else if (Utils.isFlat(stat)) {
+  } else if (isFlat(stat)) {
     return {
       stat: stat,
       value: Math.floor(value),
@@ -107,7 +108,7 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
   } else {
     return {
       stat: stat,
-      value: Utils.truncate10ths(Utils.precisionRound(Math.floor(value * 10) / 10)),
+      value: truncate10ths(TsUtils.precisionRound(Math.floor(value * 10) / 10)),
     }
   }
 }
@@ -121,7 +122,7 @@ function relicHash(relic: Relic) {
     mainStatType: relic.main?.stat,
     substats: relic.substats.map((stat) => ({
       stat: stat.stat,
-      value: Utils.truncate1000ths(TsUtils.precisionRound(stat.value)),
+      value: truncate1000ths(TsUtils.precisionRound(stat.value)),
     })),
   })
 }

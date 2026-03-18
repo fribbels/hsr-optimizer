@@ -1,4 +1,3 @@
-import { Utils } from 'lib/utils/utils'
 import { type MouseEvent, useMemo } from 'react'
 import classes from './SelectCardGrid.module.css'
 
@@ -30,7 +29,7 @@ export function SelectCardGrid<TId extends string>({
   excludedIds?: Set<TId>
 }) {
   const sortedOptions = useMemo(
-    () => [...options].sort(Utils.sortRarityDesc),
+    () => [...options].sort((a: { rarity: number }, b: { rarity: number }) => b.rarity - a.rarity),
     [options],
   )
 

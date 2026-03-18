@@ -38,8 +38,7 @@ import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import * as equipmentService from 'lib/services/equipmentService'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { clone } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
+import { clone, objectHash } from 'lib/utils/objectUtils'
 import type {
   Character,
   CharacterId,
@@ -273,7 +272,7 @@ export function handleTeamSelection(
     const scoringMetadata = getScoringMetadata(character.id)
 
     const hasCustom = scoringMetadata.simulation?.teammates
-      && Utils.objectHash(scoringMetadata.simulation.teammates) !== Utils.objectHash(defaultScoringMetadata.simulation.teammates)
+      && objectHash(scoringMetadata.simulation.teammates) !== objectHash(defaultScoringMetadata.simulation.teammates)
 
     if (hasCustom && currentSelection !== DEFAULT_TEAM) {
       currentSelection = CUSTOM_TEAM

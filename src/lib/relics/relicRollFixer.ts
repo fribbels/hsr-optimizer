@@ -3,8 +3,8 @@ import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { flipStringMapping } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
 import type { UnaugmentedRelic } from 'types/relic'
+import { isFlat } from 'lib/utils/statUtils'
 
 let optimizerStatToJsonSubStat: Record<string, string>
 let optimizerStatToAffixStat: Record<string, string>
@@ -27,7 +27,7 @@ export const RelicRollFixer = {
     const step = affix.step
     const base = affix.base
     const totalValue = base + step * enhance
-    const scaledValue = Utils.isFlat(stat) ? totalValue : totalValue * 100
+    const scaledValue = isFlat(stat) ? totalValue : totalValue * 100
 
     return TsUtils.precisionRound(scaledValue, 5)
   },
@@ -60,9 +60,9 @@ export const RelicRollFixer = {
 
     const oneRoll = base + step * 2
     const totalValue = oneRoll * rollCount
-    const scaledValue = Utils.isFlat(stat) ? totalValue : totalValue * 100
+    const scaledValue = isFlat(stat) ? totalValue : totalValue * 100
 
-    return Utils.precisionRound(scaledValue, 5)
+    return TsUtils.precisionRound(scaledValue, 5)
   },
 
   initialize: () => {
@@ -71,7 +71,7 @@ export const RelicRollFixer = {
     optimizerStatToAffixStat = flipStringMapping(conversions.statConversion)
     optimizerPartToPartId = flipStringMapping(conversions.partConversion)
 
-    optimizerStatToJsonSubStat = Utils.flipMapping({
+    optimizerStatToJsonSubStat = flipStringMapping({
       'ATK': Constants.Stats.ATK,
       'HP': Constants.Stats.HP,
       'DEF': Constants.Stats.DEF,

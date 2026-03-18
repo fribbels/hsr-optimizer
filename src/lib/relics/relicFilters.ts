@@ -17,9 +17,12 @@ import {
 import { getCharacterById, getCharacters } from 'lib/stores/characterStore'
 import { getRelics } from 'lib/stores/relicStore'
 import { calculateRelicMainStatValue } from 'lib/utils/relicUtils'
-import { Utils } from 'lib/utils/utils'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
+import { isFlat } from 'lib/utils/statUtils'
+import { clone } from 'lib/utils/objectUtils'
+import { arrayOfZeroes, arrayOfValue } from 'lib/utils/arrayUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 export type PartCounts = Record<Parts, number>
 
@@ -69,12 +72,12 @@ export const RelicFilters = {
     // Set filter lookups
     let relicSetsAllowed: number[] | null = null
     if (request.relicSets?.length) {
-      relicSetsAllowed = Utils.arrayOfZeroes(Object.values(SetsRelics).length)
+      relicSetsAllowed = arrayOfZeroes(Object.values(SetsRelics).length)
       for (const rs of request.relicSets) {
         if (rs[0] === RelicSetFilterOptions.relic4Piece && rs.length === 2) {
           relicSetsAllowed[RelicSetToIndex[rs[1]]] = 1
         } else if (rs[0] === RelicSetFilterOptions.relic2PlusAny) {
-          relicSetsAllowed = Utils.arrayOfValue(Object.values(SetsRelics).length, 1)
+          relicSetsAllowed = arrayOfValue(Object.values(SetsRelics).length, 1)
         } else if (rs[0] === RelicSetFilterOptions.relic2Plus2Piece && rs.length === 3) {
           relicSetsAllowed[RelicSetToIndex[rs[1]]] = 1
           relicSetsAllowed[RelicSetToIndex[rs[2]]] = 1
@@ -84,7 +87,7 @@ export const RelicFilters = {
 
     let ornamentSetsAllowed: number[] | null = null
     if (request.ornamentSets?.length) {
-      ornamentSetsAllowed = Utils.arrayOfZeroes(Object.values(SetsOrnaments).length)
+      ornamentSetsAllowed = arrayOfZeroes(Object.values(SetsOrnaments).length)
       for (const os of request.ornamentSets) {
         ornamentSetsAllowed[OrnamentSetToIndex[os]] = 1
       }
@@ -278,7 +281,7 @@ export const RelicFilters = {
       if (!request.relicSets || request.relicSets.length == 0) {
         return relics
       }
-      let allowedSets = Utils.arrayOfZeroes(Object.values(SetsRelics).length)
+      let allowedSets = arrayOfZeroes(Object.values(SetsRelics).length)
 
       for (const relicSet of request.relicSets) {
         if (relicSet[0] == RelicSetFilterOptions.relic4Piece) {
@@ -289,7 +292,7 @@ export const RelicFilters = {
         }
 
         if (relicSet[0] == RelicSetFilterOptions.relic2PlusAny) {
-          allowedSets = Utils.arrayOfValue(Object.values(SetsRelics).length, 1)
+          allowedSets = arrayOfValue(Object.values(SetsRelics).length, 1)
         }
 
         if (relicSet[0] == RelicSetFilterOptions.relic2Plus2Piece) {
@@ -321,7 +324,7 @@ export const RelicFilters = {
       if (!request.ornamentSets || request.ornamentSets.length == 0) {
         return relics
       }
-      const allowedSets = Utils.arrayOfZeroes(Object.values(SetsOrnaments).length)
+      const allowedSets = arrayOfZeroes(Object.values(SetsOrnaments).length)
 
       for (const ornamentSet of request.ornamentSets) {
         const index = OrnamentSetToIndex[ornamentSet]
@@ -400,7 +403,7 @@ export const RelicFilters = {
         const maxEnhance = grade * 3
         if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {
           const newEnhance = maxEnhance < mainStatUpscaleLevel ? maxEnhance : mainStatUpscaleLevel
-          const newValue = calculateRelicMainStatValue(stat, grade, newEnhance) / (Utils.isFlat(x.main.stat) ? 1 : 100)
+          const newValue = calculateRelicMainStatValue(stat, grade, newEnhance) / (isFlat(x.main.stat) ? 1 : 100)
           return x.augmentedStats!.mainValue = newValue
         }
       })
@@ -441,5 +444,5 @@ export const RelicFilters = {
 }
 
 function getValueByStatType(stat: string, value: number) {
-  return Utils.precisionRound(Utils.isFlat(stat) ? value : value / 100)
+  return TsUtils.precisionRound(isFlat(stat) ? value : value / 100)
 }

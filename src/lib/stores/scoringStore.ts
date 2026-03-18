@@ -2,9 +2,9 @@ import { SubStats } from 'lib/constants/constants'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
-import { Utils } from 'lib/utils/utils'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadata, SimulationMetadata } from 'types/metadata'
+import { mergeUndefinedValues } from 'lib/utils/objectUtils'
 
 type ScoringStoreState = {
   scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>
@@ -55,7 +55,7 @@ export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => (
 export function getScoringMetadata(id: CharacterId): ScoringMetadata {
   const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
   const override = useScoringStore.getState().scoringMetadataOverrides[id]
-  const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
+  const returnScoringMetadata = mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
 
   for (const stat of SubStats) {
     if (returnScoringMetadata.stats[stat] === undefined) {

@@ -19,9 +19,10 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import { initializeComboState, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/utils/gridStore'
-import { Utils } from 'lib/utils/utils'
 import type { Build, CharacterId } from 'types/character'
 import type { Form } from 'types/form'
+import { mergeUndefinedValues } from 'lib/utils/objectUtils'
+import { uuid } from 'lib/utils/miscUtils'
 
 const OPTIMIZER_FORM_CACHE_MAX = 50
 const _optimizerFormCacheMap = new Map<string, Form>()
@@ -345,7 +346,7 @@ export function updateCharacter(characterId: CharacterId): void {
   const controller = CharacterConditionalsResolver.get({ characterId, characterEidolon: form.characterEidolon })
   if (controller.defaults) {
     if (form.characterConditionals) {
-      Utils.mergeUndefinedValues(form.characterConditionals, controller.defaults())
+      mergeUndefinedValues(form.characterConditionals, controller.defaults())
     } else {
       form.characterConditionals = controller.defaults()
     }
@@ -388,7 +389,7 @@ export function startOptimization(): void {
   })
   SaveState.delayedSave()
 
-  const optimizationId = Utils.randomId()
+  const optimizationId = uuid()
   useOptimizerDisplayStore.getState().setOptimizationId(optimizationId)
   form.optimizationId = optimizationId
   form.statDisplay = useOptimizerRequestStore.getState().statDisplay

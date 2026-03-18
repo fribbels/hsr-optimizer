@@ -4,7 +4,7 @@ import {
   type ComputeEngine,
 } from 'lib/constants/constants'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
-import { Utils } from 'lib/utils/utils'
+import { msToReadable } from 'lib/utils/miscUtils'
 
 export function calculateProgressText(
   startTime: number | null,
@@ -36,7 +36,7 @@ export function calculateProgressText(
     ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', {
       // {{rate}} / sec — ${{timeRemaining}} left
       rate: localeNumberComma(Math.floor(perSecond)),
-      timeRemaining: Utils.msToReadable(msRemaining),
+      timeRemaining: msToReadable(msRemaining),
     })
     : i18next.t('optimizerTab:Sidebar.ProgressText.Finished', {
       // {{rate}} / sec — Finished

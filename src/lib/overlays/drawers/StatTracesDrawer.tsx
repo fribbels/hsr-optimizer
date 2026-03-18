@@ -12,7 +12,6 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { useScoringStore } from 'lib/stores/scoringStore'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { Utils } from 'lib/utils/utils'
 import type React from 'react'
 import {
   useCallback,
@@ -24,6 +23,8 @@ import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { type TraceNode } from 'types/metadata'
 import classes from './StatTracesDrawer.module.css'
+import { isFlat } from 'lib/utils/statUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 const TraceTreeNode = ({
   node,
@@ -66,9 +67,9 @@ const TraceTreeNode = ({
           <img src={Assets.getStatIcon(node.stat)} className={classes.statIcon} />
           <div className={classes.nodeText}>
             {`${
-              Utils.isFlat(node.stat)
+              isFlat(node.stat)
                 ? node.value
-                : Utils.precisionRound(node.value * 100) + '%'
+                : TsUtils.precisionRound(node.value * 100) + '%'
             } - ${tCommon(`Stats.${node.stat}`)}`}
           </div>
         </Flex>

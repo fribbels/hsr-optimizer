@@ -7,10 +7,10 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { Utils } from 'lib/utils/utils'
 import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import type { Stat } from 'types/relic'
+import { isFlat } from 'lib/utils/statUtils'
 
 const substatToPriority: Record<string, number> = {
   [Stats.ATK_P]: 0,
@@ -30,7 +30,7 @@ const substatToPriority: Record<string, number> = {
 function renderStat(x: Stat, simType: string, t: TFunction<'common', 'ShortStats'>) {
   return simType === StatSimTypes.SubstatRolls
     ? `${t(x.stat)} x ${x.value}`
-    : `${t(x.stat)} ${x.value}${Utils.isFlat(x.stat) ? '' : '%'}`
+    : `${t(x.stat)} ${x.value}${isFlat(x.stat) ? '' : '%'}`
 }
 
 export function StatSimulationName(props: { sim: Simulation }) {

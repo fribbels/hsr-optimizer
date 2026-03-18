@@ -23,7 +23,6 @@ import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { clone, objectHash } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
 import type {
   Build,
   Character,
@@ -43,6 +42,9 @@ import type {
   HsrOptimizerSaveFormat,
 } from 'types/store'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
+import { isFlat } from 'lib/utils/statUtils'
+import { truncate10ths } from 'lib/utils/mathUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 // ─── Public API ────────────────────────────────────────────────
 
@@ -512,12 +514,12 @@ function hashRelic(relic: Relic) {
   const substatStats: string[] = []
 
   for (const substat of relic.substats) {
-    if (Utils.isFlat(substat.stat)) {
+    if (isFlat(substat.stat)) {
       // Flat atk/def/hp/spd values we floor to an int
       substatValues.push(Math.floor(substat.value))
     } else {
       // Other values we match to 1 decimal point due to OCR
-      substatValues.push(Utils.precisionRound(Utils.truncate10ths(substat.value)))
+      substatValues.push(TsUtils.precisionRound(truncate10ths(substat.value)))
     }
     substatStats.push(substat.stat)
   }
@@ -604,14 +606,14 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
 function compareSameTypeSubstat(oldSubstat: Stat, newSubstat: Stat) {
   let oldValue: number
   let newValue: number
-  if (Utils.isFlat(oldSubstat.stat)) {
+  if (isFlat(oldSubstat.stat)) {
     // Flat atk/def/hp/spd values we floor to an int
     oldValue = Math.floor(oldSubstat.value)
     newValue = Math.floor(newSubstat.value)
   } else {
     // Other values we match to 1 decimal point due to OCR
-    oldValue = Utils.precisionRound(Utils.truncate10ths(oldSubstat.value))
-    newValue = Utils.precisionRound(Utils.truncate10ths(newSubstat.value))
+    oldValue = TsUtils.precisionRound(truncate10ths(oldSubstat.value))
+    newValue = TsUtils.precisionRound(truncate10ths(newSubstat.value))
   }
 
   if (oldValue === newValue) return 0

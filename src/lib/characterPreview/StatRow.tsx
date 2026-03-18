@@ -14,9 +14,10 @@ import {
   localeNumber_000,
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import { memo, type ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
+import { isFlat } from 'lib/utils/statUtils'
+import { truncate10ths, truncate1000ths } from 'lib/utils/mathUtils'
 
 const breakpointPresets = [
   [111.1, 111.2],
@@ -101,7 +102,7 @@ export const StatRow = memo(function StatRow({
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
       {loading
         ? '...'
-        : `${valueDisplay}${Utils.isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
+        : `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
     </Flex>
   )
 })
@@ -111,23 +112,23 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
   let value1000thsPrecision: string
 
   if (stat === 'CV') {
-    valueDisplay = localeNumber_0(Utils.precisionRound(customValue))
-    value1000thsPrecision = localeNumber_000(Utils.precisionRound(customValue))
+    valueDisplay = localeNumber_0(TsUtils.precisionRound(customValue))
+    value1000thsPrecision = localeNumber_000(TsUtils.precisionRound(customValue))
   } else if (stat === 'simScore' || stat === 'COMBO_DMG') {
-    valueDisplay = localeNumber_0(Utils.truncate10ths(Utils.precisionRound((customValue ?? 0) / 1000)))
-    value1000thsPrecision = localeNumber_000(Utils.precisionRound(customValue))
+    valueDisplay = localeNumber_0(truncate10ths(TsUtils.precisionRound((customValue ?? 0) / 1000)))
+    value1000thsPrecision = localeNumber_000(TsUtils.precisionRound(customValue))
   } else if (stat === Constants.Stats.SPD) {
     const is1000thSpeed = checkSpeedInBreakpoint(statValue)
     valueDisplay = is1000thSpeed || preciseSpd
-      ? localeNumber_000(Utils.precisionRound(statValue, 3))
-      : localeNumber_0(Utils.truncate10ths(Utils.precisionRound(statValue, 3)))
-    value1000thsPrecision = localeNumber_000(Utils.precisionRound(statValue))
-  } else if (Utils.isFlat(stat)) {
+      ? localeNumber_000(TsUtils.precisionRound(statValue, 3))
+      : localeNumber_0(truncate10ths(TsUtils.precisionRound(statValue, 3)))
+    value1000thsPrecision = localeNumber_000(TsUtils.precisionRound(statValue))
+  } else if (isFlat(stat)) {
     valueDisplay = localeNumber(Math.floor(statValue))
-    value1000thsPrecision = localeNumber_000(Utils.precisionRound(statValue))
+    value1000thsPrecision = localeNumber_000(TsUtils.precisionRound(statValue))
   } else {
-    valueDisplay = localeNumber_0(Utils.truncate10ths(Utils.precisionRound(statValue * 100)))
-    value1000thsPrecision = localeNumber_000(Utils.truncate1000ths(Utils.precisionRound(statValue * 100)))
+    valueDisplay = localeNumber_0(truncate10ths(TsUtils.precisionRound(statValue * 100)))
+    value1000thsPrecision = localeNumber_000(truncate1000ths(TsUtils.precisionRound(statValue * 100)))
   }
 
   return { valueDisplay, value1000thsPrecision }

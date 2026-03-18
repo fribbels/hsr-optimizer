@@ -42,7 +42,6 @@ import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { isFlat } from 'lib/utils/statUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { calculateRelicMainStatValue } from 'lib/utils/relicUtils'
 import {
   useEffect,
@@ -51,7 +50,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGlobalStore } from 'lib/stores/appStore'
-import { truncate10ths } from 'lib/utils/mathUtils'
+import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
 
 function partSegmentData(value: string, src: string) {
   return {
@@ -188,7 +187,7 @@ function RelicModalContent() {
     } else {
       const defaultPart = selectedPart ?? Constants.Parts.Head
       const defaultMain = defaultMainStatPerPart[defaultPart]
-      let defaultValue = TsUtils.precisionRound(Constants.MainStatsValues[defaultMain][5].base + Constants.MainStatsValues[defaultMain][5].increment * 15)
+      let defaultValue = precisionRound(Constants.MainStatsValues[defaultMain][5].base + Constants.MainStatsValues[defaultMain][5].increment * 15)
       defaultValue = isFlat(defaultMain) ? Math.floor(defaultValue) : defaultValue
       defaultValues = {
         equippedBy: defaultWearer ?? 'None',

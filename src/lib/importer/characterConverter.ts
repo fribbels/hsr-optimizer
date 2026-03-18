@@ -14,7 +14,7 @@ import type { LightConeId } from 'types/lightCone'
 import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
 import { uuid } from 'lib/utils/miscUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const partConversion = {
   1: Constants.Parts.Head,
@@ -196,7 +196,7 @@ function convertRelic(preRelic: PreRelic) {
 
     const main: Relic['main'] = {
       stat: mainStat,
-      value: TsUtils.precisionRound(mainValue * (isFlat(mainStat) ? 1 : 100), 5),
+      value: precisionRound(mainValue * (isFlat(mainStat) ? 1 : 100), 5),
     }
 
     const substats: Relic['substats'] = []
@@ -223,14 +223,14 @@ function convertRelic(preRelic: PreRelic) {
 
         substats.push({
           stat: subStat,
-          value: TsUtils.precisionRound(subValue * (isFlat(subStat) ? 1 : 100), 5),
+          value: precisionRound(subValue * (isFlat(subStat) ? 1 : 100), 5),
           addedRolls: Math.max(0, count - 1),
           rolls,
         })
       } else {
         substats.push({
           stat: subStat,
-          value: TsUtils.precisionRound(subValue * (isFlat(subStat) ? 1 : 100), 5),
+          value: precisionRound(subValue * (isFlat(subStat) ? 1 : 100), 5),
         })
       }
     }

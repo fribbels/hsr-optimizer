@@ -37,7 +37,6 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type ScoringMetadata } from 'types/metadata'
@@ -48,6 +47,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const HyacineEntities = createEnum('Hyacine', 'Ica')
 export const HyacineAbilities: AbilityKind[] = [
@@ -159,8 +159,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('clearSkies.text'),
       content: t('clearSkies.content', {
-        UltHpBuffScaling: TsUtils.precisionRound(100 * ultHpBuffPercent),
-        UltHpBuffFlat: TsUtils.precisionRound(ultHpBuffFlat),
+        UltHpBuffScaling: precisionRound(100 * ultHpBuffPercent),
+        UltHpBuffFlat: precisionRound(ultHpBuffFlat),
       }),
     },
     healingDmgStacks: {
@@ -168,7 +168,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('healingDmgStacks.text'),
       content: t('healingDmgStacks.content', {
-        TalentDmgBuff: TsUtils.precisionRound(100 * talentHealingDmgStackValue),
+        TalentDmgBuff: precisionRound(100 * talentHealingDmgStackValue),
       }),
       min: 0,
       max: 3,

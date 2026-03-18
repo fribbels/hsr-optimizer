@@ -32,7 +32,6 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -43,6 +42,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SundayEntities = createEnum('Sunday')
 export const SundayAbilities: AbilityKind[] = [
@@ -102,8 +102,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: t(
         'Content.skillDmgBuff.content',
         {
-          DmgBoost: TsUtils.precisionRound(100 * skillDmgBoostValue),
-          SummonDmgBoost: TsUtils.precisionRound(100 * skillDmgBoostSummonValue),
+          DmgBoost: precisionRound(100 * skillDmgBoostValue),
+          SummonDmgBoost: precisionRound(100 * skillDmgBoostSummonValue),
         },
       ),
     },
@@ -111,7 +111,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentCrBuffStacks',
       formItem: 'slider',
       text: t('Content.talentCrBuffStacks.text'),
-      content: t('Content.talentCrBuffStacks.content', { CritRateBoost: TsUtils.precisionRound(100 * talentCrBuffValue) }),
+      content: t('Content.talentCrBuffStacks.content', { CritRateBoost: precisionRound(100 * talentCrBuffValue) }),
       min: 0,
       max: e < 6 ? 1 : 3,
     },
@@ -147,8 +147,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: t(
         'TeammateContent.beatified.content',
         {
-          CritBuffScaling: TsUtils.precisionRound(100 * ultCdBoostValue),
-          CritBuffFlat: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
+          CritBuffScaling: precisionRound(100 * ultCdBoostValue),
+          CritBuffFlat: precisionRound(100 * ultCdBoostBaseValue),
         },
       ),
     },
@@ -159,8 +159,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: t(
         'TeammateContent.teammateCDValue.content',
         {
-          CritBuffScaling: TsUtils.precisionRound(100 * ultCdBoostValue),
-          CritBuffFlat: TsUtils.precisionRound(100 * ultCdBoostBaseValue),
+          CritBuffScaling: precisionRound(100 * ultCdBoostValue),
+          CritBuffFlat: precisionRound(100 * ultCdBoostBaseValue),
         },
       ),
       min: 0,

@@ -29,7 +29,6 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -43,6 +42,7 @@ import {
 } from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 export const JiaoqiuEntities = createEnum('Jiaoqiu')
 export const JiaoqiuAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -104,9 +104,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('Content.ashenRoastStacks.text'),
       content: t('Content.ashenRoastStacks.content', {
-        AshenRoastInitialVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityBase),
-        AshenRoastAdditionalVulnerability: TsUtils.precisionRound(100 * talentVulnerabilityScaling),
-        AshenRoastDotMultiplier: TsUtils.precisionRound(100 * talentDotScaling),
+        AshenRoastInitialVulnerability: precisionRound(100 * talentVulnerabilityBase),
+        AshenRoastAdditionalVulnerability: precisionRound(100 * talentVulnerabilityScaling),
+        AshenRoastDotMultiplier: precisionRound(100 * talentDotScaling),
       }),
       min: 0,
       max: maxAshenRoastStacks,
@@ -116,9 +116,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.ultFieldActive.text'),
       content: t('Content.ultFieldActive.content', {
-        UltScaling: TsUtils.precisionRound(100 * ultScaling),
-        UltVulnerability: TsUtils.precisionRound(100 * ultVulnerabilityScaling),
-        ZoneDebuffChance: TsUtils.precisionRound(100 * ult(e, 0.6, 0.62)),
+        UltScaling: precisionRound(100 * ultScaling),
+        UltVulnerability: precisionRound(100 * ultVulnerabilityScaling),
+        ZoneDebuffChance: precisionRound(100 * ult(e, 0.6, 0.62)),
       }),
     },
     ehrToAtkBoost: {

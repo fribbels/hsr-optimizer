@@ -25,7 +25,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -39,6 +38,7 @@ import {
 } from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 export const HanyaEntities = createEnum('Hanya')
 export const HanyaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -92,15 +92,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
-        ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue),
-        ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue),
+        ultSpdBuffValue: precisionRound(100 * ultSpdBuffValue),
+        ultAtkBuffValue: precisionRound(100 * ultAtkBuffValue),
       }),
     },
     targetBurdenActive: {
       id: 'targetBurdenActive',
       formItem: 'switch',
       text: t('Content.targetBurdenActive.text'),
-      content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: TsUtils.precisionRound(100 * talentDmgBoostValue) }),
+      content: t('Content.targetBurdenActive.content', { talentDmgBoostValue: precisionRound(100 * talentDmgBoostValue) }),
     },
     burdenAtkBuff: {
       id: 'burdenAtkBuff',
@@ -124,8 +124,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('TeammateContent.teammateSPDValue.text'),
       content: t('TeammateContent.teammateSPDValue.content', {
-        ultSpdBuffValue: TsUtils.precisionRound(100 * ultSpdBuffValue),
-        ultAtkBuffValue: TsUtils.precisionRound(100 * ultAtkBuffValue),
+        ultSpdBuffValue: precisionRound(100 * ultSpdBuffValue),
+        ultAtkBuffValue: precisionRound(100 * ultAtkBuffValue),
       }),
       min: 0,
       max: 300,

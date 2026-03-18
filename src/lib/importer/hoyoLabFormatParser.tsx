@@ -14,7 +14,7 @@ import type { LightConeId } from 'types/lightCone'
 import type { DBMetadataSets } from 'types/metadata'
 import type { Relic } from 'types/relic'
 import { uuid } from 'lib/utils/miscUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 type HoyolabRelic = {
   id: number,
@@ -165,9 +165,9 @@ export function hoyolabParser(json: HoyolabData) {
 
 function readValue(value: string) {
   if (value.endsWith('%')) {
-    return TsUtils.precisionRound(parseFloat(value.slice(0, value.length - 1)))
+    return precisionRound(parseFloat(value.slice(0, value.length - 1)))
   }
-  return TsUtils.precisionRound(parseFloat(value))
+  return precisionRound(parseFloat(value))
 }
 
 type TrailblazerMetadata = { trailblazer: string, current_trailblazer_path: string }

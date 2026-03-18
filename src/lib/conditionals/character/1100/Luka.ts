@@ -39,7 +39,6 @@ import {
   RELICS_2P_BREAK_EFFECT_SPEED,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -54,6 +53,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const LukaEntities = createEnum('Luka')
 export const LukaAbilities: AbilityKind[] = [
@@ -115,7 +115,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'targetUltDebuffed',
       formItem: 'switch',
       text: t('Content.targetUltDebuffed.text'),
-      content: t('Content.targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: TsUtils.precisionRound(100 * targetUltDebuffDmgTakenValue) }),
+      content: t('Content.targetUltDebuffed.content', { targetUltDebuffDmgTakenValue: precisionRound(100 * targetUltDebuffDmgTakenValue) }),
     },
     basicEnhancedExtraHits: {
       id: 'basicEnhancedExtraHits',

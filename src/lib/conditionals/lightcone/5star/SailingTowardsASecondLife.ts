@@ -17,7 +17,6 @@ import {
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -26,6 +25,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.SailingTowardsASecondLife')
@@ -45,14 +45,14 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'breakDmgDefShred',
       formItem: 'switch',
       text: t('Content.breakDmgDefShred.text'),
-      content: t('Content.breakDmgDefShred.content', { DefIgnore: TsUtils.precisionRound(100 * sValuesDefShred[s]) }),
+      content: t('Content.breakDmgDefShred.content', { DefIgnore: precisionRound(100 * sValuesDefShred[s]) }),
     },
     spdBuffConditional: {
       lc: true,
       id: 'spdBuffConditional',
       formItem: 'switch',
       text: t('Content.spdBuffConditional.text'),
-      content: t('Content.spdBuffConditional.content', { SpdBuff: TsUtils.precisionRound(100 * sValuesSpdBuff[s]) }),
+      content: t('Content.spdBuffConditional.content', { SpdBuff: precisionRound(100 * sValuesSpdBuff[s]) }),
     },
   }
 

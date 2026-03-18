@@ -6,7 +6,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -15,6 +14,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThoughWorldsApart.Content')
@@ -38,8 +38,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       formItem: 'switch',
       text: t('dmgBoost.text'),
       content: t('dmgBoost.content', {
-        DmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoost[s]),
-        SummonDmgBuff: TsUtils.precisionRound(100 * sValuesDmgBoostSummons[s]),
+        DmgBuff: precisionRound(100 * sValuesDmgBoost[s]),
+        SummonDmgBuff: precisionRound(100 * sValuesDmgBoostSummons[s]),
       }),
     },
   }

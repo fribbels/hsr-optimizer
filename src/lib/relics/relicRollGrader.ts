@@ -1,7 +1,7 @@
 import { SubStatValues } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { TsUtils } from 'lib/utils/TsUtils'
 import type { StatRolls, UnaugmentedRelic } from 'types/relic'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 // non exported interface, the number are float
 interface IncrementOptions {
@@ -95,7 +95,7 @@ function validatedRolls(relic: UnaugmentedRelic) {
       + rolls.mid * StatCalculator.getMaxedSubstatValue(stat, 0.9)
       + rolls.high * StatCalculator.getMaxedSubstatValue(stat, 1.0)
 
-    if (TsUtils.precisionRound(value, 3) != TsUtils.precisionRound(substat.value, 3)) {
+    if (precisionRound(value, 3) != precisionRound(substat.value, 3)) {
       return false
     }
   }

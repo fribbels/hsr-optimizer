@@ -36,7 +36,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -49,6 +48,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const JingliuB1Entities = createEnum('JingliuB1')
 export const JingliuB1Abilities: AbilityKind[] = [
@@ -98,7 +98,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentEnhancedState',
       formItem: 'switch',
       text: t('talentEnhancedState.text'),
-      content: t('talentEnhancedState.content', { UltCRBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
+      content: t('talentEnhancedState.content', { UltCRBuff: precisionRound(100 * talentCrBuff) }),
     },
     maxSyzygyDefPen: {
       id: 'maxSyzygyDefPen',
@@ -110,7 +110,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'moonlightStacks',
       formItem: 'slider',
       text: t('moonlightStacks.text'),
-      content: t('moonlightStacks.content', { MoonlightCDBuff: TsUtils.precisionRound(100 * talentCdScaling) }),
+      content: t('moonlightStacks.content', { MoonlightCDBuff: precisionRound(100 * talentCdScaling) }),
       min: 0,
       max: 5,
     },

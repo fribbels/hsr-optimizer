@@ -26,7 +26,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -39,6 +38,7 @@ import {
 } from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 export const TingyunEntities = createEnum('Tingyun')
 export const TingyunAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -90,9 +90,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.benedictionBuff.text'),
       content: t('Content.benedictionBuff.content', {
-        skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling),
-        skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax),
-        skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling),
+        skillAtkBoostScaling: precisionRound(100 * skillAtkBoostScaling),
+        skillAtkBoostMax: precisionRound(100 * skillAtkBoostMax),
+        skillLightningDmgBoostScaling: precisionRound(100 * skillLightningDmgBoostScaling),
       }),
     },
     skillSpdBuff: {
@@ -105,7 +105,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultDmgBuff',
       formItem: 'switch',
       text: t('Content.ultDmgBuff.text'),
-      content: t('Content.ultDmgBuff.content', { ultDmgBoost: TsUtils.precisionRound(100 * ultDmgBoost) }),
+      content: t('Content.ultDmgBuff.content', { ultDmgBoost: precisionRound(100 * ultDmgBoost) }),
     },
     ultSpdBuff: {
       id: 'ultSpdBuff',
@@ -123,9 +123,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('TeammateContent.teammateAtkBuffValue.text'),
       content: t('TeammateContent.teammateAtkBuffValue.content', {
-        skillAtkBoostScaling: TsUtils.precisionRound(100 * skillAtkBoostScaling),
-        skillAtkBoostMax: TsUtils.precisionRound(100 * skillAtkBoostMax),
-        skillLightningDmgBoostScaling: TsUtils.precisionRound(100 * skillLightningDmgBoostScaling),
+        skillAtkBoostScaling: precisionRound(100 * skillAtkBoostScaling),
+        skillAtkBoostMax: precisionRound(100 * skillAtkBoostMax),
+        skillLightningDmgBoostScaling: precisionRound(100 * skillLightningDmgBoostScaling),
       }),
       min: 0,
       max: skillAtkBoostScaling,

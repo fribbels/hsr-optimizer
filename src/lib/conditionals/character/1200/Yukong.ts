@@ -18,7 +18,6 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -31,6 +30,7 @@ import {
 } from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 export const YukongEntities = createEnum('Yukong')
 export const YukongAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -88,16 +88,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'roaringBowstringsActive',
       formItem: 'switch',
       text: t('Content.roaringBowstringsActive.text'),
-      content: t('Content.roaringBowstringsActive.content', { skillAtkBuffValue: TsUtils.precisionRound(100 * skillAtkBuffValue) }),
+      content: t('Content.roaringBowstringsActive.content', { skillAtkBuffValue: precisionRound(100 * skillAtkBuffValue) }),
     },
     ultBuff: {
       id: 'ultBuff',
       formItem: 'switch',
       text: t('Content.ultBuff.text'),
       content: t('Content.ultBuff.content', {
-        ultCrBuffValue: TsUtils.precisionRound(100 * ultCrBuffValue),
-        ultCdBuffValue: TsUtils.precisionRound(100 * ultCdBuffValue),
-        ultScaling: TsUtils.precisionRound(100 * ultScaling),
+        ultCrBuffValue: precisionRound(100 * ultCrBuffValue),
+        ultCdBuffValue: precisionRound(100 * ultCdBuffValue),
+        ultScaling: precisionRound(100 * ultScaling),
       }),
     },
     initialSpeedBuff: {

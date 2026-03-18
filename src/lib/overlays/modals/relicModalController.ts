@@ -22,7 +22,6 @@ import {
   partIsOrnament,
   partIsRelic,
 } from 'lib/utils/relicUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { clone } from 'lib/utils/objectUtils'
 import type {
   Relic,
@@ -30,7 +29,7 @@ import type {
   RelicGrade,
 } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths } from 'lib/utils/mathUtils'
+import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
 
 export type RelicUpgradeValues = {
   low: number | undefined | null,
@@ -290,13 +289,13 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
         continue
       }
 
-      const value10ths = truncate10ths(TsUtils.precisionRound(parseFloat(value)))
+      const value10ths = truncate10ths(precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
       const upgrades: RelicUpgradeValues = clone(SubStatValues[stat as SubStats][relicForm.grade as 5 | 4 | 3 | 2])
 
       if (isPreview) {
-        const previewValue = RelicRollFixer.fixSubStatValue(stat, truncate10ths(TsUtils.precisionRound(isPreview)), 5)
+        const previewValue = RelicRollFixer.fixSubStatValue(stat, truncate10ths(precisionRound(isPreview)), 5)
         upgradeValues.push({
           high: null,
           mid: (isFlat(stat) && stat != Stats.SPD)
@@ -327,9 +326,9 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
 }
 
 function renderFlatStat(value: number) {
-  return Math.floor(TsUtils.precisionRound(value))
+  return Math.floor(precisionRound(value))
 }
 
 function renderPercentStat(value: number) {
-  return truncate10ths(TsUtils.precisionRound(value))
+  return truncate10ths(precisionRound(value))
 }

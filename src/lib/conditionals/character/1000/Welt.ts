@@ -36,7 +36,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -50,6 +49,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const WeltEntities = createEnum('Welt')
 export const WeltAbilities: AbilityKind[] = [
@@ -94,13 +94,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enemySlowed',
       formItem: 'switch',
       text: t('Content.enemySlowed.text'),
-      content: t('Content.enemySlowed.content', { talentScaling: TsUtils.precisionRound(100 * talentScaling) }),
+      content: t('Content.enemySlowed.content', { talentScaling: precisionRound(100 * talentScaling) }),
     },
     skillExtraHits: {
       id: 'skillExtraHits',
       formItem: 'slider',
       text: t('Content.skillExtraHits.text'),
-      content: t('Content.skillExtraHits.content', { skillScaling: TsUtils.precisionRound(100 * skillScaling) }),
+      content: t('Content.skillExtraHits.content', { skillScaling: precisionRound(100 * skillScaling) }),
       min: 0,
       max: skillExtraHitsMax,
     },

@@ -47,7 +47,6 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const HysilensAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -128,13 +128,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillVulnerability',
       formItem: 'switch',
       text: t('Content.skillVulnerability.text'),
-      content: t('Content.skillVulnerability.content', { SkillVuln: TsUtils.precisionRound(100 * skillVulnScaling) }),
+      content: t('Content.skillVulnerability.content', { SkillVuln: precisionRound(100 * skillVulnScaling) }),
     },
     ultZone: {
       id: 'ultZone',
       formItem: 'switch',
       text: t('Content.ultZone.text'),
-      content: t('Content.ultZone.content', { ZoneDefShred: TsUtils.precisionRound(100 * ultDefPenScaling) }),
+      content: t('Content.ultZone.content', { ZoneDefShred: precisionRound(100 * ultDefPenScaling) }),
     },
     ultDotStacks: {
       id: 'ultDotStacks',
@@ -338,7 +338,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(
         StatKey.DMG_BOOST,
         (e >= 2)
-          ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(TsUtils.precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
+          ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
           : 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_E2),
       )

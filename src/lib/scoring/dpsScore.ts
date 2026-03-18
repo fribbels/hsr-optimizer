@@ -12,8 +12,8 @@ import {
 import type {
   RelicBuild,
 } from 'lib/scoring/simScoringUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import type { SimulationMetadata } from 'types/metadata'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export type SimulationSets = {
   relicSet1: SetsRelics,
@@ -147,7 +147,7 @@ export function getSimScoreGrade(score: number, verified: boolean, numRelics: nu
   }
 
   let best = 'WTF+'
-  const percent = TsUtils.precisionRound(score * 100)
+  const percent = precisionRound(score * 100)
   for (const [key, value] of Object.entries(SimScoreGrades)) {
     if (key == 'AEON' && !verified) {
       continue

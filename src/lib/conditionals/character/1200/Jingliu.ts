@@ -22,7 +22,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -50,6 +49,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const JingliuEntities = createEnum('Jingliu')
 export const JingliuAbilities: AbilityKind[] = [
@@ -96,13 +96,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentEnhancedState',
       formItem: 'switch',
       text: t('Content.talentEnhancedState.text'),
-      content: t('Content.talentEnhancedState.content', { talentCrBuff: TsUtils.precisionRound(100 * talentCrBuff) }),
+      content: t('Content.talentEnhancedState.content', { talentCrBuff: precisionRound(100 * talentCrBuff) }),
     },
     talentHpDrainAtkBuff: {
       id: 'talentHpDrainAtkBuff',
       formItem: 'slider',
       text: t('Content.talentHpDrainAtkBuff.text'),
-      content: t('Content.talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: TsUtils.precisionRound(100 * talentHpDrainAtkBuffMax) }),
+      content: t('Content.talentHpDrainAtkBuff.content', { talentHpDrainAtkBuffMax: precisionRound(100 * talentHpDrainAtkBuffMax) }),
       min: 0,
       max: talentHpDrainAtkBuffMax,
       percent: true,

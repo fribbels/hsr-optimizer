@@ -52,7 +52,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type CharacterConditionalFunction,
@@ -67,6 +66,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const YaoguangEntities = createEnum('Yaoguang')
 export const YaoguangAbilities: AbilityKind[] = [
@@ -153,19 +153,19 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       id: 'skillZoneActive',
       formItem: 'switch',
       text: t('Content.skillZoneActive.text'),
-      content: t('Content.skillZoneActive.content', { elationConversion: TsUtils.precisionRound(100 * skillElationBuff) }),
+      content: t('Content.skillZoneActive.content', { elationConversion: precisionRound(100 * skillElationBuff) }),
     },
     ultResPenBuff: {
       id: 'ultResPenBuff',
       formItem: 'switch',
       text: t('Content.ultResPenBuff.text'),
-      content: t('Content.ultResPenBuff.content', { resPen: TsUtils.precisionRound(100 * ultResPenValue) }),
+      content: t('Content.ultResPenBuff.content', { resPen: precisionRound(100 * ultResPenValue) }),
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
       text: t('Content.certifiedBanger.text'),
-      content: t('Content.certifiedBanger.content', { greatBoonScaling: TsUtils.precisionRound(100 * talentElationScaling) }),
+      content: t('Content.certifiedBanger.content', { greatBoonScaling: precisionRound(100 * talentElationScaling) }),
     },
     yaoguangAhaInstant: {
       id: 'yaoguangAhaInstant',
@@ -177,7 +177,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       id: 'woesWhisperVulnerability',
       formItem: 'switch',
       text: t('Content.woesWhisperVulnerability.text'),
-      content: t('Content.woesWhisperVulnerability.content', { woeWhisperVulnerability: TsUtils.precisionRound(100 * elationSkillVulnerability) }),
+      content: t('Content.woesWhisperVulnerability.content', { woeWhisperVulnerability: precisionRound(100 * elationSkillVulnerability) }),
     },
     traceSpdElation: {
       id: 'traceSpdElation',
@@ -214,7 +214,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       id: 'consumesSkillPoints',
       formItem: 'switch',
       text: t('TeammateContent.consumesSkillPoints.text'),
-      content: t('TeammateContent.consumesSkillPoints.content', { greatBoonScaling: TsUtils.precisionRound(100 * talentElationScaling) }),
+      content: t('TeammateContent.consumesSkillPoints.content', { greatBoonScaling: precisionRound(100 * talentElationScaling) }),
     },
     yaoguangAhaInstant: content.yaoguangAhaInstant,
     teammateCertifiedBangerStacks: {

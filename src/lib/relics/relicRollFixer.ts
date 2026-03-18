@@ -1,10 +1,10 @@
 import { Constants } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { flipStringMapping } from 'lib/utils/objectUtils'
 import type { UnaugmentedRelic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 let optimizerStatToJsonSubStat: Record<string, string>
 let optimizerStatToAffixStat: Record<string, string>
@@ -29,7 +29,7 @@ export const RelicRollFixer = {
     const totalValue = base + step * enhance
     const scaledValue = isFlat(stat) ? totalValue : totalValue * 100
 
-    return TsUtils.precisionRound(scaledValue, 5)
+    return precisionRound(scaledValue, 5)
   },
 
   fixSubStatValue: (stat: string, value: number, grade: number) => {
@@ -62,7 +62,7 @@ export const RelicRollFixer = {
     const totalValue = oneRoll * rollCount
     const scaledValue = isFlat(stat) ? totalValue : totalValue * 100
 
-    return TsUtils.precisionRound(scaledValue, 5)
+    return precisionRound(scaledValue, 5)
   },
 
   initialize: () => {

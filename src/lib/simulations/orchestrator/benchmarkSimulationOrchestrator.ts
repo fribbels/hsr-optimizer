@@ -58,7 +58,6 @@ import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import { runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { clone } from 'lib/utils/objectUtils'
 import { uuid } from 'lib/utils/miscUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
@@ -73,6 +72,7 @@ import type {
 } from 'types/form'
 import type { SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export class BenchmarkSimulationOrchestrator {
   public metadata: SimulationMetadata
@@ -318,7 +318,7 @@ export class BenchmarkSimulationOrchestrator {
     // Run the original character's sim to find the original basic SPD value
     // This value is used to determine the benchmark's corresponding basic SPD in special set cases (poet)
     const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
-    const originalSpd = TsUtils.precisionRound(originalSimResult.x.c.SPD.get(), 3)
+    const originalSpd = precisionRound(originalSimResult.x.c.SPD.get(), 3)
 
     applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
 
@@ -365,7 +365,7 @@ export class BenchmarkSimulationOrchestrator {
       // Find the speed deduction
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
-      const rolls = TsUtils.precisionRound(
+      const rolls = precisionRound(
         invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue),
         3,
       )
@@ -435,7 +435,7 @@ export class BenchmarkSimulationOrchestrator {
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
-      const rolls = TsUtils.precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
+      const rolls = precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
 
       partialSimulationWrapper.speedRollsDeduction = Math.min(
         Math.max(0, rolls),

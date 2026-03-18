@@ -38,7 +38,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
@@ -68,6 +67,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const XueyiEntities = createEnum('Xueyi')
 export const XueyiAbilities: AbilityKind[] = [
@@ -133,7 +133,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'toughnessReductionDmgBoost',
       formItem: 'slider',
       text: t('Content.toughnessReductionDmgBoost.text'),
-      content: t('Content.toughnessReductionDmgBoost.content', { ultBoostMax: TsUtils.precisionRound(100 * ultBoostMax) }),
+      content: t('Content.toughnessReductionDmgBoost.content', { ultBoostMax: precisionRound(100 * ultBoostMax) }),
       min: 0,
       max: ultBoostMax,
       percent: true,
@@ -142,7 +142,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'fuaHits',
       formItem: 'slider',
       text: t('Content.fuaHits.text'),
-      content: t('Content.fuaHits.content', { fuaScaling: TsUtils.precisionRound(100 * fuaScaling) }),
+      content: t('Content.fuaHits.content', { fuaScaling: precisionRound(100 * fuaScaling) }),
       min: 0,
       max: 3,
     },

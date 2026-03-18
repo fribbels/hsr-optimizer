@@ -52,7 +52,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type CharacterConfig } from 'types/characterConfig'
 import {
@@ -66,6 +65,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const MydeiEntities = createEnum('Mydei')
 export const MydeiAbilities: AbilityKind[] = [
@@ -115,12 +115,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('skillEnhances.text'),
       content: t('skillEnhances.content', {
-        SkillPrimaryScaling: TsUtils.precisionRound(skillScaling * 100),
-        SkillAdjacentScaling: TsUtils.precisionRound(skill(e, 50, 55)),
-        EnhancedSkillPrimaryScaling: TsUtils.precisionRound(skillEnhanced1Scaling * 100),
-        EnhancedSkillAdjacentScaling: TsUtils.precisionRound(skill(e, 66, 72.6)),
-        EnhancedSkill2PrimaryScaling: TsUtils.precisionRound(skillEnhanced2Scaling * 100),
-        EnhancedSkill2AdjacentScaling: TsUtils.precisionRound(skill(e, 168, 184.8)),
+        SkillPrimaryScaling: precisionRound(skillScaling * 100),
+        SkillAdjacentScaling: precisionRound(skill(e, 50, 55)),
+        EnhancedSkillPrimaryScaling: precisionRound(skillEnhanced1Scaling * 100),
+        EnhancedSkillAdjacentScaling: precisionRound(skill(e, 66, 72.6)),
+        EnhancedSkill2PrimaryScaling: precisionRound(skillEnhanced2Scaling * 100),
+        EnhancedSkill2AdjacentScaling: precisionRound(skill(e, 168, 184.8)),
       }),
       min: 0,
       max: 2,
@@ -129,7 +129,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'vendettaState',
       formItem: 'switch',
       text: t('vendettaState.text'),
-      content: t('vendettaState.content', { HpRestoration: TsUtils.precisionRound(talent(e, 25, 27)) }),
+      content: t('vendettaState.content', { HpRestoration: precisionRound(talent(e, 25, 27)) }),
     },
     hpToCrConversion: {
       id: 'hpToCrConversion',

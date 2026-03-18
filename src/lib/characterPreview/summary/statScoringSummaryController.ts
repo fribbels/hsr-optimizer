@@ -8,12 +8,12 @@ import type { RelicScoringResult } from 'lib/relics/scoring/relicScorer'
 import { ScoringCache } from 'lib/relics/scoring/relicScorer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { objectHash } from 'lib/utils/objectUtils'
 import type { EstTbpRunnerOutput } from 'lib/worker/estTbpWorkerRunner'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export type EnrichedRelics = {
   LinkRope?: RelicAnalysis,
@@ -107,7 +107,7 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
       const expectedStat = StatCalculator.getMaxedSubstatValue(stat, 0.8) * rolls
       const diff = Math.max(0, actualStat - expectedStat)
       const roughStep = diff / expectedStep
-      const step = TsUtils.precisionRound(roughStep, 0)
+      const step = precisionRound(roughStep, 0)
 
       const result = rollCounter(rolls, step)
       substat.rolls = result.rolls

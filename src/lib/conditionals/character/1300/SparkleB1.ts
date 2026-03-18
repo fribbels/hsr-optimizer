@@ -25,7 +25,6 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -36,6 +35,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SparkleB1Entities = createEnum('SparkleB1')
 export const SparkleB1Abilities: AbilityKind[] = [
@@ -91,21 +91,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.skillBuffs.text'),
       content: t('Content.skillBuffs.content', {
-        skillCdBuffBase: TsUtils.precisionRound(100 * skillCdBuffBase),
-        skillCdBuffScaling: TsUtils.precisionRound(100 * skillCdBuffScaling),
+        skillCdBuffBase: precisionRound(100 * skillCdBuffBase),
+        skillCdBuffScaling: precisionRound(100 * skillCdBuffScaling),
       }),
     },
     cipherBuff: {
       id: 'cipherBuff',
       formItem: 'switch',
       text: t('Content.cipherBuff.text'),
-      content: t('Content.cipherBuff.content', { cipherTalentStackBoost: TsUtils.precisionRound(100 * cipherTalentStackBoost) }),
+      content: t('Content.cipherBuff.content', { cipherTalentStackBoost: precisionRound(100 * cipherTalentStackBoost) }),
     },
     talentStacks: {
       id: 'talentStacks',
       formItem: 'slider',
       text: t('Content.talentStacks.text'),
-      content: t('Content.talentStacks.content', { talentStackScaling: TsUtils.precisionRound(100 * talentBaseStackBoost) }),
+      content: t('Content.talentStacks.content', { talentStackScaling: precisionRound(100 * talentBaseStackBoost) }),
       min: 0,
       max: 3,
     },

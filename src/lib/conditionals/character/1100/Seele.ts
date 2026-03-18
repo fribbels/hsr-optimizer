@@ -33,7 +33,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -48,6 +47,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SeeleEntities = createEnum('Seele')
 export const SeeleAbilities: AbilityKind[] = [
@@ -89,7 +89,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'buffedState',
       formItem: 'switch',
       text: t('Content.buffedState.text'),
-      content: t('Content.buffedState.content', { buffedStateDmgBuff: TsUtils.precisionRound(100 * buffedStateDmgBuff) }),
+      content: t('Content.buffedState.content', { buffedStateDmgBuff: precisionRound(100 * buffedStateDmgBuff) }),
     },
     speedBoostStacks: {
       id: 'speedBoostStacks',

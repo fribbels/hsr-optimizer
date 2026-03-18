@@ -1,5 +1,5 @@
 import { Constants, Parts } from 'lib/constants/constants'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export function partIsOrnament(part: string) {
   return part === Parts.PlanarSphere
@@ -14,7 +14,7 @@ export function partIsRelic(part: string) {
 }
 
 export function calculateRelicMainStatValue(mainStatType: string, grade: number, enhance: number): number {
-  return TsUtils.precisionRound(
+  return precisionRound(
     Constants.MainStatsValues[mainStatType][grade].base
     + Constants.MainStatsValues[mainStatType][grade].increment * enhance,
   )

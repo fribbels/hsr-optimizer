@@ -9,7 +9,6 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type LightConeConditionalFunction,
@@ -19,6 +18,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(MushyShroomysAdventures.id)
@@ -41,7 +41,7 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       id: 'elationVulnerability',
       formItem: 'switch',
       text: t('elationVulnerability.text'),
-      content: t('elationVulnerability.content', { vulnerability: TsUtils.precisionRound(100 * sValues[s]) }),
+      content: t('elationVulnerability.content', { vulnerability: precisionRound(100 * sValues[s]) }),
     },
   }
 

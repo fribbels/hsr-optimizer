@@ -5,7 +5,6 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type LightConeConditionalFunction,
@@ -15,6 +14,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(LingeringTear.id)
@@ -33,7 +33,7 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       id: 'cdBuff',
       formItem: 'switch',
       text: t('cdBuff.text'),
-      content: t('cdBuff.content', { cdBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+      content: t('cdBuff.content', { cdBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

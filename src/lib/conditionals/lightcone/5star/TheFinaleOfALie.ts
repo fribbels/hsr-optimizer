@@ -6,7 +6,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type LightConeConditionalFunction,
@@ -16,6 +15,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(TheFinaleOfALie.id)
@@ -40,8 +40,8 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       formItem: 'switch',
       text: t('umbraDevourerBuff.text'),
       content: t('umbraDevourerBuff.content', {
-        atkBuff: TsUtils.precisionRound(100 * sValuesAtk[s]),
-        vulnerability: TsUtils.precisionRound(100 * sValuesVulnerability[s]),
+        atkBuff: precisionRound(100 * sValuesAtk[s]),
+        vulnerability: precisionRound(100 * sValuesVulnerability[s]),
       }),
     },
   }

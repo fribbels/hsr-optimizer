@@ -11,11 +11,11 @@ import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import type { ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import classes from './WarpCalculatorTab.module.css'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export function WarpCalculatorTab() {
   const { t } = useTranslation('warpCalculatorTab')
@@ -348,7 +348,7 @@ function Results() {
                   </Flex>
                 </Table.Td>
                 <Table.Td style={{ textAlign: 'center' }}>
-                  {`${TsUtils.precisionRound(record.wins * 100, 1).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
+                  {`${precisionRound(record.wins * 100, 1).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
                     minimumFractionDigits: 1,
                     maximumFractionDigits: 1,
                   })}%`}

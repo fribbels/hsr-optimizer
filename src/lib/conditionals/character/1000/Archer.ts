@@ -39,7 +39,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -52,6 +51,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const ArcherEntities = createEnum('Archer')
 export const ArcherAbilities: AbilityKind[] = [
@@ -108,7 +108,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillEnhances',
       formItem: 'slider',
       text: t('skillEnhances.text'),
-      content: t('skillEnhances.content', { SkillDmgBuff: TsUtils.precisionRound(100 * skillEnhancedExtraScaling) }),
+      content: t('skillEnhances.content', { SkillDmgBuff: precisionRound(100 * skillEnhancedExtraScaling) }),
       min: 0,
       max: e >= 6 ? 3 : 2,
     },

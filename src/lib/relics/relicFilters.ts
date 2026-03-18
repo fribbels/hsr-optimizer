@@ -22,7 +22,7 @@ import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
 import { clone } from 'lib/utils/objectUtils'
 import { arrayOfZeroes, arrayOfValue } from 'lib/utils/arrayUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export type PartCounts = Record<Parts, number>
 
@@ -444,5 +444,5 @@ export const RelicFilters = {
 }
 
 function getValueByStatType(stat: string, value: number) {
-  return TsUtils.precisionRound(isFlat(stat) ? value : value / 100)
+  return precisionRound(isFlat(stat) ? value : value / 100)
 }

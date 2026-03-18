@@ -45,7 +45,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type CharacterConditionalFunction,
@@ -59,6 +58,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const AshveilEntities = createEnum('Ashveil')
 export const AshveilAbilities = [
@@ -127,25 +127,25 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       id: 'baitActive',
       formItem: 'switch',
       text: t('baitActive.text'),
-      content: t('baitActive.content', { baitActiveDefPen: TsUtils.precisionRound(100 * skillDefPenValue) }),
+      content: t('baitActive.content', { baitActiveDefPen: precisionRound(100 * skillDefPenValue) }),
     },
     targetBait: {
       id: 'targetBait',
       formItem: 'switch',
       text: t('targetBait.text'),
-      content: t('targetBait.content', { baitHitAdditionalScaling: TsUtils.precisionRound(100 * skillAdditionalScaling) }),
+      content: t('targetBait.content', { baitHitAdditionalScaling: precisionRound(100 * skillAdditionalScaling) }),
     },
     enhancedFua: {
       id: 'enhancedFua',
       formItem: 'switch',
       text: t('enhancedFua.text'),
-      content: t('enhancedFua.content', { enhancedFuaGluttonyScaling: TsUtils.precisionRound(100 * ultBonusFuaScaling) }),
+      content: t('enhancedFua.content', { enhancedFuaGluttonyScaling: precisionRound(100 * ultBonusFuaScaling) }),
     },
     gluttonyStacks: {
       id: 'gluttonyStacks',
       formItem: 'slider',
       text: t('gluttonyStacks.text'),
-      content: t('gluttonyStacks.content', { enhancedFuaGluttonyScaling: TsUtils.precisionRound(100 * ultBonusFuaScaling) }),
+      content: t('gluttonyStacks.content', { enhancedFuaGluttonyScaling: precisionRound(100 * ultBonusFuaScaling) }),
       min: 0,
       max: maxGluttonyStacks,
     },

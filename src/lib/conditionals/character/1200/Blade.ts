@@ -45,7 +45,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const BladeEntities = createEnum('Blade')
 export const BladeAbilities: AbilityKind[] = [
@@ -115,13 +115,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedStateActive',
       formItem: 'switch',
       text: t('Content.enhancedStateActive.text'),
-      content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: TsUtils.precisionRound(100 * enhancedStateDmgBoost) }),
+      content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: precisionRound(100 * enhancedStateDmgBoost) }),
     },
     hpPercentLostTotal: {
       id: 'hpPercentLostTotal',
       formItem: 'slider',
       text: t('Content.hpPercentLostTotal.text'),
-      content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: TsUtils.precisionRound(100 * hpPercentLostTotalMax) }),
+      content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: precisionRound(100 * hpPercentLostTotalMax) }),
       min: 0,
       max: hpPercentLostTotalMax,
       percent: true,

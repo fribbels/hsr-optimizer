@@ -31,7 +31,6 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -45,6 +44,7 @@ import {
 } from 'types/optimizer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
 export const LingshaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -122,7 +122,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.befogState.text'),
       content: t('Content.befogState.content', {
-        BefogVulnerability: TsUtils.precisionRound(100 * ultBreakVulnerability),
+        BefogVulnerability: precisionRound(100 * ultBreakVulnerability),
       }),
     },
     e1DefShred: {

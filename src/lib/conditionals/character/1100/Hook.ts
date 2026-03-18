@@ -36,7 +36,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -51,6 +50,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const HookEntities = createEnum('Hook')
 export const HookAbilities: AbilityKind[] = [
@@ -96,13 +96,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedSkill',
       formItem: 'switch',
       text: t('Content.enhancedSkill.text'),
-      content: t('Content.enhancedSkill.content', { skillEnhancedScaling: TsUtils.precisionRound(100 * skillEnhancedScaling) }),
+      content: t('Content.enhancedSkill.content', { skillEnhancedScaling: precisionRound(100 * skillEnhancedScaling) }),
     },
     targetBurned: {
       id: 'targetBurned',
       formItem: 'switch',
       text: t('Content.targetBurned.text'),
-      content: t('Content.targetBurned.content', { targetBurnedExtraScaling: TsUtils.precisionRound(100 * targetBurnedExtraScaling) }),
+      content: t('Content.targetBurned.content', { targetBurnedExtraScaling: precisionRound(100 * targetBurnedExtraScaling) }),
     },
   }
 

@@ -32,7 +32,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -62,6 +61,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const March7thImaginaryEntities = createEnum('March7thImaginary')
 export const March7thImaginaryAbilities: AbilityKind[] = [
@@ -118,13 +118,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedBasic',
       formItem: 'switch',
       text: t('Content.enhancedBasic.text'),
-      content: t('Content.enhancedBasic.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
+      content: t('Content.enhancedBasic.content', { BasicEnhancedScaling: precisionRound(100 * basicEnhancedScaling) }),
     },
     basicAttackHits: {
       id: 'basicAttackHits',
       formItem: 'slider',
       text: t('Content.basicAttackHits.text'),
-      content: t('Content.basicAttackHits.content', { BasicEnhancedScaling: TsUtils.precisionRound(100 * basicEnhancedScaling) }),
+      content: t('Content.basicAttackHits.content', { BasicEnhancedScaling: precisionRound(100 * basicEnhancedScaling) }),
       min: 3,
       max: 6,
     },
@@ -132,7 +132,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'masterAdditionalDmgBuff',
       formItem: 'switch',
       text: t('Content.masterAdditionalDmgBuff.text'),
-      content: t('Content.masterAdditionalDmgBuff.content', { ShifuDmgBuff: TsUtils.precisionRound(100 * basicExtraScalingMasterBuff) }),
+      content: t('Content.masterAdditionalDmgBuff.content', { ShifuDmgBuff: precisionRound(100 * basicExtraScalingMasterBuff) }),
     },
     masterToughnessRedBuff: {
       id: 'masterToughnessRedBuff',
@@ -144,7 +144,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentDmgBuff',
       formItem: 'switch',
       text: t('Content.talentDmgBuff.text'),
-      content: t('Content.talentDmgBuff.content', { TalentDmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
+      content: t('Content.talentDmgBuff.content', { TalentDmgBuff: precisionRound(100 * talentDmgBuff) }),
     },
     selfSpdBuff: {
       id: 'selfSpdBuff',
@@ -167,7 +167,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'masterBuff',
       formItem: 'switch',
       text: t('TeammateContent.masterBuff.text'),
-      content: t('TeammateContent.masterBuff.content', { ShifuSpeedBuff: TsUtils.precisionRound(100 * skillSpdScaling) }),
+      content: t('TeammateContent.masterBuff.content', { ShifuSpeedBuff: precisionRound(100 * skillSpdScaling) }),
     },
     masterCdBeBuffs: {
       id: 'masterCdBeBuffs',

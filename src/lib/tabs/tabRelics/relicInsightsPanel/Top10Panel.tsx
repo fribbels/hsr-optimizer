@@ -5,7 +5,6 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import { type PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -26,6 +25,7 @@ import {
 } from 'recharts/types/component/DefaultTooltipContent'
 import type { CharacterId } from 'types/character'
 import { useGlobalStore } from 'lib/stores/appStore'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const N_Displayed = 10
 
@@ -168,7 +168,7 @@ function TooltipContent(props: TooltipContentProps<ValueType, NameType>) {
       <u>{data.name}</u>
       <div>
         <>
-          <>{t('AvgPotential')}{TsUtils.precisionRound(data.x, 1)}%</>
+          <>{t('AvgPotential')}{precisionRound(data.x, 1)}%</>
         </>
       </div>
     </Flex>

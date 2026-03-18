@@ -46,7 +46,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const JadeEntities = createEnum('Jade')
 export const JadeAbilities: AbilityKind[] = [
@@ -131,13 +131,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedFollowUp',
       formItem: 'switch',
       text: t('Content.enhancedFollowUp.text'),
-      content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: TsUtils.precisionRound(100 * ultFuaScalingBuff) }),
+      content: t('Content.enhancedFollowUp.content', { ultFuaScalingBuff: precisionRound(100 * ultFuaScalingBuff) }),
     },
     pawnedAssetStacks: {
       id: 'pawnedAssetStacks',
       formItem: 'slider',
       text: t('Content.pawnedAssetStacks.text'),
-      content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: TsUtils.precisionRound(100 * pawnedAssetCdScaling) }),
+      content: t('Content.pawnedAssetStacks.content', { pawnedAssetCdScaling: precisionRound(100 * pawnedAssetCdScaling) }),
       min: 0,
       max: 50,
     },

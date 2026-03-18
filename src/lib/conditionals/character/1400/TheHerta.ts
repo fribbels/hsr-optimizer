@@ -39,7 +39,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -52,6 +51,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TheHertaEntities = createEnum('TheHerta')
 export const TheHertaAbilities: AbilityKind[] = [
@@ -115,23 +115,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.eruditionTeammate.text'),
       content: t('Content.eruditionTeammate.content', {
-        PrimaryScalingBonus: TsUtils.precisionRound(talentStackScaling * 100),
-        AdjacentScalingBonus: TsUtils.precisionRound(talentStackScaling * 0.5 * 100),
+        PrimaryScalingBonus: precisionRound(talentStackScaling * 100),
+        AdjacentScalingBonus: precisionRound(talentStackScaling * 0.5 * 100),
       }),
     },
     ultAtkBuff: {
       id: 'ultAtkBuff',
       formItem: 'switch',
       text: t('Content.ultAtkBuff.text'),
-      content: t('Content.ultAtkBuff.content', { AtkBuff: TsUtils.precisionRound(ultAtkBuffScaling * 100) }),
+      content: t('Content.ultAtkBuff.content', { AtkBuff: precisionRound(ultAtkBuffScaling * 100) }),
     },
     interpretationStacks: {
       id: 'interpretationStacks',
       formItem: 'slider',
       text: t('Content.interpretationStacks.text'),
       content: t('Content.interpretationStacks.content', {
-        PrimaryScalingBonus: TsUtils.precisionRound(talentStackScaling * 100),
-        AdjacentScalingBonus: TsUtils.precisionRound(talentStackScaling * 0.5 * 100),
+        PrimaryScalingBonus: precisionRound(talentStackScaling * 100),
+        AdjacentScalingBonus: precisionRound(talentStackScaling * 0.5 * 100),
       }),
       min: 1,
       max: 42,

@@ -35,7 +35,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -49,6 +48,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const ArgentiEntities = createEnum('Argenti')
 export const ArgentiAbilities: AbilityKind[] = [
@@ -98,8 +98,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.ultEnhanced.text'),
       content: t('Content.ultEnhanced.content', {
-        ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling),
-        ultEnhancedScaling: TsUtils.precisionRound(100 * ultEnhancedScaling),
+        ultEnhancedExtraHitScaling: precisionRound(100 * ultEnhancedExtraHitScaling),
+        ultEnhancedScaling: precisionRound(100 * ultEnhancedScaling),
       }),
     },
     enemyHp50: {
@@ -113,8 +113,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('Content.talentStacks.text'),
       content: t('Content.talentStacks.content', {
-        talentMaxStacks: TsUtils.precisionRound(talentMaxStacks),
-        talentCrStackValue: TsUtils.precisionRound(100 * talentCrStackValue),
+        talentMaxStacks: precisionRound(talentMaxStacks),
+        talentCrStackValue: precisionRound(100 * talentCrStackValue),
       }),
       min: 0,
       max: talentMaxStacks,
@@ -123,7 +123,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultEnhancedExtraHits',
       formItem: 'slider',
       text: t('Content.ultEnhancedExtraHits.text'),
-      content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: TsUtils.precisionRound(100 * ultEnhancedExtraHitScaling) }),
+      content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: precisionRound(100 * ultEnhancedExtraHitScaling) }),
       min: 0,
       max: 6,
     },

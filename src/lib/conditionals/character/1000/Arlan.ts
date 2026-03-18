@@ -35,7 +35,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -49,6 +48,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const ArlanEntities = createEnum('Arlan')
 export const ArlanAbilities: AbilityKind[] = [
@@ -90,7 +90,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'selfCurrentHpPercent',
       formItem: 'slider',
       text: t('Content.selfCurrentHpPercent.text'),
-      content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: TsUtils.precisionRound(100 * talentMissingHpDmgBoostMax) }),
+      content: t('Content.selfCurrentHpPercent.content', { talentMissingHpDmgBoostMax: precisionRound(100 * talentMissingHpDmgBoostMax) }),
       min: 0.01,
       max: 1.0,
       percent: true,

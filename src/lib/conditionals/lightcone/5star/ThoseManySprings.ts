@@ -6,7 +6,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -15,6 +14,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThoseManySprings')
@@ -40,8 +40,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       formItem: 'switch',
       text: t('Content.unarmoredVulnerability.text'),
       content: t('Content.unarmoredVulnerability.content', {
-        UnarmoredVulnerability: TsUtils.precisionRound(sValuesVulnerability[s] * 100),
-        CorneredVulnerability: TsUtils.precisionRound(sValuesVulnerabilityEnhanced[s] * 100),
+        UnarmoredVulnerability: precisionRound(sValuesVulnerability[s] * 100),
+        CorneredVulnerability: precisionRound(sValuesVulnerabilityEnhanced[s] * 100),
       }),
     },
     corneredVulnerability: {
@@ -50,8 +50,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       formItem: 'switch',
       text: t('Content.corneredVulnerability.text'),
       content: t('Content.corneredVulnerability.content', {
-        UnarmoredVulnerability: TsUtils.precisionRound(sValuesVulnerability[s] * 100),
-        CorneredVulnerability: TsUtils.precisionRound(sValuesVulnerabilityEnhanced[s] * 100),
+        UnarmoredVulnerability: precisionRound(sValuesVulnerability[s] * 100),
+        CorneredVulnerability: precisionRound(sValuesVulnerabilityEnhanced[s] * 100),
       }),
     },
   }

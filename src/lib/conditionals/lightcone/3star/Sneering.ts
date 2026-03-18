@@ -6,7 +6,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type LightConeConditionalFunction,
@@ -16,6 +15,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(Sneering.id)
@@ -34,7 +34,7 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       id: 'elationBuff',
       formItem: 'switch',
       text: t('Content.elationBuff.text'),
-      content: t('Content.elationBuff.content', { elationBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+      content: t('Content.elationBuff.content', { elationBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

@@ -9,12 +9,12 @@ import {
   probabilityOfCorrectStat,
 } from 'lib/relics/estTbp/estTbp'
 import { Metadata } from 'lib/state/metadataInitializer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import type {
   Relic,
   RelicSubstatMetadata,
 } from 'types/relic'
 import { test } from 'vitest'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 Metadata.initialize()
 
@@ -122,7 +122,7 @@ test('Simulated relics', () => {
 
   for (let i = 0; i < trials; i++) {
     const relic = generateRelic(part, mainStat)
-    const result = TsUtils.precisionRound(sumSubstatWeights(relic, weights))
+    const result = precisionRound(sumSubstatWeights(relic, weights))
 
     results.push(result)
     if (result > rollsToBeat) {

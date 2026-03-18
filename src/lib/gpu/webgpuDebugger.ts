@@ -10,8 +10,8 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/utils/gridStore'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { type OptimizerContext } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: ArrayBuffer) {
   const array = new Float32Array(arrayBuffer)
@@ -177,5 +177,5 @@ export function debugPrintWebgpuArray(array: Float32Array) {
 }
 
 function fixed(n: number) {
-  return TsUtils.precisionRound(n, 5)
+  return precisionRound(n, 5)
 }

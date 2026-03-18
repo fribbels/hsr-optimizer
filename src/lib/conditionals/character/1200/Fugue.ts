@@ -41,7 +41,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -56,6 +55,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const FugueEntities = createEnum('Fugue')
 export const FugueAbilities: AbilityKind[] = [
@@ -117,19 +117,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'foxianPrayer',
       formItem: 'switch',
       text: t('Content.foxianPrayer.text'),
-      content: t('Content.foxianPrayer.content', { BreakBuff: TsUtils.precisionRound(100 * skillBeValue) }),
+      content: t('Content.foxianPrayer.content', { BreakBuff: precisionRound(100 * skillBeValue) }),
     },
     defReduction: {
       id: 'defReduction',
       formItem: 'switch',
       text: t('Content.defReduction.text'),
-      content: t('Content.defReduction.content', { DefShred: TsUtils.precisionRound(100 * skillDefPenValue) }),
+      content: t('Content.defReduction.content', { DefShred: precisionRound(100 * skillDefPenValue) }),
     },
     superBreakDmg: {
       id: 'superBreakDmg',
       formItem: 'switch',
       text: t('Content.superBreakDmg.text'),
-      content: t('Content.superBreakDmg.content', { SuperBreakMultiplier: TsUtils.precisionRound(100 * superBreakScaling) }),
+      content: t('Content.superBreakDmg.content', { SuperBreakMultiplier: precisionRound(100 * superBreakScaling) }),
     },
     e4BreakDmg: {
       id: 'e4BreakDmg',

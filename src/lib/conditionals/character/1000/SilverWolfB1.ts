@@ -46,7 +46,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -60,6 +59,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SilverWolfB1Entities = createEnum('SilverWolfB1')
 export const SilverWolfB1Abilities: AbilityKind[] = [
@@ -127,20 +127,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillResShredDebuff',
       formItem: 'switch',
       text: t('skillResShredDebuff.text'),
-      content: t('skillResShredDebuff.content', { SkillResShred: TsUtils.precisionRound(100 * skillResShredValue) }),
+      content: t('skillResShredDebuff.content', { SkillResShred: precisionRound(100 * skillResShredValue) }),
     },
     skillWeaknessResShredDebuff: {
       id: 'skillWeaknessResShredDebuff',
       formItem: 'switch',
       text: t('skillWeaknessResShredDebuff.text'),
-      content: t('skillWeaknessResShredDebuff.content', { ImplantBaseChance: TsUtils.precisionRound(skill(e, 120, 128)) }),
+      content: t('skillWeaknessResShredDebuff.content', { ImplantBaseChance: precisionRound(skill(e, 120, 128)) }),
     },
     talentDefShredDebuff: {
       id: 'talentDefShredDebuff',
       formItem: 'switch',
       text: t('talentDefShredDebuff.text'),
       content: t('talentDefShredDebuff.content', {
-        BugBaseChance: TsUtils.precisionRound(100 * bugBaseChance),
+        BugBaseChance: precisionRound(100 * bugBaseChance),
         BugAtkDown: talent(e, 10, 11),
         BugDefDown: talent(e, 12, 13.2),
         BugSpdDown: talent(e, 6, 6.6),
@@ -151,15 +151,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('ultDefShredDebuff.text'),
       content: t('ultDefShredDebuff.content', {
-        UltDefShred: TsUtils.precisionRound(100 * ultDefShredValue),
-        UltBaseChance: TsUtils.precisionRound(100 * ultBaseChance),
+        UltDefShred: precisionRound(100 * ultDefShredValue),
+        UltBaseChance: precisionRound(100 * ultBaseChance),
       }),
     },
     targetDebuffs: {
       id: 'targetDebuffs',
       formItem: 'slider',
       text: t('targetDebuffs.text'),
-      content: t('targetDebuffs.content', { BugBaseChance: TsUtils.precisionRound(100 * bugBaseChance) }),
+      content: t('targetDebuffs.content', { BugBaseChance: precisionRound(100 * bugBaseChance) }),
       min: 0,
       max: 5,
     },

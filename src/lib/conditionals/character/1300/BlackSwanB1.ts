@@ -48,7 +48,6 @@ import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -62,6 +61,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const BlackSwanB1Entities = createEnum('BlackSwanB1')
 export const BlackSwanB1Abilities: AbilityKind[] = [
@@ -126,21 +126,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillDefShred',
       formItem: 'switch',
       text: t('Content.skillDefShred.text'),
-      content: t('Content.skillDefShred.content', { skillDefShredScaling: TsUtils.precisionRound(100 * skillDefShredValue) }),
+      content: t('Content.skillDefShred.content', { skillDefShredScaling: precisionRound(100 * skillDefShredValue) }),
     },
     epiphanyDebuff: {
       id: 'epiphanyDebuff',
       formItem: 'switch',
       text: t('Content.epiphanyDebuff.text'),
-      content: t('Content.epiphanyDebuff.content', { epiphanyVulnerability: TsUtils.precisionRound(100 * epiphanyDmgTakenBoost) }),
+      content: t('Content.epiphanyDebuff.content', { epiphanyVulnerability: precisionRound(100 * epiphanyDmgTakenBoost) }),
     },
     arcanaStacks: {
       id: 'arcanaStacks',
       formItem: 'slider',
       text: t('Content.arcanaStacks.text'),
       content: t('Content.arcanaStacks.content', {
-        dotBaseScaling: TsUtils.precisionRound(100 * dotScaling),
-        arcanaAdditionalScaling: TsUtils.precisionRound(100 * arcanaStackMultiplier),
+        dotBaseScaling: precisionRound(100 * dotScaling),
+        arcanaAdditionalScaling: precisionRound(100 * arcanaStackMultiplier),
         arcanaStackLimit,
       }),
       min: 1,

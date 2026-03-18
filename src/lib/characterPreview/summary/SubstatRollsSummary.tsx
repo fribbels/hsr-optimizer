@@ -10,8 +10,8 @@ import {
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { useTranslation } from 'react-i18next'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 type SubstatRollsSummaryProps = {
   simRequest: SimulationRequest,
@@ -103,8 +103,8 @@ function ScoringNumberParens({ label, number, parens: parensValue, precision = 1
   parens?: number
   precision?: number
 }) {
-  const value = TsUtils.precisionRound(number ?? 0)
-  const parens = TsUtils.precisionRound(parensValue ?? 0)
+  const value = precisionRound(number ?? 0)
+  const parens = precisionRound(parensValue ?? 0)
   const show = value !== 0
   const showParens = parens > 0
 

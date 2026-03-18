@@ -49,7 +49,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -63,6 +62,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TopazEntities = createEnum('Topaz', 'Numby')
 export const TopazAbilities: AbilityKind[] = [
@@ -125,15 +125,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enemyProofOfDebtDebuff',
       formItem: 'switch',
       text: t('Content.enemyProofOfDebtDebuff.text'),
-      content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: TsUtils.precisionRound(100 * proofOfDebtFuaVulnerability) }),
+      content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: precisionRound(100 * proofOfDebtFuaVulnerability) }),
     },
     numbyEnhancedState: {
       id: 'numbyEnhancedState',
       formItem: 'switch',
       text: t('Content.numbyEnhancedState.text'),
       content: t('Content.numbyEnhancedState.content', {
-        enhancedStateFuaCdBoost: TsUtils.precisionRound(100 * enhancedStateFuaCdBoost),
-        enhancedStateFuaScalingBoost: TsUtils.precisionRound(100 * enhancedStateFuaScalingBoost),
+        enhancedStateFuaCdBoost: precisionRound(100 * enhancedStateFuaCdBoost),
+        enhancedStateFuaScalingBoost: precisionRound(100 * enhancedStateFuaScalingBoost),
       }),
     },
     e1DebtorStacks: {

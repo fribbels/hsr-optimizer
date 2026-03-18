@@ -9,11 +9,10 @@ import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/contai
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { useTranslation } from 'react-i18next'
 import classes from './StatsDiffCard.module.css'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths, truncate1000ths } from 'lib/utils/mathUtils'
+import { precisionRound, truncate10ths, truncate1000ths } from 'lib/utils/mathUtils'
 
 const baseCardHeight = 429
 const basePortraitHeight = 400
@@ -88,8 +87,8 @@ function DiffRow({ oldStats, newStats, stat }: {
   newStats: ComputedStatsObjectExternal,
   stat: keyof ComputedStatsObjectExternal | 'COMBO_DMG',
 }) {
-  const oldValue = TsUtils.precisionRound((oldStats as Record<string, number>)[stat])
-  const newValue = TsUtils.precisionRound((newStats as Record<string, number>)[stat])
+  const oldValue = precisionRound((oldStats as Record<string, number>)[stat])
+  const newValue = precisionRound((newStats as Record<string, number>)[stat])
 
   const { valueDisplay } = getStatRenderValues(
     newValue,
@@ -159,8 +158,8 @@ function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: 
 
 function getStatDiffRenderValues(statValue: number, customValue: number, stat: string) {
   if (stat === 'COMBO_DMG') {
-    const valueDisplay = `${truncate10ths(TsUtils.precisionRound(customValue ?? 0)).toFixed(1)}`
-    const value1000thsPrecision = TsUtils.precisionRound(customValue).toFixed(3)
+    const valueDisplay = `${truncate10ths(precisionRound(customValue ?? 0)).toFixed(1)}`
+    const value1000thsPrecision = precisionRound(customValue).toFixed(3)
     return {
       valueDisplay,
       value1000thsPrecision,
@@ -171,13 +170,13 @@ function getStatDiffRenderValues(statValue: number, customValue: number, stat: s
 
 function visualDiff(n1: number, n2: number, stat: string) {
   if (stat === Stats.SPD) {
-    return TsUtils.precisionRound(truncate10ths(n1) - truncate10ths(n2))
+    return precisionRound(truncate10ths(n1) - truncate10ths(n2))
   } else if (isFlat(stat)) {
-    return TsUtils.precisionRound(Math.floor(n1) - Math.floor(n2))
+    return precisionRound(Math.floor(n1) - Math.floor(n2))
   } else if (stat === 'COMBO_DMG') {
-    return TsUtils.precisionRound((n1 / n2 - 1) * 100)
+    return precisionRound((n1 / n2 - 1) * 100)
   } else {
-    return TsUtils.precisionRound(truncate1000ths(n1) - truncate1000ths(n2))
+    return precisionRound(truncate1000ths(n1) - truncate1000ths(n2))
   }
 }
 

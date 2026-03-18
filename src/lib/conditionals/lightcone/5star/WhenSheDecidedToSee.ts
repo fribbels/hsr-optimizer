@@ -6,7 +6,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type LightConeConditionalFunction,
@@ -16,6 +15,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(WhenSheDecidedToSee.id)
@@ -41,9 +41,9 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       formItem: 'switch',
       text: t('greatFortune.text'),
       content: t('greatFortune.content', {
-        critDamageBuff: TsUtils.precisionRound(100 * sValuesCd[s]),
-        critRateBuff: TsUtils.precisionRound(100 * sValuesCr[s]),
-        errBuff: TsUtils.precisionRound(100 * sValuesErr[s]),
+        critDamageBuff: precisionRound(100 * sValuesCd[s]),
+        critRateBuff: precisionRound(100 * sValuesCr[s]),
+        errBuff: precisionRound(100 * sValuesErr[s]),
       }),
     },
   }

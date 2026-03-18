@@ -36,7 +36,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -51,6 +50,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const ImbibitorLunaeEntities = createEnum('ImbibitorLunae')
 export const ImbibitorLunaeAbilities: AbilityKind[] = [
@@ -99,10 +99,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'slider',
       text: t('Content.basicEnhanced.text'),
       content: t('Content.basicEnhanced.content', {
-        basicScaling: TsUtils.precisionRound(100 * basicScaling),
-        basicEnhanced1Scaling: TsUtils.precisionRound(100 * basicEnhanced1Scaling),
-        basicEnhanced2Scaling: TsUtils.precisionRound(100 * basicEnhanced2Scaling),
-        basicEnhanced3Scaling: TsUtils.precisionRound(100 * basicEnhanced3Scaling),
+        basicScaling: precisionRound(100 * basicScaling),
+        basicEnhanced1Scaling: precisionRound(100 * basicEnhanced1Scaling),
+        basicEnhanced2Scaling: precisionRound(100 * basicEnhanced2Scaling),
+        basicEnhanced3Scaling: precisionRound(100 * basicEnhanced3Scaling),
       }),
       min: 0,
       max: 3,
@@ -111,7 +111,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'skillOutroarStacks',
       formItem: 'slider',
       text: t('Content.skillOutroarStacks.text'),
-      content: t('Content.skillOutroarStacks.content', { outroarStackCdValue: TsUtils.precisionRound(100 * outroarStackCdValue) }),
+      content: t('Content.skillOutroarStacks.content', { outroarStackCdValue: precisionRound(100 * outroarStackCdValue) }),
       min: 0,
       max: 4,
     },
@@ -119,7 +119,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'talentRighteousHeartStacks',
       formItem: 'slider',
       text: t('Content.talentRighteousHeartStacks.text'),
-      content: t('Content.talentRighteousHeartStacks.content', { righteousHeartDmgValue: TsUtils.precisionRound(100 * righteousHeartDmgValue) }),
+      content: t('Content.talentRighteousHeartStacks.content', { righteousHeartDmgValue: precisionRound(100 * righteousHeartDmgValue) }),
       min: 0,
       max: righteousHeartStackMax,
     },

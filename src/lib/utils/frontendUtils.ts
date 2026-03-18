@@ -1,3 +1,6 @@
+import type { DependencyList } from 'react'
+import { useEffect } from 'react'
+
 // --- Debounce (from debounceUtils.ts) ---
 
 const timeoutCache: Record<string, NodeJS.Timeout | null> = {}
@@ -63,4 +66,38 @@ export function smoothScrollNearest(element: HTMLElement, duration: number = 300
 
 export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+// --- Paint scheduling ---
+
+/**
+ * Schedules a callback to run after the browser's next paint.
+ * Uses double requestAnimationFrame: the first fires before paint,
+ * the second fires in the next frame — after the paint completes.
+ */
+export function afterPaint(callback: () => void) {
+  requestAnimationFrame(() => requestAnimationFrame(callback))
+}
+
+// --- Events ---
+
+let idCounter = 0;
+export class EventEmitter<T> {
+    private subscribers: Map<string, (value: T) => void> = new Map();
+
+    public subscribe(listener: (value: T) => void) {
+        const key = `sub-${idCounter++}`;
+        this.subscribers.set(key, listener);
+        return () => void this.subscribers.delete(key);
+    }
+
+    public send(value: T) {
+        this.subscribers.forEach((listener) => listener(value));
+    }
+
+    public use(listener: (value: T) => void, deps: DependencyList) {
+        return useEffect(() => {
+            return this.subscribe(listener);
+        }, deps);
+    }
 }

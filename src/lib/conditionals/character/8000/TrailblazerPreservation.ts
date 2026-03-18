@@ -17,7 +17,6 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -29,6 +28,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
 export const TrailblazerPreservationAbilities: AbilityKind[] = [
@@ -83,13 +83,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedBasic',
       formItem: 'switch',
       text: t('Content.enhancedBasic.text'),
-      content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: TsUtils.precisionRound(100 * basicEnhancedAtkScaling) }),
+      content: t('Content.enhancedBasic.content', { basicEnhancedAtkScaling: precisionRound(100 * basicEnhancedAtkScaling) }),
     },
     skillActive: {
       id: 'skillActive',
       formItem: 'switch',
       text: t('Content.skillActive.text'),
-      content: t('Content.skillActive.content', { skillDamageReductionValue: TsUtils.precisionRound(100 * skillDamageReductionValue) }),
+      content: t('Content.skillActive.content', { skillDamageReductionValue: precisionRound(100 * skillDamageReductionValue) }),
     },
     shieldActive: {
       id: 'shieldActive',

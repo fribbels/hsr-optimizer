@@ -7,7 +7,6 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type LightConeConfig } from 'types/lightConeConfig'
@@ -16,6 +15,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.PlanetaryRendezvous')
@@ -37,7 +37,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta:
       id: 'alliesSameElement',
       formItem: 'switch',
       text: t('Content.alliesSameElement.text'),
-      content: t('Content.alliesSameElement.content', { DmgBuff: TsUtils.precisionRound(100 * sValues[s]) }),
+      content: t('Content.alliesSameElement.content', { DmgBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

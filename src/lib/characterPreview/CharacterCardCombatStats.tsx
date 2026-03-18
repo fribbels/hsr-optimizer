@@ -31,13 +31,12 @@ import {
   localeNumber_0,
   localeNumber_000,
 } from 'lib/utils/i18nUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { memo, type ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DBMetadataCharacter } from 'types/metadata'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths } from 'lib/utils/mathUtils'
+import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
 
 export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ result }: {
   result: SimulationScore
@@ -115,15 +114,15 @@ function aggregateCombatStats(
     const flat = isFlat(stat)
     const xaValue = getStatValue(x, stat, element, primaryActionStats!)
     const caValue = getBasicStatValue(x, stat, element)
-    const upgraded = TsUtils.precisionRound(xaValue, 2) !== TsUtils.precisionRound(caValue, 2)
+    const upgraded = precisionRound(xaValue, 2) !== precisionRound(caValue, 2)
 
     let display = localeNumber(Math.floor(xaValue))
     if (stat === Stats.SPD) {
       display = preciseSpd
-        ? localeNumber_000(TsUtils.precisionRound(xaValue, 3))
-        : localeNumber_0(truncate10ths(TsUtils.precisionRound(xaValue, 3)))
+        ? localeNumber_000(precisionRound(xaValue, 3))
+        : localeNumber_0(truncate10ths(precisionRound(xaValue, 3)))
     } else if (!flat) {
-      display = localeNumber_0(truncate10ths(TsUtils.precisionRound(xaValue * 100, 4)))
+      display = localeNumber_0(truncate10ths(precisionRound(xaValue * 100, 4)))
     }
 
     displayWrappers.push({

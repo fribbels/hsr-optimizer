@@ -55,7 +55,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { TsUtils } from 'lib/utils/TsUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type CharacterId,
@@ -71,6 +70,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 export const CHRYSOS_HEIR_IDS = [
   '1402', // Aglaea
@@ -175,21 +175,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('Content.memospriteActive.text'),
       content: t('Content.memospriteActive.content', {
-        CRBuff: TsUtils.precisionRound(100 * ultCrBuff),
-        HPBuff: TsUtils.precisionRound(100 * memoTalentHpBuff),
+        CRBuff: precisionRound(100 * ultCrBuff),
+        HPBuff: precisionRound(100 * memoTalentHpBuff),
       }),
     },
     zoneActive: {
       id: 'zoneActive',
       formItem: 'switch',
       text: t('Content.zoneActive.text'),
-      content: t('Content.zoneActive.content', { TrueDmg: TsUtils.precisionRound(100 * skillTrueDmgBuff) }),
+      content: t('Content.zoneActive.content', { TrueDmg: precisionRound(100 * skillTrueDmgBuff) }),
     },
     talentDmgBuff: {
       id: 'talentDmgBuff',
       formItem: 'switch',
       text: t('Content.talentDmgBuff.text'),
-      content: t('Content.talentDmgBuff.content', { DmgBuff: TsUtils.precisionRound(100 * talentDmgBuff) }),
+      content: t('Content.talentDmgBuff.content', { DmgBuff: precisionRound(100 * talentDmgBuff) }),
     },
     traceSpdBasedBuff: {
       id: 'traceSpdBasedBuff',
@@ -248,7 +248,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'specialEffect',
       formItem: 'switch',
       text: t('TeammateContent.specialEffect.text'),
-      content: t('TeammateContent.specialEffect.content', { DmgBuff: TsUtils.precisionRound(100 * memoSkillDmgBuff) }),
+      content: t('TeammateContent.specialEffect.content', { DmgBuff: precisionRound(100 * memoSkillDmgBuff) }),
     },
     cyreneSpdDmg: {
       id: 'cyreneSpdDmg',
@@ -260,7 +260,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'cyreneHp',
       formItem: 'slider',
       text: t('TeammateContent.cyreneHp.text'),
-      content: t('TeammateContent.cyreneHp.content', { ConversionRate: TsUtils.precisionRound(100 * memoSkillTrailblazerAtkScaling) }),
+      content: t('TeammateContent.cyreneHp.content', { ConversionRate: precisionRound(100 * memoSkillTrailblazerAtkScaling) }),
       min: 0,
       max: 20000,
     },
@@ -268,7 +268,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'cyreneCr',
       formItem: 'slider',
       text: t('TeammateContent.cyreneCr.text'),
-      content: t('TeammateContent.cyreneCr.content', { ConversionRate: TsUtils.precisionRound(100 * memoSkillTrailblazerCrScaling) }),
+      content: t('TeammateContent.cyreneCr.content', { ConversionRate: precisionRound(100 * memoSkillTrailblazerCrScaling) }),
       min: 0,
       max: 1.50,
       percent: true,

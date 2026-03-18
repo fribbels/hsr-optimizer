@@ -14576,17 +14576,17 @@
     {
       "id": "104",
       "name": "Hunter of Glacial Forest",
-      "skills": "Increases Ice DMG by 10%. After the wearer uses their Ultimate, their CRIT DMG increases by 25% for #2[i] turn(s)."
+      "skills": "Increases Ice DMG by 10%. After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turns."
     },
     {
       "id": "105",
       "name": "Champion of Streetwise Boxing",
-      "skills": "Increases Physical DMG by 10%. After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to #2[i] time(s)."
+      "skills": "Increases Physical DMG by 10%. After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 times."
     },
     {
       "id": "106",
       "name": "Guard of Wuthering Snow",
-      "skills": "Reduces DMG taken by 8%. At the beginning of the turn, if the wearer's HP percentage is equal to or less than 50%, restores HP equal to 8% of their Max HP and regenerates #3[i] Energy."
+      "skills": "Reduces DMG taken by 8%. At the beginning of the turn, if the wearer's HP percentage is equal to or less than 50%, restores HP equal to 8% of their Max HP and regenerates 5 Energy."
     },
     {
       "id": "107",
@@ -14601,7 +14601,7 @@
     {
       "id": "109",
       "name": "Band of Sizzling Thunder",
-      "skills": "Increases Lightning DMG by 10%. When the wearer uses their Skill, increases the wearer's ATK by 20% for #2[i] turn(s)."
+      "skills": "Increases Lightning DMG by 10%. When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn."
     },
     {
       "id": "110",
@@ -14611,7 +14611,7 @@
     {
       "id": "111",
       "name": "Thief of Shooting Meteor",
-      "skills": "Increases Break Effect by 16%. Increases the wearer's Break Effect by 16%. After the wearer inflicts Weakness Break on an enemy, regenerates #2[i] Energy."
+      "skills": "Increases Break Effect by 16%. Increases the wearer's Break Effect by 16%. After the wearer inflicts Weakness Break on an enemy, regenerates 3 Energy."
     },
     {
       "id": "112",
@@ -14621,32 +14621,32 @@
     {
       "id": "113",
       "name": "Longevous Disciple",
-      "skills": "Increases Max HP by 12%. When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for #2[i] turn(s) and up to #3[i] stacks."
+      "skills": "Increases Max HP by 12%. When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turns and up to 2 stacks."
     },
     {
       "id": "114",
       "name": "Messenger Traversing Hackerspace",
-      "skills": "Increases SPD by 6%. When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for #2[i] turn(s). This effect cannot be stacked."
+      "skills": "Increases SPD by 6%. When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn. This effect cannot be stacked."
     },
     {
       "id": "115",
       "name": "The Ashblazing Grand Duke",
-      "skills": "Increases the DMG dealt by Follow-Up ATK by 20%. When the wearer uses a Follow-Up ATK, increases the wearer's ATK by 6% for every time the Follow-Up ATK deals DMG. This effect can stack up to #2[i] time(s) and lasts for #3[i] turn(s). This effect is removed the next time the wearer uses a Follow-Up ATK."
+      "skills": "Increases the DMG dealt by Follow-Up ATK by 20%. When the wearer uses a Follow-Up ATK, increases the wearer's ATK by 6% for every time the Follow-Up ATK deals DMG. This effect can stack up to 8 times and lasts for 3 turns. This effect is removed the next time the wearer uses a Follow-Up ATK."
     },
     {
       "id": "116",
       "name": "Prisoner in Deep Confinement",
-      "skills": "Increases ATK by 12%. For every DoT the enemy target is afflicted with, the wearer will ignore 6% of its DEF when dealing DMG to it. This effect is valid for a max of #2[i] DoTs."
+      "skills": "Increases ATK by 12%. For every DoT the enemy target is afflicted with, the wearer will ignore 6% of its DEF when dealing DMG to it. This effect is valid for a max of 3 DoTs."
     },
     {
       "id": "117",
       "name": "Pioneer Diver of Dead Waters",
-      "skills": "Increases DMG dealt to enemies with debuffs by 12%. Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least #4[i]/#5[i] debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for #6[i] turn(s)."
+      "skills": "Increases DMG dealt to enemies with debuffs by 12%. Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn."
     },
     {
       "id": "118",
       "name": "Watchmaker, Master of Dream Machinations",
-      "skills": "Increases Break Effect by 16%. When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for #2[i] turn(s). This effect cannot be stacked."
+      "skills": "Increases Break Effect by 16%. When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for 2 turns. This effect cannot be stacked."
     },
     {
       "id": "119",
@@ -14656,12 +14656,12 @@
     {
       "id": "120",
       "name": "The Wind-Soaring Valorous",
-      "skills": "Increases ATK by 12%. Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-Up ATK, increases DMG dealt by Ultimate by 36%, lasting for #3[i] turn(s)."
+      "skills": "Increases ATK by 12%. Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-Up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn."
     },
     {
       "id": "121",
       "name": "Sacerdos' Relived Ordeal",
-      "skills": "Increases SPD by 6%. When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by 18%, lasting for #2[i] turn(s). This effect can stack up to #3[i] time(s)."
+      "skills": "Increases SPD by 6%. When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by 18%, lasting for 2 turns. This effect can stack up to 2 times."
     },
     {
       "id": "122",
@@ -14671,22 +14671,22 @@
     {
       "id": "123",
       "name": "Hero of Triumphant Song",
-      "skills": "Increases ATK by 12%. While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by 30%, lasting for #3[i] turn(s)."
+      "skills": "Increases ATK by 12%. While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by 30%, lasting for 2 turns."
     },
     {
       "id": "124",
       "name": "Poet of Mourning Collapse",
-      "skills": "Increases Quantum DMG by 10%. Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is lower than #2[i]/#3[i], increases the wearer's CRIT Rate by 20%/32%. This effect applies to the wearer's memosprite at the same time."
+      "skills": "Increases Quantum DMG by 10%. Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is lower than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect applies to the wearer's memosprite at the same time."
     },
     {
       "id": "125",
       "name": "Warrior Goddess of Sun and Thunder",
-      "skills": "Increases SPD by 6%. When the wearer or their memosprite provides healing to ally targets other than themselves, the wearer gains \"Gentle Rain,\" which lasts for #3[i] turn(s) and can only trigger once per turn. While the wearer has \"Gentle Rain,\" SPD increases by 6% and all allies' CRIT DMG increases by 15%. This effect cannot stack."
+      "skills": "Increases SPD by 6%. When the wearer or their memosprite provides healing to ally targets other than themselves, the wearer gains \"Gentle Rain,\" which lasts for 2 turns and can only trigger once per turn. While the wearer has \"Gentle Rain,\" SPD increases by 6% and all allies' CRIT DMG increases by 15%. This effect cannot stack."
     },
     {
       "id": "126",
       "name": "Wavestrider Captain",
-      "skills": "Increases CRIT DMG by 16%. When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to #1[i] time(s). If there are #1[i] stack(s) of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by 48% for #3[i] turn(s)."
+      "skills": "Increases CRIT DMG by 16%. When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to 2 times. If there are 2 stacks of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by 48% for 1 turn."
     },
     {
       "id": "127",
@@ -14701,22 +14701,22 @@
     {
       "id": "129",
       "name": "Ever-Glorious Magical Girl",
-      "skills": "Increases CRIT DMG by 16%. The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every #2[i] accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, stacking up to #4[i] time(s)."
+      "skills": "Increases CRIT DMG by 16%. The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, stacking up to 10 times."
     },
     {
       "id": "130",
       "name": "Diviner of Distant Reach",
-      "skills": "Increases SPD by 6%. Before entering combat, if the wearer's SPD is greater than or equal to #1[i]/#2[i], increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by 10%. This effect cannot stack."
+      "skills": "Increases SPD by 6%. Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by 10%. This effect cannot stack."
     },
     {
       "id": "301",
       "name": "Space Sealing Station",
-      "skills": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches #2[i] or higher, the wearer's ATK increases by an extra 12%."
+      "skills": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%."
     },
     {
       "id": "302",
       "name": "Fleet of the Ageless",
-      "skills": "Increases the wearer's Max HP by 12%. When the wearer's SPD reaches #2[i] or higher, all allies' ATK increases by 8%."
+      "skills": "Increases the wearer's Max HP by 12%. When the wearer's SPD reaches 120 or higher, all allies' ATK increases by 8%."
     },
     {
       "id": "303",
@@ -14741,12 +14741,12 @@
     {
       "id": "307",
       "name": "Talia: Kingdom of Banditry",
-      "skills": "Increases the wearer's Break Effect by 16%. When the wearer's SPD reaches #2[i] or higher, the wearer's Break Effect increases by an extra 20%."
+      "skills": "Increases the wearer's Break Effect by 16%. When the wearer's SPD reaches 145 or higher, the wearer's Break Effect increases by an extra 20%."
     },
     {
       "id": "308",
       "name": "Sprightly Vonwacq",
-      "skills": "Increases the wearer's Energy Regeneration Rate by 5%. When the wearer's SPD reaches #2[i] or higher, the wearer's action is Advanced Forward by 40% immediately upon entering battle."
+      "skills": "Increases the wearer's Energy Regeneration Rate by 5%. When the wearer's SPD reaches 120 or higher, the wearer's action is Advanced Forward by 40% immediately upon entering battle."
     },
     {
       "id": "309",
@@ -14761,7 +14761,7 @@
     {
       "id": "311",
       "name": "Firmament Frontline: Glamoth",
-      "skills": "Increases the wearer's ATK by 12%. When the wearer's SPD is equal to or higher than #2[i]/#3[i], the wearer deals 12%/18% more DMG."
+      "skills": "Increases the wearer's ATK by 12%. When the wearer's SPD is equal to or higher than 135/160, the wearer deals 12%/18% more DMG."
     },
     {
       "id": "312",
@@ -14771,7 +14771,7 @@
     {
       "id": "313",
       "name": "Sigonia, the Unclaimed Desolation",
-      "skills": "Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to #2[i] time(s)."
+      "skills": "Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to 10 times."
     },
     {
       "id": "314",
@@ -14781,12 +14781,12 @@
     {
       "id": "315",
       "name": "Duran, Dynasty of Running Wolves",
-      "skills": "When an ally character uses a Follow-Up ATK, the wearer gains 1 stack of \"Merit,\" stacking up to #1[i] time(s). Each stack of \"Merit\" increases the DMG dealt by the wearer's Follow-Up ATKs by 5%. When there are #1[i] stacks, additionally increases the wearer's CRIT DMG by 25%."
+      "skills": "When an ally character uses a Follow-Up ATK, the wearer gains 1 stack of \"Merit,\" stacking up to 5 times. Each stack of \"Merit\" increases the DMG dealt by the wearer's Follow-Up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
     },
     {
       "id": "316",
       "name": "Forge of the Kalpagni Lantern",
-      "skills": "Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for #3[i] turn(s)."
+      "skills": "Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn."
     },
     {
       "id": "317",
@@ -14801,22 +14801,22 @@
     {
       "id": "319",
       "name": "Bone Collection's Serene Demesne",
-      "skills": "Increases the wearer's Max HP by 12%. When the wearer's Max HP is #2[i] or higher, increases the wearer's and their memosprite's CRIT DMG by 28%."
+      "skills": "Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%."
     },
     {
       "id": "320",
       "name": "Giant Tree of Rapt Brooding",
-      "skills": "Increases the wearer's SPD by 6%. When the wearer's SPD is #2[i]/#3[i] or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%."
+      "skills": "Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%."
     },
     {
       "id": "321",
       "name": "Arcadia of Woven Dreams",
-      "skills": "When the number of ally targets on the field is not equal to 4, for every 1 additional/missing ally target, increases the DMG dealt by the wearer and their memosprite by 9%/12%, stacking up to #3[i]/#4[i] time(s)."
+      "skills": "When the number of ally targets on the field is not equal to 4, for every 1 additional/missing ally target, increases the DMG dealt by the wearer and their memosprite by 9%/12%, stacking up to 4/3 times."
     },
     {
       "id": "322",
       "name": "Revelry by the Sea",
-      "skills": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to #2[i]/#3[i], increases the DoT DMG dealt by 12%/24% respectively."
+      "skills": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24% respectively."
     },
     {
       "id": "323",
@@ -14826,7 +14826,7 @@
     {
       "id": "324",
       "name": "Tengoku@Livestream",
-      "skills": "Increases the wearer's CRIT DMG by 16%. If #2[i] or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32%, lasting for #4[i] turns."
+      "skills": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32%, lasting for 3 turns."
     },
     {
       "id": "325",
@@ -14836,7 +14836,7 @@
     {
       "id": "326",
       "name": "City of Converging Stars",
-      "skills": "When the wearer uses Follow-Up ATK, increases ATK by 24% for #2[i] turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack."
+      "skills": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turns. When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack."
     }
   ]
 }

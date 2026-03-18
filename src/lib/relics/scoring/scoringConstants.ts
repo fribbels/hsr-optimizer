@@ -38,6 +38,19 @@ export const POSSIBLE_SUBSTATS = new Set(Constants.SubStats)
 
 export const RATINGS = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+'] as const
 
+// Pre-computed toFixed(1) lookup — avoids expensive Number.toFixed() in hot path
+// Lazy-initialized on first call so users without relics pay zero cost
+let _toFixed1Table: string[] | undefined
+
+export function toFixed1(n: number): string {
+  if (!_toFixed1Table) {
+    _toFixed1Table = new Array(600)
+    for (let i = 0; i < 600; i++) _toFixed1Table[i] = (i / 10).toFixed(1)
+  }
+  const idx = Math.round(n * 10)
+  return idx >= 0 && idx < 600 ? _toFixed1Table[idx] : n.toFixed(1)
+}
+
 export const DMG_MAINSTATS = [
   Stats.Physical_DMG,
   Stats.Fire_DMG,

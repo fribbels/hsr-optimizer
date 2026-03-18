@@ -1,6 +1,7 @@
 import { Relic } from 'types/relic'
 import { CharacterId } from 'types/character'
 import { RelicScoringResult, ScorerMetadata } from './types'
+import { toFixed1 } from './scoringConstants'
 import {
   computeMainStatScore,
   mainStatBonus,
@@ -27,7 +28,7 @@ export function scoreCurrentRelic(
   const rating = scoreToRating(score, relic.grade, relic.part, msScore)
 
   return {
-    score: score.toFixed(1),
+    score: toFixed1(score),
     scoreNumber: score,
     rating,
     mainStatScore: msScore,

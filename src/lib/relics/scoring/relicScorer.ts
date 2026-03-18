@@ -118,17 +118,6 @@ export class ScoringCache {
     return computePotentialScores(relic, meta, futureScore)
   }
 
-  /**
-   * Combined scoring: returns [current, future, potential] in a single call.
-   * Avoids 2 extra getMeta + cache lookups vs calling 3 methods separately.
-   */
-  scoreAllThree(relic: Relic, id: CharacterId): [RelicScoringResult, FutureScoringResult, PotentialResult] {
-    const current = this.getCurrentRelicScore(relic, id)
-    const future = this.getFutureRelicScore(relic, id)
-    const potential = this.scoreRelicPotential(relic, id)
-    return [current, future, potential]
-  }
-
   scoreCharacterWithRelics(
     character: Character | undefined,
     relics: (Relic | undefined)[],

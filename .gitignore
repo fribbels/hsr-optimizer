@@ -1,7 +1,3 @@
-# Golden test data (generated, ~22MB)
-src/lib/relics/tests/goldenData/goldenResults.json
-src/lib/relics/tests/goldenData/testRelics.json
-
 # Logs
 logs
 *.log

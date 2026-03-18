@@ -6,7 +6,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
-export type ActivationFunction =
+type ActivationFunction =
   | ((comboState: ComboState, key: string, index: number, value: boolean) => void)
   | ((comboState: ComboState, key: string, index: number, value: number) => void)
 

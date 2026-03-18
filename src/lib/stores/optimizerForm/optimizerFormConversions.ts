@@ -1,26 +1,45 @@
-import { CombatBuffs, ConditionalDataType, Constants } from 'lib/constants/constants'
-import { defaultSetConditionals } from 'lib/optimization/defaultForm'
-import { DEFAULT_SET_FILTERS, expandSetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalConversions'
-import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
-  type OptimizerRequestState,
+  CombatBuffs,
+  ConditionalDataType,
+  Constants,
+} from 'lib/constants/constants'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
+import {
+  createDefaultFormState,
+  createDefaultTeammate,
+} from 'lib/stores/optimizerForm/optimizerFormDefaults'
+import {
   type OptimizerRequest,
+  type OptimizerRequestState,
   type RatingFilterState,
   type StatFilterState,
   type TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { type Form, type Teammate } from 'types/form'
+import {
+  DEFAULT_SET_FILTERS,
+  expandSetFilters,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalConversions'
+import {
+  type Form,
+  type Teammate,
+} from 'types/form'
 
 const MAX_INT = Constants.MAX_INT
 
 // Stat filter keys that are percentages and need ÷100 for internal format
 const PERCENTAGE_STAT_KEYS = new Set([
-  'minCr', 'maxCr',
-  'minCd', 'maxCd',
-  'minEhr', 'maxEhr',
-  'minRes', 'maxRes',
-  'minBe', 'maxBe',
-  'minErr', 'maxErr',
+  'minCr',
+  'maxCr',
+  'minCd',
+  'maxCd',
+  'minEhr',
+  'maxEhr',
+  'minRes',
+  'maxRes',
+  'minBe',
+  'maxBe',
+  'minErr',
+  'maxErr',
 ])
 
 /**
@@ -283,9 +302,9 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
  * Returns statFilters, ratingFilters, and teammates in display format.
  */
 export function internalToDisplay(form: Partial<Form>): {
-  statFilters: StatFilterState
-  ratingFilters: RatingFilterState
-  teammates: [TeammateState, TeammateState, TeammateState]
+  statFilters: StatFilterState,
+  ratingFilters: RatingFilterState,
+  teammates: [TeammateState, TeammateState, TeammateState],
 } {
   return {
     statFilters: internalToStatFilters(form),

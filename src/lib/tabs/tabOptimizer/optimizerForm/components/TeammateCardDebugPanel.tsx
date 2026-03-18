@@ -22,7 +22,7 @@ interface TeammateCardDebugActions {
   reset: () => void
 }
 
-export type TeammateCardDebugStore = TeammateCardDebugState & TeammateCardDebugActions
+type TeammateCardDebugStore = TeammateCardDebugState & TeammateCardDebugActions
 
 const DEFAULTS: TeammateCardDebugState = {
   cardHeight: 490,
@@ -35,7 +35,7 @@ const DEFAULTS: TeammateCardDebugState = {
   showInsetShadow: false,
 }
 
-export const useTeammateCardDebugStore = create<TeammateCardDebugStore>((set) => ({
+const useTeammateCardDebugStore = create<TeammateCardDebugStore>((set) => ({
   ...DEFAULTS,
   set: (partial) => set(partial),
   reset: () => set(DEFAULTS),

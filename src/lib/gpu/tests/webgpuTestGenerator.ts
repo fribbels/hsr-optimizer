@@ -164,22 +164,6 @@ export async function generateAllTests() {
   ]
 }
 
-export function generateSingleCharacterTest(
-  device: GPUDevice,
-  pair: { characterId: CharacterId, lightConeId: LightConeId },
-) {
-  return [
-    generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device),
-    generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device),
-  ]
-}
-
-export function generateE0E1Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.reverse().map((pair) => {
-    return generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device)
-  })
-}
-
 export function generateE6E5Tests(device: GPUDevice) {
   return baseCharacterLightConeMappings.reverse().map((pair) => {
     return generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device)

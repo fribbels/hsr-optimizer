@@ -69,20 +69,6 @@ export const AToHKey: Partial<Record<AKeyValue, HKeyValue>> = hitStatEntries.red
   {} as Partial<Record<AKeyValue, HKeyValue>>,
 )
 
-// Map from HKey index to AKey index
-export const HToAKey: Record<HKeyValue, AKeyValue> = hitStatEntries.reduce(
-  (acc, [key], hitIndex) => {
-    const actionIndex = AKey[key as AKeyType]
-    acc[hitIndex as HKeyValue] = actionIndex
-    return acc
-  },
-  {} as Record<HKeyValue, AKeyValue>,
-)
-
-export function isHitStat(key: AKeyValue): boolean {
-  return AToHKey[key] !== undefined
-}
-
 // ============== Lengths ==============
 
 export const ACTION_STATS_LENGTH = Object.keys(newStatsConfig).length
@@ -96,6 +82,4 @@ export const GLOBAL_REGISTERS_LENGTH = 1
 // ============== Legacy aliases ==============
 
 export const StatKey = AKey
-export type StatKeyType = AKeyType
 export type StatKeyValue = AKeyValue
-export const getStatKeyName = getAKeyName

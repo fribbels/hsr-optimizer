@@ -65,7 +65,7 @@ function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimize
   }
 }
 
-export function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): CascaderData {
+function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): CascaderData {
   if (characterId && characterEidolon != null) {
     const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
       characterId: characterId as CharacterId,

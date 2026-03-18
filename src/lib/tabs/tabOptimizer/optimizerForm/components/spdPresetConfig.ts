@@ -10,13 +10,13 @@ export type SpdPresets = Record<string, {
   disabled?: boolean,
 }>
 
-export type SpdPresetCategory = {
+type SpdPresetCategory = {
   key: string,
   label: string,
   presets: SpdPresets,
 }
 
-export type SpdPresetsResult = {
+type SpdPresetsResult = {
   categories: SpdPresetCategory[],
   allPresets: SpdPresets,
 }
@@ -46,7 +46,7 @@ export type SpdPresetsResult = {
  *   200.000 — 6 turns in first cycle, 10 turns in first two cycles
  */
 
-export const MOC_SPD_BREAKPOINTS = {
+const MOC_SPD_BREAKPOINTS = {
   SPD0: undefined,
   SPD111: 111.112,
   SPD114: 114.286,
@@ -60,7 +60,7 @@ export const MOC_SPD_BREAKPOINTS = {
   SPD200: 200.000,
 } as const
 
-export const AA_SPD_BREAKPOINTS = {
+const AA_SPD_BREAKPOINTS = {
   AA_SPD0: 0,
   AA_SPD133: 133.334,
   AA_SPD166: 166.667,

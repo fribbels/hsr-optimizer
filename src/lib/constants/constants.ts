@@ -315,32 +315,6 @@ export const SubStatValues = {
   },
 } as const
 
-export const StatsToReadable = {
-  [Stats.HP_P]: 'HP %',
-  [Stats.ATK_P]: 'ATK %',
-  [Stats.DEF_P]: 'DEF %',
-  [Stats.SPD_P]: 'SPD %',
-  [Stats.HP]: 'HP',
-  [Stats.ATK]: 'ATK',
-  [Stats.DEF]: 'DEF',
-  [Stats.SPD]: 'SPD',
-  [Stats.CR]: 'CRIT Rate',
-  [Stats.CD]: 'CRIT DMG',
-  [Stats.EHR]: 'Effect HIT',
-  [Stats.RES]: 'Effect RES',
-  [Stats.BE]: 'Break Effect',
-  [Stats.ERR]: 'Energy Regen',
-  [Stats.OHB]: 'Healing Boost',
-  [Stats.Physical_DMG]: 'Physical DMG',
-  [Stats.Fire_DMG]: 'Fire DMG',
-  [Stats.Ice_DMG]: 'Ice DMG',
-  [Stats.Lightning_DMG]: 'Lightning DMG',
-  [Stats.Wind_DMG]: 'Wind DMG',
-  [Stats.Quantum_DMG]: 'Quantum DMG',
-  [Stats.Imaginary_DMG]: 'Imaginary DMG',
-  [Stats.Elation]: 'Elation',
-}
-
 export const Parts = {
   Head: 'Head',
   Hands: 'Hands',
@@ -366,15 +340,6 @@ export const MainStatParts = {
   LinkRope: 'LinkRope',
 } as const
 export type MainStatParts = typeof MainStatParts[keyof typeof MainStatParts]
-
-export const PartsToReadable = {
-  [Parts.Head]: 'Head',
-  [Parts.Hands]: 'Hands',
-  [Parts.Body]: 'Body',
-  [Parts.Feet]: 'Feet',
-  [Parts.PlanarSphere]: 'Sphere',
-  [Parts.LinkRope]: 'Rope',
-} as const
 
 export const PartsMainStats = {
   [Parts.Head]: [Stats.HP],

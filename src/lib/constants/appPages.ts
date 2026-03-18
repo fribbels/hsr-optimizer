@@ -30,7 +30,7 @@ export enum AppPages {
   METADATA_TEST = 'METADATA_TEST',
 }
 
-export type Route = `${typeof BASE_PATH}${RouteSuffix}`
+type Route = `${typeof BASE_PATH}${RouteSuffix}`
 
 type RouteSuffix = '' | '#main' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#webgpu' | '#metadata'
 
@@ -51,7 +51,7 @@ export const PageToRoute = {
   [AppPages.METADATA_TEST]: `${BASE_PATH}#metadata`,
 } as const satisfies Record<AppPages, Route>
 
-export const RouteToPage: Record<string, AppPages> = {
+const RouteToPage: Record<string, AppPages> = {
   ...(Object.fromEntries(Object.entries(PageToRoute).map(([page, route]) => [route, page])) as Record<string, AppPages>),
   [`${BASE_PATH}#main`]: AppPages.OPTIMIZER, // #main is shared by 4 tabs; OPTIMIZER is the default
 }

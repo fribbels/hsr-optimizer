@@ -11,7 +11,7 @@ const STANDARD_COLOR = '#799ef4'
 // Blue is a better default for the brief window before portrait color extraction completes.
 export const DEFAULT_SHOWCASE_COLOR = '#2473e1'
 
-export interface ResolvedShowcaseColor {
+interface ResolvedShowcaseColor {
   effectiveColorMode: ShowcaseColorMode
   seedColor: string
 }

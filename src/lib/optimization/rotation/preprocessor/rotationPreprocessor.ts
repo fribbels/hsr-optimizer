@@ -27,7 +27,7 @@ import { type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerControll
 import { type Form } from 'types/form'
 import { ThusBurnsTheDawnPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessLightCones'
 
-export const characterPreprocessors: AbilityPreprocessorBase[] = [
+const characterPreprocessors: AbilityPreprocessorBase[] = [
   new AshveilPreprocessor(),
   new CastoricePreprocessor(),
   new TheHertaPreprocessor(),
@@ -43,7 +43,7 @@ export const characterPreprocessors: AbilityPreprocessorBase[] = [
   new CyrenePreprocessor(),
 ]
 
-export const setPreprocessors: AbilityPreprocessorBase[] = [
+const setPreprocessors: AbilityPreprocessorBase[] = [
   new ScholarLostInEruditionPreprocessor(),
   new WavestriderCaptainPreprocessor(),
   new FiresmithOfLavaForgingPreprocessor(),
@@ -51,7 +51,7 @@ export const setPreprocessors: AbilityPreprocessorBase[] = [
   new BandOfSizzlingThunderPreprocessor(),
 ]
 
-export const lightConePreprocessors: AbilityPreprocessorBase[] = [
+const lightConePreprocessors: AbilityPreprocessorBase[] = [
   new ThusBurnsTheDawnPreprocessor(),
 ]
 

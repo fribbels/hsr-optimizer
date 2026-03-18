@@ -8,7 +8,7 @@ import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { Relic } from 'types/relic'
+import type { Relic } from 'types/relic'
 
 const partToIndex: Record<Parts, number> = {
   [Parts.Head]: 0,

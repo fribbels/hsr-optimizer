@@ -8,10 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateSpdPresets } from './spdPresetConfig'
 
-export type { PresetDefinition } from 'lib/scoring/presetEffects'
-export { PresetEffects } from 'lib/scoring/presetEffects'
-
-export type { SpdPresets, SpdPresetCategory, SpdPresetsResult } from './spdPresetConfig'
 export { generateSpdPresets, setSortColumn } from './spdPresetConfig'
 
 export function RecommendedPresetsButton() {

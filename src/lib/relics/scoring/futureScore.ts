@@ -1,15 +1,15 @@
 import i18next from 'i18next'
 import {
   Parts,
-  SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
+import type { SubStats } from 'lib/constants/constants'
 import {
   GRADE_CONFIG,
   MIN_ROLL_VALUE,
   PERCENT_TO_SCORE,
-  ValidGrade,
 } from 'lib/relics/scoring/scoringConstants'
+import type { ValidGrade } from 'lib/relics/scoring/scoringConstants'
 import type { FutureScoringResult, ScorerMetadata } from 'lib/relics/scoring/types'
 import {
   arrayToMap,

@@ -1,5 +1,7 @@
 import {
   Constants,
+} from 'lib/constants/constants'
+import type {
   MainStats,
   Parts,
   StatsValues,
@@ -10,8 +12,8 @@ import {
   MIN_ROLL_VALUE,
   PERCENT_TO_SCORE,
   STAT_NORMALIZATION,
-  ValidGrade,
 } from 'lib/relics/scoring/scoringConstants'
+import type { ValidGrade } from 'lib/relics/scoring/scoringConstants'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import type { Relic } from 'types/relic'
 

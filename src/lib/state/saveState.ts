@@ -9,7 +9,7 @@ import {
   useScannerState,
 } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
-import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'

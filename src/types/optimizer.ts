@@ -1,27 +1,27 @@
-import {
+import type {
   ElementName,
   PathName,
 } from 'lib/constants/constants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
-import { ActionModifier } from 'lib/optimization/context/calculateActions'
-import {
+import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import type { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
+import type { ActionModifier } from 'lib/optimization/context/calculateActions'
+import type {
   ComputedStatsContainer,
   ComputedStatsContainerConfig,
 } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CharacterId } from 'types/character'
-import {
+import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { CharacterId } from 'types/character'
+import type {
   CharacterConditionalsController,
   ConditionalValueMap,
   LightConeConditionalsController,
 } from 'types/conditionals'
-import { LightConeId } from 'types/lightCone'
-import {
+import type { LightConeId } from 'types/lightCone'
+import type {
   ElementalDamageType,
   ElementalResPenType,
 } from 'types/metadata'
-import {
+import type {
   Hit,
 } from './hitConditionalTypes'
 

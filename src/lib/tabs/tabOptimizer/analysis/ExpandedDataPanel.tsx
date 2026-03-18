@@ -9,8 +9,8 @@ import {
   getCachedForm,
   getPinnedRowData,
   mismatchedCharacter,
-  OptimizerResultAnalysis,
 } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
@@ -20,7 +20,7 @@ import { FormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
 export function ExpandedDataPanel() {
   const selectedRowData = useOptimizerDisplayStore((s) => s.optimizerSelectedRowData)

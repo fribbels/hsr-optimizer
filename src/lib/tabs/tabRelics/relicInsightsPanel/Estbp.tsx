@@ -4,7 +4,7 @@ import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScor
 import { ScoringCache } from 'lib/relics/scoring/relicScorer'
 import { useAsyncComputation } from 'lib/hooks/useAsyncComputation'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
-import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import {
   EstTbpWorkerOutput,
   handleWork,

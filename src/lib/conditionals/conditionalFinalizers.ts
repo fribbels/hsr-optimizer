@@ -5,7 +5,7 @@ import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { OptimizerAction } from 'types/optimizer'
+import type { OptimizerAction } from 'types/optimizer'
 
 export function boostAshblazingAtkContainer(x: ComputedStatsContainer, action: OptimizerAction, hitMulti: number) {
   if (relic4p(SetKeys.TheAshblazingGrandDuke, x.c.sets)) {

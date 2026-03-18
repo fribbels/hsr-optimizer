@@ -1,8 +1,8 @@
-import {
+import type {
   ElementTag,
   OutputTag,
 } from 'lib/optimization/engine/config/tag'
-import {
+import type {
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
 

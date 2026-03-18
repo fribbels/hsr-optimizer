@@ -1,11 +1,7 @@
-import {
-  Stats,
-  SubStats,
-} from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   applyScoringFunction,
-  SimulationResult,
   substatRollsModifier,
 } from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'

@@ -8,12 +8,12 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
-import {
+import type { CharacterId } from 'types/character'
+import type {
   LightConeId,
   SuperImpositionLevel,
 } from 'types/lightCone'
-import { DBMetadata } from 'types/metadata'
+import type { DBMetadata } from 'types/metadata'
 
 export interface LightConeConditionalDisplayProps {
   id?: LightConeId

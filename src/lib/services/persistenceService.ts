@@ -1,7 +1,6 @@
 import i18next from 'i18next'
 import {
   Constants,
-  CURRENT_OPTIMIZER_VERSION,
   Parts,
 } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
@@ -20,7 +19,7 @@ import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
-import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { TsUtils } from 'lib/utils/TsUtils'
@@ -305,7 +304,8 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
       if (character.builds && character.builds.length > 0) {
         newSavedBuilds = character.builds.map((savedBuild) => {
           const updatedBuild = savedBuild
-          ;(Object.entries(savedBuild.equipped) as Array<[Parts, string | undefined]>).forEach(([part, id]) => {
+          const equippedEntries = Object.entries(savedBuild.equipped) as Array<[Parts, string | undefined]>
+          equippedEntries.forEach(([part, id]) => {
             if (!id) return
             updatedBuild.equipped[part] = relicIdMapping[id] || id
           })
@@ -400,7 +400,7 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
     }
   }
 
-  oldRelics.map((x) => RelicAugmenter.augment(x))
+  oldRelics.forEach((x) => RelicAugmenter.augment(x))
   indexRelics(oldRelics)
   useRelicStore.getState().setRelics(oldRelics)
 

@@ -10,11 +10,10 @@ import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsS
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
-import { ElementToDamage, MainStats, PathNames, Parts, Stats } from 'lib/constants/constants'
+import { ElementName, ElementToDamage, MainStats, PathNames, Parts, Stats } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
-import { ElementName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import {
   diminishingReturnsFormula,
@@ -496,7 +495,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   )
 })
 
-export function ScoringTeammate({ result, index }: {
+function ScoringTeammate({ result, index }: {
   result: SimulationScore
   index: number
 }) {

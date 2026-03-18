@@ -26,7 +26,7 @@ function buildRelicsById(relics: Relic[]): Partial<Record<string, Relic>> {
   return relics.reduce((acc, relic) => {
     acc[relic.id] = relic
     return acc
-  }, {} as Record<string, Relic>)
+  }, {} as Partial<Record<string, Relic>>)
 }
 
 export const useRelicStore = createTabAwareStore<RelicStore>((set, get) => ({

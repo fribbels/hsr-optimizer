@@ -10,7 +10,7 @@ import {
 import {
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import {
+import type {
   AdditionalHitDefinition,
   BreakHitDefinition,
   CritHitDefinition,

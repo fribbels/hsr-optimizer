@@ -1,7 +1,7 @@
 import { MainStats, Parts, Stats, SubStats, } from 'lib/constants/constants'
 import { getRollQualityDistribution, thresholdProbability, } from 'lib/relics/estTbp/convolution'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Relic } from 'types/relic'
+import type { Relic } from 'types/relic'
 
 export function scoreTbp(preRelic: Relic, weights: { [stat: string]: number }): number {
   const relic = TsUtils.clone(preRelic)

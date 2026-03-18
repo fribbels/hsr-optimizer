@@ -2,7 +2,7 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
+import type { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 
 export interface StatConstraints {
   stat: string

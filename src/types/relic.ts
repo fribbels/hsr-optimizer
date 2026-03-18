@@ -17,10 +17,6 @@ export type UnaugmentedRelic =
   & Partial<Pick<Relic, 'id' | 'augmentedStats' | 'initialRolls' | 'ageIndex' | 'previewSubstats' | 'equippedBy'>>
 
 export type Relic = {
-  /*
-   * refactor?
-   * augmentedCaseWeight?: any;
-   */
   weightScore: number, // optimiser
 
   enhance: RelicEnhance,

@@ -1,5 +1,5 @@
 import { getScoringMetadata } from 'lib/stores/scoringStore'
-import { DBMetadataCharacter } from 'types/metadata'
+import type { DBMetadataCharacter } from 'types/metadata'
 
 export function calculateCustomTraces(characterMetadata: DBMetadataCharacter) {
   const overrides = getScoringMetadata(characterMetadata.id)

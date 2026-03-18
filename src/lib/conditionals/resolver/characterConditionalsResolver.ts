@@ -1,6 +1,6 @@
 import { characterConfigRegistry } from 'lib/conditionals/resolver/characterConfigRegistry'
-import { CharacterId, Eidolon } from 'types/character'
-import { CharacterConditionalsController } from 'types/conditionals'
+import type { CharacterId, Eidolon } from 'types/character'
+import type { CharacterConditionalsController } from 'types/conditionals'
 
 export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
 

@@ -96,7 +96,7 @@ function SaveDataSubmenu() {
   )
 }
 
-export default function ImportTab() {
+export function ImportTab() {
   const { t } = useTranslation('importSaveTab', { keyPrefix: 'TabLabels' })
   const ingest = useScannerState((s) => s.ingest)
 

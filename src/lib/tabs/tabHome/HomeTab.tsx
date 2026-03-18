@@ -22,7 +22,7 @@ import {
 
 const headerWidth = 1600
 
-export default function HomeTab() {
+export function HomeTab() {
   return (
     <Flex
       direction="column"

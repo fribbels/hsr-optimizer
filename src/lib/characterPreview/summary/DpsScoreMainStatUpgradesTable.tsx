@@ -224,7 +224,7 @@ export const tableStyle = {
   backgroundColor: 'var(--panel-bg)',
 }
 
-export function Arrow({ up }: { up: boolean }) {
+function Arrow({ up }: { up: boolean }) {
   return (
     <span className={styles.arrowText} style={{ color: arrowColor(up) }}>
       {arrowDirection(up)}

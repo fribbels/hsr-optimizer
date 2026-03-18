@@ -19,7 +19,6 @@ import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormA
 import { displayToInternal, internalToStatFilters } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
-  Build,
   BuildOptimizerMetadata,
   BuildTeammate,
   CharacterId,

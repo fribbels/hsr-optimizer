@@ -45,7 +45,7 @@ export const damageStats: Record<string, string> = {
   'Elation': 'Elation',
 }
 
-export const displayTextMap = {
+const displayTextMap: Record<string, string> = {
   'simScore': 'Combo DMG',
   'Fire DMG Boost': 'Fire DMG',
   'Ice DMG Boost': 'Ice DMG',
@@ -83,7 +83,6 @@ export const StatRow = memo(function StatRow({
 
   const { t, i18n } = useTranslation('common')
 
-  // @ts-expect-error - displayTextMap keys don't fully overlap with stat strings
   const readableStat: string = (displayTextMap[stat] || stat === 'CV')
     ? (i18n.exists(`ReadableStats.${stat}`)
       ? t(`ReadableStats.${stat as StatsValues}`)

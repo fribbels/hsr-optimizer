@@ -27,7 +27,7 @@ import { SegmentedFilterRow } from 'lib/tabs/tabOptimizer/optimizerForm/componen
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { CharacterMultiSelect } from 'lib/ui/selectors/CharacterMultiSelect'
 import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
-import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import {

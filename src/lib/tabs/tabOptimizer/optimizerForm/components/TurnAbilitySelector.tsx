@@ -37,7 +37,7 @@ function IndexLabel({ index }: { index: number }) {
 }
 
 export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 'ComboFilter'>): string {
-  if (!ability || ability == NULL_TURN_ABILITY) return ''
+  if (!ability || ability === NULL_TURN_ABILITY) return ''
   const abilityKindVisual: string = t(`ComboOptions.${ComboOptionsLabelMapping[ability.kind]}`)
 
   switch (ability.marker) {

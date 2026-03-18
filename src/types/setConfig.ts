@@ -1,15 +1,15 @@
-import { BasicSetEffectEntry } from 'lib/gpu/injection/generateBasicSetEffects'
-import { TFunction } from 'i18next'
-import {
+import type { BasicSetEffectEntry } from 'lib/gpu/injection/generateBasicSetEffects'
+import type { TFunction } from 'i18next'
+import type {
   ConditionalDataType,
   SetKey,
   Sets,
   TwoPieceStatTag,
 } from 'lib/constants/constants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
+import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import type { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type {
   OptimizerAction,
   OptimizerContext,
   SetConditional,

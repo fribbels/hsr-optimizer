@@ -5,7 +5,6 @@ import {
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { rollCounter } from 'lib/importer/characterConverter'
 import {
-  RelicScorer,
   RelicScoringResult,
   ScoringCache,
 } from 'lib/relics/scoring/relicScorer'

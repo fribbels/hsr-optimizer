@@ -5,7 +5,7 @@ import { OptimizerSidebar } from 'lib/tabs/tabOptimizer/sidebar/OptimizerSidebar
 
 export { isRemembrance } from 'lib/tabs/tabOptimizer/sidebar/MemoViewSelect'
 
-export default function Sidebar() {
+export function Sidebar() {
   const lg = useMediaQuery('(min-width: 992px)')
   const xl = useMediaQuery('(min-width: 1200px)')
   const xxl = useMediaQuery('(min-width: 1600px)')

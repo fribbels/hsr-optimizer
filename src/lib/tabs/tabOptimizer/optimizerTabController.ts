@@ -1,4 +1,4 @@
-import {
+import type {
   IGetRowsParams,
   IRowNode,
 } from 'ag-grid-community'
@@ -6,15 +6,15 @@ import {
   Constants,
   Parts,
 } from 'lib/constants/constants'
-import {
+import type {
   RelicsByPart,
   SingleRelicByPart,
 } from 'lib/gpu/webgpuTypes'
-import {
+import type {
   OptimizerDisplayData,
   OptimizerDisplayDataStatSim,
 } from 'lib/optimization/bufferPacker'
-import { GridAggregations } from 'lib/rendering/gradient'
+import type { GridAggregations } from 'lib/rendering/gradient'
 import {
   columnsToAggregateMap,
   getGridColumn,
@@ -30,7 +30,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
+import type {
   Form,
   OptimizerForm,
 } from 'types/form'

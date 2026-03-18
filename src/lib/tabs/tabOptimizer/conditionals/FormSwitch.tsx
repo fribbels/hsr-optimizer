@@ -1,17 +1,17 @@
 import { Flex, Switch } from '@mantine/core'
-import { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
+import type { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
-import { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
+import type { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { WithPopover } from 'lib/ui/WithPopover'
-import {
+import type {
   ComponentProps,
   ComponentType,
 } from 'react'
 
-export function getConditionalType(props: FormSwitchProps | FormSliderProps | FormSelectProps) {
+function getConditionalType(props: FormSwitchProps | FormSliderProps | FormSelectProps) {
   if (props.set) {
     return 'setConditionals'
   }

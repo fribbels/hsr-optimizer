@@ -3,16 +3,14 @@ import { SubStats } from 'lib/constants/constants'
 import { AKeyType, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
-import {
-  calculateStatUpgrades,
-  OptimizerResultAnalysis,
-} from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { calculateStatUpgrades } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import {
   localeNumber_0,
   localeNumber_00,
 } from 'lib/utils/i18nUtils'
 import { Utils } from 'lib/utils/utils'
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './SubstatUpgrades.module.css'
 

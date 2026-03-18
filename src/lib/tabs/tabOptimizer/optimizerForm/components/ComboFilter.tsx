@@ -62,7 +62,7 @@ export function ComboFilters() {
           variant="default"
           onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
           leftSection={<IconSettings size={16} />}
-          disabled={comboType == ComboType.SIMPLE}
+          disabled={comboType === ComboType.SIMPLE}
         >
           {t('RotationButton')}
         </Button>
@@ -134,14 +134,14 @@ function ComboBasicDefinition() {
     comboTurnAbilities: defaultComboTurnAbilities,
   } = getDefaultComboTurnAbilities(characterId!, characterEidolon)
 
-  const disabled = comboType == ComboType.SIMPLE
+  const disabled = comboType === ComboType.SIMPLE
 
   return (
     <Flex className={classes.comboContainer}>
       <Flex direction="column" flex={1} className={classes.abilitiesColumn} gap={3}>
         <HeaderText>{t('AbilityLabel') /* Abilities */}</HeaderText>
 
-        <Flex direction="column" flex={1} className={classes.abilitiesColumn} style={{ display: comboType == ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
+        <Flex direction="column" flex={1} className={classes.abilitiesColumn} style={{ display: comboType === ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
             <ComboOptionRowSelect
               key={i + 1}
@@ -151,7 +151,7 @@ function ComboBasicDefinition() {
           ))}
         </Flex>
 
-        <Flex direction="column" flex={1} className={`${classes.abilitiesColumn} ${classes.simpleAbilities}`} style={{ display: comboType == ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
+        <Flex direction="column" flex={1} className={`${classes.abilitiesColumn} ${classes.simpleAbilities}`} style={{ display: comboType === ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} />)}
         </Flex>
       </Flex>

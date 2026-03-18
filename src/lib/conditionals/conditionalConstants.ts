@@ -1,5 +1,5 @@
-import { SetKey, Sets } from 'lib/constants/constants'
-import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { SetKey } from 'lib/constants/constants'
+import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 export const ASHBLAZING_ATK_STACK = 0.06
 

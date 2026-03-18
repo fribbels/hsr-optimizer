@@ -1,11 +1,10 @@
-import { Parts } from 'lib/constants/constants'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
-import { Character, CharacterId } from 'types/character'
-import { Relic } from 'types/relic'
+import type { Character, CharacterId } from 'types/character'
+import type { Relic } from 'types/relic'
 import { MIN_ROLL_VALUE } from './scoringConstants'
 import { scoreToRating } from './scoreFormatting'
-import { CharacterScoringResult, RelicScoringResult, ScorerMetadata } from './types'
+import type { CharacterScoringResult, RelicScoringResult } from './types'
 
 function countPairs<T extends string | number | symbol>(arr: T[]): number {
   let pairs = 0

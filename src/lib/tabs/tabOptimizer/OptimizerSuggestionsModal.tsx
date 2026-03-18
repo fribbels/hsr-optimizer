@@ -1,5 +1,5 @@
 import { Button, Flex, Modal } from '@mantine/core'
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import {
   OpenCloseIDs,
   setOpen,
@@ -17,9 +17,9 @@ import {
   ZeroResultRootCauseFixes,
 } from 'lib/tabs/tabOptimizer/suggestionsEngine'
 import { HorizontalDivider } from 'lib/ui/Dividers'
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form } from 'types/form'
+import type { Form } from 'types/form'
 
 // Module-level state shared between activate functions (called from non-React code)
 // and modal components. This is intentional: the activate functions are invoked

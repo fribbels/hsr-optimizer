@@ -118,4 +118,4 @@ const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set) => ({
   setInsightsCharacters: (insightsCharacters) => set({ insightsCharacters }),
 }))
 
-export default useRelicsTabStore
+export { useRelicsTabStore }

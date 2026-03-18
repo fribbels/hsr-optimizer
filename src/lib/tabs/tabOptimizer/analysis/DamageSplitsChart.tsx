@@ -1,17 +1,18 @@
 import { Flex } from '@mantine/core'
 import {
   chartColor,
-  DamageSplitEntry,
   decodeDamageTypeLabel,
   getDamageTypeColor,
 } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
+import type { DamageSplitEntry } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { localeNumberComma, renderThousandsK } from 'lib/utils/i18nUtils'
-import { ReactNode, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
+import { useMemo, useState } from 'react'
+import type { LabelProps } from 'recharts'
 import {
   Bar,
   BarChart,
   LabelList,
-  LabelProps,
   Tooltip,
   XAxis,
   YAxis,

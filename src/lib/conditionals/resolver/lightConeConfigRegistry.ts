@@ -1,5 +1,5 @@
-import { LightConeId } from 'types/lightCone'
-import { LightConeConfig } from 'types/lightConeConfig'
+import type { LightConeId } from 'types/lightCone'
+import type { LightConeConfig } from 'types/lightConeConfig'
 
 const lightConeModules = import.meta.glob<Record<string, unknown>>(
   '../lightcone/**/*.ts',

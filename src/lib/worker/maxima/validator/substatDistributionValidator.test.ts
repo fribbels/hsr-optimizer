@@ -1,7 +1,4 @@
-import {
-  Stats,
-  StatsValues,
-} from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
   describe,

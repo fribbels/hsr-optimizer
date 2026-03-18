@@ -1,7 +1,7 @@
 import { createOverlayStore } from 'lib/stores/createOverlayStore'
-import { CharacterId } from 'types/character'
-import { Parts } from 'lib/constants/constants'
-import { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { Parts } from 'lib/constants/constants'
+import type { Relic } from 'types/relic'
 
 export type RelicModalConfig = {
   selectedRelic: Relic | null

@@ -13,7 +13,7 @@ import { ScoredRelic } from 'lib/relics/scoreRelics'
 import { SaveState } from 'lib/state/saveState'
 import * as equipmentService from 'lib/services/equipmentService'
 import { getRelicById } from 'lib/stores/relicStore'
-import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { gridStore } from 'lib/utils/gridStore'
 import { Relic } from 'types/relic'
 

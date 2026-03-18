@@ -15,17 +15,17 @@ import { precomputeConditionalActivations } from 'lib/optimization/rotation/prep
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
-import {
+import type {
   CharacterConditionalsController,
   ConditionalValueMap,
   ContentItem,
   LightConeConditionalsController,
 } from 'types/conditionals'
-import { Form, Teammate } from 'types/form'
-import { DBMetadata } from 'types/metadata'
-import { BasicForm } from 'types/optimizer'
+import type { Form, Teammate } from 'types/form'
+import type { DBMetadata } from 'types/metadata'
+import type { BasicForm } from 'types/optimizer'
 
-import {
+import type {
   ComboBooleanConditional,
   ComboCharacterMetadata,
   ComboConditionals,
@@ -34,9 +34,9 @@ import {
   ComboSubNumberConditional,
   ComboSubSelectConditional,
   ComboTeammate,
-  COMBO_STATE_JSON_VERSION,
   SetConditionals,
 } from './comboDrawerTypes'
+import { COMBO_STATE_JSON_VERSION } from './comboDrawerTypes'
 
 export function initializeComboState(request: Form, merge: boolean) {
   const dbMetadata = getGameMetadata()

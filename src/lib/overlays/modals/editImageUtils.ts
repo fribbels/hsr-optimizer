@@ -1,4 +1,4 @@
-import { ImageDimensions } from 'types/customImage'
+import type { ImageDimensions } from 'types/customImage'
 
 export const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
 // https://api.imgur.com/oauth2/addclient

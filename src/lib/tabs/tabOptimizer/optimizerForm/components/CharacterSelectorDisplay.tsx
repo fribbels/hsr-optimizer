@@ -3,7 +3,7 @@ import { Stats } from 'lib/constants/constants'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Hint } from 'lib/interactions/hint'
 import {
-  AbilityKind,
+  type AbilityKind,
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'

@@ -6,7 +6,7 @@ import iconClasses from 'style/icons.module.css'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
-import { RelicFilterFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type { RelicFilterFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
   optimizerTabDefaultGap,
@@ -15,7 +15,7 @@ import {
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { memo, ReactElement, useMemo, useState } from 'react'
+import { memo, type ReactElement, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './OptimizerOptionsDisplay.module.css'
 

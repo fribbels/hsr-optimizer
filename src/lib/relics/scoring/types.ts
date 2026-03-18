@@ -1,10 +1,10 @@
-import {
+import type {
   Parts,
   Sets,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import { ScoreCategory } from 'lib/scoring/scoreComparison'
+import type { ScoreCategory } from 'lib/scoring/scoreComparison'
 
 // Internal scorer metadata — enriched from the public ScoringMetadata in types/metadata.ts
 // Contains computed fields: sortedSubstats, groupedSubstats, hash, greedyHash, category
@@ -25,11 +25,6 @@ export type ScorerMetadata = {
   // Pre-computed: contributions[stat] * SubStatValues[stat][5].mid — score per grade-5 mid roll
   midRollScores: Record<SubStats, number>
   lowRollScores: Record<SubStats, number>
-}
-
-export type SubStat = {
-  stat: SubStats
-  value: number
 }
 
 export type RelicScoringResult = {

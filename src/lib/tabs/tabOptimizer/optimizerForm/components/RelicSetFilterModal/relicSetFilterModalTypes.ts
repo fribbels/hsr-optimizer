@@ -1,5 +1,5 @@
-import { TwoPieceStatTag } from 'lib/constants/constants'
-import { SetsOrnaments, SetsRelics } from 'lib/sets/setConfigRegistry'
+import type { TwoPieceStatTag } from 'lib/constants/constants'
+import type { SetsOrnaments, SetsRelics } from 'lib/sets/setConfigRegistry'
 
 // ── Relic set mode (4-piece vs 2-piece toggle) ──
 

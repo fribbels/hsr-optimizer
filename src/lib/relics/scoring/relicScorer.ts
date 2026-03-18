@@ -1,13 +1,13 @@
-import { MainStats, Parts } from 'lib/constants/constants'
-import { Character, CharacterId } from 'types/character'
-import { Relic, RelicId } from 'types/relic'
+import type { MainStats, Parts } from 'lib/constants/constants'
+import type { Character, CharacterId } from 'types/character'
+import type { Relic, RelicId } from 'types/relic'
 import { scoreCharacterUsingScorer, scoreCharacterWithRelicsUsingScorer } from './characterScore'
 import { scoreCurrentRelic } from './currentScore'
 import { computeFutureScores } from './futureScore'
 import { computeOptimalScore } from './optimalScore'
 import { computePotentialScores } from './potentialScore'
 import { prepareScoringMetadata } from './scoringMetadata'
-import {
+import type {
   CharacterScoringResult,
   FutureScoringResult,
   PotentialResult,

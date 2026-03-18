@@ -217,8 +217,6 @@ export function HitDefinitionRows({ context, selectedAction }: {
   context: OptimizerContext
   selectedAction: number | null
 }) {
-  const options = useContext(DesignContext)
-
   const actions = getSelectedActions(context, selectedAction)
   if (!actions.length) return null
 

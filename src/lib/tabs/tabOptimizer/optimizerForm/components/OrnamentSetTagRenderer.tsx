@@ -2,8 +2,8 @@ import { Badge } from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
-import { ReactNode } from 'react'
-import { ReactElement } from 'types/components'
+import type { ReactNode } from 'react'
+import type { ReactElement } from 'types/components'
 import classes from './OrnamentSetTagRenderer.module.css'
 
 // NOTE: Be careful hot-reloading with this file, can cause Db to wipe. Unsure why yet

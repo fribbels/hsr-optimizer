@@ -24,7 +24,7 @@ import {
 } from 'lib/utils/relicUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import {
+import type {
   Relic,
   RelicEnhance,
   RelicGrade,

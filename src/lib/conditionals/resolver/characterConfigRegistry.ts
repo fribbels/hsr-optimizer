@@ -1,5 +1,5 @@
-import { CharacterId } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
+import type { CharacterId } from 'types/character'
+import type { CharacterConfig } from 'types/characterConfig'
 
 const characterModules = import.meta.glob<Record<string, unknown>>(
   '../character/**/*.ts',

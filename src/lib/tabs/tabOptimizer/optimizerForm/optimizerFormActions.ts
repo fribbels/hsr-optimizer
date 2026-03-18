@@ -14,14 +14,14 @@ import { SaveState } from 'lib/state/saveState'
 import { getCharacterById } from 'lib/stores/characterStore'
 import * as equipmentService from 'lib/services/equipmentService'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { MainConditionalType, TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { type MainConditionalType, type TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { initializeComboState, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/utils/gridStore'
 import { Utils } from 'lib/utils/utils'
-import { Build, CharacterId } from 'types/character'
-import { Form } from 'types/form'
+import type { Build, CharacterId } from 'types/character'
+import type { Form } from 'types/form'
 
 const OPTIMIZER_FORM_CACHE_MAX = 50
 const _optimizerFormCacheMap = new Map<string, Form>()
@@ -231,7 +231,7 @@ export function validateForm(form: Form): boolean {
     return false
   }
 
-  if (Object.values(Constants.SubStats).map((stat) => form.weights[stat]).filter((x) => !!x).length == 0) {
+  if (Object.values(Constants.SubStats).map((stat) => form.weights[stat]).filter((x) => !!x).length === 0) {
     Message.error(t('Error.TopPercent'), 10)
     console.log('Top percent')
     return false
@@ -270,7 +270,7 @@ export function equipClicked(): void {
   SaveState.delayedSave()
 
   const selectedNodes = gridStore.optimizerGridApi()?.getSelectedNodes()
-  if (!selectedNodes || selectedNodes.length == 0 || (selectedNodes[0]?.data?.statSim)) {
+  if (!selectedNodes || selectedNodes.length === 0 || (selectedNodes[0]?.data?.statSim)) {
     // Cannot equip a stat sim or empty row
     return
   }

@@ -1,7 +1,6 @@
 import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { sumArray } from 'lib/utils/mathUtils'
 import {
-  ProtoTreeStatNode,
   SearchTree,
   TreeConfig,
   TreeStatNode,

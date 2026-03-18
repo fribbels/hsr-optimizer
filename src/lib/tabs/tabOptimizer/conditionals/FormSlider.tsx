@@ -5,9 +5,11 @@ import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/cond
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { WithPopover } from 'lib/ui/WithPopover'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
+import type {
   ComponentProps,
   ComponentType,
+} from 'react'
+import {
   useEffect,
   useState,
 } from 'react'

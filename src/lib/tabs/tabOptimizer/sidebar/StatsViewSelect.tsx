@@ -2,7 +2,7 @@ import { SegmentedControl } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StatDisplay } from 'types/store'
+import type { StatDisplay } from 'types/store'
 
 export const StatsViewSelect = React.memo(function StatsViewSelect() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })

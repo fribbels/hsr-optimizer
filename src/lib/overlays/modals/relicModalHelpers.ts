@@ -96,7 +96,7 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
     } else {
       return {
         stat: stat,
-        value: value % 1 !== 0 ? Utils.truncate10ths(value.toFixed(1)) : Math.floor(value),
+        value: value % 1 !== 0 ? Utils.truncate10ths(Number(value.toFixed(1))) : Math.floor(value),
       }
     }
   } else if (Utils.isFlat(stat)) {

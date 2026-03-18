@@ -34,7 +34,7 @@ export function SubstatsSection({ simType, title, total }: { simType: StatSimTyp
             <InputNumberStyled
               hideControls
               disabled={true}
-              value={Utils.truncate10ths(total)}
+              value={Utils.truncate10ths(total ?? 0)}
               variant='unstyled'
               max={54}
               error={(total ?? 0) > 54 ? true : undefined}

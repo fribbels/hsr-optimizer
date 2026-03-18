@@ -18,7 +18,7 @@ import { Utils } from 'lib/utils/utils'
 import type { CharacterId } from 'types/character'
 
 export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
-  const scoringMetadata = Utils.clone(getScoringMetadata(id)) as ScorerMetadata
+  const scoringMetadata = Utils.clone(getScoringMetadata(id)) as unknown as ScorerMetadata
 
   const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
   scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })

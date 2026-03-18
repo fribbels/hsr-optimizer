@@ -56,7 +56,7 @@ export type UnconvertedCharacter = {
   relicList?: PreRelic[],
   equipment?: PreLightCone,
   rank?: number,
-  avatarId: CharacterId,
+  avatarId: number | string, // API sends number; dataProcessors may append enhancedId suffix
 }
 
 type PreRelic = {
@@ -98,7 +98,7 @@ export const CharacterConverter = {
     const preRelics = character.relicList ?? []
     const preLightCone = character.equipment
     const characterEidolon = character.rank ?? 0
-    const id = '' + character.avatarId as CharacterId
+    const id = String(character.avatarId) as CharacterId
     const lightConeId = preLightCone ? ('' + preLightCone.tid) as LightConeId : null
     const lightConeSuperimposition = preLightCone ? preLightCone.rank : 0
 

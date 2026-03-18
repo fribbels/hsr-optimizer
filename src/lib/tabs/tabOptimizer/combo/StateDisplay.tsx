@@ -84,7 +84,7 @@ export function StateDisplay({ comboState, onComboStateChange }: {
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate0}
         actionCount={actionCount}
-        conditionalType='lightCone'
+        conditionalType='relicSet'
         originKey='comboTeammate0RelicSet'
         comboState={comboState}
         onComboStateChange={onComboStateChange}
@@ -92,7 +92,7 @@ export function StateDisplay({ comboState, onComboStateChange }: {
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate0}
         actionCount={actionCount}
-        conditionalType='lightCone'
+        conditionalType='ornamentSet'
         originKey='comboTeammate0OrnamentSet'
         comboState={comboState}
         onComboStateChange={onComboStateChange}
@@ -117,7 +117,7 @@ export function StateDisplay({ comboState, onComboStateChange }: {
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate1}
         actionCount={actionCount}
-        conditionalType='lightCone'
+        conditionalType='relicSet'
         originKey='comboTeammate1RelicSet'
         comboState={comboState}
         onComboStateChange={onComboStateChange}
@@ -125,7 +125,7 @@ export function StateDisplay({ comboState, onComboStateChange }: {
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate1}
         actionCount={actionCount}
-        conditionalType='lightCone'
+        conditionalType='ornamentSet'
         originKey='comboTeammate1OrnamentSet'
         comboState={comboState}
         onComboStateChange={onComboStateChange}
@@ -150,7 +150,7 @@ export function StateDisplay({ comboState, onComboStateChange }: {
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate2}
         actionCount={actionCount}
-        conditionalType='lightCone'
+        conditionalType='relicSet'
         originKey='comboTeammate2RelicSet'
         comboState={comboState}
         onComboStateChange={onComboStateChange}
@@ -158,7 +158,7 @@ export function StateDisplay({ comboState, onComboStateChange }: {
       <ComboConditionalsGroupRow
         comboOrigin={comboTeammate2}
         actionCount={actionCount}
-        conditionalType='lightCone'
+        conditionalType='ornamentSet'
         originKey='comboTeammate2OrnamentSet'
         comboState={comboState}
         onComboStateChange={onComboStateChange}

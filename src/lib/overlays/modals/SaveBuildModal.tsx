@@ -164,7 +164,8 @@ function SaveBuildModalContent() {
             const value = e.currentTarget.value
             characterForm.setFieldValue('name', value)
             setInputName(value)
-            setSelectedBuild(character?.builds?.findIndex((b) => b.name === value) ?? null)
+            const idx = character?.builds?.findIndex((b) => b.name === value) ?? -1
+            setSelectedBuild(idx >= 0 ? idx : null)
           }}
         />
         <Divider className={styles.divider} />

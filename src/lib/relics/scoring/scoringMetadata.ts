@@ -77,14 +77,18 @@ export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
   const contributions = {} as Record<SubStats, number>
   const highRollScores = {} as Record<SubStats, number>
   const midRollScores = {} as Record<SubStats, number>
+  const lowRollScores = {} as Record<SubStats, number>
   for (const [stat] of scoringMetadata.sortedSubstats) {
-    contributions[stat] = (scoringMetadata.stats[stat] || 0) * STAT_NORMALIZATION[stat]
-    highRollScores[stat] = contributions[stat] * SubStatValues[stat][5].high
-    midRollScores[stat] = contributions[stat] * SubStatValues[stat][5].mid
+    const c = (scoringMetadata.stats[stat] || 0) * STAT_NORMALIZATION[stat]
+    contributions[stat] = c
+    highRollScores[stat] = c * SubStatValues[stat][5].high
+    midRollScores[stat] = c * SubStatValues[stat][5].mid
+    lowRollScores[stat] = c * SubStatValues[stat][5].low
   }
   scoringMetadata.contributions = contributions
   scoringMetadata.highRollScores = highRollScores
   scoringMetadata.midRollScores = midRollScores
+  scoringMetadata.lowRollScores = lowRollScores
 
   return scoringMetadata
 }

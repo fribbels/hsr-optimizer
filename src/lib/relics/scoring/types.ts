@@ -24,6 +24,7 @@ export type ScorerMetadata = {
   highRollScores: Record<SubStats, number>
   // Pre-computed: contributions[stat] * SubStatValues[stat][5].mid — score per grade-5 mid roll
   midRollScores: Record<SubStats, number>
+  lowRollScores: Record<SubStats, number>
 }
 
 export type SubStat = {

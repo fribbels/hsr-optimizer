@@ -136,7 +136,7 @@ export function computeFutureScores(
       if (bw > maxWeight) { maxWeight = bw; bestUpgradeStat = bestStat }
       // Worst: bottom available
       const worstStat = availableSubstats[availLen - 1 - idx][0]
-      worstRaw += SubStatValues[worstStat][5].low * contributions[worstStat]
+      worstRaw += meta.lowRollScores[worstStat]
       const ww = meta.stats[worstStat]
       if (ww < minWeight) { minWeight = ww; worstUpgradeStat = worstStat }
     }
@@ -150,7 +150,9 @@ export function computeFutureScores(
   bestRaw += remainingRolls * SubStatValues[bestUpgradeStat][grade].high * contributions[bestUpgradeStat]
   const best = Math.max(0, (bestRaw + deduction) * normFactor + bonus)
   const average = Math.max(0, (avgRaw + deduction) * normFactor + bonus)
-  worstRaw += remainingRolls * SubStatValues[worstUpgradeStat][grade].low * contributions[worstUpgradeStat]
+  worstRaw += remainingRolls * (grade === 5
+    ? meta.lowRollScores[worstUpgradeStat]
+    : SubStatValues[worstUpgradeStat][grade].low * contributions[worstUpgradeStat])
   const worst = Math.max(0, (worstRaw + deduction) * normFactor + bonus)
 
   // ── Levelup metadata ──

@@ -58,19 +58,21 @@ export function computeFutureScores(
       return s !== mainStat && s !== s0 && s !== s1 && s !== s2
     })
   } else {
-    availableSubstats = undefined!
+    availableSubstats = undefined! // Safe: all access sites are guarded by needsFill
   }
   const remainingRolls = Math.ceil((config.maxEnhance - relic.enhance) / 3) - (4 - relic.substats.length)
 
   // ── Single-pass over existing substats: compute current, best, avg, worst raw scores ──
   // Pre-compute grade-specific mid roll scores (grade 5 uses cached metadata, others compute on the fly)
-  const midRolls = grade === 5
-    ? meta.midRollScores
-    : (() => {
-      const m = {} as Record<SubStats, number>
-      for (const [stat] of meta.sortedSubstats) m[stat] = contributions[stat] * SubStatValues[stat][grade].mid
-      return m
-    })()
+  let midRolls: Record<SubStats, number>
+  if (grade === 5) {
+    midRolls = meta.midRollScores
+  } else {
+    midRolls = {} as Record<SubStats, number>
+    for (const [stat] of meta.sortedSubstats) {
+      midRolls[stat] = contributions[stat] * SubStatValues[stat][grade].mid
+    }
+  }
 
   // ────────────────────────────────────────────────────────────────────────────
   // Single-pass accumulation: all scenario raw scores + reroll data in one loop.
@@ -234,8 +236,6 @@ export function computeFutureScores(
     worst,
     rerollAvg,
     blockerAvg,
-    meta: levelupMetadata
-      ? { bestAddedStats: levelupMetadata.bestAddedStats, bestUpgradedStats: levelupMetadata.bestUpgradedStats }
-      : EMPTY_FUTURE_META,
+    meta: levelupMetadata ?? EMPTY_FUTURE_META,
   }
 }

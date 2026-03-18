@@ -46,14 +46,12 @@ export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
 
   let weightedDmgTypes = 0
   Object.entries(scoringMetadata.stats).forEach(([stat, value]) => {
-    // @ts-ignore
-    if (DMG_MAINSTATS.includes(stat) && value) weightedDmgTypes++
+    if ((DMG_MAINSTATS as string[]).includes(stat) && value) weightedDmgTypes++
   })
 
   let validDmgMains = 0
   scoringMetadata.parts.PlanarSphere.forEach((mainstat) => {
-    // @ts-ignore
-    if (DMG_MAINSTATS.includes(mainstat)) validDmgMains++
+    if ((DMG_MAINSTATS as string[]).includes(mainstat)) validDmgMains++
   })
 
   if (weightedDmgTypes < 2 && validDmgMains < 2) {
@@ -62,8 +60,7 @@ export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
       scoringMetadata.parts.Hands,
       scoringMetadata.parts.Body,
       scoringMetadata.parts.Feet,
-      // @ts-ignore
-      scoringMetadata.parts.PlanarSphere.filter((x) => !DMG_MAINSTATS.includes(x)),
+      scoringMetadata.parts.PlanarSphere.filter((x) => !(DMG_MAINSTATS as string[]).includes(x)),
       scoringMetadata.parts.LinkRope,
     ]
     scoringMetadata.greedyHash = TsUtils.objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })

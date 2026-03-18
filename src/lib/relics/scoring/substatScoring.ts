@@ -12,8 +12,8 @@ import {
   STAT_NORMALIZATION,
   ValidGrade,
 } from 'lib/relics/scoring/scoringConstants'
-import type { ScorerMetadata, SubStat } from 'lib/relics/scoring/types'
-import type { Relic, Stat } from 'types/relic'
+import type { ScorerMetadata } from 'lib/relics/scoring/types'
+import type { Relic } from 'types/relic'
 
 export function weightedSubstatScore(
   substats: readonly { stat: SubStats; value: number }[],
@@ -52,24 +52,6 @@ export function normalizeDisplayScore(rawScore: number, idealScore: number, bonu
   return rawScore / idealScore * 100 * PERCENT_TO_SCORE + bonus
 }
 
-export function normalizePotentialScore(
-  rawScore: number,
-  idealScore: number,
-  deduction: number,
-  bonus: number,
-): number {
-  return Math.max(0, (rawScore + deduction) / idealScore * 100 * PERCENT_TO_SCORE + bonus)
-}
-
-export function normalizeUnclamped(
-  rawScore: number,
-  idealScore: number,
-  deduction: number,
-  bonus: number,
-): number {
-  return (rawScore + deduction) / idealScore * 100 * PERCENT_TO_SCORE + bonus
-}
-
 export function computeMainStatScore(relic: Relic, meta: ScorerMetadata): number {
   if (!hasMainStat(relic.part)) return 0
   const gradeConfig = GRADE_CONFIG[relic.grade as ValidGrade]
@@ -84,36 +66,4 @@ export function hasMainStat(part: Parts): boolean {
     || part == Constants.Parts.LinkRope
     || part == Constants.Parts.PlanarSphere
   )
-}
-
-export function findHighestWeightIdx(
-  substats: SubStat[] | Stat[],
-  meta: ScorerMetadata,
-): number {
-  let index = 0
-  let weight = 0
-  for (let i = 0; i < substats.length; i++) {
-    const newWeight = meta.stats[substats[i].stat]
-    if (newWeight > weight || i == 0) {
-      weight = newWeight
-      index = i
-    }
-  }
-  return index
-}
-
-export function findLowestWeightIdx(
-  substats: SubStat[],
-  meta: ScorerMetadata,
-): number {
-  let index = 0
-  let weight = meta.stats[substats[0].stat]
-  for (let i = 1; i < substats.length; i++) {
-    const newWeight = meta.stats[substats[i].stat]
-    if (newWeight < weight) {
-      weight = newWeight
-      index = i
-    }
-  }
-  return index
 }

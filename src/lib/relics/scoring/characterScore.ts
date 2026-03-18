@@ -1,5 +1,6 @@
 import { Parts } from 'lib/constants/constants'
 import { useRelicStore } from 'lib/stores/relicStore'
+import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { Character, CharacterId } from 'types/character'
 import { Relic } from 'types/relic'
 import { MIN_ROLL_VALUE } from './scoringConstants'
@@ -18,10 +19,6 @@ function countPairs<T extends string | number | symbol>(arr: T[]): number {
     }
   })
   return pairs
-}
-
-function nonNullable<T>(value: T | null | undefined): value is T {
-  return value != null
 }
 
 /**
@@ -43,7 +40,7 @@ export function scoreCharacterWithRelicsUsingScorer(
 
   const scoredRelics = relics.map((x) => getCurrentRelicScore(x, character.id))
   let totalScore = scoredRelics.reduce((acc, relic) => acc + Number(relic.score) + Number(relic.mainStatScore), 0)
-  const missingSets = 3 - countPairs(relics.filter(nonNullable).map((x) => x.set))
+  const missingSets = 3 - countPairs(relics.filter(ArrayFilters.nonNullable).map((x) => x.set))
   totalScore = Math.max(0, totalScore - missingSets * 3 * MIN_ROLL_VALUE)
   const totalRating = scoredRelics.length < 6 ? '?' : scoreToRating((totalScore - 4 * 64.8) / 6)
 

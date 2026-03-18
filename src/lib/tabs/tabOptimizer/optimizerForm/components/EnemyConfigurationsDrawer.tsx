@@ -4,7 +4,7 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
-import { EnemyConfigFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type { EnemyConfigFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 import { HeaderText } from 'lib/ui/HeaderText'

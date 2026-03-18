@@ -14,8 +14,8 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
-import { ReactElement } from 'types/components'
+import type { CharacterId } from 'types/character'
+import type { ReactElement } from 'types/components'
 import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 
 export type SwitchRelicsFormSelectedCharacter = {

@@ -1,12 +1,12 @@
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import {
+import type {
   ElementName,
   PathName,
 } from 'lib/constants/constants'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { ContentItem } from 'types/conditionals'
-import { Hit } from 'types/hitConditionalTypes'
-import {
+import type { ContentItem } from 'types/conditionals'
+import type { Hit } from 'types/hitConditionalTypes'
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'

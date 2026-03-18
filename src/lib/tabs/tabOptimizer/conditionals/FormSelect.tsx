@@ -1,11 +1,11 @@
 import { Flex, Select } from '@mantine/core'
 import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
-import { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
+import type { SelectOptionContent } from 'lib/optimization/rotation/setConditionalContent'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { WithPopover } from 'lib/ui/WithPopover'
-import {
+import type {
   ComponentProps,
   ComponentType,
 } from 'react'

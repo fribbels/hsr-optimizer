@@ -21,12 +21,10 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
+import type {
   Character,
   SavedBuild,
 } from 'types/character'
-import { Teammate } from 'types/form'
-
 type CharacterForm = {
   name: string,
 }

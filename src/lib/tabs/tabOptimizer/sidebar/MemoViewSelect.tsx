@@ -5,8 +5,8 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { CharacterId } from 'types/character'
-import { MemoDisplay } from 'types/store'
+import type { CharacterId } from 'types/character'
+import type { MemoDisplay } from 'types/store'
 
 export function isRemembrance(characterId: CharacterId | null | undefined) {
   if (!characterId) return false

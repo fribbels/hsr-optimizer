@@ -1,10 +1,7 @@
 import { SubStatValues } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
-  StatRolls,
-  UnaugmentedRelic,
-} from 'types/relic'
+import type { StatRolls, UnaugmentedRelic } from 'types/relic'
 
 // non exported interface, the number are float
 interface IncrementOptions {

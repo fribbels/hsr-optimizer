@@ -98,14 +98,8 @@ export type StatDelta = {
   pass: boolean,
 }
 
-const EXACT = 0
-const P_0 = 1
-const P_1 = 0.1
 const P_2 = 0.01
-const P_3 = 0.001
 const P_4 = 0.0001
-const P_5 = 0.00001
-const P_6 = 0.000001
 
 // Dynamic precision based on combo magnitude
 // Larger values have more floating point precision loss
@@ -271,10 +265,10 @@ export function testWrapper(name: string, request: Form, relics: RelicsByPart, d
 
 export function uncondenseRelics(relicsByPart: RelicsByPart) {
   for (const relics of Object.values(relicsByPart)) {
-    relics.map((relic) => {
+    relics.forEach((relic) => {
       const condensedStats = relic.condensedStats!
       relic.substats = []
-      condensedStats.map(([key, value]) => {
+      condensedStats.forEach(([key, value]) => {
         relic.substats.push({
           stat: StatKeyToStat[key] as any,
           value,

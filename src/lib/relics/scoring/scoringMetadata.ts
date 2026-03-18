@@ -15,7 +15,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { CharacterId } from 'types/character'
+import type { CharacterId } from 'types/character'
 
 export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
   const scoringMetadata = Utils.clone(getScoringMetadata(id)) as ScorerMetadata

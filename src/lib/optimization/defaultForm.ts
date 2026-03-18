@@ -54,7 +54,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   const weights = scoringMetadata?.stats || getDefaultWeights()
 
   const combatBuffs = {} as Record<typeof CombatBuffs[keyof typeof CombatBuffs]['key'], number>
-  Object.values(CombatBuffs).map((x) => combatBuffs[x.key] = 0)
+  Object.values(CombatBuffs).forEach((x) => { combatBuffs[x.key] = 0 })
 
   const defaultForm: Partial<Form> = TsUtils.clone({
     characterId: initialCharacter?.id,

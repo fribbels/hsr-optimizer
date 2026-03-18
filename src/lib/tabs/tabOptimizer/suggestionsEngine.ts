@@ -12,7 +12,7 @@ import { getRelics } from 'lib/stores/relicStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { Form } from 'types/form'
+import type { Form } from 'types/form'
 
 // ---- Zero Permutations ----
 

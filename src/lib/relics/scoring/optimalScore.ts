@@ -1,12 +1,14 @@
 import {
   AllStats,
   Constants,
+  SubStatValues,
+  PartsMainStats,
+} from 'lib/constants/constants'
+import type {
   MainStats,
   Parts,
   StatsValues,
   SubStats,
-  SubStatValues,
-  PartsMainStats,
 } from 'lib/constants/constants'
 import {
   POSSIBLE_SUBSTATS,

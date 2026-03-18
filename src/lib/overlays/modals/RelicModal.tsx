@@ -44,16 +44,13 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { isFlat } from 'lib/utils/statUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import React, {
+import {
   useEffect,
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Relic } from 'types/relic'
 import { useGlobalStore } from 'lib/stores/appStore'
-
-// FIXME MED
 
 function partSegmentData(value: string, src: string) {
   return {

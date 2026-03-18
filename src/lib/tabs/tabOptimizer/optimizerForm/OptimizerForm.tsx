@@ -32,7 +32,7 @@ import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/opt
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { Utils } from 'lib/utils/utils'
 import { memo, useEffect, useMemo } from 'react'
-import { DBMetadata } from 'types/metadata'
+import type { DBMetadata } from 'types/metadata'
 
 export function OptimizerForm() {
   // On first load, load from last session, else display the first character from the roster

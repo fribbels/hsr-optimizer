@@ -1,5 +1,4 @@
 import {
-  Constants,
   Parts,
 } from 'lib/constants/constants'
 import {

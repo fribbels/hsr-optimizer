@@ -10,7 +10,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
-import { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { SetFilterSummary } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterSummary'
 import {

@@ -29,7 +29,7 @@ const iconSize = 40
 const sets = gameData.relics.toReversed()
 const setToIndex: StringToNumberMap = Object.fromEntries(sets.map((set, i) => [set.name, i]))
 
-export default function MetadataTab(): ReactElement {
+export function MetadataTab(): ReactElement {
   return (
     <Flex direction="column" style={{ width: '100%', height: 'fit-content' }}>
       <h1 style={{ marginLeft: 20 }}>

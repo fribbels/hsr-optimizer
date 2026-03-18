@@ -25,9 +25,9 @@ import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimize
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { CharacterId } from 'types/character'
-import { OptimizerForm } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
+import type { CharacterId } from 'types/character'
+import type { OptimizerForm } from 'types/form'
+import type { OptimizerContext } from 'types/optimizer'
 
 export type OptimizerResultAnalysis = {
   oldRowData: OptimizerDisplayData,

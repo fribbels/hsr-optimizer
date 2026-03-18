@@ -4,7 +4,7 @@ import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFo
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 
 import { HeaderText } from 'lib/ui/HeaderText'
-import { Fragment, ReactNode } from 'react'
+import { Fragment, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const StatSliders = [

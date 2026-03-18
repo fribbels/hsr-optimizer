@@ -38,8 +38,6 @@ import {
 } from './ScannerWebsocketClient'
 import classes from './ScannerImportSubmenu.module.css'
 
-// FIXME MED
-
 type ParsedCharacter = {
   characterId: CharacterId,
   characterLevel: number,

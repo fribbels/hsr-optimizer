@@ -355,7 +355,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
 
   const sortOption = SortOption[gpuContext.request.resultSort as keyof typeof SortOption]
   const showMemo = gpuContext.request.memoDisplay === 'memo'
-  const gridSortColumn = gpuContext.request.statDisplay == 'combat'
+  const gridSortColumn = gpuContext.request.statDisplay === 'combat'
     ? (showMemo ? sortOption.memoCombatGridColumn : sortOption.combatGridColumn)
     : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)
   setSortColumn(gridSortColumn)

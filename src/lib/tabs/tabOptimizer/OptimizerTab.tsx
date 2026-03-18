@@ -7,12 +7,12 @@ import { OptimizerBuildPreview } from 'lib/tabs/tabOptimizer/OptimizerBuildPrevi
 import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/OptimizerGrid'
 
 import { OptimizerForm } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
-import Sidebar from 'lib/tabs/tabOptimizer/Sidebar'
+import { Sidebar } from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { useGlobalStore } from 'lib/stores/appStore'
 
-export default function OptimizerTab() {
+export function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
 
   return (

@@ -38,7 +38,7 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
   const setStatSimulationDisplay = useOptimizerDisplayStore((s) => s.setStatSimulationDisplay)
 
   function isHidden() {
-    return statSimulationDisplay == StatSimTypes.Disabled || !statSimulationDisplay
+    return statSimulationDisplay === StatSimTypes.Disabled || !statSimulationDisplay
   }
 
   return (

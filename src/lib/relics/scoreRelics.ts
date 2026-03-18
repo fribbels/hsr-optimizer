@@ -2,10 +2,10 @@ import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { getRelicById } from 'lib/stores/relicStore'
-import { CharacterId } from 'types/character'
-import { Nullable } from 'types/common'
-import { ScoringMetadata } from 'types/metadata'
-import { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { Nullable } from 'types/common'
+import type { ScoringMetadata } from 'types/metadata'
+import type { Relic } from 'types/relic'
 
 export type ScoredRelic = Relic & { weights: RelicScoringWeights }
 

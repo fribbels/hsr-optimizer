@@ -2,8 +2,8 @@ import type {
   CharacterId,
   Eidolon,
 } from 'types/character'
-import { CharacterConditionalsController } from 'types/conditionals'
-import { ScoringMetadata } from 'types/metadata'
+import type { CharacterConditionalsController } from 'types/conditionals'
+import type { ScoringMetadata } from 'types/metadata'
 
 export type CharacterDisplay = {
   imageCenter?: {

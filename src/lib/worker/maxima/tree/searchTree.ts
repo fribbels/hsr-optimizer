@@ -610,7 +610,6 @@ export class SearchTree {
     const value = root.splitValue
     const upper = point[dimension] >= value
 
-    let childNode: ProtoTreeStatNode
     if (upper && root.upperChild) {
       return this.insertIntoTree(point, root.upperChild as TreeStatNode)
     }
@@ -619,7 +618,7 @@ export class SearchTree {
     }
 
     const split = splitNode(root, dimension)
-    childNode = {
+    const childNode: ProtoTreeStatNode = {
       region: upper ? split.upperRegion : split.lowerRegion,
       representative: point,
       damage: 0,

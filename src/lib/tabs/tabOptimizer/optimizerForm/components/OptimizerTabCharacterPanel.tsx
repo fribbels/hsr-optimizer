@@ -1,4 +1,4 @@
-import { CharacterId } from 'types/character'
+import type { CharacterId } from 'types/character'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 

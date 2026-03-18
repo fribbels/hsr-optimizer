@@ -91,7 +91,7 @@ function ConditionalActivationRow({
   )
 }
 
-export function ContentRows({
+function ContentRows({
   contentItems,
   comboConditionals,
   actionCount,

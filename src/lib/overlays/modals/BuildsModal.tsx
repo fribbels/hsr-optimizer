@@ -38,7 +38,7 @@ import type {
   CharacterId,
   SavedBuild,
 } from 'types/character'
-import { Teammate } from 'types/form'
+import type { Teammate } from 'types/form'
 
 export function BuildsModal() {
   const open = useBuildsModalStore((s) => s.open)

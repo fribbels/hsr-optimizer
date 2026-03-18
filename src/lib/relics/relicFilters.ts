@@ -2,8 +2,10 @@ import {
   Constants,
   Parts,
   RelicSetFilterOptions,
-  StatsValues,
 } from 'lib/constants/constants'
+import type { StatsValues } from 'lib/constants/constants'
+import type { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { FLAT_STAT_SCALING, STAT_NORMALIZATION } from 'lib/relics/scoring/scoringConstants'
 import { weightedSubstatScore } from 'lib/relics/scoring/substatScoring'
 import {
@@ -12,17 +14,12 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import {
-  RelicsByPart,
-  SingleRelicByPart,
-} from 'lib/gpu/webgpuTypes'
-import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { getCharacterById, getCharacters } from 'lib/stores/characterStore'
 import { getRelics } from 'lib/stores/relicStore'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Form } from 'types/form'
-import { Relic } from 'types/relic'
+import type { Form } from 'types/form'
+import type { Relic } from 'types/relic'
 
 export type PartCounts = Record<Parts, number>
 

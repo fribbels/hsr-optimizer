@@ -1,15 +1,12 @@
 import {
   Constants,
   Stats,
-  StatsValues,
 } from 'lib/constants/constants'
+import type { StatsValues } from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import { Utils } from 'lib/utils/utils'
-import {
-  Relic,
-  UnaugmentedRelic,
-} from 'types/relic'
+import type { Relic, UnaugmentedRelic } from 'types/relic'
 
 export type AugmentedStats = Record<StatsValues, number> & {
   mainStat: string,
@@ -78,7 +75,7 @@ function sortSubstats(relic: UnaugmentedRelic) {
 
 // Changes the augmented stats percents to decimals
 function fixAugmentedStats(relics: UnaugmentedRelic[]) {
-  return relics.map((relic) => {
+  relics.forEach((relic) => {
     for (const stat of Object.values(Constants.Stats)) {
       if (!relic.augmentedStats) continue
 
@@ -90,6 +87,5 @@ function fixAugmentedStats(relics: UnaugmentedRelic[]) {
         relic.augmentedStats[stat] = relic.augmentedStats[stat] / 100
       }
     }
-    return relic
   })
 }

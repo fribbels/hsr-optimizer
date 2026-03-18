@@ -9,7 +9,7 @@ import {
   diminishingReturnsFormula,
   spdDiminishingReturnsFormula,
 } from 'lib/scoring/simScoringUtils'
-import { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'

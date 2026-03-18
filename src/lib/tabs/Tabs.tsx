@@ -2,12 +2,12 @@ import { Flex } from '@mantine/core'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
-import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
+import { ChangelogTab } from 'lib/tabs/tabChangelog/ChangelogTab'
 import { CharacterTab } from 'lib/tabs/tabCharacters/CharacterTab'
-import HomeTab from 'lib/tabs/tabHome/HomeTab'
-import ImportTab from 'lib/tabs/tabImport/ImportTab'
-import MetadataTab from 'lib/tabs/tabMetadata/MetadataTab'
-import OptimizerTab from 'lib/tabs/tabOptimizer/OptimizerTab'
+import { HomeTab } from 'lib/tabs/tabHome/HomeTab'
+import { ImportTab } from 'lib/tabs/tabImport/ImportTab'
+import { MetadataTab } from 'lib/tabs/tabMetadata/MetadataTab'
+import { OptimizerTab } from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
@@ -22,7 +22,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 
 const defaultErrorRender = ({ error }: FallbackProps) =>
   <div>Something went wrong: {error instanceof Error ? error.message : String(error)}</div>

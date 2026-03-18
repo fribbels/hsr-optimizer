@@ -68,7 +68,6 @@ import { WorkerType } from 'lib/worker/workerUtils'
 import {
   Form,
   OptimizerForm,
-  Teammate,
 } from 'types/form'
 import { SimulationMetadata } from 'types/metadata'
 import { OptimizerContext } from 'types/optimizer'

@@ -1,6 +1,6 @@
-import { Relic } from 'types/relic'
-import { CharacterId } from 'types/character'
-import { RelicScoringResult, ScorerMetadata } from './types'
+import type { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { RelicScoringResult, ScorerMetadata } from './types'
 import { toFixed1 } from './scoringConstants'
 import {
   computeMainStatScore,

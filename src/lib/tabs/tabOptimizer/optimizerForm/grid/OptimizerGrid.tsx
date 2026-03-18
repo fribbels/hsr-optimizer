@@ -9,7 +9,6 @@ import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
-import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {

@@ -8,9 +8,10 @@ import { useScoringStore } from 'lib/stores/scoringStore'
 import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
 import { EstbpCard } from 'lib/tabs/tabRelics/relicInsightsPanel/Estbp'
 import { Top10Panel } from 'lib/tabs/tabRelics/relicInsightsPanel/Top10Panel'
-import useRelicsTabStore, {
+import {
   InsightCharacters,
   RelicInsights,
+  useRelicsTabStore,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

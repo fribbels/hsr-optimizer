@@ -7,7 +7,7 @@ import {
 import { RelicForm } from 'lib/overlays/modals/relicModalController'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { Relic } from 'types/relic'
+import type { Relic } from 'types/relic'
 
 export type SubstatValues = Pick<RelicForm, `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`>
 

@@ -27,15 +27,13 @@ import type {
   BenchmarkForm,
   SimpleCharacter,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import {
-  PresetDefinition,
-  setSortColumn,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import type { PresetDefinition } from 'lib/scoring/presetEffects'
+import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { CharacterId } from 'types/character'
-import { Form } from 'types/form'
-import { ScoringMetadata } from 'types/metadata'
+import type { CharacterId } from 'types/character'
+import type { Form } from 'types/form'
+import type { ScoringMetadata } from 'types/metadata'
 
 export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
   if (!characterId) return

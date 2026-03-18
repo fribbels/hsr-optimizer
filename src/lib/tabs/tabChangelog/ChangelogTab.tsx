@@ -49,7 +49,7 @@ function ChangelogEntry(props: { contentUpdate: ChangelogContent }) {
   )
 }
 
-export default function ChangelogTab(): React.JSX.Element {
+export function ChangelogTab(): React.JSX.Element {
   const changelogContent = useMemo(() => getChangelogContent(), [])
   const [page, setPage] = useState(1)
 

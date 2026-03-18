@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
-import useRelicsTabStore from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { memo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { useRelicStore } from 'lib/stores/relicStore'

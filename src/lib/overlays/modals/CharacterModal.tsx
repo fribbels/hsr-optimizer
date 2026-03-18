@@ -18,11 +18,11 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
+import type {
   CharacterId,
 } from 'types/character'
-import { Form } from 'types/form'
-import { LightConeId } from 'types/lightCone'
+import type { Form } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 
 export type CharacterModalForm = {

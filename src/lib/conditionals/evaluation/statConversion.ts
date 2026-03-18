@@ -1,24 +1,24 @@
 import {
-  ConvertibleStatsType,
+  type ConvertibleStatsType,
   statConversionConfig,
 } from 'lib/conditionals/evaluation/statConversionConfig'
 import {
-  DynamicConditional,
+  type DynamicConditional,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   getActionIndex,
 } from 'lib/gpu/injection/injectUtils'
-import { BuffSource } from 'lib/optimization/buffSource'
-import { AKeyValue } from 'lib/optimization/engine/config/keys'
+import type { BuffSource } from 'lib/optimization/buffSource'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import {
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'

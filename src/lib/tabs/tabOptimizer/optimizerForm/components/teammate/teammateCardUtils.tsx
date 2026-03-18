@@ -89,12 +89,12 @@ export function calculateTeammateSets(teammateCharacter: Character) {
     teamOrnamentSet?: string
   } = {}
   for (const set of teammateRelicSets) {
-    if (relics.filter((relic) => relic.set == set).length == 4) {
-      if (set == Sets.MessengerTraversingHackerspace) continue
-      if (set == Sets.SacerdosRelivedOrdeal) {
+    if (relics.filter((relic) => relic.set === set).length === 4) {
+      if (set === Sets.MessengerTraversingHackerspace) continue
+      if (set === Sets.SacerdosRelivedOrdeal) {
         if (
-          teammateCharacter.id == '1313' // Sunday
-          || teammateCharacter.id == '1306' // Sparkle
+          teammateCharacter.id === '1313' // Sunday
+          || teammateCharacter.id === '1306' // Sparkle
         ) {
           activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_2_STACK
         } else {
@@ -107,7 +107,7 @@ export function calculateTeammateSets(teammateCharacter: Character) {
   }
 
   for (const set of teammateOrnamentSets) {
-    if (relics.filter((relic) => relic.set == set).length == 2) {
+    if (relics.filter((relic) => relic.set === set).length === 2) {
       activeTeammateSets.teamOrnamentSet = set
     }
   }

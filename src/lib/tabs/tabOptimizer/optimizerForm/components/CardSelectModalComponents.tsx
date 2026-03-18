@@ -1,12 +1,12 @@
 import { Flex, UnstyledButton, useMantineTheme } from '@mantine/core'
 import {
-  ElementName,
+  type ElementName,
   ElementToDamage,
-  PathName,
+  type PathName,
   PathNames,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 import classes from './CardSelectModalComponents.module.css'
 
 export function generatePathTags() {

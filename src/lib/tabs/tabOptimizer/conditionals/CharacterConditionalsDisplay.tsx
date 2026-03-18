@@ -6,7 +6,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
+import type {
   CharacterId,
   Eidolon,
 } from 'types/character'

@@ -1,10 +1,10 @@
 import { Flex } from '@mantine/core'
 import {
   chartColor,
-  DamageTagSlice,
   extractDamageByTag,
 } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
-import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import type { DamageTagSlice } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
+import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { useMemo } from 'react'
 

@@ -1,8 +1,8 @@
 import {
   AbilityEidolon,
   addSuperBreakHits,
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -11,25 +11,25 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { ModifierContext } from 'lib/optimization/context/calculateActions'
+import { type ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { CharacterConfig } from 'types/characterConfig'
-import { ScoringMetadata } from 'types/metadata'
+import { type CharacterConfig } from 'types/characterConfig'
+import { type ScoringMetadata } from 'types/metadata'
 
-import { Eidolon } from 'types/character'
+import { type Eidolon } from 'types/character'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
+import { type CharacterConditionalsController } from 'types/conditionals'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 export const TrailblazerHarmonyEntities = createEnum('TrailblazerHarmony')

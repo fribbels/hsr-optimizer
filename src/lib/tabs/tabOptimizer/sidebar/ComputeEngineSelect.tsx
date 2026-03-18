@@ -5,7 +5,7 @@ import {
   COMPUTE_ENGINE_CPU,
   COMPUTE_ENGINE_GPU_EXPERIMENTAL,
   COMPUTE_ENGINE_GPU_STABLE,
-  ComputeEngine,
+  type ComputeEngine,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'

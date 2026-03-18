@@ -1,19 +1,19 @@
 import {
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
-  LightConeConditionalFunction,
-  LightConeConfig,
+  type LightConeConditionalFunction,
+  type LightConeConfig,
 } from 'types/lightConeConfig'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 const conditionals: LightConeConditionalFunction = (s, withContent) => {

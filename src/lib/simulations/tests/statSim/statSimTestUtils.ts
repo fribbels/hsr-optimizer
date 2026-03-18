@@ -1,8 +1,8 @@
 import i18next from 'i18next'
 import {
   collectResults,
-  TestInput,
-  TestResultByName,
+  type TestInput,
+  type TestResultByName,
 } from 'lib/simulations/tests/simTestUtils'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { expect } from 'vitest'

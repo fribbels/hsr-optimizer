@@ -2,8 +2,8 @@ import { Flex } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
 import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { ReactElement } from 'types/components'
+import { type BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import { type ReactElement } from 'types/components'
 
 interface BenchmarkSettingProps {
   label: 'SPD' | 'ERR' | 'SubDPS'

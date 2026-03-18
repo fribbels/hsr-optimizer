@@ -1,10 +1,10 @@
 import i18next from 'i18next'
 import {
-  MainStats,
-  Parts,
-  Sets,
+  type MainStats,
+  type Parts,
+  type Sets,
   Stats,
-  SubStats,
+  type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
 import {

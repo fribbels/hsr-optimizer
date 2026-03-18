@@ -3,7 +3,7 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
+import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import {
   calculateMinMaxMetadata,
   calculateRegionMidpoint,
@@ -14,7 +14,7 @@ import {
 import {
   isRegionFeasible,
 } from 'lib/worker/maxima/validator/regionFeasibilityValidator'
-import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
+import { type SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
 export interface TreeStatRegion {
   lower: SubstatCounts

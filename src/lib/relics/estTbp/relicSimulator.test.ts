@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import {
-  MainStats,
+  type MainStats,
   Parts,
   Stats,
 } from 'lib/constants/constants'

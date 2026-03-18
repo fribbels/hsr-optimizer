@@ -1,4 +1,4 @@
-import { MainStats, Parts, Stats, SubStats, } from 'lib/constants/constants'
+import { type MainStats, type Parts, Stats, SubStats, } from 'lib/constants/constants'
 import { getRollQualityDistribution, thresholdProbability, } from 'lib/relics/estTbp/convolution'
 import { TsUtils } from 'lib/utils/TsUtils'
 import type { Relic } from 'types/relic'

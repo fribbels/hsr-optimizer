@@ -1,34 +1,34 @@
-import { ComputeEngine } from 'lib/constants/constants'
+import { type ComputeEngine } from 'lib/constants/constants'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import {
   destroyPipeline,
-  ExecutionPassResult,
+  type ExecutionPassResult,
   generateExecutionPass,
   initializeGpuPipeline,
 } from 'lib/gpu/webgpuInternals'
 import {
-  GpuExecutionContext,
-  RelicsByPart,
+  type GpuExecutionContext,
+  type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { webgpuCrashNotification } from 'lib/interactions/notifications'
 import {
-  BasicStatsArray,
+  type BasicStatsArray,
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
-import { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import { type OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
-import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
+import { type SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/utils/gridStore'
-import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
+import { type Form } from 'types/form'
+import { type OptimizerContext } from 'types/optimizer'
 
 globalThis.WEBGPU_DEBUG = false
 

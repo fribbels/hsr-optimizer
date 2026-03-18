@@ -1,11 +1,11 @@
-import { TFunction } from 'i18next'
+import { type TFunction } from 'i18next'
 import {
-  ConditionalDataType,
+  type ConditionalDataType,
   Constants,
   Sets,
 } from 'lib/constants/constants'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
-import { SelectOptionContent } from 'types/setConfig'
+import { type SelectOptionContent } from 'types/setConfig'
 
 export type { SelectOptionContent } from 'types/setConfig'
 

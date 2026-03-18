@@ -91,7 +91,7 @@ export const RelicFilters = {
     }
 
     // Weight score thresholds
-    const weights: Record<string, number> = { ...(request.weights || {}) }
+    const weights: Record<string, number> = { ...request.weights }
     weights[Constants.Stats.ATK] = (weights[Constants.Stats.ATK_P] || 0) * FLAT_STAT_SCALING.ATK
     weights[Constants.Stats.DEF] = (weights[Constants.Stats.DEF_P] || 0) * FLAT_STAT_SCALING.DEF
     weights[Constants.Stats.HP] = (weights[Constants.Stats.HP_P] || 0) * FLAT_STAT_SCALING.HP

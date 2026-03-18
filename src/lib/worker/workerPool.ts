@@ -1,5 +1,5 @@
 import UnifiedWorker from 'lib/worker/baseWorker.ts?worker'
-import { WorkerType } from 'lib/worker/workerUtils'
+import { type WorkerType } from 'lib/worker/workerUtils'
 
 const MAX_POOL_SIZE = 10
 const WORKER_REPLACE_DELAY_MS = 100

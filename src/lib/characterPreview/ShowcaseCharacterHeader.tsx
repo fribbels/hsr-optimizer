@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { ShowcaseRarity } from 'lib/characterPreview/ShowcaseRarity'
 import { StatText } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'

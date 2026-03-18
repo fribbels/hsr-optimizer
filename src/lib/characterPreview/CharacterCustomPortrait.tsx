@@ -5,7 +5,7 @@ import {
 } from 'lib/constants/constantsUi'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { CustomImageConfig } from 'types/customImage'
+import { type CustomImageConfig } from 'types/customImage'
 
 export function CharacterCustomPortrait({
   customPortrait,

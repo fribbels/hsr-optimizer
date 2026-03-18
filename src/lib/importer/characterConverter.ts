@@ -1,6 +1,6 @@
 import {
   Constants,
-  Parts,
+  type Parts,
 } from 'lib/constants/constants'
 import type {
   MainStats,

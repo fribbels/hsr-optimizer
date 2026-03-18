@@ -1,6 +1,6 @@
 import { ElementNames } from 'lib/constants/constants'
-import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
-import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type GpuExecutionContext } from 'lib/gpu/webgpuTypes'
+import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   OutputTag,
@@ -11,7 +11,7 @@ import { logRegisters } from 'lib/simulations/registerLogger'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/utils/gridStore'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { OptimizerContext } from 'types/optimizer'
+import { type OptimizerContext } from 'types/optimizer'
 
 export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: ArrayBuffer) {
   const array = new Float32Array(arrayBuffer)

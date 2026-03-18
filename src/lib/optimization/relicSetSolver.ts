@@ -3,7 +3,7 @@ import {
   RelicSetFilterOptions,
 } from 'lib/constants/constants'
 import { Utils } from 'lib/utils/utils'
-import { Form } from 'types/form'
+import { type Form } from 'types/form'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,

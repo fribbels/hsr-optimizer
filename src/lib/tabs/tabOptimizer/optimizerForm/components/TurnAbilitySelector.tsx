@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { CharacterId } from 'types/character'
+import { type CharacterId } from 'types/character'
 import {
   ALL_ABILITIES,
   ComboOptionsLabelMapping,

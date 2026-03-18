@@ -7,8 +7,8 @@ import {
   isWholeTurnAbility,
   NULL_TURN_ABILITY,
   toTurnAbility,
-  TurnAbility,
-  TurnAbilityName,
+  type TurnAbility,
+  type TurnAbilityName,
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'

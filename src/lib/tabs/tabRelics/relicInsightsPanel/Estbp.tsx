@@ -7,7 +7,7 @@ import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShallow } from 'zustand/react/shallow'
 import {
-  EstTbpWorkerOutput,
+  type EstTbpWorkerOutput,
   handleWork,
 } from 'lib/worker/estTbpWorkerRunner'
 import { memo, useMemo } from 'react'

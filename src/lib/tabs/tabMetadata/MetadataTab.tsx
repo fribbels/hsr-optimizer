@@ -2,7 +2,7 @@ import { Accordion, Flex } from '@mantine/core'
 import gameData from 'data/game_data.json'
 import type { TFunction } from 'i18next'
 import {
-  PathName,
+  type PathName,
   PathNames,
   Sets,
   Stats,
@@ -10,7 +10,7 @@ import {
 import {
   NULL_TURN_ABILITY_NAME,
   toTurnAbility,
-  TurnAbilityName,
+  type TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Assets } from 'lib/rendering/assets'
 import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'

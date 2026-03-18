@@ -1,19 +1,19 @@
 import {
   ConditionalDataType,
-  SetKey,
-  Sets,
-  TwoPieceStatTag,
+  type SetKey,
+  type Sets,
+  type TwoPieceStatTag,
 } from 'lib/constants/constants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { type DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
-  OptimizerAction,
-  OptimizerContext,
-  SetConditional,
+  type OptimizerAction,
+  type OptimizerContext,
+  type SetConditional,
 } from 'types/optimizer'
 import {
-  SetConfig,
+  type SetConfig,
   SetType,
-  TeammateOption,
+  type TeammateOption,
 } from 'types/setConfig'
 
 // ── Typed config imports for type derivation ──

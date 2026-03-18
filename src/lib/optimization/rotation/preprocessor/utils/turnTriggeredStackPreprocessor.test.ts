@@ -19,7 +19,7 @@ import {
   START_BASIC,
   START_FUA,
   START_ULT,
-  TurnAbilityName,
+  type TurnAbilityName,
   WHOLE_BASIC,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -27,9 +27,9 @@ import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import {
-  ComboBooleanConditional,
-  ComboNumberConditional,
-  ComboState,
+  type ComboBooleanConditional,
+  type ComboNumberConditional,
+  type ComboState,
   initializeComboState,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import {

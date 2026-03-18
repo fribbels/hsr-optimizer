@@ -7,9 +7,9 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { type DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
-  BasicStatsArray,
+  type BasicStatsArray,
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
@@ -27,24 +27,24 @@ import {
   calculateRelicStats,
   calculateSetCountsInPlace,
 } from 'lib/optimization/calculateStats'
-import { SetCounts } from 'lib/optimization/setMatching'
-import { BasicKey, BasicKeyType } from 'lib/optimization/basicStatsArray'
+import { type SetCounts } from 'lib/optimization/setMatching'
+import { BasicKey, type BasicKeyType } from 'lib/optimization/basicStatsArray'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
 import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   SortOption,
-  SortOptionProperties,
+  type SortOptionProperties,
 } from 'lib/optimization/sortOptions'
-import { SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
-import { Form } from 'types/form'
+import { type SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
+import { type Form } from 'types/form'
 import {
-  CharacterMetadata,
-  OptimizerAction,
-  OptimizerContext,
+  type CharacterMetadata,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
-import { Relic } from 'types/relic'
+import { type Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length

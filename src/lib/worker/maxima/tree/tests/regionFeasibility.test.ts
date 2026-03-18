@@ -1,8 +1,8 @@
 import { Stats } from 'lib/constants/constants'
-import { SubstatCounts } from 'lib/simulations/statSimulationTypes'
+import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import {
   SearchTree,
-  TreeStatRegion,
+  type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
 import { isRegionFeasible } from 'lib/worker/maxima/validator/regionFeasibilityValidator'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'

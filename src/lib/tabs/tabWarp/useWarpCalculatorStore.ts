@@ -1,9 +1,9 @@
 import {
   DEFAULT_WARP_REQUEST,
-  WarpRequest,
-  WarpResult,
+  type WarpRequest,
+  type WarpResult,
 } from 'lib/tabs/tabWarp/warpCalculatorController'
-import { Nullable } from 'types/common'
+import { type Nullable } from 'types/common'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 const defaultStateValues = {

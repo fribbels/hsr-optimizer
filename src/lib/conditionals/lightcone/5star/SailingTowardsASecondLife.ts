@@ -1,6 +1,6 @@
 import {
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import {
   ConditionalActivation,
@@ -16,14 +16,14 @@ import {
   DamageTag,
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { LightConeConditionalsController } from 'types/conditionals'
-import { SuperImpositionLevel } from 'types/lightCone'
-import { LightConeConfig } from 'types/lightConeConfig'
+import { type LightConeConditionalsController } from 'types/conditionals'
+import { type SuperImpositionLevel } from 'types/lightCone'
+import { type LightConeConfig } from 'types/lightConeConfig'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {

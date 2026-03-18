@@ -3,8 +3,8 @@ import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
   countTeamPath,
   createEnum,
   mainIsPath,
@@ -26,7 +26,7 @@ import {
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
   END_ULT,
@@ -40,16 +40,16 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
+import { type Eidolon } from 'types/character'
+import { type CharacterConfig } from 'types/characterConfig'
+import { type CharacterConditionalsController } from 'types/conditionals'
 import {
-  ScoringMetadata,
-  SimulationMetadata,
+  type ScoringMetadata,
+  type SimulationMetadata,
 } from 'types/metadata'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 export const TheHertaEntities = createEnum('TheHerta')

@@ -1,22 +1,22 @@
 import {
-  PartialSimulationWrapper,
-  ScoringParams,
-  SimulationFlags,
+  type PartialSimulationWrapper,
+  type ScoringParams,
+  type SimulationFlags,
 } from 'lib/scoring/simScoringUtils'
 import {
-  Simulation,
-  SubstatCounts,
+  type Simulation,
+  type SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import {
-  BaseWorkerInput,
-  BaseWorkerOutput,
+  type BaseWorkerInput,
+  type BaseWorkerOutput,
   WorkerCancelledError,
   workerPool,
 } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
-import { Form } from 'types/form'
-import { SimulationMetadata } from 'types/metadata'
-import { OptimizerContext } from 'types/optimizer'
+import { type Form } from 'types/form'
+import { type SimulationMetadata } from 'types/metadata'
+import { type OptimizerContext } from 'types/optimizer'
 
 export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
   partialSimulationWrapper: PartialSimulationWrapper

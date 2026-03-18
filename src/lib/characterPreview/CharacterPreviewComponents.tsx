@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
 import componentClasses from './CharacterPreviewComponents.module.css'
 
 export enum ShowcaseSource {

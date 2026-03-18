@@ -6,20 +6,20 @@ import { Source } from 'lib/optimization/buffSource'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
 import {
-  OptimizerAction,
-  OptimizerContext,
-  SetConditional,
+  type OptimizerAction,
+  type OptimizerContext,
+  type SetConditional,
 } from 'types/optimizer'
 import {
-  SelectOptionContent,
-  SetConditionalTFunction,
-  SetConditionals,
-  SetConfig,
-  SetDisplay,
-  SetInfo,
+  type SelectOptionContent,
+  type SetConditionalTFunction,
+  type SetConditionals,
+  type SetConfig,
+  type SetDisplay,
+  type SetInfo,
   SetType,
 } from 'types/setConfig'
 

@@ -28,7 +28,7 @@ import { Assets } from 'lib/rendering/assets'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import {
   ScoringType,
-  SimulationScore,
+  type SimulationScore,
 } from 'lib/scoring/simScoringUtils'
 import { AppPages } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
@@ -50,7 +50,7 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  CharacterId,
+  type CharacterId,
 } from 'types/character'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 import classes from './ShowcaseCustomizationSidebar.module.css'

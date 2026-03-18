@@ -1,9 +1,9 @@
 import { AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import {
-  AbilityKind,
-  TurnAbility,
+  type AbilityKind,
+  type TurnAbility,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 
 export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   id: string

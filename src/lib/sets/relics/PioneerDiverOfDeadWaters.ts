@@ -4,7 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
-  BasicStatsArray,
+  type BasicStatsArray,
   WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
@@ -12,20 +12,20 @@ import {
   AKey,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
-  OptimizerAction,
-  OptimizerContext,
-  SetConditional,
+  type OptimizerAction,
+  type OptimizerContext,
+  type SetConditional,
 } from 'types/optimizer'
 import {
-  SelectOptionContent,
-  SetConditionals,
-  SetConditionalTFunction,
-  SetConfig,
-  SetDisplay,
-  SetInfo,
+  type SelectOptionContent,
+  type SetConditionals,
+  type SetConditionalTFunction,
+  type SetConfig,
+  type SetDisplay,
+  type SetInfo,
   SetType,
 } from 'types/setConfig'
 

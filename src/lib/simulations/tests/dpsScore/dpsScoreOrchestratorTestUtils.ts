@@ -2,11 +2,11 @@ import i18next from 'i18next'
 import { runDpsScoreBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import {
   generateTestSingleRelicsByPart,
-  TestInput,
+  type TestInput,
 } from 'lib/simulations/tests/simTestUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Character } from 'types/character'
+import { type Character } from 'types/character'
 import { expect } from 'vitest'
 
 export async function expectDpsScoreResultsToMatch(

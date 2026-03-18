@@ -1,4 +1,4 @@
-import { SetKey, Sets } from 'lib/constants/constants'
+import { type SetKey, Sets } from 'lib/constants/constants'
 import {
   OrnamentSetKeyToIndex,
   RelicSetKeyToIndex,

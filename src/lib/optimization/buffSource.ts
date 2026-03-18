@@ -1,5 +1,5 @@
 import {
-  SetKey,
+  type SetKey,
   Sets,
 } from 'lib/constants/constants'
 import type { CharacterId } from 'types/character'

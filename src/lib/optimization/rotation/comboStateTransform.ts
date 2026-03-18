@@ -4,7 +4,7 @@ import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightCo
 import {
   ConditionalDataType,
 } from 'lib/constants/constants'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { type DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   getTeammateOption,
   orderedSetConditionalFields,
@@ -15,30 +15,30 @@ import {
   DEFAULT_BASIC,
   getAbilityKind,
   NULL_TURN_ABILITY_NAME,
-  TurnAbilityName,
+  type TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
-  ComboConditionalCategory,
-  ComboConditionals,
-  ComboSelectConditional,
-  ComboState,
+  type ComboConditionalCategory,
+  type ComboConditionals,
+  type ComboSelectConditional,
+  type ComboState,
   initializeComboState,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { CharacterId } from 'types/character'
+import { type CharacterId } from 'types/character'
 import {
-  CharacterConditionalsController,
-  ConditionalValueMap,
-  LightConeConditionalsController,
+  type CharacterConditionalsController,
+  type ConditionalValueMap,
+  type LightConeConditionalsController,
 } from 'types/conditionals'
 import {
-  Form,
-  OptimizerForm,
+  type Form,
+  type OptimizerForm,
 } from 'types/form'
 import {
-  OptimizerAction,
-  OptimizerContext,
-  SetConditional,
+  type OptimizerAction,
+  type OptimizerContext,
+  type SetConditional,
 } from 'types/optimizer'
 
 export function transformComboState(request: Form, context: OptimizerContext) {

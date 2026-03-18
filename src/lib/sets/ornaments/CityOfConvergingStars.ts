@@ -8,20 +8,20 @@ import {
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
-  OptimizerAction,
-  OptimizerContext,
-  SetConditional,
+  type OptimizerAction,
+  type OptimizerContext,
+  type SetConditional,
 } from 'types/optimizer'
 import {
-  SelectOptionContent,
-  SetConditionals,
-  SetConditionalTFunction,
-  SetConfig,
-  SetDisplay,
-  SetInfo,
+  type SelectOptionContent,
+  type SetConditionals,
+  type SetConditionalTFunction,
+  type SetConfig,
+  type SetDisplay,
+  type SetInfo,
   SetType,
 } from 'types/setConfig'
 

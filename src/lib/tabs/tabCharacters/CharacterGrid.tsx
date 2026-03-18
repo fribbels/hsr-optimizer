@@ -2,9 +2,9 @@ import {
   closestCenter,
   defaultDropAnimationSideEffects,
   DndContext,
-  DragEndEvent,
+  type DragEndEvent,
   DragOverlay,
-  DragStartEvent,
+  type DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
@@ -17,7 +17,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { OverlayScrollbarsComponent, OverlayScrollbarsComponentRef } from 'overlayscrollbars-react'
+import { OverlayScrollbarsComponent, type OverlayScrollbarsComponentRef } from 'overlayscrollbars-react'
 import { ActionIcon, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { useMergedRef } from '@mantine/hooks'
@@ -45,7 +45,7 @@ import React, {
 } from 'react'
 import type { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/afterPaint'
-import { applyColorTransform, CharacterGridDebugPanel, ColorTransform, DebugToggles, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
+import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import classes from './CharacterGrid.module.css'
 
 const noop = () => {}
@@ -86,7 +86,7 @@ export function CharacterGrid() {
 
   const displayFocus = localFocus ?? focusCharacter
 
-  const tGameData = useMemo(() => i18next.getFixedT(null, 'gameData', 'Characters'), [i18next.language])
+  const tGameData = useMemo(() => i18next.getFixedT(null, 'gameData', 'Characters'), [])
 
   const filteredCharacters = useMemo(() => {
     if (filters.element.length + filters.path.length + filters.name.length === 0) {

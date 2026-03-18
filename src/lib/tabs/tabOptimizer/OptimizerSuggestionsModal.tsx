@@ -11,7 +11,7 @@ import {
   detectZeroPermutationCauses,
   detectZeroResultCauses,
   type RootCauseFix,
-  ZeroPermRootCause,
+  type ZeroPermRootCause,
   ZeroPermRootCauseFixes,
   ZeroResultRootCause,
   ZeroResultRootCauseFixes,

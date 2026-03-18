@@ -1,11 +1,11 @@
 import { Divider, Flex } from '@mantine/core'
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   Constants,
-  StatsValues,
+  type StatsValues,
 } from 'lib/constants/constants'
 import iconClasses from 'style/icons.module.css'
-import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -15,7 +15,7 @@ import {
 } from 'lib/utils/i18nUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import { memo, ReactElement } from 'react'
+import { memo, type ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const breakpointPresets = [

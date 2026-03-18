@@ -34,7 +34,7 @@ import {
   parentH,
 } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
   computeScoringCacheKey,
   requestScore,
@@ -58,11 +58,11 @@ import {
   useMemo,
 } from 'react'
 import {
-  Character,
-  SavedBuild,
+  type Character,
+  type SavedBuild,
 } from 'types/character'
 import {
-  CustomImagePayload,
+  type CustomImagePayload,
 } from 'types/customImage'
 
 const EMPTY_SWATCHES: string[] = []

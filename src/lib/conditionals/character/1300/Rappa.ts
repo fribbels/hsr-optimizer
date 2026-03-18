@@ -3,8 +3,8 @@ import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import {
   AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -32,7 +32,7 @@ import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   AbilityKind,
@@ -51,17 +51,17 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
 
-import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
-import { Hit } from 'types/hitConditionalTypes'
+import { type Eidolon } from 'types/character'
+import { type CharacterConfig } from 'types/characterConfig'
+import { type CharacterConditionalsController } from 'types/conditionals'
+import { type Hit } from 'types/hitConditionalTypes'
 import {
-  ScoringMetadata,
-  SimulationMetadata,
+  type ScoringMetadata,
+  type SimulationMetadata,
 } from 'types/metadata'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 export const RappaEntities = createEnum('Rappa')

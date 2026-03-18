@@ -3,12 +3,12 @@ import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import {
   getActivatedBuffs,
   getMappedCharacterId,
-  ScannerParserJson,
-  V4ParserCharacter,
-  V4ParserGachaFunds,
-  V4ParserLightCone,
-  V4ParserMaterial,
-  V4ParserRelic,
+  type ScannerParserJson,
+  type V4ParserCharacter,
+  type V4ParserGachaFunds,
+  type V4ParserLightCone,
+  type V4ParserMaterial,
+  type V4ParserRelic,
 } from 'lib/importer/kelzFormatParser'
 import { SaveState } from 'lib/state/saveState'
 import * as equipmentService from 'lib/services/equipmentService'

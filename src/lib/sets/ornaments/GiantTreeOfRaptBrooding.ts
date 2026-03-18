@@ -6,13 +6,13 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import {
-  DynamicConditional,
+  type DynamicConditional,
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
-  BasicStatsArray,
+  type BasicStatsArray,
   WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
@@ -21,21 +21,21 @@ import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   ornament2p,
   SetKeys,
 } from 'lib/optimization/setMatching'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 import {
-  SetConditionals,
-  SetConfig,
-  SetDisplay,
-  SetInfo,
+  type SetConditionals,
+  type SetConfig,
+  type SetDisplay,
+  type SetInfo,
   SetType,
 } from 'types/setConfig'
 

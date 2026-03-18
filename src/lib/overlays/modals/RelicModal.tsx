@@ -6,7 +6,7 @@ import { Alert, Button, Flex, Modal, NumberInput, SegmentedControl } from '@mant
 import { SearchableCombobox, type SearchableComboboxOption } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 import {
   Constants,
-  MainStats,
+  type MainStats,
   Parts,
   Stats,
   UnreleasedSets,

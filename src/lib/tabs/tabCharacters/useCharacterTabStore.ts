@@ -1,6 +1,6 @@
 import {
-  ElementName,
-  PathName,
+  type ElementName,
+  type PathName,
 } from 'lib/constants/constants'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { TsUtils } from 'lib/utils/TsUtils'

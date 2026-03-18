@@ -7,7 +7,7 @@ import {
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Parts } from 'lib/constants/constants'
 import iconClasses from 'style/icons.module.css'
-import { RelicScoringResult } from 'lib/relics/scoring/relicScorer'
+import { type RelicScoringResult } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 
 import { Renderer } from 'lib/rendering/renderer'
@@ -15,12 +15,12 @@ import { ScoreCategory } from 'lib/scoring/scoreComparison'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   GenerateStat,
-  SubstatDetails,
+  type SubstatDetails,
 } from 'lib/tabs/tabRelics/relicPreview/GenerateStat'
 import { RelicStatText } from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import { showcaseTransition } from 'lib/utils/colorUtils'
 import {
-  Languages,
+  type Languages,
   localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
 import { memo } from 'react'

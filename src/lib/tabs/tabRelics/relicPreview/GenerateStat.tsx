@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { SubStats } from 'lib/constants/constants'
+import { type SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
 import { Renderer } from 'lib/rendering/renderer'

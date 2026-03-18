@@ -14,9 +14,9 @@ import {
   normalizeForm,
   patchComboConditionalDefault,
 } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { CharacterId } from 'types/character'
-import { LightConeId } from 'types/lightCone'
+import { type OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { type CharacterId } from 'types/character'
+import { type LightConeId } from 'types/lightCone'
 
 const MAX_INT = Constants.MAX_INT
 

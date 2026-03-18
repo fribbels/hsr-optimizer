@@ -6,7 +6,7 @@ import {
   showcaseShadow,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
-import { ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
+import { type ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
 import styles from 'lib/characterPreview/ShowcasePortrait.module.css'
 import {
   parentH,
@@ -14,16 +14,16 @@ import {
 } from 'lib/constants/constantsUi'
 import { EditImageModal } from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { type ScoringType } from 'lib/scoring/simScoringUtils'
 import { SpinePortrait } from 'lib/spine/SpinePortrait'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Character } from 'types/character'
+import { type Character } from 'types/character'
 import {
-  CustomImageConfig,
-  CustomImagePayload,
+  type CustomImageConfig,
+  type CustomImagePayload,
 } from 'types/customImage'
 import { useGlobalStore } from 'lib/stores/appStore'
 

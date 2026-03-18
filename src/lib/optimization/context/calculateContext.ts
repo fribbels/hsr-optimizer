@@ -11,14 +11,14 @@ import { initializeContextConditionals } from 'lib/simulations/contextConditiona
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import {
-  Form,
-  Teammate,
+  type Form,
+  type Teammate,
 } from 'types/form'
-import { DBMetadata } from 'types/metadata'
+import { type DBMetadata } from 'types/metadata'
 import {
-  CharacterMetadata,
-  CharacterStatsBreakdown,
-  OptimizerContext,
+  type CharacterMetadata,
+  type CharacterStatsBreakdown,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 export function generateContext(request: Form): OptimizerContext {

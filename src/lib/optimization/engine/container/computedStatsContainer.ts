@@ -1,25 +1,25 @@
 import { aKeyToConvertibleStat } from 'lib/conditionals/evaluation/statConversionConfig'
 import {
   Stats,
-  StatsValues,
+  type StatsValues,
 } from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
-  BasicStatsArray,
+  type BasicStatsArray,
   BasicStatsArrayCore,
-  Buff,
+  type Buff,
 } from 'lib/optimization/basicStatsArray'
-import { BuffSource } from 'lib/optimization/buffSource'
+import { type BuffSource } from 'lib/optimization/buffSource'
 import {
   ACTION_STATS_LENGTH,
-  AKeyType,
-  AKeyValue,
+  type AKeyType,
+  type AKeyValue,
   AToHKey,
   getAKeyName,
   GLOBAL_REGISTERS_LENGTH,
   HIT_STATS_LENGTH,
-  HitAKeyValue,
-  HKeyValue,
+  type HitAKeyValue,
+  type HKeyValue,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
@@ -29,26 +29,26 @@ import {
   ALL_ELEMENT_TAGS,
   DamageTag,
   DirectnessTag,
-  ElementTag,
+  type ElementTag,
   OutputTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import {
   BuffBuilder,
-  CompleteActionBuff,
-  CompleteHitBuff,
-  IncompleteActionBuff,
-  IncompleteHitBuff,
+  type CompleteActionBuff,
+  type CompleteHitBuff,
+  type IncompleteActionBuff,
+  type IncompleteHitBuff,
 } from 'lib/optimization/engine/container/buffBuilder'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
-  EntityDefinition,
-  Hit,
+  type EntityDefinition,
+  type Hit,
 } from 'types/hitConditionalTypes'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 export enum Operator {

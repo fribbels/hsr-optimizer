@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { Trans } from 'react-i18next'
-import { ReactElement } from 'types/components'
+import { type ReactElement } from 'types/components'
 
 export type HintContent = {
   title: string,

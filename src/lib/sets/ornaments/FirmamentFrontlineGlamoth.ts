@@ -2,24 +2,24 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
+import { type BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
-  OptimizerAction,
-  OptimizerContext,
-  SetConditional,
+  type OptimizerAction,
+  type OptimizerContext,
+  type SetConditional,
 } from 'types/optimizer'
 import {
-  SetConditionals,
-  SetConfig,
-  SetDisplay,
-  SetInfo,
+  type SetConditionals,
+  type SetConfig,
+  type SetDisplay,
+  type SetInfo,
   SetType,
 } from 'types/setConfig'
 

@@ -1,21 +1,21 @@
 import {
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { WearerMetadata } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { type WearerMetadata } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   DamageTag,
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { LightConeConditionalsController } from 'types/conditionals'
-import { Hit } from 'types/hitConditionalTypes'
-import { LightConeConfig } from 'types/lightConeConfig'
-import { SuperImpositionLevel } from 'types/lightCone'
+import { type LightConeConditionalsController } from 'types/conditionals'
+import { type Hit } from 'types/hitConditionalTypes'
+import { type LightConeConfig } from 'types/lightConeConfig'
+import { type SuperImpositionLevel } from 'types/lightCone'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta: WearerMetadata): LightConeConditionalsController => {

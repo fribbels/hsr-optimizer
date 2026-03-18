@@ -5,8 +5,8 @@ import { STAT_SIMULATION_STATS_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm
 import { StatInput } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/StatInput'
 import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
+import { truncate10ths } from 'lib/utils/mathUtils'
 
 export function SubstatsSection({ simType, title, total }: { simType: StatSimType; title: string; total?: number }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
@@ -34,7 +34,7 @@ export function SubstatsSection({ simType, title, total }: { simType: StatSimTyp
             <InputNumberStyled
               hideControls
               disabled={true}
-              value={Utils.truncate10ths(total ?? 0)}
+              value={truncate10ths(total ?? 0)}
               variant='unstyled'
               max={54}
               error={(total ?? 0) > 54 ? true : undefined}

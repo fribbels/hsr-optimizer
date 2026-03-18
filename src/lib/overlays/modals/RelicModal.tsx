@@ -44,7 +44,6 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { isFlat } from 'lib/utils/statUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { calculateRelicMainStatValue } from 'lib/utils/relicUtils'
-import { Utils } from 'lib/utils/utils'
 import {
   useEffect,
   useMemo,
@@ -52,6 +51,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGlobalStore } from 'lib/stores/appStore'
+import { truncate10ths } from 'lib/utils/mathUtils'
 
 function partSegmentData(value: string, src: string) {
   return {
@@ -294,12 +294,12 @@ function RelicModalContent() {
 
       // @ts-expect-error - MainStats vs Stats type mismatch in includes check
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place
-        mainStatValue = Utils.truncate10ths(mainStatValue)
+        mainStatValue = truncate10ths(mainStatValue)
         // @ts-expect-error - MainStats vs Stats type mismatch in includes check
       } else if (floorStats.includes(mainStatType)) {
         mainStatValue = Math.floor(mainStatValue)
       } else {
-        mainStatValue = Utils.truncate10ths(mainStatValue)
+        mainStatValue = truncate10ths(mainStatValue)
       }
       relicForm.setFieldValue('mainStatValue', mainStatValue)
     }

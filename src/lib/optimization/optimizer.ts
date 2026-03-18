@@ -47,13 +47,13 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/utils/gridStore'
 import { clone } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
 import { WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import {
   type Form,
   type OptimizerForm,
 } from 'types/form'
+import { sleep } from 'lib/utils/frontendUtils'
 
 // Module-level cancellation flag shared across optimization runs.
 // RACE CONDITION NOTE: If a second optimize() call is triggered before the first finishes,
@@ -229,7 +229,7 @@ export const Optimizer = {
     let runSize = 0
     const maxSize = Constants.THREAD_BUFFER_LENGTH
 
-    const clonedContext = Utils.clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
+    const clonedContext = clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
     let computeEngine = useGlobalStore.getState().savedSession[SavedSessionKeys.computeEngine]
 
@@ -240,7 +240,7 @@ export const Optimizer = {
           useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           computeEngine = COMPUTE_ENGINE_CPU
         } else {
-          void Utils.sleep(200).then(() => {
+          void sleep(200).then(() => {
             void gpuOptimize({
               device,
               context: context,

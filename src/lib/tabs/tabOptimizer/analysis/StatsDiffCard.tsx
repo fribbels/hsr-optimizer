@@ -10,9 +10,10 @@ import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
 import classes from './StatsDiffCard.module.css'
+import { isFlat } from 'lib/utils/statUtils'
+import { truncate10ths, truncate1000ths } from 'lib/utils/mathUtils'
 
 const baseCardHeight = 429
 const basePortraitHeight = 400
@@ -120,7 +121,7 @@ function RenderValue({ value, stat, comboDiff }: { value: string | number, stat:
   const { t } = useTranslation('common')
   if (stat === 'COMBO_DMG') {
     return value + (comboDiff ? '%' : t('ThousandsSuffix'))
-  } else if (Utils.isFlat(stat)) {
+  } else if (isFlat(stat)) {
     return value
   }
   return value + '%'
@@ -158,8 +159,8 @@ function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: 
 
 function getStatDiffRenderValues(statValue: number, customValue: number, stat: string) {
   if (stat === 'COMBO_DMG') {
-    const valueDisplay = `${Utils.truncate10ths(Utils.precisionRound(customValue ?? 0)).toFixed(1)}`
-    const value1000thsPrecision = Utils.precisionRound(customValue).toFixed(3)
+    const valueDisplay = `${truncate10ths(TsUtils.precisionRound(customValue ?? 0)).toFixed(1)}`
+    const value1000thsPrecision = TsUtils.precisionRound(customValue).toFixed(3)
     return {
       valueDisplay,
       value1000thsPrecision,
@@ -170,13 +171,13 @@ function getStatDiffRenderValues(statValue: number, customValue: number, stat: s
 
 function visualDiff(n1: number, n2: number, stat: string) {
   if (stat === Stats.SPD) {
-    return TsUtils.precisionRound(Utils.truncate10ths(n1) - Utils.truncate10ths(n2))
-  } else if (Utils.isFlat(stat)) {
+    return TsUtils.precisionRound(truncate10ths(n1) - truncate10ths(n2))
+  } else if (isFlat(stat)) {
     return TsUtils.precisionRound(Math.floor(n1) - Math.floor(n2))
   } else if (stat === 'COMBO_DMG') {
     return TsUtils.precisionRound((n1 / n2 - 1) * 100)
   } else {
-    return TsUtils.precisionRound(Utils.truncate1000ths(n1) - Utils.truncate1000ths(n2))
+    return TsUtils.precisionRound(truncate1000ths(n1) - truncate1000ths(n2))
   }
 }
 

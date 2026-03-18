@@ -23,7 +23,6 @@ import {
   localeNumber,
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
-import { Utils } from 'lib/utils/utils'
 import {
   type Relic,
   type Stat,
@@ -34,6 +33,9 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
+import { isFlat } from 'lib/utils/statUtils'
+import { truncate10ths } from 'lib/utils/mathUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 const gradeToColor = {
   5: '#efb679',
@@ -55,7 +57,7 @@ function SetDisplay(props: { asset: string }) {
 }
 
 function formatStatValue(stat: string, value: number): string {
-  return Utils.isFlat(stat) ? localeNumber(Math.floor(value)) : localeNumber_0(Utils.truncate10ths(value))
+  return isFlat(stat) ? localeNumber(Math.floor(value)) : localeNumber_0(truncate10ths(value))
 }
 
 export const Renderer = {
@@ -66,12 +68,12 @@ export const Renderer = {
 
   x100Tenths: <T,>(x: ValueFormatterParams<T, number>) => {
     if (x?.value == null) return ''
-    return localeNumber_0(Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10)
+    return localeNumber_0(Math.floor(TsUtils.precisionRound(x.value * 100) * 10) / 10)
   },
 
   tenths: <T,>(x: ValueFormatterParams<T, number>) => {
     if (x?.value == null) return ''
-    return localeNumber_0(Math.floor(Utils.precisionRound(x.value) * 10) / 10)
+    return localeNumber_0(Math.floor(TsUtils.precisionRound(x.value) * 10) / 10)
   },
 
   relicSet: (x: CustomCellRendererProps<OptimizerDisplayDataStatSim, number>) => {
@@ -189,7 +191,7 @@ export const Renderer = {
   hideZeroes10thsRelicTabSpd: (x: ValueFormatterParams<ScoredRelic, number>) => {
     if (!x.value) return ''
 
-    const value = Utils.precisionRound(Math.floor(x.value * 10) / 10)
+    const value = TsUtils.precisionRound(Math.floor(x.value * 10) / 10)
     return x.data?.verified ? localeNumber_0(value) : localeNumber(value)
   },
 
@@ -198,7 +200,7 @@ export const Renderer = {
     if (part === Constants.Parts.Hands || part === Constants.Parts.Head) {
       return !x.value ? '' : localeNumber(Math.floor(x.value))
     }
-    return !x.value ? '' : Utils.truncate10ths(x.value).toLocaleString(currentLocale())
+    return !x.value ? '' : truncate10ths(x.value).toLocaleString(currentLocale())
   },
 
   hideZeroesX100Tenths: <T,>(x: ValueFormatterParams<T, number>) => {
@@ -217,7 +219,7 @@ export const Renderer = {
   renderSubstatNumber: (substat: Stat, relic: Relic) => {
     if (substat.stat === Constants.Stats.SPD) {
       if (relic.verified) {
-        return localeNumber_0(Utils.truncate10ths(substat.value))
+        return localeNumber_0(truncate10ths(substat.value))
       }
       return Math.floor(substat.value)
     }

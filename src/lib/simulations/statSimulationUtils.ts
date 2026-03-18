@@ -6,13 +6,13 @@ import {
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
-import { Utils } from 'lib/utils/utils'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 export function relicSetIndexToNames(relicSetIndex: number) {
   const numSetsR = Object.values(SetsRelics).length
@@ -54,7 +54,7 @@ export function convertRelicsToSimulation(
   }
 
   // Round them to 4 precision
-  SubStats.forEach((x) => accumulatedSubstatRolls[x] = Utils.precisionRound(accumulatedSubstatRolls[x], 4))
+  SubStats.forEach((x) => accumulatedSubstatRolls[x] = TsUtils.precisionRound(accumulatedSubstatRolls[x], 4))
 
   // Generate the fake request and submit it
   return {

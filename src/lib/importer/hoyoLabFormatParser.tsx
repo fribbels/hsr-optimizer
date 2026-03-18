@@ -9,11 +9,12 @@ import type {
 } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { Utils } from 'lib/utils/utils'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { DBMetadataSets } from 'types/metadata'
 import type { Relic } from 'types/relic'
+import { uuid } from 'lib/utils/miscUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 type HoyolabRelic = {
   id: number,
@@ -142,7 +143,7 @@ export function hoyolabParser(json: HoyolabData) {
         enhance: relic.level,
         equippedBy: characterId as CharacterId,
         grade: relic.rarity,
-        id: Utils.randomId(),
+        id: uuid(),
         part: getSlot(relic.pos),
         set: getSet(relic.id, relicData),
         main: {
@@ -164,9 +165,9 @@ export function hoyolabParser(json: HoyolabData) {
 
 function readValue(value: string) {
   if (value.endsWith('%')) {
-    return Utils.precisionRound(parseFloat(value.slice(0, value.length - 1)))
+    return TsUtils.precisionRound(parseFloat(value.slice(0, value.length - 1)))
   }
-  return Utils.precisionRound(parseFloat(value))
+  return TsUtils.precisionRound(parseFloat(value))
 }
 
 type TrailblazerMetadata = { trailblazer: string, current_trailblazer_path: string }

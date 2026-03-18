@@ -33,7 +33,6 @@ import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
-import { Utils } from 'lib/utils/utils'
 import i18next from 'i18next'
 import {
   memo,
@@ -49,6 +48,7 @@ import {
   type OptimizerForm,
 } from 'types/form'
 import { type SimulationMetadata } from 'types/metadata'
+import { truncate10ths } from 'lib/utils/mathUtils'
 
 export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   characterId,
@@ -227,7 +227,7 @@ export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader({ rel
             : t(
               'CharacterPreview.ScoreHeader.Score',
               {
-                score: localeNumber_0(Utils.truncate10ths(Math.max(0, (scoringResult?.percent ?? 0) * 100))),
+                score: localeNumber_0(truncate10ths(Math.max(0, (scoringResult?.percent ?? 0) * 100))),
                 grade: getSimScoreGrade(scoringResult?.percent ?? 0, verified, numRelics, lightCone),
               },
             )
@@ -245,7 +245,7 @@ export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader({ rel
 })
 
 function formatSpd(n: number) {
-  return Utils.truncate10ths(n).toFixed(1)
+  return truncate10ths(n).toFixed(1)
 }
 
 function createOnCharacterModalOk(

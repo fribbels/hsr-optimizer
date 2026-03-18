@@ -14,7 +14,7 @@ import {
 } from 'lib/optimization/sortOptions'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
-import { Utils } from 'lib/utils/utils'
+import { uuid } from 'lib/utils/miscUtils'
 
 const DIGITS_3 = 46
 const DIGITS_4 = 50
@@ -39,7 +39,7 @@ export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
   suppressNoRowsOverlay: true,
-  getRowId: (params: GetRowIdParams<OptimizerDisplayDataStatSim>) => String(params.data.id || Utils.randomId()),
+  getRowId: (params: GetRowIdParams<OptimizerDisplayDataStatSim>) => String(params.data.id || uuid()),
 }
 
 export const optimizerGridDefaultColDef: ColDef<OptimizerDisplayDataStatSim> = {

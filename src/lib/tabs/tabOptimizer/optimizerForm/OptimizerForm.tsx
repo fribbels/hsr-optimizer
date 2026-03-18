@@ -30,9 +30,9 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { Utils } from 'lib/utils/utils'
 import { memo, useEffect, useMemo } from 'react'
 import type { DBMetadata } from 'types/metadata'
+import { mergeDefinedValues } from 'lib/utils/objectUtils'
 
 export function OptimizerForm() {
   // On first load, load from last session, else display the first character from the roster
@@ -136,7 +136,7 @@ const LightConeConditionalDisplayWrapper = memo(function LightConeConditionalDis
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
     const defaults = controller.defaults()
     const lightConeForm = getCharacterById(charId!)?.form.lightConeConditionals || {}
-    Utils.mergeDefinedValues(defaults, lightConeForm)
+    mergeDefinedValues(defaults, lightConeForm)
 
     useOptimizerRequestStore.getState().setLightConeConditionals(defaults)
   }, [lcId, superimposition, charId])

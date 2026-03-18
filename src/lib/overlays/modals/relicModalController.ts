@@ -24,12 +24,13 @@ import {
 } from 'lib/utils/relicUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { clone } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
 import type {
   Relic,
   RelicEnhance,
   RelicGrade,
 } from 'types/relic'
+import { isFlat } from 'lib/utils/statUtils'
+import { truncate10ths } from 'lib/utils/mathUtils'
 
 export type RelicUpgradeValues = {
   low: number | undefined | null,
@@ -289,16 +290,16 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
         continue
       }
 
-      const value10ths = Utils.truncate10ths(Utils.precisionRound(parseFloat(value)))
+      const value10ths = truncate10ths(TsUtils.precisionRound(parseFloat(value)))
       const fixedValue: number = RelicRollFixer.fixSubStatValue(stat, value10ths, 5)
 
       const upgrades: RelicUpgradeValues = clone(SubStatValues[stat as SubStats][relicForm.grade as 5 | 4 | 3 | 2])
 
       if (isPreview) {
-        const previewValue = RelicRollFixer.fixSubStatValue(stat, Utils.truncate10ths(Utils.precisionRound(isPreview)), 5)
+        const previewValue = RelicRollFixer.fixSubStatValue(stat, truncate10ths(TsUtils.precisionRound(isPreview)), 5)
         upgradeValues.push({
           high: null,
-          mid: (Utils.isFlat(stat) && stat != Stats.SPD)
+          mid: (isFlat(stat) && stat != Stats.SPD)
             ? renderFlatStat(fixedValue + previewValue)
             : renderPercentStat(fixedValue + previewValue),
           low: null,
@@ -307,7 +308,7 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
         continue
       }
 
-      if (Utils.isFlat(stat) && stat != Stats.SPD) {
+      if (isFlat(stat) && stat != Stats.SPD) {
         upgrades.low = renderFlatStat(fixedValue + upgrades.low!)
         upgrades.mid = renderFlatStat(fixedValue + upgrades.mid!)
         upgrades.high = renderFlatStat(fixedValue + upgrades.high!)
@@ -330,5 +331,5 @@ function renderFlatStat(value: number) {
 }
 
 function renderPercentStat(value: number) {
-  return Utils.truncate10ths(TsUtils.precisionRound(value))
+  return truncate10ths(TsUtils.precisionRound(value))
 }

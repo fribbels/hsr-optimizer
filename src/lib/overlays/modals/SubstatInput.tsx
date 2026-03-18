@@ -17,13 +17,13 @@ import {
   localeNumber,
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
-import { Utils } from 'lib/utils/utils'
 import {
   useMemo,
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
+import { isFlat } from 'lib/utils/statUtils'
 
 export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, plusThree }: {
   index: 0 | 1 | 2 | 3
@@ -57,7 +57,7 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
   const formatStat = (value?: string | number) => {
     const stat = relicForm.getValues()[`substatType${index}`]
     if (!value) return ''
-    if (stat && Utils.isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
+    if (stat && isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
     return localeNumber_0(Number(value))
   }
 

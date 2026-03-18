@@ -9,10 +9,10 @@ import {
   localeNumber_0,
   localeNumber_00,
 } from 'lib/utils/i18nUtils'
-import { Utils } from 'lib/utils/utils'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './SubstatUpgrades.module.css'
+import { truncate100ths } from 'lib/utils/mathUtils'
 
 type Metrics = 'COMBO_DMG' | 'EHP'
 
@@ -100,7 +100,7 @@ export function DamageUpgrades({ analysis }: {
                 </Flex>
               </Table.Td>
               <Table.Td className={classes.centeredCell}>
-                {item.percent === 0 ? '' : `${localeNumber_00(Utils.truncate100ths(item.percent * 100))}%`}
+                {item.percent === 0 ? '' : `${localeNumber_00(truncate100ths(item.percent * 100))}%`}
               </Table.Td>
               <Table.Td className={classes.centeredCell}>
                 {item.value === 0 ? '' : `${localeNumber_0(item.value)}`}

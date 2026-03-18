@@ -5,8 +5,10 @@ import {
 import type { StatsValues } from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
-import { Utils } from 'lib/utils/utils'
 import type { Relic, UnaugmentedRelic } from 'types/relic'
+import { isFlat } from 'lib/utils/statUtils'
+import { uuid } from 'lib/utils/miscUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 export type AugmentedStats = Record<StatsValues, number> & {
   mainStat: string,
@@ -33,7 +35,7 @@ export const RelicAugmenter = {
 
     for (const substat of relic.substats) {
       const stat = substat.stat
-      substat.value = Utils.precisionRound(substat.value)
+      substat.value = TsUtils.precisionRound(substat.value)
       substat.value = RelicRollFixer.fixSubStatValue(stat, substat.value, relic.grade)
       augmentedStats[stat] = substat.value
     }
@@ -42,7 +44,7 @@ export const RelicAugmenter = {
       relic.grade = 5
     }
 
-    relic.id ??= Utils.randomId()
+    relic.id ??= uuid()
 
     relic.previewSubstats ??= []
 
@@ -80,7 +82,7 @@ function fixAugmentedStats(relics: UnaugmentedRelic[]) {
       if (!relic.augmentedStats) continue
 
       relic.augmentedStats[stat] = relic.augmentedStats[stat] || 0
-      if (!Utils.isFlat(stat)) {
+      if (!isFlat(stat)) {
         if (relic.augmentedStats.mainStat == stat) {
           relic.augmentedStats.mainValue = relic.augmentedStats.mainValue / 100
         }

@@ -3,8 +3,8 @@ import { type SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
 import { Renderer } from 'lib/rendering/renderer'
-import { Utils } from 'lib/utils/utils'
 import { useTranslation } from 'react-i18next'
+import { isFlat } from 'lib/utils/statUtils'
 import type {
   Relic,
   StatRolls,
@@ -34,7 +34,7 @@ export function RelicStatRow({ stat, main, relic, isPreview = false }: { stat: S
   } else {
     displayValue = Renderer.renderSubstatNumber(stat, relic)
   }
-  displayValue += Utils.isFlat(stat.stat) ? '' : '%'
+  displayValue += isFlat(stat.stat) ? '' : '%'
 
   return (
     <Flex justify='space-between' align='center' style={{ opacity: isPreview ? 0.4 : 1 }}>

@@ -29,12 +29,13 @@ import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { clone } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
 import { memo, useMemo } from 'react'
 import { useProgressivePhase } from 'lib/characterPreview/useProgressivePhase'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { type CharacterId } from 'types/character'
+import { truncate10ths } from 'lib/utils/mathUtils'
+import { TsUtils } from 'lib/utils/TsUtils'
 
 function ScoringSet(props: {
   set: string
@@ -158,7 +159,7 @@ function ScoringColumn(props: {
       <Flex direction="column" gap={defaultGap}>
         <Flex justify='space-around'>
           <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
-            <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: Utils.truncate10ths(Utils.precisionRound(props.percent * 100)) })}</u>
+            <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: truncate10ths(TsUtils.precisionRound(props.percent * 100)) })}</u>
           </pre>
           {/* Character/Benchmark/Perfect build ({{score}}%) */}
         </Flex>

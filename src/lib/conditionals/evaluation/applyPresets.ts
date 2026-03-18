@@ -29,8 +29,7 @@ import type {
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import type { PresetDefinition } from 'lib/scoring/presetEffects'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
-import { clone } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
+import { clone, mergeDefinedValues, mergeUndefinedValues } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { ScoringMetadata } from 'types/metadata'
@@ -49,8 +48,8 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
 
   const overrides = useScoringStore.getState().scoringMetadataOverrides[characterId]
   if (overrides) {
-    Utils.mergeDefinedValues(metadata.parts, overrides.parts)
-    Utils.mergeDefinedValues(metadata.stats, overrides.stats)
+    mergeDefinedValues(metadata.parts, overrides.parts)
+    mergeDefinedValues(metadata.stats, overrides.stats)
   }
   form.minSpd = spd
 
@@ -67,7 +66,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
 
 export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
   // @ts-expect-error - getDefaultForm currently has handling for no character id but is set to be changed
-  Utils.mergeUndefinedValues(form, getDefaultForm())
+  mergeUndefinedValues(form, getDefaultForm())
 
   form.comboTurnAbilities = scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
 
@@ -100,7 +99,7 @@ export function applyPreset(form: Form | BenchmarkForm, preset: PresetDefinition
 export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   const metadataCharacters = getGameMetadata().characters
   const characterMetadata = metadataCharacters[form.characterId]
-  Utils.mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
+  mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
 
   // Disable elemental conditions by default if the character is not of the same element
   const element = characterMetadata?.element

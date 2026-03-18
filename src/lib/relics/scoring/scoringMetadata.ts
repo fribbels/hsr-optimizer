@@ -14,11 +14,11 @@ import { getScoreCategory } from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoringStore'
 import { objectHash } from 'lib/utils/objectUtils'
-import { Utils } from 'lib/utils/utils'
 import type { CharacterId } from 'types/character'
+import { clone } from 'lib/utils/objectUtils'
 
 export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
-  const scoringMetadata = Utils.clone(getScoringMetadata(id)) as unknown as ScorerMetadata
+  const scoringMetadata = clone(getScoringMetadata(id)) as unknown as ScorerMetadata
 
   const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
   scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })

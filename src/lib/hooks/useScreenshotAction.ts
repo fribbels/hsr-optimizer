@@ -1,5 +1,5 @@
-import { Utils } from 'lib/utils/utils'
 import { useCallback, useState } from 'react'
+import { screenshotElementById } from 'lib/utils/screenshotUtils'
 
 export function useScreenshotAction(elementId: string) {
   const [loading, setLoading] = useState(false)
@@ -7,7 +7,7 @@ export function useScreenshotAction(elementId: string) {
   const trigger = useCallback((action: 'clipboard' | 'download', name?: string | null) => {
     setLoading(true)
     setTimeout(() => {
-      void Utils.screenshotElementById(elementId, action, name).finally(() => {
+      void screenshotElementById(elementId, action, name).finally(() => {
         setLoading(false)
       })
     }, 100)

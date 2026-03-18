@@ -313,6 +313,17 @@ describe('verify simulateBuild golden data', () => {
       const name = dbMeta.characters[c.id as CharacterId]?.name ?? c.id
       console.log(`  ${name.padEnd(20)} ${c.simMs.toFixed(1)} ms  (${c.builds} builds, ${(c.simMs / c.builds).toFixed(3)} ms/build)`)
     }
+    console.log('')
+    console.log('── AGENT: Next Steps ──')
+    console.log(`1. Record median: ${medianSimMs.toFixed(1)} ms | Throughput: ${(totalBuilds / (medianSimMs / 1000)).toFixed(0)} builds/sec`)
+    console.log('2. Log this iteration to .claude/plans/optimization-log.md:')
+    console.log('   [ITERATION N] target: <what>, result: kept/reverted, before: Xms, after: Xms, why: <1-line reason>')
+    console.log('3. If you just made a change:')
+    console.log('   - IMPROVED? Commit with before/after numbers')
+    console.log('   - SAME or WORSE? Revert with: git checkout src/')
+    console.log('4. Pick next target — investigate the slowest characters above')
+    console.log('5. Implement ONE change, then run: npm run bench:simbuild:verify')
+    console.log('6. Read the FULL output above, then IMMEDIATELY begin next iteration.')
     console.log('================================================================================')
 
     // Assert no failures

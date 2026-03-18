@@ -24,7 +24,23 @@ export function sumArray(arr: number[]) {
   return sum
 }
 
-export function precisionRound(number: number, precision: number = 5): number {
-  const factor = Math.pow(10, precision)
-  return Math.round(number * factor) / factor
+export function truncate10ths(x: number): number {
+  return Math.floor(x * 10) / 10
+}
+
+export function truncate100ths(x: number): number {
+  return Math.floor(x * 100) / 100
+}
+
+export function truncate1000ths(x: number): number {
+  return Math.floor(x * 1000) / 1000
+}
+
+export function truncate10000ths(x: number): number {
+  return Math.floor(x * 10000) / 10000
+}
+
+export function nullUndefinedToZero(x: number | null | undefined): number {
+  if (x == null) return 0
+  return x
 }

@@ -47,3 +47,11 @@ export function getIndexOf<T>(array: readonly T[], item: unknown): number {
 export const ArrayFilters = {
   nonNullable: <T>(x: T) => x != null,
 }
+
+export function arrayOfZeroes(n: number): number[] {
+  return new Array(n).fill(0)
+}
+
+export function arrayOfValue<T>(n: number, x: T): T[] {
+  return new Array(n).fill(x)
+}

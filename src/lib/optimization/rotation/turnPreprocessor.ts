@@ -11,7 +11,7 @@ import {
   type TurnAbilityName,
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 
 type TurnState = {
   turnStarts: boolean[],
@@ -40,7 +40,7 @@ export function preprocessTurnAbilities(input: TurnAbility[]): TurnAbility[] {
     return []
   }
 
-  const inputAbilities = TsUtils.clone(input)
+  const inputAbilities = clone(input)
   inputAbilities.shift()
 
   const state: TurnState = {

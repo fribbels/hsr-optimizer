@@ -40,7 +40,7 @@ import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimiz
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import React, {
   memo,
@@ -144,7 +144,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
     }
 
     function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
-      const showcaseTemporaryOptionsByCharacter = TsUtils.clone(useShowcaseTabStore.getState().showcaseTemporaryOptionsByCharacter)
+      const showcaseTemporaryOptionsByCharacter = clone(useShowcaseTabStore.getState().showcaseTemporaryOptionsByCharacter)
       if (!showcaseTemporaryOptionsByCharacter[characterId]) showcaseTemporaryOptionsByCharacter[characterId] = {}
 
       // -1 is used as the "current" setting

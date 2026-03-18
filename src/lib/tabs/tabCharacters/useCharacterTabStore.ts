@@ -3,7 +3,7 @@ import {
   type PathName,
 } from 'lib/constants/constants'
 import { getCharacterById } from 'lib/stores/characterStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import type {
   CharacterId,
 } from 'types/character'
@@ -39,7 +39,7 @@ type CharacterTabState = CharacterTabValues & CharacterTabActions
 
 export const useCharacterTabStore = createTabAwareStore<CharacterTabState>((set) => ({
   focusCharacter: null,
-  filters: TsUtils.clone(defaultFilters),
+  filters: clone(defaultFilters),
 
   setFocusCharacter: (focusCharacter) =>
     set(() => {

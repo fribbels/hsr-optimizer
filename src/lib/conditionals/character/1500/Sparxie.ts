@@ -49,6 +49,7 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type CharacterConditionalFunction,
   type CharacterConfig,
@@ -88,7 +89,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     SOURCE_ELATION_SKILL,
   } = Source.character(Sparxie.id)
 
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparxie.Content')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparxie.Content')
 
   const basicScaling = basic(e, 1.00, 1.10)
   const engagementScaling = skill(e, 0.20, 0.22)

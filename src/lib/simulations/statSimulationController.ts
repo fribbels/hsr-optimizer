@@ -27,7 +27,8 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/utils/gridStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { objectHash } from 'lib/utils/objectUtils'
+import { uuid } from 'lib/utils/miscUtils'
 import type { Form } from 'types/form'
 
 export function saveStatSimulationBuildFromForm(startSim = true) {
@@ -54,7 +55,7 @@ export function saveStatSimulationBuildFromForm(startSim = true) {
 
 export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
   const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
-  const key = TsUtils.uuid()
+  const key = uuid()
   const name = simRequest.name ?? undefined
   const simulation: Simulation = {
     name: name,
@@ -89,7 +90,7 @@ function hashSim(sim: Simulation) {
     }
   }
 
-  return TsUtils.objectHash({
+  return objectHash({
     simType: sim.simType,
     request: cleanedRequest,
   })
@@ -122,7 +123,7 @@ export function overwriteStatSimulationBuild() {
 
   const newSim: Simulation = {
     name: simRequest.name ?? undefined,
-    key: TsUtils.uuid(),
+    key: uuid(),
     simType: simType,
     request: simRequest,
   }

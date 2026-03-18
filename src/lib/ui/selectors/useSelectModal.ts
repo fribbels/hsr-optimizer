@@ -1,4 +1,4 @@
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { type ChangeEvent, useCallback, useRef, useState } from 'react'
 
 export interface UseSelectModalOptions<TFilters extends Record<string, unknown>> {
@@ -23,7 +23,7 @@ export function useSelectModal<TFilters extends Record<string, unknown>>(
   const { defaultFilters, opened, onOpenChange } = options
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [internalOpen, setInternalOpen] = useState(false)
-  const [filters, setFilters] = useState<TFilters>(() => TsUtils.clone(defaultFilters))
+  const [filters, setFilters] = useState<TFilters>(() => clone(defaultFilters))
 
   // Always keep ref in sync so open() reads the latest defaultFilters
   const defaultFiltersRef = useRef(defaultFilters)
@@ -35,7 +35,7 @@ export function useSelectModal<TFilters extends Record<string, unknown>>(
   const isOpen = opened ?? internalOpen
 
   const open = useCallback(() => {
-    setFilters(TsUtils.clone(defaultFiltersRef.current))
+    setFilters(clone(defaultFiltersRef.current))
     setInternalOpen(true)
     onOpenChangeRef.current?.(true)
   }, [])

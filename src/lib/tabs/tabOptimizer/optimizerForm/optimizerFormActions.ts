@@ -344,7 +344,11 @@ export function updateCharacter(characterId: CharacterId): void {
   // Merge saved conditionals with current defaults so newly added conditionals get their default values
   const controller = CharacterConditionalsResolver.get({ characterId, characterEidolon: form.characterEidolon })
   if (controller.defaults) {
-    Utils.mergeUndefinedValues(form.characterConditionals, controller.defaults())
+    if (form.characterConditionals) {
+      Utils.mergeUndefinedValues(form.characterConditionals, controller.defaults())
+    } else {
+      form.characterConditionals = controller.defaults()
+    }
   }
 
   // Load form into store (replaces formToDisplay + setFieldsValue)

@@ -43,6 +43,7 @@ import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { isFlat } from 'lib/utils/statUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { calculateRelicMainStatValue } from 'lib/utils/relicUtils'
 import { Utils } from 'lib/utils/utils'
 import {
   useEffect,
@@ -289,7 +290,7 @@ function RelicModalContent() {
       ]
       const floorStats = [Stats.HP, Stats.ATK]
 
-      let mainStatValue = TsUtils.calculateRelicMainStatValue(mainStatType, grade, enhance)
+      let mainStatValue = calculateRelicMainStatValue(mainStatType, grade, enhance)
 
       // @ts-expect-error - MainStats vs Stats type mismatch in includes check
       if (specialStats.includes(mainStatType)) { // Outgoing Healing Boost and elemental damage bonuses has a weird rounding with one decimal place

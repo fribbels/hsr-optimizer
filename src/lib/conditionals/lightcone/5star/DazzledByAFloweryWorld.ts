@@ -10,6 +10,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type LightConeConditionalFunction,
   type LightConeConfig,
@@ -22,7 +23,7 @@ import {
 const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(DazzledByAFloweryWorld.id)
 
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.DazzledByAFloweryWorld.Content')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.DazzledByAFloweryWorld.Content')
 
   const sValuesDefPen = [0.05, 0.06, 0.07, 0.08, 0.09]
   const sValuesElation = [0.20, 0.24, 0.28, 0.32, 0.36]

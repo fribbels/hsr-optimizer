@@ -17,7 +17,7 @@ import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Utils } from 'lib/utils/utils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { isVersionOutdated } from 'lib/utils/miscUtils'
 import type {
   Character,
   CharacterId,
@@ -154,7 +154,7 @@ export class KelzFormatParser { // TODO abstract class
     }
 
     const buildVersion = json.build || 'v0.0.0'
-    const isOutOfDate = TsUtils.isVersionOutdated(buildVersion, this.config.latestBuildVersion)
+    const isOutOfDate = isVersionOutdated(buildVersion, this.config.latestBuildVersion)
 
     if (isOutOfDate) {
       console.log(`Current: ${buildVersion}, Latest: ${this.config.latestBuildVersion}`)

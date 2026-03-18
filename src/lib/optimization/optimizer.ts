@@ -46,7 +46,7 @@ import {
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/utils/gridStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import { WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
@@ -93,7 +93,7 @@ function releaseRetryBuffer(taskInput: { buffer: ArrayBuffer }, resultBuffer: Ar
 export function calculateCurrentlyEquippedRow(request: OptimizerForm) {
   let relics = getRelics()
   relics = relics.filter((x) => x.equippedBy == request.characterId)
-  relics = TsUtils.clone(relics)
+  relics = clone(relics)
   RelicFilters.calculateWeightScore(request, relics)
   relics = RelicFilters.applyMainStatsFilter(request, relics)
   const relicsByPart = RelicFilters.splitRelicsByPart(relics) as RelicsByPart | SimulationRelicByPart
@@ -140,7 +140,7 @@ export const Optimizer = {
     const preFilteredRelicsByPart = RelicFilters.splitRelicsByPart(relics)
 
     relics = RelicFilters.applyMainFilter(request, relics)
-    relics = TsUtils.clone(relics) // Past this point we modify relics, clone it first
+    relics = clone(relics) // Past this point we modify relics, clone it first
     RelicFilters.mergePreviewSubstats(request, relics)
     relics = RelicFilters.applyMainStatsFilter(request, relics)
     relics = RelicFilters.applySetFilter(request, relics)

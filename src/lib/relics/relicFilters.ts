@@ -16,7 +16,7 @@ import {
 } from 'lib/sets/setConfigRegistry'
 import { getCharacterById, getCharacters } from 'lib/stores/characterStore'
 import { getRelics } from 'lib/stores/relicStore'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { calculateRelicMainStatValue } from 'lib/utils/relicUtils'
 import { Utils } from 'lib/utils/utils'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
@@ -400,7 +400,7 @@ export const RelicFilters = {
         const maxEnhance = grade * 3
         if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {
           const newEnhance = maxEnhance < mainStatUpscaleLevel ? maxEnhance : mainStatUpscaleLevel
-          const newValue = TsUtils.calculateRelicMainStatValue(stat, grade, newEnhance) / (Utils.isFlat(x.main.stat) ? 1 : 100)
+          const newValue = calculateRelicMainStatValue(stat, grade, newEnhance) / (Utils.isFlat(x.main.stat) ? 1 : 100)
           return x.augmentedStats!.mainValue = newValue
         }
       })

@@ -3,7 +3,7 @@ import { type CUSTOM_TEAM, type DEFAULT_TEAM, type Parts } from 'lib/constants/c
 import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import type {
   Character,
   CharacterId,
@@ -113,8 +113,8 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabState>((set, g
       return Message.error(t('CharacterAlreadyExists') /* Selected character already exists */)
     }
 
-    const updatedCharacter = TsUtils.clone(selectedCharacter)!
-    const updatedCharacters = TsUtils.clone(availableCharacters)!
+    const updatedCharacter = clone(selectedCharacter)!
+    const updatedCharacters = clone(availableCharacters)!
     updatedCharacter.form = form
     updatedCharacter.id = form.characterId
     Object.values(updatedCharacter.equipped)

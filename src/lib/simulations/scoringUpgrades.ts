@@ -15,7 +15,7 @@ import type {
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
 import { partsToFilterMapping } from 'lib/simulations/utils/benchmarkUtils'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import type { Form } from 'types/form'
 import type { SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
@@ -44,7 +44,7 @@ export function generateStatImprovements(
   const substatUpgradeResults: SimulationStatUpgrade[] = []
   for (const substatType of metadata.substats) {
     const stat: string = substatType
-    const originalSimClone: Simulation = TsUtils.clone(originalSim)
+    const originalSimClone: Simulation = clone(originalSim)
     originalSimClone.request.stats[stat] = (originalSimClone.request.stats[stat] ?? 0) + 1.0
 
     const statImprovementResult = runStatSimulations([originalSimClone], simulationForm, context, {
@@ -62,7 +62,7 @@ export function generateStatImprovements(
 
   // Upgrade set
   const setUpgradeResults: SimulationStatUpgrade[] = []
-  const originalSimClone: Simulation = TsUtils.clone(originalSim)
+  const originalSimClone: Simulation = clone(originalSim)
   originalSimClone.request.simRelicSet1 = benchmarkRequest.simRelicSet1
   originalSimClone.request.simRelicSet2 = benchmarkRequest.simRelicSet2
   originalSimClone.request.simOrnamentSet = benchmarkRequest.simOrnamentSet
@@ -83,7 +83,7 @@ export function generateStatImprovements(
 
   function upgradeMain(part: MainStatParts) {
     for (const upgradeMainStat of metadata.parts[part]) {
-      const originalSimClone: Simulation = TsUtils.clone(originalSim)
+      const originalSimClone: Simulation = clone(originalSim)
       const simMainName = partsToFilterMapping[part]
       const simMainStat: string = originalSimClone.request[simMainName]
       if (flags.forceErrRope && simMainStat === Stats.ERR) continue

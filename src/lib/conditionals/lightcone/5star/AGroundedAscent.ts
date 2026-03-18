@@ -8,6 +8,7 @@ import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type CharacterId } from 'types/character'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -18,7 +19,7 @@ import {
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean, { characterId }: { characterId: CharacterId }): LightConeConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.AGroundedAscent')
   const { SOURCE_LC } = Source.lightCone(AGroundedAscent.id)
 
   const sValuesDmg = [0.15, 0.1725, 0.195, 0.2175, 0.24]

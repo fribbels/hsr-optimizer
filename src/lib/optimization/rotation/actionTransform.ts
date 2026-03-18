@@ -20,7 +20,7 @@ import {
 } from 'lib/optimization/rotation/comboStateTransform'
 import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import { TsUtils } from 'lib/utils/TsUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type Form,
@@ -214,7 +214,7 @@ function prepareEntitiesForAction(
   // Main character entities
   const characterController = context.characterController
   const primaryEntityNames = characterController.entityDeclaration()
-  const charEntityDefs = TsUtils.clone(characterController.entityDefinition(action, context))
+  const charEntityDefs = clone(characterController.entityDefinition(action, context))
 
   Object.assign(entityDefinitionsMap, charEntityDefs)
 
@@ -226,7 +226,7 @@ function prepareEntitiesForAction(
       teammateEntityNames.push(...controllerEntityNames)
 
       if (teammateController.entityDefinition) {
-        const teammateEntityDefs = TsUtils.clone(teammateController.entityDefinition(action, context))
+        const teammateEntityDefs = clone(teammateController.entityDefinition(action, context))
         Object.values(teammateEntityDefs).forEach((entityDefinition) => {
           entityDefinition.teammate = true
         })

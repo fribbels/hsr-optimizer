@@ -6,6 +6,7 @@ import {
 } from 'lib/constants/constants'
 import type { RelicForm } from 'lib/overlays/modals/relicModalController'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { objectHash } from 'lib/utils/objectUtils'
 import { Utils } from 'lib/utils/utils'
 import type { Relic } from 'types/relic'
 
@@ -112,7 +113,7 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
 }
 
 function relicHash(relic: Relic) {
-  return TsUtils.objectHash({
+  return objectHash({
     grade: relic.grade,
     enhance: relic.enhance,
     part: relic.part,

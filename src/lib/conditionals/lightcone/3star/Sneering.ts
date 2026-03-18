@@ -7,6 +7,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type LightConeConditionalFunction,
   type LightConeConfig,
@@ -19,7 +20,7 @@ import {
 const conditionals: LightConeConditionalFunction = (s, withContent) => {
   const { SOURCE_LC } = Source.lightCone(Sneering.id)
 
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.Sneering')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.Sneering')
 
   const sValues = [0.16, 0.20, 0.24, 0.28, 0.32]
 

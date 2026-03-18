@@ -1,12 +1,13 @@
 import { type ContentDefinition } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { TsUtils } from 'lib/utils/TsUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type LightConeConfig } from 'types/lightConeConfig'
 import { type SuperImpositionLevel } from 'types/lightCone'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
-  const t = TsUtils.wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisIsMe')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ThisIsMe')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { SOURCE_LC } = Source.lightCone(ThisIsMe.id)
 

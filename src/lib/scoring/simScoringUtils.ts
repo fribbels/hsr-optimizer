@@ -1,13 +1,15 @@
-import {
+import type {
   ElementName,
-  ElementToStatKeyDmgBoost,
-  Stats,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import {
-  AKeyValue,
+  ElementToStatKeyDmgBoost,
+  Stats,
+} from 'lib/constants/constants'
+import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
+import {
   GlobalRegister,
   StatKey,
 } from 'lib/optimization/engine/config/keys'

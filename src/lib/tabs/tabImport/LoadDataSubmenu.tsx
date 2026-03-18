@@ -9,9 +9,10 @@ import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
 } from 'lib/tabs/tabImport/importerTabUiConstants'
-import { RefObject, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
+import type { RefObject } from 'react'
 import type { HsrOptimizerSaveFormat } from 'types/store'
 import classes from './LoadDataSubmenu.module.css'
 

@@ -61,8 +61,6 @@ export function preprocessTurnAbilities(input: TurnAbility[]): TurnAbility[] {
   annotateOrphanedBasicSkill(state)
   updateTurnRanges(state)
   dissolveTurnsWithoutBasicOrSkill(state)
-  // updateTurnRanges(state)
-  // extendTurnsForOrphanedUlts(state)
 
   const outputAbilities = generateFinalSequence(state)
 
@@ -249,39 +247,6 @@ function dissolveTurnsWithoutBasicOrSkill(state: TurnState): void {
     if (!hasBasicOrSkill) {
       turnStarts[range.start] = false
       turnEnds[range.end] = false
-    }
-  }
-}
-
-/**
- * Step 7: Extend turns to incorporate orphaned ULTs
- */
-function extendTurnsForOrphanedUlts(state: TurnState): void {
-  const { normalizedAbilities, turnRanges, turnStarts, turnEnds } = state
-
-  // Process each turn
-  for (const range of turnRanges) {
-    if (range.start === 0) continue
-
-    // Look backward for ULTs
-    let i = range.start - 1
-    while (i >= 0) {
-      // Stop if we hit another turn's end
-      if (turnEnds[i]) break
-
-      // Stop if we hit another turn's start
-      if (turnStarts[i]) break
-
-      if (normalizedAbilities[i].kind === AbilityKind.ULT) {
-        // Extend turn to include this ULT
-        turnStarts[i] = true
-        turnStarts[range.start] = false
-
-        // Update the range for future checks
-        range.start = i
-      }
-
-      i--
     }
   }
 }

@@ -7,13 +7,13 @@ import { showcaseOnAddOk, showcaseOnEditOk } from 'lib/characterPreview/characte
 import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
 import { useCallback, useMemo, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { Character, SavedBuild } from 'types/character'
-import { CustomImageConfig } from 'types/customImage'
-import { Relic } from 'types/relic'
+import type { Character, SavedBuild } from 'types/character'
+import type { CustomImageConfig } from 'types/customImage'
+import type { Relic } from 'types/relic'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { Parts } from 'lib/constants/constants'
+import type { Parts } from 'lib/constants/constants'
 
 export function useCharacterPreviewState(
   source: ShowcaseSource,

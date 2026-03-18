@@ -21,6 +21,10 @@ import {
   calculateMaxSubstatRollCounts,
   calculateMinSubstatRollCounts,
 } from 'lib/scoring/rollCounter'
+import type {
+  SimulationFlags,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
 import {
   applyScoringFunction,
   baselineScoringParams,
@@ -31,8 +35,6 @@ import {
   maximumScoringParams,
   originalScoringParams,
   simSorter,
-  SimulationFlags,
-  SimulationScore,
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
 import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateBenchmarkBuild'
@@ -40,13 +42,13 @@ import { generateStatImprovements } from 'lib/simulations/scoringUpgrades'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationUtils'
-import {
+import type {
   RunSimulationsParams,
   RunStatSimulationsResult,
   Simulation,
   SimulationRequest,
-  StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'

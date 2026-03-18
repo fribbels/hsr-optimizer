@@ -1,12 +1,12 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   calculateContextConditionalRegistry,
   wrapTeammateDynamicConditional,
 } from 'lib/optimization/calculateConditionals'
 import { rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
+import type {
   CharacterMetadata,
   OptimizerAction,
   OptimizerContext,

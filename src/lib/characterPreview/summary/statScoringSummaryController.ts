@@ -2,19 +2,17 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { rollCounter } from 'lib/importer/characterConverter'
-import {
-  RelicScoringResult,
-  ScoringCache,
-} from 'lib/relics/scoring/relicScorer'
+import type { RelicScoringResult } from 'lib/relics/scoring/relicScorer'
+import { ScoringCache } from 'lib/relics/scoring/relicScorer'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'
-import { EstTbpRunnerOutput } from 'lib/worker/estTbpWorkerRunner'
-import { CharacterId } from 'types/character'
-import { ScoringMetadata } from 'types/metadata'
-import { Relic } from 'types/relic'
+import type { EstTbpRunnerOutput } from 'lib/worker/estTbpWorkerRunner'
+import type { CharacterId } from 'types/character'
+import type { ScoringMetadata } from 'types/metadata'
+import type { Relic } from 'types/relic'
 
 export type EnrichedRelics = {
   LinkRope?: RelicAnalysis,

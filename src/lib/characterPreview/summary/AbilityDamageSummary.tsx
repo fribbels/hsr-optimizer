@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
+import type { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
 import classes from './AbilityDamageSummary.module.css'

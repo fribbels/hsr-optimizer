@@ -1,6 +1,6 @@
-import { CharacterId } from 'types/character'
-import { ConditionalValueMap } from 'types/conditionals'
-import {
+import type { CharacterId } from 'types/character'
+import type { ConditionalValueMap } from 'types/conditionals'
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'

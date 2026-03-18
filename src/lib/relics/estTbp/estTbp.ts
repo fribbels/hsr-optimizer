@@ -246,6 +246,3 @@ export function* combinationsWithReplacement<T>(l: Array<T>, k: number): Generat
   for (const [i, x] of l.entries()) for (const set of combinationsWithReplacement(l.slice(i), k - 1)) yield [x, ...set]
 }
 
-export function debugEstTbp() {
-  // Since EstTbp only runs in workers, Webpack will remove it from the main browser unless imported somewhere
-}

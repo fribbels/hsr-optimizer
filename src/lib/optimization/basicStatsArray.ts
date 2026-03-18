@@ -124,7 +124,7 @@ export class BasicStatsArrayCore {
   weight: number
 
   constructor(trace: boolean = false, memosprite = false) {
-    // @ts-ignore
+    // @ts-expect-error - Memosprite instances set m=null to avoid infinite recursion; external code accesses m only on non-memo instances
     this.m = memosprite ? null : new BasicStatsArrayCore(trace, true, () => this)
     this.buffs = []
     this.buffsMemo = []

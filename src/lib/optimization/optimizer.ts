@@ -448,7 +448,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
     }
 
     for (const action of context.defaultActions) {
-      // @ts-ignore
+      // @ts-expect-error - action.actionName is a dynamic key that matches OptimizerDisplayData fields (BASIC, SKILL, ULT, etc.)
       d[action.actionName] = x.getActionRegisterValue(action.registerIndex)
     }
   }

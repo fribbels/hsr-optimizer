@@ -1,4 +1,4 @@
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { formatOptimizerDisplayData } from 'lib/optimization/optimizer'
 
 export function transformOptimizerDisplayData(x: ComputedStatsContainer, key?: string) {

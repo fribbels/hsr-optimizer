@@ -1,9 +1,11 @@
-import { ComputeEngine, COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
-import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { OptimizerDisplayState, PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
-import { Build, CharacterId } from 'types/character'
-import { OptimizerContext } from 'types/optimizer'
+import type { ComputeEngine } from 'lib/constants/constants'
+import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
+import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import type { Simulation } from 'lib/simulations/statSimulationTypes'
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import type { OptimizerDisplayState, PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
+import type { Build, CharacterId } from 'types/character'
+import type { OptimizerContext } from 'types/optimizer'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 
 type OptimizerDisplayActions = {

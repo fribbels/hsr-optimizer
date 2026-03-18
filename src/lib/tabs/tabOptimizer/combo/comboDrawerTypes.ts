@@ -1,7 +1,8 @@
-import { ConditionalDataType, ElementName, PathName } from 'lib/constants/constants'
+import { ConditionalDataType } from 'lib/constants/constants'
+import type { ElementName, PathName } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
-import { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CharacterId } from 'types/character'
+import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { CharacterId } from 'types/character'
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory,

@@ -16,9 +16,9 @@ import {
 } from 'lib/hooks/useOpenClose'
 import {
   ConditionalSetMetadata,
-  type SelectOptionContent,
   type SetMetadata,
 } from 'lib/optimization/rotation/setConditionalContent'
+import type { SelectOptionContent } from 'types/setConfig'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'

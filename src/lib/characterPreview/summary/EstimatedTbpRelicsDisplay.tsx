@@ -1,17 +1,19 @@
 import { Flex, Loader } from '@mantine/core'
-import { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import {
+import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import type {
   EnrichedRelics,
+  RelicAnalysis,
+} from 'lib/characterPreview/summary/statScoringSummaryController'
+import {
   enrichRelicAnalysis,
   flatReduction,
   hashEstTbpRun,
-  RelicAnalysis,
 } from 'lib/characterPreview/summary/statScoringSummaryController'
 import iconClasses from 'style/icons.module.css'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import {
@@ -19,18 +21,18 @@ import {
   localeNumber_00,
   localeNumberComma,
 } from 'lib/utils/i18nUtils'
-import {
+import type {
   EstTbpRunnerInput,
   EstTbpRunnerOutput,
-  runEstTbpWorker,
 } from 'lib/worker/estTbpWorkerRunner'
+import { runEstTbpWorker } from 'lib/worker/estTbpWorkerRunner'
 import {
   useEffect,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'types/components'
-import { RelicSubstatMetadata } from 'types/relic'
+import type { ReactElement } from 'types/components'
+import type { RelicSubstatMetadata } from 'types/relic'
 import styles from './EstimatedTbpRelicsDisplay.module.css'
 
 const cachedRelics: Record<string, EnrichedRelics> = {}

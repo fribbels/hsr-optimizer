@@ -10,7 +10,7 @@ import {
 } from 'lib/relics/estTbp/estTbp'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { TsUtils } from 'lib/utils/TsUtils'
-import {
+import type {
   Relic,
   RelicSubstatMetadata,
 } from 'types/relic'

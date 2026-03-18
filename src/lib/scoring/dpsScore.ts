@@ -1,13 +1,15 @@
 import {
   Parts,
 } from 'lib/constants/constants'
-import {
-  OrnamentSetToIndex,
-  RelicSetToIndex,
+import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+} from 'lib/sets/setConfigRegistry'
+import type {
   RelicBuild,
 } from 'lib/scoring/simScoringUtils'
 import { TsUtils } from 'lib/utils/TsUtils'

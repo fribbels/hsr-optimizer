@@ -22,10 +22,6 @@ for (const mod of Object.values(lightConeModules)) {
   }
 }
 
-export function getLightConeConfig(id: LightConeId): LightConeConfig | undefined {
-  return lightConeConfigRegistry.get(id)
-}
-
 export function getAllLightConeConfigs(): Map<LightConeId, LightConeConfig> {
   return lightConeConfigRegistry
 }

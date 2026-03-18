@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Badge, CloseButton, Group } from '@mantine/core'
 import { IconSquareAsteriskFilled } from '@tabler/icons-react'
 import { Assets } from 'lib/rendering/assets'
@@ -26,7 +27,7 @@ function comboKey(combo: TwoPieceCombo): string {
 
 function IconBadge({ onRemove, children }: {
   onRemove: () => void
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <Badge

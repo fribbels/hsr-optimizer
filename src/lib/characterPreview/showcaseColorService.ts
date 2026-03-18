@@ -1,9 +1,9 @@
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { ShowcaseColorMode } from 'lib/constants/constants'
-import { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
+import type { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/utils/colorUtils'
-import { CharacterId } from 'types/character'
-import { ShowcasePreferences } from 'types/metadata'
+import type { CharacterId } from 'types/character'
+import type { ShowcasePreferences } from 'types/metadata'
 
 const STANDARD_COLOR = '#799ef4'
 // Intentional change: replaces the old '#000000' fallback. The old black was a timing-hack

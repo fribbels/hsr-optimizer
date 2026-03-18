@@ -6,23 +6,21 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import {
-  NULL_TURN_ABILITY_NAME,
-  TurnAbilityName,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import type { Form } from 'types/form'
 
-import {
+import { COMBO_STATE_JSON_VERSION } from './comboDrawerTypes'
+import type {
   ComboConditionals,
   ComboDataKey,
   ComboNumberConditional,
   ComboState,
   ComboTeammate,
-  COMBO_STATE_JSON_VERSION,
   NestedObject,
 } from './comboDrawerTypes'
 

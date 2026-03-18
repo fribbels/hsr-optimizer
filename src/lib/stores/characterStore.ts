@@ -1,6 +1,6 @@
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { Character, CharacterId } from 'types/character'
+import type { Character, CharacterId } from 'types/character'
 
 type CharacterStoreState = {
   characters: Character[]

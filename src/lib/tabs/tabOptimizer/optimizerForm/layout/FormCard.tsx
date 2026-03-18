@@ -42,13 +42,13 @@ export function FormCard({ size: sizeProp, children, height, style, justify }: {
     >
       <Flex
         style={{ width: width }}
-        justify={justify ?? undefined}
+        justify={justify}
       >
         <Flex
           direction="column"
           style={{ width: width }}
           gap={defaultGap}
-          justify={justify ?? undefined}
+          justify={justify}
         >
           {children}
         </Flex>

@@ -2,7 +2,7 @@ import {
   ColDef,
   ValueGetterParams,
 } from 'ag-grid-community'
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import { Stats } from 'lib/constants/constants'
 import { ScoredRelic } from 'lib/relics/scoreRelics'
 import { Gradient } from 'lib/rendering/gradient'

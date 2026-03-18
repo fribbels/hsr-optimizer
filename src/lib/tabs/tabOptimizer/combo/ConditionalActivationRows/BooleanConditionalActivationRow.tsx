@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import { BoxArray } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BoxArray'
 import { BooleanSwitch } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BooleanSwitch'
-import { ContentItem } from 'types/conditionals'
+import type { ContentItem } from 'types/conditionals'
 
 export function BooleanConditionalActivationRow({ contentItem, activations, actionCount, sourceKey }: {
   contentItem: ContentItem

@@ -1,13 +1,11 @@
+import type { ElementName } from 'lib/constants/constants'
 import {
-  ElementName,
   ElementToStatKeyDmgBoost,
   Parts,
   PartsArray,
 } from 'lib/constants/constants'
-import {
-  BasicStatsArray,
-  BasicStatsArrayCore,
-} from 'lib/optimization/basicStatsArray'
+import type { BasicStatsArray } from 'lib/optimization/basicStatsArray'
+import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
 import {
@@ -30,15 +28,17 @@ import {
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import type {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import {
   OrnamentSetCount,
   OrnamentSetToIndex,
   RelicSetCount,
   RelicSetToIndex,
-  SetsOrnaments,
-  SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import {
+import type {
   ActionBuffSnapshot,
   ActionDamage,
   PrimaryActionStats,
@@ -47,7 +47,7 @@ import {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
-import {
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
@@ -264,7 +264,7 @@ function extractRelics(relics: SimulationRelicByPart) {
   return relics
 }
 
-export function emptyRelicWithSetAndSubstats(): SimulationRelic {
+function emptyRelicWithSetAndSubstats(): SimulationRelic {
   return {
     set: '',
     condensedStats: [],

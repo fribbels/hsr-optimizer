@@ -3,7 +3,7 @@ import { ComboConditionalsGroupRow } from 'lib/tabs/tabOptimizer/combo/ComboCond
 import { ComboHeader } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
 import { SetDisplays } from 'lib/tabs/tabOptimizer/combo/SetDisplays'
 import { SetSelectors } from 'lib/tabs/tabOptimizer/combo/SetSelectors'
-import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { useTranslation } from 'react-i18next'
 
 function GroupDivider({ text }: { text: string }) {

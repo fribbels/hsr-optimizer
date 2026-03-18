@@ -2,7 +2,7 @@ import { Flex } from '@mantine/core'
 import { getTeammateIndex } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
-import { ContentItem } from 'types/conditionals'
+import type { ContentItem } from 'types/conditionals'
 
 export function BooleanSwitch({ contentItem, sourceKey, value }: {
   contentItem: ContentItem

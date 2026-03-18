@@ -20,7 +20,6 @@ export type Eidolon = number
 
 export type Build = Partial<Record<Parts, Relic['id']>>
 
-// store.getState().characters[0]
 export type Character = {
   id: CharacterId,
   equipped: Build,

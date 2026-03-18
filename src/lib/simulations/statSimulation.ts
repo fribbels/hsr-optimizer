@@ -1,31 +1,29 @@
+import type { MainStats } from 'lib/constants/constants'
 import {
   Constants,
-  MainStats,
   Parts,
   Stats,
   SubStats,
 } from 'lib/constants/constants'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import {
-  cloneSimResult,
-  SimulationFlags,
-} from 'lib/scoring/simScoringUtils'
+import { cloneSimResult } from 'lib/scoring/simScoringUtils'
+import type { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
-import {
+import type {
   RunSimulationsParams,
   RunStatSimulationsResult,
   Simulation,
   SimulationRelic,
   SimulationRelicByPart,
-  StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
+import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
-import { Form } from 'types/form'
-import { OptimizerContext } from 'types/optimizer'
+import type { Form } from 'types/form'
+import type { OptimizerContext } from 'types/optimizer'
 
 const defaultSimulationParams: RunSimulationsParams = {
   quality: 1,
@@ -96,7 +94,7 @@ export function runStatSimulations(
   return simulationResults
 }
 
-export function generateSimRelics(simulation: Simulation, params: RunSimulationsParams): SimulationRelicByPart {
+function generateSimRelics(simulation: Simulation, params: RunSimulationsParams): SimulationRelicByPart {
   const request = simulation.request
   const simRelics = {
     [Parts.Head]: simulationRelic(request.simRelicSet1, Constants.Stats.HP, 705.600),

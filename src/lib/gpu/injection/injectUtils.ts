@@ -29,11 +29,11 @@ export function getHitIndex(entityIndex: number, hitIndex: number, hitKey: HKeyV
 // ============== Register Index Helpers ==============
 
 // Layout: [Action Registers][Hit Registers][Global Registers]
-export function getActionRegisterIndex(actionRegisterIndex: number, config: ComputedStatsContainerConfig): number {
+function getActionRegisterIndex(actionRegisterIndex: number, config: ComputedStatsContainerConfig): number {
   return config.arrayLength - config.totalRegistersLength + actionRegisterIndex
 }
 
-export function getHitRegisterIndex(hitRegisterIndex: number, config: ComputedStatsContainerConfig): number {
+function getHitRegisterIndex(hitRegisterIndex: number, config: ComputedStatsContainerConfig): number {
   return config.arrayLength - config.totalRegistersLength + config.actionRegistersLength + hitRegisterIndex
 }
 

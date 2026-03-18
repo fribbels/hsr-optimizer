@@ -19,19 +19,6 @@ export enum DamageType {
   ELATION = 512,
 }
 
-export enum AbilityType {
-  BASIC = 1,
-  SKILL = 2,
-  ULT = 4,
-  FUA = 8,
-  DOT = 16,
-  BREAK = 32,
-  MEMO_SKILL = 64,
-  MEMO_TALENT = 128,
-  ELATION_SKILL = 256,
-}
-
-export const NONE_DMG_TYPE: number = 0
 export const BASIC_DMG_TYPE: number = DamageType.BASIC
 export const SKILL_DMG_TYPE: number = DamageType.SKILL
 export const ULT_DMG_TYPE: number = DamageType.ULT

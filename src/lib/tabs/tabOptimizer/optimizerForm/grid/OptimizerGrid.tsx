@@ -45,8 +45,6 @@ const GRID_DIMENSIONS = {
 }
 
 export function OptimizerGrid() {
-
-
   const { getLocaleText, paginationNumberFormatter } = useGridLocale('optimizerTab', 'Grid')
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Grid' })
   const { gridDestroyed } = useGridLocaleRebuild()

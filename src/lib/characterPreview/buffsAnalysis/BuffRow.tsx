@@ -22,8 +22,8 @@ import {
   BUFF_ABILITY,
   BUFF_TYPE,
 } from 'lib/optimization/buffSource'
+import type { ReactElement } from 'react'
 import {
-  ReactElement,
   useContext,
   useMemo,
 } from 'react'

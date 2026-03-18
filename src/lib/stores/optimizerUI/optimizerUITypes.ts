@@ -1,8 +1,8 @@
-import { ComputeEngine } from 'lib/constants/constants'
-import { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
-import { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { Build, CharacterId } from 'types/character'
-import { OptimizerContext } from 'types/optimizer'
+import type { ComputeEngine } from 'lib/constants/constants'
+import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import type { Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import type { Build, CharacterId } from 'types/character'
+import type { OptimizerContext } from 'types/optimizer'
 
 // ---- Permutation details ----
 

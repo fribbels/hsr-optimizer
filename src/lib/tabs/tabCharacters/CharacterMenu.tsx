@@ -3,7 +3,7 @@ import {
   IconUser,
 } from '@tabler/icons-react'
 import { Button, Menu } from '@mantine/core'
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import { useConfirmAction } from 'lib/hooks/useConfirmAction'
 import {
   OpenCloseIDs,

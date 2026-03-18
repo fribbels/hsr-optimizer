@@ -7,8 +7,8 @@ import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { getRelicById, getRelics, useRelicStore } from 'lib/stores/relicStore'
 import { debounceEffect } from 'lib/utils/debounceUtils'
 import { gridStore } from 'lib/utils/gridStore'
-import { Character, CharacterId } from 'types/character'
-import { Relic } from 'types/relic'
+import type { Character, CharacterId } from 'types/character'
+import type { Relic } from 'types/relic'
 
 /**
  * Reads the swap setting from the global store.

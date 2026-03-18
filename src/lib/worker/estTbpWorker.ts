@@ -7,6 +7,6 @@ export function estTbpWorker(e: MessageEvent<EstTbpWorkerInput>) {
   const days = scoreTbp(relic, weights)
 
   self.postMessage({
-    days: days,
+    days,
   })
 }

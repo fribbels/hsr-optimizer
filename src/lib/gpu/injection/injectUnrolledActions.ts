@@ -307,7 +307,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   //////////
 
-  const damageCalculationWgsl = indent(unrollDamageCalculations(index, action, context, gpuParams), 1)
+  const damageCalculationWgsl = indent(unrollDamageCalculations(action, context, gpuParams), 1)
 
   //////////
 
@@ -407,7 +407,7 @@ fn unrolledAction${index}(
   return { actionCall, actionFunction }
 }
 
-function unrollDamageCalculations(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants) {
+function unrollDamageCalculations(action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants) {
   let code = ''
 
   for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
@@ -478,7 +478,7 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
  * Generates combat stat filters that execute after the first default action.
  * Uses conditional extraction - only extracts stats that have active min/max filters.
  */
-export function generateCombatStatFilters(request: Form, context: OptimizerContext, gpuParams: GpuConstants): string {
+function generateCombatStatFilters(request: Form, context: OptimizerContext, gpuParams: GpuConstants): string {
   const action = context.defaultActions[0]
   const config = action.config
 

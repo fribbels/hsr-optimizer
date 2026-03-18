@@ -1,6 +1,6 @@
 import { Accordion, Flex } from '@mantine/core'
 import gameData from 'data/game_data.json'
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import {
   PathName,
   PathNames,

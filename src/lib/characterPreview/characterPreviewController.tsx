@@ -1,6 +1,6 @@
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
@@ -18,7 +18,7 @@ import {
   parentH,
   parentW,
 } from 'lib/constants/constantsUi'
-import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { RelicModalController } from 'lib/overlays/modals/relicModalController'
@@ -30,7 +30,7 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
-import { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
+import type { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
@@ -40,23 +40,23 @@ import * as equipmentService from 'lib/services/equipmentService'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { TsUtils } from 'lib/utils/TsUtils'
 import { Utils } from 'lib/utils/utils'
-import {
+import type {
   Character,
   CharacterId,
   SavedBuild,
 } from 'types/character'
-import {
+import type {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import {
+import type {
   DBMetadataCharacter,
   DBMetadataLightCone,
   ElementalDamageType,
   ImageCenter,
 } from 'types/metadata'
-import { Form } from 'types/form'
-import { Relic } from 'types/relic'
+import type { Form } from 'types/form'
+import type { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
   characterId: CharacterId,

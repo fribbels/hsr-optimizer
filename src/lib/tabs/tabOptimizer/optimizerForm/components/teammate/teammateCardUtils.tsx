@@ -15,48 +15,7 @@ import { ArrayFilters } from 'lib/utils/arrayUtils'
 import type { Character } from 'types/character'
 import type { ReactElement } from 'types/components'
 
-export const rightPanelWidth = 110
-
-export const parentW = rightPanelWidth
-export const parentH = rightPanelWidth
-
-export const lcWidth = 120
-
-export const lcParentW = lcWidth
-export const lcParentH = lcWidth
-export const lcInnerW = lcWidth
-export const lcInnerH = lcWidth
-
-export const cardHeight = 490
-
-export function optionRenderer() {
-  return (option: {
-    data: {
-      value: string
-      desc: string
-    }
-  }) => (
-    option.data.value
-      ? (
-        <Flex gap={10} align='center'>
-          <Flex>
-            <img
-              src={Assets.getSetImage(option.data.value, Constants.Parts.PlanarSphere)}
-              className={iconClasses.icon26}
-            />
-          </Flex>
-          {option.data.desc}
-        </Flex>
-      )
-      : (
-        <div>
-          None
-        </div>
-      )
-  )
-}
-
-export const labelRender = (set: string, text: string) => (
+const labelRender = (set: string, text: string) => (
   <Flex align='center' gap={3}>
     <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} />
     <div style={{ fontSize: 12 }}>

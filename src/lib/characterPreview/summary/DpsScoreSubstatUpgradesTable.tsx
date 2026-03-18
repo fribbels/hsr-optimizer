@@ -5,10 +5,10 @@ import {
   tableStyle,
 } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import styles from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable.module.css'
-import { SubStats } from 'lib/constants/constants'
+import type { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
-import { SimulationScore } from 'lib/scoring/simScoringUtils'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { useTranslation } from 'react-i18next'
 
 export type SubstatUpgradeItem = {

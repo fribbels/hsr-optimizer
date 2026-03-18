@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
 import { ComboConditionalsGroupRow } from 'lib/tabs/tabOptimizer/combo/ComboConditionalsGroupRow'
-import {
+import type {
   ComboCharacter,
   ComboState,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'

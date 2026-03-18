@@ -3,11 +3,11 @@ import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
   NULL_TURN_ABILITY_NAME,
   toTurnAbility,
-  TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { useTranslation } from 'react-i18next'
-import { SimulationMetadata } from 'types/metadata'
+import type { SimulationMetadata } from 'types/metadata'
 import classes from './ComboRotationSummary.module.css'
 
 type ComboRotationSummaryProps = {

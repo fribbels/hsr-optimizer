@@ -117,8 +117,8 @@ function extractActualResults(result: ReturnType<typeof runStatSimulations>[0]) 
 
 // ─── Form reconstruction ────────────────────────────────────────────────────
 
-function reconstructForm(characterId: CharacterId, lightConeId: LightConeId) {
-  const form = generateFullDefaultForm(characterId, lightConeId, 0, 1)
+function reconstructForm(characterId: CharacterId, lightConeId: LightConeId, eidolon: number, superimposition: number) {
+  const form = generateFullDefaultForm(characterId, lightConeId, eidolon, superimposition)
   if (!form) return null
 
   const simMeta = getGameMetadata().characters[characterId]?.scoringMetadata?.simulation
@@ -218,8 +218,8 @@ describe('verify simulateBuild golden data', () => {
     const failures: string[] = []
 
     for (const charData of goldenData.characters) {
-      const { characterId, lightConeId, builds } = charData
-      const form = reconstructForm(characterId as CharacterId, lightConeId as LightConeId)
+      const { characterId, lightConeId, eidolon = 0, superimposition = 1, builds } = charData
+      const form = reconstructForm(characterId as CharacterId, lightConeId as LightConeId, eidolon, superimposition)
       if (!form) {
         failures.push(`${characterId}: failed to reconstruct form`)
         continue
@@ -319,8 +319,9 @@ describe('verify simulateBuild golden data', () => {
     console.log('2. Log this iteration to .claude/plans/optimization-log.md:')
     console.log('   [ITERATION N] target: <what>, result: kept/reverted, before: Xms, after: Xms, why: <1-line reason>')
     console.log('3. If you just made a change:')
-    console.log('   - IMPROVED? Commit with before/after numbers')
-    console.log('   - SAME or WORSE? Revert with: git checkout src/')
+    console.log('   - IMPROVED (lower ms)? Commit with before/after numbers')
+    console.log('   - SAME or WORSE but is a bug fix or code improvement? KEEP IT, commit as a fix')
+    console.log('   - SAME or WORSE and purely a perf attempt? Revert with: git checkout src/')
     console.log('4. Pick next target — investigate the slowest characters above')
     console.log('5. Implement ONE change, then run: npm run bench:simbuild:verify')
     console.log('6. Read the FULL output above, then IMMEDIATELY begin next iteration.')

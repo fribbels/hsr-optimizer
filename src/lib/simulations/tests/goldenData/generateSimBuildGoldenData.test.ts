@@ -121,6 +121,8 @@ interface GoldenBuild {
 interface GoldenCharacterData {
   characterId: CharacterId
   lightConeId: LightConeId
+  eidolon: number
+  superimposition: number
   builds: GoldenBuild[]
 }
 
@@ -214,8 +216,8 @@ function getLightConeForCharacter(characterId: CharacterId): LightConeId {
   return '23001' as LightConeId // In the Night
 }
 
-function generateCharacterForm(characterId: CharacterId, lightConeId: LightConeId): Form | null {
-  const form = generateFullDefaultForm(characterId, lightConeId, 0, 1)
+function generateCharacterForm(characterId: CharacterId, lightConeId: LightConeId, eidolon: number, superimposition: number): Form | null {
+  const form = generateFullDefaultForm(characterId, lightConeId, eidolon, superimposition)
   if (!form) return null
 
   const simMeta = getGameMetadata().characters[characterId]?.scoringMetadata?.simulation
@@ -271,74 +273,82 @@ describe('generate simulateBuild golden data', () => {
     let totalBuilds = 0
     let errorCount = 0
 
+    // Test both E0S1 and E6S5 to exercise eidolon-gated conditionals and teammate dynamics
+    const EIDOLON_CONFIGS = [
+      { eidolon: 0, superimposition: 1, label: 'E0S1' },
+      { eidolon: 6, superimposition: 5, label: 'E6S5' },
+    ]
+
     for (const characterId of characterIds) {
       const lightConeId = getLightConeForCharacter(characterId)
 
-      try {
-        const form = generateCharacterForm(characterId, lightConeId)
-        if (!form) continue
+      for (const ec of EIDOLON_CONFIGS) {
+        try {
+          const form = generateCharacterForm(characterId, lightConeId, ec.eidolon, ec.superimposition)
+          if (!form) continue
 
-        const context = generateContext(form)
-        const builds: GoldenBuild[] = []
+          const context = generateContext(form)
+          const builds: GoldenBuild[] = []
 
-        // All relic 4pc sets × all stat spreads (default ornament)
-        for (const relicSet of SetsRelicsNames) {
-          for (const spread of STAT_SPREADS) {
-            const sim: Simulation = {
-              simType: StatSimTypes.SubstatRolls,
-              request: {
+          // All relic 4pc sets × all stat spreads (default ornament)
+          for (const relicSet of SetsRelicsNames) {
+            for (const spread of STAT_SPREADS) {
+              const sim: Simulation = {
+                simType: StatSimTypes.SubstatRolls,
+                request: {
+                  simRelicSet1: relicSet,
+                  simRelicSet2: relicSet,
+                  simOrnamentSet: DEFAULT_ORNAMENT_SET,
+                  ...DEFAULT_MAINS,
+                  stats: spread.stats,
+                },
+              } as unknown as Simulation
+
+              const result = runStatSimulations([sim], form, context)[0]
+              builds.push({
+                label: `${ec.label}_relic_${relicSet}_${spread.label}`,
+                spreadLabel: spread.label,
                 simRelicSet1: relicSet,
                 simRelicSet2: relicSet,
                 simOrnamentSet: DEFAULT_ORNAMENT_SET,
-                ...DEFAULT_MAINS,
-                stats: spread.stats,
-              },
-            } as unknown as Simulation
-
-            const result = runStatSimulations([sim], form, context)[0]
-            builds.push({
-              label: `relic_${relicSet}_${spread.label}`,
-              spreadLabel: spread.label,
-              simRelicSet1: relicSet,
-              simRelicSet2: relicSet,
-              simOrnamentSet: DEFAULT_ORNAMENT_SET,
-              expected: collectBuildResult(result),
-            })
+                expected: collectBuildResult(result),
+              })
+            }
           }
-        }
 
-        // All ornament sets × all stat spreads (default relic)
-        for (const ornamentSet of SetsOrnamentsNames) {
-          for (const spread of STAT_SPREADS) {
-            const sim: Simulation = {
-              simType: StatSimTypes.SubstatRolls,
-              request: {
+          // All ornament sets × all stat spreads (default relic)
+          for (const ornamentSet of SetsOrnamentsNames) {
+            for (const spread of STAT_SPREADS) {
+              const sim: Simulation = {
+                simType: StatSimTypes.SubstatRolls,
+                request: {
+                  simRelicSet1: DEFAULT_RELIC_SET,
+                  simRelicSet2: DEFAULT_RELIC_SET,
+                  simOrnamentSet: ornamentSet,
+                  ...DEFAULT_MAINS,
+                  stats: spread.stats,
+                },
+              } as unknown as Simulation
+
+              const result = runStatSimulations([sim], form, context)[0]
+              builds.push({
+                label: `${ec.label}_ornament_${ornamentSet}_${spread.label}`,
+                spreadLabel: spread.label,
                 simRelicSet1: DEFAULT_RELIC_SET,
                 simRelicSet2: DEFAULT_RELIC_SET,
                 simOrnamentSet: ornamentSet,
-                ...DEFAULT_MAINS,
-                stats: spread.stats,
-              },
-            } as unknown as Simulation
-
-            const result = runStatSimulations([sim], form, context)[0]
-            builds.push({
-              label: `ornament_${ornamentSet}_${spread.label}`,
-              spreadLabel: spread.label,
-              simRelicSet1: DEFAULT_RELIC_SET,
-              simRelicSet2: DEFAULT_RELIC_SET,
-              simOrnamentSet: ornamentSet,
-              expected: collectBuildResult(result),
-            })
+                expected: collectBuildResult(result),
+              })
+            }
           }
-        }
 
-        totalBuilds += builds.length
-        goldenData.characters.push({ characterId, lightConeId, builds })
-      } catch (error) {
-        errorCount++
-        const name = getGameMetadata().characters[characterId]?.name ?? characterId
-        console.error(`Failed: ${characterId} (${name}):`, error)
+          totalBuilds += builds.length
+          goldenData.characters.push({ characterId, lightConeId, eidolon: ec.eidolon, superimposition: ec.superimposition, builds })
+        } catch (error) {
+          errorCount++
+          const name = getGameMetadata().characters[characterId]?.name ?? characterId
+          console.error(`Failed: ${characterId} ${ec.label} (${name}):`, error)
+        }
       }
     }
 

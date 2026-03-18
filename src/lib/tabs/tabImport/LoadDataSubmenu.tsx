@@ -118,37 +118,34 @@ export function LoadDataSubmenu() {
   const { t } = useTranslation('importSaveTab', { keyPrefix: 'LoadData' })
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  function beforeUpload(file: File): Promise<boolean> {
-    return new Promise(() => {
-      const reader = new FileReader()
-      reader.readAsText(file)
-      reader.onload = () => {
-        const fileUploadText = String(reader.result)
-        const json = JSON.parse(fileUploadText)
+  function beforeUpload(file: File) {
+    const reader = new FileReader()
+    reader.readAsText(file)
+    reader.onload = () => {
+      const fileUploadText = String(reader.result)
+      const json = JSON.parse(fileUploadText)
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (json.fileType || json.source) {
-          // Invalid save file
-          setLoading1(true)
-
-          setTimeout(() => {
-            setLoading1(false)
-            setCurrentSave(undefined)
-            setCurrentStage(Stages.CONFIRM_DATA)
-          }, importerTabSpinnerMs)
-          return
-        }
-
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (json.fileType || json.source) {
+        // Invalid save file
         setLoading1(true)
 
         setTimeout(() => {
           setLoading1(false)
-          setCurrentSave(json as HsrOptimizerSaveFormat)
+          setCurrentSave(undefined)
           setCurrentStage(Stages.CONFIRM_DATA)
         }, importerTabSpinnerMs)
+        return
       }
-      return false
-    })
+
+      setLoading1(true)
+
+      setTimeout(() => {
+        setLoading1(false)
+        setCurrentSave(json as HsrOptimizerSaveFormat)
+        setCurrentStage(Stages.CONFIRM_DATA)
+      }, importerTabSpinnerMs)
+    }
   }
 
   function loadConfirmed() {
@@ -167,7 +164,7 @@ export function LoadDataSubmenu() {
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (file) {
-      void beforeUpload(file)
+      beforeUpload(file)
     }
     e.target.value = ''
   }

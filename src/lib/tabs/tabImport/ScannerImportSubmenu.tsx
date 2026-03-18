@@ -72,16 +72,13 @@ export function ScannerImportSubmenu() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isLiveImporting = connected && ingest
 
-  function beforeUpload(file: Blob): Promise<void> {
-    return new Promise(() => {
-      const reader = new FileReader()
-      reader.readAsText(file)
-      reader.onload = () => {
-        const fileUploadText = String(reader.result)
-        void uploadedText(fileUploadText)
-      }
-      return false
-    })
+  function beforeUpload(file: Blob) {
+    const reader = new FileReader()
+    reader.readAsText(file)
+    reader.onload = () => {
+      const fileUploadText = String(reader.result)
+      void uploadedText(fileUploadText)
+    }
   }
 
   function uploadedText(text: string) {
@@ -245,7 +242,7 @@ export function ScannerImportSubmenu() {
                 onChange={(e) => {
                   const file = e.target.files?.[0]
                   if (file) {
-                    void beforeUpload(file)
+                    beforeUpload(file)
                   }
                   e.target.value = ''
                 }}

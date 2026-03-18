@@ -30,6 +30,7 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import { gridStore } from 'lib/utils/gridStore'
 import {
   useCallback,
+  useEffect,
   useMemo,
   useRef,
 } from 'react'
@@ -53,7 +54,9 @@ export function OptimizerGrid() {
 
   const context = useOptimizerDisplayStore((s) => s.context)
 
-  gridStore.setOptimizerGrid(optimizerGrid)
+  useEffect(() => {
+    gridStore.setOptimizerGrid(optimizerGrid)
+  }, [optimizerGrid])
 
   const datasource = useMemo(() => {
     return OptimizerTabController.getDataSource()

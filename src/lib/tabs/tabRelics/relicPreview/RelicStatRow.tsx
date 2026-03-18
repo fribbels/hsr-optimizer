@@ -17,7 +17,7 @@ export type SubstatDetails = {
   addedRolls?: number,
 }
 
-export const GenerateStat = (stat: SubstatDetails, main: boolean, relic: Relic, isPreview = false) => {
+export function RelicStatRow({ stat, main, relic, isPreview = false }: { stat: SubstatDetails; main: boolean; relic: Relic; isPreview?: boolean }) {
   const { t } = useTranslation('common')
   if (!stat?.stat || stat.value == null) {
     return (

@@ -78,11 +78,11 @@ function equipTestCharacter() {
     { stat: Stats.EHR, value: 43.2 },
   ]
 
-  const relics = Object.values(singleRelicByPart)
-    .map((relic) => {
+  Object.values(singleRelicByPart)
+    .forEach((relic) => {
       relic.id = TsUtils.uuid()
       relic.equippedBy = testInput.character.characterId
-      return RelicAugmenter.augment(relic)
+      RelicAugmenter.augment(relic)
     })
 
   equipmentService.upsertRelicWithEquipment(singleRelicByPart.Head)

@@ -12,8 +12,6 @@ import { CharacterId } from 'types/character'
 import { LightConeId } from 'types/lightCone'
 import { Relic } from 'types/relic'
 
-// FIXME MED
-
 const partConversion = {
   1: Constants.Parts.Head,
   2: Constants.Parts.Hands,

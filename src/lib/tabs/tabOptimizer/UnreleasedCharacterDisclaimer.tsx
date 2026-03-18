@@ -1,5 +1,4 @@
 import { Alert } from '@mantine/core'
-import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

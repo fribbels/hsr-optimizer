@@ -90,7 +90,7 @@ export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMet
 }
 
 function validMainStat(relic: Relic, scoringMetadata: ScoringMetadata) {
-  if (relic.part == Parts.Head || relic.part == Parts.Hands) return true
+  if (relic.part === Parts.Head || relic.part === Parts.Hands) return true
 
   const acceptableStats = scoringMetadata.parts[relic.part]
   return acceptableStats.includes(relic.main.stat)
@@ -104,7 +104,7 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
       // NO-OP
     } else {
       const rolls = substat.addedRolls! + 1
-      const expectedStep = stat == Stats.SPD ? 0.3 : StatCalculator.getMaxedSubstatValue(stat) / 10
+      const expectedStep = stat === Stats.SPD ? 0.3 : StatCalculator.getMaxedSubstatValue(stat) / 10
       const actualStat = substat.value
       const expectedStat = StatCalculator.getMaxedSubstatValue(stat, 0.8) * rolls
       const diff = Math.max(0, actualStat - expectedStat)
@@ -122,11 +122,11 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
 }
 
 export function flatReduction(stat: string) {
-  return stat == Stats.HP || stat == Stats.DEF || stat == Stats.ATK ? 0.4 : 1
+  return stat === Stats.HP || stat === Stats.DEF || stat === Stats.ATK ? 0.4 : 1
 }
 
 // Scoring type isn't strictly needed in the hash, but it helps work around some rendering issues with switching score type
-export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: string, scoringType: ScoringType, scoringMetadata: ScoringMetadata) {
+export function hashEstTbpRun(displayRelics: SingleRelicByPart, characterId: CharacterId, scoringType: ScoringType, scoringMetadata: ScoringMetadata) {
   return TsUtils.objectHash({
     weights: scoringMetadata.stats,
     parts: scoringMetadata.parts,

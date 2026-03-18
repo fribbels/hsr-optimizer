@@ -176,9 +176,6 @@ function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: Computed
   const cpu = cpuContainer.a
   const gpu = gpuContainer.a
 
-  // console.log(cpu)
-  // console.log(gpu)
-
   const statNames = AKeyNames
 
   function analyze(statName: string, cpuValue: number, gpuValue: number, precision: number) {
@@ -273,7 +270,7 @@ export function testWrapper(name: string, request: Form, relics: RelicsByPart, d
 }
 
 export function uncondenseRelics(relicsByPart: RelicsByPart) {
-  for (const [_, relics] of Object.entries(relicsByPart)) {
+  for (const relics of Object.values(relicsByPart)) {
     relics.map((relic) => {
       const condensedStats = relic.condensedStats!
       relic.substats = []

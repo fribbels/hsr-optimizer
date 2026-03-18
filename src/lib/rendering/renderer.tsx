@@ -60,22 +60,22 @@ function formatStatValue(stat: string, value: number): string {
 
 export const Renderer = {
   floor: <T,>(x: ValueFormatterParams<T, number>) => {
-    if (x?.value == undefined) return ''
+    if (x?.value == null) return ''
     return localeNumber(Math.floor(x.value))
   },
 
   x100Tenths: <T,>(x: ValueFormatterParams<T, number>) => {
-    if (x?.value == undefined) return ''
+    if (x?.value == null) return ''
     return localeNumber_0(Math.floor(Utils.precisionRound(x.value * 100) * 10) / 10)
   },
 
   tenths: <T,>(x: ValueFormatterParams<T, number>) => {
-    if (x?.value == undefined) return ''
+    if (x?.value == null) return ''
     return localeNumber_0(Math.floor(Utils.precisionRound(x.value) * 10) / 10)
   },
 
   relicSet: (x: CustomCellRendererProps<OptimizerDisplayDataStatSim, number>) => {
-    if (x?.value == undefined || isNaN(x.value)) return ''
+    if (x?.value == null || isNaN(x.value)) return ''
     const i = x.value
 
     const count = Object.values(SetsRelics).length
@@ -91,7 +91,7 @@ export const Renderer = {
     while (relicSets.length > 0) {
       const value = relicSets[0]
       if (relicSets.lastIndexOf(value)) {
-        const entry = Object.entries(RelicSetToIndex).find((x) => x[1] == value)
+        const entry = Object.entries(RelicSetToIndex).find((x) => x[1] === value)
         if (!entry) {
           relicSets.splice(0, 1)
           continue
@@ -117,7 +117,7 @@ export const Renderer = {
   },
 
   ornamentSet: (x: CustomCellRendererProps<OptimizerDisplayDataStatSim, number>) => {
-    if (x?.value == undefined) return ''
+    if (x?.value == null) return ''
     const i = x.value
 
     const ornamentSetCount = Object.values(SetsOrnaments).length
@@ -125,9 +125,9 @@ export const Renderer = {
     const s1 = i % ornamentSetCount
     const s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
 
-    if (s1 != s2) return ''
+    if (s1 !== s2) return ''
 
-    const entry = Object.entries(OrnamentSetToIndex).find((x) => x[1] == s1)
+    const entry = Object.entries(OrnamentSetToIndex).find((x) => x[1] === s1)
     if (!entry) return ''
     const setImage = Assets.getSetImage(entry[0], Constants.Parts.PlanarSphere)
 
@@ -163,17 +163,17 @@ export const Renderer = {
   },
 
   readableStat: (x: ValueFormatterParams<ScoredRelic, StatsValues>) => {
-    if (x?.value == undefined) return ''
+    if (x?.value == null) return ''
     return i18next.t(`common:ShortReadableStats.${x.value}`)
   },
 
   readablePart: (x: ValueFormatterParams<ScoredRelic, Parts>) => {
-    if (x?.value == undefined) return ''
+    if (x?.value == null) return ''
     return i18next.t(`common:ReadableParts.${x.value}`)
   },
 
   partIcon: <T,>(x: ValueFormatterParams<T, string>) => {
-    if (x?.value == undefined) return ''
+    if (x?.value == null) return ''
     return (
       <Flex justify='center' style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
         <SetDisplay asset={Assets.getPart(x.value)} />
@@ -195,14 +195,14 @@ export const Renderer = {
 
   mainValueRenderer: (x: ValueFormatterParams<ScoredRelic, number>) => {
     const part = x.data?.part
-    if (part == Constants.Parts.Hands || part == Constants.Parts.Head) {
+    if (part === Constants.Parts.Hands || part === Constants.Parts.Head) {
       return !x.value ? '' : localeNumber(Math.floor(x.value))
     }
     return !x.value ? '' : Utils.truncate10ths(x.value).toLocaleString(currentLocale())
   },
 
   hideZeroesX100Tenths: <T,>(x: ValueFormatterParams<T, number>) => {
-    return x.value == 0 ? '' : Renderer.x100Tenths(x)
+    return x.value === 0 ? '' : Renderer.x100Tenths(x)
   },
 
   hideNaNAndFloor: <T,>(x: ValueFormatterParams<T, number>) => {
@@ -215,7 +215,7 @@ export const Renderer = {
   },
 
   renderSubstatNumber: (substat: Stat, relic: Relic) => {
-    if (substat.stat == Constants.Stats.SPD) {
+    if (substat.stat === Constants.Stats.SPD) {
       if (relic.verified) {
         return localeNumber_0(Utils.truncate10ths(substat.value))
       }
@@ -236,8 +236,8 @@ export const Renderer = {
 
   renderGrade: (relic: Relic, highlight4Liners = false) => {
     const color = gradeToColor[relic.grade as keyof typeof gradeToColor] ?? ''
-    const circleColor = color == '' ? 'transparent' : color
-    const is4Liner = highlight4Liners && relic.initialRolls == 4
+    const circleColor = color === '' ? 'transparent' : color
+    const is4Liner = highlight4Liners && relic.initialRolls === 4
 
     if (is4Liner && relic.verified) {
       return (
@@ -272,7 +272,7 @@ export const Renderer = {
     )
   },
   renderInitialRolls: (relic: Relic) => {
-    return relic.initialRolls == 4
+    return relic.initialRolls === 4
       ? <RingedCircle4Icon color={gradeToColor[5]} />
       : Renderer.renderGrade(relic, true)
   },

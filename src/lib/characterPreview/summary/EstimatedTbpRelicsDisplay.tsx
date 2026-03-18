@@ -7,7 +7,6 @@ import {
   hashEstTbpRun,
   RelicAnalysis,
 } from 'lib/characterPreview/summary/statScoringSummaryController'
-import { SubStats } from 'lib/constants/constants'
 import iconClasses from 'style/icons.module.css'
 import { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'

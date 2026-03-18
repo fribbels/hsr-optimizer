@@ -3,7 +3,7 @@ import { Button, Flex, Menu } from '@mantine/core'
 import { applySpdPreset } from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import React, { useMemo } from 'react'
+import { Fragment, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateSpdPresets } from './spdPresetConfig'
@@ -69,7 +69,7 @@ export function RecommendedPresetsButton() {
       <Menu.Dropdown>
         {items.map((item) =>
           item.children.map((group, groupIndex) => (
-            <React.Fragment key={group.label}>
+            <Fragment key={group.label}>
               {groupIndex > 0 && <Menu.Divider />}
               <Menu.Label>{group.label}</Menu.Label>
               {group.children.map((child) => (
@@ -77,7 +77,7 @@ export function RecommendedPresetsButton() {
                   {child.label}
                 </Menu.Item>
               ))}
-            </React.Fragment>
+            </Fragment>
           )),
         )}
       </Menu.Dropdown>

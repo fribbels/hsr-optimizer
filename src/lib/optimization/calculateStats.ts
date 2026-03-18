@@ -9,8 +9,6 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { SimulationRelic } from 'lib/simulations/statSimulationTypes'
 import { OptimizerAction, OptimizerContext, SetConditional, } from 'types/optimizer'
 
-const SET_EFFECTS = new Map()
-
 export function calculateSetCounts(
   sets: number[],
 ): SetCounts {
@@ -411,11 +409,3 @@ function sumFlatStat(
   return baseValue * (1 + setEffects + relicSum.a[BasicStatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[BasicStatToKey[stat]] + trace[stat]
 }
 
-const pioneerSetIndexToCd: Record<number, number> = {
-  [-1]: 0,
-  0: 0,
-  1: 0.08,
-  2: 0.12,
-  3: 0.16,
-  4: 0.24,
-}

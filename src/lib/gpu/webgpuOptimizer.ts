@@ -76,9 +76,6 @@ export async function gpuOptimize(props: {
     Message.warning('Debug mode is ON', 5)
   }
 
-  // console.log('Raw inputs', { context, request, relics, permutations })
-  // console.log('GPU execution context', gpuContext)
-
   // Double-buffered loop: while CPU reads buffer N, GPU writes buffer N+1.
 
   const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
@@ -91,10 +88,8 @@ export async function gpuOptimize(props: {
   // Submit the first dispatch (buffer A)
   let currentBufferIndex = 0
   let currentPassResult = generateExecutionPass(gpuContext, 0, currentBufferIndex)
-  // const profiler = new GpuProfiler()
 
   for (let iteration = 0; iteration < gpuContext.iterations; iteration++) {
-    // profiler.start()
     const offset = iteration * permStride
     const maxPermNumber = offset + permStride
     const passResult = currentPassResult
@@ -109,19 +104,14 @@ export async function gpuOptimize(props: {
       nextPassResult = generateExecutionPass(gpuContext, (iteration + 1) * permStride, nextBufferIndex)
     }
 
-    // profiler.mark('dispatch')
-
     // Await current dispatch and read results
     if (gpuContext.DEBUG) {
       await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ)
-      // profiler.mark('gpuWait')
       readBufferMapped(offset, passResult.gpuReadBuffer, gpuContext)
       permutationsSearched += permStride
       passResult.gpuReadBuffer.unmap()
     } else {
       await passResult.compactReadBuffer.mapAsync(GPUMapMode.READ)
-      // profiler.mark('gpuWait')
-
       const mappedRange = passResult.compactReadBuffer.getMappedRange()
       const rawCount = new Uint32Array(mappedRange, 0, 1)[0]
       const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
@@ -136,8 +126,6 @@ export async function gpuOptimize(props: {
       processCompactResults(offset, count, mappedRange, gpuContext, isOverflow ? seenIndices : undefined)
       passResult.compactReadBuffer.unmap()
     }
-
-    // profiler.end('cpuProcess')
 
     // Reset start time after first dispatch to exclude shader compilation from perms/sec
     if (iteration === 0) {
@@ -162,8 +150,6 @@ export async function gpuOptimize(props: {
       break
     }
   }
-
-  // profiler.summary(gpuContext)
 
   // Revisit overflowed dispatches now that the threshold is established.
   await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices, permStride, permutationsSearched)
@@ -363,9 +349,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
     outputs.push(optimizerDisplayData)
   }
 
-  // console.log(outputs)
-
-  if (outputs.length == 0) {
+  if (outputs.length === 0) {
     activateZeroResultSuggestionsModal(gpuContext.request)
   }
 

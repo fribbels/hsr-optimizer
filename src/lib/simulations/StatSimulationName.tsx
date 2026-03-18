@@ -1,4 +1,4 @@
-import { Badge, Flex } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import {
   Constants,
   Stats,
@@ -11,7 +11,6 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { Utils } from 'lib/utils/utils'
 import type { TFunction } from 'i18next'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stat } from 'types/relic'
 

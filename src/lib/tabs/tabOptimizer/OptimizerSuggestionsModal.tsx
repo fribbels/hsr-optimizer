@@ -74,12 +74,12 @@ export function ZeroPermutationsSuggestionsModal() {
       centered
       onClose={closeZeroPermsModal}
     >
-      {isOpenZeroPermsModal && <ZeroPermutationsSuggestionsContent close={closeZeroPermsModal} />}
+      {isOpenZeroPermsModal && <ZeroPermutationsSuggestionsContent />}
     </Modal>
   )
 }
 
-function ZeroPermutationsSuggestionsContent({ close: _close }: { close: () => void }) {
+function ZeroPermutationsSuggestionsContent() {
   const { t } = useTranslation('modals')
   const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
 

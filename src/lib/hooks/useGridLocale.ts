@@ -41,5 +41,5 @@ export function useGridLocaleRebuild() {
     return () => clearTimeout(rebuildTimeout)
   }, [i18n.resolvedLanguage])
 
-  return { gridDestroyed, setGridDestroyed }
+  return { gridDestroyed }
 }

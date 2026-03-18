@@ -134,8 +134,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
     }
 
     function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
-      // @ts-ignore
-      const value: string = event?.target?.value
+      const value: string = event.currentTarget.value
       if (value == null) return onShowcaseSpdBenchmarkChange(undefined)
 
       const spdBenchmark = parseFloat(value)
@@ -149,7 +148,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
       if (!showcaseTemporaryOptionsByCharacter[characterId]) showcaseTemporaryOptionsByCharacter[characterId] = {}
 
       // -1 is used as the "current" setting
-      const actualValue = spdBenchmark == -1 ? undefined : spdBenchmark
+      const actualValue = spdBenchmark === -1 ? undefined : spdBenchmark
 
       showcaseTemporaryOptionsByCharacter[characterId].spdBenchmark = actualValue
 
@@ -169,8 +168,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
         SaveState.delayedSave()
       }
     }
-
-    const swatchColors = portraitSwatches
 
     const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } = useMemo(() => {
       return {
@@ -240,7 +237,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
             onChange={(value) => onShowcasePreciseSpdChange(value === 'true')}
           />
 
-          {scoringType != ScoringType.NONE
+          {scoringType !== ScoringType.NONE
             && (
               <>
                 <HorizontalDivider />
@@ -258,7 +255,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
               </>
             )}
 
-          {scoringType == ScoringType.COMBAT_SCORE
+          {scoringType === ScoringType.COMBAT_SCORE
             && (
               <>
                 <HorizontalDivider />
@@ -282,12 +279,12 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
                   placeholder='...'
                   min={0}
                   onBlur={onShowcaseSpdBenchmarkChangeEvent}
-                  onKeyDown={(e) => { if (e.key === 'Enter') onShowcaseSpdBenchmarkChangeEvent(e as unknown as React.FocusEvent<HTMLInputElement>) }}
+                  onKeyDown={(e) => { if (e.key === 'Enter') onShowcaseSpdBenchmarkChangeEvent(e) }}
                 />
               </>
             )}
 
-          {scoringType == ScoringType.COMBAT_SCORE
+          {scoringType === ScoringType.COMBAT_SCORE
             && (
               <>
                 <HorizontalDivider />
@@ -318,7 +315,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
           <HorizontalDivider />
 
           <ColorInput
-            swatches={swatchColors}
+            swatches={portraitSwatches}
             value={localColor}
             onChange={onColorDrag}
             onChangeEnd={onColorChangeEnd}
@@ -351,7 +348,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
             onChange={(value) => onBrightnessModeChange(value === 'true')}
           />
 
-          {source == ShowcaseSource.SHOWCASE_TAB
+          {source === ShowcaseSource.SHOWCASE_TAB
             && (
               <>
                 <HorizontalDivider />
@@ -396,7 +393,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
 })
 
 function SelectSpdPresets(props: {
-  characterId: string,
+  characterId: CharacterId,
   onShowcaseSpdBenchmarkChange: (n: number) => void,
   simScoringResult: SimulationScore | null,
   spdFilter?: number,

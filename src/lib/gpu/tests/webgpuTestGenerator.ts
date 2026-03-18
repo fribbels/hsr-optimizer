@@ -156,8 +156,6 @@ export async function generateAllTests() {
   cache.metadata = getGameMetadata()
 
   return [
-    // ...generateSingleCharacterTest(device, { characterId: '1105', lightConeId: basicLc }),
-    // ...generateE0E1Tests(device),
     ...generateOrnamentSetTests(device),
     ...generateRelicSetTests(device),
     ...generateE6E5Tests(device),
@@ -192,7 +190,7 @@ export function generateStarLcTests(device: GPUDevice, star: number) {
   // Use Kafka since she has DOT and FUA
   const characterId = '1005'
   const metadataLightCones = Object.values(cache.metadata.lightCones)
-  const lightCones = metadataLightCones.filter((lc: DBMetadataLightCone) => lc.rarity == star)
+  const lightCones = metadataLightCones.filter((lc: DBMetadataLightCone) => lc.rarity === star)
   const tests: WebgpuTest[] = []
 
   for (const lc of lightCones) {
@@ -280,7 +278,7 @@ export function addE6S5Teammate(request: Form, index: number, characterId: Chara
     true,
   )
 
-  if (index == 0) request.teammate0 = teammate
-  if (index == 1) request.teammate1 = teammate
-  if (index == 2) request.teammate2 = teammate
+  if (index === 0) request.teammate0 = teammate
+  if (index === 1) request.teammate1 = teammate
+  if (index === 2) request.teammate2 = teammate
 }

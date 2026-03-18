@@ -1,5 +1,4 @@
 import { Flex } from '@mantine/core'
-import i18next from 'i18next'
 import {
   chartColor,
   DamageSplitEntry,

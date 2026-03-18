@@ -66,7 +66,6 @@ export function preprocessTurnAbilities(input: TurnAbility[]): TurnAbility[] {
 
   const outputAbilities = generateFinalSequence(state)
 
-  // console.log(outputAbilities)
   return [NULL_TURN_ABILITY, ...outputAbilities]
 }
 

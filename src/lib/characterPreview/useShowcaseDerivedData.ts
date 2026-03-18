@@ -48,7 +48,7 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const portraitToUse = getCharacterById(character.id)?.portrait ?? undefined
   const portraitUrl = portraitToUse?.imageUrl ?? Assets.getCharacterPortraitById(character.id)
 
-  const displayDimensions = getShowcaseDisplayDimensions(character, scoringType == ScoringType.COMBAT_SCORE)
+  const displayDimensions = getShowcaseDisplayDimensions(character, scoringType === ScoringType.COMBAT_SCORE)
   const artistName = getArtistName(character)
 
   return {

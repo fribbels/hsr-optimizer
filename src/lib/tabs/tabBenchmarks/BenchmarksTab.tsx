@@ -38,7 +38,6 @@ import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidol
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
 import {
   BenchmarkForm,
-  SimpleCharacterSets,
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'

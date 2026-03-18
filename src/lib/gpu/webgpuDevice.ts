@@ -2,7 +2,6 @@ import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { webgpuNotSupportedNotification } from 'lib/interactions/notifications'
 import { useGlobalStore } from 'lib/stores/appStore'
-import { isFirefox } from 'lib/utils/TsUtils'
 
 // Firefox and some GPUs require storage address space — uniform array<f32> violates the 16-byte stride
 // requirement unless the 'uniform_buffer_standard_layout' feature is supported.
@@ -14,7 +13,7 @@ export async function getWebgpuDevice(notify?: boolean) {
   try {
     const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
 
-    if (adapter == null) {
+    if (!adapter) {
       throw new Error()
     }
 

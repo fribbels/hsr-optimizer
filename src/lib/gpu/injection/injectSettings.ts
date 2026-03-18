@@ -52,7 +52,7 @@ function generateRequest(request: Form) {
   let wgsl = '\n'
 
   // "combat" == 0 / "base" == 1
-  wgsl += `const statDisplay: i32 = ${request.statDisplay == 'combat' ? 0 : 1};\n`
+  wgsl += `const statDisplay: i32 = ${request.statDisplay === 'combat' ? 0 : 1};\n`
   wgsl += '\n'
 
   // Enemy

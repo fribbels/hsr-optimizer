@@ -35,7 +35,6 @@ const useScrollLockStore = create<State>()((set, get) => ({
     document.body.style.position = 'fixed'
     document.body.style.top = `-${offset}px`
     document.body.style.width = '100%'
-    return
   },
   unlock() {
     const { isLocked, offset } = get()
@@ -45,7 +44,6 @@ const useScrollLockStore = create<State>()((set, get) => ({
     document.body.style.top = ''
     document.body.style.width = ''
     window.scrollTo(0, offset)
-    return
   },
 }))
 
@@ -64,7 +62,7 @@ export function useScrollLock(shouldLock: boolean) {
   }, [shouldLock, lock, unlock])
 }
 
-export function useScrollLockState() {
+export function useScrollLockState(): StateValues {
   const { offset, isLocked } = useScrollLockStore()
-  return { offset, isLocked } as unknown as StateValues
+  return { offset, isLocked } as StateValues
 }

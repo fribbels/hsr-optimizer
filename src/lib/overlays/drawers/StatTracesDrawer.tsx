@@ -216,7 +216,7 @@ function StatTracesDrawerContent({ close }: { close: () => void }) {
   )
 }
 
-export const StatTracesDrawer = () => {
+export function StatTracesDrawer() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TracesDrawer' })
   const { close: closeTracesDrawer, isOpen: isOpenTracesDrawer } = useOpenClose(OpenCloseIDs.TRACES_DRAWER)
 

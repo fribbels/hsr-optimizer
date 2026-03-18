@@ -58,14 +58,14 @@ export function getScoringMetadata(id: CharacterId): ScoringMetadata {
   const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
 
   for (const stat of SubStats) {
-    if (returnScoringMetadata.stats[stat] == undefined) {
+    if (returnScoringMetadata.stats[stat] === undefined) {
       returnScoringMetadata.stats[stat] = 0
     }
   }
 
   setModifiedScoringMetadata(defaultScoringMetadata, returnScoringMetadata)
 
-  // @ts-ignore - presets are not needed for scoring
+  // @ts-expect-error - presets are not needed for scoring
   delete returnScoringMetadata.presets
 
   return returnScoringMetadata

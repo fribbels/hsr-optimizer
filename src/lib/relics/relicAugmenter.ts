@@ -18,7 +18,6 @@ export type AugmentedStats = Record<StatsValues, number> & {
 
 export const RelicAugmenter = {
   augment: function(relic: UnaugmentedRelic): Relic | null {
-    // console.log('Augmenting relic', relic)
     const augmentedStats: AugmentedStats = {} as AugmentedStats
 
     // Temporarily skip broken imports

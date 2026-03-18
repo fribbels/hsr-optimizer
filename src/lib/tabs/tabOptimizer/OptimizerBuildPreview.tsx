@@ -34,7 +34,7 @@ function navigateRelic(direction: 1 | -1) {
   const relicsById = useRelicStore.getState().relicsById
   if (!currentRelic || !optimizerBuild) return
 
-  const startingIndex = partToIndex[currentRelic.part] + direction * (direction > 0 ? 1 : -1)
+  const startingIndex = partToIndex[currentRelic.part] + direction
   for (let i = 0; i < 6; i++) {
     const idx = ((startingIndex + direction * i) % 6 + 6) % 6
     const nextRelic = relicsById[optimizerBuild[indexToPart[idx]]!]

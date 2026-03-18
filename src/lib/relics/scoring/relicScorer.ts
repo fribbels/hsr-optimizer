@@ -38,7 +38,10 @@ export class ScoringCache {
   }
 
   getOptimalScore(part: Parts, mainstat: MainStats, id: CharacterId): number {
-    const meta = this.getMeta(id)
+    return this._getOptimalWithMeta(part, mainstat, this.getMeta(id))
+  }
+
+  private _getOptimalWithMeta(part: Parts, mainstat: MainStats, meta: ScorerMetadata): number {
     if (meta.greedyHash !== this._optimalHash) {
       this._optimalScores = {}
       this._optimalHash = meta.greedyHash
@@ -69,7 +72,7 @@ export class ScoringCache {
     const metaHash = meta.hash
     let cached = this.currentCache.get(relic.id)?.get(metaHash)
     if (!cached) {
-      const idealScore = this.getOptimalScore(relic.part, relic.main.stat, id)
+      const idealScore = this._getOptimalWithMeta(relic.part, relic.main.stat, meta)
       cached = scoreCurrentRelic(relic, id, meta, idealScore)
       if (!this.currentCache.has(relic.id)) {
         this.currentCache.set(relic.id, new Map())
@@ -98,7 +101,7 @@ export class ScoringCache {
           },
         }
       } else {
-        const idealScore = this.getOptimalScore(relic.part, relic.main.stat, id)
+        const idealScore = this._getOptimalWithMeta(relic.part, relic.main.stat, meta)
         cached = computeFutureScores(relic, meta, idealScore, withMeta)
       }
       if (!this.futureCache.has(relic.id)) {

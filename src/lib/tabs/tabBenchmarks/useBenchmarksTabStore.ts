@@ -87,15 +87,14 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
   storedOrnaments: [],
   loading: false,
 
-  benchmarkForm: undefined,
   orchestrators: [],
 
   updateTeammate: (index, data?: SimpleCharacterSets) =>
     set((state) => {
       return {
-        teammate0: index == 0 ? data : state.teammate0,
-        teammate1: index == 1 ? data : state.teammate1,
-        teammate2: index == 2 ? data : state.teammate2,
+        teammate0: index === 0 ? data : state.teammate0,
+        teammate1: index === 1 ? data : state.teammate1,
+        teammate2: index === 2 ? data : state.teammate2,
       }
     }),
 

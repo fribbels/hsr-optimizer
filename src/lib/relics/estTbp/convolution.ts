@@ -41,8 +41,8 @@ export function getRollQualityDistribution(substatWeights: number[], numUpgrades
 // total probability of all values strictly higher than `threshold`
 export function thresholdProbability(dist: Distribution, threshold: number): number {
   return [...dist.entries()]
-    .filter(([k, v]) => TsUtils.precisionRound(k) > threshold)
-    .reduce((acc, [_k, v]) => acc + v, 0)
+    .filter(([k]) => TsUtils.precisionRound(k) > threshold)
+    .reduce((acc, [, v]) => acc + v, 0)
 }
 
 function calculateRollQualityDistribution(substatWeights: number[], numUpgrades: number): Distribution {
@@ -68,8 +68,6 @@ function calculateRollQualityDistribution(substatWeights: number[], numUpgrades:
 
   // combine the initial and the upgrade dist...
   const totalDist = convolveAdd(initialDist, totalUpgradeDist)
-
-  // console.log([...totalDist.entries()].map(([k, v]) => k).join(', '))
 
   // now we need to divide the scaling factors we used to avoid floating point calculation
   const unscalingFactor = substatWeightRoundingFactor * rollQualityRoundingFactor

@@ -3,7 +3,7 @@ import { useGlobalStore } from 'lib/stores/appStore'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import ChangelogTab from 'lib/tabs/tabChangelog/ChangelogTab'
-import CharacterTab from 'lib/tabs/tabCharacters/CharacterTab'
+import { CharacterTab } from 'lib/tabs/tabCharacters/CharacterTab'
 import HomeTab from 'lib/tabs/tabHome/HomeTab'
 import ImportTab from 'lib/tabs/tabImport/ImportTab'
 import MetadataTab from 'lib/tabs/tabMetadata/MetadataTab'
@@ -104,7 +104,7 @@ const Tabs = () => {
 
   useEffect(() => {
     let route = PageToRoute[activeKey]
-    if (activeKey == AppPages.SHOWCASE) {
+    if (activeKey === AppPages.SHOWCASE) {
       const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
       if (id) {
         route += `?id=${id}`
@@ -113,7 +113,7 @@ const Tabs = () => {
     console.log('Navigating activekey to route', activeKey, route)
     window.history.pushState({}, document.title, route)
 
-    if (activeKey == AppPages.OPTIMIZER) {
+    if (activeKey === AppPages.OPTIMIZER) {
       // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
       if (!optimizerInitialized) {
         optimizerInitialized = true
@@ -135,7 +135,7 @@ const Tabs = () => {
   )
 }
 
-export default Tabs
+export { Tabs }
 
 function TabRenderer({ activeKey, tabKey, children }: {
   activeKey: AppPages

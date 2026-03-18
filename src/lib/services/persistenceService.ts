@@ -230,7 +230,7 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
 
   let replacementRelics: Relic[] = []
   // In case the user tries to import a characters only file, we do this
-  if (newRelics.length == 0) {
+  if (newRelics.length === 0) {
     replacementRelics = oldRelics
   }
   for (let newRelic of newRelics) {
@@ -279,7 +279,7 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
 
     // Update the character's equipped inventory
     if (newRelic.equippedBy && newCharacters.length) {
-      const idx = characters.findIndex((x) => x.id == newRelic.equippedBy)
+      const idx = characters.findIndex((x) => x.id === newRelic.equippedBy)
       if (idx >= 0) {
         characters[idx] = { ...characters[idx], equipped: { ...characters[idx].equipped, [newRelic.part]: stableRelicId } }
       } else {
@@ -335,7 +335,7 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
   const relics = getRelics().map((r) => {
     if (!r.equippedBy) return r
     const wearer = getCharacterById(r.equippedBy)
-    if (!wearer || wearer.equipped[r.part] != r.id) {
+    if (!wearer || wearer.equipped[r.part] !== r.id) {
       return { ...r, equippedBy: undefined }
     }
     return r
@@ -349,7 +349,7 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
       const relicId = c.equipped[part]
       if (relicId) {
         const relic = getRelicById(relicId)
-        if (!relic || relic.equippedBy != c.id) {
+        if (!relic || relic.equippedBy !== c.id) {
           newC = { ...newC, equipped: { ...newC.equipped, [part]: undefined } }
         }
       }
@@ -405,7 +405,7 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
   useRelicStore.getState().setRelics(oldRelics)
 
   for (const equipUpdate of equipUpdates) {
-    if (sourceCharacters.find((character) => character.id == equipUpdate.equippedBy)) {
+    if (sourceCharacters.find((character) => character.id === equipUpdate.equippedBy)) {
       equipmentService.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
     }
   }
@@ -566,24 +566,24 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
     let upgrades = 0
     for (let i = 0; i < partialMatch.substats.length; i++) {
       const matchSubstat = partialMatch.substats[i] as Stat
-      const newSubstat = relic.substats.find((x) => x.stat == matchSubstat.stat) as Stat
+      const newSubstat = relic.substats.find((x) => x.stat === matchSubstat.stat) as Stat
 
       // Different substats mean different relics - break
       if (!newSubstat) {
         exit = true
         break
       }
-      if (matchSubstat.stat != newSubstat.stat) {
+      if (matchSubstat.stat !== newSubstat.stat) {
         exit = true
         break
       }
-      if (compareSameTypeSubstat(matchSubstat, newSubstat) == -1) {
+      if (compareSameTypeSubstat(matchSubstat, newSubstat) === -1) {
         exit = true
         break
       }
 
       // Track if the number of stat increases make sense
-      if (compareSameTypeSubstat(matchSubstat, newSubstat) == 1) {
+      if (compareSameTypeSubstat(matchSubstat, newSubstat) === 1) {
         upgrades++
       }
     }
@@ -600,7 +600,7 @@ function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
   return match
 }
 
-// -1: old > new, 0: old == new, 1, new > old
+// -1: old > new, 0: old === new, 1: new > old
 function compareSameTypeSubstat(oldSubstat: Stat, newSubstat: Stat) {
   let oldValue: number
   let newValue: number
@@ -614,7 +614,7 @@ function compareSameTypeSubstat(oldSubstat: Stat, newSubstat: Stat) {
     newValue = Utils.precisionRound(Utils.truncate10ths(newSubstat.value))
   }
 
-  if (oldValue == newValue) return 0
+  if (oldValue === newValue) return 0
   if (oldValue < newValue) return 1
   return -1
 }

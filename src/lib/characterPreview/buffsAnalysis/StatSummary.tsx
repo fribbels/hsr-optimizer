@@ -29,7 +29,7 @@ import { Buff } from 'lib/optimization/basicStatsArray'
 import { AKeyNames } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 // Summary totals filter: only sums universal buffs when unfiltered, sums universal + matching when filtered

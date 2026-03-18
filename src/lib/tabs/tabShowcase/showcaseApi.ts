@@ -95,7 +95,7 @@ export function submitForm(form: ShowcaseTabForm) {
           value,
           index,
           self,
-        ) => self.map((x) => x.id).indexOf(value.id) == index)
+        ) => self.map((x) => x.id).indexOf(value.id) === index)
       converted.forEach((x, index) => x.index = index)
 
       setAvailableCharacters(converted)

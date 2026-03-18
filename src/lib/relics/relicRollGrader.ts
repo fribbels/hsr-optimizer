@@ -6,8 +6,6 @@ import {
   UnaugmentedRelic,
 } from 'types/relic'
 
-// FIXME LOW
-
 // non exported interface, the number are float
 interface IncrementOptions {
   high: number
@@ -49,7 +47,7 @@ export const RelicRollGrader = {
   calculateRelicSubstatRolls(relic: UnaugmentedRelic) {
     // Skip non 5 star relics for simplicity
     if (relic.grade < 5) {
-      relic.substats.map((x) => {
+      relic.substats.forEach((x) => {
         x.rolls = { high: 0, mid: 0, low: 0 }
         x.addedRolls = 0
       })

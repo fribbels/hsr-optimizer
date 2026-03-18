@@ -13,7 +13,7 @@ import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useTranslation } from 'react-i18next'
 import { HsrOptimizerSaveFormat } from 'types/store'
 
-export const GettingStartedDrawer = () => {
+export function GettingStartedDrawer() {
   const { t } = useTranslation(['getStartedTab', 'common'])
 
   const { close: closeBeginnerDrawer, isOpen: isOpenBeginnerDrawer } = useOpenClose(OpenCloseIDs.GETTING_STARTED_DRAWER)

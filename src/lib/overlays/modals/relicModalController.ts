@@ -184,10 +184,10 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     return Message.error(t('SubTooSmall') /* Substat values should be positive */)
   }
   if (
-    substatNumber0 == 0 && !relicForm.substat0IsPreview
-    || substatNumber1 == 0 && !relicForm.substat1IsPreview
-    || substatNumber2 == 0 && !relicForm.substat2IsPreview
-    || substatNumber3 == 0 && !relicForm.substat3IsPreview
+    substatNumber0 === 0 && !relicForm.substat0IsPreview
+    || substatNumber1 === 0 && !relicForm.substat1IsPreview
+    || substatNumber2 === 0 && !relicForm.substat2IsPreview
+    || substatNumber3 === 0 && !relicForm.substat3IsPreview
   ) {
     return Message.error(t('SubTooSmall') /* Substat values should be positive */)
   }
@@ -197,7 +197,7 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   }
 
   const relic: Relic = {
-    equippedBy: relicForm.equippedBy == 'None' ? undefined : relicForm.equippedBy,
+    equippedBy: relicForm.equippedBy === 'None' ? undefined : relicForm.equippedBy,
     enhance: relicForm.enhance,
     grade: relicForm.grade,
     part: relicForm.part,
@@ -281,7 +281,7 @@ export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues
 
   for (let { stat, value, isPreview } of statPairs) {
     if (stat != undefined && value != undefined) {
-      if (value == '') {
+      if (value === '') {
         value = '0'
       } else if (isNaN(parseFloat(value))) {
         upgradeValues.push({ low: undefined, mid: undefined, high: undefined })

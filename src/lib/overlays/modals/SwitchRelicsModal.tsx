@@ -9,7 +9,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
-import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
+import { useCharacterStore } from 'lib/stores/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
@@ -23,10 +23,6 @@ export type SwitchRelicsFormSelectedCharacter = {
   label: ReactElement,
   title: string,
   value: CharacterId,
-}
-
-export type SwitchRelicsForm = {
-  selectedCharacter: SwitchRelicsFormSelectedCharacter,
 }
 
 const panelWidth = 325 - 47

@@ -18,8 +18,6 @@ import { Utils } from 'lib/utils/utils'
 import { memo, ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
-// FIXME HIGH
-
 const breakpointPresets = [
   [111.1, 111.2],
   [114.2, 114.3],

@@ -1,9 +1,7 @@
 import { SaveState } from 'lib/state/saveState'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import {
-  characterCumulative,
   characterDistribution,
-  lightConeCumulative,
   lightConeDistribution,
 } from 'lib/tabs/tabWarp/warpRates'
 

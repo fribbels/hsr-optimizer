@@ -86,7 +86,7 @@ function renderSubstat(relic: Relic, index: number) {
 }
 
 function renderStat<S extends SubStats | MainStats>(stat: S, value: number, relic?: Relic): { stat: S, value: number } {
-  if (stat == Stats.SPD) {
+  if (stat === Stats.SPD) {
     if (relic?.verified) {
       return {
         stat: stat,
@@ -111,7 +111,7 @@ function renderStat<S extends SubStats | MainStats>(stat: S, value: number, reli
   }
 }
 
-export function relicHash(relic: Relic) {
+function relicHash(relic: Relic) {
   return TsUtils.objectHash({
     grade: relic.grade,
     enhance: relic.enhance,
@@ -131,5 +131,5 @@ export function relicsAreDifferent(relic1: Relic | null, relic2: Relic | null) {
   const relic1Hash = relicHash(relic1)
   const relic2Hash = relicHash(relic2)
 
-  return relic1Hash != relic2Hash
+  return relic1Hash !== relic2Hash
 }

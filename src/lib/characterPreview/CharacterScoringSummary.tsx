@@ -249,7 +249,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) {
-  const { t, i18n } = useTranslation(['charactersTab', 'common'])
+  const { t } = useTranslation(['charactersTab', 'common'])
 
   const result = useMemo(
     () => simScoringResult ? TsUtils.clone(simScoringResult) : undefined,

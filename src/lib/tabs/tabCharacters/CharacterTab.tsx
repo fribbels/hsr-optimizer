@@ -14,7 +14,7 @@ import { Character } from 'types/character'
 const defaultGap = 8
 const parentH = 280 * 3 + defaultGap * 2
 
-export default function CharacterTab() {
+export function CharacterTab() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
 

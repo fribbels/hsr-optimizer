@@ -73,8 +73,6 @@ function CharacterModalContent() {
   const { t: tTeammateCard } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
 
   const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(initialCharacter?.form.characterId ?? null)
-  const [eidolon] = useState(initialCharacter?.form.characterEidolon ?? 0)
-  const [superimposition, setSuperimposition] = useState(initialCharacter?.form.lightConeSuperimposition ?? 1)
 
   const teammateRelicSetOptions: OptionRender[] = useMemo(renderTeammateRelicSetOptions(tTeammateCard), [tTeammateCard])
   const teammateOrnamentSetOptions: OptionRender[] = useMemo(renderTeammateOrnamentSetOptions(tTeammateCard), [tTeammateCard])
@@ -151,7 +149,6 @@ function CharacterModalContent() {
               fullWidth
               value={String(characterForm.getValues().lightConeSuperimposition ?? 1)}
               onChange={(val: string) => {
-                setSuperimposition(Number(val))
                 characterForm.setFieldValue('lightConeSuperimposition', Number(val))
               }}
               data={[

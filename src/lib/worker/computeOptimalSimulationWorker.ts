@@ -30,7 +30,7 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   initializeContextConditionals(context)
   const optimalSimulation = computeOptimalSimulationSearch(input)
 
-  // @ts-ignore
+  // @ts-expect-error - removing ComputedStatsContainer before postMessage (not serializable)
   delete optimalSimulation.result.x
 
   const workerOutput: ComputeOptimalSimulationWorkerOutput = {

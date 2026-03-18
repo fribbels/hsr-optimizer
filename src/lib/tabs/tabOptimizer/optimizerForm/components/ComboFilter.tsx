@@ -5,7 +5,6 @@ import {
 } from '@tabler/icons-react'
 import { Button, Flex, SegmentedControl } from '@mantine/core'
 import { modals } from '@mantine/modals'
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -31,33 +30,14 @@ import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import { CharacterConditionalsController } from 'types/conditionals'
 import classes from './ComboFilter.module.css'
 
 
 export function ComboFilters() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const comboType = useOptimizerRequestStore((s) => s.comboType)
-  const characterId = useOptimizerRequestStore((s) => s.characterId)
-  const characterEidolon = useOptimizerRequestStore((s) => s.characterEidolon)
-  const comboOptions = useMemo(() => {
-    if (characterId == null || characterEidolon == null) return []
-
-    const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
-      characterId,
-      characterEidolon,
-    })
-
-    const actions = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
-
-    return actions.map((x) => ({
-      label: x,
-      value: x,
-    }))
-  }, [t, characterId, characterEidolon])
 
   return (
     <Flex direction="column" gap={optimizerTabDefaultGap}>
@@ -75,7 +55,7 @@ export function ComboFilters() {
         ]}
       />
 
-      <ComboBasicDefinition comboOptions={comboOptions} />
+      <ComboBasicDefinition />
 
       <Flex direction="column" gap={8} className={classes.advancedButtonContainer}>
         <Button
@@ -131,7 +111,7 @@ function resetClicked() {
   useOptimizerRequestStore.getState().setComboStateJson('{}')
 }
 
-function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string; label: string }[] }) {
+function ComboBasicDefinition() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const { t: tCommon } = useTranslation('common')
   const {
@@ -166,7 +146,6 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
             <ComboOptionRowSelect
               key={i + 1}
               index={i + 1}
-              comboOptions={comboOptions}
               disabled={disabled}
             />
           ))}
@@ -228,7 +207,7 @@ function ComboBasicDefinition({ comboOptions }: { comboOptions: { value: string;
   )
 }
 
-function ComboOptionRowSelect({ index, disabled }: { index: number; disabled: boolean; comboOptions: { value: string; label: string }[] }) {
+function ComboOptionRowSelect({ index, disabled }: { index: number; disabled: boolean }) {
   const comboTurnAbilities = useOptimizerRequestStore((s) => s.comboTurnAbilities)
   const shouldRenderSegmented = comboTurnAbilities[index] != null || index < 2
 

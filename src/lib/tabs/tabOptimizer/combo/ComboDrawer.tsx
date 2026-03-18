@@ -87,7 +87,6 @@ interface ComboDrawerContentProps {
 function ComboDrawerContent({
   comboState,
   onComboStateChange,
-  comboStateRef: _comboStateRef,
   selectActivationState,
   lastSelectedKeyState,
 }: ComboDrawerContentProps) {

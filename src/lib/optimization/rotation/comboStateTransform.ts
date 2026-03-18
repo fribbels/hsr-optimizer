@@ -116,9 +116,6 @@ export function defineAction(
   return action
 }
 
-function calculateActionHits() {
-}
-
 export function precomputeConditionals(action: OptimizerAction, comboState: ComboState, context: OptimizerContext) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(comboState.comboCharacter.metadata)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(comboState.comboCharacter.metadata)

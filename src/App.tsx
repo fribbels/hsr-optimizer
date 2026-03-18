@@ -9,10 +9,10 @@ import { GlobalModals } from 'lib/overlays/GlobalModals'
 import { Gradient } from 'lib/rendering/gradient'
 import { createMantineTheme } from 'lib/rendering/theme'
 import { useGlobalStore } from 'lib/stores/appStore'
-import Tabs from 'lib/tabs/Tabs'
-import React, { useEffect } from 'react'
+import { Tabs } from 'lib/tabs/Tabs'
+import { useEffect } from 'react'
 
-export default function App() {
+export function App() {
   const colorTheme = useGlobalStore((s) => s.colorTheme)
   const mantineTheme = createMantineTheme(colorTheme)
 

@@ -133,13 +133,13 @@ ${injectedStructs}
 
 function filterFn(request: Form) {
   return (text: string) => {
-    if (text.length == 0) return text
+    if (text.length === 0) return text
     const [variable, stat, threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
     const min = threshold.includes('min')
     const max = threshold.includes('max')
 
-    if (max && request[threshold as keyof Form] == Constants.MAX_INT) return ''
-    if (min && request[threshold as keyof Form] == 0) return ''
+    if (max && request[threshold as keyof Form] === Constants.MAX_INT) return ''
+    if (min && request[threshold as keyof Form] === 0) return ''
 
     return text
   }

@@ -1,5 +1,3 @@
-// define some handy keycode constants
-
 import {
   CellPosition,
   IRowNode,
@@ -7,8 +5,6 @@ import {
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { RefObject } from 'react'
-
-// FIXME LOW
 
 const KEY_LEFT = 'ArrowLeft'
 const KEY_UP = 'ArrowUp'

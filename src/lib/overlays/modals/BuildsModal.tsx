@@ -40,8 +40,6 @@ import type {
 } from 'types/character'
 import { Teammate } from 'types/form'
 
-// FIXME LOW
-
 export function BuildsModal() {
   const open = useBuildsModalStore((s) => s.open)
   const closeOverlay = useBuildsModalStore((s) => s.closeOverlay)

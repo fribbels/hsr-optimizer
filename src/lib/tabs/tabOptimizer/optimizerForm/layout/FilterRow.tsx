@@ -1,8 +1,8 @@
 import { Flex } from '@mantine/core'
 import { RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import FormStatTextStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
-import InputNumberStyled from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
+import { FormStatTextStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
+import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 
 export function FilterRow({ name, label, type }: { name: string; label: string; type?: 'stat' | 'rating' }) {
   const minKey = `min${name}` as keyof StatFilterState & keyof RatingFilterState

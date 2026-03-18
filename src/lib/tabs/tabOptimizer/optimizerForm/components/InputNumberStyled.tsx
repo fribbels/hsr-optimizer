@@ -2,7 +2,7 @@ import { NumberInput, NumberInputProps } from '@mantine/core'
 import { type CSSProperties, type Ref } from 'react'
 import inputClasses from 'style/inputs.module.css'
 
-function InputNumberStyled({ ref, ...props }: NumberInputProps & { ref?: Ref<HTMLInputElement> }) {
+export function InputNumberStyled({ ref, ...props }: NumberInputProps & { ref?: Ref<HTMLInputElement> }) {
   const inputStyle: CSSProperties | undefined = typeof props.styles === 'object' ? props.styles?.input as CSSProperties | undefined : undefined
   return (
     <NumberInput
@@ -14,5 +14,3 @@ function InputNumberStyled({ ref, ...props }: NumberInputProps & { ref?: Ref<HTM
     />
   )
 }
-
-export default InputNumberStyled

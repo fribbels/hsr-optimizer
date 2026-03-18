@@ -1,6 +1,4 @@
 export function indent(wgsl: string, levels: number) {
-  // if (!globalThis.WEBGPU_DEBUG) return wgsl
-
   const indentSpaces = ' '.repeat(levels * 2)
   return wgsl
     .split('\n')

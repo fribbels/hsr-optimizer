@@ -35,38 +35,3 @@ export function isRegionFeasible(region: TreeStatRegion, tree: SearchTree): bool
 
   return true
 }
-
-// Must have enough pieces to fit each stat with minimum rolls
-// Note: In theory this is useful but in practice this never triggers
-// Note: Tests disabled
-function isValidMinimumRolls(region: TreeStatRegion, tree: SearchTree) {
-  for (let i = 0; i < tree.activeStats.length; i++) {
-    const stat = tree.activeStats[i]
-    const minRolls = Math.ceil(region.lower[stat])
-    const availablePieces = tree.getAvailablePieces(stat)
-    if (minRolls > availablePieces * tree.maxStatRollsPerPiece) return false
-  }
-
-  return true
-}
-
-// Each piece must have at least 4 eligible substats available
-// Note: In theory this is useful but in practice this triggers so rarely that the performance hit to calculate is
-// not worth it vs just checking the region directly
-// Note: Tests disabled
-function isValidEligibleStats(region: TreeStatRegion, tree: SearchTree) {
-  for (let pieceIndex = 0; pieceIndex < 6; pieceIndex++) {
-    const pieceMainStat = tree.mainStats[pieceIndex]
-    let eligibleStats = 0
-    for (let i = 0; i < tree.allStats.length; i++) {
-      // Stat is eligible if:
-      // 1. Not the same as piece main stat
-      // 2. Could potentially have rolls in this cell (maxs[i] > 0)
-      const stat = tree.allStats[i]
-      if (stat != pieceMainStat && region.upper[stat] > 0) eligibleStats++
-    }
-    if (eligibleStats < 4) return false
-  }
-
-  return true
-}

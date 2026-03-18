@@ -14,8 +14,8 @@ import {
 
 function getRequestTeammateIndex(request: Form, conditional: DynamicConditional) {
   let teammate: Teammate
-  if (conditional.teammateIndex == 0) teammate = request.teammate0
-  else if (conditional.teammateIndex == 1) teammate = request.teammate1
+  if (conditional.teammateIndex === 0) teammate = request.teammate0
+  else if (conditional.teammateIndex === 1) teammate = request.teammate1
   else teammate = request.teammate2
 
   // @ts-ignore

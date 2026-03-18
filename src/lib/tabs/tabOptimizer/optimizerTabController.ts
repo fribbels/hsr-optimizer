@@ -105,7 +105,7 @@ export const OptimizerTabController = {
 
     if (!gridApi) return
 
-    if (node.rowPinned == 'top') {
+    if (node.rowPinned === 'top') {
       // Clicking the top row should display current relics
       console.log('Top row clicked', data)
       const form = getForm()
@@ -128,7 +128,7 @@ export const OptimizerTabController = {
           if (rowNode) {
             const currentPinned: OptimizerDisplayData[] = gridApi.getGridOption('pinnedTopRowData') ?? []
 
-            if (String(currentPinned[0].id) == String(rowNode.data!.id)) {
+            if (String(currentPinned[0].id) === String(rowNode.data!.id)) {
               // The currently equipped top row shouldn't correspond to an optimizer row, deselect
               gridStore.optimizerGridApi()?.deselectAll()
             } else {
@@ -308,7 +308,7 @@ function aggregate(subArray: OptimizerDisplayData[]) {
 
 function sort() {
   const colId = controllerState.sortModel.colId as keyof OptimizerDisplayData
-  const desc = controllerState.sortModel.sort == 'desc'
+  const desc = controllerState.sortModel.sort === 'desc'
   controllerState.rows.sort((a, b) => {
     const aVal = a[colId] as number
     const bVal = b[colId] as number

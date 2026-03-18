@@ -42,7 +42,6 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
   const {
     lightConeSrc,
     lightConeName,
-    lightConeLevel,
     lightConeSuperimposition,
   } = showcaseMetadata
 
@@ -103,8 +102,6 @@ export const ShowcaseLightConeLarge = memo(function ShowcaseLightConeLarge({
   setOriginalCharacterModalOpen,
   showcaseMetadata,
 }: ShowcaseLightConeProps) {
-  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-
   const {
     tempLcParentW,
     tempLcParentH,
@@ -113,9 +110,6 @@ export const ShowcaseLightConeLarge = memo(function ShowcaseLightConeLarge({
 
   const {
     lightConeSrc,
-    lightConeName,
-    lightConeLevel,
-    lightConeSuperimposition,
   } = showcaseMetadata
 
   const { dy, scale } = computeLcTransform(lcImageOffset, tempLcParentW, tempLcParentH)
@@ -150,7 +144,6 @@ export const ShowcaseLightConeLargeName = memo(function ShowcaseLightConeLargeNa
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const {
-    lightConeSrc,
     lightConeName,
     lightConeLevel,
     lightConeSuperimposition,

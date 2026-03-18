@@ -94,7 +94,7 @@ export class TheHertaPreprocessor extends AbilityPreprocessorBase {
         setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, false)
       }
 
-      if (this.state.postUltEnhancement == true) {
+      if (this.state.postUltEnhancement) {
         setComboNumberCategoryCharacterActivation(comboState, 'interpretationStacks', index, 42)
         this.state.postUltEnhancement = false
       } else {
@@ -145,7 +145,7 @@ export class PhainonPreprocessor extends AbilityPreprocessorBase {
     const { kind } = turnAbility
 
     if (kind == AbilityKind.ULT) {
-      if (this.state.transformedState == false) {
+      if (!this.state.transformedState) {
         setComboBooleanCategoryCharacterActivation(comboState, 'transformedState', index, false)
         this.state.transformedState = true
       } else {
@@ -171,7 +171,7 @@ export class SaberPreprocessor extends AbilityPreprocessorBase {
     const { kind } = turnAbility
 
     if (kind == AbilityKind.SKILL) {
-      if (this.state.enhancedSkill == false) {
+      if (!this.state.enhancedSkill) {
         setComboBooleanCategoryCharacterActivation(comboState, 'enhancedSkill', index, false)
         this.state.enhancedSkill = true
       } else {

@@ -2,7 +2,6 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -40,8 +39,6 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
-  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-  },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.DMG_BOOST, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, x.damageType(DamageTag.FUA).source(Source.DuranDynastyOfRunningWolves))
     if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {

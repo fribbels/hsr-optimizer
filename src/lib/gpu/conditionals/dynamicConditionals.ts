@@ -36,12 +36,12 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
     action.teammateLightConeConditionals = teammate.lightConeConditionals
   }
 
-  if (conditional.activation == ConditionalActivation.SINGLE) {
+  if (conditional.activation === ConditionalActivation.SINGLE) {
     if (!action.conditionalState[conditional.id] && conditional.condition(x, action, context)) {
       action.conditionalState[conditional.id] = 1
       conditional.effect(x, action, context)
     }
-  } else if (conditional.activation == ConditionalActivation.CONTINUOUS) {
+  } else if (conditional.activation === ConditionalActivation.CONTINUOUS) {
     if (conditional.condition(x, action, context)) {
       conditional.effect(x, action, context)
     }

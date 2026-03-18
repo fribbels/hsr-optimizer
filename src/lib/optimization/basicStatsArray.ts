@@ -139,9 +139,6 @@ export class BasicStatsArrayCore {
     const statKeys = Object.keys(baseCharacterStats) as BasicKeyType[]
     statKeys.forEach((stat, key) => {
       const trace = (value: number, source: BuffSource) => this.trace && this.buffs.push({ stat, key, value, source })
-      const traceMemo = (value: number, source: BuffSource) => this.trace && this.buffsMemo.push({ stat, key, value, source })
-      const traceOverwrite = (value: number, source: BuffSource) =>
-        this.trace && (this.buffs = this.buffs.filter((b) => b.key !== key).concat({ stat, key, value, source }))
 
       Object.defineProperty(this, stat, {
         value: {

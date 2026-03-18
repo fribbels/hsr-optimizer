@@ -2,7 +2,6 @@ import { ElementNames } from 'lib/constants/constants'
 import { GpuExecutionContext } from 'lib/gpu/webgpuTypes'
 import { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import {
   OutputTag,
   SELF_ENTITY_INDEX,
@@ -47,32 +46,6 @@ export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: 
  xOHB: array[14],
  xELEMENTAL_DMG: array[22],
  */
-
-/**
- * Maps action names to standardized ability field names
- */
-function mapActionNameToField(actionName: string): string | null {
-  const upperName = actionName.toUpperCase()
-
-  // Direct matches
-  if (upperName === 'BASIC' || upperName.includes('BASIC')) return 'BASIC'
-  if (upperName === 'SKILL' || upperName.includes('SKILL')) return 'SKILL'
-  if (upperName === 'ULT' || upperName.includes('ULT') || upperName.includes('ULTIMATE')) return 'ULT'
-  if (upperName === 'DOT' || upperName.includes('DOT')) return 'DOT'
-  if (upperName === 'BREAK' || upperName.includes('BREAK')) return 'BREAK'
-
-  // FUA variations
-  if (upperName.includes('FUA') || upperName.includes('FOLLOW') || upperName.includes('FOLLOWUP')) return 'FUA'
-
-  // Memosprite variations
-  if (upperName === 'MEMO_SKILL' || upperName.includes('MEMO_SKILL')) return 'MEMO_SKILL'
-  if (upperName === 'MEMO_TALENT' || upperName.includes('MEMO_TALENT')) return 'MEMO_TALENT'
-
-  // Elation variations
-  if (upperName === 'ELATION_SKILL' || upperName.includes('ELATION_SKILL')) return 'ELATION_SKILL'
-
-  return null
-}
 
 /**
  * Extracts action damage values from default actions and maps them to standardized fields.
@@ -168,18 +141,6 @@ export function debugExportWebgpuResult(array: Float32Array) {
     xOHB: x.getActionValueByIndex(StatKey.OHB, SELF_ENTITY_INDEX),
     xELEMENTAL_DMG: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX)
       + x.getActionValueByIndex(elementToStatKeyBoost[context.element], SELF_ENTITY_INDEX),
-    // mHP: x.y,
-    // mATK: x.y,
-    // mDEF: x.y,
-    // mSPD: x.y,
-    // mCR: x.y,
-    // mCD: x.y,
-    // mEHR: x.y,
-    // mRES: x.y,
-    // mBE: x.y,
-    // mERR: x.y,
-    // mOHB: x.y,
-    // mELEMENTAL_DMG: x.y,
     mxHP: x.getActionValueByIndex(StatKey.HP, 1),
     mxATK: x.getActionValueByIndex(StatKey.ATK, 1),
     mxDEF: x.getActionValueByIndex(StatKey.DEF, 1),
@@ -206,8 +167,6 @@ export function debugPinOptimizerWebgpuArray(array: Float32Array) {
 export function debugWebgpuComputedStats(array: Float32Array): ComputedStatsObjectExternal {
   return ComputedStatsContainer.fromArrays(array, new Float32Array(0)).toComputedStatsObject()
 }
-
-// export type WebgpuComputedStats = ReturnType<typeof debugWebgpuComputedStats>
 
 export function debugPrintWebgpuArray(array: Float32Array) {
   const computedStats: ComputedStatsObjectExternal = debugWebgpuComputedStats(array)

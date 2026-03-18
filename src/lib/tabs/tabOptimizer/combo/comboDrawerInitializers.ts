@@ -102,20 +102,6 @@ export function initializeComboState(request: Form, merge: boolean) {
   shiftDefaultConditionalToFirst(comboState.comboCharacter.characterConditionals)
   shiftDefaultConditionalToFirst(comboState.comboCharacter.lightConeConditionals)
   shiftDefaultConditionalToFirst(comboState.comboCharacter.setConditionals)
-  // Commenting teammates out since there are no teammate precomputes so far
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate0?.characterConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate0?.lightConeConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate0?.ornamentSetConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate0?.relicSetConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate1?.characterConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate1?.lightConeConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate1?.ornamentSetConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate1?.relicSetConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate2?.characterConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate2?.lightConeConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate2?.ornamentSetConditionals)
-  // shiftDefaultConditionalToFirst(comboState.comboTeammate2?.relicSetConditionals)
-
   displayModifiedSets(request, comboState)
 
   return comboState
@@ -158,8 +144,6 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
   for (const preset of presets) {
     applyPreset(defaultForm, preset)
   }
-
-  // comboState.comboCharacter.setConditionals
 
   const modified: string[] = []
 

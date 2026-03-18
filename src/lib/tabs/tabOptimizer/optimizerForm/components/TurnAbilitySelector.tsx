@@ -14,7 +14,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { ComboState, updateAbilityRotation } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { CascaderData, CascaderGroup, CascaderSelect } from 'lib/ui/CascaderSelect'
-import React, { useMemo } from 'react'
+import { CSSProperties, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CharacterConditionalsController } from 'types/conditionals'
 
@@ -140,7 +140,7 @@ export function ControlledTurnAbilitySelector({
 }: {
   index: number
   value: TurnAbilityName
-  style?: React.CSSProperties
+  style?: CSSProperties
   comboState: ComboState
   onComboStateChange: (newState: ComboState) => void
 }) {

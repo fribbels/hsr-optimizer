@@ -158,7 +158,7 @@ export function deleteBuild(characterId: CharacterId, name: string): void {
   const character = getCharacterById(characterId)
   if (!character) return console.warn('No character to delete build for')
 
-  const updatedCharacter = { ...character, builds: (character.builds ?? []).filter((x) => x.name != name) }
+  const updatedCharacter = { ...character, builds: (character.builds ?? []).filter((x) => x.name !== name) }
   useCharacterStore.getState().setCharacter(updatedCharacter)
 }
 

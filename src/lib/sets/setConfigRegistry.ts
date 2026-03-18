@@ -336,7 +336,7 @@ export function generateSetConditionalsInitializer(setConditionals: SetCondition
     .join('\n    ')
 }
 
-export function buildStatTagToSets(): Partial<Record<TwoPieceStatTag, SetsRelics[]>> {
+function buildStatTagToSets(): Partial<Record<TwoPieceStatTag, SetsRelics[]>> {
   const result: Partial<Record<TwoPieceStatTag, SetsRelics[]>> = {}
 
   for (const config of relicIndexToSetConfig) {

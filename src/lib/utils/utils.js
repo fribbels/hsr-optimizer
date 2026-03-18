@@ -31,7 +31,6 @@ export const Utils = {
     return x
   },
 
-  // TODO: Deprecate these
   mergeDefinedValues: (target, source) => {
     if (!source) return target
 
@@ -43,7 +42,6 @@ export const Utils = {
     return target
   },
 
-  // TODO: Deprecate these
   mergeUndefinedValues: (target, source) => {
     for (const key of Object.keys(source)) {
       if (target[key] == null) {
@@ -212,20 +210,6 @@ export const Utils = {
     return JSON.parse(JSON.stringify(obj))
   },
 
-  // Used for antd's selects to allow searching by the lowercase label
-  labelFilterOption: (input, option) => {
-    return (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-  },
-
-  // TODO: standardize all these
-  nameFilterOption: (input, option) => {
-    return (option?.name ?? '').toLowerCase().includes(input.toLowerCase())
-  },
-
-  titleFilterOption: (input, option) => {
-    return (option?.title ?? '').toLowerCase().includes(input.toLowerCase())
-  },
-
   // Returns body/feet/rope/sphere
   hasMainStat: (part) => {
     return part == Constants.Parts.Body || part == Constants.Parts.Feet || part == Constants.Parts.LinkRope || part == Constants.Parts.PlanarSphere
@@ -273,31 +257,4 @@ export const Utils = {
     return `${hoursS}${minutesS}:${secondsS}`
   },
 
-  findAllCycles: (obj) => {
-    const cycles = new Set()
-
-    function traverse(current, seen = new Map(), path = 'root') {
-      if (current === null || typeof current !== 'object') return
-
-      if (seen.has(current)) {
-        const cycleKey = `${seen.get(current)} ← ${path}`
-        if (!cycles.has(cycleKey)) {
-          cycles.add(cycleKey)
-          console.log(`${cycleKey}`)
-        }
-        return
-      }
-
-      seen.set(current, path)
-
-      for (const key in current) {
-        if (current.hasOwnProperty(key)) {
-          traverse(current[key], new Map(seen), `${path}.${key}`)
-        }
-      }
-    }
-
-    traverse(obj)
-    console.log(`\nTotal unique cycles: ${cycles.size}`)
-  },
 }

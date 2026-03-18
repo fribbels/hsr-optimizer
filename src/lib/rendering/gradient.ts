@@ -49,7 +49,7 @@ export const Gradient = {
     try {
       const colId = params.column.getColId()
 
-      const columnsToAggregate = OptimizerTabController.getColumnsToAggregateMap() as Record<string, boolean>
+      const columnsToAggregate = OptimizerTabController.getColumnsToAggregateMap()
       if (!columnsToAggregate[colId]) return
 
       if (params.data && aggregations) {
@@ -58,7 +58,7 @@ export const Gradient = {
         const value = params.value!
 
         let range = (value - min) / (max - min)
-        if (max == min) {
+        if (max === min) {
           range = 0.5
         }
 
@@ -86,12 +86,12 @@ export const Gradient = {
     const col = params.column.getColId()
     const value = params.value
 
-    if (isNaN(value) || value == 0) {
+    if (isNaN(value) || value === 0) {
       return
     }
 
     let range: number
-    if (col == 'weights.rerollAvgSelectedDelta') {
+    if (col === 'weights.rerollAvgSelectedDelta') {
       range = value / 40
     } else if (col.startsWith('weights.potential') || col.startsWith('weights.reroll')) {
       range = value / 100

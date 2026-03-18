@@ -2,7 +2,7 @@ import { Flex } from '@mantine/core'
 import { chartColor, extractDamageSplits } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { DamageSplitsChart } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 type SplitMode = 'default' | 'rotation'
 

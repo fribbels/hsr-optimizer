@@ -439,7 +439,7 @@ function RelicModalContent() {
           <div className={modalClasses.previewContainer}>
             <img
               style={{ width: '100%' }}
-              src={Assets.getCharacterPreviewById(equippedBy == 'None' ? '' : equippedBy)}
+              src={Assets.getCharacterPreviewById(equippedBy === 'None' ? '' : equippedBy)}
             />
           </div>
         </Flex>

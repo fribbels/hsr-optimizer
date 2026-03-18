@@ -67,7 +67,6 @@ export const RelicRollFixer = {
   initialize: () => {
     initialized = true
     const conversions = CharacterConverter.getConstantConversions()
-    // console.log('conversions', conversions)
     optimizerStatToAffixStat = TsUtils.flipStringMapping(conversions.statConversion)
     optimizerPartToPartId = TsUtils.flipStringMapping(conversions.partConversion)
 

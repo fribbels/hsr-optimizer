@@ -50,7 +50,7 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Show,
 }
 
-export const SettingsDrawer = () => {
+export function SettingsDrawer() {
   const { close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)
   const { t } = useTranslation('settings')
 

@@ -14,7 +14,7 @@ import { Relic } from 'types/relic'
  * Reads the swap setting from the global store.
  */
 function getSwapSetting(): boolean {
-  return useGlobalStore.getState().settings.RelicEquippingBehavior == SettingOptions.RelicEquippingBehavior.Swap
+  return useGlobalStore.getState().settings.RelicEquippingBehavior === SettingOptions.RelicEquippingBehavior.Swap
 }
 
 /**
@@ -34,7 +34,7 @@ export function unequipRelic(id: string): void {
 
   const characters = useCharacterStore.getState().characters
     .map((c) => {
-      if (c.equipped?.[relic.part] && c.equipped[relic.part] == relic.id) {
+      if (c.equipped?.[relic.part] && c.equipped[relic.part] === relic.id) {
         return { ...c, equipped: { ...c.equipped, [relic.part]: undefined } }
       }
       return c

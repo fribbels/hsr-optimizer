@@ -43,7 +43,7 @@ function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata): ScoringAl
   scoringMetadata = TsUtils.clone(scoringMetadata)
   const scoringMetadataForForm: ScoringAlgorithmForm = { ...scoringMetadata }
   for (const x of Object.entries(scoringMetadataForForm.stats)) {
-    if (x[1] == 0) {
+    if (x[1] === 0) {
       // @ts-ignore
       scoringMetadataForForm.stats[x[0]] = null
     }

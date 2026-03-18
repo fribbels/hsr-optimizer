@@ -110,7 +110,7 @@ const EditImageModal: React.FC<EditImageModalProps> = ({
   }, [defaultImageUrl, open, existingConfig])
 
   const onCropComplete = (croppedArea: CroppedArea, croppedAreaPixels: CroppedArea) => {
-    if (current == 1) {
+    if (current === 1) {
       setCustomImageParams({ croppedArea, croppedAreaPixels })
     }
   }

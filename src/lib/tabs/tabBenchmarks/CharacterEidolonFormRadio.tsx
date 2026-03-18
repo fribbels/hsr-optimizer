@@ -1,6 +1,5 @@
 import { SegmentedControl } from '@mantine/core'
 import { UseFormReturnType } from '@mantine/form'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 

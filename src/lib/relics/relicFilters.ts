@@ -214,7 +214,7 @@ export const RelicFilters = {
 
       Object.values(rankedCharacter.equipped)
         .filter((relicId) => relicId != null)
-        .map((relicId) => higherRankedRelics[relicId] = true)
+        .forEach((relicId) => higherRankedRelics[relicId] = true)
     }
 
     return relics.filter((x) => !higherRankedRelics[x.id])
@@ -229,7 +229,7 @@ export const RelicFilters = {
       if (request.exclude.includes(character.id) && character.id != request.characterId) {
         Object.values(character.equipped)
           .filter((relicId) => relicId != null)
-          .map((relicId) => excludedRelics[relicId] = true)
+          .forEach((relicId) => excludedRelics[relicId] = true)
       }
     }
 
@@ -398,7 +398,7 @@ export const RelicFilters = {
   applyMainStatsFilter: (request: Form, relics: Relic[]) => {
     const mainStatUpscaleLevel = request.mainStatUpscaleLevel
     if (mainStatUpscaleLevel) {
-      relics.map((x) => {
+      relics.forEach((x) => {
         const { grade, enhance, main: { stat } } = x
         const maxEnhance = grade * 3
         if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {

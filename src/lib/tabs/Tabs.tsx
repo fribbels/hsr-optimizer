@@ -6,23 +6,26 @@ import { ChangelogTab } from 'lib/tabs/tabChangelog/ChangelogTab'
 import { CharacterTab } from 'lib/tabs/tabCharacters/CharacterTab'
 import { HomeTab } from 'lib/tabs/tabHome/HomeTab'
 import { ImportTab } from 'lib/tabs/tabImport/ImportTab'
-import { MetadataTab } from 'lib/tabs/tabMetadata/MetadataTab'
 import { OptimizerTab } from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
-import { WebgpuTab } from 'lib/tabs/tabWebgpu/WebgpuTab'
 import { afterPaint } from 'lib/utils/frontendUtils'
 import { workerPool } from 'lib/worker/workerPool'
 import { TabVisibilityContext, type TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {
   type ReactElement,
+  Suspense,
+  lazy,
   useDeferredValue,
   useEffect,
   useRef,
   useState,
 } from 'react'
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
+
+const MetadataTab = lazy(() => import('lib/tabs/tabMetadata/MetadataTab').then((m) => ({ default: m.MetadataTab })))
+const WebgpuTab = lazy(() => import('lib/tabs/tabWebgpu/WebgpuTab').then((m) => ({ default: m.WebgpuTab })))
 
 const defaultErrorRender = ({ error }: FallbackProps) =>
   <div>Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
@@ -53,8 +56,7 @@ const MOUNT_PRIORITY: AppPages[] = [
   AppPages.CHARACTERS,
   AppPages.RELICS,
   AppPages.IMPORT,
-  AppPages.WEBGPU_TEST,
-  AppPages.METADATA_TEST,
+  // WEBGPU_TEST and METADATA_TEST are dev-only: lazy-loaded and mounted only on navigate
 ]
 
 let optimizerInitialized = false
@@ -176,7 +178,9 @@ function TabRenderer({ activeKey, tabKey, children }: {
     <ErrorBoundary fallbackRender={defaultErrorRender}>
       <TabVisibilityContext value={contextValue}>
         <div style={{ display: isActive ? 'contents' : 'none' }} id={tabKey}>
-          {children}
+          <Suspense fallback={null}>
+            {children}
+          </Suspense>
         </div>
       </TabVisibilityContext>
     </ErrorBoundary>

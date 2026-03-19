@@ -41,7 +41,8 @@ function MainStatBody() {
       className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.Body')}
-      rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Body)} />}
+      leftSectionWidth={25}
+      leftSection={<img className={classes.partIcon} style={{ marginLeft: 5 }} src={Assets.getPart(Parts.Body)} />}
       value={value}
       onChange={(val) => handleMainStatChange('mainBody', val)}
       renderOption={(option) => (
@@ -73,7 +74,8 @@ function MainStatFeet() {
       className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.Feet')}
-      rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.Feet)} />}
+      leftSectionWidth={25}
+      leftSection={<img className={classes.partIcon} style={{ marginLeft: 5 }} src={Assets.getPart(Parts.Feet)} />}
       value={value}
       onChange={(val) => handleMainStatChange('mainFeet', val)}
       renderOption={(option) => (
@@ -103,7 +105,8 @@ function MainStatPlanarSphere() {
       style={mainStatStyle}
       placeholder={t('Parts.PlanarSphere')}
       maxDropdownHeight={400}
-      rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.PlanarSphere)} />}
+      leftSectionWidth={25}
+      leftSection={<img className={classes.partIcon} style={{ marginLeft: 5 }} src={Assets.getPart(Parts.PlanarSphere)} />}
       value={value}
       onChange={(val) => handleMainStatChange('mainPlanarSphere', val)}
       renderOption={(option) => (
@@ -138,7 +141,8 @@ function MainStatLinkRope() {
       className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.LinkRope')}
-      rightSection={<img className={classes.partIcon} src={Assets.getPart(Parts.LinkRope)} />}
+      leftSectionWidth={25}
+      leftSection={<img className={classes.partIcon} style={{ marginLeft: 5 }} src={Assets.getPart(Parts.LinkRope)} />}
       value={value}
       onChange={(val) => handleMainStatChange('mainLinkRope', val)}
       renderOption={(option) => (

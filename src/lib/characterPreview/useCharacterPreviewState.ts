@@ -82,15 +82,17 @@ export function useCharacterPreviewState(
   const [storedScoringType, setScoringType] = useState(useGlobalStore.getState().savedSession.scoringType)
   const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
 
-  // Cache-buster for layout useMemo: when scoring metadata overrides change (SPD weight,
-  // deprioritize buffs), the reference changes, busting the layout memo so
-  // resolveShowcaseLayout re-reads the latest values via resolveDpsScoreSimulationMetadata.
+  // Cache-buster: when scoring metadata overrides change (SPD weight, deprioritize buffs),
+  // the reference changes, busting both the layout memo (for combat score via
+  // resolveDpsScoreSimulationMetadata) and previewRelics memo (for substat score via
+  // RelicScorer.scoreCharacterWithRelics).
   const scoringMetadata = useScoringMetadata(character?.id)
 
   const previewRelics = useMemo(() => {
     if (!character) return null
     return getPreviewRelics(source, character, relicsById, savedBuildOverride)
-  }, [source, character, relicsById, savedBuildOverride])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [source, character, relicsById, savedBuildOverride, scoringMetadata])
 
   const finalStats = useMemo(() => {
     if (!character || !previewRelics) return undefined

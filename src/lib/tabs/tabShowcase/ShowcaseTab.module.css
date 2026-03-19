@@ -51,19 +51,24 @@
 
 .portraitContainer {
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
+}
+
+.portraitContainerSelected {
+  cursor: pointer;
 }
 
 .portraitImage {
-  width: 64px;
-  height: 64px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
-  transition: all 0.12s ease;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: border-color 0.12s ease;
+}
+
+.portraitContainerSelected .portraitImage {
+  border-color: rgba(255, 255, 255, 0.50);
 }
 
 .cardArea {
@@ -75,28 +80,27 @@
   right: 100%;
   top: 0;
   margin-right: 12px;
-  width: 120px;
 }
 
 .simSidebarPanel {
   background: var(--bg-sidebar);
   border-radius: 5px;
-  padding: 8px 6px;
+  padding: 10px 8px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .toggleButton {
   height: 40px;
-  width: 40px;
-  border-radius: 40px;
+  width: 80px;
+  border-radius: 5px;
 }
 
 .presetImage {
-  height: 50px;
-  width: 50px;
-  border-radius: 50px;
+  height: 80px;
+  width: 80px;
+  border-radius: 80px;
   outline: var(--showcase-outline-light);
   background: rgba(255, 255, 255, 0.05);
 }

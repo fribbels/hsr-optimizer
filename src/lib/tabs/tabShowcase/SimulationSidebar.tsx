@@ -26,14 +26,14 @@ export function SimulationSidebar({
         <Button
           className={styles.toggleButton}
           onClick={onToggle}
-          variant={open ? 'filled' : 'default'}
+          variant="filled"
+          style={{ width: 80, height: 40, margin: '0 8px' }}
         >
-          <IconFlask size={20} />
+          <IconFlask size={28} />
         </Button>
 
-        {open && (
-          <div className={styles.simSidebarPanel}>
-            {presets.map((preset, index) => {
+        <div className={styles.simSidebarPanel} style={{ display: open ? undefined : 'none' }}>
+          {presets.map((preset, index) => {
               if (preset.custom) {
                 return (
                   <Flex key="custom" justify="center" align="center">
@@ -41,9 +41,9 @@ export function SimulationSidebar({
                       variant="transparent"
                       p={0}
                       onClick={() => onPresetClick(preset)}
-                      style={{ width: 50, height: 50 }}
+                      style={{ width: 80, height: 80 }}
                     >
-                      <IconEdit size={28} />
+                      <IconEdit size={36} />
                     </Button>
                   </Flex>
                 )
@@ -56,7 +56,7 @@ export function SimulationSidebar({
                     variant="transparent"
                     p={0}
                     onClick={() => onPresetClick(preset)}
-                    style={{ width: 50, height: 50 }}
+                    style={{ width: 80, height: 80 }}
                   >
                     <img
                       className={styles.presetImage}
@@ -66,8 +66,7 @@ export function SimulationSidebar({
                 </Flex>
               )
             })}
-          </div>
-        )}
+        </div>
       </Flex>
     </div>
   )

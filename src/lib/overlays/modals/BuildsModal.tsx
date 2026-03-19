@@ -140,7 +140,7 @@ function BuildsModalContent() {
           }
         }
         useScoringStore.getState().updateSimulationOverrides(selectedCharacter.id, simulation)
-        useShowcaseTabStore.getState().setShowcaseTeamPreferenceById(selectedCharacter.id, CUSTOM_TEAM)
+        useShowcaseTabStore.getState().setShowcaseTeamPreference(selectedCharacter.id, CUSTOM_TEAM)
       }
       SaveState.delayedSave()
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }) /* Successfully equipped build: {{buildName}} */)

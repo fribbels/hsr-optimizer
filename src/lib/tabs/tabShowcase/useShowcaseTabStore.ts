@@ -1,70 +1,23 @@
-import i18next from 'i18next'
-import { type CUSTOM_TEAM, type DEFAULT_TEAM, type Parts } from 'lib/constants/constants'
-import { Message } from 'lib/interactions/message'
-import * as persistenceService from 'lib/services/persistenceService'
-import { SaveState } from 'lib/state/saveState'
-import { clone } from 'lib/utils/objectUtils'
-import type {
-  Character,
-  CharacterId,
-} from 'types/character'
-import type { Form } from 'types/form'
-import type { LightConeId } from 'types/lightCone'
-import type { ShowcasePreferences, ShowcaseTemporaryOptions } from 'types/metadata'
-import type { BasicForm } from 'types/optimizer'
-import type { Relic } from 'types/relic'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { computeCharacterOverride } from 'lib/tabs/tabShowcase/showcaseTabStoreActions'
+import {
+  ShowcaseScreen,
+  type ShowcaseTabCharacter,
+  type ShowcaseTabSavedSession,
+  type ShowcaseTabStore,
+} from 'lib/tabs/tabShowcase/showcaseTabTypes'
 
-// showcase tab characters use a different format for equipped relics and have only a minimal form
-export type ShowcaseTabCharacter = Omit<Character, 'equipped' | 'rank' | 'builds' | 'form'> & {
-  index: number,
-  equipped: Record<Parts, Relic | null | undefined>,
-  key: string,
-  form: Omit<BasicForm, 'lightCone' | 'characterId'> & {
-    lightCone: LightConeId | null,
-    characterId: CharacterId | null,
-  },
-}
+// Re-export types so external consumers (types/store.ts, characterConverter.ts)
+// continue to work without import path changes
+export type { ShowcaseTabCharacter, ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 
-export type ShowcaseTabSavedSession = {
-  scorerId: string | null,
-  sidebarOpen: boolean,
-}
-
-type ShowcaseTabState = {
-  latestRefreshDate: Date | null,
-  loading: boolean,
-  availableCharacters: ShowcaseTabCharacter[] | null,
-  selectedCharacter: ShowcaseTabCharacter | null,
-  savedSession: ShowcaseTabSavedSession,
-  showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
-  showcaseTeamPreferenceById: Partial<Record<CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>,
-  showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
-  portraitColorByCharacterId: Partial<Record<CharacterId, string>>,
-  portraitSwatchesByCharacterId: Partial<Record<CharacterId, string[]>>,
-
-  setLatestRefreshDate: (date: Date | null) => void,
-  setLoading: (loading: boolean) => void,
-  setAvailableCharacters: (availableCharacters: ShowcaseTabCharacter[]) => void,
-  setSelectedCharacter: (selectedCharacter: ShowcaseTabCharacter | null) => void,
-  setScorerId: (scorerId: string | null) => void,
-  setSidebarOpen: (open: boolean) => void,
-  setSavedSession: (session: ShowcaseTabSavedSession) => void,
-  setShowcasePreferences: (x: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
-  setShowcaseTeamPreferenceById: (characterId: CharacterId, team: typeof CUSTOM_TEAM | typeof DEFAULT_TEAM) => void,
-  setShowcaseTemporaryOptionsByCharacter: (x: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>) => void,
-  setPortraitPalette: (characterId: CharacterId, color: string | undefined, swatches: string[]) => void,
-
-  onSelectionChanged: (selected: CharacterId) => void,
-  onCharacterModalOk: (form: ShowcaseTabCharacter['form']) => void,
-  importClicked: (mode: 'relics' | 'singleCharacter' | 'multiCharacter') => void,
-}
-
-export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabState>((set, get) => ({
-  latestRefreshDate: null,
+export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabStore>((set, get) => ({
+  // ── State ──
+  screen: ShowcaseScreen.Landing,
   loading: false,
+  latestRefreshDate: null,
   availableCharacters: null,
-  selectedCharacter: null,
+  selectedIndex: 0,
   savedSession: {
     scorerId: null,
     sidebarOpen: true,
@@ -75,19 +28,65 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabState>((set, g
   portraitColorByCharacterId: {},
   portraitSwatchesByCharacterId: {},
 
-  setLatestRefreshDate: (latestRefreshDate: Date | null) => set({ latestRefreshDate }),
-  setLoading: (loading: boolean) => set({ loading }),
-  setAvailableCharacters: (availableCharacters: ShowcaseTabCharacter[]) => set({ availableCharacters }),
-  setSelectedCharacter: (selectedCharacter: ShowcaseTabCharacter | null) => set({ selectedCharacter }),
-  setScorerId: (scorerId: string | null) => set((s) => ({ savedSession: { ...s.savedSession, scorerId } })),
-  setSidebarOpen: (sidebarOpen: boolean) => set((s) => ({ savedSession: { ...s.savedSession, sidebarOpen } })),
-  setSavedSession: (savedSession: ShowcaseTabSavedSession) => set((s) => ({ savedSession: { ...s.savedSession, ...savedSession } })),
+  // ── Compound fetch transitions ──
+
+  startFetch: () => set((s) => ({
+    loading: true,
+    // Landing → show Loading screen. Already Loaded → stay Loaded (just button spinner)
+    screen: s.screen === ShowcaseScreen.Landing ? ShowcaseScreen.Loading : s.screen,
+  })),
+
+  setFetchResult: (characters) => set({
+    availableCharacters: characters,
+    selectedIndex: 0,
+    screen: ShowcaseScreen.Loaded,
+    loading: false,
+  }),
+
+  handleFetchFailure: () => set((s) => ({
+    loading: false,
+    // Was on Loading screen (first fetch failed) → back to Landing
+    // Was on Loaded (re-fetch failed) → stay Loaded, old data preserved
+    screen: s.screen === ShowcaseScreen.Loading ? ShowcaseScreen.Landing : s.screen,
+  })),
+
+  setLatestRefreshDate: (latestRefreshDate) => set({ latestRefreshDate }),
+
+  // ── Selection ──
+
+  selectCharacter: (selectedIndex) => set({ selectedIndex }),
+
+  // Safe because applyCharacterOverride always targets selectedIndex.
+  applyCharacterOverride: (form) => set((s) => computeCharacterOverride(s, form)),
+
+  // ── Session (persisted) ──
+
+  setScorerId: (scorerId) => set((s) => ({ savedSession: { ...s.savedSession, scorerId } })),
+  setSidebarOpen: (sidebarOpen) => set((s) => ({ savedSession: { ...s.savedSession, sidebarOpen } })),
+  setSavedSession: (savedSession) => set((s) => ({ savedSession: { ...s.savedSession, ...savedSession } })),
+
+  // ── Per-character preferences ──
+
   setShowcasePreferences: (showcasePreferences) => set({ showcasePreferences }),
-  setShowcaseTeamPreferenceById: (characterId, team) =>
-    set((state) => ({
-      showcaseTeamPreferenceById: { ...state.showcaseTeamPreferenceById, [characterId]: team },
+
+  setShowcaseTeamPreference: (characterId, team) =>
+    set((s) => ({
+      showcaseTeamPreferenceById: { ...s.showcaseTeamPreferenceById, [characterId]: team },
     })),
-  setShowcaseTemporaryOptionsByCharacter: (showcaseTemporaryOptionsByCharacter) => set({ showcaseTemporaryOptionsByCharacter }),
+
+  setSpdBenchmark: (characterId, spdBenchmark) =>
+    set((s) => ({
+      showcaseTemporaryOptionsByCharacter: {
+        ...s.showcaseTemporaryOptionsByCharacter,
+        [characterId]: {
+          ...s.showcaseTemporaryOptionsByCharacter[characterId],
+          spdBenchmark,
+        },
+      },
+    })),
+
+  // ── Portrait ──
+
   setPortraitPalette: (characterId, color, swatches) =>
     set((s) => ({
       portraitColorByCharacterId: color != null
@@ -95,58 +94,10 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabState>((set, g
         : s.portraitColorByCharacterId,
       portraitSwatchesByCharacterId: { ...s.portraitSwatchesByCharacterId, [characterId]: swatches },
     })),
-
-  onSelectionChanged: (selected: CharacterId) =>
-    set((s) => {
-      console.log('selectionChange', selected)
-      return { selectedCharacter: s.availableCharacters?.find((x) => x.id === selected) ?? null }
-    }),
-
-  onCharacterModalOk: (form) => {
-    const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
-    const { availableCharacters, selectedCharacter } = get()
-
-    if (!form.characterId) {
-      return Message.error(t('NoCharacterSelected') /* No selected character */)
-    }
-    if (availableCharacters?.find((x) => x.id === form.characterId) && selectedCharacter?.id !== form.characterId) {
-      return Message.error(t('CharacterAlreadyExists') /* Selected character already exists */)
-    }
-
-    const updatedCharacter = clone(selectedCharacter)!
-    const updatedCharacters = clone(availableCharacters)!
-    updatedCharacter.form = form
-    updatedCharacter.id = form.characterId
-    Object.values(updatedCharacter.equipped)
-      .filter((x) => !!x)
-      .forEach((x) => x.equippedBy = form.characterId!)
-    updatedCharacters[updatedCharacter.index] = updatedCharacter
-
-    set({ selectedCharacter: updatedCharacter, availableCharacters: updatedCharacters })
-    console.log('Modified character', updatedCharacter)
-  },
-
-  importClicked: (mode) => {
-    const { selectedCharacter, availableCharacters } = get()
-    let newCharacters: ShowcaseTabCharacter[] = []
-
-    if (mode === 'singleCharacter' && selectedCharacter?.form) {
-      persistenceService.upsertCharacterFromForm(selectedCharacter.form as Form)
-      newCharacters = [selectedCharacter]
-    } else if (mode === 'multiCharacter' && availableCharacters) {
-      availableCharacters.forEach((char) => {
-        persistenceService.upsertCharacterFromForm(char.form as Form)
-      })
-      newCharacters = availableCharacters
-    }
-
-    const newRelics = availableCharacters
-      ?.flatMap((x) => Object.values(x.equipped))
-      .filter((x) => !!x)
-
-    console.log('import clicked! mode:', mode, 'relics:', newRelics)
-
-    persistenceService.mergePartialRelics(newRelics, newCharacters)
-    SaveState.delayedSave()
-  },
 }))
+
+// Imperative getter for non-React code (controllers, services)
+export function getSelectedCharacter(): ShowcaseTabCharacter | null {
+  const { availableCharacters, selectedIndex } = useShowcaseTabStore.getState()
+  return availableCharacters?.[selectedIndex] ?? null
+}

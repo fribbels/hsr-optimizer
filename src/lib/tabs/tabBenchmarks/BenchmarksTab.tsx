@@ -47,7 +47,7 @@ import {
   generateSpdPresets,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SetsSection'
-import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
+import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'

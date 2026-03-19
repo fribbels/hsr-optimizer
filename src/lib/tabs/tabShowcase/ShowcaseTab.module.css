@@ -1,5 +1,33 @@
-.downtimeWarning {
-  color: #ffaa4f;
+.landingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 24px;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 16px;
+}
+
+.loadedContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1068px;
+  margin-bottom: 100px;
+}
+
+.outerWrapper {
+  width: 1375px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .formRow {
@@ -15,27 +43,62 @@
   width: 150px;
 }
 
-.scoringButton {
-  width: fit-content;
-  min-width: 175px;
+.actionRow {
+  display: flex;
+  gap: 10px;
+  width: 100%;
 }
 
-.avatarImage {
-  width: 100px;
-  height: 100px;
+.portraitContainer {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.portraitImage {
+  width: 64px;
+  height: 64px;
   object-fit: contain;
-  border-radius: 50px;
-  border: var(--showcase-outline-light);
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
+  transition: all 0.12s ease;
 }
 
-.outerWrapper {
-  width: 1375px;
+.cardArea {
+  position: relative;
 }
 
-.innerColumn {
-  margin-bottom: 100px;
-  width: 1068px;
+.simSidebar {
+  position: absolute;
+  right: 100%;
+  top: 0;
+  margin-right: 12px;
+  width: 120px;
+}
+
+.simSidebarPanel {
+  background: var(--bg-sidebar);
+  border-radius: 5px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toggleButton {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+}
+
+.presetImage {
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  outline: var(--showcase-outline-light);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .flexOne {
@@ -58,73 +121,30 @@
   padding: 0 8px;
 }
 
-.segmentedControl {
-  width: 100%;
-  overflow: hidden;
+.scoringButton {
+  width: fit-content;
+  min-width: 175px;
 }
 
-.previewWrapper {
-  padding: 0 5px 5px 5px;
+.downtimeWarning {
+  color: #ffaa4f;
 }
 
-.sidebarDropdown {
-  margin-left: -8px;
-  width: 110px;
-  flex-direction: row;
-  flex-wrap: wrap;
+.landingTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--mantine-color-text);
 }
 
-.sidebarContainer {
-  position: relative;
-  left: -120px;
-  top: 95px;
-  width: 0;
-  height: 0;
+.landingSubtitle {
+  font-size: 13px;
+  color: var(--mantine-color-dimmed);
+  max-width: 400px;
+  text-align: center;
+  line-height: 1.5;
 }
 
-.toggleButton {
-  height: 95px;
-  width: 95px;
-  border-radius: 95px;
-  margin-bottom: 2px;
-}
-
-.flaskIcon {
-  font-size: 55px;
-}
-
-.editIcon {
-  font-size: 85px;
-}
-
-.popoverDropdown {
-  padding: 4px;
-}
-
-.presetImage {
-  height: 95px;
-  width: 95px;
-  border-radius: 95px;
-  outline: var(--showcase-outline-light);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.rerunPresetImage {
-  height: 45px;
-  width: 45px;
-  border-radius: 45px;
-  outline: var(--showcase-outline-light);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.accordion {
-  width: 100%;
-}
-
-.disclaimerText {
-  font-size: 14px;
-}
-
-.disclaimerPanel {
-  padding: 12px;
+.loadingText {
+  font-size: 13px;
+  color: var(--mantine-color-dimmed);
 }

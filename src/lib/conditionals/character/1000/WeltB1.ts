@@ -401,6 +401,7 @@ const simulation = (): SimulationMetadata => ({
   substats: [
     Stats.CD,
     Stats.CR,
+    Stats.EHR,
     Stats.ATK_P,
     Stats.ATK,
   ],

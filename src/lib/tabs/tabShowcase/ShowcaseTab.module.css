@@ -97,6 +97,23 @@
   border-radius: 5px;
 }
 
+.customPresetIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.customPresetIcon:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.75);
+}
+
 .presetImage {
   height: 80px;
   width: 80px;

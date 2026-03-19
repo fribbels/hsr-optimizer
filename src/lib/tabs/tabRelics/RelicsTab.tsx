@@ -1,6 +1,6 @@
 import { Accordion, Flex } from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
-import { useRelicModalStore } from 'lib/overlays/modals/relicModalStore'
+import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getRelicById } from 'lib/stores/relicStore'

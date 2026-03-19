@@ -4,19 +4,11 @@ import {
   Stats,
   type SubStats,
 } from 'lib/constants/constants'
-import type { RelicForm } from 'lib/overlays/modals/relicModalController'
+import type { RelicForm, SubstatValues } from './relicModalTypes'
 import { objectHash } from 'lib/utils/objectUtils'
 import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
 import { truncate10ths, truncate1000ths, precisionRound } from 'lib/utils/mathUtils'
-
-export type SubstatValues = Pick<RelicForm, `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`>
-
-export type MainStatOption = {
-  label: string,
-  value: string,
-  icon?: string,
-}
 
 export const defaultMainStatPerPart = {
   [Parts.Head]: Stats.HP,

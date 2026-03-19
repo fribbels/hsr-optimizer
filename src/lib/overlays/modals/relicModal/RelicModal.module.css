@@ -6,6 +6,7 @@
   transform: translateY(-50%) rotate(90deg);
   cursor: pointer;
   z-index: 201;
+  animation: fadeIn 150ms ease-in;
 }
 
 .navArrowRight {
@@ -15,6 +16,12 @@
   transform: translateY(-50%) rotate(-90deg);
   cursor: pointer;
   z-index: 201;
+  animation: fadeIn 150ms ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .relicGrid {

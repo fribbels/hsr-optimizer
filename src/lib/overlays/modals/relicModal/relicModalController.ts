@@ -1,5 +1,7 @@
 import i18next from 'i18next'
+import type { TFunction } from 'i18next'
 import {
+  Constants,
   type MainStats,
   type Parts,
   type Sets,
@@ -8,7 +10,9 @@ import {
   SubStatValues,
 } from 'lib/constants/constants'
 import {
+  SetsOrnaments,
   SetsOrnamentsNames,
+  SetsRelics,
   SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
 import { Message } from 'lib/interactions/message'
@@ -19,51 +23,140 @@ import { SaveState } from 'lib/state/saveState'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import {
+  calculateRelicMainStatValue,
   partIsOrnament,
   partIsRelic,
 } from 'lib/utils/relicUtils'
 import { clone } from 'lib/utils/objectUtils'
-import type {
-  Relic,
-  RelicEnhance,
-  RelicGrade,
-} from 'types/relic'
+import { Assets } from 'lib/rendering/assets'
+import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
+import type { MainStatOption, RelicForm, RelicFormStat, RelicUpgradeValues } from './relicModalTypes'
+import type { RelicModalConfig } from './relicModalStore'
+import { defaultMainStatPerPart, defaultSubstatValues, renderMainStat } from './relicModalHelpers'
 
-export type RelicUpgradeValues = {
-  low: number | undefined | null,
-  mid: number | undefined | null,
-  high: number | undefined | null,
+// ─── Initialization ──────────────────────────────────────────────────────────
+
+export function computeInitialFormValues(config: RelicModalConfig): RelicForm {
+  const { selectedRelic, selectedPart, defaultWearer } = config
+
+  if (selectedRelic) {
+    return {
+      equippedBy: selectedRelic.equippedBy ?? defaultWearer ?? 'None',
+      grade: selectedRelic.grade,
+      enhance: selectedRelic.enhance,
+      set: selectedRelic.set,
+      part: selectedRelic.part,
+      mainStatType: renderMainStat(selectedRelic)?.stat,
+      mainStatValue: renderMainStat(selectedRelic)?.value,
+      ...defaultSubstatValues(selectedRelic),
+    }
+  }
+
+  const defaultPart = selectedPart ?? Constants.Parts.Head
+  const defaultMain = defaultMainStatPerPart[defaultPart]
+  let defaultValue = precisionRound(
+    Constants.MainStatsValues[defaultMain][5].base
+    + Constants.MainStatsValues[defaultMain][5].increment * 15,
+  )
+  defaultValue = isFlat(defaultMain) ? Math.floor(defaultValue) : defaultValue
+
+  return {
+    equippedBy: defaultWearer ?? 'None',
+    grade: 5,
+    enhance: 15,
+    part: defaultPart,
+    mainStatType: defaultMain,
+    mainStatValue: defaultValue,
+  } as RelicForm
 }
 
-type RelicFormStat = {
-  stat: string | undefined,
-  value: string | undefined,
-  isPreview: false | number | undefined,
+// ─── Derived state (computed during render) ──────────────────────────────────
+
+export function computeMainStatOptions(part: Parts | undefined, t: TFunction): MainStatOption[] {
+  if (!part) return []
+  return Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
+    label: t(`common:Stats.${entry[1]}`),
+    value: entry[1],
+    icon: Assets.getStatIcon(entry[1], true),
+  }))
 }
 
-export type RelicForm = Partial<{
-  part: Parts,
-  mainStatType: MainStats,
-  mainStatValue: number,
-  set: Sets,
-  enhance: RelicEnhance,
-  grade: RelicGrade,
-  substatType0: SubStats,
-  substatType1: SubStats,
-  substatType2: SubStats,
-  substatType3: SubStats,
-  substatValue0: string,
-  substatValue1: string,
-  substatValue2: string,
-  substatValue3: string,
-  substat0IsPreview: false | number,
-  substat1IsPreview: false | number,
-  substat2IsPreview: false | number,
-  substat3IsPreview: false | number,
-  equippedBy: string,
-}>
+export function computeMainStatDisplayValue(
+  mainStatType: MainStats | undefined,
+  grade: number | undefined,
+  enhance: number | undefined,
+): number | undefined {
+  if (mainStatType == null || enhance == null || grade == null) return undefined
+
+  const specialStats = [
+    Stats.OHB, Stats.Physical_DMG, Stats.Fire_DMG, Stats.Ice_DMG,
+    Stats.Lightning_DMG, Stats.Wind_DMG, Stats.Quantum_DMG, Stats.Imaginary_DMG,
+  ]
+  const floorStats = [Stats.HP, Stats.ATK]
+
+  let value = calculateRelicMainStatValue(mainStatType, grade, enhance)
+
+  // @ts-expect-error - MainStats vs Stats type mismatch in includes check
+  if (specialStats.includes(mainStatType)) {
+    value = truncate10ths(value)
+  // @ts-expect-error - MainStats vs Stats type mismatch in includes check
+  } else if (floorStats.includes(mainStatType)) {
+    value = Math.floor(value)
+  } else {
+    value = truncate10ths(value)
+  }
+
+  return value
+}
+
+// ─── Event handler logic ─────────────────────────────────────────────────────
+
+export function computePartChangeUpdates(
+  newPart: Parts,
+  currentSet: Sets | undefined,
+  relicOptions: { value: string }[],
+  planarOptions: { value: string }[],
+): Partial<RelicForm> {
+  const updates: Partial<RelicForm> = {}
+
+  const newMainStatOptions = Object.entries(Constants.PartsMainStats[newPart])
+  if (newMainStatOptions.length > 0) {
+    updates.mainStatType = newMainStatOptions[0][1] as MainStats
+  }
+
+  const isOrnamentPart = newPart === Constants.Parts.PlanarSphere || newPart === Constants.Parts.LinkRope
+  if (isOrnamentPart) {
+    // @ts-expect-error - Sets vs string type mismatch in includes check
+    if (!Object.values(SetsOrnaments).includes(currentSet)) {
+      updates.set = planarOptions[0]?.value as Sets
+    }
+  } else {
+    // @ts-expect-error - Sets vs string type mismatch in includes check
+    if (!Object.values(SetsRelics).includes(currentSet)) {
+      updates.set = relicOptions[0]?.value as Sets
+    }
+  }
+
+  return updates
+}
+
+// ─── Static options ──────────────────────────────────────────────────────────
+
+export const ENHANCE_OPTIONS: { value: string; label: string }[] = Array.from(
+  { length: 16 },
+  (_, i) => ({ value: String(15 - i), label: `+${15 - i}` }),
+)
+
+export const GRADE_OPTIONS = [
+  { value: '2', label: '2 \u2605' },
+  { value: '3', label: '3 \u2605' },
+  { value: '4', label: '4 \u2605' },
+  { value: '5', label: '5 \u2605' },
+]
+
+// ─── Existing: Validation ────────────────────────────────────────────────────
 
 export const RelicModalController = {
   onEditOk: (selectedRelic: Relic, relic: Relic) => {
@@ -209,8 +302,8 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     },
   } as Relic
 
-  const substats: { value: number, stat: SubStats }[] = []
-  const previewSubstats: { value: number, stat: SubStats }[] = []
+  const substats: { value: number; stat: SubStats }[] = []
+  const previewSubstats: { value: number; stat: SubStats }[] = []
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 != undefined) {
     if (relicForm.substat0IsPreview) {
       previewSubstats.push({
@@ -269,6 +362,8 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
 
   return relic
 }
+
+// ─── Existing: Upgrade values ────────────────────────────────────────────────
 
 export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues[] {
   const statPairs: RelicFormStat[] = [

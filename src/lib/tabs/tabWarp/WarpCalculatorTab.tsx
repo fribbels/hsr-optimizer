@@ -1,5 +1,5 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Badge, Button, Flex, MultiSelect, NumberInput, Paper, SegmentedControl, Select, Table, TextInput, Title as MantineTitle } from '@mantine/core'
+import { Badge, Button, Flex, MultiSelect, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import chroma from 'chroma-js'
@@ -16,6 +16,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import classes from './WarpCalculatorTab.module.css'
 import { precisionRound } from 'lib/utils/mathUtils'
+
+const HEADER_LABEL_GAP = 4
 
 export function WarpCalculatorTab() {
   const { t } = useTranslation('warpCalculatorTab')
@@ -98,8 +100,8 @@ function Inputs() {
   }, [form])
 
   return (
-    <div style={{ width: 900 }}>
-      <Paper style={{ width: 900 }} p="xl" withBorder>
+    <div style={{ width: 930 }}>
+      <Paper style={{ width: 930 }} p="xl" withBorder>
         <Flex style={{ marginBottom: 30 }}>
           <Flex direction="column" flex={1}>
             <Title>
@@ -111,20 +113,27 @@ function Inputs() {
             <Flex direction="column" gap={16}>
               <Flex gap={25} justify='space-between'>
                 <Flex align='flex-end' gap={8} flex={1}>
-                  <Flex direction="column">
+                  <Flex direction="column" gap={HEADER_LABEL_GAP}>
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
                     <NumberInput
                       placeholder='0'
                       min={0}
                       style={{ width: '100%' }}
                       hideControls
-                      leftSection={<img src={Assets.getJade()} style={{ height: 24 }}/>}
+                      leftSection={
+                        <Flex align='center' justify='center' w='100%' h='60%' pl={2} style={{ borderRight: '1px solid #444' }}>
+                          <img src={Assets.getJade()} style={{ height: 24 }}/>
+                        </Flex>
+                      }
+                      leftSectionWidth={34}
+                      leftSectionPointerEvents='none'
+                      styles={{ input: { paddingLeft: 42 } }}
                       {...form.getInputProps('jades')}
                     />
                   </Flex>
                 </Flex>
 
-                <Flex direction="column" flex={1}>
+                <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
                   <HeaderText>{t('Banner')/* Banner */}</HeaderText>
                   <SegmentedControl
                     fullWidth
@@ -140,20 +149,27 @@ function Inputs() {
 
               <Flex gap={25}>
                 <Flex align='flex-end' gap={8} flex={1}>
-                  <Flex direction="column">
+                  <Flex direction="column" gap={HEADER_LABEL_GAP}>
                     <HeaderText>{t('Passes')/* Passes */}</HeaderText>
                     <NumberInput
                       placeholder='0'
                       min={0}
                       style={{ width: '100%' }}
                       hideControls
-                      leftSection={<img src={Assets.getPass()} style={{ height: 24 }}/>}
+                      leftSection={
+                        <Flex align='center' justify='center' w='100%' h='60%' pl={2} style={{ borderRight: '1px solid #444' }}>
+                          <img src={Assets.getPass()} style={{ height: 24 }}/>
+                        </Flex>
+                      }
+                      leftSectionWidth={34}
+                      leftSectionPointerEvents='none'
+                      styles={{ input: { paddingLeft: 42 } }}
                       {...form.getInputProps('passes')}
                     />
                   </Flex>
                 </Flex>
 
-                <Flex direction="column" flex={1}>
+                <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
                   <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
                   <Select
                     data={generateStrategyOptions()}
@@ -166,35 +182,28 @@ function Inputs() {
               </Flex>
 
               <Flex gap={25}>
-                <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
+                <Flex direction="column" gap={HEADER_LABEL_GAP} style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
 
-                  <Flex>
-                    <TextInput
-                      disabled
-                      style={{
-                        width: 36,
-                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                        cursor: 'auto',
-                        backgroundImage: `url(${Assets.getStarlight()})`,
-                        backgroundSize: '24px',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                      }}
-                    />
-                    <Select
-                      style={{ flex: 1 }}
-                      data={generateStarlightOptions()}
-                      comboboxProps={{ keepMounted: false, width: 'fit-content' }}
-                      value={form.getValues().starlight}
-                      onChange={(val) => {
-                        if (val != null) form.setFieldValue('starlight', val as StarlightRefund)
-                      }}
-                    />
-                  </Flex>
+                  <Select
+                    leftSection={
+                      <Flex align='center' justify='center' w='100%' h='60%' pl={2} style={{ borderRight: '1px solid #444' }}>
+                        <img src={Assets.getStarlight()} style={{ height: 24 }}/>
+                      </Flex>
+                    }
+                    leftSectionWidth={34}
+                    leftSectionPointerEvents='none'
+                    styles={{ input: { paddingLeft: 42 } }}
+                    data={generateStarlightOptions()}
+                    comboboxProps={{ keepMounted: false, width: 'fit-content' }}
+                    value={form.getValues().starlight}
+                    onChange={(val) => {
+                      if (val != null) form.setFieldValue('starlight', val as StarlightRefund)
+                    }}
+                  />
                 </Flex>
 
-                <Flex direction="column" style={{ width: 0, flex: 1, overflow: 'hidden' }}>
+                <Flex direction="column" gap={HEADER_LABEL_GAP} style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <MultiSelect
                     placeholder='None'
@@ -210,7 +219,7 @@ function Inputs() {
             </Flex>
           </Flex>
 
-          <VerticalDivider width={40}/>
+          <VerticalDivider width={30}/>
 
           <Flex direction="column" flex={1} justify='space-between'>
             <Flex direction="column">
@@ -354,7 +363,7 @@ function Results() {
                   })}%`}
                 </Table.Td>
                 <Table.Td style={{ textAlign: 'center' }}>
-                  <Flex align='center' justify='center' gap={4}>
+                  <Flex align='center' justify='center' gap={HEADER_LABEL_GAP}>
                     {`${Math.ceil(record.warps)}`}
                     <img style={{ height: 16, opacity: opacity(record.wins) }} src={Assets.getPass()}/>
                   </Flex>
@@ -388,7 +397,7 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
 
   return (
     <Flex gap={25} w='100%'>
-      <Flex direction="column" flex={1}>
+      <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 
         <NumberInput
@@ -398,7 +407,7 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
           {...form.getInputProps(pityField)}
         />
       </Flex>
-      <Flex direction="column" flex={1} style={{ display: bannerRotation === BannerRotation.RERUN ? 'flex' : 'none' }}>
+      <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP} style={{ display: bannerRotation === BannerRotation.RERUN ? 'flex' : 'none' }}>
         <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
 
         <Select
@@ -414,13 +423,13 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
           }}
         />
       </Flex>
-      <Flex direction="column" flex={1}>
+      <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
         <HeaderText>{t('PityCounter.Guaranteed')/* Guaranteed */}</HeaderText>
         <SegmentedControl
           fullWidth
           data={[
-            { label: <IconCheck/>, value: 'true' },
-            { label: <IconX/>, value: 'false' },
+            { label: <Flex align='center' justify='center'><IconCheck size={18}/></Flex>, value: 'true' },
+            { label: <Flex align='center' justify='center'><IconX size={18}/></Flex>, value: 'false' },
           ]}
           value={String(form.getValues()[guaranteedField] ?? false)}
           onChange={(val) => form.setFieldValue(guaranteedField, (val === 'true') as never)}

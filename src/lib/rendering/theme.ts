@@ -86,6 +86,9 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
           size: 'xs',
           withItemsBorders: false,
         },
+        styles: {
+          root: { height: 30 },
+        },
       },
       Button: {
         defaultProps: { size: 'xs' },

@@ -1,3 +1,14 @@
+.warpTable {
+  background-color: var(--panel-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+}
+
+.warpTable thead {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
 .warpRow td {
   height: 45px;
   padding: 0;

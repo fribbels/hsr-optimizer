@@ -1,5 +1,5 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Badge, Button, Flex, MultiSelect, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
+import { Badge, Button, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import chroma from 'chroma-js'
@@ -10,6 +10,7 @@ import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, 
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import type { ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -205,14 +206,15 @@ function Inputs() {
 
                 <Flex direction="column" gap={HEADER_LABEL_GAP} style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
-                  <MultiSelect
+                  <MultiSelectPills
                     placeholder='None'
                     clearable
-                    searchable={false}
+                    size='xs'
+                    maxDisplayedValues={0}
                     data={generateIncomeOptions()}
-                    comboboxProps={{ keepMounted: false, width: 500 }}
-                    styles={{ pill: { display: 'none' } }}
-                    {...form.getInputProps('income')}
+                    dropdownWidth={500}
+                    value={form.getValues().income}
+                    onChange={(val) => form.setFieldValue('income', val)}
                   />
                 </Flex>
               </Flex>
@@ -301,7 +303,7 @@ function Results() {
       </div>
 
       <Flex direction="column" gap={10} w='100%'>
-        <Table style={{ width: '100%' }}>
+        <Table className={classes.warpTable} style={{ width: '100%' }}>
           <Table.Thead>
             <Table.Tr>
               <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('ColumnTitles.Goal')}</Table.Th>

@@ -215,6 +215,12 @@ function Inputs() {
                     dropdownWidth={500}
                     value={form.getValues().income}
                     onChange={(val) => form.setFieldValue('income', val)}
+                    renderOption={(option) => (
+                      <Flex align='center' gap={4}>
+                        <span>{option.label}</span>
+                        <img src={Assets.getPass()} style={{ height: 16 }}/>
+                      </Flex>
+                    )}
                   />
                 </Flex>
               </Flex>

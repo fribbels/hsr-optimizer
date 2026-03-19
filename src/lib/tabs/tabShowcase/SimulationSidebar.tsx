@@ -26,7 +26,7 @@ export function SimulationSidebar({
         <Button
           className={styles.toggleButton}
           onClick={onToggle}
-          variant="filled"
+          variant="default"
           style={{ width: 80, height: 40, margin: '0 8px' }}
         >
           <IconFlask size={28} />
@@ -38,12 +38,15 @@ export function SimulationSidebar({
                 return (
                   <Flex key="custom" justify="center" align="center">
                     <Button
+                      className={styles.customPresetButton}
                       variant="transparent"
                       p={0}
                       onClick={() => onPresetClick(preset)}
                       style={{ width: 80, height: 80 }}
                     >
-                      <IconEdit size={36} />
+                      <div className={styles.customPresetIcon}>
+                        <IconEdit size={28} />
+                      </div>
                     </Button>
                   </Flex>
                 )

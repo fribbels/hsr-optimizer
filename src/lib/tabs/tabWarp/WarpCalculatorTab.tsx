@@ -428,8 +428,8 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
         <SegmentedControl
           fullWidth
           data={[
-            { label: <Flex align='center' justify='center'><IconCheck size={18}/></Flex>, value: 'true' },
-            { label: <Flex align='center' justify='center'><IconX size={18}/></Flex>, value: 'false' },
+            { label: <IconCheck size={18}/>, value: 'true' },
+            { label: <IconX size={18}/>, value: 'false' },
           ]}
           value={String(form.getValues()[guaranteedField] ?? false)}
           onChange={(val) => form.setFieldValue(guaranteedField, (val === 'true') as never)}

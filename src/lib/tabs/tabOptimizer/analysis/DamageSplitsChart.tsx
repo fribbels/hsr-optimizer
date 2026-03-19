@@ -7,13 +7,12 @@ import {
 import type { DamageSplitEntry } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { localeNumberComma, renderThousandsK } from 'lib/utils/i18nUtils'
 import type { ReactNode } from 'react'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import type { LabelProps } from 'recharts'
 import {
   Bar,
   BarChart,
   LabelList,
-  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
@@ -160,8 +159,9 @@ function dimNumberLeftTick(props: { x: string | number; y: string | number; payl
 
   if (!num) {
     return (
-      <text x={tx} y={y} textAnchor='start' fill={chartColor} fontSize={13} fontWeight={300} dominantBaseline='central'>
-        {payload.value}
+      <text x={tx} y={y} textAnchor='start' fontSize={13} fontWeight={300} dominantBaseline='central'>
+        <tspan fill='transparent'>0. </tspan>
+        <tspan fill={chartColor}>{payload.value}</tspan>
       </text>
     )
   }
@@ -176,8 +176,17 @@ function dimNumberLeftTick(props: { x: string | number; y: string | number; payl
 
 export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
   const [hoveredBar, setHoveredBar] = useState<string | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const tooltipRef = useRef<HTMLDivElement>(null)
 
   const { rows, bars, legendItems } = useMemo(() => flattenData(data), [data])
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!containerRef.current || !tooltipRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    tooltipRef.current.style.left = `${e.clientX - rect.left + 12}px`
+    tooltipRef.current.style.top = `${e.clientY - rect.top - 20}px`
+  }, [])
 
   if (rows.length === 0) {
     return null
@@ -185,57 +194,70 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
 
   const chartHeight = Math.max(200, rows.length * BAR_HEIGHT + CHART_PADDING)
 
+  const tooltipContent = hoveredBar ? renderTooltip(hoveredBar, bars, rows) : null
+
   return (
     <Flex direction="column" align='center' className='pre-font'>
-      <BarChart
-        layout='vertical'
-        data={rows}
-        margin={{ top: 15, right: 60, bottom: 20, left: 25 }}
-        barCategoryGap='10%'
-        width={DAMAGE_SPLITS_CHART_WIDTH}
-        height={chartHeight}
-      >
-        <XAxis
-          type='number'
-          tick={{ fill: chartColor, textRendering: 'geometricPrecision', fontWeight: 300, fontSize: 13 }}
-          tickFormatter={renderThousandsK}
-          width={100}
-        />
-        <YAxis
-          dataKey='name'
-          type='category'
-          axisLine={false}
-          tickLine={false}
-          tick={dimNumberLeftTick}
-          tickMargin={15}
-          width={80}
-        />
-        <Tooltip
-          cursor={false}
-          isAnimationActive={false}
-          content={<CustomTooltip hoveredBar={hoveredBar} bars={bars} />}
-        />
+      <div ref={containerRef} style={{ position: 'relative' }} onMouseMove={handleMouseMove}>
+        <BarChart
+          layout='vertical'
+          data={rows}
+          margin={{ top: 15, right: 60, bottom: 20, left: 25 }}
+          barCategoryGap='10%'
+          width={DAMAGE_SPLITS_CHART_WIDTH}
+          height={chartHeight}
+        >
+          <XAxis
+            type='number'
+            tick={{ fill: chartColor, textRendering: 'geometricPrecision', fontWeight: 300, fontSize: 13 }}
+            tickFormatter={renderThousandsK}
+            width={100}
+          />
+          <YAxis
+            dataKey='name'
+            type='category'
+            axisLine={false}
+            tickLine={false}
+            tick={dimNumberLeftTick}
+            tickMargin={15}
+            width={80}
+          />
 
-        {bars.map((bar, i) => (
-          <Bar
-            key={bar.key}
-            dataKey={bar.key}
-            stackId='a'
-            fill={bar.color}
-            // @ts-expect-error recharts shape typing doesn't support custom shape functions
-            shape={bar.shape}
-            activeBar={false}
-            isAnimationActive={false}
-            onMouseEnter={() => setHoveredBar(bar.key)}
-            onMouseLeave={() => setHoveredBar(null)}
-          >
-            {i === bars.length - 1 && (
-              <LabelList dataKey='total' position='right' content={renderBarLabel} />
-            )}
-          </Bar>
-        ))}
-      </BarChart>
-      <Flex wrap='wrap' justify='center' gap={16} style={{ marginTop: -10 }}>
+          {bars.map((bar, i) => (
+            <Bar
+              key={bar.key}
+              dataKey={bar.key}
+              stackId='a'
+              fill={bar.color}
+              // @ts-expect-error recharts shape typing doesn't support custom shape functions
+              shape={bar.shape}
+              activeBar={false}
+              isAnimationActive={false}
+              onMouseEnter={() => setHoveredBar(bar.key)}
+              onMouseLeave={() => setHoveredBar(null)}
+            >
+              {i === bars.length - 1 && (
+                <LabelList dataKey='total' position='right' content={renderBarLabel} />
+              )}
+            </Bar>
+          ))}
+        </BarChart>
+
+        <div
+          ref={tooltipRef}
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            pointerEvents: 'none',
+            zIndex: 10,
+            visibility: tooltipContent ? 'visible' : 'hidden',
+          }}
+        >
+          {tooltipContent}
+        </div>
+      </div>
+      <Flex wrap='wrap' justify='center' gap={16} style={{ marginTop: -10, paddingBlock: 8 }}>
         {legendItems.map((item) => (
           <Flex key={item.damageType} align='center' gap={6}>
             <div style={{
@@ -252,36 +274,32 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
   )
 }
 
-type TooltipPayloadItem = {
-  dataKey: string
-  value: number
-}
-
-function CustomTooltip(props: {
-  active?: boolean
-  payload?: TooltipPayloadItem[]
-  hoveredBar: string | null
-  bars: FlattenedBar[]
-}) {
-  const { active, payload, hoveredBar, bars } = props
-  if (!active || !payload || !hoveredBar) return null
-
+function renderTooltip(hoveredBar: string, bars: FlattenedBar[], rows: FlatRow[]): ReactNode {
   const barDef = bars.find((b) => b.key === hoveredBar)
-  const dataItem = payload.find((p) => p.dataKey === hoveredBar)
-  if (!barDef || !dataItem) return null
+  if (!barDef) return null
+
+  let value = 0
+  for (const row of rows) {
+    const v = row[hoveredBar]
+    if (typeof v === 'number' && v > 0) {
+      value = v
+      break
+    }
+  }
+  if (!value) return null
 
   return (
     <Flex
       direction="column"
       className='pre-font'
       style={{
-        background: 'var(--panel-bg)',
+        background: 'var(--mantine-color-dark-5)',
         padding: 8,
         borderRadius: 3,
       }}
     >
       <span style={{ fontSize: 14, fontWeight: 'bold' }}>{barDef.label}</span>
-      <span>{localeNumberComma(Math.floor(dataItem.value))}</span>
+      <span>{localeNumberComma(Math.floor(value))}</span>
     </Flex>
   )
 }

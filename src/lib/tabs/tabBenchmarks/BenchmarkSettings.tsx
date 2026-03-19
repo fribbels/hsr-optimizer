@@ -33,9 +33,7 @@ export function BenchmarkSetting({ label, itemName, form, children }: BenchmarkS
   return (
     <Flex align='center' gap={10} justify='space-between'>
       {t(label)}
-      <Flex w={85}>
-        {cloneElement(children, injectedProps)}
-      </Flex>
+      {cloneElement(children, injectedProps)}
     </Flex>
   )
 }

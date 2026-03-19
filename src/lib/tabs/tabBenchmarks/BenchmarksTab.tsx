@@ -5,7 +5,7 @@ import {
   IconTrash,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex, NumberInput, Paper, SegmentedControl, Select } from '@mantine/core'
+import { Button, Combobox, Flex, NumberInput, Paper, SegmentedControl, useCombobox } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import {
@@ -237,10 +237,10 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
         <SpdBenchmarkSetting form={form} />
         <BenchmarkSetting label='ERR' itemName='errRope' form={form}>
-          <SegmentedControl fullWidth data={BOOLEAN_SEGMENTS} />
+          <SegmentedControl fullWidth style={{ width: 80 }} data={BOOLEAN_SEGMENTS} />
         </BenchmarkSetting>
         <BenchmarkSetting label='SubDPS' itemName='subDps' form={form}>
-          <SegmentedControl fullWidth data={BOOLEAN_SEGMENTS} />
+          <SegmentedControl fullWidth style={{ width: 80 }} data={BOOLEAN_SEGMENTS} />
         </BenchmarkSetting>
 
         <CustomHorizontalDivider height={8} />
@@ -283,7 +283,12 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 }
 
 function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
+  const { t } = useTranslation('benchmarksTab', { keyPrefix: 'RightPanel.Settings' })
   const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
+
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  })
 
   const options = useMemo(() => {
     const { categories } = generateSpdPresets(tOptimizerTab)
@@ -291,7 +296,6 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
     return categories.map((category) => {
       const presetOptions = Object.values(category.presets)
         .map((preset) => ({
-          // Optimizer tab has SPD0 as undefined for filters, we want to set it to 0
           value: String(preset.value ?? 0),
           label: String(preset.label),
         }))
@@ -308,24 +312,46 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
   }, [tOptimizerTab])
 
   return (
-    <BenchmarkSetting label='SPD' itemName='basicSpd' form={form}>
-      <NumberInput
-        hideControls
-        style={{ width: '100%' }}
-        rightSection={
-          <Select
-            className={styles.spdSelect}
-            comboboxProps={{ keepMounted: false, width: 'fit-content' }}
-            data={options}
-            maxDropdownHeight={800}
-            value={null}
-            onChange={(value) => {
-              if (value != null) form.setFieldValue('basicSpd', Number(value))
-            }}
+    <Flex align='center' gap={10} justify='space-between'>
+      {t('SPD')}
+      <Combobox
+        store={combobox}
+        onOptionSubmit={(val) => {
+          form.setFieldValue('basicSpd', Number(val))
+          combobox.closeDropdown()
+        }}
+      >
+        <Combobox.Target>
+          <NumberInput
+            hideControls
+            style={{ width: 80 }}
+            rightSection={
+              <Flex align='center' justify='center' w='100%' h='60%' style={{ borderLeft: '1px solid #444' }}>
+                <Combobox.Chevron />
+              </Flex>
+            }
+            rightSectionPointerEvents='none'
+            styles={{ input: { cursor: 'pointer' } }}
+            onClick={() => combobox.toggleDropdown()}
+            {...form.getInputProps('basicSpd')}
           />
-        }
-      />
-    </BenchmarkSetting>
+        </Combobox.Target>
+
+        <Combobox.Dropdown style={{ minWidth: 'max-content' }}>
+          <Combobox.Options mah={800} style={{ overflowY: 'auto' }}>
+            {combobox.dropdownOpened && options.map((group) => (
+              <Combobox.Group key={group.group} label={group.group}>
+                {group.items.map((opt) => (
+                  <Combobox.Option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </Combobox.Option>
+                ))}
+              </Combobox.Group>
+            ))}
+          </Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+    </Flex>
   )
 }
 

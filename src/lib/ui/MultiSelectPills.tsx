@@ -26,6 +26,8 @@ export function MultiSelectPills({
   maxDisplayedValues = 2,
   dropdownWidth,
   style,
+  leftSection,
+  leftSectionWidth,
   rightSection,
   renderOption,
   size,
@@ -43,6 +45,8 @@ export function MultiSelectPills({
   maxDisplayedValues?: number
   dropdownWidth?: number | string
   style?: CSSProperties
+  leftSection?: ReactNode
+  leftSectionWidth?: number
   rightSection?: ReactNode
   renderOption?: (option: SimpleOption, active: boolean) => ReactNode
   size?: MantineSize
@@ -62,10 +66,11 @@ export function MultiSelectPills({
       paddingBottom: 0,
       display: 'flex',
       alignItems: 'center',
+      ...(leftSectionWidth != null ? { paddingLeft: leftSectionWidth + 4 } : {}),
       ...((styles as Record<string, CSSProperties>)?.input),
     }
     return { ...styles, input: inputStyle } as PillsInputProps['styles']
-  }, [compactHeight, styles])
+  }, [compactHeight, leftSectionWidth, styles])
 
   const combobox = useCombobox({
     onDropdownClose: () => {
@@ -117,14 +122,12 @@ export function MultiSelectPills({
     const active = value.includes(opt.value)
     return (
       <Combobox.Option value={opt.value} key={opt.value} active={active}>
-        {renderOption
-          ? renderOption(opt, active)
-          : (
-            <Group gap="sm" justify="space-between">
-              <span>{opt.label}</span>
-              {active && <CheckIcon size={12} />}
-            </Group>
-          )}
+        <Group gap="sm" justify="space-between" wrap="nowrap">
+          {renderOption
+            ? renderOption(opt, active)
+            : <span>{opt.label}</span>}
+          {active && <CheckIcon size={12} />}
+        </Group>
       </Combobox.Option>
     )
   }
@@ -148,7 +151,7 @@ export function MultiSelectPills({
     return flatOptions.filter(matchesSearch).map(renderOptionItem)
   }
 
-  const showClear = clearable && value.length > 0 && !rightSection
+  const showClear = clearable && value.length > 0
 
   return (
     <Combobox store={combobox} onOptionSubmit={handleValueSelect} width={dropdownWidth}>
@@ -159,6 +162,8 @@ export function MultiSelectPills({
           className={className}
           styles={heightStyles}
           onClick={() => combobox.toggleDropdown()}
+          leftSection={leftSection}
+          leftSectionWidth={leftSectionWidth}
           rightSection={
             showClear
               ? <CloseButton size="sm" onMouseDown={(e) => e.preventDefault()} onClick={(e) => { e.stopPropagation(); onChange([]) }} />

@@ -342,24 +342,20 @@ function Results() {
                 key={record.key}
                 className={`${classes.warpRow} ${record.wins < chanceThreshold ? 'warp-table-row-disabled' : ''}`}
               >
-                <Table.Td style={{ textAlign: 'center', position: 'relative' }}>
-                  <Flex style={{ position: 'relative', marginLeft: 5, height: '100%' }} align='center'>
-                    <div
-                      style={{
-                        display: record.wins < chanceThreshold ? 'none' : 'block',
-                        width: `${record.wins * 100}%`,
-                        borderRadius: 4,
-                        position: 'absolute',
-                        height: '100%',
-                        backgroundColor: chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])(record.wins).hex(),
-                        zIndex: 1,
-                      }}
-                    />
-                    <Flex style={{ width: '100%', zIndex: 2 }} justify='center' align='center'>
-                      <Badge color='#000000aa' style={{ opacity: opacity(record.wins), border: 0, padding: '2px 12px 2px 12px' }}>
-                        <div style={{ margin: 0, alignItems: 'center' }}>
-                          {translateLabel(record.key)}
-                        </div>
+                <Table.Td className={classes.goalCell}>
+                  <Flex className={classes.goalBarOverlay} align='center'>
+                    {record.wins >= chanceThreshold && (
+                      <div
+                        className={classes.goalBar}
+                        style={{
+                          width: `${record.wins * 100}%`,
+                          backgroundColor: chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])(record.wins).hex(),
+                        }}
+                      />
+                    )}
+                    <Flex className={classes.goalContent} justify='center' align='center'>
+                      <Badge color='#000000aa' className={classes.goalBadge} style={{ opacity: opacity(record.wins) }}>
+                        {translateLabel(record.key)}
                       </Badge>
                     </Flex>
                   </Flex>

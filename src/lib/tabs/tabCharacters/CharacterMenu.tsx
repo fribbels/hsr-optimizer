@@ -50,8 +50,9 @@ export function CharacterMenu() {
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          {items.map((group) => (
+          {items.map((group, i) => (
             <Fragment key={group.key}>
+              {i > 0 && <Menu.Divider />}
               <Menu.Label>{group.label}</Menu.Label>
               {group.children.map((child) => (
                 <Menu.Item key={child.key} onClick={() => onClick({ key: child.key })}>
@@ -183,17 +184,6 @@ function generateItems(t: TFunction<'charactersTab'>) {
       ],
     },
     {
-      key: 'scoring group' as const,
-      type: 'group' as const,
-      label: t('CharacterMenu.Scoring.Label'), /* Scoring */
-      children: [
-        {
-          label: t('CharacterMenu.Scoring.Options.ScoringModal'), /* Scoring algorithm */
-          key: 'scoring' as const,
-        },
-      ],
-    },
-    {
       key: 'priority group' as const,
       type: 'group' as const,
       label: t('CharacterMenu.Priority.Label'), /* Priority */
@@ -205,6 +195,17 @@ function generateItems(t: TFunction<'charactersTab'>) {
         {
           label: t('CharacterMenu.Priority.Options.MoveToTop'), /* Move character to top */
           key: 'moveToTop' as const,
+        },
+      ],
+    },
+    {
+      key: 'scoring group' as const,
+      type: 'group' as const,
+      label: t('CharacterMenu.Scoring.Label'), /* Scoring */
+      children: [
+        {
+          label: t('CharacterMenu.Scoring.Options.ScoringModal'), /* Scoring algorithm */
+          key: 'scoring' as const,
         },
       ],
     },

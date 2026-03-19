@@ -100,7 +100,6 @@ export type TraceNode = {
 
 export type DBMetadataCharacter = {
   id: CharacterId,
-  name: string,
   rarity: number,
   path: PathName,
   element: ElementName,

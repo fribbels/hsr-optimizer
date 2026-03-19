@@ -65,6 +65,7 @@ export type ShowcaseTabActions = {
   setFetchResult: (characters: ShowcaseTabCharacter[]) => void
   handleFetchFailure: () => void
   setLatestRefreshDate: (date: Date | null) => void
+  setScreen: (screen: ShowcaseScreen) => void
 
   // Selection
   selectCharacter: (index: number) => void

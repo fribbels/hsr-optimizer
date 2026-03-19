@@ -39,9 +39,12 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabStore>((set, g
   setFetchResult: (characters) => set({
     availableCharacters: characters,
     selectedIndex: 0,
-    screen: ShowcaseScreen.Loaded,
     loading: false,
+    // Screen NOT changed here — API layer controls reveal timing
+    // to allow hidden pre-rendering of ShowcaseLoaded
   }),
+
+  setScreen: (screen) => set({ screen }),
 
   handleFetchFailure: () => set((s) => ({
     loading: false,

@@ -12,6 +12,7 @@ import {
   processMihomoData,
 } from 'lib/tabs/tabShowcase/dataProcessors'
 import { Assets } from 'lib/rendering/assets'
+import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 
 export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
@@ -90,14 +91,27 @@ export function submitForm(form: ShowcaseTabForm) {
         ) => self.map((x) => x.id).indexOf(value.id) === index)
       converted.forEach((x, index) => x.index = index)
 
-      // Preload portrait images
+      // Preload portrait + avatar images
       for (const char of converted) {
-        const img = new Image()
-        img.src = Assets.getCharacterPortraitById(char.id)
+        new Image().src = Assets.getCharacterPortraitById(char.id)
+        new Image().src = Assets.getCharacterAvatarById(char.id)
       }
 
+      // Set data immediately — ShowcaseLoaded mounts hidden behind the loading spinner
+      const wasOnLoadingScreen = useShowcaseTabStore.getState().screen === ShowcaseScreen.Loading
       setFetchResult(converted)
-      Message.success(t('SuccessMsg') /* Successfully loaded profile */)
+
+      if (wasOnLoadingScreen) {
+        // First load — delay lets hidden components pre-render, images cache, and L2D animations initialize
+        setTimeout(() => {
+          useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loaded)
+          Message.success(t('SuccessMsg') /* Successfully loaded profile */)
+        }, 1500)
+      } else {
+        // Re-fetch from Loaded — instant, no delay needed
+        useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loaded)
+        Message.success(t('SuccessMsg') /* Successfully loaded profile */)
+      }
     })
     .catch((error) => {
       setTimeout(() => {

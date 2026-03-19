@@ -49,8 +49,15 @@ import { useShallow } from 'zustand/react/shallow'
 import type { Character } from 'types/character'
 import styles from './ShowcaseTab.module.css'
 
+const PRERENDER_HIDDEN: React.CSSProperties = {
+  visibility: 'hidden',
+  position: 'absolute',
+  pointerEvents: 'none',
+}
+
 export function ShowcaseTab() {
   const screen = useShowcaseTabStore((s) => s.screen)
+  const hasData = useShowcaseTabStore((s) => !!s.availableCharacters?.length)
 
   useEffect(() => initializeShowcaseOnMount(), [])
 
@@ -69,7 +76,13 @@ export function ShowcaseTab() {
 
       {screen === ShowcaseScreen.Landing && <ShowcaseLanding />}
       {screen === ShowcaseScreen.Loading && <ShowcaseLoading />}
-      {screen === ShowcaseScreen.Loaded && <ShowcaseLoaded />}
+
+      {/* Mount ShowcaseLoaded when data exists — hidden during Loading for pre-render */}
+      {hasData && (
+        <div style={screen !== ShowcaseScreen.Loaded ? PRERENDER_HIDDEN : undefined}>
+          <ShowcaseLoaded />
+        </div>
+      )}
     </Flex>
   )
 }

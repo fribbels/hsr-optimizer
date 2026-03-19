@@ -237,10 +237,10 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
         <SpdBenchmarkSetting form={form} />
         <BenchmarkSetting label='ERR' itemName='errRope' form={form}>
-          <SegmentedControl fullWidth className={styles.inputControl} data={BOOLEAN_SEGMENTS} />
+          <SegmentedControl fullWidth data={BOOLEAN_SEGMENTS} />
         </BenchmarkSetting>
         <BenchmarkSetting label='SubDPS' itemName='subDps' form={form}>
-          <SegmentedControl fullWidth className={styles.inputControl} data={BOOLEAN_SEGMENTS} />
+          <SegmentedControl fullWidth data={BOOLEAN_SEGMENTS} />
         </BenchmarkSetting>
 
         <CustomHorizontalDivider height={8} />
@@ -311,7 +311,7 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
     <BenchmarkSetting label='SPD' itemName='basicSpd' form={form}>
       <NumberInput
         hideControls
-        className={styles.inputControl}
+        style={{ width: '100%' }}
         rightSection={
           <Select
             className={styles.spdSelect}

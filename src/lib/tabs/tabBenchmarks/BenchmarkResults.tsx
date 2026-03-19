@@ -30,7 +30,7 @@ import {
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
 import { uuid } from 'lib/utils/miscUtils'
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styles from './BenchmarkResults.module.css'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -55,17 +55,17 @@ type BenchmarkRow = {
 
 const PAGE_SIZE = 25
 
-export function BenchmarkResults() {
+export const BenchmarkResults = memo(function BenchmarkResults() {
   const { orchestrators } = useBenchmarksTabStore()
 
-  const { rows100, rows200 } = generateBenchmarkRows(orchestrators)
+  const { rows100, rows200 } = useMemo(() => generateBenchmarkRows(orchestrators), [orchestrators])
 
   return (
     <Flex direction="column" className={styles.resultsContainer}>
       <PercentageTabs dataSource100={rows100} dataSource200={rows200} />
     </Flex>
   )
-}
+})
 
 function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'ResultsGrid' })

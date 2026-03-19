@@ -1,4 +1,5 @@
 import { Flex } from '@mantine/core'
+import { ChartTooltipContainer, ChartTooltipContent, useChartTooltip } from 'lib/tabs/tabOptimizer/analysis/ChartTooltip'
 import {
   chartColor,
   decodeDamageTypeLabel,
@@ -7,7 +8,7 @@ import {
 import type { DamageSplitEntry } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { localeNumberComma, renderThousandsK } from 'lib/utils/i18nUtils'
 import type { ReactNode } from 'react'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { LabelProps } from 'recharts'
 import {
   Bar,
@@ -176,17 +177,9 @@ function dimNumberLeftTick(props: { x: string | number; y: string | number; payl
 
 export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
   const [hoveredBar, setHoveredBar] = useState<string | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const tooltipRef = useRef<HTMLDivElement>(null)
+  const { containerRef, tooltipRef, handleMouseMove } = useChartTooltip()
 
   const { rows, bars, legendItems } = useMemo(() => flattenData(data), [data])
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!containerRef.current || !tooltipRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    tooltipRef.current.style.left = `${e.clientX - rect.left + 12}px`
-    tooltipRef.current.style.top = `${e.clientY - rect.top - 20}px`
-  }, [])
 
   if (rows.length === 0) {
     return null
@@ -243,19 +236,9 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
           ))}
         </BarChart>
 
-        <div
-          ref={tooltipRef}
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            pointerEvents: 'none',
-            zIndex: 10,
-            visibility: tooltipContent ? 'visible' : 'hidden',
-          }}
-        >
+        <ChartTooltipContainer tooltipRef={tooltipRef} visible={!!tooltipContent}>
           {tooltipContent}
-        </div>
+        </ChartTooltipContainer>
       </div>
       <Flex wrap='wrap' justify='center' gap={16} style={{ marginTop: -10, paddingBlock: 8 }}>
         {legendItems.map((item) => (
@@ -289,18 +272,10 @@ function renderTooltip(hoveredBar: string, bars: FlattenedBar[], rows: FlatRow[]
   if (!value) return null
 
   return (
-    <Flex
-      direction="column"
-      className='pre-font'
-      style={{
-        background: 'var(--mantine-color-dark-5)',
-        padding: 8,
-        borderRadius: 3,
-      }}
-    >
+    <ChartTooltipContent>
       <span style={{ fontSize: 14, fontWeight: 'bold' }}>{barDef.label}</span>
       <span>{localeNumberComma(Math.floor(value))}</span>
-    </Flex>
+    </ChartTooltipContent>
   )
 }
 

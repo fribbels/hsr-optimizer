@@ -22,21 +22,21 @@
 }
 
 .comboColumn {
-  text-align: center;
+  text-align: center !important;
   width: 200px;
 }
 
 .deltaColumn {
-  text-align: center;
+  text-align: center !important;
   width: 100px;
 }
 
 .centeredColumn {
-  text-align: center;
+  text-align: center !important;
 }
 
 .setsColumn {
-  text-align: center;
+  text-align: center !important;
   width: 150px;
 }
 

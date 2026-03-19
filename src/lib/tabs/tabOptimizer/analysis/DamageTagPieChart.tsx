@@ -1,4 +1,5 @@
 import { Flex } from '@mantine/core'
+import { ChartTooltipContainer, ChartTooltipContent, useChartTooltip } from 'lib/tabs/tabOptimizer/analysis/ChartTooltip'
 import {
   chartColor,
   extractDamageByTag,
@@ -6,42 +7,24 @@ import {
 import type { DamageTagSlice } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
   Cell,
   Pie,
   PieChart,
-  Tooltip,
 } from 'recharts'
 
 const PIE_SIZE = 260
-
-function CustomTooltip({ active, payload }: {
-  active?: boolean
-  payload?: { payload: DamageTagSlice }[]
-}) {
-  if (!active || !payload?.[0]) return null
-
-  const slice = payload[0].payload
-  return (
-    <Flex
-      direction='column'
-      className='pre-font'
-      style={{ background: 'var(--bg-elevated)', padding: 8, borderRadius: 3 }}
-    >
-      <span style={{ fontSize: 14, fontWeight: 'bold' }}>{slice.label}</span>
-      <span>{localeNumberComma(Math.floor(slice.value))}</span>
-      <span>{`${(slice.percent * 100).toFixed(1)}%`}</span>
-    </Flex>
-  )
-}
 
 export function DamageTagPieChart({ analysis }: {
   analysis: OptimizerResultAnalysis
 }) {
   const { newX, context } = analysis
   const actions = context.rotationActions.length > 0 ? context.rotationActions : context.defaultActions
+
+  const [hoveredSlice, setHoveredSlice] = useState<DamageTagSlice | null>(null)
+  const { containerRef, tooltipRef, handleMouseMove } = useChartTooltip()
 
   const slices = useMemo(
     () => extractDamageByTag(newX, actions),
@@ -71,32 +54,42 @@ export function DamageTagPieChart({ analysis }: {
         Combo Distribution
       </span>
 
-      <PieChart width={PIE_SIZE} height={PIE_SIZE}>
-        <Pie
-          data={slices}
-          dataKey='value'
-          nameKey='label'
-          cx='50%'
-          cy='50%'
-          outerRadius={110}
-          innerRadius={45}
-          cornerRadius={3}
-          startAngle={90}
-          endAngle={-270}
-          stroke='var(--panel-bg)'
-          strokeWidth={2}
-          isAnimationActive={false}
-          style={{ cursor: 'default' }}
-        >
-          {slices.map((slice) => (
-            <Cell key={slice.damageType} fill={slice.color} style={{ cursor: 'default' }} />
-          ))}
-        </Pie>
-        <Tooltip
-          isAnimationActive={false}
-          content={<CustomTooltip />}
-        />
-      </PieChart>
+      <div ref={containerRef} style={{ position: 'relative' }} onMouseMove={handleMouseMove}>
+        <PieChart width={PIE_SIZE} height={PIE_SIZE}>
+          <Pie
+            data={slices}
+            dataKey='value'
+            nameKey='label'
+            cx='50%'
+            cy='50%'
+            outerRadius={110}
+            innerRadius={45}
+            cornerRadius={3}
+            startAngle={90}
+            endAngle={-270}
+            stroke='var(--panel-bg)'
+            strokeWidth={2}
+            isAnimationActive={false}
+            style={{ cursor: 'default' }}
+            onMouseEnter={(_, index) => setHoveredSlice(slices[index])}
+            onMouseLeave={() => setHoveredSlice(null)}
+          >
+            {slices.map((slice) => (
+              <Cell key={slice.damageType} fill={slice.color} style={{ cursor: 'default' }} />
+            ))}
+          </Pie>
+        </PieChart>
+
+        <ChartTooltipContainer tooltipRef={tooltipRef} visible={!!hoveredSlice}>
+          {hoveredSlice && (
+            <ChartTooltipContent>
+              <span style={{ fontSize: 14, fontWeight: 'bold' }}>{hoveredSlice.label}</span>
+              <span>{localeNumberComma(Math.floor(hoveredSlice.value))}</span>
+              <span>{`${(hoveredSlice.percent * 100).toFixed(1)}%`}</span>
+            </ChartTooltipContent>
+          )}
+        </ChartTooltipContainer>
+      </div>
 
       <table style={{
         alignSelf: 'stretch',

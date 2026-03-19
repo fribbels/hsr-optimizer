@@ -44,6 +44,7 @@ import {
   WHOLE_ELATION_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -498,7 +499,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.TENGOKU_SET,
+  ],
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),

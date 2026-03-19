@@ -21,7 +21,7 @@ import {
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { RelicModalController } from 'lib/overlays/modals/relicModalController'
+import { RelicModalController } from 'lib/overlays/modals/relicModal/relicModalController'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import {
   RelicScorer,

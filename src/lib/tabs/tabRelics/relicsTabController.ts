@@ -8,7 +8,7 @@ import {
 import i18next from 'i18next'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
-import { RelicModalController } from 'lib/overlays/modals/relicModalController'
+import { RelicModalController } from 'lib/overlays/modals/relicModal/relicModalController'
 import { type ScoredRelic } from 'lib/relics/scoreRelics'
 import { SaveState } from 'lib/state/saveState'
 import * as equipmentService from 'lib/services/equipmentService'

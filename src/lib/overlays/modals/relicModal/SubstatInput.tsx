@@ -11,7 +11,7 @@ import {
 import type {
   RelicForm,
   RelicUpgradeValues,
-} from 'lib/overlays/modals/relicModalController'
+} from './relicModalTypes'
 import { Assets } from 'lib/rendering/assets'
 import {
   localeNumber,
@@ -43,13 +43,15 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
 
   const handleFocus = () => {
     if (inputRef.current) {
-      inputRef.current.select() // Select the entire text when focused
+      inputRef.current.select()
     }
   }
 
   function upgradeClicked(quality: 'low' | 'mid' | 'high') {
-    relicForm.setFieldValue(statValueField, upgrades[index][quality] as any)
-    relicForm.setFieldValue(isPreviewField, false as any)
+    const upgradeValue = upgrades[index][quality]
+    if (upgradeValue == null) return
+    relicForm.setFieldValue(statValueField, String(upgradeValue))
+    relicForm.setFieldValue(isPreviewField, false as RelicForm[typeof isPreviewField])
     resetUpgradeValues()
     plusThree()
   }
@@ -69,18 +71,17 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
     }))
   }, [tStats])
 
-
   function PreviewToggle() {
     const onClick = () => {
       if (isPreview) {
-        relicForm.setFieldValue(isPreviewField, false as any)
-        relicForm.setFieldValue(statValueField, isPreview as any)
+        relicForm.setFieldValue(isPreviewField, false as RelicForm[typeof isPreviewField])
+        relicForm.setFieldValue(statValueField, String(isPreview))
         resetUpgradeValues()
       } else {
         const value = relicForm.getValues()[statValueField]
         if (value === '0' || !value) return
-        relicForm.setFieldValue(isPreviewField, value as any)
-        relicForm.setFieldValue(statValueField, '0' as any)
+        relicForm.setFieldValue(isPreviewField, value as unknown as RelicForm[typeof isPreviewField])
+        relicForm.setFieldValue(statValueField, '0')
         resetUpgradeValues()
       }
     }
@@ -92,7 +93,7 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
   }
 
   function UpgradeButton(subProps: {
-    quality: 'low' | 'mid' | 'high',
+    quality: 'low' | 'mid' | 'high'
   }) {
     const value = upgrades?.[index]?.[subProps.quality]
 
@@ -101,9 +102,9 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
     const displayValue = formatStat(value)
 
     return (
-      <Flex w='100%'>
+      <Flex w="100%">
         <Button
-          variant='default'
+          variant="default"
           style={{ width: '100%', padding: 0 }}
           onClick={() => upgradeClicked(subProps.quality)}
           disabled={value === undefined}
@@ -124,11 +125,11 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
           options={substatOptionsMemoized}
           value={stat ?? null}
           onChange={(val) => {
-            relicForm.setFieldValue(statTypeField, val as any)
+            relicForm.setFieldValue(statTypeField, val as RelicForm[typeof statTypeField])
             if (val) {
-              relicForm.setFieldValue(statValueField, '0' as any)
+              relicForm.setFieldValue(statValueField, '0')
             } else {
-              relicForm.setFieldValue(statValueField, undefined as any)
+              relicForm.setFieldValue(statValueField, undefined as RelicForm[typeof statValueField])
             }
             resetUpgradeValues()
           }}
@@ -140,7 +141,7 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
 
         <Tooltip
           label={stat === Stats.SPD ? t('SpdInputWarning') : ''}
-          position='top'
+          position="top"
           events={{ hover: false, focus: true, touch: false }}
         >
           <TextInput
@@ -148,7 +149,7 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
             ref={inputRef}
             onFocus={handleFocus}
             style={{ width: 80 }}
-            {...relicForm.getInputProps(statValueField)}
+            value={relicForm.getValues()[statValueField] ?? ''}
             onChange={(e) => {
               relicForm.setFieldValue(statValueField, e.currentTarget.value)
               resetUpgradeValues()
@@ -158,14 +159,14 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
         </Tooltip>
       </Flex>
 
-      <Flex align='center' justify='center' h='100%'>
+      <Flex align="center" justify="center" h="100%">
         <PreviewToggle />
       </Flex>
 
       <Flex gap={5}>
-        <UpgradeButton quality='low' />
-        <UpgradeButton quality='mid' />
-        <UpgradeButton quality='high' />
+        <UpgradeButton quality="low" />
+        <UpgradeButton quality="mid" />
+        <UpgradeButton quality="high" />
       </Flex>
     </div>
   )

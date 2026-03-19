@@ -32,7 +32,7 @@ import { clone } from 'lib/utils/objectUtils'
 import { memo, useMemo } from 'react'
 import { useProgressivePhase } from 'lib/characterPreview/useProgressivePhase'
 import { Trans, useTranslation } from 'react-i18next'
-import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
+import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { type CharacterId } from 'types/character'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
 

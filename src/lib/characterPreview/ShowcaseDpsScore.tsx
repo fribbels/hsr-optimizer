@@ -266,7 +266,7 @@ function createOnCharacterModalOk(
 
     const update = { teammates: simulation?.teammates.map((tm, idx) => idx === selectedTeammateIndex ? form : tm) }
 
-    const setTeamSelectionByCharacter = useShowcaseTabStore.getState().setShowcaseTeamPreferenceById
+    const setTeamSelectionByCharacter = useShowcaseTabStore.getState().setShowcaseTeamPreference
     useScoringStore.getState().updateSimulationOverrides(characterId, update)
     SaveState.delayedSave()
     setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
@@ -284,7 +284,7 @@ function ShowcaseTeamSelectPanel({
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
-  const setTeamSelectionByCharacter = useShowcaseTabStore((s) => s.setShowcaseTeamPreferenceById)
+  const setTeamSelectionByCharacter = useShowcaseTabStore((s) => s.setShowcaseTeamPreference)
 
   const tabsDisplay = (
     <SegmentedControl

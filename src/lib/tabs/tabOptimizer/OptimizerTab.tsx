@@ -9,7 +9,7 @@ import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/Optimize
 import { OptimizerForm } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { Sidebar } from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
-import { DPSScoreDisclaimer } from 'lib/tabs/tabShowcase/ShowcaseTab'
+import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { useGlobalStore } from 'lib/stores/appStore'
 
 export function OptimizerTab() {

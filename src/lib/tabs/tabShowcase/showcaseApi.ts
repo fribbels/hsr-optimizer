@@ -19,27 +19,25 @@ export const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.
 const THROTTLE_SECONDS = 10
 
 export type ShowcaseTabForm = {
-  scorerId: string | null,
+  scorerId: string | null
 }
 
 export function submitForm(form: ShowcaseTabForm) {
   if (!form.scorerId) return
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
   const {
-    setSelectedCharacter,
-    setAvailableCharacters,
     latestRefreshDate,
     setLatestRefreshDate,
-    setLoading,
-    loading,
+    startFetch,
+    setFetchResult,
+    handleFetchFailure,
     setScorerId,
   } = useShowcaseTabStore.getState()
 
-  console.log('scorerId:', form.scorerId)
   const id = form.scorerId.trim()
 
-  if (id.length != 9) {
-    setLoading(false)
+  if (id.length !== 9) {
+    handleFetchFailure()
     Message.error(t('InvalidIdWarning') /* Invalid ID */)
     return
   }
@@ -48,13 +46,11 @@ export function submitForm(form: ShowcaseTabForm) {
     Message.warning(t('ThrottleWarning', /* Please wait {{seconds}} seconds before retrying */ {
       seconds: Math.max(1, Math.ceil(THROTTLE_SECONDS - (new Date().getTime() - latestRefreshDate.getTime()) / 1000)),
     }))
-    if (loading) {
-      setLoading(false)
-    }
+    handleFetchFailure()
     return
   }
 
-  setLoading(true)
+  startFetch()
   setLatestRefreshDate(new Date())
   setTimeout(() => {
     setLatestRefreshDate(null)
@@ -71,8 +67,6 @@ export function submitForm(form: ShowcaseTabForm) {
       return response.json() as Promise<APIResponse>
     })
     .then((data) => {
-      console.log(data)
-
       let characters: UnconvertedCharacter[]
       // backup
       if (data.source === 'mihomo') {
@@ -81,12 +75,10 @@ export function submitForm(form: ShowcaseTabForm) {
       } else if (data.source === 'enka') {
         characters = processEnkaData(data)
       } else {
-        setLoading(false)
+        handleFetchFailure()
         Message.error(t('IdLoadError') /* Error loading ID */)
         return
       }
-
-      console.log('characters', characters)
 
       // Remove duplicate characters (the same character can be placed in both one of the first 3 slots and one of the latter 5)
       const converted = characters
@@ -98,22 +90,20 @@ export function submitForm(form: ShowcaseTabForm) {
         ) => self.map((x) => x.id).indexOf(value.id) === index)
       converted.forEach((x, index) => x.index = index)
 
-      setAvailableCharacters(converted)
+      // Preload portrait images
       for (const char of converted) {
         const img = new Image()
         img.src = Assets.getCharacterPortraitById(char.id)
       }
-      if (converted.length) {
-        setSelectedCharacter(converted[0])
-      }
-      setLoading(false)
+
+      setFetchResult(converted)
       Message.success(t('SuccessMsg') /* Successfully loaded profile */)
     })
     .catch((error) => {
       setTimeout(() => {
         Message.warning(t('LookupError') /* Error during lookup, please try again in a bit */)
         console.error('Fetch error:', error)
-        setLoading(false)
+        handleFetchFailure()
       }, 1000 * 5)
     })
 }

@@ -40,7 +40,7 @@ import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimiz
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { clone } from 'lib/utils/objectUtils'
+import { getSelectedCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import React, {
   memo,
@@ -84,6 +84,9 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
     const showcaseDarkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
     const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
     const showcasePreciseSpd = useGlobalStore((s) => s.savedSession.showcasePreciseSpd)
+    const spdBenchmark = useShowcaseTabStore(
+      (s) => s.showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark
+    )
     const scoringMetadata = useScoringMetadata(characterId)
     const spdValue = scoringMetadata.stats[Stats.SPD]
     const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
@@ -144,15 +147,8 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
     }
 
     function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
-      const showcaseTemporaryOptionsByCharacter = clone(useShowcaseTabStore.getState().showcaseTemporaryOptionsByCharacter)
-      if (!showcaseTemporaryOptionsByCharacter[characterId]) showcaseTemporaryOptionsByCharacter[characterId] = {}
-
-      // -1 is used as the "current" setting
       const actualValue = spdBenchmark === -1 ? undefined : spdBenchmark
-
-      showcaseTemporaryOptionsByCharacter[characterId].spdBenchmark = actualValue
-
-      useShowcaseTabStore.getState().setShowcaseTemporaryOptionsByCharacter(showcaseTemporaryOptionsByCharacter)
+      useShowcaseTabStore.getState().setSpdBenchmark(characterId, actualValue)
     }
 
     function onTraceClick() {
@@ -267,7 +263,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
                 <NumberInput
                   hideControls
                   style={{ width: '100%' }}
-                  value={sanitizePositiveNumberElseUndefined(useShowcaseTabStore.getState().showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)}
+                  value={sanitizePositiveNumberElseUndefined(spdBenchmark)}
                   rightSection={
                     <SelectSpdPresets
                       spdFilter={scoringResult?.originalSpd}
@@ -475,7 +471,7 @@ function getActiveCharacterName() {
       charId = useCharacterTabStore.getState().focusCharacter
       break
     case AppPages.SHOWCASE:
-      charId = useShowcaseTabStore.getState().selectedCharacter?.id
+      charId = getSelectedCharacter()?.id
       break
     default:
       return

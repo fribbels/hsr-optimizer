@@ -1,4 +1,4 @@
-import type { DependencyList } from 'react'
+import type { DependencyList, SyntheticEvent } from 'react'
 import { useEffect } from 'react'
 
 // --- Debounce (from debounceUtils.ts) ---
@@ -71,6 +71,12 @@ export function sleep(ms: number): Promise<void> {
  */
 export function afterPaint(callback: () => void) {
   requestAnimationFrame(() => requestAnimationFrame(callback))
+}
+
+// --- Images ---
+
+export function showImageOnLoad(e: SyntheticEvent<HTMLImageElement>) {
+  e.currentTarget.style.opacity = '1'
 }
 
 // --- Events ---

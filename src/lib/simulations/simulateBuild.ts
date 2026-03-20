@@ -8,6 +8,7 @@ import type { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
+import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
   calculateBaseStats,
   calculateBasicEffects,
@@ -125,7 +126,7 @@ export function simulateBuild(
     const action = context.rotationActions[i]
     x.setConfig(action.config)
 
-    action.conditionalState = {}
+    resetConditionalState(action)
 
     x.setPrecompute(action.precomputedStats.a)
 
@@ -173,7 +174,7 @@ export function simulateBuild(
     const action = context.defaultActions[i]
     x.setConfig(action.config)
 
-    action.conditionalState = {}
+    resetConditionalState(action)
 
     x.setPrecompute(action.precomputedStats.a)
 

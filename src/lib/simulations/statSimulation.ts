@@ -6,6 +6,7 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
+import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import { StatCalculator } from 'lib/relics/statCalculator'
@@ -58,7 +59,7 @@ export function runStatSimulations(
   const forcedBasicSpd = params.simulationFlags.benchmarkBasicSpdTarget
   const simulationResults: RunStatSimulationsResult[] = []
   for (const action of context.allActions) {
-    action.conditionalState = {}
+    resetConditionalState(action)
   }
 
   const container = trace ? null : cachedComputedStatsContainer

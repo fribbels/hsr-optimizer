@@ -1,4 +1,5 @@
 import { type ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
+import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
@@ -34,7 +35,7 @@ export function calculateContextConditionalRegistry(
   registerTeammateConditionals(conditionalRegistry, context.teammate2Metadata, action, 2)
 
   action.conditionalRegistry = conditionalRegistry
-  action.conditionalState = {}
+  resetConditionalState(action)
 }
 
 function registerTeammateConditionals(

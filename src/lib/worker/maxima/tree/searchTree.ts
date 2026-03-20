@@ -1,4 +1,4 @@
-import { PriorityQueue } from '@js-sdsl/priority-queue'
+import { MinQueue } from 'lib/worker/maxima/tree/minQueue'
 import { SubStats } from 'lib/constants/constants'
 import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import {
@@ -52,8 +52,9 @@ export interface TreeStatNode extends ProtoTreeStatNode {
 export class SearchTree {
   public config: TreeConfig
   public root: ProtoTreeStatNode
-  public damageQueue: PriorityQueue<ProtoTreeStatNode>
-  public volumeQueue: PriorityQueue<ProtoTreeStatNode>
+  public damageQueue: MinQueue
+  public volumeQueue: MinQueue
+  public nodeStore: ProtoTreeStatNode[] = []
 
   public nodeId = 0
   public measurements = 0
@@ -118,8 +119,11 @@ export class SearchTree {
       this.damageFunctionBuffer[stat] = 0
     }
 
-    this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
-    this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.logVolume * b.damage - a.logVolume * a.damage)
+    // Capacity: each iteration pushes up to 4 nodes (2 evaluates × 2 children),
+    // plus scanPointNeighbors can push extras. 100K is safe for all dimension configs.
+    const queueCapacity = 100_000
+    this.damageQueue = new MinQueue(queueCapacity)
+    this.volumeQueue = new MinQueue(queueCapacity)
 
     this.maxStatRollsPerPiece = this.targetSum === 54 ? 6 : 5
 
@@ -165,12 +169,13 @@ export class SearchTree {
     return this.bestNode!.representative!
   }
 
-  public evaluate(queue: PriorityQueue<ProtoTreeStatNode>) {
-    const node = queue.pop()
-    if (node == null) {
+  public evaluate(queue: MinQueue) {
+    const key = queue.pop()
+    if (key == null) {
       this.completed = true
       return
     }
+    const node = this.nodeStore[key]
     if (node.evaluated) {
       return
     }
@@ -246,9 +251,7 @@ export class SearchTree {
     this.calculateDamage(childNode)
     this.calculateVolume(childNode)
     this.trackBestDamage(childNode)
-
-    this.damageQueue.push(childNode)
-    this.volumeQueue.push(childNode)
+    this.enqueue(childNode)
 
     return childNode
   }
@@ -465,9 +468,7 @@ export class SearchTree {
     this.calculateVolume(rootNode)
     this.calculateDamage(rootNode)
     this.trackBestDamage(rootNode)
-
-    this.damageQueue.push(rootNode)
-    this.volumeQueue.push(rootNode)
+    this.enqueue(rootNode)
 
     return rootNode
   }
@@ -516,6 +517,13 @@ export class SearchTree {
     node.volume = volume
     node.logVolume = Math.log(volume)
     return volume
+  }
+
+  private enqueue(node: ProtoTreeStatNode) {
+    this.nodeStore[node.nodeId] = node
+    // Negate priorities for max-heap behavior in a min-heap
+    this.damageQueue.push(node.nodeId, -node.damage)
+    this.volumeQueue.push(node.nodeId, -(node.logVolume * node.damage))
   }
 
   public scanPointNeighbors(centerPoint: Float32Array) {
@@ -576,9 +584,7 @@ export class SearchTree {
     this.calculateVolume(childNode)
     this.calculateDamage(childNode)
     this.trackBestDamage(childNode)
-
-    this.damageQueue.push(childNode)
-    this.volumeQueue.push(childNode)
+    this.enqueue(childNode)
 
     return childNode
   }

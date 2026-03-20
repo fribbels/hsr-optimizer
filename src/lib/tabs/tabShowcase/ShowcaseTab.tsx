@@ -103,7 +103,7 @@ function RedirectToHome() {
   useEffect(() => {
     // Don't redirect if there's a UID in the URL or a saved session —
     // initializeShowcaseOnMount will handle transitioning to Loading
-    const urlId = new URL(window.location.href).searchParams.get('id')
+    const urlId = window.location.hash.split('id=')[1]?.split('&')[0]
     if (urlId || savedScorerId) return
 
     useGlobalStore.getState().setActiveKey(AppPages.HOME)

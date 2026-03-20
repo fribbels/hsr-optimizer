@@ -37,27 +37,40 @@
 .headerTitle {
   margin-top: 50px;
   font-size: 50px;
-  color: white;
-  text-shadow: #000000 2px 2px 20px;
-  text-align: center;
   font-family: Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
+  color: white;
+  text-shadow:
+    1px 1px 0 rgba(0, 0, 0, 0.8),
+    -1px -1px 0 rgba(0, 0, 0, 0.8),
+    1px -1px 0 rgba(0, 0, 0, 0.8),
+    -1px 1px 0 rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(0, 0, 0, 0.7),
+    0 2px 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  line-height: 1.2;
 }
 
 .searchBarContainer {
-  width: 700px;
-  height: 115px;
-  padding: 20px;
+  width: 750px;
+  height: 135px;
+  padding: 26px;
+  background-color: rgba(12, 12, 24, 0.70);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .searchBarLabel {
   padding-left: 3px;
   padding-bottom: 5px;
-  font-size: 17px;
+  font-size: 18px;
   text-shadow: rgb(0, 0, 0) 2px 2px 20px, rgb(0, 0, 0) 0px 0px 5px;
 }
 
 .searchBarApi {
-  font-size: 16px;
+  font-size: 15px;
   opacity: 0.8;
   margin-right: 2px;
 }

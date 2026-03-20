@@ -14,6 +14,7 @@ import classes from './HeroHeader.module.css'
 
 export function HeroHeader() {
   const { t } = useTranslation('hometab')
+
   return (
     <div className={classes.container}>
       <div
@@ -61,10 +62,10 @@ function SearchBar() {
   return (
     <Flex
       direction="column"
-      className={`homeCard ${classes.searchBarContainer}`}
+      className={classes.searchBarContainer}
       align='center'
       justify='center'
-      gap={5}
+      gap={8}
     >
       <Flex justify='space-between' w='100%'>
         <Flex className={classes.searchBarLabel}>

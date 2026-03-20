@@ -1,19 +1,14 @@
 import {
   IconChevronRight,
   IconExternalLink,
-  IconSearch,
 } from '@tabler/icons-react'
-import { Accordion, Button, Divider, Flex, Paper, TextInput } from '@mantine/core'
+import { Accordion, Button, Divider, Flex, Paper } from '@mantine/core'
 import i18next from 'i18next'
-import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import { useGlobalStore } from 'lib/stores/appStore'
-import { AppPages } from 'lib/constants/appPages'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import { HeroHeader } from 'lib/ui/HeroHeader'
 import { type Languages } from 'lib/utils/i18nUtils'
-import { validateUuid } from 'lib/utils/miscUtils'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import classes from './HomeTab.module.css'
 import {
   Trans,
@@ -29,8 +24,7 @@ export function HomeTab() {
       className={classes.rootContainer}
       align='center'
     >
-      <HeaderImage />
-      <Header />
+      <HeroHeader />
       <ContentCollapse />
     </Flex>
   )
@@ -113,17 +107,6 @@ function ContentCollapse() {
         </Accordion.Item>
       ))}
     </Accordion>
-  )
-}
-
-function HeaderImage() {
-  return (
-    <div
-      className={classes.headerImage}
-      style={{
-        '--home-bg-image': `url(${Assets.getHomeBackground('evernight')})`,
-      } as React.CSSProperties}
-    />
   )
 }
 
@@ -216,87 +199,6 @@ function FeaturesCollapse() {
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/relics-tab.md'
           />
         </Flex>
-      </Flex>
-    </Flex>
-  )
-}
-
-function Header() {
-  const { t } = useTranslation('hometab')
-  return (
-    <Flex
-      direction="column"
-      className={classes.headerSection}
-      align='center'
-      justify='space-between'
-    >
-      <h1
-        className={classes.headerTitle}
-      >
-        <Trans t={t} i18nKey='Welcome'>
-          Welcome to the<br />Fribbels Star Rail Optimizer
-        </Trans>
-      </h1>
-      <SearchBar />
-    </Flex>
-  )
-}
-
-function SearchBar() {
-  const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
-  const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  function handleSearchSubmit() {
-    const uuid = inputRef.current?.value
-    if (!uuid) return
-
-    const validated = validateUuid(uuid)
-    if (!validated) {
-      return Message.warning(t('Message') /* 'Invalid input - This should be your 9 digit ingame UUID' */)
-    }
-
-    window.history.pushState({}, '', `/hsr-optimizer#showcase?id=${uuid}`)
-    useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)
-  }
-
-  return (
-    <Flex
-      direction="column"
-      className={`homeCard ${classes.searchBarContainer}`}
-      align='center'
-      justify='center'
-      gap={5}
-    >
-      <Flex justify='space-between' w='100%'>
-        <Flex
-          className={classes.searchBarLabel}
-        >
-          {t('Label') /* Enter your UUID to showcase characters: */}
-        </Flex>
-
-        <Flex className={classes.searchBarApi}>
-          <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
-        </Flex>
-      </Flex>
-      <Flex w='100%' gap={0}>
-        <Button
-          size="md"
-          onClick={handleSearchSubmit}
-          aria-label="Search"
-          style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
-        >
-          <IconSearch size={20} />
-        </Button>
-        <TextInput
-          ref={inputRef}
-          size="md"
-          placeholder={t('Placeholder') /* 'UID' */}
-          style={{ flex: 1 }}
-          styles={{ input: { fontSize: 16, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 } }}
-          defaultValue={scorerId ?? ''}
-          onKeyDown={(e) => { if (e.key === 'Enter') handleSearchSubmit() }}
-        />
       </Flex>
     </Flex>
   )

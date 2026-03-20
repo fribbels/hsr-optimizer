@@ -116,7 +116,8 @@ interface Resources {
       "ScoringSidebar": {
         "Stats": {
           "Header": "Stats",
-          "ButtonText": "Traces"
+          "ButtonText": "Traces",
+          "WeightsButton": "Weights"
         },
         "SpdPrecision": {
           "Header": "SPD precision",

@@ -88,6 +88,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
         },
         styles: {
           label: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: 22, paddingBlock: 0 },
+          innerLabel: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
         },
       },
       Button: {

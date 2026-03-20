@@ -7,7 +7,7 @@ import {
   IconSun,
   IconX,
 } from '@tabler/icons-react'
-import { Button, ColorInput, Flex, NumberInput, SegmentedControl, Select } from '@mantine/core'
+import { Button, ColorInput, Flex, SegmentedControl } from '@mantine/core'
 
 import i18next from 'i18next'
 import { DEFAULT_SHOWCASE_COLOR, resolveShowcaseTheme } from 'lib/characterPreview/showcaseColorService'
@@ -38,6 +38,7 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { getSelectedCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
@@ -136,15 +137,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
       SaveState.delayedSave()
     }
 
-    function onShowcaseSpdBenchmarkChangeEvent(event: React.FocusEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) {
-      const value: string = event.currentTarget.value
-      if (value == null) return onShowcaseSpdBenchmarkChange(undefined)
-
-      const spdBenchmark = parseFloat(value)
-      if (isNaN(spdBenchmark)) return onShowcaseSpdBenchmarkChange(undefined)
-
-      onShowcaseSpdBenchmarkChange(spdBenchmark)
-    }
 
     function onShowcaseSpdBenchmarkChange(spdBenchmark: number | undefined) {
       const actualValue = spdBenchmark === -1 ? undefined : spdBenchmark
@@ -216,8 +208,17 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
           <Button
             leftSection={<IconSettings size={16} />}
             onClick={onTraceClick}
+            variant="default"
           >
             {tScoring('Stats.ButtonText') /* Traces */}
+          </Button>
+
+          <Button
+            leftSection={<IconSettings size={16} />}
+            onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
+            variant="default"
+          >
+            {tScoring('Stats.WeightsButton') /* Weights */}
           </Button>
 
           <HorizontalDivider />
@@ -260,22 +261,10 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
                   {tScoring('BenchmarkSpd.Header') /* SPD benchmark */}
                 </HeaderText>
 
-                <NumberInput
-                  hideControls
-                  style={{ width: '100%' }}
-                  value={sanitizePositiveNumberElseUndefined(spdBenchmark)}
-                  rightSection={
-                    <SelectSpdPresets
-                      spdFilter={scoringResult?.originalSpd}
-                      onShowcaseSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
-                      characterId={characterId}
-                      simScoringResult={scoringResult ?? null}
-                    />
-                  }
-                  placeholder='...'
-                  min={0}
-                  onBlur={onShowcaseSpdBenchmarkChangeEvent}
-                  onKeyDown={(e) => { if (e.key === 'Enter') onShowcaseSpdBenchmarkChangeEvent(e) }}
+                <SpdBenchmarkCombobox
+                  spdBenchmark={spdBenchmark}
+                  spdFilter={scoringResult?.originalSpd}
+                  onSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
                 />
               </>
             )}
@@ -372,6 +361,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
               loading={loading}
               onClick={() => screenshot('clipboard', getActiveCharacterName())}
               className={classes.actionButton}
+              style={{ height: 'auto' }}
             >
               <IconCamera size={18} />
             </Button>
@@ -379,6 +369,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
               loading={loading}
               onClick={() => screenshot('download', getActiveCharacterName())}
               className={classes.actionButton}
+              style={{ height: 'auto' }}
             >
               <IconDownload size={18} />
             </Button>
@@ -388,23 +379,21 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
     )
 })
 
-function SelectSpdPresets(props: {
-  characterId: CharacterId,
-  onShowcaseSpdBenchmarkChange: (n: number) => void,
-  simScoringResult: SimulationScore | null,
+function SpdBenchmarkCombobox(props: {
+  spdBenchmark: number | undefined,
   spdFilter?: number,
+  onSpdBenchmarkChange: (n: number | undefined) => void,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
-  const spdPresetOptions = useMemo(() => {
+  const options = useMemo(() => {
     const { categories } = generateSpdPresets(t)
 
     const seen = new Set<string>()
     const categoryItems = categories.map((category) => {
-      // Skip the first preset (SPD0 / "No minimum speed") since "Base SPD" covers that
       const presets = Object.values(category.presets).slice(1).map((preset) => ({
-        value: String(preset.value ?? 'undefined'),
+        value: String(preset.value ?? 0),
         label: String(preset.label),
         disabled: props.spdFilter != null && preset.value != null && preset.value > props.spdFilter,
       })).filter((opt) => {
@@ -420,16 +409,10 @@ function SelectSpdPresets(props: {
 
     return [
       {
-        group: tCharacterTab('BenchmarkOptionsLabel') /* Benchmark options */,
+        group: tCharacterTab('BenchmarkOptionsLabel'),
         items: [
-          {
-            label: tCharacterTab('CurrentSpdLabel') /* Current SPD */,
-            value: '-1',
-          },
-          {
-            label: tCharacterTab('BaseSpdLabel') /* Base SPD */,
-            value: '0',
-          },
+          { label: tCharacterTab('CurrentSpdLabel'), value: '-1', disabled: false },
+          { label: tCharacterTab('BaseSpdLabel'), value: '0', disabled: false },
         ],
       },
       ...categoryItems,
@@ -437,15 +420,11 @@ function SelectSpdPresets(props: {
   }, [t, tCharacterTab, props.spdFilter])
 
   return (
-    <Select
-      style={{ width: 34 }}
-      comboboxProps={{ keepMounted: false, width: 'fit-content' }}
-      data={spdPresetOptions}
-      maxDropdownHeight={800}
-      value={null}
-      onChange={(value) => {
-        if (value != null) props.onShowcaseSpdBenchmarkChange(Number(value))
-      }}
+    <ComboboxNumberInput
+      value={sanitizePositiveNumberElseUndefined(props.spdBenchmark)}
+      onChange={props.onSpdBenchmarkChange}
+      options={options}
+      min={0}
     />
   )
 }

@@ -50,6 +50,7 @@ CharacterPreview:
     Stats:
       Header: Stats
       ButtonText: Traces
+      WeightsButton: Weights
     SpdPrecision:
       Header: SPD precision
       Low: '.0'

@@ -3,8 +3,6 @@ import {
   IconChevronDown,
   IconDownload,
   IconFileImport,
-  IconFlask,
-  IconSettings,
 } from '@tabler/icons-react'
 import { Button, Flex, Loader, Menu, TextInput } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
@@ -16,10 +14,6 @@ import {
   officialOnly,
   SHOWCASE_DOWNTIME,
 } from 'lib/constants/constants'
-import {
-  OpenCloseIDs,
-  setOpen,
-} from 'lib/hooks/useOpenClose'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
@@ -218,12 +212,6 @@ function ShowcaseLoaded() {
     downloadTrigger('download', name)
   }, [downloadTrigger, tCharacter])
 
-  const simulateClicked = useCallback(() => {
-    useCharacterModalStore.getState().openOverlay({
-      initialCharacter: getSelectedCharacter(),
-      onOk: handleCharacterModalOk,
-    })
-  }, [])
 
   const onSidebarToggle = useCallback(() => {
     const current = useShowcaseTabStore.getState().savedSession.sidebarOpen
@@ -268,14 +256,6 @@ function ShowcaseLoaded() {
             onClick={handleSubmit}
           >
             {t('common:Submit')}
-          </Button>
-          <Button
-            className={styles.scoringButton}
-            onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
-            leftSection={<IconSettings size={16} />}
-            variant="default"
-          >
-            {t('SubmissionBar.AlgorithmButton')}
           </Button>
         </Flex>
 
@@ -322,14 +302,6 @@ function ShowcaseLoaded() {
               ))}
             </Menu.Dropdown>
           </Menu>
-          <Button
-            className={styles.flexOne}
-            leftSection={<IconFlask size={16} />}
-            onClick={simulateClicked}
-            variant="default"
-          >
-            {t('SimulateRelics')}
-          </Button>
         </Flex>
 
         {/* DPS Score Disclaimer */}

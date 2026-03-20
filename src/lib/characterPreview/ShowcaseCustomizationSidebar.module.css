@@ -35,6 +35,6 @@
 
 .actionButton {
   flex: 1;
-  height: 50px;
+  aspect-ratio: 1;
   border-radius: 8px;
 }

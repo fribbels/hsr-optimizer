@@ -142,11 +142,6 @@
   padding: 0 8px;
 }
 
-.scoringButton {
-  width: fit-content;
-  min-width: 175px;
-}
-
 .downtimeWarning {
   color: #ffaa4f;
 }

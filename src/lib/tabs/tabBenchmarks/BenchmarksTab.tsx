@@ -5,7 +5,7 @@ import {
   IconTrash,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Combobox, Flex, NumberInput, Paper, SegmentedControl, useCombobox } from '@mantine/core'
+import { Button, Flex, Paper, SegmentedControl } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import {
@@ -48,6 +48,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SetsSection'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
+import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
@@ -286,10 +287,6 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'RightPanel.Settings' })
   const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
 
-  const combobox = useCombobox({
-    onDropdownClose: () => combobox.resetSelectedOption(),
-  })
-
   const options = useMemo(() => {
     const { categories } = generateSpdPresets(tOptimizerTab)
     const seen = new Set<string>()
@@ -314,43 +311,12 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
   return (
     <Flex align='center' gap={10} justify='space-between'>
       {t('SPD')}
-      <Combobox
-        store={combobox}
-        onOptionSubmit={(val) => {
-          form.setFieldValue('basicSpd', Number(val))
-          combobox.closeDropdown()
-        }}
-      >
-        <Combobox.Target>
-          <NumberInput
-            hideControls
-            style={{ width: 80 }}
-            rightSection={
-              <Flex align='center' justify='center' w='100%' h='60%' style={{ borderLeft: '1px solid #444' }}>
-                <Combobox.Chevron />
-              </Flex>
-            }
-            rightSectionPointerEvents='none'
-            styles={{ input: { cursor: 'pointer' } }}
-            onClick={() => combobox.toggleDropdown()}
-            {...form.getInputProps('basicSpd')}
-          />
-        </Combobox.Target>
-
-        <Combobox.Dropdown style={{ minWidth: 'max-content' }}>
-          <Combobox.Options mah={800} style={{ overflowY: 'auto' }}>
-            {combobox.dropdownOpened && options.map((group) => (
-              <Combobox.Group key={group.group} label={group.group}>
-                {group.items.map((opt) => (
-                  <Combobox.Option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </Combobox.Option>
-                ))}
-              </Combobox.Group>
-            ))}
-          </Combobox.Options>
-        </Combobox.Dropdown>
-      </Combobox>
+      <ComboboxNumberInput
+        value={form.getInputProps('basicSpd').value}
+        onChange={(val) => form.setFieldValue('basicSpd', val)}
+        options={options}
+        style={{ width: 80 }}
+      />
     </Flex>
   )
 }

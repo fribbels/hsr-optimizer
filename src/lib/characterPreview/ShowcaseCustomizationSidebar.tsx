@@ -305,6 +305,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
             onChange={onColorDrag}
             onChangeEnd={onColorChangeEnd}
             format="hex"
+            styles={{ input: { textTransform: 'uppercase', fontFamily: 'monospace' } }}
           />
 
           <HorizontalDivider />

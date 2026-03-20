@@ -34,6 +34,7 @@ import {
   parentH,
 } from 'lib/constants/constantsUi'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
+import { Assets } from 'lib/rendering/assets'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
   computeScoringCacheKey,
@@ -55,6 +56,7 @@ import type { PaletteResponse } from 'lib/utils/vibrantFork'
 import {
   memo,
   useCallback,
+  useEffect,
   useMemo,
 } from 'react'
 import {
@@ -158,20 +160,30 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     [seedColor, state.darkMode],
   )
 
-  // ===== Portrait load → store =====
-  // Dynamic import of vibrantFork — defers loading node-vibrant until the first portrait loads.
-  const handlePortraitLoad = useCallback((imgSrc: string) => {
-    const hasCustomPortrait = !!getCharacterById(character.id)?.portrait
-    void import('lib/utils/vibrantFork').then(({ getPalette }) => getPalette(imgSrc, (palette: PaletteResponse) => {
-      const swatches = organizeColors(palette)
-      const color = hasCustomPortrait
-        ? modifyCustomColor(
-            selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
-          )
-        : undefined
-      useShowcaseTabStore.getState().setPortraitPalette(character.id, color, swatches)
-    }))
-  }, [character.id])
+  // ===== Portrait palette extraction =====
+  // Extracts color swatches via vibrant for the customization sidebar.
+  // Runs as an effect so it works regardless of display mode (Spine, image, custom).
+  const portraitImageUrl = character.portrait?.imageUrl
+  useEffect(() => {
+    const imgSrc = portraitImageUrl ?? Assets.getCharacterPortraitById(character.id)
+    let aborted = false
+
+    void import('lib/utils/vibrantFork').then(({ getPalette }) => {
+      if (aborted) return
+      getPalette(imgSrc, (palette: PaletteResponse) => {
+        if (aborted) return
+        const swatches = organizeColors(palette)
+        const color = portraitImageUrl
+          ? modifyCustomColor(
+              selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
+            )
+          : undefined
+        useShowcaseTabStore.getState().setPortraitPalette(character.id, color, swatches)
+      })
+    })
+
+    return () => { aborted = true }
+  }, [character.id, portraitImageUrl])
 
   // ===== Stable callback refs for child components =====
   const handleEditPortraitOk = useCallback(
@@ -303,7 +315,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             artistName={artistName}
             setOriginalCharacterModalInitialCharacter={handleSetOriginalCharacterModalInitialCharacter}
             setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
-            onPortraitLoad={handlePortraitLoad}
           />
 
           {scoringType === ScoringType.COMBAT_SCORE && (

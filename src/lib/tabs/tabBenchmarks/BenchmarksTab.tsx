@@ -43,9 +43,7 @@ import {
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
-import {
-  generateSpdPresets,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { buildSpdPresetOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/spdPresetConfig'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SetsSection'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
@@ -287,33 +285,14 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'RightPanel.Settings' })
   const { t: tOptimizerTab } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
 
-  const options = useMemo(() => {
-    const { categories } = generateSpdPresets(tOptimizerTab)
-    const seen = new Set<string>()
-    return categories.map((category) => {
-      const presetOptions = Object.values(category.presets)
-        .map((preset) => ({
-          value: String(preset.value ?? 0),
-          label: String(preset.label),
-        }))
-        .filter((opt) => {
-          if (seen.has(opt.value)) return false
-          seen.add(opt.value)
-          return true
-        })
-      return {
-        group: category.label,
-        items: presetOptions,
-      }
-    })
-  }, [tOptimizerTab])
+  const options = useMemo(() => buildSpdPresetOptions(tOptimizerTab), [tOptimizerTab])
 
   return (
     <Flex align='center' gap={10} justify='space-between'>
       {t('SPD')}
       <ComboboxNumberInput
         value={form.getInputProps('basicSpd').value}
-        onChange={(val) => form.setFieldValue('basicSpd', val)}
+        onChange={(val) => form.setFieldValue('basicSpd', val ?? 0)}
         options={options}
         style={{ width: 80 }}
       />

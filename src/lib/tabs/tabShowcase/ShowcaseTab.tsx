@@ -53,9 +53,24 @@ export function ShowcaseTab() {
   const screen = useShowcaseTabStore((s) => s.screen)
   const hasData = useShowcaseTabStore((s) => !!s.availableCharacters?.length)
 
-  useEffect(() => initializeShowcaseOnMount(), [])
+  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
 
-  const { addActivationListener } = useContext(TabVisibilityContext)
+  useEffect(() => {
+    if (isActiveRef.current) {
+      // Tab is active on mount — initialize immediately
+      initializeShowcaseOnMount()
+    } else {
+      // Tab mounted in background — defer until first activation
+      let initialized = false
+      return addActivationListener(() => {
+        if (!initialized) {
+          initialized = true
+          initializeShowcaseOnMount()
+        }
+      })
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => addActivationListener(() => syncShowcaseUrl()), [addActivationListener])
 
   const { t } = useTranslation('relicScorerTab')

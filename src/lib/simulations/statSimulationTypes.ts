@@ -44,6 +44,7 @@ export type RunSimulationsParams = {
   substatRollsModifier: (num: number, stat: string, sim: Simulation) => number,
   simulationFlags: SimulationFlags,
   stabilize?: boolean,
+  skipDefaults?: boolean,
 }
 
 export type PrimaryActionStats = {

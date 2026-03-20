@@ -75,6 +75,7 @@ export function runStatSimulations(
       container,
       trace,
       forcedBasicSpd,
+      !!params.skipDefaults,
     )
 
     const result: RunStatSimulationsResult = {

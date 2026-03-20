@@ -15,7 +15,7 @@ import {
 import { EditImageModal } from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
 import { type ScoringType } from 'lib/scoring/simScoringUtils'
-import { SpinePortrait } from 'lib/spine/SpinePortrait'
+import { LoadingBlurredSpine } from 'lib/spine/LoadingBlurredSpine'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { memo, useCallback, useEffect, useState } from 'react'
@@ -102,7 +102,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
             />
           )
         : (
-          <SpinePortrait
+          <LoadingBlurredSpine
             characterId={character.id}
             style={portraitStyle}
             onUnsupported={handleSpineUnsupported}

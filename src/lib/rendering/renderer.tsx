@@ -258,7 +258,7 @@ export const Renderer = {
           openDelay={400}
           label={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
         >
-          <IconCircleCheckFilled style={{ fontSize: '14px', color: color }} />
+          <IconCircleCheckFilled size={16} style={{ color: color, display: 'block' }} />
         </Tooltip>
       )
     }
@@ -268,8 +268,8 @@ export const Renderer = {
   renderEquipped: (equipped: boolean) => {
     return (
       equipped
-        ? <IconCircleCheckFilled style={{ fontSize: '14px', color: '#6de362' }} />
-        : <IconCircleXFilled style={{ fontSize: '14px', color: '#de5555' }} />
+        ? <IconCircleCheckFilled size={16} style={{ color: '#6de362', display: 'block' }} />
+        : <IconCircleXFilled size={16} style={{ color: '#de5555', display: 'block' }} />
     )
   },
   renderInitialRolls: (relic: Relic) => {

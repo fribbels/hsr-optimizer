@@ -14,6 +14,7 @@ import {
   officialOnly,
   SHOWCASE_DOWNTIME,
 } from 'lib/constants/constants'
+import { AppPages } from 'lib/constants/appPages'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
@@ -83,7 +84,7 @@ export function ShowcaseTab() {
         </h3>
       )}
 
-      {screen === ShowcaseScreen.Landing && <ShowcaseLanding />}
+      {screen === ShowcaseScreen.Landing && <RedirectToHome />}
       {screen === ShowcaseScreen.Loading && <ShowcaseLoading />}
 
       {/* Mount ShowcaseLoaded when data exists — hidden during Loading for pre-render */}
@@ -96,44 +97,18 @@ export function ShowcaseTab() {
   )
 }
 
-function ShowcaseLanding() {
+function RedirectToHome() {
   const savedScorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
-  const [uid, setUid] = useState(savedScorerId ?? '')
-  const { t } = useTranslation(['relicScorerTab', 'common'])
 
-  const handleSubmit = () => {
-    if (uid.trim()) {
-      submitForm({ scorerId: uid.trim() })
-    }
-  }
+  useEffect(() => {
+    // Don't redirect if there's a UID in the URL or a saved session —
+    // initializeShowcaseOnMount will handle transitioning to Loading
+    const urlId = new URL(window.location.href).searchParams.get('id')
+    if (urlId || savedScorerId) return
 
-  return (
-    <div className={styles.landingContainer}>
-      <div className={styles.landingTitle}>Showcase</div>
-      <div className={styles.landingSubtitle}>
-        {officialOnly
-          ? t('Header.WithoutVersion')
-          : t('Header.WithVersion', { beta_version: CURRENT_DATA_VERSION })}
-      </div>
-      <Flex align="center" gap={10}>
-        <TextInput
-          className={styles.uidInput}
-          placeholder={t('SubmissionBar.Placeholder')}
-          value={uid}
-          onChange={(e) => setUid(e.currentTarget.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') handleSubmit()
-          }}
-        />
-        <Button
-          className={styles.submitButton}
-          onClick={handleSubmit}
-        >
-          {t('common:Submit')}
-        </Button>
-      </Flex>
-    </div>
-  )
+    useGlobalStore.getState().setActiveKey(AppPages.HOME)
+  }, [savedScorerId])
+  return null
 }
 
 function ShowcaseLoading() {

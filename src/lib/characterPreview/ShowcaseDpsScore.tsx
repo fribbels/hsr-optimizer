@@ -290,7 +290,7 @@ function ShowcaseTeamSelectPanel({
     <SegmentedControl
       disabled={readonly}
       className={styles.teamSelectPanel}
-      styles={{ root: { background: 'rgba(0, 0, 0, 0.25)' } }}
+      styles={{ root: { background: 'rgba(0, 0, 0, 0.15)' } }}
       onChange={(selection) => {
         if (selection === SETTINGS_TEAM) {
           getConfirmModal()?.info({

@@ -4,6 +4,7 @@ import {
   SearchTree,
   type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
+import { STAT_INDEX, toFloat32Array } from 'lib/worker/maxima/tree/statIndexMap'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
   describe,
@@ -83,14 +84,14 @@ describe('generateRepresentative tests', () => {
   }
 
   function createRegion(lower: SubstatCounts, upper: SubstatCounts): TreeStatRegion {
-    return { lower, upper }
+    return { lower: toFloat32Array(lower), upper: toFloat32Array(upper) }
   }
 
-  function calculateSum(stats: SubstatCounts): number {
-    return Object.values(stats).reduce((sum, val) => sum + val, 0)
+  function calculateSum(stats: Float32Array): number {
+    return stats.reduce((sum, val) => sum + val, 0)
   }
 
-  function verifyUpperLowerRepresentatives(tree: SearchTree, region: TreeStatRegion, splitDimension: string) {
+  function verifyUpperLowerRepresentatives(tree: SearchTree, region: TreeStatRegion, splitDimension: number) {
     const lowerRep = tree.generateRepresentative(region, splitDimension, false)
     const upperRep = tree.generateRepresentative(region, splitDimension, true)
 
@@ -142,7 +143,7 @@ describe('generateRepresentative tests', () => {
         },
       )
 
-      verifyUpperLowerRepresentatives(tree, region, Stats.ATK)
+      verifyUpperLowerRepresentatives(tree, region, STAT_INDEX[Stats.ATK])
     })
 
     it('should start with lower bounds and distribute upward for both sides', () => {
@@ -178,11 +179,11 @@ describe('generateRepresentative tests', () => {
         },
       )
 
-      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, Stats.CR)
+      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, STAT_INDEX[Stats.CR])
 
       // Should have at least the minimum values for corresponding regions
-      expect(lowerRep[Stats.ATK]).toBeGreaterThanOrEqual(2)
-      expect(upperRep[Stats.ATK]).toBeGreaterThanOrEqual(2)
+      expect(lowerRep[STAT_INDEX[Stats.ATK]]).toBeGreaterThanOrEqual(2)
+      expect(upperRep[STAT_INDEX[Stats.ATK]]).toBeGreaterThanOrEqual(2)
     })
   })
 
@@ -219,11 +220,11 @@ describe('generateRepresentative tests', () => {
         },
       })
 
-      const region = createRegion(tree.root.region.lower, tree.root.region.upper)
-      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, Stats.CR)
+      const region = tree.root.region
+      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, STAT_INDEX[Stats.CR])
 
-      expect(lowerRep[Stats.SPD]).toBe(5)
-      expect(upperRep[Stats.SPD]).toBe(5)
+      expect(lowerRep[STAT_INDEX[Stats.SPD]]).toBe(5)
+      expect(upperRep[STAT_INDEX[Stats.SPD]]).toBe(5)
     })
   })
 
@@ -232,7 +233,7 @@ describe('generateRepresentative tests', () => {
       const tree = initializeTree({ targetSum: 48 })
       const region = tree.root.region
 
-      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, Stats.CR)
+      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, STAT_INDEX[Stats.CR])
 
       expect(calculateSum(lowerRep)).toBe(48)
       expect(calculateSum(upperRep)).toBe(48)
@@ -287,7 +288,7 @@ describe('generateRepresentative tests', () => {
         },
       )
 
-      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, Stats.CR)
+      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, STAT_INDEX[Stats.CR])
 
       expect(calculateSum(lowerRep)).toBe(48)
       expect(calculateSum(upperRep)).toBe(48)
@@ -313,11 +314,11 @@ describe('generateRepresentative tests', () => {
         },
       })
 
-      const region = createRegion(tree.root.region.lower, tree.root.region.upper)
-      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, Stats.CR)
+      const region = tree.root.region
+      const { lowerRep, upperRep } = verifyUpperLowerRepresentatives(tree, region, STAT_INDEX[Stats.CR])
 
-      expect(lowerRep[Stats.BE]).toBe(24) // Should respect minimum
-      expect(upperRep[Stats.BE]).toBe(24) // Should respect minimum
+      expect(lowerRep[STAT_INDEX[Stats.BE]]).toBe(24) // Should respect minimum
+      expect(upperRep[STAT_INDEX[Stats.BE]]).toBe(24) // Should respect minimum
     })
   })
 })

@@ -4,6 +4,7 @@ import {
   SearchTree,
   type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
+import { toFloat32Array } from 'lib/worker/maxima/tree/statIndexMap'
 import { isRegionFeasible } from 'lib/worker/maxima/validator/regionFeasibilityValidator'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
@@ -84,7 +85,7 @@ describe('isRegionFeasible tests', () => {
   }
 
   function createRegion(lower: SubstatCounts, upper: SubstatCounts): TreeStatRegion {
-    return { lower, upper }
+    return { lower: toFloat32Array(lower), upper: toFloat32Array(upper) }
   }
 
   describe('Basic Feasibility Tests', () => {

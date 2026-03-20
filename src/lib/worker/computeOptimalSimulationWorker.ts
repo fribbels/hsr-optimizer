@@ -11,6 +11,7 @@ import {
   type SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { toSubstatCounts } from 'lib/worker/maxima/tree/statIndexMap'
 import { clone } from 'lib/utils/objectUtils'
 import {
   type ComputeOptimalSimulationWorkerInput,
@@ -137,7 +138,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     return currentSimulation
   }
 
-  const bestPoint = tree.search()
+  const bestPoint = toSubstatCounts(tree.search())
   damageFunction(bestPoint, true)
 
   return currentSimulation

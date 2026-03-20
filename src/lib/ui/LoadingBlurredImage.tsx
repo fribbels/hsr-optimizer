@@ -8,7 +8,6 @@ import {
 interface LoadingBlurredImageProps {
   src: string
   style: CSSProperties
-  callback?: (img: string) => void
 }
 
 function isImageCached(src: string): boolean {
@@ -17,10 +16,7 @@ function isImageCached(src: string): boolean {
   return img.complete && img.naturalWidth > 0
 }
 
-export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImageProps) {
-  const callbackRef = useRef(callback)
-  callbackRef.current = callback
-
+export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
   // Capture the latest style in a ref so the onload callback always applies
   // the position that was current when the image finished loading
   const styleRef = useRef(style)
@@ -46,7 +42,6 @@ export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImag
       setStoredSrc(src)
       setStoredStyle(styleRef.current)
       setBlur(false)
-      callbackRef.current?.(src)
       return
     }
 
@@ -59,7 +54,6 @@ export function LoadingBlurredImage({ src, style, callback }: LoadingBlurredImag
       setStoredSrc(src)
       setStoredStyle(styleRef.current)
       setBlur(false)
-      callbackRef.current?.(src)
     }
 
     return () => { img.onload = null }

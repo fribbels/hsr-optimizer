@@ -39,7 +39,6 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   artistName,
   setOriginalCharacterModalInitialCharacter,
   setOriginalCharacterModalOpen,
-  onPortraitLoad,
 }: {
   source: ShowcaseSource
   character: Character
@@ -52,7 +51,6 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   artistName: string | undefined
   setOriginalCharacterModalInitialCharacter: (c: Character) => void
   setOriginalCharacterModalOpen: (b: boolean) => void
-  onPortraitLoad: (img: string) => void
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
@@ -95,14 +93,12 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
               customPortrait={customPortrait ?? character.portrait!}
               parentW={parentW}
               scoringType={scoringType}
-              onPortraitLoad={onPortraitLoad}
             />
           )
           : (
             <LoadingBlurredImage
               src={Assets.getCharacterPortraitById(character.id)}
               style={portraitStyle}
-              callback={onPortraitLoad}
             />
           )
         : (

@@ -19,4 +19,4 @@ ShowLocatorInRelicsModal:
 ShowComboDmgWarning:
   Label: コンボダメージの警告
   Show: '警告を表示する（デフォルト）'
-  Hide: 警告を表示しない
+  Hide: 警告を隠す

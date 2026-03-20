@@ -49,8 +49,7 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
-    "@esotericsoftware/spine-core": "^4.1.23",
-    "@esotericsoftware/spine-webgl": "^4.1.23",
+    "@esotericsoftware/spine-webgl": "4.1.23",
     "@js-sdsl/priority-queue": "^4.4.0",
     "@mantine/core": "^9.0.0-alpha.4",
     "@mantine/dropzone": "^9.0.0-alpha.4",
@@ -110,6 +109,7 @@
     "selecto": {
       "@daybrush/utils": "1.13.0",
       "framework-utils": "1.1.0"
-    }
+    },
+    "@esotericsoftware/spine-core": "4.1.23"
   }
 }

@@ -12,7 +12,7 @@ import { SpinePortrait } from 'lib/spine/SpinePortrait'
 const DEBUG_BLUR = true
 
 const DEFAULT_BLUR_OUT_MS = 1500
-const DEFAULT_CURVE = [0.1, 0.2, 0.5, 1] as const
+const DEFAULT_CURVE: [number, number, number, number] = [0.1, 0.2, 0.5, 1]
 const DEFAULT_BLUR_PX = 8.5
 
 export function LoadingBlurredSpine({

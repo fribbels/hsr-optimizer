@@ -13,6 +13,7 @@ import {
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
+import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
   calculateContextConditionalRegistry,
   wrapTeammateDynamicConditional,
@@ -247,7 +248,7 @@ export function optimizerWorker(e: MessageEvent) {
     for (let i = 0; i < context.rotationActions.length; i++) {
       const action = context.rotationActions[i]
       x.setConfig(action.config)
-      action.conditionalState = {}
+      resetConditionalState(action)
 
       x.setPrecompute(action.precomputedStats.a)
       calculateBasicEffects(x, action, context)
@@ -273,7 +274,7 @@ export function optimizerWorker(e: MessageEvent) {
     for (let i = 0; i < context.defaultActions.length; i++) {
       const action = context.defaultActions[i]
       x.setConfig(action.config)
-      action.conditionalState = {}
+      resetConditionalState(action)
 
       x.setPrecompute(action.precomputedStats.a)
       calculateBasicEffects(x, action, context)

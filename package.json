@@ -24,6 +24,7 @@
     "bench:dps:generate": "vitest run src/lib/simulations/tests/goldenData/generateDpsScoreGoldenData.test.ts --reporter=verbose",
     "bench:dps:verify": "vitest run src/lib/simulations/tests/goldenData/verifyDpsScoreGoldenData.test.ts --reporter=verbose",
     "bench:searchtree": "vitest run src/lib/worker/maxima/tree/tests/searchTreeBenchmark.test.ts --reporter=verbose",
+    "bench:pipeline": "vitest run src/lib/simulations/tests/goldenData/benchmarkDpsScorePipeline.test.ts --reporter=verbose",
     "vitest:watch": "vitest --dir src/lib --watch",
     "test": "npx playwright test --config tests/playwright.config.ts --trace on",
     "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",

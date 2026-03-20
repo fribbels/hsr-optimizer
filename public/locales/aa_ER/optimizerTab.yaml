@@ -45,6 +45,7 @@ SortOptions:
   MEMO_SKILL: crwdns42698:0crwdne42698:0
   MEMO_TALENT: crwdns44758:0crwdne44758:0
   ELATION_SKILL: crwdns46490:0crwdne46490:0
+  UNIQUE: crwdns46708:0crwdne46708:0
   DOT: crwdns42700:0crwdne42700:0
   BREAK: crwdns42702:0crwdne42702:0
   HEAL: crwdns42704:0crwdne42704:0
@@ -152,6 +153,8 @@ Grid:
         crwdns44760:0crwdne44760:0
       ELATION_SKILL: |-
         crwdns46492:0crwdne46492:0
+      UNIQUE: |-
+        crwdns46710:0crwdne46710:0
       DOT: |-
         crwdns42846:0crwdne42846:0
       BREAK: |-
@@ -209,6 +212,8 @@ Grid:
         crwdns44762:0crwdne44762:0
       ELATION_SKILL: |-
         crwdns46494:0crwdne46494:0
+      UNIQUE: |-
+        crwdns46712:0crwdne46712:0
       DOT: |-
         crwdns42896:0crwdne42896:0
       BREAK: |-
@@ -536,6 +541,7 @@ ComboFilter:
     MemoSkill: crwdns43278:0crwdne43278:0
     MemoTalent: crwdns44764:0crwdne44764:0
     ElationSkill: crwdns46496:0crwdne46496:0
+    Unique: crwdns46714:0crwdne46714:0
     BasicHeal: crwdns46292:0crwdne46292:0
     SkillHeal: crwdns46294:0crwdne46294:0
     UltHeal: crwdns46296:0crwdne46296:0
@@ -718,6 +724,7 @@ ExpandedDataPanel:
       E4: crwdns44676:0crwdne44676:0
       E6: crwdns44678:0crwdne44678:0
       ElationSkill: crwdns46468:0crwdne46468:0
+      Unique: crwdns46716:0crwdne46716:0
       LightCone: crwdns46694:0crwdne46694:0
       Set: crwdns46696:0crwdne46696:0
     DefaultAction: crwdns46700:0crwdne46700:0

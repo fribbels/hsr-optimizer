@@ -180,18 +180,6 @@ export class SearchTree {
   }
 
   public getBest() {
-    const benchmark = this.targetSum === 54 ? 200 : 100
-    const total = this.endTime - this.startTime
-
-    console.log(
-      '=============',
-      `${this.dimensions}-D ${benchmark}%`,
-      this.bestNode?.measurement,
-      this.measurements,
-      this.mainStats.slice(2).join(' / '),
-      `${Math.floor(total)}ms`,
-    )
-
     return this.bestNode!.representative!
   }
 

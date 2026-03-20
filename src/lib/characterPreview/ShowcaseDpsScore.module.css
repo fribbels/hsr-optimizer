@@ -30,6 +30,15 @@
   margin-top: 2px;
   margin-bottom: 0;
   align-items: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.teamSelectPanel :global(.mantine-SegmentedControl-indicator) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.teamSelectPanel :global(.mantine-SegmentedControl-label[data-active]) {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .settingsModalContent {

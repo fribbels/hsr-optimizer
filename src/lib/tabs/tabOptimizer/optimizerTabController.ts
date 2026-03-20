@@ -49,14 +49,22 @@ type SortModel = {
   sort: string,
 }
 
-const controllerState = {
-  relics: undefined as unknown as RelicsByPart,
-  permutationSizes: undefined as unknown as PermutationSizes,
-  aggregations: undefined as unknown as GridAggregations,
-  rows: [] as OptimizerDisplayData[],
-  filteredIndices: [] as number[],
-  filterModel: undefined as unknown as Form,
-  sortModel: undefined as unknown as SortModel,
+const controllerState: {
+  relics: RelicsByPart
+  permutationSizes: PermutationSizes
+  aggregations: GridAggregations | undefined
+  rows: OptimizerDisplayData[]
+  filteredIndices: number[]
+  filterModel: Form | undefined
+  sortModel: SortModel
+} = {
+  relics: { Head: [], Hands: [], Body: [], Feet: [], PlanarSphere: [], LinkRope: [] },
+  permutationSizes: { hSize: 0, gSize: 0, bSize: 0, fSize: 0, pSize: 0, lSize: 0 },
+  aggregations: undefined,
+  rows: [],
+  filteredIndices: [],
+  filterModel: undefined,
+  sortModel: { colId: '', sort: '' },
 }
 
 const columnsToAggregate = Object.keys(columnsToAggregateMap)
@@ -174,7 +182,6 @@ export const OptimizerTabController = {
 
     return {
       getRows: (params: IGetRowsParams) => {
-        // @ts-expect-error - reset aggregations to undefined between data source loads
         controllerState.aggregations = undefined
 
         // fast clickers can race unmount/remount and cause NPE here.

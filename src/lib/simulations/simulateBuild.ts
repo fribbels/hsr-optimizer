@@ -71,6 +71,7 @@ export function simulateBuild(
   cachedComputedStatsContainer: ComputedStatsContainer | null = null,
   trace: boolean = false,
   forcedBasicSpd: number = 0,
+  skipDefaults: boolean = false,
 ): SimulateBuildResult {
   // Compute
   const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
@@ -170,70 +171,73 @@ export function simulateBuild(
     sourceEntityElementDmgBoost: 0,
   }
 
-  for (let i = 0; i < context.defaultActions.length; i++) {
-    const action = context.defaultActions[i]
-    x.setConfig(action.config)
+  const actionDamage: ActionDamage = {}
 
-    resetConditionalState(action)
+  if (!skipDefaults) {
+    for (let i = 0; i < context.defaultActions.length; i++) {
+      const action = context.defaultActions[i]
+      x.setConfig(action.config)
 
-    x.setPrecompute(action.precomputedStats.a)
+      resetConditionalState(action)
 
-    if (shouldTrace) startTrace(x, action)
+      x.setPrecompute(action.precomputedStats.a)
 
-    calculateBasicEffects(x, action, context)
-    calculateComputedStats(x, action, context)
-    calculateBaseMultis(x, action, context)
+      if (shouldTrace) startTrace(x, action)
 
-    if (shouldTrace) {
-      actionBuffSnapshots![action.actionName] = captureSnapshot(x)
-    }
+      calculateBasicEffects(x, action, context)
+      calculateComputedStats(x, action, context)
+      calculateBaseMultis(x, action, context)
 
-    // Capture stats for the primary scoring action (from scoringMetadata.sortOption.key)
-    // This must happen after calculateComputedStats but before stats are overwritten by next action
-    if (action.actionName === context.primaryAbilityKey) {
-      // Resolve the source entity index from the primary hit (hit 0)
-      // For memosprite characters, the source entity is the memosprite (entity 1), not the main char (entity 0)
-      const sourceEntityIndex = action.hits?.length ? (action.hits[0].sourceEntityIndex ?? 0) : 0
-      const elementDmgBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
-
-      // Capture fully resolved stats matching the damage formula:
-      const hasHits = action.hits?.length ?? 0
-      primaryActionStats = {
-        DMG_BOOST: hasHits ? x.getValue(StatKey.DMG_BOOST, 0) : 0,
-        sourceEntityCR: (hasHits ? x.getValue(StatKey.CR, 0) : 0) + x.getActionValueByIndex(StatKey.CR_BOOST, sourceEntityIndex),
-        sourceEntityCD: (hasHits ? x.getValue(StatKey.CD, 0) : 0) + x.getActionValueByIndex(StatKey.CD_BOOST, sourceEntityIndex),
-        sourceEntityElementDmgBoost: x.getActionValueByIndex(elementDmgBoostKey, sourceEntityIndex),
-      }
-    }
-
-    let sum = 0
-
-    for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
-      const hit = action.hits![hitIndex]
-
-      const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
-      x.setHitRegisterValue(hit.registerIndex, dmg)
-      if (hit.outputTag === OutputTag.DAMAGE) {
-        hit.computedTrueDmgModifier = x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
+      if (shouldTrace) {
+        actionBuffSnapshots![action.actionName] = captureSnapshot(x)
       }
 
-      if (hit.recorded !== false) {
-        sum += dmg
+      // Capture stats for the primary scoring action (from scoringMetadata.sortOption.key)
+      // This must happen after calculateComputedStats but before stats are overwritten by next action
+      if (action.actionName === context.primaryAbilityKey) {
+        // Resolve the source entity index from the primary hit (hit 0)
+        // For memosprite characters, the source entity is the memosprite (entity 1), not the main char (entity 0)
+        const sourceEntityIndex = action.hits?.length ? (action.hits[0].sourceEntityIndex ?? 0) : 0
+        const elementDmgBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
+
+        // Capture fully resolved stats matching the damage formula:
+        const hasHits = action.hits?.length ?? 0
+        primaryActionStats = {
+          DMG_BOOST: hasHits ? x.getValue(StatKey.DMG_BOOST, 0) : 0,
+          sourceEntityCR: (hasHits ? x.getValue(StatKey.CR, 0) : 0) + x.getActionValueByIndex(StatKey.CR_BOOST, sourceEntityIndex),
+          sourceEntityCD: (hasHits ? x.getValue(StatKey.CD, 0) : 0) + x.getActionValueByIndex(StatKey.CD_BOOST, sourceEntityIndex),
+          sourceEntityElementDmgBoost: x.getActionValueByIndex(elementDmgBoostKey, sourceEntityIndex),
+        }
       }
+
+      let sum = 0
+
+      for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
+        const hit = action.hits![hitIndex]
+
+        const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
+        x.setHitRegisterValue(hit.registerIndex, dmg)
+        if (hit.outputTag === OutputTag.DAMAGE) {
+          hit.computedTrueDmgModifier = x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
+        }
+
+        if (hit.recorded !== false) {
+          sum += dmg
+        }
+      }
+
+      x.setActionRegisterValue(action.registerIndex, sum)
     }
 
-    x.setActionRegisterValue(action.registerIndex, sum)
+    calculateEhp(x, context)
+
+    // Capture action damage for each default action
+    for (const action of defaultActions) {
+      actionDamage[action.actionName as AbilityKind] = x.getActionRegisterValue(action.registerIndex)
+    }
   }
-
-  calculateEhp(x, context)
 
   x.setGlobalRegisterValue(GlobalRegister.COMBO_DMG, comboDmg)
-
-  // Capture action damage for each default action
-  const actionDamage: ActionDamage = {}
-  for (const action of defaultActions) {
-    actionDamage[action.actionName as AbilityKind] = x.getActionRegisterValue(action.registerIndex)
-  }
 
   return {
     x,

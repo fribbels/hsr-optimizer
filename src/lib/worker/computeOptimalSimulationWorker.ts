@@ -101,11 +101,13 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     substatRollsModifier: scoringParams.substatRollsModifier,
     simulationFlags: simulationFlags,
     stabilize: false,
+    skipDefaults: true,
   }
 
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
     mergedScoringParams.stabilize = stabilize
+    mergedScoringParams.skipDefaults = !stabilize
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
     applyScoringFunction(currentSimulation.result, metadata)

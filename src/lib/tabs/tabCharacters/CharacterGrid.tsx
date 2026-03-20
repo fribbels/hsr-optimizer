@@ -24,6 +24,7 @@ import { useMergedRef } from '@mantine/hooks'
 import { IconPencil, IconX } from '@tabler/icons-react'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
+import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import { AppPages } from 'lib/constants/appPages'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
@@ -396,7 +397,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         {/* Light cone icon */}
         {toggles.showLightCone && lightConeId && (
           <div className={classes.lcWrap} data-lc-style={toggles.lcStyle}>
-            <img src={loadImages ? Assets.getLightConeIconById(lightConeId) : undefined} alt="" draggable={false} decoding="async" />
+            <img src={loadImages ? Assets.getLightConeIconById(lightConeId) : undefined} alt="" draggable={false} decoding="async" onLoad={showImageOnLoad} />
           </div>
         )}
       </div>

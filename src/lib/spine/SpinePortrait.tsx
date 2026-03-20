@@ -11,15 +11,19 @@ export function SpinePortrait({
   characterId,
   style,
   onUnsupported,
+  onReady,
 }: {
   characterId: CharacterId
   style?: CSSProperties
   onUnsupported?: () => void
+  onReady?: () => void
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const instanceRef = useRef<SpineInstance | null>(null)
   const onUnsupportedRef = useRef(onUnsupported)
   onUnsupportedRef.current = onUnsupported
+  const onReadyRef = useRef(onReady)
+  onReadyRef.current = onReady
 
   useEffect(() => {
     const canvas = canvasRef.current!
@@ -47,6 +51,7 @@ export function SpinePortrait({
         }
 
         instanceRef.current = instance
+        onReadyRef.current?.()
       } catch (err) {
         console.error('SpinePortrait: failed to load', characterId, err)
         if (!disposed) onUnsupportedRef.current?.()

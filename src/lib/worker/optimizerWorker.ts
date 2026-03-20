@@ -29,7 +29,7 @@ import {
 } from 'lib/optimization/calculateStats'
 import { type SetCounts } from 'lib/optimization/setMatching'
 import { BasicKey, type BasicKeyType } from 'lib/optimization/basicStatsArray'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey, type StatKeyValue } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
 import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
@@ -333,7 +333,7 @@ export function optimizerWorker(e: MessageEvent) {
 
 function addBasicConditionIfNeeded(
   conditions: ((c: BasicStatsArray) => boolean)[],
-  statKey: any,
+  statKey: StatKeyValue,
   min: number,
   max: number,
 ) {
@@ -344,14 +344,14 @@ function addBasicConditionIfNeeded(
 
 function addCombatConditionIfNeeded(
   conditions: ((x: ComputedStatsContainer, entityIndex: number) => boolean)[],
-  statKey: any,
+  statKey: StatKeyValue,
   min: number,
   max: number,
 ) {
   if (min !== 0 || max !== Constants.MAX_INT) {
     conditions.push((x, entityIndex) => {
       const entityName = x.config.entitiesArray[entityIndex].name
-      const value = x.getActionValue(statKey as any, entityName)
+      const value = x.getActionValue(statKey, entityName)
       return value < min || value > max
     })
   }
@@ -359,15 +359,15 @@ function addCombatConditionIfNeeded(
 
 function addCombatBoostedConditionIfNeeded(
   conditions: ((x: ComputedStatsContainer, entityIndex: number) => boolean)[],
-  statKey: any,
-  boostKey: any,
+  statKey: StatKeyValue,
+  boostKey: StatKeyValue,
   min: number,
   max: number,
 ) {
   if (min !== 0 || max !== Constants.MAX_INT) {
     conditions.push((x, entityIndex) => {
       const entityName = x.config.entitiesArray[entityIndex].name
-      const value = x.getActionValue(statKey as any, entityName) + x.getActionValue(boostKey as any, entityName)
+      const value = x.getActionValue(statKey, entityName) + x.getActionValue(boostKey, entityName)
       return value < min || value > max
     })
   }

@@ -1,5 +1,4 @@
-import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
-import { sumArray } from 'lib/utils/mathUtils'
+import { SUBSTAT_COUNT } from 'lib/worker/maxima/tree/statIndexMap'
 import {
   type SearchTree,
   type TreeConfig,
@@ -7,48 +6,40 @@ import {
   type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
 
-export function calculateMinMaxMetadata(lower: SubstatCounts, upper: SubstatCounts) {
-  const fixedStats: SubstatCounts = {}
-  const activeStats: string[] = []
-  for (const stat of Object.keys(lower)) {
-    if (lower[stat] === upper[stat]) {
-      fixedStats[stat] = upper[stat]
+export function calculateMinMaxMetadata(lower: Float32Array, upper: Float32Array) {
+  const activeStats: number[] = []
+  let fixedSum = 0
+  for (let i = 0; i < SUBSTAT_COUNT; i++) {
+    if (lower[i] === upper[i]) {
+      fixedSum += upper[i]
     } else {
-      activeStats.push(stat)
+      activeStats.push(i)
     }
   }
-  const fixedSum = sumArray(Object.values(fixedStats))
   const dimensions = activeStats.length
 
   return {
     dimensions,
     fixedSum,
-    fixedStats,
     activeStats,
   }
 }
 
-export function splitNode(node: TreeStatNode, dimension: string) {
+export function splitNode(node: TreeStatNode, dimension: number) {
   const midpoint = calculateRegionMidpoint(node.region, dimension)
 
+  const lowerUpper = node.region.upper.slice() as Float32Array
+  lowerUpper[dimension] = midpoint - 1
   const lowerRegion: TreeStatRegion = {
-    lower: {
-      ...node.region.lower,
-    },
-    upper: {
-      ...node.region.upper,
-      [dimension]: midpoint - 1,
-    },
+    lower: node.region.lower.slice() as Float32Array,
+    upper: lowerUpper,
   }
 
+  const upperLower = node.region.lower.slice() as Float32Array
+  upperLower[dimension] = midpoint
   const upperRegion: TreeStatRegion = {
-    lower: {
-      ...node.region.lower,
-      [dimension]: midpoint,
-    },
-    upper: {
-      ...node.region.upper,
-    },
+    lower: upperLower,
+    upper: node.region.upper.slice() as Float32Array,
   }
 
   return {
@@ -58,15 +49,14 @@ export function splitNode(node: TreeStatNode, dimension: string) {
   }
 }
 
-export function calculateRegionMidpoint(region: TreeStatRegion, dimension: string) {
+export function calculateRegionMidpoint(region: TreeStatRegion, dimension: number) {
   return Math.ceil((region.upper[dimension] - region.lower[dimension]) / 2) + region.lower[dimension]
 }
 
-// Efficient unique id generator for a point, only works up to 8 dimensions
-export function pointToBitwiseId(point: SubstatCounts, activeStats: string[]) {
+export function pointToBitwiseId(point: Float32Array, activeStats: number[]) {
   let result = 0
   for (let i = 0; i < activeStats.length; i++) {
-    result |= point[activeStats[i]] << (i * 6) // 6 bits per number, [0, 63]
+    result |= point[activeStats[i]] << (i * 6)
   }
   return result
 }

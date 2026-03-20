@@ -1,26 +1,19 @@
-import {
-  Stats,
-  SubStats,
-} from 'lib/constants/constants'
-import type { SubstatCounts } from 'lib/simulations/statSimulationTypes'
+import { SubStats } from 'lib/constants/constants'
+import { STAT_INDEX, SUBSTAT_COUNT } from 'lib/worker/maxima/tree/statIndexMap'
 
 interface StatConstraints {
-  stat: string
+  statIdx: number
   rolls: number
   availablePieces: number
   minPieces: number
   maxPieces: number
 }
 
-/**
- * This checks if the substat distribution is a valid distribution in-game,
- * following the substat and main stat assignment rules.
- */
 export class SubstatDistributionValidator {
   private target: number
   private maxSingleStatRollsPerPiece: number
-  private mainStats: string[]
-  private availablePiecesByStat: Record<string, number> = {}
+  private mainStatIndices: number[]
+  private availablePiecesByStat: Float32Array
 
   constructor(
     target: number,
@@ -33,56 +26,57 @@ export class SubstatDistributionValidator {
   ) {
     this.target = target
     this.maxSingleStatRollsPerPiece = target === 54 ? 6 : 5
-    this.mainStats = [
+
+    const mainStatStrings = [
       mainStats.simLinkRope,
       mainStats.simPlanarSphere,
       mainStats.simFeet,
       mainStats.simBody,
-      Stats.ATK,
-      Stats.HP,
+      SubStats[4], // Stats.ATK
+      SubStats[3], // Stats.HP
     ]
 
-    SubStats.forEach((stat) => {
-      this.availablePiecesByStat[stat] = this.mainStats.filter((mainStat) => mainStat !== stat).length
-    })
+    this.mainStatIndices = mainStatStrings.map((s) => STAT_INDEX[s] ?? -1)
+
+    this.availablePiecesByStat = new Float32Array(SUBSTAT_COUNT)
+    for (let i = 0; i < SUBSTAT_COUNT; i++) {
+      let count = 0
+      for (const mainIdx of this.mainStatIndices) {
+        if (mainIdx !== i) count++
+      }
+      this.availablePiecesByStat[i] = count
+    }
   }
 
-  // Warning!!! This is a heavily simplified validator, optimized for performance.
-  // During testing the only constraint that gets violated in practice is the totalMaxAssignments < 24 check.
-  // We only check this one here, but this is only logically sound for the current code when this was written.
-  // This check's correctness may change in the future if the point generation code is changed.
-  public isValidDistributionSimple(stats: SubstatCounts): boolean {
+  public isValidDistributionSimple(stats: Float32Array): boolean {
     let totalMaxAssignments = 0
 
-    for (const stat of SubStats) {
-      const rolls = stats[stat]
+    for (let i = 0; i < SUBSTAT_COUNT; i++) {
+      const rolls = stats[i]
       if (rolls === 0) continue
 
-      totalMaxAssignments += Math.min(rolls, this.getAvailablePieces(stat))
+      totalMaxAssignments += Math.min(rolls, this.availablePiecesByStat[i])
     }
 
     return totalMaxAssignments >= 24
   }
 
-  public isValidDistribution(stats: SubstatCounts): boolean {
+  public isValidDistribution(stats: Float32Array): boolean {
     let sum = 0
-    for (const stat of SubStats) {
-      const rolls = stats[stat] ?? 0
+    for (let i = 0; i < SUBSTAT_COUNT; i++) {
+      const rolls = stats[i] ?? 0
       if (rolls <= 0) continue
 
-      const availablePieces = this.getAvailablePieces(stat)
+      const availablePieces = this.availablePiecesByStat[i]
 
-      // Can't exceed maximum possible rolls (6 or 5 per piece)
       if (rolls > availablePieces * this.maxSingleStatRollsPerPiece) {
         return false
       }
 
-      // Must have at least one piece where the stat can appear
       if (availablePieces === 0) {
         return false
       }
 
-      // Must be possible to assign with minimum 1 roll per piece
       if (rolls > 0 && availablePieces < Math.ceil(rolls / this.maxSingleStatRollsPerPiece)) {
         return false
       }
@@ -97,31 +91,28 @@ export class SubstatDistributionValidator {
     return this.canSatisfyAssignmentRules(stats)
   }
 
-  private getAvailablePieces(stat: string): number {
-    return this.availablePiecesByStat[stat]
+  public getAvailablePieces(statIdx: number): number {
+    return this.availablePiecesByStat[statIdx]
   }
 
-  private canSatisfyAssignmentRules(stats: SubstatCounts): boolean {
+  private canSatisfyAssignmentRules(stats: Float32Array): boolean {
     const statConstraints: StatConstraints[] = []
     let totalMinAssignments = 0
     let totalMaxAssignments = 0
 
-    for (const stat of SubStats) {
-      const rolls = stats[stat]
+    for (let i = 0; i < SUBSTAT_COUNT; i++) {
+      const rolls = stats[i]
       if (rolls === 0) continue
 
-      const constraints = {
-        stat,
+      const availablePieces = this.availablePiecesByStat[i]
+      const constraints: StatConstraints = {
+        statIdx: i,
         rolls,
-        availablePieces: this.getAvailablePieces(stat),
-        // Minimum pieces needed (max 6 or 5 rolls per piece)
+        availablePieces,
         minPieces: Math.ceil(rolls / this.maxSingleStatRollsPerPiece),
-        // Maximum pieces that can be used
-        maxPieces: Math.min(rolls, this.getAvailablePieces(stat)),
+        maxPieces: Math.min(rolls, availablePieces),
       }
 
-      // Check if any stat needs more pieces than physically available
-      // e.g. if ATK% needs 3 pieces but only 2 pieces can have ATK% as substat due to main stat conflicts
       for (const constraint of statConstraints) {
         if (constraint.minPieces > constraint.availablePieces) {
           return false
@@ -133,13 +124,10 @@ export class SubstatDistributionValidator {
       totalMaxAssignments += constraints.maxPieces
     }
 
-    // Check if the sum of minimum required assignments is more than all 24 available slots
     if (totalMinAssignments > 24) {
       return false
     }
 
-    // Check if there is sufficient assignment capacity to fill all required slots
-    // The build needs exactly 24 assignments, if maximum possible < 24, then there will be an invalid empty substat slot
     if (totalMaxAssignments < 24) {
       return false
     }
@@ -148,18 +136,15 @@ export class SubstatDistributionValidator {
       return false
     }
 
-    // If all the checks have passed then distribution must be valid
     return true
   }
 
-  // Check if each piece has enough candidate substats to choose from
-  // Each piece needs exactly 4 substats so there must be at least 4 eligible options per piece
   private isValidEligibleStatsPerPiece(statConstraints: StatConstraints[]) {
     for (let pieceIndex = 0; pieceIndex < 6; pieceIndex++) {
-      const mainStat = this.mainStats[pieceIndex]
+      const mainStatIdx = this.mainStatIndices[pieceIndex]
       let eligibleStatsForPiece = 0
       for (const constraint of statConstraints) {
-        if (constraint.rolls > 0 && constraint.stat !== mainStat) {
+        if (constraint.rolls > 0 && constraint.statIdx !== mainStatIdx) {
           eligibleStatsForPiece++
         }
       }

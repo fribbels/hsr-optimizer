@@ -1,6 +1,7 @@
 import { Stats } from 'lib/constants/constants'
 import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
+import { STAT_INDEX } from 'lib/worker/maxima/tree/statIndexMap'
 import { isRegionFeasible } from 'lib/worker/maxima/validator/regionFeasibilityValidator'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
@@ -90,8 +91,8 @@ describe('basic search tree tests', () => {
   it('available pieces', () => {
     const tree = initializeTree()
 
-    expect(tree.getAvailablePieces(Stats.ATK)).toBe(5)
-    expect(tree.getAvailablePieces(Stats.ATK_P)).toBe(4)
+    expect(tree.getAvailablePieces(STAT_INDEX[Stats.ATK])).toBe(5)
+    expect(tree.getAvailablePieces(STAT_INDEX[Stats.ATK_P])).toBe(4)
   })
 
   it('split dimension', () => {
@@ -113,7 +114,7 @@ describe('basic search tree tests', () => {
     })
 
     const dimension = tree.pickSplitDimension(tree.root)
-    expect(dimension).toBe(Stats.BE)
+    expect(dimension).toBe(STAT_INDEX[Stats.BE])
   })
 
   it('root', () => {

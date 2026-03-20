@@ -1,9 +1,12 @@
 import { PriorityQueue } from '@js-sdsl/priority-queue'
-import {
-  Stats,
-  SubStats,
-} from 'lib/constants/constants'
+import { SubStats } from 'lib/constants/constants'
 import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
+import {
+  SUBSTAT_COUNT,
+  SPD_INDEX,
+  toFloat32Array,
+  writeToSubstatCounts,
+} from 'lib/worker/maxima/tree/statIndexMap'
 import {
   calculateMinMaxMetadata,
   calculateRegionMidpoint,
@@ -17,8 +20,8 @@ import {
 import { type SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
 export interface TreeStatRegion {
-  lower: SubstatCounts
-  upper: SubstatCounts
+  lower: Float32Array
+  upper: Float32Array
 }
 
 export interface TreeConfig {
@@ -29,7 +32,7 @@ export interface TreeConfig {
 
 export interface ProtoTreeStatNode {
   region: TreeStatRegion
-  representative: SubstatCounts
+  representative: Float32Array
   damage: number
   volume: number
   logVolume: number
@@ -41,43 +44,11 @@ export interface ProtoTreeStatNode {
 
 export interface TreeStatNode extends ProtoTreeStatNode {
   splitValue: number
-  splitDimension: string
+  splitDimension: number
   lowerChild: ProtoTreeStatNode
   upperChild: ProtoTreeStatNode
 }
 
-/**
- * Global maxima search algorithm for optimal substat distributions
- *
- * The problem:
- * - Calculating the globally optimal solution is very computationally costly
- * - Each stat dimension has [0, 36] range, with up to 8 dimensions to search
- * - Naively the search space upper bound is 37^8 = 3,512,479,453,921 points
- * - Realistically lower, after applying substat constraints
- * - The damage function has to be considered as a black box, since it frequently changes
- * - The damage function is not smooth, has cliffs from stat conversions, conditional activations
- * - The solution must be a valid in-game substat distribution, which follows complex assignment rules
- - The algorithm has to be deterministic and reproducible
- *
- * Tech constraints:
- * - Must run within ~1 second, since these are used in the browser for character cards DPS Score
- * - Must run within workers, meaning multiple parallel executions at a time
- * - Browser RAM limits, restricts the amount of precomputation we can do (multiplied by # workers)
- *
- * Simple summary:
- * - Initialize root region covering entire feasible space, push it onto a queue
- * - Create a Priority Queue ordered by damage based metric
- * - Loop:
- *   - Pop a node from the queue
- *   - Split the node's region into two child nodes with half the size
- *   - Generate a point in each region and measure their damage
- *   - Push the points onto the queue
- * - Stop the loop when n iterations are complete, take the highest damage node as the optimal
- *
- * This progressively builds a space partitioning tree to search the space,
- * by assigning representative points to regions and subdividing them. The binary splits reduce variance
- * within each region and the priority queue focuses search on the optimal regions.
- */
 export class SearchTree {
   public config: TreeConfig
   public root: ProtoTreeStatNode
@@ -94,45 +65,58 @@ export class SearchTree {
   public maxStatRollsPerPiece = 6
   public dimensions: number
   public fixedSum: number
-  public activeStats: string[] = []
-  public allStats: string[] = []
-  public availablePiecesByStat: Record<string, number> = {}
+  public activeStats: number[] = []
+  public allStats: number[] = []
+  public availablePiecesByStat: Float32Array
+
+  public lower: Float32Array
+  public upper: Float32Array
 
   public cache: Record<string, number> = {}
   public startTime = 0
   public endTime = 0
   public completed = false
 
-  public dimensionVarianceTracker: Record<string, {
+  public dimensionVarianceTracker: {
     totalVariance: number,
     splitCount: number,
     avgVariance: number,
-  }> = {}
+  }[] = []
 
-  // Pre-allocated buffers for generateRepresentative (200% benchmark)
   private potentialMinPiecesAssignments: number[] = []
   private maxPiecesDiff: number[] = []
 
+  private damageFunctionBuffer: SubstatCounts = {}
+
   constructor(
     public targetSum: number,
-    public lower: SubstatCounts,
-    public upper: SubstatCounts,
+    lower: SubstatCounts,
+    upper: SubstatCounts,
     public mainStats: string[],
     public damageFunction: (stats: SubstatCounts) => number,
     public substatValidator: SubstatDistributionValidator,
   ) {
+    this.lower = toFloat32Array(lower)
+    this.upper = toFloat32Array(upper)
+
     const {
       dimensions,
       fixedSum,
       activeStats,
-    } = calculateMinMaxMetadata(lower, upper)
+    } = calculateMinMaxMetadata(this.lower, this.upper)
     this.dimensions = dimensions
     this.fixedSum = fixedSum
     this.activeStats = activeStats
-    this.allStats = SubStats
-    this.allStats.forEach((stat) => {
-      this.availablePiecesByStat[stat] = this.mainStats.filter((mainStat) => mainStat !== stat).length
-    })
+    this.allStats = Array.from({ length: SUBSTAT_COUNT }, (_, i) => i)
+
+    this.availablePiecesByStat = new Float32Array(SUBSTAT_COUNT)
+    for (let i = 0; i < SUBSTAT_COUNT; i++) {
+      this.availablePiecesByStat[i] = this.mainStats.filter((m) => m !== SubStats[i]).length
+    }
+
+    for (const stat of SubStats) {
+      this.damageFunctionBuffer[stat] = 0
+    }
 
     this.damageQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.damage - a.damage)
     this.volumeQueue = new PriorityQueue<ProtoTreeStatNode>([], (a, b) => b.logVolume * b.damage - a.logVolume * a.damage)
@@ -140,10 +124,10 @@ export class SearchTree {
     this.maxStatRollsPerPiece = this.targetSum === 54 ? 6 : 5
 
     this.config = getSearchTreeConfig(this)
-    this.root = this.generateRoot(lower, upper)!
+    this.root = this.generateRoot(this.lower, this.upper)!
 
-    for (const stat of activeStats) {
-      this.dimensionVarianceTracker[stat] = {
+    for (let i = 0; i < SUBSTAT_COUNT; i++) {
+      this.dimensionVarianceTracker[i] = {
         totalVariance: 0,
         splitCount: 0,
         avgVariance: 0,
@@ -151,7 +135,6 @@ export class SearchTree {
     }
   }
 
-  // Alternate queues to balance exploration and optimization
   public singleIteration() {
     if (this.measurements < this.config.explorationLimit) {
       this.evaluate(this.volumeQueue)
@@ -165,7 +148,6 @@ export class SearchTree {
     }
   }
 
-  // Search until 2x the best node's measurement index, or at least until the max configured limit
   public search() {
     this.startTime = performance.now()
     while (
@@ -179,13 +161,10 @@ export class SearchTree {
     return this.getBest()
   }
 
-  public getBest() {
+  public getBest(): Float32Array {
     return this.bestNode!.representative!
   }
 
-  /**
-   * Splits a node into two child regions
-   */
   public evaluate(queue: PriorityQueue<ProtoTreeStatNode>) {
     const node = queue.pop()
     if (node == null) {
@@ -197,19 +176,23 @@ export class SearchTree {
     }
 
     const splitDimension = this.pickSplitDimension(node)
-    if (!splitDimension) return
+    if (splitDimension == null) return
 
     const parentNode = node as TreeStatNode
 
     const midpoint = calculateRegionMidpoint(parentNode.region, splitDimension)
-    // Shared bounds optimization: region bounds are immutable after creation, so unchanged
-    // bounds can be shared by reference instead of copied. DO NOT mutate region bounds in place.
+
+    const lowerUpper = parentNode.region.upper.slice() as Float32Array
+    lowerUpper[splitDimension] = midpoint - 1
     const lowerRegion: TreeStatRegion = {
       lower: parentNode.region.lower,
-      upper: { ...parentNode.region.upper, [splitDimension]: midpoint - 1 },
+      upper: lowerUpper,
     }
+
+    const upperLower = parentNode.region.lower.slice() as Float32Array
+    upperLower[splitDimension] = midpoint
     const upperRegion: TreeStatRegion = {
-      lower: { ...parentNode.region.lower, [splitDimension]: midpoint },
+      lower: upperLower,
       upper: parentNode.region.upper,
     }
 
@@ -231,13 +214,10 @@ export class SearchTree {
     }
   }
 
-  /**
-   * Creates a child if there is one within the region, and adds it to the queues
-   */
   public generateChild(
     parentNode: TreeStatNode,
     region: TreeStatRegion,
-    dimension: string,
+    dimension: number,
     upper: boolean,
   ) {
     const feasible = isRegionFeasible(region, this)
@@ -273,42 +253,31 @@ export class SearchTree {
     return childNode
   }
 
-  public getAvailablePieces(stat: string) {
-    return this.availablePiecesByStat[stat]
+  public getAvailablePieces(statIdx: number) {
+    return this.availablePiecesByStat[statIdx]
   }
 
-  /**
-   * Generates a valid point within the region.
-   * Combines various heuristics to build up a point based on validator rules.
-   */
-  public generateRepresentative(region: TreeStatRegion, splitDimension: string, upper: boolean) {
+  public generateRepresentative(region: TreeStatRegion, splitDimension: number, upper: boolean): Float32Array {
     let sum = this.fixedSum
-    for (const stat of this.activeStats) {
-      sum += region.lower[stat]
+    for (let i = 0; i < this.activeStats.length; i++) {
+      sum += region.lower[this.activeStats[i]]
     }
 
     let leftToDistribute = Math.floor(this.targetSum - sum)
-    const representative: SubstatCounts = {
-      ...region.lower,
-    }
+    const representative = region.lower.slice() as Float32Array
 
-    // Start the search at the lower bounds
-    representative[Stats.SPD] = Math.ceil(representative[Stats.SPD])
+    representative[SPD_INDEX] = Math.ceil(representative[SPD_INDEX])
 
-    // How many slots you could use for filling up
-    // We should pick stats that have the most available slots, to fill up empty slots first
-    // This only needs to be checked for the 200% benchmark
-    // The 100% benchmark can assume that simple round-robin will never generate an invalid distribution
     let assignmentsNeeded
     if (this.targetSum === 54) {
       const potentialMinPiecesAssignments = this.potentialMinPiecesAssignments
       let totalCurrentMins = 0
       for (let i = 0; i < this.activeStats.length; i++) {
-        const stat = this.activeStats[i]
+        const statIdx = this.activeStats[i]
 
-        const availablePieces = this.getAvailablePieces(stat)
-        const upperLimit = region.upper[stat]
-        const rolls = representative[stat]
+        const availablePieces = this.getAvailablePieces(statIdx)
+        const upperLimit = region.upper[statIdx]
+        const rolls = representative[statIdx]
         const currentMinPieces = Math.max(0, Math.min(availablePieces, upperLimit) - rolls)
 
         totalCurrentMins += currentMinPieces
@@ -331,19 +300,18 @@ export class SearchTree {
 
       leftToDistribute -= assignmentsNeeded
 
-      // Fixes the totalMaxAssignments validation
       let totalMaxAssignments = 0
       const maxPiecesDiff = this.maxPiecesDiff
       for (let i = 0; i < this.allStats.length; i++) {
-        const stat = this.allStats[i]
-        const rolls = representative[stat]
-        const availablePieces = this.getAvailablePieces(stat)
+        const statIdx = this.allStats[i]
+        const rolls = representative[statIdx]
+        const availablePieces = this.getAvailablePieces(statIdx)
         const maxPieces = Math.min(rolls, availablePieces)
         totalMaxAssignments += Math.ceil(maxPieces)
         maxPiecesDiff[i] = Math.max(0, maxPieces - availablePieces)
       }
       if (totalMaxAssignments < 24) {
-        let maxPieceAssignmentsNeeded = 24 - totalMaxAssignments
+        const maxPieceAssignmentsNeeded = 24 - totalMaxAssignments
         for (let i = 0; i < maxPieceAssignmentsNeeded; i++) {
           let lowestIndex = 0
           let lowestValue = maxPiecesDiff[0]
@@ -357,33 +325,31 @@ export class SearchTree {
 
           maxPiecesDiff[lowestIndex]++
 
-          const targetStat = this.allStats[lowestIndex]
-          const currentValue = representative[targetStat]
+          const targetStatIdx = this.allStats[lowestIndex]
+          const currentValue = representative[targetStatIdx]
           const nextValue = currentValue + 1
 
-          if (nextValue > region.upper[targetStat]) {
+          if (nextValue > region.upper[targetStatIdx]) {
             continue
           }
 
-          representative[targetStat] = nextValue
+          representative[targetStatIdx] = nextValue
           leftToDistribute--
         }
       }
     }
 
-    // Distribute round-robin
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
-        const stat = this.activeStats[i]
+        const statIdx = this.activeStats[i]
 
-        const upgraded = representative[stat] + 1
-        if (upgraded <= region.upper[stat]) {
-          representative[stat] = upgraded
+        const upgraded = representative[statIdx] + 1
+        if (upgraded <= region.upper[statIdx]) {
+          representative[statIdx] = upgraded
           leftToDistribute--
         }
 
         if (upper && leftToDistribute > 0) {
-          // Alternating attempt to bump up the upper split stat when possible
           const upgraded = representative[splitDimension] + 1
           if (upgraded <= region.upper[splitDimension]) {
             representative[splitDimension] = upgraded
@@ -402,82 +368,72 @@ export class SearchTree {
     return representative
   }
 
-  // Try to pick the best dimension to split on.
-  // First try to pick the dimension with the highest variance, to split the most important stats.
-  // Otherwise pick the dimension with the highest range.
-  // This reduces the variance in each region for better representative points
-  public pickSplitDimension(node: ProtoTreeStatNode) {
+  public pickSplitDimension(node: ProtoTreeStatNode): number | null {
     let bestVariance = 0
-    let bestStat: string | null = null
-    for (const stat of this.activeStats) {
-      const tracker = this.dimensionVarianceTracker[stat]
+    let bestStat: number | null = null
+    for (let i = 0; i < this.activeStats.length; i++) {
+      const statIdx = this.activeStats[i]
+      const tracker = this.dimensionVarianceTracker[statIdx]
 
       if (
         tracker && tracker.splitCount >= 100
         && tracker.avgVariance > bestVariance
-        && this.isStatSplitPossible(stat, node)
+        && this.isStatSplitPossible(statIdx, node)
       ) {
         bestVariance = tracker.avgVariance
-        bestStat = stat
+        bestStat = statIdx
       }
     }
 
-    if (bestStat) {
+    if (bestStat != null) {
       return bestStat
     }
 
     let maxRange = 0
-    let maxStat = null
-    for (const stat of this.activeStats) {
-      if (stat === Stats.SPD) continue
-      const range = node.region.upper[stat] - node.region.lower[stat]
+    let maxStat: number | null = null
+    for (let i = 0; i < this.activeStats.length; i++) {
+      const statIdx = this.activeStats[i]
+      if (statIdx === SPD_INDEX) continue
+      const range = node.region.upper[statIdx] - node.region.lower[statIdx]
       if (range > maxRange) {
         maxRange = range
-        maxStat = stat
+        maxStat = statIdx
       }
     }
 
-    if (maxStat && this.isStatSplitPossible(maxStat, node)) {
+    if (maxStat != null && this.isStatSplitPossible(maxStat, node)) {
       return maxStat
     }
 
     return null
   }
 
-  // Any dimension with 2 points can be split, except SPD
-  public isStatSplitPossible(stat: string, node: ProtoTreeStatNode) {
-    if (stat === Stats.SPD) return false
-    return node.region.upper[stat] - node.region.lower[stat] > 0
+  public isStatSplitPossible(statIdx: number, node: ProtoTreeStatNode) {
+    if (statIdx === SPD_INDEX) return false
+    return node.region.upper[statIdx] - node.region.lower[statIdx] > 0
   }
 
-  // The root is generated with separate rules
-  // We basically assume that round-robin will always generate a valid root distribution
-  public generateRoot(lower: SubstatCounts, upper: SubstatCounts) {
-    // Region
+  public generateRoot(lower: Float32Array, upper: Float32Array) {
     const region: TreeStatRegion = {
       lower: lower,
       upper: upper,
     }
 
-    // Representative starts at lower bounds
-    const representative: SubstatCounts = {
-      ...lower,
-    }
+    const representative = lower.slice() as Float32Array
 
     let leftToDistribute = this.targetSum
-    for (const stat of this.allStats) {
-      leftToDistribute -= lower[stat]
+    for (let i = 0; i < this.allStats.length; i++) {
+      leftToDistribute -= lower[this.allStats[i]]
     }
     leftToDistribute = Math.floor(leftToDistribute)
 
-    // Distribute round-robin
     let looped = false
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
-        const stat = this.activeStats[i]
-        const upgraded = representative[stat] + 1
-        if (upgraded <= region.upper[stat]) {
-          representative[stat] = upgraded
+        const statIdx = this.activeStats[i]
+        const upgraded = representative[statIdx] + 1
+        if (upgraded <= region.upper[statIdx]) {
+          representative[statIdx] = upgraded
           leftToDistribute--
           looped = false
         }
@@ -487,7 +443,6 @@ export class SearchTree {
 
       if (i === this.activeStats.length - 1) {
         i = -1
-        // Infinite loop guard
         if (looped) {
           return null
         }
@@ -525,7 +480,8 @@ export class SearchTree {
       return value
     }
 
-    const damage = this.damageFunction(node.representative)
+    writeToSubstatCounts(node.representative, this.damageFunctionBuffer)
+    const damage = this.damageFunction(this.damageFunctionBuffer)
 
     this.measurements++
     this.cache[id] = damage
@@ -547,14 +503,14 @@ export class SearchTree {
     }
   }
 
-  // Number of points each region contains, note that when upper == lower, volume is considered 1
   public calculateVolume(node: ProtoTreeStatNode) {
     let volume = 1
     const region = node.region
     const upper = region.upper
     const lower = region.lower
-    for (const stat of this.activeStats) {
-      volume *= Math.max(1, upper[stat] - lower[stat])
+    for (let i = 0; i < this.activeStats.length; i++) {
+      const statIdx = this.activeStats[i]
+      volume *= Math.max(1, upper[statIdx] - lower[statIdx])
     }
 
     node.volume = volume
@@ -562,13 +518,11 @@ export class SearchTree {
     return volume
   }
 
-  public scanPointNeighbors(centerPoint: SubstatCounts) {
-    // Generate all offset combinations that sum to 0
+  public scanPointNeighbors(centerPoint: Float32Array) {
     const validOffsets = this.generateZeroSumOffsets(this.activeStats.length, centerPoint)
-    const testPoint = { ...centerPoint }
+    const testPoint = centerPoint.slice() as Float32Array
 
     for (const offsets of validOffsets) {
-      // Apply offsets in-place
       for (let i = 0; i < this.activeStats.length; i++) {
         testPoint[this.activeStats[i]] = centerPoint[this.activeStats[i]] + offsets[i]
       }
@@ -580,20 +534,21 @@ export class SearchTree {
       const id = pointToBitwiseId(testPoint, this.activeStats)
       const value = this.cache[id]
       if (value === undefined) {
-        const damage = this.damageFunction(testPoint)
+        writeToSubstatCounts(testPoint, this.damageFunctionBuffer)
+        const damage = this.damageFunction(this.damageFunctionBuffer)
 
         this.measurements++
         this.cache[id] = damage
 
         if (damage > this.bestDamage) {
-          const newPoint: SubstatCounts = { ...testPoint }
+          const newPoint = testPoint.slice() as Float32Array
           this.insertIntoTree(newPoint, this.root as TreeStatNode)
         }
       }
     }
   }
 
-  private insertIntoTree(point: SubstatCounts, root: TreeStatNode): ProtoTreeStatNode {
+  private insertIntoTree(point: Float32Array, root: TreeStatNode): ProtoTreeStatNode {
     const dimension = root.splitDimension
     const value = root.splitValue
     const upper = point[dimension] >= value
@@ -628,7 +583,7 @@ export class SearchTree {
     return childNode
   }
 
-  private generateZeroSumOffsets(dimensions: number, centerPoint: SubstatCounts): number[][] {
+  private generateZeroSumOffsets(dimensions: number, centerPoint: Float32Array): number[][] {
     const result: number[][] = []
 
     const backtrack = (currentOffsets: number[], remainingDimensions: number, currentSum: number) => {
@@ -640,19 +595,16 @@ export class SearchTree {
       }
 
       const currentDimIndex = dimensions - remainingDimensions
-      const stat = this.activeStats[currentDimIndex]
-      const centerValue = centerPoint[stat]
+      const statIdx = this.activeStats[currentDimIndex]
+      const centerValue = centerPoint[statIdx]
 
-      // Try each possible offset for this dimension
       for (const offset of [-1, 0, 1]) {
         const newValue = centerValue + offset
 
-        // Check bounds first
-        if (newValue < this.lower[stat] || newValue > this.upper[stat]) {
+        if (newValue < this.lower[statIdx] || newValue > this.upper[statIdx]) {
           continue
         }
 
-        // Check if we can still reach sum=0, otherwise prune
         const newSum = currentSum + offset
         const maxPossibleFromRemaining = (remainingDimensions - 1) * 1
         const minPossibleFromRemaining = (remainingDimensions - 1) * -1

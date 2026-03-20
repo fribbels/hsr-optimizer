@@ -1,4 +1,5 @@
 import { Stats } from 'lib/constants/constants'
+import { toFloat32Array } from 'lib/worker/maxima/tree/statIndexMap'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
   describe,
@@ -24,7 +25,7 @@ function createValidator(mainStats?: {
 }
 
 function createDistribution(stats: Record<string, number>) {
-  return stats
+  return toFloat32Array(stats)
 }
 
 describe('SubstatDistributionValidator', () => {
@@ -232,7 +233,7 @@ describe('SubstatDistributionValidator', () => {
     scenarios.forEach(({ name, distribution, expected }: Scenario) => {
       it(name, () => {
         const validator = createValidator()
-        expect(validator.isValidDistribution(distribution)).toBe(expected)
+        expect(validator.isValidDistribution(createDistribution(distribution))).toBe(expected)
       })
     })
   })

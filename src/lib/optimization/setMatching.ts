@@ -19,10 +19,6 @@ export function ornament2p(key: SetKey, sets: SetCounts) {
   return (sets.ornamentMatch2 >> OrnamentSetKeyToIndex[key]) & 1
 }
 
-export function relic2p(key: SetKey, sets: SetCounts) {
-  return (sets.relicMatch2 >> RelicSetKeyToIndex[key]) & 1
-}
-
 export function relic4p(key: SetKey, sets: SetCounts) {
   return (sets.relicMatch4 >> RelicSetKeyToIndex[key]) & 1
 }

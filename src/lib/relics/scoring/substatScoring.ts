@@ -34,7 +34,7 @@ export function mainStatBonus(part: Parts, mainStat: MainStats, meta: ScorerMeta
   return MIN_ROLL_VALUE * multiplier
 }
 
-export function mainStatWeight(part: Parts, mainStat: MainStats, meta: ScorerMetadata): number {
+function mainStatWeight(part: Parts, mainStat: MainStats, meta: ScorerMetadata): number {
   if (!hasMainStat(part)) return 0
   if (meta.parts[part].includes(mainStat)) return 1
   return meta.stats[mainStat] ?? 0

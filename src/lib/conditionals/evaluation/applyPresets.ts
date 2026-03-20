@@ -64,7 +64,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   useOptimizerRequestStore.getState().loadForm(form)
 }
 
-export function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
+function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata) {
   // @ts-expect-error - getDefaultForm currently has handling for no character id but is set to be changed
   mergeUndefinedValues(form, getDefaultForm())
 

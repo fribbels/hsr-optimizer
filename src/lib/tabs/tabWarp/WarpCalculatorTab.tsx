@@ -37,7 +37,7 @@ export function WarpCalculatorTab() {
   )
 }
 
-export function sanitizeWarpRequest(warpRequest: WarpRequest) {
+function sanitizeWarpRequest(warpRequest: WarpRequest) {
   if (!warpRequest) return { ...DEFAULT_WARP_REQUEST }
 
   if (!Array.isArray(warpRequest.income)

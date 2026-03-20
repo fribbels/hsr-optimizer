@@ -10,7 +10,7 @@ export function isFlat(stat: string) {
     || stat === Constants.Stats.SPD
 }
 
-export const validSubstats: Record<string, boolean> = {
+const validSubstats: Record<string, boolean> = {
   [Stats.HP_P]: true,
   [Stats.ATK_P]: true,
   [Stats.DEF_P]: true,

@@ -43,7 +43,7 @@ export function showcaseTransition() {
   return 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
 }
 
-export const TARGET_BLUE = '#2241be'
+const TARGET_BLUE = '#2241be'
 
 export function selectClosestColor(colors: string[]): string {
   const targetBlue = TARGET_BLUE

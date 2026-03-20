@@ -38,7 +38,6 @@ export function SimulationSidebar({
                 return (
                   <Flex key="custom" justify="center" align="center">
                     <Button
-                      className={styles.customPresetButton}
                       variant="transparent"
                       p={0}
                       onClick={() => onPresetClick(preset)}

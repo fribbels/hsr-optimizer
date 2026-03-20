@@ -25,11 +25,10 @@ import { useTranslation } from 'react-i18next'
 import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
 import { isFlat } from 'lib/utils/statUtils'
 
-export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, plusThree }: {
+export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
   index: 0 | 1 | 2 | 3
   upgrades: RelicUpgradeValues[]
   relicForm: UseFormReturnType<RelicForm>
-  resetUpgradeValues: () => void
   plusThree: () => void
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -52,7 +51,6 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
     if (upgradeValue == null) return
     relicForm.setFieldValue(statValueField, String(upgradeValue))
     relicForm.setFieldValue(isPreviewField, false as RelicForm[typeof isPreviewField])
-    resetUpgradeValues()
     plusThree()
   }
 
@@ -76,13 +74,11 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
       if (isPreview) {
         relicForm.setFieldValue(isPreviewField, false as RelicForm[typeof isPreviewField])
         relicForm.setFieldValue(statValueField, String(isPreview))
-        resetUpgradeValues()
       } else {
         const value = relicForm.getValues()[statValueField]
         if (value === '0' || !value) return
         relicForm.setFieldValue(isPreviewField, value as unknown as RelicForm[typeof isPreviewField])
         relicForm.setFieldValue(statValueField, '0')
-        resetUpgradeValues()
       }
     }
     return (
@@ -131,7 +127,6 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
             } else {
               relicForm.setFieldValue(statValueField, undefined as RelicForm[typeof statValueField])
             }
-            resetUpgradeValues()
           }}
           placeholder={t('SubstatPlaceholder')}
           style={{ width: 210 }}
@@ -152,7 +147,6 @@ export function SubstatInput({ index, upgrades, relicForm, resetUpgradeValues, p
             value={relicForm.getValues()[statValueField] ?? ''}
             onChange={(e) => {
               relicForm.setFieldValue(statValueField, e.currentTarget.value)
-              resetUpgradeValues()
             }}
             tabIndex={0}
           />

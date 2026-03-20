@@ -49,13 +49,14 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
       <Combobox.Target>
         <NumberInput
           hideControls
-          style={style ?? { width: '100%' }}
+          readOnly
+          style={{ width: '100%', ...style }}
           value={value}
           placeholder={placeholder}
           min={min}
           max={max}
           rightSection={
-            <Flex align='center' justify='center' w='100%' h='60%' style={{ borderLeft: '1px solid #444' }}>
+            <Flex align='center' justify='center' w='100%' h='60%' style={{ borderLeft: '1px solid var(--mantine-color-dark-4)' }}>
               <Combobox.Chevron />
             </Flex>
           }

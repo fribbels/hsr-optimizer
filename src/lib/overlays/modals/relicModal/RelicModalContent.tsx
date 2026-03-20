@@ -156,11 +156,6 @@ export function RelicModalContent() {
     relicForm.setFieldValue('enhance', Math.floor(Math.min(currentEnhance + 3, 15) / 3) * 3)
   }
 
-  // No-op: upgradeValues is computed during render from form state.
-  // SubstatInput calls this after value changes, but the next render
-  // automatically recomputes upgradeValues from the updated form.
-  const resetUpgradeValues = () => {}
-
   // ── JSX ──
 
   return (
@@ -269,7 +264,6 @@ export function RelicModalContent() {
           index={0}
           upgrades={upgradeValues}
           relicForm={relicForm}
-          resetUpgradeValues={resetUpgradeValues}
           plusThree={plusThree}
         />
 
@@ -277,7 +271,6 @@ export function RelicModalContent() {
           index={1}
           upgrades={upgradeValues}
           relicForm={relicForm}
-          resetUpgradeValues={resetUpgradeValues}
           plusThree={plusThree}
         />
 
@@ -285,7 +278,6 @@ export function RelicModalContent() {
           index={2}
           upgrades={upgradeValues}
           relicForm={relicForm}
-          resetUpgradeValues={resetUpgradeValues}
           plusThree={plusThree}
         />
 
@@ -293,7 +285,6 @@ export function RelicModalContent() {
           index={3}
           upgrades={upgradeValues}
           relicForm={relicForm}
-          resetUpgradeValues={resetUpgradeValues}
           plusThree={plusThree}
         />
       </div>

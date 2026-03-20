@@ -1,6 +1,7 @@
 import type { ApplyColumnStateParams } from 'ag-grid-community'
 import type { TFunction } from 'i18next'
 import { gridStore } from 'lib/stores/gridStore'
+import type { ComboboxNumberGroup } from 'lib/ui/ComboboxNumberInput'
 import type { ReactElement } from 'types/components'
 
 export type SpdPresets = Record<string, {
@@ -111,6 +112,49 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>): Spd
   const allPresets: SpdPresets = { ...mocPresets, ...aaPresets }
 
   return { categories, allPresets }
+}
+
+export function buildSpdPresetOptions(
+  t: TFunction<'optimizerTab', 'Presets'>,
+  opts: {
+    skipNoMinimum?: boolean,
+    disableAbove?: number,
+    extraGroups?: ComboboxNumberGroup[],
+  } = {},
+): ComboboxNumberGroup[] {
+  const { categories } = generateSpdPresets(t)
+  const seen = new Set<string>()
+
+  const categoryItems = categories.map((category) => {
+    let presetEntries = Object.values(category.presets)
+    if (opts.skipNoMinimum) {
+      presetEntries = presetEntries.slice(1)
+    }
+
+    const items = presetEntries
+      .map((preset) => ({
+        value: String(preset.value ?? 0),
+        label: String(preset.label),
+        disabled: opts.disableAbove != null && preset.value != null && preset.value > opts.disableAbove
+          ? true
+          : undefined,
+      }))
+      .filter((opt) => {
+        if (seen.has(opt.value)) return false
+        seen.add(opt.value)
+        return true
+      })
+
+    return {
+      group: category.label,
+      items,
+    }
+  })
+
+  return [
+    ...(opts.extraGroups ?? []),
+    ...categoryItems,
+  ]
 }
 
 export function setSortColumn(columnId: string) {

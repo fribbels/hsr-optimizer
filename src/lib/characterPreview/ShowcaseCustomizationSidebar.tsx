@@ -35,7 +35,7 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { generateSpdPresets } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { buildSpdPresetOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/spdPresetConfig'
 import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
@@ -387,37 +387,17 @@ function SpdBenchmarkCombobox(props: {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
-  const options = useMemo(() => {
-    const { categories } = generateSpdPresets(t)
-
-    const seen = new Set<string>()
-    const categoryItems = categories.map((category) => {
-      const presets = Object.values(category.presets).slice(1).map((preset) => ({
-        value: String(preset.value ?? 0),
-        label: String(preset.label),
-        disabled: props.spdFilter != null && preset.value != null && preset.value > props.spdFilter,
-      })).filter((opt) => {
-        if (seen.has(opt.value)) return false
-        seen.add(opt.value)
-        return true
-      })
-      return {
-        group: category.label,
-        items: presets,
-      }
-    })
-
-    return [
-      {
-        group: tCharacterTab('BenchmarkOptionsLabel'),
-        items: [
-          { label: tCharacterTab('CurrentSpdLabel'), value: '-1', disabled: false },
-          { label: tCharacterTab('BaseSpdLabel'), value: '0', disabled: false },
-        ],
-      },
-      ...categoryItems,
-    ]
-  }, [t, tCharacterTab, props.spdFilter])
+  const options = useMemo(() => buildSpdPresetOptions(t, {
+    skipNoMinimum: true,
+    disableAbove: props.spdFilter,
+    extraGroups: [{
+      group: tCharacterTab('BenchmarkOptionsLabel'),
+      items: [
+        { label: tCharacterTab('CurrentSpdLabel'), value: '-1' },
+        { label: tCharacterTab('BaseSpdLabel'), value: '0' },
+      ],
+    }],
+  }), [t, tCharacterTab, props.spdFilter])
 
   return (
     <ComboboxNumberInput

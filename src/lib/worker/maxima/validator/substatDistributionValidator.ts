@@ -1,4 +1,4 @@
-import { SubStats } from 'lib/constants/constants'
+import { Stats, SubStats } from 'lib/constants/constants'
 import { STAT_INDEX, SUBSTAT_COUNT } from 'lib/worker/maxima/tree/statIndexMap'
 
 interface StatConstraints {
@@ -32,8 +32,8 @@ export class SubstatDistributionValidator {
       mainStats.simPlanarSphere,
       mainStats.simFeet,
       mainStats.simBody,
-      SubStats[4], // Stats.ATK
-      SubStats[3], // Stats.HP
+      Stats.ATK,
+      Stats.HP,
     ]
 
     this.mainStatIndices = mainStatStrings.map((s) => STAT_INDEX[s] ?? -1)

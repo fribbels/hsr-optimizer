@@ -1,14 +1,14 @@
-import { SubStats } from 'lib/constants/constants'
+import { Stats, SubStats } from 'lib/constants/constants'
 import type { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 
-export const SUBSTAT_COUNT = 12
+export const SUBSTAT_COUNT = SubStats.length
 
 export const STAT_INDEX: Record<string, number> = {}
 for (let i = 0; i < SubStats.length; i++) {
   STAT_INDEX[SubStats[i]] = i
 }
 
-export const SPD_INDEX = STAT_INDEX[SubStats[6]]
+export const SPD_INDEX = STAT_INDEX[Stats.SPD]
 
 export function toFloat32Array(record: SubstatCounts): Float32Array {
   const arr = new Float32Array(SUBSTAT_COUNT)

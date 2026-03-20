@@ -251,7 +251,7 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   return { gpuReadBuffer, compactReadBuffer }
 }
 
-export function generatePipeline(device: GPUDevice, wgsl: string) {
+function generatePipeline(device: GPUDevice, wgsl: string) {
   const shaderModule = device.createShaderModule({
     code: wgsl,
   })
@@ -265,7 +265,7 @@ export function generatePipeline(device: GPUDevice, wgsl: string) {
   })
 }
 
-export function createGpuBuffer(
+function createGpuBuffer(
   device: GPUDevice,
   matrix: Int32Array | Float32Array,
   usage: GPUBufferUsageFlags,

@@ -53,7 +53,7 @@ export function saveStatSimulationBuildFromForm(startSim = true) {
   return saveStatSimulationRequest(simRequest, simType, startSim)
 }
 
-export function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
+function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
   const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
   const key = uuid()
   const name = simRequest.name ?? undefined

@@ -1,8 +1,8 @@
 import type { ImageDimensions } from 'types/customImage'
 
-export const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
+const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
 // https://api.imgur.com/oauth2/addclient
-export const CLIENT_ID = '13bf25a25cf82e9'
+const CLIENT_ID = '13bf25a25cf82e9'
 
 export const DEFAULT_IMAGE_DIMENSIONS: ImageDimensions = { width: 0, height: 0 }
 export const DEFAULT_CROP = { x: 0, y: 0 }
@@ -14,8 +14,8 @@ export const DEFAULT_CUSTOM_IMAGE_PARAMS = {
 export const MIN_ZOOM = 1
 export const MAX_ZOOM = 5
 
-export const MAX_IMAGE_SIZE_MB = 20
-export const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024
+const MAX_IMAGE_SIZE_MB = 20
+const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024
 
 // Validates file size against limit
 export function validateFileSize(file: File, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): { valid: boolean; error?: string } {

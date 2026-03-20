@@ -27,7 +27,7 @@ function upsertRelic(relic: Relic): void {
 /**
  * Unequips a relic by ID. Clears relic.equippedBy and the owning character's equipped slot.
  */
-export function unequipRelic(id: string): void {
+function unequipRelic(id: string): void {
   if (!id) return console.warn('No relic')
   const relic = getRelicById(id)
   if (!relic) return console.warn('No relic')

@@ -6,7 +6,6 @@ import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/Dazzled
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
-import type { ElementName } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
@@ -141,14 +140,3 @@ export function importShowcaseCharacters(mode: 'singleCharacter' | 'multiCharact
   SaveState.delayedSave()
 }
 
-// ── Element color lookup for portrait borders ──
-
-export const ElementToColor: Record<ElementName, string> = {
-  Physical: '#c5c5c5',
-  Fire: '#e6473a',
-  Ice: '#47b4e0',
-  Lightning: '#c45dde',
-  Wind: '#47c98c',
-  Quantum: '#7958c8',
-  Imaginary: '#edc733',
-}

@@ -34,7 +34,7 @@ const ALL_ELEMENT_DMG_STATS = [
 
 // Raw stat property names from game_data.json LC superimposition config.
 // When new stat keys appear in game data, add them here.
-export const LcConfigStatProperty = {
+const LcConfigStatProperty = {
   HPAddedRatio: 'HPAddedRatio',
   AttackAddedRatio: 'AttackAddedRatio',
   DefenceAddedRatio: 'DefenceAddedRatio',

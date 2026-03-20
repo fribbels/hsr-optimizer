@@ -55,18 +55,3 @@ export function mergeUndefinedValues<T extends Record<string, unknown>>(target: 
   }
   return target
 }
-
-/** Convert snake_case/kebab-case keys to camelCase, recursively. */
-export function recursiveToCamel<T>(item: T): T {
-  if (Array.isArray(item)) {
-    return item.map((el) => recursiveToCamel(el)) as T
-  } else if (typeof item === 'function' || item !== Object(item)) {
-    return item
-  }
-  return Object.fromEntries(
-    Object.entries(item as Record<string, unknown>).map(([key, value]) => [
-      key.replace(/([-_][a-z])/gi, (c) => c.toUpperCase().replace(/[-_]/g, '')),
-      recursiveToCamel(value),
-    ]),
-  ) as T
-}

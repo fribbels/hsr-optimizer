@@ -15,12 +15,6 @@ export function debounceEffect(id: string, ms: number, effect: (arg?: (...args: 
   }, ms)
 }
 
-// --- Browser detection ---
-
-export function isFirefox(): boolean {
-  return /firefox/i.test(navigator.userAgent)
-}
-
 // --- Scrolling ---
 
 /** Smooth-scroll the page so `element` is visible (nearest edge). */

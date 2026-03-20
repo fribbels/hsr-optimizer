@@ -28,7 +28,7 @@ interface OpenCloseStates {
 
 // No rerenders
 // const { open: openScoringModal } = useOpenCloseActions(OpenCloseIDs.SCORING_MODAL)
-export function useOpenCloseActions(id: OpenCloseIDs) {
+function useOpenCloseActions(id: OpenCloseIDs) {
   return useMemo(() => ({
     open: () => openCloseStore.getState().setIsOpen(id, true),
     close: () => openCloseStore.getState().setIsOpen(id, false),

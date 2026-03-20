@@ -290,7 +290,7 @@ function buildModifierContext(
   }
 }
 
-export function calculateActionDeclarations(request: OptimizerForm, context: OptimizerContext) {
+function calculateActionDeclarations(request: OptimizerForm, context: OptimizerContext) {
   const characterConditionalController = CharacterConditionalsResolver.get(context)
   const actionDeclarations = characterConditionalController.actionDeclaration()
 

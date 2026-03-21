@@ -1,4 +1,4 @@
-import { IconEdit, IconFlask } from '@tabler/icons-react'
+import { IconFlask, IconPlus } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -44,7 +44,7 @@ export function SimulationSidebar({
                       style={{ width: 80, height: 80 }}
                     >
                       <div className={styles.customPresetIcon}>
-                        <IconEdit size={28} />
+                        <IconPlus size={28} />
                       </div>
                     </Button>
                   </Flex>

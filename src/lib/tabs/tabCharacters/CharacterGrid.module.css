@@ -192,7 +192,6 @@
   width: 8px;
   height: 1.5px;
   background: var(--cr-text-secondary);
-  border-radius: 1px;
 }
 
 /* --- Subtitle (E/S badges + path under name) --- */
@@ -218,7 +217,7 @@
   width: var(--cr-lc-size, 48px);
   height: var(--cr-lc-size, 48px);
   flex-shrink: 0;
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
   overflow: hidden;
   margin-right: var(--cr-lc-right-pad, 1px);
 }

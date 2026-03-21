@@ -346,7 +346,7 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
     background: 'none',
     border: '1px solid #666',
     color: '#aaa',
-    borderRadius: 3,
+    borderRadius: 2,
     cursor: 'pointer',
     fontSize: 10,
     padding: '1px 5px',

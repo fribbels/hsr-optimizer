@@ -50,7 +50,7 @@ export function ChartTooltipContent({ children }: { children: ReactNode }) {
       style={{
         background: 'var(--mantine-color-dark-5)',
         padding: 8,
-        borderRadius: 3,
+        borderRadius: 2,
       }}
     >
       {children}

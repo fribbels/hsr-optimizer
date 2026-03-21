@@ -64,7 +64,7 @@ export function renderPill(key: string, color: string, label: string, dimmed?: b
       key={key}
       style={{
         padding: PILL_SIZE.padding,
-        borderRadius: 3,
+        borderRadius: 2,
         fontSize: PILL_SIZE.fontSize,
         fontWeight: 600,
         lineHeight: PILL_SIZE.lineHeight,

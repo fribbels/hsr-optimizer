@@ -4,7 +4,7 @@
 
 .filterButton {
   padding: var(--pill-padding, 1px 6px);
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
   font-weight: 600;
   cursor: pointer;
   user-select: none;

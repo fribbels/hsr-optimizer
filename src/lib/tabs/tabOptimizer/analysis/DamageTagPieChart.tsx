@@ -64,7 +64,7 @@ export function DamageTagPieChart({ analysis }: {
             cy='50%'
             outerRadius={110}
             innerRadius={45}
-            cornerRadius={3}
+            cornerRadius={2}
             startAngle={90}
             endAngle={-270}
             stroke='var(--panel-bg)'

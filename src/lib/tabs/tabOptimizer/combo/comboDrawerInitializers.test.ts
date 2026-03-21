@@ -387,6 +387,7 @@ describe('A4: BUG-22 — teammate characterId mismatch should not corrupt condit
 
     // Guard: Cyrene must have at least one BOOLEAN conditional
     expect(sentinelKey).toBeTruthy()
+    if (!sentinelKey) throw new Error('unreachable') // TS narrowing
 
     const baseSentinelValue = (baseTeammate0Conditionals[sentinelKey] as ComboBooleanConditional).activations[1]
 

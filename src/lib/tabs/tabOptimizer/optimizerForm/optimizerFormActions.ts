@@ -18,6 +18,7 @@ import { type MainConditionalType, type TeammateConditionalType, useOptimizerReq
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerInitializers'
 import { updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerUpdaters'
+import { persistFormToCharacterStore } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/stores/gridStore'
 import type { Build, CharacterId } from 'types/character'
@@ -65,12 +66,7 @@ function handleMainCharacterConditionalChange(
   const patchedJson = patchComboConditionalDefault(store.comboStateJson, conditionalsType, { [key]: value })
   store.setComboStateJson(patchedJson)
 
-  const form = getForm()
-  const found = getCharacterById(form.characterId)
-  if (found) {
-    useCharacterStore.getState().setCharacter({ ...found, form: { ...found.form, ...form } })
-  }
-  SaveState.delayedSave(1000)
+  persistFormToCharacterStore(1000)
 }
 
 /**
@@ -104,12 +100,7 @@ function handleSetConditionalChange(
   const patchedJson = patchComboConditionalDefault(store.comboStateJson, 'set', { [key]: value })
   store.setComboStateJson(patchedJson)
 
-  const form = getForm()
-  const found = getCharacterById(form.characterId)
-  if (found) {
-    useCharacterStore.getState().setCharacter({ ...found, form: { ...found.form, ...form } })
-  }
-  SaveState.delayedSave(1000)
+  persistFormToCharacterStore(1000)
 }
 
 /**

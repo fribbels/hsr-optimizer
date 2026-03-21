@@ -8,10 +8,7 @@ import {
 } from 'lib/sets/setConfigRegistry'
 import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
-import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import type { Form } from 'types/form'
 
 import { COMBO_STATE_JSON_VERSION } from './comboDrawerTypes'
@@ -20,9 +17,14 @@ import type {
   ComboDataKey,
   ComboNumberConditional,
   ComboState,
-  ComboTeammate,
   NestedObject,
 } from './comboDrawerTypes'
+import {
+  extractTeammateKey,
+  persistFormToCharacterStore,
+  shiftAllActivationsInObj,
+  setActivationIndexToDefault,
+} from './comboDrawerUtils'
 
 // ---------------------------------------------------------------------------
 // Locators
@@ -42,7 +44,7 @@ export function locateComboCategory(sourceKey: string, contentItemId: string, co
       comboConditionals = character.characterConditionals
     }
   } else if (sourceKey.includes('comboTeammate')) {
-    const teammateIndexString = sourceKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+    const teammateIndexString = extractTeammateKey(sourceKey)
     const teammate = comboState[teammateIndexString]
     if (!teammate) return null
     if (sourceKey.includes('RelicSet')) {
@@ -109,39 +111,6 @@ export function locateActivations(keyString: string, comboState: ComboState) {
 // ---------------------------------------------------------------------------
 // Private helpers
 // ---------------------------------------------------------------------------
-
-function shiftLeft(arr: boolean[], index: number) {
-  arr.splice(index, 1)
-  arr.push(arr[0])
-}
-
-function shiftAllActivations(obj: NestedObject, index: number): void {
-  for (const key in obj) {
-    if (!Object.hasOwn(obj, key)) continue
-
-    if (key === 'activations' && Array.isArray(obj[key])) {
-      shiftLeft(obj[key] as boolean[], index)
-    }
-
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      shiftAllActivations(obj[key] as NestedObject, index)
-    }
-  }
-}
-
-function setActivationIndexToDefault(obj: NestedObject, index: number): void {
-  for (const key in obj) {
-    if (!Object.hasOwn(obj, key)) continue
-
-    if (key === 'activations' && Array.isArray(obj[key])) {
-      obj[key][index] = (obj[key] as boolean[])[0]
-    }
-
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      setActivationIndexToDefault(obj[key] as NestedObject, index)
-    }
-  }
-}
 
 function change(
   changeConditional: {
@@ -329,10 +298,10 @@ export function updateAbilityRotation(comboState: ComboState, index: number, tur
   if (turnAbilityName == NULL_TURN_ABILITY_NAME) {
     if (comboTurnAbilities.length <= 2) return
     comboTurnAbilities.splice(index, 1)
-    shiftAllActivations(comboState, index)
+    shiftAllActivationsInObj(comboState as unknown as NestedObject, index)
   } else {
     comboTurnAbilities[index] = turnAbilityName
-    setActivationIndexToDefault(comboState, index)
+    setActivationIndexToDefault(comboState as unknown as NestedObject, index)
   }
 
   return { ...comboState }
@@ -345,13 +314,7 @@ export function updateFormState(comboState: ComboState) {
   useOptimizerRequestStore.getState().setComboStateJson(JSON.stringify(comboState))
   useOptimizerRequestStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
 
-  const form = getForm()
-  const found = getCharacterById(form.characterId)
-  if (found) {
-    useCharacterStore.getState().setCharacter({ ...found, form: { ...found.form, ...form } })
-  }
-
-  SaveState.delayedSave(1000)
+  persistFormToCharacterStore(1000)
 }
 
 export function updateConditionalChange(comboState: ComboState, changeEvent: Form) {

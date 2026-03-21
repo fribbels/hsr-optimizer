@@ -4,15 +4,15 @@ import {
 } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
 import { buttonStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
-import { getTeammateIndex } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
-import { locateConditional, useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
-import type { ComboNumberConditional } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import { getTeammateIndex, handlePartitionButtonClick } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
+import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { FormSelectWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
 import type { ContentItem } from 'types/conditionals'
+import type { SelectOptionContent } from 'types/setConfig'
 
 export function NumberSelect({ contentItem, value, sourceKey, partitionIndex }: {
-  contentItem: ContentItem
+  contentItem: ContentItem & { options?: SelectOptionContent[] }
   value: number
   sourceKey: string
   partitionIndex: number
@@ -39,20 +39,9 @@ export function NumberSelect({ contentItem, value, sourceKey, partitionIndex }: 
           ? <IconCirclePlus style={buttonStyle} />
           : <IconCircleMinus style={buttonStyle} />}
         onClick={() => {
-          if (partitionIndex === 0) {
-            const state = useComboDrawerStore.getState()
-            const cond = locateConditional(state, sourceKey, contentItem.id)
-            const partitions = (cond as ComboNumberConditional)?.partitions ?? []
-            const usedValues = new Set(partitions.map((p) => p.value))
-            const options = (contentItem as ContentItem & { options?: Array<{ value: number }> }).options
-            let newValue = options?.[0]?.value ?? 0
-            for (const opt of options ?? []) {
-              if (!usedValues.has(opt.value)) { newValue = opt.value; break }
-            }
-            state.addPartition(sourceKey, contentItem.id, partitionIndex, newValue)
-          } else {
-            useComboDrawerStore.getState().deletePartition(sourceKey, contentItem.id, partitionIndex)
-          }
+          handlePartitionButtonClick(sourceKey, contentItem.id, partitionIndex, () => {
+            return (contentItem.options ?? []).map((opt) => opt.value)
+          })
         }}
       />
     </Flex>

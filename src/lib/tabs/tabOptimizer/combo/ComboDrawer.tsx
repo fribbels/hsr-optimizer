@@ -69,8 +69,7 @@ function ComboDrawerContent() {
     // Always reset — prevents stale key from suppressing first handleDrag
     lastSelectedKeyState.current = undefined
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const startKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
+    const startKey: string = ((e.inputEvent as MouseEvent).target as HTMLElement | null)?.getAttribute('data-key') ?? '{}'
     const dataKey: ComboDataKey = JSON.parse(startKey)
     if (!dataKey.id) return
 
@@ -90,8 +89,7 @@ function ComboDrawerContent() {
   }, [])
 
   const handleDrag = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onDrag'] & {}>[0]) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const selectedKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
+    const selectedKey: string = ((e.inputEvent as MouseEvent).target as HTMLElement | null)?.getAttribute('data-key') ?? '{}'
     if (selectedKey === lastSelectedKeyState.current) return
 
     const dataKey: ComboDataKey = JSON.parse(selectedKey)
@@ -149,8 +147,7 @@ function ComboDrawerContent() {
     })
 
     // Partition deduplication: only fire if not already handled by handleDrag
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const lastKey: string = e.inputEvent.srcElement?.getAttribute('data-key') ?? '{}'
+    const lastKey: string = ((e.inputEvent as MouseEvent).target as HTMLElement | null)?.getAttribute('data-key') ?? '{}'
     let partitionUpdate = null
     if (lastKey !== lastSelectedKeyState.current) {
       const lastDataKey: ComboDataKey = JSON.parse(lastKey)

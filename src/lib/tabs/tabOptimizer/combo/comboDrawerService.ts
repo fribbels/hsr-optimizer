@@ -1,10 +1,8 @@
-import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { SaveState } from 'lib/state/saveState'
-import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import type { ComboState } from './comboDrawerTypes'
 import { COMBO_STATE_JSON_VERSION } from './comboDrawerTypes'
+import { persistFormToCharacterStore } from './comboDrawerUtils'
 import { useComboDrawerStore } from './useComboDrawerStore'
 
 function syncToStores(comboState: ComboState) {
@@ -12,13 +10,7 @@ function syncToStores(comboState: ComboState) {
   requestStore.setComboStateJson(JSON.stringify(comboState))
   requestStore.setComboTurnAbilities(comboState.comboTurnAbilities)
 
-  const form = getForm()
-  const found = getCharacterById(form.characterId)
-  if (found) {
-    useCharacterStore.getState().setCharacter({ ...found, form: { ...found.form, ...form } })
-  }
-
-  SaveState.delayedSave(1000)
+  persistFormToCharacterStore(1000)
 }
 
 /**

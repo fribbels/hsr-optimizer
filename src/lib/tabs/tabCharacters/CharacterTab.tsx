@@ -11,8 +11,7 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import React, { Suspense, useCallback } from 'react'
 import type { Character } from 'types/character'
 
-const defaultGap = 8
-const parentH = 280 * 3 + defaultGap * 2
+import { defaultGap, parentH } from 'lib/constants/constantsUi'
 
 export function CharacterTab() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)

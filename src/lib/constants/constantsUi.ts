@@ -17,5 +17,5 @@ export const lcInnerW = 260
 export const lcInnerH = 1260 / 904 * lcInnerW
 
 export const newLcMargin = 8
-export const newLcHeight = 128
+export const newLcHeight = 150
 export const simScoreInnerW = 950

@@ -29,8 +29,9 @@ import { precisionRound } from 'lib/utils/mathUtils'
 
 const N_Displayed = 10
 
-const LEGEND_WIDTH = 273
-const CHART_WIDTH = 320 + LEGEND_WIDTH
+const DEFAULT_LEGEND_WIDTH = 273
+const DEFAULT_CHART_WIDTH = 320 + DEFAULT_LEGEND_WIDTH
+const DEFAULT_HEIGHT = 278
 
 type DataPoint = {
   name: string,
@@ -41,8 +42,11 @@ type DataPoint = {
   errX: [number, number],
 }
 
-export const Top10Panel = memo(({ scores }: PanelProps) => {
-
+export const Top10Panel = memo(({ scores, width: propWidth, height: propHeight }: PanelProps) => {
+  const chartWidth = propWidth ?? DEFAULT_CHART_WIDTH
+  const chartHeight = propHeight ?? DEFAULT_HEIGHT
+  const compact = chartHeight < 250
+  const legendWidth = compact ? 240 : DEFAULT_LEGEND_WIDTH
 
   const { sortedScores, data } = useMemo(() => {
     const sortedScores = scores
@@ -68,8 +72,8 @@ export const Top10Panel = memo(({ scores }: PanelProps) => {
       }}
     >
       <ScatterChart
-        width={CHART_WIDTH}
-        height={278}
+        width={chartWidth}
+        height={chartHeight}
         margin={{
           top: 0,
           left: 0,
@@ -97,7 +101,7 @@ export const Top10Panel = memo(({ scores }: PanelProps) => {
           hide
         />
         <Tooltip content={TooltipContent} />
-        <Legend align='right' verticalAlign='middle' width={LEGEND_WIDTH} content={<LegendContent scores={sortedScores} />} />
+        <Legend align='right' verticalAlign='middle' width={legendWidth} content={<LegendContent scores={sortedScores} compact={compact} />} />
         <Scatter data={data}>
           {data.map((point, idx) => {
             return (
@@ -116,25 +120,31 @@ export const Top10Panel = memo(({ scores }: PanelProps) => {
   )
 })
 
-function LegendContent({ scores }: PanelProps) {
+function LegendContent({ scores, compact }: { scores: PanelProps['scores']; compact?: boolean }) {
+  const entryHeight = compact ? 18 : 25.3
+  const avatarSize = compact ? 16 : 20
+  const legendHeight = compact ? entryHeight * N_Displayed : 250
+
   return (
     <div
-      style={{ marginLeft: 20, marginTop: 3, height: 250 }}
+      style={{ marginLeft: compact ? 12 : 20, marginTop: 3, height: legendHeight }}
     >
       {scores.map((s, idx) => (
         <Flex
-          gap={5}
+          gap={compact ? 3 : 5}
           key={s.id}
-          h={25.3}
+          h={entryHeight}
+          style={compact ? { fontSize: 12 } : undefined}
+          align="center"
         >
           {idx + '.'}
-          <svg height={25} width={10}>
-            <rect height={10} width={10} fill={idxToColour(idx)} x={0} y={5} />
+          <svg height={compact ? 18 : 25} width={10}>
+            <rect height={10} width={10} fill={idxToColour(idx)} x={0} y={compact ? 4 : 5} />
           </svg>
           <img
             src={Assets.getCharacterAvatarById(s.id)}
-            width={20}
-            height={20}
+            width={avatarSize}
+            height={avatarSize}
             style={{ cursor: 'pointer' }}
             onClick={onClick(s.id)}
           />

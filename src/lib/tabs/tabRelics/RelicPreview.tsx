@@ -48,6 +48,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
   setSelectedRelic?: (relic: Relic) => void,
   useShowcaseColors?: boolean,
   unhoverable?: boolean,
+  compact?: boolean,
 }) {
   const {
     source,
@@ -59,6 +60,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
     setSelectedRelic,
     useShowcaseColors,
     unhoverable,
+    compact,
   } = props
   const placeholderRelic: Partial<Relic> = {
     enhance: 0,
@@ -94,9 +96,10 @@ export const RelicPreview = memo(function RelicPreview(props: {
     }
   }
 
-  const STAT_GAP = scoringType === ScoringType.NONE ? 6 : 0
-  const ICON_SIZE = scoringType === ScoringType.NONE ? 54 : 50
-  const JUSTIFY = scoringType === ScoringType.NONE ? 'space-around' : 'space-between'
+  const STAT_GAP = compact ? 2 : scoringType === ScoringType.NONE ? 6 : 0
+  const ICON_SIZE = compact ? 30 : scoringType === ScoringType.NONE ? 54 : 50
+  const JUSTIFY = compact ? 'space-between' : scoringType === ScoringType.NONE ? 'space-around' : 'space-between'
+  const DIVIDER_MARGIN = compact ? '2px 0px 2px 0px' : '6px 0px 6px 0px'
 
   const fillerStats = Array.from<RelicSubstatMetadata>({ length: 4 - relic.substats.length - relic.previewSubstats.length })
 
@@ -105,9 +108,9 @@ export const RelicPreview = memo(function RelicPreview(props: {
       withBorder={source != null}
       onClick={cardClicked}
       style={{
-        width: relicCardW,
-        minWidth: relicCardW,
-        height: relicCardH,
+        width: compact ? '100%' : relicCardW,
+        minWidth: compact ? undefined : relicCardW,
+        height: compact ? '100%' : relicCardH,
         padding: 12,
         backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : undefined,
         borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,
@@ -138,23 +141,25 @@ export const RelicPreview = memo(function RelicPreview(props: {
               <span>{Renderer.renderGrade(relic)}</span>
               <span>{relic.id != undefined ? `+${relic.enhance}` : ''}</span>
             </Flex>
-            <img
-              style={{
-                height: ICON_SIZE,
-                width: ICON_SIZE,
-                borderRadius: ICON_SIZE / 2,
-                border: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
-                backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
-              }}
-              src={equippedBySrc}
-            />
+            {!compact && (
+              <img
+                style={{
+                  height: ICON_SIZE,
+                  width: ICON_SIZE,
+                  borderRadius: ICON_SIZE / 2,
+                  border: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
+                  backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
+                }}
+                src={equippedBySrc}
+              />
+            )}
           </Flex>
 
-          <Divider style={{ margin: '6px 0px 6px 0px' }} />
+          <Divider style={{ margin: DIVIDER_MARGIN }} />
 
           <RelicStatRow stat={relic.main as SubstatDetails} main={true} relic={relic} />
 
-          <Divider style={{ margin: '6px 0px 6px 0px' }} />
+          <Divider style={{ margin: DIVIDER_MARGIN }} />
 
           <Flex direction="column" gap={STAT_GAP}>
             {relic.substats.map((s, idx) => <RelicStatRow key={`substats-${idx}`} stat={s} main={false} relic={relic} />)}
@@ -162,17 +167,18 @@ export const RelicPreview = memo(function RelicPreview(props: {
             {fillerStats.map((x, idx) => <RelicStatRow key={`fillers-${idx}`} stat={x} main={false} relic={relic} />)}
           </Flex>
 
-          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} />}
+          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} dividerMargin={DIVIDER_MARGIN} />}
         </Flex>
       </RelicStatText>
     </Paper>
   )
 })
 
-function ScoreFooter(props: { score?: RelicScoringResult }) {
+function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string }) {
   const { t } = useTranslation('common')
   const {
     score,
+    dividerMargin,
   } = props
 
   let icon: string = Assets.getBlank()
@@ -193,7 +199,7 @@ function ScoreFooter(props: { score?: RelicScoringResult }) {
 
   return (
     <>
-      <Divider style={{ margin: '6px 0px 6px 0px' }} />
+      <Divider style={{ margin: dividerMargin }} />
 
       <Flex justify='space-between'>
         <Flex>

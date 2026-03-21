@@ -129,9 +129,9 @@ export function RelicsGrid() {
       className='ag-theme-balham-dark'
       style={{
         width: TAB_WIDTH,
-        height: 500,
-        resize: 'vertical',
+        height: 600,
         overflow: 'hidden',
+        resize: 'vertical',
       }}
     >
       {!gridDestroyed && (

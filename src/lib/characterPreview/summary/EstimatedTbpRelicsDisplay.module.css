@@ -75,7 +75,7 @@
 
 .progressBarInner {
   height: 100%;
-  border-radius: 4px 0 0 4px;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
 }
 
 .metricCard {

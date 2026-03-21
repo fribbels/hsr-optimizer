@@ -1,5 +1,6 @@
 import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
+import { cardTotalW, parentH } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message.js'
 
 function isMobileOrSafari(): boolean {
@@ -26,8 +27,8 @@ export async function screenshotElementById(
     const minDataLength = 1200000
     const maxAttempts = mobile ? 9 : 3
     const scale = 1.5
-    const w = 1068 * scale
-    const h = 856 * scale
+    const w = cardTotalW * scale
+    const h = parentH * scale
 
     const options = {
       pixelRatio: 1,

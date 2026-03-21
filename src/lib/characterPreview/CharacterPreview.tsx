@@ -29,6 +29,7 @@ import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPrevi
 import { resolveShowcaseLayout } from 'lib/characterPreview/useShowcaseDerivedData'
 import { resolveShowcaseColor, resolveShowcaseTheme } from 'lib/characterPreview/showcaseColorService'
 import {
+  cardTotalW,
   defaultGap,
   middleColumnWidth,
   parentH,
@@ -99,7 +100,7 @@ export function CharacterPreview({
       <div
         style={{
           height: parentH,
-          width: 1068,
+          width: cardTotalW,
           borderRadius: 8,
           backgroundColor: 'var(--bg-app)',
           border: '1px solid var(--mantine-color-dark-7)',
@@ -246,7 +247,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const scoredRelics = scoringResults.relics || []
 
   return (
-    <Flex direction="column" style={{ width: source === ShowcaseSource.BUILDS_MODAL ? 1076 : 1068, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 850 : 2000 }}>
+    <Flex direction="column" style={{ width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
       {
         /*
         Will only render (<></>) if source == ShowcaseSource.BUILDS_MODAL

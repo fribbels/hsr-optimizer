@@ -53,6 +53,7 @@ import { useTranslation } from 'react-i18next'
 import {
   type CharacterId,
 } from 'types/character'
+import { cardTotalW } from 'lib/constants/constantsUi'
 import { ShowcaseSource } from './CharacterPreviewComponents'
 import classes from './ShowcaseCustomizationSidebar.module.css'
 
@@ -181,6 +182,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
         direction="column"
         gap={16}
         className={classes.sidebarContainer}
+        style={{ marginLeft: cardTotalW + 8 }}
       >
         <Flex
           direction="column"

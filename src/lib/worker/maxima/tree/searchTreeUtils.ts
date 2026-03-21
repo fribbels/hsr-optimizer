@@ -88,3 +88,27 @@ function generateConfig(maximumBudget: number): TreeConfig {
     refinementLimit: maximumBudget,
   }
 }
+
+// Dimension-tuned queue capacities from production profiling.
+// damageQueue peaks at ~1× budget. volumeQueue accumulates during refinement and peaks much higher.
+// [damageCapacity, volumeCapacity] with ~2-3× headroom over observed maximums.
+export function getQueueCapacities(dimensions: number): [number, number] {
+  switch (dimensions) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return [5_000, 10_000]
+    case 5:
+      return [10_000, 50_000]
+    case 6:
+      return [15_000, 100_000]
+    case 7:
+      return [20_000, 100_000]
+    case 8:
+      return [20_000, 200_000]
+    default:
+      return [20_000, 200_000]
+  }
+}

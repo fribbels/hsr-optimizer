@@ -158,6 +158,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Skill total scaling includes base hit + extra bounces
       const skillTotalScaling = skillScaling * (1 + r.skillExtraHits)
       const skillToughness = 10 + 10 * r.skillExtraHits
+      const skillAdditionalTotalScaling = skillAdditionalScaling * (1 + r.skillExtraHits)
 
       return {
         [AbilityKind.BASIC]: {
@@ -188,7 +189,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               ? [
                 HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Imaginary)
-                  .atkScaling(skillAdditionalScaling)
+                  .atkScaling(skillAdditionalTotalScaling)
                   .build(),
               ]
               : []),
@@ -205,7 +206,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               ? [
                 HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Imaginary)
-                  .atkScaling(ultAdditionalScaling)
+                  // Ult has 2 hits (10%/90%) so the talent procs twice
+                  .atkScaling(ultAdditionalScaling * 2)
                   .build(),
               ]
               : []),

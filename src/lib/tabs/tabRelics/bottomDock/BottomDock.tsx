@@ -1,10 +1,11 @@
-import { Box, Button, Flex, Group, SegmentedControl, Select, Tooltip } from '@mantine/core'
+import { Button, Flex, Group, SegmentedControl, Select, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react'
 import { Hint } from 'lib/interactions/hint'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
+import { relicCardW } from 'lib/constants/constantsUi'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getRelicById } from 'lib/stores/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
@@ -67,93 +68,91 @@ export function BottomDock() {
   ]
 
   return (
-    <Flex gap={10}>
-      {/* Left: Standard relic preview */}
-      <RelicPreview
-        relic={selectedRelic}
-        setSelectedRelic={setSelectedRelic}
-        setEditModalOpen={(_open, relic) => {
-          if (relic) {
-            useRelicModalStore.getState().openOverlay({
-              selectedRelic: relic,
-              onOk: RelicsTabController.onRelicModalOk,
-            })
-          }
-        }}
-        score={score}
-        scoringType={score ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
-      />
-
-      {/* Right: Insights panel + controls */}
-      <Flex direction="column" flex={1} gap={8}>
-        {/* Controls row */}
-        <Flex justify="space-between" align="center">
-          <Group gap={6}>
-            <SegmentedControl
-              size="xs"
-              value={String(insightsMode)}
-              onChange={(value) => setInsightsMode(Number(value) as RelicInsights)}
-              data={relicInsightOptions}
-            />
-            <Select
-              size="xs"
-              w={180}
-              value={String(insightsCharacters)}
-              onChange={(value) => setInsightsCharacters(Number(value) as InsightCharacters)}
-              data={characterPlotOptions}
-              comboboxProps={{ keepMounted: false }}
-            />
-            <TooltipImage type={Hint.relicInsight()} />
-          </Group>
-
-          <Group gap={6}>
-            <RelicLocator relic={selectedRelic} />
-            <TooltipImage type={Hint.relicLocation()} />
-
+    <Flex direction="column" gap={10}>
+      {/* Button row — full width */}
+      <Flex justify="space-between" align="center">
+        <Group gap={10}>
+          <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-color)', height: 30 }} />
+          <Button
+            variant="default"
+            size="xs"
+            w={170}
+            leftSection={<IconPlus size={14} />}
+            disabled={isLiveImport}
+            onClick={RelicsTabController.addClicked}
+          >
+            {t('AddRelic')}
+          </Button>
+          <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''} disabled={!isLiveImport}>
             <Button
               variant="default"
               size="xs"
-              leftSection={<IconEdit size={14} />}
-              disabled={selectedRelicsIds.length !== 1}
-              onClick={RelicsTabController.editClicked}
+              w={170}
+              leftSection={<IconTrash size={14} />}
+              disabled={selectedRelicsIds.length === 0 || isLiveImport}
+              onClick={() => modals.openConfirmModal({
+                title: tCommon('Confirm'),
+                children: t('DeleteRelic.Warning', { count: selectedRelicsIds.length }),
+                labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                centered: true,
+                onConfirm: RelicsTabController.deleteConfirmed,
+              })}
             >
-              {t('EditRelic')}
+              {t('DeleteRelic.ButtonText')}
             </Button>
+          </Tooltip>
+          <Button
+            variant="default"
+            size="xs"
+            w={170}
+            leftSection={<IconEdit size={14} />}
+            disabled={selectedRelicsIds.length !== 1}
+            onClick={RelicsTabController.editClicked}
+          >
+            {t('EditRelic')}
+          </Button>
+        </Group>
 
-            <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''} disabled={!isLiveImport}>
-              <Button
-                variant="default"
-                size="xs"
-                leftSection={<IconTrash size={14} />}
-                disabled={selectedRelicsIds.length === 0 || isLiveImport}
-                onClick={() => modals.openConfirmModal({
-                  title: tCommon('Confirm'),
-                  children: t('DeleteRelic.Warning', { count: selectedRelicsIds.length }),
-                  labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-                  centered: true,
-                  onConfirm: RelicsTabController.deleteConfirmed,
-                })}
-              >
-                {t('DeleteRelic.ButtonText')}
-              </Button>
-            </Tooltip>
+        <Group gap={10}>
+          <SegmentedControl
+            size="xs"
+            value={String(insightsMode)}
+            onChange={(value) => setInsightsMode(Number(value) as RelicInsights)}
+            data={relicInsightOptions}
+            styles={{ label: { height: 28 } }}
+            style={{ width: 260 }}
+          />
+          <Select
+            size="xs"
+            w={220}
+            value={String(insightsCharacters)}
+            onChange={(value) => setInsightsCharacters(Number(value) as InsightCharacters)}
+            data={characterPlotOptions}
+            comboboxProps={{ keepMounted: false }}
+          />
+          <TooltipImage type={Hint.relicInsight()} />
+        </Group>
+      </Flex>
 
-            <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''} disabled={!isLiveImport}>
-              <Button
-                variant="default"
-                size="xs"
-                leftSection={<IconPlus size={14} />}
-                disabled={isLiveImport}
-                onClick={RelicsTabController.addClicked}
-              >
-                {t('AddRelic')}
-              </Button>
-            </Tooltip>
-          </Group>
+      {/* Relic preview + Insights panel side by side */}
+      <Flex gap={10}>
+        <RelicPreview
+          relic={selectedRelic}
+          setSelectedRelic={setSelectedRelic}
+          setEditModalOpen={(_open, relic) => {
+            if (relic) {
+              useRelicModalStore.getState().openOverlay({
+                selectedRelic: relic,
+                onOk: RelicsTabController.onRelicModalOk,
+              })
+            }
+          }}
+          score={score}
+          scoringType={score ? ScoringType.SUBSTAT_SCORE : ScoringType.NONE}
+        />
+        <Flex flex={1}>
+          <RelicInsightsPanel />
         </Flex>
-
-        {/* Insights chart */}
-        <RelicInsightsPanel />
       </Flex>
     </Flex>
   )

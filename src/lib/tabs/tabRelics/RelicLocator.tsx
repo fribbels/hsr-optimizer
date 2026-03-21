@@ -41,8 +41,8 @@ export const useRelicLocatorStore = createTabAwareStore<RelicLocatorState>((set)
   setRowLimit: (limit) => set({ rowLimit: limit ?? defaultStateValues.rowLimit }),
 }))
 
-export function RelicLocator(props: { relic: Relic | null; compact?: boolean }) {
-  const { relic, compact = false } = props
+export function RelicLocator(props: { relic: Relic | null; compact?: boolean; style?: React.CSSProperties }) {
+  const { relic, compact = false, style: styleProp } = props
 
   const { setInventoryWidth, setRowLimit, inventoryWidth, rowLimit } = useRelicLocatorStore(
     useShallow((s) => ({
@@ -99,37 +99,34 @@ export function RelicLocator(props: { relic: Relic | null; compact?: boolean }) 
           background: 'var(--panel-bg)',
           boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
           outline: '1px solid var(--border-color)',
+          ...styleProp,
         }}
       >
         {relic
           ? (
             <Flex align='center' justify='space-between' w='100%'>
               <LocatorFilterImage filters={locatorFilters} compact={compact} />
-              <div style={compact ? { fontSize: 11 } : undefined}>
-                {/* Location - Row {{rowIndex}} / Col {{columnIndex}} */}
-                {t('Location', {
-                  columnIndex: relicPositionIndex % inventoryWidth + 1,
-                  rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
-                })}
+              <div style={compact ? { fontSize: 13 } : undefined}>
+                {`Row ${Math.ceil((relicPositionIndex + 1) / inventoryWidth)} / Col ${relicPositionIndex % inventoryWidth + 1}`}
               </div>
-              <IconSettings size={compact ? 14 : 24} />
+              <IconSettings size={compact ? 20 : 24} />
             </Flex>
           )
           : (
             <Flex style={{ width: '100%', paddingBottom: compact ? 0 : 2 }} justify='space-between' align='center'>
               <div style={{ width: compact ? 4 : 10 }}></div>
-              {/* Select a relic to locate */}
-              <div style={compact ? { fontSize: 11 } : undefined}>{t('NoneSelected')}</div>
-              <IconSettings size={compact ? 14 : 24} />
+              <div style={compact ? { fontSize: 13 } : undefined}>{t('NoneSelected')}</div>
+              <div style={{ width: compact ? 14 : 24 }} />
             </Flex>
           )}
       </Flex>
       </Popover.Target>
       <Popover.Dropdown>
         <Flex gap={8} miw={260}>
-          <Flex direction="column">
-            <Flex justify='space-between' align='center'>
+          <Flex direction="column" flex={1}>
+            <Flex align='center' gap={5}>
               <HeaderText>{t('Width') /* Inventory width */}</HeaderText>
+              <TooltipImage type={Hint.locatorParams()} />
             </Flex>
             <NumberInput
               defaultValue={inventoryWidth}
@@ -139,10 +136,10 @@ export function RelicLocator(props: { relic: Relic | null; compact?: boolean }) 
             />
           </Flex>
 
-          <Flex direction="column">
-            <Flex justify='space-between' align='center' gap={10}>
+          <Flex direction="column" flex={1}>
+            <Flex align='center' gap={5}>
               <HeaderText>{t('Filter') /* Auto filter rows */}</HeaderText>
-              <TooltipImage type={Hint.locatorParams()} />
+              <TooltipImage type={Hint.relicLocation()} />
             </Flex>
             <NumberInput
               defaultValue={rowLimit}
@@ -162,8 +159,8 @@ function LocatorFilterImage(props: { filters: LocatorFilters; compact?: boolean 
   const compact = props.compact ?? false
   return (
     <Flex gap={compact ? 3 : 5} style={{ minWidth: 10 }}>
-      <img src={Assets.getPart(part!)} style={{ height: compact ? 18 : 25 }} />
-      {set && <img src={Assets.getSetImage(set, undefined, true)} style={{ height: compact ? 20 : 26 }} />}
+      <img src={Assets.getPart(part!)} style={{ height: compact ? 22 : 25 }} />
+      {set && <img src={Assets.getSetImage(set, undefined, true)} style={{ height: compact ? 24 : 26 }} />}
     </Flex>
   )
 }

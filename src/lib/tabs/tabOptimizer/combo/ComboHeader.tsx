@@ -5,6 +5,7 @@ import { abilityGap, abilityWidth } from 'lib/tabs/tabOptimizer/combo/comboDrawe
 import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { ControlledTurnAbilitySelector } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ReactElement } from 'types/components'
 
@@ -29,7 +30,7 @@ export function ComboDrawerTitle() {
   )
 }
 
-export function ComboHeader() {
+export const ComboHeader = memo(function ComboHeader() {
   const comboTurnAbilities = useComboDrawerStore((s) => s.comboTurnAbilities)
 
   if (!comboTurnAbilities?.length) return null
@@ -50,4 +51,4 @@ export function ComboHeader() {
       {render}
     </Flex>
   )
-}
+})

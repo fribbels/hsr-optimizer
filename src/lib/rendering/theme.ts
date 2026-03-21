@@ -122,6 +122,13 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       Timeline: {
         defaultProps: { size: 'md' },
       },
+      Divider: {
+        styles: {
+          root: {
+            borderColor: 'rgba(255, 255, 255, 0.10)',
+          },
+        },
+      },
       Accordion: {
         styles: {
           item: { borderBottom: 'none' },

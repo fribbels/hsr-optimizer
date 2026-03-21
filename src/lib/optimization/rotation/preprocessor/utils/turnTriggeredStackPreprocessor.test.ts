@@ -26,12 +26,12 @@ import {
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import {
-  type ComboBooleanConditional,
-  type ComboNumberConditional,
-  type ComboState,
-  initializeComboState,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type {
+  ComboBooleanConditional,
+  ComboNumberConditional,
+  ComboState,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerInitializers'
 import {
   expect,
   test,

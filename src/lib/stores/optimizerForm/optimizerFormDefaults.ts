@@ -8,7 +8,7 @@ import {
   type StatFilterState,
   type TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 
 function buildDefaultSetConditionals(): SetConditionals {
   const result = {} as SetConditionals

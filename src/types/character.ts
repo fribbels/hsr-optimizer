@@ -1,6 +1,6 @@
 import type data from 'data/game_data.json'
 import type { Parts } from 'lib/constants/constants'
-import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import type { Prettify } from 'types/common'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type { CustomImageConfig } from 'types/customImage'

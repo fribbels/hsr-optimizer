@@ -32,9 +32,8 @@ import type {
   ComboConditionals,
   ComboNumberConditional,
   ComboSelectConditional,
-  ComboState,
   ComboTeammate,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type {
@@ -43,20 +42,20 @@ import type {
   LightConeConditionalsController,
 } from 'types/conditionals'
 
+// Module-level cache for set conditional content
+let cachedSetContent: ReturnType<typeof generateSetConditionalContent> | null = null
+let cachedSetContentLanguage: string | undefined = undefined
+
 function ConditionalActivationRow({
   contentItem,
   comboConditional,
   actionCount,
   sourceKey,
-  comboState,
-  onComboStateChange,
 }: {
   contentItem: ContentItem
   comboConditional: ComboConditionalCategory
   actionCount: number
   sourceKey: string
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
 }) {
   if (contentItem.formItem == 'switch') {
     return (
@@ -74,8 +73,6 @@ function ConditionalActivationRow({
         contentItem={contentItem}
         actionCount={actionCount}
         sourceKey={sourceKey}
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
       />
     )
   }
@@ -85,26 +82,20 @@ function ConditionalActivationRow({
       contentItem={contentItem}
       actionCount={actionCount}
       sourceKey={sourceKey}
-      comboState={comboState}
-      onComboStateChange={onComboStateChange}
     />
   )
 }
 
-function ContentRows({
+export function ContentRows({
   contentItems,
   comboConditionals,
   actionCount,
   sourceKey,
-  comboState,
-  onComboStateChange,
 }: {
   contentItems: ContentItem[]
   comboConditionals: ComboConditionals
   actionCount: number
   sourceKey: string
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
 }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
@@ -118,11 +109,9 @@ function ContentRows({
           comboConditional={comboConditionals[item.id]}
           actionCount={actionCount}
           sourceKey={sourceKey}
-          comboState={comboState}
-          onComboStateChange={onComboStateChange}
         />
       ))
-  }, [comboConditionals, contentItems, actionCount, sourceKey, comboState, onComboStateChange, i18n.resolvedLanguage])
+  }, [comboConditionals, contentItems, actionCount, sourceKey, i18n.resolvedLanguage])
 
   return (
     <Flex direction="column">
@@ -138,23 +127,22 @@ export function ComboConditionalsGroupRow({
   conditionalType,
   actionCount,
   originKey,
-  comboState,
-  onComboStateChange,
 }: {
   comboOrigin: ComboTeammate | ComboCharacter | null
   conditionalType: string
   actionCount: number
   originKey: string
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
 }) {
   const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   const { t: setSelectOptionTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
   const { t: setConditionalsTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
-  const setContent = useMemo(() => {
-    return generateSetConditionalContent(setSelectOptionTFunction)
-  }, [setSelectOptionTFunction])
+  // Module-level cache instead of per-row useMemo
+  if (!cachedSetContent || cachedSetContentLanguage !== i18n.resolvedLanguage) {
+    cachedSetContent = generateSetConditionalContent(setSelectOptionTFunction)
+    cachedSetContentLanguage = i18n.resolvedLanguage
+  }
+  const setContent = cachedSetContent
 
   const renderData = useMemo(() => {
     if (!comboOrigin) {
@@ -279,8 +267,6 @@ export function ComboConditionalsGroupRow({
         comboConditionals={renderData.conditionals}
         actionCount={actionCount}
         sourceKey={originKey}
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
       />
     </Flex>
   )

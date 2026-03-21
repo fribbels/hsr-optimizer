@@ -1,10 +1,7 @@
 import { Flex } from '@mantine/core'
 import { Partition } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/Partition'
 import { PartitionDivider } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/PartitionDivider'
-import type {
-  ComboNumberConditional,
-  ComboState,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboNumberConditional } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import type { ContentItem } from 'types/conditionals'
 
 export function NumberConditionalActivationRow({
@@ -12,15 +9,11 @@ export function NumberConditionalActivationRow({
   contentItem,
   actionCount,
   sourceKey,
-  comboState,
-  onComboStateChange,
 }: {
   comboConditional: ComboNumberConditional
   contentItem: ContentItem
   actionCount: number
   sourceKey: string
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
 }) {
   const sortedPartitions = comboConditional.partitions
     .map((partition, i) => ({ partition, originalIndex: i }))
@@ -41,8 +34,6 @@ export function NumberConditionalActivationRow({
           partitionIndex={originalIndex}
           actionCount={actionCount}
           sourceKey={sourceKey}
-          comboState={comboState}
-          onComboStateChange={onComboStateChange}
         />
       ))}
       <PartitionDivider bottom />

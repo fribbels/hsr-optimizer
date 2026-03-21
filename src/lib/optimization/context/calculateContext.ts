@@ -9,7 +9,7 @@ import { transformComboState } from 'lib/optimization/rotation/comboStateTransfo
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerInitializers'
 import {
   type Form,
   type Teammate,

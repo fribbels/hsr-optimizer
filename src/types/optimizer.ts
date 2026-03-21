@@ -48,6 +48,7 @@ export type OptimizerAction = {
   // Identifier variable
   actionIdentifier: string,
   actionIndex: number,
+  conditionalIndex: number,
 
   hits?: Hit[],
 

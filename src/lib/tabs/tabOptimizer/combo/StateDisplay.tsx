@@ -3,24 +3,19 @@ import { ComboConditionalsGroupRow } from 'lib/tabs/tabOptimizer/combo/ComboCond
 import { ComboHeader } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
 import { SetDisplays } from 'lib/tabs/tabOptimizer/combo/SetDisplays'
 import { SetSelectors } from 'lib/tabs/tabOptimizer/combo/SetSelectors'
-import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { useTranslation } from 'react-i18next'
 
 function GroupDivider({ text }: { text: string }) {
-  return (
-    <Divider label={text} labelPosition='center' />
-  )
+  return <Divider label={text} labelPosition='center' />
 }
 
-export function StateDisplay({ comboState, onComboStateChange }: {
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
-}) {
-  const comboCharacter = comboState?.comboCharacter
-  const comboTeammate0 = comboState?.comboTeammate0
-  const comboTeammate1 = comboState?.comboTeammate1
-  const comboTeammate2 = comboState?.comboTeammate2
-  const actionCount = comboState?.comboTurnAbilities?.length || 0
+export function StateDisplay() {
+  const comboCharacter = useComboDrawerStore((s) => s.comboCharacter)
+  const comboTeammate0 = useComboDrawerStore((s) => s.comboTeammate0)
+  const comboTeammate1 = useComboDrawerStore((s) => s.comboTeammate1)
+  const comboTeammate2 = useComboDrawerStore((s) => s.comboTeammate2)
+  const actionCount = useComboDrawerStore((s) => s.comboTurnAbilities.length)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
   return (
@@ -36,133 +31,33 @@ export function StateDisplay({ comboState, onComboStateChange }: {
         }}
         align='center'
       >
-        <ComboHeader comboState={comboState} onComboStateChange={onComboStateChange} />
+        <ComboHeader />
       </Flex>
 
-      <ComboConditionalsGroupRow
-        comboOrigin={comboCharacter}
-        actionCount={actionCount}
-        conditionalType='character'
-        originKey='comboCharacter'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboCharacter}
-        actionCount={actionCount}
-        conditionalType='lightCone'
-        originKey='comboCharacterLightCone'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <GroupDivider text={t('GroupHeaders.Sets') /* 'Relic / Ornament set conditionals' */} />
-      <SetSelectors comboOrigin={comboCharacter} comboState={comboState} onComboStateChange={onComboStateChange} />
-      <SetDisplays
-        comboOrigin={comboCharacter}
-        actionCount={actionCount}
-        originKey='comboCharacterRelicSets'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <GroupDivider text={t('GroupHeaders.Teammate1') /* 'Teammate 1 conditionals' */} />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate0}
-        actionCount={actionCount}
-        conditionalType='character'
-        originKey='comboTeammate0'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate0}
-        actionCount={actionCount}
-        conditionalType='lightCone'
-        originKey='comboTeammate0LightCone'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate0}
-        actionCount={actionCount}
-        conditionalType='relicSet'
-        originKey='comboTeammate0RelicSet'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate0}
-        actionCount={actionCount}
-        conditionalType='ornamentSet'
-        originKey='comboTeammate0OrnamentSet'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <GroupDivider text={t('GroupHeaders.Teammate2') /* 'Teammate 2 conditionals' */} />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate1}
-        actionCount={actionCount}
-        conditionalType='character'
-        originKey='comboTeammate1'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate1}
-        actionCount={actionCount}
-        conditionalType='lightCone'
-        originKey='comboTeammate1LightCone'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate1}
-        actionCount={actionCount}
-        conditionalType='relicSet'
-        originKey='comboTeammate1RelicSet'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate1}
-        actionCount={actionCount}
-        conditionalType='ornamentSet'
-        originKey='comboTeammate1OrnamentSet'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <GroupDivider text={t('GroupHeaders.Teammate3') /* 'Teammate 3 conditionals' */} />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate2}
-        actionCount={actionCount}
-        conditionalType='character'
-        originKey='comboTeammate2'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate2}
-        actionCount={actionCount}
-        conditionalType='lightCone'
-        originKey='comboTeammate2LightCone'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate2}
-        actionCount={actionCount}
-        conditionalType='relicSet'
-        originKey='comboTeammate2RelicSet'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
-      <ComboConditionalsGroupRow
-        comboOrigin={comboTeammate2}
-        actionCount={actionCount}
-        conditionalType='ornamentSet'
-        originKey='comboTeammate2OrnamentSet'
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
-      />
+      <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='character' originKey='comboCharacter' />
+      <ComboConditionalsGroupRow comboOrigin={comboCharacter} actionCount={actionCount} conditionalType='lightCone' originKey='comboCharacterLightCone' />
+
+      <GroupDivider text={t('GroupHeaders.Sets')} />
+      <SetSelectors comboOrigin={comboCharacter} />
+      <SetDisplays comboOrigin={comboCharacter} actionCount={actionCount} originKey='comboCharacterRelicSets' />
+
+      <GroupDivider text={t('GroupHeaders.Teammate1')} />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='character' originKey='comboTeammate0' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate0LightCone' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='relicSet' originKey='comboTeammate0RelicSet' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate0} actionCount={actionCount} conditionalType='ornamentSet' originKey='comboTeammate0OrnamentSet' />
+
+      <GroupDivider text={t('GroupHeaders.Teammate2')} />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='character' originKey='comboTeammate1' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate1LightCone' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='relicSet' originKey='comboTeammate1RelicSet' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate1} actionCount={actionCount} conditionalType='ornamentSet' originKey='comboTeammate1OrnamentSet' />
+
+      <GroupDivider text={t('GroupHeaders.Teammate3')} />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='character' originKey='comboTeammate2' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='lightCone' originKey='comboTeammate2LightCone' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='relicSet' originKey='comboTeammate2RelicSet' />
+      <ComboConditionalsGroupRow comboOrigin={comboTeammate2} actionCount={actionCount} conditionalType='ornamentSet' originKey='comboTeammate2OrnamentSet' />
     </Flex>
   )
 }

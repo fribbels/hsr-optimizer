@@ -22,7 +22,7 @@ import {
   type SuggestionFixes,
 } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import { type CharacterId, type Eidolon } from 'types/character'
 import { type ConditionalValueMap } from 'types/conditionals'
 import { type SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'

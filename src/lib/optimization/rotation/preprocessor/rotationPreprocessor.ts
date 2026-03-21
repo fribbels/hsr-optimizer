@@ -23,7 +23,7 @@ import {
 import { type AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilities } from 'lib/optimization/rotation/turnPreprocessor'
-import { type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import { type Form } from 'types/form'
 import { ThusBurnsTheDawnPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessLightCones'
 
@@ -66,6 +66,7 @@ export function precomputeConditionalActivations(comboState: ComboState, request
 
   for (const preprocessor of filteredSetPreprocessors) preprocessor.reset()
   for (const preprocessor of filteredCharacterPreprocessors) preprocessor.reset()
+  for (const preprocessor of filteredLightConePreprocessors) preprocessor.reset()
 
   const comboTurnAbilities = preprocessTurnAbilities(comboState.comboTurnAbilities.map(toTurnAbility))
 

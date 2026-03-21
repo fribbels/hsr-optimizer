@@ -11,12 +11,13 @@ import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optim
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
-import { getCharacterById } from 'lib/stores/characterStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import * as equipmentService from 'lib/services/equipmentService'
-import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import { displayToInternal, patchComboConditionalDefault } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { type MainConditionalType, type TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { initializeComboState, updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerInitializers'
+import { updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerUpdaters'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/stores/gridStore'
 import type { Build, CharacterId } from 'types/character'
@@ -58,9 +59,18 @@ function handleMainCharacterConditionalChange(
   const store = useOptimizerRequestStore.getState()
   store.setMainCharacterConditional(condType, key, value)
 
-  const request = displayToInternal(store)
-  const comboState = initializeComboState(request, true)
-  updateConditionalChange(comboState, { [condType]: { [key]: value } } as unknown as Form)
+  // Surgical patch: only updates activations[0] (default slot), preserving per-turn customizations.
+  // The old path via initializeComboState + updateConditionalChange overwrote ALL activations.
+  const conditionalsType = condType === 'characterConditionals' ? 'character' : 'lightCone' as const
+  const patchedJson = patchComboConditionalDefault(store.comboStateJson, conditionalsType, { [key]: value })
+  store.setComboStateJson(patchedJson)
+
+  const form = getForm()
+  const found = getCharacterById(form.characterId)
+  if (found) {
+    useCharacterStore.getState().setCharacter({ ...found, form: { ...found.form, ...form } })
+  }
+  SaveState.delayedSave(1000)
 }
 
 /**
@@ -91,9 +101,15 @@ function handleSetConditionalChange(
   const store = useOptimizerRequestStore.getState()
   store.setSetConditional(key, value)
 
-  const request = displayToInternal(store)
-  const comboState = initializeComboState(request, true)
-  updateConditionalChange(comboState, { setConditionals: { [key]: [undefined, value] } } as unknown as Form)
+  const patchedJson = patchComboConditionalDefault(store.comboStateJson, 'set', { [key]: value })
+  store.setComboStateJson(patchedJson)
+
+  const form = getForm()
+  const found = getCharacterById(form.characterId)
+  if (found) {
+    useCharacterStore.getState().setCharacter({ ...found, form: { ...found.form, ...form } })
+  }
+  SaveState.delayedSave(1000)
 }
 
 /**

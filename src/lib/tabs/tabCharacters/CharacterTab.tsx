@@ -38,7 +38,7 @@ export function CharacterTab() {
       style={{
         height: '100%',
         marginBottom: 200,
-        width: 1455,
+        width: 1593,
       }}
       gap={defaultGap}
     >

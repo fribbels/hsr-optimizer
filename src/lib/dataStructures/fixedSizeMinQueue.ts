@@ -13,7 +13,7 @@ export class FixedSizeNumericMinQueue {
 
   constructor(limit: number) {
     this.limit = limit
-    this.heap = new MinQueue(limit + 1)
+    this.heap = new MinQueue(limit + 1, Float64Array)
   }
 
   size(): number { return this.heap.length }
@@ -70,7 +70,7 @@ export class FixedSizeMinQueue<T> {
 
   constructor(limit: number) {
     this.limit = limit
-    this.heap = new MinQueue(limit + 1)
+    this.heap = new MinQueue(limit + 1, Uint32Array)
     this.objects = new Array(limit + 1)
   }
 

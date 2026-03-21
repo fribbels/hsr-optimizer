@@ -410,6 +410,7 @@ export function patchComboConditionalDefault(
   comboStateJson: string,
   conditionalsType: 'character' | 'lightCone' | 'set',
   changedKeys: Record<string, unknown>,
+  teammateIndex?: 0 | 1 | 2,
 ): string {
   if (!comboStateJson || comboStateJson === '{}') return comboStateJson
 
@@ -420,11 +421,13 @@ export function patchComboConditionalDefault(
     return comboStateJson
   }
 
-  const comboCharacter = comboState.comboCharacter as Record<string, unknown> | undefined
-  if (!comboCharacter) return comboStateJson
+  const entity = teammateIndex != null
+    ? comboState[`comboTeammate${teammateIndex}`] as Record<string, unknown> | undefined
+    : comboState.comboCharacter as Record<string, unknown> | undefined
+  if (!entity) return comboStateJson
 
   const conditionalsKey = conditionalsTypeToKey[conditionalsType]
-  const conditionals = comboCharacter[conditionalsKey] as Record<string, Record<string, unknown>> | undefined
+  const conditionals = entity[conditionalsKey] as Record<string, Record<string, unknown>> | undefined
   if (!conditionals) return comboStateJson
 
   for (const [key, newValue] of Object.entries(changedKeys)) {

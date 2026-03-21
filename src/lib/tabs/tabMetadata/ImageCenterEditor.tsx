@@ -1,6 +1,6 @@
-import { ActionIcon, Button, CopyButton, Flex, NumberInput } from '@mantine/core'
+import { ActionIcon, Button, Checkbox, CopyButton, Flex, NumberInput } from '@mantine/core'
 import { IconCheck, IconClipboard, IconCopy } from '@tabler/icons-react'
-import { innerW, newLcHeight, parentH, parentW } from 'lib/constants/constantsUi'
+import { innerW, newLcHeight, newLcMargin, parentH, parentW, simScoreInnerW } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { SpinePortrait } from 'lib/spine/SpinePortrait'
@@ -11,6 +11,11 @@ import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { ImageCenter } from 'types/metadata'
+
+// =========================================== Constants ===========================================
+
+const DEFAULT_CENTER: ImageCenter = { x: 1024, y: 1024, z: 1 }
+const DPS_CONTAINER_H = parentH - newLcHeight - newLcMargin // 720
 
 // =========================================== Shared Hook ===========================================
 
@@ -66,8 +71,6 @@ function useDragInteraction(
 
 // =========================================== Shared Utils ===========================================
 
-const DEFAULT_CENTER: ImageCenter = { x: 1024, y: 1024, z: 1 }
-
 function buildCharacterOptions(): SearchableComboboxOption[] {
   const chars = Object.values(getGameMetadata().characters)
   return chars
@@ -79,28 +82,32 @@ function buildCharacterOptions(): SearchableComboboxOption[] {
     }))
 }
 
-function computePortraitStyle(center: ImageCenter) {
+function computePortraitStyle(center: ImageCenter, tempInnerW: number, containerH: number) {
   return {
     position: 'absolute' as const,
-    left: -center.x * center.z / 2 * innerW / 1024 + parentW / 2,
-    top: -center.y * center.z / 2 * innerW / 1024 + parentH / 2,
-    width: innerW * center.z,
+    left: -center.x * center.z / 2 * tempInnerW / 1024 + parentW / 2,
+    top: -center.y * center.z / 2 * tempInnerW / 1024 + containerH / 2,
+    width: tempInnerW * center.z,
   }
+}
+
+function Crosshairs({ width, height, visible }: { width: number; height: number; visible: boolean }) {
+  if (!visible) return null
+  const lineStyle = {
+    position: 'absolute' as const,
+    background: 'rgba(255, 255, 255, 0.4)',
+    pointerEvents: 'none' as const,
+  }
+  return (
+    <>
+      <div style={{ ...lineStyle, left: width / 2, top: 0, width: 1, height }} />
+      <div style={{ ...lineStyle, left: 0, top: height / 2, width, height: 1 }} />
+    </>
+  )
 }
 
 function formatCharConfigString(center: ImageCenter) {
   return `imageCenter: { x: ${Math.round(center.x)}, y: ${Math.round(center.y)}, z: ${Number(center.z.toFixed(2))} }`
-}
-
-const containerStyle = {
-  width: parentW,
-  height: parentH,
-  position: 'relative' as const,
-  overflow: 'hidden' as const,
-  border: '1px solid #555',
-  borderRadius: 8,
-  cursor: 'grab',
-  background: '#1a1a2e',
 }
 
 // =========================================== Shared Controls ===========================================
@@ -140,14 +147,14 @@ function CharCenterControls({ center, setCenter, configString, onReset, onCopyCe
 
 // =========================================== Character Drag/Zoom ===========================================
 
-function useCharacterDragZoom(setCenter: React.Dispatch<React.SetStateAction<ImageCenter>>) {
+function useCharacterDragZoom(setCenter: React.Dispatch<React.SetStateAction<ImageCenter>>, tempInnerW: number) {
   const onDrag = useCallback((dx: number, dy: number) => {
     setCenter((prev) => ({
       ...prev,
-      x: prev.x - 2 * dx / prev.z,
-      y: prev.y - 2 * dy / prev.z,
+      x: prev.x - dx * 2 * 1024 / (prev.z * tempInnerW),
+      y: prev.y - dy * 2 * 1024 / (prev.z * tempInnerW),
     }))
-  }, [setCenter])
+  }, [setCenter, tempInnerW])
 
   const onZoom = useCallback((deltaY: number, ctrlKey: boolean) => {
     const step = ctrlKey ? 0.0001875 : 0.00001875
@@ -160,62 +167,19 @@ function useCharacterDragZoom(setCenter: React.Dispatch<React.SetStateAction<Ima
   return { onDrag, onZoom }
 }
 
-// =========================================== Character Portrait Editor ===========================================
+// =========================================== Generic Character Editor ===========================================
 
-function CharacterPortraitEditor({ selectedCharId, center, setCenter, clipboard, setClipboard }: {
+function CharacterEditor({ label, selectedCharId, center, setCenter, clipboard, setClipboard, tempInnerW, containerH, mode, showCrosshairs }: {
+  label: string
   selectedCharId: CharacterId | null
   center: ImageCenter
   setCenter: React.Dispatch<React.SetStateAction<ImageCenter>>
   clipboard: ImageCenter | null
   setClipboard: (c: ImageCenter) => void
-}) {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  const { onDrag, onZoom } = useCharacterDragZoom(setCenter)
-  const { handleMouseDown } = useDragInteraction(containerRef, onDrag, onZoom)
-
-  const portraitStyle = computePortraitStyle(center)
-  const configString = formatCharConfigString(center)
-
-  const handleReset = () => {
-    if (!selectedCharId) return
-    const meta = getGameMetadata().characters[selectedCharId]
-    setCenter(meta ? { ...meta.imageCenter } : { ...DEFAULT_CENTER })
-  }
-
-  return (
-    <Flex direction="column" gap={10}>
-      <b>Character Portrait (Static)</b>
-      <div ref={containerRef} style={containerStyle} onMouseDown={handleMouseDown}>
-        {selectedCharId && (
-          <img
-            src={Assets.getCharacterPortraitById(selectedCharId)}
-            style={portraitStyle}
-            draggable={false}
-          />
-        )}
-      </div>
-      <CharCenterControls
-        center={center}
-        setCenter={setCenter}
-        configString={configString}
-        onReset={handleReset}
-        onCopyCenter={() => setClipboard({ ...center })}
-        onPasteCenter={() => clipboard && setCenter({ ...clipboard })}
-        clipboard={clipboard}
-      />
-    </Flex>
-  )
-}
-
-// =========================================== Character Spine Editor ===========================================
-
-function CharacterSpineEditor({ selectedCharId, center, setCenter, clipboard, setClipboard }: {
-  selectedCharId: CharacterId | null
-  center: ImageCenter
-  setCenter: React.Dispatch<React.SetStateAction<ImageCenter>>
-  clipboard: ImageCenter | null
-  setClipboard: (c: ImageCenter) => void
+  tempInnerW: number
+  containerH: number
+  mode: 'static' | 'spine'
+  showCrosshairs: boolean
 }) {
   const [spineUnsupported, setSpineUnsupported] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -224,10 +188,10 @@ function CharacterSpineEditor({ selectedCharId, center, setCenter, clipboard, se
     setSpineUnsupported(false)
   }, [selectedCharId])
 
-  const { onDrag, onZoom } = useCharacterDragZoom(setCenter)
+  const { onDrag, onZoom } = useCharacterDragZoom(setCenter, tempInnerW)
   const { handleMouseDown } = useDragInteraction(containerRef, onDrag, onZoom)
 
-  const portraitStyle = computePortraitStyle(center)
+  const portraitStyle = computePortraitStyle(center, tempInnerW, containerH)
   const configString = formatCharConfigString(center)
 
   const handleReset = () => {
@@ -239,9 +203,29 @@ function CharacterSpineEditor({ selectedCharId, center, setCenter, clipboard, se
 
   return (
     <Flex direction="column" gap={10}>
-      <b>Character Portrait (Spine)</b>
-      <div ref={containerRef} style={containerStyle} onMouseDown={handleMouseDown}>
-        {selectedCharId && (
+      <b>{label}</b>
+      <div
+        ref={containerRef}
+        style={{
+          width: parentW,
+          height: containerH,
+          position: 'relative',
+          overflow: 'hidden',
+          border: '1px solid #555',
+          borderRadius: 8,
+          cursor: 'grab',
+          background: '#1a1a2e',
+        }}
+        onMouseDown={handleMouseDown}
+      >
+        {selectedCharId && mode === 'static' && (
+          <img
+            src={Assets.getCharacterPortraitById(selectedCharId)}
+            style={portraitStyle}
+            draggable={false}
+          />
+        )}
+        {selectedCharId && mode === 'spine' && (
           spineUnsupported
             ? <div style={{ padding: 20, color: '#888' }}>No spine data for this character</div>
             : (
@@ -252,6 +236,7 @@ function CharacterSpineEditor({ selectedCharId, center, setCenter, clipboard, se
               />
             )
         )}
+        <Crosshairs width={parentW} height={containerH} visible={showCrosshairs} />
       </div>
       <CharCenterControls
         center={center}
@@ -268,7 +253,7 @@ function CharacterSpineEditor({ selectedCharId, center, setCenter, clipboard, se
 
 // =========================================== Light Cone Editor ===========================================
 
-function LightConeCenterEditor() {
+function LightConeCenterEditor({ showCrosshairs }: { showCrosshairs: boolean }) {
   const { t } = useTranslation('gameData')
   const [selectedLcId, setSelectedLcId] = useState<LightConeId | null>(null)
   const [offset, setOffset] = useState({ x: 0, y: 0, s: 1.15 })
@@ -302,7 +287,7 @@ function LightConeCenterEditor() {
       const dyAt1 = computeLcTransform({ ...prev, y: 1 }, parentW, newLcHeight).dy
       const sensitivity = dyAt1 - dyAt0
       if (Math.abs(sensitivity) < 0.001) return prev
-      return { ...prev, y: prev.y - dy / sensitivity }
+      return { ...prev, y: prev.y + dy / sensitivity }
     })
   }, [])
 
@@ -395,6 +380,7 @@ function LightConeCenterEditor() {
               draggable={false}
             />
           )}
+          <Crosshairs width={parentW} height={newLcHeight} visible={showCrosshairs} />
         </div>
       </div>
       <Flex gap={8}>
@@ -423,10 +409,10 @@ export function ImageCenterEditorSection() {
   const [portraitCenter, setPortraitCenter] = useState<ImageCenter>({ ...DEFAULT_CENTER })
   const [spineCenter, setSpineCenter] = useState<ImageCenter>({ ...DEFAULT_CENTER })
   const [clipboard, setClipboard] = useState<ImageCenter | null>(null)
+  const [showCrosshairs, setShowCrosshairs] = useState(true)
 
   const characterOptions = useMemo(buildCharacterOptions, [])
 
-  // Sync both editors when character changes
   useEffect(() => {
     if (!selectedCharId) return
     const meta = getGameMetadata().characters[selectedCharId]
@@ -438,7 +424,7 @@ export function ImageCenterEditorSection() {
 
   return (
     <Flex direction="column" gap={20}>
-      <Flex gap={8} align="flex-end">
+      <Flex gap={16} align="center">
         <SearchableCombobox
           options={characterOptions}
           value={selectedCharId}
@@ -446,23 +432,63 @@ export function ImageCenterEditorSection() {
           placeholder="Select character"
           style={{ width: parentW }}
         />
+        <Checkbox
+          label="Crosshairs"
+          checked={showCrosshairs}
+          onChange={(e) => setShowCrosshairs(e.currentTarget.checked)}
+        />
       </Flex>
-      <Flex gap={40} wrap="wrap">
-        <CharacterPortraitEditor
+
+      <Flex gap={40} wrap="nowrap" align="center">
+        <CharacterEditor
+          label="Full View - Static"
           selectedCharId={selectedCharId}
           center={portraitCenter}
           setCenter={setPortraitCenter}
           clipboard={clipboard}
           setClipboard={setClipboard}
+          tempInnerW={innerW}
+          containerH={parentH}
+          mode="static"
+          showCrosshairs={showCrosshairs}
         />
-        <CharacterSpineEditor
+        <CharacterEditor
+          label="DPS Score - Static"
+          selectedCharId={selectedCharId}
+          center={portraitCenter}
+          setCenter={setPortraitCenter}
+          clipboard={clipboard}
+          setClipboard={setClipboard}
+          tempInnerW={simScoreInnerW}
+          containerH={DPS_CONTAINER_H}
+          mode="static"
+          showCrosshairs={showCrosshairs}
+        />
+        <CharacterEditor
+          label="Full View - Spine"
           selectedCharId={selectedCharId}
           center={spineCenter}
           setCenter={setSpineCenter}
           clipboard={clipboard}
           setClipboard={setClipboard}
+          tempInnerW={innerW}
+          containerH={parentH}
+          mode="spine"
+          showCrosshairs={showCrosshairs}
         />
-        <LightConeCenterEditor />
+        <CharacterEditor
+          label="DPS Score - Spine"
+          selectedCharId={selectedCharId}
+          center={spineCenter}
+          setCenter={setSpineCenter}
+          clipboard={clipboard}
+          setClipboard={setClipboard}
+          tempInnerW={simScoreInnerW}
+          containerH={DPS_CONTAINER_H}
+          mode="spine"
+          showCrosshairs={showCrosshairs}
+        />
+        <LightConeCenterEditor showCrosshairs={showCrosshairs} />
       </Flex>
     </Flex>
   )

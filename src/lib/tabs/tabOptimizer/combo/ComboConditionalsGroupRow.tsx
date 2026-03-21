@@ -32,6 +32,7 @@ import type {
   ComboNumberConditional,
   ComboSelectConditional,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import { resolveSourceKeyRoute } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { resolveConditionals, resolveMetadata, useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -145,23 +146,22 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
   const setContent = cachedSetContent
 
   const resolverData = useMemo(() => {
-    if (!metadata) {
-      return null
-    }
+    const route = resolveSourceKeyRoute(originKey)
+    if (!route || !metadata) return null
+
+    const isTeammate = route.isTeammate
 
     let content: ContentItem[]
     let src: string
 
-    const isTeammate = originKey.includes('Teammate')
-
-    if (originKey.includes('LightCone')) {
+    if (route.conditionalsKey === 'lightConeConditionals') {
       const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(metadata, true)
 
       content = isTeammate
         ? lightConeConditionalMetadata.teammateContent?.() ?? []
         : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
-    } else if (originKey.includes('comboCharacterRelicSets')) {
+    } else if (route.conditionalsKey === 'setConditionals') {
       const setName = conditionalType as Sets
       const disabled = !ConditionalSetMetadata[setName].modifiable
 
@@ -200,7 +200,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
         return null
       }
       src = Assets.getSetImage(setName, undefined, true)
-    } else if (originKey.includes('RelicSet')) {
+    } else if (route.conditionalsKey === 'relicSetConditionals') {
       const keys = comboConditionals ? Object.keys(comboConditionals) as SetsRelics[] : []
       if (keys.length) {
         const setName = keys[0]
@@ -216,7 +216,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
       } else {
         return null
       }
-    } else if (originKey.includes('OrnamentSet')) {
+    } else if (route.conditionalsKey === 'ornamentSetConditionals') {
       const keys = comboConditionals ? Object.keys(comboConditionals) as SetsOrnaments[] : []
       if (keys.length) {
         const setName = keys[0]
@@ -233,7 +233,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
         return null
       }
     } else {
-      // Character
+      // Character conditionals
       const characterConditionalMetadata: CharacterConditionalsController = CharacterConditionalsResolver.get(metadata, true)
 
       content = isTeammate

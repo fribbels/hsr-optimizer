@@ -14,10 +14,9 @@ import type {
   ComboNumberConditional,
   ComboState,
   ComboTeammate,
-  NestedObject,
 } from './comboDrawerTypes'
 import { initializeComboState } from './comboDrawerInitializers'
-import { extractTeammateKey, shiftAllActivationsInObj, setActivationIndexToDefault } from './comboDrawerUtils'
+import { forEachActivation, getEntityConditionals, resolveSourceKeyRoute, shiftLeft, withEntityConditionals } from './comboDrawerUtils'
 
 // ─── State Shape ───────────────────────────────────────────────
 
@@ -64,37 +63,13 @@ export function locateConditional(
   sourceKey: string,
   contentItemId: string,
 ): ComboConditionalCategory | null {
-  let comboConditionals: ComboConditionals | undefined
-
-  if (sourceKey.includes('comboCharacter')) {
-    const character = state.comboCharacter
-    if (!character) return null
-
-    if (sourceKey.includes('RelicSets')) {
-      comboConditionals = character.setConditionals
-    } else if (sourceKey.includes('LightCone')) {
-      comboConditionals = character.lightConeConditionals
-    } else {
-      comboConditionals = character.characterConditionals
-    }
-  } else if (sourceKey.includes('comboTeammate')) {
-    const teammateKey = extractTeammateKey(sourceKey)
-    const teammate = state[teammateKey]
-    if (!teammate) return null
-
-    if (sourceKey.includes('RelicSet')) {
-      comboConditionals = teammate.relicSetConditionals
-    } else if (sourceKey.includes('OrnamentSet')) {
-      comboConditionals = teammate.ornamentSetConditionals
-    } else if (sourceKey.includes('LightCone')) {
-      comboConditionals = teammate.lightConeConditionals
-    } else {
-      comboConditionals = teammate.characterConditionals
-    }
-  }
-
-  if (!comboConditionals) return null
-  return comboConditionals[contentItemId] ?? null
+  const route = resolveSourceKeyRoute(sourceKey)
+  if (!route) return null
+  const entity = state[route.entityKey]
+  if (!entity) return null
+  const conditionals = getEntityConditionals(entity, route.conditionalsKey)
+  if (!conditionals) return null
+  return conditionals[contentItemId] ?? null
 }
 
 /**
@@ -105,11 +80,9 @@ export function resolveMetadata(
   state: ComboDrawerState,
   originKey: string,
 ): ComboCharacterMetadata | null {
-  if (originKey.includes('comboTeammate')) {
-    const tk = extractTeammateKey(originKey)
-    return state[tk]?.metadata ?? null
-  }
-  return state.comboCharacter?.metadata ?? null
+  const route = resolveSourceKeyRoute(originKey)
+  if (!route) return null
+  return state[route.entityKey]?.metadata ?? null
 }
 
 /**
@@ -121,20 +94,11 @@ export function resolveConditionals(
   state: ComboDrawerState,
   originKey: string,
 ): ComboConditionals | null {
-  if (originKey.includes('comboTeammate')) {
-    const tk = extractTeammateKey(originKey)
-    const tm = state[tk]
-    if (!tm) return null
-    if (originKey.includes('RelicSet')) return tm.relicSetConditionals
-    if (originKey.includes('OrnamentSet')) return tm.ornamentSetConditionals
-    if (originKey.includes('LightCone')) return tm.lightConeConditionals
-    return tm.characterConditionals
-  }
-  const ch = state.comboCharacter
-  if (!ch) return null
-  if (originKey.includes('comboCharacterRelicSets')) return ch.setConditionals
-  if (originKey.includes('LightCone')) return ch.lightConeConditionals
-  return ch.characterConditionals
+  const route = resolveSourceKeyRoute(originKey)
+  if (!route) return null
+  const entity = state[route.entityKey]
+  if (!entity) return null
+  return getEntityConditionals(entity, route.conditionalsKey) ?? null
 }
 
 // ─── Private Helpers ───────────────────────────────────────────
@@ -149,27 +113,13 @@ function cloneConditionalPath(
   sourceKey: string,
   contentItemId: string,
 ): { newState: Partial<ComboDrawerState>; conditional: ComboConditionalCategory | null } {
-  let fieldKey: keyof ComboDrawerState
-  let conditionalsKey: string
+  const route = resolveSourceKeyRoute(sourceKey)
+  if (!route) return { newState: {}, conditional: null }
 
-  if (sourceKey.includes('comboCharacter')) {
-    fieldKey = 'comboCharacter'
-    if (sourceKey.includes('RelicSets')) conditionalsKey = 'setConditionals'
-    else if (sourceKey.includes('LightCone')) conditionalsKey = 'lightConeConditionals'
-    else conditionalsKey = 'characterConditionals'
-  } else {
-    const teammateKey = extractTeammateKey(sourceKey)
-    fieldKey = teammateKey
-    if (sourceKey.includes('RelicSet')) conditionalsKey = 'relicSetConditionals'
-    else if (sourceKey.includes('OrnamentSet')) conditionalsKey = 'ornamentSetConditionals'
-    else if (sourceKey.includes('LightCone')) conditionalsKey = 'lightConeConditionals'
-    else conditionalsKey = 'characterConditionals'
-  }
+  const entity = state[route.entityKey]
+  if (!entity) return { newState: {}, conditional: null }
 
-  const parent = state[fieldKey] as Record<string, unknown> | null
-  if (!parent) return { newState: {}, conditional: null }
-
-  const conditionals = parent[conditionalsKey] as ComboConditionals
+  const conditionals = getEntityConditionals(entity, route.conditionalsKey)
   if (!conditionals) return { newState: {}, conditional: null }
 
   const conditional = conditionals[contentItemId]
@@ -186,10 +136,10 @@ function cloneConditionalPath(
   }
 
   const clonedConditionals = { ...conditionals, [contentItemId]: clonedConditional }
-  const clonedParent = { ...parent, [conditionalsKey]: clonedConditionals }
+  const clonedEntity = withEntityConditionals(entity, route.conditionalsKey, clonedConditionals)
 
   return {
-    newState: { [fieldKey]: clonedParent } as Partial<ComboDrawerState>,
+    newState: { [route.entityKey]: clonedEntity } as Partial<ComboDrawerState>,
     conditional: clonedConditional,
   }
 }
@@ -385,10 +335,10 @@ export const useComboDrawerStore = createTabAwareStore<ComboDrawerStore>((set, g
       const clonedTeammate1 = state.comboTeammate1 ? clone(state.comboTeammate1) : null
       const clonedTeammate2 = state.comboTeammate2 ? clone(state.comboTeammate2) : null
 
-      if (clonedCharacter) shiftAllActivationsInObj(clonedCharacter as unknown as NestedObject, index)
-      if (clonedTeammate0) shiftAllActivationsInObj(clonedTeammate0 as unknown as NestedObject, index)
-      if (clonedTeammate1) shiftAllActivationsInObj(clonedTeammate1 as unknown as NestedObject, index)
-      if (clonedTeammate2) shiftAllActivationsInObj(clonedTeammate2 as unknown as NestedObject, index)
+      if (clonedCharacter) forEachActivation(clonedCharacter, (arr) => shiftLeft(arr, index))
+      if (clonedTeammate0) forEachActivation(clonedTeammate0, (arr) => shiftLeft(arr, index))
+      if (clonedTeammate1) forEachActivation(clonedTeammate1, (arr) => shiftLeft(arr, index))
+      if (clonedTeammate2) forEachActivation(clonedTeammate2, (arr) => shiftLeft(arr, index))
 
       set({
         comboCharacter: clonedCharacter,
@@ -406,10 +356,10 @@ export const useComboDrawerStore = createTabAwareStore<ComboDrawerStore>((set, g
       const clonedTeammate1 = state.comboTeammate1 ? clone(state.comboTeammate1) : null
       const clonedTeammate2 = state.comboTeammate2 ? clone(state.comboTeammate2) : null
 
-      if (clonedCharacter) setActivationIndexToDefault(clonedCharacter as unknown as NestedObject, index)
-      if (clonedTeammate0) setActivationIndexToDefault(clonedTeammate0 as unknown as NestedObject, index)
-      if (clonedTeammate1) setActivationIndexToDefault(clonedTeammate1 as unknown as NestedObject, index)
-      if (clonedTeammate2) setActivationIndexToDefault(clonedTeammate2 as unknown as NestedObject, index)
+      if (clonedCharacter) forEachActivation(clonedCharacter, (arr) => { arr[index] = arr[0] })
+      if (clonedTeammate0) forEachActivation(clonedTeammate0, (arr) => { arr[index] = arr[0] })
+      if (clonedTeammate1) forEachActivation(clonedTeammate1, (arr) => { arr[index] = arr[0] })
+      if (clonedTeammate2) forEachActivation(clonedTeammate2, (arr) => { arr[index] = arr[0] })
 
       set({
         comboCharacter: clonedCharacter,

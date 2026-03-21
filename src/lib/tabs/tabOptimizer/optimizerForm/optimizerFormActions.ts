@@ -16,8 +16,6 @@ import * as equipmentService from 'lib/services/equipmentService'
 import { displayToInternal, patchComboConditionalDefault } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { type MainConditionalType, type TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerInitializers'
-import { updateConditionalChange } from 'lib/tabs/tabOptimizer/combo/comboDrawerUpdaters'
 import { persistFormToCharacterStore } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/stores/gridStore'
@@ -81,10 +79,12 @@ function handleTeammateConditionalChange(
   const store = useOptimizerRequestStore.getState()
   store.setTeammateConditional(teammateIndex, condType, key, value)
 
-  const request = displayToInternal(store)
-  const comboState = initializeComboState(request, true)
-  const teammateKey = `teammate${teammateIndex}`
-  updateConditionalChange(comboState, { [teammateKey]: { [condType]: { [key]: value } } } as unknown as Form)
+  // Surgical patch: only updates activations[0] (default slot), preserving per-turn customizations.
+  const conditionalsType = condType === 'characterConditionals' ? 'character' : 'lightCone' as const
+  const patchedJson = patchComboConditionalDefault(store.comboStateJson, conditionalsType, { [key]: value }, teammateIndex)
+  store.setComboStateJson(patchedJson)
+
+  persistFormToCharacterStore(1000)
 }
 
 /**

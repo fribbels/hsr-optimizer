@@ -17,6 +17,7 @@ import {
   newLcMargin,
   parentH,
   parentW,
+  simScoreInnerW,
 } from 'lib/constants/constantsUi'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
@@ -171,7 +172,7 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
     tempLcInnerW = parentW + 16
     tempLcInnerH = 1260 / 902 * tempLcInnerW
     tempParentH = parentH - newLcHeight - newLcMargin
-    tempInnerW = 950
+    tempInnerW = simScoreInnerW
   }
 
   return {

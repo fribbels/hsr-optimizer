@@ -4,7 +4,6 @@ import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/compone
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { persistSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
-import type { ComboCharacter } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ReactElement } from 'types/components'
@@ -40,19 +39,17 @@ function SetSelector({ selected, options, placeholder, submit }: {
   )
 }
 
-export function SetSelectors({ comboOrigin }: {
-  comboOrigin: ComboCharacter | null
-}) {
+export function SetSelectors() {
+  const displayedRelicSets = useComboDrawerStore((s) => s.comboCharacter?.displayedRelicSets ?? [])
+  const displayedOrnamentSets = useComboDrawerStore((s) => s.comboCharacter?.displayedOrnamentSets ?? [])
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer.Placeholders' })
   const ornamentOptions = useOrnamentsOptions()
   const relicSetOptions = useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])
 
-  if (!comboOrigin) return null
-
   return (
     <Flex w='100%' gap={10}>
       <SetSelector
-        selected={comboOrigin.displayedRelicSets}
+        selected={displayedRelicSets}
         options={relicSetOptions}
         placeholder={t('Sets')} // 'Relic set conditionals'
         submit={(arr) => {
@@ -61,7 +58,7 @@ export function SetSelectors({ comboOrigin }: {
         }}
       />
       <SetSelector
-        selected={comboOrigin.displayedOrnamentSets}
+        selected={displayedOrnamentSets}
         options={ornamentOptions}
         placeholder={t('Ornaments')} // 'Ornament set conditionals'
         submit={(arr) => {

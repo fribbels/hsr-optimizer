@@ -8,6 +8,7 @@ import type { Form } from 'types/form'
 
 import type {
   ComboCharacter,
+  ComboCharacterMetadata,
   ComboConditionalCategory,
   ComboConditionals,
   ComboNumberConditional,
@@ -19,7 +20,7 @@ import { initializeComboState } from './comboDrawerInitializers'
 
 // ─── State Shape ───────────────────────────────────────────────
 
-type ComboDrawerState = {
+export type ComboDrawerState = {
   comboCharacter: ComboCharacter | null
   comboTeammate0: ComboTeammate | null
   comboTeammate1: ComboTeammate | null
@@ -93,6 +94,46 @@ export function locateConditional(
 
   if (!comboConditionals) return null
   return comboConditionals[contentItemId] ?? null
+}
+
+/**
+ * Resolve the metadata for a given originKey. Returns a STABLE reference
+ * that only changes when the character/teammate is swapped — never during drag.
+ */
+export function resolveMetadata(
+  state: ComboDrawerState,
+  originKey: string,
+): ComboCharacterMetadata | null {
+  if (originKey.includes('comboTeammate')) {
+    const tk = originKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+    return state[tk]?.metadata ?? null
+  }
+  return state.comboCharacter?.metadata ?? null
+}
+
+/**
+ * Resolve the specific conditional bucket for a given originKey.
+ * Returns a reference that only changes when a conditional WITHIN THIS BUCKET changes.
+ * E.g., changing characterConditionals does NOT affect lightConeConditionals.
+ */
+export function resolveConditionals(
+  state: ComboDrawerState,
+  originKey: string,
+): ComboConditionals | null {
+  if (originKey.includes('comboTeammate')) {
+    const tk = originKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+    const tm = state[tk]
+    if (!tm) return null
+    if (originKey.includes('RelicSet')) return tm.relicSetConditionals
+    if (originKey.includes('OrnamentSet')) return tm.ornamentSetConditionals
+    if (originKey.includes('LightCone')) return tm.lightConeConditionals
+    return tm.characterConditionals
+  }
+  const ch = state.comboCharacter
+  if (!ch) return null
+  if (originKey.includes('comboCharacterRelicSets')) return ch.setConditionals
+  if (originKey.includes('LightCone')) return ch.lightConeConditionals
+  return ch.characterConditionals
 }
 
 // ─── Private Helpers ───────────────────────────────────────────

@@ -1,26 +1,22 @@
 import { Flex } from '@mantine/core'
 import { ComboConditionalsGroupRow } from 'lib/tabs/tabOptimizer/combo/ComboConditionalsGroupRow'
-import type { ComboCharacter } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 
-export function SetDisplays({ comboOrigin, actionCount, originKey }: {
-  comboOrigin: ComboCharacter | null
-  actionCount: number
-  originKey: string
-}) {
-  if (!comboOrigin) return null
+export function SetDisplayRows({ actionCount }: { actionCount: number }) {
+  const displayedRelicSets = useComboDrawerStore((s) => s.comboCharacter?.displayedRelicSets ?? [])
+  const displayedOrnamentSets = useComboDrawerStore((s) => s.comboCharacter?.displayedOrnamentSets ?? [])
 
-  const relicSets = comboOrigin.displayedRelicSets ?? []
-  const ornamentSets = comboOrigin.displayedOrnamentSets ?? []
+  const allSets = [...displayedRelicSets, ...displayedOrnamentSets]
+  if (allSets.length === 0) return null
 
   return (
     <Flex direction="column" gap={8}>
-      {[...relicSets, ...ornamentSets].map((setName) => (
+      {allSets.map((setName) => (
         <ComboConditionalsGroupRow
           key={setName}
-          comboOrigin={comboOrigin}
           conditionalType={setName}
           actionCount={actionCount}
-          originKey={originKey}
+          originKey='comboCharacterRelicSets'
         />
       ))}
     </Flex>

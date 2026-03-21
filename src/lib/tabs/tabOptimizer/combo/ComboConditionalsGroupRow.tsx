@@ -27,14 +27,13 @@ import {
 } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/SelectConditionalActivationRow'
 import type {
   ComboBooleanConditional,
-  ComboCharacter,
   ComboConditionalCategory,
   ComboConditionals,
   ComboNumberConditional,
   ComboSelectConditional,
-  ComboTeammate,
 } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
-import { useMemo } from 'react'
+import { resolveConditionals, resolveMetadata, useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type {
   CharacterConditionalsController,
@@ -46,7 +45,7 @@ import type {
 let cachedSetContent: ReturnType<typeof generateSetConditionalContent> | null = null
 let cachedSetContentLanguage: string | undefined = undefined
 
-function ConditionalActivationRow({
+const ConditionalActivationRow = memo(function ConditionalActivationRow({
   contentItem,
   comboConditional,
   actionCount,
@@ -57,7 +56,7 @@ function ConditionalActivationRow({
   actionCount: number
   sourceKey: string
 }) {
-  if (contentItem.formItem == 'switch') {
+  if (contentItem.formItem === 'switch') {
     return (
       <BooleanConditionalActivationRow
         contentItem={contentItem}
@@ -66,7 +65,7 @@ function ConditionalActivationRow({
         sourceKey={sourceKey}
       />
     )
-  } else if (contentItem.formItem == 'select') {
+  } else if (contentItem.formItem === 'select') {
     return (
       <SelectConditionalActivationRow
         comboConditional={comboConditional as ComboSelectConditional}
@@ -84,7 +83,7 @@ function ConditionalActivationRow({
       sourceKey={sourceKey}
     />
   )
-}
+})
 
 export function ContentRows({
   contentItems,
@@ -97,7 +96,7 @@ export function ContentRows({
   actionCount: number
   sourceKey: string
 }) {
-  const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
   const content = useMemo(() => {
     return contentItems
@@ -111,7 +110,7 @@ export function ContentRows({
           sourceKey={sourceKey}
         />
       ))
-  }, [comboConditionals, contentItems, actionCount, sourceKey, i18n.resolvedLanguage])
+  }, [comboConditionals, contentItems, actionCount, sourceKey])
 
   return (
     <Flex direction="column">
@@ -122,13 +121,11 @@ export function ContentRows({
   )
 }
 
-export function ComboConditionalsGroupRow({
-  comboOrigin,
+export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow({
   conditionalType,
   actionCount,
   originKey,
 }: {
-  comboOrigin: ComboTeammate | ComboCharacter | null
   conditionalType: string
   actionCount: number
   originKey: string
@@ -137,6 +134,9 @@ export function ComboConditionalsGroupRow({
   const { t: setSelectOptionTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
   const { t: setConditionalsTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
+  const metadata = useComboDrawerStore((s) => resolveMetadata(s, originKey))
+  const comboConditionals = useComboDrawerStore((s) => resolveConditionals(s, originKey))
+
   // Module-level cache instead of per-row useMemo
   if (!cachedSetContent || cachedSetContentLanguage !== i18n.resolvedLanguage) {
     cachedSetContent = generateSetConditionalContent(setSelectOptionTFunction)
@@ -144,19 +144,15 @@ export function ComboConditionalsGroupRow({
   }
   const setContent = cachedSetContent
 
-  const renderData = useMemo(() => {
-    if (!comboOrigin) {
+  const resolverData = useMemo(() => {
+    if (!metadata) {
       return null
     }
 
     let content: ContentItem[]
     let src: string
-    let conditionals: ComboConditionals
 
     const isTeammate = originKey.includes('Teammate')
-    const comboCharacter = comboOrigin as ComboCharacter
-    const comboTeammate = comboOrigin as ComboTeammate
-    const metadata = comboCharacter.metadata
 
     if (originKey.includes('LightCone')) {
       const lightConeConditionalMetadata: LightConeConditionalsController = LightConeConditionalsResolver.get(metadata, true)
@@ -165,13 +161,15 @@ export function ComboConditionalsGroupRow({
         ? lightConeConditionalMetadata.teammateContent?.() ?? []
         : lightConeConditionalMetadata.content()
       src = Assets.getLightConeIconById(metadata.lightCone)
-      conditionals = comboCharacter.lightConeConditionals
     } else if (originKey.includes('comboCharacterRelicSets')) {
       const setName = conditionalType as Sets
       const disabled = !ConditionalSetMetadata[setName].modifiable
 
-      const category: ComboConditionalCategory = comboCharacter.setConditionals[setName]
-      if (category.type == ConditionalDataType.BOOLEAN) {
+      // comboConditionals IS setConditionals for this branch — use it to check category type
+      const category: ComboConditionalCategory | undefined = comboConditionals?.[setName]
+      if (!category) return null
+
+      if (category.type === ConditionalDataType.BOOLEAN) {
         content = [{
           formItem: 'switch',
           disabled: disabled,
@@ -179,7 +177,7 @@ export function ComboConditionalsGroupRow({
           text: t(`${setToId[setName]}.Name`),
           content: setConditionalsTFunction(setToConditionalKey(setName)),
         }]
-      } else if (category.type == ConditionalDataType.NUMBER) {
+      } else if (category.type === ConditionalDataType.NUMBER) {
         content = [{
           formItem: 'slider',
           disabled: disabled,
@@ -189,7 +187,7 @@ export function ComboConditionalsGroupRow({
           min: 0,
           max: 10,
         }]
-      } else if (category.type == ConditionalDataType.SELECT) {
+      } else if (category.type === ConditionalDataType.SELECT) {
         content = [{
           formItem: 'select',
           disabled: disabled,
@@ -202,9 +200,8 @@ export function ComboConditionalsGroupRow({
         return null
       }
       src = Assets.getSetImage(setName, undefined, true)
-      conditionals = comboCharacter.setConditionals
     } else if (originKey.includes('RelicSet')) {
-      const keys = Object.keys(comboTeammate.relicSetConditionals) as SetsRelics[]
+      const keys = comboConditionals ? Object.keys(comboConditionals) as SetsRelics[] : []
       if (keys.length) {
         const setName = keys[0]
         content = [
@@ -216,12 +213,11 @@ export function ComboConditionalsGroupRow({
           },
         ]
         src = Assets.getSetImage(setName, undefined, true)
-        conditionals = comboTeammate.relicSetConditionals
       } else {
         return null
       }
     } else if (originKey.includes('OrnamentSet')) {
-      const keys = Object.keys(comboTeammate.ornamentSetConditionals) as SetsOrnaments[]
+      const keys = comboConditionals ? Object.keys(comboConditionals) as SetsOrnaments[] : []
       if (keys.length) {
         const setName = keys[0]
         content = [
@@ -233,7 +229,6 @@ export function ComboConditionalsGroupRow({
           },
         ]
         src = Assets.getSetImage(setName, undefined, true)
-        conditionals = comboTeammate.ornamentSetConditionals
       } else {
         return null
       }
@@ -245,29 +240,27 @@ export function ComboConditionalsGroupRow({
         ? characterConditionalMetadata.teammateContent?.() ?? []
         : characterConditionalMetadata.content()
       src = Assets.getCharacterAvatarById(metadata.characterId)
-      conditionals = comboCharacter.characterConditionals
     }
 
     return {
       content,
       src,
-      conditionals,
     }
-  }, [comboOrigin, i18n.resolvedLanguage])
+  }, [metadata, originKey, conditionalType, i18n.resolvedLanguage])
 
-  if (!renderData) {
+  if (!resolverData || !comboConditionals) {
     return null
   }
 
   return (
     <Flex gap={10} align='center' style={{ padding: 8, background: 'rgba(255, 255, 255, 0.05)', borderRadius: 5 }}>
-      <img src={renderData.src} style={{ width: 80, height: 80 }} />
+      <img src={resolverData.src} style={{ width: 80, height: 80 }} />
       <ContentRows
-        contentItems={renderData.content}
-        comboConditionals={renderData.conditionals}
+        contentItems={resolverData.content}
+        comboConditionals={comboConditionals}
         actionCount={actionCount}
         sourceKey={originKey}
       />
     </Flex>
   )
-}
+})

@@ -80,7 +80,7 @@ function groupSnapshot(snapshot: ActionBuffSnapshot, buffsBasic: Buff[], hasMemo
 }
 
 function conversionKey(stat: AKeyType | BasicKeyType, buff: Buff): string {
-  return `${stat}:${buff.source.label}:${String(buff.memo ?? false)}`
+  return `${stat}:${buff.source.label}:${String(buff.memo ?? false)}:${buff.value}`
 }
 
 function filterConversionPairs(buffs: Buff[]): Buff[] {

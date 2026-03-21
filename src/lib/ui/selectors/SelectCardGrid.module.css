@@ -10,7 +10,7 @@
   height: 150px;
   cursor: pointer;
   padding: 1px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   content-visibility: auto;
   contain-intrinsic-size: 100px 150px;
 }

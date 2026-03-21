@@ -32,7 +32,7 @@ export class MinQueue {
 
   push(key: number, priority: number): void {
     if (this.length === this._capacity) {
-      throw new Error("Heap has reached capacity, can't push new items")
+      this._grow()
     }
 
     if (this._hasPoppedElement) {
@@ -115,5 +115,16 @@ export class MinQueue {
       this._bubbleDown(1)
       this._hasPoppedElement = false
     }
+  }
+
+  private _grow(): void {
+    const newCapacity = this._capacity * 2
+    const newKeys = new Uint32Array(newCapacity + 1)
+    const newPriorities = new Float64Array(newCapacity + 1)
+    newKeys.set(this._keys)
+    newPriorities.set(this._priorities)
+    this._keys = newKeys
+    this._priorities = newPriorities
+    this._capacity = newCapacity
   }
 }

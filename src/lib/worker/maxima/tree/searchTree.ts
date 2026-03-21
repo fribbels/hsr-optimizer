@@ -10,6 +10,7 @@ import {
 import {
   calculateMinMaxMetadata,
   calculateRegionMidpoint,
+  getQueueCapacities,
   getSearchTreeConfig,
   pointToBitwiseId,
   splitNode,
@@ -119,15 +120,15 @@ export class SearchTree {
       this.damageFunctionBuffer[stat] = 0
     }
 
-    // Capacity: each iteration pushes up to 4 nodes (2 evaluates × 2 children),
-    // plus scanPointNeighbors can push extras. 100K is safe for all dimension configs.
-    const queueCapacity = 100_000
-    this.damageQueue = new MinQueue(queueCapacity)
-    this.volumeQueue = new MinQueue(queueCapacity)
-
     this.maxStatRollsPerPiece = this.targetSum === 54 ? 6 : 5
 
     this.config = getSearchTreeConfig(this)
+
+    // damageQueue peaks at ~1× budget. volumeQueue accumulates during refinement (no pops) and can peak much higher.
+    // Capacities are dimension-tuned from production data with ~2-3× headroom. Both grow dynamically if exceeded.
+    const [damageCapacity, volumeCapacity] = getQueueCapacities(this.dimensions)
+    this.damageQueue = new MinQueue(damageCapacity)
+    this.volumeQueue = new MinQueue(volumeCapacity)
     this.root = this.generateRoot(this.lower, this.upper)!
 
     for (let i = 0; i < SUBSTAT_COUNT; i++) {

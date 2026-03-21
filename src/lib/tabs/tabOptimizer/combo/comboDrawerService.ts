@@ -5,10 +5,22 @@ import { COMBO_STATE_JSON_VERSION } from './comboDrawerTypes'
 import { persistFormToCharacterStore } from './comboDrawerUtils'
 import { useComboDrawerStore } from './useComboDrawerStore'
 
+function arraysEqual(a: readonly unknown[], b: readonly unknown[]): boolean {
+  return a.length === b.length && a.every((v, i) => v === b[i])
+}
+
 function syncToStores(comboState: ComboState) {
   const requestStore = useOptimizerRequestStore.getState()
-  requestStore.setComboStateJson(JSON.stringify(comboState))
-  requestStore.setComboTurnAbilities(comboState.comboTurnAbilities)
+
+  // Change-detection guards: skip writes when values haven't changed
+  // to avoid triggering unnecessary re-renders in OptimizerOptionsDisplay / main form
+  const newJson = JSON.stringify(comboState)
+  if (requestStore.comboStateJson !== newJson) {
+    requestStore.setComboStateJson(newJson)
+  }
+  if (!arraysEqual(requestStore.comboTurnAbilities, comboState.comboTurnAbilities)) {
+    requestStore.setComboTurnAbilities(comboState.comboTurnAbilities)
+  }
 
   persistFormToCharacterStore(1000)
 }

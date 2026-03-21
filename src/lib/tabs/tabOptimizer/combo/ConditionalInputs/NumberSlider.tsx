@@ -5,23 +5,17 @@ import {
 import { Button, Flex } from '@mantine/core'
 import { buttonStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
 import { getTeammateIndex } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
-import {
-  updateAddPartition,
-  updateDeletePartition,
-  updateNumberDefaultSelection,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { locateConditional, useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
+import type { ComboNumberConditional } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
 import type { ContentItem } from 'types/conditionals'
 
-export function NumberSlider({ contentItem, value, sourceKey, partitionIndex, comboState, onComboStateChange }: {
+export function NumberSlider({ contentItem, value, sourceKey, partitionIndex }: {
   contentItem: ContentItem
   value: number
   sourceKey: string
   partitionIndex: number
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
 }) {
   return (
     <Flex style={{ width: 275, marginRight: 10 }} align='center'>
@@ -34,12 +28,11 @@ export function NumberSlider({ contentItem, value, sourceKey, partitionIndex, co
           content={ColorizeNumbers(contentItem.content)}
           teammateIndex={getTeammateIndex(sourceKey)}
           text={contentItem.text}
-          onChange={(val) => {
-            const newState = updateNumberDefaultSelection(comboState, sourceKey, contentItem.id, partitionIndex, val)
-            if (newState) onComboStateChange(newState)
+          onChange={(val: number) => {
+            useComboDrawerStore.getState().setNumberDefault(sourceKey, contentItem.id, partitionIndex, val)
           }}
           value={value}
-          removeForm={partitionIndex > 0}
+          removeForm={true}
         />
       </Flex>
       <Button
@@ -49,11 +42,19 @@ export function NumberSlider({ contentItem, value, sourceKey, partitionIndex, co
           : <IconCircleMinus style={buttonStyle} />}
         onClick={() => {
           if (partitionIndex === 0) {
-            const newState = updateAddPartition(comboState, sourceKey, contentItem.id, partitionIndex)
-            if (newState) onComboStateChange(newState)
+            const state = useComboDrawerStore.getState()
+            const cond = locateConditional(state, sourceKey, contentItem.id)
+            const partitions = (cond as ComboNumberConditional)?.partitions ?? []
+            const usedValues = new Set(partitions.map((p) => p.value))
+            const min = (contentItem as ContentItem & { min?: number }).min ?? 0
+            const max = (contentItem as ContentItem & { max?: number }).max ?? 10
+            let newValue = min
+            for (let v = min; v <= max; v++) {
+              if (!usedValues.has(v)) { newValue = v; break }
+            }
+            state.addPartition(sourceKey, contentItem.id, partitionIndex, newValue)
           } else {
-            const newState = updateDeletePartition(comboState, sourceKey, contentItem.id, partitionIndex)
-            if (newState) onComboStateChange(newState)
+            useComboDrawerStore.getState().deletePartition(sourceKey, contentItem.id, partitionIndex)
           }
         }}
       />

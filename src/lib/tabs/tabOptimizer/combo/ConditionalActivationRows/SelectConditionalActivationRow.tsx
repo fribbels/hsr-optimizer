@@ -1,19 +1,19 @@
 import { Flex } from '@mantine/core'
 import { Partition } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/Partition'
 import { PartitionDivider } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/PartitionDivider'
-import type {
-  ComboSelectConditional,
-  ComboState,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboSelectConditional } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import type { ContentItem } from 'types/conditionals'
 
-export function SelectConditionalActivationRow({ comboConditional, contentItem, actionCount, sourceKey, comboState, onComboStateChange }: {
+export function SelectConditionalActivationRow({
+  comboConditional,
+  contentItem,
+  actionCount,
+  sourceKey,
+}: {
   comboConditional: ComboSelectConditional
   contentItem: ContentItem
   actionCount: number
   sourceKey: string
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
 }) {
   return (
     <Flex
@@ -30,8 +30,6 @@ export function SelectConditionalActivationRow({ comboConditional, contentItem, 
           partitionIndex={i}
           actionCount={actionCount}
           sourceKey={sourceKey}
-          comboState={comboState}
-          onComboStateChange={onComboStateChange}
         />
       ))}
       <PartitionDivider bottom />

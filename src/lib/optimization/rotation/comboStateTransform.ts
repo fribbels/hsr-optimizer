@@ -18,13 +18,13 @@ import {
   type TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import {
-  type ComboConditionalCategory,
-  type ComboConditionals,
-  type ComboSelectConditional,
-  type ComboState,
-  initializeComboState,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type {
+  ComboConditionalCategory,
+  ComboConditionals,
+  ComboSelectConditional,
+  ComboState,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerInitializers'
 import { type CharacterId } from 'types/character'
 import {
   type CharacterConditionalsController,
@@ -86,6 +86,7 @@ export function defineAction(
     : 'Default' + actionIndex
 
   const conditionalIndex = rotation ?  actionIndex : 0
+  action.conditionalIndex = conditionalIndex
 
   action.characterConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.characterConditionals)
   action.lightConeConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.lightConeConditionals)
@@ -136,8 +137,8 @@ export function precomputeConditionals(action: OptimizerAction, comboState: Comb
     const teammateAction = {
       actorId: teammate.metadata.characterId,
       actorEidolon: teammate.metadata.characterEidolon,
-      characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals),
-      lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals),
+      characterConditionals: transformConditionals(action.conditionalIndex, teammate.characterConditionals),
+      lightConeConditionals: transformConditionals(action.conditionalIndex, teammate.lightConeConditionals),
       config: action.config,
     } as OptimizerAction
 
@@ -174,8 +175,8 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     const teammateAction = {
       actorId: teammate.metadata.characterId,
       actorEidolon: teammate.metadata.characterEidolon,
-      characterConditionals: transformConditionals(action.actionIndex, teammate.characterConditionals),
-      lightConeConditionals: transformConditionals(action.actionIndex, teammate.lightConeConditionals),
+      characterConditionals: transformConditionals(action.conditionalIndex, teammate.characterConditionals),
+      lightConeConditionals: transformConditionals(action.conditionalIndex, teammate.lightConeConditionals),
       config: action.config,
     } as OptimizerAction
 
@@ -199,7 +200,7 @@ function precomputeTeammates(action: OptimizerAction, comboState: ComboState, co
     for (const [key, value] of [...Object.entries(teammateRequest.relicSetConditionals), ...Object.entries(teammateRequest.ornamentSetConditionals)]) {
       if (value.type == ConditionalDataType.BOOLEAN) {
         const booleanComboConditional = value
-        if (!booleanComboConditional.activations[action.actionIndex]) {
+        if (!booleanComboConditional.activations[action.conditionalIndex]) {
           continue
         }
       } else {
@@ -237,18 +238,18 @@ export function transformConditionals(actionIndex: number, conditionals: ComboCo
 function transformConditional(category: ComboConditionalCategory, actionIndex: number) {
   if (category.type == ConditionalDataType.BOOLEAN) {
     const booleanCategory = category
-    return booleanCategory.activations[actionIndex]
-  } else {
-    const partitionCategory = category as ComboSelectConditional
-    for (let i = 0; i < partitionCategory.partitions.length; i++) {
-      const partition = partitionCategory.partitions[i]
-      if (partition.activations[actionIndex]) {
-        return partition.value
-      }
+    return booleanCategory.activations[actionIndex] ?? false
+  }
+
+  const partitionCategory = category as ComboSelectConditional
+  for (let i = 0; i < partitionCategory.partitions.length; i++) {
+    const partition = partitionCategory.partitions[i]
+    if (partition.activations[actionIndex]) {
+      return partition.value
     }
   }
 
-  return 0
+  return partitionCategory.partitions[0]?.value ?? 0
 }
 
 function transformSetConditionals(actionIndex: number, conditionals: ComboConditionals): SetConditional {

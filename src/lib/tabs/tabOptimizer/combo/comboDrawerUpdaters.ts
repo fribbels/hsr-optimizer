@@ -43,7 +43,8 @@ export function locateComboCategory(sourceKey: string, contentItemId: string, co
     }
   } else if (sourceKey.includes('comboTeammate')) {
     const teammateIndexString = sourceKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
-    const teammate: ComboTeammate = comboState[teammateIndexString]!
+    const teammate = comboState[teammateIndexString]
+    if (!teammate) return null
     if (sourceKey.includes('RelicSet')) {
       comboConditionals = teammate.relicSetConditionals
     } else if (sourceKey.includes('OrnamentSet')) {

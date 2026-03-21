@@ -12,7 +12,7 @@ import {
   type TurnAbility,
   type TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { updateAbilityRotation, type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { CascaderSelect, type CascaderData, type CascaderGroup } from 'lib/ui/CascaderSelect'
 import { useMemo, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -135,14 +135,10 @@ export function ControlledTurnAbilitySelector({
   index,
   value,
   style,
-  comboState,
-  onComboStateChange,
 }: {
   index: number
   value: TurnAbilityName
   style?: CSSProperties
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const characterId = useOptimizerRequestStore((s) => s.characterId)
@@ -150,16 +146,12 @@ export function ControlledTurnAbilitySelector({
   const options = useMemo(() => generateAbilityGroupedOptions(t, characterId, characterEidolon), [t, characterId, characterEidolon])
 
   function handleChange(selectedValue: string | null) {
-    // Guards both: (1) null from CascaderSelect clear action, (2) any unexpected null
-    // The clear path is handled by onClear below
     if (!selectedValue) return
-    const newState = updateAbilityRotation(comboState, index, selectedValue as TurnAbilityName)
-    if (newState) onComboStateChange(newState)
+    useComboDrawerStore.getState().setAbilityRotation(index, selectedValue as TurnAbilityName)
   }
 
   function handleClear() {
-    const newState = updateAbilityRotation(comboState, index, NULL_TURN_ABILITY_NAME)
-    if (newState) onComboStateChange(newState)
+    useComboDrawerStore.getState().setAbilityRotation(index, NULL_TURN_ABILITY_NAME)
   }
 
   return (

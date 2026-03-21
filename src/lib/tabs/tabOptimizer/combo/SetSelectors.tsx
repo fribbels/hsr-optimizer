@@ -2,11 +2,9 @@ import { Flex } from '@mantine/core'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
-import { updateSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import type {
-  ComboCharacter,
-  ComboState,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
+import { persistSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
+import type { ComboCharacter } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ReactElement } from 'types/components'
@@ -38,36 +36,37 @@ function SetSelector({ selected, options, placeholder, submit }: {
       placeholder={placeholder}
       value={values}
       onChange={(val) => submit(val)}
-/>
+    />
   )
 }
 
-export function SetSelectors({ comboOrigin, comboState, onComboStateChange }: {
-  comboOrigin: ComboCharacter
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
+export function SetSelectors({ comboOrigin }: {
+  comboOrigin: ComboCharacter | null
 }) {
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer.Placeholders' })
   const ornamentOptions = useOrnamentsOptions()
   const relicSetOptions = useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])
+
+  if (!comboOrigin) return null
+
   return (
     <Flex w='100%' gap={10}>
       <SetSelector
-        selected={comboOrigin?.displayedRelicSets}
+        selected={comboOrigin.displayedRelicSets}
         options={relicSetOptions}
         placeholder={t('Sets')} // 'Relic set conditionals'
         submit={(arr) => {
-          const newState = updateSelectedSets(comboState, arr, false)
-          if (newState) onComboStateChange(newState)
+          useComboDrawerStore.getState().updateSelectedSets(arr, false)
+          persistSelectedSets()
         }}
       />
       <SetSelector
-        selected={comboOrigin?.displayedOrnamentSets}
+        selected={comboOrigin.displayedOrnamentSets}
         options={ornamentOptions}
         placeholder={t('Ornaments')} // 'Ornament set conditionals'
         submit={(arr) => {
-          const newState = updateSelectedSets(comboState, arr, true)
-          if (newState) onComboStateChange(newState)
+          useComboDrawerStore.getState().updateSelectedSets(arr, true)
+          persistSelectedSets()
         }}
       />
     </Flex>

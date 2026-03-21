@@ -21,7 +21,7 @@ import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import { type ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
   id = Castorice.id

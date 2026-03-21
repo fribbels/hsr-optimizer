@@ -124,7 +124,7 @@ function shiftDefaultConditionalToFirst(comboConditionals?: ComboConditionals) {
   if (!comboConditionals) return
 
   for (const [, conditionals] of Object.entries(comboConditionals)) {
-    if (conditionals.type == ConditionalDataType.NUMBER) {
+    if (conditionals.type == ConditionalDataType.NUMBER || conditionals.type == ConditionalDataType.SELECT) {
       const numberCategory = conditionals
       for (let i = 0; i < numberCategory.partitions.length; i++) {
         const partition = numberCategory.partitions[i]
@@ -162,11 +162,8 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
         }
       }
     } else if (comboSet.type == ConditionalDataType.SELECT) {
-      for (const partition of comboSet.partitions) {
-        if (partition.value != defaultValue) {
-          modified.push(key)
-          break
-        }
+      if (comboSet.partitions[0]?.value != defaultValue) {
+        modified.push(key)
       }
     }
   }
@@ -192,6 +189,7 @@ function mergeComboStates(base: ComboState, update: ComboState) {
 
 function mergeTeammate(baseTeammate: ComboTeammate | null, updateTeammate: ComboTeammate | null) {
   if (!baseTeammate || !updateTeammate) return
+  if (baseTeammate.metadata.characterId !== updateTeammate.metadata.characterId) return
   mergeConditionals(baseTeammate.characterConditionals, updateTeammate.characterConditionals)
   mergeConditionals(baseTeammate.lightConeConditionals, updateTeammate.lightConeConditionals)
   mergeConditionals(baseTeammate.relicSetConditionals, updateTeammate.relicSetConditionals)
@@ -230,13 +228,10 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
             partition.activations[j] = false
           }
           if (seen[partition.value]) {
-            for (let j = 0; j < ABILITY_LIMIT; j++) {
+            for (let j = 0; j <= ABILITY_LIMIT; j++) {
               seen[partition.value].activations[j] = seen[partition.value].activations[j] || numberUpdateConditional.partitions[i].activations[j]
             }
           } else {
-            // Skip merging empty partitions
-            if (!partition.activations.some((activation) => activation)) continue
-
             seen[partition.value] = partition
             newPartitions.push(partition)
           }
@@ -254,7 +249,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
             seen[partition.value] = partition
             newPartitions.push(partition)
           }
-          for (let j = 1; j < ABILITY_LIMIT; j++) {
+          for (let j = 1; j <= ABILITY_LIMIT; j++) {
             partition.activations[j] = false
           }
         }
@@ -264,10 +259,10 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
 
         // Inherit the previous active conditional's activations
         if (newUpdateIndex != newBaseIndex && newUpdateIndex >= 0 && newBaseIndex >= 0) {
-          for (let i = 0; i < ABILITY_LIMIT; i++) {
+          for (let i = 0; i <= ABILITY_LIMIT; i++) {
             newPartitions[newBaseIndex].activations[i] = newPartitions[newUpdateIndex].activations[i] || newPartitions[newBaseIndex].activations[i]
           }
-          for (let i = 0; i < ABILITY_LIMIT; i++) {
+          for (let i = 0; i <= ABILITY_LIMIT; i++) {
             newPartitions[newUpdateIndex].activations[i] = false
           }
         }
@@ -310,14 +305,15 @@ function generateComboConditionals(
     // if (content.disabled) continue
 
     if (content.formItem == 'switch') {
-      const value = conditionals[content.id] ?? defaults[content.id]
+      const value = conditionals[content.id] ?? defaults[content.id] ?? false
       const activations: boolean[] = Array(actionCount).fill(value)
       output[content.id] = {
         type: ConditionalDataType.BOOLEAN,
         activations: activations,
       }
     } else if (content.formItem == 'slider') {
-      const value = (conditionals[content.id] ?? defaults[content.id]) as number
+      const rawValue = (conditionals[content.id] ?? defaults[content.id] ?? 0) as number
+      const value = Math.min(Math.max(rawValue, content.min ?? rawValue), content.max ?? rawValue)
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubNumberConditional = {
         value: value,
@@ -328,7 +324,7 @@ function generateComboConditionals(
         partitions: [valuePartitions],
       }
     } else if (content.formItem == 'select') {
-      const value = (conditionals[content.id] ?? defaults[content.id]) as number
+      const value = (conditionals[content.id] ?? defaults[content.id] ?? 0) as number
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubSelectConditional = {
         value: value,

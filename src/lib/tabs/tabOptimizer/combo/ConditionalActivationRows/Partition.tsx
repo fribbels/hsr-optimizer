@@ -1,11 +1,9 @@
+import { useMemo } from 'react'
 import { Flex } from '@mantine/core'
 import { BoxArray } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BoxArray'
 import { NumberSelect } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/NumberSelect'
 import { NumberSlider } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/NumberSlider'
-import type {
-  ComboState,
-  ComboSubNumberConditional,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboSubNumberConditional } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import type { ContentItem } from 'types/conditionals'
 
 export function Partition({
@@ -15,8 +13,6 @@ export function Partition({
   partitionIndex,
   actionCount,
   sourceKey,
-  comboState,
-  onComboStateChange,
 }: {
   partition: ComboSubNumberConditional
   contentItem: ContentItem
@@ -24,16 +20,17 @@ export function Partition({
   partitionIndex: number
   actionCount: number
   sourceKey: string
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
 }) {
-  const dataKeys = activations.map((_, i) =>
-    JSON.stringify({
-      id: contentItem.id,
-      source: sourceKey,
-      partitionIndex: partitionIndex,
-      index: i,
-    }),
+  const dataKeys = useMemo(
+    () => activations.map((_, i) =>
+      JSON.stringify({
+        id: contentItem.id,
+        source: sourceKey,
+        partitionIndex: partitionIndex,
+        index: i,
+      }),
+    ),
+    [contentItem.id, sourceKey, partitionIndex, activations.length],
   )
 
   const NumberInput = contentItem.formItem === 'slider' ? NumberSlider : NumberSelect
@@ -45,8 +42,6 @@ export function Partition({
         value={partition.value}
         sourceKey={sourceKey}
         partitionIndex={partitionIndex}
-        comboState={comboState}
-        onComboStateChange={onComboStateChange}
       />
       <BoxArray
         activations={activations}

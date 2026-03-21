@@ -2,29 +2,18 @@ import { Flex } from '@mantine/core'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { abilityGap, abilityWidth } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
-import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { ControlledTurnAbilitySelector } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useTranslation } from 'react-i18next'
 import type { ReactElement } from 'types/components'
 
-function AbilitySelector({ comboTurnAbilities, index, comboState, onComboStateChange }: {
-  comboTurnAbilities: TurnAbilityName[]
+function AbilitySelector({ index, value }: {
   index: number
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
+  value: TurnAbilityName
 }) {
   if (index === 0) return null
-
-  return (
-    <ControlledTurnAbilitySelector
-      index={index}
-      value={comboTurnAbilities[index]}
-      style={{ width: abilityWidth }}
-      comboState={comboState}
-      onComboStateChange={onComboStateChange}
-    />
-  )
+  return <ControlledTurnAbilitySelector index={index} value={value} style={{ width: abilityWidth }} />
 }
 
 export function ComboDrawerTitle() {
@@ -40,13 +29,10 @@ export function ComboDrawerTitle() {
   )
 }
 
-export function ComboHeader({ comboState, onComboStateChange }: {
-  comboState: ComboState
-  onComboStateChange: (newState: ComboState) => void
-}) {
-  const comboTurnAbilities = comboState.comboTurnAbilities
+export function ComboHeader() {
+  const comboTurnAbilities = useComboDrawerStore((s) => s.comboTurnAbilities)
 
-  if (!comboTurnAbilities) return null
+  if (!comboTurnAbilities?.length) return null
 
   const length = comboTurnAbilities.length
   const render: ReactElement[] = [
@@ -54,14 +40,8 @@ export function ComboHeader({ comboState, onComboStateChange }: {
     <div key='base' style={{ width: abilityWidth }} />,
     ...Array(Math.min(ABILITY_LIMIT + 1, length + 1))
       .fill(false)
-      .map((value, index) => (
-        <AbilitySelector
-          comboTurnAbilities={comboTurnAbilities}
-          index={index}
-          key={index}
-          comboState={comboState}
-          onComboStateChange={onComboStateChange}
-        />
+      .map((_, index) => (
+        <AbilitySelector key={index} index={index} value={comboTurnAbilities[index]} />
       )),
   ]
 

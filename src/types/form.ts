@@ -5,7 +5,7 @@ import type {
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
-import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
 import type {
   CharacterId,
   Eidolon,

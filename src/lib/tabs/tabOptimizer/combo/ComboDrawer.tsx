@@ -1,28 +1,16 @@
 import { Drawer } from '@mantine/core'
-import {
-  OpenCloseIDs,
-  useOpenClose,
-} from 'lib/hooks/useOpenClose'
-import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
+import { ConditionalDataType } from 'lib/constants/constants'
+import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { useScrollLock } from 'lib/rendering/scrollController'
 import { ComboDrawerTitle } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
 import { StateDisplay } from 'lib/tabs/tabOptimizer/combo/StateDisplay'
 import { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
-import {
-  initializeComboState,
-  locateActivations,
-  updateActivation,
-  updateFormState,
-  updatePartitionActivation,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
-import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import type { ComboDataKey, ComboNumberConditional } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import { useComboDrawerStore, locateConditional } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
+import { flushComboDrawerToForm } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { afterPaint } from 'lib/utils/frontendUtils'
+import { useCallback, useEffect, useRef } from 'react'
 import Selecto from 'react-selecto'
 
 const drawerContentStyle = { width: 1560, height: '100%' } as const
@@ -30,28 +18,24 @@ const drawerContentStyle = { width: 1560, height: '100%' } as const
 export function ComboDrawer() {
   const { close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
 
-  const [comboState, setComboState] = useState<ComboState>({} as ComboState)
-  const comboStateRef = useRef<ComboState>({} as ComboState)
-  comboStateRef.current = comboState
-
-  const selectActivationState = useRef(true)
-  const lastSelectedKeyState = useRef<string | undefined>(undefined)
-
-  // Lifecycle effect stays in outer: needs to fire on close after inner unmounts
   useEffect(() => {
-    if (isOpenComboDrawer) {
-      const form = getForm()
-      if (!form?.characterId || !form.characterConditionals) return
+    let cancelled = false
 
-      const newComboState = initializeComboState(form, true)
-      newComboState.comboTurnAbilities = preprocessTurnAbilityNames(newComboState.comboTurnAbilities)
-      setComboState(newComboState)
+    if (isOpenComboDrawer) {
+      afterPaint(() => {
+        if (cancelled) return
+        const form = getForm()
+        useComboDrawerStore.getState().initialize(form)
+      })
     } else {
-      const current = comboStateRef.current
-      if (!current || !current.comboTurnAbilities) return
-      current.comboTurnAbilities = preprocessTurnAbilityNames(current.comboTurnAbilities)
-      updateFormState(current)
+      afterPaint(() => {
+        if (cancelled) return
+        flushComboDrawerToForm()
+        useComboDrawerStore.getState().reset()
+      })
     }
+
+    return () => { cancelled = true }
   }, [isOpenComboDrawer])
 
   return (
@@ -63,80 +47,135 @@ export function ComboDrawer() {
       size={1625}
       styles={{ body: { paddingTop: 0 } }}
     >
-      {isOpenComboDrawer && (
-        <ComboDrawerContent
-          comboState={comboState}
-          onComboStateChange={setComboState}
-          comboStateRef={comboStateRef}
-          selectActivationState={selectActivationState}
-          lastSelectedKeyState={lastSelectedKeyState}
-        />
-      )}
+      {isOpenComboDrawer && <ComboDrawerContent />}
     </Drawer>
   )
 }
 
-interface ComboDrawerContentProps {
-  comboState: ComboState
-  onComboStateChange: (state: ComboState) => void
-  comboStateRef: React.MutableRefObject<ComboState>
-  selectActivationState: React.MutableRefObject<boolean>
-  lastSelectedKeyState: React.MutableRefObject<string | undefined>
-}
-
-function ComboDrawerContent({
-  comboState,
-  onComboStateChange,
-  selectActivationState,
-  lastSelectedKeyState,
-}: ComboDrawerContentProps) {
+function ComboDrawerContent() {
   useScrollLock(true)
+
+  const initialized = useComboDrawerStore((s) => s.initialized)
+
+  const selectActivationState = useRef(true)
+  const lastSelectedKeyState = useRef<string | undefined>(undefined)
+  const startCellType = useRef<ConditionalDataType | null>(null)
+
+  const handleDragStart = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onDragStart'] & {}>[0]) => {
+    // Always reset — prevents stale key from suppressing first handleDrag
+    lastSelectedKeyState.current = undefined
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const startKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
+    const dataKey: ComboDataKey = JSON.parse(startKey)
+    if (!dataKey.id) return
+
+    const state = useComboDrawerStore.getState()
+    const cond = locateConditional(state, dataKey.source, dataKey.id)
+    startCellType.current = cond?.type ?? null
+
+    if (cond?.type === ConditionalDataType.BOOLEAN) {
+      selectActivationState.current = !cond.activations[dataKey.index]
+    } else if (cond?.type === ConditionalDataType.NUMBER || cond?.type === ConditionalDataType.SELECT) {
+      const numberCond = cond as ComboNumberConditional
+      const isActive = numberCond.partitions[dataKey.partitionIndex]?.activations[dataKey.index]
+      selectActivationState.current = !isActive
+    } else {
+      selectActivationState.current = true
+    }
+  }, [])
 
   const handleDrag = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onDrag'] & {}>[0]) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const selectedKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
-    if (selectedKey != lastSelectedKeyState.current) {
-      const partitionResult = updatePartitionActivation(selectedKey, comboState)
-      if (partitionResult) onComboStateChange(partitionResult)
+    if (selectedKey === lastSelectedKeyState.current) return
+
+    const dataKey: ComboDataKey = JSON.parse(selectedKey)
+    if (!dataKey.id || dataKey.index === 0) {
       lastSelectedKeyState.current = selectedKey
+      return
     }
-  }, [comboState, onComboStateChange, lastSelectedKeyState])
 
-  const handleDragStart = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onDragStart'] & {}>[0]) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const startKey: string = e.inputEvent.target.getAttribute('data-key') ?? '{}'
-    const located = locateActivations(startKey, comboState)
+    // BUG-25: skip cross-type cells
+    const state = useComboDrawerStore.getState()
+    const cond = locateConditional(state, dataKey.source, dataKey.id)
+    if (cond && cond.type !== startCellType.current) {
+      lastSelectedKeyState.current = selectedKey
+      return
+    }
 
-    selectActivationState.current = !(located && located.value)
-    lastSelectedKeyState.current = undefined
-  }, [comboState, selectActivationState, lastSelectedKeyState])
+    if (cond?.type === ConditionalDataType.NUMBER || cond?.type === ConditionalDataType.SELECT) {
+      state.setPartitionActivation(dataKey.source, dataKey.id, dataKey.partitionIndex, dataKey.index)
+    }
+
+    lastSelectedKeyState.current = selectedKey
+  }, [])
 
   const handleSelect = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onSelect'] & {}>[0]) => {
-    let newState = {
-      ...comboState,
-    }
+    const activate = selectActivationState.current
+    const updates: Array<{ sourceKey: string; id: string; index: number; value: boolean }> = []
 
     e.added.forEach((el) => {
-      updateActivation(elementToDataKey(el), selectActivationState.current, newState)
-    })
-    e.removed.forEach((el) => {
-      updateActivation(elementToDataKey(el), selectActivationState.current, newState)
+      const keyStr = elementToDataKey(el)
+      const key: ComboDataKey = JSON.parse(keyStr)
+      if (!key.id || key.index === 0) return
+
+      const state = useComboDrawerStore.getState()
+      const cond = locateConditional(state, key.source, key.id)
+      if (cond && cond.type !== startCellType.current) return
+
+      if (cond?.type === ConditionalDataType.BOOLEAN) {
+        updates.push({ sourceKey: key.source, id: key.id, index: key.index, value: activate })
+      }
     })
 
+    // BUG-19 FIX: e.removed uses opposite activation direction
+    e.removed.forEach((el) => {
+      const keyStr = elementToDataKey(el)
+      const key: ComboDataKey = JSON.parse(keyStr)
+      if (!key.id || key.index === 0) return
+
+      const state = useComboDrawerStore.getState()
+      const cond = locateConditional(state, key.source, key.id)
+      if (cond && cond.type !== startCellType.current) return
+
+      if (cond?.type === ConditionalDataType.BOOLEAN) {
+        updates.push({ sourceKey: key.source, id: key.id, index: key.index, value: !activate })
+      }
+    })
+
+    // Partition deduplication: only fire if not already handled by handleDrag
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const selectedKey: string = e.inputEvent.srcElement.getAttribute('data-key') ?? '{}'
-    if (selectedKey != lastSelectedKeyState.current) {
-      const partitionResult = updatePartitionActivation(selectedKey, newState)
-      if (partitionResult) newState = partitionResult
-      lastSelectedKeyState.current = selectedKey
+    const lastKey: string = e.inputEvent.srcElement?.getAttribute('data-key') ?? '{}'
+    let partitionUpdate = null
+    if (lastKey !== lastSelectedKeyState.current) {
+      const lastDataKey: ComboDataKey = JSON.parse(lastKey)
+      if (lastDataKey.id && lastDataKey.index !== 0) {
+        const state = useComboDrawerStore.getState()
+        const cond = locateConditional(state, lastDataKey.source, lastDataKey.id)
+        if (cond?.type === ConditionalDataType.NUMBER || cond?.type === ConditionalDataType.SELECT) {
+          partitionUpdate = {
+            sourceKey: lastDataKey.source,
+            id: lastDataKey.id,
+            partitionIndex: lastDataKey.partitionIndex,
+            index: lastDataKey.index,
+          }
+        }
+      }
     }
 
-    onComboStateChange(newState)
-  }, [comboState, onComboStateChange, selectActivationState, lastSelectedKeyState])
+    if (updates.length > 0 || partitionUpdate) {
+      useComboDrawerStore.getState().batchSetActivations(updates, partitionUpdate)
+    }
+  }, [])
+
+  if (!initialized) {
+    return <div style={{ ...drawerContentStyle, minHeight: 400 }} />
+  }
 
   return (
     <div style={drawerContentStyle}>
-      <StateDisplay comboState={comboState} onComboStateChange={onComboStateChange} />
+      <StateDisplay />
       <Selecto
         className='selecto-selection'
         selectableTargets={['.selectable']}

@@ -23,6 +23,7 @@ import type { StringToNumberMap } from 'types/common'
 import type { ReactElement } from 'types/components'
 import type { DBMetadataCharacter } from 'types/metadata'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { ImageCenterEditorSection } from 'lib/tabs/tabMetadata/ImageCenterEditor'
 
 const iconSize = 40
 
@@ -36,6 +37,10 @@ export function MetadataTab(): ReactElement {
         Metadata viewer
       </h1>
       <Accordion multiple>
+        <Accordion.Item value="image-center">
+          <Accordion.Control>Image center editor</Accordion.Control>
+          <Accordion.Panel><ImageCenterEditorSection /></Accordion.Panel>
+        </Accordion.Item>
         <Accordion.Item value="1">
           <Accordion.Control>Simulation sets</Accordion.Control>
           <Accordion.Panel><SimulationEquivalentSetsDashboard /></Accordion.Panel>

@@ -10,7 +10,7 @@ import { useComboDrawerStore, locateConditional } from 'lib/tabs/tabOptimizer/co
 import { flushComboDrawerToForm } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { afterPaint } from 'lib/utils/frontendUtils'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, type RefObject } from 'react'
 import Selecto from 'react-selecto'
 
 const drawerContentStyle = { width: 1560, height: '100%' } as const
@@ -57,11 +57,15 @@ function ComboDrawerContent() {
 
   const initialized = useComboDrawerStore((s) => s.initialized)
 
+  const selectoRef: RefObject<Selecto | null> = useRef<Selecto>(null)
   const selectActivationState = useRef(true)
   const lastSelectedKeyState = useRef<string | undefined>(undefined)
   const startCellType = useRef<ConditionalDataType | null>(null)
 
   const handleDragStart = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onDragStart'] & {}>[0]) => {
+    // Clear Selecto's internal selection so every click/drag starts fresh.
+    // Without this, clicking the same cell twice produces no delta → no onSelect event.
+    selectoRef.current?.setSelectedTargets([])
     // Always reset — prevents stale key from suppressing first handleDrag
     lastSelectedKeyState.current = undefined
 
@@ -129,7 +133,7 @@ function ComboDrawerContent() {
       }
     })
 
-    // BUG-19 FIX: e.removed uses opposite activation direction
+    // BUG-19 FIX: e.removed uses opposite activation direction for drag reversal
     e.removed.forEach((el) => {
       const keyStr = elementToDataKey(el)
       const key: ComboDataKey = JSON.parse(keyStr)
@@ -177,11 +181,12 @@ function ComboDrawerContent() {
     <div style={drawerContentStyle}>
       <StateDisplay />
       <Selecto
+        ref={selectoRef}
         className='selecto-selection'
         selectableTargets={['.selectable']}
         selectByClick={true}
         selectFromInside={true}
-        continueSelect={true}
+        continueSelect={false}
         keyContainer={window}
         hitRate={0}
         onDrag={handleDrag}

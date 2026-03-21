@@ -253,7 +253,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
   }
 
   return (
-    <Flex gap={10} align='center' style={{ padding: 8, background: 'rgba(255, 255, 255, 0.05)', borderRadius: 5 }}>
+    <Flex gap={10} align='center' style={{ padding: 8, background: 'rgba(255, 255, 255, 0.05)', borderRadius: 6 }}>
       <img src={resolverData.src} style={{ width: 80, height: 80 }} />
       <ContentRows
         contentItems={resolverData.content}

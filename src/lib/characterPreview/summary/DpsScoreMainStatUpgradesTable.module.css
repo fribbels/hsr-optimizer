@@ -1,7 +1,7 @@
 .table {
   width: 100%;
   box-shadow: var(--card-shadow);
-  border-radius: var(--border-radius-card);
+  border-radius: var(--radius-md);
   overflow: hidden;
   background-color: var(--panel-bg);
 }

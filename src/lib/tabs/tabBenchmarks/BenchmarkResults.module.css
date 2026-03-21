@@ -13,7 +13,7 @@
   width: 1200px;
   border: var(--panel-border);
   box-shadow: var(--card-shadow-flat);
-  border-radius: var(--border-radius-card);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 

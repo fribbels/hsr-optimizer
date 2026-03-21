@@ -11,7 +11,7 @@ export function OptimizerTabCharacterPanel() {
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
 
   return (
-    <div style={{ width: parentW, height: parentH, borderRadius: 10, position: 'relative' }}>
+    <div style={{ width: parentW, height: parentH, borderRadius: 6, position: 'relative' }}>
       <CharacterPreviewInternalImage id={optimizerTabFocusCharacter!} />
     </div>
   )

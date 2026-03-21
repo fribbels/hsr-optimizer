@@ -4,7 +4,7 @@
 
 .container {
   overflow: hidden;
-  border-radius: var(--border-radius-card);
+  border-radius: var(--radius-md);
   background: var(--bg-translucent);
   box-shadow: var(--card-shadow-flat);
   backdrop-filter: var(--backdrop-blur);

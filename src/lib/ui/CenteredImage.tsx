@@ -35,7 +35,7 @@ export function CenteredImage({ src, containerW, containerH, imageOffset }: {
         overflow: 'hidden',
         border: showcaseOutlineLight,
         boxShadow: 'var(--card-shadow)',
-        borderRadius: 5,
+        borderRadius: 6,
         width: containerW,
         height: containerH,
         position: 'relative',

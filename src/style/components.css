@@ -1,5 +1,5 @@
 .custom-grid {
-    border-radius: 10px !important;
+    border-radius: var(--radius-md) !important;
     transition: background-color 0.3s ease, box-shadow 0.3s ease, outline 0.3s ease;
     cursor: pointer;
     outline: 1px solid rgba(255, 255, 255, 0.0) !important;

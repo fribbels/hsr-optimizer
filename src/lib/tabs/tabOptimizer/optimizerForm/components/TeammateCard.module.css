@@ -8,7 +8,7 @@
 /* ------------------------------------------------------------------ */
 
 .card {
-  border-radius: 5px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--mantine-color-dark-4);
   background: var(--mantine-color-dark-7);
   overflow: hidden;

@@ -56,7 +56,7 @@
   height: 135px;
   padding: 26px;
   background-color: rgba(12, 12, 24, 0.70);
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);

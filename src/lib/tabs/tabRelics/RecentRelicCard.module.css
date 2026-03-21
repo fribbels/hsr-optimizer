@@ -1,11 +1,11 @@
 .cardContainer {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   transition: all 0.2s ease;
 }
 
 .bottomPanel {
   width: 200px;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
   padding: 8px 12px;
   margin-top: -4px;
   border-top: none;

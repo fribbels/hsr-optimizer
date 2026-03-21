@@ -234,14 +234,14 @@
 .lcWrap[data-lc-style='pill'] {
   background: rgba(0, 0, 0, 0.55);
   padding: 3px;
-  border-radius: 5px;
+  border-radius: var(--radius-md);
 }
 
 /* LC style: frosted glass backing */
 .lcWrap[data-lc-style='frosted'] {
   backdrop-filter: blur(6px) brightness(0.5) saturate(1.2);
   padding: 3px;
-  border-radius: 5px;
+  border-radius: var(--radius-md);
 }
 
 /* LC style: drop shadow */

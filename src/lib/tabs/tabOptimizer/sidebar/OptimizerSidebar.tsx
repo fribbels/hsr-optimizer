@@ -34,7 +34,7 @@ export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
             left: `${totalSideOffset}px`,
             backgroundColor: 'var(--bg-sidebar)',
             boxShadow: shadow,
-            borderRadius: 5,
+            borderRadius: 6,
             padding: defaultPadding,
             zIndex: 3, /* prevent overlap with optimizer grid - ag-grid pinned top row has z-index 2 */
           }}
@@ -42,7 +42,7 @@ export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
         <Flex
           style={isFullSize
             ? {
-              borderRadius: 5,
+              borderRadius: 6,
               backgroundColor: 'var(--mantine-color-dark-7)',
               padding: defaultPadding,
               height: 'fit-content',

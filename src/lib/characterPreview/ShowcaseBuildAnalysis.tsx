@@ -58,7 +58,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           style={{
             paddingLeft: 20,
             paddingRight: 5,
-            borderRadius: 7,
+            borderRadius: 6,
             height: 40,
             marginTop: 10,
             backgroundColor: mantineTheme.colors.dark[7] + '85',

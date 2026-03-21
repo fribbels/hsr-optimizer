@@ -29,7 +29,7 @@
 
 .socialIcon {
   height: 36px;
-  border-radius: var(--border-radius-card);
+  border-radius: var(--radius-md);
 }
 
 /* LayoutSider */

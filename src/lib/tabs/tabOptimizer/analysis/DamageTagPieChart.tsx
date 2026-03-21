@@ -45,7 +45,7 @@ export function DamageTagPieChart({ analysis }: {
         background: 'var(--panel-bg)',
         border: 'var(--panel-border)',
         boxShadow: 'var(--card-shadow-flat)',
-        borderRadius: 5,
+        borderRadius: 6,
         padding: '12px 16px',
         overflow: 'hidden',
       }}

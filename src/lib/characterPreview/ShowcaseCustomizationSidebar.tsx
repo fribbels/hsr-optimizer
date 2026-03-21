@@ -421,7 +421,7 @@ const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0
 const cardStyle = {
   backgroundColor: 'var(--bg-sidebar)',
   boxShadow: shadow,
-  borderRadius: 5,
+  borderRadius: 6,
   padding: defaultPadding,
 }
 

@@ -16,7 +16,7 @@ type DesignOptions = {
   cardPadding: number,
 }
 
-const BORDER_RADIUS = 5
+const BORDER_RADIUS = 6
 export const GROUP_SPACING = 10
 
 export const TEXT_DIM = '#ffffff40'

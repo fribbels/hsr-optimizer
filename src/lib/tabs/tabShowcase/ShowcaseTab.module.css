@@ -84,7 +84,7 @@
 
 .simSidebarPanel {
   background: var(--bg-sidebar);
-  border-radius: 5px;
+  border-radius: var(--radius-md);
   padding: 10px 8px;
   display: flex;
   flex-direction: column;
@@ -94,7 +94,7 @@
 .toggleButton {
   height: 40px;
   width: 80px;
-  border-radius: 5px;
+  border-radius: var(--radius-md);
 }
 
 .customPresetIcon {

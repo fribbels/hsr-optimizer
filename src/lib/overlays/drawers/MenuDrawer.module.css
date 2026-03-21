@@ -261,7 +261,7 @@ a.itemCollapsed {
   width: var(--dbg-icon-container-size, 28px);
   min-width: var(--dbg-icon-container-size, 28px);
   height: var(--dbg-icon-container-size, 28px);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: var(--dbg-icon-container-bg);
 }
 

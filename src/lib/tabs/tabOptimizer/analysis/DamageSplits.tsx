@@ -28,7 +28,7 @@ function ModeToggle({ mode, onModeChange }: {
             fontWeight: 400,
             background: mode === m.key ? 'var(--border-color)' : 'transparent',
             padding: '3px 16px',
-            borderRadius: 12,
+            borderRadius: 6,
             transition: 'all 0.15s',
             minWidth: 70,
             textAlign: 'center',
@@ -65,7 +65,7 @@ export function DamageSplits({ analysis }: {
         background: 'var(--panel-bg)',
         border: 'var(--panel-border)',
         boxShadow: 'var(--card-shadow-flat)',
-        borderRadius: 5,
+        borderRadius: 6,
         padding: '10px 0',
       }}
     >

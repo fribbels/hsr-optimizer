@@ -304,7 +304,7 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
     zIndex: 9999,
     background: 'rgba(20, 20, 28, 0.95)',
     border: '1px solid #555',
-    borderRadius: 8,
+    borderRadius: 6,
     padding: collapsed ? 0 : 12,
     width: collapsed ? 'auto' : 290,
     fontFamily: 'monospace',
@@ -331,7 +331,7 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
 
   const pillStyle = (active: boolean): React.CSSProperties => ({
     padding: '2px 8px',
-    borderRadius: 10,
+    borderRadius: 6,
     border: `1px solid ${active ? '#7c5cfc' : '#555'}`,
     background: active ? 'rgba(124, 92, 252, 0.2)' : 'rgba(255, 255, 255, 0.04)',
     color: active ? '#b8a5ff' : '#888',

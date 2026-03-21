@@ -17,7 +17,7 @@
 .card {
   width: 100%;
   flex: 1;
-  border-radius: var(--border-radius-card);
+  border-radius: var(--radius-md);
   overflow: hidden;
   padding: 10px;
   background: var(--bg-translucent);
@@ -34,7 +34,7 @@
 
 .innerCard {
   flex: 1;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   padding: 10px;
   background: var(--panel-bg);
@@ -52,7 +52,7 @@
 
 .rollsCard {
   flex: 1;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   padding: 12px 14px 0 14px;
   padding-left: 15px;
@@ -80,7 +80,7 @@
 
 .metricCard {
   flex: 1;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   padding: 6px 10px;
   background-color: var(--panel-bg);

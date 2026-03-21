@@ -101,7 +101,7 @@ export function CharacterPreview({
         style={{
           height: parentH,
           width: cardTotalW,
-          borderRadius: 8,
+          borderRadius: 6,
           backgroundColor: 'var(--bg-app)',
           border: '1px solid var(--mantine-color-dark-7)',
         }}
@@ -279,7 +279,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           background: showcaseBackgroundColor(mantineTheme.colors.dark[8], state.darkMode),
           backgroundBlendMode: 'screen',
           overflow: 'hidden',
-          borderRadius: 7,
+          borderRadius: 6,
           transition: showcaseTransition(),
         } as React.CSSProperties}
         gap={defaultGap}
@@ -336,7 +336,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             style={{
               width: middleColumnWidth,
               height: '100%',
-              borderRadius: 8,
+              borderRadius: 6,
               zIndex: 10,
               backgroundColor: 'var(--showcase-card-bg)',
               transition: showcaseTransition(),

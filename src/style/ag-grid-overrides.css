@@ -198,7 +198,7 @@
    ═══════════════════════════════════════════ */
 
 .ag-root-wrapper {
-    border-radius: 5px !important;
+    border-radius: var(--radius-md) !important;
 }
 
 .ag-drag-handle {

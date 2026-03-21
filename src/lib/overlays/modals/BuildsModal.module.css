@@ -5,7 +5,7 @@
 .actionButton {
   height: 50px;
   width: 50px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 
 .emptyPreview {
@@ -24,7 +24,7 @@
 .buildCard {
   cursor: pointer;
   padding: 24px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border-width: 1px;
   border-style: solid;
   transition: all ease-in-out 0.2s;

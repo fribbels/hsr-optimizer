@@ -24,7 +24,6 @@
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 6px;
-  --border-radius-card: 5px; /* legacy — migrate to --radius-sm/md then remove */
   --showcase-outline: rgba(255, 255, 255, 0.40) solid 1px;
   --showcase-outline-light: rgba(255, 255, 255, 0.20) solid 1px;
   --subtle-border: 1px solid rgba(255, 255, 255, 0.10);

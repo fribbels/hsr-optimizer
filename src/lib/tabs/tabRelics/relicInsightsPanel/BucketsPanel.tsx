@@ -97,7 +97,7 @@ export const BucketsPanel = memo(({ scores }: PanelProps) => {
   return (
     <div
       style={{
-        borderRadius: 8,
+        borderRadius: 6,
         border: '1px solid var(--border-color)',
         backgroundColor: 'var(--mantine-color-dark-7)',
       }}
@@ -164,7 +164,7 @@ function TooltipContent(props: TooltipContentProps<ValueType, NameType>) {
     <Flex
       direction="column"
       style={{
-        borderRadius: 8,
+        borderRadius: 6,
         border: '1px solid var(--border-color)',
         backgroundColor: 'var(--bg-app)',
         height: 'fit-content',

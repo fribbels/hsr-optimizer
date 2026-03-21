@@ -17,6 +17,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { TomorrowWithUsAll } from 'lib/conditionals/lightcone/4star/TomorrowWithUsAll'
+import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
@@ -38,15 +39,19 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  DEFAULT_ELATION_SKILL,
   DEFAULT_SKILL,
+  DEFAULT_ULT,
+  DEFAULT_UNIQUE,
+  END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_ELATION_SKILL,
   WHOLE_SKILL,
   WHOLE_UNIQUE,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -65,7 +70,7 @@ import {
   OptimizerContext,
 } from 'types/optimizer'
 
-export const EvanesciaEntities = createEnum('Evanescia', 'FoxTeacher')
+export const EvanesciaEntities = createEnum('Evanescia')
 export const EvanesciaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
@@ -110,7 +115,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     certifiedBanger: true,
     punchlineStacks: 30,
-    certifiedBangerStacks: 60,
+    certifiedBangerStacks: 600,
     cdToElation: true,
     foxTeacherVulnStacks: foxTeacherVulnStacksMax,
     e1ResPen: true,
@@ -144,7 +149,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Certified Banger stacks',
       content: betaContent,
       min: 0,
-      max: 200,
+      max: 1200,
     },
     cdToElation: {
       id: 'cdToElation',
@@ -208,12 +213,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         memosprite: false,
         pet: false,
       },
-      [EvanesciaEntities.FoxTeacher]: {
-        primary: false,
-        summon: true,
-        memosprite: false,
-        pet: true,
-      },
     }),
 
     actionDeclaration: () => [...EvanesciaAbilities],
@@ -224,7 +223,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const certifiedBangerStacks = r.certifiedBangerStacks
 
       // Ult CB floor = max energy
-      const ultCertifiedBangerStacks = Math.max(240, certifiedBangerStacks)
+      const ultCertifiedBangerStacks = Math.max(context.baseEnergy, certifiedBangerStacks)
 
       // Trace: Ult bounce bonus by enemy count
       const traceBounceBonus = context.enemyCount >= 3 ? 1 : (context.enemyCount === 2 ? 2 : 4)
@@ -275,7 +274,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.elation()
             .damageType(DamageTag.ELATION)
             .damageElement(ElementTag.Physical)
-            .elationScaling(talentUltAoeElationScaling + talentUltBounceElationScaling / context.enemyCount)
+            .elationScaling(talentUltAoeElationScaling + talentUltBounceElationScaling * totalBounceCount / context.enemyCount)
             .punchlineStacks(ultCertifiedBangerStacks)
             .toughnessDmg(0)
             .build(),
@@ -284,7 +283,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Elation Skill (E1: triggers twice)
       const elationSkillHit = HitDefinitionBuilder.elation()
-        .sourceEntity(EvanesciaEntities.FoxTeacher)
+        .sourceEntity(EvanesciaEntities.Evanescia)
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Physical)
         .elationScaling(elationSkillScaling * e1ElationSkillMultiplier)
@@ -297,7 +296,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       if (r.certifiedBanger) {
         foxTeacherHits.push(
           HitDefinitionBuilder.elation()
-            .sourceEntity(EvanesciaEntities.FoxTeacher)
+            .sourceEntity(EvanesciaEntities.Evanescia)
             .damageType(DamageTag.ELATION)
             .damageElement(ElementTag.Physical)
             .elationScaling(foxTeacherElationScaling)
@@ -409,11 +408,16 @@ const simulation = (): SimulationMetadata => ({
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
-    DEFAULT_SKILL,
+    DEFAULT_UNIQUE,
+    END_SKILL,
+    DEFAULT_ELATION_SKILL,
+    DEFAULT_UNIQUE,
+    DEFAULT_ULT,
+    DEFAULT_ELATION_SKILL,
     WHOLE_SKILL,
-    WHOLE_ELATION_SKILL,
-    WHOLE_ELATION_SKILL,
-    WHOLE_UNIQUE,
+    DEFAULT_UNIQUE,
+    DEFAULT_ULT,
+    DEFAULT_ELATION_SKILL,
   ],
   comboDot: 0,
   errRopeEidolon: 0,
@@ -436,7 +440,7 @@ const simulation = (): SimulationMetadata => ({
     },
     {
       characterId: TrailblazerElationStelle.id,
-      lightCone: TomorrowWithUsAll.id,
+      lightCone: ElationBrimmingWithBlessings.id,
       characterEidolon: 6,
       lightConeSuperimposition: 5,
     },

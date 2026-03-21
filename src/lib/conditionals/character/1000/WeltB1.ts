@@ -263,7 +263,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               ? [
                 HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Imaginary)
-                  .atkScaling(talentAdditionalScaling)
+                  .atkScaling(talentAdditionalScaling * (1 + r.skillExtraHits))
                   .build(),
               ]
               : []),
@@ -286,11 +286,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(20)
               .build(),
             // Talent: Additional DMG when hitting Slowed enemy
+            // Ult has 2 hits (10%/90%) so the talent procs twice
             ...(talentAdditionalScaling > 0
               ? [
                 HitDefinitionBuilder.standardAdditional()
                   .damageElement(ElementTag.Imaginary)
-                  .atkScaling(talentAdditionalScaling)
+                  .atkScaling(talentAdditionalScaling * 2)
                   .build(),
               ]
               : []),

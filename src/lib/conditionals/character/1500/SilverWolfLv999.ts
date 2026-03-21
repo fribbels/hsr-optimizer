@@ -223,8 +223,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E4: Elation Skill +999 Punchline
       const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? 999 : 0)
       const hrMultiplier = 1 + hiddenRankingDmgBonus * r.hiddenRanking
-      // E1: Mystery Box +200% Elation floor
-      const e1ElationBoost = (e >= 1 && r.e1MysteryBoxElation) ? 2.00 : 0
 
       const basicHits: HitDefinition[] = []
 
@@ -307,7 +305,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .damageElement(ElementTag.Imaginary)
         .elationScaling(mysteryBoxElationScaling)
         .punchlineStacks(certifiedBangerStacks)
-        .minElationOverride(e1ElationBoost)
         .toughnessDmg(5)
         .build()
 
@@ -329,13 +326,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.CD, (r.invinciblePlayer) ? talentCdBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.ELATION, (e >= 1 && r.e1MysteryBoxElation) ? 0.20 : 0, x.actionKind(AbilityKind.UNIQUE).source(SOURCE_E1))
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.25 : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? context.enemyDamageResistance : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

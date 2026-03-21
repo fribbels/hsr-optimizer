@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, MultiSelect, TextInput } from '@mantine/core'
+import { Button, CloseButton, Flex, Modal, MultiSelect, TextInput } from '@mantine/core'
 import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import {
   generateElementTags,
@@ -33,10 +33,12 @@ export function CharacterMultiSelect({
   value,
   onChange,
   selectStyle,
+  maxDisplayedValues,
 }: {
   value: Set<CharacterId>
   onChange: (excluded: Set<CharacterId>) => void
   selectStyle?: CSSProperties
+  maxDisplayedValues?: number
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
@@ -109,18 +111,37 @@ export function CharacterMultiSelect({
 
   return (
     <>
-      <MultiSelect
-        style={selectStyle}
-        value={multiSelectValue}
-        data={multiSelectData}
-        placeholder={t('MultiSelect.Placeholder')}
-        clearable
-        maxValues={0}
-        onClear={() => onChange(new Set())}
-        onDropdownOpen={open}
-        comboboxProps={{ keepMounted: false, styles: { dropdown: { display: 'none' } } }}
-        rightSection={null}
-      />
+      {maxDisplayedValues === 0
+        ? (
+          <Button
+            variant="default"
+            size="xs"
+            style={selectStyle}
+            onClick={open}
+            justify="space-between"
+            rightSection={value.size > 0 ? (
+              <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(new Set()) }} />
+            ) : undefined}
+          >
+            {value.size > 0
+              ? `${t('MultiSelect.Placeholder')} (+${value.size})`
+              : t('MultiSelect.Placeholder')}
+          </Button>
+        )
+        : (
+          <MultiSelect
+            style={selectStyle}
+            value={multiSelectValue}
+            data={multiSelectData}
+            placeholder={t('MultiSelect.Placeholder')}
+            clearable
+            maxValues={0}
+            onClear={() => onChange(new Set())}
+            onDropdownOpen={open}
+            comboboxProps={{ keepMounted: false, styles: { dropdown: { display: 'none' } } }}
+            rightSection={null}
+          />
+        )}
 
       <Modal
         opened={isOpen}

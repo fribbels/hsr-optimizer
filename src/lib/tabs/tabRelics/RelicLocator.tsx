@@ -41,8 +41,8 @@ export const useRelicLocatorStore = createTabAwareStore<RelicLocatorState>((set)
   setRowLimit: (limit) => set({ rowLimit: limit ?? defaultStateValues.rowLimit }),
 }))
 
-export function RelicLocator(props: { relic: Relic | null }) {
-  const { relic } = props
+export function RelicLocator(props: { relic: Relic | null; compact?: boolean }) {
+  const { relic, compact = false } = props
 
   const { setInventoryWidth, setRowLimit, inventoryWidth, rowLimit } = useRelicLocatorStore(
     useShallow((s) => ({
@@ -90,12 +90,12 @@ export function RelicLocator(props: { relic: Relic | null }) {
         align='center'
         style={{
           cursor: 'pointer',
-          paddingLeft: 8,
-          paddingRight: 10,
-          width: 285,
-          marginTop: 1,
+          paddingLeft: compact ? 6 : 8,
+          paddingRight: compact ? 6 : 10,
+          width: compact ? 140 : 285,
+          marginTop: compact ? 0 : 1,
           borderRadius: 6,
-          height: 30,
+          height: compact ? 26 : 30,
           background: 'var(--panel-bg)',
           boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
           outline: '1px solid var(--border-color)',
@@ -104,23 +104,23 @@ export function RelicLocator(props: { relic: Relic | null }) {
         {relic
           ? (
             <Flex align='center' justify='space-between' w='100%'>
-              <LocatorFilterImage filters={locatorFilters} />
-              <div>
+              <LocatorFilterImage filters={locatorFilters} compact={compact} />
+              <div style={compact ? { fontSize: 11 } : undefined}>
                 {/* Location - Row {{rowIndex}} / Col {{columnIndex}} */}
                 {t('Location', {
                   columnIndex: relicPositionIndex % inventoryWidth + 1,
                   rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
                 })}
               </div>
-              <IconSettings />
+              <IconSettings size={compact ? 14 : 24} />
             </Flex>
           )
           : (
-            <Flex style={{ width: '100%', paddingBottom: 2 }} justify='space-between'>
-              <div style={{ width: 10 }}></div>
+            <Flex style={{ width: '100%', paddingBottom: compact ? 0 : 2 }} justify='space-between' align='center'>
+              <div style={{ width: compact ? 4 : 10 }}></div>
               {/* Select a relic to locate */}
-              <div>{t('NoneSelected')}</div>
-              <IconSettings />
+              <div style={compact ? { fontSize: 11 } : undefined}>{t('NoneSelected')}</div>
+              <IconSettings size={compact ? 14 : 24} />
             </Flex>
           )}
       </Flex>
@@ -157,12 +157,13 @@ export function RelicLocator(props: { relic: Relic | null }) {
   )
 }
 
-function LocatorFilterImage(props: { filters: LocatorFilters }) {
+function LocatorFilterImage(props: { filters: LocatorFilters; compact?: boolean }) {
   const { part, set } = props.filters
+  const compact = props.compact ?? false
   return (
-    <Flex gap={5} style={{ minWidth: 10 }}>
-      <img src={Assets.getPart(part!)} style={{ height: 25 }} />
-      {set && <img src={Assets.getSetImage(set, undefined, true)} style={{ height: 26 }} />}
+    <Flex gap={compact ? 3 : 5} style={{ minWidth: 10 }}>
+      <img src={Assets.getPart(part!)} style={{ height: compact ? 18 : 25 }} />
+      {set && <img src={Assets.getSetImage(set, undefined, true)} style={{ height: compact ? 20 : 26 }} />}
     </Flex>
   )
 }

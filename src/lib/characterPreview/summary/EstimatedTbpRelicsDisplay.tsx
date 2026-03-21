@@ -109,8 +109,12 @@ function LoadingSpinner() {
   )
 }
 
-export function RelicContainer({ ready, relicAnalysis, withoutPreview }: { ready: boolean, relicAnalysis?: RelicAnalysis, withoutPreview?: boolean }) {
-
+export function RelicContainer({ ready, relicAnalysis, withoutPreview, horizontal }: {
+  ready: boolean
+  relicAnalysis?: RelicAnalysis
+  withoutPreview?: boolean
+  horizontal?: boolean
+}) {
   const dynamicStyle = withoutPreview ? undefined : { minHeight: 302 }
 
   if (!ready) {
@@ -127,7 +131,7 @@ export function RelicContainer({ ready, relicAnalysis, withoutPreview }: { ready
     return <div className={styles.card} style={dynamicStyle} />
   }
 
-  if (withoutPreview) return <RelicAnalysisCard relicAnalysis={relicAnalysis} />
+  if (withoutPreview) return <RelicAnalysisCard relicAnalysis={relicAnalysis} horizontal={horizontal} />
 
   return (
     <Flex
@@ -141,10 +145,25 @@ export function RelicContainer({ ready, relicAnalysis, withoutPreview }: { ready
   )
 }
 
-function RelicAnalysisCard({ relicAnalysis }: { relicAnalysis?: RelicAnalysis }) {
-
+function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: RelicAnalysis; horizontal?: boolean }) {
   if (!relicAnalysis) {
     return <div className={styles.innerCard} />
+  }
+
+  if (horizontal) {
+    return (
+      <Flex className={styles.fullWidth} gap={10} style={{ height: '100%' }}>
+        <Flex direction="column" gap={10} style={{ width: 260, flexShrink: 0 }}>
+          <Flex className={styles.metricRow} gap={10} style={{ height: 'auto', flex: 1 }}>
+            <MetricCard relicAnalysis={relicAnalysis} index={0} />
+            <MetricCard relicAnalysis={relicAnalysis} index={1} />
+          </Flex>
+        </Flex>
+        <Flex className={styles.rollsCard} gap={10} style={{ flex: 1 }}>
+          <RollsCard relicAnalysis={relicAnalysis} />
+        </Flex>
+      </Flex>
+    )
   }
 
   return (

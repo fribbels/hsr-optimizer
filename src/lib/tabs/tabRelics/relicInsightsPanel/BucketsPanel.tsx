@@ -32,18 +32,31 @@ type Bucket = Array<PanelProps['scores'][number]>
 type Score = Bucket[number]
 
 type DataPoint = {
-  x: number,
-  y: number,
-  name: Score['name'],
-  id: Score['id'],
-  bestAdded: Score['score']['meta']['bestAddedStats'],
-  bestUpgraded: Score['score']['meta']['bestUpgradedStats'],
+  x: number
+  y: number
+  name: Score['name']
+  id: Score['id']
+  bestAdded: Score['score']['meta']['bestAddedStats']
+  bestUpgraded: Score['score']['meta']['bestUpgradedStats']
+  imgWidth: number
+  imgHeight: number
 }
 
-const IMG_WIDTH = 26
-const IMG_HEIGHT = 39
+const DEFAULT_WIDTH = 1222
+const DEFAULT_HEIGHT = 278
 
-export const BucketsPanel = memo(({ scores }: PanelProps) => {
+const IMG_WIDTH_NORMAL = 26
+const IMG_HEIGHT_NORMAL = 39
+const IMG_WIDTH_COMPACT = 20
+const IMG_HEIGHT_COMPACT = 30
+
+export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight }: PanelProps) => {
+  const chartWidth = propWidth ?? DEFAULT_WIDTH
+  const chartHeight = propHeight ?? DEFAULT_HEIGHT
+  const compact = chartHeight < 250
+
+  const imgWidth = compact ? IMG_WIDTH_COMPACT : IMG_WIDTH_NORMAL
+  const imgHeight = compact ? IMG_HEIGHT_COMPACT : IMG_HEIGHT_NORMAL
 
   const [tooltipActive, setTooltipActive] = useState(false)
   const timeout = useRef<NodeJS.Timeout | undefined>(undefined)
@@ -57,13 +70,14 @@ export const BucketsPanel = memo(({ scores }: PanelProps) => {
 
   const longestBucket = Math.max(...buckets.flatMap((b) => b.length))
 
-  // 1162 is the approximate available width for the icons
-  // if we can fit all rows within the 1162 then align left without overlap
+  // Approximate available width for icons after margins
+  const iconAreaWidth = chartWidth - 60
+  // if we can fit all rows within the available width then align left without overlap
   // if not then space evenly (will lead to overlap) and ensure vertical alignment
   let xPos = (idx: number) => {
-    return IMG_WIDTH / 1162 * (idx + 0.5)
+    return imgWidth / iconAreaWidth * (idx + 0.5)
   }
-  if (longestBucket * IMG_WIDTH > 1162) {
+  if (longestBucket * imgWidth > iconAreaWidth) {
     xPos = (idx) => (idx + 0.5) / longestBucket
   }
 
@@ -75,6 +89,8 @@ export const BucketsPanel = memo(({ scores }: PanelProps) => {
       id: score.id,
       bestAdded: score.score.meta.bestAddedStats,
       bestUpgraded: score.score.meta.bestUpgradedStats,
+      imgWidth,
+      imgHeight,
     }))
   )
 
@@ -103,12 +119,12 @@ export const BucketsPanel = memo(({ scores }: PanelProps) => {
       }}
     >
       <ScatterChart
-        width={1222}
-        height={278}
+        width={chartWidth}
+        height={chartHeight}
         margin={{
-          top: 20,
-          right: 15,
-          bottom: 20,
+          top: compact ? 14 : 20,
+          right: compact ? 10 : 15,
+          bottom: compact ? 14 : 20,
           left: -5,
         }}
       >
@@ -118,7 +134,7 @@ export const BucketsPanel = memo(({ scores }: PanelProps) => {
           tickFormatter={(val) => `${val * 10}%+`}
           domain={[0, 9]}
           ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
-          tick={{ fill: '#cfcfcf', fontSize: 13 }}
+          tick={{ fill: '#cfcfcf', fontSize: compact ? 10 : 13 }}
           axisLine={false}
           tickLine={false}
         />
@@ -142,14 +158,16 @@ export const BucketsPanel = memo(({ scores }: PanelProps) => {
 })
 
 function ShapeFunction(untypedProps: unknown) {
-  const props = untypedProps as Bucket[number] & { x: number, y: number }
+  const props = untypedProps as DataPoint & { x: number; y: number }
+  const w = props.imgWidth
+  const h = props.imgHeight
   return (
     <image
       href={Assets.getCharacterAvatarById(props.id)}
-      x={props.x - 8.5}
-      y={props.y - 16.5}
-      width={IMG_WIDTH}
-      height={IMG_HEIGHT}
+      x={props.x - w / 2}
+      y={props.y - h / 2}
+      width={w}
+      height={h}
       style={{ cursor: 'pointer' }}
     />
   )

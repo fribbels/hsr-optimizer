@@ -12,7 +12,7 @@ import {
 } from 'lib/worker/estTbpWorkerRunner'
 import { memo, useMemo } from 'react'
 
-export const EstbpCard = memo(() => {
+export const EstbpCard = memo(({ width }: { width?: number }) => {
   const { selectedRelic, focusCharacter } = useRelicsTabStore(
     useShallow((s) => ({
       selectedRelic: s.selectedRelic,
@@ -33,9 +33,11 @@ export const EstbpCard = memo(() => {
 
   const analysis = output && needsAnalysis ? enrichSingleRelicAnalysis(selectedRelic, output.days, weights, focusCharacter, new ScoringCache()) : undefined
 
+  const horizontal = (width ?? 297) > 600
+
   return (
-    <Flex style={{ width: 297, height: '100%' }}>
-      <RelicContainer ready={ready} relicAnalysis={analysis} withoutPreview />
+    <Flex style={{ width: width ?? 297, height: '100%' }}>
+      <RelicContainer ready={ready} relicAnalysis={analysis} withoutPreview horizontal={horizontal} />
     </Flex>
   )
 })

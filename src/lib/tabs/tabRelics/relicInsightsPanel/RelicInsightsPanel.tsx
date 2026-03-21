@@ -18,7 +18,10 @@ import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import type { CharacterId } from 'types/character'
 
-export function RelicInsightsPanel() {
+export function RelicInsightsPanel({ containerWidth, containerHeight }: {
+  containerWidth?: number
+  containerHeight?: number
+} = {}) {
   const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore(
     useShallow((s) => ({
       insightsCharacters: s.insightsCharacters,
@@ -65,11 +68,11 @@ export function RelicInsightsPanel() {
 
   switch (insightsMode) {
     case RelicInsights.Buckets:
-      return <BucketsPanel scores={scores} />
+      return <BucketsPanel scores={scores} width={containerWidth} height={containerHeight} />
     case RelicInsights.Top10:
-      return <Top10Panel scores={scores} />
+      return <Top10Panel scores={scores} width={containerWidth} height={containerHeight} />
     case RelicInsights.ESTBP:
-      return <EstbpCard />
+      return <EstbpCard width={containerWidth} />
   }
 }
 
@@ -81,5 +84,7 @@ type Score = {
 }
 
 export type PanelProps = {
-  scores: Score[],
+  scores: Score[]
+  width?: number
+  height?: number
 }

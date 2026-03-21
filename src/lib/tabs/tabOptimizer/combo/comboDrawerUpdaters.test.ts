@@ -233,7 +233,7 @@ describe('C3: updatePartitionActivation', () => {
 // ---------------------------------------------------------------------------
 
 describe('C4: updateAddPartition', () => {
-  it('C4a — BUG-11: new partition value EQUALS source partition value (should differ)', () => {
+  it('C4a — legacy updateAddPartition copies source value (BUG-11 fixed in store with newValue param)', () => {
     const state = makeTestComboState()
     const originalValue = getTestNumber(state).partitions[0].value
     updateAddPartition(state, 'comboCharacter', 'testNumber', 0)
@@ -283,7 +283,7 @@ describe('C5: updateDeletePartition', () => {
 // ---------------------------------------------------------------------------
 
 describe('C6: updateAbilityRotation', () => {
-  it('C6a — BUG-24: overwriting an existing turn resets custom activations via setActivationIndexToDefault', () => {
+  it('C6a — legacy updateAbilityRotation resets activations on overwrite (BUG-24 fixed in store, not here)', () => {
     const state = makeTestComboState()
     // comboTurnAbilities: [NULL, BASIC, SKILL] — length 3
     // Extend to 5: [NULL, BASIC, SKILL, ULT, BASIC]

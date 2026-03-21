@@ -235,10 +235,16 @@ describe('useComboDrawerStore', () => {
     it('ignores non-BOOLEAN conditionals', () => {
       seedStore()
 
+      // Capture the entire partition structure before calling setActivation
+      const before = getStore().comboCharacter!.characterConditionals.testNumber as ComboNumberConditional
+      const beforePartitions = JSON.stringify(before.partitions)
+
+      // Attempt to set activation on a NUMBER conditional — should be a no-op
       getStore().setActivation('comboCharacter', 'testNumber', 1, true)
-      // Should not throw, number conditional unchanged
-      const cond = getStore().comboCharacter!.characterConditionals.testNumber as ComboNumberConditional
-      expect(cond.partitions[0].activations[1]).toBe(true) // was already true
+
+      // Verify the partition structure is completely unchanged
+      const after = getStore().comboCharacter!.characterConditionals.testNumber as ComboNumberConditional
+      expect(JSON.stringify(after.partitions)).toBe(beforePartitions)
     })
   })
 

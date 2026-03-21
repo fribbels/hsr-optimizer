@@ -17,6 +17,7 @@ import type {
   NestedObject,
 } from './comboDrawerTypes'
 import { initializeComboState } from './comboDrawerInitializers'
+import { extractTeammateKey, shiftAllActivationsInObj, setActivationIndexToDefault } from './comboDrawerUtils'
 
 // ─── State Shape ───────────────────────────────────────────────
 
@@ -77,7 +78,7 @@ export function locateConditional(
       comboConditionals = character.characterConditionals
     }
   } else if (sourceKey.includes('comboTeammate')) {
-    const teammateKey = sourceKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+    const teammateKey = extractTeammateKey(sourceKey)
     const teammate = state[teammateKey]
     if (!teammate) return null
 
@@ -105,7 +106,7 @@ export function resolveMetadata(
   originKey: string,
 ): ComboCharacterMetadata | null {
   if (originKey.includes('comboTeammate')) {
-    const tk = originKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+    const tk = extractTeammateKey(originKey)
     return state[tk]?.metadata ?? null
   }
   return state.comboCharacter?.metadata ?? null
@@ -121,7 +122,7 @@ export function resolveConditionals(
   originKey: string,
 ): ComboConditionals | null {
   if (originKey.includes('comboTeammate')) {
-    const tk = originKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+    const tk = extractTeammateKey(originKey)
     const tm = state[tk]
     if (!tm) return null
     if (originKey.includes('RelicSet')) return tm.relicSetConditionals
@@ -157,7 +158,7 @@ function cloneConditionalPath(
     else if (sourceKey.includes('LightCone')) conditionalsKey = 'lightConeConditionals'
     else conditionalsKey = 'characterConditionals'
   } else {
-    const teammateKey = sourceKey.substring(0, 14) as 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+    const teammateKey = extractTeammateKey(sourceKey)
     fieldKey = teammateKey
     if (sourceKey.includes('RelicSet')) conditionalsKey = 'relicSetConditionals'
     else if (sourceKey.includes('OrnamentSet')) conditionalsKey = 'ornamentSetConditionals'
@@ -190,35 +191,6 @@ function cloneConditionalPath(
   return {
     newState: { [fieldKey]: clonedParent } as Partial<ComboDrawerState>,
     conditional: clonedConditional,
-  }
-}
-
-function shiftLeft(arr: boolean[], index: number) {
-  arr.splice(index, 1)
-  arr.push(arr[0])
-}
-
-function shiftAllActivationsInObj(obj: NestedObject, index: number): void {
-  for (const key in obj) {
-    if (!Object.hasOwn(obj, key)) continue
-    if (key === 'activations' && Array.isArray(obj[key])) {
-      shiftLeft(obj[key] as boolean[], index)
-    }
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      shiftAllActivationsInObj(obj[key] as NestedObject, index)
-    }
-  }
-}
-
-function setActivationIndexToDefault(obj: NestedObject, index: number): void {
-  for (const key in obj) {
-    if (!Object.hasOwn(obj, key)) continue
-    if (key === 'activations' && Array.isArray(obj[key])) {
-      (obj[key] as boolean[])[index] = (obj[key] as boolean[])[0]
-    }
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      setActivationIndexToDefault(obj[key] as NestedObject, index)
-    }
   }
 }
 

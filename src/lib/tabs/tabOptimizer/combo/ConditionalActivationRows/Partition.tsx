@@ -33,16 +33,27 @@ export function Partition({
     [contentItem.id, sourceKey, partitionIndex, activations.length],
   )
 
-  const NumberInput = contentItem.formItem === 'slider' ? NumberSlider : NumberSelect
-
-  return (
-    <Flex h={45}>
-      <NumberInput
+  const numberInput = contentItem.formItem === 'slider'
+    ? (
+      <NumberSlider
+        contentItem={contentItem as ContentItem & { min: number; max: number }}
+        value={partition.value}
+        sourceKey={sourceKey}
+        partitionIndex={partitionIndex}
+      />
+    )
+    : (
+      <NumberSelect
         contentItem={contentItem}
         value={partition.value}
         sourceKey={sourceKey}
         partitionIndex={partitionIndex}
       />
+    )
+
+  return (
+    <Flex h={45}>
+      {numberInput}
       <BoxArray
         activations={activations}
         actionCount={actionCount}

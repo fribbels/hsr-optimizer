@@ -385,8 +385,8 @@ describe('A4: BUG-22 — teammate characterId mismatch should not corrupt condit
       }
     }
 
-    // If teammate0 has no boolean conditionals, skip the test
-    if (!sentinelKey) return
+    // Guard: Cyrene must have at least one BOOLEAN conditional
+    expect(sentinelKey).toBeTruthy()
 
     const baseSentinelValue = (baseTeammate0Conditionals[sentinelKey] as ComboBooleanConditional).activations[1]
 

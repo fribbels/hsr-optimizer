@@ -6,6 +6,7 @@ import {
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Parts } from 'lib/constants/constants'
+import { relicCardH, relicCardW } from 'lib/constants/constantsUi'
 import iconClasses from 'style/icons.module.css'
 import { type RelicScoringResult } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
@@ -104,9 +105,9 @@ export const RelicPreview = memo(function RelicPreview(props: {
       withBorder={source != null}
       onClick={cardClicked}
       style={{
-        width: 211,
-        minWidth: 211,
-        height: 280,
+        width: relicCardW,
+        minWidth: relicCardW,
+        height: relicCardH,
         padding: 12,
         backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : undefined,
         borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,

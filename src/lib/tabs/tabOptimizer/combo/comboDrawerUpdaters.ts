@@ -1,29 +1,21 @@
 import {
-  ABILITY_LIMIT,
   ConditionalDataType,
 } from 'lib/constants/constants'
-import {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
 import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import type { Form } from 'types/form'
 
-import { COMBO_STATE_JSON_VERSION } from './comboDrawerTypes'
 import type {
-  ComboConditionals,
+  ComboCharacter,
   ComboDataKey,
   ComboNumberConditional,
   ComboState,
-  NestedObject,
+  ComboTeammate,
 } from './comboDrawerTypes'
 import {
-  extractTeammateKey,
-  persistFormToCharacterStore,
-  shiftAllActivationsInObj,
-  setActivationIndexToDefault,
+  forEachActivation,
+  getEntityConditionals,
+  resolveSourceKeyRoute,
+  shiftLeft,
 } from './comboDrawerUtils'
 
 // ---------------------------------------------------------------------------
@@ -31,36 +23,13 @@ import {
 // ---------------------------------------------------------------------------
 
 export function locateComboCategory(sourceKey: string, contentItemId: string, comboState: ComboState) {
-  let comboConditionals: ComboConditionals
-
-  if (sourceKey.includes('comboCharacter')) {
-    const character = comboState.comboCharacter
-
-    if (sourceKey.includes('RelicSets')) {
-      comboConditionals = character.setConditionals
-    } else if (sourceKey.includes('LightCone')) {
-      comboConditionals = character.lightConeConditionals
-    } else {
-      comboConditionals = character.characterConditionals
-    }
-  } else if (sourceKey.includes('comboTeammate')) {
-    const teammateIndexString = extractTeammateKey(sourceKey)
-    const teammate = comboState[teammateIndexString]
-    if (!teammate) return null
-    if (sourceKey.includes('RelicSet')) {
-      comboConditionals = teammate.relicSetConditionals
-    } else if (sourceKey.includes('OrnamentSet')) {
-      comboConditionals = teammate.ornamentSetConditionals
-    } else if (sourceKey.includes('LightCone')) {
-      comboConditionals = teammate.lightConeConditionals
-    } else {
-      comboConditionals = teammate.characterConditionals
-    }
-  } else {
-    return null
-  }
-
-  return comboConditionals[contentItemId]
+  const route = resolveSourceKeyRoute(sourceKey)
+  if (!route) return null
+  const entity = comboState[route.entityKey as keyof ComboState] as ComboCharacter | ComboTeammate | null
+  if (!entity) return null
+  const conditionals = getEntityConditionals(entity, route.conditionalsKey)
+  if (!conditionals) return null
+  return conditionals[contentItemId] ?? null
 }
 
 export function locateActivationsDataKey(dataKey: ComboDataKey, comboState: ComboState) {
@@ -106,35 +75,6 @@ export function locateActivationsDataKey(dataKey: ComboDataKey, comboState: Comb
 export function locateActivations(keyString: string, comboState: ComboState) {
   const dataKey: ComboDataKey = JSON.parse(keyString)
   return locateActivationsDataKey(dataKey, comboState)
-}
-
-// ---------------------------------------------------------------------------
-// Private helpers
-// ---------------------------------------------------------------------------
-
-function change(
-  changeConditional: {
-    // eslint-disable-next-line
-    [key: string]: any,
-  },
-  originalConditional: ComboConditionals,
-  set: boolean = false,
-) {
-  for (const [key, value] of Object.entries(changeConditional)) {
-    const comboCategory = originalConditional[key]
-    if (!comboCategory) continue
-    if (comboCategory.type == ConditionalDataType.BOOLEAN) {
-      for (let i = 0; i <= ABILITY_LIMIT; i++) {
-        if (set) {
-          // Set conditionals use legacy [undefined, value] format
-          // eslint-disable-next-line
-          comboCategory.activations[i] = value[1]
-        } else {
-          comboCategory.activations[i] = value
-        }
-      }
-    }
-  }
 }
 
 // ---------------------------------------------------------------------------
@@ -217,35 +157,6 @@ export function updateDeletePartition(comboState: ComboState, sourceKey: string,
   return { ...comboState }
 }
 
-export function updateSelectedSets(comboState: ComboState, sets: string[], isOrnaments: boolean) {
-  const setConditionals = comboState.comboCharacter.setConditionals
-
-  if (isOrnaments) {
-    comboState.comboCharacter.displayedOrnamentSets = sets
-
-    for (const setName of Object.values(SetsOrnaments)) {
-      if (sets.includes(setName)) {
-        setConditionals[setName].display = true
-      } else {
-        setConditionals[setName].display = false
-      }
-    }
-  } else {
-    comboState.comboCharacter.displayedRelicSets = sets
-
-    for (const setName of Object.values(SetsRelics)) {
-      if (sets.includes(setName)) {
-        setConditionals[setName].display = true
-      } else {
-        setConditionals[setName].display = false
-      }
-    }
-  }
-
-  updateFormState(comboState)
-  return { ...comboState }
-}
-
 export function updateBooleanDefaultSelection(comboState: ComboState, sourceKey: string, contentItemId: string, value: boolean) {
   const dataKey: ComboDataKey = {
     id: contentItemId,
@@ -298,39 +209,18 @@ export function updateAbilityRotation(comboState: ComboState, index: number, tur
   if (turnAbilityName == NULL_TURN_ABILITY_NAME) {
     if (comboTurnAbilities.length <= 2) return
     comboTurnAbilities.splice(index, 1)
-    shiftAllActivationsInObj(comboState as unknown as NestedObject, index)
+    const entities = [comboState.comboCharacter, comboState.comboTeammate0, comboState.comboTeammate1, comboState.comboTeammate2]
+    for (const entity of entities) {
+      if (entity) forEachActivation(entity, (arr) => shiftLeft(arr, index))
+    }
   } else {
     comboTurnAbilities[index] = turnAbilityName
-    setActivationIndexToDefault(comboState as unknown as NestedObject, index)
+    const entities = [comboState.comboCharacter, comboState.comboTeammate0, comboState.comboTeammate1, comboState.comboTeammate2]
+    for (const entity of entities) {
+      if (entity) forEachActivation(entity, (arr) => { arr[index] = arr[0] })
+    }
   }
 
   return { ...comboState }
 }
 
-export function updateFormState(comboState: ComboState) {
-  comboState.version = COMBO_STATE_JSON_VERSION
-
-  // Update store directly
-  useOptimizerRequestStore.getState().setComboStateJson(JSON.stringify(comboState))
-  useOptimizerRequestStore.getState().setComboTurnAbilities(comboState.comboTurnAbilities)
-
-  persistFormToCharacterStore(1000)
-}
-
-export function updateConditionalChange(comboState: ComboState, changeEvent: Form) {
-  if (changeEvent.characterConditionals) change(changeEvent.characterConditionals, comboState.comboCharacter.characterConditionals)
-  if (changeEvent.lightConeConditionals) change(changeEvent.lightConeConditionals, comboState.comboCharacter.lightConeConditionals)
-  if (changeEvent.setConditionals) change(changeEvent.setConditionals, comboState.comboCharacter.setConditionals, true)
-
-  if (changeEvent.teammate0?.characterConditionals) change(changeEvent.teammate0.characterConditionals, comboState.comboTeammate0?.characterConditionals ?? {})
-  if (changeEvent.teammate0?.lightConeConditionals) change(changeEvent.teammate0.lightConeConditionals, comboState.comboTeammate0?.lightConeConditionals ?? {})
-
-  if (changeEvent.teammate1?.characterConditionals) change(changeEvent.teammate1.characterConditionals, comboState.comboTeammate1?.characterConditionals ?? {})
-  if (changeEvent.teammate1?.lightConeConditionals) change(changeEvent.teammate1.lightConeConditionals, comboState.comboTeammate1?.lightConeConditionals ?? {})
-
-  if (changeEvent.teammate2?.characterConditionals) change(changeEvent.teammate2.characterConditionals, comboState.comboTeammate2?.characterConditionals ?? {})
-  if (changeEvent.teammate2?.lightConeConditionals) change(changeEvent.teammate2.lightConeConditionals, comboState.comboTeammate2?.lightConeConditionals ?? {})
-
-  updateFormState(comboState)
-  return { ...comboState }
-}

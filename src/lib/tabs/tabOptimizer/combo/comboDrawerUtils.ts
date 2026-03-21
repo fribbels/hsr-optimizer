@@ -2,7 +2,8 @@ import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { SaveState } from 'lib/state/saveState'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 
-import type { ComboNumberConditional, NestedObject } from './comboDrawerTypes'
+import { ConditionalDataType } from 'lib/constants/constants'
+import type { ComboCharacter, ComboConditionals, ComboNumberConditional, ComboTeammate } from './comboDrawerTypes'
 import { locateConditional, useComboDrawerStore } from './useComboDrawerStore'
 
 // ─── Teammate Helpers ────────────────────────────────────────
@@ -32,29 +33,6 @@ export function shiftLeft(arr: boolean[], index: number) {
   arr.push(arr[0])
 }
 
-export function shiftAllActivationsInObj(obj: NestedObject, index: number): void {
-  for (const key in obj) {
-    if (!Object.hasOwn(obj, key)) continue
-    if (key === 'activations' && Array.isArray(obj[key])) {
-      shiftLeft(obj[key] as boolean[], index)
-    }
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      shiftAllActivationsInObj(obj[key] as NestedObject, index)
-    }
-  }
-}
-
-export function setActivationIndexToDefault(obj: NestedObject, index: number): void {
-  for (const key in obj) {
-    if (!Object.hasOwn(obj, key)) continue
-    if (key === 'activations' && Array.isArray(obj[key])) {
-      (obj[key] as boolean[])[index] = (obj[key] as boolean[])[0]
-    }
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      setActivationIndexToDefault(obj[key] as NestedObject, index)
-    }
-  }
-}
 
 // ─── Persistence Helper ──────────────────────────────────────
 
@@ -85,5 +63,100 @@ export function handlePartitionButtonClick(
     state.addPartition(sourceKey, contentItemId, partitionIndex, newValue)
   } else {
     useComboDrawerStore.getState().deletePartition(sourceKey, contentItemId, partitionIndex)
+  }
+}
+
+// ─── A) Source Key Routing Table ──────────────────────────────
+
+export type EntityKey = 'comboCharacter' | 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
+
+export type SourceKeyRoute = {
+  entityKey: EntityKey
+  conditionalsKey: string
+  isTeammate: boolean
+}
+
+const SOURCE_KEY_ROUTES: Record<string, SourceKeyRoute> = {}
+
+function addCharacterRoutes() {
+  SOURCE_KEY_ROUTES['comboCharacter'] = { entityKey: 'comboCharacter', conditionalsKey: 'characterConditionals', isTeammate: false }
+  SOURCE_KEY_ROUTES['comboCharacterLightCone'] = { entityKey: 'comboCharacter', conditionalsKey: 'lightConeConditionals', isTeammate: false }
+  SOURCE_KEY_ROUTES['comboCharacterRelicSets'] = { entityKey: 'comboCharacter', conditionalsKey: 'setConditionals', isTeammate: false }
+}
+
+function addTeammateRoutes(entityKey: EntityKey, prefix: string) {
+  SOURCE_KEY_ROUTES[prefix] = { entityKey, conditionalsKey: 'characterConditionals', isTeammate: true }
+  SOURCE_KEY_ROUTES[prefix + 'LightCone'] = { entityKey, conditionalsKey: 'lightConeConditionals', isTeammate: true }
+  SOURCE_KEY_ROUTES[prefix + 'RelicSet'] = { entityKey, conditionalsKey: 'relicSetConditionals', isTeammate: true }
+  SOURCE_KEY_ROUTES[prefix + 'OrnamentSet'] = { entityKey, conditionalsKey: 'ornamentSetConditionals', isTeammate: true }
+}
+
+addCharacterRoutes()
+addTeammateRoutes('comboTeammate0', 'comboTeammate0')
+addTeammateRoutes('comboTeammate1', 'comboTeammate1')
+addTeammateRoutes('comboTeammate2', 'comboTeammate2')
+
+export function resolveSourceKeyRoute(sourceKey: string): SourceKeyRoute | null {
+  return SOURCE_KEY_ROUTES[sourceKey] ?? null
+}
+
+// ─── B) Type Guard ────────────────────────────────────────────
+
+export function isComboCharacter(entity: ComboCharacter | ComboTeammate): entity is ComboCharacter {
+  return 'setConditionals' in entity
+}
+
+// ─── C) Typed Entity Conditional Accessors ────────────────────
+
+export function getEntityConditionals(
+  entity: ComboCharacter | ComboTeammate,
+  conditionalsKey: string,
+): ComboConditionals | undefined {
+  switch (conditionalsKey) {
+    case 'characterConditionals': return entity.characterConditionals
+    case 'lightConeConditionals': return entity.lightConeConditionals
+    case 'setConditionals': return isComboCharacter(entity) ? entity.setConditionals : undefined
+    case 'relicSetConditionals': return !isComboCharacter(entity) ? entity.relicSetConditionals : undefined
+    case 'ornamentSetConditionals': return !isComboCharacter(entity) ? entity.ornamentSetConditionals : undefined
+    default: return undefined
+  }
+}
+
+export function withEntityConditionals(
+  entity: ComboCharacter | ComboTeammate,
+  conditionalsKey: string,
+  conditionals: ComboConditionals,
+): ComboCharacter | ComboTeammate {
+  return { ...entity, [conditionalsKey]: conditionals }
+}
+
+// ─── D) Typed Activation Traversal ────────────────────────────
+
+function visitConditionals(
+  conditionals: ComboConditionals,
+  fn: (activations: boolean[]) => void,
+): void {
+  for (const cond of Object.values(conditionals)) {
+    if (cond.type === ConditionalDataType.BOOLEAN) {
+      fn(cond.activations)
+    } else {
+      for (const partition of cond.partitions) {
+        fn(partition.activations)
+      }
+    }
+  }
+}
+
+export function forEachActivation(
+  entity: ComboCharacter | ComboTeammate,
+  fn: (activations: boolean[]) => void,
+): void {
+  visitConditionals(entity.characterConditionals, fn)
+  visitConditionals(entity.lightConeConditionals, fn)
+  if (isComboCharacter(entity)) {
+    visitConditionals(entity.setConditionals, fn)
+  } else {
+    visitConditionals(entity.relicSetConditionals, fn)
+    visitConditionals(entity.ornamentSetConditionals, fn)
   }
 }

@@ -84,7 +84,3 @@ export type ComboDataKey = {
   partitionIndex: number,
   index: number,
 }
-
-export type NestedObject = {
-  [key: string]: unknown,
-}

@@ -26,7 +26,6 @@ import {
   updateAddPartition,
   updateBooleanDefaultSelection,
   updateDeletePartition,
-  updateFormState,
   updatePartitionActivation,
 } from './comboDrawerUpdaters'
 
@@ -370,16 +369,3 @@ describe('C8: updateBooleanDefaultSelection', () => {
   })
 })
 
-// ---------------------------------------------------------------------------
-// C9: updateFormState
-// ---------------------------------------------------------------------------
-
-describe('C9: updateFormState', () => {
-  it('C9a — serializes comboState into useOptimizerRequestStore.comboStateJson', () => {
-    const state = makeTestComboState()
-    updateFormState(state)
-
-    const stored = useOptimizerRequestStore.getState().comboStateJson
-    expect(stored).toBe(JSON.stringify(state))
-  })
-})

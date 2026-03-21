@@ -597,6 +597,70 @@ describe('patchComboConditionalDefault', () => {
     // Original conditional should be unchanged
     expect(parsed.comboCharacter.characterConditionals.enhanced.activations).toEqual([false, true])
   })
+
+  it('should patch teammate boolean activations[0]', () => {
+    const json = JSON.stringify({
+      comboTeammate0: {
+        characterConditionals: {
+          testBool: {
+            type: ConditionalDataType.BOOLEAN,
+            activations: [false, true, true],
+          },
+        },
+      },
+    })
+
+    const result = patchComboConditionalDefault(json, 'character', { testBool: true }, 0)
+    const parsed = JSON.parse(result)
+
+    expect(parsed.comboTeammate0.characterConditionals.testBool.activations[0]).toBe(true)
+    expect(parsed.comboTeammate0.characterConditionals.testBool.activations[1]).toBe(true)
+    expect(parsed.comboTeammate0.characterConditionals.testBool.activations[2]).toBe(true)
+  })
+
+  it('should patch teammate lightCone conditionals', () => {
+    const json = JSON.stringify({
+      comboTeammate1: {
+        lightConeConditionals: {
+          passive: {
+            type: ConditionalDataType.BOOLEAN,
+            activations: [false, false, true],
+          },
+        },
+      },
+    })
+
+    const result = patchComboConditionalDefault(json, 'lightCone', { passive: true }, 1)
+    const parsed = JSON.parse(result)
+
+    expect(parsed.comboTeammate1.lightConeConditionals.passive.activations[0]).toBe(true)
+    expect(parsed.comboTeammate1.lightConeConditionals.passive.activations[1]).toBe(false)
+    expect(parsed.comboTeammate1.lightConeConditionals.passive.activations[2]).toBe(true)
+  })
+
+  it('should no-op when teammate is null', () => {
+    const json = JSON.stringify({
+      comboTeammate2: null,
+    })
+
+    const result = patchComboConditionalDefault(json, 'character', { testBool: true }, 2)
+    expect(result).toBe(json)
+  })
+
+  it('should preserve original comboCharacter behavior when no teammateIndex is provided', () => {
+    const json = makeComboStateJson({
+      enhanced: {
+        type: ConditionalDataType.BOOLEAN,
+        activations: [false, true],
+      },
+    })
+
+    const result = patchComboConditionalDefault(json, 'character', { enhanced: true })
+    const parsed = JSON.parse(result)
+
+    expect(parsed.comboCharacter.characterConditionals.enhanced.activations[0]).toBe(true)
+    expect(parsed.comboCharacter.characterConditionals.enhanced.activations[1]).toBe(true)
+  })
 })
 
 // ─── Task 9: Persistence round-trip tests ─────────────────────────────

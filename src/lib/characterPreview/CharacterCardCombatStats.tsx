@@ -83,7 +83,7 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
     : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
 
   return (
-    <Flex direction="column" gap={1} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
+    <Flex direction="column" gap={0} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
       <HeaderText style={{ fontSize: 16 }}>
         {titleRender}
       </HeaderText>

@@ -95,7 +95,7 @@ export const StatRow = memo(function StatRow({
     return null as unknown as ReactElement
   }
   return (
-    <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ filter: loading ? 'blur(2px)' : 'none' }}>
+    <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ fontSize: 16, filter: loading ? 'blur(2px)' : 'none' }}>
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />

@@ -68,7 +68,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
 
       x.buff(StatKey.DMG_BOOST, (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
       x.buff(StatKey.ATK, (r.skillAtkBoost) ? sValuesAtk[s] * context.baseATK : 0, x.damageType(DamageTag.SKILL).source(SOURCE_LC))
-      x.buff(StatKey.EHR, sValuesEhr[s], x.actionKind(AbilityKind.SKILL).source(SOURCE_LC))
+      x.buff(StatKey.EHR, (r.skillEhrBoost) ? sValuesEhr[s] : 0, x.actionKind(AbilityKind.SKILL).source(SOURCE_LC))
     },
   }
 }

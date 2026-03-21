@@ -127,8 +127,8 @@ export class SearchTree {
     // damageQueue peaks at ~1× budget. volumeQueue accumulates during refinement (no pops) and can peak much higher.
     // Capacities are dimension-tuned from production data with ~2-3× headroom. Both grow dynamically if exceeded.
     const [damageCapacity, volumeCapacity] = getQueueCapacities(this.dimensions)
-    this.damageQueue = new MinQueue(damageCapacity)
-    this.volumeQueue = new MinQueue(volumeCapacity)
+    this.damageQueue = new MinQueue(damageCapacity, Uint32Array)
+    this.volumeQueue = new MinQueue(volumeCapacity, Uint32Array)
     this.root = this.generateRoot(this.lower, this.upper)!
 
     for (let i = 0; i < SUBSTAT_COUNT; i++) {

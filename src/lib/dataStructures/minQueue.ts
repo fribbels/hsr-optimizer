@@ -2,24 +2,30 @@
  * MinPriorityQueue backed by TypedArrays.
  * Forked from heapify (MIT) — https://github.com/luciopaiva/heapify
  *
- * 1-indexed binary min-heap. Stores (key: uint32, priority: float64) pairs.
+ * 1-indexed binary min-heap. Stores (key, priority: float64) pairs.
  * Zero GC pressure — all operations mutate pre-allocated typed arrays.
  *
  * Uses a lazy-pop optimization: after pop(), the root slot isn't immediately
  * filled. Instead, a flag is set, and the sift-down is deferred until the
  * next operation that reads the heap. This makes pop-then-push sequences
  * equivalent to a single replaceTop (one sift instead of two).
+ *
+ * @param KeyArray — The typed array constructor for keys:
+ *   - Uint32Array: max 4,294,967,295. Use for small integer IDs (e.g. node IDs).
+ *   - Float64Array: max 9,007,199,254,740,991. Use when keys can exceed 4,294,967,295 (e.g. permutation indices).
  */
 export class MinQueue {
   private _capacity: number
-  private _keys: Uint32Array
+  private _keys: Uint32Array | Float64Array
   private _priorities: Float64Array
   private _hasPoppedElement: boolean
+  private _KeyArray: typeof Uint32Array | typeof Float64Array
   length: number
 
-  constructor(capacity = 64) {
+  constructor(capacity: number, KeyArray: typeof Uint32Array | typeof Float64Array) {
     this._capacity = capacity
-    this._keys = new Uint32Array(capacity + 1)
+    this._KeyArray = KeyArray
+    this._keys = new KeyArray(capacity + 1)
     this._priorities = new Float64Array(capacity + 1)
     this._hasPoppedElement = false
     this.length = 0
@@ -146,7 +152,7 @@ export class MinQueue {
 
   private _grow(): void {
     const newCapacity = this._capacity * 2
-    const newKeys = new Uint32Array(newCapacity + 1)
+    const newKeys = new this._KeyArray(newCapacity + 1)
     const newPriorities = new Float64Array(newCapacity + 1)
     newKeys.set(this._keys)
     newPriorities.set(this._priorities)

@@ -9,7 +9,7 @@ import {
   type GpuResult,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
-import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { FixedSizeNumericMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import { bitpackBooleanArray } from 'lib/optimization/relicSetSolver'
 import { type Form } from 'types/form'
 import { type OptimizerContext } from 'types/optimizer'
@@ -152,7 +152,7 @@ export function initializeGpuPipeline(
   ]
 
   const iterations = Math.ceil(permutations / BLOCK_SIZE / CYCLES_PER_INVOCATION)
-  const resultsQueue = new FixedSizePriorityQueue<GpuResult>(RESULTS_LIMIT, (a, b) => a.value - b.value)
+  const resultsQueue = new FixedSizeNumericMinQueue(RESULTS_LIMIT)
 
   return {
     WORKGROUP_SIZE,

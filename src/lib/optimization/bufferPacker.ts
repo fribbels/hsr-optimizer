@@ -4,7 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { type FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { type FixedSizeMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 
 const SIZE = 76
@@ -320,11 +320,11 @@ export const BufferPacker = {
     } as OptimizerDisplayData
   },
 
-  extractArrayToResults: (arr: Float32Array, length: number, queueResults: FixedSizePriorityQueue<OptimizerDisplayData>, skip: number) => {
+  extractArrayToResults: (arr: Float32Array, length: number, queueResults: FixedSizeMinQueue<OptimizerDisplayData>, skip: number, gridSortColumn: keyof OptimizerDisplayData) => {
     for (let i = 0; i < length; i++) {
       if (arr[i * SIZE + 1]) { // Check HP > 0
         const character = BufferPacker.extractCharacter(arr, i, skip)
-        queueResults.fixedSizePush(character)
+        queueResults.fixedSizePush(character, character[gridSortColumn] as number)
       } else {
         // Results are packed linearly and the rest are 0s, we can exit after hitting a 0
         break

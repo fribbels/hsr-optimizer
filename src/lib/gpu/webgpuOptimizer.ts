@@ -180,7 +180,7 @@ function readBufferMapped(offset: number, gpuReadBuffer: GPUBuffer, gpuContext: 
 
 function processResults(offset: number, array: Float32Array, gpuContext: GpuExecutionContext, elementOffset: number = 0) {
   const resultsQueue = gpuContext.resultsQueue
-  let top = resultsQueue.top()?.value ?? 0
+  let top = resultsQueue.size() > 0 ? resultsQueue.topPriority() : 0
 
   let limit = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
   const maxPermNumber = offset + gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
@@ -199,10 +199,7 @@ function processResults(offset: number, array: Float32Array, gpuContext: GpuExec
       }
       if (value <= top) continue
 
-      top = resultsQueue.fixedSizePushOvercapped({
-        index: indexOffset + j,
-        value: value,
-      }).value
+      top = resultsQueue.fixedSizePushOvercapped(indexOffset + j, value)
     }
   } else {
     for (let j = limit - elementOffset - 1; j >= 0; j--) {
@@ -216,11 +213,8 @@ function processResults(offset: number, array: Float32Array, gpuContext: GpuExec
         continue
       }
 
-      resultsQueue.fixedSizePush({
-        index: indexOffset + j,
-        value: value,
-      })
-      top = resultsQueue.top()!.value
+      resultsQueue.fixedSizePush(indexOffset + j, value)
+      top = resultsQueue.topPriority()
     }
   }
 }
@@ -234,7 +228,7 @@ function processCompactResults(offset: number, count: number, mappedRange: Array
   const f32View = new Float32Array(mappedRange, 4)
 
   const resultsQueue = gpuContext.resultsQueue
-  let top = resultsQueue.top()?.value ?? 0
+  let top = resultsQueue.size() > 0 ? resultsQueue.topPriority() : 0
 
   // Split to skip size check when queue is full
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
@@ -243,10 +237,7 @@ function processCompactResults(offset: number, count: number, mappedRange: Array
       if (seenIndices?.has(globalIndex)) continue
       const value = f32View[i * 2 + 1]
       if (value <= top) continue
-      top = resultsQueue.fixedSizePushOvercapped({
-        index: globalIndex,
-        value: value,
-      }).value
+      top = resultsQueue.fixedSizePushOvercapped(globalIndex, value)
       seenIndices?.add(globalIndex)
     }
   } else {
@@ -255,11 +246,8 @@ function processCompactResults(offset: number, count: number, mappedRange: Array
       if (seenIndices?.has(globalIndex)) continue
       const value = f32View[i * 2 + 1]
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) continue
-      resultsQueue.fixedSizePush({
-        index: globalIndex,
-        value: value,
-      })
-      top = resultsQueue.top()!.value
+      resultsQueue.fixedSizePush(globalIndex, value)
+      top = resultsQueue.topPriority()
       seenIndices?.add(globalIndex)
     }
   }
@@ -315,7 +303,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
   const optimizerContext = gpuContext.context
   initializeContextConditionals(optimizerContext)
 
-  const resultArray = gpuContext.resultsQueue.toArray().sort((a, b) => b.value - a.value)
+  const resultArray = gpuContext.resultsQueue.toResults().sort((a, b) => b.value - a.value)
   const outputs: OptimizerDisplayData[] = []
   const basicStatsArrayCore = new BasicStatsArrayCore(false) as BasicStatsArray
 

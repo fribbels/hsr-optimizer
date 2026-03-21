@@ -21,7 +21,7 @@ import {
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { FixedSizePriorityQueue } from 'lib/optimization/fixedSizePriorityQueue'
+import { FixedSizeMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import {
   bitpackBooleanArray,
   generateOrnamentSetSolutions,
@@ -219,10 +219,7 @@ export const Optimizer = {
       : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)
     ) as keyof OptimizerDisplayData
     const resultsLimit = request.resultsLimit ?? 1024
-    const queueResults = new FixedSizePriorityQueue<OptimizerDisplayData>(
-      resultsLimit,
-      (a, b) => (a[gridSortColumn] as number) - (b[gridSortColumn] as number),
-    )
+    const queueResults = new FixedSizeMinQueue<OptimizerDisplayData>(resultsLimit)
 
     // Incrementally increase the optimization run sizes instead of having a fixed size, so it doesn't lag for 2 seconds on Start
     const increment = 20000
@@ -305,7 +302,7 @@ export const Optimizer = {
             // As results accumulate from completed workers, later-dispatched tasks
             // get tighter thresholds and skip more permutations.
             input.request.resultMinFilter = queueResults.size() && queueResults.size() >= request.resultsLimit!
-              ? (queueResults.top()![gridSortColumn] as number)
+              ? queueResults.topPriority()
               : 0
           },
         }).then((result) => {
@@ -319,7 +316,7 @@ export const Optimizer = {
           }
 
           const resultArr = new Float32Array(result.buffer)
-          BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, taskInput.skip)
+          BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, taskInput.skip, gridSortColumn)
 
           useOptimizerDisplayStore.getState().setPermutationsResults(queueResults.size())
           useOptimizerDisplayStore.getState().setPermutationsSearched(Math.min(permutations, searched))

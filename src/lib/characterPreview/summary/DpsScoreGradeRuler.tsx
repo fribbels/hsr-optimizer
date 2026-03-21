@@ -63,7 +63,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ score: rawS
   const strokeColor = '#666'
   const labelColor = '#999'
 
-  const CHART_WIDTH = 1060
+  const CHART_WIDTH = 1092
   const CHART_HEIGHT = 150
 
   const margin = {
@@ -101,7 +101,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ score: rawS
   const offset200 = '100%'
 
   return (
-    <div style={{ width: 1060 }}>
+    <div style={{ width: 1092 }}>
       <BarChart
         layout='vertical'
         width={CHART_WIDTH}

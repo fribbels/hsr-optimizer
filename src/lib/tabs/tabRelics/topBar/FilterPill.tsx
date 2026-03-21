@@ -1,6 +1,6 @@
 import { IconFilter } from '@tabler/icons-react'
-import { Badge, Button, Checkbox, Flex, Popover, ScrollArea, UnstyledButton } from '@mantine/core'
-import { type ReactNode, useState } from 'react'
+import { Badge, Button, Checkbox, Combobox, Flex, Group, useCombobox } from '@mantine/core'
+import { type ReactNode, useMemo, useState } from 'react'
 
 export type FilterOption<T> = {
   value: T
@@ -13,18 +13,31 @@ export function FilterPill<T extends string | number | boolean>({
   options,
   selected,
   onChange,
-  popoverWidth = 220,
+  searchable = false,
+  flex = 1,
   columns = 1,
 }: {
   label: string
   options: FilterOption<T>[]
   selected: T[]
   onChange: (values: T[]) => void
+  searchable?: boolean
+  flex?: number
   popoverWidth?: number
   columns?: number
 }) {
-  const [opened, setOpened] = useState(false)
+  const [search, setSearch] = useState('')
   const activeCount = selected.length
+
+  const combobox = useCombobox({
+    onDropdownOpen: () => {
+      if (searchable) combobox.focusSearchInput()
+    },
+    onDropdownClose: () => {
+      setSearch('')
+      combobox.resetSelectedOption()
+    },
+  })
 
   const toggle = (value: T) => {
     const next = selected.includes(value)
@@ -33,73 +46,76 @@ export function FilterPill<T extends string | number | boolean>({
     onChange(next)
   }
 
+  const filteredOptions = useMemo(() => {
+    if (!search.trim()) return options
+    const lower = search.toLowerCase().trim()
+    return options.filter((opt) => opt.label.toLowerCase().includes(lower))
+  }, [options, search])
+
   return (
-    <Popover
-      opened={opened}
-      onChange={setOpened}
-      position="bottom-start"
-      withinPortal
-      shadow="md"
+    <Combobox
+      store={combobox}
+      onOptionSubmit={(val) => {
+        // Find the option by string value and toggle it
+        const opt = options.find((o) => String(o.value) === val)
+        if (opt) toggle(opt.value)
+        // Don't close — let user select multiple
+      }}
     >
-      <Popover.Target>
+      <Combobox.Target>
         <Button
           variant={activeCount > 0 ? 'light' : 'default'}
           size="xs"
-          onClick={() => setOpened((o) => !o)}
+          onClick={() => combobox.toggleDropdown()}
           leftSection={<IconFilter size={12} />}
-          style={{ flex: 1 }}
           rightSection={activeCount > 0 ? (
             <Badge size="xs" circle variant="filled">{activeCount}</Badge>
           ) : undefined}
+          style={{ flex, minWidth: 0, width: '100%' }}
         >
           {label}
         </Button>
-      </Popover.Target>
+      </Combobox.Target>
 
-      <Popover.Dropdown p={6} style={{ width: popoverWidth }}>
-        {opened && (
-          <ScrollArea.Autosize mah={400}>
-            <Flex
-              direction={columns > 1 ? 'row' : 'column'}
-              wrap={columns > 1 ? 'wrap' : undefined}
-              gap={1}
-            >
-              {options.map((opt) => {
-                const isSelected = selected.includes(opt.value)
-                return (
-                  <UnstyledButton
-                    key={String(opt.value)}
-                    onClick={() => toggle(opt.value)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 8,
-                      padding: '4px 8px',
-                      borderRadius: 4,
-                      backgroundColor: isSelected ? 'var(--mantine-color-primary-light)' : undefined,
-                      width: columns > 1 ? `calc(${100 / columns}% - 2px)` : undefined,
-                    }}
-                  >
-                    <Checkbox
-                      size="xs"
-                      checked={isSelected}
-                      onChange={() => toggle(opt.value)}
-                      tabIndex={-1}
-                      styles={{ input: { cursor: 'pointer' } }}
-                    />
-                    {opt.icon && (
-                      <Flex align="center" justify="center" style={{ width: 22, height: 22, flexShrink: 0 }}>
-                        {opt.icon}
-                      </Flex>
-                    )}
-                    <span style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{opt.label}</span>
-                  </UnstyledButton>
-                )
-              })}
-            </Flex>
-          </ScrollArea.Autosize>
+      <Combobox.Dropdown style={{ minWidth: 'max-content' }}>
+        {searchable && (
+          <Combobox.Search
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+            placeholder="Search..."
+          />
         )}
-      </Popover.Dropdown>
-    </Popover>
+        <Combobox.Options mah={800} style={{
+          overflowY: 'auto',
+          ...(columns > 1 ? { display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)` } : {}),
+        }}>
+          {combobox.dropdownOpened && filteredOptions.map((opt) => {
+            const isSelected = selected.includes(opt.value)
+            return (
+              <Combobox.Option key={String(opt.value)} value={String(opt.value)} active={isSelected}>
+                <Group gap={8} wrap="nowrap">
+                  <Checkbox
+                    size="xs"
+                    checked={isSelected}
+                    onChange={() => {}}
+                    tabIndex={-1}
+                    styles={{ input: { cursor: 'pointer' } }}
+                  />
+                  {opt.icon && (
+                    <Flex align="center" justify="center" style={{ width: 22, height: 22, flexShrink: 0 }}>
+                      {opt.icon}
+                    </Flex>
+                  )}
+                  <span style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{opt.label}</span>
+                </Group>
+              </Combobox.Option>
+            )
+          })}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && (
+            <Combobox.Empty>No results</Combobox.Empty>
+          )}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
   )
 }

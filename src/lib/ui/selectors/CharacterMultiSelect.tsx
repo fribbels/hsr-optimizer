@@ -1,4 +1,4 @@
-import { Button, CloseButton, Flex, Modal, MultiSelect, TextInput } from '@mantine/core'
+import { Button, CloseButton, Flex, Modal, MultiSelect, Pill, PillsInput, TextInput } from '@mantine/core'
 import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
 import {
   generateElementTags,
@@ -113,20 +113,21 @@ export function CharacterMultiSelect({
     <>
       {maxDisplayedValues === 0
         ? (
-          <Button
-            variant="default"
+          <PillsInput
             size="xs"
-            style={selectStyle}
             onClick={open}
-            justify="space-between"
+            style={selectStyle}
+            styles={{ input: { cursor: 'pointer', minHeight: 'unset' } }}
             rightSection={value.size > 0 ? (
               <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(new Set()) }} />
             ) : undefined}
           >
-            {value.size > 0
-              ? `${t('MultiSelect.Placeholder')} (+${value.size})`
-              : t('MultiSelect.Placeholder')}
-          </Button>
+            <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden' }}>
+              {value.size > 0
+                ? <Pill>{t('MultiSelect.Placeholder')} +{value.size}</Pill>
+                : <PillsInput.Field placeholder={t('MultiSelect.Placeholder')} readOnly pointer />}
+            </Pill.Group>
+          </PillsInput>
         )
         : (
           <MultiSelect

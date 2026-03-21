@@ -1,12 +1,12 @@
 import { Button, Divider, Flex } from '@mantine/core'
-import { IconEraser } from '@tabler/icons-react'
+import { IconEraser, IconPlus } from '@tabler/icons-react'
 import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { FilterPillBar } from 'lib/tabs/tabRelics/topBar/FilterPillBar'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function TopBar() {
@@ -14,6 +14,7 @@ export function TopBar() {
   const setFocusCharacter = useRelicsTabStore((s) => s.setFocusCharacter)
   const resetFilters = useRelicsTabStore((s) => s.resetFilters)
   const { t } = useTranslation('relicsTab')
+  const [charSelectOpen, setCharSelectOpen] = useState(false)
 
   const handleScoringClick = useCallback(() => {
     if (focusCharacter) {
@@ -28,23 +29,41 @@ export function TopBar() {
 
   return (
     <Flex gap={10} align="stretch">
-      {/* Avatar */}
+      {/* Avatar — click opens character select */}
       <Flex align="center" justify="center" style={{ width: 72, minWidth: 72 }}>
-        <img
-          src={avatarSrc}
-          style={{
-            width: 64,
-            height: 64,
-            borderRadius: '50%',
-            border: '2px solid var(--border-color)',
-            background: 'var(--mantine-color-dark-7)',
-            objectFit: 'cover',
-            cursor: 'pointer',
-            opacity: focusCharacter ? 1 : 0.3,
-          }}
-          onClick={handleScoringClick}
-          title={t('RelicFilterBar.ScoringButton')}
-        />
+        {focusCharacter
+          ? (
+            <img
+              src={avatarSrc}
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: '50%',
+                border: '2px solid var(--border-color)',
+                background: 'var(--mantine-color-dark-7)',
+                objectFit: 'cover',
+                cursor: 'pointer',
+              }}
+              onClick={() => setCharSelectOpen(true)}
+            />
+          )
+          : (
+            <Flex
+              align="center"
+              justify="center"
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: '50%',
+                border: '2px dashed rgba(255, 255, 255, 0.25)',
+                cursor: 'pointer',
+                color: 'rgba(255, 255, 255, 0.5)',
+              }}
+              onClick={() => setCharSelectOpen(true)}
+            >
+              <IconPlus size={24} />
+            </Flex>
+          )}
       </Flex>
 
       {/* Character select (top) / Scoring algorithm (bottom) */}
@@ -53,6 +72,9 @@ export function TopBar() {
           value={focusCharacter}
           selectStyle={{ width: '100%' }}
           onChange={(id) => setFocusCharacter(id)}
+          opened={charSelectOpen}
+          onOpenChange={setCharSelectOpen}
+          showIcon={false}
         />
         <Button variant="default" onClick={handleScoringClick} size="xs" fullWidth>
           {t('RelicFilterBar.ScoringButton')}

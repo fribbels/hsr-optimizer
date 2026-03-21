@@ -83,15 +83,21 @@ export function FilterPillBar() {
     { value: false, label: 'Unverified' },
   ], [])
 
-  const setOptions: FilterOption<Sets>[] = useMemo(() => {
-    const relicSets = Object.values(SetsRelics).filter((x) => !UnreleasedSets[x])
-    const ornamentSets = Object.values(SetsOrnaments).filter((x) => !UnreleasedSets[x])
-    return [...relicSets, ...ornamentSets].map((set) => ({
+  const relicSetOptions: FilterOption<Sets>[] = useMemo(() =>
+    Object.values(SetsRelics).filter((x) => !UnreleasedSets[x]).map((set) => ({
       value: set,
       label: tSets(`${setToId[set]}.Name`),
       icon: <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 22, height: 22 }} />,
-    }))
-  }, [tSets])
+    })),
+  [tSets])
+
+  const ornamentSetOptions: FilterOption<Sets>[] = useMemo(() =>
+    Object.values(SetsOrnaments).filter((x) => !UnreleasedSets[x]).map((set) => ({
+      value: set,
+      label: tSets(`${setToId[set]}.Name`),
+      icon: <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 22, height: 22 }} />,
+    })),
+  [tSets])
 
   const mainStatOptions: FilterOption<MainStats>[] = useMemo(() =>
     Constants.MainStats.map((stat) => ({
@@ -121,43 +127,50 @@ export function FilterPillBar() {
 
   return (
     <Flex direction="column" gap={6} flex={1} justify="center">
-      {/* Row 1: Filter pills + trailing spacer to align with row 2's help icon (16px) */}
-      <Flex gap={5} align="center">
+      {/* 8-column grid for both rows so widths align perfectly */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr) auto', gap: 5, alignItems: 'center' }}>
+        {/* Row 1: 8 × 1-unit pills */}
         <FilterPill label={t('RelicFilterBar.Part')} options={partOptions} selected={filters.part} onChange={setFilter('part')} />
-        <FilterPill label={t('RelicFilterBar.Set')} options={setOptions} selected={filters.set} onChange={setFilter('set')} popoverWidth={280} />
+        <FilterPill label={t('RelicFilterBar.Mainstat')} options={mainStatOptions} selected={filters.mainStat} onChange={setFilter('mainStat')} searchable />
+        <FilterPill label="Sub stats" options={subStatOptions} selected={filters.subStat} onChange={setFilter('subStat')} popoverWidth={260} />
+        <FilterPill label={t('RelicFilterBar.Enhance')} options={enhanceOptions} selected={filters.enhance} onChange={setFilter('enhance')} />
         <FilterPill label={t('RelicFilterBar.Grade')} options={gradeOptions} selected={filters.grade} onChange={setFilter('grade')} />
-        <FilterPill label={t('RelicFilterBar.Enhance')} options={enhanceOptions} selected={filters.enhance} onChange={setFilter('enhance')} columns={2} />
-        <FilterPill label={t('RelicFilterBar.InitialRolls')} options={initialRollsOptions} selected={filters.initialRolls} onChange={setFilter('initialRolls')} />
-        <FilterPill label={t('RelicFilterBar.Mainstat')} options={mainStatOptions} selected={filters.mainStat} onChange={setFilter('mainStat')} popoverWidth={260} />
-        <FilterPill label={t('RelicFilterBar.Substat')} options={subStatOptions} selected={filters.subStat} onChange={setFilter('subStat')} popoverWidth={260} />
+        <FilterPill label="Initial rolls" options={initialRollsOptions} selected={filters.initialRolls} onChange={setFilter('initialRolls')} />
         <FilterPill label={t('RelicFilterBar.Equipped')} options={equippedOptions} selected={filters.equipped} onChange={setFilter('equipped')} />
         <FilterPill label={t('RelicFilterBar.Verified')} options={verifiedOptions} selected={filters.verified} onChange={setFilter('verified')} />
-        <TooltipImage type={Hint.relics()} />
-      </Flex>
+        <Flex ml={4}><TooltipImage type={Hint.relics()} /></Flex>
 
-      {/* Row 2: Custom characters + Ratings + Help */}
-      <Flex gap={5} align="center">
-        <CharacterMultiSelect
-          value={excludedCharactersSet}
-          selectStyle={{ flex: 1 }}
-          onChange={onExcludedCharactersChange}
-          maxDisplayedValues={0}
-        />
-        <MultiSelectPills
-          clearable
-          size="xs"
-          value={valueColumns}
-          onChange={(values) => setValueColumns(values as typeof valueColumns)}
-          data={valueColumnOptions.map((group) => ({
-            group: group.label,
-            items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
-          }))}
-          style={{ flex: 1 }}
-          maxDropdownHeight={750}
-          dropdownWidth="fit-content"
-        />
-        <TooltipImage type={Hint.valueColumns()} />
-      </Flex>
+        {/* Row 2: 4 × 2-unit items (each spans 2 grid columns) */}
+        <div style={{ gridColumn: 'span 2' }}>
+          <FilterPill label="Relic sets" options={relicSetOptions} selected={filters.set} onChange={setFilter('set')} searchable columns={2} />
+        </div>
+        <div style={{ gridColumn: 'span 2' }}>
+          <FilterPill label="Ornament sets" options={ornamentSetOptions} selected={filters.set} onChange={setFilter('set')} searchable columns={2} />
+        </div>
+        <div style={{ gridColumn: 'span 2' }}>
+          <CharacterMultiSelect
+            value={excludedCharactersSet}
+            selectStyle={{ width: '100%' }}
+            onChange={onExcludedCharactersChange}
+            maxDisplayedValues={0}
+          />
+        </div>
+        <div style={{ gridColumn: 'span 2' }}>
+          <MultiSelectPills
+            clearable
+            size="xs"
+            value={valueColumns}
+            onChange={(values) => setValueColumns(values as typeof valueColumns)}
+            data={valueColumnOptions.map((group) => ({
+              group: group.label,
+              items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
+            }))}
+            maxDropdownHeight={750}
+            dropdownWidth="fit-content"
+          />
+        </div>
+        <Flex ml={4}><TooltipImage type={Hint.valueColumns()} /></Flex>
+      </div>
     </Flex>
   )
 }

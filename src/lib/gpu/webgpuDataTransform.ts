@@ -47,7 +47,7 @@ export function generateParamsMatrix(
     b,
     g,
     h,
-    gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? (gpuContext.resultsQueue.top()?.value ?? 0) : 0,
+    gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? gpuContext.resultsQueue.topPriority() : 0,
     permLimit,
   ])
 }

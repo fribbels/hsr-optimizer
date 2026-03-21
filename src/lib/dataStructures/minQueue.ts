@@ -58,6 +58,33 @@ export class MinQueue {
     return this._keys[1]
   }
 
+  /** Returns the root key (min element). Flushes any pending lazy-pop first. */
+  peekKey(): number {
+    this._flushPoppedElement()
+    return this._keys[1]
+  }
+
+  /** Returns the root priority (min element). Flushes any pending lazy-pop first. */
+  peekPriority(): number {
+    this._flushPoppedElement()
+    return this._priorities[1]
+  }
+
+  /** Ensures the heap is in a consistent state (flushes pending lazy-pop). */
+  flush(): void {
+    this._flushPoppedElement()
+  }
+
+  /** Raw key access by heap-internal index (1-indexed). Does NOT flush — call flush() first if needed. */
+  keyAt(index: number): number {
+    return this._keys[index]
+  }
+
+  /** Raw priority access by heap-internal index (1-indexed). Does NOT flush — call flush() first if needed. */
+  priorityAt(index: number): number {
+    return this._priorities[index]
+  }
+
   private _bubbleUp(pos: number): void {
     const key = this._keys[pos]
     const priority = this._priorities[pos]

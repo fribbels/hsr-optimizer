@@ -1,4 +1,4 @@
-import { MinQueue } from 'lib/worker/maxima/tree/minQueue'
+import { MinQueue } from 'lib/dataStructures/minQueue'
 import { SubStats } from 'lib/constants/constants'
 import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
 import {

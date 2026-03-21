@@ -179,7 +179,7 @@ export function MultiSelectPills({
                   {overflowCount > 0 && <Pill style={pillStyle}>+{overflowCount}</Pill>}
                 </>
               )
-              : <Input.Placeholder>{placeholder}</Input.Placeholder>}
+              : <Input.Placeholder style={{ height: 'var(--pill-height, 22px)', display: 'flex', alignItems: 'center' }}>{placeholder}</Input.Placeholder>}
 
             <Combobox.EventsTarget>
               <PillsInput.Field

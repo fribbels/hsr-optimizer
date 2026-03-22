@@ -40,8 +40,8 @@ export function WarpCalculatorTab() {
 function sanitizeWarpRequest(warpRequest: WarpRequest) {
   if (!warpRequest) return { ...DEFAULT_WARP_REQUEST }
 
-  // Object.assign produces a new object — safe from mutating store state (WARP-1)
-  const sanitized = Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
+  // Spread produces a new object — safe from mutating store state (WARP-1)
+  const sanitized = { ...DEFAULT_WARP_REQUEST, ...warpRequest }
 
   // Filter to only valid IDs instead of clearing all selections (WARP-2)
   if (!Array.isArray(sanitized.income)) {

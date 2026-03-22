@@ -107,11 +107,11 @@ export function syncShowcaseUrl(): void {
 export function handleCharacterModalOk(form: CharacterModalForm): void {
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
 
-  if (!form.characterId) {
+  if (!form.characterId || !form.lightCone) {
     return Message.error(t('NoCharacterSelected') /* No selected character */)
   }
 
-  // Safe cast: applyCharacterOverride spreads form fields — CharacterModalForm fields are the subset it needs
+  // Safe cast: after guards, characterId and lightCone are non-null
   useShowcaseTabStore.getState().applyCharacterOverride(form as ShowcaseTabCharacter['form'])
 }
 

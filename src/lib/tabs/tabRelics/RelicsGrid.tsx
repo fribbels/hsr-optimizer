@@ -73,7 +73,7 @@ export function RelicsGrid() {
   const gridRef = useRef<AgGridReact<ScoredRelic>>(null)
   useEffect(() => {
     gridStore.setRelicsGrid(gridRef)
-  }, [gridRef])
+  }, [])
 
   // Defer scoring until the tab is visible — avoids ~1s main thread block on hidden mount.
   const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)

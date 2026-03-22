@@ -96,7 +96,10 @@ export function displayToInternal(state: OptimizerRequestState): Form {
     // Conditionals
     characterConditionals: state.characterConditionals,
     lightConeConditionals: state.lightConeConditionals,
-    setConditionals: state.setConditionals,
+    // Deep-clone tuples to prevent downstream mutation of store state (FORM-1)
+    setConditionals: Object.fromEntries(
+      Object.entries(state.setConditionals).map(([k, v]) => [k, [...v]]),
+    ) as typeof state.setConditionals,
 
     // Relic filters
     enhance: state.enhance,

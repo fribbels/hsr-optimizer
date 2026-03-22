@@ -11,6 +11,7 @@ type RelicStoreState = {
 type RelicStoreActions = {
   setRelics: (relics: Relic[]) => void
   upsertRelic: (relic: Relic) => void
+  batchUpsertRelics: (relics: Relic[]) => void
   deleteRelic: (id: string) => void
 }
 
@@ -37,6 +38,18 @@ export const useRelicStore = createTabAwareStore<RelicStore>((set, get) => ({
     const relicsById = { ...get().relicsById, [relic.id]: relic }
     const relics = Object.values(relicsById).filter(ArrayFilters.nonNullable)
     set({ relicsById, relics })
+  },
+
+  batchUpsertRelics: (relics) => {
+    const relicsById = { ...get().relicsById }
+    let nextAgeIndex = (get().relics.at(-1)?.ageIndex ?? -1) + 1
+    for (const relic of relics) {
+      if (relic.ageIndex == null) {
+        relic.ageIndex = nextAgeIndex++
+      }
+      relicsById[relic.id] = relic
+    }
+    set({ relicsById, relics: Object.values(relicsById).filter(ArrayFilters.nonNullable) })
   },
 
   deleteRelic: (id) => {

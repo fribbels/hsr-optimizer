@@ -29,7 +29,6 @@ type CharacterTabValues = {
 type CharacterTabActions = {
   setFocusCharacter: (focusCharacter: CharacterId | null) => void,
 
-  setFilters: (filters: CharacterTabFilters) => void,
   setNameFilter: (name: CharacterTabFilters['name']) => void,
   setElementFilter: (element: CharacterTabFilters['element']) => void,
   setPathFilter: (path: CharacterTabFilters['path']) => void,
@@ -49,7 +48,6 @@ export const useCharacterTabStore = createTabAwareStore<CharacterTabState>((set)
       return { focusCharacter }
     }),
 
-  setFilters: (filters) => set({ filters }),
   setNameFilter: (name) => set((s) => ({ filters: { ...s.filters, name } })),
   setElementFilter: (element) => set((s) => ({ filters: { ...s.filters, element } })),
   setPathFilter: (path) => set((s) => ({ filters: { ...s.filters, path } })),

@@ -66,7 +66,7 @@ describe('useOptimizerRequestStore', () => {
       state().setComboTurnAbilities(['BASIC' as any, 'SKILL' as any])
       state().setComboPreprocessor(false)
       state().setDeprioritizeBuffs(true)
-      state().setResultSort('BASIC' as any)
+      state().setResultSort('BASIC')
       state().setResultsLimit(2048)
       state().setStatSim({ key: 'test', benchmarks: {}, substatRolls: {} } as any)
       state().setEnemyField('enemyLevel', 80)
@@ -263,26 +263,80 @@ describe('useOptimizerRequestStore', () => {
     })
   })
 
-  describe('setConditionals immutability', () => {
-    // FORM-1 (HIGH): displayToInternal returns state.setConditionals by reference.
-    // Downstream code (applyTeamAwareSetConditionalPresetsToStore) mutates tuples in-place,
-    // corrupting store state outside of set().
-    // This test asserts CORRECT behavior: displayToInternal should return cloned setConditionals.
-    it('displayToInternal returns a cloned setConditionals, not a reference to store state (FORM-1)', () => {
-      // Set a conditional in the store
+  describe('displayToInternal immutability', () => {
+    // FORM-1: displayToInternal must return cloned objects, not references to store state.
+    // Downstream code mutates the returned form — shared references would corrupt the store.
+    it('displayToInternal returns cloned setConditionals tuples (FORM-1)', () => {
       state().setSetConditional(Sets.BrokenKeel, 1)
-      const storeConditionals = state().setConditionals
-
-      // Get the form via displayToInternal
       const form = displayToInternal(state())
 
-      // Mutate the form's setConditionals (simulating what applyTeamAwareSetConditionalPresets does)
       form.setConditionals[Sets.BrokenKeel][1] = 999
-
-      // The store's state should NOT be affected
       expect(state().setConditionals[Sets.BrokenKeel][1]).toBe(1)
-      // Also verify against our earlier snapshot
-      expect(storeConditionals[Sets.BrokenKeel][1]).toBe(1)
+    })
+
+    it('displayToInternal returns cloned characterConditionals', () => {
+      state().setCharacterConditionals({ ability1: true, ability2: 3 })
+      const form = displayToInternal(state())
+
+      form.characterConditionals['ability1'] = false
+      expect(state().characterConditionals['ability1']).toBe(true)
+    })
+
+    it('displayToInternal returns cloned lightConeConditionals', () => {
+      state().setLightConeConditionals({ passive1: 5 })
+      const form = displayToInternal(state())
+
+      form.lightConeConditionals['passive1'] = 999
+      expect(state().lightConeConditionals['passive1']).toBe(5)
+    })
+
+    it('displayToInternal returns cloned weights', () => {
+      state().setWeight('HP%', 0.5)
+      const form = displayToInternal(state())
+
+      form.weights['HP%'] = 999
+      expect(state().weights['HP%']).toBe(0.5)
+    })
+  })
+
+  describe('loadForm', () => {
+    it('loadForm populates store state from a Form object', () => {
+      state().loadForm({
+        characterId: Kafka.id,
+        characterEidolon: 6,
+        lightCone: LC_ALONG_THE_PASSING_SHORE,
+        lightConeSuperimposition: 5,
+        enhance: 15,
+        grade: 4,
+      } as any)
+
+      expect(state().characterId).toBe(Kafka.id)
+      expect(state().characterEidolon).toBe(6)
+      expect(state().lightCone).toBe(LC_ALONG_THE_PASSING_SHORE)
+      expect(state().lightConeSuperimposition).toBe(5)
+      expect(state().enhance).toBe(15)
+      expect(state().grade).toBe(4)
+    })
+
+    it('loadForm fills missing fields with defaults from createDefaultFormState', () => {
+      state().loadForm({ characterId: Kafka.id } as any)
+
+      // Fields not in the form should be defaults
+      expect(state().enhance).toBe(9)
+      expect(state().grade).toBe(5)
+      expect(state().includeEquippedRelics).toBe(true)
+      expect(state().teammates).toHaveLength(3)
+    })
+
+    it('loadForm merges setConditionals from form with defaults for missing set keys', () => {
+      const partialSetConditionals = { [Sets.BrokenKeel]: [undefined, 99] } as any
+      state().loadForm({ setConditionals: partialSetConditionals } as any)
+
+      // The provided key should be present
+      expect(state().setConditionals[Sets.BrokenKeel]).toEqual([undefined, 99])
+      // Other sets should have defaults (from createDefaultFormState)
+      const keys = Object.keys(state().setConditionals)
+      expect(keys.length).toBeGreaterThan(1)
     })
   })
 })

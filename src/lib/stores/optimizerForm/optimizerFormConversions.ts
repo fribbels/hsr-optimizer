@@ -168,8 +168,8 @@ function teammateStateToTeammate(ts: TeammateState): Teammate {
     lightConeSuperimposition: ts.lightConeSuperimposition,
     teamRelicSet: ts.teamRelicSet,
     teamOrnamentSet: ts.teamOrnamentSet,
-    characterConditionals: ts.characterConditionals,
-    lightConeConditionals: ts.lightConeConditionals,
+    characterConditionals: { ...ts.characterConditionals },
+    lightConeConditionals: { ...ts.lightConeConditionals },
   } as Teammate
 }
 

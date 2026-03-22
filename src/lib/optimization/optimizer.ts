@@ -323,9 +323,11 @@ export const Optimizer = {
           const resultArr = new Float32Array(result.buffer)
           BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, taskInput.skip, gridSortColumn)
 
-          useOptimizerDisplayStore.getState().setPermutationsResults(queueResults.size())
-          useOptimizerDisplayStore.getState().setPermutationsSearched(Math.min(permutations, searched))
-          useOptimizerDisplayStore.getState().setOptimizerEndTime(Date.now())
+          useOptimizerDisplayStore.setState({
+            permutationsResults: queueResults.size(),
+            permutationsSearched: Math.min(permutations, searched),
+            optimizerEndTime: Date.now(),
+          })
 
           // Release buffers after extraction is complete
           releaseBuffer(result.buffer)

@@ -67,7 +67,6 @@ export function updateTeammate(changedValues: Partial<Form>) {
       characterConditionalsValues = Object.assign({}, characterConditionals.teammateDefaults(), characterConditionalsValues)
     }
 
-    // FORM-INC-2: Batch all teammate fields into a single state update (was 7 sequential setTeammateField calls)
     useOptimizerRequestStore.getState().setTeammate(teammateIndex, {
       characterId: teammateCharacterId,
       characterEidolon,

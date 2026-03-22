@@ -319,7 +319,6 @@ export function resetFilters(): void {
     mainPlanarSphere: [],
   }
 
-  // FORM-INC-1: Removed redundant store resetFilters() — loadForm() overwrites all the same fields
   useOptimizerRequestStore.getState().loadForm(newForm as Form)
 }
 

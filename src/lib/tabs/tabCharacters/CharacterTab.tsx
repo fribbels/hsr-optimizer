@@ -1,4 +1,5 @@
 import { Flex } from '@mantine/core'
+import { debugLog } from 'lib/debug/renderDebug'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
@@ -16,6 +17,7 @@ import { defaultGap, parentH } from 'lib/constants/constantsUi'
 export function CharacterTab() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
+  debugLog('CharacterTab', `render: focusCharacter=${focusCharacter} selectedCharacter=${selectedCharacter?.id}`)
 
   // CharacterPreview calls setInitialCharacter(char) then setOpen(true) sequentially.
   // We open the overlay on setInitialCharacter and ignore setOpen(true) since it's already open.

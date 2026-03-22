@@ -1,4 +1,5 @@
 import { Alert, Divider, Flex } from '@mantine/core'
+import { debugLog, renderLog } from 'lib/debug/renderDebug'
 import classes from './CharacterScoringSummary.module.css'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
 import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
@@ -115,6 +116,7 @@ function ScoringColumn(props: {
   characterMetadata: { path: string }
 
 }) {
+  renderLog(`ScoringColumn[${props.type}]`)
   const { t } = useTranslation(['charactersTab', 'common'])
 
   const simulation = useMemo(() => clone(props.simulation), [props.simulation])
@@ -256,6 +258,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   )
 
   const phase = useProgressivePhase(result, 4)
+  debugLog('CharacterScoringSummary', `render: phase=${phase} hasResult=${!!result}`)
 
   // Derived values — computed safely with optional chaining so hooks below can run
   // unconditionally (React requires hooks to be called in the same order every render).

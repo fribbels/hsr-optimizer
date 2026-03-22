@@ -7,9 +7,6 @@ export function StatText(props: StatTextProps) {
   return <div className={classes.statText} {...props} />
 }
 
-export function StatTextEllipses(props: StatTextProps) {
-  return <div className={classes.statTextEllipses} {...props} />
-}
 
 export function StatTextSm(props: StatTextProps) {
   return <div className={classes.statTextSm} {...props} />

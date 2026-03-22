@@ -242,10 +242,12 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
     enemyElementalWeak: form.enemyElementalWeak,
     enemyWeaknessBroken: form.enemyWeaknessBroken,
 
-    // Conditionals
-    characterConditionals: form.characterConditionals ?? {},
-    lightConeConditionals: form.lightConeConditionals ?? {},
-    setConditionals: form.setConditionals ?? defaultSetConditionals,
+    // Conditionals — shallow-clone to prevent shared references with character store (mirrors displayToInternal)
+    characterConditionals: { ...(form.characterConditionals ?? {}) },
+    lightConeConditionals: { ...(form.lightConeConditionals ?? {}) },
+    setConditionals: Object.fromEntries(
+      Object.entries(form.setConditionals ?? defaultSetConditionals).map(([k, v]) => [k, [...v]]),
+    ) as typeof defaultSetConditionals,
 
     // Relic filters
     enhance: form.enhance,
@@ -266,8 +268,8 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
     statDisplay: form.statDisplay,
     memoDisplay: form.memoDisplay,
 
-    // Weights
-    weights: form.weights,
+    // Weights — shallow-clone to prevent shared references (mirrors displayToInternal)
+    weights: { ...(form.weights ?? {}) },
 
     // Combat buffs (internal → display: multiply percent buffs by 100)
     combatBuffs: convertCombatBuffsToDisplay(form.combatBuffs),

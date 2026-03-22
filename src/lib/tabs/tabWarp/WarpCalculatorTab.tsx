@@ -40,12 +40,19 @@ export function WarpCalculatorTab() {
 function sanitizeWarpRequest(warpRequest: WarpRequest) {
   if (!warpRequest) return { ...DEFAULT_WARP_REQUEST }
 
-  if (!Array.isArray(warpRequest.income)
-    || !warpRequest.income.every((incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId))) {
-    warpRequest.income = []
+  // Clone before mutating to avoid writing to Zustand store state directly (WARP-1)
+  const sanitized = { ...warpRequest }
+
+  if (!Array.isArray(sanitized.income)) {
+    sanitized.income = []
+  } else {
+    // Filter to only valid IDs instead of clearing all selections (WARP-2)
+    sanitized.income = sanitized.income.filter((incomeId) =>
+      WarpIncomeOptions.some((option) => option.id === incomeId),
+    )
   }
 
-  return Object.assign({}, DEFAULT_WARP_REQUEST, warpRequest)
+  return Object.assign({}, DEFAULT_WARP_REQUEST, sanitized)
 }
 
 function Inputs() {

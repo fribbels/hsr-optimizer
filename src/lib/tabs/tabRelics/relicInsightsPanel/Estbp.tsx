@@ -20,6 +20,8 @@ export const EstbpCard = memo(({ width }: { width?: number }) => {
     })),
   )
 
+  console.log('[P9] EstbpCard RENDER — subscribes to s.selectedRelic (full object in store)')
+
   const weights = useScoringMetadata(focusCharacter)
 
   const computeFn = useMemo(() => {

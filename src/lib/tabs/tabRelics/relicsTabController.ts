@@ -33,6 +33,7 @@ export const RelicsTabController = {
     if (!relic) return
     const { setSelectedRelicsIds, setRelicModalOpen } = useRelicsTabStore.getState()
     setSelectedRelicsIds([relic.id])
+    console.log('[P6] onRowDoubleClicked — calling setRelicModalOpen(true) which is DEAD CODE (nothing reads relicModalOpen)')
     setRelicModalOpen(true)
   },
 
@@ -48,12 +49,14 @@ export const RelicsTabController = {
     const { selectedRelicId, setRelicModalOpen } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
     if (!selectedRelicId) return Message.error(t('NoRelicSelected') /* No relic selected */)
+    console.log('[P6] editClicked — calling setRelicModalOpen(true) which is DEAD CODE (nothing reads relicModalOpen)')
     setRelicModalOpen(true)
   },
 
   addClicked() {
     const { setSelectedRelicsIds, setRelicModalOpen } = useRelicsTabStore.getState()
     setSelectedRelicsIds([])
+    console.log('[P6] addClicked — calling setRelicModalOpen(true) which is DEAD CODE (nothing reads relicModalOpen)')
     setRelicModalOpen(true)
   },
 

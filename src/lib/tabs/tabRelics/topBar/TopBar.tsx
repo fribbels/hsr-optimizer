@@ -23,6 +23,8 @@ export function TopBar() {
     setOpen(OpenCloseIDs.SCORING_MODAL)
   }, [focusCharacter])
 
+  console.log('[TopBar] RENDER')
+
   const avatarSrc = focusCharacter
     ? Assets.getCharacterAvatarById(focusCharacter)
     : Assets.getBlank()

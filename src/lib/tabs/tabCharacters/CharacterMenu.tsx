@@ -41,7 +41,7 @@ export function CharacterMenu() {
       <Menu trigger='click' position='top-start' width="target">
         <Menu.Target>
           <Button
-            style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 6 }}
+            style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 4 }}
             leftSection={<IconUser size={16} />}
             variant='default'
           >

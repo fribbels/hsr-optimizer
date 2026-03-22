@@ -34,8 +34,12 @@ export function RelicInsightsPanel({ containerWidth, containerHeight }: {
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
 
+  console.log('[P4/P10] RelicInsightsPanel RENDER — not memo, scoringMetadataOverrides ref dep')
+
   const scores: Score[] = useMemo(() => {
     if (!selectedRelic) return []
+    const charCount = Object.values(getGameMetadata().characters).filter((x) => !buffedCharacters[x.id]).length
+    console.log(`[P4] RelicInsightsPanel scores useMemo RECOMPUTING — scoring ${charCount} characters`)
     return Object.values(getGameMetadata().characters)
       .filter((x) => {
         if (buffedCharacters[x.id]) return false

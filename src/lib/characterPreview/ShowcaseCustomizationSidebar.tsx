@@ -45,7 +45,6 @@ import { getSelectedCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import React, {
   memo,
-  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -98,9 +97,14 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
     const spdValue = scoringMetadata.stats[Stats.SPD]
     const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
 
-    // Local color state for responsive ColorInput during drag — store only updates on drag end
+    // Local color state for responsive ColorInput during drag — store only updates on drag end.
+    // setState-during-render pattern (React 19) — syncs local state without an extra effect render.
     const [localColor, setLocalColor] = useState(seedColor)
-    useEffect(() => { setLocalColor(seedColor) }, [seedColor])
+    const [prevSeedColor, setPrevSeedColor] = useState(seedColor)
+    if (seedColor !== prevSeedColor) {
+      setPrevSeedColor(seedColor)
+      setLocalColor(seedColor)
+    }
 
     function onColorDrag(newColor: string) {
       setLocalColor(newColor)

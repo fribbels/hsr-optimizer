@@ -14,6 +14,8 @@ export type ScoringExecution = {
 }
 
 const IDLE: ScoringExecution = { done: true, result: null }
+const PENDING: ScoringExecution = { done: false, result: null }
+const FAILED: ScoringExecution = { done: true, result: null }
 
 export function useScoringExecution(
   cacheKey: string | null,
@@ -38,8 +40,8 @@ export function useScoringExecution(
   const execution = useMemo((): ScoringExecution => {
     if (!cacheKey) return IDLE
     if (result) return { done: true, result }
-    if (hasExceededRetries(cacheKey)) return { done: true, result: null }
-    return { done: false, result: null }
+    if (hasExceededRetries(cacheKey)) return FAILED
+    return PENDING
   }, [cacheKey, result])
 
   debugLog('useScoringExecution', `render: result=${result ? 'HIT' : 'MISS'} done=${execution.done}`)

@@ -38,6 +38,17 @@ export type ShowcaseTheme = {
   cardBorderColor: string,
 }
 
+const PLACEHOLDER_RELIC: Partial<Relic> = {
+  enhance: 0,
+  part: undefined,
+  set: undefined,
+  grade: 0,
+  substats: [],
+  previewSubstats: [],
+  main: undefined,
+  equippedBy: undefined,
+}
+
 export const RelicPreview = memo(function RelicPreview(props: {
   relic?: Relic | null,
   source?: ShowcaseSource,
@@ -70,18 +81,8 @@ export const RelicPreview = memo(function RelicPreview(props: {
     unhoverable,
     compact,
   } = props
-  const placeholderRelic: Partial<Relic> = {
-    enhance: 0,
-    part: undefined,
-    set: undefined,
-    grade: 0,
-    substats: [],
-    previewSubstats: [],
-    main: undefined,
-    equippedBy: undefined,
-  }
   const relic: Relic = {
-    ...placeholderRelic,
+    ...PLACEHOLDER_RELIC,
     ...props.relic,
   } as Relic
 
@@ -122,7 +123,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
         padding: 12,
         backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : undefined,
         borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,
-        transition: showcaseTransition(),
+        transition: showcaseTransition,
         borderRadius: 6,
         boxShadow: source == null ? 'inset 0 0 0 1px var(--border-color)' : showcaseShadow + showcaseShadowInsetAddition,
         cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',

@@ -13,25 +13,26 @@ export function useProgressivePhase(key: unknown, maxPhase: number): number {
   const [phase, setPhase] = useState(0)
   const prevKeyRef = useRef<unknown>(undefined)
 
-  // Reset phase when key changes (inline setState during render — React 19 pattern)
-  if (key != null && key !== prevKeyRef.current) {
+  // When key changes, return 0 immediately via ref detection — no setState needed.
+  // The rAF effect below will advance from 0 on the next frame.
+  const keyJustChanged = key != null && key !== prevKeyRef.current
+  if (keyJustChanged) {
     prevKeyRef.current = key
-    if (phase !== 0) {
-      debugLog('useProgressivePhase', `key changed, reset phase ${phase} → 0 (maxPhase=${maxPhase})`)
-      setPhase(0)
-    }
+    debugLog('useProgressivePhase', `key changed, returning phase 0 (maxPhase=${maxPhase})`)
   }
+
+  const effectivePhase = keyJustChanged ? 0 : phase
 
   // Advance one phase per animation frame
   useEffect(() => {
-    if (key == null || phase >= maxPhase) return
-    debugLog('useProgressivePhase', `scheduling rAF: phase ${phase} → ${phase + 1} (maxPhase=${maxPhase})`)
+    if (key == null || effectivePhase >= maxPhase) return
+    debugLog('useProgressivePhase', `scheduling rAF: phase ${effectivePhase} → ${effectivePhase + 1} (maxPhase=${maxPhase})`)
     const id = requestAnimationFrame(() => {
-      debugLog('useProgressivePhase', `rAF fired: advancing phase ${phase} → ${phase + 1} (maxPhase=${maxPhase})`)
-      setPhase((p) => Math.min(p + 1, maxPhase))
+      debugLog('useProgressivePhase', `rAF fired: advancing to phase ${effectivePhase + 1} (maxPhase=${maxPhase})`)
+      setPhase(effectivePhase + 1)
     })
     return () => cancelAnimationFrame(id)
-  }, [key, phase, maxPhase])
+  }, [key, effectivePhase, maxPhase])
 
-  return phase
+  return effectivePhase
 }

@@ -10,13 +10,15 @@ import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import type { CharacterId } from 'types/character'
+import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
 import type { Form } from 'types/form'
 
 export const CharacterTabController = {
-  onCharacterModalOk: (form: Form) => {
+  onCharacterModalOk: (form: CharacterModalForm) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
     if (!form.characterId) return Message.error(t('NoSelectedCharacter'))
-    const character = persistenceService.upsertCharacterFromForm(form)
+    // Safe cast: upsertCharacterFromForm spreads form into character.form — CharacterModalForm fields are a subset of Form
+    const character = persistenceService.upsertCharacterFromForm(form as Form)
     SaveState.delayedSave()
     useCharacterTabStore.getState().setFocusCharacter(character.id)
   },

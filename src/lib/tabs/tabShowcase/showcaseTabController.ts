@@ -12,6 +12,7 @@ import { SaveState } from 'lib/state/saveState'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
 import { getSelectedCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
@@ -103,14 +104,15 @@ export function syncShowcaseUrl(): void {
  * Keep: null characterId check.
  * Dropped: duplicate character restriction (users can simulate same character on multiple slots).
  */
-export function handleCharacterModalOk(form: ShowcaseTabCharacter['form']): void {
+export function handleCharacterModalOk(form: CharacterModalForm): void {
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
 
   if (!form.characterId) {
     return Message.error(t('NoCharacterSelected') /* No selected character */)
   }
 
-  useShowcaseTabStore.getState().applyCharacterOverride(form)
+  // Safe cast: applyCharacterOverride spreads form fields — CharacterModalForm fields are the subset it needs
+  useShowcaseTabStore.getState().applyCharacterOverride(form as ShowcaseTabCharacter['form'])
 }
 
 /**

@@ -43,7 +43,7 @@ import {
   type Character,
   type CharacterId,
 } from 'types/character'
-import { type Form } from 'types/form'
+import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
 import { type PreparedState } from 'lib/scoring/scoringService'
 import { type SimulationMetadata } from 'types/metadata'
 import { truncate10ths } from 'lib/utils/mathUtils'
@@ -137,7 +137,7 @@ function CharacterPreviewScoringTeammate({
         if (readonly) return
         setSelectedTeammateIndex(index)
         useCharacterModalStore.getState().openOverlay({
-          initialCharacter: { form: teammate } as Character,
+          initialCharacter: { form: teammate },
           onOk: createOnCharacterModalOk(characterId, index, teamSelection),
         })
       }}
@@ -228,7 +228,7 @@ function createOnCharacterModalOk(
   selectedTeammateIndex: number,
   teamSelection: string,
 ) {
-  return (form: Form) => {
+  return (form: CharacterModalForm) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'CharacterPreview.Messages')
     if (!form.characterId) {
       return Message.error(t('NoSelectedCharacter') /* No selected character */)
@@ -239,7 +239,8 @@ function createOnCharacterModalOk(
 
     const simulation = getScoringMetadata(characterId).simulation
 
-    const update = { teammates: simulation?.teammates.map((tm, idx) => idx === selectedTeammateIndex ? form : tm) }
+    // Safe cast: after guards above, characterId and lightCone are known non-null, matching the teammate shape
+    const update = { teammates: simulation?.teammates.map((tm, idx) => idx === selectedTeammateIndex ? form as typeof tm : tm) }
 
     const setTeamSelectionByCharacter = useShowcaseTabStore.getState().setShowcaseTeamPreference
     useScoringStore.getState().updateSimulationOverrides(characterId, update)

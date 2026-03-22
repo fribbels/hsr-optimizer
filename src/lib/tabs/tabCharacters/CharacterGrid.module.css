@@ -204,8 +204,8 @@
 }
 
 .subtitleBadge {
-  font-size: calc(var(--mantine-font-size-xs) - 1px);
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 500;
   font-family: var(--mantine-font-family-monospace, monospace);
   color: var(--cr-text-secondary);
 }
@@ -369,7 +369,5 @@
   flex-shrink: 0;
   vertical-align: middle;
   margin-left: 3px;
-  position: relative;
-  top: 1px;
 }
 

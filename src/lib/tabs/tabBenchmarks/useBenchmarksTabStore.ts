@@ -1,8 +1,8 @@
 
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
 import type { CharacterId } from 'types/character'
-import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import type {
@@ -65,7 +65,7 @@ type BenchmarksTabState = {
   orchestrators: BenchmarkSimulationOrchestrator[],
 
   updateTeammate: (index: number, data?: SimpleCharacterSets) => void,
-  onCharacterModalOk: (character: Form) => void,
+  onCharacterModalOk: (character: CharacterModalForm) => void,
 
   setSelectedTeammateIndex: (index: number | undefined) => void,
   setResults: (
@@ -98,11 +98,12 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
       }
     }),
 
-  onCharacterModalOk: (form: Form) => {
+  onCharacterModalOk: (form: CharacterModalForm) => {
     const character: SimpleCharacterSets = {
-      characterId: form.characterId,
+      // Safe cast: characterId and lightCone are expected to be set by the modal form
+      characterId: form.characterId as CharacterId,
       characterEidolon: form.characterEidolon,
-      lightCone: form.lightCone,
+      lightCone: form.lightCone as LightConeId,
       lightConeSuperimposition: form.lightConeSuperimposition,
       teamRelicSet: form.teamRelicSet,
       teamOrnamentSet: form.teamOrnamentSet,

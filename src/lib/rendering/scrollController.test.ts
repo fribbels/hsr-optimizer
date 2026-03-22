@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { scrollLock, scrollUnlock, _getLockCount, _resetLockCount } from './scrollController'
+import { scrollLock, scrollUnlock, _getLockCount, _resetForTesting } from './scrollController'
 
 // ---- Helpers ----
 
@@ -20,11 +20,8 @@ beforeEach(() => {
   document.body.style.top = ''
   document.body.style.width = ''
 
-  // Reset lock count to 0 and unlock any lingering lock
-  _resetLockCount()
-  // Force store back to unlocked state via enough unlocks
-  // (store may be locked from a prior test)
-  scrollUnlock()
+  // Atomically reset both lockCount and Zustand store
+  _resetForTesting()
 
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
   Object.defineProperty(window, 'scrollY', { value: 100, writable: true, configurable: true })

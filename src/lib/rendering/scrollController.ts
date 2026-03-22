@@ -31,13 +31,14 @@ type State = StateActions & StateValues
 // Only the isLocked boolean (Zustand state) is reactive for LayoutSider/OptimizerSidebar.
 let lockCount = 0
 
-// Exported for testing only
-export function _getLockCount() {
-  return lockCount
+// Exported for testing only — resets both lockCount and Zustand store atomically
+export function _resetForTesting() {
+  lockCount = 0
+  useScrollLockStore.setState({ isLocked: false, offset: null })
 }
 
-export function _resetLockCount() {
-  lockCount = 0
+export function _getLockCount() {
+  return lockCount
 }
 
 const useScrollLockStore = create<State>()((set, get) => ({

@@ -99,11 +99,12 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
     }),
 
   onCharacterModalOk: (form: CharacterModalForm) => {
+    if (!form.characterId || !form.lightCone) return
+
     const character: SimpleCharacterSets = {
-      // Safe cast: characterId and lightCone are expected to be set by the modal form
-      characterId: form.characterId as CharacterId,
+      characterId: form.characterId,
       characterEidolon: form.characterEidolon,
-      lightCone: form.lightCone as LightConeId,
+      lightCone: form.lightCone,
       lightConeSuperimposition: form.lightConeSuperimposition,
       teamRelicSet: form.teamRelicSet,
       teamOrnamentSet: form.teamOrnamentSet,
@@ -111,7 +112,7 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
 
     const { selectedTeammateIndex, updateTeammate } = get()
 
-    if (selectedTeammateIndex != null && character) {
+    if (selectedTeammateIndex != null) {
       updateTeammate(selectedTeammateIndex, character)
     }
 

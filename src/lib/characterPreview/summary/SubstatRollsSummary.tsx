@@ -1,4 +1,5 @@
 import { Flex } from '@mantine/core'
+import { renderLog } from 'lib/debug/renderDebug'
 import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
 import type { SubStats } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
@@ -21,6 +22,7 @@ type SubstatRollsSummaryProps = {
 }
 
 export function SubstatRollsSummary({ simRequest, precision, diminish, columns = 2 }: SubstatRollsSummaryProps) {
+  renderLog('SubstatRollsSummary')
   const { t } = useTranslation(['charactersTab', 'common'])
 
   const stats = simRequest.stats

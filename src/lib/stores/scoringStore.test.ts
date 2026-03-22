@@ -94,6 +94,30 @@ describe('useScoringStore', () => {
     })
   })
 
+  describe('return value isolation', () => {
+    // getScoringMetadata fills missing keys from the game metadata singleton via
+    // mergeUndefinedValues. When no override exists for a nested field (e.g. simulation),
+    // the returned object holds a direct reference to the singleton. Mutating it would
+    // corrupt game metadata for ALL future callers.
+    it.fails('mutating getScoringMetadata simulation does not corrupt game metadata', () => {
+      const originalCount = kafkaDefaults().simulation.teammates.length
+
+      const result = getScoringMetadata(Kafka.id)
+      result.simulation.teammates.push({} as never)
+
+      expect(kafkaDefaults().simulation.teammates).toHaveLength(originalCount)
+    })
+
+    it('mutating getScoringMetadata stats does not corrupt the stored override', () => {
+      state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.ATK_P]: 0.5 }) as ScoringMetadata })
+
+      const result = getScoringMetadata(Kafka.id)
+      result.stats[Stats.ATK_P] = 999
+
+      expect(state().scoringMetadataOverrides[Kafka.id]?.stats[Stats.ATK_P]).toBe(0.5)
+    })
+  })
+
   describe('override management', () => {
     // SCORING-2: updateCharacterOverrides crashes when no prior override and no stats field
     it('updateCharacterOverrides with traces-only and no prior override does not crash', () => {

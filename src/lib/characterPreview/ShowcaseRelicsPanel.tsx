@@ -1,4 +1,5 @@
 import { Flex } from '@mantine/core'
+import { useRenderTracker } from 'lib/debug/renderDebug'
 import { type ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   Constants,
@@ -46,6 +47,11 @@ export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
   characterId: CharacterId
   scoredRelics: RelicScoringResult[]
 }) {
+  useRenderTracker('ShowcaseRelicsPanel', {
+    setSelectedRelic, setEditModalOpen, setAddModalOpen,
+    displayRelics, source, scoringType, characterId, scoredRelics,
+  })
+
   const relicByPart = useMemo(() => {
     const map: Record<string, Relic> = {}
     for (const { key, part } of [...leftParts, ...rightParts]) {

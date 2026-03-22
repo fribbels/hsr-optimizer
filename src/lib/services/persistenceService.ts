@@ -20,6 +20,7 @@ import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
@@ -186,6 +187,9 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
   useRelicStore.getState().setRelics(saveData.relics)
   useCharacterStore.getState().setCharacters(saveData.characters)
+
+  // Clear stale focusCharacter — the previous focus may not exist in the new data (CHARTAB-1)
+  useCharacterTabStore.getState().setFocusCharacter(null)
 
   if (autosave) {
     SaveState.delayedSave()

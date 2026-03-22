@@ -238,7 +238,6 @@ export const Optimizer = {
           useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           // DISPLAY-5: Must stop optimization — GPU path won't run and CPU path already skipped
           useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
-          computeEngine = COMPUTE_ENGINE_CPU
         } else {
           void sleep(200).then(() => {
             void gpuOptimize({
@@ -253,6 +252,9 @@ export const Optimizer = {
             })
           })
         }
+      }).catch(() => {
+        // Safety net: if getWebgpuDevice rejects, ensure optimization doesn't stay stuck
+        useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
       })
     }
 

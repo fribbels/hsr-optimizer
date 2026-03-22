@@ -70,11 +70,11 @@ export function updateTeammate(changedValues: Partial<Form>) {
     // FORM-INC-2: Batch all teammate fields into a single state update (was 7 sequential setTeammateField calls)
     useOptimizerRequestStore.getState().setTeammate(teammateIndex, {
       characterId: teammateCharacterId,
-      characterEidolon: characterEidolon,
-      lightCone: lightCone,
-      lightConeSuperimposition: lightConeSuperimposition,
-      teamRelicSet: teamRelicSet,
-      teamOrnamentSet: teamOrnamentSet,
+      characterEidolon,
+      lightCone,
+      lightConeSuperimposition,
+      teamRelicSet,
+      teamOrnamentSet,
       characterConditionals: characterConditionalsValues,
     })
 

@@ -93,10 +93,9 @@ export function displayToInternal(state: OptimizerRequestState): Form {
     enemyEffectResistance: state.enemyEffectResistance,
     enemyWeaknessBroken: state.enemyWeaknessBroken,
 
-    // Conditionals
-    characterConditionals: state.characterConditionals,
-    lightConeConditionals: state.lightConeConditionals,
-    // Deep-clone tuples to prevent downstream mutation of store state (FORM-1)
+    // Conditionals — shallow-clone to prevent downstream mutation of store state (FORM-1)
+    characterConditionals: { ...state.characterConditionals },
+    lightConeConditionals: { ...state.lightConeConditionals },
     setConditionals: Object.fromEntries(
       Object.entries(state.setConditionals).map(([k, v]) => [k, [...v]]),
     ) as typeof state.setConditionals,
@@ -121,8 +120,8 @@ export function displayToInternal(state: OptimizerRequestState): Form {
     statDisplay: state.statDisplay,
     memoDisplay: state.memoDisplay,
 
-    // Weights
-    weights: state.weights,
+    // Weights — shallow-clone to prevent downstream mutation of store state
+    weights: { ...state.weights },
 
     // Combat buffs (percentage buffs ÷ 100)
     combatBuffs: convertCombatBuffsToInternal(state.combatBuffs),

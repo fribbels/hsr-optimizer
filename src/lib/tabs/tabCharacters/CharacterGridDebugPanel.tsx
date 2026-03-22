@@ -139,73 +139,38 @@ const ACTION_BTN_PRESETS: ActionBtnPreset[] = [
 export type ScrimMode = 'frosted'
 export type LcStyle = 'none' | 'pill' | 'frosted' | 'shadow'
 
-export type EquipDotPreset = 'off' | 'top-left' | 'bottom-left' | 'mid-left' | 'name-left' | 'rank-corner' | 'subtle-edge' | 'glow-left' | 'muted-top' | 'accent-bottom' | 'ghost-mid'
+export type EquipDotPreset = 'off'
+  | 'earth' | 'slate'
+  | 'clay' | 'sandstone' | 'iron' | 'moss' | 'quarry'
+  | 'terra' | 'shale' | 'dusk'
 
-type EquipDotColors = {
+type EquipDotStyle = {
   full: string
   partial: string
   empty: string
   size: number
-  top?: number | string
-  left?: number | string
-  right?: number | string
-  bottom?: number | string
   opacity?: number
-  blur?: string
-  borderRadius?: string
 }
 
-export const EQUIP_DOT_PRESETS: { value: EquipDotPreset; label: string; colors: EquipDotColors }[] = [
-  // 1. Top-left corner, standard traffic-light colors
-  {
-    value: 'top-left', label: 'Top Left',
-    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 6, top: 4, left: 4 },
-  },
-  // 2. Bottom-left corner
-  {
-    value: 'bottom-left', label: 'Bottom Left',
-    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 6, bottom: 4, left: 4 },
-  },
-  // 3. Vertically centered on left edge
-  {
-    value: 'mid-left', label: 'Mid Left',
-    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 5, top: 'calc(50% - 2.5px)', left: 5 },
-  },
-  // 4. Next to name area, slightly inset
-  {
-    value: 'name-left', label: 'Name Left',
-    colors: { full: '#66bb6a', partial: '#ffa726', empty: '#ef5350', size: 5, top: 8, left: 26 },
-  },
-  // 5. Overlapping rank area corner
-  {
-    value: 'rank-corner', label: 'Rank Corner',
-    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 5, top: 3, left: 15 },
-  },
-  // 6. Subtle edge — tiny, low opacity
-  {
-    value: 'subtle-edge', label: 'Subtle Edge',
-    colors: { full: '#81c784', partial: '#ffb74d', empty: '#e57373', size: 4, top: 3, left: 3, opacity: 0.6 },
-  },
-  // 7. Glow — soft blurred dot, more atmospheric
-  {
-    value: 'glow-left', label: 'Glow Left',
-    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 8, top: 4, left: 3, opacity: 0.7, blur: '2px' },
-  },
-  // 8. Muted pastel top — desaturated, blends with dark UI
-  {
-    value: 'muted-top', label: 'Muted Top',
-    colors: { full: '#7cb87e', partial: '#c9a34e', empty: '#b56b6b', size: 5, top: 4, left: 4, opacity: 0.8 },
-  },
-  // 9. Accent bottom — slightly larger, near bottom edge
-  {
-    value: 'accent-bottom', label: 'Accent Bot',
-    colors: { full: '#43a047', partial: '#ef6c00', empty: '#c62828', size: 6, bottom: 5, left: 5 },
-  },
-  // 10. Ghost mid — very subtle, centered
-  {
-    value: 'ghost-mid', label: 'Ghost Mid',
-    colors: { full: '#a5d6a7', partial: '#ffe0b2', empty: '#ef9a9a', size: 5, top: 'calc(50% - 2.5px)', left: 4, opacity: 0.45 },
-  },
+// Variations around the earth/slate range — muted but yellow and red stay distinct.
+export const EQUIP_DOT_PRESETS: { value: EquipDotPreset; label: string; style: EquipDotStyle }[] = [
+  // Anchors
+  { value: 'earth', label: 'Earth', style: { full: '#4caf50', partial: '#c8a030', empty: '#a83030', size: 5 } },
+  { value: 'slate', label: 'Slate', style: { full: '#4caf50', partial: '#b89830', empty: '#904040', size: 5 } },
+  // Warmer yellows, same red range
+  { value: 'clay', label: 'Clay', style: { full: '#4caf50', partial: '#c49535', empty: '#9c3535', size: 5 } },
+  { value: 'sandstone', label: 'Sandstone', style: { full: '#4caf50', partial: '#d0a538', empty: '#a03838', size: 5 } },
+  // Cooler / greyer
+  { value: 'iron', label: 'Iron', style: { full: '#4caf50', partial: '#a89040', empty: '#884040', size: 5 } },
+  { value: 'quarry', label: 'Quarry', style: { full: '#4caf50', partial: '#a08838', empty: '#804545', size: 5 } },
+  // Slightly brighter than slate
+  { value: 'terra', label: 'Terra', style: { full: '#4caf50', partial: '#c0a040', empty: '#b03535', size: 5 } },
+  // Slightly darker than slate
+  { value: 'shale', label: 'Shale', style: { full: '#4caf50', partial: '#a08030', empty: '#853838', size: 5 } },
+  // More green in the yellow, pinker red
+  { value: 'moss', label: 'Moss', style: { full: '#4caf50', partial: '#b0a030', empty: '#984050', size: 5 } },
+  // Warm dusk — amber-orange yellow, burgundy red
+  { value: 'dusk', label: 'Dusk', style: { full: '#4caf50', partial: '#b89040', empty: '#903040', size: 5 } },
 ]
 
 export const SCRIM_MODES: { value: ScrimMode; label: string }[] = [

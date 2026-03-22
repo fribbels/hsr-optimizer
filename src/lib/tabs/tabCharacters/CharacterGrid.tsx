@@ -46,7 +46,7 @@ import React, {
 } from 'react'
 import type { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/frontendUtils'
-import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, type EquipDotPreset, EQUIP_DOT_PRESETS, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
+import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, EQUIP_DOT_PRESETS, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import { PartsArray } from 'lib/constants/constants'
 import classes from './CharacterGrid.module.css'
 
@@ -62,26 +62,22 @@ function getEquipStatus(character: Character): EquipStatus {
   return count === 6 ? 'full' : count === 0 ? 'empty' : 'partial'
 }
 
-function EquipDot({ preset, character }: { preset: EquipDotPreset; character: Character }) {
+function EquipDotInline({ character, toggles }: { character: Character; toggles: DebugToggles }) {
+  if (toggles.equipIndicator === 'off') return null
+  const preset = EQUIP_DOT_PRESETS.find((p) => p.value === toggles.equipIndicator)
+  if (!preset) return null
+
   const status = getEquipStatus(character)
-  const colors = EQUIP_DOT_PRESETS.find((p) => p.value === preset)?.colors
-  if (!colors) return null
-  const color = colors[status]
+  const color = preset.style[status]
 
   return (
-    <div
+    <span
       className={classes.equipDot}
       style={{
         background: color,
-        width: colors.size,
-        height: colors.size,
-        top: colors.top,
-        left: colors.left,
-        right: colors.right,
-        bottom: colors.bottom,
-        opacity: colors.opacity,
-        filter: colors.blur ? `blur(${colors.blur})` : undefined,
-        borderRadius: colors.borderRadius ?? '50%',
+        width: preset.style.size,
+        height: preset.style.size,
+        opacity: preset.style.opacity,
       }}
     />
   )
@@ -395,11 +391,6 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         <div className={classes.lcStrip} />
       )}
 
-      {/* Equip dot indicator */}
-      {toggles.equipIndicator !== 'off' && (
-        <EquipDot preset={toggles.equipIndicator} character={character} />
-      )}
-
       {/* Content */}
       <div className={classes.inner}>
 
@@ -428,6 +419,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
             {toggles.showLightCone && lightConeId && (
               <span className={classes.subtitleBadge}>S{superimposition}</span>
             )}
+            <EquipDotInline character={character} toggles={toggles} />
           </div>
         </div>
 

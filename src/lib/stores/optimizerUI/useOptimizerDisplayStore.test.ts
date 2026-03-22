@@ -230,22 +230,26 @@ describe('useOptimizerDisplayStore', () => {
       expect(state().permutationsResults).toBe(0)
     })
 
-    // DISPLAY-3: startOptimization doesn't reset stale timing from previous run.
-    // Between starting and the engine setting new times, stale data is visible.
-    it.fails('startOptimization resets stale timing fields from previous run (DISPLAY-3)', () => {
+    // DISPLAY-3: startOptimization now resets stale timing from previous run.
+    it('startOptimization resets stale timing fields from previous run (DISPLAY-3)', () => {
       // Previous run left timing data
       state().setOptimizerStartTime(1000)
       state().setOptimizerEndTime(2000)
       state().setOptimizationInProgress(false)
 
-      // Simulate startOptimization: resets progress but not timing
-      state().setPermutationsSearched(0)
-      state().setPermutationsResults(0)
-      state().setOptimizationInProgress(true)
+      // Simulate startOptimization (now batched with timing resets)
+      useOptimizerDisplayStore.setState({
+        permutationsSearched: 0,
+        permutationsResults: 0,
+        optimizerStartTime: null,
+        optimizerEndTime: null,
+        optimizationInProgress: true,
+      })
 
-      // CORRECT behavior: timing should be cleared at optimization start
+      // Timing should be cleared at optimization start
       expect(state().optimizerStartTime).toBeNull()
       expect(state().optimizerEndTime).toBeNull()
+      expect(state().optimizationInProgress).toBe(true)
     })
   })
 

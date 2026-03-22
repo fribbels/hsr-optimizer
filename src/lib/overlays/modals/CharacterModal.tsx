@@ -21,7 +21,6 @@ import { useTranslation } from 'react-i18next'
 import type {
   CharacterId,
 } from 'types/character'
-import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 
@@ -90,8 +89,7 @@ function CharacterModalContent() {
   })
 
   function onModalOk() {
-    const formValues = characterForm.getValues() as unknown as Form
-    onOk(formValues)
+    onOk(characterForm.getValues())
     closeOverlay()
   }
 

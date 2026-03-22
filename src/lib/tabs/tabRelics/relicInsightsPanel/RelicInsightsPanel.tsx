@@ -13,12 +13,12 @@ import {
   RelicInsights,
   useRelicsTabStore,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import type { CharacterId } from 'types/character'
 
-export function RelicInsightsPanel({ containerWidth, containerHeight }: {
+export const RelicInsightsPanel = memo(function RelicInsightsPanel({ containerWidth, containerHeight }: {
   containerWidth?: number
   containerHeight?: number
 } = {}) {
@@ -30,16 +30,12 @@ export function RelicInsightsPanel({ containerWidth, containerHeight }: {
       excludedRelicPotentialCharacters: s.excludedRelicPotentialCharacters,
     })),
   )
-  const scoringMetadataOverrides = useScoringStore((s) => s.scoringMetadataOverrides)
+  const scoringVersion = useScoringStore((s) => s.scoringVersion)
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
 
-  console.log('[P4/P10] RelicInsightsPanel RENDER — not memo, scoringMetadataOverrides ref dep')
-
   const scores: Score[] = useMemo(() => {
     if (!selectedRelic) return []
-    const charCount = Object.values(getGameMetadata().characters).filter((x) => !buffedCharacters[x.id]).length
-    console.log(`[P4] RelicInsightsPanel scores useMemo RECOMPUTING — scoring ${charCount} characters`)
     return Object.values(getGameMetadata().characters)
       .filter((x) => {
         if (buffedCharacters[x.id]) return false
@@ -64,9 +60,7 @@ export function RelicInsightsPanel({ containerWidth, containerHeight }: {
           return sortAlphabeticEmojiLast('name')(a, b)
         } else return b.score.bestPct - a.score.bestPct
       })
-    // relic scores implicitly depend on scoringMetadataOverrides
-    // eslint-disable-next-line exhaustive-deps
-  }, [insightsCharacters, selectedRelic, excludedRelicPotentialCharacters, t, scoringMetadataOverrides])
+  }, [insightsCharacters, selectedRelic, excludedRelicPotentialCharacters, t, scoringVersion])
 
   if (!selectedRelic) return <></>
 
@@ -78,7 +72,7 @@ export function RelicInsightsPanel({ containerWidth, containerHeight }: {
     case RelicInsights.ESTBP:
       return <EstbpCard width={containerWidth} />
   }
-}
+})
 
 type Score = {
   id: CharacterId,

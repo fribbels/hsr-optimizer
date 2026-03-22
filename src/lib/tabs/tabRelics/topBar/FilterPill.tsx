@@ -1,6 +1,6 @@
 import { IconFilter } from '@tabler/icons-react'
 import { Badge, Button, Checkbox, Combobox, Flex, Group, useCombobox } from '@mantine/core'
-import { type ReactNode, useMemo, useState } from 'react'
+import { type ReactNode, memo, useMemo, useState } from 'react'
 
 export type FilterOption<T> = {
   value: T
@@ -8,15 +8,7 @@ export type FilterOption<T> = {
   icon?: ReactNode
 }
 
-export function FilterPill<T extends string | number | boolean>({
-  label,
-  options,
-  selected,
-  onChange,
-  searchable = false,
-  flex = 1,
-  columns = 1,
-}: {
+type FilterPillProps<T> = {
   label: string
   options: FilterOption<T>[]
   selected: T[]
@@ -25,7 +17,17 @@ export function FilterPill<T extends string | number | boolean>({
   flex?: number
   popoverWidth?: number
   columns?: number
-}) {
+}
+
+function FilterPillInner<T extends string | number | boolean>({
+  label,
+  options,
+  selected,
+  onChange,
+  searchable = false,
+  flex = 1,
+  columns = 1,
+}: FilterPillProps<T>) {
   const [search, setSearch] = useState('')
   const activeCount = selected.length
 
@@ -119,3 +121,5 @@ export function FilterPill<T extends string | number | boolean>({
     </Combobox>
   )
 }
+
+export const FilterPill = memo(FilterPillInner) as typeof FilterPillInner

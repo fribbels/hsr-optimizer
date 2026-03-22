@@ -43,7 +43,19 @@ export function FilterPillBar() {
     })),
   )
 
-  console.log('[P12] FilterPillBar RENDER — all FilterPills will re-render')
+  // Pre-memoize curried setFilter results for stable references.
+  // setFilter is a stable zustand action; calling setFilter('part') inline creates a new closure each render.
+  const filterHandlers = useMemo(() => ({
+    part: setFilter('part'),
+    mainStat: setFilter('mainStat'),
+    subStat: setFilter('subStat'),
+    enhance: setFilter('enhance'),
+    grade: setFilter('grade'),
+    initialRolls: setFilter('initialRolls'),
+    equipped: setFilter('equipped'),
+    verified: setFilter('verified'),
+    set: setFilter('set'),
+  }), [setFilter])
 
   const { t, i18n } = useTranslation('relicsTab')
   const { t: tValueColumn } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
@@ -132,22 +144,22 @@ export function FilterPillBar() {
       {/* 8-column grid for both rows so widths align perfectly */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr) auto', gap: 5, alignItems: 'center' }}>
         {/* Row 1: 8 × 1-unit pills */}
-        <FilterPill label={t('RelicFilterBar.Part')} options={partOptions} selected={filters.part} onChange={setFilter('part')} />
-        <FilterPill label={t('RelicFilterBar.Mainstat')} options={mainStatOptions} selected={filters.mainStat} onChange={setFilter('mainStat')} searchable />
-        <FilterPill label="Sub stats" options={subStatOptions} selected={filters.subStat} onChange={setFilter('subStat')} popoverWidth={260} />
-        <FilterPill label={t('RelicFilterBar.Enhance')} options={enhanceOptions} selected={filters.enhance} onChange={setFilter('enhance')} />
-        <FilterPill label={t('RelicFilterBar.Grade')} options={gradeOptions} selected={filters.grade} onChange={setFilter('grade')} />
-        <FilterPill label="Initial rolls" options={initialRollsOptions} selected={filters.initialRolls} onChange={setFilter('initialRolls')} />
-        <FilterPill label={t('RelicFilterBar.Equipped')} options={equippedOptions} selected={filters.equipped} onChange={setFilter('equipped')} />
-        <FilterPill label={t('RelicFilterBar.Verified')} options={verifiedOptions} selected={filters.verified} onChange={setFilter('verified')} />
+        <FilterPill label={t('RelicFilterBar.Part')} options={partOptions} selected={filters.part} onChange={filterHandlers.part} />
+        <FilterPill label={t('RelicFilterBar.Mainstat')} options={mainStatOptions} selected={filters.mainStat} onChange={filterHandlers.mainStat} searchable />
+        <FilterPill label="Sub stats" options={subStatOptions} selected={filters.subStat} onChange={filterHandlers.subStat} popoverWidth={260} />
+        <FilterPill label={t('RelicFilterBar.Enhance')} options={enhanceOptions} selected={filters.enhance} onChange={filterHandlers.enhance} />
+        <FilterPill label={t('RelicFilterBar.Grade')} options={gradeOptions} selected={filters.grade} onChange={filterHandlers.grade} />
+        <FilterPill label="Initial rolls" options={initialRollsOptions} selected={filters.initialRolls} onChange={filterHandlers.initialRolls} />
+        <FilterPill label={t('RelicFilterBar.Equipped')} options={equippedOptions} selected={filters.equipped} onChange={filterHandlers.equipped} />
+        <FilterPill label={t('RelicFilterBar.Verified')} options={verifiedOptions} selected={filters.verified} onChange={filterHandlers.verified} />
         <Flex ml={4}><TooltipImage type={Hint.relics()} /></Flex>
 
         {/* Row 2: 4 × 2-unit items (each spans 2 grid columns) */}
         <div style={{ gridColumn: 'span 2' }}>
-          <FilterPill label="Relic sets" options={relicSetOptions} selected={filters.set} onChange={setFilter('set')} searchable columns={2} />
+          <FilterPill label="Relic sets" options={relicSetOptions} selected={filters.set} onChange={filterHandlers.set} searchable columns={2} />
         </div>
         <div style={{ gridColumn: 'span 2' }}>
-          <FilterPill label="Ornament sets" options={ornamentSetOptions} selected={filters.set} onChange={setFilter('set')} searchable columns={2} />
+          <FilterPill label="Ornament sets" options={ornamentSetOptions} selected={filters.set} onChange={filterHandlers.set} searchable columns={2} />
         </div>
         <div style={{ gridColumn: 'span 2' }}>
           <CharacterMultiSelect

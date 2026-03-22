@@ -56,12 +56,10 @@ export function RelicsGrid() {
   const { getLocaleText, paginationNumberFormatter } = useGridLocale('relicsTab', 'RelicGrid')
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
-  
-
   const { gridDestroyed } = useGridLocaleRebuild()
 
   const relics = useRelicStore((s) => s.relics)
-  const scoringMetadataOverrides = useScoringStore((s) => s.scoringMetadataOverrides)
+  const scoringVersion = useScoringStore((s) => s.scoringVersion)
 
   const { focusCharacter, excludedRelicPotentialCharacters, filters, valueColumns } = useRelicsTabStore(
     useShallow((s) => ({
@@ -87,21 +85,10 @@ export function RelicsGrid() {
     return addActivationListener(() => setActivated(true))
   }, [isActiveRef, addActivationListener])
 
-  const prevMetaRef = useRef(scoringMetadataOverrides)
-  const renderCount = useRef(0)
-  renderCount.current++
-  const metaChanged = prevMetaRef.current !== scoringMetadataOverrides
-  console.log(`[P2] RelicsGrid RENDER #${renderCount.current} — scoringMetadataOverrides refChanged: ${metaChanged}`)
-  prevMetaRef.current = scoringMetadataOverrides
-
   const scoredRelics = useMemo(() => {
     if (!activated) return null
-    console.log('[P1/P2] RelicsGrid scoredRelics useMemo RECOMPUTING — scoreRelics() called')
-    const t0 = performance.now()
-    const result = scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringMetadataOverrides)
-    console.log(`[P1/P2] scoreRelics() took ${(performance.now() - t0).toFixed(1)}ms for ${relics.length} relics`)
-    return result
-  }, [activated, relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
+    return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringVersion)
+  }, [activated, relics, scoringVersion, focusCharacter, excludedRelicPotentialCharacters])
 
   const columnDefs = useMemo(() => {
     return generateBaselineColDefs(t)
@@ -153,7 +140,6 @@ export function RelicsGrid() {
           defaultColDef={defaultRelicsGridColDefs}
           gridOptions={gridOptions}
           onSelectionChanged={RelicsTabController.onSelectionChanged}
-          onRowClicked={RelicsTabController.onRowClicked}
           onRowDoubleClicked={RelicsTabController.onRowDoubleClicked}
           navigateToNextCell={RelicsTabController.navigateToNextCell}
           isExternalFilterPresent={isExternalFilterPresent}

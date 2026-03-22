@@ -151,6 +151,7 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
           data={data}
           onClick={onScatterClick}
           shape={<ShapeFunction />}
+          isAnimationActive={false}
         />
       </ScatterChart>
     </div>

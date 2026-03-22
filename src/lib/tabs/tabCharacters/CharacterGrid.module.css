@@ -364,9 +364,10 @@
  * ============================================================ */
 
 .equipDot {
-  position: absolute;
+  display: inline-block;
   border-radius: 50%;
-  z-index: 3;
-  pointer-events: none;
+  flex-shrink: 0;
+  vertical-align: middle;
+  margin-left: 3px;
 }
 

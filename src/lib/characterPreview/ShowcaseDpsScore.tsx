@@ -40,7 +40,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  type Character,
   type CharacterId,
 } from 'types/character'
 import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
@@ -137,7 +136,7 @@ function CharacterPreviewScoringTeammate({
         if (readonly) return
         setSelectedTeammateIndex(index)
         useCharacterModalStore.getState().openOverlay({
-          initialCharacter: { form: teammate },
+          initialCharacter: teammate ? { form: teammate } : null,
           onOk: createOnCharacterModalOk(characterId, index, teamSelection),
         })
       }}

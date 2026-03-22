@@ -45,7 +45,7 @@
 
   /* Layout — box-shadow for border so it doesn't affect row height */
   position: relative;
-  height: var(--cr-row-height, 64px);
+  height: var(--cr-row-height, 73px);
   flex-shrink: 0;
   border-radius: var(--cr-radius);
   overflow: hidden;

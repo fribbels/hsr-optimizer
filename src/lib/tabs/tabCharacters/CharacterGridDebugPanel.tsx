@@ -13,7 +13,7 @@ type SliderConfig = {
 
 const SLIDERS: SliderConfig[] = [
   { label: 'List Width', cssVar: '--cr-list-width', min: 200, max: 400, step: 5, defaultValue: 320, unit: 'px' },
-  { label: 'Row Height', cssVar: '--cr-row-height', min: 36, max: 72, step: 1, defaultValue: 72, unit: 'px' },
+  { label: 'Row Height', cssVar: '--cr-row-height', min: 36, max: 90, step: 1, defaultValue: 73, unit: 'px' },
   { label: 'Row Gap', cssVar: '--cr-row-gap', min: 0, max: 8, step: 1, defaultValue: 1, unit: 'px' },
   { label: 'Portrait X', cssVar: '--cr-portrait-x', min: 20, max: 150, step: 1, defaultValue: 40, unit: '%' },
   { label: 'Portrait Y', cssVar: '--cr-portrait-y', min: 10, max: 60, step: 1, defaultValue: 31, unit: '%' },

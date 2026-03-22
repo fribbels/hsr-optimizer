@@ -5,7 +5,7 @@
  * keep scroll locked until ALL overlays close. UTILITY-1 fix.
  */
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { create } from 'zustand'
 
 interface LockedState {
@@ -78,15 +78,20 @@ export function scrollUnlock() {
 
 export function useScrollLock(shouldLock: boolean) {
   const { lock, unlock } = useScrollLockStore()
+  const lockedRef = useRef(false)
   useEffect(() => {
-    if (shouldLock) {
+    if (shouldLock && !lockedRef.current) {
       lock()
-    } else {
+      lockedRef.current = true
+    } else if (!shouldLock && lockedRef.current) {
       unlock()
+      lockedRef.current = false
     }
-    // Unlock scroll if the component unmounts while locked
     return () => {
-      unlock()
+      if (lockedRef.current) {
+        unlock()
+        lockedRef.current = false
+      }
     }
   }, [shouldLock, lock, unlock])
 }

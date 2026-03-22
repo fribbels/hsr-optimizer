@@ -149,7 +149,7 @@ export function saveBuild(
     builds.push(build)
   }
 
-  const updatedCharacter = { ...character, builds: [...builds] }
+  const updatedCharacter = { ...character, builds }
   useCharacterStore.getState().setCharacter(updatedCharacter)
 }
 

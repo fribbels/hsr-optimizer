@@ -94,7 +94,11 @@ export const SaveState = {
     }
 
     const stateString = JSON.stringify(state)
-    localStorage.setItem(STATE_KEY, stateString)
+    try {
+      localStorage.setItem(STATE_KEY, stateString)
+    } catch (e) {
+      console.error('Failed to save state (storage quota exceeded?)', e)
+    }
     saveTimeout = null
 
     return stateString

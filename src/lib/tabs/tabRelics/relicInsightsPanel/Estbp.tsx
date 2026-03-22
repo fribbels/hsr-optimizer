@@ -12,7 +12,7 @@ import {
 } from 'lib/worker/estTbpWorkerRunner'
 import { memo, useMemo, useRef } from 'react'
 
-export const EstbpCard = memo(({ width }: { width?: number }) => {
+export const EstbpCard = memo(() => {
   const selectedRelicId = useRelicsTabStore((s) => s.selectedRelicId)
   const focusCharacter = useRelicsTabStore((s) => s.focusCharacter)
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
@@ -35,11 +35,9 @@ export const EstbpCard = memo(({ width }: { width?: number }) => {
   if (analysis) prevAnalysis.current = analysis
   const displayAnalysis = analysis ?? prevAnalysis.current
 
-  const horizontal = (width ?? 297) > 600
-
   return (
-    <Flex style={{ width: width ?? 297, height: '100%' }}>
-      <RelicContainer ready={ready || !!displayAnalysis} relicAnalysis={displayAnalysis} withoutPreview horizontal={horizontal} />
+    <Flex style={{ height: '100%' }}>
+      <RelicContainer ready={ready || !!displayAnalysis} relicAnalysis={displayAnalysis} withoutPreview />
     </Flex>
   )
 })

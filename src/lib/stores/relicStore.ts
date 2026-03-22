@@ -1,5 +1,6 @@
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
+import { indexRelics } from 'lib/utils/relicUtils'
 import type { Relic } from 'types/relic'
 
 type RelicStoreState = {
@@ -14,13 +15,6 @@ type RelicStoreActions = {
 }
 
 export type RelicStore = RelicStoreState & RelicStoreActions
-
-function indexRelics(relics: Relic[]) {
-  relics.forEach((r, idx, arr) => {
-    if (r.ageIndex) return
-    arr[idx] = { ...r, ageIndex: idx === 0 ? 0 : arr[idx - 1].ageIndex! + 1 }
-  })
-}
 
 function buildRelicsById(relics: Relic[]): Partial<Record<string, Relic>> {
   return relics.reduce((acc, relic) => {

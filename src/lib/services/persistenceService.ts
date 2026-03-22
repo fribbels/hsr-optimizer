@@ -9,6 +9,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import * as equipmentService from 'lib/services/equipmentService'
+import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { savedSessionDefaults, useGlobalStore } from 'lib/stores/appStore'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
@@ -22,7 +23,8 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { clone, objectHash } from 'lib/utils/objectUtils'
+import { clone } from 'lib/utils/objectUtils'
+import { findRelicMatch, hashRelic } from 'lib/utils/relicUtils'
 import type {
   Build,
   Character,
@@ -33,17 +35,12 @@ import type { ConditionalValueMap } from 'types/conditionals'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import type { DBMetadata, ScoringMetadata } from 'types/metadata'
-import type {
-  Relic,
-  Stat,
-} from 'types/relic'
+import type { Relic } from 'types/relic'
 import type {
   GlobalSavedSession,
   HsrOptimizerSaveFormat,
 } from 'types/store'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
-import { isFlat } from 'lib/utils/statUtils'
-import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
 
 // ─── Public API ────────────────────────────────────────────────
 
@@ -55,13 +52,15 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
   if (saveData.scoringMetadataOverrides) {
+    const validOverrides: Record<string, ScoringMetadata> = {}
     for (const [key, scoringMetadataOverrides] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, ScoringMetadata][]) {
       if (!dbCharacters[key]?.scoringMetadata) continue
       const defaultScoringMetadata = dbCharacters[key].scoringMetadata
       setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
+      validOverrides[key] = scoringMetadataOverrides
     }
 
-    useScoringStore.getState().setScoringMetadataOverrides(saveData.scoringMetadataOverrides)
+    useScoringStore.getState().setScoringMetadataOverrides(validOverrides)
   }
 
   const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))
@@ -133,7 +132,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
 
   if (saveData.optimizerMenuState) {
-    const menuState = useOptimizerDisplayStore.getState().menuState
+    const menuState = { ...useOptimizerDisplayStore.getState().menuState }
     for (const key of Object.values(OptimizerMenuIds)) {
       if (saveData.optimizerMenuState[key] != null) {
         menuState[key] = saveData.optimizerMenuState[key]
@@ -161,7 +160,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   }
 
   if (saveData.settings) {
-    useGlobalStore.getState().setSettings(saveData.settings)
+    useGlobalStore.getState().setSettings({ ...DefaultSettingOptions, ...saveData.settings })
   }
 
   // Set relics tab state
@@ -197,6 +196,7 @@ export function resetAll(): void {
   const saveFormat: HsrOptimizerSaveFormat = {
     relics: [],
     characters: [],
+    scoringMetadataOverrides: {},
   }
   SaveState.permitEmptySave()
   loadSaveData(saveFormat)
@@ -216,7 +216,7 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
     }
   }
 
-  const characters = getCharacters()
+  const characters = [...getCharacters()]
 
   // Generate a hash of existing relics for easy lookup
   const oldRelicHashes: Record<string, Relic> = {}
@@ -291,12 +291,12 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
   // Update all relic ID references in character equipment and saved builds
   if (Object.keys(relicIdMapping).length > 0) {
     characters.forEach((character, idx, characters) => {
-      let newEquipped
+      let newEquipped = character.equipped
       // Update equipped relic IDs
       for (const part of Object.values(Constants.Parts)) {
-        const equippedId = character.equipped?.[part]
+        const equippedId = newEquipped?.[part]
         if (equippedId && relicIdMapping[equippedId]) {
-          newEquipped = { ...character.equipped, [part]: relicIdMapping[equippedId] }
+          newEquipped = { ...newEquipped, [part]: relicIdMapping[equippedId] }
         }
       }
 
@@ -304,21 +304,18 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
       // Update saved builds relic IDs
       if (character.builds && character.builds.length > 0) {
         newSavedBuilds = character.builds.map((savedBuild) => {
-          const updatedBuild = savedBuild
+          let newBuildEquipped = savedBuild.equipped
           const equippedEntries = Object.entries(savedBuild.equipped) as Array<[Parts, string | undefined]>
           equippedEntries.forEach(([part, id]) => {
-            if (!id) return
-            updatedBuild.equipped[part] = relicIdMapping[id] || id
+            if (!id || !relicIdMapping[id]) return
+            newBuildEquipped = { ...newBuildEquipped, [part]: relicIdMapping[id] }
           })
-
-          return { ...savedBuild, build: updatedBuild }
+          return { ...savedBuild, equipped: newBuildEquipped }
         })
       }
       characters[idx] = { ...character, equipped: newEquipped ?? character.equipped, builds: newSavedBuilds ?? character.builds }
     })
   }
-
-  indexRelics(replacementRelics)
 
   useRelicStore.getState().setRelics(replacementRelics)
 
@@ -402,7 +399,6 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
   }
 
   oldRelics.forEach((x) => RelicAugmenter.augment(x))
-  indexRelics(oldRelics)
   useRelicStore.getState().setRelics(oldRelics)
 
   for (const equipUpdate of equipUpdates) {
@@ -498,124 +494,4 @@ function processRelics(
       relic.equippedBy = undefined
     }
   }
-  indexRelics(relics)
-}
-
-function indexRelics(relics: Relic[]) {
-  relics.forEach((r, idx, relics) => {
-    if (r.ageIndex) return
-    relics[idx] = { ...r, ageIndex: idx === 0 ? 0 : relics[idx - 1].ageIndex! + 1 }
-  })
-}
-
-function hashRelic(relic: Relic) {
-  const substatValues: number[] = []
-  const substatStats: string[] = []
-
-  for (const substat of relic.substats) {
-    if (isFlat(substat.stat)) {
-      // Flat atk/def/hp/spd values we floor to an int
-      substatValues.push(Math.floor(substat.value))
-    } else {
-      // Other values we match to 1 decimal point due to OCR
-      substatValues.push(precisionRound(truncate10ths(substat.value)))
-    }
-    substatStats.push(substat.stat)
-  }
-  const hashObject = {
-    part: relic.part,
-    set: relic.set,
-    grade: relic.grade,
-    enhance: relic.enhance,
-    mainStat: relic.main.stat,
-    mainValue: Math.floor(relic.main.value),
-    substatValues: substatValues, // Match to 1 decimal point
-    substatStats: substatStats,
-  }
-
-  return objectHash(hashObject)
-}
-
-function partialHashRelic(relic: Relic) {
-  const hashObject = {
-    part: relic.part,
-    set: relic.set,
-    grade: relic.grade,
-    mainStat: relic.main.stat,
-  }
-
-  return objectHash(hashObject)
-}
-
-function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
-  // part set grade mainstat substatStats
-  const oldRelicPartialHashes: Record<string, Relic[]> = {}
-  for (const oldRelic of oldRelics) {
-    const hash = partialHashRelic(oldRelic)
-    if (!oldRelicPartialHashes[hash]) oldRelicPartialHashes[hash] = []
-    oldRelicPartialHashes[hash].push(oldRelic)
-  }
-  const partialHash = partialHashRelic(relic)
-  const partialMatches = oldRelicPartialHashes[partialHash] || []
-
-  let match: Relic | undefined = undefined
-  for (const partialMatch of partialMatches) {
-    if (relic.enhance < partialMatch.enhance) continue
-    if (relic.substats.length < partialMatch.substats.length) continue
-
-    let exit = false
-    let upgrades = 0
-    for (let i = 0; i < partialMatch.substats.length; i++) {
-      const matchSubstat = partialMatch.substats[i] as Stat
-      const newSubstat = relic.substats.find((x) => x.stat === matchSubstat.stat) as Stat
-
-      // Different substats mean different relics - break
-      if (!newSubstat) {
-        exit = true
-        break
-      }
-      if (matchSubstat.stat !== newSubstat.stat) {
-        exit = true
-        break
-      }
-      if (compareSameTypeSubstat(matchSubstat, newSubstat) === -1) {
-        exit = true
-        break
-      }
-
-      // Track if the number of stat increases make sense
-      if (compareSameTypeSubstat(matchSubstat, newSubstat) === 1) {
-        upgrades++
-      }
-    }
-
-    if (exit) continue
-
-    const possibleUpgrades = Math.round((Math.floor(relic.enhance / 3) * 3 - Math.floor(partialMatch.enhance / 3) * 3) / 3)
-    if (upgrades > possibleUpgrades) continue
-
-    // If it passes all the tests, keep it
-    match = partialMatch
-    break
-  }
-  return match
-}
-
-// -1: old > new, 0: old === new, 1: new > old
-function compareSameTypeSubstat(oldSubstat: Stat, newSubstat: Stat) {
-  let oldValue: number
-  let newValue: number
-  if (isFlat(oldSubstat.stat)) {
-    // Flat atk/def/hp/spd values we floor to an int
-    oldValue = Math.floor(oldSubstat.value)
-    newValue = Math.floor(newSubstat.value)
-  } else {
-    // Other values we match to 1 decimal point due to OCR
-    oldValue = precisionRound(truncate10ths(oldSubstat.value))
-    newValue = precisionRound(truncate10ths(newSubstat.value))
-  }
-
-  if (oldValue === newValue) return 0
-  if (oldValue < newValue) return 1
-  return -1
 }

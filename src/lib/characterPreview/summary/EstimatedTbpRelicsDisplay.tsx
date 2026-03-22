@@ -131,7 +131,13 @@ export function RelicContainer({ ready, relicAnalysis, withoutPreview, horizonta
     return <div className={styles.card} style={dynamicStyle} />
   }
 
-  if (withoutPreview) return <RelicAnalysisCard relicAnalysis={relicAnalysis} horizontal={horizontal} />
+  if (withoutPreview) {
+    return (
+      <div className={styles.card} style={{ maxWidth: 320 }}>
+        <RelicAnalysisCard relicAnalysis={relicAnalysis} horizontal={horizontal} />
+      </div>
+    )
+  }
 
   return (
     <Flex

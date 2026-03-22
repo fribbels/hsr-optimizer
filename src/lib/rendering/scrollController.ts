@@ -7,6 +7,7 @@
 
 import { useEffect, useRef } from 'react'
 import { create } from 'zustand'
+import { useShallow } from 'zustand/react/shallow'
 
 interface LockedState {
   offset: number
@@ -99,6 +100,7 @@ export function useScrollLock(shouldLock: boolean) {
 }
 
 export function useScrollLockState(): StateValues {
-  const { offset, isLocked } = useScrollLockStore()
-  return { offset, isLocked } as StateValues
+  // Cast is safe: lock()/unlock() always set offset+isLocked atomically,
+  // preserving the LockedState | UnLockedState discriminant.
+  return useScrollLockStore(useShallow((s) => ({ offset: s.offset, isLocked: s.isLocked }))) as StateValues
 }

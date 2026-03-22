@@ -21,7 +21,7 @@ import type { SimulationMetadata } from 'types/metadata'
 
 interface ShowcaseLayoutParams {
   character: Character
-  teamSelectionByCharacter: Record<string, string>
+  teamSelection: string | undefined
   storedScoringType: ScoringType
   savedBuildOverride?: SavedBuild | null
 }
@@ -39,10 +39,10 @@ export interface ShowcaseLayout {
 }
 
 export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLayout {
-  const { character, teamSelectionByCharacter, storedScoringType, savedBuildOverride } = params
+  const { character, teamSelection, storedScoringType, savedBuildOverride } = params
 
   const showcaseMetadata = getShowcaseMetadata(character)
-  const currentSelection = handleTeamSelection(character, teamSelectionByCharacter)
+  const currentSelection = handleTeamSelection(character, teamSelection)
   const simulationMetadata = resolveDpsScoreSimulationMetadata(character, currentSelection, savedBuildOverride)
   const hasSimulation = simulationMetadata != null
   const scoringType = resolveScoringType(storedScoringType, hasSimulation)

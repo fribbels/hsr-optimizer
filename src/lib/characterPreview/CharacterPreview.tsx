@@ -47,6 +47,7 @@ import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { getCharacterById } from 'lib/stores/characterStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import {
   showcaseBackgroundColor,
   showcaseTransition,
@@ -87,7 +88,7 @@ interface SavedBuildPreviewProps {
 
 interface CharacterPreviewPropsBase {
   id: string
-  character: Character | null
+  character: Character | ShowcaseTabCharacter | null
 }
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
@@ -113,20 +114,24 @@ export function CharacterPreview({
   return <CharacterPreviewInner character={character} {...rest} />
 }
 
-type CharacterPreviewInnerProps = Omit<CharacterPreviewProps, 'character'> & { character: Character }
+type CharacterPreviewInnerProps = Omit<CharacterPreviewProps, 'character'> & { character: Character | ShowcaseTabCharacter }
 
 const CharacterPreviewInner = memo(function CharacterPreviewInner({
   source,
-  character,
+  character: rawCharacter,
   setOriginalCharacterModalOpen,
   setOriginalCharacterModalInitialCharacter,
   savedBuildOverride,
   id,
 }: CharacterPreviewInnerProps) {
+  // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
+  // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
+  // handles the equipped field difference (Relic objects vs string IDs).
+  const character = rawCharacter as Character
 
   const mantineTheme = useMantineTheme()
 
-  const state = useCharacterPreviewState(source, character, savedBuildOverride)
+  const state = useCharacterPreviewState(source, rawCharacter, savedBuildOverride)
 
   const displayRelics = state.previewRelics?.displayRelics ?? null
   const scoringResults = state.previewRelics?.scoringResults ?? null
@@ -138,12 +143,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const layout = useMemo(
     () => resolveShowcaseLayout({
       character,
-      teamSelectionByCharacter: state.teamSelectionByCharacter,
+      teamSelection: state.teamSelection,
       storedScoringType: state.storedScoringType,
       savedBuildOverride,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character, state.teamSelectionByCharacter, state.storedScoringType, savedBuildOverride, state.scoringMetadata],
+    [character, state.teamSelection, state.storedScoringType, savedBuildOverride, state.scoringMetadata],
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====
@@ -151,10 +156,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     () => resolveShowcaseColor(
       character.id,
       state.globalColorMode,
-      state.globalShowcasePreferences[character.id],
-      state.portraitColorByCharacterId[character.id],
+      state.showcasePreferences,
+      state.portraitColor,
     ),
-    [character.id, state.globalColorMode, state.globalShowcasePreferences, state.portraitColorByCharacterId],
+    [character.id, state.globalColorMode, state.showcasePreferences, state.portraitColor],
   )
 
   const derivedShowcaseTheme = useMemo(
@@ -204,7 +209,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
-  const tempOptions = state.showcaseTemporaryOptionsByCharacter[character.id] ?? {}
+  const tempOptions = state.showcaseTemporaryOptions ?? {}
 
   const cacheKey = useMemo(
     () => {
@@ -213,7 +218,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         character, layout.simulationMetadata, displayRelics as SingleRelicByPart, tempOptions,
       )
     },
-    [character, layout.simulationMetadata, displayRelics, state.showcaseTemporaryOptionsByCharacter],
+    [character, layout.simulationMetadata, displayRelics, state.showcaseTemporaryOptions],
   )
 
   // Compute preview synchronously — runs prepareOrchestrator (~5ms) on cache miss.
@@ -278,7 +283,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         scoringType={scoringType}
         seedColor={seedColor}
         effectiveColorMode={effectiveColorMode}
-        portraitSwatches={state.portraitSwatchesByCharacterId[character.id] ?? EMPTY_SWATCHES}
+        portraitSwatches={state.portraitSwatches ?? EMPTY_SWATCHES}
       />
 
       {/* Showcase full card — CSS custom properties for card theme allow imperative

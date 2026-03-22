@@ -28,6 +28,7 @@ import {
 import { ReliquaryDescription } from 'lib/tabs/tabImport/ReliquaryDescription'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { useRef, useState } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
@@ -68,7 +69,17 @@ export function ScannerImportSubmenu() {
     setIngestWarpResources,
     websocketUrl,
     setWebsocketUrl,
-  } = useScannerState()
+  } = useScannerState(useShallow((s) => ({
+    connected: s.connected,
+    ingest: s.ingest,
+    setIngest: s.setIngest,
+    ingestCharacters: s.ingestCharacters,
+    setIngestCharacters: s.setIngestCharacters,
+    ingestWarpResources: s.ingestWarpResources,
+    setIngestWarpResources: s.setIngestWarpResources,
+    websocketUrl: s.websocketUrl,
+    setWebsocketUrl: s.setWebsocketUrl,
+  })))
   const fileInputRef = useRef<HTMLInputElement>(null)
   const isLiveImporting = connected && ingest
 

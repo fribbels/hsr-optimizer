@@ -7,17 +7,18 @@ import { showcaseOnAddOk, showcaseOnEditOk } from 'lib/characterPreview/characte
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { useCallback, useMemo, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import type { Character, SavedBuild } from 'types/character'
+import type { Character, CharacterId, SavedBuild } from 'types/character'
 import type { CustomImageConfig } from 'types/customImage'
 import type { Relic } from 'types/relic'
 import { useGlobalStore } from 'lib/stores/appStore'
 import { useRelicStore } from 'lib/stores/relicStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import type { Parts } from 'lib/constants/constants'
 
 export function useCharacterPreviewState(
   source: ShowcaseSource,
-  character: Character | null,
+  character: Character | ShowcaseTabCharacter | null,
   savedBuildOverride?: SavedBuild | null,
 ) {
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
@@ -50,19 +51,21 @@ export function useCharacterPreviewState(
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
 
+  // Safe narrowing: fallback to empty string for selector key when no character
+  const charId = (character?.id ?? '') as CharacterId
   const {
-    teamSelectionByCharacter,
-    globalShowcasePreferences,
-    showcaseTemporaryOptionsByCharacter,
-    portraitColorByCharacterId,
-    portraitSwatchesByCharacterId,
+    teamSelection,
+    showcasePreferences,
+    showcaseTemporaryOptions,
+    portraitColor,
+    portraitSwatches,
   } = useShowcaseTabStore(
     useShallow((s) => ({
-      teamSelectionByCharacter: s.showcaseTeamPreferenceById,
-      globalShowcasePreferences: s.showcasePreferences,
-      showcaseTemporaryOptionsByCharacter: s.showcaseTemporaryOptionsByCharacter,
-      portraitColorByCharacterId: s.portraitColorByCharacterId,
-      portraitSwatchesByCharacterId: s.portraitSwatchesByCharacterId,
+      teamSelection: s.showcaseTeamPreferenceById[charId],
+      showcasePreferences: s.showcasePreferences[charId],
+      showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
+      portraitColor: s.portraitColorByCharacterId[charId],
+      portraitSwatches: s.portraitSwatchesByCharacterId[charId],
     })),
   )
 
@@ -88,17 +91,21 @@ export function useCharacterPreviewState(
   // RelicScorer.scoreCharacterWithRelics).
   const scoringMetadata = useScoringMetadata(character?.id)
 
+  // Safe narrowing: downstream functions expect Character, but handle ShowcaseTabCharacter
+  // correctly via the source parameter (source === SHOWCASE_TAB uses embedded relics, not IDs)
+  const narrowedCharacter = character as Character | null
+
   const previewRelics = useMemo(() => {
-    if (!character) return null
-    return getPreviewRelics(source, character, relicsById, savedBuildOverride)
+    if (!narrowedCharacter) return null
+    return getPreviewRelics(source, narrowedCharacter, relicsById, savedBuildOverride)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [source, character, relicsById, savedBuildOverride, scoringMetadata])
+  }, [source, narrowedCharacter, relicsById, savedBuildOverride, scoringMetadata])
 
   const finalStats = useMemo(() => {
-    if (!character || !previewRelics) return undefined
-    const metadata = getShowcaseMetadata(character)
-    return getShowcaseStats(character, previewRelics.displayRelics, metadata)
-  }, [character, previewRelics])
+    if (!narrowedCharacter || !previewRelics) return undefined
+    const metadata = getShowcaseMetadata(narrowedCharacter)
+    return getShowcaseStats(narrowedCharacter, previewRelics.displayRelics, metadata)
+  }, [narrowedCharacter, previewRelics])
 
   return {
     selectedRelic,
@@ -109,11 +116,11 @@ export function useCharacterPreviewState(
     setEditPortraitModalOpen,
     customPortrait,
     setCustomPortrait,
-    teamSelectionByCharacter,
-    globalShowcasePreferences,
-    showcaseTemporaryOptionsByCharacter,
-    portraitColorByCharacterId,
-    portraitSwatchesByCharacterId,
+    teamSelection,
+    showcasePreferences,
+    showcaseTemporaryOptions,
+    portraitColor,
+    portraitSwatches,
     globalColorMode,
     relicsById,
     storedScoringType,

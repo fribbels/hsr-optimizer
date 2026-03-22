@@ -9,6 +9,7 @@ export function computeCharacterOverride(
   state: ShowcaseTabState,
   form: ShowcaseTabCharacter['form'],
 ): Pick<ShowcaseTabState, 'availableCharacters'> {
+  // Guard is in the store action — availableCharacters is guaranteed non-null here
   const { availableCharacters, selectedIndex } = state
   const currentChar = availableCharacters![selectedIndex]
 

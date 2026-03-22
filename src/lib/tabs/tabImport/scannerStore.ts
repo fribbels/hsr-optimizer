@@ -204,6 +204,8 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
       characters: {},
       materials: {},
       gachaFunds: null,
+      activatedBuffs: {},
+      lastScanData: null,
     }),
 
   updateInitialScan: (data: ScannerParserJson) =>
@@ -232,7 +234,7 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
     }),
 
   buildFullScanData: () => {
-    const { lastScanData, characters, lightCones, relics } = get()
+    const { lastScanData, characters, lightCones, relics, materials, gachaFunds } = get()
     if (!lastScanData) {
       return null
     }
@@ -244,6 +246,8 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
       characters: Object.values(characters),
       light_cones: Object.values(lightCones),
       relics: Object.values(relics),
+      materials: Object.values(materials),
+      gacha: gachaFunds ?? lastScanData.gacha,
     } satisfies ScannerParserJson
   },
 
@@ -494,15 +498,17 @@ export function handleUpdateCharacter(
   state.updateCharacter(character)
 
   if (state.ingest && state.ingestCharacters) {
+    // Re-read fresh state to avoid stale activatedBuffs/lightCones in batch processing
+    const freshState = usePrivateScannerState.getState()
     const mappedCharacter = getMappedCharacterId(character)
-    const previousMappedCharacter = state.activatedBuffs[character.id] ?? character.id
+    const previousMappedCharacter = freshState.activatedBuffs[character.id] ?? character.id
     const activatedBuffs = {
-      ...state.activatedBuffs,
+      ...freshState.activatedBuffs,
       [character.id]: mappedCharacter,
     }
 
     if (mappedCharacter !== previousMappedCharacter) {
-      state.updateActivatedBuffs(activatedBuffs)
+      freshState.updateActivatedBuffs(activatedBuffs)
 
       // Need to relocate the previously equipped relics
       const oldRelics = getRelics().filter((relic) => relic.equippedBy === previousMappedCharacter)
@@ -514,7 +520,7 @@ export function handleUpdateCharacter(
     const parsed = ReliquaryArchiverParser.parseCharacter(
       character,
       activatedBuffs,
-      Object.values(state.lightCones),
+      Object.values(freshState.lightCones),
     )
     if (parsed) {
       persistenceService.upsertCharacterFromForm(parsed)
@@ -526,7 +532,7 @@ export function handleDeleteRelic(state: Readonly<ScannerStore>, relicId: string
   const relic = state.relics[relicId]
   state.deleteRelic(relicId)
 
-  if (state.ingest) {
+  if (state.ingest && relic) {
     // Only 5* relics will exist in the DB as we drop everything else
     if (relic.rarity === 5) {
       equipmentService.removeRelic(relicId)

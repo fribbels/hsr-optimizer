@@ -34,6 +34,7 @@ import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import {
   handleBenchmarkFormSubmit,
   handleCharacterSelectChange,
+  handleResetBenchmarks,
 } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
@@ -56,6 +57,7 @@ import {
   useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import type {
   CharacterId,
 } from 'types/character'
@@ -111,7 +113,12 @@ export function BenchmarksTab(): ReactElement {
     teammate0,
     teammate1,
     teammate2,
-  } = useBenchmarksTabStore()
+  } = useBenchmarksTabStore(useShallow((s) => ({
+    updateTeammate: s.updateTeammate,
+    teammate0: s.teammate0,
+    teammate1: s.teammate1,
+    teammate2: s.teammate2,
+  })))
 
   useEffect(() => {
     benchmarkForm.setValues(defaultForm as BenchmarkForm)
@@ -222,10 +229,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 }
 
 function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
-  const {
-    loading,
-    resetCache,
-  } = useBenchmarksTabStore()
+  const loading = useBenchmarksTabStore((s) => s.loading)
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'RightPanel' })
   const { t: tOptimizerTab } = useTranslation('optimizerTab')
 
@@ -269,7 +273,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           {t('ButtonText.Generate') /* Generate benchmarks */}
         </Button>
         <Button
-          onClick={resetCache}
+          onClick={handleResetBenchmarks}
           className={styles.clearButton}
           variant='default'
           leftSection={<IconTrash size={16} />}
@@ -319,12 +323,12 @@ function Teammate({ index }: { index: number }) {
   const {
     onCharacterModalOk,
     setSelectedTeammateIndex,
-    teammate0,
-    teammate1,
-    teammate2,
-  } = useBenchmarksTabStore()
-
-  const teammate = [teammate0, teammate1, teammate2][index]
+    teammate,
+  } = useBenchmarksTabStore(useShallow((s) => ({
+    onCharacterModalOk: s.onCharacterModalOk,
+    setSelectedTeammateIndex: s.setSelectedTeammateIndex,
+    teammate: [s.teammate0, s.teammate1, s.teammate2][index],
+  })))
   const characterId = teammate?.characterId
   const lightCone = teammate?.lightCone
   const characterEidolon = teammate?.characterEidolon ?? 0

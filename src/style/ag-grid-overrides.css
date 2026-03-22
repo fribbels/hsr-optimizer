@@ -156,12 +156,12 @@
     background: var(--cell-bg, transparent);
 }
 
-/* Hover — subtle tint composited over gradient cells */
+/* Hover — subtle white lift composited over gradient cells */
 .ag-row-hover .ag-cell {
-    background: linear-gradient(var(--row-hover-tint, rgba(255, 255, 255, 0.04)), var(--row-hover-tint, rgba(255, 255, 255, 0.04))), var(--cell-bg, transparent);
+    background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), var(--cell-bg, transparent);
 }
 
-/* Selection — left accent + tint */
+/* Selection — left accent + blue tint */
 .ag-row-selected {
     outline: none !important;
     z-index: 1 !important;
@@ -179,7 +179,7 @@
 
 /* Selected + hovered — both tints stack */
 .ag-row-selected.ag-row-hover .ag-cell {
-    background: linear-gradient(var(--row-hover-tint, rgba(255, 255, 255, 0.04)), var(--row-hover-tint, rgba(255, 255, 255, 0.04))), linear-gradient(rgba(99, 130, 191, 0.22), rgba(99, 130, 191, 0.22)), var(--cell-bg, transparent);
+    background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), linear-gradient(rgba(99, 130, 191, 0.22), rgba(99, 130, 191, 0.22)), var(--cell-bg, transparent);
 }
 
 /* ═══════════════════════════════════════════

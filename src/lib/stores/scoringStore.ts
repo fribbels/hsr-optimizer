@@ -22,9 +22,13 @@ export type ScoringStore = ScoringStoreState & ScoringStoreActions
 export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => ({
   scoringMetadataOverrides: {},
 
-  setScoringMetadataOverrides: (overrides) => set({ scoringMetadataOverrides: overrides }),
+  setScoringMetadataOverrides: (overrides) => {
+    console.log('[ScoringStore] setScoringMetadataOverrides — new ref')
+    set({ scoringMetadataOverrides: overrides })
+  },
 
   updateCharacterOverrides: (id, updated) => {
+    console.log(`[ScoringStore] updateCharacterOverrides(${id}) — new ref`)
     const prev = get().scoringMetadataOverrides
     const overrides = { ...prev, [id]: { ...prev[id], ...updated } }
 
@@ -36,12 +40,14 @@ export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => (
 
   updateSimulationOverrides: (id, updatedSimulation) => {
     if (!updatedSimulation) return
+    console.log(`[ScoringStore] updateSimulationOverrides(${id}) — new ref`)
     const prev = get().scoringMetadataOverrides
     const overrides = { ...prev, [id]: { ...prev[id], simulation: { ...prev[id]?.simulation, ...updatedSimulation } } }
     set({ scoringMetadataOverrides: overrides })
   },
 
   clearSimulationOverrides: (id) => {
+    console.log(`[ScoringStore] clearSimulationOverrides(${id}) — new ref`)
     const prev = get().scoringMetadataOverrides
     const { simulation, ...rest } = prev[id] ?? {}
     const overrides = { ...prev, [id]: rest }

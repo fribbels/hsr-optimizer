@@ -50,14 +50,23 @@ export function scoreRelics(
 
   // Clear cache if params change
   const excludedIds = excludedRelicPotentialCharacters.join(',')
-  if (
-    !cacheParams
+  const cacheInvalid = !cacheParams
     || cacheParams.focusCharacter !== focusCharacter
     || cacheParams.excludedIds !== excludedIds
     || cacheParams.metadataRef !== scoringMetadataOverrides
-  ) {
+  if (cacheInvalid) {
+    const reasons = []
+    if (!cacheParams) reasons.push('no prior cache')
+    else {
+      if (cacheParams.focusCharacter !== focusCharacter) reasons.push('focusCharacter changed')
+      if (cacheParams.excludedIds !== excludedIds) reasons.push('excludedIds changed')
+      if (cacheParams.metadataRef !== scoringMetadataOverrides) reasons.push('metadataRef !== (reference comparison)')
+    }
+    console.log(`[P1] scoreRelics CACHE INVALIDATED — reasons: ${reasons.join(', ')}. Rescoring ${relics.length} relics × ${characterIds.length} chars`)
     scoreCache = new WeakMap()
     cacheParams = { focusCharacter, excludedIds, metadataRef: scoringMetadataOverrides }
+  } else {
+    console.log('[P1] scoreRelics CACHE HIT — reusing WeakMap')
   }
 
   const excludedSet = new Set(excludedRelicPotentialCharacters)

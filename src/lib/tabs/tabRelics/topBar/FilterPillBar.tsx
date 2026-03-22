@@ -43,6 +43,8 @@ export function FilterPillBar() {
     })),
   )
 
+  console.log('[P12] FilterPillBar RENDER — all FilterPills will re-render')
+
   const { t, i18n } = useTranslation('relicsTab')
   const { t: tValueColumn } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 

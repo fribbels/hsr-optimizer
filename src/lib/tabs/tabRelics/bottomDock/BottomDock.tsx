@@ -49,11 +49,15 @@ export function BottomDock() {
   const { t } = useTranslation('relicsTab', { keyPrefix: 'Toolbar' })
   const { t: tCommon } = useTranslation('common')
 
+  console.log('[P3/P7/P8/P11] BottomDock RENDER — inline scoring, mixed subscriptions, useScannerState no selector')
+
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
   const setSelectedRelic = (r: Relic) => setSelectedRelicsIds([r.id])
   const score = (selectedRelic && focusCharacter)
     ? RelicScorer.scoreCurrentRelic(selectedRelic, focusCharacter)
     : undefined
+
+  if (score) console.log('[P3] BottomDock computed score inline — new object ref, RelicPreview memo bypassed')
 
   const relicInsightOptions: Array<{ value: string; label: string }> = [
     { value: String(RelicInsights.Buckets), label: 'Buckets' },

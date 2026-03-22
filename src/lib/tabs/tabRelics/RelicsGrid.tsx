@@ -87,9 +87,20 @@ export function RelicsGrid() {
     return addActivationListener(() => setActivated(true))
   }, [isActiveRef, addActivationListener])
 
+  const prevMetaRef = useRef(scoringMetadataOverrides)
+  const renderCount = useRef(0)
+  renderCount.current++
+  const metaChanged = prevMetaRef.current !== scoringMetadataOverrides
+  console.log(`[P2] RelicsGrid RENDER #${renderCount.current} — scoringMetadataOverrides refChanged: ${metaChanged}`)
+  prevMetaRef.current = scoringMetadataOverrides
+
   const scoredRelics = useMemo(() => {
     if (!activated) return null
-    return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringMetadataOverrides)
+    console.log('[P1/P2] RelicsGrid scoredRelics useMemo RECOMPUTING — scoreRelics() called')
+    const t0 = performance.now()
+    const result = scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringMetadataOverrides)
+    console.log(`[P1/P2] scoreRelics() took ${(performance.now() - t0).toFixed(1)}ms for ${relics.length} relics`)
+    return result
   }, [activated, relics, scoringMetadataOverrides, focusCharacter, excludedRelicPotentialCharacters])
 
   const columnDefs = useMemo(() => {

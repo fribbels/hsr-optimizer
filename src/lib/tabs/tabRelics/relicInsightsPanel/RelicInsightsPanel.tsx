@@ -14,14 +14,12 @@ import {
   useRelicsTabStore,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { memo, useMemo } from 'react'
+import { useElementSize } from '@mantine/hooks'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import type { CharacterId } from 'types/character'
 
-export const RelicInsightsPanel = memo(function RelicInsightsPanel({ containerWidth, containerHeight }: {
-  containerWidth?: number
-  containerHeight?: number
-} = {}) {
+export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
   const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore(
     useShallow((s) => ({
       insightsCharacters: s.insightsCharacters,
@@ -33,6 +31,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel({ containerWi
   const scoringVersion = useScoringStore((s) => s.scoringVersion)
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
+  const { ref: containerRef, width: containerWidth } = useElementSize()
 
   const scores: Score[] = useMemo(() => {
     if (!selectedRelic) return []
@@ -62,16 +61,22 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel({ containerWi
       })
   }, [insightsCharacters, selectedRelic, excludedRelicPotentialCharacters, t, scoringVersion])
 
-  if (!selectedRelic) return <></>
+  const chartWidth = containerWidth || undefined
 
-  switch (insightsMode) {
-    case RelicInsights.Buckets:
-      return <BucketsPanel scores={scores} width={containerWidth} height={containerHeight} />
-    case RelicInsights.Top10:
-      return <Top10Panel scores={scores} width={containerWidth} height={containerHeight} />
-    case RelicInsights.ESTBP:
-      return <EstbpCard width={containerWidth} />
-  }
+  return (
+    <div ref={containerRef} style={{ width: '100%', overflow: 'hidden' }}>
+      {selectedRelic && (() => {
+        switch (insightsMode) {
+          case RelicInsights.Buckets:
+            return <BucketsPanel scores={scores} width={chartWidth} />
+          case RelicInsights.Top10:
+            return <Top10Panel scores={scores} width={chartWidth} />
+          case RelicInsights.ESTBP:
+            return <EstbpCard width={chartWidth} />
+        }
+      })()}
+    </div>
+  )
 })
 
 type Score = {

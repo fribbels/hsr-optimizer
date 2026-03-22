@@ -92,6 +92,7 @@ export function BottomToolbar() {
       </Group>
 
       <Group gap={10}>
+        <TooltipImage type={Hint.relicInsight()} />
         <SegmentedControl
           size="xs"
           value={String(insightsMode)}
@@ -108,7 +109,6 @@ export function BottomToolbar() {
           data={characterPlotOptions}
           comboboxProps={{ keepMounted: false }}
         />
-        <TooltipImage type={Hint.relicInsight()} />
       </Group>
     </Flex>
   )

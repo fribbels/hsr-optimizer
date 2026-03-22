@@ -153,3 +153,5 @@ shader.txt
 
 # golden data (regenerate with npm run bench:simbuild:generate)
 goldenSimBuildResults.json
+# Worktrees
+.worktrees/

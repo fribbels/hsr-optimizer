@@ -90,13 +90,11 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
   orchestrators: [],
 
   updateTeammate: (index, data?: SimpleCharacterSets) =>
-    set((state) => {
-      return {
-        teammate0: index === 0 ? data : state.teammate0,
-        teammate1: index === 1 ? data : state.teammate1,
-        teammate2: index === 2 ? data : state.teammate2,
-      }
-    }),
+    set((state) => ({
+      teammate0: index === 0 ? data : state.teammate0,
+      teammate1: index === 1 ? data : state.teammate1,
+      teammate2: index === 2 ? data : state.teammate2,
+    })),
 
   onCharacterModalOk: (form: CharacterModalForm) => {
     if (!form.characterId || !form.lightCone) return
@@ -123,12 +121,10 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
 
   setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),
   setResults: (orchestrators, mergedStoredRelics, mergedStoredOrnaments) =>
-    set((state) => {
-      return {
-        orchestrators,
-        storedRelics: mergedStoredRelics,
-        storedOrnaments: mergedStoredOrnaments,
-      }
+    set({
+      orchestrators,
+      storedRelics: mergedStoredRelics,
+      storedOrnaments: mergedStoredOrnaments,
     }),
 
   resetCache: () =>

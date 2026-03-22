@@ -77,7 +77,9 @@ export function scrollUnlock() {
 }
 
 export function useScrollLock(shouldLock: boolean) {
-  const { lock, unlock } = useScrollLockStore()
+  // Use selectors — action references are stable, avoids re-subscription on isLocked/offset changes
+  const lock = useScrollLockStore((s) => s.lock)
+  const unlock = useScrollLockStore((s) => s.unlock)
   const lockedRef = useRef(false)
   useEffect(() => {
     if (shouldLock && !lockedRef.current) {

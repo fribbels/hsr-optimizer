@@ -93,10 +93,6 @@ function CharacterModalContent() {
     closeOverlay()
   }
 
-  const handleCancel = () => {
-    closeOverlay()
-  }
-
   return (
     <>
       <div>
@@ -211,7 +207,7 @@ function CharacterModalContent() {
         </Flex>
       </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
-        <Button key='back' onClick={handleCancel}>
+        <Button key='back' onClick={closeOverlay}>
           {tCommon('Cancel')}
         </Button>
         <Button key='submit' onClick={onModalOk}>

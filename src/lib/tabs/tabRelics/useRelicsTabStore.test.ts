@@ -1,11 +1,12 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from 'vitest'
 import { useRelicsTabStore, RelicInsights, InsightCharacters } from './useRelicsTabStore'
-import type { RelicTabFilters } from './useRelicsTabStore'
+import type { RelicTabFilters, ValueColumnField } from './useRelicsTabStore'
 import { Parts, Sets } from 'lib/constants/constants'
-import type { ValueColumnField } from './useRelicsTabStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
+
+// ---- Constants ----
 
 const RELIC_1 = 'cd85c14c-a662-4413-a149-a379e6d538d3'
 const RELIC_2 = '0bd7404f-3420-4bf5-9e45-f79343728685'

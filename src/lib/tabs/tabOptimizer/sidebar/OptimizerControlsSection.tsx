@@ -93,7 +93,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
 
           {isFullSize && <ComputeEngineSelect />}
 
-          <Flex gap={defaultGap}>
+          <Flex gap={defaultGap} justify='space-around'>
             <Button variant="default" onClick={cancelClicked} style={buttonStyle}>
               {tCommon('Cancel') /* Cancel */}
             </Button>

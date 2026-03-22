@@ -408,8 +408,8 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
             {toggles.showEidolon && (
               <span className={classes.subtitleBadge}>E{eidolon}</span>
             )}
-            {toggles.showLightCone && lightConeId && (
-              <span className={classes.subtitleBadge}>S{superimposition}</span>
+            {toggles.showLightCone && (
+              <span className={classes.subtitleBadge}>S{lightConeId ? superimposition : 0}</span>
             )}
             <EquipDotInline character={character} toggles={toggles} />
           </div>

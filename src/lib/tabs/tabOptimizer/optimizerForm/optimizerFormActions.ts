@@ -321,7 +321,7 @@ export function resetFilters(): void {
     relicSets: [],
   }
 
-  useOptimizerRequestStore.getState().resetFilters()
+  // FORM-INC-1: Removed redundant store resetFilters() — loadForm() overwrites all the same fields
   useOptimizerRequestStore.getState().loadForm(newForm as Form)
 }
 

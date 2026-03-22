@@ -46,11 +46,46 @@ import React, {
 } from 'react'
 import type { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/frontendUtils'
-import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
+import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, type EquipDotPreset, EQUIP_DOT_PRESETS, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
+import { PartsArray } from 'lib/constants/constants'
 import classes from './CharacterGrid.module.css'
 
 const noop = () => {}
 const DROP_ANIMATION_DURATION = 200
+
+// --- Equip dot indicator ---
+
+type EquipStatus = 'full' | 'partial' | 'empty'
+
+function getEquipStatus(character: Character): EquipStatus {
+  const count = PartsArray.filter((p) => character.equipped?.[p]).length
+  return count === 6 ? 'full' : count === 0 ? 'empty' : 'partial'
+}
+
+function EquipDot({ preset, character }: { preset: EquipDotPreset; character: Character }) {
+  const status = getEquipStatus(character)
+  const colors = EQUIP_DOT_PRESETS.find((p) => p.value === preset)?.colors
+  if (!colors) return null
+  const color = colors[status]
+
+  return (
+    <div
+      className={classes.equipDot}
+      style={{
+        background: color,
+        width: colors.size,
+        height: colors.size,
+        top: colors.top,
+        left: colors.left,
+        right: colors.right,
+        bottom: colors.bottom,
+        opacity: colors.opacity,
+        filter: colors.blur ? `blur(${colors.blur})` : undefined,
+        borderRadius: colors.borderRadius ?? '50%',
+      }}
+    />
+  )
+}
 
 const dropAnimationConfig: DropAnimation = {
   duration: DROP_ANIMATION_DURATION,
@@ -360,8 +395,14 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         <div className={classes.lcStrip} />
       )}
 
+      {/* Equip dot indicator */}
+      {toggles.equipIndicator !== 'off' && (
+        <EquipDot preset={toggles.equipIndicator} character={character} />
+      )}
+
       {/* Content */}
       <div className={classes.inner}>
+
         {/* Rank / drag grip — grip replaces rank on hover */}
         {toggles.showRank && (
           <div className={classes.rankGripSlot}>

@@ -79,10 +79,8 @@ describe('useRelicsTabStore', () => {
       expect(state().selectedRelicsIds).toBe(before)
     })
 
-    // BUG: equality check only compares length + last element.
-    // [RELIC_1, RELIC_2] vs [RELIC_3, RELIC_2] has same count and same tail — treated as equal.
-    // Asserts CORRECT behavior. it.fails until the bug is fixed.
-    it.fails('selecting different relic IDs with matching length and last element still updates selectedRelicsIds', () => {
+    // RELICSTAB-1: Fixed — equality check now compares element-wise, not just length + last element.
+    it('selecting different relic IDs with matching length and last element still updates selectedRelicsIds', () => {
       state().setSelectedRelicsIds([RELIC_1, RELIC_2])
       const before = state().selectedRelicsIds
       state().setSelectedRelicsIds([RELIC_3, RELIC_2])

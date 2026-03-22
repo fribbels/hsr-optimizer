@@ -30,7 +30,7 @@ export function extractTeammateKey(sourceKey: string): TeammateKey {
 
 export function shiftLeft(arr: boolean[], index: number) {
   arr.splice(index, 1)
-  arr.push(arr[0])
+  // No push — array should shrink by 1 to match comboTurnAbilities after deletion (COMBO-2)
 }
 
 

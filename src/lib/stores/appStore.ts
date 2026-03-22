@@ -5,7 +5,6 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getDefaultActiveKey } from 'lib/constants/appPages'
 import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
-import { Themes } from 'lib/rendering/theme'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import type {
   GlobalSavedSession,
@@ -25,7 +24,6 @@ export const savedSessionDefaults: GlobalSavedSession = {
 
 export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
-  colorTheme: Themes.BLUE,
 
   scoringAlgorithmFocusCharacter: undefined,
   statTracesDrawerFocusCharacter: undefined,
@@ -49,5 +47,4 @@ export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
     set((state) => ({
       savedSession: { ...state.savedSession, [key]: x },
     })),
-  setColorTheme: (x) => set(() => ({ colorTheme: x })),
 }))

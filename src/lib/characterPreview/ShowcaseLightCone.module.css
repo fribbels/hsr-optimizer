@@ -31,6 +31,9 @@
   margin-left: 10px;
   margin-right: 10px;
   text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .lcLevelText {

@@ -7,7 +7,7 @@ import {
   type ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import styles from 'lib/characterPreview/ShowcaseLightCone.module.css'
-import { StatText, StatTextEllipses } from 'lib/characterPreview/StatText'
+import { StatText } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
@@ -151,9 +151,9 @@ export const ShowcaseLightConeLargeName = memo(function ShowcaseLightConeLargeNa
 
   return (
     <Flex direction="column">
-      <StatTextEllipses className={styles.lcNameText}>
+      <StatText className={styles.lcNameText}>
         {lightConeName}
-      </StatTextEllipses>
+      </StatText>
       <StatText className={styles.lcLevelText}>
         {
           `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`

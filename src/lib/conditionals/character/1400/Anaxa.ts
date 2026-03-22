@@ -442,9 +442,9 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 1235,
-    y: 1025,
-    z: 0.90,
+    x: 1245,
+    y: 1059,
+    z: 1,
   },
   showcaseColor: '#93d4c2',
 }

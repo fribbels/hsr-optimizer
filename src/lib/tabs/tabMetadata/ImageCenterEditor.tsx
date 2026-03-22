@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Checkbox, CopyButton, Flex, NumberInput } from '@mantine/core'
+import { ActionIcon, Badge, Button, Checkbox, CopyButton, Flex, NumberInput } from '@mantine/core'
 import { IconCheck, IconClipboard, IconCopy } from '@tabler/icons-react'
 import { innerW, newLcHeight, newLcMargin, parentH, parentW, simScoreInnerW } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
@@ -131,13 +131,17 @@ function CharCenterControls({ center, setCenter, configString, onReset, onCopyCe
       <Flex gap={8} align="center">
         <CopyButton value={configString}>
           {({ copied, copy }) => (
-            <Button size="xs" variant="subtle" onClick={copy} leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}>
-              {copied ? 'Copied' : 'Copy config'}
+            <Button
+              size="xs"
+              variant="subtle"
+              leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
+              onClick={() => { copy(); onCopyCenter() }}
+            >
+              {copied ? 'Copied' : 'Copy'}
             </Button>
           )}
         </CopyButton>
-        <Button size="xs" variant="subtle" onClick={onCopyCenter} leftSection={<IconCopy size={14} />}>Copy values</Button>
-        <Button size="xs" variant="subtle" onClick={onPasteCenter} disabled={!clipboard} leftSection={<IconClipboard size={14} />}>Paste values</Button>
+        <Button size="xs" variant="subtle" onClick={onPasteCenter} disabled={!clipboard} leftSection={<IconClipboard size={14} />}>Paste</Button>
         <Button size="xs" variant="subtle" onClick={onReset}>Reset</Button>
       </Flex>
       <code style={{ fontSize: 13, background: '#222', padding: '4px 8px', borderRadius: 4, width: 'fit-content' }}>{configString}</code>
@@ -413,12 +417,14 @@ export function ImageCenterEditorSection() {
 
   const characterOptions = useMemo(buildCharacterOptions, [])
 
+  const disableSpine = selectedCharId ? getGameMetadata().characters[selectedCharId]?.disableSpine : false
+
   useEffect(() => {
     if (!selectedCharId) return
     const meta = getGameMetadata().characters[selectedCharId]
     if (meta) {
       setPortraitCenter({ ...meta.imageCenter })
-      setSpineCenter({ ...meta.imageCenter })
+      setSpineCenter({ ...meta.spineCenter })
     }
   }, [selectedCharId])
 
@@ -437,6 +443,9 @@ export function ImageCenterEditorSection() {
           checked={showCrosshairs}
           onChange={(e) => setShowCrosshairs(e.currentTarget.checked)}
         />
+        {selectedCharId && disableSpine && (
+          <Badge color="red" variant="filled">Spine Disabled</Badge>
+        )}
       </Flex>
 
       <Flex gap={40} wrap="nowrap" align="center">

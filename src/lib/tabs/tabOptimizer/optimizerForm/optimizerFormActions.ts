@@ -317,8 +317,6 @@ export function resetFilters(): void {
     mainHead: [],
     mainLinkRope: [],
     mainPlanarSphere: [],
-    ornamentSets: [],
-    relicSets: [],
   }
 
   // FORM-INC-1: Removed redundant store resetFilters() — loadForm() overwrites all the same fields

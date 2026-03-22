@@ -6,14 +6,12 @@ import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConvers
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Sets } from 'lib/constants/constants'
-import { type CharacterId } from 'types/character'
 import { type LightConeId } from 'types/lightCone'
 import { type SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
 
 // ---- Constants ----
 
 const LC_ALONG_THE_PASSING_SHORE = '23020' as LightConeId
-const LC_PATIENCE_IS_ALL_YOU_NEED = '23007' as LightConeId
 
 // ---- Helpers ----
 
@@ -115,6 +113,28 @@ describe('useOptimizerRequestStore', () => {
       expect(teammate.lightConeSuperimposition).toBe(1)
       expect(teammate.lightConeConditionals).toEqual({})
     })
+
+    it('setTeammate batch updates multiple fields in a single state update', () => {
+      state().setTeammate(0, {
+        characterId: Kafka.id,
+        characterEidolon: 6,
+        lightCone: LC_ALONG_THE_PASSING_SHORE,
+        lightConeSuperimposition: 5,
+      })
+      const teammate = state().teammates[0]
+      expect(teammate.characterId).toBe(Kafka.id)
+      expect(teammate.characterEidolon).toBe(6)
+      expect(teammate.lightCone).toBe(LC_ALONG_THE_PASSING_SHORE)
+      expect(teammate.lightConeSuperimposition).toBe(5)
+      // Other teammates unaffected
+      expect(state().teammates[1].characterId).toBeUndefined()
+    })
+
+    it('setTeammate produces a new teammates array reference', () => {
+      const before = state().teammates
+      state().setTeammate(0, { characterId: Kafka.id })
+      expect(state().teammates).not.toBe(before)
+    })
   })
 
   describe('complex actions', () => {
@@ -179,9 +199,9 @@ describe('useOptimizerRequestStore', () => {
       })
 
       state().setRelicFilterField('enhance', 15)
-      state().setRelicFilterField('grade', 4 as any)
+      state().setRelicFilterField('grade', 4)
       state().setMainStats('mainBody', ['HP%'])
-      state().setSetFilters({ fourPiece: ['set1' as any], twoPieceCombos: [], ornaments: [] })
+      state().setSetFilters({ fourPiece: [Sets.MusketeerOfWildWheat as any], twoPieceCombos: [], ornaments: [] })
 
       state().resetFilters()
 

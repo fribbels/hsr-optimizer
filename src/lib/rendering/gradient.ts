@@ -15,7 +15,7 @@ const optimizerGridGradient = chroma.scale(['#5A1A06', '#343127', '#38821F']).do
 
 // this default is overwritten on page load, Gradient.setTheme() in App.tsx
 let relicGridGradient = chroma.scale(['#343127', '#38821F'])
-let relicGradientCache = new Map<number, { backgroundColor: string }>()
+let relicGradientCache = new Map<number, { '--cell-bg': string }>()
 
 const relicColumnRanges = {
   'augmentedStats.HP': 169.35,
@@ -64,13 +64,13 @@ export const Gradient = {
 
         const color = Gradient.getColor(Math.min(Math.max(range, 0), 1), optimizerGridGradient)
         return {
-          backgroundColor: color,
+          '--cell-bg': color,
         }
       }
 
       // No aggregations yet — return neutral color to prevent black flash
       if (params.data) {
-        return { backgroundColor: Gradient.getColor(0.5, optimizerGridGradient) }
+        return { '--cell-bg': Gradient.getColor(0.5, optimizerGridGradient) }
       }
     } catch (e) {
       console.error(e)
@@ -108,7 +108,7 @@ export const Gradient = {
     if (cached) return cached
 
     const color = Gradient.getColor(clamped, relicGridGradient)
-    const style = { backgroundColor: color }
+    const style = { '--cell-bg': color }
     relicGradientCache.set(key, style)
     return style
   },

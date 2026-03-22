@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { DamageTag, OutputTag } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -165,7 +166,8 @@ export function extractDamageByTag(
 // --- Action name formatting ---
 
 function formatActionName(action: OptimizerAction, mode: 'default' | 'rotation', comboIndex?: number): string {
-  const label = AbilityMeta[action.actionType].label
+  const labelKey = AbilityMeta[action.actionType].label
+  const label = i18next.t(`optimizerTab:ComboFilter.ComboOptions.${labelKey}`)
 
   if (mode === 'default') {
     return label

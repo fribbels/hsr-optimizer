@@ -157,12 +157,18 @@ function dimNumberLeftTick(props: { x: string | number; y: string | number; payl
   const { x, y, payload } = props
   const tx = Number(x) - 70
   const { num, label } = parseLabel(payload.value)
+  const words = label.split(' ')
+  const multiline = words.length > 1
+  const lineHeight = 14
+  const startDy = multiline ? -((words.length - 1) * lineHeight) / 2 : 0
 
   if (!num) {
     return (
       <text x={tx} y={y} textAnchor='start' fontSize={13} fontWeight={300} dominantBaseline='central'>
         <tspan fill='transparent'>0. </tspan>
-        <tspan fill={chartColor}>{payload.value}</tspan>
+        {words.map((word, i) => (
+          <tspan key={i} x={tx + 18} dy={i === 0 ? startDy : lineHeight} fill={chartColor}>{word}</tspan>
+        ))}
       </text>
     )
   }
@@ -170,7 +176,9 @@ function dimNumberLeftTick(props: { x: string | number; y: string | number; payl
   return (
     <text x={tx} y={y} textAnchor='start' fontSize={13} fontWeight={300} dominantBaseline='central'>
       <tspan fill='#667'>{num}. </tspan>
-      <tspan fill={chartColor}>{label}</tspan>
+      {words.map((word, i) => (
+        <tspan key={i} x={tx + 18} dy={i === 0 ? startDy : lineHeight} fill={chartColor}>{word}</tspan>
+      ))}
     </text>
   )
 }

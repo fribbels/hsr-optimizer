@@ -7,7 +7,7 @@
     --ag-odd-row-background-color: var(--mantine-color-dark-6);
     --ag-header-background-color: var(--bg-app);
     --ag-border-color: var(--border-color);
-    --ag-row-hover-color: var(--mantine-color-primary-light);
+    --ag-row-hover-color: rgba(255, 255, 255, 0.03);
 }
 
 /* ═══════════════════════════════════════════
@@ -150,14 +150,36 @@
     border: none;
 }
 
+/* Cell backgrounds driven by CSS custom property set via cellStyle.
+   This lets row-level selection/hover styles composite over gradient cells. */
+.ag-cell {
+    background: var(--cell-bg, transparent);
+}
+
+/* Hover — subtle tint composited over gradient cells */
+.ag-row-hover .ag-cell {
+    background: linear-gradient(var(--row-hover-tint, rgba(255, 255, 255, 0.04)), var(--row-hover-tint, rgba(255, 255, 255, 0.04))), var(--cell-bg, transparent);
+}
+
+/* Selection — left accent + tint */
 .ag-row-selected {
-    outline: 1px solid #5e5e5e !important;
+    outline: none !important;
     z-index: 1 !important;
-    background: #0000002e !important;
+    background: rgba(99, 130, 191, 0.08) !important;
+    box-shadow: inset 3px 0 0 0 var(--mantine-color-primary-4);
 }
 
 .ag-row-selected:before {
     background: none !important;
+}
+
+.ag-row-selected .ag-cell {
+    background: linear-gradient(rgba(99, 130, 191, 0.22), rgba(99, 130, 191, 0.22)), var(--cell-bg, transparent);
+}
+
+/* Selected + hovered — both tints stack */
+.ag-row-selected.ag-row-hover .ag-cell {
+    background: linear-gradient(var(--row-hover-tint, rgba(255, 255, 255, 0.04)), var(--row-hover-tint, rgba(255, 255, 255, 0.04))), linear-gradient(rgba(99, 130, 191, 0.22), rgba(99, 130, 191, 0.22)), var(--cell-bg, transparent);
 }
 
 /* ═══════════════════════════════════════════

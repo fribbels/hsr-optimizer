@@ -82,6 +82,15 @@ export const RelicsTabController = {
       setSelectedRelicsIds([relic.id])
       SaveState.delayedSave()
       Message.success(t('AddRelicSuccess'))
+
+      setTimeout(() => {
+        const api = gridStore.relicsGridApi()
+        if (!api) return
+        const node = api.getRowNode(relic.id)
+        if (!node) return
+        node.setSelected(true, true)
+        api.ensureNodeVisible(node)
+      }, 0)
     }
   },
 }

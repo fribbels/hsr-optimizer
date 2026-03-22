@@ -105,7 +105,7 @@ const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set, get) => ({
     return set({ selectedRelicId: newSelectedId, selectedRelicsIds: [...ids] })
   },
   setValueColumns: (cols) => set({ valueColumns: [...cols] }),
-  setExcludedRelicPotentialCharacters: (excludedRelicPotentialCharacters) => set({ excludedRelicPotentialCharacters }),
+  setExcludedRelicPotentialCharacters: (excludedRelicPotentialCharacters) => set({ excludedRelicPotentialCharacters: [...excludedRelicPotentialCharacters] }),
 
   setFilters: (filters) => set({ filters }),
   setFilter: (key) => (value) => set((s) => ({ filters: { ...s.filters, [key]: value } })),

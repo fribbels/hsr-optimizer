@@ -82,8 +82,8 @@ function ResetAllCharactersButton({ focusCharacter, form }: {
     for (const character of Object.keys(charactersById) as CharacterId[]) {
       const defaultScoringMetadata = getGameMetadata().characters[character].scoringMetadata
       const scoringMetadataToMerge: Partial<ScoringMetadata> = {
-        stats: defaultScoringMetadata.stats,
-        parts: defaultScoringMetadata.parts,
+        stats: { ...defaultScoringMetadata.stats },
+        parts: { ...defaultScoringMetadata.parts },
       }
       useScoringStore.getState().updateCharacterOverrides(character, scoringMetadataToMerge); SaveState.delayedSave()
     }
@@ -176,8 +176,8 @@ function ScoringModalContent({ close }: { close: () => void }) {
     const defaultScoringMetadata = getGameMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
     const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
     const scoringMetadataToMerge: Partial<ScoringMetadata> = {
-      stats: defaultScoringMetadata.stats,
-      parts: defaultScoringMetadata.parts,
+      stats: { ...defaultScoringMetadata.stats },
+      parts: { ...defaultScoringMetadata.parts },
     }
 
     scoringAlgorithmForm.setValues(displayScoringMetadata)

@@ -46,7 +46,7 @@ import React, {
 } from 'react'
 import type { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/frontendUtils'
-import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, EQUIP_DOT_PRESETS, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
+import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, EQUIP_DOT_COLORS, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import { PartsArray } from 'lib/constants/constants'
 import classes from './CharacterGrid.module.css'
 
@@ -55,29 +55,21 @@ const DROP_ANIMATION_DURATION = 200
 
 // --- Equip dot indicator ---
 
-type EquipStatus = 'full' | 'partial' | 'empty'
-
-function getEquipStatus(character: Character): EquipStatus {
-  const count = PartsArray.filter((p) => character.equipped?.[p]).length
-  return count === 6 ? 'full' : count === 0 ? 'empty' : 'partial'
-}
-
 function EquipDotInline({ character, toggles }: { character: Character; toggles: DebugToggles }) {
-  if (toggles.equipIndicator === 'off') return null
-  const preset = EQUIP_DOT_PRESETS.find((p) => p.value === toggles.equipIndicator)
-  if (!preset) return null
+  if (!toggles.showEquipIndicator) return null
 
-  const status = getEquipStatus(character)
-  const color = preset.style[status]
+  const count = PartsArray.filter((p) => character.equipped?.[p]).length
+  if (count === 6) return null
+
+  const color = count === 0 ? EQUIP_DOT_COLORS.empty : EQUIP_DOT_COLORS.partial
 
   return (
     <span
       className={classes.equipDot}
       style={{
         background: color,
-        width: preset.style.size,
-        height: preset.style.size,
-        opacity: preset.style.opacity,
+        width: EQUIP_DOT_COLORS.size,
+        height: EQUIP_DOT_COLORS.size,
       }}
     />
   )

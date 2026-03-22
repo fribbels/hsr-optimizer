@@ -139,39 +139,11 @@ const ACTION_BTN_PRESETS: ActionBtnPreset[] = [
 export type ScrimMode = 'frosted'
 export type LcStyle = 'none' | 'pill' | 'frosted' | 'shadow'
 
-export type EquipDotPreset = 'off'
-  | 'earth' | 'slate'
-  | 'clay' | 'sandstone' | 'iron' | 'moss' | 'quarry'
-  | 'terra' | 'shale' | 'dusk'
-
-type EquipDotStyle = {
-  full: string
-  partial: string
-  empty: string
-  size: number
-  opacity?: number
+export const EQUIP_DOT_COLORS = {
+  partial: '#b89040',
+  empty: '#903040',
+  size: 5,
 }
-
-// Variations around the earth/slate range — muted but yellow and red stay distinct.
-export const EQUIP_DOT_PRESETS: { value: EquipDotPreset; label: string; style: EquipDotStyle }[] = [
-  // Anchors
-  { value: 'earth', label: 'Earth', style: { full: '#4caf50', partial: '#c8a030', empty: '#a83030', size: 5 } },
-  { value: 'slate', label: 'Slate', style: { full: '#4caf50', partial: '#b89830', empty: '#904040', size: 5 } },
-  // Warmer yellows, same red range
-  { value: 'clay', label: 'Clay', style: { full: '#4caf50', partial: '#c49535', empty: '#9c3535', size: 5 } },
-  { value: 'sandstone', label: 'Sandstone', style: { full: '#4caf50', partial: '#d0a538', empty: '#a03838', size: 5 } },
-  // Cooler / greyer
-  { value: 'iron', label: 'Iron', style: { full: '#4caf50', partial: '#a89040', empty: '#884040', size: 5 } },
-  { value: 'quarry', label: 'Quarry', style: { full: '#4caf50', partial: '#a08838', empty: '#804545', size: 5 } },
-  // Slightly brighter than slate
-  { value: 'terra', label: 'Terra', style: { full: '#4caf50', partial: '#c0a040', empty: '#b03535', size: 5 } },
-  // Slightly darker than slate
-  { value: 'shale', label: 'Shale', style: { full: '#4caf50', partial: '#a08030', empty: '#853838', size: 5 } },
-  // More green in the yellow, pinker red
-  { value: 'moss', label: 'Moss', style: { full: '#4caf50', partial: '#b0a030', empty: '#984050', size: 5 } },
-  // Warm dusk — amber-orange yellow, burgundy red
-  { value: 'dusk', label: 'Dusk', style: { full: '#4caf50', partial: '#b89040', empty: '#903040', size: 5 } },
-]
 
 export const SCRIM_MODES: { value: ScrimMode; label: string }[] = [
   { value: 'frosted', label: 'Frosted' },
@@ -197,7 +169,7 @@ export type DebugToggles = {
   lcStyle: LcStyle
   hoverEffect: HoverEffect
   actionBtnStyle: ActionBtnStyle
-  equipIndicator: EquipDotPreset
+  showEquipIndicator: boolean
 }
 
 export const DEFAULT_TOGGLES: DebugToggles = {
@@ -213,10 +185,10 @@ export const DEFAULT_TOGGLES: DebugToggles = {
   lcStyle: 'shadow',
   hoverEffect: 'lift-bright',
   actionBtnStyle: 'bright',
-  equipIndicator: 'off',
+  showEquipIndicator: true,
 }
 
-type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle' | 'hoverEffect' | 'actionBtnStyle' | 'equipIndicator'>
+type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle' | 'hoverEffect' | 'actionBtnStyle'>
 
 const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   showRank: 'Rank',
@@ -227,6 +199,7 @@ const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   showContainerBorder: 'List Border',
   showLcStrip: 'LC Strip',
   nameShadow: 'Name Shadow',
+  showEquipIndicator: 'Equip Dot',
 }
 
 export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, colorTransform, onColorTransformChange }: {
@@ -428,28 +401,6 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
                   key={s.value}
                   style={pillStyle(toggles.lcStyle === s.value)}
                   onClick={() => onTogglesChange({ ...toggles, lcStyle: s.value })}
-                >
-                  {s.label}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Equip dot indicator */}
-          <div>
-            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>EQUIP DOT</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-              <span
-                style={pillStyle(toggles.equipIndicator === 'off')}
-                onClick={() => onTogglesChange({ ...toggles, equipIndicator: 'off' })}
-              >
-                Off
-              </span>
-              {EQUIP_DOT_PRESETS.map((s) => (
-                <span
-                  key={s.value}
-                  style={pillStyle(toggles.equipIndicator === s.value)}
-                  onClick={() => onTogglesChange({ ...toggles, equipIndicator: s.value })}
                 >
                   {s.label}
                 </span>

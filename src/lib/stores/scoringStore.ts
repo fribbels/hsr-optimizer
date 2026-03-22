@@ -4,7 +4,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadata, SimulationMetadata } from 'types/metadata'
-import { mergeUndefinedValues } from 'lib/utils/objectUtils'
+import { clone, mergeUndefinedValues } from 'lib/utils/objectUtils'
 
 type ScoringStoreState = {
   scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>
@@ -31,9 +31,11 @@ export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => (
 
   updateCharacterOverrides: (id, updated) => {
     const prev = get().scoringMetadataOverrides
-    const overrides = { ...prev, [id]: { ...prev[id], ...updated } }
+    const overrides = { ...prev, [id]: { stats: {}, ...prev[id], ...updated } }
 
-    const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
+    const characterMeta = getGameMetadata().characters[id]
+    if (!characterMeta?.scoringMetadata) return
+    const defaultScoringMetadata = characterMeta.scoringMetadata
     setModifiedScoringMetadata(defaultScoringMetadata, overrides[id]!)
 
     set({ scoringMetadataOverrides: overrides, scoringVersion: get().scoringVersion + 1 })
@@ -58,12 +60,15 @@ export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => (
  * Gets scoring metadata for a character, merged with overrides.
  */
 export function getScoringMetadata(id: CharacterId): ScoringMetadata {
-  const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
+  const characterMeta = getGameMetadata().characters[id]
+  if (!characterMeta?.scoringMetadata) return { stats: {}, parts: {}, presets: [], sortOption: {}, hiddenColumns: [] } as unknown as ScoringMetadata
+  const defaultScoringMetadata = characterMeta.scoringMetadata
   const override = useScoringStore.getState().scoringMetadataOverrides[id]
-  const returnScoringMetadata = mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
+  const cloned = clone(override) ?? {}
+  const returnScoringMetadata = mergeUndefinedValues(cloned, defaultScoringMetadata) as ScoringMetadata
 
   for (const stat of SubStats) {
-    if (returnScoringMetadata.stats[stat] === undefined) {
+    if (returnScoringMetadata.stats[stat] == null) {
       returnScoringMetadata.stats[stat] = 0
     }
   }

@@ -109,6 +109,8 @@ export type DBMetadataCharacter = {
   traces: Record<string, number>,
   traceTree: TraceNode[],
   imageCenter: ImageCenter,
+  spineCenter: ImageCenter,
+  disableSpine: boolean,
   scoringMetadata: ScoringMetadata,
 }
 

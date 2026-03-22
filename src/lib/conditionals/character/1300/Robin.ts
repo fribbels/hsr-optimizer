@@ -351,9 +351,14 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 1024,
-    y: 925,
-    z: 1,
+    x: 1021,
+    y: 855,
+    z: 1.15,
+  },
+  spineCenter: {
+    x: 1009,
+    y: 923,
+    z: 1.15,
   },
   showcaseColor: '#d7a4f1',
 }

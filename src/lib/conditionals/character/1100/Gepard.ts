@@ -220,6 +220,7 @@ const display = {
     y: 1110,
     z: 1,
   },
+  disableSpine: true,
   showcaseColor: '#0f4eef',
 }
 

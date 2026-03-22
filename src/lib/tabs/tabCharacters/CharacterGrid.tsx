@@ -107,10 +107,6 @@ export function CharacterGrid() {
   )
 
   useEffect(() => {
-    setLoadedCount(INITIAL_LOAD_COUNT)
-  }, [filteredCharacters])
-
-  useEffect(() => {
     if (loadedCount >= filteredCharacters.length) return
     const timer = setTimeout(() => setLoadedCount((c) => c + 1), TRICKLE_DELAY)
     return () => clearTimeout(timer)

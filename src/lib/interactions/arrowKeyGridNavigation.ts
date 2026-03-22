@@ -19,7 +19,8 @@ export const arrowKeyGridNavigation = <T>(
 ): CellPosition | null => {
   if (!grid.current) return null
   const previousCell = params.previousCellPosition
-  let nextRowIndex: number, renderedRowCount: number, newSelectedNode: IRowNode<T>
+  const renderedRowCount = params.api.getDisplayedRowCount()
+  let nextRowIndex: number, newSelectedNode: IRowNode<T>
 
   function selectCell(nextRowIndex: number) {
     if (nextRowIndex >= renderedRowCount || nextRowIndex <= -1) {
@@ -43,7 +44,6 @@ export const arrowKeyGridNavigation = <T>(
       return selectCell(nextRowIndex)
     case KEY_DOWN:
       nextRowIndex = previousCell.rowIndex + 1
-      renderedRowCount = params.api.getDisplayedRowCount()
       return selectCell(nextRowIndex)
     case KEY_LEFT:
     case KEY_RIGHT:

@@ -31,7 +31,7 @@ const N_Displayed = 10
 
 const DEFAULT_LEGEND_WIDTH = 273
 const DEFAULT_CHART_WIDTH = 320 + DEFAULT_LEGEND_WIDTH
-const DEFAULT_HEIGHT = 278
+const DEFAULT_HEIGHT = 288
 
 type DataPoint = {
   name: string,

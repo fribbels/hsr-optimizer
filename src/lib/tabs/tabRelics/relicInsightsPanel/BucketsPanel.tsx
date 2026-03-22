@@ -43,7 +43,7 @@ type DataPoint = {
 }
 
 const DEFAULT_WIDTH = 1222
-const DEFAULT_HEIGHT = 278
+const DEFAULT_HEIGHT = 288
 
 const IMG_WIDTH_NORMAL = 26
 const IMG_HEIGHT_NORMAL = 39

@@ -72,7 +72,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
           case RelicInsights.Top10:
             return <Top10Panel scores={scores} width={chartWidth} />
           case RelicInsights.ESTBP:
-            return <EstbpCard width={chartWidth} />
+            return <EstbpCard />
         }
       })()}
     </div>

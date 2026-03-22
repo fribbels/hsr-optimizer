@@ -93,7 +93,7 @@ function SettingsDrawerContent() {
   }, [])
 
   return (
-    <Flex direction="column" gap={5}>
+    <Flex direction="column" gap={15}>
       {(Object.keys(SettingOptions) as (keyof typeof SettingOptions)[])
         .map((option) => (
           <Flex justify='space-between' align='center' key={option}>

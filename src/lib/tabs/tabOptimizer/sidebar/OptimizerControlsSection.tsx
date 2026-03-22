@@ -31,7 +31,7 @@ const fullSizeOuterStyle: CSSProperties = { display: 'flex', flexDirection: 'col
 const compactOuterStyle: CSSProperties = { display: 'flex', flexDirection: 'row-reverse' }
 const controlsGapStyle: CSSProperties = { marginBottom: 2 }
 const startButtonStyle: CSSProperties = { flex: 1, minWidth: 211 }
-const buttonStyle: CSSProperties = { flex: 1 }
+const buttonStyle: CSSProperties = { width: '100px' }
 const statViewStyle: CSSProperties = { flex: 1, minWidth: 211 }
 
 export const OptimizerControlsSection = memo(function OptimizerControlsSection({ isFullSize }: { isFullSize: boolean }) {

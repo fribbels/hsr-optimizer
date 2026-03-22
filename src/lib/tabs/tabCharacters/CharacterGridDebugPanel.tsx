@@ -139,6 +139,75 @@ const ACTION_BTN_PRESETS: ActionBtnPreset[] = [
 export type ScrimMode = 'frosted'
 export type LcStyle = 'none' | 'pill' | 'frosted' | 'shadow'
 
+export type EquipDotPreset = 'off' | 'top-left' | 'bottom-left' | 'mid-left' | 'name-left' | 'rank-corner' | 'subtle-edge' | 'glow-left' | 'muted-top' | 'accent-bottom' | 'ghost-mid'
+
+type EquipDotColors = {
+  full: string
+  partial: string
+  empty: string
+  size: number
+  top?: number | string
+  left?: number | string
+  right?: number | string
+  bottom?: number | string
+  opacity?: number
+  blur?: string
+  borderRadius?: string
+}
+
+export const EQUIP_DOT_PRESETS: { value: EquipDotPreset; label: string; colors: EquipDotColors }[] = [
+  // 1. Top-left corner, standard traffic-light colors
+  {
+    value: 'top-left', label: 'Top Left',
+    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 6, top: 4, left: 4 },
+  },
+  // 2. Bottom-left corner
+  {
+    value: 'bottom-left', label: 'Bottom Left',
+    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 6, bottom: 4, left: 4 },
+  },
+  // 3. Vertically centered on left edge
+  {
+    value: 'mid-left', label: 'Mid Left',
+    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 5, top: 'calc(50% - 2.5px)', left: 5 },
+  },
+  // 4. Next to name area, slightly inset
+  {
+    value: 'name-left', label: 'Name Left',
+    colors: { full: '#66bb6a', partial: '#ffa726', empty: '#ef5350', size: 5, top: 8, left: 26 },
+  },
+  // 5. Overlapping rank area corner
+  {
+    value: 'rank-corner', label: 'Rank Corner',
+    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 5, top: 3, left: 15 },
+  },
+  // 6. Subtle edge — tiny, low opacity
+  {
+    value: 'subtle-edge', label: 'Subtle Edge',
+    colors: { full: '#81c784', partial: '#ffb74d', empty: '#e57373', size: 4, top: 3, left: 3, opacity: 0.6 },
+  },
+  // 7. Glow — soft blurred dot, more atmospheric
+  {
+    value: 'glow-left', label: 'Glow Left',
+    colors: { full: '#4caf50', partial: '#ff9800', empty: '#ef5350', size: 8, top: 4, left: 3, opacity: 0.7, blur: '2px' },
+  },
+  // 8. Muted pastel top — desaturated, blends with dark UI
+  {
+    value: 'muted-top', label: 'Muted Top',
+    colors: { full: '#7cb87e', partial: '#c9a34e', empty: '#b56b6b', size: 5, top: 4, left: 4, opacity: 0.8 },
+  },
+  // 9. Accent bottom — slightly larger, near bottom edge
+  {
+    value: 'accent-bottom', label: 'Accent Bot',
+    colors: { full: '#43a047', partial: '#ef6c00', empty: '#c62828', size: 6, bottom: 5, left: 5 },
+  },
+  // 10. Ghost mid — very subtle, centered
+  {
+    value: 'ghost-mid', label: 'Ghost Mid',
+    colors: { full: '#a5d6a7', partial: '#ffe0b2', empty: '#ef9a9a', size: 5, top: 'calc(50% - 2.5px)', left: 4, opacity: 0.45 },
+  },
+]
+
 export const SCRIM_MODES: { value: ScrimMode; label: string }[] = [
   { value: 'frosted', label: 'Frosted' },
 ]
@@ -163,6 +232,7 @@ export type DebugToggles = {
   lcStyle: LcStyle
   hoverEffect: HoverEffect
   actionBtnStyle: ActionBtnStyle
+  equipIndicator: EquipDotPreset
 }
 
 export const DEFAULT_TOGGLES: DebugToggles = {
@@ -178,9 +248,10 @@ export const DEFAULT_TOGGLES: DebugToggles = {
   lcStyle: 'shadow',
   hoverEffect: 'lift-bright',
   actionBtnStyle: 'bright',
+  equipIndicator: 'off',
 }
 
-type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle' | 'hoverEffect' | 'actionBtnStyle'>
+type BooleanToggleKeys = Exclude<keyof DebugToggles, 'scrimMode' | 'lcStyle' | 'hoverEffect' | 'actionBtnStyle' | 'equipIndicator'>
 
 const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   showRank: 'Rank',
@@ -392,6 +463,28 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
                   key={s.value}
                   style={pillStyle(toggles.lcStyle === s.value)}
                   onClick={() => onTogglesChange({ ...toggles, lcStyle: s.value })}
+                >
+                  {s.label}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Equip dot indicator */}
+          <div>
+            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>EQUIP DOT</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              <span
+                style={pillStyle(toggles.equipIndicator === 'off')}
+                onClick={() => onTogglesChange({ ...toggles, equipIndicator: 'off' })}
+              >
+                Off
+              </span>
+              {EQUIP_DOT_PRESETS.map((s) => (
+                <span
+                  key={s.value}
+                  style={pillStyle(toggles.equipIndicator === s.value)}
+                  onClick={() => onTogglesChange({ ...toggles, equipIndicator: s.value })}
                 >
                   {s.label}
                 </span>

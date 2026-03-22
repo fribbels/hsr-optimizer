@@ -359,3 +359,14 @@
   );
 }
 
+/* ============================================================
+ * EQUIP DOT INDICATOR
+ * ============================================================ */
+
+.equipDot {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 3;
+  pointer-events: none;
+}
+

@@ -14,6 +14,7 @@ import { EnemyConfigurationsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/c
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import { RelicSetFilterModal } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal'
 import { ZeroPermutationsSuggestionsModal, ZeroResultSuggestionModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
+import { GridSelectionStyleDebug } from 'lib/tabs/tabRelics/GridSelectionStyleDebug'
 import { ErrorBoundary } from 'react-error-boundary'
 import type { FallbackProps } from 'react-error-boundary'
 
@@ -45,6 +46,9 @@ export function GlobalModals() {
       <BuildsModal />
       <SaveBuildModal />
       <CharacterModal />
+
+      {/* DEBUG — remove after finalizing selection style */}
+      <GridSelectionStyleDebug />
     </>
   )
 }

@@ -97,8 +97,11 @@ const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set, get) => ({
   setFocusCharacter: (focusCharacter) => set({ focusCharacter }),
   setSelectedRelicsIds: (ids) => {
     const newSelectedId = ids.at(-1) ?? null
+    const currentIds = get().selectedRelicsIds
     // Skip no-op updates to avoid unnecessary re-renders from new array spreads
-    if (newSelectedId === get().selectedRelicId && ids.length === get().selectedRelicsIds.length) return
+    if (newSelectedId === get().selectedRelicId
+      && ids.length === currentIds.length
+      && ids.every((id, i) => id === currentIds[i])) return
     return set({ selectedRelicId: newSelectedId, selectedRelicsIds: [...ids] })
   },
   setValueColumns: (cols) => set({ valueColumns: [...cols] }),

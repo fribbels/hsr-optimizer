@@ -1,11 +1,11 @@
 import { Alert } from '@mantine/core'
 import { CharacterAnnouncementMessages } from 'lib/constants/constants'
-import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { CharacterId } from 'types/character'
+import type { SimulationMetadata } from 'types/metadata'
 
-export function CharacterAnnouncement({ characterId, scoringResult }: {
+export function CharacterAnnouncement({ characterId, simulationMetadata }: {
   characterId: CharacterId
-  scoringResult: SimulationScore | null
+  simulationMetadata: SimulationMetadata | null
 }) {
   const messages: string[] = []
 
@@ -13,8 +13,8 @@ export function CharacterAnnouncement({ characterId, scoringResult }: {
     messages.push(CharacterAnnouncementMessages[characterId])
   }
 
-  if (scoringResult) {
-    for (const teammate of scoringResult.simulationMetadata.teammates) {
+  if (simulationMetadata) {
+    for (const teammate of simulationMetadata.teammates) {
       if (CharacterAnnouncementMessages[teammate.characterId]) {
         messages.push(CharacterAnnouncementMessages[teammate.characterId])
       }

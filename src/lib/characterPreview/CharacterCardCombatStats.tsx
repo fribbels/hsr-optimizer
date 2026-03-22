@@ -17,10 +17,9 @@ import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
 import {
-  type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { type PrimaryActionStats } from 'lib/simulations/statSimulationTypes'
+import { type PrimaryActionStats, type RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   filterUnique,
@@ -38,17 +37,18 @@ import { useGlobalStore } from 'lib/stores/appStore'
 import { isFlat } from 'lib/utils/statUtils'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
 
-export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ result }: {
-  result: SimulationScore
+export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs }: {
+  characterMetadata: DBMetadataCharacter
+  originalSimResult: RunStatSimulationsResult
+  deprioritizeBuffs: boolean
 }) {
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
-  const characterMetadata = result.characterMetadata!
   const element = characterMetadata.element as ElementName
-  const x = result.originalSimResult.x
-  const primaryActionStats = result.originalSimResult.primaryActionStats
+  const x = originalSimResult.x
+  const primaryActionStats = originalSimResult.primaryActionStats
 
   const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata)
   const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
@@ -78,7 +78,7 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
     )
   }
 
-  const titleRender = result.simulationForm.deprioritizeBuffs
+  const titleRender = deprioritizeBuffs
     ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
     : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
 

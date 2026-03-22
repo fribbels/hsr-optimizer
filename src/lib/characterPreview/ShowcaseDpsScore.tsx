@@ -43,23 +43,19 @@ import {
   type Character,
   type CharacterId,
 } from 'types/character'
-import {
-  type Form,
-  type OptimizerForm,
-} from 'types/form'
+import { type Form } from 'types/form'
+import { type PreparedState } from 'lib/scoring/scoringService'
 import { type SimulationMetadata } from 'types/metadata'
 import { truncate10ths } from 'lib/utils/mathUtils'
 
 export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   characterId,
-  scoringDone,
-  scoringResult,
+  simulationMetadata,
   teamSelection: teamSelectionProp,
   source,
 }: {
   characterId: CharacterId
-  scoringDone: boolean
-  scoringResult: SimulationScore | null
+  simulationMetadata: SimulationMetadata
   teamSelection: string
   source: ShowcaseSource
 }) {
@@ -68,23 +64,14 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
 
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
 
-  if (!scoringDone || !scoringResult) {
-    return (
-      <span className={styles.loadingBlur}>
-      </span>
-    )
-  }
-
   return (
-    <Flex
-      direction="column"
-    >
+    <Flex direction="column">
       <Flex justify='space-around' className={styles.teammatesPadding}>
         {[0, 1, 2].map((index) => (
           <CharacterPreviewScoringTeammate
             key={index}
             index={index}
-            result={scoringResult}
+            simulationMetadata={simulationMetadata}
             characterId={characterId}
             teamSelection={teamSelection}
             setSelectedTeammateIndex={setSelectedTeammateIndex}
@@ -102,11 +89,10 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   )
 })
 
-export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScoreDetailsFooter({ scoringDone, scoringResult }: {
-  scoringDone: boolean
-  scoringResult: SimulationScore | null
+export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScoreDetailsFooter({ preview }: {
+  preview: PreparedState | null
 }) {
-  if (!scoringDone || !scoringResult) {
+  if (!preview) {
     return (
       <span className={styles.loadingBlurSmall}>
       </span>
@@ -115,27 +101,25 @@ export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScor
 
   return (
     <Flex direction="column" gap={defaultGap}>
-      <CharacterCardCombatStats result={scoringResult} />
+      <CharacterCardCombatStats
+        characterMetadata={preview.characterMetadata}
+        originalSimResult={preview.originalSimResult}
+        deprioritizeBuffs={preview.deprioritizeBuffs}
+      />
     </Flex>
   )
 })
 
-function getTeammate(index: number, form: OptimizerForm) {
-  if (index === 0) return form.teammate0
-  if (index === 1) return form.teammate1
-  return form.teammate2
-}
-
 function CharacterPreviewScoringTeammate({
   index,
-  result,
+  simulationMetadata,
   characterId,
   teamSelection,
   setSelectedTeammateIndex,
   readonly,
 }: {
   index: number
-  result: SimulationScore
+  simulationMetadata: SimulationMetadata
   characterId: CharacterId
   teamSelection: string
   setSelectedTeammateIndex: (i: number | undefined) => void
@@ -143,11 +127,8 @@ function CharacterPreviewScoringTeammate({
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
-  const teammate = result.simulationMetadata.teammates[index] as SimulationMetadata['teammates'][number] | undefined
+  const teammate = simulationMetadata.teammates[index] as SimulationMetadata['teammates'][number] | undefined
   const iconSize = 64
-
-  const simForm = result.simulationForm
-  const formTeammate = getTeammate(index, simForm)
 
   return (
     <div
@@ -175,17 +156,17 @@ function CharacterPreviewScoringTeammate({
         <div className={teammateClasses.iconWrapper}>
           <img src={Assets.getLightConeIconById(teammate?.lightCone)} style={{ height: iconSize, marginTop: 0 }} />
 
-          {formTeammate.teamRelicSet && (
+          {teammate?.teamRelicSet && (
             <img
               className={teammateClasses.relicBadge}
-              src={Assets.getSetImage(formTeammate.teamRelicSet)}
+              src={Assets.getSetImage(teammate.teamRelicSet)}
             />
           )}
 
-          {formTeammate.teamOrnamentSet && (
+          {teammate?.teamOrnamentSet && (
             <img
               className={teammateClasses.ornamentBadge}
-              src={Assets.getSetImage(formTeammate.teamOrnamentSet)}
+              src={Assets.getSetImage(teammate.teamOrnamentSet)}
             />
           )}
 
@@ -215,12 +196,12 @@ export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader({ rel
     ? t('CharacterPreview.ScoreHeader.Title') // Combat Sim
     : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(scoringResult?.spdBenchmark ?? 0) }) // Benchmark vs {{spd}} SPD
 
-  const textDisplay = (
+  return (
     <Flex align='center' direction="column" className={styles.scoreHeaderWrapper}>
       <StatText className={styles.scoreHeaderText}>
         {titleRender}
       </StatText>
-      <StatText className={styles.scoreHeaderText}>
+      <StatText className={styles.scoreHeaderText} style={{ filter: !scoringDone ? 'blur(2px)' : 'none' }}>
         {
           !scoringDone
             ? 'DPS Score Loading...'
@@ -234,12 +215,6 @@ export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader({ rel
           /* DPS Score {{score}}% {{grade}} */
         }
       </StatText>
-    </Flex>
-  )
-
-  return (
-    <Flex direction="column" style={{ filter: !scoringDone ? 'blur(2px)' : 'none' }}>
-      {textDisplay}
     </Flex>
   )
 })

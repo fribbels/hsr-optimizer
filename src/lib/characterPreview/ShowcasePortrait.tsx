@@ -68,6 +68,8 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
     tempInnerW,
     tempParentH,
     charCenter,
+    spineCenter,
+    disableSpine,
   } = displayDimensions
 
   const portraitStyle = {
@@ -76,6 +78,15 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
     top: -charCenter.y * charCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
     width: tempInnerW * charCenter.z,
   }
+
+  const spinePortraitStyle = {
+    position: 'absolute' as const,
+    left: -spineCenter.x * spineCenter.z / 2 * tempInnerW / 1024 + parentW / 2,
+    top: -spineCenter.y * spineCenter.z / 2 * tempInnerW / 1024 + tempParentH / 2,
+    width: tempInnerW * spineCenter.z,
+  }
+
+  const useSpine = !disableSpine && !spineFallback
 
   return (
     <div
@@ -86,8 +97,15 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         boxShadow: showcaseShadow,
       }}
     >
-      {spineFallback
-        ? (character.portrait ?? customPortrait)
+      {useSpine
+        ? (
+          <LoadingBlurredSpine
+            characterId={character.id}
+            style={spinePortraitStyle}
+            onUnsupported={handleSpineUnsupported}
+          />
+        )
+        : (character.portrait ?? customPortrait)
           ? (
             <CharacterCustomPortrait
               customPortrait={customPortrait ?? character.portrait!}
@@ -100,14 +118,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
               src={Assets.getCharacterPortraitById(character.id)}
               style={portraitStyle}
             />
-          )
-        : (
-          <LoadingBlurredSpine
-            characterId={character.id}
-            style={portraitStyle}
-            onUnsupported={handleSpineUnsupported}
-          />
-        )}
+          )}
 
       <Flex direction="column" className={styles.buttonColumn} gap={7}>
         {source !== ShowcaseSource.BUILDS_MODAL && (

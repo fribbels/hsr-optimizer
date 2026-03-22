@@ -364,6 +364,11 @@ const display = {
     y: 1000,
     z: 1,
   },
+  spineCenter: {
+    x: 1016,
+    y: 1027,
+    z: 1.08,
+  },
   showcaseColor: '#5d8ce2',
 }
 

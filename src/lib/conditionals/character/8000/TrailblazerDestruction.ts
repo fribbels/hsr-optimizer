@@ -289,6 +289,7 @@ const displayCaelus = {
     y: 1100,
     z: 1,
   },
+  disableSpine: true,
   showcaseColor: '#5f81f4',
 }
 
@@ -298,6 +299,7 @@ const displayStelle = {
     y: 1024,
     z: 1,
   },
+  disableSpine: true,
   showcaseColor: '#5f81f4',
 }
 

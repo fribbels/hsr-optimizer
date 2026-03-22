@@ -408,7 +408,7 @@ const display = {
   imageCenter: {
     x: 1110,
     y: 1000,
-    z: 1.1,
+    z: 1.2,
   },
   showcaseColor: '#ffeef5',
 }

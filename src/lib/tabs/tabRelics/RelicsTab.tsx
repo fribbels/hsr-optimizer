@@ -9,10 +9,8 @@ import { useTranslation } from 'react-i18next'
 export const TAB_WIDTH = 1460
 
 export function RelicsTab() {
-  const { recentRelics } = useScannerState()
+  const recentRelics = useScannerState((s) => s.recentRelics)
   const { t } = useTranslation('relicsTab')
-
-  console.log('[P8] RelicsTab RENDER — useScannerState() no selector')
 
   return (
     <Flex direction="column" gap={10} style={{ width: TAB_WIDTH, marginBottom: 100 }}>

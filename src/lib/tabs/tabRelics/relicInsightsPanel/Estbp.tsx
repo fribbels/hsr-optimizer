@@ -4,30 +4,25 @@ import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScor
 import { ScoringCache } from 'lib/relics/scoring/relicScorer'
 import { useAsyncComputation } from 'lib/hooks/useAsyncComputation'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
+import { getRelicById } from 'lib/stores/relicStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { useShallow } from 'zustand/react/shallow'
 import {
   type EstTbpWorkerOutput,
   handleWork,
 } from 'lib/worker/estTbpWorkerRunner'
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useRef } from 'react'
 
 export const EstbpCard = memo(({ width }: { width?: number }) => {
-  const { selectedRelic, focusCharacter } = useRelicsTabStore(
-    useShallow((s) => ({
-      selectedRelic: s.selectedRelic,
-      focusCharacter: s.focusCharacter,
-    })),
-  )
-
-  console.log('[P9] EstbpCard RENDER — subscribes to s.selectedRelic (full object in store)')
+  const selectedRelicId = useRelicsTabStore((s) => s.selectedRelicId)
+  const focusCharacter = useRelicsTabStore((s) => s.focusCharacter)
+  const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
 
   const weights = useScoringMetadata(focusCharacter)
 
   const computeFn = useMemo(() => {
     if (!selectedRelic || !weights?.stats) return null
     return () => handleWork(selectedRelic, weights.stats)
-  }, [selectedRelic, weights?.stats])
+  }, [selectedRelicId, weights?.stats])
 
   const { ready, output } = useAsyncComputation<EstTbpWorkerOutput>(computeFn, [computeFn])
 
@@ -35,11 +30,16 @@ export const EstbpCard = memo(({ width }: { width?: number }) => {
 
   const analysis = output && needsAnalysis ? enrichSingleRelicAnalysis(selectedRelic, output.days, weights, focusCharacter, new ScoringCache()) : undefined
 
+  // Keep previous analysis visible while worker recomputes to avoid flash
+  const prevAnalysis = useRef(analysis)
+  if (analysis) prevAnalysis.current = analysis
+  const displayAnalysis = analysis ?? prevAnalysis.current
+
   const horizontal = (width ?? 297) > 600
 
   return (
     <Flex style={{ width: width ?? 297, height: '100%' }}>
-      <RelicContainer ready={ready} relicAnalysis={analysis} withoutPreview horizontal={horizontal} />
+      <RelicContainer ready={ready || !!displayAnalysis} relicAnalysis={displayAnalysis} withoutPreview horizontal={horizontal} />
     </Flex>
   )
 })

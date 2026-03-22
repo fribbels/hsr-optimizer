@@ -8,6 +8,7 @@ import { mergeUndefinedValues } from 'lib/utils/objectUtils'
 
 type ScoringStoreState = {
   scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadata>>
+  scoringVersion: number
 }
 
 type ScoringStoreActions = {
@@ -21,37 +22,35 @@ export type ScoringStore = ScoringStoreState & ScoringStoreActions
 
 export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => ({
   scoringMetadataOverrides: {},
+  scoringVersion: 0,
 
-  setScoringMetadataOverrides: (overrides) => {
-    console.log('[ScoringStore] setScoringMetadataOverrides — new ref')
-    set({ scoringMetadataOverrides: overrides })
-  },
+  setScoringMetadataOverrides: (overrides) => set({
+    scoringMetadataOverrides: overrides,
+    scoringVersion: get().scoringVersion + 1,
+  }),
 
   updateCharacterOverrides: (id, updated) => {
-    console.log(`[ScoringStore] updateCharacterOverrides(${id}) — new ref`)
     const prev = get().scoringMetadataOverrides
     const overrides = { ...prev, [id]: { ...prev[id], ...updated } }
 
     const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
     setModifiedScoringMetadata(defaultScoringMetadata, overrides[id]!)
 
-    set({ scoringMetadataOverrides: overrides })
+    set({ scoringMetadataOverrides: overrides, scoringVersion: get().scoringVersion + 1 })
   },
 
   updateSimulationOverrides: (id, updatedSimulation) => {
     if (!updatedSimulation) return
-    console.log(`[ScoringStore] updateSimulationOverrides(${id}) — new ref`)
     const prev = get().scoringMetadataOverrides
     const overrides = { ...prev, [id]: { ...prev[id], simulation: { ...prev[id]?.simulation, ...updatedSimulation } } }
-    set({ scoringMetadataOverrides: overrides })
+    set({ scoringMetadataOverrides: overrides, scoringVersion: get().scoringVersion + 1 })
   },
 
   clearSimulationOverrides: (id) => {
-    console.log(`[ScoringStore] clearSimulationOverrides(${id}) — new ref`)
     const prev = get().scoringMetadataOverrides
     const { simulation, ...rest } = prev[id] ?? {}
     const overrides = { ...prev, [id]: rest }
-    set({ scoringMetadataOverrides: overrides })
+    set({ scoringMetadataOverrides: overrides, scoringVersion: get().scoringVersion + 1 })
   },
 }))
 

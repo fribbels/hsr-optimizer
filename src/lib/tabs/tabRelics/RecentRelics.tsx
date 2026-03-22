@@ -18,10 +18,8 @@ export const RecentRelics = memo(() => {
       setSelectedRelicsIds: s.setSelectedRelicsIds,
     })),
   )
-  const { recentRelics: recentRelicIDs } = useScannerState()
+  const recentRelicIDs = useScannerState((s) => s.recentRelics)
   const allRelics = useRelicStore((s) => s.relicsById)
-
-  console.log('[P8] RecentRelics RENDER — useScannerState() no selector')
 
   const recentRelics = recentRelicIDs
     .map((id) => allRelics[id])

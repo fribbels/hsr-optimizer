@@ -4,7 +4,6 @@ import { getCharacterById } from 'lib/stores/characterStore'
 import { getRelicById } from 'lib/stores/relicStore'
 import type { CharacterId } from 'types/character'
 import type { Nullable } from 'types/common'
-import type { ScoringMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
 
 export type ScoredRelic = Relic & { weights: RelicScoringWeights }
@@ -33,40 +32,29 @@ type PotentialWeights = {
   averagePct: number,
 }
 
-type ScoringMetadataOverrides = Partial<Record<CharacterId, ScoringMetadata>>
-
 // Keyed by relic reference, autoclears when cache params change
 let scoreCache: WeakMap<Relic, ScoredRelic> = new WeakMap()
-let cacheParams: { focusCharacter: Nullable<CharacterId>, excludedIds: string, metadataRef?: ScoringMetadataOverrides } | null = null
+let cacheParams: { focusCharacter: Nullable<CharacterId>, excludedIds: string, scoringVersion: number } | null = null
 
 export function scoreRelics(
   relics: Array<Relic>,
   excludedRelicPotentialCharacters: Array<CharacterId>,
   focusCharacter: Nullable<CharacterId>,
-  scoringMetadataOverrides?: ScoringMetadataOverrides,
+  scoringVersion: number,
 ): Array<ScoredRelic> {
   const characterIds = Object.values(getGameMetadata().characters).map((x) => x.id)
   const relicScorer = new RelicScorer()
 
-  // Clear cache if params change
+  // Clear cache when scoring params actually change — uses stable primitive comparison
   const excludedIds = excludedRelicPotentialCharacters.join(',')
-  const cacheInvalid = !cacheParams
+  if (
+    !cacheParams
     || cacheParams.focusCharacter !== focusCharacter
     || cacheParams.excludedIds !== excludedIds
-    || cacheParams.metadataRef !== scoringMetadataOverrides
-  if (cacheInvalid) {
-    const reasons = []
-    if (!cacheParams) reasons.push('no prior cache')
-    else {
-      if (cacheParams.focusCharacter !== focusCharacter) reasons.push('focusCharacter changed')
-      if (cacheParams.excludedIds !== excludedIds) reasons.push('excludedIds changed')
-      if (cacheParams.metadataRef !== scoringMetadataOverrides) reasons.push('metadataRef !== (reference comparison)')
-    }
-    console.log(`[P1] scoreRelics CACHE INVALIDATED — reasons: ${reasons.join(', ')}. Rescoring ${relics.length} relics × ${characterIds.length} chars`)
+    || cacheParams.scoringVersion !== scoringVersion
+  ) {
     scoreCache = new WeakMap()
-    cacheParams = { focusCharacter, excludedIds, metadataRef: scoringMetadataOverrides }
-  } else {
-    console.log('[P1] scoreRelics CACHE HIT — reusing WeakMap')
+    cacheParams = { focusCharacter, excludedIds, scoringVersion }
   }
 
   const excludedSet = new Set(excludedRelicPotentialCharacters)

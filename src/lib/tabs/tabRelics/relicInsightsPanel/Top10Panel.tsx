@@ -102,7 +102,7 @@ export const Top10Panel = memo(({ scores, width: propWidth, height: propHeight }
         />
         <Tooltip content={TooltipContent} />
         <Legend align='right' verticalAlign='middle' width={legendWidth} content={<LegendContent scores={sortedScores} compact={compact} />} />
-        <Scatter data={data}>
+        <Scatter data={data} animationDuration={300} animationEasing="ease">
           {data.map((point, idx) => {
             return (
               <Cell

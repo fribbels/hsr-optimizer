@@ -4,7 +4,6 @@ import {
   type Sets,
   type SubStats,
 } from 'lib/constants/constants'
-import { getRelicById } from 'lib/stores/relicStore'
 import { type generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
@@ -39,10 +38,8 @@ export enum InsightCharacters {
 
 const defaultState: RelicsTabStateValues = {
   focusCharacter: null,
-  selectedRelic: null,
   selectedRelicId: null,
   selectedRelicsIds: [],
-  relicModalOpen: false,
   valueColumns: [
     'weights.current',
     'weights.rerollAvgSelected',
@@ -70,10 +67,8 @@ const defaultState: RelicsTabStateValues = {
 
 interface RelicsTabStateValues {
   focusCharacter: CharacterId | null
-  selectedRelic: Relic | null
   selectedRelicId: Relic['id'] | null
   selectedRelicsIds: Array<Relic['id']>
-  relicModalOpen: boolean
   valueColumns: ValueColumnField[]
   excludedRelicPotentialCharacters: Array<CharacterId>
   filters: RelicTabFilters
@@ -84,7 +79,6 @@ interface RelicsTabStateValues {
 interface RelicsTabStateActions {
   setFocusCharacter: (character: RelicsTabStateValues['focusCharacter']) => void
   setSelectedRelicsIds: (relic: RelicsTabStateValues['selectedRelicsIds']) => void
-  setRelicModalOpen: (relicModalOpen: RelicsTabStateValues['relicModalOpen']) => void
   setValueColumns: (cols: RelicsTabStateValues['valueColumns']) => void
   setExcludedRelicPotentialCharacters: (characters: RelicsTabStateValues['excludedRelicPotentialCharacters']) => void
 
@@ -98,15 +92,15 @@ interface RelicsTabStateActions {
 
 type RelicsTabState = RelicsTabStateActions & RelicsTabStateValues
 
-const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set) => ({
+const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set, get) => ({
   ...defaultState,
   setFocusCharacter: (focusCharacter) => set({ focusCharacter }),
   setSelectedRelicsIds: (ids) => {
-    const selectedId = ids.at(-1)
-    const relic = getRelicById(selectedId) ?? null
-    return set({ selectedRelic: relic, selectedRelicId: selectedId ?? null, selectedRelicsIds: [...ids] })
+    const newSelectedId = ids.at(-1) ?? null
+    // Skip no-op updates to avoid unnecessary re-renders from new array spreads
+    if (newSelectedId === get().selectedRelicId && ids.length === get().selectedRelicsIds.length) return
+    return set({ selectedRelicId: newSelectedId, selectedRelicsIds: [...ids] })
   },
-  setRelicModalOpen: (relicModalOpen) => set({ relicModalOpen }),
   setValueColumns: (cols) => set({ valueColumns: [...cols] }),
   setExcludedRelicPotentialCharacters: (excludedRelicPotentialCharacters) => set({ excludedRelicPotentialCharacters }),
 

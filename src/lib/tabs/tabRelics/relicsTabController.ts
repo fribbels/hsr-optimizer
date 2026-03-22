@@ -1,7 +1,6 @@
 import {
   type IRowNode,
   type NavigateToNextCellParams,
-  type RowClickedEvent,
   type RowDoubleClickedEvent,
   type SelectionChangedEvent,
 } from 'ag-grid-community'
@@ -9,6 +8,7 @@ import i18next from 'i18next'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import { Message } from 'lib/interactions/message'
 import { RelicModalController } from 'lib/overlays/modals/relicModal/relicModalController'
+import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { type ScoredRelic } from 'lib/relics/scoreRelics'
 import { SaveState } from 'lib/state/saveState'
 import * as equipmentService from 'lib/services/equipmentService'
@@ -22,19 +22,14 @@ export const RelicsTabController = {
     node.setSelected(true, true)
   },
 
-  onRowClicked(e: RowClickedEvent<ScoredRelic>) {
-    const relic = e.data
-    if (!relic) return
-    useRelicsTabStore.getState().setSelectedRelicsIds([relic.id])
-  },
-
   onRowDoubleClicked(e: RowDoubleClickedEvent<ScoredRelic>) {
     const relic = e.data
     if (!relic) return
-    const { setSelectedRelicsIds, setRelicModalOpen } = useRelicsTabStore.getState()
-    setSelectedRelicsIds([relic.id])
-    console.log('[P6] onRowDoubleClicked — calling setRelicModalOpen(true) which is DEAD CODE (nothing reads relicModalOpen)')
-    setRelicModalOpen(true)
+    useRelicsTabStore.getState().setSelectedRelicsIds([relic.id])
+    useRelicModalStore.getState().openOverlay({
+      selectedRelic: relic,
+      onOk: RelicsTabController.onRelicModalOk,
+    })
   },
 
   onSelectionChanged(e: SelectionChangedEvent<ScoredRelic>) {
@@ -46,18 +41,23 @@ export const RelicsTabController = {
   },
 
   editClicked() {
-    const { selectedRelicId, setRelicModalOpen } = useRelicsTabStore.getState()
+    const { selectedRelicId } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
-    if (!selectedRelicId) return Message.error(t('NoRelicSelected') /* No relic selected */)
-    console.log('[P6] editClicked — calling setRelicModalOpen(true) which is DEAD CODE (nothing reads relicModalOpen)')
-    setRelicModalOpen(true)
+    if (!selectedRelicId) return Message.error(t('NoRelicSelected'))
+    const relic = getRelicById(selectedRelicId)
+    if (!relic) return
+    useRelicModalStore.getState().openOverlay({
+      selectedRelic: relic,
+      onOk: RelicsTabController.onRelicModalOk,
+    })
   },
 
   addClicked() {
-    const { setSelectedRelicsIds, setRelicModalOpen } = useRelicsTabStore.getState()
-    setSelectedRelicsIds([])
-    console.log('[P6] addClicked — calling setRelicModalOpen(true) which is DEAD CODE (nothing reads relicModalOpen)')
-    setRelicModalOpen(true)
+    useRelicsTabStore.getState().setSelectedRelicsIds([])
+    useRelicModalStore.getState().openOverlay({
+      selectedRelic: null,
+      onOk: RelicsTabController.onRelicModalOk,
+    })
   },
 
   deleteConfirmed() {
@@ -74,16 +74,14 @@ export const RelicsTabController = {
     const { selectedRelicId, setSelectedRelicsIds } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
     if (selectedRelicId) {
-      // edit relic
       const oldRelic = getRelicById(selectedRelicId)
       if (!oldRelic) return
       RelicModalController.onEditOk(oldRelic, relic)
     } else {
-      // add new relic
       equipmentService.upsertRelicWithEquipment(relic)
       setSelectedRelicsIds([relic.id])
       SaveState.delayedSave()
-      Message.success(t('AddRelicSuccess') /* Successfully added relic */)
+      Message.success(t('AddRelicSuccess'))
     }
   },
 }

@@ -336,9 +336,9 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 975,
-    y: 1024,
-    z: 1.05,
+    x: 996,
+    y: 1042,
+    z: 1.1,
   },
   showcaseColor: '#aefcf3',
 }

@@ -232,6 +232,7 @@ const display = {
     y: 975,
     z: 1,
   },
+  disableSpine: true,
   showcaseColor: '#9e80e6',
 }
 

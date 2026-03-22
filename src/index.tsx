@@ -19,6 +19,7 @@ import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
+import { populateAllCharacters } from 'lib/dev/populateAllCharacters'
 
 import { workerPool } from 'lib/worker/workerPool'
 import { OverlayScrollbars } from 'overlayscrollbars'
@@ -52,6 +53,7 @@ window.__HSR_DEBUG = {
   RelicScorer,
   BufferPacker,
   RelicRollFixer,
+  populateAllCharacters,
 }
 
 Metadata.initialize()

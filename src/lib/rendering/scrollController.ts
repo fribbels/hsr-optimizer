@@ -1,5 +1,8 @@
 /**
  * Helpers to control screen scrolling when drawers are open. See ComboDrawer for usage.
+ *
+ * Uses reference counting so overlapping overlays (e.g. ComboDrawer + RelicModal)
+ * keep scroll locked until ALL overlays close. UTILITY-1 fix.
  */
 
 import { useEffect } from 'react'
@@ -24,12 +27,26 @@ interface StateActions {
 
 type State = StateActions & StateValues
 
+// Module-level lock counter — not reactive, no re-renders on increment/decrement.
+// Only the isLocked boolean (Zustand state) is reactive for LayoutSider/OptimizerSidebar.
+let lockCount = 0
+
+// Exported for testing only
+export function _getLockCount() {
+  return lockCount
+}
+
+export function _resetLockCount() {
+  lockCount = 0
+}
+
 const useScrollLockStore = create<State>()((set, get) => ({
   offset: null,
   isLocked: false,
 
   lock() {
-    if (get().isLocked) return
+    lockCount++
+    if (lockCount > 1) return // already locked by another overlay
     const offset = window.scrollY
     set({ isLocked: true, offset })
     document.body.style.position = 'fixed'
@@ -37,6 +54,8 @@ const useScrollLockStore = create<State>()((set, get) => ({
     document.body.style.width = '100%'
   },
   unlock() {
+    lockCount = Math.max(0, lockCount - 1)
+    if (lockCount > 0) return // still has active locks from other overlays
     const { isLocked, offset } = get()
     if (!isLocked) return
     set({ isLocked: false, offset: null })
@@ -46,6 +65,15 @@ const useScrollLockStore = create<State>()((set, get) => ({
     window.scrollTo(0, offset)
   },
 }))
+
+// Imperative helpers for non-React code and testing
+export function scrollLock() {
+  useScrollLockStore.getState().lock()
+}
+
+export function scrollUnlock() {
+  useScrollLockStore.getState().unlock()
+}
 
 export function useScrollLock(shouldLock: boolean) {
   const { lock, unlock } = useScrollLockStore()

@@ -10,7 +10,6 @@ import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import classes from 'lib/tabs/tabRelics/RecentRelicCard.module.css'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { memo, useMemo } from 'react'
-import { useShallow } from 'zustand/react/shallow'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'
@@ -24,10 +23,8 @@ interface RelicCardProps {
 
 export const RecentRelicCard = memo((props: RelicCardProps) => {
   const { relic, scoringCharacter, setSelectedRelicID, isSelected } = props
-  const { excludedRelicPotentialCharacters } = useRelicsTabStore(
-    useShallow((s) => ({
-      excludedRelicPotentialCharacters: s.excludedRelicPotentialCharacters,
-    })),
+  const excludedRelicPotentialCharacters = useRelicsTabStore(
+    (s) => s.excludedRelicPotentialCharacters,
   )
   const mantineTheme = useMantineTheme()
   const token = {

@@ -394,8 +394,9 @@ function teammateToTeammateState(teammate: Teammate | undefined): TeammateState 
     lightConeSuperimposition: teammate.lightConeSuperimposition,
     teamRelicSet: teammate.teamRelicSet,
     teamOrnamentSet: teammate.teamOrnamentSet,
-    characterConditionals: teammate.characterConditionals ?? {},
-    lightConeConditionals: teammate.lightConeConditionals ?? {},
+    // Shallow-clone to prevent shared references (mirrors teammateStateToTeammate)
+    characterConditionals: { ...(teammate.characterConditionals ?? {}) },
+    lightConeConditionals: { ...(teammate.lightConeConditionals ?? {}) },
   }
 }
 

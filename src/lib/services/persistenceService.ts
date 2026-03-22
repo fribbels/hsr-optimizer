@@ -52,9 +52,9 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   // Remove invalid characters
   saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
-  if (saveData.scoringMetadataOverrides) {
+  {
     const validOverrides: Record<string, ScoringMetadata> = {}
-    for (const [key, scoringMetadataOverrides] of Object.entries(saveData.scoringMetadataOverrides) as [CharacterId, ScoringMetadata][]) {
+    for (const [key, scoringMetadataOverrides] of Object.entries(saveData.scoringMetadataOverrides ?? {}) as [CharacterId, ScoringMetadata][]) {
       if (!dbCharacters[key]?.scoringMetadata) continue
       const defaultScoringMetadata = dbCharacters[key].scoringMetadata
       setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
@@ -267,8 +267,8 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
         newRelic = found
       }
 
-      if (newRelic.ageIndex !== undefined) {
-        found.ageIndex = newRelic.ageIndex
+      if (newRelic.ageIndex !== undefined && found.ageIndex !== newRelic.ageIndex) {
+        found = { ...found, ageIndex: newRelic.ageIndex }
       }
 
       // Save the old relic because it may have edited speed values, delete the hash to prevent duplicates

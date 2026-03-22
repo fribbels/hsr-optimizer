@@ -68,8 +68,7 @@ afterEach(() => {
 // ---- Tests ----
 
 describe('save', () => {
-  // PERSIST-4: save() has no try/catch around localStorage.setItem.
-  // This test asserts the CORRECT behavior (no crash). it.fails until fixed.
+  // PERSIST-4: save() wraps localStorage.setItem in try/catch for QuotaExceededError.
   it('save catches QuotaExceededError from localStorage.setItem and does not crash', () => {
     const quota = new DOMException('quota exceeded', 'QuotaExceededError')
     setItemSpy.mockImplementation(() => { throw quota })

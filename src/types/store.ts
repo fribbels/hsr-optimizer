@@ -1,7 +1,6 @@
 import type {
   ComputeEngine,
 } from 'lib/constants/constants'
-import type { ColorThemeOverrides } from 'lib/rendering/theme'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import type { AppPages } from 'lib/constants/appPages'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
@@ -18,7 +17,6 @@ import type { Relic } from 'types/relic'
 
 export type HsrOptimizerStore = {
   version: string,
-  colorTheme: ColorThemeOverrides,
   scoringAlgorithmFocusCharacter?: CharacterId | null,
   statTracesDrawerFocusCharacter?: CharacterId | null,
   activeKey: AppPages,
@@ -28,7 +26,6 @@ export type HsrOptimizerStore = {
   setActiveKey: (key: AppPages) => void,
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,
-  setColorTheme: (x: ColorThemeOverrides) => void,
   setSavedSession: (x: GlobalSavedSession) => void,
   setVersion: (x: string | undefined) => void,
   savedSession: GlobalSavedSession,

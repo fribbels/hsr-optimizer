@@ -1,17 +1,30 @@
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
-  runDpsScoreBenchmarkOrchestrator,
+  executeOrchestrator,
+  prepareOrchestrator,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import type { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { objectHash } from 'lib/utils/objectUtils'
 import type {
   Character,
 } from 'types/character'
 import type {
+  DBMetadataCharacter,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
+
+// --- Types ---
+
+export type PreparedState = {
+  originalSimResult: RunStatSimulationsResult
+  originalSpd: number
+  characterMetadata: DBMetadataCharacter
+  deprioritizeBuffs: boolean
+}
 
 // --- Cache ---
 
@@ -19,6 +32,14 @@ const resultCache: Record<string, SimulationScore> = {}
 const promiseCache: Record<string, Promise<SimulationScore | null>> = {}
 const MAX_RETRIES = 3
 const failedRetries = new Map<string, number>()
+
+// Orchestrator cache: holds prepared orchestrators for requestScore to consume.
+// Entries are deleted on consumption. Content-addressed — orphans are harmless.
+const orchestratorCache: Record<string, BenchmarkSimulationOrchestrator> = {}
+
+// Preview cache: holds PreparedState for synchronous reads during render.
+// Cleaned up when the full result arrives (preview data becomes redundant).
+const previewCache: Record<string, PreparedState> = {}
 
 // --- Listeners (for useSyncExternalStore) ---
 
@@ -59,6 +80,49 @@ export function hasExceededRetries(cacheKey: string): boolean {
   return (failedRetries.get(cacheKey) ?? 0) >= MAX_RETRIES
 }
 
+// Called synchronously during render (useMemo). The cache write is an acceptable
+// side-effect because it is idempotent and content-addressed — same cacheKey always
+// produces identical results.
+//
+// INVARIANT: PreparedState.originalSimResult is a shared reference with the
+// orchestrator instance. The execute phase (calculateScores) calls
+// applyScoringFunction which mutates originalSimResult.simScore, but we
+// pre-apply it in prepareOrchestrator so the value is already correct.
+// No other execute-phase step mutates originalSimResult fields.
+export function getOrComputePreview(
+  cacheKey: string,
+  character: Character,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: SingleRelicByPart,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+): PreparedState | null {
+  if (previewCache[cacheKey]) return previewCache[cacheKey]
+
+  try {
+    const orchestrator = prepareOrchestrator(
+      character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions,
+    )
+
+    const preview: PreparedState = {
+      originalSimResult: orchestrator.originalSimResult!,
+      originalSpd: orchestrator.originalSpd!,
+      characterMetadata: getGameMetadata().characters[character.id],
+      deprioritizeBuffs: orchestrator.metadata.deprioritizeBuffs ?? false,
+    }
+
+    previewCache[cacheKey] = preview
+    // Only cache the orchestrator if the full pipeline hasn't already completed.
+    // This prevents orphaned orchestrator entries when revisiting already-scored characters.
+    if (!(cacheKey in resultCache)) {
+      orchestratorCache[cacheKey] = orchestrator
+    }
+    return preview
+  } catch (error) {
+    console.error('Preview preparation failed:', error)
+    return null
+  }
+}
+
 export function requestScore(
   cacheKey: string,
   character: Character,
@@ -81,17 +145,31 @@ export function requestScore(
     return promiseCache[cacheKey]
   }
 
-  // Defer orchestrator setup off the current task
+  // Defer expensive work off the current task
   const promise = new Promise<SimulationScore | null>((resolve) => {
     setTimeout(async () => {
       try {
-        const orchestrator = await runDpsScoreBenchmarkOrchestrator(
-          character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions,
-        )
+        // Reuse prepared orchestrator if available (from getOrComputePreview),
+        // otherwise prepare fresh. This eliminates all duplication.
+        let orchestrator = orchestratorCache[cacheKey]
+        if (orchestrator) {
+          delete orchestratorCache[cacheKey]
+        } else {
+          orchestrator = prepareOrchestrator(
+            character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions,
+          )
+        }
+
+        await executeOrchestrator(orchestrator)
+
         const score = orchestrator.simulationScore ?? null
         if (score) {
           score.characterMetadata = getGameMetadata().characters[character.id]
           resultCache[cacheKey] = score
+          // Clean up preview and orchestrator caches — the full SimulationScore
+          // supersedes the preview data, and the orchestrator has been consumed.
+          delete previewCache[cacheKey]
+          delete orchestratorCache[cacheKey]
         }
         notifyListeners()
         resolve(score)

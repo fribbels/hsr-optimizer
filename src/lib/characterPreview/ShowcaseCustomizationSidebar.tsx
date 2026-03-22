@@ -28,7 +28,6 @@ import { Assets } from 'lib/rendering/assets'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import {
   ScoringType,
-  type SimulationScore,
 } from 'lib/scoring/simScoringUtils'
 import { AppPages } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
@@ -61,7 +60,7 @@ interface ShowcaseCustomizationSidebarProps {
   id: string
   source: ShowcaseSource
   characterId: CharacterId
-  scoringResult: SimulationScore | null
+  originalSpd: number | undefined
   scoringType: ScoringType
   seedColor: string
   effectiveColorMode: ShowcaseColorMode
@@ -73,7 +72,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
       id,
       source,
       characterId,
-      scoringResult,
+      originalSpd,
       scoringType,
       seedColor,
       effectiveColorMode,
@@ -265,7 +264,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
 
                 <SpdBenchmarkCombobox
                   spdBenchmark={spdBenchmark}
-                  spdFilter={scoringResult?.originalSpd}
+                  spdFilter={originalSpd}
                   onSpdBenchmarkChange={onShowcaseSpdBenchmarkChange}
                 />
               </>

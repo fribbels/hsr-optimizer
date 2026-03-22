@@ -39,6 +39,7 @@ import { Assets } from 'lib/rendering/assets'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
   computeScoringCacheKey,
+  getOrComputePreview,
   requestScore,
 } from 'lib/scoring/scoringService'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
@@ -203,23 +204,38 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
+  const tempOptions = state.showcaseTemporaryOptionsByCharacter[character.id] ?? {}
+
   const cacheKey = useMemo(
     () => {
       if (!displayRelics) return null
       return computeScoringCacheKey(
-        character, layout.simulationMetadata, displayRelics as SingleRelicByPart,
-        state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
+        character, layout.simulationMetadata, displayRelics as SingleRelicByPart, tempOptions,
       )
     },
     [character, layout.simulationMetadata, displayRelics, state.showcaseTemporaryOptionsByCharacter],
+  )
+
+  // Compute preview synchronously — runs prepareOrchestrator (~5ms) on cache miss.
+  // Returns null if inputs are missing or if preparation fails (try/catch inside).
+  const preview = useMemo(
+    () => {
+      if (!cacheKey || !layout.simulationMetadata || !displayRelics) return null
+      return getOrComputePreview(
+        cacheKey, character, layout.simulationMetadata,
+        displayRelics as SingleRelicByPart, tempOptions,
+      )
+    },
+    // cacheKey is a content hash of all inputs — sufficient proxy
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cacheKey],
   )
 
   const requestFn = useMemo(() => {
     if (!cacheKey || !layout.simulationMetadata || !displayRelics) return null
     return () => requestScore(
       cacheKey, character, layout.simulationMetadata!,
-      displayRelics as SingleRelicByPart,
-      state.showcaseTemporaryOptionsByCharacter[character.id] ?? {},
+      displayRelics as SingleRelicByPart, tempOptions,
     )
     // cacheKey is a content hash of all scoring inputs — sufficient proxy for deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -258,7 +274,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         source={source}
         id={id}
         characterId={character.id}
-        scoringResult={scoringResult}
+        originalSpd={preview?.originalSpd}
         scoringType={scoringType}
         seedColor={seedColor}
         effectiveColorMode={effectiveColorMode}
@@ -361,6 +377,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               scoringType={scoringType}
               scoringDone={scoringDone}
               scoringResult={scoringResult}
+              simScore={preview?.originalSimResult.simScore}
             />
 
             {scoringType === ScoringType.COMBAT_SCORE && (
@@ -369,13 +386,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
                 <ShowcaseDpsScorePanel
                   characterId={showcaseMetadata.characterId}
-                  scoringDone={scoringDone}
-                  scoringResult={scoringResult}
+                  simulationMetadata={layout.simulationMetadata!}
                   teamSelection={layout.currentSelection}
                   source={source}
                 />
 
-                <ShowcaseCombatScoreDetailsFooter scoringDone={scoringDone} scoringResult={scoringResult} />
+                <ShowcaseCombatScoreDetailsFooter preview={preview} />
               </>
             )}
 
@@ -420,7 +436,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
       <CharacterAnnouncement
         characterId={showcaseMetadata.characterId}
-        scoringResult={scoringResult}
+        simulationMetadata={layout.simulationMetadata}
       />
 
       {/* Showcase analysis footer — uses storedScoringType (user's preference) not resolved scoringType,

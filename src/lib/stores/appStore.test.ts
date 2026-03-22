@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from 'vitest'
 import { savedSessionDefaults, useGlobalStore } from 'lib/stores/appStore'
-import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
-import { COMPUTE_ENGINE_CPU, COMPUTE_ENGINE_GPU_STABLE, CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
+import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { COMPUTE_ENGINE_CPU, CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
@@ -16,10 +16,8 @@ function state() {
 
 // ---- Reset ----
 
-const initialState = useGlobalStore.getState()
-
 beforeEach(() => {
-  useGlobalStore.setState(initialState, true)
+  useGlobalStore.setState(useGlobalStore.getInitialState())
 })
 
 // ---- Tests ----
@@ -91,7 +89,7 @@ describe('useGlobalStore', () => {
 
   describe('settings management', () => {
     it('setSettings replaces the settings object entirely', () => {
-      const newSettings = { ...DefaultSettingOptions, RelicEquippingBehavior: 'Swap' }
+      const newSettings = { ...DefaultSettingOptions, RelicEquippingBehavior: SettingOptions.RelicEquippingBehavior.Swap }
       state().setSettings(newSettings)
       expect(state().settings).toEqual(newSettings)
     })

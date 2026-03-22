@@ -17,8 +17,9 @@ import type {
   ComboSelectConditional,
   ComboTeammate,
 } from './comboDrawerTypes'
-import type { CharacterId } from 'types/character'
 import type { ElementName, PathName } from 'lib/constants/constants'
+import { Kafka } from 'lib/conditionals/character/1000/Kafka'
+import { DanHeng } from 'lib/conditionals/character/1000/DanHeng'
 
 import { locateConditional, useComboDrawerStore } from './useComboDrawerStore'
 import type { ComboDrawerStore } from './useComboDrawerStore'
@@ -34,7 +35,7 @@ vi.mock('lib/state/saveState', () => ({
 }))
 
 vi.mock('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions', () => ({
-  getForm: vi.fn(() => ({ characterId: '1001' })),
+  getForm: vi.fn(() => ({ characterId: Kafka.id })),
 }))
 
 Metadata.initialize()
@@ -50,7 +51,7 @@ function getStore(): ComboDrawerStore {
 function makeCharacter(): ComboCharacter {
   return {
     metadata: {
-      characterId: '1001' as CharacterId,
+      characterId: Kafka.id,
       characterEidolon: 0,
       path: 'Destruction' as PathName,
       lightCone: '21001',
@@ -101,7 +102,7 @@ function makeCharacter(): ComboCharacter {
 function makeTeammate(): ComboTeammate {
   return {
     metadata: {
-      characterId: '1002' as CharacterId,
+      characterId: DanHeng.id,
       characterEidolon: 0,
       path: 'Hunt' as PathName,
       lightCone: '21002',
@@ -168,7 +169,7 @@ describe('useComboDrawerStore', () => {
 
       // Valid form with real character
       const form = {
-        characterId: '1001',
+        characterId: Kafka.id,
         characterEidolon: 0,
         lightCone: '21001',
         lightConeSuperimposition: 1,
@@ -186,7 +187,7 @@ describe('useComboDrawerStore', () => {
 
       expect(state.initialized).toBe(true)
       expect(state.comboCharacter).not.toBeNull()
-      expect(state.comboCharacter!.metadata.characterId).toBe('1001')
+      expect(state.comboCharacter!.metadata.characterId).toBe(Kafka.id)
       expect(Array.isArray(state.comboTurnAbilities)).toBe(true)
       expect(state.comboTurnAbilities.length).toBeGreaterThan(0)
     })

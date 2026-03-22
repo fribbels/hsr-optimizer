@@ -94,12 +94,25 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabStore>((set, g
   // ── Portrait ──
 
   setPortraitPalette: (characterId, color, swatches) =>
-    set((s) => ({
-      portraitColorByCharacterId: color != null
-        ? { ...s.portraitColorByCharacterId, [characterId]: color }
-        : s.portraitColorByCharacterId,
-      portraitSwatchesByCharacterId: { ...s.portraitSwatchesByCharacterId, [characterId]: swatches },
-    })),
+    set((s) => {
+      const prevSwatches = s.portraitSwatchesByCharacterId[characterId]
+      const swatchesSame = prevSwatches
+        && prevSwatches.length === swatches.length
+        && prevSwatches.every((c, i) => c === swatches[i])
+      const prevColor = s.portraitColorByCharacterId[characterId]
+      const colorSame = color == null || color === prevColor
+
+      if (swatchesSame && colorSame) return s
+
+      return {
+        portraitColorByCharacterId: color != null && color !== prevColor
+          ? { ...s.portraitColorByCharacterId, [characterId]: color }
+          : s.portraitColorByCharacterId,
+        portraitSwatchesByCharacterId: swatchesSame
+          ? s.portraitSwatchesByCharacterId
+          : { ...s.portraitSwatchesByCharacterId, [characterId]: swatches },
+      }
+    }),
 }))
 
 // Imperative getter for non-React code (controllers, services)

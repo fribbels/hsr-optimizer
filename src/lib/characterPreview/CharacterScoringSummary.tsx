@@ -17,11 +17,9 @@ import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
 import {
-  diminishingReturnsFormula,
   getElementalDmgFromContainer,
   ScoringType,
   type SimulationScore,
-  spdDiminishingReturnsFormula,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
 import { type RunStatSimulationsResult, type Simulation } from 'lib/simulations/statSimulationTypes'
@@ -29,7 +27,6 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import { clone } from 'lib/utils/objectUtils'
 import { memo, useMemo } from 'react'
 import { useProgressivePhase } from 'lib/characterPreview/useProgressivePhase'
 import { Trans, useTranslation } from 'react-i18next'
@@ -119,9 +116,8 @@ function ScoringColumn(props: {
   renderLog(`ScoringColumn[${props.type}]`)
   const { t } = useTranslation(['charactersTab', 'common'])
 
-  const simulation = useMemo(() => clone(props.simulation), [props.simulation])
-  const simRequest = simulation.request
-  const simResult = simulation.result!
+  const simRequest = props.simulation.request
+  const simResult = props.simulation.result!
 
   const basicStats = toBasicStatsObject(simResult.ca)
   const combatStats = props.originalSimResult.x.toComputedStatsObject()
@@ -132,25 +128,6 @@ function ScoringColumn(props: {
 
   if (props.characterMetadata.path === PathNames.Elation) {
     combatStats[Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
-  }
-
-  const diminishingReturns: Record<string, number> = {}
-  if (props.type === 'Benchmark') {
-    for (const [stat, rolls] of Object.entries(simRequest.stats)) {
-      const mainsCount = [
-        simRequest.simBody,
-        simRequest.simFeet,
-        simRequest.simPlanarSphere,
-        simRequest.simLinkRope,
-        Stats.ATK,
-        Stats.HP,
-      ].filter((x) => x === stat).length
-      if (stat === Stats.SPD) {
-        diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
-      } else {
-        diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
-      }
-    }
   }
 
   const precision = props.precision
@@ -206,7 +183,7 @@ function ScoringColumn(props: {
         {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
 
         <SubstatRollsSummary
-          simRequest={simulation.request}
+          simRequest={props.simulation.request}
           precision={precision}
           diminish={props.type === 'Benchmark'}
           columns={2}
@@ -234,7 +211,7 @@ function ScoringColumn(props: {
         </pre>
         {/* Character/100% benchmark/200% perfect ability damage */}
         <AbilityDamageSummary
-          simResult={simulation.result!}
+          simResult={props.simulation.result!}
         />
       </Flex>
     </Flex>
@@ -252,10 +229,8 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 }) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
-  const result = useMemo(
-    () => simScoringResult ? clone(simScoringResult) : undefined,
-    [simScoringResult],
-  )
+  // No clone needed — downstream code creates fresh objects via toBasicStatsObject/toComputedStatsObject
+  const result = simScoringResult
 
   const phase = useProgressivePhase(result, 4)
   debugLog('CharacterScoringSummary', `render: phase=${phase} hasResult=${!!result}`)

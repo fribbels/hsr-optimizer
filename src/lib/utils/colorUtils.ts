@@ -39,9 +39,7 @@ export function showcaseBackgroundColor(color: string, darkMode: boolean) {
   return darkModeModifier(finalColor, darkMode).css()
 }
 
-export function showcaseTransition() {
-  return 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
-}
+export const showcaseTransition = 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
 
 const TARGET_BLUE = '#2241be'
 

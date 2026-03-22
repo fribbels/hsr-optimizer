@@ -5,7 +5,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { showcaseOnAddOk, showcaseOnEditOk } from 'lib/characterPreview/characterPreviewController'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import type { Character, CharacterId, SavedBuild } from 'types/character'
 import type { CustomImageConfig } from 'types/customImage'
@@ -16,17 +16,24 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import type { Parts } from 'lib/constants/constants'
 
+const EMPTY_RELICS: Partial<Record<string, Relic>> = {}
+
 export function useCharacterPreviewState(
   source: ShowcaseSource,
   character: Character | ShowcaseTabCharacter | null,
   savedBuildOverride?: SavedBuild | null,
 ) {
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
+
+  // Stable ref for character ID — callbacks read at call time, not creation time
+  const charIdRef = useRef(character?.id)
+  charIdRef.current = character?.id
+
   const setEditModalOpen = useCallback((_open: boolean, relic?: Relic) => {
     if (relic) {
       useRelicModalStore.getState().openOverlay({
         selectedRelic: relic,
-        defaultWearer: character?.id,
+        defaultWearer: charIdRef.current,
         onOk: (editedRelic: Relic) => {
           const currentConfig = useRelicModalStore.getState().config
           if (currentConfig?.selectedRelic) {
@@ -37,17 +44,17 @@ export function useCharacterPreviewState(
         },
       })
     }
-  }, [character?.id, setSelectedRelic])
+  }, [setSelectedRelic])
   const setAddModalOpen = useCallback((_open: boolean, part: Parts, relic?: Relic) => {
     useRelicModalStore.getState().openOverlay({
       selectedRelic: relic ?? null,
       selectedPart: part,
-      defaultWearer: character?.id,
+      defaultWearer: charIdRef.current,
       onOk: (editedRelic: Relic) => {
         showcaseOnAddOk(editedRelic, setSelectedRelic)
       },
     })
-  }, [character?.id, setSelectedRelic])
+  }, [setSelectedRelic])
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
   const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
 
@@ -75,7 +82,7 @@ export function useCharacterPreviewState(
 
   // Source-aware relicsById: showcase characters have relics embedded, not in the store
   const relicsById = useRelicStore(useShallow((s) => {
-    if (!character || source === ShowcaseSource.SHOWCASE_TAB) return {} as Partial<Record<string, Relic>>
+    if (!character || source === ShowcaseSource.SHOWCASE_TAB) return EMPTY_RELICS
     const equipped = savedBuildOverride?.equipped ?? character.equipped
     const ids = [equipped?.Head, equipped?.Hands, equipped?.Body, equipped?.Feet, equipped?.PlanarSphere, equipped?.LinkRope]
       .filter((id): id is string => !!id)

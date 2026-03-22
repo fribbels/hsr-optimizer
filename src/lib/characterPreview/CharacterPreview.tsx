@@ -72,6 +72,8 @@ import {
 } from 'types/customImage'
 
 const EMPTY_SWATCHES: string[] = []
+const EMPTY_OPTIONS = {}
+const EMPTY_SCORED: import('lib/relics/scoring/relicScorer').RelicScoringResult[] = []
 
 interface InteractiveCharacterPreviewProps {
   setOriginalCharacterModalOpen: (open: boolean) => void
@@ -192,6 +194,13 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // Runs as an effect so it works regardless of display mode (Spine, image, custom).
   const portraitImageUrl = character.portrait?.imageUrl
   useEffect(() => {
+    // Skip extraction if palette already cached for this character
+    const existing = useShowcaseTabStore.getState().portraitSwatchesByCharacterId[character.id]
+    if (existing && !portraitImageUrl) {
+      debugLog('PaletteEffect', `skipped for character ${character.id} — already cached`)
+      return
+    }
+
     debugLog('PaletteEffect', `started for character ${character.id}`)
     const imgSrc = portraitImageUrl ?? Assets.getCharacterPortraitById(character.id)
     let aborted = false
@@ -231,7 +240,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
-  const tempOptions = state.showcaseTemporaryOptions ?? {}
+  const tempOptions = state.showcaseTemporaryOptions ?? EMPTY_OPTIONS
 
   const cacheKey = useMemo(
     () => {
@@ -293,7 +302,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     artistName,
   } = layout
 
-  const scoredRelics = scoringResults.relics || []
+  const scoredRelics = scoringResults.relics ?? EMPTY_SCORED
 
   return (
     <Flex direction="column" style={{ width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
@@ -329,7 +338,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           backgroundBlendMode: 'screen',
           overflow: 'hidden',
           borderRadius: 6,
-          transition: showcaseTransition(),
+          transition: showcaseTransition,
         } as React.CSSProperties}
         gap={defaultGap}
       >
@@ -388,7 +397,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               borderRadius: 6,
               zIndex: 10,
               backgroundColor: 'var(--showcase-card-bg)',
-              transition: showcaseTransition(),
+              transition: showcaseTransition,
               flex: 1,
               paddingRight: 2,
               paddingLeft: 2,

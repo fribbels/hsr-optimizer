@@ -52,6 +52,7 @@ type OptimizerRequestActions = {
   setStatSim: (sim: OptimizerRequestState['statSim']) => void
   updateStatSimField: (simType: StatSimType, field: string, value: unknown) => void
   setTeammateField: <K extends keyof TeammateState>(index: 0 | 1 | 2, key: K, value: TeammateState[K]) => void
+  setTeammate: (index: 0 | 1 | 2, fields: Partial<TeammateState>) => void
 
   // Complex actions (Task 10)
   setRelicFilterField: <K extends keyof RelicFilterFields>(key: K, value: RelicFilterFields[K]) => void
@@ -133,6 +134,12 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
   setTeammateField: (index, key, value) => set((state) => {
     const teammates: [TeammateState, TeammateState, TeammateState] = [...state.teammates]
     teammates[index] = { ...teammates[index], [key]: value }
+    return { teammates }
+  }),
+
+  setTeammate: (index, fields) => set((state) => {
+    const teammates: [TeammateState, TeammateState, TeammateState] = [...state.teammates]
+    teammates[index] = { ...teammates[index], ...fields }
     return { teammates }
   }),
 

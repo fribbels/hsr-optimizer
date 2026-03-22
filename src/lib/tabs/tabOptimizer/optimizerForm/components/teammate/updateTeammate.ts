@@ -67,15 +67,16 @@ export function updateTeammate(changedValues: Partial<Form>) {
       characterConditionalsValues = Object.assign({}, characterConditionals.teammateDefaults(), characterConditionalsValues)
     }
 
-    // Update all teammate fields at once
-    const storeActions = useOptimizerRequestStore.getState()
-    storeActions.setTeammateField(teammateIndex, 'characterId', teammateCharacterId)
-    storeActions.setTeammateField(teammateIndex, 'characterEidolon', characterEidolon)
-    storeActions.setTeammateField(teammateIndex, 'lightCone', lightCone)
-    storeActions.setTeammateField(teammateIndex, 'lightConeSuperimposition', lightConeSuperimposition)
-    storeActions.setTeammateField(teammateIndex, 'teamRelicSet', teamRelicSet)
-    storeActions.setTeammateField(teammateIndex, 'teamOrnamentSet', teamOrnamentSet)
-    storeActions.setTeammateField(teammateIndex, 'characterConditionals', characterConditionalsValues)
+    // FORM-INC-2: Batch all teammate fields into a single state update (was 7 sequential setTeammateField calls)
+    useOptimizerRequestStore.getState().setTeammate(teammateIndex, {
+      characterId: teammateCharacterId,
+      characterEidolon: characterEidolon,
+      lightCone: lightCone,
+      lightConeSuperimposition: lightConeSuperimposition,
+      teamRelicSet: teamRelicSet,
+      teamOrnamentSet: teamOrnamentSet,
+      characterConditionals: characterConditionalsValues,
+    })
 
     applyTeamAwareSetConditionalPresetsToStore()
   } else if (updatedTeammate.characterId === null) {

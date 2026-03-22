@@ -118,15 +118,17 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
 
     function onBrightnessModeChange(darkMode: boolean) {
       useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcaseDarkMode, darkMode)
+      SaveState.delayedSave()
     }
 
     const onShowUIDChange = (showUID: boolean) => {
-      useGlobalStore.getState()
-        .setSavedSessionKey(SavedSessionKeys.showcaseUID, showUID)
+      useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcaseUID, showUID)
+      SaveState.delayedSave()
     }
 
     function onShowcasePreciseSpdChange(preciseSpd: boolean) {
       useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)
+      SaveState.delayedSave()
     }
 
     function onShowcaseSpdValueChange(spdValue: number) {

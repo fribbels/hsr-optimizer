@@ -10,6 +10,7 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Message } from 'lib/interactions/message'
+import { SaveState } from 'lib/state/saveState'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGlobalStore } from 'lib/stores/appStore'
@@ -55,12 +56,13 @@ export function ComputeEngineSelect() {
     if (key === COMPUTE_ENGINE_CPU) {
       useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
       Message.success(t('EngineSwitchSuccessMsg.CPU') /* Switched compute engine to CPU */)
+      SaveState.delayedSave()
     } else {
       void verifyWebgpuSupport(true).then((device) => {
         if (device) {
           useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, key)
           Message.success(key === COMPUTE_ENGINE_GPU_EXPERIMENTAL ? t('EngineSwitchSuccessMsg.Experimental') : t('EngineSwitchSuccessMsg.Stable'))
-          // Switched compute engine to GPU  Experimental/Stable
+          SaveState.delayedSave()
         }
       })
     }

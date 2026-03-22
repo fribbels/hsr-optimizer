@@ -32,6 +32,7 @@ export async function verifyWebgpuSupport(warn: boolean) {
   try {
     const device = await getWebgpuDevice(warn)
     if (!device) {
+      // Intentionally not persisted — auto-fallback so user recovers when GPU becomes available
       useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
     }
 

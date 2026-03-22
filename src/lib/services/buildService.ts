@@ -130,7 +130,7 @@ export function saveBuild(
       return
   }
 
-  const builds = character.builds ?? []
+  const builds = [...(character.builds ?? [])]
   const idx = builds.findIndex((x) => x.name === name)
 
   if (overwriteExisting) {

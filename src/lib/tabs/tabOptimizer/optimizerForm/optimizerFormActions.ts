@@ -386,9 +386,14 @@ export function startOptimization(): void {
     return
   }
 
-  useOptimizerDisplayStore.getState().setPermutationsSearched(0)
-  useOptimizerDisplayStore.getState().setPermutationsResults(0)
-  useOptimizerDisplayStore.getState().setOptimizationInProgress(true)
+  // DISPLAY-3: Reset all progress and timing fields to prevent stale data from previous run
+  useOptimizerDisplayStore.setState({
+    permutationsSearched: 0,
+    permutationsResults: 0,
+    optimizerStartTime: null,
+    optimizerEndTime: null,
+    optimizationInProgress: true,
+  })
 
   // Delay the DB save so it doesn't block the optimizer start with a characters tab re-render
   requestIdleCallback(() => {

@@ -56,7 +56,7 @@ type BenchmarkRow = {
 const PAGE_SIZE = 25
 
 export const BenchmarkResults = memo(function BenchmarkResults() {
-  const { orchestrators } = useBenchmarksTabStore()
+  const orchestrators = useBenchmarksTabStore((s) => s.orchestrators)
 
   const { rows100, rows200 } = useMemo(() => generateBenchmarkRows(orchestrators), [orchestrators])
 

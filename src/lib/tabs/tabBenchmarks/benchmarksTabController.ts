@@ -26,7 +26,16 @@ export type BenchmarkResultWrapper = {
   orchestrator?: BenchmarkSimulationOrchestrator,
 }
 
-const customBenchmarkCache: Record<string, BenchmarkSimulationOrchestrator> = {}
+let customBenchmarkCache: Record<string, BenchmarkSimulationOrchestrator> = {}
+
+export function clearBenchmarkCache() {
+  customBenchmarkCache = {}
+}
+
+export function handleResetBenchmarks() {
+  clearBenchmarkCache()
+  useBenchmarksTabStore.getState().resetCache()
+}
 
 export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
   const { teammate0, teammate1, teammate2, setResults, storedRelics, storedOrnaments, setLoading } = useBenchmarksTabStore.getState()
@@ -99,6 +108,11 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
         }
 
         setResults(results, mergedStoredRelics, mergedStoredOrnaments)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Benchmark generation failed:', error)
+        Message.error(i18next.t('benchmarksTab:Messages.Error.GenerationFailed', 'Benchmark generation failed'))
         setLoading(false)
       })
   }, 350)

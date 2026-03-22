@@ -314,7 +314,7 @@ function ShowcaseLoaded() {
             onPresetClick={presetClicked}
           />
           <CharacterPreview
-            character={selectedCharacter as Character | null}
+            character={selectedCharacter}
             source={ShowcaseSource.SHOWCASE_TAB}
             id="relicScorerPreview"
             setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}

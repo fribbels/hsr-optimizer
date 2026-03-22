@@ -271,9 +271,9 @@ export function showcaseOnEditPortraitOk(
 
 export function handleTeamSelection(
   character: Character,
-  teamSelection: Record<string, string>,
+  teamSelection: string | undefined,
 ) {
-  let currentSelection: string | undefined = teamSelection[character.id]
+  let currentSelection: string | undefined = teamSelection
 
   const defaultScoringMetadata = getGameMetadata().characters[character.id].scoringMetadata
   if (defaultScoringMetadata?.simulation) {

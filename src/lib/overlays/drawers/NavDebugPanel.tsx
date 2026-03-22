@@ -156,11 +156,10 @@ const PRESET_META: Record<string, { icon: React.ReactNode; label: string; color?
 // ---- Panel ----
 
 export function NavDebugPanel() {
+  // Reads all ~30 config fields for slider values + all actions — bare call is intentional
   const store = useNavDebugStore()
   const [open, setOpen] = useState(false)
   const [activePreset, setActivePreset] = useState<string | null>(null)
-
-  const set = store.set
 
   // Keyboard shortcut: Ctrl+Shift+D
   useEffect(() => {
@@ -174,31 +173,32 @@ export function NavDebugPanel() {
     return () => window.removeEventListener('keydown', handler)
   }, [])
 
+  // Read store imperatively inside callbacks — stable refs, no re-subscription churn
   const handlePreset = useCallback((name: string) => {
-    store.applyPreset(name)
+    useNavDebugStore.getState().applyPreset(name)
     setActivePreset(name)
-  }, [store])
+  }, [])
 
   const handleReset = useCallback(() => {
-    store.reset()
+    useNavDebugStore.getState().reset()
     setActivePreset('current')
-  }, [store])
+  }, [])
 
   const handleCopyCSS = useCallback(() => {
-    const css = generateCSSExport(store)
+    const css = generateCSSExport(useNavDebugStore.getState())
     navigator.clipboard.writeText(css)
-  }, [store])
+  }, [])
 
   const handleRandomize = useCallback(() => {
-    store.randomize()
+    useNavDebugStore.getState().randomize()
     setActivePreset(null)
-  }, [store])
+  }, [])
 
   // Clear active preset when user manually tweaks
   const update = useCallback((partial: Partial<NavDebugConfig>) => {
-    set(partial)
+    useNavDebugStore.getState().set(partial)
     setActivePreset(null)
-  }, [set])
+  }, [])
 
   return (
     <>

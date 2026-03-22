@@ -265,6 +265,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
     setActiveKey(item.key as AppPages)
   }, [setActiveKey])
 
+  // Reads all config fields for CSS vars + data attrs — bare call is intentional
   const debugConfig = useNavDebugStore()
   const cssVars = configToCssVars(debugConfig)
   const dataAttrs = configToDataAttrs(debugConfig)

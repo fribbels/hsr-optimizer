@@ -59,8 +59,11 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabStore>((set, g
 
   selectCharacter: (selectedIndex) => set({ selectedIndex }),
 
-  // Safe because applyCharacterOverride always targets selectedIndex.
-  applyCharacterOverride: (form) => set((s) => computeCharacterOverride(s, form)),
+  applyCharacterOverride: (form) => {
+    const { availableCharacters, selectedIndex } = get()
+    if (!availableCharacters || selectedIndex >= availableCharacters.length) return
+    set((s) => computeCharacterOverride(s, form))
+  },
 
   // ── Session (persisted) ──
 

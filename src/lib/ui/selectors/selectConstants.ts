@@ -1,5 +1,5 @@
 import type { ElementName, PathName } from 'lib/constants/constants'
-import type { CharacterOptions } from 'lib/rendering/optionGenerator'
+import type { CharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import type { CharacterId } from 'types/character'
 
 /**

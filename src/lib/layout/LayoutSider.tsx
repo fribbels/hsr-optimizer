@@ -5,7 +5,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { HEADER_HEIGHT } from 'lib/layout/LayoutHeader'
 import { MenuDrawer } from 'lib/overlays/drawers/MenuDrawer'
-import { useScrollLockState } from 'lib/rendering/scrollController'
+import { useScrollLockState } from 'lib/layout/scrollController'
 import { useNavDebugStore } from 'lib/overlays/drawers/navDebugStore'
 import classes from 'lib/layout/layout.module.css'
 import { useShallow } from 'zustand/react/shallow'

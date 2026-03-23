@@ -1,7 +1,7 @@
 import { Drawer } from '@mantine/core'
 import { ConditionalDataType } from 'lib/constants/constants'
 import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
-import { useScrollLock } from 'lib/rendering/scrollController'
+import { useScrollLock } from 'lib/layout/scrollController'
 import { ComboDrawerTitle } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
 import { StateDisplay } from 'lib/tabs/tabOptimizer/combo/StateDisplay'
 import { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'

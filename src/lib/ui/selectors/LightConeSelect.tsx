@@ -1,7 +1,7 @@
 import { CloseButton, Flex, Modal, TextInput } from '@mantine/core'
 import type { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { generateLightConeOptions, type LcOptions } from 'lib/rendering/optionGenerator'
+import { generateLightConeOptions, type LcOptions } from 'lib/ui/selectors/optionGenerator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   generatePathTags,

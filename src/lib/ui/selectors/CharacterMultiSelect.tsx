@@ -1,5 +1,5 @@
 import { Button, CloseButton, Flex, Modal, MultiSelect, Pill, PillsInput, TextInput } from '@mantine/core'
-import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
+import { generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import {
   generateElementTags,
   generatePathTags,

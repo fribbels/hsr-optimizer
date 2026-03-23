@@ -15,17 +15,30 @@ const SWATCH_KEYS = ['Vibrant', 'DarkVibrant', 'Muted', 'DarkMuted', 'LightVibra
 // ---------------------------------------------------------------------------
 // Hue avoidance
 // ---------------------------------------------------------------------------
-function isAvoidedHue(h: number, c: number, l: number): boolean {
+// Avoidance levels: 'standard' for default, 'aggressive' for stronger filtering
+type AvoidanceLevel = 'standard' | 'aggressive' | 'none'
+
+function isAvoidedHue(h: number, c: number, l: number, level: AvoidanceLevel = 'standard'): boolean {
+  if (level === 'none') return false
+
   // Yellow-greens (Material Design "disliked" range ~80-130°)
   if (h >= 80 && h <= 130 && c > 0.04) return true
-  // Browns / muddy warm tones (~30-80°, low-mid L, low-mid chroma)
-  if (h >= 30 && h <= 80 && c > 0.03 && l < 0.55) return true
-  // Brown-reds / dirty reds (~15-45°, low chroma = muddy, low L = dark)
-  if (h >= 15 && h <= 45 && c < 0.13 && l < 0.50) return true
+  // Browns / muddy warm tones (~30-80°, low-mid L)
+  if (h >= 30 && h <= 80 && l < 0.55) return true
+  // Brown-reds / dirty reds (~10-50°, not vivid enough to be clean red/pink)
+  if (h >= 10 && h <= 50 && c < 0.15 && l < 0.55) return true
   // Skin tones (peach/tan ~40-70°, low-mid chroma)
   if (h >= 40 && h <= 70 && c > 0.02 && c < 0.12) return true
+
+  if (level === 'aggressive') {
+    // Wider warm rejection: anything 10-80° that isn't clearly vivid
+    if (h >= 10 && h <= 80 && c < 0.22) return true
+    // Extended muddy range: 80-100° at low chroma still looks brown-green
+    if (h >= 80 && h <= 100 && c < 0.12) return true
+  }
+
   return false
-  // Note: light reds/pinks (h ~0-20° or ~340-360°, high L) are NOT penalized
+  // Note: light reds/pinks (h ~340-360° or ~0-10°, high chroma or high L) pass through
 }
 
 function isCoolHue(h: number): boolean {
@@ -35,7 +48,7 @@ function isCoolHue(h: number): boolean {
 // ---------------------------------------------------------------------------
 // Seed selection strategies
 // ---------------------------------------------------------------------------
-type SeedPicker = (palette: PaletteResponse) => string
+type SeedPicker = (palette: PaletteResponse, avoidance: AvoidanceLevel) => string
 
 function getAllColors(palette: PaletteResponse): string[] {
   return [
@@ -45,38 +58,38 @@ function getAllColors(palette: PaletteResponse): string[] {
 }
 
 const seedStrategies: Record<string, SeedPicker> = {
-  highestChroma: (palette) => {
+  highestChroma: (palette, avoidance) => {
     const all = getAllColors(palette)
     if (!all.length) return palette.Vibrant
     let best = all[0], bestScore = -Infinity
     for (const color of all) {
       const [l, c, h] = chroma(color).oklch()
       let score = c
-      if (isAvoidedHue(h, c, l)) score *= 0.1
+      if (isAvoidedHue(h, c, l, avoidance)) score *= 0.1
       if (score > bestScore) { bestScore = score; best = color }
     }
     return best
   },
 
-  vibrantFirst: (palette) => {
+  vibrantFirst: (palette, avoidance) => {
     const v = palette.Vibrant
     if (v !== FALLBACK_BLUE) {
       const [l, c, h] = chroma(v).oklch()
-      if (!isAvoidedHue(h, c, l) && c > 0.05) return v
+      if (!isAvoidedHue(h, c, l, avoidance) && c > 0.05) return v
     }
-    return seedStrategies.highestChroma(palette)
+    return seedStrategies.highestChroma(palette, avoidance)
   },
 
-  darkVibrant: (palette) => {
+  darkVibrant: (palette, avoidance) => {
     const dv = palette.DarkVibrant
     if (dv !== FALLBACK_BLUE) {
       const [l, c, h] = chroma(dv).oklch()
-      if (!isAvoidedHue(h, c, l) && c > 0.03) return dv
+      if (!isAvoidedHue(h, c, l, avoidance) && c > 0.03) return dv
     }
-    return seedStrategies.highestChroma(palette)
+    return seedStrategies.highestChroma(palette, avoidance)
   },
 
-  populationWeighted: (palette) => {
+  populationWeighted: (palette, avoidance) => {
     const all = getAllColors(palette)
     if (!all.length) return palette.Vibrant
     let best = all[0], bestScore = -Infinity
@@ -84,20 +97,20 @@ const seedStrategies: Record<string, SeedPicker> = {
       const [l, c, h] = chroma(all[i]).oklch()
       const popWeight = 1 / (1 + i * 0.1)
       let score = c * popWeight
-      if (isAvoidedHue(h, c, l)) score *= 0.1
+      if (isAvoidedHue(h, c, l, avoidance)) score *= 0.1
       if (score > bestScore) { bestScore = score; best = all[i] }
     }
     return best
   },
 
-  coolBias: (palette) => {
+  coolBias: (palette, avoidance) => {
     const all = getAllColors(palette)
     if (!all.length) return palette.Vibrant
     let best = all[0], bestScore = -Infinity
     for (const color of all) {
       const [l, c, h] = chroma(color).oklch()
       let score = c
-      if (isAvoidedHue(h, c, l)) score *= 0.1
+      if (isAvoidedHue(h, c, l, avoidance)) score *= 0.1
       if (isCoolHue(h)) score *= 1.5
       if (score > bestScore) { bestScore = score; best = color }
     }
@@ -146,228 +159,85 @@ function withCardBg(overrides: Partial<CardColorConfig>): ColorPipelineConfig {
 // ---------------------------------------------------------------------------
 // Preset definitions
 // ---------------------------------------------------------------------------
+export interface PortraitFilterPreset {
+  blur: number
+  brightness: number
+  saturate: number
+}
+
+const DEFAULT_PORTRAIT: PortraitFilterPreset = { blur: 18, brightness: 0.50, saturate: 0.80 }
+
 export interface FullPreset {
   name: string
   seedStrategy: string
   seedPreprocess: string
+  avoidance: AvoidanceLevel
   config: ColorPipelineConfig
+  portrait: PortraitFilterPreset
   description: string
 }
 
+// Round 9 — Three 5★ keepers: radiantInk, inkDeep, ember.
+// inkDeep: targetL 0.38, alpha 0.58, chroma 0.52/0.048, portrait 18/0.64/0.88
+// ember:   targetL 0.41, alpha 0.55, chroma 0.52/0.048, portrait 16/0.60/1.0, hueShift +8
+// DRILL(2): blend inkDeep + ember traits
+// EXPLORE(4): new territory — antd preprocess, no-preprocess raw, extreme blur, high lInputScale
 export const FULL_PRESETS: FullPreset[] = [
-  // --- Seed selection variants (all use optimized config) ---
+  // --- DRILL: blend the two 5★+keep winners ---
   {
-    name: 'optimized',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Optimizer output + highest chroma seed + hue avoidance',
+    name: 'inkDeep',
+    seedStrategy: 'vibrantFirst',
+    seedPreprocess: 'chromaBoost',
+    avoidance: 'aggressive',
+    config: withCardBg({ targetL: 0.38, alpha: 0.58, chromaScale: 0.52, maxC: 0.048 }),
+    portrait: { blur: 18, brightness: 0.64, saturate: 0.88 },
+    description: 'R8 winner anchor — vibFirst+boost, dark opaque panel, bright portrait',
   },
   {
-    name: 'vibrantFirst',
+    name: 'deepEmber',
+    seedStrategy: 'darkVibrant',
+    seedPreprocess: 'chromaBoost',
+    avoidance: 'aggressive',
+    config: withCardBg({ targetL: 0.39, alpha: 0.57, chromaScale: 0.52, maxC: 0.048, hueShift: 5 }),
+    portrait: { blur: 16, brightness: 0.62, saturate: 0.95 },
+    description: 'Midpoint of inkDeep + ember — darkVib, mild warm shift, split-the-diff portrait',
+  },
+  // --- EXPLORE: genuinely different directions ---
+  {
+    name: 'mercury',
+    seedStrategy: 'vibrantFirst',
+    seedPreprocess: 'antdDerived',
+    avoidance: 'aggressive',
+    config: withCardBg({ targetL: 0.40, alpha: 0.56, chromaScale: 0.52, maxC: 0.048 }),
+    portrait: { blur: 18, brightness: 0.62, saturate: 0.88 },
+    description: 'inkDeep values but antd preprocess instead of chromaBoost — different seed character',
+  },
+  {
+    name: 'rawSilk',
     seedStrategy: 'vibrantFirst',
     seedPreprocess: 'none',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Prefer colorthief Vibrant swatch',
+    avoidance: 'aggressive',
+    config: withCardBg({ targetL: 0.42, alpha: 0.56, chromaScale: 0.58, maxC: 0.052 }),
+    portrait: { blur: 18, brightness: 0.62, saturate: 0.90 },
+    description: 'No preprocessing — raw seed with higher chroma to compensate, brighter panel',
   },
   {
-    name: 'darkVibrant',
+    name: 'cinematic',
     seedStrategy: 'darkVibrant',
-    seedPreprocess: 'none',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Prefer DarkVibrant for darker seeds',
-  },
-  {
-    name: 'populationWt',
-    seedStrategy: 'populationWeighted',
-    seedPreprocess: 'none',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Balance vividness with image dominance',
-  },
-  {
-    name: 'coolBias',
-    seedStrategy: 'coolBias',
-    seedPreprocess: 'none',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Prefer blue/purple/cyan tones',
-  },
-  {
-    name: 'noAvoidance',
-    seedStrategy: 'noAvoidance',
-    seedPreprocess: 'none',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Pure chroma, no hue penalties',
-  },
-
-  // --- Config variants (all use highestChroma seed) ---
-  {
-    name: 'darker',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.28, lInputScale: 0.05 }),
-    description: 'Darker backgrounds',
-  },
-  {
-    name: 'vividDark',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.26, chromaScale: 1.2, maxC: 0.08 }),
-    description: 'Dark + strong color tint',
-  },
-  {
-    name: 'muted',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.32, chromaScale: 0.3, maxC: 0.03 }),
-    description: 'Subtle tinted gray',
-  },
-  {
-    name: 'highContrast',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.22, chromaScale: 0.9, minC: 0.04, maxC: 0.08 }),
-    description: 'Deep dark with strong tint',
+    seedPreprocess: 'chromaBoost',
+    avoidance: 'aggressive',
+    config: withCardBg({ targetL: 0.36, alpha: 0.62, chromaScale: 0.48, maxC: 0.044 }),
+    portrait: { blur: 10, brightness: 0.58, saturate: 1.10 },
+    description: 'Darkest panel + most opaque, sharp vivid portrait — movie poster look',
   },
   {
     name: 'adaptive',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.30, lInputScale: 0.15 }),
-    description: 'Heavy input-relative L scaling',
-  },
-
-  // --- Seed preprocessing variants ---
-  {
-    name: 'antdDerived',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'antdDerived',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Apply antd dark transform to seed first',
-  },
-  {
-    name: 'chromaBoost',
-    seedStrategy: 'highestChroma',
+    seedStrategy: 'vibrantFirst',
     seedPreprocess: 'chromaBoost',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Boost seed chroma 1.5x before pipeline',
-  },
-  {
-    name: 'desaturated',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'desat',
-    config: cloneConfig(DEFAULT_CONFIG),
-    description: 'Halve seed chroma before pipeline',
-  },
-
-  // --- Combined strategies ---
-  {
-    name: 'spotify',
-    seedStrategy: 'darkVibrant',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.18, chromaScale: 1.5, minC: 0.03, maxC: 0.10 }),
-    description: 'Spotify-style: dark + vivid dominant color',
-  },
-  {
-    name: 'materialYou',
-    seedStrategy: 'populationWeighted',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.22, chromaScale: 0.15, minC: 0.005, maxC: 0.02 }),
-    description: 'Material Design 3: whisper of color',
-  },
-  {
-    name: 'coolDark',
-    seedStrategy: 'coolBias',
-    seedPreprocess: 'antdDerived',
-    config: withCardBg({ targetL: 0.28, chromaScale: 0.8, minC: 0.03, maxC: 0.06 }),
-    description: 'Cool tones + antd transform + darker',
-  },
-
-  // --- Alpha & hue shift variants ---
-  {
-    name: 'opaqueDeep',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.26, alpha: 0.85 }),
-    description: 'More opaque (0.85) + darker',
-  },
-  {
-    name: 'glassy',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.34, alpha: 0.50 }),
-    description: 'Semi-transparent (0.50) — background shows through',
-  },
-  {
-    name: 'warmShift',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ hueShift: 15 }),
-    description: 'Rotate hue +15° (warmer)',
-  },
-  {
-    name: 'coolShift',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ hueShift: -15 }),
-    description: 'Rotate hue -15° (cooler)',
-  },
-  {
-    name: 'vividGlass',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'chromaBoost',
-    config: withCardBg({ targetL: 0.30, alpha: 0.55, chromaScale: 1.0, maxC: 0.08 }),
-    description: 'Vivid tint + transparency — rich but see-through',
-  },
-  {
-    name: 'deepOpaque',
-    seedStrategy: 'darkVibrant',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.20, alpha: 0.90, chromaScale: 0.9, minC: 0.03, maxC: 0.07 }),
-    description: 'Very dark, nearly opaque, strong tint',
-  },
-
-  // --- Round 2: based on feedback ---
-  {
-    name: 'glassyMuted',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.34, alpha: 0.50, chromaScale: 0.4, maxC: 0.035 }),
-    description: 'Glassy + less chroma (fix vividGlass shine)',
-  },
-  {
-    name: 'glassyCool',
-    seedStrategy: 'coolBias',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.34, alpha: 0.50, hueShift: -10 }),
-    description: 'Glassy + cool tone bias + slight cool shift',
-  },
-  {
-    name: 'glassyDkVib',
-    seedStrategy: 'darkVibrant',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.32, alpha: 0.50 }),
-    description: 'DarkVibrant seed + glassy',
-  },
-  {
-    name: 'cleanDark',
-    seedStrategy: 'darkVibrant',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.30, alpha: 0.65 }),
-    description: 'DarkVibrant + slightly darker, moderate alpha',
-  },
-  {
-    name: 'popGlassy',
-    seedStrategy: 'populationWeighted',
-    seedPreprocess: 'none',
-    config: withCardBg({ targetL: 0.34, alpha: 0.50 }),
-    description: 'Population-weighted seed + glassy',
-  },
-  {
-    name: 'antdGlassy',
-    seedStrategy: 'highestChroma',
-    seedPreprocess: 'antdDerived',
-    config: withCardBg({ targetL: 0.34, alpha: 0.50 }),
-    description: 'Antd-derived seed + glassy',
+    avoidance: 'aggressive',
+    config: withCardBg({ targetL: 0.38, alpha: 0.56, chromaScale: 0.50, maxC: 0.045, lInputScale: 0.12 }),
+    portrait: { blur: 18, brightness: 0.62, saturate: 0.88 },
+    description: 'High lInputScale (0.12) — panel brightness varies per character seed lightness',
   },
 ]
 
@@ -377,15 +247,15 @@ export const FULL_PRESETS: FullPreset[] = [
 export function applyPreset(
   preset: FullPreset,
   palettes: Map<string, PaletteResponse>,
-): { config: ColorPipelineConfig; seeds: Map<string, string> } {
+): { config: ColorPipelineConfig; seeds: Map<string, string>; portrait: PortraitFilterPreset } {
   const picker = seedStrategies[preset.seedStrategy] ?? seedStrategies.highestChroma
   const preprocess = seedPreprocessors[preset.seedPreprocess] ?? seedPreprocessors.none
   const seeds = new Map<string, string>()
 
   for (const [charId, palette] of palettes) {
-    const raw = picker(palette)
+    const raw = picker(palette, preset.avoidance)
     seeds.set(charId, preprocess(raw))
   }
 
-  return { config: cloneConfig(preset.config), seeds }
+  return { config: cloneConfig(preset.config), seeds, portrait: { ...preset.portrait } }
 }

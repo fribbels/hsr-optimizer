@@ -12,10 +12,11 @@ import { getColorThiefPalette } from 'lib/characterPreview/color/colorThiefExtra
 import { deriveAntdColorPrimaryActive } from 'lib/characterPreview/color/antdTokenCompat'
 import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/characterPreview/color/colorUtils'
 import {
+  oklchBackgroundColor,
   oklchCardBackgroundColor,
   oklchCardBorderColor,
 } from 'lib/characterPreview/color/colorUtilsOklch'
-import { ColorDebugPanel, type Extractor } from 'lib/characterPreview/color/debug/ColorDebugPanel'
+import { ColorDebugPanel, DEFAULT_PORTRAIT_FILTER, type Extractor, type PortraitFilterConfig } from 'lib/characterPreview/color/debug/ColorDebugPanel'
 import { FULL_PRESETS, applyPreset } from 'lib/characterPreview/color/debug/colorPresets'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
@@ -60,10 +61,12 @@ const SCALED_H = Math.ceil(parentH * SCALE)
 
 export function ColorPreviewGallery() {
   const [page, setPage] = useState(0)
-  const [shuffleSeed, setShuffleSeed] = useState(0)
+  const [shuffleSeed, setShuffleSeed] = useState(() => Math.random())
   const [config, setConfig] = useState<ColorPipelineConfig>(() => cloneConfig(DEFAULT_CONFIG))
   const [extractor, setExtractor] = useState<Extractor>('colorthief')
   const [extractionProgress, setExtractionProgress] = useState('')
+  const [portraitFilter, setPortraitFilter] = useState<PortraitFilterConfig>({ ...DEFAULT_PORTRAIT_FILTER })
+  const [activePresetName, setActivePresetName] = useState('optimized')
   const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode ?? true)
 
   // colorthief-extracted full palettes, keyed by characterId
@@ -143,7 +146,6 @@ export function ColorPreviewGallery() {
   }, [allCharacters])
 
   const displayCharacters = useMemo(() => {
-    if (shuffleSeed === 0) return allCharacters
     const shuffled = [...allCharacters]
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -175,8 +177,29 @@ export function ColorPreviewGallery() {
       const seed = getSeedColor(char.id)
       el.style.setProperty('--showcase-card-bg', oklchCardBackgroundColor(seed, darkMode, cfg))
       el.style.setProperty('--showcase-card-border', oklchCardBorderColor(seed, darkMode, cfg))
+      // Also update the outer background color
+      el.style.background = oklchBackgroundColor(seed, darkMode, cfg)
     }
   }, [allCharacters, darkMode, getSeedColor])
+
+  // Push portrait background filter to all cards
+  const pushPortraitFilter = useCallback((filter: PortraitFilterConfig) => {
+    const filterStr = `blur(${filter.blur}px) brightness(${filter.brightness}) saturate(${filter.saturate})`
+    for (const char of allCharacters) {
+      const el = document.getElementById(`color-gallery-${char.id}`)
+      if (!el) continue
+      const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+      if (bgDiv) {
+        bgDiv.style.filter = filterStr
+        bgDiv.style.webkitFilter = filterStr
+      }
+    }
+  }, [allCharacters])
+
+  const handlePortraitFilterChange = useCallback((filter: PortraitFilterConfig) => {
+    setPortraitFilter(filter)
+    pushPortraitFilter(filter)
+  }, [pushPortraitFilter])
 
   // -----------------------------------------------------------------------
   // Config change handler — update state + push to all cards
@@ -229,7 +252,11 @@ export function ColorPreviewGallery() {
         <Button size="xs" onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1}>
           Next
         </Button>
-        <Button size="xs" variant="light" onClick={() => setShuffleSeed((s) => s + 1)}>
+        <Button size="xs" variant="light" onClick={() => {
+          setShuffleSeed((s) => s + 1)
+          // Re-push colors + portrait filter after shuffle re-renders
+          setTimeout(() => { pushToAllCards(config); pushPortraitFilter(portraitFilter) }, 50)
+        }}>
           Shuffle
         </Button>
         <Button
@@ -322,12 +349,17 @@ export function ColorPreviewGallery() {
         darkMode={darkMode}
         extractionProgress={extractionProgress}
         palettes={colorThiefPalettes.current}
+        activePresetName={activePresetName}
+        portraitFilter={portraitFilter}
         onConfigChange={handleConfigChange}
         onExtractorChange={handleExtractorChange}
-        onPresetApply={(presetConfig, seeds) => {
+        onPresetApply={(presetConfig, seeds, presetName, presetPortrait) => {
           for (const [k, v] of seeds) colorThiefSeeds.current.set(k, v)
+          setActivePresetName(presetName)
           handleConfigChange(presetConfig)
+          handlePortraitFilterChange(presetPortrait)
         }}
+        onPortraitFilterChange={handlePortraitFilterChange}
       />
     </Flex>
   )

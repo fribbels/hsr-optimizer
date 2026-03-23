@@ -1,7 +1,7 @@
 import { Flex, Slider, Text } from '@mantine/core'
 import type { CardColorConfig, DarkModeConfig } from 'lib/characterPreview/color/colorPipelineConfig'
 
-interface SliderDef {
+export interface SliderDef {
   label: string
   key: string
   min: number
@@ -63,6 +63,27 @@ export function DarkModeSliders({ config, onChange }: {
           key={s.key}
           def={s}
           value={config[s.key as keyof DarkModeConfig]}
+          onChange={(v) => onChange(s.key, v)}
+        />
+      ))}
+    </Flex>
+  )
+}
+
+export function GenericSliders({ label, sliders, values, onChange }: {
+  label: string
+  sliders: SliderDef[]
+  values: Record<string, number>
+  onChange: (key: string, value: number) => void
+}) {
+  return (
+    <Flex direction="column" gap={4}>
+      <Text size="sm" fw={600}>{label}</Text>
+      {sliders.map((s) => (
+        <SliderRow
+          key={s.key}
+          def={s}
+          value={values[s.key] ?? 0}
           onChange={(v) => onChange(s.key, v)}
         />
       ))}

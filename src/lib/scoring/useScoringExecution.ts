@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useSyncExternalStore } from 'react'
-import { debugLog } from 'lib/debug/renderDebug'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
   getCachedResult,
@@ -21,15 +20,15 @@ export function useScoringExecution(
   cacheKey: string | null,
   requestFn: (() => Promise<SimulationScore | null>) | null,
 ): ScoringExecution {
-  const prevCacheKeyRef = useRef<string | null>(null)
-  if (cacheKey !== prevCacheKeyRef.current) {
-    debugLog('useScoringExecution', `cacheKey changed: ${prevCacheKeyRef.current?.slice(0, 20) ?? 'null'} → ${cacheKey?.slice(0, 20) ?? 'null'}`)
-    prevCacheKeyRef.current = cacheKey
-  }
+  // Per-key subscription: only notified when THIS cacheKey's result is written
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => subscribeToCacheUpdates(cacheKey, onStoreChange),
+    [cacheKey],
+  )
 
   // Synchronous cache read — runs on EVERY render, zero flicker on cache hit
   const result = useSyncExternalStore(
-    subscribeToCacheUpdates,
+    subscribe,
     useCallback(
       () => cacheKey ? getCachedResult(cacheKey) : null,
       [cacheKey],
@@ -44,12 +43,9 @@ export function useScoringExecution(
     return PENDING
   }, [cacheKey, result])
 
-  debugLog('useScoringExecution', `render: result=${result ? 'HIT' : 'MISS'} done=${execution.done}`)
-
   // Request scoring on cache miss (effect, not during render)
   useEffect(() => {
     if (!cacheKey || !requestFn || result || hasExceededRetries(cacheKey)) return
-    debugLog('useScoringExecution', `requesting score for ${cacheKey.slice(0, 20)}...`)
     requestFn()
     // requestFn is memoized on cacheKey upstream — no need in deps
     // eslint-disable-next-line react-hooks/exhaustive-deps

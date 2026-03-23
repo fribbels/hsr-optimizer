@@ -1,6 +1,5 @@
 import { Divider, Flex, Paper } from '@mantine/core'
 import i18next from 'i18next'
-import { useRenderTracker } from 'lib/debug/renderDebug'
 import {
   showcaseShadow,
   showcaseShadowInsetAddition,
@@ -62,13 +61,6 @@ export const RelicPreview = memo(function RelicPreview(props: {
   unhoverable?: boolean,
   compact?: boolean,
 }) {
-  useRenderTracker(`RelicPreview[${props.relic?.part ?? '?'}]`, {
-    relic: props.relic, source: props.source, characterId: props.characterId,
-    score: props.score, scoringType: props.scoringType,
-    setEditModalOpen: props.setEditModalOpen, setAddModalOpen: props.setAddModalOpen,
-    setSelectedRelic: props.setSelectedRelic,
-  })
-
   const {
     source,
     characterId,

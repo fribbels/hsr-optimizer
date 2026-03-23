@@ -6,8 +6,9 @@ import {
   IconWand,
   IconWandOff,
 } from '@tabler/icons-react'
-import { ActionIcon, Button, Flex, SegmentedControl } from '@mantine/core'
+import { ActionIcon, Button, Flex, rem, SegmentedControl } from '@mantine/core'
 import { modals } from '@mantine/modals'
+import { notifications } from '@mantine/notifications'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -36,14 +37,14 @@ import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import classes from './ComboFilter.module.css'
 
-const controlSize = 24
+const controlSize = 28
 
 export function ComboFilters() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const comboType = useOptimizerRequestStore((s) => s.comboType)
 
   return (
-    <Flex direction="column" gap={optimizerTabDefaultGap}>
+    <Flex direction="column" gap={optimizerTabDefaultGap + 3}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Header') /* Rotation COMBO formula */}</HeaderText>
         <TooltipImage type={Hint.comboFilters()} />
@@ -74,32 +75,36 @@ export function ComboFilters() {
   )
 }
 
-function add() {
-  const store = useOptimizerRequestStore.getState()
-  const abilities = [...store.comboTurnAbilities]
-
-  for (let i = 1; i <= ABILITY_LIMIT + 2; i++) {
-    if (abilities[i] == null) {
-      abilities[i] = DEFAULT_BASIC
+export function addAbility(abilities: TurnAbilityName[]): TurnAbilityName[] {
+  const result = [...abilities]
+  for (let i = 1; i <= ABILITY_LIMIT; i++) {
+    if (result[i] == null) {
+      result[i] = DEFAULT_BASIC
       break
     }
   }
+  return result
+}
 
-  useOptimizerRequestStore.getState().setComboTurnAbilities(abilities)
+export function removeAbility(abilities: TurnAbilityName[]): TurnAbilityName[] {
+  const result = [...abilities]
+  for (let i = ABILITY_LIMIT; i > 1; i--) {
+    if (result[i] != null) {
+      result.length = i
+      break
+    }
+  }
+  return result
+}
+
+function add() {
+  const abilities = useOptimizerRequestStore.getState().comboTurnAbilities
+  useOptimizerRequestStore.getState().setComboTurnAbilities(addAbility(abilities))
 }
 
 function minus() {
-  const store = useOptimizerRequestStore.getState()
-  const abilities = [...store.comboTurnAbilities]
-
-  for (let i = ABILITY_LIMIT + 2; i > 1; i--) {
-    if (abilities[i] != null) {
-      abilities.length = i
-      break
-    }
-  }
-
-  useOptimizerRequestStore.getState().setComboTurnAbilities(abilities)
+  const abilities = useOptimizerRequestStore.getState().comboTurnAbilities
+  useOptimizerRequestStore.getState().setComboTurnAbilities(removeAbility(abilities))
 }
 
 function resetClicked() {
@@ -142,8 +147,6 @@ function ComboBasicDefinition() {
   return (
     <Flex className={classes.comboContainer}>
       <Flex direction="column" flex={1} className={classes.abilitiesColumn} gap={3}>
-        <HeaderText>{t('AbilityLabel') /* Abilities */}</HeaderText>
-
         <Flex direction="column" flex={1} className={classes.abilitiesColumn} style={{ display: comboType === ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
             <ComboOptionRowSelect
@@ -159,11 +162,11 @@ function ComboBasicDefinition() {
         </Flex>
       </Flex>
 
-      <Flex direction="column" gap={5}>
-        <Flex direction="column" gap={3}>
+      <Flex direction="column" gap={controlSize / 2} w={controlSize}>
+        <Flex direction="column" gap={5}>
           <ActionIcon
             variant='outline'
-            w={controlSize}
+            w='100%'
             h={controlSize}
             disabled={disabled}
             onClick={() => modals.openConfirmModal({
@@ -176,22 +179,38 @@ function ComboBasicDefinition() {
           >
             <IconRefresh size={16} />
           </ActionIcon>
-          <ActionIcon variant='outline' w={controlSize} h={controlSize} onClick={() => add()} disabled={disabled}>
+          <ActionIcon variant='outline' w='100%' h={controlSize} onClick={() => add()} disabled={disabled}>
             <IconPlus size={16} />
           </ActionIcon>
-          <ActionIcon variant='outline' w={controlSize} h={controlSize} onClick={() => minus()} disabled={disabled}>
+          <ActionIcon variant='outline' w='100%' h={controlSize} onClick={() => minus()} disabled={disabled}>
             <IconMinus size={16} />
           </ActionIcon>
         </Flex>
 
         <SegmentedControl
           orientation='vertical'
-          w={controlSize}
-          size='xs'
+          fullWidth
           disabled={disabled}
           value={String(comboPreprocessor)}
-          onChange={(value) => useOptimizerRequestStore.getState().setComboPreprocessor(value === 'true')}
-          styles={{ root: { padding: 0 }, label: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: controlSize, paddingBlock: 0, paddingInline: 0 } }}
+          onChange={(value) => {
+            const enabled = value === 'true'
+            useOptimizerRequestStore.getState().setComboPreprocessor(enabled)
+            notifications.show({
+              message: enabled ? t('Presets.Enabled') : t('Presets.Disabled'),
+              autoClose: 2000,
+            })
+          }}
+          styles={{
+            root: { padding: 0 },
+            label: {
+              padding: 0,
+              height: rem(controlSize),
+              width: rem(controlSize),
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+          }}
           data={[
             { label: <IconWand size={16} />, value: 'true' },
             { label: <IconWandOff size={16} />, value: 'false' },

@@ -145,7 +145,7 @@ export function ControlledTurnAbilitySelector({
       data={options}
       value={value || null}
       placeholder='Ability'
-      styles={{ input: { fontSize: 12 } }}
+      styles={{ input: { fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }}
       clearable
       onClear={handleClear}
       onChange={handleChange}

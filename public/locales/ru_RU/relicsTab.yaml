@@ -11,9 +11,9 @@ RelicFilterBar:
   Mainstat: Основные характеристики
   Substat: Дополнительные характеристики
   ScoringButton: Алгоритм подсчета очков
-  RecommendationHeader: Персонаж для оценки реликвий
+  RecommendationHeader: Персонаж для оценки реликвий (ПО)
   Rating: Доп. фильтры оценки реликвий
-  CustomCharsHeader: Персонажи для расчёта потенциала
+  CustomCharsHeader: Персонажи для расчёта потенциала (ПР)
 RecentlyUpdatedRelics:
   Header: Недавно обновлённые реликвии
   Potential: ПОТЕНЦИАЛ
@@ -99,6 +99,24 @@ RelicGrid:
         Header: |-
           ПО: Ср. Δ при
           Перебросе
+          vs текущих
+      BlockedRerollAvg:
+        Label: 'ПО: Средний потенциал переброса заблокированных характеристик'
+        Header: |-
+          ПО: Заблок.
+          Ср. Пот.
+          Переброса
+      BlockedRerollAvgDelta:
+        Label: 'ПО: Средний прирост(Δ) заблокированных характеристик при перебросе'
+        Header: |-
+          ПО: Заблок.
+          Ср. Δ при
+          Перебросе
+      BlockedRerollAvgEquippedDelta:
+        Label: 'ПО: Средний прирост(Δ) заблокированных характеристик при перебросе vs текущих'
+        Header: |-
+          ПО: Ср. Δ при
+          Перебросе Забл.
           vs текущих
     CustomCharacters:
       Label: По персонажу для расчёта потенциала (ПР)

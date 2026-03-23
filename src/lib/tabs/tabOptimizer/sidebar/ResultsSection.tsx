@@ -11,7 +11,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 const defaultGap = 5
-const buttonStyle: React.CSSProperties = { width: '100px' }
+const buttonStyle: React.CSSProperties = { flex: 1 }
 
 function addToPinned() {
   const gridApi = gridStore.optimizerGridApi()

@@ -30,14 +30,14 @@ export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: {
       <Flex gap={defaultGap} justify='space-around'>
         <Button
           variant="default"
-          style={{ width: '100px' }}
+          style={{ flex: 1 }}
           onClick={() => useSaveBuildModalStore.getState().openOverlay({ source: AppPages.OPTIMIZER, character })}
         >
           {t('Save')}
         </Button>
         <Button
           variant="default"
-          style={{ width: '100px' }}
+          style={{ flex: 1 }}
           onClick={() => useBuildsModalStore.getState().openOverlay({ selectedCharacter: character })}
         >
           {t('Load')}

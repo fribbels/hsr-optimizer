@@ -4,12 +4,12 @@ import {
   IconSettings,
 } from '@tabler/icons-react'
 import { Button, Flex, SegmentedControl } from '@mantine/core'
-import { CharacterCardCombatStats } from 'lib/characterPreview/CharacterCardCombatStats'
+import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/CharacterCardCombatStats'
 import {
   OverlayText,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
-import styles from 'lib/characterPreview/ShowcaseDpsScore.module.css'
+import styles from './ShowcaseDpsScore.module.css'
 import teammateClasses from 'style/teammateCard.module.css'
 import { StatText } from 'lib/characterPreview/StatText'
 import {

@@ -1,10 +1,10 @@
 import {
-  IconCheck,
   IconMinus,
   IconPlus,
   IconRefresh,
   IconSettings,
-  IconX,
+  IconWand,
+  IconWandOff,
 } from '@tabler/icons-react'
 import { ActionIcon, Button, Flex, SegmentedControl } from '@mantine/core'
 import { modals } from '@mantine/modals'
@@ -36,6 +36,7 @@ import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import classes from './ComboFilter.module.css'
 
+const controlSize = 24
 
 export function ComboFilters() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
@@ -63,7 +64,7 @@ export function ComboFilters() {
         <Button
           variant="default"
           onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
-          leftSection={<IconSettings size={16} />}
+          leftSection={<IconSettings size={16} stroke={1.5} />}
           disabled={comboType === ComboType.SIMPLE}
         >
           {t('RotationButton')}
@@ -158,46 +159,44 @@ function ComboBasicDefinition() {
         </Flex>
       </Flex>
 
-      <Flex direction="column" gap={3} justify='center'>
-        <ActionIcon
-          variant='outline'
-          size='sm'
-          disabled={disabled}
-          onClick={() => modals.openConfirmModal({
-            title: tCommon('Confirm'),
-            children: t('RowControls.ResetConfirm.Description'),
-            labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-            centered: true,
-            onConfirm: () => resetClicked(),
-          })}
-        >
-          <IconRefresh size={14} />
-        </ActionIcon>
-        <ActionIcon variant='outline' size='sm' onClick={() => add()} disabled={disabled}>
-          <IconPlus size={14} />
-        </ActionIcon>
-        <ActionIcon variant='outline' size='sm' onClick={() => minus()} disabled={disabled}>
-          <IconMinus size={14} />
-        </ActionIcon>
-      </Flex>
+      <Flex direction="column" gap={5}>
+        <Flex direction="column" gap={3}>
+          <ActionIcon
+            variant='outline'
+            w={controlSize}
+            h={controlSize}
+            disabled={disabled}
+            onClick={() => modals.openConfirmModal({
+              title: tCommon('Confirm'),
+              children: t('RowControls.ResetConfirm.Description'),
+              labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+              centered: true,
+              onConfirm: () => resetClicked(),
+            })}
+          >
+            <IconRefresh size={16} />
+          </ActionIcon>
+          <ActionIcon variant='outline' w={controlSize} h={controlSize} onClick={() => add()} disabled={disabled}>
+            <IconPlus size={16} />
+          </ActionIcon>
+          <ActionIcon variant='outline' w={controlSize} h={controlSize} onClick={() => minus()} disabled={disabled}>
+            <IconMinus size={16} />
+          </ActionIcon>
+        </Flex>
 
-      <Flex direction="column" gap={3} justify='center'>
-        <ActionIcon
-          variant={comboPreprocessor ? 'filled' : 'outline'}
-          size='sm'
+        <SegmentedControl
+          orientation='vertical'
+          w={controlSize}
+          size='xs'
           disabled={disabled}
-          onClick={() => useOptimizerRequestStore.getState().setComboPreprocessor(true)}
-        >
-          <IconCheck size={14} />
-        </ActionIcon>
-        <ActionIcon
-          variant={!comboPreprocessor ? 'filled' : 'outline'}
-          size='sm'
-          disabled={disabled}
-          onClick={() => useOptimizerRequestStore.getState().setComboPreprocessor(false)}
-        >
-          <IconX size={14} />
-        </ActionIcon>
+          value={String(comboPreprocessor)}
+          onChange={(value) => useOptimizerRequestStore.getState().setComboPreprocessor(value === 'true')}
+          styles={{ root: { padding: 0 }, label: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: controlSize, paddingBlock: 0, paddingInline: 0 } }}
+          data={[
+            { label: <IconWand size={16} />, value: 'true' },
+            { label: <IconWandOff size={16} />, value: 'false' },
+          ]}
+        />
       </Flex>
     </Flex>
   )

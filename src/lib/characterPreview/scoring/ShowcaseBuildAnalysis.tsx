@@ -1,6 +1,6 @@
 import { Flex, SegmentedControl, useMantineTheme } from '@mantine/core'
 import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import { CharacterScoringSummary } from 'lib/characterPreview/CharacterScoringSummary'
+import { CharacterScoringSummary } from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'

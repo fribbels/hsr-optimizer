@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
 import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import { ShowcaseRarity } from 'lib/characterPreview/ShowcaseRarity'
+import { ShowcaseRarity } from 'lib/characterPreview/card/ShowcaseRarity'
 import { StatText } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'

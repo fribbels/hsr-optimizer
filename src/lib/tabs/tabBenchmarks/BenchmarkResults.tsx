@@ -5,7 +5,7 @@ import {
 import { Badge, Flex, Table, Tabs } from '@mantine/core'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
-import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
+import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'

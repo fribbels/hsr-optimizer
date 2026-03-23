@@ -1,13 +1,13 @@
 import { IconEdit } from '@tabler/icons-react'
 import { Button, Flex } from '@mantine/core'
-import { CharacterCustomPortrait } from 'lib/characterPreview/CharacterCustomPortrait'
+import { CharacterCustomPortrait } from 'lib/characterPreview/card/CharacterCustomPortrait'
 import {
   showcaseButtonStyle,
   showcaseShadow,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { type ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
-import styles from 'lib/characterPreview/ShowcasePortrait.module.css'
+import styles from 'lib/characterPreview/card/ShowcasePortrait.module.css'
 import {
   parentH,
   parentW,

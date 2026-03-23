@@ -8,27 +8,27 @@ import {
 import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
-import { CharacterStatSummary } from 'lib/characterPreview/CharacterStatSummary'
-import { ShowcaseBuildAnalysis } from 'lib/characterPreview/ShowcaseBuildAnalysis'
-import { ShowcaseCharacterHeader } from 'lib/characterPreview/ShowcaseCharacterHeader'
-import { ShowcaseCustomizationSidebar } from 'lib/characterPreview/ShowcaseCustomizationSidebar'
+import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
+import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
+import { ShowcaseCharacterHeader } from 'lib/characterPreview/card/ShowcaseCharacterHeader'
+import { ShowcaseCustomizationSidebar } from 'lib/characterPreview/customization/ShowcaseCustomizationSidebar'
 import {
   ShowcaseCombatScoreDetailsFooter,
   ShowcaseDpsScoreHeader,
   ShowcaseDpsScorePanel,
-} from 'lib/characterPreview/ShowcaseDpsScore'
+} from 'lib/characterPreview/scoring/ShowcaseDpsScore'
 import {
   ShowcaseLightConeLarge,
   ShowcaseLightConeLargeName,
   ShowcaseLightConeSmall,
-} from 'lib/characterPreview/ShowcaseLightCone'
-import { ShowcasePortrait } from 'lib/characterPreview/ShowcasePortrait'
-import { ShowcaseRelicsPanel } from 'lib/characterPreview/ShowcaseRelicsPanel'
+} from 'lib/characterPreview/card/ShowcaseLightCone'
+import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
+import { ShowcaseRelicsPanel } from 'lib/characterPreview/card/ShowcaseRelicsPanel'
 import { useProgressivePhase } from 'lib/characterPreview/useProgressivePhase'
-import { ShowcaseStatScore } from 'lib/characterPreview/ShowcaseStatScore'
+import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { resolveShowcaseLayout } from 'lib/characterPreview/useShowcaseDerivedData'
-import { resolveShowcaseColor, resolveShowcaseTheme } from 'lib/characterPreview/showcaseColorService'
+import { resolveShowcaseColor, resolveShowcaseTheme } from 'lib/characterPreview/color/showcaseColorService'
 import {
   cardTotalW,
   defaultGap,
@@ -54,8 +54,8 @@ import {
   modifyCustomColor,
   organizeColors,
   selectClosestColor,
-} from 'lib/characterPreview/colorUtils'
-import type { PaletteResponse } from 'lib/characterPreview/vibrantFork'
+} from 'lib/characterPreview/color/colorUtils'
+import type { PaletteResponse } from 'lib/characterPreview/color/vibrantFork'
 import {
   memo,
   useCallback,
@@ -181,7 +181,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     const imgSrc = portraitImageUrl ?? Assets.getCharacterPortraitById(character.id)
     let aborted = false
 
-    void import('lib/characterPreview/vibrantFork').then(({ getPalette }) => {
+    void import('lib/characterPreview/color/vibrantFork').then(({ getPalette }) => {
       if (aborted) return
       getPalette(imgSrc, (palette: PaletteResponse) => {
         if (aborted) return

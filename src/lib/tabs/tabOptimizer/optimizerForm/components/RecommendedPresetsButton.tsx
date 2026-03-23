@@ -8,8 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateSpdPresets } from './spdPresetConfig'
 
-export { generateSpdPresets, setSortColumn } from './spdPresetConfig'
-
 export function RecommendedPresetsButton() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)

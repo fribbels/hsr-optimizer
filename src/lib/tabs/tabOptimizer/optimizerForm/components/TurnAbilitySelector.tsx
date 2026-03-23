@@ -6,7 +6,6 @@ import {
   ALL_ABILITIES,
   ComboOptionsLabelMapping,
   createAbility,
-  NULL_TURN_ABILITY,
   NULL_TURN_ABILITY_NAME,
   TurnMarker,
   type TurnAbility,
@@ -36,21 +35,7 @@ function IndexLabel({ index }: { index: number }) {
   return <span style={{ fontSize: 12, whiteSpace: 'nowrap', width: '100%', textAlign: 'left' }}>{`${index}.`}</span>
 }
 
-export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 'ComboFilter'>): string {
-  if (!ability || ability === NULL_TURN_ABILITY) return ''
-  const abilityKindVisual: string = t(`ComboOptions.${ComboOptionsLabelMapping[ability.kind]}`)
-
-  switch (ability.marker) {
-    case TurnMarker.START:
-      return `${start} ${abilityKindVisual}`
-    case TurnMarker.END:
-      return `${abilityKindVisual} ${end}`
-    case TurnMarker.WHOLE:
-      return `${start} ${abilityKindVisual} ${end}`
-    default:
-      return abilityKindVisual
-  }
-}
+import { toI18NVisual } from 'lib/utils/displayUtils'
 
 function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimizerTab', 'ComboFilter'>): CascaderGroup {
   return {

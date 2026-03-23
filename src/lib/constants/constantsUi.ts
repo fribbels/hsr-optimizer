@@ -1,5 +1,6 @@
 // Global
 export const iconSize = 22
+export const defaultPadding = 11
 
 // CharacterPreview — 5:4 1100×880, scaled 1650×1320
 export const defaultGap = 8

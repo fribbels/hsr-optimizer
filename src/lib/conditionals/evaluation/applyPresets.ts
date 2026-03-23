@@ -28,7 +28,7 @@ import type {
   SimpleCharacter,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import type { PresetDefinition } from 'lib/scoring/presetEffects'
-import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { setSortColumn } from 'lib/stores/gridStore'
 import { clone, mergeDefinedValues, mergeUndefinedValues } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'

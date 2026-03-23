@@ -5,7 +5,7 @@ import {
   toTurnAbility,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
+import { toI18NVisual } from 'lib/utils/displayUtils'
 import { useTranslation } from 'react-i18next'
 import type { SimulationMetadata } from 'types/metadata'
 import classes from './ComboRotationSummary.module.css'

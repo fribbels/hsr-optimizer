@@ -1,11 +1,11 @@
 import { Button, Flex, Text, Tooltip } from '@mantine/core'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
-import { FULL_PRESETS, applyPreset, type FullPreset } from 'lib/characterPreview/color/debug/colorPresets'
+import { FULL_PRESETS, applyPreset, type FullPreset, type PortraitFilterPreset } from 'lib/characterPreview/color/debug/colorPresets'
 import type { PaletteResponse } from 'lib/characterPreview/color/vibrantFork'
 
 export function ColorDebugPresets({ palettes, onApply }: {
   palettes: Map<string, PaletteResponse>
-  onApply: (config: ColorPipelineConfig, seeds: Map<string, string>) => void
+  onApply: (config: ColorPipelineConfig, seeds: Map<string, string>, presetName: string, portrait: PortraitFilterPreset) => void
 }) {
   return (
     <Flex direction="column" gap={6}>
@@ -22,16 +22,16 @@ export function ColorDebugPresets({ palettes, onApply }: {
 function PresetButton({ preset, palettes, onApply }: {
   preset: FullPreset
   palettes: Map<string, PaletteResponse>
-  onApply: (config: ColorPipelineConfig, seeds: Map<string, string>) => void
+  onApply: (config: ColorPipelineConfig, seeds: Map<string, string>, presetName: string, portrait: PortraitFilterPreset) => void
 }) {
   return (
-    <Tooltip label={preset.description} position="bottom" withArrow>
+    <Tooltip label={preset.description} position="bottom" withArrow zIndex={1100}>
       <Button
         size="compact-xs"
         variant="light"
         onClick={() => {
-          const { config, seeds } = applyPreset(preset, palettes)
-          onApply(config, seeds)
+          const { config, seeds, portrait } = applyPreset(preset, palettes)
+          onApply(config, seeds, preset.name, portrait)
         }}
       >
         {preset.name}

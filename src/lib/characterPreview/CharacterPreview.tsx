@@ -313,6 +313,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       >
         {/* Background */}
         <div
+          data-portrait-bg
           style={{
             backgroundImage: `url(${portraitUrl})`,
             backgroundPosition: 'center',

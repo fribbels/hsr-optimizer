@@ -23,7 +23,7 @@ import {
 import { type AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilities } from 'lib/optimization/rotation/turnPreprocessor'
-import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { type Form } from 'types/form'
 import { ThusBurnsTheDawnPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessLightCones'
 

@@ -4,7 +4,7 @@ import {
   generateElementTags,
   generatePathTags,
   SegmentedFilterRow,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+} from 'lib/ui/selectors/CardSelectModalComponents'
 import { Assets } from 'lib/rendering/assets'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
 import {

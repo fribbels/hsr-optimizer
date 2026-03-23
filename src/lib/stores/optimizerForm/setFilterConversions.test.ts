@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { expandSetFilters, parseDisplayToModalState, buildDisplayFromModalState, DEFAULT_SET_FILTERS } from './relicSetFilterModalConversions'
-import { type SetFilters, TwoPieceSlotType } from './relicSetFilterModalTypes'
+import { expandSetFilters, parseDisplayToModalState, buildDisplayFromModalState, DEFAULT_SET_FILTERS } from 'lib/stores/optimizerForm/setFilterConversions'
+import { type SetFilters, TwoPieceSlotType } from 'lib/stores/optimizerForm/setFilterTypes'
 import { type SetsRelics, type SetsOrnaments, STAT_TAG_TO_SETS } from 'lib/sets/setConfigRegistry'
 import { Stats } from 'lib/constants/constants'
 

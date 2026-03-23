@@ -1,6 +1,6 @@
 import { useForm } from '@mantine/form'
 import { Alert, Button, Flex, NumberInput, SegmentedControl } from '@mantine/core'
-import { SearchableCombobox, type SearchableComboboxOption } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
+import { SearchableCombobox, type SearchableComboboxOption } from 'lib/ui/SearchableCombobox'
 import {
   Constants,
   type MainStats,

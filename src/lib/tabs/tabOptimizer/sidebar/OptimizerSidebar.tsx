@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
 import { useScrollLockState } from 'lib/rendering/scrollController'
-import { defaultPadding } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { defaultPadding } from 'lib/constants/constantsUi'
 import { BuildsSection } from 'lib/tabs/tabOptimizer/sidebar/BuildsSection'
 import { OptimizerControlsSection } from 'lib/tabs/tabOptimizer/sidebar/OptimizerControlsSection'
 import { PermutationsSection } from 'lib/tabs/tabOptimizer/sidebar/PermutationsSection'

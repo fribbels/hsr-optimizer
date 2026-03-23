@@ -4,7 +4,7 @@ import type {
   ComboBooleanConditional,
   ComboNumberConditional,
   ComboState,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+} from 'lib/optimization/combo/comboTypes'
 
 export abstract class AbilityPreprocessorBase {
   abstract id: string

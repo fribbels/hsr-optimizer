@@ -35,8 +35,8 @@ import type {
   ComboSubSelectConditional,
   ComboTeammate,
   SetConditionals,
-} from './comboDrawerTypes'
-import { COMBO_STATE_JSON_VERSION } from './comboDrawerTypes'
+} from 'lib/optimization/combo/comboTypes'
+import { COMBO_STATE_JSON_VERSION } from 'lib/optimization/combo/comboTypes'
 
 export function initializeComboState(request: Form, merge: boolean) {
   const dbMetadata = getGameMetadata()

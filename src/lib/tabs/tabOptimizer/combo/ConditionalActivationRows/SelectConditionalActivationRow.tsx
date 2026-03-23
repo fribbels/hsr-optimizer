@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import { Partition } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/Partition'
 import { PartitionDivider } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/PartitionDivider'
-import type { ComboSelectConditional } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import type { ComboSelectConditional } from 'lib/optimization/combo/comboTypes'
 import type { ContentItem } from 'types/conditionals'
 
 export function SelectConditionalActivationRow({

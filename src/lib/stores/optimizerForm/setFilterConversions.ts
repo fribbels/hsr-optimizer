@@ -2,8 +2,8 @@ import { RelicSetFilterOptions } from 'lib/constants/constants'
 import { STAT_TAG_TO_SETS } from 'lib/sets/setConfigRegistry'
 import type { SetsRelics } from 'lib/sets/setConfigRegistry'
 import type { OrnamentSetFilters, RelicSetFilters } from 'types/form'
-import type { ModalState, SetFilters, TwoPieceSlot } from './relicSetFilterModalTypes'
-import { TwoPieceSlotType } from './relicSetFilterModalTypes'
+import type { ModalState, SetFilters, TwoPieceSlot } from 'lib/stores/optimizerForm/setFilterTypes'
+import { TwoPieceSlotType } from 'lib/stores/optimizerForm/setFilterTypes'
 
 export const DEFAULT_SET_FILTERS: SetFilters = {
   fourPiece: [],

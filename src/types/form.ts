@@ -5,7 +5,7 @@ import type {
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
-import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type {
   CharacterId,
   Eidolon,
@@ -29,7 +29,7 @@ import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import type { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 
 export type Teammate = {
   characterId: CharacterId,

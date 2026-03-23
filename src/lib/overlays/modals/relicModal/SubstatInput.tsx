@@ -22,7 +22,7 @@ import {
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
+import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 import { isFlat } from 'lib/utils/statUtils'
 
 export function SubstatInput({ index, upgrades, relicForm, plusThree }: {

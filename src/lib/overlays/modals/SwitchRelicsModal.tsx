@@ -16,7 +16,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { ReactElement } from 'types/components'
-import { SearchableCombobox } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SearchableCombobox'
+import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 
 export type SwitchRelicsFormSelectedCharacter = {
   key: string,

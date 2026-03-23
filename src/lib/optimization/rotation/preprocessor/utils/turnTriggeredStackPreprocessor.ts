@@ -4,7 +4,7 @@ import {
   type TurnAbility,
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import type { ComboState } from 'lib/optimization/combo/comboTypes'
 
 type ActivationFunction =
   | ((comboState: ComboState, key: string, index: number, value: boolean) => void)

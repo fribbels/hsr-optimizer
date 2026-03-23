@@ -5,8 +5,8 @@ import {
 } from '@mantine/core'
 import { STAT_TAG_TO_SETS } from 'lib/sets/setConfigRegistry'
 import { useTranslation } from 'react-i18next'
-import type { TwoPieceSlot } from './relicSetFilterModalTypes'
-import { TwoPieceSlotType, TwoPieceStatTags } from './relicSetFilterModalTypes'
+import type { TwoPieceSlot } from 'lib/stores/optimizerForm/setFilterTypes'
+import { TwoPieceSlotType, TwoPieceStatTags } from 'lib/stores/optimizerForm/setFilterTypes'
 
 const chipStyles = { label: { fontSize: 12, fontWeight: 'normal' } } as const
 

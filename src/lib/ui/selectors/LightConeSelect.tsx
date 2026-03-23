@@ -7,7 +7,7 @@ import {
   generatePathTags,
   generateRarityTags,
   SegmentedFilterRow,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+} from 'lib/ui/selectors/CardSelectModalComponents'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
 import {
   LC_CARD_IMAGE_HEIGHT,

@@ -19,7 +19,7 @@ import {
   transformConditionals,
 } from 'lib/optimization/rotation/comboStateTransform'
 import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { clone } from 'lib/utils/objectUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {

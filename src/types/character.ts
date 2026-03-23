@@ -1,10 +1,10 @@
 import type data from 'data/game_data.json'
 import type { Parts } from 'lib/constants/constants'
-import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type { Prettify } from 'types/common'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type { CustomImageConfig } from 'types/customImage'
-import type { SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import type {
   Form,
   OrnamentSetFilters,

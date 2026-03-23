@@ -187,6 +187,7 @@ ShortDMGTypes:
   Memo_Skill: 忆灵技伤害
   Memo_Talent: 忆灵天赋伤害
   Elation_Skill: 欢愉技伤害
+  Unique: 特殊伤害
   Dot: 持续攻击伤害
   Break: 击破伤害
   CV: 暴击值

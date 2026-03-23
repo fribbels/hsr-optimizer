@@ -38,6 +38,13 @@ type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'character
 
 const panelWidth = 220
 
+const statRenderOption: React.ComponentProps<typeof MultiSelect>['renderOption'] = ({ option }) => (
+  <Flex align='center' gap={10}>
+    <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+    {option.label}
+  </Flex>
+)
+
 // Cleans up 0's to not show up on the form
 function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata): ScoringAlgorithmForm {
   scoringMetadata = clone(scoringMetadata)
@@ -118,7 +125,7 @@ export function ScoringModal() {
   return (
     <Modal
       opened={isOpenScoringModal}
-      size={900}
+      size={1000}
       centered
       onClose={closeScoringModal}
     >
@@ -187,7 +194,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
   const previewSrc = scoringAlgorithmFocusCharacter ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()
 
   const defaultGap = 5
-  const selectWidth = 260
+  const selectWidth = '100%'
 
   return (
     <>
@@ -207,7 +214,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
 
           <VerticalDivider />
 
-          <Flex direction="column">
+          <Flex direction="column" style={{ flex: 1 }}>
             <Flex justify='space-between'>
               <Flex direction="column" gap={defaultGap * 2}>
                 <Flex direction="column" gap={1}>
@@ -218,12 +225,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.Body')}
-                    renderOption={({ option }) => (
-                      <Flex align='center' gap={10}>
-                        <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
-                        {option.label}
-                      </Flex>
-                    )}
+                    renderOption={statRenderOption}
                     data={[
                       { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
                       { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
@@ -245,12 +247,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.Feet')}
-                    renderOption={({ option }) => (
-                      <Flex align='center' gap={10}>
-                        <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
-                        {option.label}
-                      </Flex>
-                    )}
+                    renderOption={statRenderOption}
                     data={[
                       { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
                       { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
@@ -270,12 +267,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.PlanarSphere')}
                     maxDropdownHeight={400}
-                    renderOption={({ option }) => (
-                      <Flex align='center' gap={10}>
-                        <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
-                        {option.label}
-                      </Flex>
-                    )}
+                    renderOption={statRenderOption}
                     data={[
                       { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
                       { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
@@ -300,12 +292,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.LinkRope')}
-                    renderOption={({ option }) => (
-                      <Flex align='center' gap={10}>
-                        <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
-                        {option.label}
-                      </Flex>
-                    )}
+                    renderOption={statRenderOption}
                     data={[
                       { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
                       { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },

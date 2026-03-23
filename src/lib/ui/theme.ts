@@ -60,6 +60,7 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       MultiSelect: {
         defaultProps: {
           size: 'xs',
+          checkIconPosition: 'right',
           comboboxProps: { keepMounted: false },
         },
       },

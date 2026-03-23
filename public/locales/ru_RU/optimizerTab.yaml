@@ -24,6 +24,7 @@ NoTeamConditionals: Нет пассивок с условием.
 ResultLimitN: 'Найти {{limit}} лучших'
 MainStats: Основные статы
 Sets: Наборы
+UnreleasedDisclaimer: Расчёты {{nameList}} ещё не завершены, результаты оптимизатора не будут точными
 RelicSetSelector:
   Placeholder: Набор реликвий
   4pcLabel: 4 Части

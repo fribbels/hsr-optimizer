@@ -35,9 +35,9 @@ import {
   type SimulationRelic,
   type SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
-import { useGlobalStore } from 'lib/stores/appStore'
-import { getCharacterById } from 'lib/stores/characterStore'
-import { getRelics } from 'lib/stores/relicStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
+import { getRelics } from 'lib/stores/relic/relicStore'
 import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
   activateZeroPermutationsSuggestionsModal,

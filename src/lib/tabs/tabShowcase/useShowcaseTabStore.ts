@@ -1,4 +1,4 @@
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { computeCharacterOverride } from 'lib/tabs/tabShowcase/showcaseTabStoreActions'
 import {
   ShowcaseScreen,

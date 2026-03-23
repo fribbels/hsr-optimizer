@@ -12,7 +12,7 @@ import {
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import { getScoreCategory } from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { getScoringMetadata } from 'lib/stores/scoringStore'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { objectHash } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import { clone } from 'lib/utils/objectUtils'

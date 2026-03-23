@@ -8,7 +8,7 @@ import { LayoutSider } from 'lib/layout/LayoutSider'
 import { GlobalModals } from 'lib/overlays/GlobalModals'
 import { Gradient } from 'lib/rendering/gradient'
 import { createMantineTheme, Themes } from 'lib/rendering/theme'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { Tabs } from 'lib/tabs/Tabs'
 import { useEffect } from 'react'
 

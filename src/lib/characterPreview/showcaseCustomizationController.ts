@@ -1,7 +1,7 @@
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { SaveState } from 'lib/state/saveState'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { CharacterId } from 'types/character'
 import type { ShowcasePreferences } from 'types/metadata'

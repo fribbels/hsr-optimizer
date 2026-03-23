@@ -9,7 +9,7 @@ import {
 import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
-import { getRelicById } from 'lib/stores/relicStore'
+import { getRelicById } from 'lib/stores/relic/relicStore'
 
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import type { Character } from 'types/character'

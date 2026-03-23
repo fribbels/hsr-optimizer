@@ -11,7 +11,7 @@ import type {
 } from 'lib/characterPreview/characterPreviewController'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { resolveDpsScoreSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import { getCharacterById } from 'lib/stores/characterStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
 import { Assets } from 'lib/rendering/assets'
 import type { Character, SavedBuild } from 'types/character'
 import type { CustomImageConfig } from 'types/customImage'

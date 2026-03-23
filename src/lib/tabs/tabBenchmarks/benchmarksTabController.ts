@@ -8,8 +8,8 @@ import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { type BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
-import { getCharacterById } from 'lib/stores/characterStore'
-import { getScoringMetadata } from 'lib/stores/scoringStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import {
   type BenchmarkForm,
   type SimpleCharacter,

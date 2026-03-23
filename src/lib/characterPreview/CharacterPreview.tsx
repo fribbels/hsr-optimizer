@@ -45,7 +45,7 @@ import {
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
-import { getCharacterById } from 'lib/stores/characterStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import {

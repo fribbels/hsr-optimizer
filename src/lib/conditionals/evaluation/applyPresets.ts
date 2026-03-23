@@ -22,7 +22,7 @@ import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { useScoringStore } from 'lib/stores/scoringStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type {
   BenchmarkForm,
   SimpleCharacter,

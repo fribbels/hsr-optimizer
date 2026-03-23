@@ -29,7 +29,7 @@ import { type SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/
 import { type Form } from 'types/form'
 import { type LightConeId, type SuperImpositionLevel } from 'types/lightCone'
 import { type MemoDisplay, type StatDisplay } from 'types/store'
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 
 export type MainConditionalType = 'characterConditionals' | 'lightConeConditionals'
 export type TeammateConditionalType = 'characterConditionals' | 'lightConeConditionals'

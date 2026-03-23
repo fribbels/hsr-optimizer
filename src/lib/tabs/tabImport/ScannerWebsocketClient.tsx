@@ -1,6 +1,6 @@
 import { type V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicRerollModal } from 'lib/overlays/modals/RelicRerollModal'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { AppPages } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
 import {

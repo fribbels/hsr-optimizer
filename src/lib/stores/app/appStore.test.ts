@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from 'vitest'
-import { savedSessionDefaults, useGlobalStore } from 'lib/stores/appStore'
+import { savedSessionDefaults, useGlobalStore } from 'lib/stores/app/appStore'
 import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { COMPUTE_ENGINE_CPU, CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'

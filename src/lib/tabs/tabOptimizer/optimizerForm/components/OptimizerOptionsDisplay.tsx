@@ -5,7 +5,7 @@ import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
-import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
 import type { RelicFilterFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {

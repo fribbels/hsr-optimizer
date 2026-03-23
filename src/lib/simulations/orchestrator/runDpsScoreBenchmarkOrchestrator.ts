@@ -3,7 +3,7 @@ import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { getScoringMetadata } from 'lib/stores/scoringStore'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
 import type {
   Character,

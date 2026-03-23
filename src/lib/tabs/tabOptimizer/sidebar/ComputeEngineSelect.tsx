@@ -13,7 +13,7 @@ import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 type GpuOption = { label: ReactElement, key: ComputeEngine }
 

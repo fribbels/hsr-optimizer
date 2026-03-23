@@ -6,7 +6,7 @@ import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import type { OptimizerDisplayState, PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
 import type { Build, CharacterId } from 'types/character'
 import type { OptimizerContext } from 'types/optimizer'
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 
 type OptimizerDisplayActions = {
   setFocusCharacterId: (id: CharacterId | undefined) => void

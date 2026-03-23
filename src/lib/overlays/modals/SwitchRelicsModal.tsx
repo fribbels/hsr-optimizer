@@ -9,7 +9,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
-import { useCharacterStore } from 'lib/stores/characterStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'

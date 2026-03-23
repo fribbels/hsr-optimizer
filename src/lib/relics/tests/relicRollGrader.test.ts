@@ -3,7 +3,7 @@ import { Constants } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import { Metadata } from 'lib/state/metadataInitializer'
-import { getScoringMetadata } from 'lib/stores/scoringStore'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import type { Relic } from 'types/relic'
 import {
   expect,

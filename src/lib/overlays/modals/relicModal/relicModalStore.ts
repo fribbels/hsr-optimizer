@@ -1,4 +1,4 @@
-import { createOverlayStore } from 'lib/stores/createOverlayStore'
+import { createOverlayStore } from 'lib/stores/infrastructure/createOverlayStore'
 import type { CharacterId } from 'types/character'
 import type { Parts } from 'lib/constants/constants'
 import type { Relic } from 'types/relic'

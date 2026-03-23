@@ -4,7 +4,7 @@ import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTyp
 import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import type {
   SetsOrnaments,
   SetsRelics,

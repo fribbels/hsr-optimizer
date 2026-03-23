@@ -25,8 +25,8 @@ import {
   Trans,
   useTranslation,
 } from 'react-i18next'
-import { getCharacterById } from 'lib/stores/characterStore'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 export function CharacterMenu() {
   const { t } = useTranslation('charactersTab')

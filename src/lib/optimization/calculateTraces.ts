@@ -1,4 +1,4 @@
-import { getScoringMetadata } from 'lib/stores/scoringStore'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import type { DBMetadataCharacter } from 'types/metadata'
 
 export function calculateCustomTraces(characterMetadata: DBMetadataCharacter) {

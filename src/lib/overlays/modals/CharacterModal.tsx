@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form'
 import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { getCharacterById } from 'lib/stores/characterStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {

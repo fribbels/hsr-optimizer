@@ -13,7 +13,7 @@ import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { getScoringMetadata } from 'lib/stores/scoringStore'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import {

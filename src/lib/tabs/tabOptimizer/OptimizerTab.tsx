@@ -10,7 +10,7 @@ import { OptimizerForm } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm
 import { Sidebar } from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 export function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)

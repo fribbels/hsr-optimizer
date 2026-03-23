@@ -18,8 +18,8 @@ import { type ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import { AppPages } from 'lib/constants/appPages'
 import * as persistenceService from 'lib/services/persistenceService'
-import { useGlobalStore } from 'lib/stores/appStore'
-import { getCharacterById, getCharacters } from 'lib/stores/characterStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { getCharacterById, getCharacters } from 'lib/stores/character/characterStore'
 import { SaveState } from 'lib/state/saveState'
 import {
   importerTabButtonWidth,

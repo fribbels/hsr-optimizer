@@ -1,4 +1,4 @@
-import { createOverlayStore } from 'lib/stores/createOverlayStore'
+import { createOverlayStore } from 'lib/stores/infrastructure/createOverlayStore'
 import type { Character } from 'types/character'
 
 export type BuildsModalConfig = {

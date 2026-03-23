@@ -16,7 +16,7 @@ import {
 } from 'lib/sets/setConfigRegistry'
 import { getCharacterById, getCharacters } from 'lib/stores/character/characterStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
-import { calculateRelicMainStatValue } from 'lib/utils/relicUtils'
+import { calculateRelicMainStatValue } from 'lib/relics/relicUtils'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'

@@ -3,6 +3,7 @@ import i18next from 'i18next'
 import {
   showcaseShadow,
   showcaseShadowInsetAddition,
+  showcaseTransition,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Parts } from 'lib/constants/constants'
@@ -19,7 +20,6 @@ import {
   type SubstatDetails,
 } from 'lib/tabs/tabRelics/relicPreview/RelicStatRow'
 import { RelicStatText } from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
-import { showcaseTransition } from 'lib/utils/colorUtils'
 import {
   type Languages,
   localeNumberComma_0,

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { compareSameTypeSubstat, findRelicMatch, hashRelic, indexRelics } from 'lib/utils/relicUtils'
+import { compareSameTypeSubstat, findRelicMatch, hashRelic, indexRelics } from 'lib/relics/relicUtils'
 import type { Relic, RelicSubstatMetadata, Stat } from 'types/relic'
 
 // ---- Factories ----

@@ -25,7 +25,7 @@ import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { clone } from 'lib/utils/objectUtils'
-import { findRelicMatch, hashRelic } from 'lib/utils/relicUtils'
+import { findRelicMatch, hashRelic } from 'lib/relics/relicUtils'
 import type {
   Build,
   Character,

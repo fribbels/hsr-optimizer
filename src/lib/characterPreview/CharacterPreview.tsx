@@ -2,6 +2,7 @@ import { Flex, useMantineTheme } from '@mantine/core'
 import {
   showcaseShadow,
   showcaseShadowInsetAddition,
+  showcaseTransition,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -50,12 +51,11 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import {
   showcaseBackgroundColor,
-  showcaseTransition,
   modifyCustomColor,
   organizeColors,
   selectClosestColor,
-} from 'lib/utils/colorUtils'
-import type { PaletteResponse } from 'lib/utils/vibrantFork'
+} from 'lib/characterPreview/colorUtils'
+import type { PaletteResponse } from 'lib/characterPreview/vibrantFork'
 import {
   memo,
   useCallback,
@@ -181,7 +181,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     const imgSrc = portraitImageUrl ?? Assets.getCharacterPortraitById(character.id)
     let aborted = false
 
-    void import('lib/utils/vibrantFork').then(({ getPalette }) => {
+    void import('lib/characterPreview/vibrantFork').then(({ getPalette }) => {
       if (aborted) return
       getPalette(imgSrc, (palette: PaletteResponse) => {
         if (aborted) return

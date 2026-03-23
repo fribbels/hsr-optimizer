@@ -17,6 +17,21 @@ import {
   oklchCardBorderColor,
 } from 'lib/characterPreview/color/colorUtilsOklch'
 import { ColorDebugPanel, DEFAULT_PORTRAIT_FILTER, type Extractor, type PortraitFilterConfig } from 'lib/characterPreview/color/debug/ColorDebugPanel'
+import {
+  type HeuristicFlags,
+  DEFAULT_HEURISTIC_FLAGS,
+  hueNudge as applyHueNudge,
+  applyChromaLUT,
+  fixDisliked,
+  adaptivePortraitFilter,
+  gamutMapChroma,
+  contrastAwareAlpha,
+  seedRelativeLightness,
+  complementaryBorderHue,
+  CHROMA_COMPENSATE_MAX_C_MULT,
+  estimatePortraitLuminance,
+  createEdgeMaskedCanvas,
+} from 'lib/characterPreview/color/colorHeuristics'
 import { FULL_PRESETS, applyPreset } from 'lib/characterPreview/color/debug/colorPresets'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
@@ -67,6 +82,9 @@ export function ColorPreviewGallery() {
   const [extractionProgress, setExtractionProgress] = useState('')
   const [portraitFilter, setPortraitFilter] = useState<PortraitFilterConfig>({ ...DEFAULT_PORTRAIT_FILTER })
   const [activePresetName, setActivePresetName] = useState('optimized')
+  const [heuristics, setHeuristics] = useState<HeuristicFlags>({ ...DEFAULT_HEURISTIC_FLAGS })
+  const heuristicsRef = useRef(heuristics)
+  heuristicsRef.current = heuristics
   const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode ?? true)
 
   // colorthief-extracted full palettes, keyed by characterId
@@ -168,19 +186,109 @@ export function ColorPreviewGallery() {
   }, [extractor])
 
   // -----------------------------------------------------------------------
+  // Heuristic-aware color computation for a single seed
+  // Applies enabled heuristics at the right pipeline stage.
+  // -----------------------------------------------------------------------
+  const computeCardColors = useCallback((seed: string, cfg: ColorPipelineConfig, flags: HeuristicFlags, forBorder: boolean = false): string => {
+    let [l, c, h] = chroma(seed).oklch()
+    const inputL = l
+
+    // Pre-normalization heuristics (modify seed LCH)
+    if (flags.hueNudge) {
+      h = applyHueNudge(h, c, l)
+    }
+    if (flags.dislikeFix) {
+      const fixed = fixDisliked(l, c, h)
+      l = fixed.l; c = fixed.c; h = fixed.h
+    }
+
+    // Normalization (inline, mirrors normalizeOklch but with heuristic hooks)
+    const cardCfg = forBorder ? cfg.cardBorder : cfg.cardBg
+
+    // Lightness
+    let rawL = cardCfg.targetL + (l - 0.5) * cardCfg.lInputScale
+    if (flags.seedRelativeL && !forBorder) {
+      rawL = seedRelativeLightness(cardCfg.targetL, inputL)
+    }
+    let outL = Math.max(cardCfg.minL, Math.min(rawL, cardCfg.maxL))
+
+    // Chroma — chromaCompensate widens the maxC ceiling
+    const effectiveMaxC = flags.chromaCompensate ? cardCfg.maxC * CHROMA_COMPENSATE_MAX_C_MULT : cardCfg.maxC
+    const powered = Math.pow(c, cardCfg.chromaPower)
+    let scaledC = Math.max(cardCfg.minC, Math.min(powered * cardCfg.chromaScale, effectiveMaxC))
+    if (flags.chromaLUT) {
+      scaledC = applyChromaLUT(scaledC, h)
+      scaledC = Math.max(cardCfg.minC, Math.min(scaledC, effectiveMaxC))
+    }
+
+    // Gamut map: push chroma to fraction of gamut boundary (overrides normal scaling)
+    if (flags.gamutMap) {
+      scaledC = gamutMapChroma(outL, scaledC, h)
+    }
+
+    // Hue
+    let outH = (h + cardCfg.hueShift) % 360
+    if (flags.compBorder && forBorder) {
+      outH = complementaryBorderHue(outH)
+    }
+
+    // Alpha — adaptive: dark seeds more transparent, light seeds more opaque
+    let alpha = cardCfg.alpha
+    if (flags.contrastAlpha && !forBorder) {
+      alpha = contrastAwareAlpha(outL, 0, alpha, inputL)
+    }
+
+    // Dark mode
+    if (darkMode) {
+      outL = Math.max(0, outL + cfg.darkMode.lOffset)
+      scaledC = scaledC * cfg.darkMode.cScale
+    }
+
+    const result = chroma.oklch(outL, scaledC, outH).alpha(alpha)
+    if (result.clipped()) {
+      // Binary search for safe chroma
+      let lo = 0, hi = scaledC
+      for (let i = 0; i < 10; i++) {
+        const mid = (lo + hi) / 2
+        if (chroma.oklch(outL, mid, outH).clipped()) hi = mid; else lo = mid
+      }
+      return chroma.oklch(outL, lo * 0.95, outH).alpha(alpha).css()
+    }
+    return result.css()
+  }, [darkMode])
+
+  // -----------------------------------------------------------------------
   // Push OKLCH pipeline colors to all card DOM elements
   // -----------------------------------------------------------------------
-  const pushToAllCards = useCallback((cfg: ColorPipelineConfig) => {
+  const pushToAllCards = useCallback((cfg: ColorPipelineConfig, flags?: HeuristicFlags) => {
+    const f = flags ?? heuristicsRef.current
+    const anyHeuristic = Object.values(f).some(Boolean)
     for (const char of allCharacters) {
       const el = document.getElementById(`color-gallery-${char.id}`)
       if (!el) continue
       const seed = getSeedColor(char.id)
-      el.style.setProperty('--showcase-card-bg', oklchCardBackgroundColor(seed, darkMode, cfg))
-      el.style.setProperty('--showcase-card-border', oklchCardBorderColor(seed, darkMode, cfg))
-      // Also update the outer background color
+      if (anyHeuristic) {
+        el.style.setProperty('--showcase-card-bg', computeCardColors(seed, cfg, f, false))
+        el.style.setProperty('--showcase-card-border', computeCardColors(seed, cfg, f, true))
+      } else {
+        el.style.setProperty('--showcase-card-bg', oklchCardBackgroundColor(seed, darkMode, cfg))
+        el.style.setProperty('--showcase-card-border', oklchCardBorderColor(seed, darkMode, cfg))
+      }
       el.style.background = oklchBackgroundColor(seed, darkMode, cfg)
+
+      // Adaptive portrait: per-character portrait filter
+      if (f.adaptivePortrait) {
+        const [sl, sc, sh] = chroma(seed).oklch()
+        const adapted = adaptivePortraitFilter(sl, sc, sh)
+        const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+        if (bgDiv) {
+          const filterStr = `blur(${adapted.blur}px) brightness(${adapted.brightness}) saturate(${adapted.saturate})`
+          bgDiv.style.filter = filterStr
+          bgDiv.style.webkitFilter = filterStr
+        }
+      }
     }
-  }, [allCharacters, darkMode, getSeedColor])
+  }, [allCharacters, darkMode, getSeedColor, computeCardColors])
 
   // Push portrait background filter to all cards
   const pushPortraitFilter = useCallback((filter: PortraitFilterConfig) => {
@@ -208,6 +316,48 @@ export function ColorPreviewGallery() {
     setConfig(next)
     pushToAllCards(next)
   }, [pushToAllCards])
+
+  // -----------------------------------------------------------------------
+  // Heuristics change — update state + re-push with new flags
+  // -----------------------------------------------------------------------
+  // Edge palettes stored separately so we can swap back
+  const edgePalettes = useRef(new Map<string, PaletteResponse>())
+  const edgeSeeds = useRef(new Map<string, string>())
+  const edgeExtracted = useRef(false)
+
+  const handleHeuristicsChange = useCallback((next: HeuristicFlags) => {
+    setHeuristics(next)
+    heuristicsRef.current = next
+
+    // Edge sample toggled on: swap to edge palettes (extract if needed)
+    if (next.edgeSample && !heuristics.edgeSample) {
+      if (edgeExtracted.current && edgePalettes.current.size > 0) {
+        for (const [k, v] of edgeSeeds.current) colorThiefSeeds.current.set(k, v)
+        pushToAllCards(config, next)
+      } else {
+        edgeExtracted.current = true
+        void runEdgeExtraction(allCharacters, edgePalettes.current, edgeSeeds.current, setExtractionProgress)
+          .then(() => {
+            for (const [k, v] of edgeSeeds.current) colorThiefSeeds.current.set(k, v)
+            pushToAllCards(config, heuristicsRef.current)
+          })
+      }
+      return
+    }
+
+    // Edge sample toggled off: restore original seeds
+    if (!next.edgeSample && heuristics.edgeSample) {
+      for (const [k, v] of colorThiefPalettes.current) {
+        colorThiefSeeds.current.set(k, pickSeedFromPalette(v))
+      }
+    }
+
+    pushToAllCards(config, next)
+    // If adaptive portrait was toggled off, restore the manual portrait filter
+    if (!next.adaptivePortrait) {
+      pushPortraitFilter(portraitFilter)
+    }
+  }, [config, heuristics, allCharacters, pushToAllCards, pushPortraitFilter, portraitFilter])
 
   // -----------------------------------------------------------------------
   // Extractor change — run extraction for all characters
@@ -327,7 +477,7 @@ export function ColorPreviewGallery() {
         </Button>
       </Group>
 
-      <Flex wrap="wrap" gap={50} style={{ maxWidth: 2500 }}>
+      <Flex wrap="wrap" gap={20} style={{ maxWidth: SCALED_W * 3 + 20 * 2 }}>
         {pageCharacters.map((character) => (
           <div key={character.id} style={{ width: SCALED_W, height: SCALED_H, overflow: 'hidden' }}>
             <div style={{ transform: `scale(${SCALE})`, transformOrigin: 'top left' }}>
@@ -351,6 +501,7 @@ export function ColorPreviewGallery() {
         palettes={colorThiefPalettes.current}
         activePresetName={activePresetName}
         portraitFilter={portraitFilter}
+        heuristics={heuristics}
         onConfigChange={handleConfigChange}
         onExtractorChange={handleExtractorChange}
         onPresetApply={(presetConfig, seeds, presetName, presetPortrait) => {
@@ -360,6 +511,7 @@ export function ColorPreviewGallery() {
           handlePortraitFilterChange(presetPortrait)
         }}
         onPortraitFilterChange={handlePortraitFilterChange}
+        onHeuristicsChange={handleHeuristicsChange}
       />
     </Flex>
   )
@@ -425,6 +577,50 @@ async function runColorThiefExtraction(
 function pickSeedFromPalette(palette: PaletteResponse): string {
   const { seeds } = applyPreset(FULL_PRESETS[0], new Map([['_', palette]]))
   return seeds.get('_') ?? palette.Vibrant
+}
+
+// ---------------------------------------------------------------------------
+// Edge-only extraction — loads portrait, masks center, extracts from edges
+// ---------------------------------------------------------------------------
+async function runEdgeExtraction(
+  characters: Character[],
+  paletteMap: Map<string, PaletteResponse>,
+  seedMap: Map<string, string>,
+  setProgress: (msg: string) => void,
+) {
+  let done = 0
+  setProgress(`Edge extracting 0/${characters.length}...`)
+
+  for (let i = 0; i < characters.length; i += CONCURRENCY) {
+    const batch = characters.slice(i, i + CONCURRENCY)
+    await Promise.all(batch.map(async (char) => {
+      try {
+        const imgSrc = Assets.getCharacterPortraitById(char.id)
+        const img = await loadImageForEdge(imgSrc)
+        const edgeCanvas = createEdgeMaskedCanvas(img, 0.25)
+        const palette = await getColorThiefPalette(edgeCanvas)
+        if (palette) {
+          paletteMap.set(char.id, palette)
+          seedMap.set(char.id, pickSeedFromPalette(palette))
+        }
+      } catch (e) {
+        console.error(`[edgeExtract] Failed for ${char.id}`, e)
+      }
+      done++
+    }))
+    setProgress(`Edge extracting ${done}/${characters.length}...`)
+  }
+  setProgress(`Edge extraction done — ${paletteMap.size} extracted`)
+}
+
+function loadImageForEdge(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => resolve(img)
+    img.onerror = reject
+    img.src = src
+  })
 }
 
 // ---------------------------------------------------------------------------

@@ -13,13 +13,13 @@ const DEFAULT_FALLBACK = '#2241be'
 // Returns PaletteResponse compatible with the existing pipeline so both
 // extractors are interchangeable.
 // ---------------------------------------------------------------------------
-export async function getColorThiefPalette(src: string): Promise<PaletteResponse | null> {
+export async function getColorThiefPalette(src: string | HTMLCanvasElement): Promise<PaletteResponse | null> {
   try {
-    const img = await loadImage(src)
+    const source = typeof src === 'string' ? await loadImage(src) : src
 
     const [swatches, palette] = await Promise.all([
-      getSwatches(img, { colorSpace: 'oklch', quality: 5 }),
-      ctGetPalette(img, { colorCount: 16, colorSpace: 'oklch', quality: 5 }),
+      getSwatches(source, { colorSpace: 'oklch', quality: 5 }),
+      ctGetPalette(source, { colorCount: 16, colorSpace: 'oklch', quality: 5 }),
     ])
 
     const swatchHex = {

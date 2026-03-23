@@ -24,13 +24,16 @@ import React, {
 } from 'react'
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 
-const MetadataTab = lazy(() => import('lib/tabs/tabMetadata/MetadataTab').then((m) => ({ default: m.MetadataTab })))
+// TEMP: direct import for color debug — revert to lazy() when done:
+// const MetadataTab = lazy(() => import('lib/tabs/tabMetadata/MetadataTab').then((m) => ({ default: m.MetadataTab })))
+import { MetadataTab } from 'lib/tabs/tabMetadata/MetadataTab'
 const WebgpuTab = lazy(() => import('lib/tabs/tabWebgpu/WebgpuTab').then((m) => ({ default: m.WebgpuTab })))
 
 const defaultErrorRender = ({ error }: FallbackProps) =>
   <div>Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
 
 const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
+  [AppPages.METADATA_TEST, MetadataTab], // TEMP: moved first for color debug — revert when done
   [AppPages.HOME, HomeTab],
   [AppPages.OPTIMIZER, OptimizerTab],
   [AppPages.CHARACTERS, CharacterTab],
@@ -41,12 +44,12 @@ const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.BENCHMARKS, BenchmarksTab],
   [AppPages.CHANGELOG, ChangelogTab],
   [AppPages.WEBGPU_TEST, WebgpuTab],
-  [AppPages.METADATA_TEST, MetadataTab],
 ]
 
 // Mount priority: active tab is instant, then stagger one per frame in this order.
 // URL-reachable tabs first, then internal tabs, then dev/test tabs last.
 const MOUNT_PRIORITY: AppPages[] = [
+  AppPages.METADATA_TEST, // TEMP: color debug — remove when done
   AppPages.SHOWCASE,
   AppPages.OPTIMIZER,
   AppPages.HOME,

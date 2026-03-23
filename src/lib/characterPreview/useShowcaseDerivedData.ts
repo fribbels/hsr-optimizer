@@ -56,7 +56,7 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   return {
     showcaseMetadata,
     currentSelection,
-    simulationMetadata,
+    simulationMetadata: scoringType === ScoringType.COMBAT_SCORE ? simulationMetadata : null, // && false debug: prevent DPS benchmark runs
     hasSimulation,
     scoringType,
     portraitToUse,

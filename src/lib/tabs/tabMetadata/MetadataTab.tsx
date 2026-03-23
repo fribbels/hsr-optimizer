@@ -37,12 +37,16 @@ export function MetadataTab(): ReactElement {
       <h1 style={{ marginLeft: 20 }}>
         Metadata viewer
       </h1>
-      <Accordion multiple>
+      <Accordion multiple defaultValue={['color-preview']}>
         {/*
           TEMP: Color debug gallery + associated hacks. Remove these when done:
           1. ShowcasePortrait.tsx — `&& false` on useSpine (disables Spine WebGL contexts)
           2. characterPreviewController.tsx — `&& false` on COMBAT_SCORE branch in resolveScoringType (forces SUBSTAT_SCORE)
-          3. This accordion entry + ColorPreviewGallery.tsx
+          3. useShowcaseDerivedData.ts — simulationMetadata nulled when not COMBAT_SCORE (prevents DPS benchmark runs)
+          4. Tabs.tsx — METADATA_TEST moved to first in TAB_COMPONENTS, added to MOUNT_PRIORITY, and direct import (not lazy)
+          5. appPages.ts — getDefaultActiveKey() hardcoded to METADATA_TEST
+          6. antdTokenCompat.ts — pure OKLCH replacement for antd dark algorithm (keep this, no antd dependency)
+          7. This accordion entry + ColorPreviewGallery.tsx (auto-expanded)
         */}
         <Accordion.Item value="color-preview">
           <Accordion.Control>Color preview gallery</Accordion.Control>

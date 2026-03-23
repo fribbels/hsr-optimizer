@@ -23,6 +23,7 @@ import type { StringToNumberMap } from 'types/common'
 import type { ReactElement } from 'types/components'
 import type { DBMetadataCharacter } from 'types/metadata'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { ColorPreviewGallery } from 'lib/tabs/tabMetadata/ColorPreviewGallery'
 import { ImageCenterEditorSection } from 'lib/tabs/tabMetadata/ImageCenterEditor'
 
 const iconSize = 40
@@ -37,6 +38,16 @@ export function MetadataTab(): ReactElement {
         Metadata viewer
       </h1>
       <Accordion multiple>
+        {/*
+          TEMP: Color debug gallery + associated hacks. Remove these when done:
+          1. ShowcasePortrait.tsx — `&& false` on useSpine (disables Spine WebGL contexts)
+          2. characterPreviewController.tsx — `&& false` on COMBAT_SCORE branch in resolveScoringType (forces SUBSTAT_SCORE)
+          3. This accordion entry + ColorPreviewGallery.tsx
+        */}
+        <Accordion.Item value="color-preview">
+          <Accordion.Control>Color preview gallery</Accordion.Control>
+          <Accordion.Panel><ColorPreviewGallery /></Accordion.Panel>
+        </Accordion.Item>
         <Accordion.Item value="image-center">
           <Accordion.Control>Image center editor</Accordion.Control>
           <Accordion.Panel><ImageCenterEditorSection /></Accordion.Panel>

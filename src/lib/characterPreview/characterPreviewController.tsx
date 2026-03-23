@@ -139,7 +139,7 @@ export function resolveScoringType(storedScoringType: ScoringType, hasSimulation
   if (storedScoringType === ScoringType.NONE || storedScoringType === ScoringType.SUBSTAT_SCORE) {
     return storedScoringType
   }
-  if (storedScoringType === ScoringType.COMBAT_SCORE && hasSimulation) {
+  if (storedScoringType === ScoringType.COMBAT_SCORE && hasSimulation && false) {
     return storedScoringType
   }
   return ScoringType.SUBSTAT_SCORE

@@ -40,6 +40,8 @@ Messages:
   SaveSuccess: 'Сборка {{name}} успешно сохранена'
   UnequipWarning: 'Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?'
   DeleteWarning: 'Вы уверены, что хотите удалить $t(gameData:Characters.{{charId}}.Name)?'
+  NoBuilds: 'Попытка перезаписать сборку {{name}}, но $t(gameData:Characters.{{charId}}.Name) не имеет сохраненных сборок'
+  NoMatchingBuild: 'Попытка перезаписать сборку {{name}}, но такой сборки нет'
   BuildAlreadyExists: 'Сборка с названием {{name}} уже существует'
   ImageUploadFailed: Не удалось загрузить изображение
   InvalidFile: Недопустимый файл изображения
@@ -140,14 +142,16 @@ CharacterPreview:
       Maximum: 'Урон сборки 200%:'
       Score: 'Оценка урона %:'
       Abilities:
-        BASIC: БАЗОВЫЙ УРОН
+        BASIC: Баз атака
         SKILL: Навык
         ULT: Ультимейт
-        FUA: УРОН ДАЗОВОЙ АТАКИ
-        DOT: ДОТ УРОН
-        BREAK: УРОН ПРОБИТИЕМ
+        FUA: Бонус атака
+        DOT: ДОТ'ы
+        BREAK: Пробитие
         MEMO_SKILL: Урон Навыкаᴹ
         MEMO_TALENT: Урон талантаᴹ
+        ELATION_SKILL: Урон навыка Радости
+        UNIQUE: Уникальный урон
         COMBO: СУММАРНЫЙ УРОН
     CombatBuffs:
       Header: Баффы в бою

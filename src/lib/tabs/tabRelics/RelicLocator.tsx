@@ -7,7 +7,7 @@ import {
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
-import { getRelics } from 'lib/stores/relicStore'
+import { getRelics } from 'lib/stores/relic/relicStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import {
@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 
 type LocatorFilters = { set: Sets | null, part: Parts | null }
 

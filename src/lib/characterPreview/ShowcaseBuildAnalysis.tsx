@@ -13,7 +13,7 @@ import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType

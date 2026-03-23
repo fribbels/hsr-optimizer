@@ -1,4 +1,4 @@
-import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
+import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { useMemo } from 'react'
 import { type CharacterId } from 'types/character'
 import { type Nullable } from 'types/common'

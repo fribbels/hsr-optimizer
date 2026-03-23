@@ -10,7 +10,7 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 export function AdvancedOptionsPanel() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })

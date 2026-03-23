@@ -9,7 +9,7 @@ import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 
 import { ScoringType, type SimulationScore } from 'lib/scoring/simScoringUtils'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { type CharacterId } from 'types/character'
 import classes from './CharacterStatSummary.module.css'

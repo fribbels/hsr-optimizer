@@ -1,4 +1,4 @@
-import { createOverlayStore } from 'lib/stores/createOverlayStore'
+import { createOverlayStore } from 'lib/stores/infrastructure/createOverlayStore'
 import { type AppPages } from 'lib/constants/appPages'
 import type { Character } from 'types/character'
 

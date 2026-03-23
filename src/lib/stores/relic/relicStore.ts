@@ -1,4 +1,4 @@
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { indexRelics } from 'lib/utils/relicUtils'
 import type { Relic } from 'types/relic'

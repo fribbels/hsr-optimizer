@@ -2,12 +2,12 @@ import {
   type ElementName,
   type PathName,
 } from 'lib/constants/constants'
-import { getCharacterById } from 'lib/stores/characterStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
 import { clone } from 'lib/utils/objectUtils'
 import type {
   CharacterId,
 } from 'types/character'
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 
 export type CharacterTabFilters = {
   name: string,

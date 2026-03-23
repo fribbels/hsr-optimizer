@@ -31,8 +31,8 @@ import {
   useRef,
   useState,
 } from 'react'
-import { useRelicStore } from 'lib/stores/relicStore'
-import { useScoringStore } from 'lib/stores/scoringStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useShallow } from 'zustand/react/shallow'
 

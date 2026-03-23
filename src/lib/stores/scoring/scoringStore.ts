@@ -1,7 +1,7 @@
 import { SubStats } from 'lib/constants/constants'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadata, SimulationMetadata } from 'types/metadata'
 import { clone, mergeUndefinedValues } from 'lib/utils/objectUtils'

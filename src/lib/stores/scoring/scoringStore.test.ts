@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from 'vitest'
-import { getScoringMetadata, useScoringStore } from 'lib/stores/scoringStore'
+import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { SubStats, Stats } from 'lib/constants/constants'
@@ -100,12 +100,15 @@ describe('useScoringStore', () => {
     // the returned object holds a direct reference to the singleton. Mutating it would
     // corrupt game metadata for ALL future callers.
     it.fails('mutating getScoringMetadata simulation does not corrupt game metadata', () => {
-      const originalCount = kafkaDefaults().simulation.teammates.length
+      const defaults = kafkaDefaults()
+      expect(defaults.simulation).toBeDefined()
+      const originalCount = defaults.simulation!.teammates.length
 
       const result = getScoringMetadata(Kafka.id)
-      result.simulation.teammates.push({} as never)
+      expect(result.simulation).toBeDefined()
+      result.simulation!.teammates.push({} as never)
 
-      expect(kafkaDefaults().simulation.teammates).toHaveLength(originalCount)
+      expect(kafkaDefaults().simulation!.teammates).toHaveLength(originalCount)
     })
 
     it('mutating getScoringMetadata stats does not corrupt the stored override', () => {

@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import { ChangelogTab } from 'lib/tabs/tabChangelog/ChangelogTab'

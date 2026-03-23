@@ -1,4 +1,4 @@
-import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
 import { SaveState } from 'lib/state/saveState'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 

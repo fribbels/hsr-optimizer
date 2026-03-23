@@ -11,7 +11,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type UserSettings } from 'types/store'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 const SelectOptionWordWrap = (props: React.ComponentPropsWithoutRef<'span'>) => (
   <span style={{ whiteSpace: 'wrap', wordBreak: 'break-word' }} {...props} />

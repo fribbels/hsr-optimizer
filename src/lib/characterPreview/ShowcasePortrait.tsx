@@ -25,7 +25,7 @@ import {
   type CustomImageConfig,
   type CustomImagePayload,
 } from 'types/customImage'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 export const ShowcasePortrait = memo(function ShowcasePortrait({
   source,

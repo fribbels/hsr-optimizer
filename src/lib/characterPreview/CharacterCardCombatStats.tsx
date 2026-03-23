@@ -33,7 +33,7 @@ import {
 import { memo, type ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DBMetadataCharacter } from 'types/metadata'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { isFlat } from 'lib/utils/statUtils'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
 

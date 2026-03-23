@@ -1,4 +1,4 @@
-import { useRelicStore } from 'lib/stores/relicStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import type { Character, CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'

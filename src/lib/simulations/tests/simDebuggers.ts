@@ -23,7 +23,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
-import { useScoringStore } from 'lib/stores/scoringStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { uuid } from 'lib/utils/miscUtils'
 
 export function injectBenchmarkDebuggers() {

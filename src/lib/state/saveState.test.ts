@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { SaveState } from 'lib/state/saveState'
-import { useCharacterStore } from 'lib/stores/characterStore'
-import { useRelicStore } from 'lib/stores/relicStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Parts, Sets, Stats } from 'lib/constants/constants'
 import type { Character, CharacterId } from 'types/character'

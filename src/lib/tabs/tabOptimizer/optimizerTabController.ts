@@ -20,8 +20,8 @@ import {
   getGridColumn,
   SortOption,
 } from 'lib/optimization/sortOptions'
-import { getCharacterById } from 'lib/stores/characterStore'
-import { getRelicById } from 'lib/stores/relicStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
+import { getRelicById } from 'lib/stores/relic/relicStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {

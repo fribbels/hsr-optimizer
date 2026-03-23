@@ -4,7 +4,7 @@ import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { memo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { useRelicStore } from 'lib/stores/relicStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 
 function padArray<T>(array: T[], length: number, filler: T): T[] {
   return [...array, ...Array(length - array.length).fill(filler)]

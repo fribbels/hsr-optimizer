@@ -1,6 +1,6 @@
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { useCharacterStore } from 'lib/stores/characterStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
 import type { Character, CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { DBMetadataLightCone } from 'types/metadata'

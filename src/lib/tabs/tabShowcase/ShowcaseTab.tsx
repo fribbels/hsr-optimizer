@@ -19,7 +19,7 @@ import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { SaveState } from 'lib/state/saveState'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import {
   handleCharacterModalOk,
   importShowcaseCharacters,

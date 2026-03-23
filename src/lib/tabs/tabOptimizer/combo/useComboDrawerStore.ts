@@ -2,7 +2,7 @@ import { ConditionalDataType } from 'lib/constants/constants'
 import { type TurnAbilityName, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import { SetsOrnaments, SetsRelics } from 'lib/sets/setConfigRegistry'
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { Form } from 'types/form'
 

@@ -1,8 +1,8 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import { useGlobalStore } from 'lib/stores/appStore'
-import { getCharacters } from 'lib/stores/characterStore'
-import { getRelics } from 'lib/stores/relicStore'
-import { useScoringStore } from 'lib/stores/scoringStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { getCharacters } from 'lib/stores/character/characterStore'
+import { getRelics } from 'lib/stores/relic/relicStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import * as persistenceService from 'lib/services/persistenceService'
 import {
   DEFAULT_WEBSOCKET_URL,

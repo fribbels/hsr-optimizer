@@ -8,7 +8,7 @@ import { type generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'
-import { createTabAwareStore } from 'lib/stores/createTabAwareStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 
 export type ValueColumnField = ReturnType<typeof generateValueColumnOptions>[number]['options'][number]['value']
 

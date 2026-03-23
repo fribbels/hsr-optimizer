@@ -32,13 +32,13 @@ import { Assets } from 'lib/rendering/assets'
 import modalClasses from './RelicModal.module.css'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import { useScrollLock } from 'lib/rendering/scrollController'
-import { useCharacterStore } from 'lib/stores/characterStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 function partSegmentData(value: string, src: string) {
   return {

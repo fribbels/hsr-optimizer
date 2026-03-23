@@ -11,7 +11,7 @@ import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optim
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
-import { getCharacterById, useCharacterStore } from 'lib/stores/characterStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
 import * as equipmentService from 'lib/services/equipmentService'
 import { displayToInternal, patchComboConditionalDefault } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { type MainConditionalType, type TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'

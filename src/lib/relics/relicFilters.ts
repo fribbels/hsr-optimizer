@@ -14,8 +14,8 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import { getCharacterById, getCharacters } from 'lib/stores/characterStore'
-import { getRelics } from 'lib/stores/relicStore'
+import { getCharacterById, getCharacters } from 'lib/stores/character/characterStore'
+import { getRelics } from 'lib/stores/relic/relicStore'
 import { calculateRelicMainStatValue } from 'lib/utils/relicUtils'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'

@@ -24,7 +24,7 @@ import type { CSSProperties } from 'react'
 import { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 const defaultGap = 5
 const fullSizeOuterStyle: CSSProperties = { display: 'flex', flexDirection: 'column' }

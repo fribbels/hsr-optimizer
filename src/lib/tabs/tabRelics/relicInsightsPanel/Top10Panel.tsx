@@ -24,7 +24,7 @@ import {
   type ValueType,
 } from 'recharts/types/component/DefaultTooltipContent'
 import type { CharacterId } from 'types/character'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { precisionRound } from 'lib/utils/mathUtils'
 
 const N_Displayed = 10

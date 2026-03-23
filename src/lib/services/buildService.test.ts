@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from 'vitest'
 import { clearBuilds, deleteBuild, saveBuild } from './buildService'
-import { useCharacterStore, getCharacterById } from 'lib/stores/characterStore'
+import { useCharacterStore, getCharacterById } from 'lib/stores/character/characterStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Metadata } from 'lib/state/metadataInitializer'

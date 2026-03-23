@@ -10,7 +10,7 @@ import {
 import { LanguageSelector } from 'lib/i18n/LanguageSelector'
 import { Assets } from 'lib/rendering/assets'
 import { AppPages, BASE_PATH } from 'lib/constants/appPages'
-import { useGlobalStore } from 'lib/stores/appStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import classes from 'lib/layout/layout.module.css'
 
 export const HEADER_HEIGHT = 48

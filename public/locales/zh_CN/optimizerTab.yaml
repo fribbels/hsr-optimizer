@@ -45,6 +45,7 @@ SortOptions:
   MEMO_SKILL: 按忆灵技伤害排序
   MEMO_TALENT: 按忆灵技伤害排序
   ELATION_SKILL: 按欢愉技伤害排序
+  UNIQUE: 按特殊伤害排序
   DOT: 按持续伤害排序
   BREAK: 按击破伤害排序
   HEAL: 按治疗量排序
@@ -158,6 +159,9 @@ Grid:
         伤害
       ELATION_SKILL: |-
         欢愉技
+      UNIQUE: |-
+        特殊
+        伤害
       DOT: |-
         持续
         伤害
@@ -234,6 +238,9 @@ Grid:
         伤害
       ELATION_SKILL: |-
         欢愉技
+      UNIQUE: |-
+        特殊
+        伤害
       DOT: |-
         持续
         伤害
@@ -574,6 +581,7 @@ ComboFilter:
     MemoSkill: 忆灵技
     MemoTalent: 忆灵天赋
     ElationSkill: 欢愉技
+    Unique: 特殊
     BasicHeal: 普攻治疗量
     SkillHeal: 战技治疗量
     UltHeal: 终结技治疗量
@@ -756,6 +764,7 @@ ExpandedDataPanel:
       E4: 4魂
       E6: 6魂
       ElationSkill: 欢愉技
+      Unique: 特殊
       LightCone: 光锥
       Set: 套装
     DefaultAction: 默认

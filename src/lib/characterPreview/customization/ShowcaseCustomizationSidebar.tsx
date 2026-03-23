@@ -10,10 +10,10 @@ import {
 import { Button, ColorInput, Flex, SegmentedControl } from '@mantine/core'
 
 import i18next from 'i18next'
-import { DEFAULT_SHOWCASE_COLOR, resolveShowcaseTheme } from 'lib/characterPreview/showcaseColorService'
+import { DEFAULT_SHOWCASE_COLOR, resolveShowcaseTheme } from 'lib/characterPreview/color/showcaseColorService'
 import {
   editShowcasePreferences,
-} from 'lib/characterPreview/showcaseCustomizationController'
+} from 'lib/characterPreview/customization/showcaseCustomizationController'
 import {
   ShowcaseColorMode,
   Stats,
@@ -52,7 +52,7 @@ import {
   type CharacterId,
 } from 'types/character'
 import { cardTotalW } from 'lib/constants/constantsUi'
-import { ShowcaseSource } from './CharacterPreviewComponents'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import classes from './ShowcaseCustomizationSidebar.module.css'
 
 interface ShowcaseCustomizationSidebarProps {

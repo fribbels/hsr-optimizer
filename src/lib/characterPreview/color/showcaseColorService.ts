@@ -1,7 +1,7 @@
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import type { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/characterPreview/colorUtils'
+import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/characterPreview/color/colorUtils'
 import type { CharacterId } from 'types/character'
 import type { ShowcasePreferences } from 'types/metadata'
 

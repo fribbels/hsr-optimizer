@@ -6,7 +6,7 @@ import {
   type ShowcaseDisplayDimensions,
   type ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
-import styles from 'lib/characterPreview/ShowcaseLightCone.module.css'
+import styles from 'lib/characterPreview/card/ShowcaseLightCone.module.css'
 import { StatText } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'

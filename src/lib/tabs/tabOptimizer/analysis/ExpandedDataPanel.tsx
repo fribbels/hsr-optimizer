@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
 import { useDelayedProps } from 'hooks/useDelayedProps'
-import { BuffsAnalysisDisplay } from 'lib/characterPreview/BuffsAnalysisDisplay'
+import { BuffsAnalysisDisplay } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
 import { AppPages } from 'lib/constants/appPages'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'

@@ -26,7 +26,7 @@ import {
   calculateRelicMainStatValue,
   partIsOrnament,
   partIsRelic,
-} from 'lib/utils/relicUtils'
+} from 'lib/relics/relicUtils'
 import { clone } from 'lib/utils/objectUtils'
 import { Assets } from 'lib/rendering/assets'
 import type { Relic } from 'types/relic'

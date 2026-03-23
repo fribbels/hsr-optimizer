@@ -23,6 +23,7 @@ function isMobileOrSafari() {
 // Mobile/Safari shadows don't render correctly on the Y axis
 export const showcaseShadow = isMobileOrSafari() ? 'rgb(0, 0, 0) 1px 0px 6px' : 'rgb(0, 0, 0) 1px 1px 6px'
 export const showcaseShadowInsetAddition = ', inset rgb(255 255 255 / 30%) 0px 0px 2px'
+export const showcaseTransition = 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
 export const showcaseOutlineLight = 'rgba(255, 255, 255, 0.20) solid 1px'
 export const showcaseButtonStyle: CSSProperties = {
   flex: 'auto',

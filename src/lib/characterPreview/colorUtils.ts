@@ -1,7 +1,7 @@
 import chroma from 'chroma-js'
 import type { Color } from 'chroma-js'
 import { scaleTowardsRange } from 'lib/utils/mathUtils'
-import type { PaletteResponse } from 'lib/utils/vibrantFork'
+import type { PaletteResponse } from 'lib/characterPreview/vibrantFork'
 
 export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
   const scaleFactor = 0.96
@@ -39,7 +39,6 @@ export function showcaseBackgroundColor(color: string, darkMode: boolean) {
   return darkModeModifier(finalColor, darkMode).css()
 }
 
-export const showcaseTransition = 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
 
 const TARGET_BLUE = '#2241be'
 

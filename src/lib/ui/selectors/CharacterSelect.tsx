@@ -1,6 +1,6 @@
 import { CloseButton, Flex, Modal, TextInput } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { generateCharacterOptions } from 'lib/rendering/optionGenerator'
+import { generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import {
   generateElementTags,
   generatePathTags,

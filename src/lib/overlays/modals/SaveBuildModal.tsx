@@ -9,7 +9,7 @@ import {
 } from 'lib/overlays/modals/BuildsModal'
 import styles from 'lib/overlays/modals/SaveBuildModal.module.css'
 import { useSaveBuildModalStore } from 'lib/overlays/modals/saveBuildModalStore'
-import { useScrollLock } from 'lib/rendering/scrollController'
+import { useScrollLock } from 'lib/layout/scrollController'
 import { AppPages, SavedBuildSource } from 'lib/constants/appPages'
 import * as buildService from 'lib/services/buildService'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'

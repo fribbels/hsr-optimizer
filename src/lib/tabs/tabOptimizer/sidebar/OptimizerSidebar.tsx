@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { useScrollLockState } from 'lib/rendering/scrollController'
+import { useScrollLockState } from 'lib/layout/scrollController'
 import { defaultPadding } from 'lib/constants/constantsUi'
 import { BuildsSection } from 'lib/tabs/tabOptimizer/sidebar/BuildsSection'
 import { OptimizerControlsSection } from 'lib/tabs/tabOptimizer/sidebar/OptimizerControlsSection'

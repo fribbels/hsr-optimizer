@@ -16,7 +16,7 @@ import type {
   ComboNumberConditional,
   ComboSelectConditional,
   ComboTeammate,
-} from './comboDrawerTypes'
+} from 'lib/optimization/combo/comboTypes'
 import type { ElementName, PathName } from 'lib/constants/constants'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { DanHeng } from 'lib/conditionals/character/1000/DanHeng'

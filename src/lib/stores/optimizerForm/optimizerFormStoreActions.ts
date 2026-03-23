@@ -2,7 +2,7 @@ import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConve
 import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { type OptimizerRequestState, type TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import type { MainConditionalType, TeammateConditionalType } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { type SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import { type Form } from 'types/form'
 
 export type SuggestionFixes = {

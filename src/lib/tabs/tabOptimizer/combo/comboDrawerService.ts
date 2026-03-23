@@ -1,7 +1,7 @@
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
-import type { ComboState } from './comboDrawerTypes'
-import { COMBO_STATE_JSON_VERSION } from './comboDrawerTypes'
+import type { ComboState } from 'lib/optimization/combo/comboTypes'
+import { COMBO_STATE_JSON_VERSION } from 'lib/optimization/combo/comboTypes'
 import { persistFormToCharacterStore } from './comboDrawerUtils'
 import { useComboDrawerStore } from './useComboDrawerStore'
 

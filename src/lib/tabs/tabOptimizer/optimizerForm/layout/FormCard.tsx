@@ -1,8 +1,6 @@
 import { Flex } from '@mantine/core'
-import {
-  defaultPadding,
-  panelWidth,
-} from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { defaultPadding } from 'lib/constants/constantsUi'
+import { panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import type { CSSProperties, ReactNode } from 'react'
 
 const defaultGap = 5

@@ -44,7 +44,7 @@ import {
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
-import { buildSpdPresetOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/spdPresetConfig'
+import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SetsSection'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'

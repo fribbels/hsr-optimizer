@@ -18,7 +18,7 @@ import {
 import {
   DEFAULT_SET_FILTERS,
   expandSetFilters,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalConversions'
+} from 'lib/stores/optimizerForm/setFilterConversions'
 import {
   type Form,
   type Teammate,

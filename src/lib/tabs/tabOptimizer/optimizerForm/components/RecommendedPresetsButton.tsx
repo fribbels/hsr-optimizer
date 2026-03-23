@@ -6,7 +6,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Fragment, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { generateSpdPresets } from './spdPresetConfig'
+import { generateSpdPresets } from 'lib/constants/spdPresetConfig'
 
 export function RecommendedPresetsButton() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })

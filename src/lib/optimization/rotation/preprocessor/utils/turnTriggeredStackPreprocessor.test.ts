@@ -30,8 +30,8 @@ import type {
   ComboBooleanConditional,
   ComboNumberConditional,
   ComboState,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
-import { initializeComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerInitializers'
+} from 'lib/optimization/combo/comboTypes'
+import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
 import {
   expect,
   test,

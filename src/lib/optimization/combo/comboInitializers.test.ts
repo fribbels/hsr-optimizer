@@ -17,8 +17,8 @@ import {
   type ComboSelectConditional,
   type ComboState,
   COMBO_STATE_JSON_VERSION,
-} from './comboDrawerTypes'
-import { initializeComboState } from './comboDrawerInitializers'
+} from 'lib/optimization/combo/comboTypes'
+import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
 import type { Form, Teammate } from 'types/form'
 import type { CharacterId } from 'types/character'
 

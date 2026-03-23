@@ -6,7 +6,7 @@ import type {
   ComboBooleanConditional,
   ComboNumberConditional,
   ComboSelectConditional,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+} from 'lib/optimization/combo/comboTypes'
 import {
   describe,
   expect,

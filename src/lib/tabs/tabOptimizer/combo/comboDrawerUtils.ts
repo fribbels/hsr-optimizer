@@ -3,7 +3,7 @@ import { SaveState } from 'lib/state/saveState'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 
 import { ConditionalDataType } from 'lib/constants/constants'
-import type { ComboCharacter, ComboConditionals, ComboNumberConditional, ComboTeammate } from './comboDrawerTypes'
+import type { ComboCharacter, ComboConditionals, ComboNumberConditional, ComboTeammate } from 'lib/optimization/combo/comboTypes'
 import { locateConditional, useComboDrawerStore } from './useComboDrawerStore'
 
 // ─── Teammate Helpers ────────────────────────────────────────

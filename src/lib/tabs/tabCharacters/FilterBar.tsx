@@ -4,7 +4,7 @@ import {
   generateElementTags,
   generatePathTags,
   SegmentedFilterRow,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/CardSelectModalComponents'
+} from 'lib/ui/selectors/CardSelectModalComponents'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 

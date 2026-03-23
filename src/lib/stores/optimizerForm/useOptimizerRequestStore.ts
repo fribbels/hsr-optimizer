@@ -22,10 +22,10 @@ import {
   type SuggestionFixes,
 } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import type { SetConditionals } from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import { type CharacterId, type Eidolon } from 'types/character'
 import { type ConditionalValueMap } from 'types/conditionals'
-import { type SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import { type Form } from 'types/form'
 import { type LightConeId, type SuperImpositionLevel } from 'types/lightCone'
 import { type MemoDisplay, type StatDisplay } from 'types/store'

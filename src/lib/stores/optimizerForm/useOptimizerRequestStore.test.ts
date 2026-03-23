@@ -7,7 +7,7 @@ import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Sets } from 'lib/constants/constants'
 import { type LightConeId } from 'types/lightCone'
-import { type SetFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/relicSetFilterModalTypes'
+import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 
 // ---- Constants ----
 

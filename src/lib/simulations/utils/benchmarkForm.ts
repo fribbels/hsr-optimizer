@@ -6,7 +6,7 @@ import {
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { generateConditionalResolverMetadata } from 'lib/tabs/tabOptimizer/combo/comboDrawerInitializers'
+import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import type { CharacterId } from 'types/character'
 import type {
   CharacterConditionalsController,

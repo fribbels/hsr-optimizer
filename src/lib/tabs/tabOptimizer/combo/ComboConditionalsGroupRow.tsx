@@ -31,7 +31,7 @@ import type {
   ComboConditionals,
   ComboNumberConditional,
   ComboSelectConditional,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerTypes'
+} from 'lib/optimization/combo/comboTypes'
 import { resolveSourceKeyRoute } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { resolveConditionals, resolveMetadata, useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { memo, useMemo } from 'react'

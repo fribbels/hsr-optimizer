@@ -1,5 +1,4 @@
 import { Flex } from '@mantine/core'
-import { debugLog, useRenderTracker } from 'lib/debug/renderDebug'
 import { ActionSelector } from 'lib/characterPreview/buffsAnalysis/ActionSelector'
 import { BuffGroup } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
 import {
@@ -60,14 +59,8 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   context: contextProp,
   twoColumn,
 }: BuffsAnalysisProps) {
-  useRenderTracker('BuffsAnalysisDisplay', { result, perActionBuffGroups: perActionBuffGroupsProp, size, context: contextProp, twoColumn })
-
   const rerunResult = useMemo(
-    () => {
-      if (perActionBuffGroupsProp) return null
-      debugLog('BuffsAnalysisDisplay', 'rerunSim executing (expensive!)')
-      return rerunSim(result)
-    },
+    () => perActionBuffGroupsProp ? null : rerunSim(result),
     [perActionBuffGroupsProp, result],
   )
   const perActionBuffGroups = perActionBuffGroupsProp ?? rerunResult?.perActionBuffGroups

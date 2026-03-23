@@ -8,7 +8,6 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import { Button, ColorInput, Flex, SegmentedControl } from '@mantine/core'
-import { useRenderTracker } from 'lib/debug/renderDebug'
 
 import i18next from 'i18next'
 import { DEFAULT_SHOWCASE_COLOR, resolveShowcaseTheme } from 'lib/characterPreview/showcaseColorService'
@@ -78,11 +77,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
       effectiveColorMode,
       portraitSwatches,
     } = props
-
-    useRenderTracker('ShowcaseCustomizationSidebar', {
-      id, source, characterId, originalSpd, scoringType,
-      seedColor, effectiveColorMode, portraitSwatches,
-    })
 
     const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
     const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })

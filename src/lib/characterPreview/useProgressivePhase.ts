@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { debugLog } from 'lib/debug/renderDebug'
 
 /**
  * Progressively reveals content across frames using requestAnimationFrame.
@@ -18,7 +17,6 @@ export function useProgressivePhase(key: unknown, maxPhase: number): number {
   const keyJustChanged = key != null && key !== prevKeyRef.current
   if (keyJustChanged) {
     prevKeyRef.current = key
-    debugLog('useProgressivePhase', `key changed, returning phase 0 (maxPhase=${maxPhase})`)
   }
 
   const effectivePhase = keyJustChanged ? 0 : phase
@@ -26,9 +24,7 @@ export function useProgressivePhase(key: unknown, maxPhase: number): number {
   // Advance one phase per animation frame
   useEffect(() => {
     if (key == null || effectivePhase >= maxPhase) return
-    debugLog('useProgressivePhase', `scheduling rAF: phase ${effectivePhase} → ${effectivePhase + 1} (maxPhase=${maxPhase})`)
     const id = requestAnimationFrame(() => {
-      debugLog('useProgressivePhase', `rAF fired: advancing to phase ${effectivePhase + 1} (maxPhase=${maxPhase})`)
       setPhase(effectivePhase + 1)
     })
     return () => cancelAnimationFrame(id)

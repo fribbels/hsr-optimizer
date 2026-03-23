@@ -1,5 +1,4 @@
 import { Flex, useMantineTheme } from '@mantine/core'
-import { debugLog, useRenderTracker, useValueTracker } from 'lib/debug/renderDebug'
 import {
   showcaseShadow,
   showcaseShadowInsetAddition,
@@ -132,31 +131,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // handles the equipped field difference (Relic objects vs string IDs).
   const character = rawCharacter as Character
 
-  useRenderTracker('CharacterPreviewInner', {
-    source, character: rawCharacter, setOriginalCharacterModalOpen,
-    setOriginalCharacterModalInitialCharacter, savedBuildOverride, id,
-  })
-
   const mantineTheme = useMantineTheme()
 
   const state = useCharacterPreviewState(source, rawCharacter, savedBuildOverride)
 
   const displayRelics = state.previewRelics?.displayRelics ?? null
   const scoringResults = state.previewRelics?.scoringResults ?? null
-
-  useValueTracker('CharacterPreviewInner:state', {
-    previewRelics: state.previewRelics,
-    finalStats: state.finalStats,
-    teamSelection: state.teamSelection,
-    showcasePreferences: state.showcasePreferences,
-    showcaseTemporaryOptions: state.showcaseTemporaryOptions,
-    portraitColor: state.portraitColor,
-    portraitSwatches: state.portraitSwatches,
-    globalColorMode: state.globalColorMode,
-    darkMode: state.darkMode,
-    scoringMetadata: state.scoringMetadata,
-    storedScoringType: state.storedScoringType,
-  })
 
   // ===== Layout (character-dependent, no color) =====
   // scoringMetadata is not a direct input — it busts the memo cache when scoring overrides
@@ -196,12 +176,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   useEffect(() => {
     // Skip extraction if palette already cached for this character
     const existing = useShowcaseTabStore.getState().portraitSwatchesByCharacterId[character.id]
-    if (existing && !portraitImageUrl) {
-      debugLog('PaletteEffect', `skipped for character ${character.id} — already cached`)
-      return
-    }
+    if (existing && !portraitImageUrl) return
 
-    debugLog('PaletteEffect', `started for character ${character.id}`)
     const imgSrc = portraitImageUrl ?? Assets.getCharacterPortraitById(character.id)
     let aborted = false
 
@@ -209,7 +185,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       if (aborted) return
       getPalette(imgSrc, (palette: PaletteResponse) => {
         if (aborted) return
-        debugLog('PaletteEffect', `completed for character ${character.id} — calling setPortraitPalette`)
         const swatches = organizeColors(palette)
         const color = portraitImageUrl
           ? modifyCustomColor(
@@ -279,14 +254,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   const { done: scoringDone, result: scoringResult } = useScoringExecution(cacheKey, requestFn)
 
-  useValueTracker('CharacterPreviewInner:scoring', {
-    cacheKey, scoringDone, scoringResult,
-  })
-
   // Defer analysis section: card renders fully first, analysis phases in after
   const analysisPhase = useProgressivePhase(character.id, 1)
-
-  debugLog('CharacterPreviewInner', `analysisPhase=${analysisPhase}`)
 
   // ===== Early return after all hooks =====
   if (!state.previewRelics || !state.finalStats || !displayRelics || !scoringResults) {

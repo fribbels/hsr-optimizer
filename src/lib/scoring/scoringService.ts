@@ -42,16 +42,32 @@ const orchestratorCache: Record<string, BenchmarkSimulationOrchestrator> = {}
 const previewCache: Record<string, PreparedState> = {}
 
 // --- Listeners (for useSyncExternalStore) ---
+// Per-key listeners: only the subscriber watching a specific cacheKey is notified,
+// avoiding spurious re-renders of components watching different keys.
 
-const listeners = new Set<() => void>()
+const listenersByKey = new Map<string, Set<() => void>>()
+const globalListeners = new Set<() => void>()
 
-export function subscribeToCacheUpdates(listener: () => void): () => void {
-  listeners.add(listener)
-  return () => listeners.delete(listener)
+export function subscribeToCacheUpdates(cacheKey: string | null, listener: () => void): () => void {
+  if (!cacheKey) {
+    globalListeners.add(listener)
+    return () => globalListeners.delete(listener)
+  }
+  let set = listenersByKey.get(cacheKey)
+  if (!set) {
+    set = new Set()
+    listenersByKey.set(cacheKey, set)
+  }
+  set.add(listener)
+  return () => {
+    set!.delete(listener)
+    if (set!.size === 0) listenersByKey.delete(cacheKey)
+  }
 }
 
-function notifyListeners() {
-  listeners.forEach((cb) => cb())
+function notifyListeners(cacheKey: string) {
+  listenersByKey.get(cacheKey)?.forEach((cb) => cb())
+  globalListeners.forEach((cb) => cb())
 }
 
 // --- Public API ---
@@ -171,12 +187,12 @@ export function requestScore(
           delete previewCache[cacheKey]
           delete orchestratorCache[cacheKey]
         }
-        notifyListeners()
+        notifyListeners(cacheKey)
         resolve(score)
       } catch (error) {
         console.error('Scoring error:', error)
         failedRetries.set(cacheKey, (failedRetries.get(cacheKey) ?? 0) + 1)
-        notifyListeners()
+        notifyListeners(cacheKey)
         resolve(null)
       } finally {
         delete promiseCache[cacheKey]

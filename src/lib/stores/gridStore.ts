@@ -1,4 +1,5 @@
 import type { AgGridReact } from 'ag-grid-react'
+import type { ApplyColumnStateParams } from 'ag-grid-community'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import type { ScoredRelic } from 'lib/relics/scoreRelics'
 import type { RefObject } from 'react'
@@ -22,4 +23,12 @@ export const gridStore = {
     const api = _relicsGrid?.current?.api
     return api && !api.isDestroyed() ? api : undefined
   },
+}
+
+export function setSortColumn(columnId: string) {
+  const columnState: ApplyColumnStateParams = {
+    state: [{ colId: columnId, sort: 'desc' }],
+    defaultState: { sort: null },
+  }
+  gridStore.optimizerGridApi()?.applyColumnState(columnState)
 }

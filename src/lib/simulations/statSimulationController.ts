@@ -20,7 +20,7 @@ import * as persistenceService from 'lib/services/persistenceService'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { SaveState } from 'lib/state/saveState'
-import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { setSortColumn } from 'lib/stores/gridStore'
 import {
   getForm,
   validateForm,

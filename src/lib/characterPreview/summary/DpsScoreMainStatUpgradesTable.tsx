@@ -17,7 +17,7 @@ import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import {
   arrowColor,
   arrowDirection,
-} from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
+} from 'lib/utils/displayUtils'
 import {
   localeNumber_0,
   localeNumber_00,

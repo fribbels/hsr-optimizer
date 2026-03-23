@@ -1,6 +1,4 @@
-import type { ApplyColumnStateParams } from 'ag-grid-community'
 import type { TFunction } from 'i18next'
-import { gridStore } from 'lib/stores/gridStore'
 import type { ComboboxNumberGroup } from 'lib/ui/ComboboxNumberInput'
 import type { ReactElement } from 'types/components'
 
@@ -157,15 +155,3 @@ export function buildSpdPresetOptions(
   ]
 }
 
-export function setSortColumn(columnId: string) {
-  const columnState: ApplyColumnStateParams = {
-    state: [
-      {
-        colId: columnId,
-        sort: 'desc',
-      },
-    ],
-    defaultState: { sort: null },
-  }
-  gridStore.optimizerGridApi()?.applyColumnState(columnState)
-}

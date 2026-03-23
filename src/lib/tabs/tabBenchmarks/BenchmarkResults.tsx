@@ -22,7 +22,7 @@ import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrat
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { arrowColor } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
+import { arrowColor } from 'lib/utils/displayUtils'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {

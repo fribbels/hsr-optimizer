@@ -13,7 +13,7 @@ import {
   type TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Assets } from 'lib/rendering/assets'
-import { toI18NVisual } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
+import { toI18NVisual } from 'lib/utils/displayUtils'
 import {
   Fragment,
   useState,

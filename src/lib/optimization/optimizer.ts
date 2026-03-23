@@ -38,7 +38,7 @@ import {
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
-import { setSortColumn } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
+import { setSortColumn } from 'lib/stores/gridStore'
 import {
   activateZeroPermutationsSuggestionsModal,
   activateZeroResultSuggestionsModal,

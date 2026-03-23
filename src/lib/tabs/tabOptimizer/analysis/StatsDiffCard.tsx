@@ -11,6 +11,7 @@ import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/exp
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import { useTranslation } from 'react-i18next'
 import classes from './StatsDiffCard.module.css'
+import { arrowColor, arrowDirection } from 'lib/utils/displayUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { precisionRound, truncate10ths, truncate1000ths } from 'lib/utils/mathUtils'
 
@@ -124,17 +125,6 @@ function RenderValue({ value, stat, comboDiff }: { value: string | number, stat:
     return value
   }
   return value + '%'
-}
-
-const GREEN = '#95ef90'
-const RED = '#ff97a9'
-
-export function arrowColor(increase: boolean) {
-  return increase ? GREEN : RED
-}
-
-export function arrowDirection(increase: boolean) {
-  return increase ? '▲' : '▼'
 }
 
 function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: number, stat: string }) {

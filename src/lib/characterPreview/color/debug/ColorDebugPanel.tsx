@@ -4,7 +4,8 @@
 // The parent (ColorPreviewGallery) handles imperative DOM updates.
 // ---------------------------------------------------------------------------
 
-import { Button, Divider, Flex, Paper, SegmentedControl, Text, TextInput } from '@mantine/core'
+import { Button, Chip, Divider, Flex, Paper, SegmentedControl, Text, TextInput } from '@mantine/core'
+import { type HeuristicFlags, DEFAULT_HEURISTIC_FLAGS } from 'lib/characterPreview/color/colorHeuristics'
 import type {
   CardColorConfig,
   ColorPipelineConfig,
@@ -37,7 +38,7 @@ const PORTRAIT_SLIDERS: SliderDef[] = [
   { label: 'Saturate', key: 'saturate', min: 0.0, max: 2.0, step: 0.05 },
 ]
 
-export function ColorDebugPanel({ config, extractor, exampleSeedColor, darkMode, extractionProgress, palettes, activePresetName, portraitFilter, onConfigChange, onExtractorChange, onPresetApply, onPortraitFilterChange }: {
+export function ColorDebugPanel({ config, extractor, exampleSeedColor, darkMode, extractionProgress, palettes, activePresetName, portraitFilter, heuristics, onConfigChange, onExtractorChange, onPresetApply, onPortraitFilterChange, onHeuristicsChange }: {
   config: ColorPipelineConfig
   extractor: Extractor
   exampleSeedColor: string
@@ -46,10 +47,12 @@ export function ColorDebugPanel({ config, extractor, exampleSeedColor, darkMode,
   palettes: Map<string, PaletteResponse>
   activePresetName: string
   portraitFilter: PortraitFilterConfig
+  heuristics: HeuristicFlags
   onConfigChange: (config: ColorPipelineConfig) => void
   onExtractorChange: (extractor: Extractor) => void
   onPresetApply: (config: ColorPipelineConfig, seeds: Map<string, string>, presetName: string, portrait: PortraitFilterConfig) => void
   onPortraitFilterChange: (filter: PortraitFilterConfig) => void
+  onHeuristicsChange: (flags: HeuristicFlags) => void
 }) {
   const update = useCallback((next: ColorPipelineConfig) => {
     onConfigChange(next)
@@ -118,6 +121,10 @@ export function ColorDebugPanel({ config, extractor, exampleSeedColor, darkMode,
         <ColorDebugPresets palettes={palettes} onApply={(cfg, seeds, name, portrait) => {
           onPresetApply(cfg, seeds, name, portrait)
         }} />
+
+        <Divider />
+
+        <HeuristicToggles flags={heuristics} onChange={onHeuristicsChange} />
 
         <Divider />
 
@@ -243,6 +250,64 @@ function PresetRating({ activePresetName }: {
         </Flex>
         <Text size="xs" c="dimmed">← submit</Text>
       </Flex>
+    </Flex>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Heuristic toggle chips
+// ---------------------------------------------------------------------------
+const HEURISTIC_LABELS: { key: keyof HeuristicFlags; label: string; tip: string }[] = [
+  { key: 'hueNudge', label: 'Hue Nudge', tip: 'Gaussian repulsion from brown zone' },
+  { key: 'chromaLUT', label: 'Chroma LUT', tip: 'Hue-dependent chroma normalization' },
+  { key: 'dislikeFix', label: 'Dislike Fix', tip: 'Material You yellow-green lightening' },
+  { key: 'adaptivePortrait', label: 'Adaptive Portrait', tip: 'Seed-driven portrait filter' },
+  { key: 'gamutMap', label: 'Gamut Map', tip: 'Binary search gamut mapping' },
+  { key: 'contrastAlpha', label: 'Contrast Alpha', tip: 'Auto WCAG AA alpha adjustment' },
+  { key: 'seedRelativeL', label: 'Seed-Rel L', tip: 'Panel lightness adapts to seed' },
+  { key: 'compBorder', label: 'Comp Border', tip: 'Split-complementary border hue' },
+  { key: 'chromaCompensate', label: 'Chroma Comp', tip: 'Boost chroma when darkening' },
+  { key: 'edgeSample', label: 'Edge Sample', tip: 'Extract from portrait edges' },
+]
+
+function HeuristicToggles({ flags, onChange }: {
+  flags: HeuristicFlags
+  onChange: (flags: HeuristicFlags) => void
+}) {
+  const toggle = (key: keyof HeuristicFlags) => {
+    onChange({ ...flags, [key]: !flags[key] })
+  }
+
+  const allOn = Object.values(flags).every(Boolean)
+  const allOff = Object.values(flags).every((v) => !v)
+
+  return (
+    <Flex direction="column" gap={4}>
+      <Flex align="center" gap={8}>
+        <Text size="xs" fw={600}>Heuristics</Text>
+        <Button size="compact-xs" variant="subtle" onClick={() => {
+          const next = { ...flags }
+          const target = !allOn
+          for (const k of Object.keys(next)) (next as Record<string, boolean>)[k] = target
+          onChange(next as HeuristicFlags)
+        }}>
+          {allOn ? 'None' : 'All'}
+        </Button>
+      </Flex>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 4 }}>
+        {HEURISTIC_LABELS.map(({ key, label, tip }) => (
+          <Chip
+            key={key}
+            size="xs"
+            checked={flags[key]}
+            onChange={() => toggle(key)}
+            title={tip}
+            styles={{ label: { width: '100%', justifyContent: 'center' } }}
+          >
+            {label}
+          </Chip>
+        ))}
+      </div>
     </Flex>
   )
 }

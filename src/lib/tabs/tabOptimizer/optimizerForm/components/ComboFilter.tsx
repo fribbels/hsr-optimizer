@@ -1,9 +1,12 @@
 import {
   IconCheck,
+  IconMinus,
+  IconPlus,
+  IconRefresh,
   IconSettings,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex, SegmentedControl } from '@mantine/core'
+import { ActionIcon, Button, Flex, SegmentedControl } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
@@ -27,7 +30,6 @@ import {
   TurnAbilitySelectorSimple,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/TurnAbilitySelector'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
@@ -156,52 +158,46 @@ function ComboBasicDefinition() {
         </Flex>
       </Flex>
 
-      <VerticalDivider width={10} />
+      <Flex direction="column" gap={3} justify='center'>
+        <ActionIcon
+          variant='outline'
+          size='sm'
+          disabled={disabled}
+          onClick={() => modals.openConfirmModal({
+            title: tCommon('Confirm'),
+            children: t('RowControls.ResetConfirm.Description'),
+            labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+            centered: true,
+            onConfirm: () => resetClicked(),
+          })}
+        >
+          <IconRefresh size={14} />
+        </ActionIcon>
+        <ActionIcon variant='outline' size='sm' onClick={() => add()} disabled={disabled}>
+          <IconPlus size={14} />
+        </ActionIcon>
+        <ActionIcon variant='outline' size='sm' onClick={() => minus()} disabled={disabled}>
+          <IconMinus size={14} />
+        </ActionIcon>
+      </Flex>
 
-      <Flex direction="column" gap={20} flex={1} align='flex-start'>
-        <Flex direction="column" w='100%' gap={5}>
-          <HeaderText>{t('RowControls.Header') /* Controls */}</HeaderText>
-          <Button
-            variant='outline'
-            size='xs'
-            h={24}
-            fullWidth
-            disabled={disabled}
-            onClick={() => modals.openConfirmModal({
-              title: tCommon('Confirm'),
-              children: t('RowControls.ResetConfirm.Description'),
-              labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-              centered: true,
-              onConfirm: () => resetClicked(),
-            })}
-          >
-            {tCommon('Reset')}
-          </Button>
-          <Flex gap={5}>
-            <Button variant='outline' size='xs' h={24} style={{ flex: 1 }} onClick={() => add()} disabled={disabled}>
-              {t('RowControls.Add')}
-            </Button>
-            <Button variant='outline' size='xs' h={24} style={{ flex: 1 }} onClick={() => minus()} disabled={disabled}>
-              {t('RowControls.Remove')}
-            </Button>
-          </Flex>
-        </Flex>
-
-        <Flex direction="column" w='100%' gap={5}>
-          <HeaderText>{t('RowControls.PresetsHeader') /*Presets*/}</HeaderText>
-          <SegmentedControl
-            fullWidth
-            size='xs'
-            disabled={disabled}
-            value={String(comboPreprocessor)}
-            onChange={(value) => useOptimizerRequestStore.getState().setComboPreprocessor(value === 'true')}
-            data={[
-              { label: <Flex align='center' justify='center'><IconCheck size={14} /></Flex>, value: 'true' },
-              { label: <Flex align='center' justify='center'><IconX size={14} /></Flex>, value: 'false' },
-            ]}
-          />
-        </Flex>
-
+      <Flex direction="column" gap={3} justify='center'>
+        <ActionIcon
+          variant={comboPreprocessor ? 'filled' : 'outline'}
+          size='sm'
+          disabled={disabled}
+          onClick={() => useOptimizerRequestStore.getState().setComboPreprocessor(true)}
+        >
+          <IconCheck size={14} />
+        </ActionIcon>
+        <ActionIcon
+          variant={!comboPreprocessor ? 'filled' : 'outline'}
+          size='sm'
+          disabled={disabled}
+          onClick={() => useOptimizerRequestStore.getState().setComboPreprocessor(false)}
+        >
+          <IconX size={14} />
+        </ActionIcon>
       </Flex>
     </Flex>
   )

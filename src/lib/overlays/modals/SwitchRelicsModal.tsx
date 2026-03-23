@@ -1,7 +1,7 @@
 import { useForm } from '@mantine/form'
 import { Button, Flex, Modal } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
+import { useFormOnOpen } from 'lib/overlays/modals/useFormOnOpen'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,

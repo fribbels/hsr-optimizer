@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useRelicScore } from 'lib/hooks/useRelicScore'
+import { useRelicScore } from 'lib/tabs/tabRelics/bottomDock/useRelicScore'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getRelicById } from 'lib/stores/relic/relicStore'

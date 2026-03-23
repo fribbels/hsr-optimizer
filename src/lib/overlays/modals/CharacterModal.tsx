@@ -1,7 +1,7 @@
 import { Button, Flex, Modal, SegmentedControl, Select } from '@mantine/core'
 import iconClasses from 'style/icons.module.css'
 import { useForm } from '@mantine/form'
-import { useFormOnOpen } from 'lib/hooks/useFormOnOpen'
+import { useFormOnOpen } from 'lib/overlays/modals/useFormOnOpen'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { getCharacterById } from 'lib/stores/character/characterStore'

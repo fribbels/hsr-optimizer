@@ -30,8 +30,8 @@
     "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",
     "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",
-    "typecheck": "npm run update-resources && tsc --noEmit -p ./tsconfig.json",
-    "typecheck:fast": "tsc --noEmit -p ./tsconfig.fast.json",
+    "typecheck": "npm run update-resources && tsgo --noEmit -p ./tsconfig.json",
+    "typecheck:fast": "tsgo --noEmit -p ./tsconfig.fast.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"
@@ -89,6 +89,7 @@
     "@types/node": "^22.19.15",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@typescript/native-preview": "^7.0.0-dev.20260323.1",
     "@vitejs/plugin-react-swc": "^4.2.3",
     "@webgpu/types": "^0.1.69",
     "dprint": "^0.52.0",

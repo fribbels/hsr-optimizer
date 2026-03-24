@@ -1,7 +1,7 @@
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import type { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/characterPreview/color/colorUtils'
+import { oklchCardBackgroundColor, oklchCardBorderColor } from 'lib/characterPreview/color/colorUtilsOklch'
 import type { CharacterId } from 'types/character'
 import type { ShowcasePreferences } from 'types/metadata'
 
@@ -59,7 +59,7 @@ export function resolveShowcaseColor(
  */
 export function resolveShowcaseTheme(seedColor: string, darkMode: boolean): ShowcaseTheme {
   return {
-    cardBackgroundColor: showcaseCardBackgroundColor(seedColor, darkMode),
-    cardBorderColor: showcaseCardBorderColor(seedColor, darkMode),
+    cardBackgroundColor: oklchCardBackgroundColor(seedColor, darkMode),
+    cardBorderColor: oklchCardBorderColor(seedColor, darkMode),
   }
 }

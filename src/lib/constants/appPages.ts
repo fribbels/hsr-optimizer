@@ -57,9 +57,7 @@ const RouteToPage: Record<string, AppPages> = {
 }
 
 export function getDefaultActiveKey() {
-  // TEMP: color debug — revert to HOME when done
-  return AppPages.METADATA_TEST
-  // const pathname = stripTrailingSlashes(window.location.pathname)
-  // const page = RouteToPage[pathname + window.location.hash.split('?')[0] as Route]
-  // return page ?? AppPages.HOME
+  const pathname = stripTrailingSlashes(window.location.pathname)
+  const page = RouteToPage[pathname + window.location.hash.split('?')[0] as Route]
+  return page ?? AppPages.HOME
 }

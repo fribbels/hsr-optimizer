@@ -55,12 +55,13 @@ import {
   organizeColors,
   selectClosestColor,
 } from 'lib/characterPreview/color/colorUtils'
-import type { PaletteResponse } from 'lib/characterPreview/color/vibrantFork'
+import { getColorThiefPalette } from 'lib/characterPreview/color/colorThiefExtractor'
 import {
   memo,
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from 'react'
 import {
   type Character,
@@ -94,6 +95,141 @@ interface CharacterPreviewPropsBase {
 }
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
+
+// TEMP: debug portrait filter panel — remove when finalized
+export type PortraitFilters = { brightness: number; saturate: number; contrast: number; overlayOpacity: number }
+
+const SLIDER_DEFS = [
+  { key: 'brightness', label: 'Bright', min: 0.25, max: 0.70, step: 0.05, default: 0.375 },
+  { key: 'saturate', label: 'Sat', min: 0.3, max: 3.0, step: 0.02, default: 2.50 },
+  { key: 'contrast', label: 'Contrast', min: 0.50, max: 1.50, step: 0.05, default: 1.00 },
+  { key: 'overlayOpacity', label: 'Multiply', min: 0.0, max: 0.50, step: 0.05, default: 0.0 },
+] as const
+
+export const PORTRAIT_FILTER_DEFAULTS: PortraitFilters = Object.fromEntries(
+  SLIDER_DEFS.map((d) => [d.key, d.default]),
+) as PortraitFilters
+
+export const SEED_STRATEGY_NAMES = ['vibrantFirst', 'highestChroma', 'darkVibrant', 'populationWeighted', 'coolBias', 'noAvoidance', 'darkCool', 'darkCoolScored', 'midCool'] as const
+export type SeedStrategyName = typeof SEED_STRATEGY_NAMES[number]
+
+declare global {
+  interface Window {
+    __portraitFilters?: PortraitFilters
+    __seedStrategy?: SeedStrategyName
+  }
+}
+
+export function getPortraitFilters(): PortraitFilters {
+  return window.__portraitFilters ?? PORTRAIT_FILTER_DEFAULTS
+}
+
+export function buildPortraitFilterStr(f: PortraitFilters): string {
+  const parts = [`blur(22px)`, `brightness(${f.brightness})`, `saturate(${f.saturate})`]
+  if (f.contrast !== 1.0) parts.push(`contrast(${f.contrast})`)
+  return parts.join(' ')
+}
+
+function pushFiltersToAll(f: PortraitFilters) {
+  window.__portraitFilters = f
+  const filterStr = buildPortraitFilterStr(f)
+  document.querySelectorAll('[data-portrait-bg]').forEach((el) => {
+    const htmlEl = el as HTMLElement
+    htmlEl.style.filter = filterStr
+    htmlEl.style.webkitFilter = filterStr
+  })
+  // Multiply overlay: dark div on top of portrait to tame whites
+  document.querySelectorAll('[data-portrait-bg]').forEach((el) => {
+    let overlay = el.parentElement?.querySelector('[data-portrait-overlay]') as HTMLElement | null
+    if (f.overlayOpacity > 0) {
+      if (!overlay) {
+        overlay = document.createElement('div')
+        overlay.setAttribute('data-portrait-overlay', '')
+        Object.assign(overlay.style, {
+          position: 'absolute', top: '0', left: '0', right: '0', bottom: '0',
+          zIndex: '0', pointerEvents: 'none', mixBlendMode: 'multiply',
+        })
+        el.parentElement?.insertBefore(overlay, el.nextSibling)
+      }
+      overlay.style.background = `rgba(80, 80, 90, ${f.overlayOpacity})`
+    } else if (overlay) {
+      overlay.remove()
+    }
+  })
+}
+
+const FILTER_PRESETS: { name: string; values: PortraitFilters }[] = [
+  { name: 'Default', values: { brightness: 0.60, saturate: 1.00, contrast: 1.10, overlayOpacity: 0.0 } },
+  { name: 'F', values: { brightness: 0.43, saturate: 2.00, contrast: 0.80, overlayOpacity: 0.0 } },
+  { name: 'F+bright', values: { brightness: 0.48, saturate: 2.00, contrast: 0.80, overlayOpacity: 0.0 } },
+  { name: 'F-bright', values: { brightness: 0.38, saturate: 2.00, contrast: 0.80, overlayOpacity: 0.0 } },
+  { name: 'F-sat', values: { brightness: 0.43, saturate: 1.80, contrast: 0.80, overlayOpacity: 0.0 } },
+  { name: 'F+con', values: { brightness: 0.43, saturate: 2.00, contrast: 0.90, overlayOpacity: 0.0 } },
+  { name: 'F-con', values: { brightness: 0.43, saturate: 2.00, contrast: 0.70, overlayOpacity: 0.0 } },
+  { name: 'X', values: { brightness: 0.375, saturate: 2.50, contrast: 1.00, overlayOpacity: 0.0 } },
+]
+
+const pillStyle = (active: boolean): React.CSSProperties => ({
+  background: active ? '#556' : '#333',
+  color: active ? '#eee' : '#aaa',
+  border: 'none',
+  borderRadius: 4,
+  padding: '2px 6px',
+  fontSize: 10,
+  cursor: 'pointer',
+  whiteSpace: 'nowrap',
+})
+
+export function PortraitContrastSlider() {
+  const [values, setValues] = useState(() => ({ ...getPortraitFilters() }))
+  const [strategy, setStrategy] = useState<SeedStrategyName>(() => window.__seedStrategy ?? 'midCool')
+
+  const apply = (f: PortraitFilters) => { setValues({ ...f }); pushFiltersToAll(f) }
+  const update = (key: string, v: number) => {
+    const next = { ...values, [key]: v }
+    setValues(next)
+    pushFiltersToAll(next)
+  }
+
+  const applyStrategy = (s: SeedStrategyName) => {
+    setStrategy(s)
+    window.__seedStrategy = s
+    window.dispatchEvent(new CustomEvent('seed-strategy-change', { detail: s }))
+  }
+
+  const isMatch = (preset: PortraitFilters) =>
+    preset.brightness === values.brightness && preset.saturate === values.saturate
+    && preset.contrast === values.contrast && preset.overlayOpacity === values.overlayOpacity
+
+  return (
+    <div style={{ position: 'fixed', bottom: 20, left: 20, zIndex: 9999, background: '#1a1a1a', padding: '8px 12px', borderRadius: 8, border: '1px solid #333', display: 'flex', flexDirection: 'column', gap: 4, minWidth: 450 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ color: '#888', fontSize: 11, fontWeight: 600 }}>Portrait BG Debug</span>
+        <button onClick={() => apply(PORTRAIT_FILTER_DEFAULTS)} style={pillStyle(isMatch(PORTRAIT_FILTER_DEFAULTS))}>Reset</button>
+      </div>
+      <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+        {FILTER_PRESETS.map((p) => (
+          <button key={p.name} onClick={() => apply(p.values)} style={pillStyle(isMatch(p.values))}>{p.name}</button>
+        ))}
+      </div>
+      {SLIDER_DEFS.map(({ key, label, min, max, step }) => (
+        <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ color: '#aaa', fontSize: 11, width: 52 }}>{label}</span>
+          <input type="range" min={min} max={max} step={step} value={values[key]} onChange={(e) => update(key, parseFloat(e.target.value))} style={{ flex: 1, height: 14 }} />
+          <span style={{ color: '#ccc', fontSize: 11, width: 32, textAlign: 'right' }}>{values[key as keyof typeof values].toFixed(2)}</span>
+        </div>
+      ))}
+      <div style={{ borderTop: '1px solid #333', paddingTop: 4 }}>
+        <span style={{ color: '#888', fontSize: 11, fontWeight: 600 }}>Seed Strategy</span>
+        <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap', marginTop: 3 }}>
+          {SEED_STRATEGY_NAMES.map((s) => (
+            <button key={s} onClick={() => applyStrategy(s)} style={pillStyle(strategy === s)}>{s}</button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function CharacterPreview({
   character,
@@ -181,19 +317,17 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     const imgSrc = portraitImageUrl ?? Assets.getCharacterPortraitById(character.id)
     let aborted = false
 
-    void import('lib/characterPreview/color/vibrantFork').then(({ getPalette }) => {
-      if (aborted) return
-      getPalette(imgSrc, (palette: PaletteResponse) => {
-        if (aborted) return
-        const swatches = organizeColors(palette)
-        const color = portraitImageUrl
-          ? modifyCustomColor(
-              selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
-            )
-          : undefined
-        useShowcaseTabStore.getState().setPortraitPalette(character.id, color, swatches)
-      })
-    })
+    void (async () => {
+      const palette = await getColorThiefPalette(imgSrc)
+      if (aborted || !palette) return
+      const swatches = organizeColors(palette)
+      const color = portraitImageUrl
+        ? modifyCustomColor(
+            selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
+          )
+        : undefined
+      useShowcaseTabStore.getState().setPortraitPalette(character.id, color, swatches)
+    })()
 
     return () => { aborted = true }
   }, [character.id, portraitImageUrl])
@@ -300,6 +434,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         style={{
           '--showcase-card-bg': derivedShowcaseTheme.cardBackgroundColor,
           '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
+          color: '#e0e0e0',
+          textShadow: '0px 0px 3px rgba(0,0,0,0.9), 0px 0px 1px rgba(0,0,0,0.7)',
           position: 'relative',
           display: 'flex',
           height: parentH,
@@ -325,8 +461,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             right: 0,
             bottom: 0,
             zIndex: 0,
-            filter: `blur(18px) brightness(${state.darkMode ? 0.50 : 0.70}) saturate(${state.darkMode ? 0.80 : 0.80})`,
-            WebkitFilter: `blur(18px) brightness(${state.darkMode ? 0.50 : 0.70}) saturate(${state.darkMode ? 0.80 : 0.80})`,
+            filter: buildPortraitFilterStr(getPortraitFilters()),
+            WebkitFilter: buildPortraitFilterStr(getPortraitFilters()),
           }}
         />
 

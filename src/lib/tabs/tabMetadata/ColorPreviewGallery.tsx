@@ -1,6 +1,6 @@
 import chroma from 'chroma-js'
 import { Button, Flex, Group, Text } from '@mantine/core'
-import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
+import { buildPortraitFilterStr, CharacterPreview, getPortraitFilters } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { cardTotalW, parentH } from 'lib/constants/constantsUi'
 import {
@@ -10,7 +10,7 @@ import {
 } from 'lib/characterPreview/color/colorPipelineConfig'
 import { getColorThiefPalette } from 'lib/characterPreview/color/colorThiefExtractor'
 import { deriveAntdColorPrimaryActive } from 'lib/characterPreview/color/antdTokenCompat'
-import { showcaseCardBackgroundColor, showcaseCardBorderColor } from 'lib/characterPreview/color/colorUtils'
+import { showcaseCardBackgroundColor, showcaseCardBorderColor, showcaseBackgroundColor } from 'lib/characterPreview/color/colorUtils'
 import {
   oklchBackgroundColor,
   oklchCardBackgroundColor,
@@ -31,8 +31,9 @@ import {
   CHROMA_COMPENSATE_MAX_C_MULT,
   estimatePortraitLuminance,
   createEdgeMaskedCanvas,
+  createBlurredCanvas,
 } from 'lib/characterPreview/color/colorHeuristics'
-import { FULL_PRESETS, applyPreset } from 'lib/characterPreview/color/debug/colorPresets'
+import { FULL_PRESETS, applyPreset, seedStrategies } from 'lib/characterPreview/color/debug/colorPresets'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { Parts } from 'lib/constants/constants'
@@ -45,7 +46,7 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { Character, CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import type { PaletteResponse } from 'lib/characterPreview/color/vibrantFork'
+import type { PaletteResponse } from 'lib/characterPreview/color/colorThiefExtractor'
 
 const PALETTE_CACHE_KEY = 'colorDebug_colorthiefPalettes'
 
@@ -76,7 +77,7 @@ const SCALED_H = Math.ceil(parentH * SCALE)
 
 export function ColorPreviewGallery() {
   const [page, setPage] = useState(0)
-  const [shuffleSeed, setShuffleSeed] = useState(() => Math.random())
+  const [shuffleSeed, setShuffleSeed] = useState<number | null>(null)
   const [config, setConfig] = useState<ColorPipelineConfig>(() => cloneConfig(DEFAULT_CONFIG))
   const [extractor, setExtractor] = useState<Extractor>('colorthief')
   const [extractionProgress, setExtractionProgress] = useState('')
@@ -145,6 +146,24 @@ export function ColorPreviewGallery() {
   // Auto-trigger colorthief extraction on mount — use cache if available
   const extractionStarted = useRef(false)
   useEffect(() => {
+    // Debug: log current card state BEFORE we do anything
+    const metadata = getGameMetadata()
+    const logChars = allCharacters.slice(0, 3)
+    for (const char of logChars) {
+      const el = document.getElementById(`color-gallery-${char.id}`)
+      if (!el) continue
+      const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+      const name = metadata.characters[char.id]?.name ?? char.id
+      console.log(`[Gallery] EFFECT START — ${name}:`, {
+        extractionStarted: extractionStarted.current,
+        cardBg: el.style.getPropertyValue('--showcase-card-bg'),
+        cardBorder: el.style.getPropertyValue('--showcase-card-border'),
+        background: el.style.background,
+        portraitFilter: bgDiv?.style.filter || 'none set',
+        seed: colorThiefSeeds.current.get(char.id) ?? 'no seed',
+      })
+    }
+
     if (extractionStarted.current || extractor !== 'colorthief') return
     extractionStarted.current = true
 
@@ -156,7 +175,51 @@ export function ColorPreviewGallery() {
         colorThiefSeeds.current.set(k, pickSeedFromPalette(v))
       }
       setExtractionProgress(`Loaded ${colorThiefPalettes.current.size} palettes from cache`)
-      setTimeout(() => pushToAllCards(config), 100)
+      // Log what's being applied on mount/hot-reload
+      console.log('[Gallery] Mount/HMR state:', {
+        config: JSON.parse(JSON.stringify(config)),
+        portraitFilter: { ...portraitFilter },
+        heuristics: { ...heuristics },
+        seedCount: colorThiefSeeds.current.size,
+        firstSeed: colorThiefSeeds.current.values().next().value,
+      })
+      setTimeout(() => {
+        // Log what the first few cards look like before and after push
+        const logChars = allCharacters.slice(0, 5)
+        const metadata = getGameMetadata()
+        console.log('[Gallery] BEFORE pushToAllCards — first 5 cards:')
+        for (const char of logChars) {
+          const el = document.getElementById(`color-gallery-${char.id}`)
+          if (!el) continue
+          const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+          const name = metadata.characters[char.id]?.name ?? char.id
+          const bgVal = el.style.getPropertyValue('--showcase-card-bg')
+          console.log(`  ${name}:`, {
+            cardBg: bgVal,
+            cardBgOklch: bgVal ? (() => { try { return chroma(bgVal).oklch() } catch { return 'parse error' } })() : null,
+            cardBorder: el.style.getPropertyValue('--showcase-card-border'),
+            background: el.style.background,
+            portraitFilter: bgDiv?.style.filter || 'none',
+          })
+        }
+        pushToAllCards(config)
+        console.log('[Gallery] AFTER pushToAllCards — first 5 cards:')
+        for (const char of logChars) {
+          const el = document.getElementById(`color-gallery-${char.id}`)
+          if (!el) continue
+          const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+          const name = metadata.characters[char.id]?.name ?? char.id
+          const seed = getSeedColor(char.id)
+          console.log(`  ${name}:`, {
+            seed,
+            seedOklch: chroma(seed).oklch(),
+            cardBg: el.style.getPropertyValue('--showcase-card-bg'),
+            cardBorder: el.style.getPropertyValue('--showcase-card-border'),
+            background: el.style.background,
+            portraitFilter: bgDiv?.style.filter || 'none',
+          })
+        }
+      }, 100)
     } else {
       void runColorThiefExtraction(allCharacters, colorThiefPalettes.current, colorThiefSeeds.current, config, darkMode, setExtractionProgress)
     }
@@ -164,6 +227,7 @@ export function ColorPreviewGallery() {
   }, [allCharacters])
 
   const displayCharacters = useMemo(() => {
+    if (shuffleSeed == null) return allCharacters
     const shuffled = [...allCharacters]
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -291,8 +355,8 @@ export function ColorPreviewGallery() {
   }, [allCharacters, darkMode, getSeedColor, computeCardColors])
 
   // Push portrait background filter to all cards
-  const pushPortraitFilter = useCallback((filter: PortraitFilterConfig) => {
-    const filterStr = `blur(${filter.blur}px) brightness(${filter.brightness}) saturate(${filter.saturate})`
+  const pushPortraitFilter = useCallback((_filter?: PortraitFilterConfig) => {
+    const filterStr = buildPortraitFilterStr(getPortraitFilters())
     for (const char of allCharacters) {
       const el = document.getElementById(`color-gallery-${char.id}`)
       if (!el) continue
@@ -320,16 +384,19 @@ export function ColorPreviewGallery() {
   // -----------------------------------------------------------------------
   // Heuristics change — update state + re-push with new flags
   // -----------------------------------------------------------------------
-  // Edge palettes stored separately so we can swap back
+  // Alternate palettes stored separately so we can swap back
   const edgePalettes = useRef(new Map<string, PaletteResponse>())
   const edgeSeeds = useRef(new Map<string, string>())
   const edgeExtracted = useRef(false)
+  const blurPalettes = useRef(new Map<string, PaletteResponse>())
+  const blurSeeds = useRef(new Map<string, string>())
+  const blurExtracted = useRef(false)
 
   const handleHeuristicsChange = useCallback((next: HeuristicFlags) => {
     setHeuristics(next)
     heuristicsRef.current = next
 
-    // Edge sample toggled on: swap to edge palettes (extract if needed)
+    // Edge sample toggled on
     if (next.edgeSample && !heuristics.edgeSample) {
       if (edgeExtracted.current && edgePalettes.current.size > 0) {
         for (const [k, v] of edgeSeeds.current) colorThiefSeeds.current.set(k, v)
@@ -345,19 +412,49 @@ export function ColorPreviewGallery() {
       return
     }
 
-    // Edge sample toggled off: restore original seeds
-    if (!next.edgeSample && heuristics.edgeSample) {
+    // Blur sample toggled on
+    if (next.blurSample && !heuristics.blurSample) {
+      if (blurExtracted.current && blurPalettes.current.size > 0) {
+        for (const [k, v] of blurSeeds.current) colorThiefSeeds.current.set(k, v)
+        pushToAllCards(config, next)
+      } else {
+        blurExtracted.current = true
+        void runBlurExtraction(allCharacters, blurPalettes.current, blurSeeds.current, setExtractionProgress)
+          .then(() => {
+            for (const [k, v] of blurSeeds.current) colorThiefSeeds.current.set(k, v)
+            pushToAllCards(config, heuristicsRef.current)
+          })
+      }
+      return
+    }
+
+    // Edge/blur sample toggled off: restore original seeds
+    if ((!next.edgeSample && heuristics.edgeSample) || (!next.blurSample && heuristics.blurSample)) {
       for (const [k, v] of colorThiefPalettes.current) {
         colorThiefSeeds.current.set(k, pickSeedFromPalette(v))
       }
     }
 
     pushToAllCards(config, next)
-    // If adaptive portrait was toggled off, restore the manual portrait filter
     if (!next.adaptivePortrait) {
       pushPortraitFilter(portraitFilter)
     }
   }, [config, heuristics, allCharacters, pushToAllCards, pushPortraitFilter, portraitFilter])
+
+  // -----------------------------------------------------------------------
+  // Seed strategy change — re-derive all seeds from existing palettes
+  // -----------------------------------------------------------------------
+  useEffect(() => {
+    const handler = () => {
+      for (const [k, v] of colorThiefPalettes.current) {
+        colorThiefSeeds.current.set(k, pickSeedFromPalette(v))
+      }
+      pushToAllCards(config)
+      pushPortraitFilter()
+    }
+    window.addEventListener('seed-strategy-change', handler)
+    return () => window.removeEventListener('seed-strategy-change', handler)
+  }, [config, pushToAllCards, pushPortraitFilter])
 
   // -----------------------------------------------------------------------
   // Extractor change — run extraction for all characters
@@ -403,7 +500,7 @@ export function ColorPreviewGallery() {
           Next
         </Button>
         <Button size="xs" variant="light" onClick={() => {
-          setShuffleSeed((s) => s + 1)
+          setShuffleSeed((s) => (s ?? 0) + 1)
           // Re-push colors + portrait filter after shuffle re-renders
           setTimeout(() => { pushToAllCards(config); pushPortraitFilter(portraitFilter) }, 50)
         }}>
@@ -438,19 +535,46 @@ export function ColorPreviewGallery() {
           variant="light"
           color="cyan"
           onClick={() => {
-            // Show handpicked colors using original pipeline (with antd token derivation)
+            // Exact HMR replica: raw handpicked seed → old HSL pipeline, brightness 0.70, solid dark bg
+            const hmrPortraitFilter = 'blur(18px) brightness(0.70) saturate(0.80)'
             for (const char of allCharacters) {
               const el = document.getElementById(`color-gallery-${char.id}`)
               if (!el) continue
               const handpicked = getCharacterConfig(char.id)?.display.showcaseColor ?? DEFAULT_SHOWCASE_COLOR
-              const derived = deriveAntdColorPrimaryActive(handpicked)
-              el.style.setProperty('--showcase-card-bg', showcaseCardBackgroundColor(derived, darkMode))
-              el.style.setProperty('--showcase-card-border', showcaseCardBorderColor(derived, darkMode))
+              el.style.setProperty('--showcase-card-bg', showcaseCardBackgroundColor(handpicked, darkMode))
+              el.style.setProperty('--showcase-card-border', showcaseCardBorderColor(handpicked, darkMode))
+              el.style.background = showcaseBackgroundColor('#1a1b1e', darkMode)
+              const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+              if (bgDiv) {
+                bgDiv.style.filter = hmrPortraitFilter
+                bgDiv.style.webkitFilter = hmrPortraitFilter
+              }
             }
-            console.log('[Gallery] Applied handpicked colors via original pipeline (antd darkAlgorithm → HSL)')
+            setActivePresetName('handpickedHMR')
+            console.log('[Gallery] Applied HMR replica: handpicked → HSL, brightness 0.70, solid dark bg')
           }}
         >
           Show handpicked
+        </Button>
+        <Button
+          size="xs"
+          variant="light"
+          color="cyan"
+          onClick={() => {
+            // Apply old HSL pipeline using extracted seeds (what hot reload shows)
+            for (const char of allCharacters) {
+              const el = document.getElementById(`color-gallery-${char.id}`)
+              if (!el) continue
+              const seed = getSeedColor(char.id)
+              el.style.setProperty('--showcase-card-bg', showcaseCardBackgroundColor(seed, darkMode))
+              el.style.setProperty('--showcase-card-border', showcaseCardBorderColor(seed, darkMode))
+              el.style.background = showcaseBackgroundColor(seed, darkMode)
+            }
+            setActivePresetName('oldHSL')
+            console.log('[Gallery] Applied old HSL pipeline with extracted seeds')
+          }}
+        >
+          Old HSL pipeline
         </Button>
         <Button
           size="xs"
@@ -475,11 +599,50 @@ export function ColorPreviewGallery() {
         >
           Clear cache
         </Button>
+        <Button
+          size="xs"
+          variant="light"
+          color="pink"
+          onClick={() => {
+            void fetchDanbooruPortraits(
+              pageCharacters,
+              colorThiefPalettes.current,
+              colorThiefSeeds.current,
+              setExtractionProgress,
+              (charId) => {
+                // Re-push colors for this card using current config + heuristics
+                const el = document.getElementById(`color-gallery-${charId}`)
+                if (!el) return
+                const seed = colorThiefSeeds.current.get(charId)
+                if (!seed) return
+                const f = heuristicsRef.current
+                const anyH = Object.values(f).some(Boolean)
+                if (anyH) {
+                  el.style.setProperty('--showcase-card-bg', computeCardColors(seed, config, f, false))
+                  el.style.setProperty('--showcase-card-border', computeCardColors(seed, config, f, true))
+                } else {
+                  el.style.setProperty('--showcase-card-bg', oklchCardBackgroundColor(seed, darkMode, config))
+                  el.style.setProperty('--showcase-card-border', oklchCardBorderColor(seed, darkMode, config))
+                }
+                el.style.background = oklchBackgroundColor(seed, darkMode, config)
+                // Apply portrait filter
+                const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+                if (bgDiv) {
+                  const pFilterStr = buildPortraitFilterStr(getPortraitFilters())
+                  bgDiv.style.filter = pFilterStr
+                  bgDiv.style.webkitFilter = pFilterStr
+                }
+              },
+            )
+          }}
+        >
+          Danbooru portraits
+        </Button>
       </Group>
 
       <Flex wrap="wrap" gap={20} style={{ maxWidth: SCALED_W * 3 + 20 * 2 }}>
         {pageCharacters.map((character) => (
-          <div key={character.id} style={{ width: SCALED_W, height: SCALED_H, overflow: 'hidden' }}>
+          <div key={character.id} style={{ width: SCALED_W, height: SCALED_H, overflow: 'hidden', color: '#dddddd' }}>
             <div style={{ transform: `scale(${SCALE})`, transformOrigin: 'top left' }}>
               <CharacterPreview
                 character={character}
@@ -504,11 +667,32 @@ export function ColorPreviewGallery() {
         heuristics={heuristics}
         onConfigChange={handleConfigChange}
         onExtractorChange={handleExtractorChange}
-        onPresetApply={(presetConfig, seeds, presetName, presetPortrait) => {
+        onPresetApply={(presetConfig, seeds, presetName, presetPortrait, useHSL) => {
           for (const [k, v] of seeds) colorThiefSeeds.current.set(k, v)
           setActivePresetName(presetName)
-          handleConfigChange(presetConfig)
-          handlePortraitFilterChange(presetPortrait)
+
+          if (useHSL) {
+            // Apply old HSL pipeline with handpicked seeds (matches HMR / production)
+            const portraitFilterStr = `blur(${presetPortrait.blur}px) brightness(${presetPortrait.brightness}) saturate(${presetPortrait.saturate})`
+            for (const char of allCharacters) {
+              const el = document.getElementById(`color-gallery-${char.id}`)
+              if (!el) continue
+              const handpicked = getCharacterConfig(char.id)?.display.showcaseColor ?? DEFAULT_SHOWCASE_COLOR
+              el.style.setProperty('--showcase-card-bg', showcaseCardBackgroundColor(handpicked, darkMode))
+              el.style.setProperty('--showcase-card-border', showcaseCardBorderColor(handpicked, darkMode))
+              el.style.background = showcaseBackgroundColor('#1a1b1e', darkMode)
+              const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+              if (bgDiv) {
+                bgDiv.style.filter = portraitFilterStr
+                bgDiv.style.webkitFilter = portraitFilterStr
+              }
+            }
+            setConfig(presetConfig)
+            setPortraitFilter(presetPortrait)
+          } else {
+            handleConfigChange(presetConfig)
+            handlePortraitFilterChange(presetPortrait)
+          }
         }}
         onPortraitFilterChange={handlePortraitFilterChange}
         onHeuristicsChange={handleHeuristicsChange}
@@ -575,8 +759,9 @@ async function runColorThiefExtraction(
 
 // Default seed picker — delegates to the preset system's highestChroma strategy
 function pickSeedFromPalette(palette: PaletteResponse): string {
-  const { seeds } = applyPreset(FULL_PRESETS[0], new Map([['_', palette]]))
-  return seeds.get('_') ?? palette.Vibrant
+  const strategyName = window.__seedStrategy ?? 'midCool'
+  const picker = seedStrategies[strategyName] ?? seedStrategies.midCool
+  return picker(palette, 'aggressive')
 }
 
 // ---------------------------------------------------------------------------
@@ -621,6 +806,265 @@ function loadImageForEdge(src: string): Promise<HTMLImageElement> {
     img.onerror = reject
     img.src = src
   })
+}
+
+// ---------------------------------------------------------------------------
+// Blur extraction — simulates the blurred portrait background then extracts
+// ---------------------------------------------------------------------------
+async function runBlurExtraction(
+  characters: Character[],
+  paletteMap: Map<string, PaletteResponse>,
+  seedMap: Map<string, string>,
+  setProgress: (msg: string) => void,
+) {
+  let done = 0
+  setProgress(`Blur extracting 0/${characters.length}...`)
+
+  for (let i = 0; i < characters.length; i += CONCURRENCY) {
+    const batch = characters.slice(i, i + CONCURRENCY)
+    await Promise.all(batch.map(async (char) => {
+      try {
+        const imgSrc = Assets.getCharacterPortraitById(char.id)
+        const img = await loadImageForEdge(imgSrc)
+        const blurCanvas = createBlurredCanvas(img)
+        const palette = await getColorThiefPalette(blurCanvas)
+        if (palette) {
+          paletteMap.set(char.id, palette)
+          seedMap.set(char.id, pickSeedFromPalette(palette))
+        }
+      } catch (e) {
+        console.error(`[blurExtract] Failed for ${char.id}`, e)
+      }
+      done++
+    }))
+    setProgress(`Blur extracting ${done}/${characters.length}...`)
+  }
+  setProgress(`Blur extraction done — ${paletteMap.size} extracted`)
+}
+
+// ---------------------------------------------------------------------------
+// Danbooru portrait fetch — grab random character art + extract colors
+// Uses the public API with rating:general filter.
+// ---------------------------------------------------------------------------
+// Full mapping of game character names → Danbooru tags
+const DANBOORU_TAGS: Record<string, string> = {
+  'Acheron': 'acheron_(honkai:_star_rail)',
+  'Aglaea': 'aglaea_(honkai:_star_rail)',
+  'Anaxa': 'anaxa_(honkai:_star_rail)',
+  'Argenti': 'argenti_(honkai:_star_rail)',
+  'Arlan': 'arlan_(honkai:_star_rail)',
+  'Ashveil': 'ashveil_(honkai:_star_rail)',
+  'Asta': 'asta_(honkai:_star_rail)',
+  'Aventurine': 'aventurine_(honkai:_star_rail)',
+  'Bailu': 'bailu_(honkai:_star_rail)',
+  'Black Swan': 'black_swan_(honkai:_star_rail)',
+  'Blade': 'blade_(honkai:_star_rail)',
+  'Boothill': 'boothill_(honkai:_star_rail)',
+  'Bronya': 'bronya_rand',
+  'Castorice': 'castorice_(honkai:_star_rail)',
+  'Cerydra': 'cerydra_(honkai:_star_rail)',
+  'Cipher': 'cipher_(honkai:_star_rail)',
+  'Clara': 'clara_(honkai:_star_rail)',
+  'Cyrene': 'cyrene_(honkai:_star_rail)',
+  'Dan Heng': 'dan_heng_(honkai:_star_rail)',
+  'Dan Heng \u2022 Imbibitor Lunae': 'dan_heng_(imbibitor_lunae)_(honkai:_star_rail)',
+  'Dan Heng \u2022 Permansor Terrae': 'dan_heng_(permansor_terrae)_(honkai:_star_rail)',
+  'Dr. Ratio': 'dr._ratio_(honkai:_star_rail)',
+  'Evernight': 'evernight_(honkai:_star_rail)',
+  'Feixiao': 'feixiao_(honkai:_star_rail)',
+  'Firefly': 'firefly_(honkai:_star_rail)',
+  'Fu Xuan': 'fu_xuan_(honkai:_star_rail)',
+  'Fugue': 'fugue_(honkai:_star_rail)',
+  'Gallagher': 'gallagher_(honkai:_star_rail)',
+  'Gepard': 'gepard_landau',
+  'Guinaifen': 'guinaifen_(honkai:_star_rail)',
+  'Hanya': 'hanya_(honkai:_star_rail)',
+  'Herta': 'herta_(honkai:_star_rail)',
+  'Himeko': 'himeko_(honkai:_star_rail)',
+  'Hook': 'hook_(honkai:_star_rail)',
+  'Huohuo': 'huohuo_(honkai:_star_rail)',
+  'Hyacine': 'hyacine_(honkai:_star_rail)',
+  'Hysilens': 'hysilens_(honkai:_star_rail)',
+  'Jade': 'jade_(honkai:_star_rail)',
+  'Jiaoqiu': 'jiaoqiu_(honkai:_star_rail)',
+  'Jing Yuan': 'jing_yuan',
+  'Jingliu': 'jingliu_(honkai:_star_rail)',
+  'Kafka': 'kafka_(honkai:_star_rail)',
+  'Lingsha': 'lingsha_(honkai:_star_rail)',
+  'Luka': 'luka_(honkai:_star_rail)',
+  'Luocha': 'luocha_(honkai:_star_rail)',
+  'Lynx': 'lynx_landau',
+  'March 7th': 'march_7th_(honkai:_star_rail)',
+  'Misha': 'misha_(honkai:_star_rail)',
+  'Moze': 'moze_(honkai:_star_rail)',
+  'Mydei': 'mydei_(honkai:_star_rail)',
+  'Natasha': 'natasha_(honkai:_star_rail)',
+  'Pela': 'pela_(honkai:_star_rail)',
+  'Phainon': 'phainon_(honkai:_star_rail)',
+  'Qingque': 'qingque_(honkai:_star_rail)',
+  'Rappa': 'rappa_(honkai:_star_rail)',
+  'Robin': 'robin_(honkai:_star_rail)',
+  'Ruan Mei': 'ruan_mei_(honkai:_star_rail)',
+  'Sampo': 'sampo_koski',
+  'Seele': 'seele_(honkai:_star_rail)',
+  'Serval': 'serval_landau',
+  'Silver Wolf': 'silver_wolf_(honkai:_star_rail)',
+  'Sparkle': 'sparkle_(honkai:_star_rail)',
+  'Sunday': 'sunday_(honkai:_star_rail)',
+  'Sushang': 'sushang_(honkai:_star_rail)',
+  'The Herta': 'the_herta_(honkai:_star_rail)',
+  'Tingyun': 'tingyun_(honkai:_star_rail)',
+  'Topaz': 'topaz_(honkai:_star_rail)',
+  'Trailblazer': 'stelle_(honkai:_star_rail)',
+  'Tribbie': 'tribbie_(honkai:_star_rail)',
+  'Welt': 'welt_yang',
+  'Xueyi': 'xueyi_(honkai:_star_rail)',
+  'Yanqing': 'yanqing_(honkai:_star_rail)',
+  'Yao Guang': 'yao_guang_(honkai:_star_rail)',
+  'Yukong': 'yukong_(honkai:_star_rail)',
+  'Yunli': 'yunli_(honkai:_star_rail)',
+}
+
+function resolveDanbooruTag(name: string): string | null {
+  return DANBOORU_TAGS[name] ?? null
+}
+
+async function fetchDanbooruPortraits(
+  characters: Character[],
+  paletteMap: Map<string, PaletteResponse>,
+  seedMap: Map<string, string>,
+  setProgress: (msg: string) => void,
+  onCardReady?: (charId: string) => void,
+) {
+  const metadata = getGameMetadata()
+  let done = 0
+  let found = 0
+  setProgress(`Fetching Danbooru 0/${characters.length}...`)
+
+  for (let i = 0; i < characters.length; i++) {
+    const char = characters[i]
+    try {
+      const name = metadata.characters[char.id]?.name ?? char.id
+      const tag = resolveDanbooruTag(name)
+      if (!tag) { done++; continue }
+
+      // Try with solo first, fall back without it
+      let validPosts: { file_url?: string; large_file_url?: string }[] = []
+      for (const tags of [`${tag} rating:general solo`, `${tag} rating:general`]) {
+        const url = `https://danbooru.donmai.us/posts.json?` + new URLSearchParams({ tags, limit: '20' })
+        const resp = await fetch(url)
+        if (!resp.ok) continue
+        const posts = (await resp.json()) as { file_url?: string; large_file_url?: string }[]
+        validPosts = posts.filter((p) => p.file_url || p.large_file_url)
+        if (validPosts.length) break
+      }
+      if (!validPosts.length) {
+        console.warn(`[Danbooru] No results for ${name} (${tag})`)
+        continue
+      }
+
+      const post = validPosts[Math.floor(Math.random() * validPosts.length)]
+      const imageUrl = post.large_file_url || post.file_url!
+
+      // Fetch image as blob for both canvas extraction and display (avoids CORS)
+      const imgResp = await fetch(imageUrl)
+      const imgBlob = await imgResp.blob()
+      const displayUrl = URL.createObjectURL(imgBlob)
+
+      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const el = new Image()
+        el.onload = () => resolve(el)
+        el.onerror = reject
+        el.src = displayUrl
+      })
+
+      const el = document.getElementById(`color-gallery-${char.id}`)
+      if (el) {
+        const bgDiv = el.querySelector('[data-portrait-bg]') as HTMLElement | null
+        if (bgDiv) {
+          bgDiv.style.backgroundImage = `url(${displayUrl})`
+          const filterStr = buildPortraitFilterStr(getPortraitFilters())
+          bgDiv.style.filter = filterStr
+          bgDiv.style.webkitFilter = filterStr
+        }
+
+        const portraitContainer = el.querySelector('.character-build-portrait > div') as HTMLElement | null
+        const portraitImg = portraitContainer?.querySelector('img') as HTMLImageElement | null
+        if (portraitImg && portraitContainer) {
+          portraitImg.src = displayUrl
+          portraitImg.style.left = '0'
+          portraitImg.style.top = '0'
+          portraitImg.style.width = '100%'
+          portraitImg.style.height = '100%'
+          portraitImg.style.objectFit = 'cover'
+          portraitImg.style.objectPosition = 'center 20%'
+        }
+      }
+
+      const canvas = imageToCanvas(img)
+      const palette = await getColorThiefPalette(canvas)
+      if (palette) {
+        paletteMap.set(char.id, palette)
+        seedMap.set(char.id, pickSeedFromPalette(palette))
+        onCardReady?.(char.id)
+
+        // Debug: log seed color details
+        const seed = seedMap.get(char.id)!
+        const [sL, sC, sH] = chroma(seed).oklch()
+        const allColors = [palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted, ...palette.colors]
+        const colorInfo = allColors.slice(0, 6).map((c) => {
+          const [l, ch, h] = chroma(c).oklch()
+          return `${c} L:${l.toFixed(2)} C:${ch.toFixed(3)} H:${Math.round(h)}°`
+        })
+        console.log(
+          `[Danbooru] ${name}: seed=${seed} L:${sL.toFixed(2)} C:${sC.toFixed(3)} H:${Math.round(sH)}°\n` +
+          `  palette: ${colorInfo.join(' | ')}`,
+        )
+      }
+
+      found++
+    } catch (e) {
+      console.warn(`[Danbooru] Failed for ${char.id}`, e)
+    }
+    done++
+    setProgress(`Danbooru ${done}/${characters.length} (${found} found)...`)
+    await new Promise((r) => setTimeout(r, 1000))
+  }
+  setProgress(`Danbooru done — ${found}/${characters.length} found`)
+}
+
+async function loadImageCors(url: string): Promise<HTMLImageElement> {
+  // Try direct CORS load first
+  try {
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const el = new Image()
+      el.crossOrigin = 'anonymous'
+      el.onload = () => resolve(el)
+      el.onerror = reject
+      el.src = url
+    })
+    return img
+  } catch { /* CORS blocked — fall back to blob fetch */ }
+
+  // Fetch as blob to bypass CORS on the image
+  const resp = await fetch(url)
+  const blob = await resp.blob()
+  const blobUrl = URL.createObjectURL(blob)
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const el = new Image()
+    el.onload = () => { URL.revokeObjectURL(blobUrl); resolve(el) }
+    el.onerror = reject
+    el.src = blobUrl
+  })
+}
+
+function imageToCanvas(img: HTMLImageElement): HTMLCanvasElement {
+  const canvas = document.createElement('canvas')
+  canvas.width = img.naturalWidth
+  canvas.height = img.naturalHeight
+  const ctx = canvas.getContext('2d')!
+  ctx.drawImage(img, 0, 0)
+  return canvas
 }
 
 // ---------------------------------------------------------------------------

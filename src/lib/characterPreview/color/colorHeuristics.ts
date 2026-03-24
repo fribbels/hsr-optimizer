@@ -20,6 +20,7 @@ export interface HeuristicFlags {
   compBorder: boolean        // Analogous border hue (subtle shift)
   chromaCompensate: boolean  // Raise maxC ceiling to allow more chroma through
   edgeSample: boolean        // Extract from portrait edges
+  blurSample: boolean        // Extract from blurred portrait (matches visible bg)
 }
 
 export const DEFAULT_HEURISTIC_FLAGS: HeuristicFlags = {
@@ -33,6 +34,7 @@ export const DEFAULT_HEURISTIC_FLAGS: HeuristicFlags = {
   compBorder: false,
   chromaCompensate: false,
   edgeSample: false,
+  blurSample: false,
 }
 
 // ---------------------------------------------------------------------------
@@ -124,19 +126,38 @@ export function applyChromaLUT(c: number, h: number): number {
 }
 
 // ---------------------------------------------------------------------------
-// 3. Dislike Fix — Material You's DislikeAnalyzer
-// Yellow-greens (hue 90-111°) with chroma > 0.06 and L < 0.65 look muddy.
-// Fix: lighten to L=0.70 (makes them feel fresh/lime instead of rotting).
-// Thresholds adapted from HCT (chroma 16 ≈ OKLCH ~0.06, tone 65 ≈ L 0.65).
+// 3. Dislike Fix — expanded from Material You's DislikeAnalyzer
+// Yellow-greens (hue 80-130°) look muddy on dark backgrounds.
+// Pure yellows (hue 95-110°) are the worst offenders.
+// Fix: shift hue toward nearest clean color (green at 145° or orange at 65°)
+// and desaturate slightly. Lightness changes don't help because normalization
+// compresses everything back to targetL.
+// Also filters near-white/achromatic seeds (white bg problem).
 // ---------------------------------------------------------------------------
 export function fixDisliked(l: number, c: number, h: number): { l: number; c: number; h: number } {
   const hNorm = ((h % 360) + 360) % 360
-  const isDislikedHue = hNorm >= 90 && hNorm <= 111
-  const isChromatic = c > 0.06
-  const isDark = l < 0.65
-  if (isDislikedHue && isChromatic && isDark) {
-    return { l: 0.70, c, h }
+
+  // Near-white / achromatic: shift to a neutral blue-gray
+  if (c < 0.015 && l > 0.85) {
+    return { l, c: 0.02, h: 260 } // force a faint blue tint
   }
+
+  // Yellow-green danger zone: 70-155° (wider than Material You's 90-111°)
+  // Covers yellows, yellow-greens, and greens that look ugly on dark cards
+  if (hNorm >= 70 && hNorm <= 155 && c > 0.02) {
+    const center = 110 // worst point (yellow-green)
+    const dist = hNorm - center
+    // Push toward teal (175°) if on the green side, toward warm orange (50°) if warm side
+    const target = dist >= 0 ? 180 : 45
+    // Stronger push near the center, tapers at edges
+    const strength = 1 - Math.abs(dist) / 50
+    const clampedStrength = Math.max(0, Math.min(1, strength))
+    const newH = hNorm + (target - hNorm) * clampedStrength * 0.7
+    // Desaturate more aggressively near the center
+    const newC = c * (1 - clampedStrength * 0.3)
+    return { l, c: newC, h: newH }
+  }
+
   return { l, c, h }
 }
 
@@ -244,7 +265,7 @@ export const CHROMA_COMPENSATE_MAX_C_MULT = 1.5
 
 // ---------------------------------------------------------------------------
 // 10. Edge Sample — extract colors from portrait edges only
-// Draws image to canvas, masks center, returns ImageData for extraction.
+// Draws image to canvas, masks center, returns canvas for extraction.
 // ---------------------------------------------------------------------------
 export function createEdgeMaskedCanvas(
   img: HTMLImageElement,
@@ -266,6 +287,45 @@ export function createEdgeMaskedCanvas(
   ctx.clearRect(bx, by, w - 2 * bx, h - 2 * by)
 
   return canvas
+}
+
+// ---------------------------------------------------------------------------
+// 10b. Blur Sample — apply blur + brightness + saturate to simulate what
+// the blurred portrait background looks like, then extract from that.
+// Uses OffscreenCanvas filter support (or falls back to downscale blur).
+// ---------------------------------------------------------------------------
+export function createBlurredCanvas(
+  img: HTMLImageElement,
+  blur: number = 18,
+  brightness: number = 0.55,
+  saturate: number = 0.85,
+): HTMLCanvasElement {
+  // Downscale to speed up + simulate blur (1/4 size then scale back)
+  const scale = 0.25
+  const sw = Math.floor(img.naturalWidth * scale)
+  const sh = Math.floor(img.naturalHeight * scale)
+
+  // Step 1: downscale (acts as a rough blur)
+  const small = document.createElement('canvas')
+  small.width = sw
+  small.height = sh
+  const sCtx = small.getContext('2d')!
+  sCtx.drawImage(img, 0, 0, sw, sh)
+
+  // Step 2: apply brightness + saturate by drawing with filter if supported
+  const out = document.createElement('canvas')
+  out.width = sw
+  out.height = sh
+  const oCtx = out.getContext('2d')!
+  try {
+    oCtx.filter = `brightness(${brightness}) saturate(${saturate}) blur(${Math.round(blur * scale)}px)`
+    oCtx.drawImage(small, 0, 0)
+  } catch {
+    // Fallback: just use the downscaled version (no filter support)
+    oCtx.drawImage(small, 0, 0)
+  }
+
+  return out
 }
 
 // ---------------------------------------------------------------------------

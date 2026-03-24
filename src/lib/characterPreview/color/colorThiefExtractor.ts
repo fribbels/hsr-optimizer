@@ -1,10 +1,19 @@
 // ---------------------------------------------------------------------------
-// ColorThief-based palette extraction (parallel to vibrantFork.ts)
+// ColorThief-based palette extraction
 // Uses OKLCH quantization for perceptually uniform palette extraction.
 // ---------------------------------------------------------------------------
 
 import { getSwatches, getPalette as ctGetPalette } from 'colorthief'
-import type { PaletteResponse } from 'lib/characterPreview/color/vibrantFork'
+
+export type PaletteResponse = {
+  Vibrant: string
+  Muted: string
+  DarkVibrant: string
+  DarkMuted: string
+  LightVibrant: string
+  LightMuted: string
+  colors: string[]
+}
 
 const DEFAULT_FALLBACK = '#2241be'
 

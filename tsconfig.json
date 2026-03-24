@@ -9,7 +9,6 @@
     ],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "skipLibCheck": true,
@@ -21,7 +20,6 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
     "paths": {
       "*": ["./src/*"]
     },

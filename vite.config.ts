@@ -10,6 +10,8 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   build: {
+    target: 'esnext',
+    modulePreload: { polyfill: false },
     chunkSizeWarningLimit: 1000,
     rolldownOptions: {
       output: {

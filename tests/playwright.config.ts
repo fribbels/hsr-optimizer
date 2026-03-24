@@ -31,7 +31,7 @@ export default defineConfig({
   },
 
   use: {
-    actionTimeout: 0, // Maximum time each action such as `click()` can take. Defaults to 0 (no limit).
+    actionTimeout: 15000, // Maximum time each action such as `click()` can take.
     baseURL: 'http://localhost:3000/hsr-optimizer', // Base URL to use in actions like `await page.goto('/')`.
     trace: 'on-first-retry', // Collect trace when retrying the failed test.
     screenshot: 'only-on-failure', // Capture screenshot after each test failure.

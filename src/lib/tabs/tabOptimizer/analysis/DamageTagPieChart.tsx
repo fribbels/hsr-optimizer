@@ -10,7 +10,6 @@ import { localeNumberComma } from 'lib/utils/i18nUtils'
 import { useMemo, useState } from 'react'
 
 import {
-  Cell,
   Pie,
   PieChart,
 } from 'recharts'
@@ -73,11 +72,7 @@ export function DamageTagPieChart({ analysis }: {
             style={{ cursor: 'default' }}
             onMouseEnter={(_, index) => setHoveredSlice(slices[index])}
             onMouseLeave={() => setHoveredSlice(null)}
-          >
-            {slices.map((slice) => (
-              <Cell key={slice.damageType} fill={slice.color} style={{ cursor: 'default' }} />
-            ))}
-          </Pie>
+          />
         </PieChart>
 
         <ChartTooltipContainer tooltipRef={tooltipRef} visible={!!hoveredSlice}>

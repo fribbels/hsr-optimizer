@@ -9,7 +9,6 @@ import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CartesianGrid,
-  Cell,
   ErrorBar,
   Legend,
   Scatter,
@@ -19,10 +18,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import {
-  type NameType,
-  type ValueType,
-} from 'recharts/types/component/DefaultTooltipContent'
 import type { CharacterId } from 'types/character'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -37,6 +32,7 @@ type DataPoint = {
   name: string,
   id: CharacterId,
   owned: boolean,
+  fill: string,
   y: number,
   x: number,
   errX: [number, number],
@@ -56,6 +52,7 @@ export const Top10Panel = memo(({ scores, width: propWidth, height: propHeight }
       name: s.name,
       id: s.id,
       owned: s.owned,
+      fill: idxToColour(idx),
       y: N_Displayed - idx,
       x: s.score.averagePct,
       errX: [s.score.averagePct - s.score.worstPct, s.score.bestPct - s.score.averagePct],
@@ -102,17 +99,13 @@ export const Top10Panel = memo(({ scores, width: propWidth, height: propHeight }
         />
         <Tooltip content={TooltipContent} />
         <Legend align='right' verticalAlign='middle' width={legendWidth} content={<LegendContent scores={sortedScores} compact={compact} />} />
-        <Scatter data={data} animationDuration={300} animationEasing="ease">
-          {data.map((point, idx) => {
-            return (
-              <Cell
-                key={point.id}
-                fill={idxToColour(idx)}
-                style={{ cursor: 'pointer' }}
-                onClick={onClick(point.id)}
-              />
-            )
-          })}
+        <Scatter
+          data={data}
+          animationDuration={300}
+          animationEasing="ease"
+          style={{ cursor: 'pointer' }}
+          onClick={(entry) => onClick(entry.payload.id as CharacterId)()}
+        >
           <ErrorBar dataKey='errX' direction='x' stroke='#7d94b0' />
         </Scatter>
       </ScatterChart>
@@ -157,7 +150,7 @@ function LegendContent({ scores, compact }: { scores: PanelProps['scores']; comp
   )
 }
 
-function TooltipContent(props: TooltipContentProps<ValueType, NameType>) {
+function TooltipContent(props: TooltipContentProps) {
   const { payload } = props
 
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicInsights' })

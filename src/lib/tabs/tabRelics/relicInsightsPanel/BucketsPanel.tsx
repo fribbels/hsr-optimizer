@@ -21,10 +21,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import {
-  type NameType,
-  type ValueType,
-} from 'recharts/types/component/DefaultTooltipContent'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 
 type Bucket = Array<PanelProps['scores'][number]>
@@ -174,7 +170,7 @@ function ShapeFunction(untypedProps: unknown) {
   )
 }
 
-function TooltipContent(props: TooltipContentProps<ValueType, NameType>) {
+function TooltipContent(props: TooltipContentProps) {
   const { payload } = props
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicInsights' })
 

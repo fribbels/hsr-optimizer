@@ -78,7 +78,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@typescript/native-preview": "^7.0.0-dev.20260323.1",
-    "@vitejs/plugin-react-swc": "^4.3.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "@webgpu/types": "^0.1.69",
     "dprint": "^0.53.0",
     "gh-pages": "^6.3.0",

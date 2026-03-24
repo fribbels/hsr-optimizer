@@ -1,4 +1,4 @@
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -8,6 +8,9 @@ export default defineConfig({
   ],
   resolve: {
     tsconfigPaths: true,
+    alias: {
+      'cross-fetch': 'data:text/javascript,export default fetch',
+    },
   },
   build: {
     target: 'esnext',
@@ -23,6 +26,7 @@ export default defineConfig({
             { name: 'mantine', test: /node_modules[\\/]@mantine/, priority: 15 },
             { name: 'spine', test: /node_modules[\\/]@esotericsoftware/, priority: 15 },
             { name: 'i18n', test: /node_modules[\\/](i18next|js-yaml|react-i18next)/, priority: 15 },
+            { name: 'vendor-misc', test: /node_modules/, priority: 1 },
           ],
         },
         minify: {
@@ -39,6 +43,20 @@ export default defineConfig({
   server: {
     open: true,
     port: 3000,
+    warmup: {
+      clientFiles: [
+        'src/index.tsx',
+        'src/App.tsx',
+        'src/lib/tabs/Tabs.tsx',
+        'src/lib/sets/setConfigRegistry.ts',
+      ],
+    },
+    watch: {
+      ignored: [
+        '**/src/lib/simulations/tests/goldenData/**',
+        '**/public/assets/**',
+      ],
+    },
   },
   test: {
     environment: 'node',

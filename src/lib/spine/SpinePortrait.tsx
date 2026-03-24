@@ -29,36 +29,28 @@ export function SpinePortrait({
     const canvas = canvasRef.current!
     let disposed = false
 
-    async function init() {
-      try {
-        const count = await getSkeletonCount(characterId)
+    const count = getSkeletonCount(characterId)
 
-        if (count == null) {
+    if (count != null) {
+      const files = getSkeletonFiles(characterId, count)
+      const baseUrl = getSpineAssetBaseUrl(characterId)
+
+      createSpineInstance(canvas, baseUrl, files)
+        .then((instance) => {
+          if (disposed) {
+            instance.dispose()
+            return
+          }
+          instanceRef.current = instance
+          onReadyRef.current?.()
+        })
+        .catch((err) => {
+          console.error('SpinePortrait: failed to load', characterId, err)
           if (!disposed) onUnsupportedRef.current?.()
-          return
-        }
-
-        if (disposed) return
-
-        const files = getSkeletonFiles(characterId, count)
-        const baseUrl = getSpineAssetBaseUrl(characterId)
-
-        const instance = await createSpineInstance(canvas, baseUrl, files)
-
-        if (disposed) {
-          instance.dispose()
-          return
-        }
-
-        instanceRef.current = instance
-        onReadyRef.current?.()
-      } catch (err) {
-        console.error('SpinePortrait: failed to load', characterId, err)
-        if (!disposed) onUnsupportedRef.current?.()
-      }
+        })
+    } else {
+      onUnsupportedRef.current?.()
     }
-
-    init()
 
     return () => {
       disposed = true

@@ -85,16 +85,3 @@ export const DEFAULT_CONFIG: ColorPipelineConfig = {
     cScale: 0.90,
   },
 }
-
-// ---------------------------------------------------------------------------
-// Presets
-// ---------------------------------------------------------------------------
-
-export const PRESETS: Record<string, ColorPipelineConfig> = {
-  default: DEFAULT_CONFIG,
-}
-
-// Deep-clone a config so sliders can mutate freely
-export function cloneConfig(config: ColorPipelineConfig): ColorPipelineConfig {
-  return JSON.parse(JSON.stringify(config))
-}

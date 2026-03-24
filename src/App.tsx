@@ -10,7 +10,6 @@ import { Gradient } from 'lib/rendering/gradient'
 import { createMantineTheme, Themes } from 'lib/ui/theme'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { Tabs } from 'lib/tabs/Tabs'
-import { PortraitContrastSlider } from 'lib/characterPreview/CharacterPreview'
 import { useEffect } from 'react'
 
 const mantineTheme = createMantineTheme(Themes.BLUE)
@@ -48,7 +47,6 @@ export function App() {
             </div>
           </div>
           <GlobalModals />
-          <PortraitContrastSlider />
         </ConfirmModalProvider>
       </ModalsProvider>
     </MantineProvider>

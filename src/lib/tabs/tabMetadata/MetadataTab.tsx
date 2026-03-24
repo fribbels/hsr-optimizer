@@ -1,5 +1,5 @@
 import { Accordion, Flex } from '@mantine/core'
-import gameData from 'data/game_data.json'
+import gameData from 'data/game_data.json' with { type: 'json' }
 import type { TFunction } from 'i18next'
 import {
   type PathName,

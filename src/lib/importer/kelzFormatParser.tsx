@@ -1,4 +1,4 @@
-import gameData from 'data/game_data.json'
+import gameData from 'data/game_data.json' with { type: 'json' }
 import i18next from 'i18next'
 import {
   Constants,

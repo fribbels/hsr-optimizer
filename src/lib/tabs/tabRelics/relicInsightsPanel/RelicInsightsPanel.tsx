@@ -2,7 +2,7 @@ import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { getCharacterById } from 'lib/stores/character/characterStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
 import { useRelicById } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
@@ -29,6 +29,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
     })),
   )
   const scoringVersion = useScoringStore((s) => s.scoringVersion)
+  const characterCount = useCharacterStore((s) => s.characters.length)
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const selectedRelic = useRelicById(selectedRelicId)
   const { ref: containerRef, width: containerWidth } = useElementSize()
@@ -59,7 +60,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
           return sortAlphabeticEmojiLast('name')(a, b)
         } else return b.score.bestPct - a.score.bestPct
       })
-  }, [insightsCharacters, selectedRelic, excludedRelicPotentialCharacters, t, scoringVersion])
+  }, [insightsCharacters, selectedRelic, excludedRelicPotentialCharacters, t, scoringVersion, characterCount])
 
   const chartWidth = containerWidth || undefined
 

@@ -124,6 +124,7 @@ export type DamageTagSlice = {
   damageType: number
   label: string
   color: string
+  fill: string
   value: number
   percent: number
 }
@@ -150,10 +151,12 @@ export function extractDamageByTag(
 
   const slices: DamageTagSlice[] = []
   for (const [damageType, value] of totals) {
+    const color = getDamageTypeColor(damageType)
     slices.push({
       damageType,
       label: decodeDamageTypeLabel(damageType),
-      color: getDamageTypeColor(damageType),
+      color,
+      fill: color,
       value,
       percent: value / grandTotal,
     })

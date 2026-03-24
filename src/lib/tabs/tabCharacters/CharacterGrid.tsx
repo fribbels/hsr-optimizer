@@ -46,7 +46,9 @@ import React, {
 } from 'react'
 import type { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/frontendUtils'
-import { applyColorTransform, CharacterGridDebugPanel, type ColorTransform, type DebugToggles, EQUIP_DOT_COLORS, DEFAULT_COLOR_TRANSFORM, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
+import { CharacterGridDebugPanel, type DebugToggles, EQUIP_DOT_COLORS, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
+import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
+import { DEFAULT_CONFIG, type CardColorConfig } from 'lib/characterPreview/color/colorPipelineConfig'
 import { PartsArray } from 'lib/constants/constants'
 import classes from './CharacterGrid.module.css'
 
@@ -100,7 +102,7 @@ export function CharacterGrid() {
   const [localFocus, setLocalFocus] = useState<CharacterId | null>(null)
   const [activeId, setActiveId] = useState<CharacterId | null>(null)
   const [toggles, setToggles] = useState<DebugToggles>(DEFAULT_TOGGLES)
-  const [colorTransform, setColorTransform] = useState<ColorTransform>(DEFAULT_COLOR_TRANSFORM)
+  const [listColorConfig, setListColorConfig] = useState<CardColorConfig>({ ...DEFAULT_CONFIG.characterListBg })
 
   const [loadedCount, setLoadedCount] = useState(INITIAL_LOAD_COUNT)
 
@@ -201,7 +203,7 @@ export function CharacterGrid() {
 
   return (
     <>
-      <CharacterGridDebugPanel targetRef={gridRef} toggles={toggles} onTogglesChange={setToggles} colorTransform={colorTransform} onColorTransformChange={setColorTransform} />
+      <CharacterGridDebugPanel targetRef={gridRef} toggles={toggles} onTogglesChange={setToggles} listColorConfig={listColorConfig} onListColorConfigChange={setListColorConfig} />
       <OverlayScrollbarsComponent
         ref={osRef}
         className={classes.gridContainer}
@@ -219,7 +221,7 @@ export function CharacterGrid() {
                 isFocused={character.id === displayFocus}
                 loadImages={i < loadedCount}
                 toggles={toggles}
-                colorTransform={colorTransform}
+                listColorConfig={listColorConfig}
                 onClick={handleRowClick}
                 onDoubleClick={handleRowDoubleClick}
                 onEdit={handleEdit}
@@ -233,7 +235,7 @@ export function CharacterGrid() {
                 character={getCharacterById(activeId)!}
                 rank={rankMap.get(activeId) ?? 0}
                 toggles={toggles}
-                colorTransform={colorTransform}
+                listColorConfig={listColorConfig}
               />
             )}
           </DragOverlay>
@@ -249,14 +251,14 @@ type CharacterRowProps = {
   isFocused: boolean
   loadImages: boolean
   toggles: DebugToggles
-  colorTransform: ColorTransform
+  listColorConfig: CardColorConfig
   onClick: (id: CharacterId) => void
   onDoubleClick: (id: CharacterId) => void
   onEdit: (id: CharacterId) => void
   onRemove: (id: CharacterId) => void
 }
 
-const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, loadImages, toggles, colorTransform, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, loadImages, toggles, listColorConfig, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: character.id,
     animateLayoutChanges: () => false,
@@ -274,8 +276,8 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
   const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
 
   const backgroundColor = useMemo(
-    () => showcaseColor ? applyColorTransform(showcaseColor, colorTransform) : undefined,
-    [showcaseColor, colorTransform],
+    () => showcaseColor ? oklchCharacterListColor(showcaseColor, true, { ...DEFAULT_CONFIG, characterListBg: listColorConfig }) : undefined,
+    [showcaseColor, listColorConfig],
   )
 
   const style: React.CSSProperties = {
@@ -314,19 +316,19 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
     && prev.isFocused === next.isFocused
     && prev.loadImages === next.loadImages
     && prev.toggles === next.toggles
-    && prev.colorTransform === next.colorTransform
+    && prev.listColorConfig === next.listColorConfig
 })
 
-function DragOverlayRow({ character, rank, toggles, colorTransform }: {
+function DragOverlayRow({ character, rank, toggles, listColorConfig }: {
   character: Character
   rank: number
   toggles: DebugToggles
-  colorTransform: ColorTransform
+  listColorConfig: CardColorConfig
 }) {
   const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
 
   const style: React.CSSProperties = {
-    backgroundColor: showcaseColor ? applyColorTransform(showcaseColor, colorTransform) : undefined,
+    backgroundColor: showcaseColor ? oklchCharacterListColor(showcaseColor, true, { ...DEFAULT_CONFIG, characterListBg: listColorConfig }) : undefined,
     cursor: 'grabbing',
   }
 

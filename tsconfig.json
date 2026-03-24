@@ -43,6 +43,7 @@
     "node_modules",
     "playwright-report",
     "test-results",
-    "tests"
+    "tests",
+    "src/lib/simulations/tests/goldenData"
   ]
 }

@@ -34,6 +34,7 @@ export interface ColorPipelineConfig {
   cardBg: CardColorConfig
   cardBorder: CardColorConfig
   outerBg: CardColorConfig
+  characterListBg: CardColorConfig
   darkMode: DarkModeConfig
 }
 
@@ -79,6 +80,18 @@ export const DEFAULT_CONFIG: ColorPipelineConfig = {
     maxC: 0.01,
     hueShift: 0,
     alpha: 0.0,
+  },
+  characterListBg: {
+    targetL: 0.50,
+    lInputScale: 0.0,
+    minL: 0.10,
+    maxL: 0.60,
+    chromaScale: 1.00,
+    chromaPower: 1.0,
+    minC: 0.10,
+    maxC: 0.20,
+    hueShift: 0,
+    alpha: 0.50,
   },
   darkMode: {
     lOffset: -0.02,

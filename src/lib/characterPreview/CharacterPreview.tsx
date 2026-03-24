@@ -29,6 +29,7 @@ import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScor
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { resolveShowcaseLayout } from 'lib/characterPreview/useShowcaseDerivedData'
 import { resolveShowcaseColor, resolveShowcaseTheme } from 'lib/characterPreview/color/showcaseColorService'
+import { oklchSeedPreviewHex } from 'lib/characterPreview/color/colorUtilsOklch'
 import {
   cardTotalW,
   defaultGap,
@@ -46,6 +47,7 @@ import {
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'

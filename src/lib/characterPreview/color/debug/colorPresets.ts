@@ -202,11 +202,11 @@ const seedPreprocessors: Record<string, SeedPreprocessor> = {
   antdDerived: (s) => deriveAntdColorPrimaryActive(s),
   chromaBoost: (s) => {
     const [l, c, h] = chroma(s).oklch()
-    return chroma.oklch(l, Math.min(c * 1.5, 0.35), h).hex()
+    return chroma.oklch(l, Math.min(c * 1.5, 0.35), Number.isNaN(h) ? 0 : h).hex()
   },
   desat: (s) => {
     const [l, c, h] = chroma(s).oklch()
-    return chroma.oklch(l, c * 0.5, h).hex()
+    return chroma.oklch(l, c * 0.5, Number.isNaN(h) ? 0 : h).hex()
   },
 }
 

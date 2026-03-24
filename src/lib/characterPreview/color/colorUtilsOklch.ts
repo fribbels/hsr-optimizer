@@ -20,6 +20,11 @@ function normalizeOklch(seedColor: string, cfg: CardColorConfig): string {
   const rawL = cfg.targetL + (l - 0.5) * cfg.lInputScale
   const outL = Math.max(cfg.minL, Math.min(rawL, cfg.maxL))
 
+  // Near-achromatic input: preserve as grey, don't inject phantom hue
+  if (c < 0.01 || Number.isNaN(h)) {
+    return chroma.oklch(outL, 0, 0).alpha(cfg.alpha).css()
+  }
+
   // Chroma: power curve then linear scale, clamped
   const powered = Math.pow(c, cfg.chromaPower)
   const scaledC = Math.max(cfg.minC, Math.min(powered * cfg.chromaScale, cfg.maxC))
@@ -41,13 +46,28 @@ function applyDarkMode(color: string, darkMode: boolean, config: ColorPipelineCo
   return chroma.oklch(
     Math.max(0, l + config.darkMode.lOffset),
     c * config.darkMode.cScale,
-    h,
+    Number.isNaN(h) ? 0 : h,
   ).alpha(a).css()
 }
 
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
+
+/**
+ * Returns the solid hex color that the pipeline would produce for a seed.
+ * Useful for showing swatches that reflect actual card appearance.
+ */
+export function oklchSeedPreviewHex(
+  seedColor: string,
+  darkMode: boolean,
+  config: ColorPipelineConfig = DEFAULT_CONFIG,
+): string {
+  const base = normalizeOklch(seedColor, config.cardBg)
+  const adjusted = applyDarkMode(base, darkMode, config)
+  // Strip alpha — force 6-digit hex
+  return chroma(adjusted).alpha(1).hex('rgb')
+}
 
 export function oklchCardBackgroundColor(
   seedColor: string,

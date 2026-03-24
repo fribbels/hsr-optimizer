@@ -19,6 +19,6 @@ export function deriveAntdColorPrimaryActive(seedColor: string): string {
   return chroma.oklch(
     0.704 * l + 0.044,
     0.70 * c,
-    h,
+    Number.isNaN(h) ? 0 : h,
   ).hex()
 }

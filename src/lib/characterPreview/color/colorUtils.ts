@@ -16,48 +16,52 @@ export function showcaseBackgroundColor(color: string, darkMode: boolean) {
 }
 
 
-const TARGET_BLUE = '#2241be'
+const DEFAULT_FALLBACK = '#2241be'
 
-export function selectClosestColor(colors: string[]): string {
-  const targetBlue = TARGET_BLUE
-
-  if (!colors || colors.length === 0) {
-    return targetBlue
-  }
-
-  const orangenessValues = colors.map(measureOrangeness)
-
-  if (orangenessValues.every((orangeness) => orangeness > 0.4)) {
-    return targetBlue
-  }
-
-  return colors.reduce((closestColor, currentColor, index) => {
-    const deltaEClosest = chroma.deltaE(closestColor, targetBlue)
-    const deltaECurrent = chroma.deltaE(currentColor, targetBlue)
-
-    const orangenessClosest = measureOrangeness(closestColor)
-    const orangenessCurrent = measureOrangeness(currentColor)
-
-    const penalizedClosest = deltaEClosest * (1 + orangenessClosest)
-    const penalizedCurrent = deltaECurrent * (1 + orangenessCurrent)
-
-    return penalizedCurrent < penalizedClosest ? currentColor : closestColor
+/**
+ * Pick the best seed color from a palette using the midCool strategy:
+ * Score = chroma × cool hue bias × bell curve around L=0.45.
+ * Avoids skin tones, muddy browns, and near-white/near-black.
+ */
+export function pickBestSeed(palette: PaletteResponse): string {
+  const all = [
+    palette.Vibrant, palette.DarkVibrant, palette.Muted,
+    palette.DarkMuted, palette.LightVibrant, palette.LightMuted,
+    ...palette.colors,
+  ].filter((c) => {
+    if (c === DEFAULT_FALLBACK) return false
+    const [l, ch] = chroma(c).oklch()
+    if (l > 0.90 && ch < 0.03) return false
+    if (l < 0.05) return false
+    return true
   })
-}
 
-function measureOrangeness(color: string): number {
-  const targetHue = 37.5
-  const orangeRange = 40
-  const [hue, saturation, lightness] = chroma(color).hsl()
+  if (!all.length) return DEFAULT_FALLBACK
 
-  const hueDifference = Math.abs(hue - targetHue)
-  const orangenessHue = 1 - Math.min(hueDifference / orangeRange, 1)
+  let best = all[0]
+  let bestScore = -Infinity
 
-  const saturationAdjustment = Math.max(0, saturation - 0.2) // Ignore very desaturated colors
+  for (const color of all) {
+    const [l, c, h] = chroma(color).oklch()
+    let score = c
 
-  const orangeness = 0.8 * orangenessHue + 0.2 * saturationAdjustment
+    // Avoid skin tones, browns, muddy warm tones
+    if (!Number.isNaN(h)) {
+      if (h >= 10 && h <= 80 && c < 0.22) score *= 0.1
+      if (h >= 40 && h <= 70 && c > 0.02 && c < 0.12) score *= 0.1
+    }
 
-  return orangeness
+    // Cool hue bias (180-310°)
+    if (!Number.isNaN(h) && h >= 180 && h <= 310) score *= 1.5
+
+    // Bell curve around L=0.45 — prefer mid-lightness
+    const lDist = Math.abs(l - 0.45)
+    score *= Math.max(0.2, 1 - lDist * 2)
+
+    if (score > bestScore) { bestScore = score; best = color }
+  }
+
+  return best
 }
 
 function colorSorter(a: string, b: string): number {
@@ -105,7 +109,7 @@ export function organizeColors(palette: PaletteResponse) {
 }
 
 export function modifyCustomColor(hex: string) {
-  if (hex === TARGET_BLUE) return hex
+  if (hex === DEFAULT_FALLBACK) return hex
 
   const color = chroma(hex)
 

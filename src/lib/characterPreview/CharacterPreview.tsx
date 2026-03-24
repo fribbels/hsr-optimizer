@@ -53,7 +53,7 @@ import {
   showcaseBackgroundColor,
   modifyCustomColor,
   organizeColors,
-  selectClosestColor,
+  pickBestSeed,
 } from 'lib/characterPreview/color/colorUtils'
 import { getColorThiefPalette } from 'lib/characterPreview/color/colorThiefExtractor'
 import {
@@ -96,7 +96,7 @@ interface CharacterPreviewPropsBase {
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
 // Finalized portrait background filter — "X" preset from tuning
-const PORTRAIT_FILTER = 'blur(22px) brightness(0.375) saturate(2.50)'
+const PORTRAIT_FILTER = 'blur(22px) brightness(0.35) saturate(2.50)'
 
 export function CharacterPreview({
   character,
@@ -189,9 +189,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       if (aborted || !palette) return
       const swatches = organizeColors(palette)
       const color = portraitImageUrl
-        ? modifyCustomColor(
-            selectClosestColor([palette.Vibrant, palette.DarkVibrant, palette.Muted, palette.DarkMuted, palette.LightVibrant, palette.LightMuted]),
-          )
+        ? modifyCustomColor(pickBestSeed(palette))
         : undefined
       useShowcaseTabStore.getState().setPortraitPalette(character.id, color, swatches)
     })()

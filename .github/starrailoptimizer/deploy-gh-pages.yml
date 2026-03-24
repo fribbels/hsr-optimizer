@@ -15,10 +15,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
       - run: git config --global user.email "starrailoptimizer@gmail.com"
       - run: git config --global user.name "GH Actions"
       - run: git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/starrailoptimizer/starrailoptimizer.github.io
-      - run: npm install
+      - run: npm ci
       - run: npm run deploy

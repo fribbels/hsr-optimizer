@@ -28,9 +28,39 @@ import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 import 'style/tokens.css'
 import 'style/global.css'
 import 'style/ag-grid-overrides.css'
-import { AllCommunityModule, ModuleRegistry, provideGlobalGridOptions } from 'ag-grid-community'
+import {
+  CellStyleModule,
+  ClientSideRowModelApiModule,
+  ClientSideRowModelModule,
+  ColumnApiModule,
+  ExternalFilterModule,
+  InfiniteRowModelModule,
+  LocaleModule,
+  ModuleRegistry,
+  PaginationModule,
+  PinnedRowModule,
+  provideGlobalGridOptions,
+  RenderApiModule,
+  RowApiModule,
+  RowSelectionModule,
+  ScrollApiModule,
+} from 'ag-grid-community'
 
-ModuleRegistry.registerModules([AllCommunityModule])
+ModuleRegistry.registerModules([
+  CellStyleModule,
+  ClientSideRowModelApiModule,
+  ClientSideRowModelModule,
+  ColumnApiModule,
+  ExternalFilterModule,
+  InfiniteRowModelModule,
+  LocaleModule,
+  PaginationModule,
+  PinnedRowModule,
+  RenderApiModule,
+  RowApiModule,
+  RowSelectionModule,
+  ScrollApiModule,
+])
 provideGlobalGridOptions({ theme: 'legacy' })
 import 'style/selecto.css'
 import 'style/components.css'

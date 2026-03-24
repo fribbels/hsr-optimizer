@@ -86,7 +86,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
     width: tempInnerW * spineCenter.z,
   }
 
-  const useSpine = !disableSpine && !spineFallback && false
+  const useSpine = !disableSpine && !spineFallback
 
   return (
     <div

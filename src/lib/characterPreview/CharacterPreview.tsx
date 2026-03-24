@@ -173,7 +173,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   // ===== Portrait palette extraction =====
-  // Extracts color swatches via vibrant for the customization sidebar.
+  // Extracts color swatches for the customization sidebar.
   // Runs as an effect so it works regardless of display mode (Spine, image, custom).
   const portraitImageUrl = character.portrait?.imageUrl
   useEffect(() => {
@@ -299,7 +299,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         style={{
           '--showcase-card-bg': derivedShowcaseTheme.cardBackgroundColor,
           '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
-          color: '#e0e0e0',
+          color: '#d7d7d7',
           textShadow: '0px 0px 3px rgba(0,0,0,0.9), 0px 0px 1px rgba(0,0,0,0.7)',
           position: 'relative',
           display: 'flex',

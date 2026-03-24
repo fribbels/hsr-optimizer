@@ -4,6 +4,7 @@ import { modals } from '@mantine/modals'
 import {
   Parts,
   Stats,
+  type SubStats,
 } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -58,7 +59,7 @@ function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata): ScoringAl
   return scoringMetadataForForm
 }
 
-function StatValueRow({ stat, form }: { stat: string, form: UseFormReturnType<ScoringAlgorithmForm> }) {
+function StatValueRow({ stat, form }: { stat: SubStats, form: UseFormReturnType<ScoringAlgorithmForm> }) {
   const { t } = useTranslation('common')
   return (
     <Flex style={{ width: panelWidth }} align='center' gap={5}>

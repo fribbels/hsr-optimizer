@@ -86,7 +86,7 @@ export function RelicModalContent() {
 
   // ── DERIVED STATE: computed inline during render ──
   const formValues = relicForm.getValues()
-  const mainStatOptions = computeMainStatOptions(formValues.part, t)
+  const mainStatOptions = computeMainStatOptions(formValues.part)
   const mainStatDisplayValue = computeMainStatDisplayValue(formValues.mainStatType, formValues.grade, formValues.enhance)
   const upgradeValues = calculateUpgradeValues(formValues)
 

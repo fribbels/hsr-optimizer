@@ -1,11 +1,11 @@
 import i18next from 'i18next'
-import type { TFunction } from 'i18next'
 import {
   Constants,
   type MainStats,
   type Parts,
   type Sets,
   Stats,
+  type StatsValues,
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
@@ -74,10 +74,11 @@ export function computeInitialFormValues(config: RelicModalConfig): RelicForm {
 
 // ─── Derived state (computed during render) ──────────────────────────────────
 
-export function computeMainStatOptions(part: Parts | undefined, t: TFunction): MainStatOption[] {
+export function computeMainStatOptions(part: Parts | undefined): MainStatOption[] {
   if (!part) return []
+  const tStats = i18next.getFixedT(null, 'common', 'Stats')
   return Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
-    label: t(`common:Stats.${entry[1]}`),
+    label: tStats(entry[1] as StatsValues),
     value: entry[1],
     icon: Assets.getStatIcon(entry[1], true),
   }))

@@ -17,7 +17,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "vitest": "vitest --dir src/lib --no-watch --pool=threads",
-    "vitest:fast": "vitest --dir src/lib --no-watch --pool=threads --exclude '**/simulations/tests/**/*Orchestrator*' --exclude '**/simulations/tests/goldenData/**'",
+    "vitest:fast": "vitest --dir src/lib --no-watch --pool=threads --exclude '**/simulations/tests/**/*Orchestrator*' --exclude '**/simulations/tests/goldenData/**' --exclude '**/searchTreeBenchmark*'",
     "vitest:silent": "vitest --dir src/lib --no-watch --pool=threads --silent",
     "bench:simbuild:generate": "vitest run src/lib/simulations/tests/goldenData/generateSimBuildGoldenData.test.ts --reporter=verbose",
     "bench:simbuild:verify": "vitest run src/lib/simulations/tests/goldenData/verifySimBuildGoldenData.test.ts --reporter=verbose",
@@ -35,18 +35,6 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

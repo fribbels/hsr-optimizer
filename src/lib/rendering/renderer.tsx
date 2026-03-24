@@ -4,7 +4,7 @@ import {
 } from '@tabler/icons-react'
 import { type ValueFormatterParams } from 'ag-grid-community'
 import { type CustomCellRendererProps } from 'ag-grid-react'
-import { Flex, Tooltip } from '@mantine/core'
+import { Tooltip } from '@mantine/core'
 import i18next from 'i18next'
 import { CircleIcon } from 'icons/CircleIcon'
 import { RingedCircle4Icon } from 'icons/RingedCircle4Icon'
@@ -47,16 +47,25 @@ const gradeToColor = {
 
 // Hoisted style constants for hot-path cell renderers
 const IMG_STYLE_32 = { width: 32 } as const
-const CELL_CENTER_STYLE = { marginTop: -1 } as const
-const PART_ICON_STYLE = { marginTop: -1, width: 20, marginBottom: 3 } as const
+const CELL_CENTER_STYLE = { display: 'flex', justifyContent: 'center', marginTop: -1 } as const
+const PART_ICON_STYLE = { display: 'flex', justifyContent: 'center', marginTop: -1, width: 20, marginBottom: 3 } as const
 const ICON_BLOCK_STYLE = { display: 'block' } as const
 const EQUIPPED_GREEN_STYLE = { color: '#6de362', display: 'block' } as const
 const EQUIPPED_RED_STYLE = { color: '#de5555', display: 'block' } as const
 
+// Precomputed set image URLs — avoids per-render Assets.getSetImage() calls (which allocate partToId + new URL each time)
+const relicIndexToImage = SetsRelicsNames.map((name) => Assets.getSetImage(name, Constants.Parts.Head))
+const ornamentIndexToImage = SetsOrnamentsNames.map((name) => Assets.getSetImage(name, Constants.Parts.PlanarSphere))
+
+// Pre-warm browser image cache — ensures compressed bytes are in memory cache (not just disk),
+// making synchronous decode near-instant when AG Grid creates new <img> elements during scroll
+for (const url of relicIndexToImage) { new Image().src = url }
+for (const url of ornamentIndexToImage) { new Image().src = url }
+
 function SetDisplay(props: { asset: string }) {
   if (props.asset) {
     return (
-      <img src={props.asset} style={IMG_STYLE_32} />
+      <img src={props.asset} decoding="sync" style={IMG_STYLE_32} />
     )
   } else {
     return ''
@@ -86,41 +95,29 @@ export const Renderer = {
   relicSet: (x: CustomCellRendererProps<OptimizerDisplayDataStatSim, number>) => {
     if (x?.value == null || isNaN(x.value)) return ''
     const i = x.value
-
     const count = RelicSetCount
-    const setImages: string[] = []
 
     const s1 = i % count
     const s2 = ((i - s1) / count) % count
     const s3 = ((i - s2 * count - s1) / (count * count)) % count
     const s4 = ((i - s3 * count * count - s2 * count - s1) / (count * count * count)) % count
 
-    const relicSets = [s1, s2, s3, s4]
+    // Find 2-piece set pairs from 4 slot indices — direct detection, no allocation
+    let img1: string | undefined
+    let img2: string | undefined
+    if (s1 === s2 || s1 === s3 || s1 === s4) img1 = relicIndexToImage[s1]
+    if (s3 === s4 && s3 !== s1) img2 = relicIndexToImage[s3]
+    else if (s2 === s3 && s2 !== s1) img2 = relicIndexToImage[s2]
+    else if (s2 === s4 && s2 !== s1) img2 = relicIndexToImage[s2]
 
-    while (relicSets.length > 0) {
-      const value = relicSets[0]
-      if (relicSets.lastIndexOf(value)) {
-        const setName = SetsRelicsNames[value]
-        if (!setName) {
-          relicSets.splice(0, 1)
-          continue
-        }
-        const assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
-        setImages.push(assetValue)
-
-        const otherIndex = relicSets.lastIndexOf(value)
-        relicSets.splice(otherIndex, 1)
-      }
-      relicSets.splice(0, 1)
-    }
-
-    setImages.sort()
+    // Stable ordering
+    if (img1 && img2 && img1 > img2) { const tmp = img1; img1 = img2; img2 = tmp }
 
     return (
-      <Flex justify='center' style={CELL_CENTER_STYLE}>
-        <SetDisplay asset={setImages[0]} />
-        <SetDisplay asset={setImages[1]} />
-      </Flex>
+      <div style={CELL_CENTER_STYLE}>
+        <SetDisplay asset={img1 ?? ''} />
+        <SetDisplay asset={img2 ?? ''} />
+      </div>
     )
   },
 
@@ -128,21 +125,18 @@ export const Renderer = {
     if (x?.value == null) return ''
     const i = x.value
 
-    const ornamentSetCount = OrnamentSetCount
-
-    const s1 = i % ornamentSetCount
-    const s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
+    const s1 = i % OrnamentSetCount
+    const s2 = ((i - s1) / OrnamentSetCount) % OrnamentSetCount
 
     if (s1 !== s2) return ''
 
-    const setName = SetsOrnamentsNames[s1]
-    if (!setName) return ''
-    const setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
+    const setImage = ornamentIndexToImage[s1]
+    if (!setImage) return ''
 
     return (
-      <Flex justify='center' style={CELL_CENTER_STYLE}>
+      <div style={CELL_CENTER_STYLE}>
         <SetDisplay asset={setImage} />
-      </Flex>
+      </div>
     )
   },
 
@@ -152,9 +146,9 @@ export const Renderer = {
 
     const src = Assets.getSetImage(data.set, data.part)
     return (
-      <Flex justify='center' title={data.set} style={CELL_CENTER_STYLE}>
+      <div title={data.set} style={CELL_CENTER_STYLE}>
         <SetDisplay asset={src} />
-      </Flex>
+      </div>
     )
   },
 
@@ -164,9 +158,9 @@ export const Renderer = {
 
     const src = Assets.getCharacterAvatarById(equippedBy)
     return (
-      <Flex justify='center' style={CELL_CENTER_STYLE}>
+      <div style={CELL_CENTER_STYLE}>
         <SetDisplay asset={src} />
-      </Flex>
+      </div>
     )
   },
 
@@ -183,9 +177,9 @@ export const Renderer = {
   partIcon: <T,>(x: ValueFormatterParams<T, string>) => {
     if (x?.value == null) return ''
     return (
-      <Flex justify='center' style={PART_ICON_STYLE}>
+      <div style={PART_ICON_STYLE}>
         <SetDisplay asset={Assets.getPart(x.value)} />
-      </Flex>
+      </div>
     )
   },
 

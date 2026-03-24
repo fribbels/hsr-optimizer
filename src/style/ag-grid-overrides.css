@@ -15,7 +15,7 @@
    ═══════════════════════════════════════════ */
 
 .ag-body-viewport {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 .ag-body-horizontal-scroll {

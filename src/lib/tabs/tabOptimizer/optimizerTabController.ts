@@ -14,7 +14,7 @@ import type {
   OptimizerDisplayData,
   OptimizerDisplayDataStatSim,
 } from 'lib/optimization/bufferPacker'
-import type { GridAggregations } from 'lib/rendering/gradient'
+import { Gradient, type GridAggregations } from 'lib/rendering/gradient'
 import {
   columnsToAggregateMap,
   getGridColumn,
@@ -29,7 +29,7 @@ import {
   optimizerFormCache,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { gridStore } from 'lib/stores/gridStore'
-import { sleep, smoothScrollNearest } from 'lib/utils/frontendUtils'
+import { smoothScrollNearest } from 'lib/utils/frontendUtils'
 import type {
   Form,
   OptimizerForm,
@@ -182,16 +182,18 @@ export const OptimizerTabController = {
 
     return {
       getRows: (params: IGetRowsParams) => {
-        controllerState.aggregations = undefined
+        Gradient.clearOptimizerGradientCache()
 
         // fast clickers can race unmount/remount and cause NPE here.
         gridStore.optimizerGridApi()?.setGridOption('loading', true)
 
-        // Give it time to show the loading page before we block
-        void sleep(100)
-          .then(() => {
-            if (params.sortModel.length > 0 && params.sortModel[0] != controllerState.sortModel) {
-              controllerState.sortModel = params.sortModel[0]
+        // Yield one frame so the loading indicator can paint before we block
+        requestAnimationFrame(() => {
+            const newSort = params.sortModel[0]
+            if (params.sortModel.length > 0
+              && (newSort.colId !== (controllerState.sortModel as any).colId
+                || newSort.sort !== (controllerState.sortModel as any).sort)) {
+              controllerState.sortModel = newSort
               sort()
             }
 
@@ -213,7 +215,6 @@ export const OptimizerTabController = {
 
             // cannot assume a fast click race-condition didn't happen
             gridStore.optimizerGridApi()?.setGridOption('loading', false)
-            OptimizerTabController.redrawRows()
           })
       },
     }

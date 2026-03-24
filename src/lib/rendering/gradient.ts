@@ -13,6 +13,7 @@ export type GridAggregations = {
 
 const optimizerGridGradient = chroma.scale(['#5A1A06', '#343127', '#38821F']).domain([0, 0.35, 1])
 const NEUTRAL_OPTIMIZER_STYLE = { '--cell-bg': optimizerGridGradient(0.5).hex() } as const
+let optimizerGradientCache = new Map<number, { '--cell-bg': string }>()
 
 // this default is overwritten on page load, Gradient.setTheme() in App.tsx
 let relicGridGradient = chroma.scale(['#343127', '#38821F'])
@@ -44,38 +45,35 @@ export const Gradient = {
     return gradient(decimal).hex()
   },
 
+  clearOptimizerGradientCache() {
+    optimizerGradientCache = new Map()
+  },
+
   getOptimizerColumnGradient: (params: CellClassParams<OptimizerDisplayDataStatSim, number>) => {
+    if (!params.data) return
+    if (params.value == null) return
+
     const aggregations = OptimizerTabController.getAggregations()
+    if (!aggregations) return NEUTRAL_OPTIMIZER_STYLE
 
-    try {
-      const colId = params.column.getColId()
+    const colId = params.column.getColId()
+    const min = aggregations.min[colId]
+    const max = aggregations.max[colId]
+    if (min == null) return
 
-      const columnsToAggregate = OptimizerTabController.getColumnsToAggregateMap()
-      if (!columnsToAggregate[colId]) return
+    const value = params.value
 
-      if (params.data && aggregations) {
-        const min = aggregations.min[colId]
-        const max = aggregations.max[colId]
-        const value = params.value!
+    let range = max === min ? 0.5 : (value - min) / (max - min)
+    const clamped = Math.min(Math.max(range, 0), 1)
+    // Quantize to ~200 buckets to maximize cache hits
+    const key = Math.round(clamped * 200)
+    const cached = optimizerGradientCache.get(key)
+    if (cached) return cached
 
-        let range = (value - min) / (max - min)
-        if (max === min) {
-          range = 0.5
-        }
-
-        const color = Gradient.getColor(Math.min(Math.max(range, 0), 1), optimizerGridGradient)
-        return {
-          '--cell-bg': color,
-        }
-      }
-
-      // No aggregations yet — return neutral color to prevent black flash
-      if (params.data) {
-        return NEUTRAL_OPTIMIZER_STYLE
-      }
-    } catch (e) {
-      console.error(e)
-    }
+    const color = Gradient.getColor(clamped, optimizerGridGradient)
+    const style = { '--cell-bg': color }
+    optimizerGradientCache.set(key, style)
+    return style
   },
 
   setTheme(colorTheme: ColorThemeOverrides) {

@@ -4,11 +4,11 @@ import type {
   NavigateToNextCellParams,
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import { Flex } from '@mantine/core'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
+import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
@@ -20,6 +20,7 @@ import {
   type OptimizerGridColumnDef,
   optimizerGridDefaultColDef,
   optimizerGridOptions,
+  optimizerRowSelection,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
 import { useTranslation } from 'react-i18next'
@@ -95,6 +96,7 @@ export function OptimizerGrid() {
           columnDefinitions.push({
             field: action.actionName as any,
             valueFormatter: Renderer.floor,
+            cellStyle: Gradient.getOptimizerColumnGradient,
             minWidth: DIGITS_5,
             flex: 12,
             headerName: t(`Headers.Basic.${action.actionType}` as any) as string,
@@ -109,8 +111,6 @@ export function OptimizerGrid() {
     return columnDefinitions
   }, [optimizerTabFocusCharacter, statDisplay, memoDisplay, context, t])
 
-  optimizerGridOptions.datasource = datasource
-
   const navigateToNextCell = useCallback((params: NavigateToNextCellParams) => {
     return arrowKeyGridNavigation(
       params,
@@ -124,7 +124,7 @@ export function OptimizerGrid() {
   }, [])
 
   return (
-    <Flex>
+    <>
       {gridDestroyed && <div style={{ width: GRID_DIMENSIONS.WIDTH, height: GRID_DIMENSIONS.HEIGHT }} />}
       {!gridDestroyed && (
         <div
@@ -144,16 +144,17 @@ export function OptimizerGrid() {
             columnDefs={columnDefs}
             defaultColDef={optimizerGridDefaultColDef}
             gridOptions={optimizerGridOptions}
+            datasource={datasource}
             headerHeight={36}
             onCellClicked={onCellClicked}
             ref={optimizerGrid}
             paginationNumberFormatter={paginationNumberFormatter}
             getLocaleText={getLocaleText}
             navigateToNextCell={navigateToNextCell}
-            rowSelection={{ mode: 'singleRow', checkboxes: false, enableClickSelection: true }}
+            rowSelection={optimizerRowSelection}
           />
         </div>
       )}
-    </Flex>
+    </>
   )
 }

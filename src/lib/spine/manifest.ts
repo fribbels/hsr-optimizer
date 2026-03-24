@@ -1,26 +1,7 @@
 import { BASE_PATH } from 'lib/constants/appPages'
+import manifest from './spineManifest.json' with { type: 'json' }
 
 const SPINE_BASE = new URL(BASE_PATH + '/assets/spine', import.meta.url).href
-
-let manifestCache: Record<string, number> | null = null
-let manifestPromise: Promise<Record<string, number>> | null = null
-
-async function getManifest(): Promise<Record<string, number>> {
-  if (manifestCache) return manifestCache
-  if (!manifestPromise) {
-    manifestPromise = fetch(`${SPINE_BASE}/manifest.json`)
-      .then((r) => r.json())
-      .then((data: Record<string, number>) => {
-        manifestCache = data
-        return data
-      })
-      .catch((err) => {
-        manifestPromise = null
-        throw err
-      })
-  }
-  return manifestPromise
-}
 
 function toBaseCharacterId(characterId: string): string {
   return characterId.substring(0, 4)
@@ -29,9 +10,8 @@ function toBaseCharacterId(characterId: string): string {
 /**
  * Returns the number of skeletons for a character, or null if not in manifest.
  */
-export async function getSkeletonCount(characterId: string): Promise<number | null> {
-  const manifest = await getManifest()
-  const count = manifest[toBaseCharacterId(characterId)]
+export function getSkeletonCount(characterId: string): number | null {
+  const count = (manifest as Record<string, number>)[toBaseCharacterId(characterId)]
   return count ?? null
 }
 

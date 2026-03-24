@@ -14,6 +14,8 @@
    Scrollbar
    ═══════════════════════════════════════════ */
 
+/* Override smooth scrolling — it causes jank with AG Grid's row virtualization
+   by splitting one scroll event into many small animated frames */
 .ag-body-viewport {
     scroll-behavior: auto;
 }
@@ -116,11 +118,15 @@
    Cells
    ═══════════════════════════════════════════ */
 
+/* Cell backgrounds driven by CSS custom property set via cellStyle.
+   This lets row-level selection/hover styles composite over gradient cells. */
 .ag-cell {
     display: flex;
     justify-content: center;
     align-items: center;
     border: none !important;
+    contain: layout paint;
+    background: var(--cell-bg, transparent);
 }
 
 .ag-cell-focus {
@@ -148,12 +154,6 @@
 
 .ag-theme-balham .ag-row:not(.ag-row-first) {
     border: none;
-}
-
-/* Cell backgrounds driven by CSS custom property set via cellStyle.
-   This lets row-level selection/hover styles composite over gradient cells. */
-.ag-cell {
-    background: var(--cell-bg, transparent);
 }
 
 /* Hover — subtle white lift composited over gradient cells */

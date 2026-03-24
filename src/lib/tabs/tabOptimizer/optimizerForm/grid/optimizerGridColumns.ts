@@ -13,6 +13,7 @@ import {
   SortOption,
 } from 'lib/optimization/sortOptions'
 import { Gradient } from 'lib/rendering/gradient'
+import { OrnamentSetCellRenderer, RelicSetCellRenderer } from 'lib/rendering/gridRenderers'
 import { Renderer } from 'lib/rendering/renderer'
 import { uuid } from 'lib/utils/miscUtils'
 
@@ -87,8 +88,8 @@ function buildColumnDefs(mode: DisplayMode, t: TFunction<'optimizerTab', 'Grid'>
   const headerMemo = (key: string) => (t(`${headerGroup}.${key}` as any) as string) + suffix
 
   return [
-    { field: 'relicSetIndex' as const, cellRenderer: Renderer.relicSet, width: 72, headerName: header('Set') },
-    { field: 'ornamentSetIndex' as const, cellRenderer: Renderer.ornamentSet, width: 42, headerName: header('Set') },
+    { field: 'relicSetIndex' as const, cellRenderer: RelicSetCellRenderer, width: 72, headerName: header('Set') },
+    { field: 'ornamentSetIndex' as const, cellRenderer: OrnamentSetCellRenderer, width: 42, headerName: header('Set') },
 
     ...statColumns.map((col) => ({
       field: getGridColumn(col.option, statDisplay, memoDisplay) as keyof OptimizerDisplayData,
@@ -108,7 +109,7 @@ function buildColumnDefs(mode: DisplayMode, t: TFunction<'optimizerTab', 'Grid'>
       flex: 10,
       headerName: header('EHP'),
     },
-    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptizerGrid.tsx
+    // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
     { field: getGridColumn(SortOption.COMBO, statDisplay, memoDisplay) as keyof OptimizerDisplayData, valueFormatter: Renderer.floor, cellStyle: Gradient.getOptimizerColumnGradient, minWidth: DIGITS_6, flex: 13, headerName: header('COMBO') },
   ]
 }

@@ -54,21 +54,6 @@ function applyDarkMode(color: string, darkMode: boolean, config: ColorPipelineCo
 // Public API
 // ---------------------------------------------------------------------------
 
-/**
- * Returns the solid hex color that the pipeline would produce for a seed.
- * Useful for showing swatches that reflect actual card appearance.
- */
-export function oklchSeedPreviewHex(
-  seedColor: string,
-  darkMode: boolean,
-  config: ColorPipelineConfig = DEFAULT_CONFIG,
-): string {
-  const base = normalizeOklch(seedColor, config.cardBg)
-  const adjusted = applyDarkMode(base, darkMode, config)
-  // Strip alpha — force 6-digit hex
-  return chroma(adjusted).alpha(1).hex('rgb')
-}
-
 export function oklchCardBackgroundColor(
   seedColor: string,
   darkMode: boolean,
@@ -85,33 +70,4 @@ export function oklchCardBorderColor(
 ): string {
   const base = normalizeOklch(seedColor, config.cardBorder)
   return applyDarkMode(base, darkMode, config)
-}
-
-export function oklchBackgroundColor(
-  seedColor: string,
-  darkMode: boolean,
-  config: ColorPipelineConfig = DEFAULT_CONFIG,
-): string {
-  const base = normalizeOklch(seedColor, config.outerBg)
-  return applyDarkMode(base, darkMode, config)
-}
-
-// ---------------------------------------------------------------------------
-// Utilities for debug panel
-// ---------------------------------------------------------------------------
-
-export interface OklchInfo {
-  l: number
-  c: number
-  h: number
-  hex: string
-}
-
-export function getOklchInfo(color: string): OklchInfo {
-  const [l, c, h] = chroma(color).oklch()
-  return { l, c, h, hex: chroma(color).hex() }
-}
-
-export function getContrastOnDark(bgColor: string): number {
-  return chroma.contrast(bgColor, 'white')
 }

@@ -1,25 +1,6 @@
 import chroma from 'chroma-js'
 import type { Color } from 'chroma-js'
-import { scaleTowardsRange } from 'lib/utils/mathUtils'
 import type { PaletteResponse } from 'lib/characterPreview/color/colorThiefExtractor'
-
-export function showcaseCardBackgroundColor(color: string, darkMode: boolean) {
-  const scaleFactor = 0.96
-  const minSaturation = 0.20
-  const maxSaturation = 0.30
-  const chromaColor = chroma(color)
-
-  const currentSaturation = chromaColor.get('hsl.s')
-  const clampedSaturation = scaleTowardsRange(currentSaturation, minSaturation, maxSaturation, scaleFactor)
-
-  const adjustedColor = chromaColor.set('hsl.s', clampedSaturation)
-
-  const finalColor = adjustedColor
-    .luminance(scaleTowardsRange(adjustedColor.luminance(), 0.025, 0.03, 0.93))
-    .alpha(0.68)
-
-  return darkModeModifier(finalColor, darkMode).css()
-}
 
 function darkModeModifier(color: Color, darkMode: boolean) {
   return !darkMode
@@ -27,11 +8,6 @@ function darkModeModifier(color: Color, darkMode: boolean) {
     : color
       .desaturate(0.05)
       .darken(0.20)
-}
-
-export function showcaseCardBorderColor(color: string, darkMode: boolean) {
-  const finalColor = chroma(color).desaturate(0.55).luminance(0.125).brighten(0.75).alpha(0.8)
-  return darkModeModifier(finalColor, darkMode).css()
 }
 
 export function showcaseBackgroundColor(color: string, darkMode: boolean) {

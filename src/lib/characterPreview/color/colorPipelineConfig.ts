@@ -94,7 +94,7 @@ export const DEFAULT_CONFIG: ColorPipelineConfig = {
     alpha: 0.50,
   },
   darkMode: {
-    lOffset: -0.02,
-    cScale: 0.90,
+    lOffset: -0.05,
+    cScale: 0.80,
   },
 }

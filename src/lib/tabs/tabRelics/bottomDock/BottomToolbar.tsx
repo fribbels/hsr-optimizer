@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { Hint } from 'lib/interactions/hint'
 import { relicCardW } from 'lib/constants/constantsUi'
-import { getRelicById } from 'lib/stores/relic/relicStore'
+import { useRelicById } from 'lib/stores/relic/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
@@ -39,7 +39,7 @@ export function BottomToolbar() {
   const { t } = useTranslation('relicsTab', { keyPrefix: 'Toolbar' })
   const { t: tCommon } = useTranslation('common')
 
-  const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
+  const selectedRelic = useRelicById(selectedRelicId)
 
   const characterPlotOptions = useMemo(() => [
     { value: String(InsightCharacters.All), label: t('PlotOptions.PlotAll') },

@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import { indexRelics } from 'lib/relics/relicUtils'
@@ -68,5 +69,10 @@ export function getRelics(): Relic[] {
 export function getRelicById(id: string | undefined): Relic | undefined {
   if (!id) return undefined
   return useRelicStore.getState().relicsById[id]
+}
+
+/** Reactive hook — re-renders when the relic data changes in the store. */
+export function useRelicById(id: string | null | undefined): Relic | null {
+  return useRelicStore(useCallback((s) => (id ? s.relicsById[id] : null) ?? null, [id]))
 }
 

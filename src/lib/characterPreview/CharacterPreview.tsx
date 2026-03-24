@@ -304,7 +304,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           position: 'relative',
           display: 'flex',
           height: parentH,
-          background: showcaseBackgroundColor(mantineTheme.colors.dark[8], state.darkMode),
+          background: showcaseBackgroundColor(mantineTheme.colors.dark[8]),
           backgroundBlendMode: 'screen',
           overflow: 'hidden',
           borderRadius: 6,

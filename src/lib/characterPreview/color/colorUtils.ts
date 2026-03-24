@@ -1,18 +1,8 @@
 import chroma from 'chroma-js'
-import type { Color } from 'chroma-js'
 import type { PaletteResponse } from 'lib/characterPreview/color/colorThiefExtractor'
 
-function darkModeModifier(color: Color, darkMode: boolean) {
-  return !darkMode
-    ? color
-    : color
-      .desaturate(0.05)
-      .darken(0.20)
-}
-
-export function showcaseBackgroundColor(color: string, darkMode: boolean) {
-  const finalColor = chroma(color).desaturate(0.2).luminance(0.02)
-  return darkModeModifier(finalColor, darkMode).css()
+export function showcaseBackgroundColor(color: string) {
+  return chroma(color).desaturate(0.2).luminance(0.02).css()
 }
 
 

@@ -3,7 +3,7 @@ import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
-import { getRelicById } from 'lib/stores/relic/relicStore'
+import { useRelicById } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
 import { EstbpCard } from 'lib/tabs/tabRelics/relicInsightsPanel/Estbp'
@@ -30,7 +30,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
   )
   const scoringVersion = useScoringStore((s) => s.scoringVersion)
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
-  const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
+  const selectedRelic = useRelicById(selectedRelicId)
   const { ref: containerRef, width: containerWidth } = useElementSize()
 
   const scores: Score[] = useMemo(() => {

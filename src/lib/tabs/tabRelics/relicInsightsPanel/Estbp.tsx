@@ -4,7 +4,7 @@ import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScor
 import { ScoringCache } from 'lib/relics/scoring/relicScorer'
 import { useAsyncComputation } from 'lib/tabs/tabRelics/relicInsightsPanel/useAsyncComputation'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
-import { getRelicById } from 'lib/stores/relic/relicStore'
+import { useRelicById } from 'lib/stores/relic/relicStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import {
   type EstTbpWorkerOutput,
@@ -15,14 +15,14 @@ import { memo, useMemo, useRef } from 'react'
 export const EstbpCard = memo(() => {
   const selectedRelicId = useRelicsTabStore((s) => s.selectedRelicId)
   const focusCharacter = useRelicsTabStore((s) => s.focusCharacter)
-  const selectedRelic = getRelicById(selectedRelicId ?? '') ?? null
+  const selectedRelic = useRelicById(selectedRelicId)
 
   const weights = useScoringMetadata(focusCharacter)
 
   const computeFn = useMemo(() => {
     if (!selectedRelic || !weights?.stats) return null
     return () => handleWork(selectedRelic, weights.stats)
-  }, [selectedRelicId, weights?.stats])
+  }, [selectedRelic, weights?.stats])
 
   const { ready, output } = useAsyncComputation<EstTbpWorkerOutput>(computeFn, [computeFn])
 

@@ -4,8 +4,8 @@
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: var(--bg-app);
-  background-image: linear-gradient(rgb(0 0 0/60%) 0 0);
+  background-color: #141416;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .headerInner {
@@ -23,13 +23,10 @@
 }
 
 .title {
-  font-weight: 600;
-  font-size: 22px;
-}
-
-.socialIcon {
-  height: 36px;
-  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.01em;
 }
 
 /* LayoutSider */

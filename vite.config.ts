@@ -1,3 +1,4 @@
+import { resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
@@ -9,7 +10,7 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
     alias: {
-      'cross-fetch': 'data:text/javascript,export default fetch',
+      'cross-fetch': resolve(__dirname, 'src/lib/utils/nativeFetch.ts'),
     },
   },
   build: {

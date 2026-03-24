@@ -15,21 +15,13 @@ import classes from 'lib/layout/layout.module.css'
 
 export const HEADER_HEIGHT = 48
 
-function SocialLink(props: { href: string; src: string; mr: number }) {
-  return (
-    <a href={props.href} target='_blank' rel='noreferrer' style={{ display: 'flex', alignItems: 'center' }}>
-      <img src={props.src} className={classes.socialIcon} style={{ marginRight: props.mr }} />
-    </a>
-  )
-}
-
 export function LayoutHeader() {
   const { isOpen: isOpenMenuSidebar, toggle: toggleMenuSidebar } = useOpenClose(OpenCloseIDs.MENU_SIDEBAR)
 
   return (
     <header className={classes.header} style={{ height: HEADER_HEIGHT }}>
       <Flex align='center' justify='space-between' className={classes.headerInner}>
-        <Flex gap={8}>
+        <Flex gap={8} align='center'>
           <Flex align='center' justify='center' style={{ width: HEADER_HEIGHT, minWidth: HEADER_HEIGHT }}>
             <Button
               variant='transparent'
@@ -51,16 +43,13 @@ export function LayoutHeader() {
             <Flex align='center'>
               <img src={Assets.getLogo()} className={classes.logo} />
               <div className={classes.title}>
-                Fribbels Honkai Star Rail Optimizer
+                Fribbels HSR Optimizer
               </div>
             </Flex>
           </a>
         </Flex>
-        <Flex align='center'>
+        <Flex align='center' mr={12}>
           <LanguageSelector />
-          <SocialLink href='https://ko-fi.com/fribbels' src={Assets.getKofi()} mr={6} />
-          <SocialLink href='https://github.com/fribbels/hsr-optimizer' src={Assets.getGithub()} mr={6} />
-          <SocialLink href='https://discord.gg/rDmB4Un7qg' src={Assets.getDiscord()} mr={8} />
         </Flex>
       </Flex>
     </header>

@@ -38,7 +38,7 @@ export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   suppressScrollOnNewData: true,
   suppressMultiSort: true,
   suppressNoRowsOverlay: true,
-  getRowId: (params: GetRowIdParams<OptimizerDisplayDataStatSim>) => String(params.data.id || uuid()),
+  getRowId: (params: GetRowIdParams<OptimizerDisplayDataStatSim>) => String(params.data.id ?? uuid()),
 }
 
 export const optimizerGridDefaultColDef: ColDef<OptimizerDisplayDataStatSim> = {

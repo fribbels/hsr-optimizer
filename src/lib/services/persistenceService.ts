@@ -56,6 +56,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     const validOverrides: Record<string, ScoringMetadata> = {}
     for (const [key, scoringMetadataOverrides] of Object.entries(saveData.scoringMetadataOverrides ?? {}) as [CharacterId, ScoringMetadata][]) {
       if (!dbCharacters[key]?.scoringMetadata) continue
+      if (!scoringMetadataOverrides?.stats) continue
       const defaultScoringMetadata = dbCharacters[key].scoringMetadata
       setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
       validOverrides[key] = scoringMetadataOverrides

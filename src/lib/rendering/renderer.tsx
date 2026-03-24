@@ -28,10 +28,10 @@ import {
   type Stat,
 } from 'types/relic'
 import {
-  OrnamentSetToIndex,
-  RelicSetToIndex,
-  SetsOrnaments,
-  SetsRelics,
+  OrnamentSetCount,
+  RelicSetCount,
+  SetsOrnamentsNames,
+  SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
 import { isFlat } from 'lib/utils/statUtils'
 import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
@@ -45,10 +45,18 @@ const gradeToColor = {
   [-1]: '#bdbdbd',
 }
 
+// Hoisted style constants for hot-path cell renderers
+const IMG_STYLE_32 = { width: 32 } as const
+const CELL_CENTER_STYLE = { marginTop: -1 } as const
+const PART_ICON_STYLE = { marginTop: -1, width: 20, marginBottom: 3 } as const
+const ICON_BLOCK_STYLE = { display: 'block' } as const
+const EQUIPPED_GREEN_STYLE = { color: '#6de362', display: 'block' } as const
+const EQUIPPED_RED_STYLE = { color: '#de5555', display: 'block' } as const
+
 function SetDisplay(props: { asset: string }) {
   if (props.asset) {
     return (
-      <img src={props.asset} style={{ width: 32 }} />
+      <img src={props.asset} style={IMG_STYLE_32} />
     )
   } else {
     return ''
@@ -79,7 +87,7 @@ export const Renderer = {
     if (x?.value == null || isNaN(x.value)) return ''
     const i = x.value
 
-    const count = Object.values(SetsRelics).length
+    const count = RelicSetCount
     const setImages: string[] = []
 
     const s1 = i % count
@@ -92,12 +100,11 @@ export const Renderer = {
     while (relicSets.length > 0) {
       const value = relicSets[0]
       if (relicSets.lastIndexOf(value)) {
-        const entry = Object.entries(RelicSetToIndex).find((x) => x[1] === value)
-        if (!entry) {
+        const setName = SetsRelicsNames[value]
+        if (!setName) {
           relicSets.splice(0, 1)
           continue
         }
-        const setName = entry[0]
         const assetValue = Assets.getSetImage(setName, Constants.Parts.Head)
         setImages.push(assetValue)
 
@@ -110,7 +117,7 @@ export const Renderer = {
     setImages.sort()
 
     return (
-      <Flex justify='center' style={{ marginTop: -1 }}>
+      <Flex justify='center' style={CELL_CENTER_STYLE}>
         <SetDisplay asset={setImages[0]} />
         <SetDisplay asset={setImages[1]} />
       </Flex>
@@ -121,19 +128,19 @@ export const Renderer = {
     if (x?.value == null) return ''
     const i = x.value
 
-    const ornamentSetCount = Object.values(SetsOrnaments).length
+    const ornamentSetCount = OrnamentSetCount
 
     const s1 = i % ornamentSetCount
     const s2 = ((i - s1) / ornamentSetCount) % ornamentSetCount
 
     if (s1 !== s2) return ''
 
-    const entry = Object.entries(OrnamentSetToIndex).find((x) => x[1] === s1)
-    if (!entry) return ''
-    const setImage = Assets.getSetImage(entry[0], Constants.Parts.PlanarSphere)
+    const setName = SetsOrnamentsNames[s1]
+    if (!setName) return ''
+    const setImage = Assets.getSetImage(setName, Constants.Parts.PlanarSphere)
 
     return (
-      <Flex justify='center' style={{ marginTop: -1 }}>
+      <Flex justify='center' style={CELL_CENTER_STYLE}>
         <SetDisplay asset={setImage} />
       </Flex>
     )
@@ -145,7 +152,7 @@ export const Renderer = {
 
     const src = Assets.getSetImage(data.set, data.part)
     return (
-      <Flex justify='center' title={data.set} style={{ marginTop: -1 }}>
+      <Flex justify='center' title={data.set} style={CELL_CENTER_STYLE}>
         <SetDisplay asset={src} />
       </Flex>
     )
@@ -157,7 +164,7 @@ export const Renderer = {
 
     const src = Assets.getCharacterAvatarById(equippedBy)
     return (
-      <Flex justify='center' style={{ marginTop: -1 }}>
+      <Flex justify='center' style={CELL_CENTER_STYLE}>
         <SetDisplay asset={src} />
       </Flex>
     )
@@ -176,7 +183,7 @@ export const Renderer = {
   partIcon: <T,>(x: ValueFormatterParams<T, string>) => {
     if (x?.value == null) return ''
     return (
-      <Flex justify='center' style={{ marginTop: -1, width: 20, marginBottom: 3 }}>
+      <Flex justify='center' style={PART_ICON_STYLE}>
         <SetDisplay asset={Assets.getPart(x.value)} />
       </Flex>
     )
@@ -258,7 +265,7 @@ export const Renderer = {
           openDelay={400}
           label={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
         >
-          <IconCircleCheckFilled size={16} style={{ color: color, display: 'block' }} />
+          <IconCircleCheckFilled size={16} style={{ ...ICON_BLOCK_STYLE, color: color }} />
         </Tooltip>
       )
     }
@@ -268,8 +275,8 @@ export const Renderer = {
   renderEquipped: (equipped: boolean) => {
     return (
       equipped
-        ? <IconCircleCheckFilled size={16} style={{ color: '#6de362', display: 'block' }} />
-        : <IconCircleXFilled size={16} style={{ color: '#de5555', display: 'block' }} />
+        ? <IconCircleCheckFilled size={16} style={EQUIPPED_GREEN_STYLE} />
+        : <IconCircleXFilled size={16} style={EQUIPPED_RED_STYLE} />
     )
   },
   renderInitialRolls: (relic: Relic) => {

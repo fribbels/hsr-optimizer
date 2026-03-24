@@ -12,6 +12,7 @@ export type GridAggregations = {
 }
 
 const optimizerGridGradient = chroma.scale(['#5A1A06', '#343127', '#38821F']).domain([0, 0.35, 1])
+const NEUTRAL_OPTIMIZER_STYLE = { '--cell-bg': optimizerGridGradient(0.5).hex() } as const
 
 // this default is overwritten on page load, Gradient.setTheme() in App.tsx
 let relicGridGradient = chroma.scale(['#343127', '#38821F'])
@@ -70,7 +71,7 @@ export const Gradient = {
 
       // No aggregations yet — return neutral color to prevent black flash
       if (params.data) {
-        return { '--cell-bg': Gradient.getColor(0.5, optimizerGridGradient) }
+        return NEUTRAL_OPTIMIZER_STYLE
       }
     } catch (e) {
       console.error(e)

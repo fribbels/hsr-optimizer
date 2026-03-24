@@ -6,6 +6,7 @@ import type { TFunction } from 'i18next'
 import { Stats } from 'lib/constants/constants'
 import { type ScoredRelic } from 'lib/relics/scoreRelics'
 import { Gradient } from 'lib/rendering/gradient'
+import { AnySetCellRenderer, CharacterIconCellRenderer, GradeCellRenderer } from 'lib/rendering/gridRenderers'
 import { Renderer } from 'lib/rendering/renderer'
 
 export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'>) {
@@ -181,19 +182,19 @@ export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>):
       field: 'equippedBy',
       headerName: t('Headers.EquippedBy'),
       width: 40,
-      cellRenderer: Renderer.characterIcon,
+      cellRenderer: CharacterIconCellRenderer,
     },
     {
       field: 'set',
       headerName: t('Headers.Set'),
       width: 40,
-      cellRenderer: Renderer.anySet,
+      cellRenderer: AnySetCellRenderer,
     },
     {
       field: 'grade',
       headerName: '★',
       width: 30,
-      cellRenderer: Renderer.renderGradeCell,
+      cellRenderer: GradeCellRenderer,
     },
     {
       field: 'enhance',

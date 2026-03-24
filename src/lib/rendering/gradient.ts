@@ -13,11 +13,12 @@ export type GridAggregations = {
 
 const optimizerGridGradient = chroma.scale(['#5A1A06', '#343127', '#38821F']).domain([0, 0.35, 1])
 const NEUTRAL_OPTIMIZER_STYLE = { '--cell-bg': optimizerGridGradient(0.5).hex() } as const
-let optimizerGradientCache = new Map<number, { '--cell-bg': string }>()
+const GRADIENT_BUCKETS = 201 // 0-200 inclusive
+let optimizerGradientCache: Array<{ '--cell-bg': string } | undefined> = new Array(GRADIENT_BUCKETS)
 
 // this default is overwritten on page load, Gradient.setTheme() in App.tsx
 let relicGridGradient = chroma.scale(['#343127', '#38821F'])
-let relicGradientCache = new Map<number, { '--cell-bg': string }>()
+let relicGradientCache: Array<{ '--cell-bg': string } | undefined> = new Array(GRADIENT_BUCKETS)
 
 const relicColumnRanges = {
   'augmentedStats.HP': 169.35,
@@ -46,7 +47,7 @@ export const Gradient = {
   },
 
   clearOptimizerGradientCache() {
-    optimizerGradientCache = new Map()
+    optimizerGradientCache = new Array(GRADIENT_BUCKETS)
   },
 
   getOptimizerColumnGradient: (params: CellClassParams<OptimizerDisplayDataStatSim, number>) => {
@@ -67,18 +68,18 @@ export const Gradient = {
     const clamped = Math.min(Math.max(range, 0), 1)
     // Quantize to ~200 buckets to maximize cache hits
     const key = Math.round(clamped * 200)
-    const cached = optimizerGradientCache.get(key)
+    const cached = optimizerGradientCache[key]
     if (cached) return cached
 
     const color = Gradient.getColor(clamped, optimizerGridGradient)
     const style = { '--cell-bg': color }
-    optimizerGradientCache.set(key, style)
+    optimizerGradientCache[key] = style
     return style
   },
 
   setTheme(colorTheme: ColorThemeOverrides) {
     relicGridGradient = chroma.scale([chroma(colorTheme.colorPrimary).darken(3).desaturate(2).hex(), colorTheme.colorPrimary])
-    relicGradientCache = new Map()
+    relicGradientCache = new Array(GRADIENT_BUCKETS)
   },
 
   getRelicGradient(params: CellClassParams<ScoredRelic>) {
@@ -103,12 +104,12 @@ export const Gradient = {
     const clamped = Math.min(Math.max(range, 0), 1)
     // Quantize to ~200 buckets to maximize cache hits
     const key = Math.round(clamped * 200)
-    const cached = relicGradientCache.get(key)
+    const cached = relicGradientCache[key]
     if (cached) return cached
 
     const color = Gradient.getColor(clamped, relicGridGradient)
     const style = { '--cell-bg': color }
-    relicGradientCache.set(key, style)
+    relicGradientCache[key] = style
     return style
   },
 }

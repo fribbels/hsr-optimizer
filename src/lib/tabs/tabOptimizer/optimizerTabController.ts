@@ -182,17 +182,17 @@ export const OptimizerTabController = {
 
     return {
       getRows: (params: IGetRowsParams) => {
-        Gradient.clearOptimizerGradientCache()
-
         // fast clickers can race unmount/remount and cause NPE here.
         gridStore.optimizerGridApi()?.setGridOption('loading', true)
 
         // Yield one frame so the loading indicator can paint before we block
         requestAnimationFrame(() => {
+            if (!gridStore.optimizerGridApi()) return
+            Gradient.clearOptimizerGradientCache()
             const newSort = params.sortModel[0]
             if (params.sortModel.length > 0
-              && (newSort.colId !== (controllerState.sortModel as any).colId
-                || newSort.sort !== (controllerState.sortModel as any).sort)) {
+              && (newSort.colId !== controllerState.sortModel.colId
+                || newSort.sort !== controllerState.sortModel.sort)) {
               controllerState.sortModel = newSort
               sort()
             }

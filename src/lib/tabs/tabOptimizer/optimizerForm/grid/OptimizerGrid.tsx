@@ -46,6 +46,16 @@ const GRID_DIMENSIONS = {
   MIN_HEIGHT: 300,
 }
 
+const GRID_PLACEHOLDER_STYLE = { width: GRID_DIMENSIONS.WIDTH, height: GRID_DIMENSIONS.HEIGHT } as const
+const GRID_CONTAINER_STYLE = {
+  width: GRID_DIMENSIONS.WIDTH,
+  minHeight: GRID_DIMENSIONS.MIN_HEIGHT,
+  height: GRID_DIMENSIONS.HEIGHT,
+  resize: 'vertical' as const,
+  overflow: 'hidden' as const,
+  boxShadow: 'var(--card-shadow-flat)',
+}
+
 export function OptimizerGrid() {
   const { getLocaleText, paginationNumberFormatter } = useGridLocale('optimizerTab', 'Grid')
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Grid' })
@@ -125,19 +135,12 @@ export function OptimizerGrid() {
 
   return (
     <>
-      {gridDestroyed && <div style={{ width: GRID_DIMENSIONS.WIDTH, height: GRID_DIMENSIONS.HEIGHT }} />}
+      {gridDestroyed && <div style={GRID_PLACEHOLDER_STYLE} />}
       {!gridDestroyed && (
         <div
           id='optimizerGridContainer'
           className='ag-theme-balham-dark'
-          style={{
-            width: GRID_DIMENSIONS.WIDTH,
-            minHeight: GRID_DIMENSIONS.MIN_HEIGHT,
-            height: GRID_DIMENSIONS.HEIGHT,
-            resize: 'vertical',
-            overflow: 'hidden',
-            boxShadow: 'var(--card-shadow-flat)',
-          }}
+          style={GRID_CONTAINER_STYLE}
         >
           <AgGridReact
             animateRows={false}

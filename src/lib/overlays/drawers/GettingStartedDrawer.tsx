@@ -1,7 +1,7 @@
 import { IconFileImport } from '@tabler/icons-react'
 import { Button, Drawer, Flex } from '@mantine/core'
 import { modals } from '@mantine/modals'
-import sampleSave from 'data/sample-save.json'
+import sampleSave from 'data/sample-save.json' with { type: 'json' }
 import {
   OpenCloseIDs,
   useOpenClose,

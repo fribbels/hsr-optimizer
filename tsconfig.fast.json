@@ -11,6 +11,7 @@
     "playwright-report",
     "test-results",
     "tests",
-    "src/types/i18next.ts"
+    "src/types/i18next.ts",
+    "src/lib/simulations/tests/goldenData"
   ]
 }

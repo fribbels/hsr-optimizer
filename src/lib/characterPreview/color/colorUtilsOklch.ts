@@ -63,6 +63,15 @@ export function oklchCardBackgroundColor(
   return applyDarkMode(base, darkMode, config)
 }
 
+export function oklchCharacterListColor(
+  seedColor: string,
+  darkMode: boolean,
+  config: ColorPipelineConfig = DEFAULT_CONFIG,
+): string {
+  const base = normalizeOklch(seedColor, config.characterListBg)
+  return applyDarkMode(base, darkMode, config)
+}
+
 export function oklchCardBorderColor(
   seedColor: string,
   darkMode: boolean,

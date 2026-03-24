@@ -1,5 +1,5 @@
-import chroma from 'chroma-js'
 import { memo, useState, useCallback, useRef, useEffect } from 'react'
+import { DEFAULT_CONFIG, type CardColorConfig } from 'lib/characterPreview/color/colorPipelineConfig'
 
 type SliderConfig = {
   label: string
@@ -32,65 +32,6 @@ const FROST_SLIDERS: SliderConfig[] = [
   { label: 'Frost Fade End', cssVar: '--cr-frost-fade-end', min: 0, max: 100, step: 1, defaultValue: 42, unit: '%' },
 ]
 
-// --- Character BG color transforms ---
-
-export type ColorTransform = {
-  maxLightness: number  // clamp HSL lightness down to this before transforms (extracts hue from pale colors)
-  luminance: number     // target luminance 0.00-0.10
-  saturate: number      // chroma saturate (positive) / desaturate (negative) -3 to 3
-  darken: number        // chroma darken amount 0-5
-  alpha: number         // opacity 0-100%
-  brighten: number      // chroma brighten amount 0-3
-}
-
-export const DEFAULT_COLOR_TRANSFORM: ColorTransform = {
-  maxLightness: 0.7,
-  luminance: 0.04,
-  saturate: 0,
-  darken: 0,
-  alpha: 60,
-  brighten: 0.5,
-}
-
-type ColorPreset = { label: string; transform: ColorTransform }
-
-const COLOR_PRESETS: ColorPreset[] = [
-  { label: 'Off', transform: { maxLightness: 1, luminance: 0, saturate: 0, darken: 0, alpha: 0, brighten: 0 } },
-  { label: 'Ash', transform: { maxLightness: 0.6, luminance: 0.025, saturate: -2.5, darken: 0, alpha: 80, brighten: 0 } },
-  { label: 'Fog', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -2.0, darken: 0, alpha: 50, brighten: 0.3 } },
-  { label: 'Pearl', transform: { maxLightness: 0.55, luminance: 0.05, saturate: -1.0, darken: 0, alpha: 55, brighten: 0.5 } },
-  { label: 'Opal', transform: { maxLightness: 0.55, luminance: 0.04, saturate: -0.5, darken: 0, alpha: 60, brighten: 0.8 } },
-  { label: 'Dawn', transform: { maxLightness: 0.55, luminance: 0.035, saturate: -0.3, darken: 0, alpha: 70, brighten: 0.3 } },
-]
-
-const COLOR_SLIDERS: { key: keyof ColorTransform; label: string; min: number; max: number; step: number; unit: string }[] = [
-  { key: 'maxLightness', label: 'Max Lightness', min: 0.3, max: 1, step: 0.05, unit: '' },
-  { key: 'luminance', label: 'Luminance', min: 0, max: 0.1, step: 0.005, unit: '' },
-  { key: 'saturate', label: 'Saturate', min: -3, max: 3, step: 0.1, unit: '' },
-  { key: 'darken', label: 'Darken', min: 0, max: 5, step: 0.1, unit: '' },
-  { key: 'brighten', label: 'Brighten', min: 0, max: 3, step: 0.1, unit: '' },
-  { key: 'alpha', label: 'Opacity', min: 0, max: 100, step: 5, unit: '%' },
-]
-
-/** Apply chroma-js transforms to a hex color */
-export function applyColorTransform(hex: string, transform: ColorTransform): string {
-  if (transform.alpha === 0) return 'transparent'
-
-  // Normalize: clamp lightness down so pale colors (e.g. #ffeef5) express their hue
-  // HSL lightness 0.5 is where hue is most vivid; near 1.0 it's just white
-  let c = chroma(hex)
-  const [h, s, l] = c.hsl()
-  if (l > transform.maxLightness) {
-    c = chroma.hsl(isNaN(h) ? 0 : h, s, transform.maxLightness)
-  }
-
-  c = c.luminance(transform.luminance)
-  if (transform.saturate > 0) c = c.saturate(transform.saturate)
-  else if (transform.saturate < 0) c = c.desaturate(-transform.saturate)
-  if (transform.darken) c = c.darken(transform.darken)
-  if (transform.brighten) c = c.brighten(transform.brighten)
-  return c.alpha(transform.alpha / 100).css()
-}
 
 export type HoverEffect = 'lift-bright'
 
@@ -202,12 +143,21 @@ const TOGGLE_LABELS: Record<BooleanToggleKeys, string> = {
   showEquipIndicator: 'Equip Dot',
 }
 
-export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, colorTransform, onColorTransformChange }: {
+const OKLCH_SLIDERS: { key: keyof CardColorConfig; label: string; min: number; max: number; step: number }[] = [
+  { key: 'targetL', label: 'Target L', min: 0.05, max: 0.70, step: 0.01 },
+  { key: 'chromaScale', label: 'Chroma Scale', min: 0.1, max: 2.0, step: 0.05 },
+  { key: 'maxC', label: 'Max Chroma', min: 0.01, max: 0.25, step: 0.005 },
+  { key: 'minC', label: 'Min Chroma', min: 0.0, max: 0.10, step: 0.005 },
+  { key: 'alpha', label: 'Alpha', min: 0.0, max: 1.0, step: 0.05 },
+  { key: 'lInputScale', label: 'L Input Scale', min: 0.0, max: 0.3, step: 0.01 },
+]
+
+export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ targetRef, toggles, onTogglesChange, listColorConfig, onListColorConfigChange }: {
   targetRef: React.RefObject<HTMLDivElement | null>
   toggles: DebugToggles
   onTogglesChange: (toggles: DebugToggles) => void
-  colorTransform: ColorTransform
-  onColorTransformChange: (ct: ColorTransform) => void
+  listColorConfig: CardColorConfig
+  onListColorConfigChange: (cfg: CardColorConfig) => void
 }) {
   const [collapsed, setCollapsed] = useState(true)
   const [values, setValues] = useState<Record<string, number>>(() => {
@@ -260,8 +210,7 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
     setValues(init)
     applyVars(init, DEFAULT_TOGGLES.hoverEffect)
     onTogglesChange({ ...DEFAULT_TOGGLES })
-    onColorTransformChange({ ...DEFAULT_COLOR_TRANSFORM })
-  }, [applyVars, onTogglesChange, onColorTransformChange])
+  }, [applyVars, onTogglesChange])
 
   const handleCopy = useCallback(() => {
     const allSliders = [...SLIDERS, ...FROST_SLIDERS]
@@ -272,12 +221,9 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
     const toggleLines = (Object.keys(toggles) as Array<keyof DebugToggles>).map((key) => {
       return `  ${key}: ${toggles[key]}`
     })
-    const colorLines = (Object.keys(colorTransform) as Array<keyof ColorTransform>).map((key) => {
-      return `  ${key}: ${colorTransform[key]}`
-    })
-    const output = `/* Sliders */\n${sliderLines.join('\n')}\n\n/* Toggles */\n${toggleLines.join('\n')}\n\n/* Color Transform */\n${colorLines.join('\n')}`
+    const output = `/* Sliders */\n${sliderLines.join('\n')}\n\n/* Toggles */\n${toggleLines.join('\n')}`
     void navigator.clipboard.writeText(output)
-  }, [values, toggles, colorTransform])
+  }, [values, toggles])
 
   const handleToggle = useCallback((key: BooleanToggleKeys) => {
     onTogglesChange({ ...toggles, [key]: !toggles[key] })
@@ -408,42 +354,31 @@ export const CharacterGridDebugPanel = memo(function CharacterGridDebugPanel({ t
             </div>
           </div>
 
-          {/* BG color presets */}
+          {/* OKLCH List BG */}
           <div>
-            <div style={{ color: '#999', fontSize: 10, marginBottom: 4, fontWeight: 600 }}>BG COLOR</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-              {COLOR_PRESETS.map((preset) => {
-                const active = colorTransform.maxLightness === preset.transform.maxLightness
-                  && colorTransform.luminance === preset.transform.luminance
-                  && colorTransform.saturate === preset.transform.saturate
-                  && colorTransform.darken === preset.transform.darken
-                  && colorTransform.brighten === preset.transform.brighten
-                  && colorTransform.alpha === preset.transform.alpha
-                return (
-                  <span
-                    key={preset.label}
-                    style={pillStyle(active)}
-                    onClick={() => onColorTransformChange({ ...preset.transform })}
-                  >
-                    {preset.label}
-                  </span>
-                )
-              })}
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+              <span style={{ color: '#999', fontSize: 10, fontWeight: 600 }}>OKLCH LIST BG</span>
+              <span
+                style={{ color: '#7c5cfc', fontSize: 10, cursor: 'pointer' }}
+                onClick={() => onListColorConfigChange({ ...DEFAULT_CONFIG.characterListBg })}
+              >
+                Reset
+              </span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
-              {COLOR_SLIDERS.map((s) => (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {OKLCH_SLIDERS.map((s) => (
                 <div key={s.key}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
                     <span style={{ color: '#999' }}>{s.label}</span>
-                    <span style={{ color: '#7c5cfc' }}>{colorTransform[s.key]}{s.unit}</span>
+                    <span style={{ color: '#7c5cfc' }}>{(listColorConfig[s.key] as number).toFixed(3)}</span>
                   </div>
                   <input
                     type="range"
                     min={s.min}
                     max={s.max}
                     step={s.step}
-                    value={colorTransform[s.key]}
-                    onChange={(e) => onColorTransformChange({ ...colorTransform, [s.key]: parseFloat(e.target.value) })}
+                    value={listColorConfig[s.key] as number}
+                    onChange={(e) => onListColorConfigChange({ ...listColorConfig, [s.key]: parseFloat(e.target.value) })}
                     style={{ width: '100%', accentColor: '#7c5cfc', height: 14 }}
                   />
                 </div>

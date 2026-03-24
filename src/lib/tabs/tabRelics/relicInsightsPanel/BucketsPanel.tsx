@@ -59,7 +59,7 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
   const imgHeight = compact ? IMG_HEIGHT_COMPACT : IMG_HEIGHT_NORMAL
 
   const [tooltipActive, setTooltipActive] = useState(false)
-  const timeout = useRef<NodeJS.Timeout | undefined>(undefined)
+  const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const buckets = Array.from<Bucket>({ length: 10 })
   for (let i = 0; i < 10; i++) buckets[i] = []
 

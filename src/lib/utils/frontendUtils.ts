@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 // --- Debounce (from debounceUtils.ts) ---
 
-const timeoutCache: Record<string, NodeJS.Timeout | null> = {}
+const timeoutCache: Record<string, ReturnType<typeof setTimeout> | null> = {}
 
 export function debounceEffect(id: string, ms: number, effect: (arg?: (...args: unknown[]) => unknown) => void) {
   const timeout = timeoutCache[id]

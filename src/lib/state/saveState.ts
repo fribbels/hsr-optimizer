@@ -16,7 +16,7 @@ import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDis
 import type { Relic } from 'types/relic'
 import type { HsrOptimizerSaveFormat } from 'types/store'
 
-let saveTimeout: NodeJS.Timeout | null
+let saveTimeout: ReturnType<typeof setTimeout> | null
 let allowEmptySave = false
 
 const STATE_KEY = 'state'

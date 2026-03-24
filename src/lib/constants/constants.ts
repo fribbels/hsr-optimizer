@@ -9,12 +9,12 @@ import {
 export const CURRENT_OPTIMIZER_VERSION = 'v4.1.5'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.2v1'
+export const CURRENT_DATA_VERSION = '4.2v2'
 
 // Controls downtime messaging
-export const SHOWCASE_DOWNTIME = false
-export const RELIQUARY_DOWNTIME = false
-export const DOWNTIME_VERSION: string = '4.0'
+export const SHOWCASE_DOWNTIME = true
+export const RELIQUARY_DOWNTIME = true
+export const DOWNTIME_VERSION: string = '4.1'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
   '1506': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,

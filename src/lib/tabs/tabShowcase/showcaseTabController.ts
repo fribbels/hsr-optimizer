@@ -6,13 +6,10 @@ import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
-import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
-import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   TrailblazerElationCaelus,
   TrailblazerElationStelle,
 } from 'lib/conditionals/character/8000/TrailblazerElation'
-import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
 import { EncounterAtFloweringsComing } from 'lib/conditionals/lightcone/5star/EncounterAtFloweringsComing'
 import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
@@ -20,7 +17,6 @@ import { InTheNight } from 'lib/conditionals/lightcone/5star/InTheNight'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import { WelcomeToTheCityOfStars } from 'lib/conditionals/lightcone/5star/WelcomeToTheCityOfStars'
-import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   CharacterConverter,
@@ -80,8 +76,6 @@ export function presetCharacters(): Preset[] {
     { characterId: char(Evanescia.id), lightConeId: lc(EncounterAtFloweringsComing.id) },
     { characterId: char(TrailblazerElationStelle.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
     { characterId: char(TrailblazerElationCaelus.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
-    { characterId: char(Yaoguang.id), lightConeId: lc(WhenSheDecidedToSee.id) },
-    { characterId: char(Sparxie.id), lightConeId: lc(DazzledByAFloweryWorld.id) },
     { characterId: char(Ashveil.id), lightConeId: lc(TheFinaleOfALie.id) },
     { characterId: char(WeltB1.id), lightConeId: lc(InTheNameOfTheWorld.id), rerun: true },
     { characterId: char(SeeleB1.id), lightConeId: lc(InTheNight.id), rerun: true },

@@ -115,7 +115,7 @@ function sortColorsByGroups(colors: string[], groupSize: number): string[] {
 }
 
 export function organizeColors(palette: PaletteResponse) {
-  const colors = [
+  const colors = [...new Set([
     palette.Vibrant,
     palette.DarkVibrant,
     palette.Muted,
@@ -123,7 +123,7 @@ export function organizeColors(palette: PaletteResponse) {
     palette.LightVibrant,
     palette.LightMuted,
     ...palette.colors,
-  ].slice(0, 64)
+  ])].slice(0, 64)
 
   return sortColorsByGroups(colors, 8)
 }

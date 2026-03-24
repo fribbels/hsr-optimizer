@@ -28,7 +28,7 @@ export async function getColorThiefPalette(src: string | HTMLCanvasElement): Pro
 
     const [swatches, palette] = await Promise.all([
       getSwatches(source, { colorSpace: 'oklch', quality: 5 }),
-      ctGetPalette(source, { colorCount: 16, colorSpace: 'oklch', quality: 5 }),
+      ctGetPalette(source, { colorCount: 32, colorSpace: 'oklch', quality: 5 }),
     ])
 
     const swatchHex = {
@@ -43,7 +43,16 @@ export async function getColorThiefPalette(src: string | HTMLCanvasElement): Pro
     const swatchSet = new Set(Object.values(swatchHex))
     const colors = (palette ?? [])
       .map((c) => c.hex())
-      .filter((hex) => !swatchSet.has(hex))
+      .filter((hex) => {
+        if (swatchSet.has(hex)) return false
+        // Drop very dark or very desaturated colors — they produce muddy seeds
+        const r = parseInt(hex.slice(1, 3), 16)
+        const g = parseInt(hex.slice(3, 5), 16)
+        const b = parseInt(hex.slice(5, 7), 16)
+        const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+        if (lum < 0.12) return false // near-black
+        return true
+      })
 
     return { ...swatchHex, colors }
   } catch (e) {

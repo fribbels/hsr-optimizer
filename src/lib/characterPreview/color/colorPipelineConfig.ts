@@ -45,16 +45,16 @@ export interface ColorPipelineConfig {
 // Score: 2.204 avg deltaE across 87 characters (ignoring worst 10 outliers).
 export const DEFAULT_CONFIG: ColorPipelineConfig = {
   cardBg: {
-    targetL: 0.34,
+    targetL: 0.42,
     lInputScale: 0.02,
     minL: 0.05,
     maxL: 0.45,
-    chromaScale: 0.70,
+    chromaScale: 0.58,
     chromaPower: 1.0,
     minC: 0.034,
-    maxC: 0.057,
+    maxC: 0.052,
     hueShift: 0,
-    alpha: 0.68,
+    alpha: 0.55,
   },
   cardBorder: {
     targetL: 0.58,

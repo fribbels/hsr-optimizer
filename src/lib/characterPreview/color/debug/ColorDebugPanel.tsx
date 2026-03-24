@@ -15,7 +15,7 @@ import { cloneConfig, DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPip
 import { CardColorSliders, DarkModeSliders, GenericSliders, type SliderDef } from 'lib/characterPreview/color/debug/ColorDebugSliders'
 import { ColorDebugPresets } from 'lib/characterPreview/color/debug/ColorDebugPresets'
 import { ColorDebugComparison } from 'lib/characterPreview/color/debug/ColorDebugComparison'
-import type { PaletteResponse } from 'lib/characterPreview/color/vibrantFork'
+import type { PaletteResponse } from 'lib/characterPreview/color/colorThiefExtractor'
 import { useCallback, useRef, useState } from 'react'
 
 export type Extractor = 'vibrant' | 'colorthief'
@@ -50,7 +50,7 @@ export function ColorDebugPanel({ config, extractor, exampleSeedColor, darkMode,
   heuristics: HeuristicFlags
   onConfigChange: (config: ColorPipelineConfig) => void
   onExtractorChange: (extractor: Extractor) => void
-  onPresetApply: (config: ColorPipelineConfig, seeds: Map<string, string>, presetName: string, portrait: PortraitFilterConfig) => void
+  onPresetApply: (config: ColorPipelineConfig, seeds: Map<string, string>, presetName: string, portrait: PortraitFilterConfig, useHSL?: boolean) => void
   onPortraitFilterChange: (filter: PortraitFilterConfig) => void
   onHeuristicsChange: (flags: HeuristicFlags) => void
 }) {
@@ -118,8 +118,8 @@ export function ColorDebugPanel({ config, extractor, exampleSeedColor, darkMode,
 
         <Divider />
 
-        <ColorDebugPresets palettes={palettes} onApply={(cfg, seeds, name, portrait) => {
-          onPresetApply(cfg, seeds, name, portrait)
+        <ColorDebugPresets palettes={palettes} onApply={(cfg, seeds, name, portrait, useHSL) => {
+          onPresetApply(cfg, seeds, name, portrait, useHSL)
         }} />
 
         <Divider />
@@ -268,6 +268,7 @@ const HEURISTIC_LABELS: { key: keyof HeuristicFlags; label: string; tip: string 
   { key: 'compBorder', label: 'Comp Border', tip: 'Split-complementary border hue' },
   { key: 'chromaCompensate', label: 'Chroma Comp', tip: 'Boost chroma when darkening' },
   { key: 'edgeSample', label: 'Edge Sample', tip: 'Extract from portrait edges' },
+  { key: 'blurSample', label: 'Blur Sample', tip: 'Extract from blurred portrait (matches visible bg)' },
 ]
 
 function HeuristicToggles({ flags, onChange }: {

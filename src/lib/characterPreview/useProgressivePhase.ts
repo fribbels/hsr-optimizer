@@ -12,11 +12,12 @@ export function useProgressivePhase(key: unknown, maxPhase: number): number {
   const [phase, setPhase] = useState(0)
   const prevKeyRef = useRef<unknown>(undefined)
 
-  // When key changes, return 0 immediately via ref detection — no setState needed.
-  // The rAF effect below will advance from 0 on the next frame.
+  // When key changes, reset phase state to 0 so the rAF effect can advance it.
+  // Without the setState, setPhase(1) would be a no-op when phase is already 1.
   const keyJustChanged = key != null && key !== prevKeyRef.current
   if (keyJustChanged) {
     prevKeyRef.current = key
+    setPhase(0)
   }
 
   const effectivePhase = keyJustChanged ? 0 : phase

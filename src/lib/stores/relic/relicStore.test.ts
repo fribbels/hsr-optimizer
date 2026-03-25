@@ -124,6 +124,21 @@ describe('useRelicStore', () => {
       expect(state().relicsById[RELIC_2]!.ageIndex).toBe(6)
     })
 
+    it('upsertRelic does not mutate the caller\'s relic object', () => {
+      state().upsertRelic(makeRelic({ id: RELIC_1, ageIndex: 5 }))
+
+      const callerRelic = makeRelic({ id: RELIC_2 })
+      delete (callerRelic as Record<string, unknown>).ageIndex
+      const snapshot = { ...callerRelic }
+
+      state().upsertRelic(callerRelic)
+
+      // The store should have assigned an ageIndex
+      expect(state().relicsById[RELIC_2]!.ageIndex).toBe(6)
+      // But the caller's object must be untouched
+      expect(callerRelic).toEqual(snapshot)
+    })
+
     it('deleteRelic removes relic from both array and index', () => {
       state().setRelics([
         makeRelic({ id: RELIC_1, ageIndex: 0 }),
@@ -171,6 +186,26 @@ describe('useRelicStore', () => {
 
       expect(state().relicsById[RELIC_2]!.ageIndex).toBe(6)
       expect(state().relicsById[RELIC_3]!.ageIndex).toBe(7)
+    })
+
+    it('batchUpsertRelics does not mutate the caller\'s relic objects', () => {
+      state().setRelics([makeRelic({ id: RELIC_1, ageIndex: 5 })])
+
+      const r2 = makeRelic({ id: RELIC_2 })
+      const r3 = makeRelic({ id: RELIC_3 })
+      delete (r2 as Record<string, unknown>).ageIndex
+      delete (r3 as Record<string, unknown>).ageIndex
+      const snapshot2 = { ...r2 }
+      const snapshot3 = { ...r3 }
+
+      state().batchUpsertRelics([r2, r3])
+
+      // The store should have assigned ageIndices
+      expect(state().relicsById[RELIC_2]!.ageIndex).toBe(6)
+      expect(state().relicsById[RELIC_3]!.ageIndex).toBe(7)
+      // But the caller's objects must be untouched
+      expect(r2).toEqual(snapshot2)
+      expect(r3).toEqual(snapshot3)
     })
 
     it('batchUpsertRelics keeps relicsById in sync with the relics array', () => {

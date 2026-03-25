@@ -25,7 +25,7 @@ import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/opt
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const setConditionalsIconWidth = 40
@@ -139,6 +139,8 @@ function isRelicSet(set: Sets): set is SetsRelics {
 export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
   const { close, isOpen } = useOpenClose(id)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
+  const [hasOpened, setHasOpened] = useState(false)
+  if (isOpen && !hasOpened) setHasOpened(true)
 
   return (
     <Drawer
@@ -147,8 +149,9 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
       onClose={close}
       opened={isOpen}
       size={900}
+      keepMounted
     >
-      {isOpen && <FormSetConditionalsContent />}
+      {hasOpened && <FormSetConditionalsContent />}
     </Drawer>
   )
 }

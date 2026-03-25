@@ -221,51 +221,51 @@ export const Hint = {
       content: (
         <Flex direction="column" gap={10}>
           <p>
-            <Trans i18nKey='hint:OptimizerOptions.AllowEquipped'>
+            <Trans ns='hint' i18nKey='OptimizerOptions.AllowEquipped'>
               <strong>Allow equipped relics</strong>
               - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
             </Trans>
           </p>
           <p>
-            <Trans i18nKey='hint:OptimizerOptions.PriorityFilter'>
+            <Trans ns='hint' i18nKey='OptimizerOptions.PriorityFilter'>
               <strong>Character priority filter</strong>
               - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by
               higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
             </Trans>
           </p>
           <p>
-            <Trans i18nKey='hint:OptimizerOptions.KeepCurrent'>
+            <Trans ns='hint' i18nKey='OptimizerOptions.KeepCurrent'>
               <strong>Keep current relics</strong>
               - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
             </Trans>
           </p>
           <p>
-            <Trans i18nKey='hint:OptimizerOptions.Priority'>
+            <Trans ns='hint' i18nKey='OptimizerOptions.Priority'>
               <strong>Priority</strong>
               - See: Character priority filter. Changing this setting will change the character's priority
             </Trans>
           </p>
           <p>
-            <Trans i18nKey='hint:OptimizerOptions.Exclude'>
+            <Trans ns='hint' i18nKey='OptimizerOptions.Exclude'>
               <strong>Exclude</strong>
               - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
             </Trans>
           </p>
           <p>
-            <Trans i18nKey='hint:OptimizerOptions.Enhance'>
+            <Trans ns='hint' i18nKey='OptimizerOptions.Enhance'>
               <strong>Enhance / rarity</strong>
               - Select the minimum enhance to search for and minimum stars for relics to include
             </Trans>
           </p>
           <p>
-            <Trans i18nKey='hint:OptimizerOptions.BoostMain'>
+            <Trans ns='hint' i18nKey='OptimizerOptions.BoostMain'>
               <strong>Boost main stat</strong>
               - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats
               are not changed accordingly, so builds with lower level relics may be stronger once you level them.
             </Trans>
           </p>
           <p>
-            <Trans i18nKey='hint:OptimizerOptions.DPSMode'>
+            <Trans ns='hint' i18nKey='OptimizerOptions.DPSMode'>
               <strong>DPS mode</strong>
               - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations
             </Trans>
@@ -419,7 +419,7 @@ export const Hint = {
         <Flex direction="column" gap={10}>
           <p>{t('p1') /* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
           <p>
-            <Trans i18nKey='hint:RelicInsights.p2'>
+            <Trans ns='hint' i18nKey='RelicInsights.p2'>
               'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.
               <br />
               If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.
@@ -478,13 +478,13 @@ export const Hint = {
       content: (
         <Flex direction="column" gap={8}>
           <p>
-            <Trans i18nKey='hint:LocatorParams.p1'>
+            <Trans ns='hint' i18nKey='LocatorParams.p1'>
               <strong>Inventory Width</strong>
               - Select the number of columns the inventory has ingame so that the relic locator can find your relic accurately
             </Trans>
           </p>
           <p>
-            <Trans i18nKey='hint:LocatorParams.p2'>
+            <Trans ns='hint' i18nKey='LocatorParams.p2'>
               <strong>Auto Filter rows</strong>
               - Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your
               inventory

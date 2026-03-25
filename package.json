@@ -12,6 +12,7 @@
     "yarn": ">=999.0.0"
   },
   "scripts": {
+    "postinstall": "patch-package",
     "start": "vite",
     "start:prod": "vite build && vite preview",
     "build": "vite build",
@@ -85,6 +86,7 @@
     "i18next-resources-for-ts": "^2.0.2",
     "jsdom": "^29.0.1",
     "oxlint": "^1.54.0",
+    "patch-package": "^8.0.1",
     "postcss": "^8.5.8",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",

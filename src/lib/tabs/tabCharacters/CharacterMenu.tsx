@@ -100,7 +100,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'delete':
-        if (!await confirm(t('Messages.DeleteWarning', { charId: focusCharacter }))) return
+        if (!await confirm(t('Messages.DeleteWarning', { charId: focusCharacter ?? '' }))) return
         CharacterTabController.removeFocusCharacter()
         break
 
@@ -124,7 +124,7 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'unequip':
-        if (!await confirm(t('Messages.UnequipWarning', { charId: focusCharacter }))) return
+        if (!await confirm(t('Messages.UnequipWarning', { charId: focusCharacter ?? '' }))) return
         CharacterTabController.unequipFocusCharacter()
         break
 

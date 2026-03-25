@@ -335,7 +335,7 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
     equippedBy,
     verified: scanner.config.speedVerified,
     id: parserRelic._uid,
-    ageIndex: undefined,
+    ageIndex: parseInt(parserRelic._uid),
   }
 
   return relic

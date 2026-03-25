@@ -1,6 +1,5 @@
 import { Combobox, Flex, NumberInput, useCombobox } from '@mantine/core'
-import { useDebouncedCallback } from '@mantine/hooks'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 export interface ComboboxNumberOption {
   value: string
@@ -37,21 +36,28 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
   } = props
 
   const [localValue, setLocalValue] = useState<number | string>(value ?? '')
+  const focusedRef = useRef(false)
 
-  // Sync external value changes (e.g. dropdown select) into local state
-  if (value != null && value !== localValue) {
-    setLocalValue(value)
-  } else if (value == null && localValue !== '') {
-    setLocalValue('')
+  // Sync external value changes into local state, but not while the user is typing
+  if (!focusedRef.current) {
+    if (value != null && value !== localValue) {
+      setLocalValue(value)
+    } else if (value == null && localValue !== '') {
+      setLocalValue('')
+    }
   }
-
-  const debouncedOnChange = useDebouncedCallback((val: number | undefined) => {
-    onChange(val)
-  }, 300)
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   })
+
+  function commitLocalValue() {
+    focusedRef.current = false
+    const committed = localValue === '' ? undefined : Number(localValue)
+    if (committed !== value) {
+      onChange(committed)
+    }
+  }
 
   return (
     <Combobox
@@ -59,7 +65,6 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
       onOptionSubmit={(val) => {
         const num = Number(val)
         setLocalValue(num)
-        debouncedOnChange.cancel()
         onChange(num)
         combobox.closeDropdown()
       }}
@@ -69,10 +74,9 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
           hideControls
           style={{ width: '100%', ...style }}
           value={localValue}
-          onChange={(val) => {
-            setLocalValue(val)
-            debouncedOnChange(val === '' ? undefined : Number(val))
-          }}
+          onChange={setLocalValue}
+          onFocus={() => focusedRef.current = true}
+          onBlur={commitLocalValue}
           placeholder={placeholder}
           min={min}
           max={max}

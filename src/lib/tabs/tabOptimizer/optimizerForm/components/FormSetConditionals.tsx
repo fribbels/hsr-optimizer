@@ -29,8 +29,8 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const setConditionalsIconWidth = 40
-const setConditionalsNameWidth = 200
-const setConditionalsWidth = 80
+const setConditionalsNameWidth = 255
+const setConditionalsWidth = 100
 const defaultGap = 5
 
 interface BaseConditionalSetOptionProps {
@@ -83,7 +83,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
       <Select
         maxDropdownHeight={500}
         style={{ width: setConditionalsWidth }}
-        comboboxProps={{ keepMounted: false, width: 120 }}
+        comboboxProps={{ keepMounted: false, width: 160 }}
         data={stringSelectOptions}
         value={value != null ? String(value) : null}
         onChange={(val) => handleConditionalChange(itemName, val != null ? Number(val) : val)}
@@ -146,7 +146,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
       position='right'
       onClose={close}
       opened={isOpen}
-      size={750}
+      size={900}
     >
       {isOpen && <FormSetConditionalsContent />}
     </Drawer>

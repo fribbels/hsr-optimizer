@@ -75,61 +75,73 @@ export function ScannerWebsocket() {
       usePrivateScannerState.getState().setConnected(false)
     },
     onMessage: (message) => {
-      const event: ScannerEvent = JSON.parse(message.data)
+      let event: ScannerEvent
+      try {
+        event = JSON.parse(message.data)
+      } catch (e) {
+        console.error('Failed to parse scanner message', e)
+        return
+      }
+
       const state = usePrivateScannerState.getState()
 
-      // TODO: Optimize by batching updates to the db where possible
-      switch (event.event) {
-        case 'InitialScan':
-          initialScan(state, event.data)
-          break
-        case 'GachaResult':
-          // We don't store any state for gacha results
-          // Since they are only relative currently
-          break
-        case 'UpdateGachaFunds':
-          state.updateGachaFunds(event.data)
-          break
-        case 'UpdateRelics':
-          event.data.forEach((relic) => {
-            // Check if relic has reroll_substats before updating
-            if (relic.reroll_substats && relic.reroll_substats.length > 0) {
-              // Show reroll modal with the relic data
-              showRerollModal(relic)
+      try {
+        // TODO: Optimize by batching updates to the db where possible
+        switch (event.event) {
+          case 'InitialScan':
+            initialScan(state, event.data)
+            break
+          case 'GachaResult':
+            // We don't store any state for gacha results
+            // Since they are only relative currently
+            break
+          case 'UpdateGachaFunds':
+            state.updateGachaFunds(event.data)
+            break
+          case 'UpdateRelics': {
+            event.data.forEach((relic) => {
+              handleUpdateRelic(state, relic)
+              relicSelectionBuffer.current.push(relic._uid)
+            })
+            const firstRerollRelic = event.data.find(
+              (relic) => relic.reroll_substats && relic.reroll_substats.length > 0,
+            )
+            if (firstRerollRelic) {
+              showRerollModal(firstRerollRelic)
             }
-
-            handleUpdateRelic(state, relic)
-            relicSelectionBuffer.current.push(relic._uid)
-          })
-          break
-        case 'UpdateMaterials':
-          event.data.forEach((material) => {
-            handleUpdateMaterial(state, material)
-          })
-          break
-        case 'UpdateLightCones':
-          event.data.forEach((lightCone) => {
-            handleUpdateLightCone(state, lightCone)
-          })
-          break
-        case 'UpdateCharacters':
-          event.data.forEach((character) => {
-            handleUpdateCharacter(state, character)
-          })
-          break
-        case 'DeleteRelics':
-          event.data.forEach((relicId) => {
-            handleDeleteRelic(state, relicId)
-          })
-          break
-        case 'DeleteLightCones':
-          event.data.forEach((lightConeId) => {
-            handleDeleteLightCone(state, lightConeId)
-          })
-          break
-        default:
-          console.error(`Unknown event: ${JSON.stringify(event)}`)
-          break
+            break
+          }
+          case 'UpdateMaterials':
+            event.data.forEach((material) => {
+              handleUpdateMaterial(state, material)
+            })
+            break
+          case 'UpdateLightCones':
+            event.data.forEach((lightCone) => {
+              handleUpdateLightCone(state, lightCone)
+            })
+            break
+          case 'UpdateCharacters':
+            event.data.forEach((character) => {
+              handleUpdateCharacter(state, character)
+            })
+            break
+          case 'DeleteRelics':
+            event.data.forEach((relicId) => {
+              handleDeleteRelic(state, relicId)
+            })
+            break
+          case 'DeleteLightCones':
+            event.data.forEach((lightConeId) => {
+              handleDeleteLightCone(state, lightConeId)
+            })
+            break
+          default:
+            console.error(`Unknown event: ${JSON.stringify(event)}`)
+            break
+        }
+      } catch (e) {
+        console.error('Error processing scanner event', event.event, e)
       }
 
       // Broadcast the event

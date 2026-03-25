@@ -509,14 +509,9 @@ export function handleUpdateCharacter(
 
     if (mappedCharacter !== previousMappedCharacter) {
       freshState.updateActivatedBuffs(activatedBuffs)
-
-      // Need to relocate the previously equipped relics
-      const oldRelics = getRelics().filter((relic) => relic.equippedBy === previousMappedCharacter)
-      for (const relic of oldRelics) {
-        equipmentService.equipRelic(relic, mappedCharacter as CharacterId)
-      }
     }
 
+    // Create/update the character first so it exists in the store before relic relocation
     const parsed = ReliquaryArchiverParser.parseCharacter(
       character,
       activatedBuffs,
@@ -524,6 +519,13 @@ export function handleUpdateCharacter(
     )
     if (parsed) {
       persistenceService.upsertCharacterFromForm(parsed)
+    }
+
+    if (mappedCharacter !== previousMappedCharacter) {
+      const oldRelics = getRelics().filter((relic) => relic.equippedBy === previousMappedCharacter)
+      for (const relic of oldRelics) {
+        equipmentService.equipRelic(relic, mappedCharacter as CharacterId)
+      }
     }
   }
 }

@@ -45,7 +45,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
 
   return (
     <StatText className={classes.statSummary}>
-      <Flex direction="column" gap={scoringType === ScoringType.NONE ? 5 : 2}>
+      <Flex direction="column" gap={scoringType === ScoringType.NONE ? 5 : 3}>
         <StatRow finalStats={finalStats} stat={Stats.HP} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.ATK} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.DEF} edits={edits} />

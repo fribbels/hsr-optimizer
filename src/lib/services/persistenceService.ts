@@ -46,6 +46,15 @@ import type { Simulation } from 'lib/simulations/statSimulationTypes'
 // ─── Public API ────────────────────────────────────────────────
 
 export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, sanitize = true): void {
+  if (!Array.isArray(saveData?.characters)) {
+    console.error('Invalid save data: characters is not an array')
+    saveData.characters = []
+  }
+  if (!Array.isArray(saveData?.relics)) {
+    console.error('Invalid save data: relics is not an array')
+    saveData.relics = []
+  }
+
   const charactersById: Record<string, Character> = {}
   const dbCharacters = getGameMetadata().characters
 
@@ -223,11 +232,12 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
 
   const characters = [...getCharacters()]
 
-  // Generate a hash of existing relics for easy lookup
-  const oldRelicHashes: Record<string, Relic> = {}
+  // Generate a hash of existing relics for easy lookup (array per hash to handle collisions)
+  const oldRelicHashes: Record<string, Relic[]> = {}
   for (const oldRelic of oldRelics) {
     const hash = hashRelic(oldRelic)
-    oldRelicHashes[hash] = oldRelic
+    if (!oldRelicHashes[hash]) oldRelicHashes[hash] = []
+    oldRelicHashes[hash].push(oldRelic)
   }
 
   // Track relic ID changes for updating references
@@ -242,7 +252,8 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
     const hash = hashRelic(newRelic)
 
     // Compare new relic hashes to old relic hashes
-    let found = oldRelicHashes[hash]
+    const candidates = oldRelicHashes[hash]
+    let found = candidates?.shift()
     let stableRelicId: string
     if (found) {
       if (newRelic.verified) {
@@ -262,20 +273,22 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
         }
       }
 
+      // Save ageIndex before equippedBy branch aliases newRelic to found
+      const newAgeIndex = newRelic.ageIndex
+
       if (newRelic.equippedBy && newCharacters.length) {
-        // Update the owner of the existing relic with the newly imported owner
         found = { ...found, equippedBy: newRelic.equippedBy }
         newRelic = found
       }
 
-      if (newRelic.ageIndex !== undefined && found.ageIndex !== newRelic.ageIndex) {
-        found = { ...found, ageIndex: newRelic.ageIndex }
+      if (newAgeIndex !== undefined && found.ageIndex !== newAgeIndex) {
+        found = { ...found, ageIndex: newAgeIndex }
       }
 
-      // Save the old relic because it may have edited speed values, delete the hash to prevent duplicates
       replacementRelics.push(found)
       stableRelicId = found.id
-      delete oldRelicHashes[hash]
+      // shift() already consumed the match; clean up empty buckets
+      if (!candidates?.length) delete oldRelicHashes[hash]
     } else {
       // No match found - save the new relic
       stableRelicId = newRelic.id
@@ -326,11 +339,13 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
 
   // Clean up any deleted relic ids that are still equipped
   characters.forEach((char, idx, arr) => {
+    let updated = char
     for (const part of Object.values(Constants.Parts)) {
-      if (char.equipped?.[part] && !getRelicById(char.equipped[part])) {
-        arr[idx] = { ...char, equipped: { ...char.equipped, [part]: undefined } }
+      if (updated.equipped?.[part] && !getRelicById(updated.equipped[part])) {
+        updated = { ...updated, equipped: { ...updated.equipped, [part]: undefined } }
       }
     }
+    arr[idx] = updated
   })
   useCharacterStore.getState().setCharacters(characters)
 
@@ -382,10 +397,12 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
     equippedBy: CharacterId | undefined
   }[] = []
 
+  const matchedIds = new Set<string>()
   for (const newRelic of newRelics) {
-    const match = findRelicMatch(newRelic, oldRelics)
+    const match = findRelicMatch(newRelic, oldRelics.filter((r) => !matchedIds.has(r.id)))
 
     if (match) {
+      matchedIds.add(match.id)
       match.substats = newRelic.substats
       match.previewSubstats = newRelic.previewSubstats
       match.main = newRelic.main
@@ -488,10 +505,16 @@ function processRelics(
   relics: Relic[],
   charactersById: Record<string, Character>,
 ) {
-  for (const relic of relics) {
+  for (let i = relics.length - 1; i >= 0; i--) {
+    const relic = relics[i]
     // @ts-expect-error - Migration: legacy relic format had weights field
     delete relic.weights
-    RelicAugmenter.augment(relic)
+    const augmented = RelicAugmenter.augment(relic)
+    if (augmented === null) {
+      console.warn('Failed to augment relic, removing:', relic.id)
+      relics.splice(i, 1)
+      continue
+    }
     const character = charactersById[relic.equippedBy!]
     if (character && !character.equipped[relic.part]) {
       character.equipped[relic.part] = relic.id

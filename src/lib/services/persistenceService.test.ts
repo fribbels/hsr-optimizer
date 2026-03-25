@@ -11,7 +11,8 @@ import { savedSessionDefaults, useGlobalStore } from 'lib/stores/app/appStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
-import { loadSaveData, mergeRelics, resetAll } from 'lib/services/persistenceService'
+import { loadSaveData, mergePartialRelics, mergeRelics, resetAll } from 'lib/services/persistenceService'
+import { getRelicById, getRelics } from 'lib/stores/relic/relicStore'
 import type { Character, CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'
 import type { Form } from 'types/form'
@@ -40,6 +41,8 @@ const RELIC_BODY_OLD = 'c3333333-3333-3333-3333-333333333333'
 const RELIC_BODY_NEW = 'd4444444-4444-4444-4444-444444444444'
 const RELIC_FEET = 'e5555555-5555-5555-5555-555555555555'
 
+const RELIC_HANDS = 'f6666666-6666-6666-6666-666666666666'
+const RELIC_HEAD_DUP = 'g7777777-7777-7777-7777-777777777777'
 const STALE_CHARACTER_ID = '9999' as CharacterId
 
 // ---- Factories ----
@@ -290,5 +293,97 @@ describe('loadSaveData', () => {
     const settings = useGlobalStore.getState().settings
     expect(settings.PermutationsSidebarBehavior).toBe(DefaultSettingOptions.PermutationsSidebarBehavior)
     expect(settings.RelicEquippingBehavior).toBe('Replace')
+  })
+
+  it('H12: loadSaveData does not crash when characters field is missing', () => {
+    const saveData = { relics: [] } as unknown as HsrOptimizerSaveFormat
+    expect(() => loadSaveData(saveData, false, false)).not.toThrow()
+  })
+
+  it('H12: loadSaveData does not crash when relics field is not an array', () => {
+    const saveData = { characters: [], relics: 'bad' } as unknown as HsrOptimizerSaveFormat
+    expect(() => loadSaveData(saveData, false, false)).not.toThrow()
+  })
+})
+
+describe('mergeRelics — H5: cleanup loop stale reference', () => {
+  it('cleans multiple invalid equipped slots on same character', () => {
+    const deletedHead = 'deleted-head-id'
+    const deletedBody = 'deleted-body-id'
+    const validFeet = makeRelic({ id: RELIC_FEET, part: Parts.Feet, equippedBy: Kafka.id,
+      set: Sets.MusketeerOfWildWheat, main: { stat: Stats.SPD, value: 25 } })
+
+    const char = makeCharacter({
+      equipped: {
+        [Parts.Head]: deletedHead,
+        [Parts.Body]: deletedBody,
+        [Parts.Feet]: RELIC_FEET,
+      },
+    })
+
+    useRelicStore.getState().setRelics([validFeet])
+    useCharacterStore.getState().setCharacters([char])
+
+    mergeRelics([validFeet], [])
+
+    const kafka = getCharacters().find((c) => c.id === Kafka.id)!
+    expect(kafka.equipped[Parts.Head]).toBeUndefined()
+    expect(kafka.equipped[Parts.Body]).toBeUndefined()
+    expect(kafka.equipped[Parts.Feet]).toBe(RELIC_FEET)
+  })
+})
+
+describe('mergeRelics — H6: hash collision drops relics', () => {
+  it('does not drop old relics with duplicate hashes', () => {
+    // Two identical relics (same stats = same hash) with different IDs
+    const relic1 = makeRelic({ id: RELIC_HEAD_OLD, ageIndex: 0 })
+    const relic2 = makeRelic({ id: RELIC_HEAD_DUP, ageIndex: 1 })
+
+    useRelicStore.getState().setRelics([relic1, relic2])
+    useCharacterStore.getState().setCharacters([])
+
+    // Import empty — all old relics should survive
+    mergeRelics([], [])
+
+    const relics = getRelics()
+    const ids = relics.map((r) => r.id)
+    expect(ids).toContain(RELIC_HEAD_OLD)
+    expect(ids).toContain(RELIC_HEAD_DUP)
+  })
+})
+
+describe('mergeRelics — H9: ageIndex dropped during merge', () => {
+  it('preserves new relic ageIndex when equippedBy is set', () => {
+    const oldRelic = makeRelic({ id: RELIC_HEAD_OLD, ageIndex: 0, equippedBy: Kafka.id })
+    const char = makeCharacter({ equipped: { [Parts.Head]: RELIC_HEAD_OLD } })
+
+    useRelicStore.getState().setRelics([oldRelic])
+    useCharacterStore.getState().setCharacters([char])
+
+    // Import same relic with new ageIndex and equippedBy, with characters
+    const newRelic = makeRelic({ id: RELIC_HEAD_OLD, ageIndex: 99, equippedBy: Kafka.id })
+    mergeRelics([newRelic], [{ characterId: Kafka.id } as Form])
+
+    const stored = getRelicById(RELIC_HEAD_OLD)!
+    expect(stored.ageIndex).toBe(99)
+  })
+})
+
+describe('mergePartialRelics — H7: match pool deduplication', () => {
+  it('does not match same old relic to two new relics', () => {
+    // One old relic at enhance 0
+    const oldRelic = makeRelic({ id: RELIC_HEAD_OLD, enhance: 0 })
+    useRelicStore.getState().setRelics([oldRelic])
+    useCharacterStore.getState().setCharacters([])
+
+    // Two new relics at enhance 3 — both could match the old one
+    const new1 = makeRelic({ id: RELIC_HEAD_NEW, enhance: 3 })
+    const new2 = makeRelic({ id: RELIC_BODY_NEW, enhance: 3 })
+
+    mergePartialRelics([new1, new2], [])
+
+    // One should match the old relic (updating it), the other should be added as new
+    const relics = getRelics()
+    expect(relics.length).toBeGreaterThanOrEqual(2)
   })
 })

@@ -1,4 +1,6 @@
 import { Combobox, Flex, NumberInput, useCombobox } from '@mantine/core'
+import { useDebouncedCallback } from '@mantine/hooks'
+import { useState } from 'react'
 
 export interface ComboboxNumberOption {
   value: string
@@ -34,6 +36,19 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
     dropdownMaxHeight = 800,
   } = props
 
+  const [localValue, setLocalValue] = useState<number | string>(value ?? '')
+
+  // Sync external value changes (e.g. dropdown select) into local state
+  if (value != null && value !== localValue) {
+    setLocalValue(value)
+  } else if (value == null && localValue !== '') {
+    setLocalValue('')
+  }
+
+  const debouncedOnChange = useDebouncedCallback((val: number | undefined) => {
+    onChange(val)
+  }, 300)
+
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   })
@@ -42,27 +57,38 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
     <Combobox
       store={combobox}
       onOptionSubmit={(val) => {
-        onChange(Number(val))
+        const num = Number(val)
+        setLocalValue(num)
+        debouncedOnChange.cancel()
+        onChange(num)
         combobox.closeDropdown()
       }}
     >
       <Combobox.Target>
         <NumberInput
           hideControls
-          readOnly
           style={{ width: '100%', ...style }}
-          value={value}
+          value={localValue}
+          onChange={(val) => {
+            setLocalValue(val)
+            debouncedOnChange(val === '' ? undefined : Number(val))
+          }}
           placeholder={placeholder}
           min={min}
           max={max}
           rightSection={
-            <Flex align='center' justify='center' w='100%' h='60%' style={{ borderLeft: '1px solid var(--mantine-color-dark-4)' }}>
+            <Flex
+              align='center'
+              justify='center'
+              w='100%'
+              h='60%'
+              style={{ borderLeft: '1px solid var(--mantine-color-dark-4)', cursor: 'pointer' }}
+              onClick={() => combobox.toggleDropdown()}
+            >
               <Combobox.Chevron />
             </Flex>
           }
-          rightSectionPointerEvents='none'
-          styles={{ input: { cursor: 'pointer' } }}
-          onClick={() => combobox.toggleDropdown()}
+          rightSectionPointerEvents='all'
         />
       </Combobox.Target>
 

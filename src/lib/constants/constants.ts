@@ -256,13 +256,13 @@ export const SubStatValues = {
   [Stats.ATK]: {
     5: { high: 21.168754, mid: 19.051877, low: 16.935 },
     4: { high: 16.935, mid: 15.2415, low: 13.548 },
-    3: { high: 10.161, mid: 11.431126, low: 12.701252 },
+    3: { high: 12.701252, mid: 11.431126, low: 10.161 },
     2: { high: 8.4675, mid: 7.62075, low: 6.774 },
   },
   [Stats.DEF]: {
     5: { high: 21.168754, mid: 19.051877, low: 16.935 },
     4: { high: 16.935, mid: 15.2415, low: 13.548 },
-    3: { high: 10.161, mid: 11.431126, low: 12.701252 },
+    3: { high: 12.701252, mid: 11.431126, low: 10.161 },
     2: { high: 8.4675, mid: 7.62075, low: 6.774 },
   },
   [Stats.HP_P]: {
@@ -280,7 +280,7 @@ export const SubStatValues = {
   [Stats.DEF_P]: {
     5: { high: 5.4, mid: 4.86, low: 4.32 },
     4: { high: 4.32, mid: 3.888, low: 3.456 },
-    3: { high: 2.592, mid: 2.916, low: 3.24 },
+    3: { high: 3.24, mid: 2.916, low: 2.592 },
     2: { high: 2.16, mid: 1.944, low: 1.728 },
   },
   [Stats.BE]: {
@@ -304,7 +304,7 @@ export const SubStatValues = {
   [Stats.CR]: {
     5: { high: 3.24, mid: 2.916, low: 2.592 },
     4: { high: 2.592, mid: 2.3328, low: 2.0736 },
-    3: { high: 1.5552, mid: 1.7496, low: 1.944 },
+    3: { high: 1.944, mid: 1.7496, low: 1.5552 },
     2: { high: 1.296, mid: 1.1664, low: 1.0368 },
   },
   [Stats.CD]: {

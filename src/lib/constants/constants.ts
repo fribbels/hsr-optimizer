@@ -12,7 +12,7 @@ export const CURRENT_OPTIMIZER_VERSION = 'v4.1.5'
 export const CURRENT_DATA_VERSION = '4.2v2'
 
 // Controls downtime messaging
-export const SHOWCASE_DOWNTIME = true
+export const SHOWCASE_DOWNTIME = false
 export const RELIQUARY_DOWNTIME = true
 export const DOWNTIME_VERSION: string = '4.1'
 

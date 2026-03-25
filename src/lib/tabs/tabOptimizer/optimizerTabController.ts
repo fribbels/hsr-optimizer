@@ -213,6 +213,12 @@ export const OptimizerTabController = {
               params.successCallback(subArray, controllerState.rows.length)
             }
 
+            // Refresh pinned top row so its gradient colors reflect the updated aggregations
+            const pinnedNode = gridStore.optimizerGridApi()?.getPinnedTopRow(0)
+            if (pinnedNode) {
+              gridStore.optimizerGridApi()?.refreshCells({ rowNodes: [pinnedNode], force: true })
+            }
+
             // cannot assume a fast click race-condition didn't happen
             gridStore.optimizerGridApi()?.setGridOption('loading', false)
           })

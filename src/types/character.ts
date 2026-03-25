@@ -1,6 +1,7 @@
 import type data from 'data/game_data.json'
 import type { Parts } from 'lib/constants/constants'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
+import type { ComboType } from 'lib/optimization/rotation/comboType'
 import type { Prettify } from 'types/common'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type { CustomImageConfig } from 'types/customImage'
@@ -39,6 +40,7 @@ export type SavedBuild = Prettify<
 >
 
 export type BuildOptimizerMetadata = {
+  comboType?: ComboType,
   comboStateJson: string | null,
   statFilters: StatFilters | null,
   setFilters?: SetFilters,

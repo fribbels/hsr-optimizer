@@ -3,7 +3,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { defaultTeammate } from 'lib/optimization/defaultForm'
+import { defaultTeammate, getDefaultForm } from 'lib/optimization/defaultForm'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import type { TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -58,24 +58,27 @@ export function saveBuild(
         minErr: internalForm.minErr, maxErr: internalForm.maxErr,
       }
       const optimizerMetadata: BuildOptimizerMetadata = {
+        comboType: state.comboType,
         setFilters: clone(state.setFilters),
         statFilters,
         comboStateJson: clone(state.comboStateJson),
         setConditionals: clone(state.setConditionals),
         presets: state.comboPreprocessor,
       }
-      state.teammates.forEach((teammate) => {
-        team.push({
-          characterId: teammate.characterId!,
-          lightConeId: teammate.lightCone!,
-          eidolon: teammate.characterEidolon,
-          superimposition: teammate.lightConeSuperimposition,
-          relicSet: teammate.teamRelicSet,
-          ornamentSet: teammate.teamOrnamentSet,
-          characterConditionals: clone(teammate.characterConditionals),
-          lightConeConditionals: clone(teammate.lightConeConditionals),
+      state.teammates
+        .filter((teammate) => teammate.characterId)
+        .forEach((teammate) => {
+          team.push({
+            characterId: teammate.characterId!,
+            lightConeId: teammate.lightCone!,
+            eidolon: teammate.characterEidolon,
+            superimposition: teammate.lightConeSuperimposition,
+            relicSet: teammate.teamRelicSet,
+            ornamentSet: teammate.teamOrnamentSet,
+            characterConditionals: clone(teammate.characterConditionals),
+            lightConeConditionals: clone(teammate.lightConeConditionals),
+          })
         })
-      })
 
       build = {
         characterId,
@@ -187,8 +190,11 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
   const meta = build.optimizerMetadata
   const metadata = getGameMetadata()
 
-  // Set the character first (sets focus + characterId in store)
+  // Set focus + characterId, then load the character's full form to reset all fields
   setCharacter(characterId)
+  const character = getCharacterById(characterId)
+  const form = character ? character.form : getDefaultForm({ id: characterId })
+  useOptimizerRequestStore.getState().loadForm(form)
 
   // Build teammate states
   const teammateIndices = [0, 1, 2] as const
@@ -270,12 +276,16 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
       minBe: undefined, maxBe: undefined, minErr: undefined, maxErr: undefined,
     }
   } else {
-    if (meta.comboStateJson) {
-      patch.comboType = ComboType.ADVANCED
+    // Use saved comboType if available, fall back to inference for old builds
+    if (meta.comboType) {
+      patch.comboType = meta.comboType
+    } else {
+      patch.comboType = meta.comboStateJson && meta.comboStateJson !== '{}'
+        ? ComboType.ADVANCED : ComboType.SIMPLE
+    }
+    if (patch.comboType === ComboType.ADVANCED) {
       patch.comboPreprocessor = meta.presets
       patch.comboStateJson = clone(meta.comboStateJson)
-    } else {
-      patch.comboType = ComboType.SIMPLE
     }
     if (meta.statFilters) {
       patch.statFilters = internalToStatFilters(meta.statFilters as Partial<Form>)

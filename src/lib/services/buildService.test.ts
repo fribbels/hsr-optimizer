@@ -1,12 +1,20 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
-import { clearBuilds, deleteBuild, saveBuild } from './buildService'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { clearBuilds, deleteBuild, loadBuildInOptimizer, saveBuild } from './buildService'
 import { useCharacterStore, getCharacterById } from 'lib/stores/character/characterStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Metadata } from 'lib/state/metadataInitializer'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import { AppPages, SavedBuildSource } from 'lib/constants/appPages'
-import type { Character, SavedBuild } from 'types/character'
+import type { Character, BuildOptimizerMetadata, SavedBuild } from 'types/character'
+
+// ---- Mocks ----
+
+vi.mock('lib/state/saveState', () => ({
+  SaveState: { delayedSave: vi.fn() },
+}))
 
 // ---- Setup ----
 
@@ -147,6 +155,78 @@ describe('buildService', () => {
 
       const character = getCharacterById(Kafka.id)!
       expect(character.builds).toEqual([])
+    })
+  })
+
+  describe('saveBuild — H11: empty teammate filtering', () => {
+    it('saveBuild from optimizer filters out empty teammate slots', () => {
+      seedCharacter()
+
+      // Set up optimizer state with one real teammate and two empty slots
+      useOptimizerRequestStore.setState({
+        characterId: Kafka.id,
+        characterEidolon: 0,
+        lightCone: '21001' as any,
+        lightConeSuperimposition: 1,
+        teammates: [
+          { characterId: Jingliu.id, characterEidolon: 0, lightCone: '21001' as any, lightConeSuperimposition: 1, characterConditionals: {}, lightConeConditionals: {} } as any,
+          { characterId: undefined, characterEidolon: 0, lightCone: undefined, lightConeSuperimposition: 1, characterConditionals: {}, lightConeConditionals: {} } as any,
+          { characterId: undefined, characterEidolon: 0, lightCone: undefined, lightConeSuperimposition: 1, characterConditionals: {}, lightConeConditionals: {} } as any,
+        ],
+      })
+
+      saveBuild(BUILD_NAME_1, Kafka.id, SavedBuildSource.OPTIMIZER, false)
+
+      const build = getCharacterById(Kafka.id)!.builds![0]
+      // Only the real teammate should be in the team array
+      expect(build.team).toHaveLength(1)
+      expect(build.team[0].characterId).toBe(Jingliu.id)
+    })
+  })
+
+  describe('loadBuildInOptimizer — H1, H3', () => {
+    it('H1: resets form fields before applying build patch', () => {
+      seedCharacter()
+
+      // Set stale state in the optimizer store
+      useOptimizerRequestStore.setState({ enemyLevel: 999 })
+
+      const build = makeBuild({
+        optimizerMetadata: {
+          comboStateJson: null,
+          statFilters: null,
+          setConditionals: {},
+          presets: true,
+          comboType: ComboType.SIMPLE,
+        } as unknown as BuildOptimizerMetadata,
+        team: [],
+      })
+
+      loadBuildInOptimizer(build)
+
+      // enemyLevel should be reset to the character form's default, not stale 999
+      const state = useOptimizerRequestStore.getState()
+      expect(state.enemyLevel).not.toBe(999)
+    })
+
+    it('H3: loads SIMPLE comboType when comboStateJson is empty object', () => {
+      seedCharacter()
+
+      const build = makeBuild({
+        optimizerMetadata: {
+          comboStateJson: '{}',
+          statFilters: null,
+          setConditionals: {},
+          setFilters: { fourPiece: [], twoPieceCombos: [], ornaments: [] },
+          presets: true,
+          comboType: ComboType.SIMPLE,
+        } as unknown as BuildOptimizerMetadata,
+        team: [],
+      })
+
+      loadBuildInOptimizer(build)
+
+      expect(useOptimizerRequestStore.getState().comboType).toBe(ComboType.SIMPLE)
     })
   })
 })

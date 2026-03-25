@@ -286,6 +286,9 @@ export function loadBuildInOptimizer(arg1: CharacterId | SavedBuild, buildIndex?
     if (patch.comboType === ComboType.ADVANCED) {
       patch.comboPreprocessor = meta.presets
       patch.comboStateJson = clone(meta.comboStateJson)
+    } else {
+      patch.comboPreprocessor = true
+      patch.comboStateJson = '{}'
     }
     if (meta.statFilters) {
       patch.statFilters = internalToStatFilters(meta.statFilters as Partial<Form>)

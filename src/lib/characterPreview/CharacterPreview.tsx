@@ -61,6 +61,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useState,
 } from 'react'
 import {
   type Character,
@@ -95,8 +96,103 @@ interface CharacterPreviewPropsBase {
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
-// Finalized portrait background filter
-const PORTRAIT_FILTER = 'blur(22px) brightness(0.40) saturate(1.75)'
+// Portrait background filter defaults
+const PORTRAIT_BLUR = 22
+const PORTRAIT_BRIGHTNESS = 0.40
+const PORTRAIT_SATURATE = 1.80
+const CARD_BG_ALPHA_DEFAULT = 0.45
+
+// Shadow defaults
+const SHADOW_X = 1
+const SHADOW_Y = 1
+const SHADOW_BLUR_DEFAULT = 5
+const SHADOW_OPACITY = 0.75
+const INSET_BLUR_DEFAULT = 2
+const INSET_OPACITY = 0.30
+
+function buildPortraitFilter(blur: number, brightness: number, saturate: number) {
+  return `blur(${blur}px) brightness(${brightness.toFixed(2)}) saturate(${saturate.toFixed(2)})`
+}
+
+function buildShadow(x: number, y: number, blur: number, opacity: number) {
+  return `rgba(0, 0, 0, ${opacity.toFixed(2)}) ${x}px ${y}px ${blur}px`
+}
+
+function buildInsetShadow(blur: number, opacity: number) {
+  return `, inset rgba(255, 255, 255, ${opacity.toFixed(2)}) 0px 0px ${blur}px`
+}
+
+function replaceOklchAlpha(cssColor: string, alpha: number): string {
+  return cssColor.replace(/\/\s*[\d.]+\)/, `/ ${alpha.toFixed(2)})`)
+}
+
+type SliderDef = { label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void }
+type SliderGroup = { title: string; sliders: SliderDef[] }
+
+// Debug slider panel for tuning card visuals — hidden by default, click [+] to show
+function DebugSliderPanel({ groups }: { groups: SliderGroup[] }) {
+  const [open, setOpen] = useState(false)
+
+  if (!open) {
+    return (
+      <div
+        onClick={() => setOpen(true)}
+        style={{
+          position: 'fixed',
+          top: 10,
+          right: 10,
+          zIndex: 9999,
+          background: 'rgba(0,0,0,0.7)',
+          borderRadius: 6,
+          padding: '4px 10px',
+          color: '#ddd',
+          fontSize: 16,
+          cursor: 'pointer',
+          userSelect: 'none',
+        }}
+      >
+        +
+      </div>
+    )
+  }
+
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 10,
+      right: 10,
+      zIndex: 9999,
+      background: 'rgba(0,0,0,0.85)',
+      borderRadius: 8,
+      padding: '14px 20px',
+      color: '#ddd',
+      fontSize: 13,
+      minWidth: 520,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6,
+      maxHeight: '90vh',
+      overflowY: 'auto',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+        <span style={{ fontWeight: 600, fontSize: 14 }}>Card Debug Sliders</span>
+        <span onClick={() => setOpen(false)} style={{ cursor: 'pointer', padding: '0 4px' }}>x</span>
+      </div>
+      {groups.map((g) => (
+        <div key={g.title} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          <div style={{ fontWeight: 600, fontSize: 12, color: '#aaa', borderBottom: '1px solid #444', paddingBottom: 2, marginTop: 4 }}>{g.title}</div>
+          {g.sliders.map((s) => (
+            <label key={s.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+              <span style={{ minWidth: 100 }}>{s.label}</span>
+              <span style={{ minWidth: 40, textAlign: 'right', fontFamily: 'monospace' }}>{s.value.toFixed(2)}</span>
+              <input type="range" min={s.min} max={s.max} step={s.step} value={s.value} onChange={(e) => s.onChange(Number(e.target.value))} style={{ width: 300 }} />
+            </label>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export function CharacterPreview({
   character,
@@ -135,6 +231,18 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const character = rawCharacter as Character
 
   const mantineTheme = useMantineTheme()
+
+  const [portraitBlur, setPortraitBlur] = useState(PORTRAIT_BLUR)
+  const [portraitBrightness, setPortraitBrightness] = useState(PORTRAIT_BRIGHTNESS)
+  const [portraitSaturate, setPortraitSaturate] = useState(PORTRAIT_SATURATE)
+  const [cardBgAlpha, setCardBgAlpha] = useState(CARD_BG_ALPHA_DEFAULT)
+  const [shadowX, setShadowX] = useState(SHADOW_X)
+  const [shadowY, setShadowY] = useState(SHADOW_Y)
+  const [shadowBlur, setShadowBlur] = useState(SHADOW_BLUR_DEFAULT)
+  const [shadowOpacity, setShadowOpacity] = useState(SHADOW_OPACITY)
+  const [insetBlur, setInsetBlur] = useState(INSET_BLUR_DEFAULT)
+  const [insetOpacity, setInsetOpacity] = useState(INSET_OPACITY)
+  const portraitFilter = buildPortraitFilter(portraitBlur, portraitBrightness, portraitSaturate)
 
   const state = useCharacterPreviewState(source, rawCharacter, savedBuildOverride)
 
@@ -274,6 +382,24 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   return (
     <Flex direction="column" style={{ width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
+      <DebugSliderPanel groups={[
+        { title: 'Portrait BG Filter', sliders: [
+          { label: 'Blur', value: portraitBlur, min: 0, max: 50, step: 1, onChange: setPortraitBlur },
+          { label: 'Brightness', value: portraitBrightness, min: 0, max: 1, step: 0.01, onChange: setPortraitBrightness },
+          { label: 'Saturate', value: portraitSaturate, min: 0, max: 4, step: 0.05, onChange: setPortraitSaturate },
+          { label: 'Card BG Alpha', value: cardBgAlpha, min: 0, max: 1, step: 0.01, onChange: setCardBgAlpha },
+        ]},
+        { title: 'Outer Shadow', sliders: [
+          { label: 'X', value: shadowX, min: -5, max: 5, step: 0.5, onChange: setShadowX },
+          { label: 'Y', value: shadowY, min: -5, max: 5, step: 0.5, onChange: setShadowY },
+          { label: 'Blur', value: shadowBlur, min: 0, max: 15, step: 0.5, onChange: setShadowBlur },
+          { label: 'Opacity', value: shadowOpacity, min: 0, max: 1, step: 0.05, onChange: setShadowOpacity },
+        ]},
+        { title: 'Inset Glow', sliders: [
+          { label: 'Blur', value: insetBlur, min: 0, max: 8, step: 0.5, onChange: setInsetBlur },
+          { label: 'Opacity', value: insetOpacity, min: 0, max: 1, step: 0.05, onChange: setInsetOpacity },
+        ]},
+      ]} />
       {
         /*
         Will only render (<></>) if source == ShowcaseSource.BUILDS_MODAL
@@ -297,8 +423,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         id={id}
         className='characterPreview'
         style={{
-          '--showcase-card-bg': derivedShowcaseTheme.cardBackgroundColor,
+          '--showcase-card-bg': replaceOklchAlpha(derivedShowcaseTheme.cardBackgroundColor, cardBgAlpha),
           '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
+          '--showcase-shadow': buildShadow(shadowX, shadowY, shadowBlur, shadowOpacity),
+          '--showcase-shadow-inset': buildInsetShadow(insetBlur, insetOpacity),
           color: '#d7d7d7',
           textShadow: '0px 0px 3px rgba(0,0,0,0.9), 0px 0px 1px rgba(0,0,0,0.7)',
           position: 'relative',
@@ -326,8 +454,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             right: 0,
             bottom: 0,
             zIndex: 0,
-            filter: PORTRAIT_FILTER,
-            WebkitFilter: PORTRAIT_FILTER,
+            filter: portraitFilter,
+            WebkitFilter: portraitFilter,
           }}
         />
 

@@ -181,8 +181,15 @@ export class KelzFormatParser { // TODO abstract class
 
     if (json.relics) {
       parsed.relics = json.relics
-        .map((r) => this.parseRelic(r, activatedBuffs))
-        .filter(filterNullWithWarn('relic'))
+        .map((r) => {
+          try {
+            return this.parseRelic(r, activatedBuffs)
+          } catch (e) {
+            console.warn('Failed to parse relic, skipping', r._uid, e)
+            return null
+          }
+        })
+        .filter((r): r is Relic => r !== null)
     }
     // "Scanner file is outdated / may contain invalid information. Please update your scanner."
     if (this.badRollInfo) {
@@ -199,7 +206,9 @@ export class KelzFormatParser { // TODO abstract class
   }
 
   parseRelic(parserRelic: V4ParserRelic, activatedBuffs: Record<string, CharacterId>, substatListOverride?: V4ParserSubstat[]) {
-    const relic = RelicAugmenter.augment(readRelic(parserRelic, substatListOverride ?? parserRelic.substats, this))
+    const unaugmented = readRelic(parserRelic, substatListOverride ?? parserRelic.substats, this)
+    if (!unaugmented) return null
+    const relic = RelicAugmenter.augment(unaugmented)
 
     if (relic === null) return null
 
@@ -280,11 +289,16 @@ function readCharacter(character: V4ParserCharacter, lightCones: V4ParserLightCo
   }
 }
 
-function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], scanner: KelzFormatParser): UnaugmentedRelic {
+function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], scanner: KelzFormatParser): UnaugmentedRelic | null {
   const part = parserRelic.slot.replace(/\s+/g, '') as Parts
 
   const setId = parserRelic.set_id
-  const set = relicSetMapping[setId].name
+  const setEntry = relicSetMapping[setId]
+  if (!setEntry) {
+    console.warn('Unknown relic set_id, skipping:', setId)
+    return null
+  }
+  const set = setEntry.name
 
   const enhance = Math.min(Math.max(parserRelic.level, 0), 15)
   const grade = Math.min(Math.max(parserRelic.rarity, 2), 5)
@@ -321,7 +335,7 @@ function readRelic(parserRelic: V4ParserRelic, substatList: V4ParserSubstat[], s
     equippedBy,
     verified: scanner.config.speedVerified,
     id: parserRelic._uid,
-    ageIndex: parseInt(parserRelic._uid),
+    ageIndex: undefined,
   }
 
   return relic

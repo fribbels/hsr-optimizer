@@ -75,13 +75,16 @@ export function unequipCharacter(characterId: CharacterId): void {
 export function equipRelic(relic: Relic, characterId: CharacterId | undefined, forceSwap = false): void {
   if (!relic?.id) return console.warn('No relic')
   if (!characterId) return console.warn('No character')
-  relic = getRelicById(relic.id)!
+  const freshRelic = getRelicById(relic.id)
+  if (!freshRelic) return console.warn('Relic not found in store', relic.id)
+  relic = freshRelic
 
   const prevOwnerId = relic.equippedBy
-  const prevCharacter = getCharacterById(prevOwnerId!)
-  const character = getCharacterById(characterId)!
-  const prevRelic = getRelicById(character.equipped[relic.part]!)
-  let updatedPrevCharacter: Character
+  const prevCharacter = prevOwnerId ? getCharacterById(prevOwnerId) : undefined
+  const character = getCharacterById(characterId)
+  if (!character) return console.warn('Character not found in store', characterId)
+  const equippedId = character.equipped[relic.part]
+  const prevRelic = equippedId ? getRelicById(equippedId) : undefined
 
   if (prevRelic) {
     unequipRelic(prevRelic.id)
@@ -91,13 +94,13 @@ export function equipRelic(relic: Relic, characterId: CharacterId | undefined, f
 
   // only re-equip prevRelic if it would go to a different character
   if (prevOwnerId !== characterId && prevCharacter) {
+    const updatedEquipped = prevRelic && swap
+      ? { ...prevCharacter.equipped, [relic.part]: prevRelic.id }
+      : { ...prevCharacter.equipped, [relic.part]: undefined }
     if (prevRelic && swap) {
-      updatedPrevCharacter = { ...prevCharacter, equipped: { ...prevCharacter.equipped, [relic.part]: prevRelic.id } }
       upsertRelic({ ...prevRelic, equippedBy: prevCharacter.id })
-    } else {
-      updatedPrevCharacter = { ...prevCharacter, equipped: { ...prevCharacter.equipped, [relic.part]: undefined } }
     }
-    useCharacterStore.getState().setCharacter(updatedPrevCharacter!)
+    useCharacterStore.getState().setCharacter({ ...prevCharacter, equipped: updatedEquipped })
   }
 
   useCharacterStore.getState().setCharacter({ ...character, equipped: { ...character.equipped, [relic.part]: relic.id } })
@@ -122,8 +125,10 @@ export function equipRelicIds(relicIds: string[], characterId: CharacterId, forc
 export function switchRelics(fromId: CharacterId, toId: CharacterId): void {
   if (!fromId) return console.warn('No characterId to equip from')
   if (!toId) return console.warn('No characterId to equip to')
-  const fromCharacter = getCharacterById(fromId)!
-  equipRelicIds(Object.values(fromCharacter.equipped), toId, true)
+  const fromCharacter = getCharacterById(fromId)
+  if (!fromCharacter) return console.warn('Source character not found', fromId)
+  const relicIds = Object.values(fromCharacter.equipped).filter(Boolean) as string[]
+  equipRelicIds(relicIds, toId, true)
 }
 
 /**
@@ -154,12 +159,6 @@ export function upsertRelicWithEquipment(relic: Relic): void {
   const addRelic = !oldRelic
 
   if (addRelic) {
-    relic.ageIndex ??= 1 + Math.max(
-      ...getRelics()
-        .map((r) => r.ageIndex)
-        .filter((x) => x != null),
-    )
-
     upsertRelic(relic)
     if (relic.equippedBy) {
       equipRelic(relic, relic.equippedBy)

@@ -3,12 +3,17 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   DEFAULT_WEBSOCKET_URL,
   handleDeleteRelic,
+  handleUpdateCharacter,
   usePrivateScannerState,
   useScannerState,
 } from './scannerStore'
 import type { ScannerParserJson, V4ParserCharacter, V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import type { CharacterId } from 'types/character'
+import { getRelics } from 'lib/stores/relic/relicStore'
 import { SaveState } from 'lib/state/saveState'
+import * as equipmentService from 'lib/services/equipmentService'
+import * as persistenceService from 'lib/services/persistenceService'
+import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 
 // ---- Mocks ----
 
@@ -27,7 +32,7 @@ vi.mock('lib/services/equipmentService', () => ({
   equipRelic: vi.fn(),
 }))
 
-vi.mock('lib/stores/relicStore', () => ({
+vi.mock('lib/stores/relic/relicStore', () => ({
   getRelicById: vi.fn(),
   getRelics: vi.fn(() => []),
 }))
@@ -370,6 +375,32 @@ describe('scannerStore', () => {
 
       expect(state().ingestWarpResources).toBe(true)
       expect(SaveState.delayedSave).toHaveBeenCalled()
+    })
+  })
+
+  describe('handleUpdateCharacter — C4 operation ordering', () => {
+    it('creates character before relocating relics when mapping changes', () => {
+      usePrivateScannerState.setState({
+        ingest: true,
+        ingestCharacters: true,
+        activatedBuffs: { [CHAR_ID_1]: 'previousId' as CharacterId },
+      })
+
+      vi.mocked(getRelics).mockReturnValueOnce([
+        { equippedBy: 'previousId' as CharacterId, id: RELIC_UID_1, part: 'Head' } as any,
+      ])
+      vi.mocked(ReliquaryArchiverParser.parseCharacter).mockReturnValueOnce({ characterId: CHAR_ID_1 } as any)
+
+      const callOrder: string[] = []
+      vi.mocked(persistenceService.upsertCharacterFromForm).mockImplementation((() => { callOrder.push('upsertCharacter') }) as any)
+      vi.mocked(equipmentService.equipRelic).mockImplementation(() => { callOrder.push('equipRelic') })
+
+      handleUpdateCharacter(state(), {
+        id: CHAR_ID_1, name: 'March 7th', path: 'Preservation',
+        level: 80, ascension: 6, eidolon: 0,
+      })
+
+      expect(callOrder).toEqual(['upsertCharacter', 'equipRelic'])
     })
   })
 })

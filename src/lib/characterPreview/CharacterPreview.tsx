@@ -95,8 +95,8 @@ interface CharacterPreviewPropsBase {
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
-// Finalized portrait background filter — "X" preset from tuning
-const PORTRAIT_FILTER = 'blur(22px) brightness(0.35) saturate(2.50)'
+// Finalized portrait background filter
+const PORTRAIT_FILTER = 'blur(22px) brightness(0.45) saturate(1.75)'
 
 export function CharacterPreview({
   character,

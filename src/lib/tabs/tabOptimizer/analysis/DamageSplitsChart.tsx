@@ -79,6 +79,16 @@ function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: Flatten
     rows.push(row)
   }
 
+  // Fill missing bar keys with 0 so recharts stacking accumulates positions correctly
+  const allKeys = bars.map((b) => b.key)
+  for (const row of rows) {
+    for (const key of allKeys) {
+      if (row[key] === undefined) {
+        row[key] = 0
+      }
+    }
+  }
+
   return { rows, bars, legendItems }
 }
 

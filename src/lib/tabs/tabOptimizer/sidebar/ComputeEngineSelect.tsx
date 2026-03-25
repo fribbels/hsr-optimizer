@@ -84,7 +84,7 @@ export function ComputeEngineSelect() {
                 */
               }
             </div>
-            <IconChevronDown />
+            <IconChevronDown size={16} style={{ marginLeft: 2 }} />
           </Flex>
         </Button>
       </Menu.Target>

@@ -1,0 +1,13 @@
+diff --git a/node_modules/i18next/typescript/t.d.ts b/node_modules/i18next/typescript/t.d.ts
+index 2864f98..73e0054 100644
+--- a/node_modules/i18next/typescript/t.d.ts
++++ b/node_modules/i18next/typescript/t.d.ts
+@@ -193,7 +193,7 @@ type _BuiltInFormatTypeMap = {
+ type _ResolveEntryType<Name extends string, Format> = [Format] extends [never]
+   ? Name extends 'count'
+     ? number
+-    : string
++    : string | number
+   : Format extends keyof _InterpolationFormatTypeMap
+     ? _InterpolationFormatTypeMap[Format]
+     : Format extends keyof _BuiltInFormatTypeMap

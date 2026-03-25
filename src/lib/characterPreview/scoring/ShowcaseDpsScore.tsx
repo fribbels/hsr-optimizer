@@ -149,7 +149,7 @@ function CharacterPreviewScoringTeammate({
             className={teammateClasses.teammateAvatar}
           />
 
-          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon })} top={-12} />
+          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon ?? 0 })} top={-12} />
         </div>
 
         <div className={teammateClasses.iconWrapper}>
@@ -170,7 +170,7 @@ function CharacterPreviewScoringTeammate({
           )}
 
           <OverlayText
-            text={t('common:SuperimpositionNShort', { superimposition: teammate?.lightConeSuperimposition })}
+            text={t('common:SuperimpositionNShort', { superimposition: teammate?.lightConeSuperimposition ?? 0 })}
             top={-18}
           />
         </div>

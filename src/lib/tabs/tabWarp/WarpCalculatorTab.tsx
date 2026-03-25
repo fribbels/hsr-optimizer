@@ -322,7 +322,7 @@ function Results() {
               <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('ColumnTitles.Goal')}</Table.Th>
               <Table.Th style={{ textAlign: 'center', width: 250 }}>
                 <Flex justify='center' align='center' gap={5}>
-                  <Trans
+                  <Trans<'ColumnTitles.Chance', 'warpCalculatorTab'>
                     t={t}
                     i18nKey='ColumnTitles.Chance'
                     values={{ ticketCount: warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0]) }}

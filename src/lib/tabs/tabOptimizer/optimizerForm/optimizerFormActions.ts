@@ -297,29 +297,7 @@ export function equipClicked(): void {
  * Reset form filters to defaults while preserving character/LC selection.
  */
 export function resetFilters(): void {
-  const fieldValues = getForm()
-  const newForm: Partial<Form> = {
-    characterEidolon: fieldValues.characterEidolon,
-    characterId: fieldValues.characterId,
-    characterLevel: 80,
-    enhance: 9,
-    grade: 5,
-    mainStatUpscaleLevel: 15,
-    rankFilter: true,
-    includeEquippedRelics: true,
-    keepCurrentRelics: false,
-    lightCone: fieldValues.lightCone,
-    lightConeLevel: 80,
-    lightConeSuperimposition: fieldValues.lightConeSuperimposition,
-    mainBody: [],
-    mainFeet: [],
-    mainHands: [],
-    mainHead: [],
-    mainLinkRope: [],
-    mainPlanarSphere: [],
-  }
-
-  useOptimizerRequestStore.getState().loadForm(newForm as Form)
+  useOptimizerRequestStore.getState().resetFilters()
 }
 
 /**
@@ -343,8 +321,9 @@ export function updateCharacter(characterId: CharacterId): void {
   OptimizerTabController.setRows([])
   OptimizerTabController.resetDataSource()
   const character = getCharacterById(characterId)
-
-  const form = character ? character.form : getDefaultForm({ id: characterId })
+  const baseForm = character ? character.form : getDefaultForm({ id: characterId })
+  // Clone to avoid mutating the store's character object via mergeUndefinedValues
+  const form = { ...baseForm, characterConditionals: { ...baseForm.characterConditionals } }
 
   // Merge saved conditionals with current defaults so newly added conditionals get their default values
   const controller = CharacterConditionalsResolver.get({ characterId, characterEidolon: form.characterEidolon })

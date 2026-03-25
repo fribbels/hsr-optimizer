@@ -100,4 +100,5 @@ function updateBuilds(name: string, overwrite: boolean) {
   } else {
     Message.success(i18next.t('charactersTab:Messages.SaveSuccess', { name }))
   }
+  SaveState.delayedSave()
 }

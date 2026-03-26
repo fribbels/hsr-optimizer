@@ -4,6 +4,7 @@ import { BuildSource } from 'types/savedBuild'
 import type { LightConeId } from 'types/lightCone'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadata } from 'types/metadata'
+import type { Relic } from 'types/relic'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { migrateBuild } from './buildMigration'
 
@@ -81,20 +82,20 @@ describe('migrateBuild', () => {
     })
 
     it('handles missing relics gracefully', () => {
-      const result = migrateBuild(LAYER1_ANCIENT_BUILD as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)
+      const result = migrateBuild(LAYER1_ANCIENT_BUILD as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)
       expect(result).not.toBeNull()
       expect(result!.equipped).toEqual({})
     })
 
     it('returns null for completely invalid data', () => {
-      const result = migrateBuild({} as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)
+      const result = migrateBuild({} as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)
       expect(result).toBeNull()
     })
   })
 
   describe('Layer 2: current format (old field names)', () => {
     it('renames fields and adds source for optimizer builds', () => {
-      const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)!
+      const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)!
       expect(result.source).toBe(BuildSource.Optimizer)
       expect(result.characterEidolon).toBe(2)
       expect(result.lightCone).toBe(LC_ID)
@@ -105,7 +106,7 @@ describe('migrateBuild', () => {
     })
 
     it('renames teammate fields', () => {
-      const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)!
+      const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)!
       const tm = result.team[0]!
       expect(tm.teamRelicSet).toBe('SetA')
       expect(tm.teamOrnamentSet).toBe('SetB')
@@ -113,7 +114,7 @@ describe('migrateBuild', () => {
     })
 
     it('converts optimizerMetadata === null to BuildSource.Character', () => {
-      const result = migrateBuild(LAYER2_CHARACTER_BUILD as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)!
+      const result = migrateBuild(LAYER2_CHARACTER_BUILD as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)!
       expect(result.source).toBe(BuildSource.Character)
       // deprioritizeBuffs should not be on CharacterSavedBuild
       expect('deprioritizeBuffs' in result).toBe(false)
@@ -121,12 +122,12 @@ describe('migrateBuild', () => {
 
     it('converts comboStateJson: null to empty string', () => {
       const buildWithNullCombo = { ...LAYER2_OPTIMIZER_BUILD, optimizerMetadata: { ...LAYER2_OPTIMIZER_BUILD.optimizerMetadata, comboStateJson: null } }
-      const result = migrateBuild(buildWithNullCombo as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)!
+      const result = migrateBuild(buildWithNullCombo as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)!
       expect((result as any).comboStateJson).toBe('{}')
     })
 
     it('pads team array to 3-slot tuple with nulls', () => {
-      const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)!
+      const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)!
       expect(result.team).toHaveLength(3)
       expect(result.team[0]).not.toBeNull()
       expect(result.team[1]).toBeNull()
@@ -134,7 +135,7 @@ describe('migrateBuild', () => {
     })
 
     it('renames presets → comboPreprocessor', () => {
-      const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)!
+      const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)!
       expect((result as any).comboPreprocessor).toBe(true)
       expect((result as any).presets).toBeUndefined()
     })
@@ -144,7 +145,7 @@ describe('migrateBuild', () => {
         ...LAYER2_OPTIMIZER_BUILD,
         optimizerMetadata: { ...LAYER2_OPTIMIZER_BUILD.optimizerMetadata, comboType: undefined, comboStateJson: '{"data":true}' },
       }
-      const result = migrateBuild(buildNoComboType as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)!
+      const result = migrateBuild(buildNoComboType as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)!
       expect((result as any).comboType).toBe('advanced')
     })
   })
@@ -152,7 +153,7 @@ describe('migrateBuild', () => {
   describe('Layer 3: new format (already migrated)', () => {
     it('returns build unchanged if source field exists', () => {
       const newBuild = { source: BuildSource.Character, name: 'Test', characterId: CHAR_ID, equipped: {}, characterEidolon: 0, lightCone: LC_ID, lightConeSuperimposition: 1, team: [null, null, null] }
-      const result = migrateBuild(newBuild as any, CHAR_ID, CHAR_FORM, new Map(), {} as ScoringMetadata)
+      const result = migrateBuild(newBuild as any, CHAR_ID, CHAR_FORM, new Map<string, Relic>(), {} as ScoringMetadata)
       expect(result).toEqual(newBuild)
     })
   })

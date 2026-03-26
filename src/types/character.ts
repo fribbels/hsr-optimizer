@@ -1,60 +1,21 @@
 import type data from 'data/game_data.json'
-import type { Parts } from 'lib/constants/constants'
-import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
-import type { ComboType } from 'lib/optimization/rotation/comboType'
-import type { Prettify } from 'types/common'
-import type { ConditionalValueMap } from 'types/conditionals'
 import type { CustomImageConfig } from 'types/customImage'
-import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
-import type {
-  Form,
-  OrnamentSetFilters,
-  RelicSetFilters,
-  StatFilters,
-} from 'types/form'
-import type { LightConeId } from 'types/lightCone'
-import type { Relic } from 'types/relic'
+import type { Form } from 'types/form'
+import type { SavedBuild } from 'types/savedBuild'
+
+export type { Build, SavedBuild } from 'types/savedBuild'
 
 export type CharacterId = keyof typeof data.characters
 
 export type Eidolon = number
 
-export type Build = Partial<Record<Parts, Relic['id']>>
-
 export type Character = {
-  id: CharacterId,
-  equipped: Build,
-  form: Form,
-  builds?: SavedBuild[],
-  portrait?: CustomImageConfig,
+  id: CharacterId
+  equipped: Build
+  form: Form
+  builds?: SavedBuild[]
+  portrait?: CustomImageConfig
 }
 
-export type SavedBuild = Prettify<
-  {
-    equipped: Build,
-    name: string,
-    team: Array<BuildTeammate>,
-    optimizerMetadata: BuildOptimizerMetadata | null,
-    deprioritizeBuffs: boolean,
-  } & Omit<BuildTeammate, 'relicSet' | 'ornamentSet'>
->
-
-export type BuildOptimizerMetadata = {
-  comboType?: ComboType,
-  comboStateJson: string | null,
-  statFilters: StatFilters | null,
-  setFilters?: SetFilters,
-  setConditionals: SetConditionals,
-  presets: boolean,
-}
-
-export type BuildTeammate = {
-  characterId: CharacterId,
-  eidolon: number,
-  lightConeId: LightConeId,
-  superimposition: number,
-  relicSet?: string,
-  ornamentSet?: string,
-  characterConditionals: ConditionalValueMap | undefined,
-  lightConeConditionals: ConditionalValueMap | undefined,
-}
+// Local alias for use within this file
+type Build = import('types/savedBuild').Build

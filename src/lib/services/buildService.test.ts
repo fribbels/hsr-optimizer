@@ -85,7 +85,7 @@ function makeCharacter(overrides: Partial<Character> = {}): Character {
       teammate0: {} as Teammate,
       teammate1: {} as Teammate,
       teammate2: {} as Teammate,
-    } as Character['form'],
+    } as unknown as Character['form'],
     ...overrides,
   }
 }

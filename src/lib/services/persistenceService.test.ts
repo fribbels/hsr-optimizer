@@ -176,17 +176,14 @@ describe('mergeRelics', () => {
     const char = makeCharacter({
       equipped: { [Parts.Head]: RELIC_HEAD_OLD },
       builds: [{
+        source: 'character' as const,
         name: 'Test Build',
         characterId: Kafka.id,
-        eidolon: 0,
-        lightConeId: '21001' as any,
-        superimposition: 1,
+        characterEidolon: 0,
+        lightCone: '21001' as any,
+        lightConeSuperimposition: 1,
         equipped: { [Parts.Head]: RELIC_HEAD_OLD },
-        team: [],
-        optimizerMetadata: null,
-        deprioritizeBuffs: false,
-        characterConditionals: undefined,
-        lightConeConditionals: undefined,
+        team: [null, null, null],
       }],
     })
 

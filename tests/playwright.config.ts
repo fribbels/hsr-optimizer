@@ -19,6 +19,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? '75%' : undefined,
+  globalSetup: './global.setup.ts',
 
   expect: {
     timeout: 5000,
@@ -30,25 +31,12 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
+    ...devices['Desktop Chrome'],
+    storageState: STORAGE_STATE,
+    launchOptions: {
+      args: ['--disable-gpu', '--disable-dev-shm-usage'],
+    },
   },
-
-  projects: [
-    {
-      name: 'setup',
-      testMatch: /global\.setup\.ts/,
-    },
-    {
-      name: 'WITH test data',
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: STORAGE_STATE,
-        launchOptions: {
-          args: ['--disable-gpu', '--disable-dev-shm-usage'],
-        },
-      },
-      dependencies: ['setup'],
-    },
-  ],
 
   webServer: {
     command: process.env.CI ? 'npx vite preview' : 'npm run start',

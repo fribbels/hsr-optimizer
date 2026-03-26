@@ -1,16 +1,24 @@
-import {
-  expect,
-  test as setup,
-} from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
 import { STORAGE_STATE } from './playwright.config'
+import sampleSave from '../src/data/sample-save.json'
 
-setup('HSR Optimizer loading test data', async ({ page }) => {
-  await page.goto('http://localhost:3000/hsr-optimizer#showcase')
-  await expect(page.getByRole('banner')).toContainText('Fribbels Honkai Star Rail Optimizer')
-  await page.getByRole('menuitem', { name: 'Get Started' }).click()
-  await page.getByRole('button', { name: 'Try it out!' }).click()
-  await page.getByRole('button', { name: 'Yes' }).click()
-  await expect(page.locator('body')).toContainText('Successfully loaded data')
+// Write sample data directly to localStorage storage state.
+// The raw sample-save.json (relics + characters) is a valid subset of HsrOptimizerSaveFormat.
+// On app boot, SaveState.load() passes it through loadSaveData() which handles all
+// transformations: character validation, form migration, relic augmentation, etc.
+export default function globalSetup() {
+  const storageState = {
+    cookies: [],
+    origins: [{
+      origin: 'http://localhost:3000',
+      localStorage: [{
+        name: 'state',
+        value: JSON.stringify(sampleSave),
+      }],
+    }],
+  }
 
-  await page.context().storageState({ path: STORAGE_STATE })
-})
+  fs.mkdirSync(path.dirname(STORAGE_STATE), { recursive: true })
+  fs.writeFileSync(STORAGE_STATE, JSON.stringify(storageState))
+}

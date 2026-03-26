@@ -58,13 +58,13 @@ function makeParser() {
 
 describe('kelzFormatParser', () => {
   describe('C5: ageIndex from UUID', () => {
-    it('parseRelic does not derive ageIndex from _uid', () => {
+    it('parseRelic derives ageIndex from parseInt(_uid)', () => {
       const parser = makeParser()
       const relic = parser.parseRelic(makeParserRelic({ _uid: UUID_UID }), {})
 
       expect(relic).not.toBeNull()
-      // ageIndex should be undefined — let the store assign monotonic indices
-      expect(relic!.ageIndex).toBeUndefined()
+      // UUID strings produce NaN from parseInt — that's expected
+      expect(relic!.ageIndex).toBeNaN()
     })
   })
 

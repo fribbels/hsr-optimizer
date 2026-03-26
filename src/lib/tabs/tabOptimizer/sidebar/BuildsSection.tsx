@@ -1,25 +1,21 @@
 import { Button, Flex } from '@mantine/core'
-import { AppPages } from 'lib/constants/appPages'
 import { Hint } from 'lib/interactions/hint'
 import { useBuildsModalStore } from 'lib/overlays/modals/buildsModalStore'
 import { useSaveBuildModalStore } from 'lib/overlays/modals/saveBuildModalStore'
-import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { BuildSource } from 'types/savedBuild'
 
 const defaultGap = 5
 
 export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.BuildsGroup' })
   const focusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
-  const charactersById = useCharacterStore((s) => s.charactersById)
 
   if (!isFullSize || !focusCharacter) return null
-
-  const character = charactersById[focusCharacter] ?? null
 
   return (
     <Flex direction="column">
@@ -31,14 +27,14 @@ export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: {
         <Button
           variant="default"
           style={{ flex: 1 }}
-          onClick={() => useSaveBuildModalStore.getState().openOverlay({ source: AppPages.OPTIMIZER, character })}
+          onClick={() => useSaveBuildModalStore.getState().openOverlay({ source: BuildSource.Optimizer, characterId: focusCharacter })}
         >
           {t('Save')}
         </Button>
         <Button
           variant="default"
           style={{ flex: 1 }}
-          onClick={() => useBuildsModalStore.getState().openOverlay({ selectedCharacter: character })}
+          onClick={() => useBuildsModalStore.getState().openOverlay({ characterId: focusCharacter })}
         >
           {t('Load')}
         </Button>

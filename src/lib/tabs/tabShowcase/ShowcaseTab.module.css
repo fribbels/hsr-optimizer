@@ -43,11 +43,6 @@
   width: 150px;
 }
 
-.actionRow {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-}
 
 .portraitContainer {
   cursor: pointer;
@@ -122,25 +117,6 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
-.flexOne {
-  flex: 1;
-}
-
-.downloadButton {
-  width: 50px;
-}
-
-.importButton {
-  flex: 1;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.chevronButton {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  padding: 0 8px;
-}
 
 .downtimeWarning {
   color: #ffaa4f;

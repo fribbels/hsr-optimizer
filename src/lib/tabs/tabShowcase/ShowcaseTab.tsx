@@ -1,7 +1,4 @@
-import {
-  IconChevronDown,
-  IconFileImport,
-} from '@tabler/icons-react'
+import { IconChevronDown, IconSearch } from '@tabler/icons-react'
 import { Button, Flex, Loader, Menu, TextInput } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -200,6 +197,10 @@ function ShowcaseLoaded() {
 
   const importMenuItems = [
     {
+      label: t('ImportLabels.Relics'),
+      key: 'singleCharacter' as const,
+    },
+    {
       label: t('ImportLabels.AllCharacters'),
       key: 'multiCharacter' as const,
     },
@@ -226,40 +227,30 @@ function ShowcaseLoaded() {
           <Button
             loading={loading}
             className={styles.submitButton}
+            leftSection={<IconSearch size={16} />}
             onClick={handleSubmit}
           >
             {t('common:Submit')}
           </Button>
-        </Flex>
-
-        {/* Action buttons row */}
-        <Flex className={styles.actionRow} justify="space-between">
-          <Menu>
-            <Flex className={styles.flexOne}>
-              <Button
-                className={styles.importButton}
-                onClick={() => importShowcaseCharacters('singleCharacter')}
-                leftSection={<IconFileImport size={16} />}
-              >
-                {t('ImportLabels.Relics')}
-              </Button>
+          {availableCharacters && availableCharacters.length > 0 && (
+            <Menu>
               <Menu.Target>
-                <Button className={styles.chevronButton}>
-                  <IconChevronDown size={16} />
+                <Button
+                  rightSection={<IconChevronDown size={14} />}
+                  variant="default"
+                >
+                  Import
                 </Button>
               </Menu.Target>
-            </Flex>
-            <Menu.Dropdown>
-              {importMenuItems.map((item) => (
-                <Menu.Item key={item.key} onClick={() => importShowcaseCharacters(item.key)}>
-                  <Flex gap={10}>
-                    <IconFileImport />
+              <Menu.Dropdown>
+                {importMenuItems.map((item, i) => (
+                  <Menu.Item key={i} onClick={() => importShowcaseCharacters(item.key)}>
                     {item.label}
-                  </Flex>
-                </Menu.Item>
-              ))}
-            </Menu.Dropdown>
-          </Menu>
+                  </Menu.Item>
+                ))}
+              </Menu.Dropdown>
+            </Menu>
+          )}
         </Flex>
 
         {/* DPS Score Disclaimer */}

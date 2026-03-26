@@ -6,7 +6,7 @@ import {
 test('Open RelicModal in edit mode from the CharacterPreview tab', async ({ page }) => {
   // navigate to Relics tab
   await page.goto('/#showcase')
-  await page.getByRole('menuitem', { name: 'Relics' }).click()
+  await page.getByRole('button', { name: 'Relics' }).click()
 
   await page.getByRole('row', { name: '9 Rope Energy 7.7 10.2 16 8.6 7.7' }).click()
   await page.getByText('+9Energy Regen7.7%Def16DEF %').click()

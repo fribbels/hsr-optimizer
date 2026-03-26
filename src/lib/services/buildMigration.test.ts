@@ -70,7 +70,7 @@ const LAYER1_ANCIENT_BUILD = {
 describe('migrateBuild', () => {
   describe('Layer 1: ancient format', () => {
     it('converts { build: string[], name, score } to CharacterSavedBuild', () => {
-      const relicsById = new Map([
+      const relicsById = new Map<string, Relic>([
         ['r1', { id: 'r1', part: 'Head' }],
         ['r2', { id: 'r2', part: 'Hands' }],
       ] as any)

@@ -14,6 +14,7 @@ import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/opt
 import { loadSaveData, mergePartialRelics, mergeRelics, resetAll } from 'lib/services/persistenceService'
 import { getRelicById, getRelics } from 'lib/stores/relic/relicStore'
 import type { Character, CharacterId } from 'types/character'
+import { BuildSource } from 'types/savedBuild'
 import type { Relic } from 'types/relic'
 import type { Form } from 'types/form'
 import type { HsrOptimizerSaveFormat, UserSettings } from 'types/store'
@@ -176,7 +177,7 @@ describe('mergeRelics', () => {
     const char = makeCharacter({
       equipped: { [Parts.Head]: RELIC_HEAD_OLD },
       builds: [{
-        source: 'character' as const,
+        source: BuildSource.Character,
         name: 'Test Build',
         characterId: Kafka.id,
         characterEidolon: 0,

@@ -2,12 +2,10 @@ import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { type SwitchRelicsFormSelectedCharacter } from 'lib/overlays/modals/SwitchRelicsModal'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
-import { BuildSource } from 'types/savedBuild'
-import * as buildService from 'lib/services/buildService'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import type { CharacterId } from 'types/character'
 import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
@@ -22,10 +20,6 @@ export const CharacterTabController = {
     SaveState.delayedSave()
     useCharacterTabStore.getState().setFocusCharacter(character.id)
   },
-
-  confirmSaveBuild: (name: string) => updateBuilds(name, false),
-
-  confirmOverwriteBuild: (name: string) => updateBuilds(name, true),
 
   onSwitchRelicsOk: (switchTo: SwitchRelicsFormSelectedCharacter) => {
     const focusCharacter = useCharacterTabStore.getState().focusCharacter
@@ -82,23 +76,4 @@ export const CharacterTabController = {
     useCharacterStore.getState().setCharacters(sortedCharacters)
     SaveState.delayedSave()
   },
-}
-
-function updateBuilds(name: string, overwrite: boolean) {
-  const focusCharacter = useCharacterTabStore.getState().focusCharacter
-  const selectedCharacter = getCharacterById(focusCharacter ?? undefined)
-  if (!selectedCharacter) return
-  const res = buildService.saveBuild(
-    name,
-    selectedCharacter.id,
-    BuildSource.Character,
-    overwrite,
-  )
-  if (res) return Message.error(res.error)
-  if (overwrite) {
-    Message.success(i18next.t('modals:SaveBuild.ConfirmOverwrite.SuccessMessage', { name }))
-  } else {
-    Message.success(i18next.t('charactersTab:Messages.SaveSuccess', { name }))
-  }
-  SaveState.delayedSave()
 }

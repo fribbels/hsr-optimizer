@@ -1,11 +1,15 @@
+import { DEFAULT_TEAM } from 'lib/constants/constants'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type { OptimizerRequestState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import type { CharacterId } from 'types/character'
+import type { Character, CharacterId } from 'types/character'
+import type { Teammate } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import {
   BuildSource,
   type Build,
+  type CharacterSavedBuild,
   type OptimizerSavedBuild,
+  type SavedTeammate,
   type SavedTeammateWithConditionals,
   type TeamTuple,
 } from 'types/savedBuild'
@@ -73,4 +77,44 @@ export function serializeFromOptimizer(
     comboTurnAbilities: [...state.comboTurnAbilities],
     deprioritizeBuffs: state.deprioritizeBuffs,
   }
+}
+
+export function serializeFromCharacterTab(
+  name: string,
+  character: Character,
+  teammates: Teammate[] | undefined,
+  teamSelection: string | undefined,
+): CharacterSavedBuild {
+  const isCustom = teamSelection != null && teamSelection !== DEFAULT_TEAM
+  const team: TeamTuple<SavedTeammate> = isCustom && teammates
+    ? teammatesFromSimulation(teammates)
+    : [null, null, null]
+
+  return {
+    source: BuildSource.Character,
+    name,
+    characterId: character.id,
+    equipped: { ...character.equipped },
+    characterEidolon: character.form.characterEidolon,
+    lightCone: character.form.lightCone,
+    lightConeSuperimposition: character.form.lightConeSuperimposition,
+    team,
+  }
+}
+
+function teammatesFromSimulation(teammates: Teammate[]): TeamTuple<SavedTeammate> {
+  const result: (SavedTeammate | null)[] = [null, null, null]
+  for (let i = 0; i < 3 && i < teammates.length; i++) {
+    const tm = teammates[i]
+    if (!tm?.characterId) continue
+    result[i] = {
+      characterId: tm.characterId,
+      characterEidolon: tm.characterEidolon,
+      lightCone: tm.lightCone,
+      lightConeSuperimposition: tm.lightConeSuperimposition,
+      teamRelicSet: tm.teamRelicSet,
+      teamOrnamentSet: tm.teamOrnamentSet,
+    }
+  }
+  return result as TeamTuple<SavedTeammate>
 }

@@ -21,11 +21,13 @@ export function CharacterAnnouncement({ characterId, simulationMetadata }: {
     }
   }
 
-  if (messages.length === 0) {
+  const uniqueMessages = [...new Set(messages)]
+
+  if (uniqueMessages.length === 0) {
     return <></>
   }
 
-  return messages.map((message, i) => (
+  return uniqueMessages.map((message, i) => (
     <Alert color='blue' mt={10} key={i}>
       {message}
     </Alert>

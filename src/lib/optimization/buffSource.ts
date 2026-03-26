@@ -28,6 +28,7 @@ export enum BUFF_ABILITY {
   E4 = 'E4',
   E6 = 'E6',
   ELATION_SKILL = 'ElationSkill',
+  UNIQUE = 'Unique',
 
   CYRENE_ODE_TO = 'CYRENE_ODE_TO',
 
@@ -104,6 +105,7 @@ export const Source = {
       SOURCE_E4: generateCharacterSource(BUFF_ABILITY.E4),
       SOURCE_E6: generateCharacterSource(BUFF_ABILITY.E6),
       SOURCE_ELATION_SKILL: generateCharacterSource(BUFF_ABILITY.ELATION_SKILL),
+      SOURCE_UNIQUE: generateCharacterSource(BUFF_ABILITY.UNIQUE),
     }
   },
   lightCone(id: LightConeId): { SOURCE_LC: LightConeBuffSource } {

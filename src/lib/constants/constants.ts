@@ -4,18 +4,25 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.0.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.1.5'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.0v5'
+export const CURRENT_DATA_VERSION = '4.2v2'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
-export const RELIQUARY_DOWNTIME = false
-export const DOWNTIME_VERSION: string = '4.0'
+export const RELIQUARY_DOWNTIME = true
+export const DOWNTIME_VERSION: string = '4.1'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  // [SPARKLE_B1]: `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  '1506': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1505': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '8010': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '8009': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1004b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  '1102b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  '1217b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  '1310b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
 }
 
 export const Stats = {

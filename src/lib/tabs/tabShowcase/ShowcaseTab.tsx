@@ -154,6 +154,7 @@ function ShowcaseLoaded() {
     useCharacterModalStore.getState().openOverlay({
       initialCharacter: character,
       onOk: handleCharacterModalOk,
+      showSetSelection: true,
     })
   }, [])
 
@@ -170,6 +171,7 @@ function ShowcaseLoaded() {
       useCharacterModalStore.getState().openOverlay({
         initialCharacter: getSelectedCharacter(),
         onOk: handleCharacterModalOk,
+        showSetSelection: true,
       })
       return
     }
@@ -177,8 +179,8 @@ function ShowcaseLoaded() {
     handleCharacterModalOk({
       characterId: preset.characterId,
       lightCone: preset.lightConeId,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      characterEidolon: preset.characterEidolon ?? 0,
+      lightConeSuperimposition: preset.lightConeSuperimposition ?? 1,
     })
   }, [])
 

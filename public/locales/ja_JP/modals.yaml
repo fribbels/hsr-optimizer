@@ -329,11 +329,21 @@ EditImage:
 SaveBuild:
   Label: ビルド名の入力
   Rule: 名前を入力してください
+  Overwrite: 上書き保存
+  ConfirmOverwrite:
+    Content: 本当にこのビルドを上書きしますか？
+    SuccessMessage: 'ビルドを上書きしました：{{name}}'
+  Tooltip:
+    SaveDisabled:
+      NameTaken: この名前のビルドは既に存在します。ビルドを保存するには名前を変更してください。
+      NoName: 保存するにはビルド名が必要です。保存するにはビルド名を入力してください。
+    OverwriteDisabled: その名前のビルドは存在しません。上書きするには、既存のビルドをクリックするか、そのビルドの名前を入力してください。
 SwitchRelics:
   Title: キャラクターと遺物を交換
 Builds:
   DeleteAll: すべて削除
   Equip: 装備
+  Load: オプティマイザーで読み込む
   ConfirmEquip:
     Content: 装備すると、このビルドの遺物を使用するキャラクターの装備が外されます。
     SuccessMessage: 'ビルドを装備しました：{{buildName}}'

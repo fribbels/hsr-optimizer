@@ -25,6 +25,7 @@ export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
         <ScoringNumber label={`${t('Memo_Skill')}:`} number={actionDamage[AbilityKind.MEMO_SKILL]} precision={1} />
         <ScoringNumber label={`${t('Memo_Talent')}:`} number={actionDamage[AbilityKind.MEMO_TALENT]} precision={1} />
         <ScoringNumber label={`${t('Elation_Skill')}:`} number={actionDamage[AbilityKind.ELATION_SKILL]} precision={1} />
+        <ScoringNumber label={`${t('Unique')}:`} number={actionDamage[AbilityKind.UNIQUE]} precision={1} />
         <ScoringNumber label={`${t('Dot')}:`} number={actionDamage[AbilityKind.DOT]} precision={1} />
         <ScoringNumber label={`${t('Break')}:`} number={actionDamage[AbilityKind.BREAK]} precision={1} />
       </Flex>

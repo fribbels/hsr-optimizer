@@ -87,6 +87,14 @@ Lightcones:
         text: '「炎舞」層数'
         content: >-
           装備キャラが必殺技を発動した後、「炎舞」を1層獲得する、2ターン継続、最大で2層累積できる。「炎舞」1層につき、装備キャラの追加攻撃ダメージ+{{DmgBoost}}%。
+  DazzledByAFloweryWorld:
+    Content:
+      spConsumedStacks:
+        text: 敵防御力無視数
+        content: 装備キャラがSPを1消費するたびに、自身が与える愉悦ダメージは敵の防御力を{{defShred}}%無視する。最大で4層累積できる。
+      elationBuff:
+        text: 愉悦度バフ
+        content: 装備キャラが1ターン以内にSPを4以上消費した場合、「配信プッシュ」を獲得する。装備キャラが「配信プッシュ」を持つ時、味方全体の愉悦度+{{elationBuff}}%。
   EarthlyEscapade:
     Content:
       maskActive:
@@ -99,6 +107,10 @@ Lightcones:
         text: 必殺技後の速度バフ
         content: >-
           装備キャラが攻撃を行った後、異なる敵に攻撃が命中するごとにEPを{{EnergyRecovered}}回復する。1回の攻撃で、この効果を通して最大で3回EPを回復できる。装備キャラが必殺技を発動した後、味方全体の速度+{{SpdBuff}}、1ターン継続。
+  ElationBrimmingWithBlessings:
+    Content:
+      elationBuff:
+        text: 愉悦度バフ
   EpochEtchedInGoldenBlood:
     Content:
       skillDmgBoost:
@@ -380,6 +392,11 @@ Lightcones:
         text: 通常攻撃ダメージ増加
         content: >-
           装備キャラまたはその記憶の精霊が攻撃を行った後、装備キャラに「錦を織って」を1層付与する。::BR::「錦を織って」1層につき、装備キャラおよびその記憶の精霊の会心ダメージ+{{CdBuff}}%、最大で6層累積できる。::BR::「錦を織って」の層数が上限に達すると、1層につき、追加で通常攻撃ダメージ+{{DmgBuff}}%。
+  WhenSheDecidedToSee:
+    Content:
+      greatFortune:
+        text: 味方へのバフ
+        content: 装備キャラが戦闘に入る、または味方に必殺技を発動する時、装備キャラは「超大吉」を獲得する、3ターン継続。装備キャラが「超大吉」を持つ時、味方全体の会心率+{{critRateBuff}}%、味方全体の会心ダメージ+{{critDamageBuff}}%、装備キャラのEP回復効率+{{errBuff}}%。
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
@@ -558,6 +575,11 @@ Lightcones:
       ultDmgBuff:
         text: 必殺技ダメバフ
         content: 戦闘に入る時、装備キャラはEPを{{Energy}}回復する。装備キャラの必殺技によるダメージ+{{DmgBuff}}%。
+  MushyShroomysAdventure:
+    Content:
+      elationVulnerability:
+        text: 愉悦ダメ増加
+        content: 装備キャラが愉悦スキルを発動する時、敵全体が受ける愉悦ダメージ+{{vulnerability}}%、2ターン継続。
   NinjaRecordSoundHunt:
     Content:
       cdBuff:
@@ -691,6 +713,11 @@ Lightcones:
       maxEnergyDmgBoost:
         text: 最大EP
         content: 戦闘に入った後、装備キャラの最大EPに応じて、装備キャラの与ダメージをアップする。1EPにつき+{{DmgStep}}%、最大で160までカウントされる。
+  TodaysGoodLuck:
+    Content:
+      elationStacks:
+        text: 愉悦度バフ数
+        content: 装備キャラが愉悦スキルを発動する時、愉悦度+{{elationBuff}}%、この効果は最大で2回累積できる。
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -767,6 +794,11 @@ Lightcones:
       basicAtkBuff:
         text: 通常攻撃付加ダメージ
         content: 戦闘スキルを発動した後、装備キャラの次の通常攻撃が、敵に自身の攻撃力{{MultiplierBonus}}%分の付加ダメージを与える。
+  LingeringTear:
+    Content:
+      cdBuff:
+        text: 爆笑ネタバフ
+        content: 所持している爆笑ネタが10個以上の時、装備キャラの会心ダメージ+{{cdBuff}}%。
   Loop:
     Content:
       enemySlowedDmgBuff:
@@ -797,6 +829,11 @@ Lightcones:
       enemyHp50Buff:
         text: 敵HP>50%時のダメバフ
         content: 残りHPが50%を超える敵に対する、装備キャラの与ダメージ+{{DmgBuff}}%。
+  Sneering:
+    Content:
+      elationBuff:
+        text: 愉悦スキルバフ
+        content: アッハタイムが発動時、装備キャラの愉悦度+{{elationBuff}}%、アッハタイムが終了するまで継続。
   Void:
     Content:
       initialEhrBuff:
@@ -1008,12 +1045,27 @@ Characters:
     Content:
       skillDefShred:
         text: 防御力ダウン効果の付与
+        content: スキル使用時、100%の基礎確率でターゲット、および隣接する敵の防御力-{{skillDefShredScaling}}%、3ターン継続。
       epiphanyDebuff:
         text: '「開示」付与済み'
+        content: '「開示」状態の敵は、自身のターンでの受けるダメージ+{{epiphanyVulnerability}}%。'
       arcanaStacks:
         text: '「アルカナ」付与数'
+        content: >-
+          同時に「アルカナ」状態にある場合、風化、裂創、燃焼、感電をすべて付与されていると見なされる。「アルカナ」状態の敵はターンが回ってくるたびにブラックスワンの攻撃力{{dotBaseScaling}}%分の風属性持続ダメージを受ける。その後、層数が半減する。「アルカナ」1層につき、ダメージ倍率+{{arcanaAdditionalScaling}}%。「アルカナ」は50層累積できる。なお、上限に達した後も累積される。「アルカナ」がダメージを発生した後、上限を超えた分の層数がクリアされる。「アルカナ」によるダメージはターゲットの防御力を20%無視する。
+      ehrToDmgBoost:
+        text: 効果命中→ダメバフ変換
+        content: 自身の与ダメージが、効果命中の60%分アップする。最大で与ダメージ+72%。
+      e1ResReduction:
+        text: 1凸 耐性ダウン
+        content: ブラックスワンが戦闘可能状態の時、風化、裂創、燃焼、感電状態の敵の対応する風、物理、炎、雷属性の耐性がそれぞれ25%ダウンする。
       e4Vulnerability:
         text: 2凸 敵被ダメージ増加
+        content: '「開示」状態の敵の受けるダメージがさらに+20%。'
+    TeammateContent:
+      combatEhr:
+        text: 効果命中（戦闘時）
+        content: 自身の与ダメージが、効果命中の60%分アップする。最大で与ダメージ+72%。
   Blade:
     Content:
       enhancedStateActive:
@@ -2212,15 +2264,69 @@ Characters:
         content: 指定した味方単体の会心ダメージを、花火の会心ダメージ{{skillCdBuffScaling}}%分+{{skillCdBuffBase}}%アップする、1ターン継続。
   SparkleB1:
     Content:
+      skillBuffs:
+        text: スキルバフ
+        content: >-
+          指定した味方単体の会心ダメージを、花火の会心ダメージ12.0%分+27.0%アップする、2ターン継続。::BR:: キャラクター昇格6：味方キャラが戦闘スキルの会心ダメージアップ効果を持つ時、全属性耐性貫通+10%。::BR:: 6凸：戦闘スキルの会心ダメージアップ効果が、さらに花火の会心ダメージ30%分アップする。花火が戦闘スキルを発動する時、戦闘スキルの会心ダメージアップ効果が、「奇怪な謎」を持つすべての味方に対して有効になる。花火が必殺技を発動する時、花火の戦闘スキルによる会心ダメージアップ効果を持つ味方が存在する場合、「奇怪な謎」を持つ味方にその効果を拡散する。
       cipherBuff:
         text: '「奇怪な謎」有効'
+        content: >-
+          味方全体に「奇怪な謎」を付与する。「奇怪な謎」を持つ味方が触発する花火の天賦による敵の受けるダメージアップ効果は、さらに各層{{cipherTalentStackBoost}}%アップする。3ターン継続。::BR:: 1凸：「奇怪な謎」を持つ味方の攻撃力+40%。
       talentStacks:
         text: 天賦の層数
+        content: >-
+          味方がSPを1消費するたびに、花火は「幻相」を1層獲得する。「幻相」1層につき敵全体の受けるダメージ+{{talentStackScaling}}%、2ターン継続、最大で3層累積できる。::BR:: 2凸：天賦の効果1層につき、さらに敵の防御力-10%。
+      teamAtkBuff:
+        text: 味方全体の攻撃力バフ
+        content: 味方全体の攻撃力+45%。
+      e1SpdBuff:
+        text: 1凸 速度バフ
+        content: 戦闘開始時または戦闘スキルを発動する時、花火の速度+15%、2ターン継続。
       e2DefPen:
         text: 2凸 敵防御力無視
+        content: 天賦の効果1層につき、さらに敵の防御力-10%。
     TeammateContent:
       teammateCDValue:
         text: 会心ダメージ（戦闘時）
+        content: 指定した味方単体の会心ダメージを、花火の会心ダメージ{{skillCdBuffScaling}}%分+{{skillCdBuffBase}}%アップする、2ターン継続。その味方の行動順を50%早める。
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: 強化通常攻撃
+        content: 今回のスキル発動中、スキルを重複して発動できる。最大20回発動可能。スキルを重複して発動した時、範囲攻撃となり、重複して発動した回数に応じて愉悦ダメージを与える
+      punchlineStacks:
+        text: 爆笑ネタの層数
+        content: >-
+          キャラクター昇格6：所持している爆笑ネタ1個につき、味方全体の会心ダメージ+8%、最大で+80%。 ::BR:: 1凸：所持している爆笑ネタ1個につき、味方全体の全属性耐性貫通+1.5%、最大で+15%。::BR:: 6凸：カウントされる爆笑ネタ1個につき、愉悦スキルの追加のヒット数+1。なお、愉悦スキルの追加のヒット数は最大で40まで増加できる。
+      certifiedBangerStacks:
+        text: '「爆笑の褒美」層数'
+        content: >-
+          火花が「爆笑の褒美」を持つ時： ::BR:: 強化通常攻撃を発動すると、指定した敵単体に{{ebaPrimaryScaling}}%分の炎属性の愉悦ダメージを与え、隣接する敵に{{ebaAdjacentScaling}}%分の炎属性の愉悦ダメージを与える。「インタラクティブ・トラップ」の発動回数1回につき、強化通常攻撃で攻撃を行った時、攻撃を受けたランダムな敵1体に追加で{{ebaBounceScaling}}%分の炎属性の愉悦ダメージを1回与える。::BR:: 必殺技を発動すると、敵全体に{{ultElationScaling}}%分の炎属性の愉悦ダメージを与える。
+      engagementFarmingStacks:
+        text: '「ｲﾝﾀﾗｸﾃｨﾌﾞ･ﾄﾗｯﾌﾟ」層数'
+        content: '「インタラクティブ・トラップ」の発動回数1回につき、強化通常攻撃で攻撃を行った時、攻撃を受けたランダムな敵1体に追加で{{ebaBounceScaling}}%分の炎属性の愉悦ダメージを1回与える。'
+      certifiedBanger:
+        text: 爆笑の褒美
+        content: >-
+          火花が「爆笑の褒美」を持つ時： ::BR:: 強化通常攻撃を発動すると、指定した敵単体に{{ebaPrimaryScaling}}%分の炎属性の愉悦ダメージを与え、隣接する敵に{{ebaAdjacentScaling}}%分の炎属性の愉悦ダメージを与える。「インタラクティブ・トラップ」の発動回数1回につき、強化通常攻撃で攻撃を行った時、攻撃を受けたランダムな敵1体に追加で{{ebaBounceScaling}}%分の炎属性の愉悦ダメージを1回与える。::BR:: 必殺技を発動すると、敵全体に{{ultElationScaling}}%分の炎属性の愉悦ダメージを与える。
+      atkToElation:
+        text: 攻撃力→愉悦ダメ変換
+        content: 火花の攻撃力が2000を超えた場合、超過した攻撃力100につき、自身の愉悦度+5.0%、最大で+80.0%。
+      punchlineCritDmg:
+        text: 爆笑ネタ会心ダメバフ
+        content: 所持している爆笑ネタ1個につき、味方全体の会心ダメージ+8%、最大で+80%。
+      e1PunchlineResPen:
+        text: 1凸 全属性耐性貫通
+        content: 所持している爆笑ネタ1個につき、味方全体の全属性耐性貫通+1.5%、最大で+15%。
+      e2ThrillStacks:
+        text: 2凸 会心ダメ層数
+        content: '「衝撃ネタ」を1個消費するたびに、自身の会心ダメージ+10%、2ターン継続。この効果は最大で4層まで累積できる。'
+      e4UltElation:
+        text: 4凸 愉悦度バフ
+        content: 必殺技を発動すると追加で爆笑ネタを5個獲得し、自身の愉悦度+36%、3ターン継続。
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
+        content: 全属性耐性貫通+20%。
   Sunday:
     Content:
       skillDmgBuff:
@@ -2533,6 +2639,56 @@ Characters:
       e4CurrentHp80:
         text: 4凸 自身HP≥80%時の氷貫通バフ
         content: 残りHPが80%以上の時、自身の氷属性耐性貫通+12%。
+  Yaoguang:
+    Content:
+      punchlineStacks:
+        text: 爆笑ネタの層数
+        content: 味方全体が持っている爆笑ネタの数を指定します。愉悦スキルのダメージ計算に使います。
+      certifiedBangerStacks:
+        text: '「爆笑の褒美」層数'
+        content: 爻光が持っている爆笑ネタの数を指定します。「大吉大利」のダメージ計算に使います。
+      skillZoneActive:
+        text: 結界有効
+        content: 界が展開されている間、味方全体の愉悦度を、爻光の愉悦度の{{elationConversion}}%分アップさせる。
+      ultResPenBuff:
+        text: 全属性耐性貫通バフ
+        content: 必殺技を発動した時、味方全体の全属性耐性貫通+{{resPen}}%、3ターン継続。
+      certifiedBanger:
+        text: 爆笑の褒美
+        content: >-
+          爻光が「爆笑の褒美」を持つ時、以下の効果を獲得する：::BR:: 味方が攻撃を行った後「大吉大利」効果を発動し、攻撃が命中したランダムな敵単体に追加で{{greatBoonScaling}}%分の対応する属性の愉悦ダメージを1回与える。::BR::また、その回の攻撃でSPを消費した場合、さらに「大吉大利」の効果を1回発動する。::BR:: 「大吉大利」の効果を発動する時、攻撃者の愉悦度が爻光より低い場合、その回の愉悦ダメージは爻光の愉悦度で計算される。
+      yaoguangAhaInstant:
+        text: 必殺技のアッハタイム
+        content: >-
+          {{punchlineCount}}個の爆笑ネタを考慮に入れて、愉悦スキルのダメージ計算を行います。::BR:: 1凸：必殺技で発動するアッハの追加ターンに固定でカウントされる爆笑ネタの数が40個までアップする。味方が愉悦ダメージを与える時、敵の防御力を20%無視する。::BR:: 4凸：爻光の必殺技で発動するアッハの追加ターンで、味方が与える愉悦スキルダメージは本来のダメージの150%分になる。
+      woesWhisperVulnerability:
+        text: >-
+          「凶星の囁き」
+        content: 敵全体に「凶星の囁き」状態を付与し、3ターン継続。「凶星の囁き」状態の敵の受けるダメージ+{{woeWhisperVulnerability}}%。
+      traceSpdElation:
+        text: 速度による愉悦度バフ
+        content: 爻光の速度が120以上の時、自身の愉悦度+30%。なお、超過した速度1につき、さらに自身の愉悦度+1%。超過した速度は最大200までカウントされる。
+      e1DefPen:
+        text: 1凸 愉悦ダメ防御力無視
+        content: 味方が愉悦ダメージを与える時、敵の防御力を20%無視する。
+      e2ZoneSpdBuff:
+        text: 2凸 結界速度バフ
+        content: 結界が展開されている間、味方全体の速度+12%、愉悦度がさらに+16%。
+      e6Merrymaking:
+        text: 6凸 上笑
+        content: 味方全体の愉悦ダメージが25%上笑する。爻光の愉悦スキルのダメージ倍率が本来の100%分アップする。
+    TeammateContent:
+      consumesSkillPoints:
+        text: SP消費
+        content: >-
+          アタッカーがこの回の攻撃で SP を消費した場合、さらに「大吉大利」の効果を1回発動します。::BR:: 攻撃が命中したランダムな敵単体に追加で{{greatBoonScaling}}%分の対応する属性の愉悦ダメージを1回与える。また、その回の攻撃で SP を消費した場合、さらに「大吉大利」の効果を1回発動する。
+      teammateCertifiedBangerStacks:
+        text: '「爆笑の褒美」層数'
+        content: 爻光が持っている爆笑ネタの数を指定します。「大吉大利」のダメージ計算に使います。
+      teammateElationValue:
+        text: 爻光の愉悦度
+        content: >-
+          爻光の戦闘時の愉悦度を指定してください。「大吉大利」のダメージを計算するのに使います。::BR:: 「大吉大利」の効果を発動する時、アタッカーの愉悦度が爻光より低い場合、その回の愉悦ダメージは爻光の愉悦度を計算に入れます。
   Yukong:
     Content:
       teamImaginaryDmgBoost:

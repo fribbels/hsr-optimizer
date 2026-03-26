@@ -3,6 +3,7 @@ import {
   type Conditionals,
   type ContentDefinition,
   createEnum,
+  Mutual,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversionContainer,
@@ -194,10 +195,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
+      const m = action.characterConditionals as Conditionals<Mutual<typeof teammateContent, typeof content>>
 
       // B1: ATK_P team buff 0.45 (vs 0.15 in migrated Sparkle)
-      x.buff(StatKey.ATK_P, 0.45, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.ATK_P, m.teamAtkBuff ? 0.45 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E1: ATK +40% when cipher active
       x.buff(StatKey.ATK_P, (e >= 1 && m.cipherBuff) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))

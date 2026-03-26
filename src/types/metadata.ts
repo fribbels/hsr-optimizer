@@ -50,6 +50,7 @@ export type SimulationMetadata = {
   errRopeEidolon?: number,
   deprioritizeBuffs?: boolean,
   comboTurnAbilities: TurnAbilityName[],
+  comboDot?: number,
   relicSets: SetsRelics[][],
   ornamentSets: SetsOrnaments[],
   teammates: {
@@ -99,7 +100,6 @@ export type TraceNode = {
 
 export type DBMetadataCharacter = {
   id: CharacterId,
-  name: string,
   rarity: number,
   path: PathName,
   element: ElementName,

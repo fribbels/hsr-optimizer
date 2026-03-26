@@ -7643,74 +7643,74 @@
       },
       "traceTree": [
         {
-          "id": "1504201_4.1v4",
+          "id": "1504201",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1504202_4.1v4",
+          "id": "1504202",
           "stat": "Lightning DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1504203_4.1v4",
+              "id": "1504203",
               "stat": "CRIT DMG",
               "value": 0.053,
-              "pre": "1504202_4.1v4",
+              "pre": "1504202",
               "children": []
             }
           ]
         },
         {
-          "id": "1504204_4.1v4",
+          "id": "1504204",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1504205_4.1v4",
+          "id": "1504205",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1504206_4.1v4",
+              "id": "1504206",
               "stat": "Lightning DMG Boost",
               "value": 0.048,
-              "pre": "1504205_4.1v4",
+              "pre": "1504205",
               "children": []
             }
           ]
         },
         {
-          "id": "1504207_4.1v4",
+          "id": "1504207",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": []
         },
         {
-          "id": "1504208_4.1v4",
+          "id": "1504208",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1504209_4.1v4",
+              "id": "1504209",
               "stat": "Lightning DMG Boost",
               "value": 0.064,
-              "pre": "1504208_4.1v4",
+              "pre": "1504208",
               "children": []
             },
             {
-              "id": "1504210_4.1v4",
+              "id": "1504210",
               "stat": "CRIT DMG",
               "value": 0.107,
-              "pre": "1504208_4.1v4",
+              "pre": "1504208",
               "children": []
             }
           ]
@@ -7722,6 +7722,202 @@
         "ATK": 776.16,
         "DEF": 388.08,
         "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1505": {
+      "id": "1505",
+      "name": "Evanescia",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Physical",
+      "traces": {
+        "SPD": 5,
+        "Elation": 0.18,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1505201_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1505202_4.1v4",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1505203_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1505204_4.1v4",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1505205_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1505206_4.1v4",
+              "stat": "Elation",
+              "value": 0.06,
+              "pre": "1505205_4.1v4",
+              "children": [
+                {
+                  "id": "1505207_4.1v4",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1505206_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1505208_4.1v4",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1505209_4.1v4",
+              "stat": "Elation",
+              "value": 0.08,
+              "pre": "1505208_4.1v4",
+              "children": [
+                {
+                  "id": "1505210_4.1v4",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1505209_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 480,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 737.352,
+        "DEF": 460.845,
+        "SPD": 104,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1506": {
+      "id": "1506",
+      "name": "Silver Wolf LV.999",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Imaginary",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "Elation": 0.18,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1506201_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506202_4.1v4",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506203_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506204_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506205_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1506206_4.1v4",
+              "stat": "Elation",
+              "value": 0.06,
+              "pre": "1506205_4.1v4",
+              "children": [
+                {
+                  "id": "1506207_4.1v4",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1506206_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1506208_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1506209_4.1v4",
+              "stat": "Elation",
+              "value": 0.08,
+              "pre": "1506208_4.1v4",
+              "children": [
+                {
+                  "id": "1506210_4.1v4",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1506209_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 80,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 543.312,
+        "DEF": 679.14,
+        "SPD": 99,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -8509,6 +8705,301 @@
       },
       "unreleased": false
     },
+    "8009": {
+      "id": "8009",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Lightning",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "CRIT Rate": 0.12,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "8009201_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8009202_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8009203_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8009204_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8009205_4.1v4",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8009206_4.1v4",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "8009205_4.1v4",
+              "children": [
+                {
+                  "id": "8009207_4.1v4",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "8009206_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8009208_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "8009209_4.1v4",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "8009208_4.1v4",
+              "children": [
+                {
+                  "id": "8009210_4.1v4",
+                  "stat": "ATK%",
+                  "value": 0.08,
+                  "pre": "8009209_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 160,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 465.696,
+        "DEF": 630.63,
+        "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "8010": {
+      "id": "8010",
+      "name": "Trailblazer",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Lightning",
+      "traces": {
+        "CRIT DMG": 0.133,
+        "CRIT Rate": 0.12,
+        "ATK%": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "8010201_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8010202_4.1v4",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8010203_4.1v4",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8010204_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "8010205_4.1v4",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "8010206_4.1v4",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "8010205_4.1v4",
+              "children": [
+                {
+                  "id": "8010207_4.1v4",
+                  "stat": "ATK%",
+                  "value": 0.06,
+                  "pre": "8010206_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "8010208_4.1v4",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "8010209_4.1v4",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "8010208_4.1v4",
+              "children": [
+                {
+                  "id": "8010210_4.1v4",
+                  "stat": "ATK%",
+                  "value": 0.08,
+                  "pre": "8010209_4.1v4",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 160,
+      "stats": {
+        "HP": 1086.624,
+        "ATK": 465.696,
+        "DEF": 630.63,
+        "SPD": 106,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1004b1": {
+      "id": "1004b1",
+      "name": "Welt",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Imaginary",
+      "traces": {
+        "Imaginary DMG Boost": 0.144,
+        "Effect RES": 0.1,
+        "Effect Hit Rate": 0.28
+      },
+      "traceTree": [
+        {
+          "id": "11004201",
+          "stat": "Effect Hit Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11004210",
+              "stat": "Effect Hit Rate",
+              "value": 0.08,
+              "pre": "11004201",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11004202",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "11004203",
+              "stat": "Effect Hit Rate",
+              "value": 0.04,
+              "pre": "11004202",
+              "children": [
+                {
+                  "id": "11004204",
+                  "stat": "Effect RES",
+                  "value": 0.04,
+                  "pre": "11004203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11004205",
+          "stat": "Effect Hit Rate",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11004206",
+              "stat": "Imaginary DMG Boost",
+              "value": 0.048,
+              "pre": "11004205",
+              "children": [
+                {
+                  "id": "11004207",
+                  "stat": "Effect Hit Rate",
+                  "value": 0.06,
+                  "pre": "11004206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11004208",
+          "stat": "Effect RES",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11004209",
+          "stat": "Imaginary DMG Boost",
+          "value": 0.064,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 120,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 620.928,
+        "DEF": 509.355,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
     "1005b1": {
       "id": "1005b1",
       "name": "Kafka",
@@ -8702,6 +9193,103 @@
         "ATK": 640.332,
         "DEF": 460.845,
         "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1102b1": {
+      "id": "1102b1",
+      "name": "Seele",
+      "rarity": 5,
+      "path": "Hunt",
+      "element": "Quantum",
+      "traces": {
+        "DEF%": 0.125,
+        "ATK%": 0.28,
+        "CRIT DMG": 0.24
+      },
+      "traceTree": [
+        {
+          "id": "11102201",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11102202",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": [
+            {
+              "id": "11102203",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "11102202",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11102204",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11102205",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11102206",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "11102205",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "11102207",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11102208",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "11102209",
+              "stat": "CRIT DMG",
+              "value": 0.107,
+              "pre": "11102208",
+              "children": []
+            },
+            {
+              "id": "11102210",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "11102208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 120,
+      "stats": {
+        "HP": 931.392,
+        "ATK": 640.332,
+        "DEF": 363.825,
+        "SPD": 115,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -8905,6 +9493,104 @@
       },
       "unreleased": false
     },
+    "1217b1": {
+      "id": "1217b1",
+      "name": "Huohuo",
+      "rarity": 5,
+      "path": "Abundance",
+      "element": "Wind",
+      "traces": {
+        "HP%": 0.28,
+        "Effect RES": 0.18,
+        "SPD": 5
+      },
+      "traceTree": [
+        {
+          "id": "11217201",
+          "stat": "HP%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11217202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11217203",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "11217202",
+              "children": [
+                {
+                  "id": "11217204",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "11217203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11217205",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "11217206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "11217205",
+              "children": [
+                {
+                  "id": "11217207",
+                  "stat": "HP%",
+                  "value": 0.06,
+                  "pre": "11217206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11217208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11217209",
+          "stat": "Effect RES",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11217210",
+          "stat": "HP%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 601.524,
+        "DEF": 509.355,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
     "1306b1": {
       "id": "1306b1",
       "name": "Sparkle",
@@ -9097,6 +9783,105 @@
         "ATK": 659.736,
         "DEF": 485.1,
         "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1310b1": {
+      "id": "1310b1",
+      "name": "Firefly",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Fire",
+      "traces": {
+        "SPD": 5,
+        "Break Effect": 0.373,
+        "Effect RES": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "11310201",
+          "stat": "Break Effect",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "11310202",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "11310203",
+              "stat": "Break Effect",
+              "value": 0.053,
+              "pre": "11310202",
+              "children": [
+                {
+                  "id": "11310204",
+                  "stat": "SPD",
+                  "value": 2,
+                  "pre": "11310203",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11310205",
+          "stat": "Break Effect",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "11310206",
+              "stat": "Effect RES",
+              "value": 0.06,
+              "pre": "11310205",
+              "children": [
+                {
+                  "id": "11310207",
+                  "stat": "Break Effect",
+                  "value": 0.08,
+                  "pre": "11310206",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "11310208",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "11310209",
+              "stat": "Effect RES",
+              "value": 0.08,
+              "pre": "11310208",
+              "children": []
+            },
+            {
+              "id": "11310210",
+              "stat": "Break Effect",
+              "value": 0.107,
+              "pre": "11310208",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 240,
+      "stats": {
+        "HP": 814.968,
+        "ATK": 523.908,
+        "DEF": 776.16,
+        "SPD": 104,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -11598,6 +12383,40 @@
       },
       "unreleased": false
     },
+    "22007": {
+      "id": "22007",
+      "name": "We'll face the Hereafter together",
+      "rarity": 4,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 476.28,
+        "DEF": 330.75
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": 13,
+        "s": 1.07
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.12
+        },
+        "2": {
+          "CriticalDamageBase": 0.15
+        },
+        "3": {
+          "CriticalDamageBase": 0.18
+        },
+        "4": {
+          "CriticalDamageBase": 0.21
+        },
+        "5": {
+          "CriticalDamageBase": 0.24
+        }
+      },
+      "unreleased": true
+    },
     "23000": {
       "id": "23000",
       "name": "Night on the Milky Way",
@@ -13445,6 +14264,74 @@
           "CriticalChanceBase": 0.3
         }
       },
+      "unreleased": false
+    },
+    "23057": {
+      "id": "23057",
+      "name": "Welcome to Cosmic City",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 10,
+        "y": -115,
+        "s": 1.6
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.64
+        },
+        "2": {
+          "AttackAddedRatio": 0.8
+        },
+        "3": {
+          "AttackAddedRatio": 0.96
+        },
+        "4": {
+          "AttackAddedRatio": 1.12
+        },
+        "5": {
+          "AttackAddedRatio": 1.28
+        }
+      },
+      "unreleased": true
+    },
+    "23058": {
+      "id": "23058",
+      "name": "A Rendezvous in the Next Flower Season",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 635.04,
+        "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": -4,
+        "y": -28,
+        "s": 1.17
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalDamageBase": 0.6
+        },
+        "2": {
+          "CriticalDamageBase": 0.825
+        },
+        "3": {
+          "CriticalDamageBase": 1.05
+        },
+        "4": {
+          "CriticalDamageBase": 1.275
+        },
+        "5": {
+          "CriticalDamageBase": 1.5
+        }
+      },
       "unreleased": true
     },
     "24000": {
@@ -13667,289 +14554,289 @@
           "AttackAddedRatio": 0.4
         }
       },
-      "unreleased": true
+      "unreleased": false
     }
   },
   "relics": [
     {
       "id": "101",
       "name": "Passerby of Wandering Cloud",
-      "skills": "Increases Outgoing Healing by <b>10%</b>. At the start of the battle, immediately regenerates 1 Skill Point."
+      "skills": "Increases Outgoing Healing by 10%. At the start of the battle, immediately regenerates 1 Skill Point."
     },
     {
       "id": "102",
       "name": "Musketeer of Wild Wheat",
-      "skills": "Increases ATK by <b>12%</b>. The wearer's SPD increases by <b>6%</b> and DMG dealt by Basic ATK increases by <b>10%</b>."
+      "skills": "Increases ATK by 12%. The wearer's SPD increases by 6% and DMG dealt by Basic ATK increases by 10%."
     },
     {
       "id": "103",
       "name": "Knight of Purity Palace",
-      "skills": "Increases DEF by <b>15%</b>. Increases the max DMG that can be absorbed by the Shield created by the wearer by <b>20%</b>."
+      "skills": "Increases DEF by 15%. Increases the max DMG that can be absorbed by the Shield created by the wearer by 20%."
     },
     {
       "id": "104",
       "name": "Hunter of Glacial Forest",
-      "skills": "Increases Ice DMG by <b>10%</b>. After the wearer uses their Ultimate, their CRIT DMG increases by <b>25%</b> for <b>2</b> turn(s)."
+      "skills": "Increases Ice DMG by 10%. After the wearer uses their Ultimate, their CRIT DMG increases by 25% for 2 turns."
     },
     {
       "id": "105",
       "name": "Champion of Streetwise Boxing",
-      "skills": "Increases Physical DMG by <b>10%</b>. After the wearer attacks or is hit, their ATK increases by <b>5%</b> for the rest of the battle. This effect can stack up to <b>5</b> time(s)."
+      "skills": "Increases Physical DMG by 10%. After the wearer attacks or is hit, their ATK increases by 5% for the rest of the battle. This effect can stack up to 5 times."
     },
     {
       "id": "106",
       "name": "Guard of Wuthering Snow",
-      "skills": "Reduces DMG taken by <b>8%</b>. At the beginning of the turn, if the wearer's HP percentage is equal to or less than <b>50%</b>, restores HP equal to <b>8%</b> of their Max HP and regenerates <b>5</b> Energy."
+      "skills": "Reduces DMG taken by 8%. At the beginning of the turn, if the wearer's HP percentage is equal to or less than 50%, restores HP equal to 8% of their Max HP and regenerates 5 Energy."
     },
     {
       "id": "107",
       "name": "Firesmith of Lava-Forging",
-      "skills": "Increases Fire DMG by <b>10%</b>. Increases DMG by the wearer's Skill by <b>12%</b>. After unleashing Ultimate, increases the wearer's Fire DMG by <b>12%</b> for the next attack."
+      "skills": "Increases Fire DMG by 10%. Increases DMG by the wearer's Skill by 12%. After unleashing Ultimate, increases the wearer's Fire DMG by 12% for the next attack."
     },
     {
       "id": "108",
       "name": "Genius of Brilliant Stars",
-      "skills": "Increases Quantum DMG by <b>10%</b>. When the wearer deals DMG to the target enemy, ignores <b>10%</b> DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores <b>10%</b> DEF."
+      "skills": "Increases Quantum DMG by 10%. When the wearer deals DMG to the target enemy, ignores 10% DEF. If the target enemy has Quantum Weakness, the wearer additionally ignores 10% DEF."
     },
     {
       "id": "109",
       "name": "Band of Sizzling Thunder",
-      "skills": "Increases Lightning DMG by <b>10%</b>. When the wearer uses their Skill, increases the wearer's ATK by <b>20%</b> for <b>1</b> turn(s)."
+      "skills": "Increases Lightning DMG by 10%. When the wearer uses their Skill, increases the wearer's ATK by 20% for 1 turn."
     },
     {
       "id": "110",
       "name": "Eagle of Twilight Line",
-      "skills": "Increases Wind DMG by <b>10%</b>. After the wearer uses their Ultimate, their action is Advanced Forward by <b>25%</b>."
+      "skills": "Increases Wind DMG by 10%. After the wearer uses their Ultimate, their action is Advanced Forward by 25%."
     },
     {
       "id": "111",
       "name": "Thief of Shooting Meteor",
-      "skills": "Increases Break Effect by <b>16%</b>. Increases the wearer's Break Effect by <b>16%</b>. After the wearer inflicts Weakness Break on an enemy, regenerates <b>3</b> Energy."
+      "skills": "Increases Break Effect by 16%. Increases the wearer's Break Effect by 16%. After the wearer inflicts Weakness Break on an enemy, regenerates 3 Energy."
     },
     {
       "id": "112",
       "name": "Wastelander of Banditry Desert",
-      "skills": "Increases Imaginary DMG by <b>10%</b>. When dealing DMG to debuffed enemy targets, the wearer has their CRIT Rate increased by <b>10%</b>. And when they deal DMG to Imprisoned enemy targets, their CRIT DMG increases by <b>20%</b>."
+      "skills": "Increases Imaginary DMG by 10%. When dealing DMG to debuffed enemy targets, the wearer has their CRIT Rate increased by 10%. And when they deal DMG to Imprisoned enemy targets, their CRIT DMG increases by 20%."
     },
     {
       "id": "113",
       "name": "Longevous Disciple",
-      "skills": "Increases Max HP by <b>12%</b>. When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by <b>8%</b> for <b>2</b> turn(s) and up to <b>2</b> stacks."
+      "skills": "Increases Max HP by 12%. When the wearer is hit or has their HP consumed by an ally or themselves, their CRIT Rate increases by 8% for 2 turns and up to 2 stacks."
     },
     {
       "id": "114",
       "name": "Messenger Traversing Hackerspace",
-      "skills": "Increases SPD by <b>6%</b>. When the wearer uses their Ultimate on an ally, SPD for all allies increases by <b>12%</b> for <b>1</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases SPD by 6%. When the wearer uses their Ultimate on an ally, SPD for all allies increases by 12% for 1 turn. This effect cannot be stacked."
     },
     {
       "id": "115",
       "name": "The Ashblazing Grand Duke",
-      "skills": "Increases the DMG dealt by Follow-Up ATK by <b>20%</b>. When the wearer uses a Follow-Up ATK, increases the wearer's ATK by <b>6%</b> for every time the Follow-Up ATK deals DMG. This effect can stack up to <b>8</b> time(s) and lasts for <b>3</b> turn(s). This effect is removed the next time the wearer uses a Follow-Up ATK."
+      "skills": "Increases the DMG dealt by Follow-Up ATK by 20%. When the wearer uses a Follow-Up ATK, increases the wearer's ATK by 6% for every time the Follow-Up ATK deals DMG. This effect can stack up to 8 times and lasts for 3 turns. This effect is removed the next time the wearer uses a Follow-Up ATK."
     },
     {
       "id": "116",
       "name": "Prisoner in Deep Confinement",
-      "skills": "Increases ATK by <b>12%</b>. For every DoT the enemy target is afflicted with, the wearer will ignore <b>6%</b> of its DEF when dealing DMG to it. This effect is valid for a max of <b>3</b> DoTs."
+      "skills": "Increases ATK by 12%. For every DoT the enemy target is afflicted with, the wearer will ignore 6% of its DEF when dealing DMG to it. This effect is valid for a max of 3 DoTs."
     },
     {
       "id": "117",
       "name": "Pioneer Diver of Dead Waters",
-      "skills": "Increases DMG dealt to enemies with debuffs by <b>12%</b>. Increases CRIT Rate by <b>4%</b>. The wearer deals <b>8%</b>/<b>12%</b> increased CRIT DMG to enemies with at least <b>2</b>/<b>3</b> debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by <b>100%</b>, lasting for <b>1</b> turn(s)."
+      "skills": "Increases DMG dealt to enemies with debuffs by 12%. Increases CRIT Rate by 4%. The wearer deals 8%/12% increased CRIT DMG to enemies with at least 2/3 debuffs. After the wearer inflicts a debuff on enemy targets, the aforementioned effects increase by 100%, lasting for 1 turn."
     },
     {
       "id": "118",
       "name": "Watchmaker, Master of Dream Machinations",
-      "skills": "Increases Break Effect by <b>16%</b>. When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by <b>30%</b> for <b>2</b> turn(s). This effect cannot be stacked."
+      "skills": "Increases Break Effect by 16%. When the wearer uses their Ultimate on an ally, all allies' Break Effect increases by 30% for 2 turns. This effect cannot be stacked."
     },
     {
       "id": "119",
       "name": "Iron Cavalry Against the Scourge",
-      "skills": "Increases Break Effect by <b>16%</b>. If the wearer's Break Effect is <b>150%</b> or higher, the Break DMG dealt to the enemy target ignores <b>10%</b> of their DEF. If the wearer's Break Effect is <b>250%</b> or higher, the Super Break DMG dealt to the enemy target additionally ignores <b>15%</b> of their DEF."
+      "skills": "Increases Break Effect by 16%. If the wearer's Break Effect is 150% or higher, the Break DMG dealt to the enemy target ignores 10% of their DEF. If the wearer's Break Effect is 250% or higher, the Super Break DMG dealt to the enemy target additionally ignores 15% of their DEF."
     },
     {
       "id": "120",
       "name": "The Wind-Soaring Valorous",
-      "skills": "Increases ATK by <b>12%</b>. Increases the wearer's CRIT Rate by <b>6%</b>. After the wearer uses a Follow-Up ATK, increases DMG dealt by Ultimate by <b>36%</b>, lasting for <b>1</b> turn(s)."
+      "skills": "Increases ATK by 12%. Increases the wearer's CRIT Rate by 6%. After the wearer uses a Follow-Up ATK, increases DMG dealt by Ultimate by 36%, lasting for 1 turn."
     },
     {
       "id": "121",
       "name": "Sacerdos' Relived Ordeal",
-      "skills": "Increases SPD by <b>6%</b>. When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by <b>18%</b>, lasting for <b>2</b> turn(s). This effect can stack up to <b>2</b> time(s)."
+      "skills": "Increases SPD by 6%. When using Skill or Ultimate on one ally target, increases the ability target's CRIT DMG by 18%, lasting for 2 turns. This effect can stack up to 2 times."
     },
     {
       "id": "122",
       "name": "Scholar Lost in Erudition",
-      "skills": "Increases CRIT Rate by <b>8%</b>. Increases DMG dealt by Skill and Ultimate by <b>20%</b>. After using Ultimate, additionally increases the DMG dealt by the next Skill by <b>25%</b>."
+      "skills": "Increases CRIT Rate by 8%. Increases DMG dealt by Skill and Ultimate by 20%. After using Ultimate, additionally increases the DMG dealt by the next Skill by 25%."
     },
     {
       "id": "123",
       "name": "Hero of Triumphant Song",
-      "skills": "Increases ATK by <b>12%</b>. While the wearer's memosprite is on the field, increases the wearer's SPD by <b>6%</b>. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by <b>30%</b>, lasting for <b>2</b> turn(s)."
+      "skills": "Increases ATK by 12%. While the wearer's memosprite is on the field, increases the wearer's SPD by 6%. When the wearer's memosprite attacks, increases the wearer's and memosprite's CRIT DMG by 30%, lasting for 2 turns."
     },
     {
       "id": "124",
       "name": "Poet of Mourning Collapse",
-      "skills": "Increases Quantum DMG by <b>10%</b>. Decreases the wearer's SPD by <b>8%</b>. Before entering battle, if the wearer's SPD is lower than <b>110</b>/<b>95</b>, increases the wearer's CRIT Rate by <b>20%</b>/<b>32%</b>. This effect applies to the wearer's memosprite at the same time."
+      "skills": "Increases Quantum DMG by 10%. Decreases the wearer's SPD by 8%. Before entering battle, if the wearer's SPD is lower than 110/95, increases the wearer's CRIT Rate by 20%/32%. This effect applies to the wearer's memosprite at the same time."
     },
     {
       "id": "125",
       "name": "Warrior Goddess of Sun and Thunder",
-      "skills": "Increases SPD by <b>6%</b>. When the wearer or their memosprite provides healing to ally targets other than themselves, the wearer gains \"Gentle Rain,\" which lasts for <b>2</b> turn(s) and can only trigger once per turn. While the wearer has \"Gentle Rain,\" SPD increases by <b>6%</b> and all allies' CRIT DMG increases by <b>15%</b>. This effect cannot stack."
+      "skills": "Increases SPD by 6%. When the wearer or their memosprite provides healing to ally targets other than themselves, the wearer gains \"Gentle Rain,\" which lasts for 2 turns and can only trigger once per turn. While the wearer has \"Gentle Rain,\" SPD increases by 6% and all allies' CRIT DMG increases by 15%. This effect cannot stack."
     },
     {
       "id": "126",
       "name": "Wavestrider Captain",
-      "skills": "Increases CRIT DMG by <b>16%</b>. When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to <b>2</b> time(s). If there are <b>2</b> stack(s) of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by <b>48%</b> for <b>1</b> turn(s)."
+      "skills": "Increases CRIT DMG by 16%. When the wearer becomes the target of another ally target's ability, gains 1 stack of \"Help,\" stacking up to 2 times. If there are 2 stacks of \"Help\" when the wearer uses their Ultimate, consumes all \"Help\" to increase the wearer's ATK by 48% for 1 turn."
     },
     {
       "id": "127",
       "name": "World-Remaking Deliverer",
-      "skills": "Increases CRIT Rate by <b>8%</b>. After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by <b>24%</b>, and increases all allies' DMG dealt by <b>15%</b>, lasting until after the wearer's next use of Basic ATK or Skill."
+      "skills": "Increases CRIT Rate by 8%. After the wearer uses Basic ATK or Skill, if the wearer's memosprite is on the field, increases Max HP of the wearer and their memosprite by 24%, and increases all allies' DMG dealt by 15%, lasting until after the wearer's next use of Basic ATK or Skill."
     },
     {
       "id": "128",
       "name": "Self-Enshrouded Recluse",
-      "skills": "The provided Shield Effect increases by <b>10%</b>. Increases the Shield Effect provided by the wearer by <b>12%</b>. When an ally target holds a Shield provided by the wearer, the ally target's CRIT DMG increases by <b>15%</b>."
+      "skills": "The provided Shield Effect increases by 10%. Increases the Shield Effect provided by the wearer by 12%. When an ally target holds a Shield provided by the wearer, the ally target's CRIT DMG increases by 15%."
     },
     {
       "id": "129",
       "name": "Ever-Glorious Magical Girl",
-      "skills": "Increases CRIT DMG by <b>16%</b>. The Elation DMG dealt by the wearer and their memosprites ignores <b>10%</b> of targets' DEF. For every <b>5</b> accumulated Punchline allies gain, the Elation DMG dealt additionally ignores <b>1%</b> of targets' DEF, stacking up to <b>10</b> time(s)."
+      "skills": "Increases CRIT DMG by 16%. The Elation DMG dealt by the wearer and their memosprites ignores 10% of targets' DEF. For every 5 accumulated Punchline allies gain, the Elation DMG dealt additionally ignores 1% of targets' DEF, stacking up to 10 times."
     },
     {
       "id": "130",
       "name": "Diviner of Distant Reach",
-      "skills": "Increases SPD by <b>6%</b>. Before entering combat, if the wearer's SPD is greater than or equal to <b>120</b>/<b>160</b>, increases the wearer's CRIT Rate by <b>10%</b>/<b>18%</b>. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by <b>10%</b>. This effect cannot stack."
+      "skills": "Increases SPD by 6%. Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by 10%. This effect cannot stack."
     },
     {
       "id": "301",
       "name": "Space Sealing Station",
-      "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's SPD reaches <b>120</b> or higher, the wearer's ATK increases by an extra <b>12%</b>."
+      "skills": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%."
     },
     {
       "id": "302",
       "name": "Fleet of the Ageless",
-      "skills": "Increases the wearer's Max HP by <b>12%</b>. When the wearer's SPD reaches <b>120</b> or higher, all allies' ATK increases by <b>8%</b>."
+      "skills": "Increases the wearer's Max HP by 12%. When the wearer's SPD reaches 120 or higher, all allies' ATK increases by 8%."
     },
     {
       "id": "303",
       "name": "Pan-Cosmic Commercial Enterprise",
-      "skills": "Increases the wearer's Effect Hit Rate by <b>10%</b>. Meanwhile, the wearer's ATK increases by an amount that is equal to <b>25%</b> of the current Effect Hit Rate, up to a maximum increase of <b>25%</b>."
+      "skills": "Increases the wearer's Effect Hit Rate by 10%. Meanwhile, the wearer's ATK increases by an amount that is equal to 25% of the current Effect Hit Rate, up to a maximum increase of 25%."
     },
     {
       "id": "304",
       "name": "Belobog of the Architects",
-      "skills": "Increases the wearer's DEF by <b>15%</b>. When the wearer's Effect Hit Rate is <b>50%</b> or higher, the wearer gains an extra <b>15%</b> DEF."
+      "skills": "Increases the wearer's DEF by 15%. When the wearer's Effect Hit Rate is 50% or higher, the wearer gains an extra 15% DEF."
     },
     {
       "id": "305",
       "name": "Celestial Differentiator",
-      "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. When the wearer's current CRIT DMG reaches <b>120%</b> or higher, after entering battle, the wearer's CRIT Rate increases by <b>60%</b> until the end of their first attack."
+      "skills": "Increases the wearer's CRIT DMG by 16%. When the wearer's current CRIT DMG reaches 120% or higher, after entering battle, the wearer's CRIT Rate increases by 60% until the end of their first attack."
     },
     {
       "id": "306",
       "name": "Inert Salsotto",
-      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate reaches <b>50%</b> or higher, the DMG dealt by the wearer's Ultimate and Follow-Up ATK increases by <b>15%</b>."
+      "skills": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 50% or higher, the DMG dealt by the wearer's Ultimate and Follow-Up ATK increases by 15%."
     },
     {
       "id": "307",
       "name": "Talia: Kingdom of Banditry",
-      "skills": "Increases the wearer's Break Effect by <b>16%</b>. When the wearer's SPD reaches <b>145</b> or higher, the wearer's Break Effect increases by an extra <b>20%</b>."
+      "skills": "Increases the wearer's Break Effect by 16%. When the wearer's SPD reaches 145 or higher, the wearer's Break Effect increases by an extra 20%."
     },
     {
       "id": "308",
       "name": "Sprightly Vonwacq",
-      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5%</b>. When the wearer's SPD reaches <b>120</b> or higher, the wearer's action is Advanced Forward by <b>40%</b> immediately upon entering battle."
+      "skills": "Increases the wearer's Energy Regeneration Rate by 5%. When the wearer's SPD reaches 120 or higher, the wearer's action is Advanced Forward by 40% immediately upon entering battle."
     },
     {
       "id": "309",
       "name": "Rutilant Arena",
-      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. When the wearer's current CRIT Rate reaches <b>70%</b> or higher, DMG dealt by Basic ATK and Skill increases by <b>20%</b>."
+      "skills": "Increases the wearer's CRIT Rate by 8%. When the wearer's current CRIT Rate reaches 70% or higher, DMG dealt by Basic ATK and Skill increases by 20%."
     },
     {
       "id": "310",
       "name": "Broken Keel",
-      "skills": "Increases the wearer's Effect RES by <b>10%</b>. When the wearer's Effect RES is at <b>30%</b> or higher, all allies' CRIT DMG increases by <b>10%</b>."
+      "skills": "Increases the wearer's Effect RES by 10%. When the wearer's Effect RES is at 30% or higher, all allies' CRIT DMG increases by 10%."
     },
     {
       "id": "311",
       "name": "Firmament Frontline: Glamoth",
-      "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's SPD is equal to or higher than <b>135</b>/<b>160</b>, the wearer deals <b>12%</b>/<b>18%</b> more DMG."
+      "skills": "Increases the wearer's ATK by 12%. When the wearer's SPD is equal to or higher than 135/160, the wearer deals 12%/18% more DMG."
     },
     {
       "id": "312",
       "name": "Penacony, Land of the Dreams",
-      "skills": "Increases wearer's Energy Regeneration Rate by <b>5%</b>. Increases DMG by <b>10%</b> for all other allies that are of the same Type as the wearer."
+      "skills": "Increases wearer's Energy Regeneration Rate by 5%. Increases DMG by 10% for all other allies that are of the same Type as the wearer."
     },
     {
       "id": "313",
       "name": "Sigonia, the Unclaimed Desolation",
-      "skills": "Increases the wearer's CRIT Rate by <b>4%</b>. When an enemy target gets defeated, the wearer's CRIT DMG increases by <b>4%</b>, stacking up to <b>10</b> time(s)."
+      "skills": "Increases the wearer's CRIT Rate by 4%. When an enemy target gets defeated, the wearer's CRIT DMG increases by 4%, stacking up to 10 times."
     },
     {
       "id": "314",
       "name": "Izumo Gensei and Takama Divine Realm",
-      "skills": "Increases the wearer's ATK by <b>12%</b>. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by <b>12%</b>."
+      "skills": "Increases the wearer's ATK by 12%. When entering battle, if at least one teammate follows the same Path as the wearer, then the wearer's CRIT Rate increases by 12%."
     },
     {
       "id": "315",
       "name": "Duran, Dynasty of Running Wolves",
-      "skills": "When an ally character uses a Follow-Up ATK, the wearer gains 1 stack of \"Merit,\" stacking up to <b>5</b> time(s). Each stack of \"Merit\" increases the DMG dealt by the wearer's Follow-Up ATKs by <b>5%</b>. When there are <b>5</b> stacks, additionally increases the wearer's CRIT DMG by <b>25%</b>."
+      "skills": "When an ally character uses a Follow-Up ATK, the wearer gains 1 stack of \"Merit,\" stacking up to 5 times. Each stack of \"Merit\" increases the DMG dealt by the wearer's Follow-Up ATKs by 5%. When there are 5 stacks, additionally increases the wearer's CRIT DMG by 25%."
     },
     {
       "id": "316",
       "name": "Forge of the Kalpagni Lantern",
-      "skills": "Increases the wearer's SPD by <b>6%</b>. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by <b>40%</b>, lasting for <b>1</b> turn(s)."
+      "skills": "Increases the wearer's SPD by 6%. When the wearer hits an enemy target that has Fire Weakness, the wearer's Break Effect increases by 40%, lasting for 1 turn."
     },
     {
       "id": "317",
       "name": "Lushaka, the Sunken Seas",
-      "skills": "Increases the wearer's Energy Regeneration Rate by <b>5%</b>. If the wearer is not the first character in the team lineup, then increases the ATK of the first character in the team lineup by <b>12%</b>."
+      "skills": "Increases the wearer's Energy Regeneration Rate by 5%. If the wearer is not the first character in the team lineup, then increases the ATK of the first character in the team lineup by 12%."
     },
     {
       "id": "318",
       "name": "The Wondrous BananAmusement Park",
-      "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by <b>32%</b>."
+      "skills": "Increases the wearer's CRIT DMG by 16%. When a target summoned by the wearer is on the field, CRIT DMG additionally increases by 32%."
     },
     {
       "id": "319",
       "name": "Bone Collection's Serene Demesne",
-      "skills": "Increases the wearer's Max HP by <b>12%</b>. When the wearer's Max HP is <b>5000</b> or higher, increases the wearer's and their memosprite's CRIT DMG by <b>28%</b>."
+      "skills": "Increases the wearer's Max HP by 12%. When the wearer's Max HP is 5000 or higher, increases the wearer's and their memosprite's CRIT DMG by 28%."
     },
     {
       "id": "320",
       "name": "Giant Tree of Rapt Brooding",
-      "skills": "Increases the wearer's SPD by <b>6%</b>. When the wearer's SPD is <b>135</b>/<b>180</b> or higher, the wearer and their memosprite's Outgoing Healing increases by <b>12%</b>/<b>20%</b>."
+      "skills": "Increases the wearer's SPD by 6%. When the wearer's SPD is 135/180 or higher, the wearer and their memosprite's Outgoing Healing increases by 12%/20%."
     },
     {
       "id": "321",
       "name": "Arcadia of Woven Dreams",
-      "skills": "When the number of ally targets on the field is not equal to 4, for every 1 additional/missing ally target, increases the DMG dealt by the wearer and their memosprite by <b>9%</b>/<b>12%</b>, stacking up to <b>4</b>/<b>3</b> time(s)."
+      "skills": "When the number of ally targets on the field is not equal to 4, for every 1 additional/missing ally target, increases the DMG dealt by the wearer and their memosprite by 9%/12%, stacking up to 4/3 times."
     },
     {
       "id": "322",
       "name": "Revelry by the Sea",
-      "skills": "Increases the wearer's ATK by <b>12%</b>. When the wearer's ATK is higher than or equal to <b>2400</b>/<b>3600</b>, increases the DoT DMG dealt by <b>12%</b>/<b>24%</b> respectively."
+      "skills": "Increases the wearer's ATK by 12%. When the wearer's ATK is higher than or equal to 2400/3600, increases the DoT DMG dealt by 12%/24% respectively."
     },
     {
       "id": "323",
       "name": "Amphoreus, The Eternal Land",
-      "skills": "Increases the wearer's CRIT Rate by <b>8%</b>. While the wearer's memosprite is on the field, increases all allies' SPD by <b>8%</b>. This effect cannot be stacked."
+      "skills": "Increases the wearer's CRIT Rate by 8%. While the wearer's memosprite is on the field, increases all allies' SPD by 8%. This effect cannot be stacked."
     },
     {
       "id": "324",
       "name": "Tengoku@Livestream",
-      "skills": "Increases the wearer's CRIT DMG by <b>16%</b>. If <b>3</b> or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by <b>32%</b>, lasting for <b>3</b> turns."
+      "skills": "Increases the wearer's CRIT DMG by 16%. If 3 or more Skill Points are consumed in the same turn, additionally increases the wearer's CRIT DMG by 32%, lasting for 3 turns."
     },
     {
       "id": "325",
       "name": "Punklorde Stage Zero",
-      "skills": "Increases the wearer's Elation by <b>8%</b>. When Elation reaches <b>40%</b>/<b>80%</b> for the first time in battle, increases the wearer's CRIT DMG by <b>20%</b>/<b>32%</b>."
+      "skills": "Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%."
     },
     {
       "id": "326",
       "name": "City of Converging Stars",
-      "skills": "When the wearer uses a Follow-Up ATK, increases their ATK by <b>24%</b> for <b>2</b> turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by <b>12%</b> for the rest of the current battle. This effect cannot stack."
+      "skills": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turns. When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack."
     }
   ]
 }

@@ -2220,6 +2220,14 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: Крит урон Искры в бою
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: '↑Базовая Атака'
+      e1PunchlineResPen:
+        text: E1 Игнор Сопр. Урону
+      e6ResPen:
+        text: E6 Игнор Сопр. Урону
   Sunday:
     Content:
       skillDmgBuff:

@@ -2219,6 +2219,14 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: DC en combate de Sparkle
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: Básico potenciado
+      e1PunchlineResPen:
+        text: E1 PEN RES
+      e6ResPen:
+        text: E6 PEN RES
   Sunday:
     Content:
       skillDmgBuff:

@@ -17,6 +17,7 @@ export const ABILITY_COLORS = {
   MEMO: '#adc6ff',
   ADDITIONAL: '#d3adf7',
   ELATION: '#ffadd2',
+  UNIQUE: '#fadb14',
 } as const
 
 export type AbilityColorKey = keyof typeof ABILITY_COLORS
@@ -46,4 +47,5 @@ export const ACTION_COLORS: Partial<Record<AbilityKind, string>> = {
   [AbilityKind.MEMO_SKILL]: ABILITY_COLORS.MEMO,
   [AbilityKind.MEMO_TALENT]: ABILITY_COLORS.MEMO,
   [AbilityKind.ELATION_SKILL]: ABILITY_COLORS.ELATION,
+  [AbilityKind.UNIQUE]: ABILITY_COLORS.UNIQUE,
 }

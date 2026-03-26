@@ -47,6 +47,17 @@ export const tripleAbility = () => {
   }
 }
 
+// Flexible helper for UNIQUE ability eidolon scaling.
+// Single breakpoint: uniqueAbility(5) → call as unique(e, base, upgraded)
+// Dual breakpoints:  uniqueAbility(3, 5) → call as unique(e, base, mid, max)
+export const uniqueAbility = (breakpoint1: number, breakpoint2?: number) => {
+  return function(eidolon: number, value1: number, value2: number, value3?: number): number {
+    if (breakpoint2 !== undefined && value3 !== undefined && eidolon >= breakpoint2) return value3
+    if (eidolon >= breakpoint1) return value2
+    return value1
+  }
+}
+
 // Different characters have different ability activations at E3 / E5, this maps the known types
 export const AbilityEidolon = {
   SKILL_TALENT_3_ULT_BASIC_5: {
@@ -124,6 +135,20 @@ export const AbilityEidolon = {
     skill: ability(3),
     ult: ability(5),
     talent: ability(5),
+    elationSkill: tripleAbility(),
+  },
+  ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5: {
+    basic: ability(3),
+    skill: ability(5),
+    ult: ability(3),
+    talent: ability(5),
+    elationSkill: tripleAbility(),
+  },
+  SKILL_TALENT_ELATION_SKILL_3_ULT_BASIC_ELATION_SKILL_5: {
+    basic: ability(5),
+    skill: ability(3),
+    ult: ability(5),
+    talent: ability(3),
     elationSkill: tripleAbility(),
   },
 }

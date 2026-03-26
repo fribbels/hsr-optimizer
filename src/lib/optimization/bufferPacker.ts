@@ -7,7 +7,7 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { type FixedSizeMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 
-const SIZE = 76
+const SIZE = 77
 
 export const ElementToBasicKeyDmgBoost: Record<string, number> = {
   Physical: BasicKey.PHYSICAL_DMG_BOOST,
@@ -44,6 +44,7 @@ export type OptimizerDisplayData = {
   'MEMO_SKILL': number,
   'MEMO_TALENT': number,
   'ELATION_SKILL': number,
+  'UNIQUE': number,
   'DOT': number,
   'BREAK': number,
   'COMBO': number,
@@ -154,6 +155,7 @@ export const BufferPacker = {
       MEMO_SKILL: 21,
       MEMO_TALENT: 22,
       ELATION_SKILL: 75,
+      UNIQUE: 76,
       DOT: 23,
       BREAK: 24,
       BASIC_HEAL: 65,
@@ -265,6 +267,7 @@ export const BufferPacker = {
       'MEMO_SKILL': arr[offset + 21],
       'MEMO_TALENT': arr[offset + 22],
       'ELATION_SKILL': arr[offset + 75],
+      'UNIQUE': arr[offset + 76],
       'DOT': arr[offset + 23],
       'BREAK': arr[offset + 24], // 24
       'COMBO': arr[offset + 25],

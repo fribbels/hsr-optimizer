@@ -1704,6 +1704,10 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: Sát Thương Bạo Kích trong Combat của Sparkle
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: Tấn Công Thường Cường Hóa
   Sunday:
     Content:
       skillDmgBuff:

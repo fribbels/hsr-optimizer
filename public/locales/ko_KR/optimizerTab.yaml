@@ -641,6 +641,9 @@ ExpandedDataPanel:
       E2: 2돌
       E4: 4돌
       E6: 6돌
+      LightCone: 광추
+      Set: 세트
+    DefaultAction: 기본
     Stats:
       CompositeLabels:
         Label: '{{prefix}}{{suffix}}'

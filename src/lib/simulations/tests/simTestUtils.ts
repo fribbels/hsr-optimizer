@@ -215,7 +215,7 @@ export function collectResults(input: TestInput) {
   nameCombatResults['COMBO_DMG'] = precisionRound(x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG), 7)
 
   // Default all ability damage types to 0, then populate from actionDamage
-  const damageAbilities = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK', 'MEMO_SKILL', 'MEMO_TALENT']
+  const damageAbilities = ['BASIC', 'SKILL', 'ULT', 'FUA', 'DOT', 'BREAK', 'MEMO_SKILL', 'MEMO_TALENT', 'ELATION_SKILL', 'UNIQUE']
   for (const ability of damageAbilities) {
     nameCombatResults[`${ability}_DMG`] = 0
   }

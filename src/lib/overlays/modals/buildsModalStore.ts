@@ -1,8 +1,8 @@
 import { createOverlayStore } from 'lib/stores/infrastructure/createOverlayStore'
-import type { Character } from 'types/character'
+import type { CharacterId } from 'types/character'
 
 export type BuildsModalConfig = {
-  selectedCharacter: Character | null
+  characterId: CharacterId
 }
 
 export const useBuildsModalStore = createOverlayStore<BuildsModalConfig>()

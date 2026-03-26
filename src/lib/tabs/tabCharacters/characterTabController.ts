@@ -2,7 +2,7 @@ import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { type SwitchRelicsFormSelectedCharacter } from 'lib/overlays/modals/SwitchRelicsModal'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
-import { SavedBuildSource } from 'lib/constants/appPages'
+import { BuildSource } from 'types/savedBuild'
 import * as buildService from 'lib/services/buildService'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
@@ -91,7 +91,7 @@ function updateBuilds(name: string, overwrite: boolean) {
   const res = buildService.saveBuild(
     name,
     selectedCharacter.id,
-    SavedBuildSource.SHOWCASE,
+    BuildSource.Character,
     overwrite,
   )
   if (res) return Message.error(res.error)

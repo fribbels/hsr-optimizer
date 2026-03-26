@@ -1,10 +1,5 @@
 import { stripTrailingSlashes } from 'lib/utils/miscUtils'
 
-export enum SavedBuildSource {
-  SHOWCASE = 'showcase',
-  OPTIMIZER = 'optimizer',
-}
-
 export enum BasePath {
   MAIN = '/hsr-optimizer',
   BETA = '/dreary-quibbles',

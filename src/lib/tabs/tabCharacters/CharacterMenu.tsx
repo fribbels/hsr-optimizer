@@ -9,7 +9,7 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import { AppPages } from 'lib/constants/appPages'
+import { BuildSource } from 'types/savedBuild'
 import { Message } from 'lib/interactions/message'
 import { useBuildsModalStore } from 'lib/overlays/modals/buildsModalStore'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
@@ -116,7 +116,9 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'saveBuild':
-        useSaveBuildModalStore.getState().openOverlay({ source: AppPages.CHARACTERS, character: selectedCharacter ?? null })
+        if (focusCharacter) {
+          useSaveBuildModalStore.getState().openOverlay({ source: BuildSource.Character, characterId: focusCharacter })
+        }
         break
 
       case 'switchRelics':
@@ -129,7 +131,9 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'viewBuilds':
-        useBuildsModalStore.getState().openOverlay({ selectedCharacter: selectedCharacter ?? null })
+        if (focusCharacter) {
+          useBuildsModalStore.getState().openOverlay({ characterId: focusCharacter })
+        }
         break
 
       default:

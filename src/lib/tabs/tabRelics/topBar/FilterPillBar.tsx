@@ -146,7 +146,7 @@ export function FilterPillBar() {
         {/* Row 1: 8 × 1-unit pills */}
         <FilterPill label={t('RelicFilterBar.Part')} options={partOptions} selected={filters.part} onChange={filterHandlers.part} />
         <FilterPill label={t('RelicFilterBar.Mainstat')} options={mainStatOptions} selected={filters.mainStat} onChange={filterHandlers.mainStat} searchable />
-        <FilterPill label="Sub stats" options={subStatOptions} selected={filters.subStat} onChange={filterHandlers.subStat} popoverWidth={260} />
+        <FilterPill label="Sub stats" options={subStatOptions} selected={filters.subStat} onChange={filterHandlers.subStat} popoverWidth={260} searchable />
         <FilterPill label={t('RelicFilterBar.Enhance')} options={enhanceOptions} selected={filters.enhance} onChange={filterHandlers.enhance} />
         <FilterPill label={t('RelicFilterBar.Grade')} options={gradeOptions} selected={filters.grade} onChange={filterHandlers.grade} />
         <FilterPill label="Initial rolls" options={initialRollsOptions} selected={filters.initialRolls} onChange={filterHandlers.initialRolls} />

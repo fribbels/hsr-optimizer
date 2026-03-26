@@ -27,6 +27,39 @@
   transition: none !important;
 }
 
+/* Kill all hover effects and transitions during active drag for smooth animation */
+.gridContainer[data-dragging-active] .root {
+  transition: none;
+  will-change: transform;
+}
+
+.gridContainer[data-dragging-active] .root:hover {
+  transform: none;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+
+.gridContainer[data-dragging-active] .portraitBg {
+  transition: none;
+}
+
+.gridContainer[data-dragging-active] .root:hover .portraitBg {
+  filter: brightness(var(--cr-hover-rest-brightness, 1)) saturate(var(--cr-hover-rest-saturate, 1));
+}
+
+.gridContainer[data-dragging-active] .scrim {
+  transition: none;
+}
+
+.gridContainer[data-dragging-active] .actions {
+  transition: none;
+  opacity: 0;
+}
+
+.gridContainer[data-dragging-active] .rankGripSlot .rank,
+.gridContainer[data-dragging-active] .rankGripSlot .dragGrip {
+  transition: none;
+}
+
 /* --- Row container + design tokens --- */
 
 .root {
@@ -47,6 +80,7 @@
   position: relative;
   height: var(--cr-row-height, 73px);
   flex-shrink: 0;
+  contain: content;
   border-radius: var(--cr-radius);
   overflow: hidden;
   cursor: grab;

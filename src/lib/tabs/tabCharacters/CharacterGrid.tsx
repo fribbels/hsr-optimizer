@@ -143,9 +143,12 @@ export function CharacterGrid() {
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as CharacterId)
+    gridRef.current?.setAttribute('data-dragging-active', '')
   }
 
   function handleDragEnd(event: DragEndEvent) {
+    gridRef.current?.removeAttribute('data-dragging-active')
+
     // Suppress row transitions for one paint so reordered rows snap into place
     // instead of animating from stale positions (the "float from top" glitch)
     const container = gridRef.current
@@ -168,6 +171,7 @@ export function CharacterGrid() {
   }
 
   function handleDragCancel() {
+    gridRef.current?.removeAttribute('data-dragging-active')
     setTimeout(() => setActiveId(null), DROP_ANIMATION_DURATION)
   }
 

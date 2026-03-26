@@ -35,7 +35,7 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
-import { defaultPadding } from 'lib/constants/constantsUi'
+import { defaultGap, defaultPadding } from 'lib/constants/constantsUi'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -185,10 +185,37 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
     return (
       <Flex
         direction="column"
-        gap={16}
+        gap={defaultGap + 2}
         className={classes.sidebarContainer}
         style={{ marginLeft: cardTotalW + 8 }}
       >
+        {/* Screenshot / Download */}
+        <Flex
+          direction="column"
+          gap={6}
+          style={cardStyle}
+        >
+          <Flex gap={6}>
+            <Button
+              loading={loading}
+              onClick={() => screenshot('clipboard', getActiveCharacterName())}
+              className={classes.actionButton}
+              style={{ height: 'auto' }}
+            >
+              <IconCamera size={18} />
+            </Button>
+            <Button
+              loading={loading}
+              onClick={() => screenshot('download', getActiveCharacterName())}
+              className={classes.actionButton}
+              style={{ height: 'auto' }}
+            >
+              <IconDownload size={18} />
+            </Button>
+          </Flex>
+        </Flex>
+
+        {/* Stats */}
         <Flex
           direction="column"
           gap={6}
@@ -212,23 +239,41 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
 
           <HorizontalDivider />
 
-          <Button
-            leftSection={<IconSettings size={16} />}
-            onClick={onTraceClick}
-            variant="default"
-          >
-            {tScoring('Stats.ButtonText') /* Traces */}
-          </Button>
+          {scoringType === ScoringType.COMBAT_SCORE
+            && (
+              <>
+                <HeaderText className={classes.headerCenteredMb}>
+                  {tScoring('BuffPriority.Header') /* DPS mode */}
+                </HeaderText>
 
-          <Button
-            leftSection={<IconSettings size={16} />}
-            onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
-            variant="default"
-          >
-            {tScoring('Stats.WeightsButton') /* Weights */}
-          </Button>
+                <SegmentedControl
+                  data={buffPriorityOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
+                  fullWidth
+                  value={String(deprioritizeBuffs)}
+                  onChange={(value) => onShowcaseDeprioritizeBuffsChange(value === 'true')}
+                />
 
-          <HorizontalDivider />
+                <HorizontalDivider />
+              </>
+            )}
+
+          {scoringType !== ScoringType.NONE
+            && (
+              <>
+                <HeaderText className={classes.headerCenteredMb}>
+                  {tScoring('SpdWeight.Header') /* SPD weight */}
+                </HeaderText>
+
+                <SegmentedControl
+                  data={spdWeightOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
+                  fullWidth
+                  value={String(spdValue)}
+                  onChange={(value) => onShowcaseSpdValueChange(Number(value))}
+                />
+
+                <HorizontalDivider />
+              </>
+            )}
 
           <HeaderText className={classes.headerCenteredMb}>
             {tScoring('SpdPrecision.Header') /* SPD precision */}
@@ -240,24 +285,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
             value={String(showcasePreciseSpd)}
             onChange={(value) => onShowcasePreciseSpdChange(value === 'true')}
           />
-
-          {scoringType !== ScoringType.NONE
-            && (
-              <>
-                <HorizontalDivider />
-
-                <HeaderText className={classes.headerCenteredMb}>
-                  {tScoring('SpdWeight.Header') /* SPD weight */}
-                </HeaderText>
-
-                <SegmentedControl
-                  data={spdWeightOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
-                  fullWidth
-                  value={String(spdValue)}
-                  onChange={(value) => onShowcaseSpdValueChange(Number(value))}
-                />
-              </>
-            )}
 
           {scoringType === ScoringType.COMBAT_SCORE
             && (
@@ -276,25 +303,26 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
               </>
             )}
 
-          {scoringType === ScoringType.COMBAT_SCORE
-            && (
-              <>
-                <HorizontalDivider />
+          <HorizontalDivider />
 
-                <HeaderText className={classes.headerCenteredMb}>
-                  {tScoring('BuffPriority.Header') /* Buff priority */}
-                </HeaderText>
+          <Button
+            leftSection={<IconSettings size={16} />}
+            onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
+            variant="default"
+          >
+            {tScoring('Stats.WeightsButton') /* Weights */}
+          </Button>
 
-                <SegmentedControl
-                  data={buffPriorityOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
-                  fullWidth
-                  value={String(deprioritizeBuffs)}
-                  onChange={(value) => onShowcaseDeprioritizeBuffsChange(value === 'true')}
-                />
-              </>
-            )}
+          <Button
+            leftSection={<IconSettings size={16} />}
+            onClick={onTraceClick}
+            variant="default"
+          >
+            {tScoring('Stats.ButtonText') /* Traces */}
+          </Button>
         </Flex>
 
+        {/* Customization */}
         <Flex
           direction="column"
           gap={6}
@@ -364,27 +392,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
                 />
               </>
             )}
-
-          <HorizontalDivider />
-
-          <Flex gap={6}>
-            <Button
-              loading={loading}
-              onClick={() => screenshot('clipboard', getActiveCharacterName())}
-              className={classes.actionButton}
-              style={{ height: 'auto' }}
-            >
-              <IconCamera size={18} />
-            </Button>
-            <Button
-              loading={loading}
-              onClick={() => screenshot('download', getActiveCharacterName())}
-              className={classes.actionButton}
-              style={{ height: 'auto' }}
-            >
-              <IconDownload size={18} />
-            </Button>
-          </Flex>
         </Flex>
       </Flex>
     )

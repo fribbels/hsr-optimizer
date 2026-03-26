@@ -5,10 +5,8 @@ import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
-import type {
-  Character,
-  SavedBuild,
-} from 'types/character'
+import type { Character } from 'types/character'
+import type { SavedBuild, SavedTeammate } from 'types/savedBuild'
 import type {
   ScoringMetadata,
   ShowcaseTemporaryOptions,
@@ -98,7 +96,7 @@ export function resolveDpsScoreSimulationMetadata(
   // Merge any necessary configs from the custom metadata
 
   simulation.teammates = getTeammates(teamSelection, customSimulation, simulation, buildOverride)
-  simulation.deprioritizeBuffs = buildOverride != undefined
+  simulation.deprioritizeBuffs = buildOverride != undefined && 'deprioritizeBuffs' in buildOverride
     ? buildOverride.deprioritizeBuffs
     : customSimulation.deprioritizeBuffs ?? false
 
@@ -112,14 +110,19 @@ function getTeammates(
   buildOverride?: SavedBuild | null,
 ): SimulationMetadata['teammates'] {
   if (buildOverride != undefined) {
-    return buildOverride.team.map((t) => ({
-      characterId: t.characterId,
-      lightCone: t.lightConeId,
-      characterEidolon: t.eidolon,
-      lightConeSuperimposition: t.superimposition,
-      teamRelicSet: t.relicSet,
-      teamOrnamentSet: t.ornamentSet,
-    }))
+    const teammates: SimulationMetadata['teammates'] = []
+    for (const t of buildOverride.team) {
+      if (t == null) continue
+      teammates.push({
+        characterId: t.characterId,
+        lightCone: t.lightCone,
+        characterEidolon: t.characterEidolon,
+        lightConeSuperimposition: t.lightConeSuperimposition,
+        teamRelicSet: t.teamRelicSet,
+        teamOrnamentSet: t.teamOrnamentSet,
+      })
+    }
+    return teammates
   }
   if (teamSelection === CUSTOM_TEAM) {
     return customSimulation.teammates ?? defaultSimulation.teammates

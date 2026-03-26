@@ -3,6 +3,7 @@ import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { AppPages } from 'lib/constants/appPages'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { handleTeamSelection } from 'lib/characterPreview/characterPreviewController'
 import { deserializeBuild, serializeFromCharacterTab, serializeFromOptimizer } from 'lib/services/buildConverter'
 import * as equipmentService from 'lib/services/equipmentService'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -37,8 +38,9 @@ export function saveBuild(
     const equipped = useOptimizerDisplayStore.getState().optimizerBuild ?? {}
     build = serializeFromOptimizer(name, characterId, state as typeof state & { lightCone: LightConeId }, equipped)
   } else {
+    const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceById[characterId]
+    const teamSelection = handleTeamSelection(character, rawTeamSelection)
     const simulation = getScoringMetadata(character.id)?.simulation
-    const teamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceById[characterId]
     const useCustom = simulation && teamSelection !== DEFAULT_TEAM
     const teammates = useCustom ? simulation.teammates : getGameMetadata().characters[characterId]?.scoringMetadata?.simulation?.teammates
     build = serializeFromCharacterTab(name, character, teammates, teamSelection)

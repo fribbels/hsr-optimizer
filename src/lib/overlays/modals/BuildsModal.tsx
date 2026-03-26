@@ -347,6 +347,9 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
 
 const TeammatePreview = memo(function TeammatePreview(props: { build: SavedBuild; display: boolean }) {
   const { build, display } = props
+  const hasTeammates = build.team.some(Boolean)
+  if (!hasTeammates) return null
+
   const imgStyle: CSSProperties = {
     opacity: display ? 1 : 0,
     height: display ? 50 : 0,

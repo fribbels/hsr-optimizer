@@ -41,7 +41,7 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
             <WrappedComponent {...props} />
           </span>
         </Popover.Target>
-        <Popover.Dropdown>
+        <Popover.Dropdown data-testid="conditional-popover">
           <Text fw={600} mb={4} size="sm">{props.title}</Text>
           <Text component="div" size="sm" style={{ width: 400, display: 'block' }}>
             <hr />

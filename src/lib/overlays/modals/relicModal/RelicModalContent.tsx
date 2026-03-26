@@ -46,6 +46,7 @@ function partSegmentData(value: string, src: string) {
     label: (
       <Flex align="center" justify="center">
         <img
+          data-testid={`relic-part-${value}`}
           style={{ width: 20 }}
           src={src}
         />

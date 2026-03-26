@@ -27,7 +27,7 @@
     "bench:searchtree": "vitest run src/lib/worker/maxima/tree/tests/searchTreeBenchmark.test.ts --reporter=verbose",
     "bench:pipeline": "vitest run src/lib/simulations/tests/goldenData/benchmarkDpsScorePipeline.test.ts --reporter=verbose",
     "vitest:watch": "vitest --dir src/lib --watch",
-    "test": "npx playwright test --config tests/playwright.config.ts --trace on",
+    "test": "npx playwright test --config tests/playwright.config.ts",
     "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",
     "test:ui": "npm run test -- --ui",
     "test:report": "npx playwright show-report",

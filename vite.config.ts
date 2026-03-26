@@ -41,6 +41,9 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: false,
   },
+  preview: {
+    port: 3000,
+  },
   server: {
     open: true,
     port: 3000,

@@ -77,9 +77,10 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
     return null
   }
 
+  const byAction = perActionBuffGroups.byAction
   const buffGroups = selectedAction != null && perActionBuffGroups.rotationSteps[selectedAction]
     ? perActionBuffGroups.rotationSteps[selectedAction].groups
-    : perActionBuffGroups.byAction[perActionBuffGroups.primaryAction]
+    : byAction[perActionBuffGroups.primaryAction] ?? byAction[Object.keys(byAction)[0]]
 
   if (!buffGroups) {
     return null

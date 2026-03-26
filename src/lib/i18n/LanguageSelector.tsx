@@ -45,13 +45,13 @@ export function LanguageSelector() {
             console.log('setting language to:', i18n.resolvedLanguage)
           })
       }}
-      size="sm"
-      style={{ width: 135, marginRight: 6 }}
-      styles={{ input: { height: 36, minHeight: 36 } }}
+      size="xs"
+      style={{ width: 135, marginRight: 8 }}
+      styles={{ input: { height: 32, minHeight: 32, paddingLeft: 32 } }}
       maxDropdownHeight={400}
       comboboxProps={{ keepMounted: false, width: 210 }}
       defaultValue={i18n.resolvedLanguage}
-      leftSection={<img style={{ width: 22 }} src={Assets.getGlobe()} />}
+      leftSection={<img style={{ width: 18 }} src={Assets.getGlobe()} />}
     />
   )
 }

@@ -36,8 +36,8 @@ jobs:
       - name: Find and Replace Beta header
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: 'Fribbels Honkai Star Rail Optimizer'
-          replace: 'Fribbels Honkai Star Rail Optimizer (Beta)'
+          find: 'Fribbels Star Rail Optimizer'
+          replace: 'Fribbels Star Rail Optimizer (Beta)'
           include: 'src/lib/layout/LayoutHeader.tsx'
       - name: Enable console.*
         uses: jacobtomlinson/gha-find-replace@v3

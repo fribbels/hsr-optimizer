@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest'
-import { resolveEidolon, resolveFlexibleLC, serializeFromCharacterTab, serializeFromOptimizer } from './buildCodec'
+import { deserializeBuild, resolveEidolon, resolveFlexibleLC, serializeFromCharacterTab, serializeFromOptimizer } from './buildCodec'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import type { OptimizerRequestState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { type Build, BuildSource } from 'types/savedBuild'
+import { type Build, BuildSource, type CharacterSavedBuild, type OptimizerSavedBuild } from 'types/savedBuild'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
@@ -131,17 +131,10 @@ function makeCharacter(overrides: Partial<Character> = {}): Character {
   return {
     id: Kafka.id,
     equipped: { Head: 'r1', Body: 'r2' },
-    form: {
-      ...createDefaultFormState(),
-      characterId: Kafka.id,
-      lightCone: '21001' as LightConeId,
+    form: makeForm({
       characterEidolon: 2,
       lightConeSuperimposition: 3,
-      resultMinFilter: 0,
-      teammate0: {} as Teammate,
-      teammate1: {} as Teammate,
-      teammate2: {} as Teammate,
-    } as Character['form'],
+    }),
     ...overrides,
   }
 }
@@ -203,5 +196,209 @@ describe('serializeFromCharacterTab', () => {
   it('captures equipped from character', () => {
     const result = serializeFromCharacterTab('Test', makeCharacter(), undefined, undefined)
     expect(result.equipped).toEqual({ Head: 'r1', Body: 'r2' })
+  })
+})
+
+// ── Deserialization Factories ──
+
+import type { Form } from 'types/form'
+
+function makeForm(overrides: Partial<Form> = {}): Form {
+  const defaults = createDefaultFormState()
+  return {
+    ...defaults,
+    characterId: Kafka.id,
+    lightCone: '21001' as LightConeId,
+    resultMinFilter: 0,
+    ornamentSets: [],
+    relicSets: [],
+    teammate0: {} as Teammate,
+    teammate1: {} as Teammate,
+    teammate2: {} as Teammate,
+    ...overrides,
+  } as unknown as Form
+}
+
+function makeOptimizerSavedBuild(overrides: Partial<OptimizerSavedBuild> = {}): OptimizerSavedBuild {
+  return {
+    source: BuildSource.Optimizer,
+    name: 'Test Build',
+    characterId: Kafka.id,
+    equipped: {},
+    characterEidolon: 0,
+    lightCone: '21001' as LightConeId,
+    lightConeSuperimposition: 1,
+    team: [null, null, null],
+    characterConditionals: {},
+    lightConeConditionals: {},
+    setConditionals: createDefaultFormState().setConditionals,
+    comboType: ComboType.SIMPLE,
+    comboStateJson: '{}',
+    comboPreprocessor: true,
+    comboTurnAbilities: [],
+    deprioritizeBuffs: false,
+    ...overrides,
+  }
+}
+
+function makeCharacterSavedBuild(overrides: Partial<CharacterSavedBuild> = {}): CharacterSavedBuild {
+  return {
+    source: BuildSource.Character,
+    name: 'Test Build',
+    characterId: Kafka.id,
+    equipped: {},
+    characterEidolon: 0,
+    lightCone: '21001' as LightConeId,
+    lightConeSuperimposition: 1,
+    team: [null, null, null],
+    ...overrides,
+  }
+}
+
+// ── Deserialization Tests ──
+
+describe('deserializeBuild', () => {
+  describe('optimizer builds', () => {
+    it('all damage-affecting fields override the DB form', () => {
+      const build = makeOptimizerSavedBuild({
+        characterConditionals: { enhanced: true },
+        lightConeConditionals: { passive: 1 },
+        comboType: ComboType.ADVANCED,
+        comboStateJson: '{"data":true}',
+        comboPreprocessor: false,
+        comboTurnAbilities: ['NULL' as any],
+        deprioritizeBuffs: true,
+      })
+      const patch = deserializeBuild(build, makeForm())
+      expect(patch.characterConditionals).toEqual({ enhanced: true })
+      expect(patch.lightConeConditionals).toEqual({ passive: 1 })
+      expect(patch.comboType).toBe(ComboType.ADVANCED)
+      expect(patch.comboStateJson).toBe('{"data":true}')
+      expect(patch.comboPreprocessor).toBe(false)
+      expect(patch.comboTurnAbilities).toEqual(['NULL'])
+      expect(patch.deprioritizeBuffs).toBe(true)
+    })
+
+    it('LC flexibility: same LC → max SI', () => {
+      const build = makeOptimizerSavedBuild({ lightCone: '21001' as LightConeId, lightConeSuperimposition: 2 })
+      const form = makeForm({ lightCone: '21001' as LightConeId, lightConeSuperimposition: 5 })
+      const patch = deserializeBuild(build, form)
+      expect(patch.lightCone).toBe('21001')
+      expect(patch.lightConeSuperimposition).toBe(5)
+    })
+
+    it('LC flexibility: different LC → saved', () => {
+      const build = makeOptimizerSavedBuild({ lightCone: '21002' as LightConeId, lightConeSuperimposition: 2 })
+      const form = makeForm({ lightCone: '21001' as LightConeId, lightConeSuperimposition: 5 })
+      const patch = deserializeBuild(build, form)
+      expect(patch.lightCone).toBe('21002')
+      expect(patch.lightConeSuperimposition).toBe(2)
+    })
+
+    it('eidolon max rule', () => {
+      const build = makeOptimizerSavedBuild({ characterEidolon: 2 })
+      const form = makeForm({ characterEidolon: 4 })
+      const patch = deserializeBuild(build, form)
+      expect(patch.characterEidolon).toBe(4)
+    })
+
+    it('teammates replace form teammates (3-slot tuple)', () => {
+      const build = makeOptimizerSavedBuild({
+        team: [
+          {
+            characterId: Jingliu.id, characterEidolon: 1, lightCone: '21002' as LightConeId,
+            lightConeSuperimposition: 3, teamRelicSet: 'SetA', teamOrnamentSet: 'SetB',
+            characterConditionals: { x: 1 }, lightConeConditionals: { y: 2 },
+          },
+          null,
+          null,
+        ],
+      })
+      const patch = deserializeBuild(build, makeForm())
+      expect(patch.teammates![0].characterId).toBe(Jingliu.id)
+      expect(patch.teammates![1].characterId).toBeUndefined() // default teammate
+      expect(patch.teammates![2].characterId).toBeUndefined()
+    })
+  })
+
+  describe('character tab builds', () => {
+    it('only LC and eidolon are applied', () => {
+      const build = makeCharacterSavedBuild({
+        characterEidolon: 3,
+        lightCone: '21002' as LightConeId,
+        lightConeSuperimposition: 4,
+      })
+      const form = makeForm({ characterEidolon: 1, lightCone: '21001' as LightConeId, lightConeSuperimposition: 2 })
+      const patch = deserializeBuild(build, form)
+      expect(patch.characterEidolon).toBe(3) // max(3, 1) = 3
+      expect(patch.lightCone).toBe('21002') // different LC → saved
+      expect(patch.lightConeSuperimposition).toBe(4)
+    })
+
+    it('returned patch has no conditionals, rotation, or teammates', () => {
+      const build = makeCharacterSavedBuild()
+      const patch = deserializeBuild(build, makeForm())
+      expect(patch).not.toHaveProperty('characterConditionals')
+      expect(patch).not.toHaveProperty('lightConeConditionals')
+      expect(patch).not.toHaveProperty('setConditionals')
+      expect(patch).not.toHaveProperty('comboType')
+      expect(patch).not.toHaveProperty('comboStateJson')
+      expect(patch).not.toHaveProperty('teammates')
+      expect(patch).not.toHaveProperty('deprioritizeBuffs')
+    })
+  })
+
+  describe('round-trip tests', () => {
+    it('optimizer: serialize then deserialize preserves damage fields', () => {
+      const state = makeOptimizerState({
+        characterEidolon: 2,
+        lightConeSuperimposition: 3,
+        characterConditionals: { enhancedState: true },
+        comboType: ComboType.ADVANCED,
+        comboStateJson: '{"turns":1}',
+        deprioritizeBuffs: true,
+      })
+      const serialized = serializeFromOptimizer('Test', Kafka.id, state, { Head: 'r1' })
+      const patch = deserializeBuild(serialized, makeForm({
+        characterEidolon: 2,
+        lightCone: '21001' as LightConeId,
+        lightConeSuperimposition: 3,
+      }))
+      expect(patch.comboType).toBe(ComboType.ADVANCED)
+      expect(patch.characterConditionals).toEqual({ enhancedState: true })
+      expect(patch.deprioritizeBuffs).toBe(true)
+    })
+
+    it('character tab: serialize then deserialize returns only LC + eidolon overrides', () => {
+      const character = makeCharacter()
+      const serialized = serializeFromCharacterTab('Test', character, undefined, undefined)
+      const patch = deserializeBuild(serialized, makeForm({
+        characterEidolon: 0,
+        lightCone: '21001' as LightConeId,
+        lightConeSuperimposition: 1,
+      }))
+      // LC flexibility: same LC → max SI (3 vs 1 = 3)
+      expect(patch.lightConeSuperimposition).toBe(3)
+      // eidolon max: max(2, 0) = 2
+      expect(patch.characterEidolon).toBe(2)
+      // No conditionals
+      expect(patch).not.toHaveProperty('comboType')
+    })
+  })
+
+  describe('edge cases', () => {
+    it('empty equipped passes through', () => {
+      const build = makeOptimizerSavedBuild({ equipped: {} })
+      const patch = deserializeBuild(build, makeForm())
+      expect(patch).toBeDefined()
+    })
+
+    it('LC flexibility identity: same LC, same SI → unchanged', () => {
+      const build = makeOptimizerSavedBuild({ lightCone: '21001' as LightConeId, lightConeSuperimposition: 3 })
+      const form = makeForm({ lightCone: '21001' as LightConeId, lightConeSuperimposition: 3 })
+      const patch = deserializeBuild(build, form)
+      expect(patch.lightCone).toBe('21001')
+      expect(patch.lightConeSuperimposition).toBe(3)
+    })
   })
 })

@@ -1,14 +1,16 @@
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
+import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import type { OptimizerRequestState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import type { Character, CharacterId } from 'types/character'
-import type { Teammate } from 'types/form'
+import type { Form, Teammate } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import {
   BuildSource,
   type Build,
   type CharacterSavedBuild,
   type OptimizerSavedBuild,
+  type SavedBuild,
   type SavedTeammate,
   type SavedTeammateWithConditionals,
   type TeamTuple,
@@ -117,4 +119,63 @@ function teammatesFromSimulation(teammates: Teammate[]): TeamTuple<SavedTeammate
     }
   }
   return result as TeamTuple<SavedTeammate>
+}
+
+export function deserializeBuild(
+  build: SavedBuild,
+  currentForm: Form,
+): Partial<OptimizerRequestState> {
+  // LC flexibility — applies to both sources
+  const lc = resolveFlexibleLC(
+    build.lightCone, build.lightConeSuperimposition,
+    currentForm.lightCone, currentForm.lightConeSuperimposition,
+  )
+  const eidolon = resolveEidolon(build.characterEidolon, currentForm.characterEidolon)
+
+  const basePatch: Partial<OptimizerRequestState> = {
+    characterEidolon: eidolon,
+    lightCone: lc.lightCone,
+    lightConeSuperimposition: lc.lightConeSuperimposition,
+  }
+
+  if (build.source === BuildSource.Character) {
+    // Character tab builds only override LC + eidolon
+    return basePatch
+  }
+
+  // Optimizer builds override all damage-affecting fields
+  function toTeammateState(tm: SavedTeammateWithConditionals | null): TeammateState {
+    if (!tm) return createDefaultTeammate()
+    return {
+      characterId: tm.characterId,
+      characterEidolon: tm.characterEidolon,
+      lightCone: tm.lightCone,
+      lightConeSuperimposition: tm.lightConeSuperimposition,
+      teamRelicSet: tm.teamRelicSet,
+      teamOrnamentSet: tm.teamOrnamentSet,
+      characterConditionals: { ...tm.characterConditionals },
+      lightConeConditionals: { ...tm.lightConeConditionals },
+    }
+  }
+
+  const teammates: [TeammateState, TeammateState, TeammateState] = [
+    toTeammateState(build.team[0]),
+    toTeammateState(build.team[1]),
+    toTeammateState(build.team[2]),
+  ]
+
+  return {
+    ...basePatch,
+    teammates,
+    characterConditionals: { ...build.characterConditionals },
+    lightConeConditionals: { ...build.lightConeConditionals },
+    setConditionals: Object.fromEntries(
+      Object.entries(build.setConditionals).map(([k, v]) => [k, [...v]]),
+    ) as SetConditionals,
+    comboType: build.comboType,
+    comboStateJson: build.comboStateJson,
+    comboPreprocessor: build.comboPreprocessor,
+    comboTurnAbilities: [...build.comboTurnAbilities],
+    deprioritizeBuffs: build.deprioritizeBuffs,
+  }
 }

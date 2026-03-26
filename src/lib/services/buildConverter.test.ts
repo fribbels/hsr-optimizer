@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest'
-import { deserializeBuild, resolveEidolon, resolveFlexibleLC, serializeFromCharacterTab, serializeFromOptimizer } from './buildCodec'
+import { deserializeBuild, resolveEidolon, resolveFlexibleLC, serializeFromCharacterTab, serializeFromOptimizer } from './buildConverter'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import type { OptimizerRequestState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'

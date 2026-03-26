@@ -217,7 +217,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
 
           <Flex direction="column" style={{ flex: 1 }}>
             <Flex justify='space-between'>
-              <Flex direction="column" gap={defaultGap * 2}>
+              <Flex direction="column" gap={defaultGap * 2} style={{ width: '100%' }}>
                 <Flex direction="column" gap={1}>
                   <div className={classes.partLabel}>
                     {t('common:Parts.Body')}

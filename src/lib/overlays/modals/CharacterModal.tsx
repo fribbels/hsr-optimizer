@@ -163,6 +163,7 @@ function CharacterModalContent() {
               data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
               placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
               clearable
+              maxDropdownHeight={500}
               comboboxProps={{ keepMounted: false, width: 'auto' }}
               renderOption={({ option }) => {
                 if (!option.value) return option.label
@@ -186,6 +187,7 @@ function CharacterModalContent() {
               data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
               placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
               clearable
+              maxDropdownHeight={500}
               comboboxProps={{ keepMounted: false, width: 'auto' }}
               renderOption={({ option }) => {
                 if (!option.value) return option.label

@@ -130,6 +130,13 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
           },
         },
       },
+      Notification: {
+        styles: {
+          root: {
+            padding: '12px 14px 12px 26px',
+          },
+        },
+      },
       Accordion: {
         styles: {
           item: { borderBottom: 'none' },

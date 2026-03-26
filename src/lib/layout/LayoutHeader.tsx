@@ -43,7 +43,7 @@ export function LayoutHeader() {
             <Flex align='center'>
               <img src={Assets.getLogo()} className={classes.logo} />
               <div className={classes.title}>
-                Fribbels HSR Optimizer
+                Fribbels Star Rail Optimizer
               </div>
             </Flex>
           </a>

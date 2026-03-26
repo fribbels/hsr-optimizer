@@ -92,7 +92,7 @@ function SaveBuildModalContent() {
     }
   }
 
-  const nameTaken = character?.builds?.reduce((acc, cur) => acc || cur.name === inputName, false)
+  const nameTaken = character?.builds?.some((b) => b.name === inputName) ?? false
   const saveDisabled = nameTaken || inputName === ''
   const overwriteDisabled = !nameTaken || inputName === ''
 

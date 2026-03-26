@@ -2,8 +2,8 @@ import type { CharacterId } from 'types/character'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
-import type { ScoringMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
@@ -22,7 +22,6 @@ export function migrateBuild(
   characterId: CharacterId,
   characterForm: Pick<Form, 'characterEidolon' | 'lightCone' | 'lightConeSuperimposition'>,
   relicsById: Map<string, Relic>,
-  scoringMetadata: ScoringMetadata,
 ): SavedBuild | null {
   // Guard: reject completely invalid data
   if (!raw || typeof raw !== 'object' || !('name' in raw)) {
@@ -30,14 +29,18 @@ export function migrateBuild(
     return null
   }
 
-  // Layer 3: already new format
+  // Layer 3: already new format — validate critical fields before trusting the cast
   if ('source' in raw && (raw.source === BuildSource.Character || raw.source === BuildSource.Optimizer)) {
+    if (typeof raw.name !== 'string' || !raw.characterId || !Array.isArray(raw.team)) {
+      console.warn('[buildMigration] Corrupt new-format build, missing required fields', characterId, raw)
+      return null
+    }
     return raw as SavedBuild
   }
 
   // Layer 1: ancient format { build: string[], name, score }
   if (Array.isArray(raw.build)) {
-    return migrateAncientFormat(raw, characterId, characterForm, relicsById, scoringMetadata)
+    return migrateAncientFormat(raw, characterId, characterForm, relicsById)
   }
 
   // Layer 2: current format with old field names
@@ -50,7 +53,6 @@ function migrateAncientFormat(
   characterId: CharacterId,
   characterForm: Pick<Form, 'characterEidolon' | 'lightCone' | 'lightConeSuperimposition'>,
   relicsById: Map<string, Relic>,
-  _scoringMetadata: ScoringMetadata,
 ): CharacterSavedBuild {
   const buildArray = raw.build as string[]
   const equipped: Build = {}
@@ -90,7 +92,7 @@ function migrateCurrentFormat(
   // If no optimizer metadata, it's a character tab build
   if (meta == null) {
     const oldTeam = (raw.team as unknown[]) ?? []
-    const team = migrateTeam(oldTeam, false) as TeamTuple<SavedTeammate>
+    const team = migrateTeam(oldTeam) as TeamTuple<SavedTeammate>
 
     const result: CharacterSavedBuild = {
       source: BuildSource.Character,
@@ -111,10 +113,10 @@ function migrateCurrentFormat(
       ? ComboType.ADVANCED : ComboType.SIMPLE)
   const comboStateJson = (meta.comboStateJson as string) ?? '{}'
   const comboPreprocessor = (meta.presets as boolean) ?? true
-  const setConditionals = (meta.setConditionals as OptimizerSavedBuild['setConditionals']) ?? {}
+  const setConditionals = (meta.setConditionals as OptimizerSavedBuild['setConditionals']) ?? defaultSetConditionals
 
   // Handle legacy conditionals relocation
-  const oldConditionals = (meta as any).conditionals as Record<string, ConditionalValueMap> | undefined
+  const oldConditionals = meta.conditionals as Record<string, ConditionalValueMap> | undefined
   let characterConditionals = (raw.characterConditionals as ConditionalValueMap) ?? {}
   let lightConeConditionals = (raw.lightConeConditionals as ConditionalValueMap) ?? {}
 
@@ -186,10 +188,7 @@ function migrateTeammateWithConditionals(
   }
 }
 
-function migrateTeam(
-  oldTeam: unknown[],
-  _withConditionals: false,
-): TeamTuple<SavedTeammate> {
+function migrateTeam(oldTeam: unknown[]): TeamTuple<SavedTeammate> {
   return [
     migrateTeammate(oldTeam[0]),
     migrateTeammate(oldTeam[1]),

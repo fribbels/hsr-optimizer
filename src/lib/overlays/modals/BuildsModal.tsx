@@ -37,11 +37,15 @@ import type { SavedBuild } from 'types/savedBuild'
 export function BuildsModal() {
   const open = useBuildsModalStore((s) => s.open)
   const closeOverlay = useBuildsModalStore((s) => s.closeOverlay)
+  const characterId = useBuildsModalStore((s) => s.config?.characterId)
+  const hasBuilds = useCharacterStore(
+    useCallback((s) => characterId ? !!(s.charactersById[characterId]?.builds?.length) : false, [characterId]),
+  )
 
   return (
     <Modal
       opened={open}
-      size={open ? 1550 : 300}
+      size={open && hasBuilds ? 1550 : 300}
       centered
       onClose={closeOverlay}
     >

@@ -1,7 +1,5 @@
 import {
-  IconCamera,
   IconChevronDown,
-  IconDownload,
   IconFileImport,
 } from '@tabler/icons-react'
 import { Button, Flex, Loader, Menu, TextInput } from '@mantine/core'
@@ -15,7 +13,6 @@ import {
   SHOWCASE_DOWNTIME,
 } from 'lib/constants/constants'
 import { AppPages } from 'lib/constants/appPages'
-import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { SaveState } from 'lib/state/saveState'
@@ -155,10 +152,6 @@ function ShowcaseLoaded() {
     setScoringAlgorithmFocusCharacter(selectedCharacter?.id)
   }, [selectedCharacter?.id, setScoringAlgorithmFocusCharacter])
 
-  // Screenshot hooks
-  const { loading: screenshotLoading, trigger: screenshotTrigger } = useScreenshotAction('relicScorerPreview')
-  const { loading: downloadLoading, trigger: downloadTrigger } = useScreenshotAction('relicScorerPreview')
-
   // Stable callbacks
   const setOriginalCharacterModalInitialCharacter = useCallback((character: Character | null) => {
     useCharacterModalStore.getState().openOverlay({
@@ -191,16 +184,6 @@ function ShowcaseLoaded() {
       lightConeSuperimposition: 1,
     })
   }, [])
-
-  const clipboardClicked = useCallback(() => {
-    screenshotTrigger('clipboard')
-  }, [screenshotTrigger])
-
-  const downloadClicked = useCallback(() => {
-    const char = getSelectedCharacter()
-    const name = char ? tCharacter(`${char.id}.Name`) : null
-    downloadTrigger('download', name)
-  }, [downloadTrigger, tCharacter])
 
 
   const onSidebarToggle = useCallback(() => {
@@ -251,21 +234,6 @@ function ShowcaseLoaded() {
 
         {/* Action buttons row */}
         <Flex className={styles.actionRow} justify="space-between">
-          <Button
-            className={styles.flexOne}
-            onClick={clipboardClicked}
-            leftSection={<IconCamera size={16} />}
-            loading={screenshotLoading}
-          >
-            {t('CopyScreenshot')}
-          </Button>
-          <Button
-            className={styles.downloadButton}
-            leftSection={<IconDownload size={16} />}
-            onClick={downloadClicked}
-            loading={downloadLoading}
-            variant="default"
-          />
           <Menu>
             <Flex className={styles.flexOne}>
               <Button

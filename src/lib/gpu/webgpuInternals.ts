@@ -1,3 +1,4 @@
+import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import { uniformCompatible } from 'lib/gpu/webgpuDevice'
 import {

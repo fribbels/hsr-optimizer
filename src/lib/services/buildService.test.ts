@@ -1,14 +1,22 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { clearBuilds, deleteBuild, loadBuildInOptimizer, saveBuild } from './buildService'
-import { useCharacterStore, getCharacterById } from 'lib/stores/character/characterStore'
+import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { ComboType } from 'lib/optimization/rotation/comboType'
-import { AppPages, SavedBuildSource } from 'lib/constants/appPages'
-import type { Character, BuildOptimizerMetadata, SavedBuild } from 'types/character'
+import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
+import type { Character } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+import type { Teammate } from 'types/form'
+import {
+  BuildSource,
+  type CharacterSavedBuild,
+  type OptimizerSavedBuild,
+  type SavedBuild,
+} from 'types/savedBuild'
 
 // ---- Mocks ----
 
@@ -27,18 +35,37 @@ const BUILD_NAME_2 = 'Speed Build'
 
 // ---- Helpers ----
 
-function makeBuild(overrides: Partial<SavedBuild> = {}): SavedBuild {
+function makeCharacterBuild(overrides: Partial<CharacterSavedBuild> = {}): CharacterSavedBuild {
   return {
+    source: BuildSource.Character,
     characterId: Kafka.id,
-    eidolon: 0,
-    lightConeId: '21001' as SavedBuild['lightConeId'],
-    superimposition: 1,
-    characterConditionals: undefined,
-    lightConeConditionals: undefined,
+    characterEidolon: 0,
+    lightCone: '21001' as LightConeId,
+    lightConeSuperimposition: 1,
     name: BUILD_NAME_1,
     equipped: {},
-    optimizerMetadata: null,
-    team: [],
+    team: [null, null, null],
+    ...overrides,
+  }
+}
+
+function makeOptimizerBuild(overrides: Partial<OptimizerSavedBuild> = {}): OptimizerSavedBuild {
+  return {
+    source: BuildSource.Optimizer,
+    characterId: Kafka.id,
+    characterEidolon: 0,
+    lightCone: '21001' as LightConeId,
+    lightConeSuperimposition: 1,
+    name: BUILD_NAME_1,
+    equipped: {},
+    team: [null, null, null],
+    characterConditionals: {},
+    lightConeConditionals: {},
+    setConditionals: createDefaultFormState().setConditionals,
+    comboType: ComboType.SIMPLE,
+    comboStateJson: '{}',
+    comboPreprocessor: true,
+    comboTurnAbilities: [],
     deprioritizeBuffs: false,
     ...overrides,
   }
@@ -49,12 +76,15 @@ function makeCharacter(overrides: Partial<Character> = {}): Character {
     id: Kafka.id,
     equipped: {},
     form: {
+      ...createDefaultFormState(),
       characterId: Kafka.id,
-      characterEidolon: 0,
-      characterLevel: 80,
-      lightCone: '21001' as Character['form']['lightCone'],
-      lightConeLevel: 80,
-      lightConeSuperimposition: 1,
+      lightCone: '21001' as LightConeId,
+      resultMinFilter: 0,
+      ornamentSets: [],
+      relicSets: [],
+      teammate0: {} as Teammate,
+      teammate1: {} as Teammate,
+      teammate2: {} as Teammate,
     } as Character['form'],
     ...overrides,
   }
@@ -76,93 +106,59 @@ beforeEach(() => {
 
 describe('buildService', () => {
   describe('saveBuild', () => {
-    // CHAR-3: saveBuild does `const builds = character.builds ?? []` — when character.builds
-    // exists, builds IS the same array. Then builds.push(build) or builds[idx] = build mutates
-    // the store-owned array before setCharacter is called.
-    it('saveBuild does not mutate the character\'s existing builds array reference (CHAR-3)', () => {
-      const existingBuild = makeBuild({ name: BUILD_NAME_1 })
+    it('does not mutate the character\'s existing builds array reference', () => {
+      const existingBuild = makeCharacterBuild({ name: BUILD_NAME_1 })
       seedCharacter({ builds: [existingBuild] })
 
-      // Capture the live builds array reference from the store
       const originalBuilds = getCharacterById(Kafka.id)!.builds!
 
-      // Save a second build (not overwrite) — this should NOT mutate originalBuilds
-      saveBuild(BUILD_NAME_2, Kafka.id, SavedBuildSource.SHOWCASE, false)
+      saveBuild(BUILD_NAME_2, Kafka.id, BuildSource.Character, false)
 
-      // The original array should still have length 1 if it wasn't mutated
       expect(originalBuilds).toHaveLength(1)
     })
 
-    it('saveBuild adds a new build to the character\'s builds list', () => {
+    it('adds a new build to the character\'s builds list', () => {
       seedCharacter()
 
-      saveBuild(BUILD_NAME_1, Kafka.id, SavedBuildSource.SHOWCASE, false)
+      saveBuild(BUILD_NAME_1, Kafka.id, BuildSource.Character, false)
 
       const character = getCharacterById(Kafka.id)!
       expect(character.builds).toHaveLength(1)
       expect(character.builds![0].name).toBe(BUILD_NAME_1)
     })
 
-    it('saveBuild with overwriteExisting replaces the matching build by name', () => {
-      const existingBuild = makeBuild({ name: BUILD_NAME_1 })
+    it('with overwrite replaces the matching build by name', () => {
+      const existingBuild = makeCharacterBuild({ name: BUILD_NAME_1 })
       seedCharacter({ builds: [existingBuild] })
 
-      saveBuild(BUILD_NAME_1, Kafka.id, SavedBuildSource.SHOWCASE, true)
+      saveBuild(BUILD_NAME_1, Kafka.id, BuildSource.Character, true)
 
       const character = getCharacterById(Kafka.id)!
       expect(character.builds).toHaveLength(1)
       expect(character.builds![0].name).toBe(BUILD_NAME_1)
     })
 
-    it('saveBuild with overwrite returns early when no matching build name exists', () => {
-      seedCharacter({ builds: [makeBuild({ name: BUILD_NAME_1 })] })
+    it('with overwrite returns error when no matching build name exists', () => {
+      seedCharacter({ builds: [makeCharacterBuild({ name: BUILD_NAME_1 })] })
 
-      const result = saveBuild('Nonexistent', Kafka.id, SavedBuildSource.SHOWCASE, true)
+      const result = saveBuild('Nonexistent', Kafka.id, BuildSource.Character, true)
 
-      // Function returns { error } — builds remain unchanged
       expect(result).toBeDefined()
       expect(getCharacterById(Kafka.id)!.builds).toHaveLength(1)
     })
 
-    it('saveBuild without overwrite returns early when build name already exists', () => {
-      seedCharacter({ builds: [makeBuild({ name: BUILD_NAME_1 })] })
+    it('without overwrite returns error when build name already exists', () => {
+      seedCharacter({ builds: [makeCharacterBuild({ name: BUILD_NAME_1 })] })
 
-      const result = saveBuild(BUILD_NAME_1, Kafka.id, SavedBuildSource.SHOWCASE, false)
+      const result = saveBuild(BUILD_NAME_1, Kafka.id, BuildSource.Character, false)
 
-      // Function returns { error } — builds remain unchanged
       expect(result).toBeDefined()
       expect(getCharacterById(Kafka.id)!.builds).toHaveLength(1)
     })
-  })
 
-  describe('deleteBuild', () => {
-    it('deleteBuild removes the build with the matching name', () => {
-      seedCharacter({ builds: [makeBuild({ name: BUILD_NAME_1 }), makeBuild({ name: BUILD_NAME_2 })] })
-
-      deleteBuild(Kafka.id, BUILD_NAME_1)
-
-      const character = getCharacterById(Kafka.id)!
-      expect(character.builds).toHaveLength(1)
-      expect(character.builds![0].name).toBe(BUILD_NAME_2)
-    })
-  })
-
-  describe('clearBuilds', () => {
-    it('clearBuilds removes all builds from the character', () => {
-      seedCharacter({ builds: [makeBuild({ name: BUILD_NAME_1 }), makeBuild({ name: BUILD_NAME_2 })] })
-
-      clearBuilds(Kafka.id)
-
-      const character = getCharacterById(Kafka.id)!
-      expect(character.builds).toEqual([])
-    })
-  })
-
-  describe('saveBuild — H11: empty teammate filtering', () => {
-    it('saveBuild from optimizer filters out empty teammate slots', () => {
+    it('from optimizer: empty teammate slots become null in team tuple', () => {
       seedCharacter()
 
-      // Set up optimizer state with one real teammate and two empty slots
       useOptimizerRequestStore.setState({
         characterId: Kafka.id,
         characterEidolon: 0,
@@ -175,58 +171,78 @@ describe('buildService', () => {
         ],
       })
 
-      saveBuild(BUILD_NAME_1, Kafka.id, SavedBuildSource.OPTIMIZER, false)
+      saveBuild(BUILD_NAME_1, Kafka.id, BuildSource.Optimizer, false)
 
       const build = getCharacterById(Kafka.id)!.builds![0]
-      // Only the real teammate should be in the team array
-      expect(build.team).toHaveLength(1)
-      expect(build.team[0].characterId).toBe(Jingliu.id)
+      expect(build.team[0]).not.toBeNull()
+      expect(build.team[0]!.characterId).toBe(Jingliu.id)
+      expect(build.team[1]).toBeNull()
+      expect(build.team[2]).toBeNull()
     })
   })
 
-  describe('loadBuildInOptimizer — H1, H3', () => {
-    it('H1: resets form fields before applying build patch', () => {
+  describe('loadBuildInOptimizer', () => {
+    it('resets form fields before applying build patch', () => {
       seedCharacter()
 
-      // Set stale state in the optimizer store
       useOptimizerRequestStore.setState({ enemyLevel: 999 })
 
-      const build = makeBuild({
-        optimizerMetadata: {
-          comboStateJson: null,
-          statFilters: null,
-          setConditionals: {},
-          presets: true,
-          comboType: ComboType.SIMPLE,
-        } as unknown as BuildOptimizerMetadata,
-        team: [],
-      })
+      const build = makeOptimizerBuild()
 
       loadBuildInOptimizer(build)
 
-      // enemyLevel should be reset to the character form's default, not stale 999
       const state = useOptimizerRequestStore.getState()
       expect(state.enemyLevel).not.toBe(999)
     })
 
-    it('H3: loads SIMPLE comboType when comboStateJson is empty object', () => {
+    it('loads SIMPLE comboType when comboType is SIMPLE', () => {
       seedCharacter()
 
-      const build = makeBuild({
-        optimizerMetadata: {
-          comboStateJson: '{}',
-          statFilters: null,
-          setConditionals: {},
-          setFilters: { fourPiece: [], twoPieceCombos: [], ornaments: [] },
-          presets: true,
-          comboType: ComboType.SIMPLE,
-        } as unknown as BuildOptimizerMetadata,
-        team: [],
-      })
+      const build = makeOptimizerBuild({ comboType: ComboType.SIMPLE })
 
       loadBuildInOptimizer(build)
 
       expect(useOptimizerRequestStore.getState().comboType).toBe(ComboType.SIMPLE)
+    })
+
+    it('character build: only applies LC and eidolon overrides', () => {
+      seedCharacter()
+
+      const build = makeCharacterBuild({
+        characterEidolon: 4,
+        lightCone: '21002' as LightConeId,
+        lightConeSuperimposition: 3,
+      })
+
+      loadBuildInOptimizer(build)
+
+      const state = useOptimizerRequestStore.getState()
+      expect(state.characterEidolon).toBe(4)
+      expect(state.lightCone).toBe('21002')
+      expect(state.lightConeSuperimposition).toBe(3)
+    })
+  })
+
+  describe('deleteBuild', () => {
+    it('removes the build with the matching name', () => {
+      seedCharacter({ builds: [makeCharacterBuild({ name: BUILD_NAME_1 }), makeCharacterBuild({ name: BUILD_NAME_2 })] })
+
+      deleteBuild(Kafka.id, BUILD_NAME_1)
+
+      const character = getCharacterById(Kafka.id)!
+      expect(character.builds).toHaveLength(1)
+      expect(character.builds![0].name).toBe(BUILD_NAME_2)
+    })
+  })
+
+  describe('clearBuilds', () => {
+    it('removes all builds from the character', () => {
+      seedCharacter({ builds: [makeCharacterBuild({ name: BUILD_NAME_1 }), makeCharacterBuild({ name: BUILD_NAME_2 })] })
+
+      clearBuilds(Kafka.id)
+
+      const character = getCharacterById(Kafka.id)!
+      expect(character.builds).toEqual([])
     })
   })
 })

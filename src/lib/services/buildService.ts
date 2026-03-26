@@ -25,7 +25,7 @@ export function saveBuild(
   characterId: CharacterId,
   source: BuildSource,
   overwrite: boolean,
-): { error?: string } | void {
+): { error?: string } {
   const character = getCharacterById(characterId)
   if (!character) return { error: 'No character selected' }
 
@@ -57,6 +57,7 @@ export function saveBuild(
 
   useCharacterStore.getState().setCharacter({ ...character, builds })
   SaveState.delayedSave()
+  return {}
 }
 
 export function loadBuildInOptimizer(build: SavedBuild): void {

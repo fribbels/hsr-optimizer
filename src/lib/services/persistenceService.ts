@@ -16,7 +16,7 @@ import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, getCharacters, useCharacterStore } from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { getRelicById, getRelics, useRelicStore } from 'lib/stores/relic/relicStore'
-import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
@@ -83,14 +83,12 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     migrateCharacterForm(character, dbCharacters)
 
     // Migrate builds from all legacy formats to new SavedBuild discriminated union
-    const scoringMetadata = getScoringMetadata(character.id)
     character.builds = (character.builds ?? [])
       .map((raw) => migrateBuild(
         raw as unknown as Record<string, unknown>,
         character.id,
         character.form,
         relicsById,
-        scoringMetadata,
       ))
       .filter((b): b is SavedBuild => b != null)
   }

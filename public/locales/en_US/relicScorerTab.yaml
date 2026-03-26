@@ -8,7 +8,7 @@ Messages:
   CharacterAlreadyExists: Selected character already exists
   UnknownButtonClicked: Unknown button clicked
 Header:
-  DowntimeWarning: 'The relic scorer may be down for maintenance after the {{game_version}} patch, please try again later'
+  DowntimeWarning: 'The showcase may be down for maintenance after the {{game_version}} patch, please try again later'
   WithVersion: 'Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})'
   WithoutVersion: Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly.
 SubmissionBar:

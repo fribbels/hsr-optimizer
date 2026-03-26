@@ -81,8 +81,8 @@ export function ShowcaseTab() {
       {screen === ShowcaseScreen.Landing && <RedirectToHome />}
       {screen === ShowcaseScreen.Loading && <ShowcaseLoading />}
 
-      {/* Mount ShowcaseLoaded when data exists — hidden during Loading for pre-render */}
-      {hasData && (
+      {/* Mount ShowcaseLoaded when data exists or screen is Loaded (e.g. after fetch failure) */}
+      {(hasData || screen === ShowcaseScreen.Loaded) && (
         <div style={screen !== ShowcaseScreen.Loaded ? PRERENDER_HIDDEN : undefined}>
           <ShowcaseLoaded />
         </div>

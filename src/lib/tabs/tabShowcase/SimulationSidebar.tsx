@@ -52,20 +52,21 @@ export function SimulationSidebar({
               }
 
               const charPreset = preset as CharacterPreset
+              const isRerun = charPreset.rerun
+              const size = isRerun ? 38 : 80
               return (
-                <Flex key={charPreset.characterId ?? index} justify="center" align="center">
-                  <Button
-                    variant="transparent"
-                    p={0}
-                    onClick={() => onPresetClick(preset)}
-                    style={{ width: 80, height: 80 }}
-                  >
-                    <img
-                      className={styles.presetImage}
-                      src={Assets.getCharacterAvatarById(charPreset.characterId!)}
-                    />
-                  </Button>
-                </Flex>
+                <Button
+                  key={charPreset.characterId ?? index}
+                  variant="transparent"
+                  p={0}
+                  onClick={() => onPresetClick(preset)}
+                  style={{ width: size, height: size, minWidth: size, display: 'inline-flex' }}
+                >
+                  <img
+                    className={styles.presetImage}
+                    src={Assets.getCharacterAvatarById(charPreset.characterId!)}
+                  />
+                </Button>
               )
             })}
         </div>

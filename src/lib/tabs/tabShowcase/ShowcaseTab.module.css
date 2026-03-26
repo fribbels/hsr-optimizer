@@ -11,8 +11,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex: 1;
+  padding-top: 150px;
   gap: 16px;
 }
 
@@ -82,8 +81,10 @@
   border-radius: var(--radius-md);
   padding: 10px 8px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 96px;
+  gap: 4px;
 }
 
 .toggleButton {
@@ -110,9 +111,9 @@
 }
 
 .presetImage {
-  height: 80px;
-  width: 80px;
-  border-radius: 80px;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
   outline: var(--showcase-outline-light);
   background: rgba(255, 255, 255, 0.05);
 }

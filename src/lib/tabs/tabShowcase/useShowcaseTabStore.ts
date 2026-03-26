@@ -48,9 +48,9 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabStore>((set, g
 
   handleFetchFailure: () => set((s) => ({
     loading: false,
-    // Was on Loading screen (first fetch failed) → back to Landing
+    // Was on Loading screen (first fetch failed) → show Loaded with input form
     // Was on Loaded (re-fetch failed) → stay Loaded, old data preserved
-    screen: s.screen === ShowcaseScreen.Loading ? ShowcaseScreen.Landing : s.screen,
+    screen: s.screen === ShowcaseScreen.Loading ? ShowcaseScreen.Loaded : s.screen,
   })),
 
   setLatestRefreshDate: (latestRefreshDate) => set({ latestRefreshDate }),

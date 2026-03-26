@@ -18,6 +18,7 @@ export function SearchableCombobox(props: {
   style?: React.CSSProperties
   clearable?: boolean
   disabled?: boolean
+  searchable?: boolean
   leftSection?: ReactNode
   renderOption?: (option: SearchableComboboxOption) => ReactNode
 }) {
@@ -31,6 +32,7 @@ export function SearchableCombobox(props: {
     style,
     clearable,
     disabled,
+    searchable = true,
     leftSection,
     renderOption,
   } = props
@@ -38,7 +40,7 @@ export function SearchableCombobox(props: {
   const [search, setSearch] = useState('')
 
   const combobox = useCombobox({
-    onDropdownOpen: () => combobox.focusSearchInput(),
+    onDropdownOpen: () => searchable && combobox.focusSearchInput(),
     onDropdownClose: () => {
       combobox.resetSelectedOption()
       setSearch('')
@@ -89,11 +91,13 @@ export function SearchableCombobox(props: {
       </Combobox.Target>
 
       <Combobox.Dropdown style={dropdownWidth === 'auto' ? { minWidth: 'max-content' } : undefined}>
-        <Combobox.Search
-          value={search}
-          onChange={(e) => setSearch(e.currentTarget.value)}
-          placeholder={placeholder}
-        />
+        {searchable && (
+          <Combobox.Search
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+            placeholder={placeholder}
+          />
+        )}
         <Combobox.Options mah={dropdownMaxHeight} style={{ overflowY: 'auto' }}>
           {combobox.dropdownOpened && filteredOptions.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>

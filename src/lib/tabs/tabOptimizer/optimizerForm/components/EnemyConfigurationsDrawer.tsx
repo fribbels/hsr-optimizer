@@ -108,24 +108,27 @@ function EnemyConfigurationsDrawerContent() {
       />
 
       <SearchableCombobox
-        options={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-        value={enemyResistance != null ? String(enemyResistance) : null}
-        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyResistance', Number(val)) }}
-      />
-
-      <SearchableCombobox
-        options={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
-        value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
-        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyEffectResistance', Number(val)) }}
-      />
-
-      <SearchableCombobox
         options={enemyMaxToughnessOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyMaxToughness != null ? String(enemyMaxToughness) : null}
         onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyMaxToughness', Number(val)) }}
       />
 
       <SearchableCombobox
+        searchable={false}
+        options={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+        value={enemyResistance != null ? String(enemyResistance) : null}
+        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyResistance', Number(val)) }}
+      />
+
+      <SearchableCombobox
+        searchable={false}
+        options={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
+        value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
+        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyEffectResistance', Number(val)) }}
+      />
+
+      <SearchableCombobox
+        searchable={false}
         options={enemyCountOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyCount != null ? String(enemyCount) : null}
         onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyCount', Number(val)) }}

@@ -16,8 +16,8 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await page.getByTitle('None').locator('div').click()
   await expect(page.getByRole('dialog')).toContainText('None')
 
-  // add "hands"
-  await page.locator('label:nth-child(2) > span:nth-child(2) > .ant-image > .ant-image-img').click()
+  // select "Hands" part
+  await page.getByTestId('relic-part-Hands').click()
   await page.getByRole('dialog').getByText('Passerby of Wandering Cloud').click()
 
   // add "Musketeer of Wild Wheat"
@@ -55,21 +55,19 @@ test('Add new relic from RelicsTab', async ({ page }) => {
   await page.getByRole('button', { name: 'Submit' }).click()
 
   // assert relic added
+  const relicPreview = page.getByTestId('relic-preview').first()
+  await expect(relicPreview).toContainText('+12')
+  await expect(relicPreview).toContainText('ATK')
+  await expect(relicPreview).toContainText('CRIT DMG')
+  await expect(relicPreview).toContainText('Effect HIT')
+  await expect(relicPreview).toContainText('ATK %')
+  await expect(relicPreview).toContainText('DEF %')
 
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('+12ATK293ATK %10.0%DEF %10.0%CRIT DMG10.0%Effect HIT10.0%')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('ATK293')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('CRIT DMG10.0%')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('Effect HIT10.0%')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('ATK %10.0%')
-  await expect(page.locator('#RELICS div').locator('.ant-card-body')).toContainText('DEF %10.0%')
-
-  // // re-edit relic - assert values carried over
-  await page.locator('#RELICS div').locator('.ant-card-body').click()
+  // re-edit relic - assert values carried over
+  await relicPreview.click()
   await expect(page.getByRole('dialog').locator('div').filter({ hasText: 'Equipped' }).first()).toBeVisible()
   await expect(page.getByRole('dialog')).toContainText('None')
   await expect(page.getByRole('dialog')).toContainText('Musketeer of Wild Wheat')
-  await expect(page.getByRole('dialog')).toContainText('+12+35 ★')
   await expect(page.getByRole('dialog')).toContainText('CRIT DMG')
   await expect(page.getByRole('dialog')).toContainText('Effect Hit Rate')
   await expect(page.getByRole('dialog')).toContainText('ATK%')

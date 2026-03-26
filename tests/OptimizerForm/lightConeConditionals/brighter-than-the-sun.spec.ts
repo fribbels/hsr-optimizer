@@ -3,7 +3,7 @@ import {
   test,
 } from '@playwright/test'
 
-test('test', async ({ page }) => {
+test('Brighter Than the Sun LC conditional shows popover text', async ({ page }) => {
   await page.goto('/#showcase')
   await page.getByText('Optimizer', { exact: true }).click()
 
@@ -11,6 +11,5 @@ test('test', async ({ page }) => {
   await page.getByLabel('Select a light cone').getByText('Brighter Than the Sun').click()
 
   await page.getByText('Dragon\'s Call stacks').hover()
-  const t1 = await page.locator('.ant-popover-content').getByText(`When the wearer uses their Basic ATK`)
-  expect(t1).toBeTruthy()
+  await expect(page.getByTestId('conditional-popover').getByText('When the wearer uses their Basic ATK')).toBeVisible()
 })

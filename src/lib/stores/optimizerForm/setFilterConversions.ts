@@ -42,6 +42,7 @@ export function expandSetFilters(display: SetFilters): {
     } else {
       for (const a of aSets) {
         for (const b of bSets) {
+          if (a === b) continue
           relicSets.push([RelicSetFilterOptions.relic2Plus2Piece, a, b])
         }
       }

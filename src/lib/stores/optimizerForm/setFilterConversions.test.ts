@@ -76,6 +76,24 @@ describe('expandSetFilters', () => {
     }
   })
 
+  it('2P same stat + stat excludes same-set pairs to avoid matching 4-piece', () => {
+    const atkSets = STAT_TAG_TO_SETS[Stats.ATK_P] ?? []
+    const display: SetFilters = {
+      fourPiece: [],
+      twoPieceCombos: [{ a: { type: TwoPieceSlotType.Stat, value: Stats.ATK_P }, b: { type: TwoPieceSlotType.Stat, value: Stats.ATK_P } }],
+      ornaments: [],
+    }
+    const result = expandSetFilters(display)
+    // Should not contain any pair where both sets are the same
+    for (const entry of result.relicSets) {
+      if (entry.length === 3) {
+        expect(entry[1]).not.toBe(entry[2])
+      }
+    }
+    // Should have (n * n - n) entries: full cartesian minus the diagonal
+    expect(result.relicSets).toHaveLength(atkSets.length * atkSets.length - atkSets.length)
+  })
+
   it('2P set + stat produces 2+2 tuples for set crossed with stat-resolved sets', () => {
     const beSets = STAT_TAG_TO_SETS[Stats.BE] ?? []
     const display: SetFilters = {

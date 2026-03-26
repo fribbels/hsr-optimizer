@@ -106,6 +106,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
 
   return (
     <Paper
+      data-testid="relic-preview"
       withBorder={source != null}
       onClick={cardClicked}
       style={{

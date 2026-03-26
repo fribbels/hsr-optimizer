@@ -26,15 +26,15 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { clone } from 'lib/utils/objectUtils'
 import { findRelicMatch, hashRelic } from 'lib/relics/relicUtils'
+import { migrateBuild } from 'lib/services/buildMigration'
 import type {
   Build,
   Character,
   CharacterId,
-  SavedBuild,
 } from 'types/character'
-import type { ConditionalValueMap } from 'types/conditionals'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
+import type { SavedBuild } from 'types/savedBuild'
 import type { DBMetadata, ScoringMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
 import type {
@@ -82,55 +82,17 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     charactersById[character.id] = character
     migrateCharacterForm(character, dbCharacters)
 
-    // TODO: Temporary migration from old to new format, remove once appropriate
+    // Migrate builds from all legacy formats to new SavedBuild discriminated union
     const scoringMetadata = getScoringMetadata(character.id)
-    character.builds = character.builds?.map((savedBuild) => {
-      if (savedBuild.optimizerMetadata !== undefined) {
-        if (savedBuild.characterConditionals !== undefined) return savedBuild
-        // Sub-migration: relocate conditionals from optimizerMetadata into top-level build fields
-        const updatedBuild = { ...savedBuild }
-        // @ts-expect-error - Migration: legacy save format field not in current types
-        const oldConditionals: Record<CharacterId | LightConeId, ConditionalValueMap> | undefined = savedBuild.optimizerMetadata?.conditionals
-        updatedBuild.characterConditionals = oldConditionals?.[character.id]
-        updatedBuild.lightConeConditionals = oldConditionals?.[savedBuild.lightConeId!]
-        updatedBuild.team = savedBuild.team.map((x) => ({
-          ...x,
-          characterConditionals: oldConditionals?.[x.characterId],
-          lightConeConditionals: oldConditionals?.[x.lightConeId!],
-        }))
-        // @ts-expect-error - Migration: legacy save format field not in current types
-        if (updatedBuild.optimizerMetadata) delete updatedBuild.optimizerMetadata.conditionals
-        return updatedBuild
-      }
-      const build = savedBuild as unknown as { build: string[]; name: string; score: { score: string; rating: string } }
-      const migratedBuild: SavedBuild = {
-        characterId: character.id,
-        eidolon: character.form.characterEidolon,
-        lightConeId: character.form.lightCone,
-        superimposition: character.form.lightConeSuperimposition,
-        name: build.name,
-        equipped: build.build.reduce((acc, cur) => {
-          const relic = relicsById.get(cur)
-          if (relic) acc[relic.part] = cur
-          return acc
-        }, {} as Build),
-        team: scoringMetadata.simulation?.teammates.map((x) => ({
-          characterId: x.characterId,
-          eidolon: x.characterEidolon,
-          lightConeId: x.lightCone,
-          superimposition: x.lightConeSuperimposition,
-          relicSet: x.teamRelicSet,
-          ornamentSet: x.teamOrnamentSet,
-          characterConditionals: undefined,
-          lightConeConditionals: undefined,
-        })) ?? [],
-        characterConditionals: undefined,
-        lightConeConditionals: undefined,
-        optimizerMetadata: null,
-        deprioritizeBuffs: scoringMetadata.simulation?.deprioritizeBuffs ?? false,
-      }
-      return migratedBuild
-    }) ?? []
+    character.builds = (character.builds ?? [])
+      .map((raw) => migrateBuild(
+        raw as unknown as Record<string, unknown>,
+        character.id,
+        character.form,
+        relicsById,
+        scoringMetadata,
+      ))
+      .filter((b): b is SavedBuild => b != null)
   }
 
   deduplicateDbCharacterScoringParts(dbCharacters)

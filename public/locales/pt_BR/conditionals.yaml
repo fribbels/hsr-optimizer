@@ -1959,6 +1959,12 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: Tempo de recarga de combate da Sparkle
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: Básico Aprimorado
+      e6ResPen:
+        text: E6 RES PEN
   Sunday:
     Content:
       skillDmgBuff:

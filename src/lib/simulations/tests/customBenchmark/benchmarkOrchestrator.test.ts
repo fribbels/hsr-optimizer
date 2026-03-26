@@ -179,7 +179,7 @@ test('Boothill benchmark 0', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    6097738,
-    7207996,
+    6526830.5,
+    7711471.5,
   )
 }, TIMEOUT)

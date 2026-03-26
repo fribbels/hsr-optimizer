@@ -155,57 +155,59 @@ function CharacterModalContent() {
             />
           </Flex>
 
-          <Flex direction="column" gap={5}>
-            <HeaderText>{t('Sets')}</HeaderText>
+          {config.showSetSelection && (
+            <Flex direction="column" gap={5}>
+              <HeaderText>{t('Sets')}</HeaderText>
 
-            <Select
-              className='teammate-set-select'
-              data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
-              placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
-              clearable
-              maxDropdownHeight={500}
-              comboboxProps={{ keepMounted: false, width: 'auto' }}
-              renderOption={({ option }) => {
-                if (!option.value) return option.label
-                return (
-                  <Flex gap={10} align='center'>
-                    <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
-                    {option.label}
-                  </Flex>
-                )
-              }}
-              leftSection={(() => {
-                const val = characterForm.getValues().teamRelicSet
-                return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : null
-              })()}
-              disabled={false}
-              {...characterForm.getInputProps('teamRelicSet')}
-            />
+              <Select
+                className='teammate-set-select'
+                data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
+                placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
+                clearable
+                maxDropdownHeight={500}
+                comboboxProps={{ keepMounted: false, width: 'auto' }}
+                renderOption={({ option }) => {
+                  if (!option.value) return option.label
+                  return (
+                    <Flex gap={10} align='center'>
+                      <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
+                      {option.label}
+                    </Flex>
+                  )
+                }}
+                leftSection={(() => {
+                  const val = characterForm.getValues().teamRelicSet
+                  return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : null
+                })()}
+                disabled={false}
+                {...characterForm.getInputProps('teamRelicSet')}
+              />
 
-            <Select
-              className='teammate-set-select'
-              data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
-              placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
-              clearable
-              maxDropdownHeight={500}
-              comboboxProps={{ keepMounted: false, width: 'auto' }}
-              renderOption={({ option }) => {
-                if (!option.value) return option.label
-                return (
-                  <Flex gap={10} align='center'>
-                    <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
-                    {option.label}
-                  </Flex>
-                )
-              }}
-              leftSection={(() => {
-                const val = characterForm.getValues().teamOrnamentSet
-                return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : null
-              })()}
-              disabled={false}
-              {...characterForm.getInputProps('teamOrnamentSet')}
-            />
-          </Flex>
+              <Select
+                className='teammate-set-select'
+                data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
+                placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
+                clearable
+                maxDropdownHeight={500}
+                comboboxProps={{ keepMounted: false, width: 'auto' }}
+                renderOption={({ option }) => {
+                  if (!option.value) return option.label
+                  return (
+                    <Flex gap={10} align='center'>
+                      <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
+                      {option.label}
+                    </Flex>
+                  )
+                }}
+                leftSection={(() => {
+                  const val = characterForm.getValues().teamOrnamentSet
+                  return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : null
+                })()}
+                disabled={false}
+                {...characterForm.getInputProps('teamOrnamentSet')}
+              />
+            </Flex>
+          )}
         </Flex>
       </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>

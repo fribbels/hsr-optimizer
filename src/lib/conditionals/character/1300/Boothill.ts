@@ -29,7 +29,6 @@ import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
-  DamageTag,
   ElementTag,
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
@@ -198,11 +197,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         ],
       }
 
+      const pocketTrickshotToughnessMultiplier = 1 + r.pocketTrickshotStacks * 0.50
       const enhancedBasicHits: HitDefinition[] = [
         HitDefinitionBuilder.standardBasic()
           .damageElement(ElementTag.Physical)
           .atkScaling(basicEnhancedScaling)
-          .toughnessDmg(20)
+          .toughnessDmg(20 * pocketTrickshotToughnessMultiplier)
           .build(),
       ]
 
@@ -275,12 +275,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E4 additional vulnerability
       x.buff(StatKey.VULNERABILITY, (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0, x.source(SOURCE_E4))
 
-      // Enhanced Basic break efficiency
-      x.buff(
-        StatKey.BREAK_EFFICIENCY_BOOST,
-        (r.standoffActive) ? r.pocketTrickshotStacks * 0.50 : 0,
-        x.damageType(DamageTag.BASIC).source(SOURCE_TALENT),
-      )
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},

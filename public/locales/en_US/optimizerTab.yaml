@@ -45,6 +45,7 @@ SortOptions:
   MEMO_SKILL: Sorted by Memo Skill DMG
   MEMO_TALENT: Sorted by Memo Talent DMG
   ELATION_SKILL: Sorted by Elation Skill DMG
+  UNIQUE: Sorted by Unique DMG
   DOT: Sorted by DoT DMG
   BREAK: Sorted by Break DMG
   HEAL: Sorted by Heal
@@ -159,6 +160,9 @@ Grid:
       ELATION_SKILL: |-
         ELATION
         SKILL
+      UNIQUE: |-
+        UNIQUE
+        DMG
       DOT: |-
         DOT
         DMG
@@ -236,6 +240,9 @@ Grid:
       ELATION_SKILL: |-
         ELATION
         SKILL
+      UNIQUE: |-
+        UNIQUE
+        DMG
       DOT: |-
         DOT
         DMG
@@ -580,6 +587,7 @@ ComboFilter:
     MemoSkill: Skillᴹ
     MemoTalent: Talentᴹ
     ElationSkill: Elation Skill
+    Unique: Unique
     BasicHeal: Basic HEAL
     SkillHeal: Skill HEAL
     UltHeal: Ult HEAL
@@ -762,6 +770,7 @@ ExpandedDataPanel:
       E4: E4
       E6: E6
       ElationSkill: Elation Skill
+      Unique: Unique
       LightCone: Light Cone
       Set: Set
     DefaultAction: Default

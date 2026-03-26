@@ -343,6 +343,7 @@ function Teammate({ index }: { index: number }) {
         useCharacterModalStore.getState().openOverlay({
           initialCharacter: teammate ? { form: teammate } : undefined,
           onOk: onCharacterModalOk,
+          showSetSelection: true,
         })
       }}
     >

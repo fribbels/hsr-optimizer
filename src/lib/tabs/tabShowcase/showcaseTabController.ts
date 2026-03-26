@@ -1,10 +1,23 @@
 import i18next from 'i18next'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
+import { SeeleB1 } from 'lib/conditionals/character/1100/SeeleB1'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
-import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
-import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
-import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
+import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
+import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
+import {
+  TrailblazerElationCaelus,
+  TrailblazerElationStelle,
+} from 'lib/conditionals/character/8000/TrailblazerElation'
+import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
+import { EncounterAtFloweringsComing } from 'lib/conditionals/lightcone/5star/EncounterAtFloweringsComing'
+import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
+import { InTheNight } from 'lib/conditionals/lightcone/5star/InTheNight'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
-import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
+import { WelcomeToTheCityOfStars } from 'lib/conditionals/lightcone/5star/WelcomeToTheCityOfStars'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
@@ -25,6 +38,8 @@ export type Preset = CharacterPreset | FillerPreset
 export type CharacterPreset = {
   characterId: CharacterId | null
   lightConeId: LightConeId | null
+  characterEidolon?: number
+  lightConeSuperimposition?: number
   rerun?: boolean
   custom?: never
 }
@@ -44,9 +59,15 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
-    { characterId: char(Yaoguang.id), lightConeId: lc(WhenSheDecidedToSee.id) },
-    { characterId: char(Sparxie.id), lightConeId: lc(DazzledByAFloweryWorld.id) },
+    { characterId: char(SilverWolfLv999.id), lightConeId: lc(WelcomeToTheCityOfStars.id) },
+    { characterId: char(Evanescia.id), lightConeId: lc(EncounterAtFloweringsComing.id) },
+    { characterId: char(TrailblazerElationStelle.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
+    { characterId: char(TrailblazerElationCaelus.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
     { characterId: char(Ashveil.id), lightConeId: lc(TheFinaleOfALie.id) },
+    { characterId: char(WeltB1.id), lightConeId: lc(InTheNameOfTheWorld.id), rerun: true },
+    { characterId: char(SeeleB1.id), lightConeId: lc(InTheNight.id), rerun: true },
+    { characterId: char(HuohuoB1.id), lightConeId: lc(NightOfFright.id), rerun: true },
+    { characterId: char(FireflyB1.id), lightConeId: lc(WhereaboutsShouldDreamsRest.id), rerun: true },
 
     // { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
     // { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},

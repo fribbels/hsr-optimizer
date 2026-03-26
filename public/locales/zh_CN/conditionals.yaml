@@ -87,6 +87,14 @@ Lightcones:
         text: 追加攻击伤害提高层数
         content: >-
           当装备者施放终结技后，获得1层【火舞】，持续2回合，最多叠加2层。每层【火舞】使装备者追加攻击造成的伤害提高{{DmgBoost}}%。
+  DazzledByAFloweryWorld:
+    Content:
+      spConsumedStacks:
+        text: 防御穿透层数
+        content: 装备者每消耗1个战技点使自身造成的欢愉伤害无视敌方目标{{defShred}}%的防御力，最多叠加4层。
+      elationBuff:
+        text: 欢愉度增益
+        content: 若在同一回合内消耗大于等于4个战技点则使装备者获得【推流】。装备者持有【推流】时，我方全体欢愉度提高{{elationBuff}}%。
   EarthlyEscapade:
     Content:
       maskActive:
@@ -99,6 +107,11 @@ Lightcones:
         text: 终结技后速度提高
         content: >-
           当装备者施放攻击后，每击中1名不同的敌方目标，恢复{{EnergyRecovered}}点能量，每次攻击最多通过该方式恢复3次能量。当装备者施放终结技后，使我方全体速度提高{{SpdBuff}}点，持续1回合。
+  ElationBrimmingWithBlessings:
+    Content:
+      elationBuff:
+        text: 欢愉度增益
+        content: 当装备者对我方单体角色施放战技或终结技后，使目标欢愉度提高{{elationBuff}}%，持续2回合。
   EpochEtchedInGoldenBlood:
     Content:
       skillDmgBoost:
@@ -320,6 +333,11 @@ Lightcones:
         text: 持有护盾时受伤降低
         content: >-
           当装备者受到攻击后，如果自身未持有护盾，则获得1个等同于装备者{{ShieldHp}}%生命上限的护盾，持续2回合。该效果每3回合只能触发1次。如果装备者持有护盾，则使自身受到的伤害降低{{DmgReduction}}%。
+  TheFinaleOfALie:
+    Content:
+      umbraDevourerBuff:
+        text: 影噬
+        content: 战斗开始时或装备者每累计施放4次追加攻击，使装备者获得【影噬】，持续3回合。当装备者持有【影噬】时，攻击力提高{{atkBuff}}%，并使敌方全体受到的伤害提高{{vulnerability}}%。
   TheHellWhereIdealsBurn:
     Content:
       spAtkBuff:
@@ -380,6 +398,11 @@ Lightcones:
         text: 满层普攻伤害提升
         content: >-
           装备者和装备者的忆灵在攻击后使装备者获得1层【织锦】。::BR:: 每层【织锦】使装备者和装备者的忆灵暴击伤害提高{{CdBuff}}%,最多叠加6层。::BR:: 叠加至上限时，每层【织锦】额外使造成的普攻伤害提高{{DmgBuff}}%.
+  WhenSheDecidedToSee:
+    Content:
+      greatFortune:
+        text: 团队增益
+        content: 装备者进入战斗或对我方目标施放终结技时，使装备者获得【上上签】，持续3回合。当装备者持有【上上签】时，我方全体暴击率提高{{critRateBuff}}%，暴击伤害提高{{critDamageBuff}}%，装备者自身能量恢复效率提高{{errBuff}}%。
   WhereaboutsShouldDreamsRest:
     Content:
       routedVulnerability:
@@ -558,6 +581,11 @@ Lightcones:
       ultDmgBuff:
         text: 终结技伤害增益
         content: 使装备者进入战斗时立即恢复{{Energy}}点能量，同时使其终结技造成的伤害提高{{DmgBuff}}%。
+  MushyShroomysAdventure:
+    Content:
+      elationVulnerability:
+        text: 欢愉伤害易伤
+        content: 装备者施放欢愉技时，使敌方全体受到的欢愉伤害提高{{vulnerability}}%，持续2回合。
   NinjaRecordSoundHunt:
     Content:
       cdBuff:
@@ -691,6 +719,11 @@ Lightcones:
       maxEnergyDmgBoost:
         text: 最大能量
         content: 进入战斗后，根据装备者的能量上限，提高装备者造成的伤害：每点能量提高{{DmgStep}}%，最多计入160点。
+  TodaysGoodLuck:
+    Content:
+      elationStacks:
+        text: 欢愉度增益层数
+        content: 装备者施放欢愉技时，欢愉度提高{{elationBuff}}%，该效果最多叠加2次。
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -767,6 +800,11 @@ Lightcones:
       basicAtkBuff:
         text: 普攻额外伤害
         content: 施放战技后，使装备者的下一次普攻对敌方目标造成等同于自身{{MultiplierBonus}}%攻击力的附加伤害。
+  LingeringTear:
+    Content:
+      cdBuff:
+        text: 笑点爆伤增益
+        content: 当拥有的笑点大于等于10时，装备者的暴击伤害提高{{cdBuff}}%。
   Loop:
     Content:
       enemySlowedDmgBuff:
@@ -797,6 +835,11 @@ Lightcones:
       enemyHp50Buff:
         text: 敌人生命值>50%时伤害增益
         content: 使装备者对当前生命值百分比大于 50% 的敌方目标造成的伤害提高{{DmgBuff}}%。
+  Sneering:
+    Content:
+      elationBuff:
+        text: 欢愉度增益
+        content: 阿哈时刻发动时，使装备者的欢愉度提高{{elationBuff}}%，持续到阿哈时刻结束。
   Void:
     Content:
       initialEhrBuff:
@@ -930,6 +973,34 @@ Characters:
       selfCurrentHpPercent:
         text: 自身当前生命值%
         content: 根据阿兰当前损失的生命值百分比获得伤害加成，最多使阿兰造成的伤害提高{{talentMissingHpDmgBoostMax}}%。
+  Ashveil:
+    Content:
+      baitActive:
+        text: 饲饵生效
+        content: 场上存在【饲饵】时，敌方全体防御力降低{{baitActiveDefPen}}%。
+      targetBait:
+        text: 目标为诱饵
+        content: 若该目标为【饲饵】，则额外对其造成等同于不死途{{baitHitAdditionalScaling}}%攻击力的雷属性伤害。
+      enhancedFua:
+        text: 强化追加攻击
+        content: >-
+          释放终结技后，不死途立即对【饲饵】发动1次获得强化的天赋追加攻击。::BR:: 拥有【婪酣】时，每消耗4层【婪酣】可额外造成1次等同于不死途{{enhancedFuaGluttonyScaling}}%攻击力的雷属性伤害。
+      gluttonyStacks:
+        text: 婪酣层数
+        content: >-
+          释放终结技后，不死途立即对【饲饵】发动1次获得强化的天赋追加攻击。::BR:: 拥有【婪酣】时，每消耗4层【婪酣】可额外造成1次等同于不死途{{enhancedFuaGluttonyScaling}}%攻击力的雷属性伤害。::BR:: 行迹4：不死途追加攻击造成的伤害提高80%，且每有1层【婪酣】，追加攻击造成的伤害额外提高10%。
+      e1DmgVulnerability:
+        text: 1魂易伤
+        content: 不死途在场时，敌方全体受到的伤害提高24%。当敌方目标当前生命值百分比小于等于50%时，其受到的伤害提高至36%。
+      e1TargetHpBelow50:
+        text: 1魂目标生命值 ≤ 50%
+        content: 不死途在场时，敌方全体受到的伤害提高24%。当敌方目标当前生命值百分比小于等于50%时，其受到的伤害提高至36%。
+      e4AtkBuff:
+        text: 4魂攻击力增益
+        content: 不死途施放终结技时，攻击力提高40%，持续3回合。
+      e6GluttonyGainedStacks:
+        text: 6魂婪酣层数
+        content: 当场上存在【饲饵】时，敌方全体的全属性抗性降低20%。不死途每获得过1层【婪酣】，造成的伤害提高4%，该效果最多叠加30层。
   Asta:
     Content:
       skillExtraDmgHits:
@@ -2249,6 +2320,44 @@ Characters:
       teammateCDValue:
         text: 花火战斗中暴击伤害值
         content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续2回合。
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: 强化普攻
+        content: 火花的战技可使其强化普攻最多20次。强化后，普攻将变为扩散攻击，并根据强化次数额外造成欢愉度伤害。
+      punchlineStacks:
+        text: 笑点层数
+        content: >-
+          行迹6：当前每拥有1个笑点，使我方全体暴击伤害提高8%，最多提高80%。::BR:: 1魂：当前每拥有1个笑点，使我方全体全属性抗性穿透提高1.5%，最多提高15%。::BR:: 6魂：欢愉技每计入1个笑点使其造成的额外伤害次数增加1次，最多增加至40次。
+      certifiedBangerStacks:
+        text: 好活当赏层数
+        content: >-
+          火花持有【好活当赏】时：::BR:: 施放强化普攻可对指定敌方单体造成{{ebaPrimaryScaling}}%的火属性欢愉伤害，并对其相邻目标造成{{ebaAdjacentScaling}}%的火属性欢愉伤害。且每发动1次【互动陷阱】会使强化普攻攻击时，额外对随机1个受到攻击的敌方目标造成1次{{ebaBounceScaling}}%的火属性欢愉伤害。::BR:: 施放终结技可对敌方全体造成{{ultElationScaling}}%的火属性欢愉伤害。
+      engagementFarmingStacks:
+        text: 互动陷阱层数
+        content: 每发动1次【互动陷阱】会使强化普攻攻击时，额外对随机1个受到攻击的敌方目标造成1次{{ebaBounceScaling}}%的火属性欢愉伤害。
+      certifiedBanger:
+        text: 好活当赏
+        content: >-
+          火花持有【好活当赏】时：::BR:: 施放强化普攻可对指定敌方单体造成{{ebaPrimaryScaling}}%的火属性欢愉伤害，并对其相邻目标造成{{ebaAdjacentScaling}}%的火属性欢愉伤害。且每发动1次【互动陷阱】会使强化普攻攻击时，额外对随机1个受到攻击的敌方目标造成1次{{ebaBounceScaling}}%的火属性欢愉伤害。::BR:: 施放终结技可对敌方全体造成{{ultElationScaling}}%的火属性欢愉伤害。
+      atkToElation:
+        text: 攻击力转至欢愉度
+        content: 若火花攻击力高于2000点，每超过100点攻击力可使自身欢愉度提高5%，最多提高80%。
+      punchlineCritDmg:
+        text: 笑点爆伤
+        content: 当前每拥有1个笑点，使我方全体暴击伤害提高8%，最多提高80%。
+      e1PunchlineResPen:
+        text: 1魂抗性穿透
+        content: "当前每拥有1个笑点，使我方全体全属性抗性穿透提高1.5%，最多提高15%。\n笑点"
+      e2ThrillStacks:
+        text: 2魂：爆伤层数
+        content: 每消耗1个【爆点】使自身暴击伤害提高10%，持续2回合，最多叠加4层。
+      e4UltElation:
+        text: 4魂终结技欢愉度增益
+        content: 施放终结技时额外获得5个笑点，使自身欢愉度提高36%，持续3回合。
+      e6ResPen:
+        text: 6魂属性抗性穿透
+        content: 全属性抗性穿透提高20%。
   Sunday:
     Content:
       skillDmgBuff:
@@ -2562,6 +2671,56 @@ Characters:
       e4CurrentHp80:
         text: 4魂自身生命值≥80%时抗性穿透增益
         content: 当前生命值百分比大于等于80%时，提高自身12%的冰属性抗性穿透。
+  Yaoguang:
+    Content:
+      punchlineStacks:
+        text: 笑点层数
+        content: 选择队伍拥有的笑点数量。该数值用于计算欢愉技的伤害。
+      certifiedBangerStacks:
+        text: 好活当赏层数
+        content: 选择瑶光拥有的「好活当赏」数量。该数值用于计算「大吉大利」的伤害。
+      skillZoneActive:
+        text: 战技结界生效
+        content: 结界持续期间，我方全体目标欢愉度提高，提高数值等同于爻光欢愉度的{{elationConversion}}%。
+      ultResPenBuff:
+        text: 终结技抗性穿透增益
+        content: 释放终结技后，爻光使我方全体目标全属性抗性穿透提高{{resPen}}%，持续3回合。
+      certifiedBanger:
+        text: 好活当赏
+        content: >-
+          爻光持有【好活当赏】时：::BR:: 使我方目标施放攻击后触发【大吉大利】效果，对随机1个击中的目标额外造成1次{{greatBoonScaling}}%的对应属性欢愉伤害。::BR:: 本次攻击若消耗战技点，则额外触发1次【大吉大利】效果。::BR:: 触发【大吉大利】效果时若攻击者欢愉度低于爻光，则该次欢愉伤害使用爻光欢愉度来计算。
+      yaoguangAhaInstant:
+        text: 终结技阿哈时刻
+        content: >-
+          欢愉技的伤害计算将按固定{{punchlineCount}}个笑点进行计算。::BR:: 1魂：终结技触发的阿哈的额外回合固定计入笑点数提高至40个。::BR:: 4魂：爻光终结技触发的阿哈的额外回合中，我方全体角色欢愉技造成的伤害为原伤害的150%。
+      woesWhisperVulnerability:
+        text: >-
+          凶星低语易伤
+        content: '【凶星低语】状态下的敌方目标受到的伤害提高{{woeWhisperVulnerability}}%。'
+      traceSpdElation:
+        text: 速度至欢愉度增益
+        content: 爻光的速度大于等于120时，使自身欢愉度提高30%，之后每超过1点速度使自身欢愉度提高1%，最多计入200点超出的速度。
+      e1DefPen:
+        text: 1魂欢愉伤害防御穿透
+        content: 我方全体目标造成欢愉伤害时无视目标20%防御力。
+      e2ZoneSpdBuff:
+        text: 2魂结界速度增益
+        content: 结界持续期间，我方全体目标速度提高12%，欢愉度额外提高16%。
+      e6Merrymaking:
+        text: 6魂增笑
+        content: 我方全体目标的欢愉伤害增笑25%。爻光欢愉技的伤害倍率提高原倍率的100%。
+    TeammateContent:
+      consumesSkillPoints:
+        text: 消耗技能点
+        content: >-
+          不管此次攻击中主C是否消耗技能点。额外触发1次「大吉大利」。::BR:: 使我方目标施放攻击后触发【大吉大利】效果，对随机1个击中的目标额外造成1次{{greatBoonScaling}}%的对应属性欢愉伤害。::BR:: 本次攻击若消耗战技点，则额外触发1次【大吉大利】效果。
+      teammateCertifiedBangerStacks:
+        text: 爻光好活当赏层数
+        content: 选择角色拥有好活当赏的数量。该数值用于计算「大吉大利」的伤害。
+      teammateElationValue:
+        text: 爻光的欢愉度
+        content: >-
+          瑶光战斗时的欢愉度。用于计算「大吉大利」造成的伤害。::BR:: 触发【大吉大利】效果时若攻击者欢愉度低于爻光，则该次欢愉伤害使用爻光欢愉度来计算。
   Yukong:
     Content:
       teamImaginaryDmgBoost:

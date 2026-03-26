@@ -2223,6 +2223,14 @@ Characters:
     TeammateContent:
       teammateCDValue:
         text: 스파클 치피 (전투시)
+  Sparxie:
+    Content:
+      enhancedBasic:
+        text: 강화 공격
+      e1PunchlineResPen:
+        text: 1돌 속저관
+      e6ResPen:
+        text: 6돌 속성 저항 관통
   Sunday:
     Content:
       skillDmgBuff:

@@ -4,8 +4,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -27,6 +27,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const defaults = {
     enemyDebuffedDmgBoost: true,
     skillAtkBoost: true,
+    skillEhrBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -47,6 +48,16 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
         AtkBuff: precisionRound(100 * sValuesAtk[s]),
       }),
     },
+    skillEhrBoost: {
+      lc: true,
+      id: 'skillEhrBoost',
+      formItem: 'switch',
+      text: t('Content.skillAtkBoost.text'),
+      content: t('Content.skillAtkBoost.content', {
+        EhrBuff: precisionRound(100 * sValuesEhr[s]),
+        AtkBuff: precisionRound(100 * sValuesAtk[s]),
+      }),
+    },
   }
 
   return {
@@ -56,7 +67,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.DMG_BOOST, (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
-      x.buff(StatKey.ATK, (r.skillAtkBoost) ? sValuesAtk[s] * context.baseATK : 0, x.damageType(DamageTag.SKILL).source(SOURCE_LC))
+      x.buff(StatKey.ATK_P, (r.skillAtkBoost) ? sValuesAtk[s] : 0, x.actionKind(AbilityKind.SKILL).source(SOURCE_LC))
+      x.buff(StatKey.EHR, (r.skillEhrBoost) ? sValuesEhr[s] : 0, x.actionKind(AbilityKind.SKILL).source(SOURCE_LC))
     },
   }
 }

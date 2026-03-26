@@ -9,8 +9,8 @@ Characters:
     Name: Химеко
     LongName: Химеко
   "1004":
-    Name: Вельт
-    LongName: Вельт
+    Name: ⚰️ Вельт
+    LongName: ⚰️ Вельт
   "1005":
     Name: ⚰️ Кафка
     LongName: ⚰️ Кафка
@@ -36,8 +36,8 @@ Characters:
     Name: Броня
     LongName: Броня
   "1102":
-    Name: Зеле
-    LongName: Зеле
+    Name: ⚰️ Зеле
+    LongName: ⚰️ Зеле
   "1103":
     Name: Сервал
     LongName: Сервал
@@ -114,8 +114,8 @@ Characters:
     Name: Ханья
     LongName: Ханья
   "1217":
-    Name: Хохо
-    LongName: Хохо
+    Name: ⚰️ Хохо
+    LongName: ⚰️ Хохо
   "1218":
     Name: Цзяоцю
     LongName: Цзяоцю
@@ -165,8 +165,8 @@ Characters:
     Name: Зарянка
     LongName: Зарянка
   "1310":
-    Name: Светлячок
-    LongName: Светлячок
+    Name: ⚰️ Светлячок
+    LongName: ⚰️ Светлячок
   "1312":
     Name: Миша
     LongName: Миша
@@ -236,6 +236,12 @@ Characters:
   "1504":
     Name: Ashveil
     LongName: Ashveil
+  "1505":
+    Name: Evanescia
+    LongName: Evanescia
+  "1506":
+    Name: Silver Wolf LV.999
+    LongName: Silver Wolf LV.999
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -260,6 +266,12 @@ Characters:
   "8008":
     Name: Стелла
     LongName: Стелла (Память)
+  "8009":
+    Name: Келус
+    LongName: Келус (Радость)
+  "8010":
+    Name: Стелла
+    LongName: Стелла (Радость)
   1212b1:
     Name: Цзинлю
     LongName: Цзинлю
@@ -278,6 +290,18 @@ Characters:
   1306b1:
     Name: Искорка
     LongName: Искорка
+  1004b1:
+    Name: Вельт
+    LongName: Вельт
+  1102b1:
+    Name: Зеле
+    LongName: Зеле
+  1217b1:
+    Name: Хохо
+    LongName: Хохо
+  1310b1:
+    Name: Светлячок
+    LongName: Светлячок
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака
@@ -473,10 +497,10 @@ RelicSets:
     Description2pc: Повышает крит. урон владельца на 16%. Если в течение одного хода расходуется 3 или более очков навыков, крит. урон владельца дополнительно повышается на 32% на 3 хода.
   "325":
     Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%.
+    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.
   "326":
     Name: City of Converging Stars
-    Description2pc: When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack.
+    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -668,6 +692,8 @@ Lightcones:
     Name: Вечный ресторан лабиринта
   "22006":
     Name: Полёт к розовому завтра
+  "22007":
+    Name: We'll face the Hereafter together
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -780,6 +806,10 @@ Lightcones:
     Name: Когда она решилась увидеть
   "23056":
     Name: The Finale of a Lie
+  "23057":
+    Name: Welcome to Cosmic City
+  "23058":
+    Name: A Rendezvous in the Next Flower Season
   "24000":
     Name: О падении Эона
   "24001":

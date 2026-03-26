@@ -19,6 +19,28 @@ export function getChangelogContent() {
     // `Balance: Sparxie and Yaoguang now benchmark against Punklorde Stage Zero`, // TODO
     {
       title: '',
+      date: '2026-03-17',
+      content: [
+        `Updated content to ${CURRENT_DATA_VERSION}`,
+        `Added Silver Wolf LV.999 showcase`,
+        `sw999.webp`,
+        `Added Evanescia showcase`,
+        `eva.webp`,
+        `Added Trailblazer Elation showcase`,
+        `emc.webp`,
+        `Added Welt / Seele / Huohuo / Firefly Novaflare buffs`,
+        `Redesigned the buff analysis panel with hit definition breakdowns`,
+        `analysis.webp`,
+        `Saved builds updated with new UI`,
+        `saved.webp`,
+        `Fix: Memosprite targeting now correctly includes pet targets`,
+        `Fix: BananAmusement Park set auto-enabled again when Permansor Terrae is on the team`,
+        `Balance: Rappa scoring metadata updated for crit teams`,
+        `Balance: Yaoguang's Great Boon now better accounts for skill point consumption`,
+      ],
+    },
+    {
+      title: '',
       date: '2026-03-07',
       content: [
         `Updated content to v4.1v4`,

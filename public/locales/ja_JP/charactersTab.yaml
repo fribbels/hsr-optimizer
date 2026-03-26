@@ -40,6 +40,8 @@ Messages:
   SaveSuccess: 'ビルドを保存しました: {{name}}'
   UnequipWarning: '本当に$t(gameData:Characters.{{charId}}.Name)の遺物を全て外しますか？'
   DeleteWarning: '本当に$t(gameData:Characters.{{charId}}.Name)を削除しますか？'
+  NoBuilds: 'ビルド {{name}} を上書きしようとしましたが、$t(gameData:Characters.{{charId}}.Name) には保存されたビルドがありません'
+  NoMatchingBuild: 'ビルド {{name}} を上書きしようとしましたが、そのようなビルドは存在しません'
   BuildAlreadyExists: 'ビルド名 {{name}} はすでに存在しています'
   ImageUploadFailed: 画像のアップロードに失敗しました
   InvalidFile: この画像ファイルは使用できません
@@ -147,6 +149,7 @@ CharacterPreview:
         BREAK: 弱点撃破
         MEMO_SKILL: 精霊スキル
         MEMO_TALENT: 精霊天賦
+        ELATION_SKILL: 愉悦スキル
         COMBO: コンボ
     CombatBuffs:
       Header: 戦闘バフ

@@ -61,6 +61,7 @@ Stats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)属性ダメージ'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)属性ダメージ'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)属性ダメージ'
+  Elation: 愉悦
 ShortStats:
   "HP%": HP割合
   HP: HP
@@ -84,6 +85,7 @@ ShortStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation: 愉悦
 ShortSpacedStats:
   "HP%": HP割合
   HP: HP
@@ -107,6 +109,7 @@ ShortSpacedStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation: 愉悦
 Damage: ダメージ
 DamagePercent: ダメージ %
 ReadableStats:
@@ -132,6 +135,7 @@ ReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)ダメージ'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)ダメージ'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)ダメージ'
+  Elation: 愉悦
 ShortReadableStats:
   "HP%": HP割合
   HP: HP
@@ -155,6 +159,7 @@ ShortReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)'
+  Elation: 愉悦
 Elements:
   Physical: '$t(gameData:Elements.Physical)'
   Fire: '$t(gameData:Elements.Fire)'
@@ -181,6 +186,7 @@ ShortDMGTypes:
   Fua: 追加攻撃
   Memo_Skill: 精霊スキル
   Memo_Talent: 精霊天賦
+  Elation_Skill: 愉悦スキル
   Dot: 持続
   Break: 撃破
   CV: CV

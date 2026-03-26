@@ -589,6 +589,9 @@ ExpandedDataPanel:
       E2: E2
       E4: E4
       E6: E6
+      LightCone: Nón Ánh Sáng
+      Set: Bộ
+    DefaultAction: Mặc định
     Stats:
       CompositeLabels:
         Prefix:

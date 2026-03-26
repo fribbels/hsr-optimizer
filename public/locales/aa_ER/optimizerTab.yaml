@@ -718,6 +718,10 @@ ExpandedDataPanel:
       E4: crwdns44676:0crwdne44676:0
       E6: crwdns44678:0crwdne44678:0
       ElationSkill: crwdns46468:0crwdne46468:0
+      LightCone: crwdns46694:0crwdne46694:0
+      Set: crwdns46696:0crwdne46696:0
+    DefaultAction: crwdns46700:0crwdne46700:0
+    SummaryLabel: crwdns46702:0crwdne46702:0
     Stats:
       CompositeLabels:
         Label: 'crwdns45035:0{{prefix}}crwdnd45035:0{{suffix}}crwdne45035:0'

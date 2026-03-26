@@ -113,7 +113,8 @@ interface Resources {
             "MEMO_SKILL": "SKILLᴹ DMG",
             "MEMO_TALENT": "TALENTᴹ DMG",
             "SKILL": "SKILL DMG",
-            "ULT": "ULT DMG"
+            "ULT": "ULT DMG",
+            "UNIQUE": "UNIQUE DMG"
           },
           "Baseline": "Baseline DMG:",
           "Benchmark": "Benchmark DMG:",
@@ -378,7 +379,8 @@ interface Resources {
       "Memo_Skill": "Skillᴹ DMG",
       "Memo_Talent": "Talentᴹ DMG",
       "Skill": "Skill DMG",
-      "Ult": "Ult DMG"
+      "Ult": "Ult DMG",
+      "Unique": "Unique DMG"
     },
     "ShortReadableStats": {
       "ATK": "ATK",
@@ -4275,6 +4277,10 @@ interface Resources {
         "Name": "Himeko"
       },
       "1004": {
+        "LongName": "⚰️ Welt",
+        "Name": "⚰️ Welt"
+      },
+      "1004b1": {
         "LongName": "Welt",
         "Name": "Welt"
       },
@@ -4319,6 +4325,10 @@ interface Resources {
         "Name": "Bronya"
       },
       "1102": {
+        "LongName": "⚰️ Seele",
+        "Name": "⚰️ Seele"
+      },
+      "1102b1": {
         "LongName": "Seele",
         "Name": "Seele"
       },
@@ -4431,6 +4441,10 @@ interface Resources {
         "Name": "Hanya"
       },
       "1217": {
+        "LongName": "⚰️ Huohuo",
+        "Name": "⚰️ Huohuo"
+      },
+      "1217b1": {
         "LongName": "Huohuo",
         "Name": "Huohuo"
       },
@@ -4507,6 +4521,10 @@ interface Resources {
         "Name": "Robin"
       },
       "1310": {
+        "LongName": "⚰️ Firefly",
+        "Name": "⚰️ Firefly"
+      },
+      "1310b1": {
         "LongName": "Firefly",
         "Name": "Firefly"
       },
@@ -4602,6 +4620,14 @@ interface Resources {
         "LongName": "Ashveil",
         "Name": "Ashveil"
       },
+      "1505": {
+        "LongName": "Evanescia",
+        "Name": "Evanescia"
+      },
+      "1506": {
+        "LongName": "Silver Wolf LV.999",
+        "Name": "Silver Wolf LV.999"
+      },
       "8001": {
         "LongName": "Caelus (Destruction)",
         "Name": "Caelus"
@@ -4632,6 +4658,14 @@ interface Resources {
       },
       "8008": {
         "LongName": "Stelle (Remembrance)",
+        "Name": "Stelle"
+      },
+      "8009": {
+        "LongName": "Caelus (Elation)",
+        "Name": "Caelus"
+      },
+      "8010": {
+        "LongName": "Stelle (Elation)",
         "Name": "Stelle"
       }
     },
@@ -4930,6 +4964,9 @@ interface Resources {
       "22006": {
         "Name": "Fly Into a Pink Tomorrow"
       },
+      "22007": {
+        "Name": "We'll face the Hereafter together"
+      },
       "23000": {
         "Name": "Night on the Milky Way"
       },
@@ -5097,6 +5134,12 @@ interface Resources {
       },
       "23056": {
         "Name": "The Finale of a Lie"
+      },
+      "23057": {
+        "Name": "Welcome to Cosmic City"
+      },
+      "23058": {
+        "Name": "A Rendezvous in the Next Flower Season"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -5379,11 +5422,11 @@ interface Resources {
         "Name": "Tengoku@Livestream"
       },
       "325": {
-        "Description2pc": "Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%.",
+        "Description2pc": "Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.",
         "Name": "Punklorde Stage Zero"
       },
       "326": {
-        "Description2pc": "When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack.",
+        "Description2pc": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.",
         "Name": "City of Converging Stars"
       }
     }
@@ -6276,7 +6319,8 @@ interface Resources {
         "TalentShield": "Talent SHIELD",
         "Ult": "Ult",
         "UltHeal": "Ult HEAL",
-        "UltShield": "Ult SHIELD"
+        "UltShield": "Ult SHIELD",
+        "Unique": "Unique"
       },
       "Header": "Combo DMG ability rotation",
       "ModeSelector": {
@@ -6326,7 +6370,8 @@ interface Resources {
           "Talent": "Talent",
           "Technique": "Technique",
           "Trace": "Trace",
-          "Ult": "Ult"
+          "Ult": "Ult",
+          "Unique": "Unique"
         },
         "Stats": {
           "CompositeLabels": {
@@ -6525,7 +6570,8 @@ interface Resources {
           "TALENT_SHIELD": "TALENT\nSHIELD",
           "ULT": "ULT\nDMG",
           "ULT_HEAL": "ULT\nHEAL",
-          "ULT_SHIELD": "ULT\nSHIELD"
+          "ULT_SHIELD": "ULT\nSHIELD",
+          "UNIQUE": "UNIQUE\nDMG"
         },
         "Combat": {
           "ATK": "Σ ATK",
@@ -6563,7 +6609,8 @@ interface Resources {
           "TALENT_SHIELD": "TALENT\nSHIELD",
           "ULT": "ULT\nDMG",
           "ULT_HEAL": "ULT\nHEAL",
-          "ULT_SHIELD": "ULT\nSHIELD"
+          "ULT_SHIELD": "ULT\nSHIELD",
+          "UNIQUE": "UNIQUE\nDMG"
         }
       },
       "Loading": "Loading...",
@@ -6930,7 +6977,8 @@ interface Resources {
       "TALENT_SHIELD": "Sorted by Talent SHIELD",
       "ULT": "Sorted by Ult DMG",
       "ULT_HEAL": "Sorted by Ult HEAL",
-      "ULT_SHIELD": "Sorted by Ult SHIELD"
+      "ULT_SHIELD": "Sorted by Ult SHIELD",
+      "UNIQUE": "Sorted by Unique DMG"
     },
     "StatSimulation": {
       "BuildAlreadyImported": "The selected optimizer build is already a simulation",

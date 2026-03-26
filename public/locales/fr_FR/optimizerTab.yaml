@@ -623,6 +623,9 @@ ExpandedDataPanel:
       E2: E2
       E4: E4
       E6: E6
+      LightCone: Cône de Lumière
+      Set: Set
+    DefaultAction: Standard
     Stats:
       CompositeLabels:
         Label: '{{suffix}} de {{prefix}}'

@@ -21,6 +21,7 @@ import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type {
@@ -69,6 +70,7 @@ function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata)
   mergeUndefinedValues(form, getDefaultForm())
 
   form.comboTurnAbilities = scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
+  form.comboDot = scoringMetadata?.simulation?.comboDot ?? 0
 
   // @ts-expect-error - maxSpd is typed as number but needs to be cleared for presets
   form.maxSpd = undefined
@@ -146,6 +148,11 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
 
   if (allyIds.includes(TheDahlia.id)) {
     form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = true
+  }
+
+  // DHPT gives a summon to the primary character, enabling banana set conditional
+  if (allyIds.includes(PermansorTerrae.id)) {
+    form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
   }
 }
 

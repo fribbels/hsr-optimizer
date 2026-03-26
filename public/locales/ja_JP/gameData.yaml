@@ -9,8 +9,8 @@ Characters:
     Name: 姫子
     LongName: 姫子
   "1004":
-    Name: ヴェルト
-    LongName: ヴェルト
+    Name: ⚰️ ヴェルト
+    LongName: ⚰️ ヴェルト
   "1005":
     Name: ⚰️ カフカ
     LongName: ⚰️ カフカ
@@ -36,8 +36,8 @@ Characters:
     Name: ブローニャ
     LongName: ブローニャ
   "1102":
-    Name: ゼーレ
-    LongName: ゼーレ
+    Name: ⚰️ ゼーレ
+    LongName: ⚰️ ゼーレ
   "1103":
     Name: セーバル
     LongName: セーバル
@@ -114,8 +114,8 @@ Characters:
     Name: 寒鴉
     LongName: 寒鴉
   "1217":
-    Name: フォフォ
-    LongName: フォフォ
+    Name: ⚰️ フォフォ
+    LongName: ⚰️ フォフォ
   "1218":
     Name: 椒丘
     LongName: 椒丘
@@ -165,8 +165,8 @@ Characters:
     Name: ロビン
     LongName: ロビン
   "1310":
-    Name: ホタル
-    LongName: ホタル
+    Name: ⚰️ ホタル
+    LongName: ⚰️ ホタル
   "1312":
     Name: ミーシャ
     LongName: ミーシャ
@@ -236,6 +236,12 @@ Characters:
   "1504":
     Name: Ashveil
     LongName: Ashveil
+  "1505":
+    Name: Evanescia
+    LongName: Evanescia
+  "1506":
+    Name: Silver Wolf LV.999
+    LongName: Silver Wolf LV.999
   "8001":
     Name: 穹
     LongName: 穹 (壊滅)
@@ -260,6 +266,12 @@ Characters:
   "8008":
     Name: 星
     LongName: 星 (記憶)
+  "8009":
+    Name: 穹
+    LongName: 穹 (愉悦)
+  "8010":
+    Name: 星
+    LongName: 星 (愉悦)
   1212b1:
     Name: 鏡流
     LongName: 鏡流
@@ -278,6 +290,18 @@ Characters:
   1306b1:
     Name: 花火
     LongName: 花火
+  1004b1:
+    Name: ヴェルト
+    LongName: ヴェルト
+  1102b1:
+    Name: ゼーレ
+    LongName: ゼーレ
+  1217b1:
+    Name: フォフォ
+    LongName: フォフォ
+  1310b1:
+    Name: ホタル
+    LongName: ホタル
 RelicSets:
   "101":
     Name: 流雲無痕の過客
@@ -473,10 +497,10 @@ RelicSets:
     Description2pc: 装備キャラの会心ダメージ+16%。1ターン以内にSPを3以上消費した場合、さらに会心ダメージ+32%、3ターン継続。
   "325":
     Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in battle, increases the wearer's CRIT DMG by 20%/32%.
+    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.
   "326":
     Name: City of Converging Stars
-    Description2pc: When the wearer uses a Follow-Up ATK, increases their ATK by 24% for 2 turn(s). When an enemy target is defeated, increases CRIT DMG for all allies by 12% for the rest of the current battle. This effect cannot stack.
+    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: 矢じり
@@ -668,6 +692,8 @@ Lightcones:
     Name: 永遠の迷境ごはん
   "22006":
     Name: ピンク色の明日へ
+  "22007":
+    Name: We'll face the Hereafter together
   "23000":
     Name: 銀河鉄道の夜
   "23001":
@@ -780,6 +806,10 @@ Lightcones:
     Name: 彼女が視ると決めた時
   "23056":
     Name: The Finale of a Lie
+  "23057":
+    Name: Welcome to Cosmic City
+  "23058":
+    Name: A Rendezvous in the Next Flower Season
   "24000":
     Name: とある星神の殞落を記す
   "24001":

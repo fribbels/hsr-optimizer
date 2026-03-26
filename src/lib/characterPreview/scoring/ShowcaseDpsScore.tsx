@@ -138,6 +138,7 @@ function CharacterPreviewScoringTeammate({
         useCharacterModalStore.getState().openOverlay({
           initialCharacter: teammate ? { form: teammate } : null,
           onOk: createOnCharacterModalOk(characterId, index, teamSelection),
+          showSetSelection: true,
         })
       }}
       className={`${teammateClasses.teammateCard} ${readonly ? 'readonly-custom-grid' : 'custom-grid'}`}

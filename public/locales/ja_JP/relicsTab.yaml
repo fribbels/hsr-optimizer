@@ -96,6 +96,22 @@ RelicGrid:
           選択 振り直し
           vs 装備済み
           ポテンシャル差
+      BlockedRerollAvg:
+        Label: '選択キャラ：除外付き振り直し後の平均遺物ポテンシャル'
+        Header: |-
+          選択 除外 振り直し
+          平均ポテンシャル
+      BlockedRerollAvgDelta:
+        Label: '選択キャラ：除外付き振り直し後の平均遺物ポテンシャル差異'
+        Header: |-
+          選択 除外 振り直し
+          差の平均
+      BlockedRerollAvgEquippedDelta:
+        Label: '選択キャラ：除外付き振り直し後と装備済み遺物の平均差異'
+        Header: |-
+          選択キャラ
+          除外 振り直し
+          平均 vs 装備済
     CustomCharacters:
       Label: 指定した複数キャラクター
       AvgPotCol:
@@ -113,6 +129,11 @@ RelicGrid:
         Header: |-
           指定 振り直し
           ポテンシャル
+      BlockedRerollAvg:
+        Label: '指定対象：除外付き振り直し後の平均遺物ポテンシャル'
+        Header: |-
+          指定 除外 振り直し
+          平均ポテンシャル
     AllCharacters:
       Label: 全キャラクター
       AvgPotCol:
@@ -130,6 +151,11 @@ RelicGrid:
         Header: |-
           全 振り直し
           ポテンシャル
+      BlockedRerollAvg:
+        Label: '全キャラ：除外付き振り直し後の平均遺物ポテンシャル'
+        Header: |-
+          全 除外 振り直し
+          平均ポテンシャル
 Toolbar:
   RelicLocator:
     Width: インベントリの幅
@@ -139,6 +165,7 @@ Toolbar:
   InsightOptions:
     Buckets: '遺物インサイト：バケツ'
     Top10: '遺物インサイト：トップ10'
+    ESTBP: '遺物インサイト：推定開拓力'
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
     PlotCustom: 指定対象のみ表示
@@ -149,6 +176,7 @@ Toolbar:
     Warning_one: 選択した遺物を削除しますか？
     Warning_other: '選択した{{count}}個の遺物を削除しますか？'
   AddRelic: 新しい遺物を追加
+  LiveImportTooltip: Live Import 機能が有効な場合は使用できません。
 RelicInsights:
   NewStats: '新しいステータス：'
   UpgradedStats: 'アップグレードしたステータス：'

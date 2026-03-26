@@ -13,7 +13,7 @@ export const STORAGE_STATE = path.join(
 )
 
 export default defineConfig({
-  timeout: 90000,
+  timeout: 30000,
   testDir: './',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -25,7 +25,7 @@ export default defineConfig({
   },
 
   use: {
-    actionTimeout: 15000,
+    actionTimeout: 10000,
     baseURL: 'http://localhost:3000/hsr-optimizer',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',

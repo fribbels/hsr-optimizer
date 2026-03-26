@@ -349,6 +349,18 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
           <HorizontalDivider />
 
           <SegmentedControl
+            data={[
+              { value: 'false', label: <IconSun size={14} /> },
+              { value: 'true', label: <IconMoon size={14} /> },
+            ]}
+            fullWidth
+            value={String(showcaseDarkMode)}
+            onChange={(value) => onBrightnessModeChange(value === 'true')}
+          />
+
+          <HorizontalDivider />
+
+          <SegmentedControl
             orientation="vertical"
             fullWidth
             data={[
@@ -358,18 +370,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
             ]}
             value={effectiveColorMode}
             onChange={(value) => onColorModeChange(value as ShowcaseColorMode)}
-          />
-
-          <HorizontalDivider />
-
-          <SegmentedControl
-            data={[
-              { value: 'false', label: <IconSun size={14} /> },
-              { value: 'true', label: <IconMoon size={14} /> },
-            ]}
-            fullWidth
-            value={String(showcaseDarkMode)}
-            onChange={(value) => onBrightnessModeChange(value === 'true')}
           />
 
           {source === ShowcaseSource.SHOWCASE_TAB

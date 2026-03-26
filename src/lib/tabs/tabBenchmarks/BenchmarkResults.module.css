@@ -121,6 +121,7 @@
 .comboDmgText {
   margin: 0;
   align-items: center;
+  font-weight: normal;
 }
 
 .deltaIcon {

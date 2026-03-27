@@ -172,16 +172,23 @@ export function requestScore(
           )
         }
 
-        await executeOrchestrator(orchestrator)
+        await executeOrchestrator(orchestrator, () => {
+          // Score is available — deliver before upgrades finish
+          const earlyScore = orchestrator.simulationScore ?? null
+          if (earlyScore) {
+            earlyScore.characterMetadata = getGameMetadata().characters[character.id]
+            resultCache[cacheKey] = earlyScore
+            delete previewCache[cacheKey]
+            delete orchestratorCache[cacheKey]
+          }
+          notifyListeners(cacheKey)
+        })
 
+        // Upgrades now included — update cache and notify again
         const score = orchestrator.simulationScore ?? null
         if (score) {
           score.characterMetadata = getGameMetadata().characters[character.id]
           resultCache[cacheKey] = score
-          // Clean up preview and orchestrator caches — the full SimulationScore
-          // supersedes the preview data, and the orchestrator has been consumed.
-          delete previewCache[cacheKey]
-          delete orchestratorCache[cacheKey]
         }
         notifyListeners(cacheKey)
         resolve(score)

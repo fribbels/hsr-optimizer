@@ -51,6 +51,7 @@ export function prepareOrchestrator(
  */
 export async function executeOrchestrator(
   orchestrator: BenchmarkSimulationOrchestrator,
+  onScoreReady?: () => void,
 ): Promise<BenchmarkSimulationOrchestrator> {
   // Clone context once for both phases — the clone is read-only on the main
   // thread (only sent to workers via postMessage) so it's safe to reuse.
@@ -60,6 +61,16 @@ export async function executeOrchestrator(
   await orchestrator.calculatePerfection(clonedContext)
 
   orchestrator.calculateScores()
+  // Initialize empty upgrades so the early SimulationScore is structurally valid
+  // (upgrade tables may render before calculateUpgrades completes)
+  orchestrator.substatUpgradeResults ??= []
+  orchestrator.setUpgradeResults ??= []
+  orchestrator.mainUpgradeResults ??= []
+  orchestrator.calculateResults()
+  onScoreReady?.()
+
+  // Yield to browser before computing upgrades (~42ms of synchronous simulations)
+  await new Promise((r) => setTimeout(r, 0))
   orchestrator.calculateUpgrades()
   orchestrator.calculateResults()
 

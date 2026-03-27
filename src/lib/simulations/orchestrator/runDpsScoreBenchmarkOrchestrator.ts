@@ -53,12 +53,14 @@ export async function executeOrchestrator(
   orchestrator: BenchmarkSimulationOrchestrator,
   onScoreReady?: () => void,
 ): Promise<BenchmarkSimulationOrchestrator> {
-  // Context is only forwarded to workers via postMessage, which does its own
-  // structured clone. No need to pre-clone on the main thread.
-  const context = orchestrator.context!
+  // JSON clone strips closures (conditional registries, controllers) that
+  // postMessage's structured clone can't handle. The worker rebuilds them
+  // via initializeContextConditionals. Also flattens Float32Arrays to plain
+  // objects, which the worker reconstructs.
+  const clonedContext = clone(orchestrator.context!)
 
-  await orchestrator.calculateBenchmark(context)
-  await orchestrator.calculatePerfection(context)
+  await orchestrator.calculateBenchmark(clonedContext)
+  await orchestrator.calculatePerfection(clonedContext)
 
   orchestrator.calculateScores()
   // Initialize empty upgrades so the early SimulationScore is structurally valid

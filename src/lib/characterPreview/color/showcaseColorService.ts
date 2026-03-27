@@ -6,10 +6,10 @@ import type { CharacterId } from 'types/character'
 import type { ShowcasePreferences } from 'types/metadata'
 
 const STANDARD_COLOR = '#799ef4'
-// Intentional change: replaces the old '#000000' fallback. The old black was a timing-hack
-// artifact — prevSeedColor ref papered over it by leaking the previous character's color.
-// Blue is a better default for the brief window before portrait color extraction completes.
 export const DEFAULT_SHOWCASE_COLOR = '#2473e1'
+// Neutral gray for custom portraits while the worker extracts the real color.
+// The CSS transition (background-color 0.35s) animates smoothly from gray → extracted color.
+const CUSTOM_PORTRAIT_PENDING_COLOR = '#6b7280'
 
 interface ResolvedShowcaseColor {
   effectiveColorMode: ShowcaseColorMode
@@ -31,6 +31,7 @@ export function resolveShowcaseColor(
   globalColorMode: ShowcaseColorMode,
   perCharPreferences: ShowcasePreferences | undefined,
   portraitExtractedColor: string | undefined,
+  hasCustomPortrait?: boolean,
 ): ResolvedShowcaseColor {
   // Resolve effective mode: global STANDARD overrides, otherwise use per-character preference.
   // Guard: per-character STANDARD is invalid (STANDARD is global-only). Treat as AUTO.
@@ -42,7 +43,11 @@ export function resolveShowcaseColor(
       : savedColorMode
 
   const characterConfigColor = getCharacterConfig(characterId)?.display.showcaseColor
-  const fallbackColor = characterConfigColor ?? DEFAULT_SHOWCASE_COLOR
+  // Custom portraits use a neutral gray while the worker extracts the real color,
+  // since the character's hardcoded showcaseColor doesn't match the custom image.
+  const fallbackColor = hasCustomPortrait
+    ? CUSTOM_PORTRAIT_PENDING_COLOR
+    : characterConfigColor ?? DEFAULT_SHOWCASE_COLOR
 
   switch (effectiveColorMode) {
     case ShowcaseColorMode.STANDARD:

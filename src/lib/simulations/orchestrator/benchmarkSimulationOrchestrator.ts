@@ -342,7 +342,7 @@ export class BenchmarkSimulationOrchestrator {
     this.originalSim.result = this.originalSimResult
   }
 
-  public async calculateBenchmark() {
+  public async calculateBenchmark(clonedContext: OptimizerContext) {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
@@ -350,8 +350,6 @@ export class BenchmarkSimulationOrchestrator {
     const targetSpd = this.benchmarkCombatSpdTarget!
     const baselineSimResult = this.baselineSimResult!
 
-    // Clone to remove functions
-    const clonedContext = clone(context)
     const clonedBenchmarkScoringParams = clone(benchmarkScoringParams)
 
     const partialSimulationWrappers = generatePartialSimulations(this)
@@ -417,7 +415,7 @@ export class BenchmarkSimulationOrchestrator {
     this.benchmarkSimRequest = benchmarkSim.request
   }
 
-  public async calculatePerfection() {
+  public async calculatePerfection(clonedContext: OptimizerContext) {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
@@ -425,7 +423,6 @@ export class BenchmarkSimulationOrchestrator {
     const baselineSimResult = this.baselineSimResult!
     const flags = this.flags
 
-    const clonedContext = clone(context)
     const clonedPerfectionScoringParams = clone(maximumScoringParams)
 
     const partialSimulationWrappers = generatePartialSimulations(this)

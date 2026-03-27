@@ -29,8 +29,9 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
 
   orchestrator.flags.forceErrRope = benchmarkForm.errRope
 
-  await orchestrator.calculateBenchmark()
-  await orchestrator.calculatePerfection()
+  const clonedContext = clone(orchestrator.context!)
+  await orchestrator.calculateBenchmark(clonedContext)
+  await orchestrator.calculatePerfection(clonedContext)
 
   orchestrator.calculateScores()
   orchestrator.calculateUpgrades()

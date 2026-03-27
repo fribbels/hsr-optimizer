@@ -265,14 +265,16 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====
+  const portraitImageUrl = character.portrait?.imageUrl
   const { effectiveColorMode, seedColor } = useMemo(
     () => resolveShowcaseColor(
       character.id,
       state.globalColorMode,
       state.showcasePreferences,
       state.portraitColor,
+      !!portraitImageUrl,
     ),
-    [character.id, state.globalColorMode, state.showcasePreferences, state.portraitColor],
+    [character.id, state.globalColorMode, state.showcasePreferences, state.portraitColor, portraitImageUrl],
   )
 
   const derivedShowcaseTheme = useMemo(
@@ -280,10 +282,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     [seedColor, state.darkMode],
   )
 
-  // ===== Portrait palette extraction =====
-  // Extracts color swatches for the customization sidebar.
-  // Runs as an effect so it works regardless of display mode (Spine, image, custom).
-  const portraitImageUrl = character.portrait?.imageUrl
   useEffect(() => {
     // Skip extraction if palette already cached for this character
     const existing = useShowcaseTabStore.getState().portraitSwatchesByCharacterId[character.id]

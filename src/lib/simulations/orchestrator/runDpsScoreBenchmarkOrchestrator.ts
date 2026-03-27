@@ -52,8 +52,12 @@ export function prepareOrchestrator(
 export async function executeOrchestrator(
   orchestrator: BenchmarkSimulationOrchestrator,
 ): Promise<BenchmarkSimulationOrchestrator> {
-  await orchestrator.calculateBenchmark()
-  await orchestrator.calculatePerfection()
+  // Clone context once for both phases — the clone is read-only on the main
+  // thread (only sent to workers via postMessage) so it's safe to reuse.
+  const clonedContext = clone(orchestrator.context!)
+
+  await orchestrator.calculateBenchmark(clonedContext)
+  await orchestrator.calculatePerfection(clonedContext)
 
   orchestrator.calculateScores()
   orchestrator.calculateUpgrades()

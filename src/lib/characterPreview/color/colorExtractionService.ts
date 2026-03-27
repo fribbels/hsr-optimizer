@@ -1,7 +1,5 @@
 import type { ColorWorkerRequest, ColorWorkerResponse, ColorWorkerResult } from './colorExtractionWorker'
 
-const DOWNSAMPLE_SIZE = 150
-
 export type PaletteResponse = {
   Vibrant: string
   Muted: string
@@ -18,6 +16,9 @@ const pending = new Map<number, {
   resolve: (value: ColorWorkerResult | null) => void
   reject: (reason: unknown) => void
 }>()
+
+// URL-keyed cache so repeat extractions for the same image are free
+const urlCache = new Map<string, PaletteResponse>()
 
 function getWorker(): Worker {
   if (!worker) {
@@ -48,58 +49,35 @@ function getWorker(): Worker {
   return worker
 }
 
-function loadImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.crossOrigin = 'anonymous'
-    img.onload = () => resolve(img)
-    img.onerror = reject
-    img.src = src
-  })
-}
-
-// Reused across calls to avoid repeated canvas allocation
-let offscreenCanvas: HTMLCanvasElement | null = null
-let offscreenCtx: CanvasRenderingContext2D | null = null
-
-function downsampleToImageData(source: HTMLImageElement | HTMLCanvasElement): ImageData {
-  if (!offscreenCanvas) {
-    offscreenCanvas = document.createElement('canvas')
-    offscreenCanvas.width = DOWNSAMPLE_SIZE
-    offscreenCanvas.height = DOWNSAMPLE_SIZE
-    offscreenCtx = offscreenCanvas.getContext('2d')!
-  }
-  offscreenCtx!.clearRect(0, 0, DOWNSAMPLE_SIZE, DOWNSAMPLE_SIZE)
-  offscreenCtx!.drawImage(source, 0, 0, DOWNSAMPLE_SIZE, DOWNSAMPLE_SIZE)
-  return offscreenCtx!.getImageData(0, 0, DOWNSAMPLE_SIZE, DOWNSAMPLE_SIZE)
-}
-
 /**
- * Extract a color palette from an image URL or canvas, fully off the main thread.
- * Main-thread cost: image load + downsample (~2-5ms).
+ * Extract a color palette from an image URL, fully off the main thread.
+ * The worker fetches, decodes, downsamples, and quantizes — main-thread cost is ~0ms.
  */
 export async function extractPaletteInWorker(
-  src: string | HTMLCanvasElement,
+  url: string,
 ): Promise<PaletteResponse | null> {
-  try {
-    const source = typeof src === 'string' ? await loadImage(src) : src
-    const imageData = downsampleToImageData(source)
+  const cached = urlCache.get(url)
+  if (cached) return cached
 
+  try {
     const id = nextId++
     const w = getWorker()
 
     const result = await new Promise<ColorWorkerResult | null>((resolve, reject) => {
       pending.set(id, { resolve, reject })
-      const request: ColorWorkerRequest = { id, imageData }
-      w.postMessage(request, [imageData.data.buffer])
+      const request: ColorWorkerRequest = { id, url }
+      w.postMessage(request)
     })
 
     if (!result) return null
 
-    return {
+    const palette: PaletteResponse = {
       ...result.swatchHex,
       colors: result.paletteHex,
     }
+
+    urlCache.set(url, palette)
+    return palette
   } catch (e) {
     console.error('[colorExtractionService]', e)
     return null

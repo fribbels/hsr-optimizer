@@ -1,4 +1,4 @@
-// Runs in a dedicated Web Worker — all heavy OKLCH quantization happens here.
+// Runs in a dedicated Web Worker — image decode, downsample, and OKLCH quantization all happen here.
 
 import {
   extractPalette,
@@ -9,7 +9,7 @@ import {
 
 export interface ColorWorkerRequest {
   id: number
-  imageData: ImageData
+  url: string
 }
 
 export interface ColorWorkerResponse {
@@ -26,6 +26,7 @@ export interface ColorWorkerResult {
 }
 
 const DEFAULT_FALLBACK = '#2241be'
+const DOWNSAMPLE_SIZE = 150
 const EXTRACTION_OPTS = validateOptions({ colorCount: 20, quality: 10, colorSpace: 'oklch' })
 
 let quantizer: MmcqQuantizer | null = null
@@ -38,10 +39,26 @@ async function ensureQuantizer(): Promise<MmcqQuantizer> {
   return quantizer
 }
 
+async function fetchAndDownsample(url: string): Promise<ImageData> {
+  const response = await fetch(url)
+  const blob = await response.blob()
+  const bitmap = await createImageBitmap(blob, {
+    resizeWidth: DOWNSAMPLE_SIZE,
+    resizeHeight: DOWNSAMPLE_SIZE,
+    resizeQuality: 'low',
+  })
+  const canvas = new OffscreenCanvas(DOWNSAMPLE_SIZE, DOWNSAMPLE_SIZE)
+  const ctx = canvas.getContext('2d')!
+  ctx.drawImage(bitmap, 0, 0)
+  bitmap.close()
+  return ctx.getImageData(0, 0, DOWNSAMPLE_SIZE, DOWNSAMPLE_SIZE)
+}
+
 async function handleRequest(req: ColorWorkerRequest): Promise<ColorWorkerResult | null> {
   const q = await ensureQuantizer()
 
-  const { data, width, height } = req.imageData
+  const imageData = await fetchAndDownsample(req.url)
+  const { data, width, height } = imageData
   const palette = extractPalette(data, width, height, EXTRACTION_OPTS, q)
   if (!palette || palette.length === 0) return null
 

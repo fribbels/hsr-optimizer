@@ -26,12 +26,16 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import { memo } from 'react'
+import { memo, Profiler } from 'react'
 import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { type CharacterId } from 'types/character'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
+
+const logRender = (id: string, _phase: string, actualDuration: number) => {
+  if (actualDuration > 1) console.log(`[deferred] ${id}: ${actualDuration.toFixed(1)}ms`)
+}
 
 function ScoringSet(props: {
   set: string
@@ -132,86 +136,95 @@ function ScoringColumn(props: {
 
   return (
     <Flex direction="column" gap={25} style={{ margin: 'auto' }}>
-      <Flex direction="column" gap={defaultGap}>
-        <Flex justify='space-around'>
-          <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
-            <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: truncate10ths(precisionRound(props.percent * 100)) })}</u>
-          </pre>
-          {/* Character/Benchmark/Perfect build ({{score}}%) */}
-        </Flex>
-      </Flex>
-
-      <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
-        <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
-          {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
-        </pre>
-        {/* Character/100% benchmark/200% prefect basic stats */}
-        <CharacterStatSummary
-          characterId={props.characterId}
-          finalStats={basicStats}
-          elementalDmgValue={props.elementalDmgValue}
-          simScore={simResult.simScore}
-          showAll={true}
-          scoringDone={true}
-          scoringResult={null}
-        />
-      </Flex>
-
-      <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
-        <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
-          <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
-            build type <u>combat stats</u>
-          </Trans>
-        </pre>
-        <CharacterStatSummary
-          characterId={props.characterId}
-          finalStats={combatStats}
-          elementalDmgValue={props.elementalDmgValue}
-          simScore={simResult.simScore}
-          showAll={true}
-          scoringDone={true}
-          scoringResult={null}
-        />
-      </Flex>
-
-      <Flex direction="column" gap={defaultGap}>
-        <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
-          {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
-        </pre>
-        {/* Character subs (min rolls)/100% benchmark subs (min rolls)/200% perfect subs (max rolls) */}
-
-        <SubstatRollsSummary
-          simRequest={props.simulation.request}
-          precision={precision}
-          diminish={props.type === 'Benchmark'}
-          columns={2}
-        />
-      </Flex>
-
-      <Flex direction="column" gap={defaultGap}>
-        <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
-          {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
-        </pre>
-        {/* Character main stats/100% benchmark main stats/200% perfect main stats */}
-        <Flex gap={defaultGap} justify='space-around'>
-          <Flex direction="column" gap={10}>
-            <ScoringStat stat={simRequest.simBody ? t(`common:ReadableStats.${simRequest.simBody as MainStats}`) : ''} part={Parts.Body}/>
-            <ScoringStat stat={simRequest.simFeet ? t(`common:ReadableStats.${simRequest.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
-            <ScoringStat stat={simRequest.simPlanarSphere ? t(`common:ReadableStats.${simRequest.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
-            <ScoringStat stat={simRequest.simLinkRope ? t(`common:ReadableStats.${simRequest.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
+      {/* Header + Basic stats */}
+      <Deferred>
+        <Flex direction="column" gap={defaultGap}>
+          <Flex justify='space-around'>
+            <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
+              <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: truncate10ths(precisionRound(props.percent * 100)) })}</u>
+            </pre>
           </Flex>
         </Flex>
-      </Flex>
 
-      <Flex direction="column" gap={20} className={classes.abilityDamageSection}>
-        <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
-          {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
-        </pre>
-        {/* Character/100% benchmark/200% perfect ability damage */}
-        <AbilityDamageSummary
-          simResult={props.simulation.result!}
-        />
-      </Flex>
+        <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
+          <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
+            {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
+          </pre>
+          <CharacterStatSummary
+            characterId={props.characterId}
+            finalStats={basicStats}
+            elementalDmgValue={props.elementalDmgValue}
+            simScore={simResult.simScore}
+            showAll={true}
+            scoringDone={true}
+            scoringResult={null}
+          />
+        </Flex>
+      </Deferred>
+
+      {/* Combat stats */}
+      <Deferred>
+        <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
+          <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
+            <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
+              build type <u>combat stats</u>
+            </Trans>
+          </pre>
+          <CharacterStatSummary
+            characterId={props.characterId}
+            finalStats={combatStats}
+            elementalDmgValue={props.elementalDmgValue}
+            simScore={simResult.simScore}
+            showAll={true}
+            scoringDone={true}
+            scoringResult={null}
+          />
+        </Flex>
+      </Deferred>
+
+      {/* Substats */}
+      <Deferred>
+        <Flex direction="column" gap={defaultGap}>
+          <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
+            {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
+          </pre>
+          <SubstatRollsSummary
+            simRequest={props.simulation.request}
+            precision={precision}
+            diminish={props.type === 'Benchmark'}
+            columns={2}
+          />
+        </Flex>
+      </Deferred>
+
+      {/* Mainstats */}
+      <Deferred>
+        <Flex direction="column" gap={defaultGap}>
+          <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
+            {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
+          </pre>
+          <Flex gap={defaultGap} justify='space-around'>
+            <Flex direction="column" gap={10}>
+              <ScoringStat stat={simRequest.simBody ? t(`common:ReadableStats.${simRequest.simBody as MainStats}`) : ''} part={Parts.Body}/>
+              <ScoringStat stat={simRequest.simFeet ? t(`common:ReadableStats.${simRequest.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
+              <ScoringStat stat={simRequest.simPlanarSphere ? t(`common:ReadableStats.${simRequest.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
+              <ScoringStat stat={simRequest.simLinkRope ? t(`common:ReadableStats.${simRequest.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Deferred>
+
+      {/* Ability damage */}
+      <Deferred>
+        <Flex direction="column" gap={20} className={classes.abilityDamageSection}>
+          <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
+            {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
+          </pre>
+          <AbilityDamageSummary
+            simResult={props.simulation.result!}
+          />
+        </Flex>
+      </Deferred>
     </Flex>
   )
 }
@@ -237,7 +250,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   if (!simScoringResult || !result) return null
 
   return (
-    <DeferredRenderProvider resetKey={result}>
+    <DeferredRenderProvider resetKey={characterId}>
       <Flex direction="column" gap={15} align='center' className={classes.rootContainer}>
         {/* Grade ruler — renders immediately (not deferred) */}
         <Flex align='center' direction="column" gap={5}>
@@ -257,27 +270,27 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         </Flex>
 
         {/* Substat upgrade table */}
-        <Deferred>
+        <Profiler id="SubstatUpgradeTable" onRender={logRender}><Deferred>
           <Flex gap={defaultGap} direction="column" w='100%' align='center'>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
             </pre>
             <DpsScoreSubstatUpgradesTable simScore={result}/>
           </Flex>
-        </Deferred>
+        </Deferred></Profiler>
 
         {/* Main stat upgrade table */}
-        <Deferred>
+        <Profiler id="MainStatUpgradeTable" onRender={logRender}><Deferred>
           <Flex gap={defaultGap} direction="column" w='100%' align='center'>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')}
             </pre>
             <DpsScoreMainStatUpgradesTable simScore={result}/>
           </Flex>
-        </Deferred>
+        </Deferred></Profiler>
 
         {/* Relic rarity + individual relic cards (each deferred internally) */}
-        <Deferred>
+        <Profiler id="RelicRarity" onRender={logRender}><Deferred>
           <Flex gap={defaultGap} direction="column" className={classes.relicRaritySection} align='center'>
             <ColorizedTitleWithInfo
               text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
@@ -292,10 +305,10 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
               scoringType={ScoringType.COMBAT_SCORE}
             />
           </Flex>
-        </Deferred>
+        </Deferred></Profiler>
 
         {/* Simulated benchmarks — outer row always rendered, each column deferred */}
-        <Deferred>
+        <Profiler id="SimBenchmarks" onRender={logRender}><Deferred>
           <Flex direction="column" align='center' gap={15} className={classes.deferredSection}>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
@@ -369,12 +382,12 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
               </Deferred>
             </Flex>
           </Flex>
-        </Deferred>
+        </Deferred></Profiler>
 
         {/* Scoring columns — each deferred individually */}
         {characterId && characterMetadata && elementalDmgValue && element && (
           <Flex className={classes.deferredSection}>
-            <Deferred>
+            <Profiler id="ScoringCol-Character" onRender={logRender}><Deferred>
               <ScoringColumn
                 simulation={result.originalSim}
                 originalSimResult={simScoringResult.originalSimResult}
@@ -386,13 +399,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred>
+            </Deferred></Profiler>
 
             <Flex direction="column">
               <Divider orientation='vertical' className={classes.columnDivider}/>
             </Flex>
 
-            <Deferred>
+            <Profiler id="ScoringCol-Benchmark" onRender={logRender}><Deferred>
               <ScoringColumn
                 simulation={result.benchmarkSim}
                 originalSimResult={simScoringResult.benchmarkSimResult}
@@ -404,13 +417,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred>
+            </Deferred></Profiler>
 
             <Flex direction="column">
               <Divider orientation='vertical' className={classes.columnDivider}/>
             </Flex>
 
-            <Deferred>
+            <Profiler id="ScoringCol-Perfect" onRender={logRender}><Deferred>
               <ScoringColumn
                 simulation={result.maximumSim}
                 originalSimResult={simScoringResult.maximumSimResult}
@@ -422,12 +435,12 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred>
+            </Deferred></Profiler>
           </Flex>
         )}
 
         {/* Buffs analysis */}
-        <Deferred>
+        <Profiler id="BuffsAnalysis" onRender={logRender}><Deferred>
           <Flex direction="column" align='center' w='100%' className={classes.deferredSection}>
             <pre className={classes.sectionTitle}>
               {
@@ -438,7 +451,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             </pre>
             <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE} twoColumn/>
           </Flex>
-        </Deferred>
+        </Deferred></Profiler>
       </Flex>
     </DeferredRenderProvider>
   )

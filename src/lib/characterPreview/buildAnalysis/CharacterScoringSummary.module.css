@@ -27,6 +27,12 @@
 
 .rootContainer {
   width: 1100px;
+  contain: layout style;
+}
+
+.deferredSection {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
 }
 
 .mainTitle {

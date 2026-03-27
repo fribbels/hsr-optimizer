@@ -20,10 +20,8 @@
   border-radius: var(--radius-md);
   overflow: hidden;
   padding: 10px;
-  background: var(--bg-translucent);
+  background: var(--panel-bg);
   box-shadow: var(--card-shadow-flat);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
   border: var(--subtle-border);
 }
 

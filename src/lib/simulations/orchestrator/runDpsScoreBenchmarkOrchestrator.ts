@@ -53,12 +53,12 @@ export async function executeOrchestrator(
   orchestrator: BenchmarkSimulationOrchestrator,
   onScoreReady?: () => void,
 ): Promise<BenchmarkSimulationOrchestrator> {
-  // Clone context once for both phases — the clone is read-only on the main
-  // thread (only sent to workers via postMessage) so it's safe to reuse.
-  const clonedContext = clone(orchestrator.context!)
+  // Context is only forwarded to workers via postMessage, which does its own
+  // structured clone. No need to pre-clone on the main thread.
+  const context = orchestrator.context!
 
-  await orchestrator.calculateBenchmark(clonedContext)
-  await orchestrator.calculatePerfection(clonedContext)
+  await orchestrator.calculateBenchmark(context)
+  await orchestrator.calculatePerfection(context)
 
   orchestrator.calculateScores()
   // Initialize empty upgrades so the early SimulationScore is structurally valid
@@ -100,17 +100,18 @@ export function resolveDpsScoreSimulationMetadata(
     return null
   }
 
-  const customSimulation = clone(getScoringMetadata(characterId).simulation)
-  const simulation = clone(getGameMetadata().characters[characterId].scoringMetadata.simulation)
+  const customSimulation = getScoringMetadata(characterId).simulation
+  const defaultSimulation = getGameMetadata().characters[characterId].scoringMetadata.simulation
 
-  if (!simulation || !customSimulation) {
+  if (!defaultSimulation || !customSimulation) {
     console.log('No scoring sim defined for this character')
     return null
   }
 
-  // Merge any necessary configs from the custom metadata
+  // Shallow copy — only .teammates and .deprioritizeBuffs are reassigned
+  const simulation = { ...defaultSimulation }
 
-  simulation.teammates = getTeammates(teamSelection, customSimulation, simulation, buildOverride)
+  simulation.teammates = getTeammates(teamSelection, customSimulation, defaultSimulation, buildOverride)
   simulation.deprioritizeBuffs = buildOverride != undefined && 'deprioritizeBuffs' in buildOverride
     ? buildOverride.deprioritizeBuffs
     : customSimulation.deprioritizeBuffs ?? false

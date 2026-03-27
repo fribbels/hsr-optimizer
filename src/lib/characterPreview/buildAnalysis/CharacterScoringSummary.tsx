@@ -26,16 +26,12 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import { memo, Profiler } from 'react'
+import { memo } from 'react'
 import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { type CharacterId } from 'types/character'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
-
-const logRender = (id: string, _phase: string, actualDuration: number) => {
-  if (actualDuration > 1) console.log(`[deferred] ${id}: ${actualDuration.toFixed(1)}ms`)
-}
 
 function ScoringSet(props: {
   set: string
@@ -139,11 +135,11 @@ function ScoringColumn(props: {
       {/* Header + Basic stats */}
       <Deferred>
         <Flex direction="column" gap={defaultGap}>
-          <Flex justify='space-around'>
+          <div>
             <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
               <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: truncate10ths(precisionRound(props.percent * 100)) })}</u>
             </pre>
-          </Flex>
+          </div>
         </Flex>
 
         <Flex direction="column" gap={defaultGap} className={classes.statPreviewSection}>
@@ -253,7 +249,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
     <DeferredRenderProvider resetKey={characterId}>
       <Flex direction="column" gap={15} align='center' className={classes.rootContainer}>
         {/* Grade ruler */}
-        <Profiler id="GradeRuler" onRender={logRender}><Deferred>
+        <Deferred>
           <Flex align='center' direction="column" gap={5}>
             <pre className={classes.mainTitle}>
               <ColorizedTitleWithInfo
@@ -269,30 +265,30 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
               benchmark={result.benchmarkSimScore}
             />
           </Flex>
-        </Deferred></Profiler>
+        </Deferred>
 
         {/* Substat upgrade table */}
-        <Profiler id="SubstatUpgradeTable" onRender={logRender}><Deferred>
+        <Deferred>
           <Flex gap={defaultGap} direction="column" w='100%' align='center'>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
             </pre>
             <DpsScoreSubstatUpgradesTable simScore={result}/>
           </Flex>
-        </Deferred></Profiler>
+        </Deferred>
 
         {/* Main stat upgrade table */}
-        <Profiler id="MainStatUpgradeTable" onRender={logRender}><Deferred>
+        <Deferred>
           <Flex gap={defaultGap} direction="column" w='100%' align='center'>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')}
             </pre>
             <DpsScoreMainStatUpgradesTable simScore={result}/>
           </Flex>
-        </Deferred></Profiler>
+        </Deferred>
 
         {/* Relic rarity + individual relic cards (each deferred internally) */}
-        <Profiler id="RelicRarity" onRender={logRender}><Deferred>
+        <Deferred>
           <Flex gap={defaultGap} direction="column" className={classes.relicRaritySection} align='center'>
             <ColorizedTitleWithInfo
               text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
@@ -307,10 +303,10 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
               scoringType={ScoringType.COMBAT_SCORE}
             />
           </Flex>
-        </Deferred></Profiler>
+        </Deferred>
 
         {/* Simulated benchmarks — outer row always rendered, each column deferred */}
-        <Profiler id="SimBenchmarks" onRender={logRender}><Deferred>
+        <Deferred>
           <Flex direction="column" align='center' gap={15} className={classes.deferredSection}>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
@@ -384,12 +380,12 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
               </Deferred>
             </Flex>
           </Flex>
-        </Deferred></Profiler>
+        </Deferred>
 
         {/* Scoring columns — each deferred individually */}
         {characterId && characterMetadata && elementalDmgValue && element && (
           <Flex className={classes.deferredSection}>
-            <Profiler id="ScoringCol-Character" onRender={logRender}><Deferred>
+            <Deferred>
               <ScoringColumn
                 simulation={result.originalSim}
                 originalSimResult={simScoringResult.originalSimResult}
@@ -401,13 +397,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred></Profiler>
+            </Deferred>
 
-            <Flex direction="column">
+            <div>
               <Divider orientation='vertical' className={classes.columnDivider}/>
-            </Flex>
+            </div>
 
-            <Profiler id="ScoringCol-Benchmark" onRender={logRender}><Deferred>
+            <Deferred>
               <ScoringColumn
                 simulation={result.benchmarkSim}
                 originalSimResult={simScoringResult.benchmarkSimResult}
@@ -419,13 +415,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred></Profiler>
+            </Deferred>
 
-            <Flex direction="column">
+            <div>
               <Divider orientation='vertical' className={classes.columnDivider}/>
-            </Flex>
+            </div>
 
-            <Profiler id="ScoringCol-Perfect" onRender={logRender}><Deferred>
+            <Deferred>
               <ScoringColumn
                 simulation={result.maximumSim}
                 originalSimResult={simScoringResult.maximumSimResult}
@@ -437,12 +433,12 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred></Profiler>
+            </Deferred>
           </Flex>
         )}
 
         {/* Buffs analysis */}
-        <Profiler id="BuffsAnalysis" onRender={logRender}><Deferred>
+        <Deferred>
           <Flex direction="column" align='center' w='100%' className={classes.deferredSection}>
             <pre className={classes.sectionTitle}>
               {
@@ -453,7 +449,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             </pre>
             <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE} twoColumn/>
           </Flex>
-        </Deferred></Profiler>
+        </Deferred>
       </Flex>
     </DeferredRenderProvider>
   )

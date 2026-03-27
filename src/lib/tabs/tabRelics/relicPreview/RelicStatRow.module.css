@@ -1,0 +1,20 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statLabel {
+  display: flex;
+}
+
+.substatValue {
+  display: flex;
+  justify-content: space-between;
+  width: 41.5%;
+}
+
+.rollsContainer {
+  display: flex;
+  align-items: center;
+}

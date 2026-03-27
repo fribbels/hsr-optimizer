@@ -1,14 +1,14 @@
-import { Flex } from '@mantine/core'
 import { type SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import iconClasses from 'style/icons.module.css'
 import { Renderer } from 'lib/rendering/renderer'
-import { useTranslation } from 'react-i18next'
 import { isFlat } from 'lib/utils/statUtils'
+import type { TFunction } from 'i18next'
 import type {
   Relic,
   StatRolls,
 } from 'types/relic'
+import styles from './RelicStatRow.module.css'
 
 export type SubstatDetails = {
   stat: SubStats,
@@ -17,8 +17,7 @@ export type SubstatDetails = {
   addedRolls?: number,
 }
 
-export function RelicStatRow({ stat, main, relic, isPreview = false }: { stat: SubstatDetails; main: boolean; relic: Relic; isPreview?: boolean }) {
-  const { t } = useTranslation('common')
+export function RelicStatRow({ stat, main, relic, isPreview = false, t }: { stat: SubstatDetails; main: boolean; relic: Relic; isPreview?: boolean; t: TFunction }) {
   if (!stat?.stat || stat.value == null) {
     return (
       <img
@@ -37,25 +36,25 @@ export function RelicStatRow({ stat, main, relic, isPreview = false }: { stat: S
   displayValue += isFlat(stat.stat) ? '' : '%'
 
   return (
-    <Flex justify='space-between' align='center' style={{ opacity: isPreview ? 0.4 : 1 }}>
-      <Flex>
+    <div className={styles.row} style={isPreview ? { opacity: 0.4 } : undefined}>
+      <div className={styles.statLabel}>
         <img
           src={Assets.getStatIcon(stat.stat)}
           className={iconClasses.statIcon}
         />
         {t(`ReadableStats.${stat.stat}`)}
-      </Flex>
+      </div>
       {!main
         ? (
-          <Flex justify='space-between' w='41.5%'>
-            <Flex align='center'>
+          <div className={styles.substatValue}>
+            <div className={styles.rollsContainer}>
               {generateRolls(stat)}
-            </Flex>
+            </div>
             {displayValue}
-          </Flex>
+          </div>
         )
         : <>{displayValue}</>}
-    </Flex>
+    </div>
   )
 }
 

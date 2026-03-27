@@ -28,6 +28,7 @@ import type {
 } from 'lib/worker/estTbpWorkerRunner'
 import { runEstTbpWorker } from 'lib/worker/estTbpWorkerRunner'
 import {
+  memo,
   useEffect,
   useState,
 } from 'react'
@@ -110,7 +111,7 @@ function LoadingSpinner() {
   )
 }
 
-export function RelicContainer({ ready, relicAnalysis, withoutPreview, horizontal }: {
+export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysis, withoutPreview, horizontal }: {
   ready: boolean
   relicAnalysis?: RelicAnalysis
   withoutPreview?: boolean
@@ -151,9 +152,11 @@ export function RelicContainer({ ready, relicAnalysis, withoutPreview, horizonta
       <RelicAnalysisCard relicAnalysis={relicAnalysis} />
     </Flex>
   )
-}
+})
 
 function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: RelicAnalysis; horizontal?: boolean }) {
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
+
   if (!relicAnalysis) {
     return <div className={styles.innerCard} />
   }
@@ -163,12 +166,12 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
       <Flex className={styles.fullWidth} gap={10} style={{ height: '100%' }}>
         <Flex direction="column" gap={10} style={{ width: 260, flexShrink: 0 }}>
           <Flex className={styles.metricRow} gap={10} style={{ height: 'auto', flex: 1 }}>
-            <MetricCard relicAnalysis={relicAnalysis} index={0} />
-            <MetricCard relicAnalysis={relicAnalysis} index={1} />
+            <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
+            <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
           </Flex>
         </Flex>
         <Flex className={styles.rollsCard} gap={10} style={{ flex: 1 }}>
-          <RollsCard relicAnalysis={relicAnalysis} />
+          <RollsCard relicAnalysis={relicAnalysis} t={t} />
         </Flex>
       </Flex>
     )
@@ -177,19 +180,18 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
   return (
     <Flex direction="column" className={styles.fullWidth} gap={10}>
       <Flex className={styles.metricRow} gap={10}>
-        <MetricCard relicAnalysis={relicAnalysis} index={0} />
-        <MetricCard relicAnalysis={relicAnalysis} index={1} />
+        <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
+        <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
       </Flex>
       <Flex className={styles.rollsCard} gap={10}>
-        <RollsCard relicAnalysis={relicAnalysis} />
+        <RollsCard relicAnalysis={relicAnalysis} t={t} />
       </Flex>
     </Flex>
   )
 }
 
-function RollsCard({ relicAnalysis }: { relicAnalysis: RelicAnalysis }) {
-
-  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.RollsCard' })
+function RollsCard({ relicAnalysis, t: tParent }: { relicAnalysis: RelicAnalysis, t: (key: string) => string }) {
+  const t = (key: string) => tParent(`RollsCard.${key}`)
 
   const percent = relicAnalysis?.currentPotential ?? 0
   const percentDisplay = localeNumber_0(percent)
@@ -228,8 +230,8 @@ function RollsCard({ relicAnalysis }: { relicAnalysis: RelicAnalysis }) {
   )
 }
 
-function MetricCard({ relicAnalysis, index }: { relicAnalysis: RelicAnalysis, index: number }) {
-  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.MetricsCard' })
+function MetricCard({ relicAnalysis, index, t: tParent }: { relicAnalysis: RelicAnalysis, index: number, t: (key: string) => string }) {
+  const t = (key: string) => tParent(`MetricsCard.${key}`)
 
   const textTop = index === 0 ? t('Days') : t('Rolls')
   const textBottom = index === 0 ? t('TBP') : t('Potential')
@@ -306,17 +308,17 @@ function RollLine({ substat, weights }: { substat: RelicSubstatMetadata | null, 
   for (let i = 0; i < rolls.low; i++) display.push(<LowRoll key={key++} />)
 
   return (
-    <Flex className={styles.rollLine} style={{ opacity: (weight ? 1 : 0.05) }} justify='space-between'>
-      <Flex align='flex-end'>
+    <div className={styles.rollLine} style={weight ? undefined : { opacity: 0.05 }}>
+      <div className={styles.rollLineInner}>
         <img
           className={iconClasses.statIconWide}
           src={Assets.getStatIcon(substat.stat)}
         />
         {display}
-      </Flex>
+      </div>
       <div>
         ⨯ {weightDisplay}
       </div>
-    </Flex>
+    </div>
   )
 }

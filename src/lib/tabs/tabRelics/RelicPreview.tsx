@@ -61,6 +61,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
   unhoverable?: boolean,
   compact?: boolean,
 }) {
+  const { t } = useTranslation('common')
   const {
     source,
     characterId,
@@ -159,28 +160,28 @@ export const RelicPreview = memo(function RelicPreview(props: {
 
           <Divider style={{ margin: DIVIDER_MARGIN }} />
 
-          <RelicStatRow stat={relic.main as SubstatDetails} main={true} relic={relic} />
+          <RelicStatRow stat={relic.main as SubstatDetails} main={true} relic={relic} t={t} />
 
           <Divider style={{ margin: DIVIDER_MARGIN }} />
 
           <Flex direction="column" gap={STAT_GAP}>
-            {relic.substats.map((s, idx) => <RelicStatRow key={`substats-${idx}`} stat={s} main={false} relic={relic} />)}
-            {relic.previewSubstats.map((s, idx) => <RelicStatRow key={`previews-${idx}`} stat={s} main={false} relic={relic} isPreview={true} />)}
-            {fillerStats.map((x, idx) => <RelicStatRow key={`fillers-${idx}`} stat={x} main={false} relic={relic} />)}
+            {relic.substats.map((s, idx) => <RelicStatRow key={`substats-${idx}`} stat={s} main={false} relic={relic} t={t} />)}
+            {relic.previewSubstats.map((s, idx) => <RelicStatRow key={`previews-${idx}`} stat={s} main={false} relic={relic} isPreview={true} t={t} />)}
+            {fillerStats.map((x, idx) => <RelicStatRow key={`fillers-${idx}`} stat={x} main={false} relic={relic} t={t} />)}
           </Flex>
 
-          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} dividerMargin={DIVIDER_MARGIN} />}
+          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} dividerMargin={DIVIDER_MARGIN} t={t} />}
         </Flex>
       </RelicStatText>
     </Paper>
   )
 })
 
-function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string }) {
-  const { t } = useTranslation('common')
+function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string; t: (key: string) => string }) {
   const {
     score,
     dividerMargin,
+    t,
   } = props
 
   let icon: string = Assets.getBlank()

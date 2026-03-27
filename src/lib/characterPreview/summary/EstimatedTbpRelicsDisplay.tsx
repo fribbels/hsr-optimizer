@@ -1,5 +1,5 @@
 import { Flex, Loader } from '@mantine/core'
-import { useDeferredSlot } from 'lib/ui/DeferredRender'
+import { Deferred, useDeferredSlot } from 'lib/ui/DeferredRender'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import type {
   EnrichedRelics,
@@ -179,13 +179,17 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
 
   return (
     <Flex direction="column" className={styles.fullWidth} gap={10}>
-      <Flex className={styles.metricRow} gap={10}>
-        <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
-        <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
-      </Flex>
-      <Flex className={styles.rollsCard} gap={10}>
-        <RollsCard relicAnalysis={relicAnalysis} t={t} />
-      </Flex>
+      <Deferred>
+        <Flex className={styles.metricRow} gap={10}>
+          <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
+          <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
+        </Flex>
+      </Deferred>
+      <Deferred>
+        <Flex className={styles.rollsCard} gap={10}>
+          <RollsCard relicAnalysis={relicAnalysis} t={t} />
+        </Flex>
+      </Deferred>
     </Flex>
   )
 }

@@ -252,22 +252,24 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   return (
     <DeferredRenderProvider resetKey={characterId}>
       <Flex direction="column" gap={15} align='center' className={classes.rootContainer}>
-        {/* Grade ruler — renders immediately (not deferred) */}
-        <Flex align='center' direction="column" gap={5}>
-          <pre className={classes.mainTitle}>
-            <ColorizedTitleWithInfo
-              text={t('CharacterPreview.BuildAnalysis.Header')}
-              url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
+        {/* Grade ruler */}
+        <Profiler id="GradeRuler" onRender={logRender}><Deferred>
+          <Flex align='center' direction="column" gap={5}>
+            <pre className={classes.mainTitle}>
+              <ColorizedTitleWithInfo
+                text={t('CharacterPreview.BuildAnalysis.Header')}
+                url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
+              />
+            </pre>
+            <DPSScoreDisclaimer/>
+            <DpsScoreGradeRuler
+              score={result.originalSimScore}
+              minimum={result.baselineSimScore}
+              maximum={result.maximumSimScore}
+              benchmark={result.benchmarkSimScore}
             />
-          </pre>
-          <DPSScoreDisclaimer/>
-          <DpsScoreGradeRuler
-            score={result.originalSimScore}
-            minimum={result.baselineSimScore}
-            maximum={result.maximumSimScore}
-            benchmark={result.benchmarkSimScore}
-          />
-        </Flex>
+          </Flex>
+        </Deferred></Profiler>
 
         {/* Substat upgrade table */}
         <Profiler id="SubstatUpgradeTable" onRender={logRender}><Deferred>

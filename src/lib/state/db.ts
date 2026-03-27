@@ -407,6 +407,12 @@ export const DB = {
     const override = scoringMetadataOverrides[id]
     const returnScoringMetadata = Utils.mergeUndefinedValues(override || {}, defaultScoringMetadata) as ScoringMetadata
 
+    // Deep-merge simulation: partial overrides (e.g. deprioritizeBuffs) must inherit
+    // default simulation properties (e.g. teammates) that weren't overridden
+    if (override?.simulation && defaultScoringMetadata.simulation) {
+      returnScoringMetadata.simulation = { ...defaultScoringMetadata.simulation, ...override.simulation }
+    }
+
     // POST MIGRATION UNCOMMENT
     // if (scoringMetadataOverrides && scoringMetadataOverrides.modified) {
     //   let statWeightsModified = false

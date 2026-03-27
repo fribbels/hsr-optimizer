@@ -196,13 +196,14 @@ export function useDeferredSlot(): boolean {
   }
 
   const ticket = ticketRef.current?.ticket ?? 0
+  const generation = ticketRef.current?.generation ?? 0
 
   const subscribe = useCallback(
     queue
       ? (cb: Listener) => queue.subscribe(ticket, cb)
       : noopSubscribe,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [queue, ticket],
+    [queue, ticket, generation],
   )
 
   const getSnapshot = useCallback(
@@ -210,7 +211,7 @@ export function useDeferredSlot(): boolean {
       ? () => queue.isVisible(ticket)
       : alwaysTrue,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [queue, ticket],
+    [queue, ticket, generation],
   )
 
   return useSyncExternalStore(subscribe, getSnapshot)

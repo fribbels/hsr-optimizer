@@ -27,7 +27,7 @@ import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { memo } from 'react'
-import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
+import { Deferred, DeferredRenderProvider, useDeferredSlot } from 'lib/ui/DeferredRender'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { type CharacterId } from 'types/character'
@@ -113,6 +113,9 @@ function ScoringColumn(props: {
 
 }) {
   const { t } = useTranslation(['charactersTab', 'common'])
+  const visible = useDeferredSlot()
+
+  if (!visible) return null
 
   const simRequest = props.simulation.request
   const simResult = props.simulation.result!

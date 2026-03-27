@@ -46,13 +46,10 @@ const previewCache: Record<string, PreparedState> = {}
 // avoiding spurious re-renders of components watching different keys.
 
 const listenersByKey = new Map<string, Set<() => void>>()
-const globalListeners = new Set<() => void>()
+const noop = () => {}
 
 export function subscribeToCacheUpdates(cacheKey: string | null, listener: () => void): () => void {
-  if (!cacheKey) {
-    globalListeners.add(listener)
-    return () => globalListeners.delete(listener)
-  }
+  if (!cacheKey) return noop
   let set = listenersByKey.get(cacheKey)
   if (!set) {
     set = new Set()
@@ -67,7 +64,6 @@ export function subscribeToCacheUpdates(cacheKey: string | null, listener: () =>
 
 function notifyListeners(cacheKey: string) {
   listenersByKey.get(cacheKey)?.forEach((cb) => cb())
-  globalListeners.forEach((cb) => cb())
 }
 
 // --- Public API ---

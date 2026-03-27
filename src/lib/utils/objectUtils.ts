@@ -31,13 +31,15 @@ export function flipStringMapping(obj: Record<string, string>): Record<string, s
 
 /**
  * Copy defined (non-null/undefined) values from source onto target's existing keys.
+ * Object/array values are deep-cloned to prevent shared-reference mutations from corrupting the source.
  * Mutates and returns target.
  */
 export function mergeDefinedValues<T extends Record<string, unknown>>(target: T, source: Partial<T> | undefined): T {
   if (!source) return target
   for (const key of Object.keys(target) as Array<keyof T>) {
     if (source[key] != null) {
-      target[key] = source[key] as T[keyof T]
+      const val = source[key]
+      target[key] = (val && typeof val === 'object' ? clone(val) : val) as T[keyof T]
     }
   }
   return target
@@ -45,12 +47,14 @@ export function mergeDefinedValues<T extends Record<string, unknown>>(target: T,
 
 /**
  * Fill undefined keys in target with values from source.
+ * Object/array values are deep-cloned to prevent shared-reference mutations from corrupting the source.
  * Mutates and returns target.
  */
 export function mergeUndefinedValues<T extends Record<string, unknown>>(target: T, source: Partial<T>): T {
   for (const key of Object.keys(source) as Array<keyof T>) {
     if (target[key] == null) {
-      target[key] = source[key] as T[keyof T]
+      const val = source[key]
+      target[key] = (val && typeof val === 'object' ? clone(val) : val) as T[keyof T]
     }
   }
   return target

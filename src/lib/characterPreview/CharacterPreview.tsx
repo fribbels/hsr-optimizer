@@ -28,6 +28,8 @@ import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScor
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { resolveShowcaseLayout } from 'lib/characterPreview/useShowcaseDerivedData'
 import { resolveShowcaseColor, resolveShowcaseTheme } from 'lib/characterPreview/color/showcaseColorService'
+import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
+import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
 import {
   cardTotalW,
   defaultGap,
@@ -243,6 +245,28 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const [insetOpacity, setInsetOpacity] = useState(INSET_OPACITY)
   const portraitFilter = buildPortraitFilter(portraitBlur, portraitBrightness, portraitSaturate)
 
+  // OKLCH pipeline debug sliders
+  const [debugMaxC, setDebugMaxC] = useState(DEFAULT_CONFIG.cardBg.maxC) // 0.07
+  const [debugMinC, setDebugMinC] = useState(DEFAULT_CONFIG.cardBg.minC)
+  const [debugChromaScale, setDebugChromaScale] = useState(DEFAULT_CONFIG.cardBg.chromaScale)
+  const [debugTargetL, setDebugTargetL] = useState(DEFAULT_CONFIG.cardBg.targetL)
+  const [debugDarkCScale, setDebugDarkCScale] = useState(DEFAULT_CONFIG.darkMode.cScale)
+
+  const debugConfig = useMemo<ColorPipelineConfig>(() => ({
+    ...DEFAULT_CONFIG,
+    cardBg: {
+      ...DEFAULT_CONFIG.cardBg,
+      maxC: debugMaxC,
+      minC: debugMinC,
+      chromaScale: debugChromaScale,
+      targetL: debugTargetL,
+    },
+    darkMode: {
+      ...DEFAULT_CONFIG.darkMode,
+      cScale: debugDarkCScale,
+    },
+  }), [debugMaxC, debugMinC, debugChromaScale, debugTargetL, debugDarkCScale])
+
   const state = useCharacterPreviewState(source, rawCharacter, savedBuildOverride)
 
   const displayRelics = state.previewRelics?.displayRelics ?? null
@@ -277,8 +301,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   const derivedShowcaseTheme = useMemo(
-    () => resolveShowcaseTheme(seedColor, state.darkMode),
-    [seedColor, state.darkMode],
+    () => resolveShowcaseTheme(seedColor, state.darkMode, debugConfig),
+    [seedColor, state.darkMode, debugConfig],
   )
 
   useEffect(() => {
@@ -393,6 +417,13 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           { label: 'Blur', value: insetBlur, min: 0, max: 8, step: 0.5, onChange: setInsetBlur },
           { label: 'Opacity', value: insetOpacity, min: 0, max: 1, step: 0.05, onChange: setInsetOpacity },
         ]},
+        { title: 'OKLCH Pipeline', sliders: [
+          { label: 'Max Chroma', value: debugMaxC, min: 0.03, max: 0.18, step: 0.002, onChange: setDebugMaxC },
+          { label: 'Min Chroma', value: debugMinC, min: 0.00, max: 0.10, step: 0.002, onChange: setDebugMinC },
+          { label: 'Chroma Scale', value: debugChromaScale, min: 0.1, max: 2.0, step: 0.02, onChange: setDebugChromaScale },
+          { label: 'Target L', value: debugTargetL, min: 0.15, max: 0.60, step: 0.01, onChange: setDebugTargetL },
+          { label: 'Dark C Scale', value: debugDarkCScale, min: 0.5, max: 1.0, step: 0.02, onChange: setDebugDarkCScale },
+        ]},
       ]} />
       {
         /*
@@ -434,14 +465,17 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           gap: defaultGap,
         } as React.CSSProperties}
       >
-        {/* Background */}
-        <div
-          data-portrait-bg
-          style={{
-            backgroundImage: `url(${portraitUrl})`,
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: '150%',
+        {/* Background — positioned using charCenter so the color hotspot aligns with the portrait */}
+        {(() => {
+          const bgZoom = Math.max(displayDimensions.charCenter.z, 1.5)
+          const bgScale = bgZoom / 2 * cardTotalW / 1024
+          return <div
+            data-portrait-bg
+            style={{
+              backgroundImage: `url(${portraitUrl})`,
+              backgroundPosition: `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2}px`,
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: `${cardTotalW * bgZoom}px auto`,
             position: 'absolute',
             top: 0,
             left: 0,
@@ -451,7 +485,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             filter: portraitFilter,
             WebkitFilter: portraitFilter,
           }}
-        />
+          />
+        })()}
 
         {/* Portrait left panel */}
         <div className='character-build-portrait' style={{ display: 'flex', flexDirection: 'column', gap: 8, zIndex: 1 }}>

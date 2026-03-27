@@ -2,6 +2,7 @@ import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigReg
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import type { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import { oklchCardBackgroundColor, oklchCardBorderColor } from 'lib/characterPreview/color/colorUtilsOklch'
+import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { CharacterId } from 'types/character'
 import type { ShowcasePreferences } from 'types/metadata'
 
@@ -62,9 +63,9 @@ export function resolveShowcaseColor(
 /**
  * Derives the card theme (background + border colors) from a seed color and dark mode flag.
  */
-export function resolveShowcaseTheme(seedColor: string, darkMode: boolean): ShowcaseTheme {
+export function resolveShowcaseTheme(seedColor: string, darkMode: boolean, config?: ColorPipelineConfig): ShowcaseTheme {
   return {
-    cardBackgroundColor: oklchCardBackgroundColor(seedColor, darkMode),
-    cardBorderColor: oklchCardBorderColor(seedColor, darkMode),
+    cardBackgroundColor: oklchCardBackgroundColor(seedColor, darkMode, config),
+    cardBorderColor: oklchCardBorderColor(seedColor, darkMode, config),
   }
 }

@@ -99,7 +99,7 @@ describe('useScoringStore', () => {
     // mergeUndefinedValues. When no override exists for a nested field (e.g. simulation),
     // the returned object holds a direct reference to the singleton. Mutating it would
     // corrupt game metadata for ALL future callers.
-    it.fails('mutating getScoringMetadata simulation does not corrupt game metadata', () => {
+    it('mutating getScoringMetadata simulation does not corrupt game metadata', () => {
       const defaults = kafkaDefaults()
       expect(defaults.simulation).toBeDefined()
       const originalCount = defaults.simulation!.teammates.length

@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   getStatRenderValues,
   StatRow,
@@ -27,17 +26,16 @@ export function StatsDiffCard({ analysis }: {
   const portraitHeight = basePortraitHeight + extraHeight
 
   return (
-    <Flex
+    <div
       className={classes.outerCard}
-      h={cardHeight}
-      gap={10}
+      style={{ display: 'flex', height: cardHeight, gap: 10 }}
     >
       <CardImage analysis={analysis} portraitHeight={portraitHeight} />
 
       <div className={classes.statsPanel}>
         <StatDiffSummary analysis={analysis} />
       </div>
-    </Flex>
+    </div>
   )
 }
 
@@ -61,7 +59,7 @@ function StatDiffSummary({ analysis }: { analysis: OptimizerResultAnalysis }) {
 
   return (
     <StatText style={{ width: '100%' }}>
-      <Flex direction="column" gap={5}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
         <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG' />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.HP} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ATK} />
@@ -78,7 +76,7 @@ function StatDiffSummary({ analysis }: { analysis: OptimizerResultAnalysis }) {
         {analysis.extraRows.map((stat) => (
           <DiffRow key={stat} oldStats={oldStats} newStats={newStats} stat={stat} />
         ))}
-      </Flex>
+      </div>
     </StatText>
   )
 }
@@ -99,7 +97,7 @@ function DiffRow({ oldStats, newStats, stat }: {
   )
 
   return (
-    <Flex gap={12} align='center'>
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
       <div className={classes.oldStatColumn}>
         <StatRow finalStats={oldStats} stat={stat === 'COMBO_DMG' ? 'simScore' : stat} value={stat === 'COMBO_DMG' ? oldValue : undefined} />
       </div>
@@ -108,12 +106,12 @@ function DiffRow({ oldStats, newStats, stat }: {
         ➤
       </span>
 
-      <Flex className={classes.newValueColumn} justify='end'>
+      <div className={classes.newValueColumn} style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <RenderValue value={valueDisplay} stat={stat} />
-      </Flex>
+      </div>
 
       <DiffRender oldValue={oldValue} newValue={newValue} stat={stat} />
-    </Flex>
+    </div>
   )
 }
 
@@ -137,12 +135,12 @@ function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: 
   const { valueDisplay } = getStatDiffRenderValues(diff, diff, stat)
 
   return (
-    <Flex style={{ color: color, width: 90 }} gap={10} justify='end' align='center'>
+    <div style={{ display: 'flex', color: color, width: 90, gap: 10, justifyContent: 'flex-end', alignItems: 'center' }}>
       <RenderValue value={valueDisplay} stat={stat} comboDiff={true} />
       <span className={classes.arrowIcon}>
         {icon}
       </span>
-    </Flex>
+    </div>
   )
 }
 

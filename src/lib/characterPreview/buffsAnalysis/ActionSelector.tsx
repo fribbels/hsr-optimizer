@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   ABILITY_COLORS,
   ACTION_COLORS,
@@ -51,7 +50,7 @@ export function ActionSelector({ rotationSteps, selectedAction, onActionChange }
   const items = [defaultItem, ...stepItems]
 
   return (
-    <Flex justify='center' align='center' wrap='wrap' className={classes.selectorBar}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }} className={classes.selectorBar}>
       {items.map((item) => (
         <span
           key={item.index}
@@ -62,6 +61,6 @@ export function ActionSelector({ rotationSteps, selectedAction, onActionChange }
           {item.label}
         </span>
       ))}
-    </Flex>
+    </div>
   )
 }

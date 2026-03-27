@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { relicCardH } from 'lib/constants/constantsUi'
 import { RelicInsightsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import { BottomToolbar } from 'lib/tabs/tabRelics/bottomDock/BottomToolbar'
@@ -6,14 +5,14 @@ import { ScoredRelicPreview } from 'lib/tabs/tabRelics/bottomDock/ScoredRelicPre
 
 export function BottomDock() {
   return (
-    <Flex direction="column" gap={10}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <BottomToolbar />
-      <Flex gap={10} style={{ minHeight: relicCardH }}>
+      <div style={{ display: 'flex', gap: 10, minHeight: relicCardH }}>
         <ScoredRelicPreview />
         <div style={{ flex: 1, minWidth: 0 }}>
           <RelicInsightsPanel />
         </div>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }

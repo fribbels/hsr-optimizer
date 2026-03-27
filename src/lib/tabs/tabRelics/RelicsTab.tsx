@@ -1,4 +1,4 @@
-import { Accordion, Flex } from '@mantine/core'
+import { Accordion } from '@mantine/core'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { BottomDock } from 'lib/tabs/tabRelics/bottomDock/BottomDock'
 import { RelicsGrid } from 'lib/tabs/tabRelics/RelicsGrid'
@@ -13,7 +13,7 @@ export function RelicsTab() {
   const { t } = useTranslation('relicsTab')
 
   return (
-    <Flex direction="column" gap={10} style={{ width: TAB_WIDTH, marginBottom: 100 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: TAB_WIDTH, marginBottom: 100 }}>
       <TopBar />
 
       {recentRelics.length > 0 && (
@@ -28,6 +28,6 @@ export function RelicsTab() {
       <RelicsGrid />
 
       <BottomDock />
-    </Flex>
+    </div>
   )
 }

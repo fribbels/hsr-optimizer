@@ -1,5 +1,5 @@
 import { IconEyeOff } from '@tabler/icons-react'
-import { Accordion, Button, Flex } from '@mantine/core'
+import { Accordion, Button } from '@mantine/core'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -26,7 +26,7 @@ export function DPSScoreDisclaimer() {
           </div>
         </Accordion.Control>
         <Accordion.Panel>
-          <Flex direction="column" className={styles.disclaimerPanel} gap={10}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className={styles.disclaimerPanel}>
             <Trans t={t} i18nKey='DisclaimerDescription'>
               Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team.
 
@@ -49,7 +49,7 @@ export function DPSScoreDisclaimer() {
             >
               {tSettings('ShowComboDmgWarning.Hide')}
             </Button>
-          </Flex>
+          </div>
         </Accordion.Panel>
       </Accordion.Item>
     </Accordion>

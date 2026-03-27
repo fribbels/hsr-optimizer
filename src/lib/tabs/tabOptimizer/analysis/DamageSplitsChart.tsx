@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { ChartTooltipContainer, ChartTooltipContent, useChartTooltip } from 'lib/tabs/tabOptimizer/analysis/ChartTooltip'
 import {
   chartColor,
@@ -208,7 +207,7 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
   const tooltipContent = hoveredBar ? renderTooltip(hoveredBar, bars, rows) : null
 
   return (
-    <Flex direction="column" align='center' className='pre-font'>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className='pre-font'>
       <div ref={containerRef} style={{ position: 'relative' }} onMouseMove={handleMouseMove}>
         <BarChart
           layout='vertical'
@@ -258,9 +257,9 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
           {tooltipContent}
         </ChartTooltipContainer>
       </div>
-      <Flex wrap='wrap' justify='center' gap={16} style={{ marginTop: -10, paddingBlock: 8 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 16, marginTop: -10, paddingBlock: 8 }}>
         {legendItems.map((item) => (
-          <Flex key={item.damageType} align='center' gap={6}>
+          <div key={item.damageType} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{
               width: 12,
               height: 12,
@@ -268,10 +267,10 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
               backgroundColor: item.color,
             }} />
             <span style={{ fontSize: 13, color: chartColor }}>{item.label}</span>
-          </Flex>
+          </div>
         ))}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }
 

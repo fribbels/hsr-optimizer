@@ -1,5 +1,5 @@
 import { IconFilter } from '@tabler/icons-react'
-import { Badge, Button, Checkbox, Combobox, Flex, Group, useCombobox } from '@mantine/core'
+import { Badge, Button, Checkbox, Combobox, Group, useCombobox } from '@mantine/core'
 import { type ReactNode, memo, useMemo, useState } from 'react'
 
 export type FilterOption<T> = {
@@ -104,9 +104,9 @@ function FilterPillInner<T extends string | number | boolean>({
                     styles={{ input: { cursor: 'pointer' } }}
                   />
                   {opt.icon && (
-                    <Flex align="center" justify="center" style={{ width: 22, height: 22, flexShrink: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, flexShrink: 0 }}>
                       {opt.icon}
-                    </Flex>
+                    </div>
                   )}
                   <span style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{opt.label}</span>
                 </Group>

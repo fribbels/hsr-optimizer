@@ -1,4 +1,4 @@
-import { Button, Divider, Flex } from '@mantine/core'
+import { Button, Divider } from '@mantine/core'
 import { IconEraser, IconPlus } from '@tabler/icons-react'
 import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
@@ -28,9 +28,9 @@ export function TopBar() {
     : Assets.getBlank()
 
   return (
-    <Flex gap={10} align="stretch">
+    <div style={{ display: 'flex', gap: 10, alignItems: 'stretch' }}>
       {/* Avatar — click opens character select */}
-      <Flex align="center" justify="center" style={{ width: 72, minWidth: 72 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 72, minWidth: 72 }}>
         {focusCharacter
           ? (
             <img
@@ -48,10 +48,11 @@ export function TopBar() {
             />
           )
           : (
-            <Flex
-              align="center"
-              justify="center"
+            <div
               style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 width: 64,
                 height: 64,
                 borderRadius: '50%',
@@ -62,12 +63,12 @@ export function TopBar() {
               onClick={() => setCharSelectOpen(true)}
             >
               <IconPlus size={24} />
-            </Flex>
+            </div>
           )}
-      </Flex>
+      </div>
 
       {/* Character select (top) / Scoring algorithm (bottom) */}
-      <Flex direction="column" gap={6} justify="center" style={{ width: 200, minWidth: 200 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, justifyContent: 'center', width: 200, minWidth: 200 }}>
         <CharacterSelect
           value={focusCharacter}
           selectStyle={{ width: '100%' }}
@@ -79,7 +80,7 @@ export function TopBar() {
         <Button variant="default" onClick={handleScoringClick} size="xs" fullWidth>
           {t('RelicFilterBar.ScoringButton')}
         </Button>
-      </Flex>
+      </div>
 
       <Divider orientation="vertical" mx={4} />
 
@@ -87,7 +88,7 @@ export function TopBar() {
       <FilterPillBar />
 
       {/* Clear */}
-      <Flex align="center" style={{ minWidth: 'fit-content' }}>
+      <div style={{ display: 'flex', alignItems: 'center', minWidth: 'fit-content' }}>
         <Button
           variant="subtle"
           size="xs"
@@ -97,7 +98,7 @@ export function TopBar() {
         >
           {t('RelicFilterBar.Clear')}
         </Button>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }

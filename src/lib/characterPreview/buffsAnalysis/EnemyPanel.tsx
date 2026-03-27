@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   CardHeader,
   CardShell,
@@ -39,11 +38,12 @@ export function EnemyPanel({ avatarSrc, context }: {
     <CardShell avatarSrc={avatarSrc}>
       <CardHeader label='ENEMY' />
       {rows.map((row, i) => (
-        <Flex
+        <div
           key={row.label}
-          align='center'
-          gap={6}
           style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
             ...rowBase,
             borderBottom: i < rows.length - 1 ? `1px solid ${options.borderColor}` : undefined,
           }}
@@ -55,7 +55,7 @@ export function EnemyPanel({ avatarSrc, context }: {
           <span style={sourceLabelStyle}>
             Enemy
           </span>
-        </Flex>
+        </div>
       ))}
     </CardShell>
   )

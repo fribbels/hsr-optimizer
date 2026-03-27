@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
 import { AppPages } from 'lib/constants/appPages'
@@ -71,22 +70,22 @@ function AnalysisRender({ analysis }: { analysis: OptimizerResultAnalysis }) {
   return (
     <FilterContainer>
       <FormRow id={OptimizerMenuIds.analysis}>
-        <Flex justify='space-between' style={{ width: '100%', paddingTop: 4 }} gap={10}>
-          <Flex direction="column" gap={10} style={{ flex: 1 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', paddingTop: 4, gap: 10 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
             <StatsDiffCard analysis={analysis} />
             <DamageSplits analysis={analysis} />
-            <Flex gap={10} align='start'>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <DamageTagPieChart analysis={analysis} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <DamageUpgrades analysis={analysis} />
               </div>
-            </Flex>
-          </Flex>
+            </div>
+          </div>
 
           <BuffsAnalysisDisplay perActionBuffGroups={analysis.perActionBuffGroups} context={analysis.context} />
-        </Flex>
+        </div>
       </FormRow>
     </FilterContainer>
   )

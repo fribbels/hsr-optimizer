@@ -1,4 +1,4 @@
-import { Button, Group, Flex, SegmentedControl, Select, Tooltip } from '@mantine/core'
+import { Button, Group, SegmentedControl, Select, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react'
 import { useMemo } from 'react'
@@ -48,7 +48,7 @@ export function BottomToolbar() {
   ], [t])
 
   return (
-    <Flex justify="space-between" align="center">
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <Group gap={10}>
         <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-color)', height: 30 }} />
         <Button
@@ -110,6 +110,6 @@ export function BottomToolbar() {
           comboboxProps={{ keepMounted: false }}
         />
       </Group>
-    </Flex>
+    </div>
   )
 }

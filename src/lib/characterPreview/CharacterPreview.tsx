@@ -1,4 +1,4 @@
-import { Flex, useMantineTheme } from '@mantine/core'
+import { useMantineTheme } from '@mantine/core'
 import {
   showcaseShadow,
   showcaseShadowInsetAddition,
@@ -375,7 +375,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const scoredRelics = scoringResults.relics ?? EMPTY_SCORED
 
   return (
-    <Flex direction="column" style={{ width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
       <DebugSliderPanel groups={[
         { title: 'Portrait BG Filter', sliders: [
           { label: 'Blur', value: portraitBlur, min: 0, max: 50, step: 1, onChange: setPortraitBlur },
@@ -413,7 +413,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
       {/* Showcase full card — CSS custom properties for card theme allow imperative
           color updates during drag without React re-renders */}
-      <Flex
+      <div
         id={id}
         className='characterPreview'
         style={{
@@ -431,8 +431,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           overflow: 'hidden',
           borderRadius: 6,
           transition: showcaseTransition,
+          gap: defaultGap,
         } as React.CSSProperties}
-        gap={defaultGap}
       >
         {/* Background */}
         <div
@@ -454,7 +454,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         />
 
         {/* Portrait left panel */}
-        <Flex direction="column" gap={8} className='character-build-portrait' style={{ zIndex: 1 }}>
+        <div className='character-build-portrait' style={{ display: 'flex', flexDirection: 'column', gap: 8, zIndex: 1 }}>
           <ShowcasePortrait
             source={source}
             character={character}
@@ -478,13 +478,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
             />
           )}
-        </Flex>
+        </div>
 
         {/* Character details middle panel */}
-        <Flex direction="column" justify='space-between' gap={8}>
-          <Flex
-            direction="column"
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 8 }}>
+          <div
             style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
               width: middleColumnWidth,
               height: '100%',
               borderRadius: 6,
@@ -498,7 +500,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               boxShadow: showcaseShadow + showcaseShadowInsetAddition,
               border: '1px solid var(--showcase-card-border)',
             }}
-            justify='space-between'
           >
             <ShowcaseCharacterHeader
               showcaseMetadata={showcaseMetadata}
@@ -543,7 +544,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 />
               </>
             )}
-          </Flex>
+          </div>
 
           {scoringType !== ScoringType.COMBAT_SCORE && (
             <ShowcaseLightConeLarge
@@ -554,7 +555,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
             />
           )}
-        </Flex>
+        </div>
 
         {/* Relics right panel */}
         <ShowcaseRelicsPanel
@@ -567,7 +568,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           characterId={showcaseMetadata.characterId}
           scoredRelics={scoredRelics}
         />
-      </Flex>
+      </div>
 
       <CharacterAnnouncement
         characterId={showcaseMetadata.characterId}
@@ -586,7 +587,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           setScoringType={state.setScoringType}
         />
       )}
-    </Flex>
+    </div>
   )
 })
 

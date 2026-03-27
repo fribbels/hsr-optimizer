@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import type { ReactNode } from 'react'
 import { useCallback, useRef } from 'react'
 
@@ -44,16 +43,17 @@ export function ChartTooltipContainer({ tooltipRef, visible, children }: {
 
 export function ChartTooltipContent({ children }: { children: ReactNode }) {
   return (
-    <Flex
-      direction="column"
+    <div
       className='pre-font'
       style={{
+        display: 'flex',
+        flexDirection: 'column',
         background: 'var(--mantine-color-dark-5)',
         padding: 8,
         borderRadius: 2,
       }}
     >
       {children}
-    </Flex>
+    </div>
   )
 }

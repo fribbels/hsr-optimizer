@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { CardHeader } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
@@ -147,11 +146,12 @@ function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
       {rows.map((row, i) => {
         const isLastRow = isLastHit && i === rows.length - 1
         return (
-          <Flex
+          <div
             key={i}
-            align='center'
-            gap={6}
             style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
               ...rowBase,
               borderBottom: isLastRow ? undefined : `1px solid ${options.borderColor}`,
             }}
@@ -164,16 +164,16 @@ function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
               {row.label}
             </span>
 
-            <Flex gap={2} style={{ flexShrink: 0 }}>
+            <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
               {tagPills}
-            </Flex>
+            </div>
 
             {fnLabel && (
               <span style={sourceLabelStyle}>
                 {fnLabel}
               </span>
             )}
-          </Flex>
+          </div>
         )
       })}
     </>

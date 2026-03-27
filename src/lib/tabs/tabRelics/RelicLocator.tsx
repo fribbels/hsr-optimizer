@@ -1,5 +1,5 @@
 import { IconSettings } from '@tabler/icons-react'
-import { Flex, NumberInput, Popover } from '@mantine/core'
+import { NumberInput, Popover } from '@mantine/core'
 import {
   type Parts,
   type Sets,
@@ -85,10 +85,11 @@ export function RelicLocator(props: { relic: Relic | null; compact?: boolean; st
       }}
     >
       <Popover.Target>
-        <Flex
-        justify='space-between'
-        align='center'
+        <div
         style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           cursor: 'pointer',
           paddingLeft: compact ? 6 : 8,
           paddingRight: compact ? 6 : 10,
@@ -104,51 +105,51 @@ export function RelicLocator(props: { relic: Relic | null; compact?: boolean; st
       >
         {relic
           ? (
-            <Flex align='center' justify='space-between' w='100%'>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
               <LocatorFilterImage filters={locatorFilters} compact={compact} />
               <div style={compact ? { fontSize: 13 } : undefined}>
                 {`Row ${Math.ceil((relicPositionIndex + 1) / inventoryWidth)} / Col ${relicPositionIndex % inventoryWidth + 1}`}
               </div>
               <IconSettings size={compact ? 20 : 24} />
-            </Flex>
+            </div>
           )
           : (
-            <Flex style={{ width: '100%', paddingBottom: compact ? 0 : 2 }} justify='space-between' align='center'>
+            <div style={{ display: 'flex', width: '100%', paddingBottom: compact ? 0 : 2, justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ width: compact ? 4 : 10 }}></div>
               <div style={compact ? { fontSize: 13 } : undefined}>{t('NoneSelected')}</div>
               <div style={{ width: compact ? 14 : 24 }} />
-            </Flex>
+            </div>
           )}
-      </Flex>
+      </div>
       </Popover.Target>
       <Popover.Dropdown>
-        <Flex gap={8} miw={260}>
-          <Flex direction="column" flex={1}>
-            <Flex align='center' gap={5}>
+        <div style={{ display: 'flex', gap: 8, minWidth: 260 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
               <HeaderText>{t('Width') /* Inventory width */}</HeaderText>
               <TooltipImage type={Hint.locatorParams()} />
-            </Flex>
+            </div>
             <NumberInput
               defaultValue={inventoryWidth}
               style={{ width: 'auto' }}
               min={1}
               onChange={(val) => setInventoryWidth(typeof val === 'number' ? val : null)}
             />
-          </Flex>
+          </div>
 
-          <Flex direction="column" flex={1}>
-            <Flex align='center' gap={5}>
+          <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
               <HeaderText>{t('Filter') /* Auto filter rows */}</HeaderText>
               <TooltipImage type={Hint.relicLocation()} />
-            </Flex>
+            </div>
             <NumberInput
               defaultValue={rowLimit}
               style={{ width: 'auto' }}
               min={1}
               onChange={(val) => setRowLimit(typeof val === 'number' ? val : null)}
             />
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       </Popover.Dropdown>
     </Popover>
   )
@@ -158,9 +159,9 @@ function LocatorFilterImage(props: { filters: LocatorFilters; compact?: boolean 
   const { part, set } = props.filters
   const compact = props.compact ?? false
   return (
-    <Flex gap={compact ? 3 : 5} style={{ minWidth: 10 }}>
+    <div style={{ display: 'flex', gap: compact ? 3 : 5, minWidth: 10 }}>
       <img src={Assets.getPart(part!)} style={{ height: compact ? 22 : 25 }} />
       {set && <img src={Assets.getSetImage(set, undefined, true)} style={{ height: compact ? 24 : 26 }} />}
-    </Flex>
+    </div>
   )
 }

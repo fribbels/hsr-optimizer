@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   showcaseShadow,
 } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -48,17 +47,18 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
   const { dy, scale } = computeLcTransform(lcImageOffset, tempLcParentW, tempLcParentH)
 
   return (
-    <Flex direction="column">
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       {lightConeName && (
-        <Flex
-          direction="column"
+        <div
           style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
             position: 'relative',
             height: 0,
             top: newLcHeight - 35,
             paddingRight: 5,
           }}
-          align='flex-end'
         >
           <div
             className={styles.lcNameOverlay}
@@ -69,11 +69,12 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
           >
             {`${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })} - ${lightConeName}`}
           </div>
-        </Flex>
+        </div>
       )}
-      <Flex
+      <div
         className={`lightConeCard ${styles.lcCard}`}
         style={{
+          display: 'flex',
           width: `${tempLcParentW}px`,
           height: `${tempLcParentH}px`,
           boxShadow: showcaseShadow,
@@ -90,8 +91,8 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
             transform: `translateY(${dy}px) scale(${scale})`,
           }}
         />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 })
 
@@ -150,7 +151,7 @@ export const ShowcaseLightConeLargeName = memo(function ShowcaseLightConeLargeNa
   } = showcaseMetadata
 
   return (
-    <Flex direction="column">
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <StatText className={styles.lcNameText}>
         {lightConeName}
       </StatText>
@@ -160,6 +161,6 @@ export const ShowcaseLightConeLargeName = memo(function ShowcaseLightConeLargeNa
           /* Lv 80 S5 */
         }
       </StatText>
-    </Flex>
+    </div>
   )
 })

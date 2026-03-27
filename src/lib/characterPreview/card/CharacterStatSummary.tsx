@@ -1,5 +1,4 @@
 import { memo, useMemo } from 'react'
-import { Flex } from '@mantine/core'
 import { StatRow } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
@@ -45,7 +44,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
 
   return (
     <StatText className={classes.statSummary}>
-      <Flex direction="column" gap={scoringType === ScoringType.NONE ? 5 : 3}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}>
         <StatRow finalStats={finalStats} stat={Stats.HP} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.ATK} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.DEF} edits={edits} />
@@ -88,7 +87,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
               loading={!scoringDone}
             />
           )}
-      </Flex>
+      </div>
     </StatText>
   )
 })

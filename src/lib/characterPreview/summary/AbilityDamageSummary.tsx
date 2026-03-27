@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
@@ -16,8 +15,8 @@ export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
   const actionDamage = simResult.actionDamage ?? {}
 
   return (
-    <Flex gap={defaultGap} justify='space-around'>
-      <Flex direction='column' gap={4} w={230}>
+    <div style={{ display: 'flex', gap: defaultGap, justifyContent: 'space-around' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: 230 }}>
         <ScoringNumber label={`${t('Basic')}:`} number={actionDamage[AbilityKind.BASIC]} precision={1} />
         <ScoringNumber label={`${t('Skill')}:`} number={actionDamage[AbilityKind.SKILL]} precision={1} />
         <ScoringNumber label={`${t('Ult')}:`} number={actionDamage[AbilityKind.ULT]} precision={1} />
@@ -28,8 +27,8 @@ export function AbilityDamageSummary({ simResult }: AbilityDamageSummaryProps) {
         <ScoringNumber label={`${t('Unique')}:`} number={actionDamage[AbilityKind.UNIQUE]} precision={1} />
         <ScoringNumber label={`${t('Dot')}:`} number={actionDamage[AbilityKind.DOT]} precision={1} />
         <ScoringNumber label={`${t('Break')}:`} number={actionDamage[AbilityKind.BREAK]} precision={1} />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }
 
@@ -44,9 +43,9 @@ function ScoringNumber({ label, number, precision = 1, useGrouping }: {
   if (value === 0) return null
 
   return (
-    <Flex gap={15} justify='space-between'>
+    <div style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
       <pre className={classes.preText}>{label}</pre>
       <pre className={classes.preTextRight}>{numberToLocaleString(value, precision, useGrouping)}</pre>
-    </Flex>
+    </div>
   )
 }

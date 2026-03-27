@@ -1,4 +1,4 @@
-import { Flex, Table } from '@mantine/core'
+import { Table } from '@mantine/core'
 import {
   sharedScoreUpgradeColumns,
   sharedSimResultComparator,
@@ -55,12 +55,12 @@ export function DpsScoreSubstatUpgradesTable({ simScore }: {
         {dataSource.map((upgrade) => (
           <Table.Tr key={upgrade.key}>
             <Table.Td className={styles.centeredCell}>
-              <Flex>
+              <div style={{ display: 'flex' }}>
                 <img src={Assets.getStatIcon(upgrade.stat)} className={styles.statIcon} style={{ width: iconSize, height: iconSize }} />
                 <span className={styles.statLabel}>
                   {t('AddedRoll', { stat: tCommon(upgrade.stat) })}
                 </span>
-              </Flex>
+              </div>
             </Table.Td>
             {sharedCols.map((col) => (
               <Table.Td key={col.key} className={styles.centeredCell}>

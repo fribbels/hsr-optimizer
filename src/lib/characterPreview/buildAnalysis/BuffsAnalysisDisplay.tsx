@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { ActionSelector } from 'lib/characterPreview/buffsAnalysis/ActionSelector'
 import { BuffGroup } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
 import {
@@ -139,28 +138,28 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
       <FilterContext.Provider value={selectedFilter}>
         {twoColumn
           ? (
-            <Flex direction="column" gap={GROUP_SPACING}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING }}>
               {actionSelector}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-              <Flex gap={GROUP_SPACING} align='start'>
-                <Flex direction="column" gap={GROUP_SPACING} w={options.panelWidth}>
+              <div style={{ display: 'flex', gap: GROUP_SPACING, alignItems: 'start' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
                   {summaryColumn}
-                </Flex>
-                <Flex direction="column" gap={GROUP_SPACING} w={options.panelWidth}>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
                   {buffsColumn}
-                </Flex>
-              </Flex>
-            </Flex>
+                </div>
+              </div>
+            </div>
           )
           : (
-            <Flex direction="column" gap={GROUP_SPACING} w={options.panelWidth}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
               {actionSelector}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               {summaryColumn}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               {buffsColumn}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-            </Flex>
+            </div>
           )}
       </FilterContext.Provider>
     </DesignContext.Provider>
@@ -188,7 +187,7 @@ function GroupedLayout({ buffGroups }: { buffGroups: BuffGroups }) {
       )
     }
   }
-  return <Flex direction="column" gap={GROUP_SPACING}>{groups}</Flex>
+  return <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING }}>{groups}</div>
 }
 
 type RerunResult = {

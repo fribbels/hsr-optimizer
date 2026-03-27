@@ -1,4 +1,4 @@
-import { Flex, Table } from '@mantine/core'
+import { Table } from '@mantine/core'
 import type { SubStats } from 'lib/constants/constants'
 import { type AKeyType, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -94,10 +94,10 @@ export function DamageUpgrades({ analysis }: {
           {group.upgrades.map((item) => (
             <Table.Tr key={item.key}>
               <Table.Td className={classes.centeredCell}>
-                <Flex>
+                <div style={{ display: 'flex' }}>
                   <img src={Assets.getStatIcon(item.key)} className={classes.statIcon} />
                   {tCommon(item.key)}
-                </Flex>
+                </div>
               </Table.Td>
               <Table.Td className={classes.centeredCell}>
                 {item.percent === 0 ? '' : `${localeNumber_00(truncate100ths(item.percent * 100))}%`}
@@ -113,14 +113,17 @@ export function DamageUpgrades({ analysis }: {
   }
 
   return (
-    <Flex
-      direction="column"
-      gap={10}
-      justify='space-between'
-      wrap="wrap"
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 10,
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+      }}
       className={classes.upgradesGrid}
     >
       {displays}
-    </Flex>
+    </div>
   )
 }

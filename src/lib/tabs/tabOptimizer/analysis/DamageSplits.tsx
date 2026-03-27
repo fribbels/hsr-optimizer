@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { chartColor, extractDamageSplits } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { DamageSplitsChart } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
@@ -16,7 +15,7 @@ function ModeToggle({ mode, onModeChange }: {
   ]
 
   return (
-    <Flex gap={6} align='center' style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ display: 'flex', gap: 6, alignItems: 'center', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       {modes.map((m) => (
         <span
           key={m.key}
@@ -37,7 +36,7 @@ function ModeToggle({ mode, onModeChange }: {
           {m.label}
         </span>
       ))}
-    </Flex>
+    </div>
   )
 }
 
@@ -56,12 +55,13 @@ export function DamageSplits({ analysis }: {
   )
 
   return (
-    <Flex
-      direction='column'
-      align='center'
+    <div
       className='pre-font'
-      gap={8}
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 8,
         background: 'var(--panel-bg)',
         border: 'var(--panel-border)',
         boxShadow: 'var(--card-shadow-flat)',
@@ -74,6 +74,6 @@ export function DamageSplits({ analysis }: {
       </span>
       <ModeToggle mode={mode} onModeChange={setMode} />
       <DamageSplitsChart data={data} />
-    </Flex>
+    </div>
   )
 }

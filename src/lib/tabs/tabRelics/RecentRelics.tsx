@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
@@ -30,10 +29,11 @@ export const RecentRelics = memo(() => {
   }
 
   return (
-    <Flex
-      gap={10}
-      justify='space-between'
+    <div
       style={{
+        display: 'flex',
+        gap: 10,
+        justifyContent: 'space-between',
         padding: 10,
       }}
     >
@@ -46,7 +46,7 @@ export const RecentRelics = memo(() => {
           setSelectedRelicID={setSelectedRelicID}
         />
       ))}
-    </Flex>
+    </div>
   )
 })
 RecentRelics.displayName = 'RecentRelics'

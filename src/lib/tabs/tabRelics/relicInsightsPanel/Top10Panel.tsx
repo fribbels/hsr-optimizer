@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   setOpen,
@@ -123,12 +122,15 @@ function LegendContent({ scores, compact }: { scores: PanelProps['scores']; comp
       style={{ marginLeft: compact ? 12 : 20, marginTop: 3, height: legendHeight }}
     >
       {scores.map((s, idx) => (
-        <Flex
-          gap={compact ? 3 : 5}
+        <div
           key={s.id}
-          h={entryHeight}
-          style={compact ? { fontSize: 12 } : undefined}
-          align="center"
+          style={{
+            display: 'flex',
+            gap: compact ? 3 : 5,
+            height: entryHeight,
+            alignItems: 'center',
+            ...(compact ? { fontSize: 12 } : undefined),
+          }}
         >
           {idx + '.'}
           <svg height={compact ? 18 : 25} width={10}>
@@ -144,7 +146,7 @@ function LegendContent({ scores, compact }: { scores: PanelProps['scores']; comp
           <div style={{ fontWeight: s.owned ? 'bold' : undefined }}>
             {`${s.name}: ${Math.floor(s.score.worstPct)}% - ${Math.floor(s.score.bestPct)}%`}
           </div>
-        </Flex>
+        </div>
       ))}
     </div>
   )
@@ -157,16 +159,17 @@ function TooltipContent(props: TooltipContentProps) {
   const data = payload?.[0]?.payload
   if (!data) return <></>
   return (
-    <Flex
-      direction="column"
+    <div
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         borderRadius: 6,
         border: '1px solid var(--border-color)',
         backgroundColor: 'var(--bg-app)',
         height: 'fit-content',
         padding: 10,
       }}
-      justify='space-between'
     >
       <u>{data.name}</u>
       <div>
@@ -174,7 +177,7 @@ function TooltipContent(props: TooltipContentProps) {
           <>{t('AvgPotential')}{precisionRound(data.x, 1)}%</>
         </>
       </div>
-    </Flex>
+    </div>
   )
 }
 

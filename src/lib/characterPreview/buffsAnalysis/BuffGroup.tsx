@@ -1,4 +1,4 @@
-import { Flex, useMantineTheme } from '@mantine/core'
+import { useMantineTheme } from '@mantine/core'
 import { BuffRow } from 'lib/characterPreview/buffsAnalysis/BuffRow'
 import {
   DesignContext,
@@ -32,12 +32,12 @@ export function CardShell({ avatarSrc, children }: { avatarSrc: string; children
   const mantineTheme = useMantineTheme()
   const token = { colorBgContainer: mantineTheme.colors.dark[6] }
   return (
-    <Flex align='center' style={getCardStyle(options, token)}>
+    <div style={{ display: 'flex', alignItems: 'center', ...getCardStyle(options, token) }}>
       <img src={avatarSrc} style={getIconStyle(options)} />
-      <Flex direction='column' style={{ flex: 1, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
         {children}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }
 

@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { type CSSProperties } from 'react'
 import componentClasses from './CharacterPreviewComponents.module.css'
 
@@ -41,15 +40,13 @@ export function OverlayText({ text, top }: {
   top: number
 }) {
   return (
-    <Flex
-      direction='column'
+    <div
       className={componentClasses.overlayOuter}
-      style={{ top }}
-      align='center'
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', top }}
     >
       <div className={componentClasses.overlayLabel}>
         {text}
       </div>
-    </Flex>
+    </div>
   )
 }

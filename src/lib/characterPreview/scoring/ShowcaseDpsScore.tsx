@@ -3,7 +3,7 @@ import {
   IconRefresh,
   IconSettings,
 } from '@tabler/icons-react'
-import { Button, Flex, SegmentedControl } from '@mantine/core'
+import { Button, SegmentedControl } from '@mantine/core'
 import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/CharacterCardCombatStats'
 import {
   OverlayText,
@@ -64,8 +64,8 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
 
   return (
-    <Flex direction="column">
-      <Flex justify='space-around' className={styles.teammatesPadding}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-around' }} className={styles.teammatesPadding}>
         {[0, 1, 2].map((index) => (
           <CharacterPreviewScoringTeammate
             key={index}
@@ -77,14 +77,14 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
             readonly={readonly}
           />
         ))}
-      </Flex>
+      </div>
 
       <ShowcaseTeamSelectPanel
         characterId={characterId}
         teamSelection={teamSelection}
         readonly={readonly}
       />
-    </Flex>
+    </div>
   )
 })
 
@@ -143,7 +143,7 @@ function CharacterPreviewScoringTeammate({
       }}
       className={`${teammateClasses.teammateCard} ${readonly ? 'readonly-custom-grid' : 'custom-grid'}`}
     >
-      <Flex direction="column" align='center'>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div className={teammateClasses.iconWrapper}>
           <img
             src={Assets.getCharacterAvatarById(teammate?.characterId)}
@@ -175,7 +175,7 @@ function CharacterPreviewScoringTeammate({
             top={-18}
           />
         </div>
-      </Flex>
+      </div>
     </div>
   )
 }
@@ -197,7 +197,7 @@ export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader({ rel
     : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(scoringResult?.spdBenchmark ?? 0) }) // Benchmark vs {{spd}} SPD
 
   return (
-    <Flex align='center' direction="column" className={styles.scoreHeaderWrapper}>
+    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>
       <StatText className={styles.scoreHeaderText}>
         {titleRender}
       </StatText>
@@ -215,7 +215,7 @@ export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader({ rel
           /* DPS Score {{score}}% {{grade}} */
         }
       </StatText>
-    </Flex>
+    </div>
   )
 })
 
@@ -274,7 +274,7 @@ function ShowcaseTeamSelectPanel({
             closeOnClickOutside: true,
             content: (
               <div className={styles.settingsModalContent}>
-                <Flex direction="column" gap={10}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <HeaderText>{t('modals:ScoreFooter.ModalTitle') /* Combat sim scoring settings */}</HeaderText>
                   <Button
                     leftSection={<IconRefresh size={16} />}
@@ -315,7 +315,7 @@ function ShowcaseTeamSelectPanel({
                   >
                     {t('modals:ScoreFooter.SyncButtonText') /* Sync imported eidolons / light cones */}
                   </Button>
-                </Flex>
+                </div>
               </div>
             ),
           })
@@ -329,9 +329,9 @@ function ShowcaseTeamSelectPanel({
         {
           value: DEFAULT_TEAM,
           label: (
-            <Flex justify='center' align='center'>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               {t('modals:ScoreFooter.TeamOptions.Default') /* Default */}
-            </Flex>
+            </div>
           ),
         },
         {
@@ -341,9 +341,9 @@ function ShowcaseTeamSelectPanel({
         {
           value: CUSTOM_TEAM,
           label: (
-            <Flex justify='center' align='center'>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               {t('modals:ScoreFooter.TeamOptions.Custom') /* Custom */}
-            </Flex>
+            </div>
           ),
         },
       ]}

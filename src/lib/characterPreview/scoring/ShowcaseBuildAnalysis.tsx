@@ -1,4 +1,4 @@
-import { Flex, SegmentedControl, useMantineTheme } from '@mantine/core'
+import { SegmentedControl, useMantineTheme } from '@mantine/core'
 import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
@@ -51,19 +51,20 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   }
 
   return (
-    <Flex direction="column" style={{ minHeight: 1000 }}>
-      <Flex justify='center' gap={10}>
-        <Flex
-          justify='center'
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 1000 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
+        <div
           style={{
+            display: 'flex',
+            justifyContent: 'center',
             paddingLeft: 20,
             paddingRight: 5,
             borderRadius: 6,
             height: 40,
             marginTop: 10,
             backgroundColor: mantineTheme.colors.dark[7] + '85',
+            alignItems: 'center',
           }}
-          align='center'
         >
           <div style={{ width: 150 }}>
             {t('CharacterPreview.AlgorithmSlider.Title') /* Scoring algorithm: */}
@@ -98,8 +99,8 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
               },
             ]}
           />
-        </Flex>
-      </Flex>
+        </div>
+      </div>
       {scoringType === ScoringType.COMBAT_SCORE && (
         <CharacterScoringSummary
           simScoringResult={scoringResult ?? undefined}
@@ -112,7 +113,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
         displayRelics={displayRelics}
         showcaseMetadata={showcaseMetadata}
       />
-    </Flex>
+    </div>
   )
 })
 
@@ -128,7 +129,7 @@ function StatScoringSummary({ scoringType, displayRelics, showcaseMetadata }: {
   }
 
   return (
-    <Flex direction="column" align='center'>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <ColorizedTitleWithInfo
         text={t('Header') /* Stat Score Analysis */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
@@ -138,7 +139,6 @@ function StatScoringSummary({ scoringType, displayRelics, showcaseMetadata }: {
         displayRelics={displayRelics}
         showcaseMetadata={showcaseMetadata}
       />
-    </Flex>
+    </div>
   )
 }
-

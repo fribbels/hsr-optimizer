@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   setOpen,
@@ -176,16 +175,17 @@ function TooltipContent(props: TooltipContentProps) {
 
   const data = payload?.[0]?.payload
   return (
-    <Flex
-      direction="column"
+    <div
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
         borderRadius: 6,
         border: '1px solid var(--border-color)',
         backgroundColor: 'var(--bg-app)',
         height: 'fit-content',
         padding: 10,
       }}
-      justify='space-between'
     >
       <div style={{ marginBottom: 5 }}>
         <u>{data?.name}</u>
@@ -206,6 +206,6 @@ function TooltipContent(props: TooltipContentProps) {
           </>
         )}
       </div>
-    </Flex>
+    </div>
   )
 }

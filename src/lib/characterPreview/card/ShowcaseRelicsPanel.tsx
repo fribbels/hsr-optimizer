@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { type ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   Constants,
@@ -63,7 +62,7 @@ export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
   }, [scoredRelics])
 
   const renderColumn = (parts: typeof leftParts | typeof rightParts) => (
-    <Flex direction="column" gap={defaultGap}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
       {parts.map(({ key, part }) => (
         <RelicPreview
           key={key}
@@ -78,13 +77,13 @@ export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
           useShowcaseColors
         />
       ))}
-    </Flex>
+    </div>
   )
 
   return (
-    <Flex gap={defaultGap} style={{ zIndex: 1 }}>
+    <div style={{ display: 'flex', gap: defaultGap, zIndex: 1 }}>
       {renderColumn(leftParts)}
       {renderColumn(rightParts)}
-    </Flex>
+    </div>
   )
 })

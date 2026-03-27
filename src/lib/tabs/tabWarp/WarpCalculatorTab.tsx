@@ -361,7 +361,7 @@ function Results() {
                       />
                     )}
                     <Flex className={classes.goalContent} justify='center' align='center'>
-                      <Badge color='#000000aa' className={classes.goalBadge} style={{ opacity: opacity(record.wins) }}>
+                      <Badge color='#000000aa' className={classes.goalBadge} style={{ opacity: opacity(record.wins), fontWeight: 'normal', fontSize: 12 }}>
                         {translateLabel(record.key)}
                       </Badge>
                     </Flex>

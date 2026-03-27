@@ -1,4 +1,4 @@
-import { Box, Flex, Text, UnstyledButton } from '@mantine/core'
+import { Box, Text, UnstyledButton } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
@@ -35,14 +35,14 @@ export function ScoringCharacterAvatar({ characterId, onCharacterChange, onScori
         <Box className={classes.statusDot} />
       </Box>
 
-      <Flex direction="column" className={classes.labelGroup}>
+      <div style={{ display: 'flex', flexDirection: 'column' }} className={classes.labelGroup}>
         <Text className={classes.scoringLabel} component="span">
           Scoring
         </Text>
         <Text className={classes.characterName} component="span">
           {characterName ?? 'Select...'}
         </Text>
-      </Flex>
+      </div>
 
       <Text className={classes.chevron} component="span">
         ▾

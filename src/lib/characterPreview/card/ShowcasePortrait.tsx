@@ -1,5 +1,5 @@
 import { IconEdit } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import { Button } from '@mantine/core'
 import { CharacterCustomPortrait } from 'lib/characterPreview/card/CharacterCustomPortrait'
 import {
   showcaseButtonStyle,
@@ -120,7 +120,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
             />
           )}
 
-      <Flex direction="column" className={styles.buttonColumn} gap={7}>
+      <div className={styles.buttonColumn} style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
         {source !== ShowcaseSource.BUILDS_MODAL && (
           <>
             <Button
@@ -144,7 +144,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
             </Button>
           </>
         )}
-      </Flex>
+      </div>
       {editPortraitModalOpen && (
         <EditImageModal
           title={t('CharacterPreview.EditPortrait') /* Edit portrait */}
@@ -157,10 +157,9 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
           width={500}
         />
       )}
-      <Flex
-        direction="column"
-        gap={3}
+      <div
         className={styles.bottomInfoContainer}
+        style={{ display: 'flex', flexDirection: 'column', gap: 3 }}
       >
         <span
           className={styles.overlayTag}
@@ -180,7 +179,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         >
           {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' }) /* Art by {{artistName}} */}
         </span>
-      </Flex>
+      </div>
     </div>
   )
 })

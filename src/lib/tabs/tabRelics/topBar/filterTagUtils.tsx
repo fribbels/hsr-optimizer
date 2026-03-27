@@ -1,4 +1,4 @@
-import { Flex, Tooltip } from '@mantine/core'
+import { Tooltip } from '@mantine/core'
 import i18next from 'i18next'
 import {
   Constants,
@@ -31,11 +31,11 @@ export function generateTextTags(arr: [key: number, value: string][]) {
   return arr.map((x) => ({
     key: x[0],
     display: (
-      <Flex style={{ height: TAG_HEIGHT, justifyContent: 'space-around', alignItems: 'center' }}>
+      <div style={{ display: 'flex', height: TAG_HEIGHT, justifyContent: 'space-around', alignItems: 'center' }}>
         <div style={{ fontSize: 18 }}>
           {x[1]}
         </div>
-      </Flex>
+      </div>
     ),
   }))
 }

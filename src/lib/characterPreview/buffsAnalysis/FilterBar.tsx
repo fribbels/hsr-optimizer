@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   ABILITY_COLORS,
   DAMAGE_TAG_ENTRIES,
@@ -39,8 +38,8 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
   const visibleEntries = DAMAGE_TAG_ENTRIES.filter((e) => relevantTags.has(e.tag))
 
   return (
-    <Flex justify='center' className={classes.filterBarOuter}>
-      <Flex gap={4} wrap='wrap' justify='center'>
+    <div style={{ display: 'flex', justifyContent: 'center' }} className={classes.filterBarOuter}>
+      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
         <FilterButton
           label='ALL'
           color={ABILITY_COLORS.ALL}
@@ -58,8 +57,8 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
             />
           ),
         )}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }
 

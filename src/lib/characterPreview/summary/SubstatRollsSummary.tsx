@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
 import type { SubStats } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
@@ -54,31 +53,31 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
   )
 
   return (
-    <Flex direction="column" gap={defaultGap}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
       {columns === 2
         ? (
-          <Flex justify='space-between'>
-            <Flex direction="column" gap={defaultGap} className={styles.leftColumn}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={styles.leftColumn}>
               {renderStatRow(Stats.ATK_P)}
               {renderStatRow(Stats.ATK)}
               {renderStatRow(Stats.HP_P)}
               {renderStatRow(Stats.HP)}
               {renderStatRow(Stats.DEF_P)}
               {renderStatRow(Stats.DEF)}
-            </Flex>
+            </div>
             <VerticalDivider />
-            <Flex direction="column" gap={defaultGap} className={styles.rightColumn}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={styles.rightColumn}>
               {renderStatRow(Stats.SPD, 2)}
               {renderStatRow(Stats.CR)}
               {renderStatRow(Stats.CD)}
               {renderStatRow(Stats.EHR)}
               {renderStatRow(Stats.RES)}
               {renderStatRow(Stats.BE)}
-            </Flex>
-          </Flex>
+            </div>
+          </div>
         )
         : (
-          <Flex direction="column" gap={defaultGap} className={styles.singleColumn}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={styles.singleColumn}>
             {renderStatRow(Stats.ATK_P)}
             {renderStatRow(Stats.ATK)}
             {renderStatRow(Stats.HP_P)}
@@ -91,9 +90,9 @@ export function SubstatRollsSummary({ simRequest, precision, diminish, columns =
             {renderStatRow(Stats.EHR)}
             {renderStatRow(Stats.RES)}
             {renderStatRow(Stats.BE)}
-          </Flex>
+          </div>
         )}
-    </Flex>
+    </div>
   )
 }
 
@@ -109,13 +108,13 @@ function ScoringNumberParens({ label, number, parens: parensValue, precision = 1
   const showParens = parens > 0
 
   return (
-    <Flex gap={5} justify='space-between'>
+    <div style={{ display: 'flex', gap: 5, justifyContent: 'space-between' }}>
       <pre className={styles.pre}>{label}</pre>
       <pre className={styles.preRight}>
         {show && numberToLocaleString(value, precision)}
         {showParens && <span className={styles.parensSpacer}>-</span>}
         {showParens && numberToLocaleString(parens, 1)}
       </pre>
-    </Flex>
+    </div>
   )
 }

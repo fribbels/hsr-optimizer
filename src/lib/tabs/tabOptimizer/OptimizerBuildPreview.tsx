@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { useCallback } from 'react'
 import { Parts } from 'lib/constants/constants'
 
@@ -87,14 +86,14 @@ export function OptimizerBuildPreview() {
 
   return (
     <div>
-      <Flex gap={6} id='optimizerBuildPreviewContainer' justify='space-between' style={{ paddingLeft: 1, paddingRight: 1 }}>
+      <div id='optimizerBuildPreviewContainer' style={{ display: 'flex', gap: 6, justifyContent: 'space-between', paddingLeft: 1, paddingRight: 1 }}>
         <RelicPreview setEditModalOpen={openRelicModal} relic={headRelic} score={headScore} />
         <RelicPreview setEditModalOpen={openRelicModal} relic={handsRelic} score={handsScore} />
         <RelicPreview setEditModalOpen={openRelicModal} relic={bodyRelic} score={bodyScore} />
         <RelicPreview setEditModalOpen={openRelicModal} relic={feetRelic} score={feetScore} />
         <RelicPreview setEditModalOpen={openRelicModal} relic={planarSphereRelic} score={planarSphereScore} />
         <RelicPreview setEditModalOpen={openRelicModal} relic={linkRopeRelic} score={linkRopeScore} />
-      </Flex>
+      </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { Flex, Loader } from '@mantine/core'
+import { Loader } from '@mantine/core'
 import { Deferred, useDeferredSlot } from 'lib/ui/DeferredRender'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import type {
@@ -90,7 +90,7 @@ export function EstimatedTbpRelicsDisplay({
   const ready = !(loading || !enrichedRelics)
 
   return (
-    <Flex direction="column" align='center' className={styles.fullWidth}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className={styles.fullWidth}>
       <div className={styles.grid}>
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Head} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.Hands} />
@@ -99,15 +99,15 @@ export function EstimatedTbpRelicsDisplay({
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.PlanarSphere} />
         <RelicContainer ready={ready} relicAnalysis={enrichedRelics?.LinkRope} />
       </div>
-    </Flex>
+    </div>
   )
 }
 
 function LoadingSpinner() {
   return (
-    <Flex justify='center' align='center' className={styles.spinnerContainer}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} className={styles.spinnerContainer}>
       <Loader size="lg" />
-    </Flex>
+    </div>
   )
 }
 
@@ -123,9 +123,9 @@ export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysi
   if (!ready || !slotVisible) {
     return (
       <div className={styles.card} style={dynamicStyle}>
-        <Flex className={styles.fullSize} align='center' justify='space-around'>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }} className={styles.fullSize}>
           <LoadingSpinner />
-        </Flex>
+        </div>
       </div>
     )
   }
@@ -143,14 +143,13 @@ export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysi
   }
 
   return (
-    <Flex
+    <div
       className={styles.card}
-      style={dynamicStyle}
-      gap={10}
+      style={{ ...dynamicStyle, display: 'flex', gap: 10 }}
     >
       <RelicPreview relic={relicAnalysis.relic} unhoverable={true} score={relicAnalysis.scoringResult} />
       <RelicAnalysisCard relicAnalysis={relicAnalysis} />
-    </Flex>
+    </div>
   )
 })
 
@@ -163,34 +162,34 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
 
   if (horizontal) {
     return (
-      <Flex className={styles.fullWidth} gap={10} style={{ height: '100%' }}>
-        <Flex direction="column" gap={10} style={{ width: 260, flexShrink: 0 }}>
-          <Flex className={styles.metricRow} gap={10} style={{ height: 'auto', flex: 1 }}>
+      <div style={{ display: 'flex', gap: 10, height: '100%' }} className={styles.fullWidth}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: 260, flexShrink: 0 }}>
+          <div style={{ display: 'flex', gap: 10, height: 'auto', flex: 1 }} className={styles.metricRow}>
             <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
             <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
-          </Flex>
-        </Flex>
+          </div>
+        </div>
         <div className={styles.rollsCard} style={{ flex: 1 }}>
           <RollsCard relicAnalysis={relicAnalysis} t={t} />
         </div>
-      </Flex>
+      </div>
     )
   }
 
   return (
-    <Flex direction="column" className={styles.fullWidth} gap={10}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className={styles.fullWidth}>
       <Deferred>
-        <Flex className={styles.metricRow} gap={10}>
+        <div style={{ display: 'flex', gap: 10 }} className={styles.metricRow}>
           <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
           <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
-        </Flex>
+        </div>
       </Deferred>
       <Deferred>
         <div className={styles.rollsCard}>
           <RollsCard relicAnalysis={relicAnalysis} t={t} />
         </div>
       </Deferred>
-    </Flex>
+    </div>
   )
 }
 
@@ -201,18 +200,18 @@ function RollsCard({ relicAnalysis, t: tParent }: { relicAnalysis: RelicAnalysis
   const percentDisplay = localeNumber_0(percent)
 
   return (
-    <Flex direction="column" justify='space-between' className={styles.fullWidth}>
-      <Flex direction="column">
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className={styles.fullWidth}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         {relicAnalysis.relic.substats.concat(relicAnalysis.relic.previewSubstats).map((s, idx) => (
           <RollLine key={idx} substat={s} weights={relicAnalysis.weights} />
         ))}
-      </Flex>
-      <Flex direction="column" className={styles.perfectionSection} justify='space-between' gap={4}>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4 }} className={styles.perfectionSection}>
         <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }} />
-        <Flex justify='space-between'>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span className={styles.label}>{t('Perfection') /* Perfection */}</span>
           <span>{percentDisplay}%</span>
-        </Flex>
+        </div>
         <div className={styles.progressBarOuter}>
           <div
             className={styles.progressBarInner}
@@ -229,8 +228,8 @@ function RollsCard({ relicAnalysis, t: tParent }: { relicAnalysis: RelicAnalysis
           >
           </div>
         </div>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }
 
@@ -248,29 +247,27 @@ function MetricCard({ relicAnalysis, index, t: tParent }: { relicAnalysis: Relic
     : localeNumber_0(relicAnalysis.rerollPotential === 0 ? 0 : relicAnalysis.rerollDelta) + '%'
 
   return (
-    <Flex
+    <div
       className={styles.metricCard}
-      direction="column"
-      flex={1}
-      justify='space-between'
+      style={{ display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}
     >
-      <Flex direction="column" gap={2}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <span className={styles.metricLabel}>
           {textTop}
         </span>
         <span className={styles.metricValue}>
           {valueTop}
         </span>
-      </Flex>
-      <Flex direction="column" gap={2}>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <span className={styles.metricLabel}>
           {textBottom}
         </span>
         <span className={styles.metricValue}>
           {valueBottom}
         </span>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }
 

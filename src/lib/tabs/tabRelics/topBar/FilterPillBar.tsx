@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import i18next from 'i18next'
 import { type ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -140,7 +139,7 @@ export function FilterPillBar() {
   }
 
   return (
-    <Flex direction="column" gap={6} flex={1} justify="center">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1, justifyContent: 'center' }}>
       {/* 8-column grid for both rows so widths align perfectly */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr) auto', gap: 5, alignItems: 'center' }}>
         {/* Row 1: 8 × 1-unit pills */}
@@ -185,6 +184,6 @@ export function FilterPillBar() {
         </div>
         <div style={{ marginLeft: 4 }}><TooltipImage type={Hint.valueColumns()} /></div>
       </div>
-    </Flex>
+    </div>
   )
 }

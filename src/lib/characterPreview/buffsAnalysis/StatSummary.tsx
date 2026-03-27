@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { HitDefinitionRows } from 'lib/characterPreview/buffsAnalysis/HitDefinitionDisplay'
 import type { OptimizerContext } from 'types/optimizer'
 import type { AbilityColorKey, TagColorEntry } from 'lib/characterPreview/buffsAnalysis/abilityColors'
@@ -174,9 +173,9 @@ function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
   if (pills.length === 0) return null
 
   return (
-    <Flex gap={2} style={{ flexShrink: 0 }}>
+    <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
       {pills.map((p) => renderPill(p.key, p.color, p.label, !isPillActive(p.key, filter)))}
-    </Flex>
+    </div>
   )
 }
 
@@ -193,11 +192,12 @@ export function StatSummaryTable(props: {
     <CardShell avatarSrc={props.avatarSrc}>
       <CardHeader label={t('SummaryLabel')} />
       {props.sums.map((sum, i) => (
-        <Flex
+        <div
           key={sum.label}
-          align='center'
-          gap={6}
           style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
             ...rowBase,
             borderBottom: i < props.sums.length - 1 ? `1px solid ${options.borderColor}` : undefined,
             opacity: sum.total === 0 ? 0.15 : 1,
@@ -208,17 +208,17 @@ export function StatSummaryTable(props: {
             {formatBuffValue(sum.total, sum.percent)}
           </span>
 
-          <Flex align='center' gap={3} style={{ minWidth: 150, overflow: 'hidden' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 3, minWidth: 150, overflow: 'hidden' }}>
             <span style={{ fontSize: options.fontSize, flexShrink: 0, position: 'relative', top: -1 }}>∑</span>
             <span style={ellipsisStyle(options.fontSize)}>{sum.label}</span>
-          </Flex>
+          </div>
 
           <SummaryTagPills allContributions={sum.allContributions} />
 
           <span style={sourceLabelStyle}>
             {'x' + sum.count}
           </span>
-        </Flex>
+        </div>
       ))}
     </CardShell>
   )

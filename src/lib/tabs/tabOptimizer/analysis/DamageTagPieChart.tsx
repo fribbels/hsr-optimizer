@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { ChartTooltipContainer, ChartTooltipContent, useChartTooltip } from 'lib/tabs/tabOptimizer/analysis/ChartTooltip'
 import {
   chartColor,
@@ -35,11 +34,12 @@ export function DamageTagPieChart({ analysis }: {
   const grandTotal = slices.reduce((s, sl) => s + sl.value, 0)
 
   return (
-    <Flex
-      direction='column'
-      align='center'
+    <div
       className='pre-font'
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
         flex: 1,
         background: 'var(--panel-bg)',
         border: 'var(--panel-border)',
@@ -106,7 +106,7 @@ export function DamageTagPieChart({ analysis }: {
           {slices.map((slice) => (
             <tr key={slice.damageType}>
               <td style={{ paddingTop: 4, paddingBottom: 4 }}>
-                <Flex align='center' gap={8}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{
                     width: 10,
                     height: 10,
@@ -115,7 +115,7 @@ export function DamageTagPieChart({ analysis }: {
                     flexShrink: 0,
                   }} />
                   <span style={{ fontSize: 13, color: chartColor }}>{slice.label}</span>
-                </Flex>
+                </div>
               </td>
               <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 4, paddingBottom: 4 }}>
                 {localeNumberComma(Math.floor(slice.value))}
@@ -140,6 +140,6 @@ export function DamageTagPieChart({ analysis }: {
           </tr>
         </tfoot>
       </table>
-    </Flex>
+    </div>
   )
 }

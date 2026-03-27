@@ -11,9 +11,9 @@ RelicFilterBar:
   Mainstat: Основные характеристики
   Substat: Дополнительные характеристики
   ScoringButton: Алгоритм подсчета очков
-  RecommendationHeader: Персонаж для оценки реликвий
+  RecommendationHeader: Персонаж для оценки реликвий (ПО)
   Rating: Доп. фильтры оценки реликвий
-  CustomCharsHeader: Персонажи для расчёта потенциала
+  CustomCharsHeader: Персонажи для расчёта потенциала (ПР)
 RecentlyUpdatedRelics:
   Header: Недавно обновлённые реликвии
   Potential: ПОТЕНЦИАЛ
@@ -100,6 +100,24 @@ RelicGrid:
           ПО: Ср. Δ при
           Перебросе
           vs текущих
+      BlockedRerollAvg:
+        Label: 'ПО: Средний потенциал переброса заблокированных характеристик'
+        Header: |-
+          ПО: Заблок.
+          Ср. Пот.
+          Переброса
+      BlockedRerollAvgDelta:
+        Label: 'ПО: Средний прирост(Δ) заблокированных характеристик при перебросе'
+        Header: |-
+          ПО: Заблок.
+          Ср. Δ при
+          Перебросе
+      BlockedRerollAvgEquippedDelta:
+        Label: 'ПО: Средний прирост(Δ) заблокированных характеристик при перебросе vs текущих'
+        Header: |-
+          ПО: Ср. Δ при
+          Перебросе Забл.
+          vs текущих
     CustomCharacters:
       Label: По персонажу для расчёта потенциала (ПР)
       AvgPotCol:
@@ -117,6 +135,12 @@ RelicGrid:
         Header: |-
           ПР: Ср. Пот.
           Переброса
+      BlockedRerollAvg:
+        Label: 'ПР: Средний потенциал переброса заблокированных характеристик'
+        Header: |-
+          ПР: Ср. Пот.
+          Переброса
+          Заблок.
     AllCharacters:
       Label: Расчёт для всех персонажей (ВСЕ)
       AvgPotCol:
@@ -134,6 +158,12 @@ RelicGrid:
         Header: |-
           ВСЕ: Ср. Пот.
           Переброса
+      BlockedRerollAvg:
+        Label: 'ВСЕ: Средний потенциал переброса заблокированных характеристик'
+        Header: |-
+          ВСЕ: Ср. Пот.
+          Переброса
+          Заблок.
 Toolbar:
   RelicLocator:
     Width: Ширина инвентаря (столбцы)
@@ -143,6 +173,7 @@ Toolbar:
   InsightOptions:
     Buckets: 'Анализ реликвии: Распределение'
     Top10: 'Анализ реликвии: Топ-10'
+    ESTBP: 'Анализ реликвий: ESTBP'
   PlotOptions:
     PlotAll: Показать всех персонажей
     PlotCustom: Персонажи для расчёта потенциала
@@ -153,6 +184,7 @@ Toolbar:
     Warning_one: Удалить выбранную реликвию?
     Warning_other: 'Удалить {{count}} выбранных реликвий?'
   AddRelic: Добавить реликвию
+  LiveImportTooltip: Отключено в режиме Live-импорт
 RelicInsights:
   NewStats: 'Новые хар-ки: '
   UpgradedStats: 'Улучшаемые хар-тики: '

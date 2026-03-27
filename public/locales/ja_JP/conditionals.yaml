@@ -1,4 +1,4 @@
-BetaMessage: '現在のバージョン： {{Version}} - 計算結果は変更される場合があります。'
+BetaMessage: '現在のバージョン： {{Version}} - 計算結果は変わる場合があります。'
 Common:
   BuffPriority:
     Text: 'バフを優先する対象'
@@ -111,6 +111,7 @@ Lightcones:
     Content:
       elationBuff:
         text: 愉悦度バフ
+        content: 装備キャラが味方キャラ単体に戦闘スキルまたは必殺技を発動した後、ターゲットの愉悦度+{{elationBuff}}%、2ターン継続。
   EpochEtchedInGoldenBlood:
     Content:
       skillDmgBoost:
@@ -332,6 +333,11 @@ Lightcones:
         text: バリア時の被ダメ低下
         content: >-
           装備キャラが攻撃を受けた後、バリアを所持していない場合、装備キャラの最大HP{{ShieldHp}}%分の耐久値を持つバリアを1つ獲得する、2ターン継続。この効果は3ターン回ってくるたびに1回まで発動できる。装備キャラがバリアを所持する場合、自身の受けるダメージ-{{DmgReduction}}%。
+  TheFinaleOfALie:
+    Content:
+      umbraDevourerBuff:
+        text: '「影喰い」'
+        content: 戦闘開始時、または装備キャラが追加攻撃を累計4回発動するたびに、装備キャラに「影喰い」を付与する、3ターン継続。装備キャラが「影喰い」を持つ時、攻撃力+{{atkBuff}}%、敵全体の受けるダメージ+{{vulnerability}}%。同系統のスキルは累積できない。
   TheHellWhereIdealsBurn:
     Content:
       spAtkBuff:
@@ -967,6 +973,34 @@ Characters:
       selfCurrentHpPercent:
         text: 自身のHP割合
         content: アーランの失ったHPの割合に応じて与ダメージアップ、最大でアーランの与ダメージ+{{talentMissingHpDmgBoostMax}}%
+  Ashveil:
+    Content:
+      baitActive:
+        text: '「餌食」有効'
+        content: フィールド上に「餌食」が存在する時、敵全体の防御力-{{baitActiveDefPen}}%。
+      targetBait:
+        text: ターゲット「餌食」状態
+        content: ターゲットが「餌食」の場合、さらに不死途の攻撃力{{baitHitAdditionalScaling}}%分の雷属性ダメージを与える。
+      enhancedFua:
+        text: 強化追加攻撃
+        content: >-
+          必殺技を発動した時、即座に強化された天賦による追加攻撃を1回行う。::BR:: この時、所持している「暴食」が4層以上である限り、「暴食」を4層消費し、追加で不死途の攻撃力{{enhancedFuaGluttonyScaling}}%分の雷属性ダメージを1回与える。
+      gluttonyStacks:
+        text: '「暴食」層数'
+        content: >-
+          必殺技を発動した時、即座に強化された天賦による追加攻撃を1回行う。::BR:: この時、所持している「暴食」が4層以上である限り、「暴食」を4層消費し、追加で不死途の攻撃力{{enhancedFuaGluttonyScaling}}%分の雷属性ダメージを1回与える。 ::BR:: キャラクター昇格4：不死途の追加攻撃ダメージ+80%。所持している「暴食」1層につき、さらに追加攻撃ダメージ+10%。
+      e1DmgVulnerability:
+        text: 1凸 敵被ダメージ増加
+        content: 不死途がフィールドにいる時、敵全体の受けるダメージ+24%。残りHPの割合が50%以下の敵が受けるダメージアップ効果は36%にアップする。
+      e1TargetHpBelow50:
+        text: 1凸 ターゲットHP≤50%
+        content: 不死途がフィールドにいる時、敵全体の受けるダメージ+24%。残りHPの割合が50%以下の敵が受けるダメージアップ効果は36%にアップする。
+      e4AtkBuff:
+        text: 4凸 攻撃力バフ
+        content: 不死途が必殺技を発動する時、攻撃力+40%、3ターン継続。
+      e6GluttonyGainedStacks:
+        text: 6凸 「暴食」層数
+        content: フィールド上に「餌食」が存在する時、敵全体の全属性耐性-20%。不死途が「暴食」を1層獲得するたびに、与えるダメージ+4%。
   Asta:
     Content:
       skillExtraDmgHits:
@@ -2183,7 +2217,7 @@ Characters:
         text: 速度バフ層数
         content: "ゼーレの速度+25%、2ターン継続。::BR::2凸：戦闘スキルの加速効果が累積できるようになる、最大で2層累積できる。"
       e1EnemyHp80CrBoost:
-        text: 1凸 敵HP≤80%時の会心率バフ
+        text: 1凸 ターゲットHP≤80%
         content: 残りHPが80%以下の敵にダメージを与える時、会心率+15%。
       e6UltTargetDebuff:
         text: 6凸 「乱れ蝶」付与済み
@@ -2313,7 +2347,7 @@ Characters:
         text: 攻撃力→愉悦ダメ変換
         content: 火花の攻撃力が2000を超えた場合、超過した攻撃力100につき、自身の愉悦度+5.0%、最大で+80.0%。
       punchlineCritDmg:
-        text: 爆笑ネタ会心ダメバフ
+        text: 爆笑ネタの会心ダメバフ
         content: 所持している爆笑ネタ1個につき、味方全体の会心ダメージ+8%、最大で+80%。
       e1PunchlineResPen:
         text: 1凸 全属性耐性貫通

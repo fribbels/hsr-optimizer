@@ -1,4 +1,5 @@
 import { Flex, Loader } from '@mantine/core'
+import { useDeferredSlot } from 'lib/ui/DeferredRender'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import type {
   EnrichedRelics,
@@ -115,9 +116,10 @@ export function RelicContainer({ ready, relicAnalysis, withoutPreview, horizonta
   withoutPreview?: boolean
   horizontal?: boolean
 }) {
+  const slotVisible = useDeferredSlot()
   const dynamicStyle = withoutPreview ? undefined : { minHeight: 302 }
 
-  if (!ready) {
+  if (!ready || !slotVisible) {
     return (
       <div className={styles.card} style={dynamicStyle}>
         <Flex className={styles.fullSize} align='center' justify='space-around'>

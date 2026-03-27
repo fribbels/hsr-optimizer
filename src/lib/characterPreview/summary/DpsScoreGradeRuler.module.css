@@ -1,0 +1,75 @@
+.ruler {
+  position: relative;
+  overflow: hidden;
+}
+
+.chartArea {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.gradientBg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0.15;
+}
+
+.scoreClip {
+  position: absolute;
+  left: 0;
+  overflow: hidden;
+}
+
+.scoreFill {
+  height: 100%;
+}
+
+.scoreMarker {
+  position: absolute;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+.axisLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #777;
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+}
+
+.tickLine {
+  position: absolute;
+  width: 1px;
+  background: #666;
+  transform: translateX(-50%);
+}
+
+/* Top labels: bottom edge at the `top` coordinate (text extends upward) */
+.topLabel {
+  position: absolute;
+  left: 0;
+  color: #999;
+  white-space: nowrap;
+  transform: translate(-50%, -100%);
+  line-height: 1;
+}
+
+/* Bottom labels: top edge at the `top` coordinate (text extends downward) */
+.bottomLabel {
+  position: absolute;
+  left: 0;
+  color: #999;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  line-height: 1;
+}

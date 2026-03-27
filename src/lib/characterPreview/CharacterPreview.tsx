@@ -55,7 +55,7 @@ import {
   organizeColors,
   pickBestSeed,
 } from 'lib/characterPreview/color/colorUtils'
-import { getColorThiefPalette } from 'lib/characterPreview/color/colorThiefExtractor'
+import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import {
   memo,
   useCallback,
@@ -293,7 +293,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     let aborted = false
 
     void (async () => {
-      const palette = await getColorThiefPalette(imgSrc)
+      const palette = await extractPaletteInWorker(imgSrc)
       if (aborted || !palette) return
       const swatches = organizeColors(palette)
       const color = portraitImageUrl

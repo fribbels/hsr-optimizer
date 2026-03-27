@@ -11,6 +11,11 @@ export default defineConfig({
     tsconfigPaths: true,
     alias: {
       'cross-fetch': resolve(__dirname, 'src/lib/utils/nativeFetch.ts'),
+      // colorthief/internals barrel includes WasmQuantizer with a broken wasm import.
+      // Alias to the specific source modules we need, bypassing the barrel entirely.
+      'colorthief-pipeline': resolve(__dirname, 'node_modules/colorthief/src/pipeline.ts'),
+      'colorthief-swatches': resolve(__dirname, 'node_modules/colorthief/src/swatches.ts'),
+      'colorthief-mmcq': resolve(__dirname, 'node_modules/colorthief/src/quantizers/mmcq.ts'),
     },
   },
   build: {

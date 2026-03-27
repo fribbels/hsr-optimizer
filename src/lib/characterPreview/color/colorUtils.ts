@@ -1,5 +1,5 @@
 import chroma from 'chroma-js'
-import type { PaletteResponse } from 'lib/characterPreview/color/colorThiefExtractor'
+import type { PaletteResponse } from 'lib/characterPreview/color/colorExtractionService'
 
 export function showcaseBackgroundColor(color: string) {
   return chroma(color).desaturate(0.2).luminance(0.02).css()

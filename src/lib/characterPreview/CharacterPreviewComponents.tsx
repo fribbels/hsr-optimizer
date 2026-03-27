@@ -27,7 +27,7 @@ const showcaseShadowInsetDefault = ', inset rgb(255 255 255 / 30%) 0px 0px 2px'
 // Use CSS custom properties so the debug slider panel can override these
 export const showcaseShadow = `var(--showcase-shadow, ${showcaseShadowDefault})`
 export const showcaseShadowInsetAddition = `var(--showcase-shadow-inset, ${showcaseShadowInsetDefault})`
-export const showcaseTransition = 'background-color 0.35s, box-shadow 0.25s, border-color 0.25s'
+export const showcaseTransition = 'background-color 0.35s, border-color 0.25s'
 export const showcaseOutlineLight = 'rgba(255, 255, 255, 0.20) solid 1px'
 export const showcaseButtonStyle: CSSProperties = {
   flex: 'auto',

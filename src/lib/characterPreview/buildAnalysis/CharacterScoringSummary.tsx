@@ -27,7 +27,7 @@ import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { memo } from 'react'
-import { Deferred, DeferredRenderProvider, useDeferredSlot } from 'lib/ui/DeferredRender'
+import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { type CharacterId } from 'types/character'
@@ -113,9 +113,6 @@ function ScoringColumn(props: {
 
 }) {
   const { t } = useTranslation(['charactersTab', 'common'])
-  const visible = useDeferredSlot()
-
-  if (!visible) return null
 
   const simRequest = props.simulation.request
   const simResult = props.simulation.result!
@@ -366,10 +363,10 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </Flex>
         </Deferred>
 
-        {/* Scoring columns */}
+        {/* Scoring columns — each deferred individually */}
         {characterId && characterMetadata && elementalDmgValue && element && (
-          <Deferred>
-            <Flex className={classes.deferredSection}>
+          <Flex className={classes.deferredSection}>
+            <Deferred>
               <ScoringColumn
                 simulation={result.originalSim}
                 originalSimResult={simScoringResult.originalSimResult}
@@ -381,11 +378,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
+            </Deferred>
 
-              <Flex direction="column">
-                <Divider orientation='vertical' className={classes.columnDivider}/>
-              </Flex>
+            <Flex direction="column">
+              <Divider orientation='vertical' className={classes.columnDivider}/>
+            </Flex>
 
+            <Deferred>
               <ScoringColumn
                 simulation={result.benchmarkSim}
                 originalSimResult={simScoringResult.benchmarkSimResult}
@@ -397,11 +396,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
+            </Deferred>
 
-              <Flex direction="column">
-                <Divider orientation='vertical' className={classes.columnDivider}/>
-              </Flex>
+            <Flex direction="column">
+              <Divider orientation='vertical' className={classes.columnDivider}/>
+            </Flex>
 
+            <Deferred>
               <ScoringColumn
                 simulation={result.maximumSim}
                 originalSimResult={simScoringResult.maximumSimResult}
@@ -413,8 +414,8 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Flex>
-          </Deferred>
+            </Deferred>
+          </Flex>
         )}
 
         {/* Buffs analysis */}

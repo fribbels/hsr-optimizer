@@ -55,7 +55,7 @@ export function DpsScoreMainStatUpgradesTable({ simScore }: {
   }).sort((a, b) => b.scorePercentUpgrade - a.scorePercentUpgrade)
 
   const setUpgrade = simScore.setUpgrades[0]
-  if ((setUpgrade.percent ?? 0) - simScore.percent > 0.001) {
+  if (setUpgrade && (setUpgrade.percent ?? 0) - simScore.percent > 0.001) {
     dataSource.unshift({
       key: 'setUpgrade',
       setUpgradeRequest: setUpgrade.simulation.request,

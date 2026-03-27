@@ -18,7 +18,7 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
   const { t } = useTranslation(['charactersTab', 'common'])
 
   return (
-    <Flex gap={30}>
+    <div>
       <Flex direction='column' gap={2}>
         {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
           <ScoringAbility
@@ -28,7 +28,7 @@ export function ComboRotationSummary({ simMetadata }: ComboRotationSummaryProps)
           />
         ))}
       </Flex>
-    </Flex>
+    </div>
   )
 }
 
@@ -44,8 +44,8 @@ function ScoringAbility({ comboTurnAbilities, index }: {
   const displayValue = toI18NVisual(toTurnAbility(abilityName), t)
 
   return (
-    <Flex align='center' gap={15}>
+    <div>
       <pre className={classes.preText}>{`#${index} - ${displayValue}`}</pre>
-    </Flex>
+    </div>
   )
 }

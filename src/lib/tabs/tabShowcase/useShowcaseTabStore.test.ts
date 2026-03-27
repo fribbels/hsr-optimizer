@@ -121,14 +121,14 @@ describe('useShowcaseTabStore', () => {
       expect(state().loading).toBe(false)
     })
 
-    it('handleFetchFailure clears loading and transitions Loading back to Landing', () => {
+    it('handleFetchFailure clears loading and transitions Loading to Loaded', () => {
       state().startFetch()
       expect(state().screen).toBe(ShowcaseScreen.Loading)
 
       state().handleFetchFailure()
 
       expect(state().loading).toBe(false)
-      expect(state().screen).toBe(ShowcaseScreen.Landing)
+      expect(state().screen).toBe(ShowcaseScreen.Loaded)
     })
 
     it('handleFetchFailure keeps Loaded screen on re-fetch failure (old data preserved)', () => {
@@ -367,10 +367,10 @@ describe('useShowcaseTabStore', () => {
       expect(state().screen).toBe(ShowcaseScreen.Loaded)
     })
 
-    it('Loading → Landing via handleFetchFailure', () => {
+    it('Loading → Loaded via handleFetchFailure', () => {
       state().startFetch()
       state().handleFetchFailure()
-      expect(state().screen).toBe(ShowcaseScreen.Landing)
+      expect(state().screen).toBe(ShowcaseScreen.Loaded)
     })
 
     it('Loaded → Loaded on re-fetch (startFetch keeps Loaded)', () => {

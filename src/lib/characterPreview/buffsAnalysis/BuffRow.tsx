@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   ABILITY_COLORS,
   DAMAGE_TAG_ENTRIES,
@@ -80,10 +79,11 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
   const borderBottomStyle = isLast ? undefined : `1px solid ${options.borderColor}`
 
   return (
-    <Flex
-      align='center'
-      gap={6}
+    <div
       style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
         padding: `0 ${options.rowPaddingX}px`,
         height: options.rowHeight,
         lineHeight: `${options.rowHeight}px`,
@@ -110,7 +110,7 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
       >
         {sourceLabel}
       </span>
-    </Flex>
+    </div>
   )
 }
 
@@ -130,5 +130,5 @@ function DamageTagPills({ damageTags }: { damageTags?: number }) {
   }, [damageTags])
 
   if (pills.length === 0) return null
-  return <Flex gap={2} wrap='wrap' style={{ flexShrink: 0 }}>{pills}</Flex>
+  return <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap', flexShrink: 0 }}>{pills}</div>
 }

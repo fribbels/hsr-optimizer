@@ -152,7 +152,7 @@ export function FilterPillBar() {
         <FilterPill label="Initial rolls" options={initialRollsOptions} selected={filters.initialRolls} onChange={filterHandlers.initialRolls} />
         <FilterPill label={t('RelicFilterBar.Equipped')} options={equippedOptions} selected={filters.equipped} onChange={filterHandlers.equipped} />
         <FilterPill label={t('RelicFilterBar.Verified')} options={verifiedOptions} selected={filters.verified} onChange={filterHandlers.verified} />
-        <Flex ml={4}><TooltipImage type={Hint.relics()} /></Flex>
+        <div style={{ marginLeft: 4 }}><TooltipImage type={Hint.relics()} /></div>
 
         {/* Row 2: 4 × 2-unit items (each spans 2 grid columns) */}
         <div style={{ gridColumn: 'span 2' }}>
@@ -183,7 +183,7 @@ export function FilterPillBar() {
             dropdownWidth="fit-content"
           />
         </div>
-        <Flex ml={4}><TooltipImage type={Hint.valueColumns()} /></Flex>
+        <div style={{ marginLeft: 4 }}><TooltipImage type={Hint.valueColumns()} /></div>
       </div>
     </Flex>
   )

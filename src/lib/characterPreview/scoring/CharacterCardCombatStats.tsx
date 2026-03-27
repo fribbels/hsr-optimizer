@@ -1,4 +1,4 @@
-import { Divider, Flex } from '@mantine/core'
+import { Divider } from '@mantine/core'
 import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
@@ -64,17 +64,17 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
 
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
     rows.push(
-      <Flex key={stat} justify='space-between' align='center' w='100%'>
+      <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
         <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
-        <Flex gap={1} align='center'>
+        <div style={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <StatTextSm>
             {statName}
           </StatTextSm>
           {upgraded && <Arrow />}
-        </Flex>
+        </div>
         <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
         <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
-      </Flex>,
+      </div>,
     )
   }
 
@@ -83,12 +83,12 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
     : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
 
   return (
-    <Flex direction="column" gap={0} align='center' style={{ paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
       <HeaderText style={{ fontSize: 16 }}>
         {titleRender}
       </HeaderText>
       {rows}
-    </Flex>
+    </div>
   )
 })
 

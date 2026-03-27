@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { type ScoringResults } from 'lib/characterPreview/characterPreviewController'
 import { StatText } from 'lib/characterPreview/StatText'
 import { memo } from 'react'
@@ -11,13 +10,13 @@ export const ShowcaseStatScore = memo(function ShowcaseStatScore({ scoringResult
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   return (
-    <Flex direction='column'>
+    <div>
       <StatText className={classes.scoreText}>
         {t('CharacterPreview.CharacterScore', {
           score: scoringResults.totalScore.toFixed(0),
           grade: scoringResults.totalScore === 0 ? '' : scoringResults.totalRating,
         })}
       </StatText>
-    </Flex>
+    </div>
   )
 })

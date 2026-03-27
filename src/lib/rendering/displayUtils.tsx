@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { type TFunction } from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { currentLocale } from 'lib/utils/i18nUtils'
@@ -40,7 +39,7 @@ export function generateCharacterList(
     .map((character): OptionType => ({
       value: character.id,
       label: (
-        <Flex gap={5} align='center'>
+        <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
           <img
             src={Assets.getCharacterAvatarById(character.id)}
             style={{ height: 22, marginRight: 4 }}
@@ -48,7 +47,7 @@ export function generateCharacterList(
           {listOptions.longNameLabel
             ? t(`${character.id}.LongName`)
             : t(`${character.id}.Name`)}
-        </Flex>
+        </div>
       ),
       title: listOptions.longNameTitle
         ? t(`${character.id}.LongName`)

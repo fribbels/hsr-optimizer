@@ -1,4 +1,4 @@
-import { Divider, Flex, Paper } from '@mantine/core'
+import { Divider, Paper } from '@mantine/core'
 import i18next from 'i18next'
 import {
   showcaseShadow,
@@ -124,14 +124,15 @@ export const RelicPreview = memo(function RelicPreview(props: {
       }}
     >
       <RelicStatText language={i18next.resolvedLanguage as Languages} style={{ height: '100%' }}>
-        <Flex
-          direction="column"
-          justify={JUSTIFY}
+        <div
           style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: JUSTIFY,
             height: '100%',
           }}
         >
-          <Flex justify='space-between' align='center'>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <img
               style={{
                 height: ICON_SIZE,
@@ -140,10 +141,10 @@ export const RelicPreview = memo(function RelicPreview(props: {
               title={relic.set}
               src={relicSrc}
             />
-            <Flex align='center' gap={8}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span>{Renderer.renderGrade(relic)}</span>
               <span>{relic.id != undefined ? `+${relic.enhance}` : ''}</span>
-            </Flex>
+            </div>
             {!compact && (
               <img
                 style={{
@@ -156,7 +157,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
                 src={equippedBySrc}
               />
             )}
-          </Flex>
+          </div>
 
           <Divider style={{ margin: DIVIDER_MARGIN }} />
 
@@ -164,14 +165,14 @@ export const RelicPreview = memo(function RelicPreview(props: {
 
           <Divider style={{ margin: DIVIDER_MARGIN }} />
 
-          <Flex direction="column" gap={STAT_GAP}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: STAT_GAP }}>
             {relic.substats.map((s, idx) => <RelicStatRow key={`substats-${idx}`} stat={s} main={false} relic={relic} t={t} />)}
             {relic.previewSubstats.map((s, idx) => <RelicStatRow key={`previews-${idx}`} stat={s} main={false} relic={relic} isPreview={true} t={t} />)}
             {fillerStats.map((x, idx) => <RelicStatRow key={`fillers-${idx}`} stat={x} main={false} relic={relic} t={t} />)}
-          </Flex>
+          </div>
 
           {scoringType !== ScoringType.NONE && <ScoreFooter score={score} dividerMargin={DIVIDER_MARGIN} t={t} />}
-        </Flex>
+        </div>
       </RelicStatText>
     </Paper>
   )
@@ -204,13 +205,13 @@ function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string;
     <>
       <Divider style={{ margin: dividerMargin }} />
 
-      <Flex justify='space-between'>
-        <Flex>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex' }}>
           <img src={icon} className={iconClasses.statIcon}></img>
           {scored ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
-        </Flex>
+        </div>
         {scored ? `${localeNumberComma_0(Number(score.score))} (${score.rating})` : ''}
-      </Flex>
+      </div>
     </>
   )
 }

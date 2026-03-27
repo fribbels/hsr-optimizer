@@ -351,8 +351,8 @@ function ShowcaseTeamSelectPanel({
   )
 
   return (
-    <Flex direction="column" gap={2}>
+    <div>
       {tabsDisplay}
-    </Flex>
+    </div>
   )
 }

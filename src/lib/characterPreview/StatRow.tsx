@@ -1,4 +1,4 @@
-import { Divider, Flex } from '@mantine/core'
+import { Divider } from '@mantine/core'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   Constants,
@@ -95,14 +95,14 @@ export const StatRow = memo(function StatRow({
     return null as unknown as ReactElement
   }
   return (
-    <Flex justify='space-between' align='center' title={value1000thsPrecision} style={{ fontSize: 16, filter: loading ? 'blur(2px)' : 'none' }}>
+    <div title={value1000thsPrecision} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16, filter: loading ? 'blur(2px)' : 'none' }}>
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
       <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
       {loading
         ? '...'
         : `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
-    </Flex>
+    </div>
   )
 })
 

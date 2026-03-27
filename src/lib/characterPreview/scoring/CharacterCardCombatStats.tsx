@@ -215,8 +215,8 @@ function getBasicStatValue(x: ComputedStatsContainer, stat: StatsValues, element
 
 function Arrow() {
   return (
-    <Flex align='center'>
+    <div>
       <UpArrow />
-    </Flex>
+    </div>
   )
 }

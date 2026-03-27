@@ -56,9 +56,9 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
             ]}
           />
 
-          <Flex style={{ minHeight: 302 }}>
+          <div style={{ minHeight: 302 }}>
             <SimulatedBuildsGrid />
-          </Flex>
+          </div>
 
           <Flex gap={10}>
             <Button

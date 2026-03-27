@@ -103,12 +103,12 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
     <Popover width={400} position='left' withArrow>
       <Popover.Target>
         <Flex gap={defaultGap} align='center' style={{ cursor: 'pointer' }}>
-          <Flex style={{ width: setConditionalsIconWidth }}>
+          <div style={{ width: setConditionalsIconWidth }}>
             <img
               src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)}
               style={{ width: 36, height: 36 }}
             />
-          </Flex>
+          </div>
           <div
             style={{
               width: setConditionalsNameWidth,

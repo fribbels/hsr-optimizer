@@ -10,9 +10,9 @@ export function BottomDock() {
       <BottomToolbar />
       <Flex gap={10} style={{ minHeight: relicCardH }}>
         <ScoredRelicPreview />
-        <Flex flex={1} style={{ minWidth: 0 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
           <RelicInsightsPanel />
-        </Flex>
+        </div>
       </Flex>
     </Flex>
   )

@@ -71,9 +71,9 @@ function SearchBar() {
         <Flex className={classes.searchBarLabel}>
           {t('Label') /* Enter your UUID to showcase characters: */}
         </Flex>
-        <Flex className={classes.searchBarApi}>
+        <div className={classes.searchBarApi}>
           <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
-        </Flex>
+        </div>
       </Flex>
       <Flex w='100%' gap={0}>
         <Button

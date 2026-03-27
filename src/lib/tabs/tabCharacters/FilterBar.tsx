@@ -37,17 +37,17 @@ export function FilterBar() {
           setNameFilter(e.target.value.toLowerCase())
         }}
       />
-      <Flex flex={1}>
+      <div style={{ flex: 1 }}>
         <SegmentedFilterRow
           tags={generatePathTags()}
           flexBasis='11.111%'
           currentFilter={pathFilter}
           setCurrentFilters={setPathFilter}
         />
-      </Flex>
-      <Flex
+      </div>
+      <div
         // Selected to align with relics panel
-        w={408}
+        style={{ width: 408 }}
       >
         <SegmentedFilterRow
           tags={generateElementTags()}
@@ -55,7 +55,7 @@ export function FilterBar() {
           currentFilter={elementFilter}
           setCurrentFilters={setElementFilter}
         />
-      </Flex>
+      </div>
     </Flex>
   )
 }

@@ -76,12 +76,12 @@ function AnalysisRender({ analysis }: { analysis: OptimizerResultAnalysis }) {
             <StatsDiffCard analysis={analysis} />
             <DamageSplits analysis={analysis} />
             <Flex gap={10} align='start'>
-              <Flex style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <DamageTagPieChart analysis={analysis} />
-              </Flex>
-              <Flex style={{ flex: 1, minWidth: 0 }}>
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <DamageUpgrades analysis={analysis} />
-              </Flex>
+              </div>
             </Flex>
           </Flex>
 

@@ -83,9 +83,9 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
   // Skip render if no relic
   if (!relic) {
     return (
-      <Flex direction="column">
+      <div>
         <RelicPreview relic={undefined} />
-      </Flex>
+      </div>
     )
   }
 

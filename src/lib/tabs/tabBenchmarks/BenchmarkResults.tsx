@@ -61,9 +61,9 @@ export const BenchmarkResults = memo(function BenchmarkResults() {
   const { rows100, rows200 } = useMemo(() => generateBenchmarkRows(orchestrators), [orchestrators])
 
   return (
-    <Flex direction="column" className={styles.resultsContainer}>
+    <div className={styles.resultsContainer}>
       <PercentageTabs dataSource100={rows100} dataSource200={rows200} />
-    </Flex>
+    </div>
   )
 })
 

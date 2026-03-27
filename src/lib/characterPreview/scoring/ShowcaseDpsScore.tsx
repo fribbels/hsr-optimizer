@@ -99,13 +99,13 @@ export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScor
   }
 
   return (
-    <Flex direction="column" gap={defaultGap}>
+    <div>
       <CharacterCardCombatStats
         characterMetadata={preview.characterMetadata}
         originalSimResult={preview.originalSimResult}
         deprioritizeBuffs={preview.deprioritizeBuffs}
       />
-    </Flex>
+    </div>
   )
 })
 

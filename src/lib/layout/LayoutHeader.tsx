@@ -48,9 +48,9 @@ export function LayoutHeader() {
             </Flex>
           </a>
         </Flex>
-        <Flex align='center'>
+        <div>
           <LanguageSelector />
-        </Flex>
+        </div>
       </Flex>
     </header>
   )

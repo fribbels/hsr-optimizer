@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { RelicContainer } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { enrichSingleRelicAnalysis } from 'lib/characterPreview/summary/statScoringSummaryController'
 import { ScoringCache } from 'lib/relics/scoring/relicScorer'
@@ -36,8 +35,8 @@ export const EstbpCard = memo(() => {
   const displayAnalysis = analysis ?? prevAnalysis.current
 
   return (
-    <Flex style={{ height: '100%' }}>
+    <div style={{ height: '100%' }}>
       <RelicContainer ready={ready || !!displayAnalysis} relicAnalysis={displayAnalysis} withoutPreview />
-    </Flex>
+    </div>
   )
 })

@@ -34,9 +34,9 @@ export function StatsDiffCard({ analysis }: {
     >
       <CardImage analysis={analysis} portraitHeight={portraitHeight} />
 
-      <Flex className={classes.statsPanel}>
+      <div className={classes.statsPanel}>
         <StatDiffSummary analysis={analysis} />
-      </Flex>
+      </div>
     </Flex>
   )
 }

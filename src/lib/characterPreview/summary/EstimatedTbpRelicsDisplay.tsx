@@ -170,9 +170,9 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
             <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
           </Flex>
         </Flex>
-        <Flex className={styles.rollsCard} gap={10} style={{ flex: 1 }}>
+        <div className={styles.rollsCard} style={{ flex: 1 }}>
           <RollsCard relicAnalysis={relicAnalysis} t={t} />
-        </Flex>
+        </div>
       </Flex>
     )
   }
@@ -186,9 +186,9 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
         </Flex>
       </Deferred>
       <Deferred>
-        <Flex className={styles.rollsCard} gap={10}>
+        <div className={styles.rollsCard}>
           <RollsCard relicAnalysis={relicAnalysis} t={t} />
-        </Flex>
+        </div>
       </Deferred>
     </Flex>
   )

@@ -7,6 +7,7 @@ import { SpinePortrait } from 'lib/spine/SpinePortrait'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SearchableCombobox, type SearchableComboboxOption } from 'lib/ui/SearchableCombobox'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
@@ -72,12 +73,13 @@ function useDragInteraction(
 // =========================================== Shared Utils ===========================================
 
 function buildCharacterOptions(): SearchableComboboxOption[] {
+  const t = i18next.getFixedT(null, 'gameData', 'Characters')
   const chars = Object.values(getGameMetadata().characters)
   return chars
-    .sort((a, b) => a.name.localeCompare(b.name))
+    .sort((a, b) => t(`${a.id}.LongName`).localeCompare(t(`${b.id}.LongName`)))
     .map((c) => ({
       value: c.id,
-      label: c.name,
+      label: t(`${c.id}.LongName`),
       icon: Assets.getCharacterAvatarById(c.id),
     }))
 }

@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
@@ -30,6 +31,7 @@ export function populateAllCharacters() {
     list.sort((a, b) => b.rarity - a.rarity)
   }
 
+  const t = i18next.getFixedT(null, 'gameData', 'Characters')
   const added: string[] = []
   const skipped: string[] = []
 
@@ -37,7 +39,7 @@ export function populateAllCharacters() {
     const charId = charMeta.id as CharacterId
 
     if (existing.has(charId)) {
-      skipped.push(`${charMeta.name} (already exists)`)
+      skipped.push(`${t(`${charId}.LongName`)} (already exists)`)
       continue
     }
 
@@ -58,14 +60,14 @@ export function populateAllCharacters() {
     }
 
     store.addCharacter(character)
-    added.push(`${charMeta.name} + ${lc?.id ?? 'no LC'}`)
+    added.push(`${t(`${charId}.LongName`)} + ${lc?.id ?? 'no LC'}`)
   }
 
   // Sort the full list (existing + new) by name
   const allCharacters = [...useCharacterStore.getState().characters]
   allCharacters.sort((a, b) => {
-    const nameA = metadata.characters[a.id]?.name ?? ''
-    const nameB = metadata.characters[b.id]?.name ?? ''
+    const nameA = t(`${a.id}.LongName`)
+    const nameB = t(`${b.id}.LongName`)
     return nameA.localeCompare(nameB)
   })
   store.setCharacters(allCharacters)

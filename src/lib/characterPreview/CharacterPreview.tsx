@@ -24,7 +24,6 @@ import {
 } from 'lib/characterPreview/card/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/card/ShowcaseRelicsPanel'
-import { useProgressivePhase } from 'lib/characterPreview/useProgressivePhase'
 import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { resolveShowcaseLayout } from 'lib/characterPreview/useShowcaseDerivedData'
@@ -359,9 +358,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   const { done: scoringDone, result: scoringResult } = useScoringExecution(cacheKey, requestFn)
 
-  // Defer analysis section: card renders fully first, analysis phases in after
-  const analysisPhase = useProgressivePhase(character.id, 1)
-
   // ===== Early return after all hooks =====
   if (!state.previewRelics || !state.finalStats || !displayRelics || !scoringResults) {
     return null
@@ -582,8 +578,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           so the SegmentedControl reflects their selection even when combat score is unavailable */}
       {source !== ShowcaseSource.BUILDS_MODAL && (
         <ShowcaseBuildAnalysis
-          scoringDone={analysisPhase >= 1 && scoringDone}
-          scoringResult={analysisPhase >= 1 ? scoringResult : null}
+          scoringDone={scoringDone}
+          scoringResult={scoringResult}
           showcaseMetadata={showcaseMetadata}
           scoringType={state.storedScoringType}
           displayRelics={displayRelics}

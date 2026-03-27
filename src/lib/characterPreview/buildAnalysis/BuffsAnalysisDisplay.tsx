@@ -37,6 +37,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { Deferred } from 'lib/ui/DeferredRender'
 import type { OptimizerContext } from 'types/optimizer'
 
 type BuffsAnalysisProps = {
@@ -96,22 +97,28 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
 
   const summaryColumn = (
     <>
-      <StatSummaryTable
-        sums={statSums}
-        avatarSrc={summaryAvatarSrc}
-      />
-      {context && (
-        <HitDefinitionTable
+      <Deferred>
+        <StatSummaryTable
+          sums={statSums}
           avatarSrc={summaryAvatarSrc}
-          context={context}
-          selectedAction={selectedAction}
         />
+      </Deferred>
+      {context && (
+        <Deferred>
+          <HitDefinitionTable
+            avatarSrc={summaryAvatarSrc}
+            context={context}
+            selectedAction={selectedAction}
+          />
+        </Deferred>
       )}
       {context && (
-        <EnemyPanel
-          avatarSrc={summaryAvatarSrc}
-          context={context}
-        />
+        <Deferred>
+          <EnemyPanel
+            avatarSrc={summaryAvatarSrc}
+            context={context}
+          />
+        </Deferred>
       )}
     </>
   )
@@ -170,12 +177,13 @@ function GroupedLayout({ buffGroups }: { buffGroups: BuffGroups }) {
       if (buffs.length === 0) continue
 
       groups.push(
-        <BuffGroup
-          key={`${buffType}-${id}`}
-          id={id}
-          buffs={buffs}
-          buffType={buffType}
-        />,
+        <Deferred key={`${buffType}-${id}`}>
+          <BuffGroup
+            id={id}
+            buffs={buffs}
+            buffType={buffType}
+          />
+        </Deferred>,
       )
     }
   }

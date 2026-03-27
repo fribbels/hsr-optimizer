@@ -16,9 +16,10 @@ import { EditImageModal } from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
 import { type ScoringType } from 'lib/scoring/simScoringUtils'
 import { LoadingBlurredSpine } from 'lib/spine/LoadingBlurredSpine'
+import { getSkeletonCount } from 'lib/spine/manifest'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type Character } from 'types/character'
 import {
@@ -56,11 +57,19 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
   const uid = useShowcaseTabStore((s) => s.savedSession.scorerId)
 
+  const prevCharIdRef = useRef(character.id)
   const [spineFallback, setSpineFallback] = useState(false)
   const handleSpineUnsupported = useCallback(() => setSpineFallback(true), [])
 
-  // Reset fallback when character changes
-  useEffect(() => setSpineFallback(false), [character.id])
+  // Reset synchronously during render when character changes — avoids a
+  // useEffect race where the parent reset would run after the child's
+  // onUnsupported callback, preventing fallback from ever taking effect.
+  if (prevCharIdRef.current !== character.id) {
+    prevCharIdRef.current = character.id
+    if (spineFallback) {
+      setSpineFallback(false)
+    }
+  }
 
   const showUid = source === ShowcaseSource.SHOWCASE_TAB && showcaseUID
 
@@ -86,7 +95,8 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
     width: tempInnerW * spineCenter.z,
   }
 
-  const useSpine = !disableSpine && !spineFallback
+  const hasSpineData = getSkeletonCount(character.id) != null
+  const useSpine = hasSpineData && !disableSpine && !spineFallback
 
   return (
     <div

@@ -294,71 +294,79 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </Flex>
         </Deferred>
 
-        {/* Simulated benchmarks */}
+        {/* Simulated benchmarks — outer row always rendered, each column deferred */}
         <Deferred>
           <Flex direction="column" align='center' gap={15} className={classes.deferredSection}>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
             </pre>
             <Flex gap={25} w='100%' justify='space-around'>
-              <Flex direction="column" gap={defaultGap}>
-                <pre style={{ margin: '5px auto' }}>
-                  {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
-                </pre>
-                <Flex gap={15}>
-                  <ScoringTeammate result={result} index={0}/>
-                  <ScoringTeammate result={result} index={1}/>
-                  <ScoringTeammate result={result} index={2}/>
-                </Flex>
-              </Flex>
-
-              <VerticalDivider/>
-
-              <Flex direction="column" gap={defaultGap}>
-                <pre style={{ margin: '5px auto' }}>
-                  {t('CharacterPreview.BuildAnalysis.SimulationSets')}
-                </pre>
+              <Deferred>
                 <Flex direction="column" gap={defaultGap}>
-                  <Flex>
-                    <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
-                    <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
+                  <pre style={{ margin: '5px auto' }}>
+                    {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
+                  </pre>
+                  <Flex gap={15}>
+                    <ScoringTeammate result={result} index={0}/>
+                    <ScoringTeammate result={result} index={1}/>
+                    <ScoringTeammate result={result} index={2}/>
                   </Flex>
-                  <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
                 </Flex>
-              </Flex>
+              </Deferred>
 
               <VerticalDivider/>
 
-              <Flex direction="column" gap={defaultGap}>
-                <pre style={{ margin: '5px auto' }}>
-                  {t('CharacterPreview.BuildAnalysis.Rotation.Header')}
-                </pre>
-                <ComboRotationSummary
-                  simMetadata={result.simulationMetadata}
-                />
-              </Flex>
+              <Deferred>
+                <Flex direction="column" gap={defaultGap}>
+                  <pre style={{ margin: '5px auto' }}>
+                    {t('CharacterPreview.BuildAnalysis.SimulationSets')}
+                  </pre>
+                  <Flex direction="column" gap={defaultGap}>
+                    <Flex>
+                      <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
+                      <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
+                    </Flex>
+                    <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
+                  </Flex>
+                </Flex>
+              </Deferred>
 
               <VerticalDivider/>
 
-              <Flex direction="column" gap={10}>
-                <pre style={{ margin: '5px auto' }}>
-                  {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
-                </pre>
-                <Flex direction="column" gap={10} className={classes.combatResultsWidth}>
-                  <ScoringText
-                    label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
-                    text={
-                      // @ts-expect-error - type of key is not specific enough
-                      t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
-                    }
+              <Deferred>
+                <Flex direction="column" gap={defaultGap}>
+                  <pre style={{ margin: '5px auto' }}>
+                    {t('CharacterPreview.BuildAnalysis.Rotation.Header')}
+                  </pre>
+                  <ComboRotationSummary
+                    simMetadata={result.simulationMetadata}
                   />
-                  <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
-                  <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
-                  <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
-                  <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
-                  <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
                 </Flex>
-              </Flex>
+              </Deferred>
+
+              <VerticalDivider/>
+
+              <Deferred>
+                <Flex direction="column" gap={10}>
+                  <pre style={{ margin: '5px auto' }}>
+                    {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
+                  </pre>
+                  <Flex direction="column" gap={10} className={classes.combatResultsWidth}>
+                    <ScoringText
+                      label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
+                      text={
+                        // @ts-expect-error - type of key is not specific enough
+                        t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
+                      }
+                    />
+                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
+                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
+                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
+                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
+                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
+                  </Flex>
+                </Flex>
+              </Deferred>
             </Flex>
           </Flex>
         </Deferred>

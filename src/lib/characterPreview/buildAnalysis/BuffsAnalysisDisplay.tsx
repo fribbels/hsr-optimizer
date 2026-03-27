@@ -34,11 +34,16 @@ import { runStatSimulations } from 'lib/simulations/statSimulation'
 import type { ReactElement } from 'react'
 import {
   memo,
+  Profiler,
   useMemo,
   useState,
 } from 'react'
 import { Deferred } from 'lib/ui/DeferredRender'
 import type { OptimizerContext } from 'types/optimizer'
+
+const logRender = (id: string, _phase: string, actualDuration: number) => {
+  if (actualDuration > 1) console.log(`[deferred] ${id}: ${actualDuration.toFixed(1)}ms`)
+}
 
 type BuffsAnalysisProps = {
   result?: SimulationScore,
@@ -97,28 +102,28 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
 
   const summaryColumn = (
     <>
-      <Deferred>
+      <Profiler id="Buffs-StatSummary" onRender={logRender}><Deferred>
         <StatSummaryTable
           sums={statSums}
           avatarSrc={summaryAvatarSrc}
         />
-      </Deferred>
+      </Deferred></Profiler>
       {context && (
-        <Deferred>
+        <Profiler id="Buffs-HitDefinition" onRender={logRender}><Deferred>
           <HitDefinitionTable
             avatarSrc={summaryAvatarSrc}
             context={context}
             selectedAction={selectedAction}
           />
-        </Deferred>
+        </Deferred></Profiler>
       )}
       {context && (
-        <Deferred>
+        <Profiler id="Buffs-EnemyPanel" onRender={logRender}><Deferred>
           <EnemyPanel
             avatarSrc={summaryAvatarSrc}
             context={context}
           />
-        </Deferred>
+        </Deferred></Profiler>
       )}
     </>
   )
@@ -176,14 +181,15 @@ function GroupedLayout({ buffGroups }: { buffGroups: BuffGroups }) {
     for (const [id, buffs] of Object.entries(groupMap)) {
       if (buffs.length === 0) continue
 
+      const key = `${buffType}-${id}`
       groups.push(
-        <Deferred key={`${buffType}-${id}`}>
+        <Profiler key={key} id={`Buffs-${key}`} onRender={logRender}><Deferred>
           <BuffGroup
             id={id}
             buffs={buffs}
             buffType={buffType}
           />
-        </Deferred>,
+        </Deferred></Profiler>,
       )
     }
   }

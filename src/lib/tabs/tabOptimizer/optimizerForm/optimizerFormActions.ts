@@ -21,7 +21,6 @@ import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabContro
 import { gridStore } from 'lib/stores/gridStore'
 import type { Build, CharacterId } from 'types/character'
 import type { Form } from 'types/form'
-import { mergeUndefinedValues } from 'lib/utils/objectUtils'
 import { uuid } from 'lib/utils/miscUtils'
 
 const OPTIMIZER_FORM_CACHE_MAX = 50
@@ -322,17 +321,14 @@ export function updateCharacter(characterId: CharacterId): void {
   OptimizerTabController.resetDataSource()
   const character = getCharacterById(characterId)
   const baseForm = character ? character.form : getDefaultForm({ id: characterId })
-  // Clone to avoid mutating the store's character object via mergeUndefinedValues
-  const form = { ...baseForm, characterConditionals: { ...baseForm.characterConditionals } }
-
-  // Merge saved conditionals with current defaults so newly added conditionals get their default values
-  const controller = CharacterConditionalsResolver.get({ characterId, characterEidolon: form.characterEidolon })
-  if (controller.defaults) {
-    if (form.characterConditionals) {
-      mergeUndefinedValues(form.characterConditionals, controller.defaults())
-    } else {
-      form.characterConditionals = controller.defaults()
-    }
+  // Spread defaults first, then saved values overwrite — fills gaps from newly added conditionals
+  const controller = CharacterConditionalsResolver.get({ characterId, characterEidolon: baseForm.characterEidolon })
+  const form = {
+    ...baseForm,
+    characterConditionals: {
+      ...controller.defaults?.(),
+      ...baseForm.characterConditionals,
+    },
   }
 
   // Load form into store (replaces formToDisplay + setFieldsValue)

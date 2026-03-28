@@ -14,7 +14,6 @@ import type {
 } from 'types/conditionals'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
-import { mergeUndefinedValues } from 'lib/utils/objectUtils'
 
 export function generateFullDefaultForm(
   characterId: CharacterId,
@@ -35,9 +34,6 @@ export function generateFullDefaultForm(
   simulationForm.lightCone = lightCone
   simulationForm.lightConeSuperimposition = lightConeSuperimposition
 
-  simulationForm.characterConditionals = {}
-  simulationForm.lightConeConditionals = {}
-
   const characterConditionalsRequest = { characterId: characterId, characterEidolon: characterEidolon }
   const lightConeConditionalsRequest = generateConditionalResolverMetadata(simulationForm, dbMetadata)
 
@@ -45,11 +41,11 @@ export function generateFullDefaultForm(
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(lightConeConditionalsRequest)
 
   if (teammate) {
-    if (characterConditionals.teammateDefaults) mergeUndefinedValues(simulationForm.characterConditionals, characterConditionals.teammateDefaults())
-    if (lightConeConditionals.teammateDefaults) mergeUndefinedValues(simulationForm.lightConeConditionals, lightConeConditionals.teammateDefaults())
+    simulationForm.characterConditionals = characterConditionals.teammateDefaults ? { ...characterConditionals.teammateDefaults() } : {}
+    simulationForm.lightConeConditionals = lightConeConditionals.teammateDefaults ? { ...lightConeConditionals.teammateDefaults() } : {}
   } else {
-    if (characterConditionals.defaults) mergeUndefinedValues(simulationForm.characterConditionals, characterConditionals.defaults())
-    if (lightConeConditionals.defaults) mergeUndefinedValues(simulationForm.lightConeConditionals, lightConeConditionals.defaults())
+    simulationForm.characterConditionals = characterConditionals.defaults ? { ...characterConditionals.defaults() } : {}
+    simulationForm.lightConeConditionals = lightConeConditionals.defaults ? { ...lightConeConditionals.defaults() } : {}
   }
 
   const simulationMetadata = getGameMetadata().characters[characterId].scoringMetadata?.simulation

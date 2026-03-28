@@ -28,7 +28,7 @@ function getBuffSourceIcon(id: string, buffType: BUFF_TYPE) {
 
 export function CardShell({ avatarSrc, children }: { avatarSrc: string; children: ReactNode }) {
   const options = useContext(DesignContext)
-  const token = { colorBgContainer: 'var(--layer-1)' }
+  const token = { colorBgContainer: 'var(--layer-2)' }
   return (
     <div style={{ display: 'flex', alignItems: 'center', ...getCardStyle(options, token) }}>
       <img src={avatarSrc} style={getIconStyle(options)} />

@@ -8,7 +8,7 @@
   width: 730px;
   overflow: hidden;
   padding: 10px;
-  background: var(--layer-1);
+  background: var(--layer-2);
   box-shadow: var(--shadow-card);
 }
 
@@ -17,7 +17,7 @@
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   height: 100%;
-  background: var(--layer-1);
+  background: var(--layer-2);
 }
 
 .oldStatColumn {

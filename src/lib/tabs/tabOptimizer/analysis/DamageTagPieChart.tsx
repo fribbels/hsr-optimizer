@@ -41,7 +41,7 @@ export function DamageTagPieChart({ analysis }: {
         flexDirection: 'column',
         alignItems: 'center',
         flex: 1,
-        background: 'var(--layer-1)',
+        background: 'var(--layer-2)',
         border: '1px solid var(--border-default)',
         boxShadow: 'var(--shadow-card-flat)',
         borderRadius: 6,
@@ -66,7 +66,7 @@ export function DamageTagPieChart({ analysis }: {
             cornerRadius={2}
             startAngle={90}
             endAngle={-270}
-            stroke='var(--layer-1)'
+            stroke='var(--layer-2)'
             strokeWidth={2}
             isAnimationActive={false}
             style={{ cursor: 'default' }}

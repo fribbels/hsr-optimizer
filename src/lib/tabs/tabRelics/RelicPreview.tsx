@@ -115,7 +115,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
         minWidth: compact ? undefined : relicCardW,
         height: compact ? '100%' : relicCardH,
         padding: 12,
-        backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : undefined,
+        backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : 'var(--layer-2)',
         borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,
         transition: showcaseTransition,
         borderRadius: 6,

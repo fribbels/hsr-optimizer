@@ -62,7 +62,7 @@ export function DamageSplits({ analysis }: {
         flexDirection: 'column',
         alignItems: 'center',
         gap: 8,
-        background: 'var(--layer-1)',
+        background: 'var(--layer-2)',
         border: '1px solid var(--border-default)',
         boxShadow: 'var(--shadow-card-flat)',
         borderRadius: 6,

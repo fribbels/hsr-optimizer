@@ -3,9 +3,9 @@
    ═══════════════════════════════════════════ */
 
 .ag-theme-balham-dark {
-    --ag-background-color: var(--layer-0);
-    --ag-odd-row-background-color: var(--layer-1);
-    --ag-header-background-color: var(--layer-0);
+    --ag-background-color: var(--layer-2);
+    --ag-odd-row-background-color: var(--layer-2);
+    --ag-header-background-color: var(--layer-2);
     --ag-border-color: var(--border-default);
     --ag-row-hover-color: rgba(255, 255, 255, 0.03);
 }

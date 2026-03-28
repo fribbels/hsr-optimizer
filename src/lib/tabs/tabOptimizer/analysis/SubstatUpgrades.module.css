@@ -3,7 +3,7 @@
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   overflow: hidden;
-  background-color: var(--layer-1);
+  background-color: var(--layer-2);
 }
 
 .upgradeTable thead {

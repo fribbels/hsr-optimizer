@@ -1,36 +1,15 @@
+import { createTheme, type MantineThemeOverride } from '@mantine/core'
 import chroma from 'chroma-js'
-import { createTheme, type MantineColorsTuple, type MantineThemeOverride } from '@mantine/core'
+import { deriveDarkPalette, derivePrimaryPalette } from './themeColors'
 
-export type ColorThemeOverrides = {
-  colorPrimary: string
-}
-
-export const Themes: { [key: string]: ColorThemeOverrides } = {
-  BLUE: {
-    colorPrimary: '#1677FF',
-  },
-}
-
-const primaryShades: MantineColorsTuple = [
-  '#f3f0ff', '#e5deff', '#c9b8ff', '#ab8eff', '#9070fc',
-  '#7C5CFC', '#6b4ae6', '#5a3ad0', '#4a2db8', '#381fa0',
-]
-
-function generateDarkPalette(base: string): MantineColorsTuple {
-  const lightness = [0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.30, 0.20, 0.10, 0.00]
-  return lightness.map((l) =>
-    chroma(base).set('oklch.l', l).hex(),
-  ) as unknown as MantineColorsTuple
-}
-
-const darkShades = generateDarkPalette('#182239')
-
-export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThemeOverride {
+export function createMantineTheme(seed: string): MantineThemeOverride {
+  const [h] = chroma(seed).hsl()
   return createTheme({
     primaryColor: 'primary',
+    primaryShade: { light: 6, dark: 5 },
     colors: {
-      primary: primaryShades,
-      dark: darkShades,
+      primary: derivePrimaryPalette(seed),
+      dark: deriveDarkPalette(h),
     },
     fontFamily: 'inherit',
     defaultRadius: 'sm',
@@ -44,23 +23,11 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
     components: {
       Input: {
         defaultProps: { size: 'xs' },
-        styles: {
-          input: {
-            lineHeight: '30px',
-          },
-        },
+        styles: { input: { lineHeight: '30px' } },
       },
-      InputBase: {
-        defaultProps: { size: 'xs' },
-      },
-      InputWrapper: {
-        defaultProps: { size: 'xs' },
-      },
-      Combobox: {
-        defaultProps: {
-          width: 'target',
-        },
-      },
+      InputBase: { defaultProps: { size: 'xs' } },
+      InputWrapper: { defaultProps: { size: 'xs' } },
+      Combobox: { defaultProps: { width: 'target' } },
       Select: {
         defaultProps: {
           size: 'xs',
@@ -75,29 +42,14 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
           comboboxProps: { keepMounted: false },
         },
       },
-      TextInput: {
-        defaultProps: { size: 'xs' },
-      },
-      NumberInput: {
-        defaultProps: { size: 'xs' },
-      },
-      ColorInput: {
-        defaultProps: { size: 'xs' },
-      },
-      Checkbox: {
-        defaultProps: { size: 'xs' },
-      },
-      Switch: {
-        defaultProps: { size: 'sm' },
-      },
-      Radio: {
-        defaultProps: { size: 'xs' },
-      },
+      TextInput: { defaultProps: { size: 'xs' } },
+      NumberInput: { defaultProps: { size: 'xs' } },
+      ColorInput: { defaultProps: { size: 'xs' } },
+      Checkbox: { defaultProps: { size: 'xs' } },
+      Switch: { defaultProps: { size: 'sm' } },
+      Radio: { defaultProps: { size: 'xs' } },
       SegmentedControl: {
-        defaultProps: {
-          size: 'xs',
-          withItemsBorders: false,
-        },
+        defaultProps: { size: 'xs', withItemsBorders: false },
         styles: {
           label: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: 22, paddingBlock: 0 },
           innerLabel: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
@@ -105,54 +57,19 @@ export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThe
       },
       Button: {
         defaultProps: { size: 'xs' },
-        styles: {
-          label: {
-            fontSize: '14px',
-            fontWeight: 'normal',
-          },
-        },
+        styles: { label: { fontSize: '14px', fontWeight: 'normal' } },
       },
-      Pagination: {
-        defaultProps: { size: 'xs' },
-      },
-      Slider: {
-        defaultProps: { size: 'xs' },
-      },
-      Tabs: {
-        defaultProps: { size: 'xs' },
-      },
-      Modal: {
-        defaultProps: { lockScroll: false, padding: 16, withCloseButton: false },
-      },
+      Pagination: { defaultProps: { size: 'xs' } },
+      Slider: { defaultProps: { size: 'xs' } },
+      Tabs: { defaultProps: { size: 'xs' } },
+      Modal: { defaultProps: { lockScroll: false, padding: 16, withCloseButton: false } },
       Drawer: {
-        defaultProps: {
-          lockScroll: false,
-          padding: 16,
-          transitionProps: { duration: 150 },
-        },
+        defaultProps: { lockScroll: false, padding: 16, transitionProps: { duration: 150 } },
       },
-      Timeline: {
-        defaultProps: { size: 'md' },
-      },
-      Divider: {
-        styles: {
-          root: {
-            borderColor: 'rgba(255, 255, 255, 0.10)',
-          },
-        },
-      },
-      Notification: {
-        styles: {
-          root: {
-            padding: '12px 14px 12px 26px',
-          },
-        },
-      },
-      Accordion: {
-        styles: {
-          item: { borderBottom: 'none' },
-        },
-      },
+      Timeline: { defaultProps: { size: 'md' } },
+      Divider: { styles: { root: { borderColor: 'rgba(255, 255, 255, 0.10)' } } },
+      Notification: { styles: { root: { padding: '12px 14px 12px 26px' } } },
+      Accordion: { styles: { item: { borderBottom: 'none' } } },
     },
   })
 }

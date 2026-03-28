@@ -7,17 +7,22 @@ import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'
 import { GlobalModals } from 'lib/overlays/GlobalModals'
 import { Gradient } from 'lib/rendering/gradient'
-import { createMantineTheme, Themes } from 'lib/ui/theme'
+import { createMantineTheme } from 'lib/ui/theme'
+import { useThemeStore } from 'lib/stores/themeStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { Tabs } from 'lib/tabs/Tabs'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
-const mantineTheme = createMantineTheme(Themes.BLUE)
-Gradient.setTheme(Themes.BLUE)
+// Initial gradient setup before first render
+Gradient.setTheme(useThemeStore.getState().seedColor)
 
 export function App() {
-  // Defer update notification past initial load to avoid blocking the first paint.
+  const seedColor = useThemeStore((s) => s.seedColor)
+  const mantineTheme = useMemo(() => createMantineTheme(seedColor), [seedColor])
+
+  useEffect(() => { Gradient.setTheme(seedColor) }, [seedColor])
+
   useEffect(() => {
     const timerId = setTimeout(() => checkForUpdatesNotification(useGlobalStore.getState().version), 5000)
     return () => clearTimeout(timerId)

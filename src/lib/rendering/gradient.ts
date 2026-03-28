@@ -2,7 +2,6 @@ import { type CellClassParams } from 'ag-grid-community'
 import { type SubStats } from 'lib/constants/constants'
 import { type OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { type ScoredRelic } from 'lib/relics/scoreRelics'
-import { type ColorThemeOverrides } from 'lib/ui/theme'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import chroma from 'chroma-js'
 
@@ -77,8 +76,8 @@ export const Gradient = {
     return style
   },
 
-  setTheme(colorTheme: ColorThemeOverrides) {
-    relicGridGradient = chroma.scale([chroma(colorTheme.colorPrimary).darken(3).desaturate(2).hex(), colorTheme.colorPrimary])
+  setTheme(primaryColor: string) {
+    relicGridGradient = chroma.scale([chroma(primaryColor).darken(3).desaturate(2).hex(), primaryColor])
     relicGradientCache = new Array(GRADIENT_BUCKETS)
   },
 

@@ -303,8 +303,8 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
     <div
       className={styles.buildCard}
       style={{
-        backgroundColor: selected ? 'var(--bg-app)' : 'var(--mantine-color-dark-7)',
-        borderColor: 'var(--border-color)',
+        backgroundColor: selected ? 'var(--layer-0)' : 'var(--layer-0)',
+        borderColor: 'var(--border-default)',
       }}
       onClick={(e) => {
         setSelectedBuild(build.name)

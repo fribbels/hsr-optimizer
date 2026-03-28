@@ -24,7 +24,7 @@ function ChangelogEntry(props: { contentUpdate: ChangelogContent }) {
                 src={Assets.getChangelog(`${contentUpdate.date}/${entry}`)}
                 loading='lazy'
                 style={{
-                  border: '2px solid var(--mantine-color-dark-7)',
+                  border: '2px solid var(--layer-0)',
                   margin: 5,
                   maxWidth: 1200,
                 }}

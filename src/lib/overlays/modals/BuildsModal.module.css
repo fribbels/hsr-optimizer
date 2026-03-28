@@ -11,7 +11,7 @@
 .emptyPreview {
   width: 656px;
   height: 900px;
-  border: 1px solid var(--panel-border-color);
+  border: 1px solid var(--border-default);
 }
 
 .buildList {

@@ -8,16 +8,16 @@
   width: 730px;
   overflow: hidden;
   padding: 10px;
-  background: var(--panel-bg);
-  box-shadow: var(--card-shadow);
+  background: var(--layer-1);
+  box-shadow: var(--shadow-card);
 }
 
 .cardImageContainer {
   overflow: hidden;
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   height: 100%;
-  background: var(--panel-bg);
+  background: var(--layer-1);
 }
 
 .oldStatColumn {

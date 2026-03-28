@@ -97,9 +97,9 @@ export function RelicLocator(props: { relic: Relic | null; compact?: boolean; st
           marginTop: compact ? 0 : 1,
           borderRadius: 6,
           height: compact ? 26 : 30,
-          background: 'var(--panel-bg)',
+          background: 'var(--layer-1)',
           boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-          outline: '1px solid var(--border-color)',
+          outline: '1px solid var(--border-default)',
           ...styleProp,
         }}
       >

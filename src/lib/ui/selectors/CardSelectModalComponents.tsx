@@ -68,8 +68,8 @@ export function SegmentedFilterRow<T extends string | number | boolean>({
       style={{
         flexWrap: 'wrap',
         flexGrow: 1,
-        backgroundColor: 'var(--mantine-color-dark-7)',
-        boxShadow: '0px 0px 0px 1px var(--border-color) inset',
+        backgroundColor: 'var(--layer-1)',
+        boxShadow: '0px 0px 0px 1px var(--border-default) inset',
         borderRadius: 6,
         overflow: 'hidden',
         height: noHeight ? undefined : 40,
@@ -82,7 +82,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>({
           style={{
             flex: 1,
             flexBasis: tag.flexBasis ?? flexBasis,
-            boxShadow: '1px 1px 1px 0px var(--border-color)',
+            boxShadow: '1px 1px 1px 0px var(--border-default)',
             backgroundColor: currentFilter.includes(tag.key) ? theme.colors.blue[6] : 'transparent',
           }}
         >

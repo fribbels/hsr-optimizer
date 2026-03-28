@@ -30,10 +30,10 @@ export function FormCard({ size: sizeProp, children, height, style, justify }: {
     <Flex
       style={{
         borderRadius: 6,
-        backgroundColor: 'var(--mantine-color-dark-7)',
+        backgroundColor: 'var(--layer-1)',
         height: height ?? 415,
         padding: style?.padding ?? defaultPadding,
-        boxShadow: 'var(--card-shadow)',
+        boxShadow: 'var(--shadow-card)',
         overflow: style?.overflow,
       }}
       className='hide-scrollbar'

@@ -53,7 +53,7 @@ const GRID_CONTAINER_STYLE = {
   height: GRID_DIMENSIONS.HEIGHT,
   resize: 'vertical' as const,
   overflow: 'hidden' as const,
-  boxShadow: 'var(--card-shadow-flat)',
+  boxShadow: 'var(--shadow-card-flat)',
 }
 
 export function OptimizerGrid() {

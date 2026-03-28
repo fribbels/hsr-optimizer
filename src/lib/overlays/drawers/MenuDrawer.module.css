@@ -22,7 +22,7 @@
   left: 0;
   right: 0;
   background: var(--dbg-indicator-bg, linear-gradient(90deg, rgba(124, 92, 252, 0.18), rgba(124, 92, 252, 0.06)));
-  border-left: var(--dbg-indicator-thickness, 2px) solid var(--nav-accent);
+  border-left: var(--dbg-indicator-thickness, 2px) solid var(--primary-default);
   pointer-events: none;
   z-index: 0;
   transition:
@@ -43,7 +43,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--dbg-group-spacing, 0.08em);
-  color: var(--nav-group-label);
+  color: var(--text-tertiary);
   padding: 10px calc(var(--dbg-item-h-pad, 14px) + var(--dbg-item-inset, 0px)) 4px;
   user-select: none;
 }
@@ -86,37 +86,37 @@ a.itemCollapsed {
 }
 
 .item:hover .itemLabel {
-  color: var(--nav-text-hover);
+  color: var(--primary-light);
 }
 
 .item:hover .itemIcon {
-  color: var(--nav-accent-subtle);
+  color: var(--primary-subtle);
 }
 
 .item[data-active] .itemLabel {
-  color: var(--nav-text-active);
+  color: var(--primary-light);
   font-weight: var(--dbg-active-weight, 500);
 }
 
 .item[data-active] .itemIcon {
-  color: var(--nav-text-hover);
+  color: var(--primary-light);
 }
 
 /* Also highlight focused drawer items (Settings, Get Started) */
 .item[data-focused] .itemLabel {
-  color: var(--nav-text-active);
+  color: var(--primary-light);
   font-weight: var(--dbg-active-weight, 500);
 }
 
 .item[data-focused] .itemIcon {
-  color: var(--nav-text-hover);
+  color: var(--primary-light);
 }
 
 .itemIcon {
   width: var(--dbg-icon-size, 16px);
   min-width: var(--dbg-icon-size, 16px);
   height: var(--dbg-icon-size, 16px);
-  color: var(--nav-text-muted);
+  color: var(--text-tertiary);
   transition: color 0.1s ease;
   display: flex;
   align-items: center;
@@ -132,7 +132,7 @@ a.itemCollapsed {
 .itemLabel {
   font-size: var(--dbg-font-size, 14px);
   font-weight: var(--dbg-label-weight, 400);
-  color: var(--nav-text-muted);
+  color: var(--text-tertiary);
   transition: color 0.1s ease;
   white-space: nowrap;
   line-height: 1;
@@ -172,11 +172,11 @@ a.itemCollapsed {
 }
 
 .itemCollapsed:hover .itemIcon {
-  color: var(--nav-accent-subtle);
+  color: var(--primary-subtle);
 }
 
 .itemCollapsed[data-active] .itemIcon {
-  color: var(--nav-text-hover);
+  color: var(--primary-light);
 }
 
 /* ==================================================================
@@ -187,7 +187,7 @@ a.itemCollapsed {
 
 .debugWrapper[data-indicator="right"] .indicator {
   border-left: none;
-  border-right: var(--dbg-indicator-thickness, 2px) solid var(--nav-accent);
+  border-right: var(--dbg-indicator-thickness, 2px) solid var(--primary-default);
   background: var(--dbg-indicator-bg-reverse, linear-gradient(270deg, rgba(124, 92, 252, 0.18), rgba(124, 92, 252, 0.06)));
 }
 
@@ -232,12 +232,12 @@ a.itemCollapsed {
 
 .debugWrapper[data-dividers="solid"] .group + .group::before {
   height: 1px;
-  background: var(--nav-separator);
+  background: var(--layer-inset);
 }
 
 .debugWrapper[data-dividers="dashed"] .group + .group::before {
   height: 0;
-  border-top: 1px dashed var(--nav-separator);
+  border-top: 1px dashed var(--layer-inset);
 }
 
 .debugWrapper[data-dividers="gradient"] .group + .group::before {

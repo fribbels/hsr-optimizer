@@ -4,15 +4,15 @@
 
 .tableWrapper {
   padding: 8px;
-  background-color: var(--panel-bg);
-  border: var(--panel-border);
+  background-color: var(--layer-1);
+  border: 1px solid var(--border-default);
   border-top: none;
 }
 
 .benchmarkTable {
   width: 1200px;
-  border: var(--panel-border);
-  box-shadow: var(--card-shadow-flat);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-card-flat);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -65,7 +65,7 @@
   padding: 4px 10px;
   cursor: pointer;
   color: #fff;
-  border: var(--panel-border);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
 }
 

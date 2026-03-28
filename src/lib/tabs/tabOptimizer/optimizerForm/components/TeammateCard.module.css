@@ -3,28 +3,28 @@
 /*                                                                     */
 /*  Single outer border. Two-tone columns via background only          */
 /*  (no internal borders to avoid double-border effect).               */
-/*    left  = dark-7 (card bg)                                         */
-/*    right = dark-6 (lighter)                                         */
+/*    left  = layer-1 (card bg)                                        */
+/*    right = layer-1 (lighter)                                        */
 /* ------------------------------------------------------------------ */
 
 .card {
   border-radius: var(--radius-md);
-  border: 1px solid var(--mantine-color-dark-4);
-  background: var(--mantine-color-dark-7);
+  border: 1px solid var(--border-default);
+  background: var(--layer-1);
   overflow: hidden;
-  box-shadow: var(--card-shadow-flat);
+  box-shadow: var(--shadow-card-flat);
 }
 
 /* ---- Right columns (bg only, no border) ---- */
 
 .rightCol {
   flex-shrink: 0;
-  background: var(--mantine-color-dark-6);
+  background: var(--layer-1);
 }
 
 .rightColLc {
   flex-shrink: 0;
-  background: var(--mantine-color-dark-6);
+  background: var(--layer-1);
 }
 
 /* ---- Avatar ---- */

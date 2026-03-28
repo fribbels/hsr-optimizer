@@ -109,8 +109,8 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
     <div
       style={{
         borderRadius: 6,
-        border: '1px solid var(--border-color)',
-        backgroundColor: 'var(--mantine-color-dark-7)',
+        border: '1px solid var(--border-default)',
+        backgroundColor: 'var(--layer-1)',
       }}
     >
       <ScatterChart
@@ -181,8 +181,8 @@ function TooltipContent(props: TooltipContentProps) {
         flexDirection: 'column',
         justifyContent: 'space-between',
         borderRadius: 6,
-        border: '1px solid var(--border-color)',
-        backgroundColor: 'var(--bg-app)',
+        border: '1px solid var(--border-default)',
+        backgroundColor: 'var(--layer-0)',
         height: 'fit-content',
         padding: 10,
       }}

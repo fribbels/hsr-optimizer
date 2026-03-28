@@ -16,10 +16,10 @@
   height: 900px;
   max-height: 900px;
   background-image:
-    linear-gradient(to top, transparent 99.5%, var(--mantine-color-body) 100%),
-    linear-gradient(to bottom, transparent 99.5%, var(--mantine-color-body) 100%),
-    linear-gradient(to left, transparent 98%, var(--mantine-color-body) 99.5%),
-    linear-gradient(to right, transparent 98%, var(--mantine-color-body) 99.5%),
+    linear-gradient(to top, transparent 99.5%, var(--layer-0) 100%),
+    linear-gradient(to bottom, transparent 99.5%, var(--layer-0) 100%),
+    linear-gradient(to left, transparent 98%, var(--layer-0) 99.5%),
+    linear-gradient(to right, transparent 98%, var(--layer-0) 99.5%),
     var(--home-bg-image);
   background-position: center;
   background-repeat: no-repeat;

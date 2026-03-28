@@ -1,6 +1,6 @@
 .warpTable {
-  background-color: var(--panel-bg);
-  box-shadow: var(--card-shadow);
+  background-color: var(--layer-1);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   overflow: hidden;
 }

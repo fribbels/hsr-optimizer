@@ -7,7 +7,7 @@ export function PartitionDivider({ bottom }: { bottom?: boolean }) {
         bottom: bottom ? 0 : undefined,
         left: 0,
         right: 0,
-        borderTop: '1px solid var(--border-color)',
+        borderTop: '1px solid var(--border-default)',
         pointerEvents: 'none',
       }}
     />

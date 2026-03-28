@@ -3,41 +3,47 @@
   --font-ui: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
   --font-mono: "Consolas", "Courier New", "Menlo", "Monaco", monospace;
 
-  /* Semantic background aliases — from Mantine dark palette */
-  --bg-app: var(--mantine-color-dark-6);
-  --bg-elevated: var(--mantine-color-dark-6);
-  --border-color: var(--mantine-color-dark-4);
+  /* Layers — elevation stack (seed-derived via Mantine palette) */
+  --layer-0: var(--mantine-color-dark-7);          /* body background */
+  --layer-1: var(--mantine-color-dark-6);          /* cards, panels, sidebar */
+  --layer-2: var(--mantine-color-dark-5);          /* hover, nested elements */
+  --layer-3: var(--mantine-color-dark-4);          /* active, double-nested */
+  --layer-inset: var(--mantine-color-dark-8);      /* recessed, below body */
+
+  /* Borders */
+  --border-default: var(--mantine-color-dark-4);
+  --border-subtle: 1px solid rgba(255, 255, 255, 0.10);
+
+  /* Text */
+  --text-primary: var(--mantine-color-dark-0);
+  --text-secondary: var(--mantine-color-dark-2);
+  --text-tertiary: var(--mantine-color-dark-3);
+
+  /* Primary accent */
+  --primary-light: var(--mantine-color-primary-2);
+  --primary-default: var(--mantine-color-primary-5);
+  --primary-hover: var(--mantine-color-primary-4);
+  --primary-active: var(--mantine-color-primary-6);
+  --primary-subtle: var(--mantine-color-primary-7);
+  --primary-bg: var(--mantine-color-primary-8);
+  --primary-light-alpha: var(--mantine-color-primary-light);
 
   /* Shadows */
-  --card-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+  --shadow-card: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
                  rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
                  rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset;
-  --card-shadow-flat: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+  --shadow-card-flat: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
                       rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em;
 
-  /* Panel backgrounds */
-  --panel-bg: var(--mantine-color-dark-6);
-  --panel-border: 1px solid var(--border-color);
-  --panel-border-color: var(--border-color);
-
-  /* Border radii — 3-tier system: xs (inline elements), sm (cards), md (panels/modals) */
+  /* Border radii */
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 6px;
-  --showcase-outline: rgba(255, 255, 255, 0.40) solid 1px;
-  --showcase-outline-light: rgba(255, 255, 255, 0.20) solid 1px;
-  --subtle-border: 1px solid rgba(255, 255, 255, 0.10);
 
-  /* Text shadows */
-  --text-shadow-showcase: 0px 0px 10px black;
-
-  /* Backdrop filters */
-  --backdrop-blur: blur(5px);
-  --showcase-backdrop: blur(3px);
-
-  /* Translucent backgrounds */
-  --bg-translucent: rgba(26, 27, 30, 0.73);
-  --bg-sidebar: var(--mantine-color-dark-6);
+  /* Fixed accent colors (not seed-derived) */
+  --color-link: #91bfff;
+  --color-gold: #e1a564;
+  --color-accent: #799ef4;
 
   /* Rarity card gradients */
   --rarity-5-start: #8A6700;
@@ -50,17 +56,13 @@
   --card-text-color: #D0D0D2;
   --card-excluded-bg: #6b7280;
 
-  /* Accent colors */
-  --link-color: #91bfff;
-  --gold-color: #e1a564;
-  --standard-accent: #799ef4;
+  /* Showcase */
+  --showcase-outline: rgba(255, 255, 255, 0.40) solid 1px;
+  --showcase-outline-light: rgba(255, 255, 255, 0.20) solid 1px;
+  --text-shadow-showcase: 0px 0px 10px black;
+  --backdrop-blur: blur(5px);
+  --showcase-backdrop: blur(3px);
 
-  /* Sidebar nav — derived from Mantine primary palette */
-  --nav-accent: var(--mantine-color-primary-5);
-  --nav-accent-subtle: var(--mantine-color-primary-7);
-  --nav-text-muted: #8378a3;
-  --nav-text-hover: var(--mantine-color-primary-2);
-  --nav-text-active: var(--mantine-color-primary-1);
-  --nav-group-label: #524b75;
-  --nav-separator: #211e2c;
+  /* Translucent (follow-up: seed-tint this) */
+  --bg-translucent: rgba(26, 27, 30, 0.73);
 }

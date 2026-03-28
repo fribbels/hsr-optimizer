@@ -20,7 +20,7 @@ export function StateDisplay() {
 
   return (
     <Flex direction="column" gap={8}>
-      <Flex style={{ position: 'sticky', backgroundColor: 'var(--mantine-color-dark-5)', top: 0, zIndex: 10, paddingTop: 6, paddingBottom: 6 }} align='center'>
+      <Flex style={{ position: 'sticky', backgroundColor: 'var(--layer-2)', top: 0, zIndex: 10, paddingTop: 6, paddingBottom: 6 }} align='center'>
         <ComboHeader />
       </Flex>
 

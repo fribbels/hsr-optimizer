@@ -1,9 +1,9 @@
 .upgradeTable {
   width: 100%;
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   overflow: hidden;
-  background-color: var(--panel-bg);
+  background-color: var(--layer-1);
 }
 
 .upgradeTable thead {

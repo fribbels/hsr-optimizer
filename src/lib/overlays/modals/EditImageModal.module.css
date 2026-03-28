@@ -7,7 +7,7 @@
 }
 
 .dimmedText {
-  color: var(--mantine-color-dimmed);
+  color: var(--text-secondary);
 }
 
 .urlInputWrapper {

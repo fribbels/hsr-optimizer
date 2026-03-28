@@ -32,8 +32,8 @@
 /* LayoutSider */
 
 .siderPanel {
-  background: var(--bg-app);
-  border-right: 1px solid var(--mantine-color-dark-6);
+  background: var(--layer-0);
+  border-right: 1px solid var(--layer-1);
   height: 100vh;
   position: sticky;
   top: 0;

@@ -80,7 +80,7 @@ export function SimulatedBuildsGrid() {
                 align="center"
                 style={{
                   cursor: 'pointer',
-                  backgroundColor: selectedStatSimulations[0] === record.key ? 'var(--mantine-color-primary-light)' : undefined,
+                  backgroundColor: selectedStatSimulations[0] === record.key ? 'var(--primary-light-alpha)' : undefined,
                   padding: '6px 8px',
                 }}
               >

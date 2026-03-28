@@ -28,8 +28,8 @@
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 0 16px color-mix(in srgb, var(--mantine-color-primary-5) 27%, transparent),
-    0 0 4px color-mix(in srgb, var(--mantine-color-primary-5) 40%, transparent);
+    0 0 16px color-mix(in srgb, var(--primary-default) 27%, transparent),
+    0 0 4px color-mix(in srgb, var(--primary-default) 40%, transparent);
 }
 
 .avatar {
@@ -53,8 +53,8 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--mantine-color-primary-5);
-  border: 2px solid var(--mantine-color-dark-8);
+  background: var(--primary-default);
+  border: 2px solid var(--layer-inset);
 }
 
 .labelGroup {
@@ -80,6 +80,6 @@
 
 .chevron {
   font-size: 10px;
-  color: var(--mantine-color-dimmed);
+  color: var(--text-secondary);
   margin-left: 2px;
 }

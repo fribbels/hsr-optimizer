@@ -39,8 +39,8 @@ export function TopBar() {
                 width: 64,
                 height: 64,
                 borderRadius: '50%',
-                border: '2px solid var(--border-color)',
-                background: 'var(--mantine-color-dark-7)',
+                border: '2px solid var(--border-default)',
+                background: 'var(--layer-1)',
                 objectFit: 'cover',
                 cursor: 'pointer',
               }}

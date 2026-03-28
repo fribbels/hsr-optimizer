@@ -48,7 +48,7 @@ export function ChartTooltipContent({ children }: { children: ReactNode }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        background: 'var(--mantine-color-dark-5)',
+        background: 'var(--layer-2)',
         padding: 8,
         borderRadius: 2,
       }}

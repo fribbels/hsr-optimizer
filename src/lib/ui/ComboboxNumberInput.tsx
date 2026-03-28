@@ -86,7 +86,7 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
               justify='center'
               w='100%'
               h='60%'
-              style={{ borderLeft: '1px solid var(--mantine-color-dark-4)', cursor: 'pointer' }}
+              style={{ borderLeft: '1px solid var(--border-default)', cursor: 'pointer' }}
               onClick={() => combobox.toggleDropdown()}
             >
               <Combobox.Chevron />

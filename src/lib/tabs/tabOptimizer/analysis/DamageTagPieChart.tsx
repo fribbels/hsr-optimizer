@@ -41,15 +41,15 @@ export function DamageTagPieChart({ analysis }: {
         flexDirection: 'column',
         alignItems: 'center',
         flex: 1,
-        background: 'var(--panel-bg)',
-        border: 'var(--panel-border)',
-        boxShadow: 'var(--card-shadow-flat)',
+        background: 'var(--layer-1)',
+        border: '1px solid var(--border-default)',
+        boxShadow: 'var(--shadow-card-flat)',
         borderRadius: 6,
         padding: '12px 16px',
         overflow: 'hidden',
       }}
     >
-      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-color)', paddingBottom: 4 }}>
+      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-default)', paddingBottom: 4 }}>
         Combo Distribution
       </span>
 
@@ -66,7 +66,7 @@ export function DamageTagPieChart({ analysis }: {
             cornerRadius={2}
             startAngle={90}
             endAngle={-270}
-            stroke='var(--panel-bg)'
+            stroke='var(--layer-1)'
             strokeWidth={2}
             isAnimationActive={false}
             style={{ cursor: 'default' }}
@@ -128,13 +128,13 @@ export function DamageTagPieChart({ analysis }: {
         </tbody>
         <tfoot>
           <tr>
-            <td style={{ paddingTop: 6, borderTop: '1px solid var(--border-color)' }}>
+            <td style={{ paddingTop: 6, borderTop: '1px solid var(--border-default)' }}>
               <span style={{ fontSize: 13, color: '#8899aa', paddingLeft: 18 }}>Total</span>
             </td>
-            <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 6, borderTop: '1px solid var(--border-color)' }}>
+            <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 6, borderTop: '1px solid var(--border-default)' }}>
               {localeNumberComma(Math.floor(grandTotal))}
             </td>
-            <td style={{ textAlign: 'right', fontSize: 13, color: '#8899aa', paddingTop: 6, borderTop: '1px solid var(--border-color)', paddingLeft: 20 }}>
+            <td style={{ textAlign: 'right', fontSize: 13, color: '#8899aa', paddingTop: 6, borderTop: '1px solid var(--border-default)', paddingLeft: 20 }}>
               100.0%
             </td>
           </tr>

@@ -157,7 +157,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
               onClick={() => setPage(i)}
               className={styles.paginationButton}
               style={{
-                background: i === page ? 'var(--standard-accent)' : 'var(--panel-bg)',
+                background: i === page ? 'var(--color-accent)' : 'var(--layer-1)',
               }}
             >
               {i + 1}

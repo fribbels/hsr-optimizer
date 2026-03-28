@@ -1,5 +1,5 @@
 .resultsCollector {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-default);
 }
 
 .setGrid {
@@ -32,8 +32,8 @@
 }
 
 .setRowChecked {
-  border-color: var(--mantine-color-primary-light);
-  background: var(--mantine-color-primary-light);
+  border-color: var(--primary-light-alpha);
+  background: var(--primary-light-alpha);
 }
 
 .setRowDimmed {
@@ -55,7 +55,7 @@
   width: 22px;
   height: 22px;
   border-radius: var(--mantine-radius-sm);
-  border: 1.5px dashed var(--mantine-color-dimmed);
+  border: 1.5px dashed var(--text-secondary);
   opacity: 0.5;
 }
 
@@ -64,5 +64,5 @@
 }
 
 .footer {
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-default);
 }

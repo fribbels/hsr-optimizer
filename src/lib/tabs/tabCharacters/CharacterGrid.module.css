@@ -18,7 +18,7 @@
 }
 
 .gridContainer[data-container-border='true'] {
-  border: 1px solid var(--mantine-color-dark-5);
+  border: 1px solid var(--layer-2);
   border-radius: var(--mantine-radius-sm);
 }
 
@@ -64,11 +64,6 @@
 
 .root {
   /* Overridable design tokens (scoped to row) */
-  --cr-bg: var(--mantine-color-dark-7);
-  --cr-border-subtle: var(--mantine-color-dark-5);
-  --cr-text-primary: var(--mantine-color-text);
-  --cr-text-secondary: var(--mantine-color-dimmed);
-  --cr-text-muted: var(--mantine-color-dark-3);
   --cr-primary: var(--mantine-primary-color-filled);
   --cr-primary-tint: color-mix(in srgb, var(--cr-primary) 10%, transparent);
   --cr-primary-border: color-mix(in srgb, var(--cr-primary) 15%, transparent);
@@ -95,7 +90,7 @@
 }
 
 .root[data-dragging='true'] {
-  box-shadow: inset 0 0 0 1px var(--cr-border-subtle), 0 4px 16px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 0 1px var(--border-default), 0 4px 16px rgba(0, 0, 0, 0.5);
   z-index: 10;
   cursor: grabbing;
 }
@@ -225,7 +220,7 @@
   display: block;
   width: 8px;
   height: 1.5px;
-  background: var(--cr-text-secondary);
+  background: var(--text-secondary);
 }
 
 /* --- Subtitle (E/S badges + path under name) --- */
@@ -241,7 +236,7 @@
   font-size: 12px;
   font-weight: 500;
   font-family: var(--mantine-font-family-monospace, monospace);
-  color: var(--cr-text-secondary);
+  color: var(--text-secondary);
 }
 
 /* --- Light cone icon --- */
@@ -289,7 +284,7 @@
   font-family: var(--mantine-font-family-monospace, monospace);
   font-size: 11px;
   font-weight: 500;
-  color: var(--cr-text-muted);
+  color: var(--text-tertiary);
   text-align: center;
 }
 

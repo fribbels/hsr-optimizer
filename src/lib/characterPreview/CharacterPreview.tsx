@@ -224,8 +224,8 @@ export function CharacterPreview({
           height: parentH,
           width: cardTotalW,
           borderRadius: 6,
-          backgroundColor: 'var(--bg-app)',
-          border: '1px solid var(--mantine-color-dark-7)',
+          backgroundColor: 'var(--layer-0)',
+          border: '1px solid var(--layer-0)',
         }}
       />
     )

@@ -11,19 +11,19 @@
 }
 
 .pillInactive {
-  background-color: var(--mantine-color-dark-7);
-  border: 1px solid var(--border-color);
-  color: var(--mantine-color-dimmed);
+  background-color: var(--layer-0);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
 }
 
 .pillActive {
-  background-color: color-mix(in srgb, var(--mantine-color-primary-5) 28%, transparent);
-  border: 1px solid color-mix(in srgb, var(--mantine-color-primary-5) 66%, transparent);
-  color: var(--mantine-color-primary-2);
+  background-color: color-mix(in srgb, var(--primary-default) 28%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary-default) 66%, transparent);
+  color: var(--primary-light);
 }
 
 .badge {
-  background-color: var(--mantine-color-primary-5);
+  background-color: var(--primary-default);
   color: #fff;
   border-radius: 10px;
   padding: 0 5px;

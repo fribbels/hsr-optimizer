@@ -25,7 +25,7 @@ function ModeToggle({ mode, onModeChange }: {
             color: mode === m.key ? '#DDD' : '#8899aa',
             cursor: 'pointer',
             fontWeight: 400,
-            background: mode === m.key ? 'var(--border-color)' : 'transparent',
+            background: mode === m.key ? 'var(--border-default)' : 'transparent',
             padding: '3px 16px',
             borderRadius: 6,
             transition: 'all 0.15s',
@@ -62,14 +62,14 @@ export function DamageSplits({ analysis }: {
         flexDirection: 'column',
         alignItems: 'center',
         gap: 8,
-        background: 'var(--panel-bg)',
-        border: 'var(--panel-border)',
-        boxShadow: 'var(--card-shadow-flat)',
+        background: 'var(--layer-1)',
+        border: '1px solid var(--border-default)',
+        boxShadow: 'var(--shadow-card-flat)',
         borderRadius: 6,
         padding: '10px 0',
       }}
     >
-      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-color)', paddingBottom: 4 }}>
+      <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-default)', paddingBottom: 4 }}>
         Combo Breakdown
       </span>
       <ModeToggle mode={mode} onModeChange={setMode} />

@@ -50,7 +50,7 @@ export function BottomToolbar() {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <Group gap={10}>
-        <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-color)', height: 30 }} />
+        <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-default)', height: 30 }} />
         <Button
           variant="default"
           size="xs"

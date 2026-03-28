@@ -218,10 +218,10 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
 
 export const tableStyle = {
   width: '100%',
-  boxShadow: 'var(--card-shadow)',
+  boxShadow: 'var(--shadow-card)',
   borderRadius: 6,
   overflow: 'hidden',
-  backgroundColor: 'var(--panel-bg)',
+  backgroundColor: 'var(--layer-1)',
 }
 
 function Arrow({ up }: { up: boolean }) {

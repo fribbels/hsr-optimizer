@@ -119,7 +119,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
         borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,
         transition: showcaseTransition,
         borderRadius: 6,
-        boxShadow: source == null ? 'inset 0 0 0 1px var(--border-color)' : showcaseShadow + showcaseShadowInsetAddition,
+        boxShadow: source == null ? 'inset 0 0 0 1px var(--border-default)' : showcaseShadow + showcaseShadowInsetAddition,
         cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
       }}
     >

@@ -3,7 +3,7 @@ import type { DamageTag } from 'lib/optimization/engine/config/tag'
 import type React from 'react'
 import { createContext } from 'react'
 
-const cardShadow = 'var(--card-shadow)'
+const cardShadow = 'var(--shadow-card)'
 
 type DesignOptions = {
   rowHeight: number,

@@ -1,6 +1,6 @@
 .headerText {
   text-decoration: underline;
-  text-decoration-color: var(--standard-accent);
+  text-decoration-color: var(--color-accent);
   text-underline-offset: 2px;
   white-space: nowrap;
 }

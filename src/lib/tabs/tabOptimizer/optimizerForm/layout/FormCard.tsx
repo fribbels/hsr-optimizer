@@ -30,7 +30,7 @@ export function FormCard({ size: sizeProp, children, height, style, justify }: {
     <Flex
       style={{
         borderRadius: 6,
-        backgroundColor: 'var(--layer-1)',
+        backgroundColor: 'var(--layer-2)',
         height: height ?? 415,
         padding: style?.padding ?? defaultPadding,
         boxShadow: 'var(--shadow-card)',

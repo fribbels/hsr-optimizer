@@ -7,7 +7,7 @@ import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'
 import { GlobalModals } from 'lib/overlays/GlobalModals'
 import { Gradient } from 'lib/rendering/gradient'
-import { createMantineTheme } from 'lib/ui/theme'
+import { createMantineTheme, themeResolver } from 'lib/ui/theme'
 import { useThemeStore } from 'lib/stores/themeStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { Tabs } from 'lib/tabs/Tabs'
@@ -29,7 +29,7 @@ export function App() {
   }, [])
 
   return (
-    <MantineProvider theme={mantineTheme} defaultColorScheme='dark'>
+    <MantineProvider theme={mantineTheme} cssVariablesResolver={themeResolver} defaultColorScheme='dark'>
       <ModalsProvider>
         <Notifications position='top-right' />
         <ConfirmModalProvider>

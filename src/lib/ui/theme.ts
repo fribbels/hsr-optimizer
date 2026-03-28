@@ -1,9 +1,10 @@
-import { createTheme, type MantineThemeOverride } from '@mantine/core'
+import { createTheme, type CSSVariablesResolver, type MantineThemeOverride } from '@mantine/core'
 import chroma from 'chroma-js'
-import { deriveDarkPalette, derivePrimaryPalette } from './themeColors'
+import { deriveCustomLayers, deriveDarkPalette, derivePrimaryPalette } from './themeColors'
 
 export function createMantineTheme(seed: string): MantineThemeOverride {
   const [h] = chroma(seed).hsl()
+  const { layer1, layer2, layer3 } = deriveCustomLayers(h)
   return createTheme({
     primaryColor: 'primary',
     primaryShade: { light: 6, dark: 5 },
@@ -11,6 +12,7 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       primary: derivePrimaryPalette(seed),
       dark: deriveDarkPalette(h),
     },
+    other: { layer1, layer2, layer3 },
     fontFamily: 'inherit',
     defaultRadius: 'sm',
     spacing: {
@@ -47,10 +49,14 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       ColorInput: { defaultProps: { size: 'xs' } },
       Checkbox: { defaultProps: { size: 'xs' } },
       Switch: { defaultProps: { size: 'sm' } },
+      Pill: {
+        styles: { root: { backgroundColor: 'var(--control-bg)' } },
+      },
       Radio: { defaultProps: { size: 'xs' } },
       SegmentedControl: {
         defaultProps: { size: 'xs', withItemsBorders: false },
         styles: {
+          root: { backgroundColor: 'var(--control-bg)' },
           label: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: 22, paddingBlock: 0 },
           innerLabel: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
         },
@@ -73,3 +79,15 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
     },
   })
 }
+
+export const themeResolver: CSSVariablesResolver = (theme) => ({
+  variables: {
+    '--layer-1': theme.other.layer1,
+    '--layer-2': theme.other.layer2,
+    '--layer-3': theme.other.layer3,
+    '--control-bg': 'rgba(0, 0, 0, 0.15)',
+    '--control-bg-light': '#ffffff40',
+  },
+  light: {},
+  dark: {},
+})

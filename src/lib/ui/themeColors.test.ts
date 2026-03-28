@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { deriveDarkPalette, derivePrimaryPalette } from './themeColors'
+import { deriveCustomLayers, deriveDarkPalette, derivePrimaryPalette } from './themeColors'
 
 describe('deriveDarkPalette', () => {
   it('produces 10-element tuple from seed hue', () => {
@@ -10,12 +10,19 @@ describe('deriveDarkPalette', () => {
 
   it('dark-7 (body) matches expected value for hue 215.2', () => {
     const palette = deriveDarkPalette(215.2)
-    expect(palette[7]).toBe('#18263a')
+    expect(palette[7]).toBe('#182239')
   })
 
-  it('dark-6 (elevated) is lighter than dark-7 (body)', () => {
+  it('dark-6 (inputs) is lighter than dark-7 (body)', () => {
     const palette = deriveDarkPalette(215.2)
     expect(palette[6]).not.toBe(palette[7])
+  })
+
+  it('deriveCustomLayers produces panel and card layers', () => {
+    const layers = deriveCustomLayers(215.2)
+    expect(layers.layer1).toMatch(/^#[0-9a-f]{6}$/)
+    expect(layers.layer2).toMatch(/^#[0-9a-f]{6}$/)
+    expect(layers.layer1).not.toBe(layers.layer2)
   })
 
   it('handles grayscale seed (hue=0, low saturation)', () => {

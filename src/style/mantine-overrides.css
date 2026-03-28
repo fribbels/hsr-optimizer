@@ -5,15 +5,25 @@
     transition: none !important;
 }
 
-/* Switch pointer cursor */
+/* Switch pointer cursor + off-track color */
 .mantine-Switch-track {
     cursor: pointer;
+}
+.mantine-Switch-input:not(:checked) + .mantine-Switch-track {
+    background-color: #ffffff40;
 }
 
 /* Timeline active bullet: v9 alpha defaults to white outline; restore filled style */
 .mantine-Timeline-itemBullet[data-active] {
     background-color: var(--mantine-primary-color-filled);
     border-color: var(--mantine-primary-color-filled);
+}
+
+/* Combobox/Select/MultiSelect dropdown background */
+.mantine-Combobox-dropdown,
+.mantine-Select-dropdown,
+.mantine-MultiSelect-dropdown {
+    background-color: var(--mantine-color-dark-5) !important;
 }
 
 /* Remove bold from SegmentedControl labels */

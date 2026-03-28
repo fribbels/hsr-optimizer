@@ -32,7 +32,7 @@ export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
             width: `calc(100% - ${2 * totalSideOffset}px)`,
             bottom: `${totalSideOffset}px`,
             left: `${totalSideOffset}px`,
-            backgroundColor: 'var(--layer-1)',
+            backgroundColor: 'var(--layer-2)',
             boxShadow: shadow,
             borderRadius: 6,
             padding: defaultPadding,
@@ -43,7 +43,7 @@ export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
           style={isFullSize
             ? {
               borderRadius: 6,
-              backgroundColor: 'var(--layer-1)',
+              backgroundColor: 'var(--layer-2)',
               padding: defaultPadding,
               height: 'fit-content',
               width: 233,

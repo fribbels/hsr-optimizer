@@ -3,11 +3,9 @@
   --font-ui: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
   --font-mono: "Consolas", "Courier New", "Menlo", "Monaco", monospace;
 
-  /* Layers — elevation stack (seed-derived via Mantine palette) */
+  /* Layers — elevation stack */
   --layer-0: var(--mantine-color-dark-7);          /* body background */
-  --layer-1: var(--mantine-color-dark-6);          /* cards, panels, sidebar */
-  --layer-2: var(--mantine-color-dark-5);          /* hover, nested elements */
-  --layer-3: var(--mantine-color-dark-4);          /* active, double-nested */
+  /* --layer-1, --layer-2, --layer-3 are injected via cssVariablesResolver */
   --layer-inset: var(--mantine-color-dark-8);      /* recessed, below body */
 
   /* Borders */
@@ -16,8 +14,8 @@
 
   /* Text */
   --text-primary: var(--mantine-color-dark-0);
-  --text-secondary: var(--mantine-color-dark-2);
-  --text-tertiary: var(--mantine-color-dark-3);
+  --text-secondary: var(--mantine-color-dark-1);
+  --text-tertiary: var(--mantine-color-dark-2);
 
   /* Primary accent */
   --primary-light: var(--mantine-color-primary-2);

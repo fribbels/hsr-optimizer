@@ -10,7 +10,7 @@
 .card {
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
-  background: var(--layer-1);
+  background: var(--layer-2);
   overflow: hidden;
   box-shadow: var(--shadow-card-flat);
 }
@@ -19,12 +19,12 @@
 
 .rightCol {
   flex-shrink: 0;
-  background: var(--layer-1);
+  background: var(--layer-2);
 }
 
 .rightColLc {
   flex-shrink: 0;
-  background: var(--layer-1);
+  background: var(--layer-2);
 }
 
 /* ---- Avatar ---- */

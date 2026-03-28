@@ -1,4 +1,4 @@
-import { Flex, UnstyledButton, useMantineTheme } from '@mantine/core'
+import { Flex, UnstyledButton } from '@mantine/core'
 import {
   type ElementName,
   ElementToDamage,
@@ -53,8 +53,6 @@ export function SegmentedFilterRow<T extends string | number | boolean>({
   flexBasis?: string
   noHeight?: boolean
 }) {
-  const theme = useMantineTheme()
-
   const handleChange = (tag: T, checked: boolean) => {
     const nextSelectedTags = checked
       ? [...currentFilter, tag]
@@ -83,7 +81,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>({
             flex: 1,
             flexBasis: tag.flexBasis ?? flexBasis,
             boxShadow: '1px 1px 1px 0px var(--border-default)',
-            backgroundColor: currentFilter.includes(tag.key) ? theme.colors.blue[6] : 'transparent',
+            backgroundColor: currentFilter.includes(tag.key) ? 'var(--primary-default)' : 'transparent',
           }}
         >
           <Flex align='center' justify='space-around' className={classes.segmentedFilterInner}>

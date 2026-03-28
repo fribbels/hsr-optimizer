@@ -1,4 +1,3 @@
-import { useMantineTheme } from '@mantine/core'
 import { BuffRow } from 'lib/characterPreview/buffsAnalysis/BuffRow'
 import {
   DesignContext,
@@ -29,8 +28,7 @@ function getBuffSourceIcon(id: string, buffType: BUFF_TYPE) {
 
 export function CardShell({ avatarSrc, children }: { avatarSrc: string; children: ReactNode }) {
   const options = useContext(DesignContext)
-  const mantineTheme = useMantineTheme()
-  const token = { colorBgContainer: mantineTheme.colors.dark[6] }
+  const token = { colorBgContainer: 'var(--layer-1)' }
   return (
     <div style={{ display: 'flex', alignItems: 'center', ...getCardStyle(options, token) }}>
       <img src={avatarSrc} style={getIconStyle(options)} />

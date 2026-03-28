@@ -1,4 +1,3 @@
-import { useMantineTheme } from '@mantine/core'
 import {
   showcaseShadow,
   showcaseShadowInsetAddition,
@@ -52,7 +51,6 @@ import { getCharacterById } from 'lib/stores/character/characterStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import {
-  showcaseBackgroundColor,
   modifyCustomColor,
   organizeColors,
   pickBestSeed,
@@ -248,8 +246,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
   // handles the equipped field difference (Relic objects vs string IDs).
   const character = rawCharacter as Character
-
-  const mantineTheme = useMantineTheme()
 
   const [portraitBlur, setPortraitBlur] = useState(PORTRAIT_BLUR)
   const [portraitBrightness, setPortraitBrightness] = useState(PORTRAIT_BRIGHTNESS)
@@ -497,7 +493,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           position: 'relative',
           display: 'flex',
           height: parentH,
-          background: showcaseBackgroundColor(mantineTheme.colors.dark[8]),
+          background: 'var(--layer-inset)',
           backgroundBlendMode: 'screen',
           overflow: 'hidden',
           borderRadius: 6,

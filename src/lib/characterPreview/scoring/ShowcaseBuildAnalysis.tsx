@@ -1,4 +1,4 @@
-import { SegmentedControl, useMantineTheme } from '@mantine/core'
+import { SegmentedControl } from '@mantine/core'
 import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterScoringSummary } from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
@@ -34,8 +34,6 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
 }: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
-  const mantineTheme = useMantineTheme()
-
   const { characterMetadata } = showcaseMetadata
 
   if (!scoringDone) {
@@ -62,7 +60,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
             borderRadius: 6,
             height: 40,
             marginTop: 10,
-            backgroundColor: mantineTheme.colors.dark[7] + '85',
+            backgroundColor: 'color-mix(in srgb, var(--layer-0) 52%, transparent)',
             alignItems: 'center',
           }}
         >

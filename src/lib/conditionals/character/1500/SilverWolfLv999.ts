@@ -503,7 +503,7 @@ const display = {
     z: 1.10,
   },
   disableSpine: true,
-  showcaseColor: '#5671dc',
+  showcaseColor: '#968ff7',
 }
 
 export const SilverWolfLv999: CharacterConfig = {

@@ -320,7 +320,7 @@ const display = {
     z: 1.1,
   },
   disableSpine: true,
-  showcaseColor: '#c8d0f0',
+  showcaseColor: '#ca7cd4',
 }
 
 export const Hook: CharacterConfig = {

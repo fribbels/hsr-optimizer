@@ -449,7 +449,7 @@ const display = {
     y: 950,
     z: 1.25,
   },
-  showcaseColor: '#ea8abc',
+  showcaseColor: '#d976be',
 }
 
 export const KafkaB1: CharacterConfig = {

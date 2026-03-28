@@ -395,7 +395,7 @@ const display = {
     y: 944,
     z: 1.15,
   },
-  showcaseColor: '#3e65f2',
+  showcaseColor: '#8395fb',
 }
 
 export const Saber: CharacterConfig = {

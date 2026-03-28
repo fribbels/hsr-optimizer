@@ -369,7 +369,7 @@ const display = {
     y: 1027,
     z: 1.08,
   },
-  showcaseColor: '#5d8ce2',
+  showcaseColor: '#bc81e3',
 }
 
 export const Luka: CharacterConfig = {

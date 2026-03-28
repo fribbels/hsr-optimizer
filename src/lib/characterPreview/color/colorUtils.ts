@@ -5,6 +5,10 @@ export function showcaseBackgroundColor(color: string) {
   return chroma(color).desaturate(0.2).luminance(0.02).css()
 }
 
+export function withAlpha(cssColor: string, alpha: number): string {
+  return chroma(cssColor).alpha(alpha).css()
+}
+
 
 const DEFAULT_FALLBACK = '#2241be'
 
@@ -93,9 +97,13 @@ export function organizeColors(palette: PaletteResponse) {
     palette.LightVibrant,
     palette.LightMuted,
     ...palette.colors,
-  ])].slice(0, 64)
+  ])].map((hex) => {
+    // Preserve hue, set fixed lightness and boost chroma for readable swatches
+    const [, , h] = chroma(hex).oklch()
+    return chroma.oklch(0.70, 0.15, Number.isNaN(h) ? 0 : h).hex()
+  }).slice(0, 64)
 
-  return sortColorsByGroups(colors, 8)
+  return sortColorsByGroups([...new Set(colors)], 8)
 }
 
 export function modifyCustomColor(hex: string) {

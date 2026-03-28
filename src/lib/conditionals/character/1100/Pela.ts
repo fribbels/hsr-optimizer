@@ -272,7 +272,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#4b88e0',
+  showcaseColor: '#609efa',
 }
 
 export const Pela: CharacterConfig = {

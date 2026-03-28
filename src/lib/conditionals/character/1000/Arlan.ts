@@ -275,7 +275,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#817fd1',
+  showcaseColor: '#a18bf3',
 }
 
 export const Arlan: CharacterConfig = {

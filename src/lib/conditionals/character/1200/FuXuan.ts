@@ -312,7 +312,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#dd9cf2',
+  showcaseColor: '#cb7cd3',
 }
 
 export const FuXuan: CharacterConfig = {

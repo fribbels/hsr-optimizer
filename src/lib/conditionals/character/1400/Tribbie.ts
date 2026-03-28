@@ -459,7 +459,7 @@ const display = {
     y: 1000,
     z: 1.075,
   },
-  showcaseColor: '#979af7',
+  showcaseColor: '#9390f8',
 }
 
 export const Tribbie: CharacterConfig = {

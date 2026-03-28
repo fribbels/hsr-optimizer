@@ -521,7 +521,7 @@ const display = {
     y: 993,
     z: 1.25,
   },
-  showcaseColor: '#97c2fa',
+  showcaseColor: '#8594fa',
 }
 
 export const Phainon: CharacterConfig = {

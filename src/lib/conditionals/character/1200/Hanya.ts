@@ -277,7 +277,7 @@ const display = {
     z: 1.1,
   },
   disableSpine: true,
-  showcaseColor: '#9a90e6',
+  showcaseColor: '#a988f0',
 }
 
 export const Hanya: CharacterConfig = {

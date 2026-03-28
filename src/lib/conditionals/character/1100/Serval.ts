@@ -318,7 +318,7 @@ const display = {
     z: 1.3,
   },
   disableSpine: true,
-  showcaseColor: '#8772f4',
+  showcaseColor: '#9d8cf5',
 }
 
 export const Serval: CharacterConfig = {

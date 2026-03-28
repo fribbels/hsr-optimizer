@@ -271,7 +271,7 @@ const display = {
     y: 1050,
     z: 1,
   },
-  showcaseColor: '#3964d1',
+  showcaseColor: '#7d97fb',
 }
 
 export const RuanMei: CharacterConfig = {

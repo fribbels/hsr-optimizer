@@ -404,7 +404,7 @@ const display = {
     y: 1033,
     z: 1.9,
   },
-  showcaseColor: '#7fd9e1',
+  showcaseColor: '#00b9be',
 }
 
 export const Feixiao: CharacterConfig = {

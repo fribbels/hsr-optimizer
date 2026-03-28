@@ -339,7 +339,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#87d2da',
+  showcaseColor: '#00b7ce',
 }
 
 export const Qingque: CharacterConfig = {

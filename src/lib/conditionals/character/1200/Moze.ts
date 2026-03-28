@@ -400,7 +400,7 @@ const display = {
     y: 1071,
     z: 1.2,
   },
-  showcaseColor: '#575aa0',
+  showcaseColor: '#9190f8',
 }
 
 export const Moze: CharacterConfig = {

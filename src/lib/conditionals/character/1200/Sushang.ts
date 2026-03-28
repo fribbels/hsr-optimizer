@@ -344,7 +344,7 @@ const display = {
     z: 1.2,
   },
   disableSpine: true,
-  showcaseColor: '#81adf1',
+  showcaseColor: '#998ef6',
 }
 
 export const Sushang: CharacterConfig = {

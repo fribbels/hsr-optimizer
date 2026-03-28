@@ -11,6 +11,7 @@ import { Button, ColorInput, Flex, SegmentedControl } from '@mantine/core'
 
 import i18next from 'i18next'
 import { DEFAULT_SHOWCASE_COLOR, resolveShowcaseTheme } from 'lib/characterPreview/color/showcaseColorService'
+import { withAlpha } from 'lib/characterPreview/color/colorUtils'
 import {
   editShowcasePreferences,
 } from 'lib/characterPreview/customization/showcaseCustomizationController'
@@ -64,6 +65,7 @@ interface ShowcaseCustomizationSidebarProps {
   seedColor: string
   effectiveColorMode: ShowcaseColorMode
   portraitSwatches: string[]
+  cardBgAlpha: number
 }
 
 export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationSidebar(props: ShowcaseCustomizationSidebarProps) {
@@ -76,6 +78,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
       seedColor,
       effectiveColorMode,
       portraitSwatches,
+      cardBgAlpha,
     } = props
 
     const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
@@ -106,7 +109,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
       const theme = resolveShowcaseTheme(newColor, showcaseDarkMode)
       const el = document.getElementById(id)
       if (el) {
-        el.style.setProperty('--showcase-card-bg', theme.cardBackgroundColor)
+        el.style.setProperty('--showcase-card-bg', withAlpha(theme.cardBackgroundColor, cardBgAlpha))
         el.style.setProperty('--showcase-card-border', theme.cardBorderColor)
       }
     }

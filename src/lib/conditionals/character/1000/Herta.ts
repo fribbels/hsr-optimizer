@@ -413,7 +413,7 @@ const display = {
     z: 1.1,
   },
   disableSpine: true,
-  showcaseColor: '#8969ea',
+  showcaseColor: '#bc81e3',
 }
 
 export const Herta: CharacterConfig = {

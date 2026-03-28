@@ -13,7 +13,7 @@ import {
 // ---------------------------------------------------------------------------
 // Core: normalize any seed color to a target OKLCH range
 // ---------------------------------------------------------------------------
-function normalizeOklch(seedColor: string, cfg: CardColorConfig): string {
+export function normalizeOklch(seedColor: string, cfg: CardColorConfig): string {
   const [l, c, h] = chroma(seedColor).oklch()
 
   // Lightness: base target + input-relative scaling, clamped
@@ -21,7 +21,7 @@ function normalizeOklch(seedColor: string, cfg: CardColorConfig): string {
   const outL = Math.max(cfg.minL, Math.min(rawL, cfg.maxL))
 
   // Near-achromatic input: preserve as grey, don't inject phantom hue
-  if (c < 0.01 || Number.isNaN(h)) {
+  if (Number.isNaN(h)) {
     return chroma.oklch(outL, 0, 0).alpha(cfg.alpha).css()
   }
 

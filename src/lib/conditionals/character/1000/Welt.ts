@@ -359,7 +359,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#6385d8',
+  showcaseColor: '#7877b9',
 }
 
 export const Welt: CharacterConfig = {

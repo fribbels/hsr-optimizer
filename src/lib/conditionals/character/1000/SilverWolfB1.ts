@@ -441,7 +441,7 @@ const display = {
     y: 950,
     z: 1,
   },
-  showcaseColor: '#8483eb',
+  showcaseColor: '#9c8df5',
 }
 
 export const SilverWolfB1: CharacterConfig = {

@@ -427,7 +427,7 @@ const display = {
     y: 934,
     z: 1.3,
   },
-  showcaseColor: '#a37df4',
+  showcaseColor: '#a689f1',
 }
 
 export const BlackSwanB1: CharacterConfig = {

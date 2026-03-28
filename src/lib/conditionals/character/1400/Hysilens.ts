@@ -494,7 +494,7 @@ const display = {
     y: 878,
     z: 1.2,
   },
-  showcaseColor: '#817aef',
+  showcaseColor: '#a08bf4',
 }
 
 export const Hysilens: CharacterConfig = {

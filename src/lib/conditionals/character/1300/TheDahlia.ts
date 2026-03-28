@@ -533,7 +533,7 @@ const display = {
     y: 965,
     z: 1.07,
   },
-  showcaseColor: '#586bec',
+  showcaseColor: '#9290f8',
 }
 
 export const TheDahlia: CharacterConfig = {

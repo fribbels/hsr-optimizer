@@ -338,7 +338,7 @@ const display = {
     y: 1075,
     z: 1,
   },
-  showcaseColor: '#b0b7d0',
+  showcaseColor: '#7499fb',
 }
 
 export const Misha: CharacterConfig = {

@@ -27,7 +27,7 @@ export interface ColorWorkerResult {
 
 const DEFAULT_FALLBACK = '#2241be'
 const DOWNSAMPLE_SIZE = 150
-const EXTRACTION_OPTS = validateOptions({ colorCount: 20, quality: 10, colorSpace: 'oklch' })
+const EXTRACTION_OPTS = validateOptions({ colorCount: 20, quality: 1, colorSpace: 'oklch', minSaturation: 0.05 })
 
 let quantizer: MmcqQuantizer | null = null
 

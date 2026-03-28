@@ -433,7 +433,7 @@ const display = {
     y: 810,
     z: 1.17,
   },
-  showcaseColor: '#7e95e9',
+  showcaseColor: '#8495fb',
 }
 
 export const Sunday: CharacterConfig = {

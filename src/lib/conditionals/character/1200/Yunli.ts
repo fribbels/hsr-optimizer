@@ -420,7 +420,7 @@ const display = {
     y: 1075,
     z: 1.1,
   },
-  showcaseColor: '#a2e9f5',
+  showcaseColor: '#4fa2f8',
 }
 
 export const Yunli: CharacterConfig = {

@@ -264,7 +264,7 @@ const display = {
     y: 1024,
     z: 1,
   },
-  showcaseColor: '#88aade',
+  showcaseColor: '#b783e7',
 }
 
 export const Guinaifen: CharacterConfig = {

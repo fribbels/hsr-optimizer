@@ -20,6 +20,8 @@ import { Renderer } from 'lib/rendering/renderer'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
 import { populateAllCharacters } from 'lib/dev/populateAllCharacters'
+import { resetShowcaseColors } from 'lib/dev/resetShowcaseColors'
+import { exportShowcaseColors } from 'lib/dev/exportShowcaseColors'
 
 import { workerPool } from 'lib/worker/workerPool'
 import { OverlayScrollbars } from 'overlayscrollbars'
@@ -84,6 +86,8 @@ window.__HSR_DEBUG = {
   BufferPacker,
   RelicRollFixer,
   populateAllCharacters,
+  resetShowcaseColors,
+  exportShowcaseColors,
 }
 
 Metadata.initialize()

@@ -351,7 +351,7 @@ const display = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#d6b5c2',
+  showcaseColor: '#d578c6',
 }
 
 export const Himeko: CharacterConfig = {

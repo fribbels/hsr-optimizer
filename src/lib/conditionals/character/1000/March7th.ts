@@ -186,7 +186,7 @@ const display = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#718fe5',
+  showcaseColor: '#ae86ed',
 }
 
 export const March7th: CharacterConfig = {

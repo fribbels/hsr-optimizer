@@ -464,7 +464,7 @@ const displayCaelus = {
     y: 975,
     z: 0.95,
   },
-  showcaseColor: '#f0a1fa',
+  showcaseColor: '#da76bc',
 }
 
 const displayStelle = {
@@ -473,7 +473,7 @@ const displayStelle = {
     y: 975,
     z: 0.95,
   },
-  showcaseColor: '#f0a1fa',
+  showcaseColor: '#da76bc',
 }
 
 export const TrailblazerRemembranceCaelus: CharacterConfig = {

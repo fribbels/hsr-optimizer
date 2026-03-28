@@ -251,7 +251,7 @@ const display = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#5f9ce2',
+  showcaseColor: '#7998fb',
 }
 
 export const Bailu: CharacterConfig = {

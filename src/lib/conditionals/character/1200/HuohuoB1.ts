@@ -235,7 +235,7 @@ const display = {
     y: 975,
     z: 1.075,
   },
-  showcaseColor: '#8cf4fc',
+  showcaseColor: '#00b8c7',
 }
 
 export const HuohuoB1: CharacterConfig = {

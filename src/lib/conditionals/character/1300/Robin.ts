@@ -360,7 +360,7 @@ const display = {
     y: 923,
     z: 1.15,
   },
-  showcaseColor: '#d7a4f1',
+  showcaseColor: '#b783e6',
 }
 
 export const Robin: CharacterConfig = {

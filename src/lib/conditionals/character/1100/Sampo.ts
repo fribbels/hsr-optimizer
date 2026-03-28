@@ -335,7 +335,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#7777c9',
+  showcaseColor: '#a38af2',
 }
 
 export const Sampo: CharacterConfig = {

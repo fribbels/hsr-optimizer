@@ -529,7 +529,7 @@ const display = {
     y: 1025,
     z: 1.05,
   },
-  showcaseColor: '#a8ffde',
+  showcaseColor: '#00bb87',
 }
 
 export const Hyacine: CharacterConfig = {

@@ -513,7 +513,7 @@ const display = {
     y: 1050,
     z: 1.10,
   },
-  showcaseColor: '#b4a8e8',
+  showcaseColor: '#ae86ed',
 }
 
 export const Sparxie: CharacterConfig = {

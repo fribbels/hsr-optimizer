@@ -143,6 +143,7 @@ const PRESET_META: Record<string, { icon: React.ReactNode; label: string; color?
   bold: { icon: <IconBold size={13} />, label: 'Bold' },
   compact: { icon: <IconArrowsMinimize size={13} />, label: 'Compact' },
   glass: { icon: <IconDroplet size={13} />, label: 'Glass', color: 'rgba(100, 160, 255, 0.3)' },
+  glassCompact: { icon: <IconDroplet size={13} />, label: 'Glass Compact', color: 'rgba(100, 160, 255, 0.3)' },
   minimal: { icon: <IconMinus size={13} />, label: 'Minimal' },
   elevated: { icon: <IconStack2 size={13} />, label: 'Elevated' },
   stripe: { icon: <IconCreditCard size={13} />, label: 'Stripe', color: 'rgba(99, 91, 255, 0.3)' },

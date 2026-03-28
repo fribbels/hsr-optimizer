@@ -125,6 +125,12 @@ export const NAV_DEBUG_PRESETS: Record<string, Partial<NavDebugConfig>> = {
     hoverBg: true, hoverBgOpacity: 8, itemRadius: 4, itemInsetMargin: 4,
     iconSize: 18, sidebarWidth: 190, accentHue: 220, accentSaturation: 50,
   },
+  glassCompact: {
+    panelBlur: 12, panelBgOpacity: 60, panelShadow: 'medium',
+    hoverBg: true, hoverBgOpacity: 8, itemRadius: 3, itemInsetMargin: 3,
+    iconSize: 14, fontSize: 13, itemVPadding: 5, sidebarWidth: 148,
+    groupLabelSize: 9, iconLabelGap: 7, itemGap: 0,
+  },
   minimal: {
     indicatorPosition: 'none', groupLabelCase: 'hidden',
     iconSize: 18, fontSize: 13, hoverBg: true, hoverBgOpacity: 4,

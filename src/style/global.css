@@ -1,5 +1,6 @@
 :root {
     color-scheme: dark;
+    --mantine-color-body: var(--mantine-color-dark-6);
 }
 
 body {

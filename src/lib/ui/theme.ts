@@ -1,3 +1,4 @@
+import chroma from 'chroma-js'
 import { createTheme, type MantineColorsTuple, type MantineThemeOverride } from '@mantine/core'
 
 export type ColorThemeOverrides = {
@@ -15,11 +16,21 @@ const primaryShades: MantineColorsTuple = [
   '#7C5CFC', '#6b4ae6', '#5a3ad0', '#4a2db8', '#381fa0',
 ]
 
+function generateDarkPalette(base: string): MantineColorsTuple {
+  const lightness = [0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.30, 0.20, 0.10, 0.00]
+  return lightness.map((l) =>
+    chroma(base).set('oklch.l', l).hex(),
+  ) as unknown as MantineColorsTuple
+}
+
+const darkShades = generateDarkPalette('#182239')
+
 export function createMantineTheme(_colorTheme: ColorThemeOverrides): MantineThemeOverride {
   return createTheme({
     primaryColor: 'primary',
     colors: {
       primary: primaryShades,
+      dark: darkShades,
     },
     fontFamily: 'inherit',
     defaultRadius: 'sm',

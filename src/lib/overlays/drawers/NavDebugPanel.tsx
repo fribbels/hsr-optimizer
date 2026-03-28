@@ -3,6 +3,7 @@ import {
   Accordion,
   ActionIcon,
   Button,
+  ColorInput,
   Flex,
   ScrollArea,
   SegmentedControl,
@@ -31,6 +32,7 @@ import {
   IconStack2,
   IconX,
 } from '@tabler/icons-react'
+import { useThemeStore } from 'lib/stores/themeStore'
 import {
   generateCSSExport,
   NAV_DEBUG_DEFAULTS,
@@ -120,7 +122,6 @@ const SECTION_KEYS: Record<string, CK[]> = {
   shape: ['itemRadius', 'itemInsetMargin', 'groupDividers', 'dividerStyle', 'bottomPinnedLinks'],
   icons: ['iconContainer', 'iconContainerSize', 'iconContainerOpacity'],
   panel: ['panelBgOpacity', 'panelBorder', 'panelShadow', 'panelBlur'],
-  colors: ['accentHue', 'accentSaturation'],
 }
 
 function SectionLabel({ name, store }: { name: string; store: NavDebugConfig }) {
@@ -159,6 +160,7 @@ const PRESET_META: Record<string, { icon: React.ReactNode; label: string; color?
 export function NavDebugPanel() {
   // Reads all ~30 config fields for slider values + all actions — bare call is intentional
   const store = useNavDebugStore()
+  const seedColor = useThemeStore((s) => s.seedColor)
   const [open, setOpen] = useState(false)
   const [activePreset, setActivePreset] = useState<string | null>(null)
 
@@ -254,9 +256,30 @@ export function NavDebugPanel() {
             <Accordion
               className={classes.accordion}
               multiple
-              defaultValue={['dimensions', 'indicator']}
+              defaultValue={['theme', 'dimensions', 'indicator']}
               variant="separated"
             >
+              {/* ---- Theme ---- */}
+              <Accordion.Item value="theme">
+                <Accordion.Control>
+                  <span>Theme</span>
+                </Accordion.Control>
+                <Accordion.Panel>
+                  <div className={classes.controlRow}>
+                    <div className={classes.controlHeader}>
+                      <span className={classes.controlLabel}>Seed Color</span>
+                    </div>
+                    <ColorInput
+                      size="xs"
+                      value={seedColor}
+                      onChange={(v) => useThemeStore.getState().setSeedColor(v)}
+                      format="hex"
+                      swatches={['#1668DC', '#7C5CFC', '#E64980', '#15AABF', '#F59F00', '#40C057']}
+                    />
+                  </div>
+                </Accordion.Panel>
+              </Accordion.Item>
+
               {/* ---- Dimensions ---- */}
               <Accordion.Item value="dimensions">
                 <Accordion.Control><SectionLabel name="dimensions" store={store} /></Accordion.Control>
@@ -421,25 +444,6 @@ export function NavDebugPanel() {
                 </Accordion.Panel>
               </Accordion.Item>
 
-              {/* ---- Colors ---- */}
-              <Accordion.Item value="colors">
-                <Accordion.Control><SectionLabel name="colors" store={store} /></Accordion.Control>
-                <Accordion.Panel>
-                  <div className={classes.controlRow}>
-                    <div className={classes.controlHeader}>
-                      <span className={classes.controlLabel}>
-                        Accent Hue
-                        {store.accentHue !== NAV_DEBUG_DEFAULTS.accentHue && <span className={classes.changedDot} />}
-                      </span>
-                      <span className={classes.controlValue}>{store.accentHue}&deg;</span>
-                    </div>
-                    <div className={classes.hueSlider}>
-                      <Slider size="xs" min={0} max={360} value={store.accentHue} onChange={(v) => update({ accentHue: v })} />
-                    </div>
-                  </div>
-                  <SliderRow label="Saturation" value={store.accentSaturation} min={10} max={80} suffix="%" onChange={(v) => update({ accentSaturation: v })} configKey="accentSaturation" />
-                </Accordion.Panel>
-              </Accordion.Item>
             </Accordion>
           </div>
         </ScrollArea>

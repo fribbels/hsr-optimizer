@@ -1,5 +1,7 @@
+import chroma from 'chroma-js'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { useThemeStore } from 'lib/stores/themeStore'
 
 export interface NavDebugConfig {
   // Dimensions
@@ -48,10 +50,6 @@ export interface NavDebugConfig {
   panelBorder: boolean
   panelShadow: 'none' | 'subtle' | 'medium' | 'strong'
   panelBlur: number
-
-  // Colors
-  accentHue: number
-  accentSaturation: number
 }
 
 export const NAV_DEBUG_DEFAULTS: NavDebugConfig = {
@@ -94,9 +92,6 @@ export const NAV_DEBUG_DEFAULTS: NavDebugConfig = {
   panelBorder: true,
   panelShadow: 'none',
   panelBlur: 0,
-
-  accentHue: 252,
-  accentSaturation: 50,
 }
 
 export const NAV_DEBUG_PRESETS: Record<string, Partial<NavDebugConfig>> = {
@@ -123,7 +118,7 @@ export const NAV_DEBUG_PRESETS: Record<string, Partial<NavDebugConfig>> = {
   glass: {
     panelBlur: 12, panelBgOpacity: 60, panelShadow: 'medium',
     hoverBg: true, hoverBgOpacity: 8, itemRadius: 4, itemInsetMargin: 4,
-    iconSize: 18, sidebarWidth: 190, accentHue: 220, accentSaturation: 50,
+    iconSize: 18, sidebarWidth: 190,
   },
   glassCompact: {
     panelBlur: 12, panelBgOpacity: 60, panelShadow: 'medium',
@@ -150,23 +145,23 @@ export const NAV_DEBUG_PRESETS: Record<string, Partial<NavDebugConfig>> = {
     indicatorThickness: 3, gradientStrength: 14,
   },
   neon: {
-    accentHue: 280, accentSaturation: 70, activeGlow: true, activeGlowStrength: 12,
+    activeGlow: true, activeGlowStrength: 12,
     gradientStrength: 30, indicatorThickness: 3, hoverBg: true, hoverBgOpacity: 10,
     iconSize: 18, sidebarWidth: 180, panelShadow: 'medium', itemVPadding: 9,
   },
   warm: {
-    accentHue: 25, accentSaturation: 55, itemRadius: 8, itemInsetMargin: 6,
+    itemRadius: 8, itemInsetMargin: 6,
     hoverBg: true, hoverBgOpacity: 8, iconSize: 18, sidebarWidth: 190,
     itemVPadding: 9, groupDividers: true, dividerStyle: 'gradient', itemGap: 2,
   },
   ocean: {
-    accentHue: 200, accentSaturation: 50, iconSize: 18, sidebarWidth: 195,
+    iconSize: 18, sidebarWidth: 195,
     hoverBg: true, hoverBgOpacity: 6, labelWeight: 500,
     groupDividers: true, dividerStyle: 'solid', itemVPadding: 9,
     panelShadow: 'subtle', indicatorThickness: 3,
   },
   mono: {
-    accentSaturation: 12, iconSize: 17, fontSize: 13, sidebarWidth: 175,
+    iconSize: 17, fontSize: 13, sidebarWidth: 175,
     hoverBg: true, hoverBgOpacity: 4, groupLabelCase: 'hidden',
     indicatorPosition: 'background', gradientStrength: 8, itemVPadding: 9,
   },
@@ -182,9 +177,10 @@ export const NAV_DEBUG_PRESETS: Record<string, Partial<NavDebugConfig>> = {
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
 
 export function configToCssVars(c: NavDebugConfig): React.CSSProperties {
-  const h = c.accentHue
-  const s = c.accentSaturation
-  const colorsChanged = h !== NAV_DEBUG_DEFAULTS.accentHue || s !== NAV_DEBUG_DEFAULTS.accentSaturation
+  const seedColor = useThemeStore.getState().seedColor
+  const [rawH, s] = chroma(seedColor).hsl()
+  const h = Math.round(isNaN(rawH) ? 0 : rawH)
+  const sat = Math.round(s * 100)
 
   const vars: Record<string, string> = {
     // Dimensions
@@ -205,34 +201,22 @@ export function configToCssVars(c: NavDebugConfig): React.CSSProperties {
     '--dbg-hover-shift': `${c.hoverShift}px`,
     '--dbg-icon-container-size': `${c.iconContainerSize}px`,
 
-    // Computed colors (always needed for gradients/effects)
+    // Computed colors derived from theme seed
     '--dbg-indicator-bg': c.indicatorPosition === 'none'
       ? 'none'
-      : `linear-gradient(90deg, hsla(${h}, ${s}%, 55%, ${c.gradientStrength / 100}), hsla(${h}, ${s}%, 55%, ${c.gradientStrength / 300}))`,
-    '--dbg-indicator-bg-reverse': `linear-gradient(270deg, hsla(${h}, ${s}%, 55%, ${c.gradientStrength / 100}), hsla(${h}, ${s}%, 55%, ${c.gradientStrength / 300}))`,
+      : `linear-gradient(90deg, hsla(${h}, ${sat}%, 55%, ${c.gradientStrength / 100}), hsla(${h}, ${sat}%, 55%, ${c.gradientStrength / 300}))`,
+    '--dbg-indicator-bg-reverse': `linear-gradient(270deg, hsla(${h}, ${sat}%, 55%, ${c.gradientStrength / 100}), hsla(${h}, ${sat}%, 55%, ${c.gradientStrength / 300}))`,
     '--dbg-hover-bg': c.hoverBg
-      ? `hsla(${h}, ${s}%, 55%, ${c.hoverBgOpacity / 100})`
+      ? `hsla(${h}, ${sat}%, 55%, ${c.hoverBgOpacity / 100})`
       : 'transparent',
     '--dbg-icon-container-bg': c.iconContainer !== 'none'
       ? `hsla(${h}, 30%, 50%, ${c.iconContainerOpacity / 100})`
       : 'transparent',
     '--dbg-glow-color': c.activeGlow
-      ? `hsla(${h}, ${s}%, 55%, 0.25)`
+      ? `hsla(${h}, ${sat}%, 55%, 0.25)`
       : 'transparent',
     '--dbg-glow-strength': `${c.activeGlowStrength}px`,
-    '--dbg-divider-gradient': `linear-gradient(90deg, transparent, hsla(${h}, ${clamp(s - 10, 10, 100)}%, 40%, 0.3), transparent)`,
-  }
-
-  // Only override nav color tokens when user has changed hue/saturation,
-  // so the Mantine primary palette vars from tokens.css are used at defaults
-  if (colorsChanged) {
-    vars['--nav-accent'] = `hsl(${h}, ${clamp(s, 10, 100)}%, 55%)`
-    vars['--nav-accent-subtle'] = `hsl(${h}, ${clamp(s, 10, 100)}%, 44%)`
-    vars['--nav-text-muted'] = `hsl(${h}, ${clamp(s * 0.4, 10, 100)}%, 57%)`
-    vars['--nav-text-hover'] = `hsl(${h}, ${clamp(s * 1.15, 10, 100)}%, 82%)`
-    vars['--nav-text-active'] = `hsl(${h}, ${clamp(s * 0.4, 10, 100)}%, 89%)`
-    vars['--nav-group-label'] = `hsl(${h}, ${clamp(s * 0.4, 10, 100)}%, 39%)`
-    vars['--nav-separator'] = `hsl(${h}, ${clamp(s * 0.3, 10, 100)}%, 15%)`
+    '--dbg-divider-gradient': `linear-gradient(90deg, transparent, hsla(${h}, ${clamp(sat - 10, 10, 100)}%, 40%, 0.3), transparent)`,
   }
 
   return vars as React.CSSProperties
@@ -271,12 +255,6 @@ export function generateCSSExport(c: NavDebugConfig): string {
   px('itemInsetMargin', '--nav-item-inset')
   if (c.labelWeight !== d.labelWeight) lines.push(`  --nav-label-weight: ${c.labelWeight};`)
   if (c.activeLabelWeight !== d.activeLabelWeight) lines.push(`  --nav-active-weight: ${c.activeLabelWeight};`)
-  if (c.accentHue !== d.accentHue || c.accentSaturation !== d.accentSaturation) {
-    const h = c.accentHue
-    const s = c.accentSaturation
-    lines.push(`  --nav-accent: hsl(${h}, ${s}%, 55%);`)
-    lines.push(`  --nav-accent-subtle: hsl(${h}, ${s}%, 44%);`)
-  }
   lines.push('}')
   return lines.length > 3 ? lines.join('\n') : '/* No changes from defaults */'
 }
@@ -335,8 +313,6 @@ export const useNavDebugStore = create<NavDebugStore>()(
           panelBorder: Math.random() > 0.3,
           panelShadow: pick(['none', 'none', 'subtle', 'medium', 'strong']),
           panelBlur: rand(0, 10),
-          accentHue: rand(0, 360),
-          accentSaturation: rand(20, 70),
         })
       },
     }),

@@ -3,6 +3,7 @@ import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDe
 import { type OptimizerRequestState, type TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import type { MainConditionalType, TeammateConditionalType } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
+import { mergeDefinedValues } from 'lib/utils/objectUtils'
 import { type Form } from 'types/form'
 
 export type SuggestionFixes = {
@@ -65,12 +66,7 @@ export function computeApplySuggestionFixes(_state: OptimizerRequestState, fixes
 export function computeLoadForm(_state: OptimizerRequestState, form: Form): OptimizerRequestState {
   const defaults = createDefaultFormState()
   const converted = internalFormToState(form)
-  const merged = { ...defaults }
-  for (const [key, value] of Object.entries(converted)) {
-    if (value !== undefined) {
-      (merged as Record<string, unknown>)[key] = value
-    }
-  }
+  const merged = mergeDefinedValues({ ...defaults }, converted)
   // Merge setConditionals: fill in missing keys from defaults (handles old saves missing newer sets)
   if (converted.setConditionals && defaults.setConditionals) {
     merged.setConditionals = { ...defaults.setConditionals, ...converted.setConditionals }

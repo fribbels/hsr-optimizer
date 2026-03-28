@@ -1,4 +1,5 @@
 import { Loader } from '@mantine/core'
+import { relicCardH } from 'lib/constants/constantsUi'
 import { Deferred, useDeferredSlot } from 'lib/ui/DeferredRender'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import type {
@@ -118,7 +119,7 @@ export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysi
   horizontal?: boolean
 }) {
   const slotVisible = useDeferredSlot()
-  const dynamicStyle = withoutPreview ? undefined : { minHeight: 302 }
+  const dynamicStyle = withoutPreview ? { width: 320, height: relicCardH } : { minHeight: 302 }
 
   if (!ready || !slotVisible) {
     return (
@@ -136,7 +137,7 @@ export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysi
 
   if (withoutPreview) {
     return (
-      <div className={styles.card} style={{ maxWidth: 320 }}>
+      <div className={styles.card} style={dynamicStyle}>
         <RelicAnalysisCard relicAnalysis={relicAnalysis} horizontal={horizontal} />
       </div>
     )

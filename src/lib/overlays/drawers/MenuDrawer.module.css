@@ -43,7 +43,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--dbg-group-spacing, 0.08em);
-  color: var(--text-tertiary);
+  color: var(--text-muted);
   padding: 10px calc(var(--dbg-item-h-pad, 14px) + var(--dbg-item-inset, 0px)) 4px;
   user-select: none;
 }
@@ -90,7 +90,7 @@ a.itemCollapsed {
 }
 
 .item:hover .itemIcon {
-  color: var(--primary-subtle);
+  color: var(--text-muted);
 }
 
 .item[data-active] .itemLabel {
@@ -116,7 +116,7 @@ a.itemCollapsed {
   width: var(--dbg-icon-size, 16px);
   min-width: var(--dbg-icon-size, 16px);
   height: var(--dbg-icon-size, 16px);
-  color: var(--text-tertiary);
+  color: var(--text-muted);
   transition: color 0.1s ease;
   display: flex;
   align-items: center;
@@ -132,7 +132,7 @@ a.itemCollapsed {
 .itemLabel {
   font-size: var(--dbg-font-size, 14px);
   font-weight: var(--dbg-label-weight, 400);
-  color: var(--text-tertiary);
+  color: var(--text-muted);
   transition: color 0.1s ease;
   white-space: nowrap;
   line-height: 1;
@@ -232,7 +232,7 @@ a.itemCollapsed {
 
 .debugWrapper[data-dividers="solid"] .group + .group::before {
   height: 1px;
-  background: var(--layer-inset);
+  background: rgba(255, 255, 255, 0.10);
 }
 
 .debugWrapper[data-dividers="dashed"] .group + .group::before {

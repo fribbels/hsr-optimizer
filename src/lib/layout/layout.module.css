@@ -32,7 +32,7 @@
 /* LayoutSider */
 
 .siderPanel {
-  background: var(--layer-0);
+  background: var(--layer-1);
   border-right: 1px solid var(--layer-1);
   height: 100vh;
   position: sticky;

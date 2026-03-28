@@ -12,10 +12,8 @@ const SURFACE_HUE_OFFSET = 6.6
 const SURFACE_SATURATION = 0.407
 const SURFACE_BASE_LIGHTNESS = 0.159
 
-// Custom layer offsets not in the dark palette (injected via cssVariablesResolver)
-const LAYER_1_OFFSET = 0.04
-const LAYER_2_OFFSET = 0.08
-const LAYER_3_OFFSET = 0.10
+// Custom layer offsets: 0-2 at 4% steps, then 12% steps from layer-2
+const LAYER_OFFSETS = [0, 0.04, 0.08, 0.20, 0.32, 0.44, 0.56, 0.68, 0.80]
 
 export function deriveDarkPalette(seedHue: number): MantineColorsTuple {
   const baseBg = chroma.hsl(seedHue + SURFACE_HUE_OFFSET, SURFACE_SATURATION, SURFACE_BASE_LIGHTNESS)
@@ -35,12 +33,14 @@ export function derivePrimaryPalette(seed: string): MantineColorsTuple {
   ) as unknown as MantineColorsTuple
 }
 
-export function deriveCustomLayers(seedHue: number): { layer1: string; layer2: string; layer3: string } {
+export type CustomLayers = Record<`layer${number}`, string>
+
+export function deriveCustomLayers(seedHue: number): CustomLayers {
   const baseBg = chroma.hsl(seedHue + SURFACE_HUE_OFFSET, SURFACE_SATURATION, SURFACE_BASE_LIGHTNESS)
   const baseL = baseBg.get('hsl.l')
-  return {
-    layer1: chroma(baseBg).set('hsl.l', baseL + LAYER_1_OFFSET).hex(),
-    layer2: chroma(baseBg).set('hsl.l', baseL + LAYER_2_OFFSET).hex(),
-    layer3: chroma(baseBg).set('hsl.l', baseL + LAYER_3_OFFSET).hex(),
+  const layers: CustomLayers = {}
+  for (let i = 0; i < LAYER_OFFSETS.length; i++) {
+    layers[`layer${i}`] = chroma(baseBg).set('hsl.l', baseL + LAYER_OFFSETS[i]).hex()
   }
+  return layers
 }

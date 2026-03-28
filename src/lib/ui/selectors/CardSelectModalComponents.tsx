@@ -66,7 +66,7 @@ export function SegmentedFilterRow<T extends string | number | boolean>({
       style={{
         flexWrap: 'wrap',
         flexGrow: 1,
-        backgroundColor: 'var(--layer-1)',
+        backgroundColor: 'var(--layer-2)',
         boxShadow: '0px 0px 0px 1px var(--border-default) inset',
         borderRadius: 6,
         overflow: 'hidden',

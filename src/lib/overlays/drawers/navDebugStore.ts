@@ -1,6 +1,5 @@
 import chroma from 'chroma-js'
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
 import { useThemeStore } from 'lib/stores/themeStore'
 
 export interface NavDebugConfig {
@@ -53,14 +52,14 @@ export interface NavDebugConfig {
 }
 
 export const NAV_DEBUG_DEFAULTS: NavDebugConfig = {
-  iconSize: 17,
+  iconSize: 14,
   fontSize: 13,
-  groupLabelSize: 10,
-  itemVPadding: 8,
-  itemHPadding: 16,
-  iconLabelGap: 9,
-  sidebarWidth: 185,
-  itemGap: 1,
+  groupLabelSize: 9,
+  itemVPadding: 6,
+  itemHPadding: 14,
+  iconLabelGap: 8,
+  sidebarWidth: 160,
+  itemGap: 0,
 
   indicatorPosition: 'left',
   indicatorThickness: 3,
@@ -70,7 +69,7 @@ export const NAV_DEBUG_DEFAULTS: NavDebugConfig = {
   activeGlowStrength: 8,
 
   hoverBg: true,
-  hoverBgOpacity: 5,
+  hoverBgOpacity: 8,
   hoverShift: 0,
 
   groupLabelCase: 'uppercase',
@@ -78,20 +77,20 @@ export const NAV_DEBUG_DEFAULTS: NavDebugConfig = {
   activeLabelWeight: 500,
   groupLabelSpacing: 0.08,
 
-  itemRadius: 0,
+  itemRadius: 3,
   itemInsetMargin: 0,
   groupDividers: true,
-  dividerStyle: 'gradient',
+  dividerStyle: 'solid',
   bottomPinnedLinks: false,
 
   iconContainer: 'rounded-square',
   iconContainerSize: 28,
-  iconContainerOpacity: 10,
+  iconContainerOpacity: 15,
 
   panelBgOpacity: 100,
   panelBorder: true,
-  panelShadow: 'none',
-  panelBlur: 0,
+  panelShadow: 'subtle',
+  panelBlur: 12,
 }
 
 export const NAV_DEBUG_PRESETS: Record<string, Partial<NavDebugConfig>> = {
@@ -267,58 +266,52 @@ type NavDebugStore = NavDebugConfig & {
 }
 
 export const useNavDebugStore = create<NavDebugStore>()(
-  persist(
-    (set) => ({
-      ...NAV_DEBUG_DEFAULTS,
-      set: (partial) => set(partial),
-      applyPreset: (name) => {
-        const preset = NAV_DEBUG_PRESETS[name]
-        if (preset) set({ ...NAV_DEBUG_DEFAULTS, ...preset })
-      },
-      reset: () => set({ ...NAV_DEBUG_DEFAULTS }),
-      randomize: () => {
-        const rand = (min: number, max: number) => Math.round(min + Math.random() * (max - min))
-        const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
-        set({
-          iconSize: rand(14, 24),
-          fontSize: rand(12, 16),
-          groupLabelSize: rand(9, 14),
-          itemVPadding: rand(5, 14),
-          itemHPadding: rand(10, 24),
-          iconLabelGap: rand(6, 16),
-          sidebarWidth: rand(150, 220),
-          itemGap: rand(0, 4),
-          indicatorPosition: pick(['left', 'right', 'background', 'none']),
-          indicatorThickness: rand(1, 4),
-          gradientStrength: rand(5, 35),
-          indicatorSpeed: rand(80, 350),
-          activeGlow: Math.random() > 0.5,
-          activeGlowStrength: rand(4, 16),
-          hoverBg: Math.random() > 0.3,
-          hoverBgOpacity: rand(3, 15),
-          hoverShift: rand(0, 4),
-          groupLabelCase: pick(['uppercase', 'titlecase', 'hidden']),
-          labelWeight: pick([400, 500, 600]),
-          activeLabelWeight: pick([500, 600, 700]),
-          groupLabelSpacing: Number((Math.random() * 0.12).toFixed(2)),
-          itemRadius: rand(0, 8),
-          itemInsetMargin: rand(0, 8),
-          groupDividers: Math.random() > 0.4,
-          dividerStyle: pick(['solid', 'dashed', 'gradient']),
-          bottomPinnedLinks: Math.random() > 0.6,
-          iconContainer: pick(['none', 'none', 'circle', 'rounded-square']),
-          iconContainerSize: rand(26, 34),
-          iconContainerOpacity: rand(6, 20),
-          panelBgOpacity: rand(60, 100),
-          panelBorder: Math.random() > 0.3,
-          panelShadow: pick(['none', 'none', 'subtle', 'medium', 'strong']),
-          panelBlur: rand(0, 10),
-        })
-      },
-    }),
-    {
-      name: 'nav-debug-config-v2',
-      merge: (persisted, current) => ({ ...current, ...(persisted as object) }),
+  (set) => ({
+    ...NAV_DEBUG_DEFAULTS,
+    set: (partial) => set(partial),
+    applyPreset: (name) => {
+      const preset = NAV_DEBUG_PRESETS[name]
+      if (preset) set({ ...NAV_DEBUG_DEFAULTS, ...preset })
     },
-  ),
+    reset: () => set({ ...NAV_DEBUG_DEFAULTS }),
+    randomize: () => {
+      const rand = (min: number, max: number) => Math.round(min + Math.random() * (max - min))
+      const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
+      set({
+        iconSize: rand(14, 24),
+        fontSize: rand(12, 16),
+        groupLabelSize: rand(9, 14),
+        itemVPadding: rand(5, 14),
+        itemHPadding: rand(10, 24),
+        iconLabelGap: rand(6, 16),
+        sidebarWidth: rand(150, 220),
+        itemGap: rand(0, 4),
+        indicatorPosition: pick(['left', 'right', 'background', 'none']),
+        indicatorThickness: rand(1, 4),
+        gradientStrength: rand(5, 35),
+        indicatorSpeed: rand(80, 350),
+        activeGlow: Math.random() > 0.5,
+        activeGlowStrength: rand(4, 16),
+        hoverBg: Math.random() > 0.3,
+        hoverBgOpacity: rand(3, 15),
+        hoverShift: rand(0, 4),
+        groupLabelCase: pick(['uppercase', 'titlecase', 'hidden']),
+        labelWeight: pick([400, 500, 600]),
+        activeLabelWeight: pick([500, 600, 700]),
+        groupLabelSpacing: Number((Math.random() * 0.12).toFixed(2)),
+        itemRadius: rand(0, 8),
+        itemInsetMargin: rand(0, 8),
+        groupDividers: Math.random() > 0.4,
+        dividerStyle: pick(['solid', 'dashed', 'gradient']),
+        bottomPinnedLinks: Math.random() > 0.6,
+        iconContainer: pick(['none', 'none', 'circle', 'rounded-square']),
+        iconContainerSize: rand(26, 34),
+        iconContainerOpacity: rand(6, 20),
+        panelBgOpacity: rand(60, 100),
+        panelBorder: Math.random() > 0.3,
+        panelShadow: pick(['none', 'none', 'subtle', 'medium', 'strong']),
+        panelBlur: rand(0, 10),
+      })
+    },
+  }),
 )

@@ -21,8 +21,7 @@
   overflow: hidden;
   padding: 10px;
   background: var(--layer-1);
-  box-shadow: var(--shadow-card-flat);
-  border: var(--border-subtle);
+  box-shadow: var(--shadow-card-flat), inset 0 0 0 1px rgba(255, 255, 255, 0.10);
 }
 
 .fullSize {
@@ -35,7 +34,7 @@
   border-radius: var(--radius-md);
   overflow: hidden;
   padding: 10px;
-  background: var(--layer-1);
+  background: var(--layer-2);
   border: 1px solid var(--border-default);
 }
 
@@ -54,7 +53,7 @@
   overflow: hidden;
   padding: 12px 14px 0 14px;
   padding-left: 15px;
-  background: var(--layer-1);
+  background: var(--layer-2);
   border: 1px solid var(--border-default);
 }
 
@@ -81,7 +80,7 @@
   border-radius: var(--radius-md);
   overflow: hidden;
   padding: 6px 10px;
-  background-color: var(--layer-1);
+  background-color: var(--layer-3);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   border: 1px solid var(--border-default);
 }

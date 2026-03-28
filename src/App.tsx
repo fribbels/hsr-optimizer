@@ -15,7 +15,7 @@ import { Tabs } from 'lib/tabs/Tabs'
 import { useEffect, useMemo } from 'react'
 
 // Initial gradient setup before first render
-Gradient.setTheme(useThemeStore.getState().seedColor)
+try { Gradient.setTheme(useThemeStore.getState().seedColor) } catch { Gradient.setTheme('#1668DC') }
 
 export function App() {
   const seedColor = useThemeStore((s) => s.seedColor)

@@ -3,7 +3,7 @@ import {
   Accordion,
   ActionIcon,
   Button,
-  ColorInput,
+  ColorPicker,
   Flex,
   ScrollArea,
   SegmentedControl,
@@ -269,11 +269,12 @@ export function NavDebugPanel() {
                     <div className={classes.controlHeader}>
                       <span className={classes.controlLabel}>Seed Color</span>
                     </div>
-                    <ColorInput
+                    <ColorPicker
                       size="xs"
                       value={seedColor}
                       onChange={(v) => useThemeStore.getState().setSeedColor(v)}
                       format="hex"
+                      fullWidth
                       swatches={['#1668DC', '#7C5CFC', '#E64980', '#15AABF', '#F59F00', '#40C057']}
                     />
                   </div>

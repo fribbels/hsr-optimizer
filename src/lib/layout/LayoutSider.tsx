@@ -36,7 +36,6 @@ export function LayoutSider() {
     minWidth: siderWidth,
     ...(panelShadow !== 'none' && { boxShadow: shadowMap[panelShadow] }),
     ...(panelBlur > 0 && { backdropFilter: `blur(${panelBlur}px)` }),
-    ...(panelBgOpacity < 100 && { background: `rgba(20, 17, 28, ${panelBgOpacity / 100})` }),
     ...(!panelBorder && { borderRight: 'none' }),
   }
 

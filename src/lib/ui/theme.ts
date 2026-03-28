@@ -2,17 +2,21 @@ import { createTheme, type CSSVariablesResolver, type MantineThemeOverride } fro
 import chroma from 'chroma-js'
 import { deriveCustomLayers, deriveDarkPalette, derivePrimaryPalette } from './themeColors'
 
+const DEFAULT_SEED = '#1668DC'
+
 export function createMantineTheme(seed: string): MantineThemeOverride {
-  const [h] = chroma(seed).hsl()
-  const { layer1, layer2, layer3 } = deriveCustomLayers(h)
+  let safeSeed = seed
+  try { chroma(seed) } catch { safeSeed = DEFAULT_SEED }
+  const [h] = chroma(safeSeed).hsl()
+  const layers = deriveCustomLayers(h)
   return createTheme({
     primaryColor: 'primary',
     primaryShade: { light: 6, dark: 5 },
     colors: {
-      primary: derivePrimaryPalette(seed),
+      primary: derivePrimaryPalette(safeSeed),
       dark: deriveDarkPalette(h),
     },
-    other: { layer1, layer2, layer3 },
+    other: layers,
     fontFamily: 'inherit',
     defaultRadius: 'sm',
     spacing: {
@@ -81,14 +85,21 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
   })
 }
 
-export const themeResolver: CSSVariablesResolver = (theme) => ({
-  variables: {
-    '--layer-1': theme.other.layer1,
-    '--layer-2': theme.other.layer2,
-    '--layer-3': theme.other.layer3,
-    '--control-bg': 'rgba(0, 0, 0, 0.15)',
-    '--control-bg-light': '#ffffff40',
-  },
-  light: {},
-  dark: {},
-})
+export const themeResolver: CSSVariablesResolver = (theme) => {
+  const layerVars: Record<string, string> = {}
+  for (const [key, value] of Object.entries(theme.other)) {
+    if (key.startsWith('layer')) {
+      layerVars[`--${key.replace('layer', 'layer-')}`] = value as string
+    }
+  }
+  return {
+    variables: {
+      ...layerVars,
+      '--text-muted': 'rgba(255, 255, 255, 0.55)',
+      '--control-bg': 'rgba(0, 0, 0, 0.15)',
+      '--control-bg-light': '#ffffff40',
+    },
+    light: {},
+    dark: {},
+  }
+}

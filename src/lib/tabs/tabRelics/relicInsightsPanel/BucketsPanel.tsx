@@ -109,7 +109,7 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
     <div
       style={{
         borderRadius: 6,
-        border: '1px solid var(--border-default)',
+        boxShadow: 'inset 0 0 0 1px var(--border-default)',
         backgroundColor: 'var(--layer-1)',
       }}
     >

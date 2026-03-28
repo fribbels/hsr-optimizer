@@ -103,7 +103,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateDefaults = {
     eruditionTeammateBuffs: true,
-    cyreneSpecialEffect: true,
+    cyreneSpecialEffect: false,
     e1DefPen: true,
     e2ResPen: true,
     e6Buffs: true,

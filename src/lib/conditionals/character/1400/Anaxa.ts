@@ -299,8 +299,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Cyrene special effect (for Erudition characters only)
       // Uptime handled in AnaxaCyreneEffectPreprocessor
       const cyreneBuffActive = m.cyreneSpecialEffect && context.path === PathNames.Erudition
-      const cyreneSkillDmgBuff = cyreneActionExists(action)
-        ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.44 : 0.40)
+      const cyreneSkillDmgBuff = cyreneActionExists(originalCharacterAction!)
+        ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.44 : 0.40)
         : 0
       x.buff(
         StatKey.DMG_BOOST,

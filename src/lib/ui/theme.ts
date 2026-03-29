@@ -100,6 +100,9 @@ export const themeResolver: CSSVariablesResolver = (theme) => {
       '--control-bg-light': '#ffffff40',
     },
     light: {},
-    dark: {},
+    dark: {
+      '--mantine-color-red-filled': '#a52d2d',
+      '--mantine-color-red-filled-hover': '#952727',
+    },
   }
 }

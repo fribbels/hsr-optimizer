@@ -177,9 +177,10 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 
 export function configToCssVars(c: NavDebugConfig): React.CSSProperties {
   const seedColor = useThemeStore.getState().seedColor
-  const [rawH, s] = chroma(seedColor).hsl()
+  const [rawH, s, l] = chroma(seedColor).hsl()
   const h = Math.round(isNaN(rawH) ? 0 : rawH)
   const sat = Math.round(s * 100)
+  const lit = Math.round(Math.min(l + 0.15, 0.80) * 100)
 
   const vars: Record<string, string> = {
     // Dimensions
@@ -203,16 +204,16 @@ export function configToCssVars(c: NavDebugConfig): React.CSSProperties {
     // Computed colors derived from theme seed
     '--dbg-indicator-bg': c.indicatorPosition === 'none'
       ? 'none'
-      : `linear-gradient(90deg, hsla(${h}, ${sat}%, 55%, ${c.gradientStrength / 100}), hsla(${h}, ${sat}%, 55%, ${c.gradientStrength / 300}))`,
-    '--dbg-indicator-bg-reverse': `linear-gradient(270deg, hsla(${h}, ${sat}%, 55%, ${c.gradientStrength / 100}), hsla(${h}, ${sat}%, 55%, ${c.gradientStrength / 300}))`,
+      : `linear-gradient(90deg, hsla(${h}, ${sat}%, ${lit}%, ${c.gradientStrength / 100}), hsla(${h}, ${sat}%, ${lit}%, ${c.gradientStrength / 300}))`,
+    '--dbg-indicator-bg-reverse': `linear-gradient(270deg, hsla(${h}, ${sat}%, ${lit}%, ${c.gradientStrength / 100}), hsla(${h}, ${sat}%, ${lit}%, ${c.gradientStrength / 300}))`,
     '--dbg-hover-bg': c.hoverBg
-      ? `hsla(${h}, ${sat}%, 55%, ${c.hoverBgOpacity / 100})`
+      ? `hsla(${h}, ${sat}%, ${lit}%, ${c.hoverBgOpacity / 100})`
       : 'transparent',
     '--dbg-icon-container-bg': c.iconContainer !== 'none'
       ? `hsla(${h}, 30%, 50%, ${c.iconContainerOpacity / 100})`
       : 'transparent',
     '--dbg-glow-color': c.activeGlow
-      ? `hsla(${h}, ${sat}%, 55%, 0.25)`
+      ? `hsla(${h}, ${sat}%, ${lit}%, 0.25)`
       : 'transparent',
     '--dbg-glow-strength': `${c.activeGlowStrength}px`,
     '--dbg-divider-gradient': `linear-gradient(90deg, transparent, hsla(${h}, ${clamp(sat - 10, 10, 100)}%, 40%, 0.3), transparent)`,

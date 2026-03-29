@@ -4,7 +4,7 @@ import { type ChangelogContent, getChangelogContent } from 'lib/tabs/tabChangelo
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import React, { useMemo, useState } from 'react'
 
-const PAGE_SIZE = 4
+const PAGE_SIZE = 3
 
 function ChangelogEntry(props: { contentUpdate: ChangelogContent }) {
   const contentUpdate = props.contentUpdate
@@ -53,11 +53,22 @@ export function ChangelogTab(): React.JSX.Element {
   const changelogContent = useMemo(() => getChangelogContent(), [])
   const [page, setPage] = useState(1)
 
-  const totalPages = Math.ceil(changelogContent.length / PAGE_SIZE)
-  const paginatedItems = changelogContent.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  const versionEntry = changelogContent[0]
+  const entries = changelogContent.slice(1)
+  const totalPages = Math.ceil(entries.length / PAGE_SIZE)
+  const paginatedItems = entries.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
     <Flex direction='column' style={{ marginBottom: 400, width: 1250 }}>
+      <ChangelogEntry contentUpdate={versionEntry} />
+      {totalPages > 1 && (
+        <Pagination
+          total={totalPages}
+          value={page}
+          onChange={setPage}
+          mb='md'
+        />
+      )}
       {paginatedItems.map((item, index) => (
         <div key={item.date || index}>
           <ChangelogEntry contentUpdate={item} />

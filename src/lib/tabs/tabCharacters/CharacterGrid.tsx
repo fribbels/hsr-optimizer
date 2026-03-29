@@ -111,8 +111,6 @@ export function CharacterGrid() {
   const [toggles, setToggles] = useState<DebugToggles>(DEFAULT_TOGGLES)
   const [listColorConfig, setListColorConfig] = useState<CardColorConfig>({ ...DEFAULT_CONFIG.characterListBg })
 
-  const [loadedCount, setLoadedCount] = useState(INITIAL_LOAD_COUNT)
-
   useEffect(() => {
     setLocalFocus(null)
   }, [focusCharacter])
@@ -137,12 +135,6 @@ export function CharacterGrid() {
     () => new Map(characters.map((c, i) => [c.id, i])),
     [characters],
   )
-
-  useEffect(() => {
-    if (loadedCount >= filteredCharacters.length) return
-    const timer = setTimeout(() => setLoadedCount((c) => c + 1), TRICKLE_DELAY)
-    return () => clearTimeout(timer)
-  }, [loadedCount, filteredCharacters.length])
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 3 } }),
@@ -230,7 +222,7 @@ export function CharacterGrid() {
                 character={character}
                 rank={rankMap.get(character.id) ?? 0}
                 isFocused={character.id === displayFocus}
-                loadImages={i < loadedCount}
+                loadDelay={i < INITIAL_LOAD_COUNT ? 0 : (i - INITIAL_LOAD_COUNT + 1) * TRICKLE_DELAY}
                 toggles={toggles}
                 listColorConfig={listColorConfig}
                 onClick={handleRowClick}
@@ -260,7 +252,7 @@ type CharacterRowProps = {
   character: Character
   rank: number
   isFocused: boolean
-  loadImages: boolean
+  loadDelay: number
   toggles: DebugToggles
   listColorConfig: CardColorConfig
   onClick: (id: CharacterId) => void
@@ -269,12 +261,21 @@ type CharacterRowProps = {
   onRemove: (id: CharacterId) => void
 }
 
-const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, loadImages, toggles, listColorConfig, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, loadDelay, toggles, listColorConfig, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: character.id,
     animateLayoutChanges: () => false,
   })
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Per-row staggered image loading — replaces parent-level trickle to avoid parent re-renders
+  const [loadImages, setLoadImages] = useState(loadDelay === 0)
+  useEffect(() => {
+    if (loadDelay === 0) return
+    const timer = setTimeout(() => setLoadImages(true), loadDelay)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // mount-only: delay is captured from initial render
 
   useEffect(() => {
     if (isFocused) {
@@ -325,7 +326,6 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
     && prev.rank === next.rank
     && prev.character.form === next.character.form
     && prev.isFocused === next.isFocused
-    && prev.loadImages === next.loadImages
     && prev.toggles === next.toggles
     && prev.listColorConfig === next.listColorConfig
 })

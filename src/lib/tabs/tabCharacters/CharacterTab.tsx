@@ -17,6 +17,13 @@ export function CharacterTab() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
 
+  // --- PROFILING ---
+  const renderStart = performance.now()
+  React.useEffect(() => {
+    console.log(`[TAB PROFILE] CharacterTab render: ${(performance.now() - renderStart).toFixed(1)}ms`)
+  })
+  // --- END PROFILING ---
+
   // CharacterPreview calls setInitialCharacter(char) then setOpen(true) sequentially.
   // We open the overlay on setInitialCharacter and ignore setOpen(true) since it's already open.
   const setOriginalCharacterModalInitialCharacter = useCallback((character: Character | null) => {

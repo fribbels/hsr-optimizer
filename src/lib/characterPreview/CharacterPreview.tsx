@@ -242,6 +242,13 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   savedBuildOverride,
   id,
 }: CharacterPreviewInnerProps) {
+  // --- PROFILING ---
+  const renderStart = performance.now()
+  useEffect(() => {
+    console.log(`[TAB PROFILE]   CharacterPreviewInner render: ${(performance.now() - renderStart).toFixed(1)}ms`)
+  })
+  // --- END PROFILING ---
+
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
   // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
   // handles the equipped field difference (Relic objects vs string IDs).

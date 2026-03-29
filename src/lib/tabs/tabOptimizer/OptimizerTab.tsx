@@ -11,9 +11,17 @@ import { Sidebar } from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import React from 'react'
 
 export function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
+
+  // --- PROFILING ---
+  const renderStart = performance.now()
+  React.useEffect(() => {
+    console.log(`[TAB PROFILE] OptimizerTab render: ${(performance.now() - renderStart).toFixed(1)}ms`)
+  })
+  // --- END PROFILING ---
 
   return (
     <Flex>

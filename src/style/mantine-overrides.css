@@ -5,6 +5,13 @@
     transition: none !important;
 }
 
+/* Disabled buttons: add subtle border so they don't disappear into the background */
+.mantine-Button-root:disabled,
+.mantine-Button-root[data-disabled] {
+    border: 1px solid var(--border-default) !important;
+    opacity: 0.4;
+}
+
 /* Switch: hide thumb indicator dot */
 .mantine-Switch-thumb[data-with-thumb-indicator]::before {
     display: none;

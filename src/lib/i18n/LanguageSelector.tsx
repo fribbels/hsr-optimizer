@@ -46,7 +46,7 @@ export function LanguageSelector() {
           })
       }}
       size="xs"
-      style={{ width: 135, marginRight: 8 }}
+      style={{ width: 135, marginRight: 10 }}
       styles={{ input: { height: 32, minHeight: 32, paddingLeft: 32 } }}
       maxDropdownHeight={400}
       comboboxProps={{ keepMounted: false, width: 210 }}

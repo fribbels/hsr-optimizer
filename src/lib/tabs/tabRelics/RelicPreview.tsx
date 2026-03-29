@@ -59,7 +59,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
   setSelectedRelic?: (relic: Relic) => void,
   useShowcaseColors?: boolean,
   unhoverable?: boolean,
-  compact?: boolean,
+  fill?: boolean,
 }) {
   const { t } = useTranslation('common')
   const {
@@ -72,7 +72,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
     setSelectedRelic,
     useShowcaseColors,
     unhoverable,
-    compact,
+    fill,
   } = props
   const relic: Relic = {
     ...PLACEHOLDER_RELIC,
@@ -98,10 +98,10 @@ export const RelicPreview = memo(function RelicPreview(props: {
     }
   }
 
-  const STAT_GAP = compact ? 2 : scoringType === ScoringType.NONE ? 6 : 0
-  const ICON_SIZE = compact ? 30 : scoringType === ScoringType.NONE ? 54 : 50
-  const JUSTIFY = compact ? 'space-between' : scoringType === ScoringType.NONE ? 'space-around' : 'space-between'
-  const DIVIDER_MARGIN = compact ? '2px 0px 2px 0px' : '6px 0px 6px 0px'
+  const STAT_GAP = scoringType === ScoringType.NONE ? 6 : 0
+  const ICON_SIZE = scoringType === ScoringType.NONE ? 54 : 50
+  const JUSTIFY = scoringType === ScoringType.NONE ? 'space-around' : 'space-between'
+  const DIVIDER_MARGIN = '6px 0px 6px 0px'
 
   const fillerStats = Array.from<RelicSubstatMetadata>({ length: 4 - relic.substats.length - relic.previewSubstats.length })
 
@@ -111,9 +111,10 @@ export const RelicPreview = memo(function RelicPreview(props: {
       withBorder={source != null}
       onClick={cardClicked}
       style={{
-        width: compact ? '100%' : relicCardW,
-        minWidth: compact ? undefined : relicCardW,
-        height: compact ? '100%' : relicCardH,
+        flex: fill ? 1 : undefined,
+        width: fill ? undefined : relicCardW,
+        minWidth: fill ? 0 : relicCardW,
+        height: relicCardH,
         padding: 12,
         backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : 'var(--layer-2)',
         borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,
@@ -145,18 +146,16 @@ export const RelicPreview = memo(function RelicPreview(props: {
               <span>{Renderer.renderGrade(relic)}</span>
               <span>{relic.id != undefined ? `+${relic.enhance}` : ''}</span>
             </div>
-            {!compact && (
-              <img
-                style={{
-                  height: ICON_SIZE,
-                  width: ICON_SIZE,
-                  borderRadius: ICON_SIZE / 2,
-                  border: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
-                  backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
-                }}
-                src={equippedBySrc}
-              />
-            )}
+            <img
+              style={{
+                height: ICON_SIZE,
+                width: ICON_SIZE,
+                borderRadius: ICON_SIZE / 2,
+                border: relic.equippedBy ? '1px solid rgba(150, 150, 150, 0.25)' : undefined,
+                backgroundColor: relic.equippedBy ? 'rgba(0, 0, 0, 0.1)' : undefined,
+              }}
+              src={equippedBySrc}
+            />
           </div>
 
           <Divider style={{ margin: DIVIDER_MARGIN }} />

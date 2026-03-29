@@ -15,7 +15,8 @@ export function DPSScoreDisclaimer() {
   if (showComboDmgWarning !== SettingOptions.ShowComboDmgWarning.Show) return null
 
   return (
-    <Accordion className={styles.accordion} styles={{ control: { backgroundColor: '#8a1717', borderRadius: 6 } }}>
+    <div className={styles.wrapper}>
+    <Accordion className={styles.accordion} styles={{ control: { backgroundColor: '#8a1717' }, content: { backgroundColor: 'var(--layer-1)' } }}>
       <Accordion.Item value="1">
         <Accordion.Control>
           <div className={styles.disclaimerText}>
@@ -53,5 +54,6 @@ export function DPSScoreDisclaimer() {
         </Accordion.Panel>
       </Accordion.Item>
     </Accordion>
+    </div>
   )
 }

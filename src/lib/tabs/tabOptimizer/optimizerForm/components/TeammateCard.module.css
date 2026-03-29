@@ -48,8 +48,3 @@
   min-width: 0;
 }
 
-/* ---- Optional inset shadow on conditional zones ---- */
-
-.insetShadow {
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
-}

@@ -67,6 +67,25 @@ const Tabs = () => {
   // the tab content in a lower-priority pass — avoids blocking the menu.
   const deferredActiveKey = useDeferredValue(activeKey)
 
+  // --- PROFILING: track when activeKey changes vs when deferred catches up ---
+  const prevActiveKeyRef = useRef(activeKey)
+  if (activeKey !== prevActiveKeyRef.current) {
+    performance.mark('tab-switch-start')
+    console.log(`[TAB PROFILE] activeKey changed: ${prevActiveKeyRef.current} → ${activeKey}`)
+    prevActiveKeyRef.current = activeKey
+  }
+  const prevDeferredRef = useRef(deferredActiveKey)
+  if (deferredActiveKey !== prevDeferredRef.current) {
+    performance.mark('tab-switch-deferred')
+    if (performance.getEntriesByName('tab-switch-start').length) {
+      performance.measure('tab-switch: activeKey→deferred', 'tab-switch-start', 'tab-switch-deferred')
+      const m = performance.getEntriesByName('tab-switch: activeKey→deferred').pop()
+      console.log(`[TAB PROFILE] deferred caught up: ${m?.duration.toFixed(1)}ms`)
+    }
+    prevDeferredRef.current = deferredActiveKey
+  }
+  // --- END PROFILING ---
+
   // Create all element descriptions once (stable references, but not mounted until included in tree)
   const tabElements = React.useMemo(
     () => new Map(TAB_COMPONENTS.map(([key, Component]) => [key, <Component />] as const)),
@@ -166,10 +185,43 @@ function TabRenderer({ activeKey, tabKey, children }: {
   // On activation (hidden → visible): notify listeners after the tab becomes visible.
   // Fires after the deferred display switch so components render with fresh data.
   if (isActive && !prevActiveRef.current) {
+    // --- PROFILING: track activation listener dispatch ---
+    performance.mark(`tab-activate-render-${tabKey}`)
+    if (performance.getEntriesByName('tab-switch-start').length) {
+      performance.measure(`tab-switch: start→render(${tabKey})`, 'tab-switch-start', `tab-activate-render-${tabKey}`)
+      const m = performance.getEntriesByName(`tab-switch: start→render(${tabKey})`).pop()
+      console.log(`[TAB PROFILE] ${tabKey} render activation: ${m?.duration.toFixed(1)}ms after switch start`)
+    }
+    // --- END PROFILING ---
     afterPaint(() => {
+      // --- PROFILING: track post-paint listener dispatch ---
+      performance.mark(`tab-activate-paint-${tabKey}`)
+      if (performance.getEntriesByName('tab-switch-start').length) {
+        performance.measure(`tab-switch: start→paint(${tabKey})`, 'tab-switch-start', `tab-activate-paint-${tabKey}`)
+        const m = performance.getEntriesByName(`tab-switch: start→paint(${tabKey})`).pop()
+        console.log(`[TAB PROFILE] ${tabKey} afterPaint listeners firing: ${m?.duration.toFixed(1)}ms after switch start`)
+      }
+      const listenerStart = performance.now()
+      // --- END PROFILING ---
       for (const listener of listenersRef.current) {
         listener()
       }
+      // --- PROFILING ---
+      const listenerDuration = performance.now() - listenerStart
+      console.log(`[TAB PROFILE] ${tabKey} activation listeners (${listenersRef.current.size} listeners): ${listenerDuration.toFixed(1)}ms`)
+      // Schedule one final mark after React processes all the activation-triggered re-renders
+      requestAnimationFrame(() => {
+        performance.mark(`tab-activate-settled-${tabKey}`)
+        if (performance.getEntriesByName('tab-switch-start').length) {
+          performance.measure(`tab-switch: TOTAL(${tabKey})`, 'tab-switch-start', `tab-activate-settled-${tabKey}`)
+          const m = performance.getEntriesByName(`tab-switch: TOTAL(${tabKey})`).pop()
+          console.log(`[TAB PROFILE] ✅ ${tabKey} TOTAL switch time: ${m?.duration.toFixed(1)}ms`)
+          // Clean up marks
+          performance.clearMarks()
+          performance.clearMeasures()
+        }
+      })
+      // --- END PROFILING ---
     })
   }
   prevActiveRef.current = isActive

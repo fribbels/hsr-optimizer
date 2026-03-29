@@ -21,7 +21,6 @@ import {
 import { StatSimulationDisplay } from 'lib/tabs/tabOptimizer/optimizerForm/components/StatSimulationDisplay'
 import { SubstatWeightFilters } from 'lib/tabs/tabOptimizer/optimizerForm/components/SubstatWeightFilters'
 import { TeammateCard } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard'
-import { TeammateCardDebugPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCardDebugPanel'
 import { FilterContainer } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import { FormCard } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import {
@@ -35,6 +34,13 @@ import type { DBMetadata } from 'types/metadata'
 import { mergeDefinedValues } from 'lib/utils/objectUtils'
 
 export function OptimizerForm() {
+  // --- PROFILING ---
+  const renderStart = performance.now()
+  useEffect(() => {
+    console.log(`[TAB PROFILE]   OptimizerForm render: ${(performance.now() - renderStart).toFixed(1)}ms`)
+  })
+  // --- END PROFILING ---
+
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
     const characters = useCharacterStore.getState().characters || []
@@ -96,8 +102,6 @@ export function OptimizerForm() {
           <TeammateCard index={1} dbMetadata={dbMetadata} />
           <TeammateCard index={2} dbMetadata={dbMetadata} />
         </TeammateFormRow>
-
-        <TeammateCardDebugPanel />
 
         <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
           <StatSimulationDisplay />

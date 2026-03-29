@@ -86,13 +86,13 @@ export function OptimizerBuildPreview() {
 
   return (
     <div>
-      <div id='optimizerBuildPreviewContainer' style={{ display: 'flex', gap: 6, justifyContent: 'space-between', paddingLeft: 1, paddingRight: 1 }}>
-        <RelicPreview setEditModalOpen={openRelicModal} relic={headRelic} score={headScore} />
-        <RelicPreview setEditModalOpen={openRelicModal} relic={handsRelic} score={handsScore} />
-        <RelicPreview setEditModalOpen={openRelicModal} relic={bodyRelic} score={bodyScore} />
-        <RelicPreview setEditModalOpen={openRelicModal} relic={feetRelic} score={feetScore} />
-        <RelicPreview setEditModalOpen={openRelicModal} relic={planarSphereRelic} score={planarSphereScore} />
-        <RelicPreview setEditModalOpen={openRelicModal} relic={linkRopeRelic} score={linkRopeScore} />
+      <div id='optimizerBuildPreviewContainer' style={{ display: 'flex', gap: 8, justifyContent: 'space-between', paddingLeft: 1, paddingRight: 1 }}>
+        <RelicPreview fill setEditModalOpen={openRelicModal} relic={headRelic} score={headScore} />
+        <RelicPreview fill setEditModalOpen={openRelicModal} relic={handsRelic} score={handsScore} />
+        <RelicPreview fill setEditModalOpen={openRelicModal} relic={bodyRelic} score={bodyScore} />
+        <RelicPreview fill setEditModalOpen={openRelicModal} relic={feetRelic} score={feetScore} />
+        <RelicPreview fill setEditModalOpen={openRelicModal} relic={planarSphereRelic} score={planarSphereScore} />
+        <RelicPreview fill setEditModalOpen={openRelicModal} relic={linkRopeRelic} score={linkRopeScore} />
       </div>
     </div>
   )

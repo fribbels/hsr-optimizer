@@ -23,7 +23,6 @@ import {
   renderTeammateRelicSetOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/updateTeammate'
-import { useTeammateCardDebugValues } from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCardDebugPanel'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
@@ -76,8 +75,6 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
     })),
   )
 
-  const debug = useTeammateCardDebugValues()
-
   const [teammateSelectModalOpen, setTeammateSelectModalOpen] = useState(false)
   const [teammateLightConeSelectOpen, setTeammateLightConeSelectOpen] = useState(false)
 
@@ -93,23 +90,21 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
     teammateOrnamentSetOptions,
   ])
 
-  const insetClass = debug.showInsetShadow ? classes.insetShadow : undefined
-
   return (
     <Flex
       direction='column'
       className={classes.card}
       w={CARD_WIDTH}
-      h={debug.cardHeight}
-      style={{ borderRadius: debug.cardBorderRadius }}
+      h={490}
+      style={{ borderRadius: 6 }}
     >
       {/* ======== Character area ======== */}
       <Flex style={{ overflow: 'hidden' }} gap={0}>
         {/* Left — character select + conditionals */}
         <Flex
           direction='column'
-          className={`hide-scrollbar ${insetClass ?? ''}`}
-          p={debug.zonePx}
+          className='hide-scrollbar'
+          p={11}
           style={{ flex: 1, minWidth: 0, overflow: 'auto' }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
@@ -153,8 +148,8 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         {/* Right — eidolon + avatar + team sets */}
         <Flex
           direction='column'
-          w={debug.rightColWidth}
-          p={debug.zonePx}
+          w={135}
+          p={11}
           gap={16}
           className={classes.rightCol}
         >
@@ -171,8 +166,8 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
           <Avatar
             src={Assets.getCharacterAvatarById(teammateCharacterId)}
-            size={debug.avatarSize}
-            radius={debug.avatarSize}
+            size={96}
+            radius={96}
             className={classes.avatar}
             onClick={() => setTeammateSelectModalOpen(true)}
             style={{ alignSelf: 'center' }}
@@ -202,8 +197,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         {/* Left — LC select + conditionals */}
         <Flex
           direction='column'
-          className={insetClass}
-          p={debug.zonePx}
+          p={11}
           style={{ flex: 1, minWidth: 0 }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
@@ -235,8 +229,8 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         {/* Right — SI + LC icon */}
         <Flex
           direction='column'
-          w={debug.rightColWidth}
-          p={debug.zonePx}
+          w={135}
+          p={11}
           gap={6}
           className={classes.rightColLc}
         >
@@ -253,7 +247,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
           <Avatar
             src={Assets.getLightConeIconById(teammateLightConeId)}
-            size={debug.lcIconSize}
+            size={96}
             radius='sm'
             style={{ cursor: 'pointer', alignSelf: 'center' }}
             onClick={() => setTeammateLightConeSelectOpen(true)}

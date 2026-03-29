@@ -165,7 +165,7 @@ function ComboBasicDefinition() {
       <Flex direction="column" gap={controlSize / 2} w={controlSize}>
         <Flex direction="column" gap={5}>
           <ActionIcon
-            variant='outline'
+            variant='default'
             w='100%'
             h={controlSize}
             disabled={disabled}
@@ -179,10 +179,10 @@ function ComboBasicDefinition() {
           >
             <IconRefresh size={16} />
           </ActionIcon>
-          <ActionIcon variant='outline' w='100%' h={controlSize} onClick={() => add()} disabled={disabled}>
+          <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => add()} disabled={disabled}>
             <IconPlus size={16} />
           </ActionIcon>
-          <ActionIcon variant='outline' w='100%' h={controlSize} onClick={() => minus()} disabled={disabled}>
+          <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => minus()} disabled={disabled}>
             <IconMinus size={16} />
           </ActionIcon>
         </Flex>

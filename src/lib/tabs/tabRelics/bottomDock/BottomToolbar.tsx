@@ -20,7 +20,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 const relicInsightOptions = [
   { value: String(RelicInsights.Buckets), label: 'Buckets' },
   { value: String(RelicInsights.Top10), label: 'Top 10' },
-  { value: String(RelicInsights.ESTBP), label: 'ESTBP' },
+  { value: String(RelicInsights.ESTBP), label: 'EST TBP' },
 ]
 
 export function BottomToolbar() {

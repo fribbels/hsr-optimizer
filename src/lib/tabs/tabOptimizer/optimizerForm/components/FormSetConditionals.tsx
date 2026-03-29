@@ -32,6 +32,7 @@ const setConditionalsIconWidth = 40
 const setConditionalsNameWidth = 255
 const setConditionalsWidth = 100
 const defaultGap = 5
+const columnGap = 2
 
 interface BaseConditionalSetOptionProps {
   description: string
@@ -71,7 +72,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
     </Flex>
   )
 
-  const disabled = 'p4Checked' in rest ? !rest.p4Checked : !('p2Checked' in rest && rest.p2Checked)
+  const disabled = 'p4Checked' in rest ? rest.p4Checked : 'p2Checked' in rest && rest.p2Checked
 
   let inputType
   if (selectOptions) {
@@ -194,7 +195,7 @@ function FormSetConditionalsContent() {
 
   return (
     <Flex justify='center'>
-      <Flex direction="column" gap={defaultGap}>
+      <Flex direction="column" gap={columnGap}>
         <Flex gap={defaultGap} align='center'>
           <div style={{ width: setConditionalsIconWidth }} />
           <div style={{ width: setConditionalsNameWidth }} />
@@ -202,7 +203,7 @@ function FormSetConditionalsContent() {
         {relicOptions}
       </Flex>
       <VerticalDivider />
-      <Flex direction="column" gap={defaultGap} style={{ marginLeft: 5 }}>
+      <Flex direction="column" gap={columnGap} style={{ marginLeft: 5 }}>
         <Flex gap={defaultGap} align='center'>
           <div style={{ width: setConditionalsIconWidth }} />
           <div style={{ width: setConditionalsNameWidth }} />

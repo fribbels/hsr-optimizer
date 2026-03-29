@@ -69,7 +69,7 @@ function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata)
   // @ts-expect-error - getDefaultForm currently has handling for no character id but is set to be changed
   mergeUndefinedValues(form, getDefaultForm())
 
-  form.comboTurnAbilities = scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
+  form.comboTurnAbilities = [...(scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC])]
   form.comboDot = scoringMetadata?.simulation?.comboDot ?? 0
 
   // @ts-expect-error - maxSpd is typed as number but needs to be cleared for presets

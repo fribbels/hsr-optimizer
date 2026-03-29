@@ -113,7 +113,7 @@ function resetClicked() {
 
   if (!characterMetadata) return
 
-  const defaultComboTurnAbilities = characterMetadata.scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC]
+  const defaultComboTurnAbilities = [...(characterMetadata.scoringMetadata?.simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, WHOLE_BASIC])]
 
   useOptimizerRequestStore.getState().setComboTurnAbilities(defaultComboTurnAbilities)
   useOptimizerRequestStore.getState().setComboStateJson('{}')

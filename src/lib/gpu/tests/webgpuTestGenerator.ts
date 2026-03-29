@@ -165,7 +165,7 @@ export async function generateAllTests() {
 }
 
 export function generateE6E5Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.reverse().map((pair) => {
+  return [...baseCharacterLightConeMappings].reverse().map((pair) => {
     return generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device)
   })
 }

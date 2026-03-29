@@ -268,7 +268,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
 export function getDefaultComboTurnAbilities(characterId: CharacterId, characterEidolon: number) {
   const simulation = getGameMetadata().characters[characterId]?.scoringMetadata?.simulation
   return {
-    comboTurnAbilities: simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
+    comboTurnAbilities: [...(simulation?.comboTurnAbilities ?? [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC])],
   }
 }
 

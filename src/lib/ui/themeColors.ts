@@ -4,7 +4,7 @@ import { type MantineColorsTuple } from '@mantine/core'
 // Dark palette offsets aligned with Mantine's semantic expectations:
 // dark-0 = text, dark-1 = dimmed, dark-2 = placeholder,
 // dark-4 = borders, dark-5 = hover, dark-6 = component bg, dark-7 = body
-const DARK_LIGHTNESS_OFFSETS = [0.70, 0.45, 0.35, 0.25, 0.26, 0.12, 0.08, 0, -0.02, -0.04]
+const DARK_LIGHTNESS_OFFSETS = [0.70, 0.60, 0.50, 0.40, 0.30, 0.12, 0.08, 0, -0.02, -0.04]
 
 const PRIMARY_LIGHTNESS = [0.94, 0.86, 0.76, 0.66, 0.56, 0, 0.40, 0.32, 0.24, 0.16]
 

@@ -12,6 +12,12 @@
 .mantine-Switch-input:not(:checked) + .mantine-Switch-track {
     background-color: #ffffff40;
 }
+.mantine-Switch-input:disabled + .mantine-Switch-track {
+    opacity: 0.15;
+}
+.mantine-Switch-input:checked:disabled + .mantine-Switch-track {
+    background-color: var(--mantine-color-primary-4) !important;
+}
 
 /* Timeline active bullet: v9 alpha defaults to white outline; restore filled style */
 .mantine-Timeline-itemBullet[data-active] {
@@ -24,6 +30,12 @@
 .mantine-Select-dropdown,
 .mantine-MultiSelect-dropdown {
     background-color: var(--mantine-color-dark-5) !important;
+}
+
+/* Modal/Drawer header: inherit content panel background instead of --mantine-color-body */
+.mantine-Modal-header,
+.mantine-Drawer-header {
+    background-color: inherit !important;
 }
 
 /* Remove bold from SegmentedControl labels */

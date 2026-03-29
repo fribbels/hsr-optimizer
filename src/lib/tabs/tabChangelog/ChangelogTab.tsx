@@ -57,7 +57,7 @@ export function ChangelogTab(): React.JSX.Element {
   const paginatedItems = changelogContent.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   return (
-    <Flex direction='column'>
+    <Flex direction='column' style={{ marginBottom: 400 }}>
       {paginatedItems.map((item, index) => (
         <div key={item.date || index}>
           <ChangelogEntry contentUpdate={item} />

@@ -5,6 +5,11 @@
     transition: none !important;
 }
 
+/* Switch: hide thumb indicator dot */
+.mantine-Switch-thumb[data-with-thumb-indicator]::before {
+    display: none;
+}
+
 /* Switch pointer cursor + off-track color */
 .mantine-Switch-track {
     cursor: pointer;

@@ -49,7 +49,7 @@ export function BottomToolbar() {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Group gap={10}>
+      <Group gap={5}>
         <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-default)', height: 30 }} />
         <Button
           variant="default"
@@ -91,7 +91,7 @@ export function BottomToolbar() {
         </Button>
       </Group>
 
-      <Group gap={10}>
+      <Group gap={5}>
         <TooltipImage type={Hint.relicInsight()} />
         <SegmentedControl
           size="xs"

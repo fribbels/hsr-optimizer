@@ -132,6 +132,7 @@ export function RelicsGrid() {
         height: 600,
         overflow: 'hidden',
         resize: 'vertical',
+        marginTop: 3,
       }}
     >
       {!gridDestroyed && (

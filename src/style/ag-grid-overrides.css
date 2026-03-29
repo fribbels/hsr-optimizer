@@ -4,8 +4,8 @@
 
 .ag-theme-balham-dark {
     --ag-background-color: var(--layer-2);
-    --ag-odd-row-background-color: var(--layer-2);
-    --ag-header-background-color: var(--layer-2);
+    --ag-odd-row-background-color: rgba(0, 0, 0, 0.15);
+    --ag-header-background-color: var(--layer-1);
     --ag-border-color: var(--border-default);
     --ag-row-hover-color: rgba(255, 255, 255, 0.03);
 }

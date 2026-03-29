@@ -5,9 +5,9 @@ import { ScoredRelicPreview } from 'lib/tabs/tabRelics/bottomDock/ScoredRelicPre
 
 export function BottomDock() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
       <BottomToolbar />
-      <div style={{ display: 'flex', gap: 10, minHeight: relicCardH }}>
+      <div style={{ display: 'flex', gap: 5, minHeight: relicCardH }}>
         <ScoredRelicPreview />
         <div style={{ flex: 1, minWidth: 0 }}>
           <RelicInsightsPanel />

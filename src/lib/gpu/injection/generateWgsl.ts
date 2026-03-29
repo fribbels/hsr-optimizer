@@ -136,9 +136,10 @@ function filterFn(request: Form) {
     const [, , threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
     const min = threshold.includes('min')
     const max = threshold.includes('max')
+    const value = request[threshold as keyof Form]
 
-    if (max && request[threshold as keyof Form] === Constants.MAX_INT) return ''
-    if (min && request[threshold as keyof Form] === 0) return ''
+    if (max && (value == null || value === Constants.MAX_INT)) return ''
+    if (min && (value == null || value === 0)) return ''
 
     return text
   }

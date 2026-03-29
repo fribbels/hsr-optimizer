@@ -13,7 +13,7 @@ export function RelicsTab() {
   const { t } = useTranslation('relicsTab')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: TAB_WIDTH, marginBottom: 100 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 5, width: TAB_WIDTH, marginBottom: 100 }}>
       <TopBar />
 
       {recentRelics.length > 0 && (

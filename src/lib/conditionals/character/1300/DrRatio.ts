@@ -197,7 +197,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ...(e2AdditionalScaling > 0
               ? [
                 HitDefinitionBuilder.standardAdditional()
-                  .damageType(DamageTag.FUA | DamageTag.ADDITIONAL)
+                  .damageType(DamageTag.ADDITIONAL)
                   .damageElement(ElementTag.Imaginary)
                   .atkScaling(e2AdditionalScaling)
                   .build(),

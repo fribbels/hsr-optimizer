@@ -4,7 +4,7 @@
 
 .tableWrapper {
   padding: 8px;
-  background-color: var(--layer-1);
+  background-color: var(--layer-2);
   border: 1px solid var(--border-default);
   border-top: none;
 }

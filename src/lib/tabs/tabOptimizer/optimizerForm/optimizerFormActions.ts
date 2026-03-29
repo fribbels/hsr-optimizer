@@ -16,12 +16,15 @@ import * as equipmentService from 'lib/services/equipmentService'
 import { displayToInternal, patchComboConditionalDefault } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { type MainConditionalType, type TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { persistFormToCharacterStore } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
+import { syncFormToCharacterStore } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/stores/gridStore'
 import type { Build, CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import { uuid } from 'lib/utils/miscUtils'
+
+// Sync optimizer form to character store before page unload so SaveState.save() has latest data
+window.addEventListener('beforeunload', () => syncFormToCharacterStore())
 
 const OPTIMIZER_FORM_CACHE_MAX = 50
 const _optimizerFormCacheMap = new Map<string, Form>()
@@ -62,8 +65,6 @@ function handleMainCharacterConditionalChange(
   const conditionalsType = condType === 'characterConditionals' ? 'character' : 'lightCone' as const
   const patchedJson = patchComboConditionalDefault(store.comboStateJson, conditionalsType, { [key]: value })
   store.setComboStateJson(patchedJson)
-
-  persistFormToCharacterStore(1000)
 }
 
 /**
@@ -82,8 +83,6 @@ function handleTeammateConditionalChange(
   const conditionalsType = condType === 'characterConditionals' ? 'character' : 'lightCone' as const
   const patchedJson = patchComboConditionalDefault(store.comboStateJson, conditionalsType, { [key]: value }, teammateIndex)
   store.setComboStateJson(patchedJson)
-
-  persistFormToCharacterStore(1000)
 }
 
 /**
@@ -98,8 +97,6 @@ function handleSetConditionalChange(
 
   const patchedJson = patchComboConditionalDefault(store.comboStateJson, 'set', { [key]: value })
   store.setComboStateJson(patchedJson)
-
-  persistFormToCharacterStore(1000)
 }
 
 /**
@@ -316,6 +313,12 @@ export function setCharacter(id: CharacterId): void {
 export function updateCharacter(characterId: CharacterId): void {
   console.log('@updateCharacter', characterId)
   if (!characterId) return
+
+  // Persist the outgoing character's form before loading the new one
+  const currentCharId = useOptimizerRequestStore.getState().characterId
+  if (currentCharId && currentCharId !== characterId) {
+    syncFormToCharacterStore()
+  }
 
   OptimizerTabController.setRows([])
   OptimizerTabController.resetDataSource()

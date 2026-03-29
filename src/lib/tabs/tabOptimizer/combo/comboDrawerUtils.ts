@@ -34,14 +34,20 @@ export function shiftLeft(arr: boolean[], index: number) {
 }
 
 
-// ─── Persistence Helper ──────────────────────────────────────
+// ─── Persistence Helpers ─────────────────────────────────────
 
-export function persistFormToCharacterStore(delayMs = 1000): void {
+/** Sync current optimizer form to the character store (no localStorage write). */
+export function syncFormToCharacterStore(): void {
   const form = getForm()
   const found = getCharacterById(form.characterId)
   if (found) {
     useCharacterStore.getState().setCharacter({ ...found, form: { ...found.form, ...form } })
   }
+}
+
+/** Sync form to character store and schedule a delayed localStorage save. */
+export function persistFormToCharacterStore(delayMs = 1000): void {
+  syncFormToCharacterStore()
   SaveState.delayedSave(delayMs)
 }
 

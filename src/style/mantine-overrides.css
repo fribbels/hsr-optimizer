@@ -38,9 +38,28 @@
     background-color: inherit !important;
 }
 
+/* Bump pill font size at xs from 10px to 12px */
+.mantine-Pill-root {
+    --pill-fz-xs: 12px;
+}
+
+/* Slider track: dark-4 is too bright for tracks */
+.mantine-Slider-root {
+    --slider-track-bg: #ffffff15 !important;
+    --slider-track-disabled-bg: #ffffff08 !important;
+}
+.mantine-Slider-bar[data-disabled]:not([data-inverted]) {
+    background-color: #ffffff08 !important;
+}
+
 /* Remove bold from SegmentedControl labels */
 .mantine-SegmentedControl-label {
     font-weight: normal;
+}
+
+/* Hide MultiSelect placeholder when pills are selected */
+.mantine-PillGroup-group:has(.mantine-Pill-root) .mantine-PillsInputField-field::placeholder {
+    color: transparent;
 }
 
 /* Body scrollbar with overlayscrollbars */

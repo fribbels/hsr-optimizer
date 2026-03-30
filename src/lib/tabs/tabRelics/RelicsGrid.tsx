@@ -22,7 +22,7 @@ import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import { useRelicsTabStore, type ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { gridStore } from 'lib/stores/gridStore'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
-import React, {
+import {
   startTransition,
   useCallback,
   useContext,
@@ -52,9 +52,6 @@ const paginationSettings: AgGridReactProps<ScoredRelic> = {
 }
 
 export function RelicsGrid() {
-  // --- PROFILING ---
-  const renderStart = performance.now()
-  // --- END PROFILING ---
   const { getLocaleText, paginationNumberFormatter } = useGridLocale('relicsTab', 'RelicGrid')
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
@@ -130,15 +127,8 @@ export function RelicsGrid() {
   }, [relics, scoringVersion, focusCharacter, excludedRelicPotentialCharacters])
 
   const columnDefs = useMemo(() => {
-    // --- PROFILING ---
-    const t0 = performance.now()
-    // --- END PROFILING ---
-    const result = generateBaselineColDefs(t)
+    return generateBaselineColDefs(t)
       .concat(generateOptionalColDefs(t).filter((x) => valueColumns.includes(x.field as ValueColumnField)))
-    // --- PROFILING ---
-    console.log(`[TAB PROFILE]     columnDefs: ${(performance.now() - t0).toFixed(1)}ms`)
-    // --- END PROFILING ---
-    return result
   }, [valueColumns, t])
 
   const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<ScoredRelic>) => {
@@ -166,12 +156,6 @@ export function RelicsGrid() {
     }
     return true
   }, [filters])
-
-  // --- PROFILING ---
-  React.useEffect(() => {
-    console.log(`[TAB PROFILE]   RelicsGrid render+commit: ${(performance.now() - renderStart).toFixed(1)}ms`)
-  })
-  // --- END PROFILING ---
 
   return (
     <div

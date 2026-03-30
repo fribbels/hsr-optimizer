@@ -13,7 +13,7 @@ import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { DeferCreate, DeferReveal, DeferCreateProvider, useDeferReveal } from 'lib/ui/DeferredRender'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 export function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
@@ -26,13 +26,6 @@ export function OptimizerTab() {
     if (activated) return
     return addActivationListener(() => setActivated(true))
   }, [activated, addActivationListener])
-
-  // --- PROFILING ---
-  const renderStart = performance.now()
-  React.useEffect(() => {
-    console.log(`[TAB PROFILE] OptimizerTab render: ${(performance.now() - renderStart).toFixed(1)}ms`)
-  })
-  // --- END PROFILING ---
 
   return (
     <DeferCreateProvider resetKey={null} enabled={activated}>

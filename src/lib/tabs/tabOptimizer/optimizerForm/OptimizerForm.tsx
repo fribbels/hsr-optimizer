@@ -35,13 +35,6 @@ import type { DBMetadata } from 'types/metadata'
 import { mergeDefinedValues } from 'lib/utils/objectUtils'
 
 export function OptimizerForm() {
-  // --- PROFILING ---
-  const renderStart = performance.now()
-  useEffect(() => {
-    console.log(`[TAB PROFILE]   OptimizerForm render: ${(performance.now() - renderStart).toFixed(1)}ms`)
-  })
-  // --- END PROFILING ---
-
   // On first load, load from last session, else display the first character from the roster
   useEffect(() => {
     const characters = useCharacterStore.getState().characters || []

@@ -36,8 +36,11 @@ function getWorker(): Worker {
       pendingResolve = null
     }
     worker.onerror = (e) => {
+      worker?.terminate()
       worker = null // Allow re-creation on next call
+      const resolve = pendingResolve
       pendingResolve = null
+      resolve?.([]) // Settle the Promise so callers aren't left hanging
       console.warn('scoreRelicsWorker error:', e)
     }
   }
@@ -65,9 +68,6 @@ export function scoreRelicsAsync(
 
   const thisGeneration = ++generation
 
-  // --- PROFILING ---
-  const t0 = performance.now()
-  // --- END PROFILING ---
   const scorer = new RelicScorer()
   const characterIds = Object.values(getGameMetadata().characters).map((x) => x.id as CharacterId)
   const metadataByCharacter = new Map<CharacterId, ScorerMetadata>()
@@ -84,10 +84,6 @@ export function scoreRelicsAsync(
       }
     }
   }
-
-  // --- PROFILING ---
-  console.log(`[TAB PROFILE]     scoreRelicsAsync prep: ${(performance.now() - t0).toFixed(1)}ms (${characterIds.length} chars metadata)`)
-  // --- END PROFILING ---
 
   const input: ScoreRelicsWorkerInput = {
     generation: thisGeneration,

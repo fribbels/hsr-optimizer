@@ -91,13 +91,6 @@ const INITIAL_LOAD_COUNT = 12
 const TRICKLE_DELAY = 50
 
 export function CharacterGrid() {
-  // --- PROFILING ---
-  const renderStart = performance.now()
-  React.useEffect(() => {
-    console.log(`[TAB PROFILE]   CharacterGrid render: ${(performance.now() - renderStart).toFixed(1)}ms`)
-  })
-  // --- END PROFILING ---
-
   const gridRef = useRef<HTMLDivElement>(null)
   const osRef = useCallback((instance: OverlayScrollbarsComponentRef<'div'> | null) => {
     (gridRef as React.MutableRefObject<HTMLDivElement | null>).current = instance?.getElement() ?? null

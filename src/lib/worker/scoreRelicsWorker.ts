@@ -11,8 +11,6 @@ self.onmessage = function(e: MessageEvent<ScoreRelicsWorkerInput>) {
     equippedRelicByPart,
   } = e.data
 
-  const t0 = performance.now()
-
   const scoredRelics = scoreRelicsBatch(
     relics,
     characterIds,
@@ -21,8 +19,6 @@ self.onmessage = function(e: MessageEvent<ScoreRelicsWorkerInput>) {
     excludedRelicPotentialCharacters,
     equippedRelicByPart,
   )
-
-  console.log(`[TAB PROFILE]       scoreRelicsWorker: ${(performance.now() - t0).toFixed(1)}ms (${relics.length} relics, ${characterIds.length} chars)`)
 
   self.postMessage({ generation: e.data.generation, scoredRelics })
 }

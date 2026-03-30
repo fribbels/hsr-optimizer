@@ -57,13 +57,6 @@ const GRID_CONTAINER_STYLE = {
 }
 
 export function OptimizerGrid() {
-  // --- PROFILING ---
-  const renderStart = performance.now()
-  useEffect(() => {
-    console.log(`[TAB PROFILE]   OptimizerGrid render: ${(performance.now() - renderStart).toFixed(1)}ms`)
-  })
-  // --- END PROFILING ---
-
   const { getLocaleText, paginationNumberFormatter } = useGridLocale('optimizerTab', 'Grid')
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Grid' })
   const { gridDestroyed } = useGridLocaleRebuild()

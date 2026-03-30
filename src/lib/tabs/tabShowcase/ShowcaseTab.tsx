@@ -33,6 +33,7 @@ import {
   useEffect,
   useState,
 } from 'react'
+import { useDeferReveal } from 'lib/ui/DeferredRender'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import type { Character } from 'types/character'
@@ -119,6 +120,7 @@ function ShowcaseLoading() {
 }
 
 function ShowcaseLoaded() {
+  const containerRef = useDeferReveal()
   const selectedCharacter = useShowcaseTabStore((s) => s.availableCharacters?.[s.selectedIndex] ?? null)
 
   const { availableCharacters, selectedIndex, loading, sidebarOpen } = useShowcaseTabStore(
@@ -213,7 +215,7 @@ function ShowcaseLoaded() {
   ]
 
   return (
-    <Flex className={styles.outerWrapper} justify="space-around">
+    <Flex ref={containerRef} className={styles.outerWrapper} justify="space-around">
       <Flex direction="column" align="center" gap={8} className={styles.loadedContainer}>
         {/* UID input row */}
         <Flex className={styles.formRow} justify="center" align="center" gap={10}>

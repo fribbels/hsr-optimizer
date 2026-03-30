@@ -63,15 +63,6 @@ let optimizerInitialized = false
 const Tabs = () => {
   const activeKey = useGlobalStore((s) => s.activeKey).split('?')[0] as AppPages
 
-  // --- PROFILING ---
-  const prevActiveKeyRef = useRef(activeKey)
-  if (activeKey !== prevActiveKeyRef.current) {
-    performance.mark('tab-switch-start')
-    console.log(`[TAB PROFILE] activeKey changed: ${prevActiveKeyRef.current} → ${activeKey} @ ${performance.now().toFixed(0)}ms`)
-    prevActiveKeyRef.current = activeKey
-  }
-  // --- END PROFILING ---
-
   // Create all element descriptions once (stable references, but not mounted until included in tree)
   const tabElements = React.useMemo(
     () => new Map(TAB_COMPONENTS.map(([key, Component]) => [key, <Component />] as const)),
@@ -131,20 +122,6 @@ const Tabs = () => {
     }
   }, [activeKey])
 
-  // --- PROFILING: measure commit timing ---
-  useEffect(() => {
-    if (performance.getEntriesByName('tab-switch-start').length) {
-      const commitTime = performance.now()
-      performance.mark('tab-switch-commit')
-      performance.measure('tab-switch: start→commit', 'tab-switch-start', 'tab-switch-commit')
-      const m = performance.getEntriesByName('tab-switch: start→commit').pop()
-      console.log(`[TAB PROFILE] Tabs useEffect (post-commit): ${m?.duration.toFixed(1)}ms after switch start`)
-      performance.clearMarks('tab-switch-commit')
-      performance.clearMeasures('tab-switch: start→commit')
-    }
-  })
-  // --- END PROFILING ---
-
   return (
     <Flex justify='space-around' w='100%'>
       {TAB_COMPONENTS.map(([tabKey]) => (
@@ -186,44 +163,10 @@ function TabRenderer({ activeKey, tabKey, children }: {
   // Single rAF is sufficient — activation listeners are nearly zero-cost
   // (changedWhileHidden optimization skips unchanged stores).
   if (isActive && !prevActiveRef.current) {
-    // --- PROFILING ---
-    const t0 = performance.now()
-    performance.mark(`tab-activate-render-${tabKey}`)
-    if (performance.getEntriesByName('tab-switch-start').length) {
-      performance.measure(`tab-switch: start→render(${tabKey})`, 'tab-switch-start', `tab-activate-render-${tabKey}`)
-      const m = performance.getEntriesByName(`tab-switch: start→render(${tabKey})`).pop()
-      console.log(`[TAB PROFILE] ${tabKey} render activation: ${m?.duration.toFixed(1)}ms after switch start`)
-    }
-    // --- END PROFILING ---
     requestAnimationFrame(() => {
-      // --- PROFILING ---
-      const tRaf1 = performance.now()
-      console.log(`[TAB PROFILE] ${tabKey} rAF1: ${(tRaf1 - t0).toFixed(1)}ms after render`)
-      // --- END PROFILING ---
-      const listenerStart = performance.now()
       for (const listener of listenersRef.current) {
         listener()
       }
-      const listenerDuration = performance.now() - listenerStart
-      // --- PROFILING ---
-      console.log(`[TAB PROFILE] ${tabKey} activation listeners (${listenersRef.current.size} listeners): ${listenerDuration.toFixed(1)}ms`)
-      const tPostListeners = performance.now()
-      // --- END PROFILING ---
-      requestAnimationFrame(() => {
-        // --- PROFILING ---
-        const tSettled = performance.now()
-        console.log(`[TAB PROFILE] ${tabKey} settle rAF: ${(tSettled - tPostListeners).toFixed(1)}ms after listeners`)
-        console.log(`[TAB PROFILE] ✅ ${tabKey} TOTAL: ${(tSettled - t0).toFixed(1)}ms from render activation`)
-        if (performance.getEntriesByName('tab-switch-start').length) {
-          performance.mark(`tab-activate-settled-${tabKey}`)
-          performance.measure(`tab-switch: TOTAL(${tabKey})`, 'tab-switch-start', `tab-activate-settled-${tabKey}`)
-          const m = performance.getEntriesByName(`tab-switch: TOTAL(${tabKey})`).pop()
-          console.log(`[TAB PROFILE] ✅ ${tabKey} TOTAL from click: ${m?.duration.toFixed(1)}ms`)
-          performance.clearMarks()
-          performance.clearMeasures()
-        }
-        // --- END PROFILING ---
-      })
     })
   }
   prevActiveRef.current = isActive

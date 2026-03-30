@@ -81,6 +81,7 @@ export function ChangelogTab(): React.JSX.Element {
           value={page}
           onChange={setPage}
           mt='md'
+          style={{ marginLeft: 20 }}
         />
       )}
     </Flex>

@@ -2,7 +2,7 @@ import type { MainStats, Parts } from 'lib/constants/constants'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
 import { computePotentialScores } from 'lib/relics/scoring/potentialScore'
-import type { FutureScoringResult, ScorerMetadata } from 'lib/relics/scoring/types'
+import type { FutureScoringResult, PotentialResult, ScorerMetadata } from 'lib/relics/scoring/types'
 import type { CharacterId } from 'types/character'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
@@ -24,8 +24,20 @@ export function scoreRelicsBatch(
   const excludedSet = new Set(excludedRelicPotentialCharacters)
   const cache = new PureScoringCache()
 
+  // Pre-compute equipped relic potentials for focus character (at most 6 results)
+  // instead of recomputing ~2579 times inside the per-relic loop.
+  const equippedPotentialByPart: Record<string, PotentialResult | undefined> = {}
+  if (focusCharacter) {
+    const focusMeta = metadataByCharacter.get(focusCharacter)
+    if (focusMeta) {
+      for (const [part, relic] of Object.entries(equippedRelicByPart)) {
+        if (relic) equippedPotentialByPart[part] = cache.scoreRelicPotential(relic, focusMeta)
+      }
+    }
+  }
+
   const scored = relics.map((relic) => {
-    return scoreSingleRelic(relic, characterIds, excludedSet, focusCharacter, metadataByCharacter, equippedRelicByPart, cache)
+    return scoreSingleRelic(relic, characterIds, excludedSet, focusCharacter, metadataByCharacter, equippedPotentialByPart, cache)
   })
 
   return scored.reverse()
@@ -36,24 +48,17 @@ export function scoreRelicsBatch(
 // ---------------------------------------------------------------------------
 
 class PureScoringCache {
-  private optimalHash = ''
-  private optimalScores: Record<string, Record<string, number>> = {}
+  // Keyed by `greedyHash|part|mainstat` — persists across characters so optimal
+  // scores computed for character A are reused for character A on the next relic.
+  private optimalScoreCache = new Map<string, number>()
   private futureCache = new Map<string, Map<string, FutureScoringResult>>()
 
   getOptimalScore(part: Parts, mainstat: MainStats, meta: ScorerMetadata): number {
-    if (meta.greedyHash !== this.optimalHash) {
-      this.optimalScores = {}
-      this.optimalHash = meta.greedyHash
-    }
-    let partScores = this.optimalScores[part]
-    if (!partScores) {
-      partScores = {}
-      this.optimalScores[part] = partScores
-    }
-    let score = partScores[mainstat]
+    const key = `${meta.greedyHash}|${part}|${mainstat}`
+    let score = this.optimalScoreCache.get(key)
     if (score == null) {
       score = computeOptimalScore(part, mainstat, meta)
-      partScores[mainstat] = score
+      this.optimalScoreCache.set(key, score)
     }
     return score
   }
@@ -96,7 +101,7 @@ function scoreSingleRelic(
   excludedSet: Set<CharacterId>,
   focusCharacter: Nullable<CharacterId>,
   metadataByCharacter: Map<CharacterId, ScorerMetadata>,
-  equippedRelicByPart: Record<string, Relic | undefined>,
+  equippedPotentialByPart: Record<string, PotentialResult | undefined>,
   cache: PureScoringCache,
 ): ScoredRelic {
   let weights = { ...DEFAULT_WEIGHTS }
@@ -108,10 +113,10 @@ function scoreSingleRelic(
       const futureScore = cache.getFutureScore(relic, focusMeta)
 
       const rerollAvgSelected = Math.max(0, potentialSelected.rerollAvgPct)
-      const rerollAvgSelectedDelta = rerollAvgSelected == 0 ? 0 : (rerollAvgSelected - potentialSelected.averagePct)
+      const rerollAvgSelectedDelta = rerollAvgSelected === 0 ? 0 : (rerollAvgSelected - potentialSelected.averagePct)
 
       const blockedRerollAvgSelected = Math.max(0, potentialSelected.blockedRerollAvgPct)
-      const blockedRerollAvgSelectedDelta = blockedRerollAvgSelected == 0 ? 0 : (blockedRerollAvgSelected - potentialSelected.averagePct)
+      const blockedRerollAvgSelectedDelta = blockedRerollAvgSelected === 0 ? 0 : (blockedRerollAvgSelected - potentialSelected.averagePct)
 
       weights = {
         ...weights,
@@ -125,9 +130,8 @@ function scoreSingleRelic(
         blockedRerollAvgSelectedDelta,
       }
 
-      const equippedRelic = equippedRelicByPart[relic.part]
-      if (equippedRelic) {
-        const equippedPotential = cache.scoreRelicPotential(equippedRelic, focusMeta)
+      const equippedPotential = equippedPotentialByPart[relic.part]
+      if (equippedPotential) {
         weights.rerollAvgSelectedEquippedDelta = weights.rerollAvgSelected - equippedPotential.averagePct
         weights.blockedRerollAvgSelectedEquippedDelta = weights.blockedRerollAvgSelected - equippedPotential.averagePct
       }

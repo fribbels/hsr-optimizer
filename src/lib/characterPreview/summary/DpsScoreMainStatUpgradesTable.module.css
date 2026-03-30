@@ -3,7 +3,6 @@
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   overflow: hidden;
-  background-color: var(--layer-1);
 }
 
 .centeredCell {

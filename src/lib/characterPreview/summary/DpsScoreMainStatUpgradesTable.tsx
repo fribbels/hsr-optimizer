@@ -221,7 +221,6 @@ export const tableStyle = {
   boxShadow: 'var(--shadow-card)',
   borderRadius: 6,
   overflow: 'hidden',
-  backgroundColor: 'var(--layer-1)',
 }
 
 function Arrow({ up }: { up: boolean }) {

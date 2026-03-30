@@ -80,6 +80,7 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       Divider: { styles: { root: { borderColor: 'rgba(255, 255, 255, 0.10)' } } },
       Notification: { styles: { root: { padding: '12px 14px 12px 26px' } } },
       Accordion: { styles: { item: { borderBottom: 'none' } } },
+      Table: { styles: { table: { backgroundColor: 'var(--layer-2)' } } },
       Paper: { styles: { root: { backgroundColor: 'var(--layer-2)' } } },
     },
   })

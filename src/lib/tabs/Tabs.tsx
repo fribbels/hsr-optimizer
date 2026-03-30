@@ -10,14 +10,13 @@ import { OptimizerTab } from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
-import { afterPaint } from 'lib/utils/frontendUtils'
+
 import { workerPool } from 'lib/worker/workerPool'
 import { TabVisibilityContext, type TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {
   type ReactElement,
   Suspense,
   lazy,
-  useDeferredValue,
   useEffect,
   useRef,
   useState,
@@ -63,26 +62,13 @@ let optimizerInitialized = false
 
 const Tabs = () => {
   const activeKey = useGlobalStore((s) => s.activeKey).split('?')[0] as AppPages
-  // Deferred key lets React paint the menu/nav immediately, then re-render
-  // the tab content in a lower-priority pass — avoids blocking the menu.
-  const deferredActiveKey = useDeferredValue(activeKey)
 
-  // --- PROFILING: track when activeKey changes vs when deferred catches up ---
+  // --- PROFILING ---
   const prevActiveKeyRef = useRef(activeKey)
   if (activeKey !== prevActiveKeyRef.current) {
     performance.mark('tab-switch-start')
     console.log(`[TAB PROFILE] activeKey changed: ${prevActiveKeyRef.current} → ${activeKey} @ ${performance.now().toFixed(0)}ms`)
     prevActiveKeyRef.current = activeKey
-  }
-  const prevDeferredRef = useRef(deferredActiveKey)
-  if (deferredActiveKey !== prevDeferredRef.current) {
-    performance.mark('tab-switch-deferred')
-    if (performance.getEntriesByName('tab-switch-start').length) {
-      performance.measure('tab-switch: activeKey→deferred', 'tab-switch-start', 'tab-switch-deferred')
-      const m = performance.getEntriesByName('tab-switch: activeKey→deferred').pop()
-      console.log(`[TAB PROFILE] deferred caught up: ${m?.duration.toFixed(1)}ms (Tabs render #2 — TabRenderers switching display)`)
-    }
-    prevDeferredRef.current = deferredActiveKey
   }
   // --- END PROFILING ---
 
@@ -162,7 +148,7 @@ const Tabs = () => {
   return (
     <Flex justify='space-around' w='100%'>
       {TAB_COMPONENTS.map(([tabKey]) => (
-        <TabRenderer key={tabKey} activeKey={deferredActiveKey} tabKey={tabKey}>
+        <TabRenderer key={tabKey} activeKey={activeKey} tabKey={tabKey}>
           {mountedTabs.has(tabKey) ? tabElements.get(tabKey)! : null}
         </TabRenderer>
       ))}
@@ -196,8 +182,9 @@ function TabRenderer({ activeKey, tabKey, children }: {
     },
   }))
 
-  // On activation (hidden → visible): notify listeners after the tab becomes visible.
-  // Fires after the deferred display switch so components render with fresh data.
+  // On activation (hidden → visible): notify listeners after one frame.
+  // Single rAF is sufficient — activation listeners are nearly zero-cost
+  // (changedWhileHidden optimization skips unchanged stores).
   if (isActive && !prevActiveRef.current) {
     // --- PROFILING ---
     const t0 = performance.now()
@@ -208,41 +195,34 @@ function TabRenderer({ activeKey, tabKey, children }: {
       console.log(`[TAB PROFILE] ${tabKey} render activation: ${m?.duration.toFixed(1)}ms after switch start`)
     }
     // --- END PROFILING ---
-    // Single rAF instead of afterPaint's double-rAF
     requestAnimationFrame(() => {
       // --- PROFILING ---
       const tRaf1 = performance.now()
       console.log(`[TAB PROFILE] ${tabKey} rAF1: ${(tRaf1 - t0).toFixed(1)}ms after render`)
       // --- END PROFILING ---
+      const listenerStart = performance.now()
+      for (const listener of listenersRef.current) {
+        listener()
+      }
+      const listenerDuration = performance.now() - listenerStart
+      // --- PROFILING ---
+      console.log(`[TAB PROFILE] ${tabKey} activation listeners (${listenersRef.current.size} listeners): ${listenerDuration.toFixed(1)}ms`)
+      const tPostListeners = performance.now()
+      // --- END PROFILING ---
       requestAnimationFrame(() => {
         // --- PROFILING ---
-        const tRaf2 = performance.now()
-        console.log(`[TAB PROFILE] ${tabKey} rAF2 (afterPaint): ${(tRaf2 - t0).toFixed(1)}ms after render`)
-        // --- END PROFILING ---
-        const listenerStart = performance.now()
-        for (const listener of listenersRef.current) {
-          listener()
+        const tSettled = performance.now()
+        console.log(`[TAB PROFILE] ${tabKey} settle rAF: ${(tSettled - tPostListeners).toFixed(1)}ms after listeners`)
+        console.log(`[TAB PROFILE] ✅ ${tabKey} TOTAL: ${(tSettled - t0).toFixed(1)}ms from render activation`)
+        if (performance.getEntriesByName('tab-switch-start').length) {
+          performance.mark(`tab-activate-settled-${tabKey}`)
+          performance.measure(`tab-switch: TOTAL(${tabKey})`, 'tab-switch-start', `tab-activate-settled-${tabKey}`)
+          const m = performance.getEntriesByName(`tab-switch: TOTAL(${tabKey})`).pop()
+          console.log(`[TAB PROFILE] ✅ ${tabKey} TOTAL from click: ${m?.duration.toFixed(1)}ms`)
+          performance.clearMarks()
+          performance.clearMeasures()
         }
-        const listenerDuration = performance.now() - listenerStart
-        // --- PROFILING ---
-        console.log(`[TAB PROFILE] ${tabKey} activation listeners (${listenersRef.current.size} listeners): ${listenerDuration.toFixed(1)}ms`)
-        const tPostListeners = performance.now()
         // --- END PROFILING ---
-        requestAnimationFrame(() => {
-          // --- PROFILING ---
-          const tSettled = performance.now()
-          console.log(`[TAB PROFILE] ${tabKey} rAF3 (post-listeners settle): ${(tSettled - tPostListeners).toFixed(1)}ms after listeners`)
-          console.log(`[TAB PROFILE] ✅ ${tabKey} TOTAL: ${(tSettled - t0).toFixed(1)}ms from render activation`)
-          if (performance.getEntriesByName('tab-switch-start').length) {
-            performance.mark(`tab-activate-settled-${tabKey}`)
-            performance.measure(`tab-switch: TOTAL(${tabKey})`, 'tab-switch-start', `tab-activate-settled-${tabKey}`)
-            const m = performance.getEntriesByName(`tab-switch: TOTAL(${tabKey})`).pop()
-            console.log(`[TAB PROFILE] ✅ ${tabKey} TOTAL from click: ${m?.duration.toFixed(1)}ms`)
-            performance.clearMarks()
-            performance.clearMeasures()
-          }
-          // --- END PROFILING ---
-        })
       })
     })
   }

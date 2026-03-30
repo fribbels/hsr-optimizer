@@ -37,7 +37,7 @@ interface DeferredQueue {
 
 function createQueue(batchSize: number, enabled: boolean): DeferredQueue {
   const queue: DeferredQueue = {
-    counter: enabled ? 0 : Infinity,
+    counter: 0,
     nextTicket: 0,
     generation: 0,
     listeners: new Map(),
@@ -49,7 +49,7 @@ function createQueue(batchSize: number, enabled: boolean): DeferredQueue {
       // Already visible — no subscription needed
       if (queue.counter >= ticket) return () => {}
       queue.listeners.set(ticket, cb)
-      ensureRafRunning(queue)
+      if (queue.enabled) ensureRafRunning(queue)
       return () => { queue.listeners.delete(ticket) }
     },
 
@@ -102,7 +102,7 @@ function resetQueue(queue: DeferredQueue): void {
     cancelAnimationFrame(queue.rafId)
     queue.rafId = null
   }
-  queue.counter = queue.enabled ? 0 : Infinity
+  queue.counter = 0
   queue.nextTicket = 0
   queue.generation++
   queue.listeners.clear()
@@ -124,7 +124,7 @@ const DeferredContext = createContext<DeferredQueue | null>(null)
  *
  * - `resetKey`: when this changes, all slots reset and re-reveal progressively.
  * - `batchSize`: how many slots to reveal per frame (default 1).
- * - `enabled`: when false, all children render immediately (no deferral).
+ * - `enabled`: when false, the queue is paused (slots stay hidden until enabled).
  *
  * Without this provider, `<Deferred>` and `useDeferredSlot()` render immediately.
  */
@@ -144,13 +144,20 @@ export function DeferredRenderProvider({
     queueRef.current = createQueue(batchSize, enabled)
   }
 
+  const queue = queueRef.current
   const prevKeyRef = useRef<unknown>(undefined)
   if (resetKey !== prevKeyRef.current) {
     prevKeyRef.current = resetKey
-    resetQueue(queueRef.current)
-    queueRef.current.enabled = enabled
-    queueRef.current.batchSize = batchSize
-    if (!enabled) queueRef.current.counter = Infinity
+    resetQueue(queue)
+  }
+
+  // Sync settings — detect enabled transitions to kick-start the queue
+  const wasEnabled = queue.enabled
+  queue.batchSize = batchSize
+  queue.enabled = enabled
+  if (enabled && !wasEnabled) {
+    // Paused → active: start the rAF loop to reveal pending slots
+    ensureRafRunning(queue)
   }
 
   // Cleanup rAF on unmount
@@ -163,7 +170,7 @@ export function DeferredRenderProvider({
   }, [])
 
   return (
-    <DeferredContext.Provider value={queueRef.current}>
+    <DeferredContext.Provider value={queue}>
       {children}
     </DeferredContext.Provider>
   )

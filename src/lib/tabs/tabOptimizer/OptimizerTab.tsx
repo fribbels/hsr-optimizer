@@ -10,12 +10,20 @@ import { OptimizerForm } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm
 import { Sidebar } from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 export function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
+  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
+  const [activated, setActivated] = useState(isActiveRef.current)
+
+  useEffect(() => {
+    if (activated) return
+    return addActivationListener(() => setActivated(true))
+  }, [activated, addActivationListener])
 
   // --- PROFILING ---
   const renderStart = performance.now()
@@ -25,7 +33,7 @@ export function OptimizerTab() {
   // --- END PROFILING ---
 
   return (
-    <DeferredRenderProvider resetKey={null}>
+    <DeferredRenderProvider resetKey={null} enabled={activated}>
       <Flex>
         <Flex direction="column" gap={10} style={{ marginBottom: 100, width: 1302 }}>
           <OptimizerForm />

@@ -42,16 +42,27 @@ export function createTabAwareStore<T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const subscribe = useCallback(
       (onStoreChange: () => void) => {
+        // Track whether the store changed while this tab was hidden.
+        // On activation, only fire onStoreChange if something actually changed —
+        // avoids 184 unnecessary snapshot checks per tab switch.
+        let changedWhileHidden = false
+
         // Gate store notifications by tab visibility
         const unsubStore = api.subscribe(() => {
           if (isActiveRef.current) {
             onStoreChange()
+          } else {
+            changedWhileHidden = true
           }
         })
 
-        // On activation: fire onStoreChange so useSyncExternalStore
-        // calls getSnapshot() — re-renders only if value actually changed
-        const unsubActivation = addActivationListener(onStoreChange)
+        // On activation: fire onStoreChange only if the store changed while hidden
+        const unsubActivation = addActivationListener(() => {
+          if (changedWhileHidden) {
+            changedWhileHidden = false
+            onStoreChange()
+          }
+        })
 
         return () => {
           unsubStore()

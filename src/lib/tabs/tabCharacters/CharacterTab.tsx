@@ -8,8 +8,9 @@ import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
-import React, { Suspense, useCallback } from 'react'
+import React, { Suspense, useCallback, useContext, useEffect, useState } from 'react'
 import type { Character } from 'types/character'
 
 import { defaultGap, parentH } from 'lib/constants/constantsUi'
@@ -17,6 +18,13 @@ import { defaultGap, parentH } from 'lib/constants/constantsUi'
 export function CharacterTab() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
+  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
+  const [activated, setActivated] = useState(isActiveRef.current)
+
+  useEffect(() => {
+    if (activated) return
+    return addActivationListener(() => setActivated(true))
+  }, [activated, addActivationListener])
 
   // --- PROFILING ---
   const renderStart = performance.now()
@@ -42,7 +50,7 @@ export function CharacterTab() {
   }, [])
 
   return (
-    <DeferredRenderProvider resetKey={null}>
+    <DeferredRenderProvider resetKey={null} enabled={activated}>
       <Flex
         style={{
           height: '100%',

@@ -197,7 +197,7 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
 
       <Group className={classes.footer} p="sm" justify="flex-end" gap={6}>
         <Button variant="default" size="xs" onClick={handleRevert}>Revert</Button>
-        <Button variant="light" size="xs" onClick={close}>Done</Button>
+        <Button variant="filled" size="xs" onClick={close}>Done</Button>
       </Group>
     </Stack>
   )

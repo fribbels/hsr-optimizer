@@ -170,18 +170,18 @@ export const RelicPreview = memo(function RelicPreview(props: {
             {fillerStats.map((x, idx) => <RelicStatRow key={`fillers-${idx}`} stat={x} main={false} relic={relic} t={t} />)}
           </div>
 
-          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} dividerMargin={DIVIDER_MARGIN} t={t} />}
+          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} dividerMargin={DIVIDER_MARGIN} />}
         </div>
       </RelicStatText>
     </Paper>
   )
 })
 
-function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string; t: (key: string) => string }) {
+function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string }) {
+  const { t } = useTranslation('common')
   const {
     score,
     dividerMargin,
-    t,
   } = props
 
   let icon: string = Assets.getBlank()

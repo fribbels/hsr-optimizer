@@ -67,6 +67,12 @@ export function getScoringMetadata(id: CharacterId): ScoringMetadata {
   const cloned = clone(override) ?? {}
   const returnScoringMetadata = mergeUndefinedValues(cloned, defaultScoringMetadata) as ScoringMetadata
 
+  // Deep-merge simulation: partial overrides (e.g. deprioritizeBuffs) must inherit
+  // default simulation properties (e.g. teammates) that weren't overridden
+  if (override?.simulation && defaultScoringMetadata.simulation) {
+    returnScoringMetadata.simulation = { ...defaultScoringMetadata.simulation, ...override.simulation }
+  }
+
   for (const stat of SubStats) {
     if (returnScoringMetadata.stats[stat] == null) {
       returnScoringMetadata.stats[stat] = 0

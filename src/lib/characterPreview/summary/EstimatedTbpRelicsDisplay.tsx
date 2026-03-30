@@ -155,8 +155,6 @@ export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysi
 })
 
 function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: RelicAnalysis; horizontal?: boolean }) {
-  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
-
   if (!relicAnalysis) {
     return <div className={styles.innerCard} />
   }
@@ -166,12 +164,12 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
       <div style={{ display: 'flex', gap: 10, height: '100%' }} className={styles.fullWidth}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: 260, flexShrink: 0 }}>
           <div style={{ display: 'flex', gap: 10, height: 'auto', flex: 1 }} className={styles.metricRow}>
-            <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
-            <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
+            <MetricCard relicAnalysis={relicAnalysis} index={0} />
+            <MetricCard relicAnalysis={relicAnalysis} index={1} />
           </div>
         </div>
         <div className={styles.rollsCard} style={{ flex: 1 }}>
-          <RollsCard relicAnalysis={relicAnalysis} t={t} />
+          <RollsCard relicAnalysis={relicAnalysis} />
         </div>
       </div>
     )
@@ -181,21 +179,21 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className={styles.fullWidth}>
       <DeferCreate>
         <div style={{ display: 'flex', gap: 10 }} className={styles.metricRow}>
-          <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
-          <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
+          <MetricCard relicAnalysis={relicAnalysis} index={0} />
+          <MetricCard relicAnalysis={relicAnalysis} index={1} />
         </div>
       </DeferCreate>
       <DeferCreate>
         <div className={styles.rollsCard}>
-          <RollsCard relicAnalysis={relicAnalysis} t={t} />
+          <RollsCard relicAnalysis={relicAnalysis} />
         </div>
       </DeferCreate>
     </div>
   )
 }
 
-function RollsCard({ relicAnalysis, t: tParent }: { relicAnalysis: RelicAnalysis, t: (key: string) => string }) {
-  const t = (key: string) => tParent(`RollsCard.${key}`)
+function RollsCard({ relicAnalysis }: { relicAnalysis: RelicAnalysis }) {
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.RollsCard' })
 
   const percent = relicAnalysis?.currentPotential ?? 0
   const percentDisplay = localeNumber_0(percent)
@@ -234,8 +232,8 @@ function RollsCard({ relicAnalysis, t: tParent }: { relicAnalysis: RelicAnalysis
   )
 }
 
-function MetricCard({ relicAnalysis, index, t: tParent }: { relicAnalysis: RelicAnalysis, index: number, t: (key: string) => string }) {
-  const t = (key: string) => tParent(`MetricsCard.${key}`)
+function MetricCard({ relicAnalysis, index }: { relicAnalysis: RelicAnalysis, index: number }) {
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP.MetricsCard' })
 
   const textTop = index === 0 ? t('Days') : t('Rolls')
   const textBottom = index === 0 ? t('TBP') : t('Potential')

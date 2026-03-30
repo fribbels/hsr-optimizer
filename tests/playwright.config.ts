@@ -39,7 +39,7 @@ export default defineConfig({
   },
 
   webServer: {
-    command: process.env.CI ? 'npx vite preview' : 'npm run start',
+    command: process.env.CI ? 'npm run preview' : 'npm run start',
     url: 'http://127.0.0.1:3000/hsr-optimizer',
     reuseExistingServer: !process.env.CI,
     timeout: 60 * 1000,

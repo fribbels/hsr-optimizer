@@ -15,6 +15,7 @@
     "postinstall": "patch-package",
     "start": "vite",
     "start:prod": "vite build && vite preview",
+    "preview": "vite preview",
     "build": "vite build",
     "lint": "oxlint",
     "vitest": "vitest --dir src/lib --no-watch --pool=threads",

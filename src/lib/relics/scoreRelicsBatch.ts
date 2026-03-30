@@ -6,7 +6,7 @@ import type { FutureScoringResult, ScorerMetadata } from 'lib/relics/scoring/typ
 import type { CharacterId } from 'types/character'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
-import type { RelicScoringWeights, ScoredRelic } from './scoreRelics'
+import { DEFAULT_WEIGHTS, type ScoredRelic } from './scoreRelics'
 
 /**
  * Pure scoring batch function — no store or singleton dependencies.
@@ -99,35 +99,7 @@ function scoreSingleRelic(
   equippedRelicByPart: Record<string, Relic | undefined>,
   cache: PureScoringCache,
 ): ScoredRelic {
-  let weights: RelicScoringWeights = {
-    current: 0,
-    average: 0,
-    best: 0,
-    potentialSelected: {
-      bestPct: 0,
-      averagePct: 0,
-      rerollAvgPct: 0,
-      blockedRerollAvgPct: 0,
-    },
-    potentialAllAll: {
-      bestPct: 0,
-      averagePct: 0,
-    },
-    potentialAllCustom: {
-      bestPct: 0,
-      averagePct: 0,
-    },
-    rerollAllAll: 0,
-    rerollAllCustom: 0,
-    rerollAvgSelected: 0,
-    rerollAvgSelectedDelta: 0,
-    rerollAvgSelectedEquippedDelta: 0,
-    blockedRerollAllAll: 0,
-    blockedRerollAllCustom: 0,
-    blockedRerollAvgSelected: 0,
-    blockedRerollAvgSelectedDelta: 0,
-    blockedRerollAvgSelectedEquippedDelta: 0,
-  }
+  let weights = { ...DEFAULT_WEIGHTS }
 
   if (focusCharacter) {
     const focusMeta = metadataByCharacter.get(focusCharacter)

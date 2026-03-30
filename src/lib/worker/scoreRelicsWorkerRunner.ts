@@ -8,8 +8,8 @@ import type { CharacterId } from 'types/character'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
 
-// Worker input/output types — shared between runner and worker
 export type ScoreRelicsWorkerInput = {
+  generation: number
   relics: Relic[]
   characterIds: CharacterId[]
   metadataByCharacter: Map<CharacterId, ScorerMetadata>
@@ -19,16 +19,27 @@ export type ScoreRelicsWorkerInput = {
 }
 
 export type ScoreRelicsWorkerOutput = {
+  generation: number
   scoredRelics: ScoredRelic[]
 }
 
-// Dedicated worker instance — lazy-initialized, reused across calls
 let worker: Worker | null = null
 let generation = 0
+let pendingResolve: ((result: ScoredRelic[]) => void) | null = null
 
 function getWorker(): Worker {
   if (!worker) {
     worker = new Worker(new URL('./scoreRelicsWorker.ts', import.meta.url), { type: 'module' })
+    worker.onmessage = (e: MessageEvent<ScoreRelicsWorkerOutput>) => {
+      if (e.data.generation !== generation) return
+      pendingResolve?.(e.data.scoredRelics)
+      pendingResolve = null
+    }
+    worker.onerror = (e) => {
+      worker = null // Allow re-creation on next call
+      pendingResolve = null
+      console.warn('scoreRelicsWorker error:', e)
+    }
   }
   return worker
 }
@@ -39,17 +50,24 @@ function getWorker(): Worker {
  * then sends pure data to the worker for the O(relics × characters) loop.
  *
  * Automatically cancels stale requests — only the latest call resolves.
+ * Previous in-flight Promises resolve with empty array when superseded.
  */
 export function scoreRelicsAsync(
   relics: Relic[],
   excludedRelicPotentialCharacters: CharacterId[],
   focusCharacter: Nullable<CharacterId>,
-  _scoringVersion: number,
 ): Promise<ScoredRelic[]> {
+  // Settle any previous in-flight request
+  if (pendingResolve) {
+    pendingResolve([])
+    pendingResolve = null
+  }
+
   const thisGeneration = ++generation
 
-  // Pre-compute enriched metadata on main thread (~5ms, uses ScoringCache)
+  // --- PROFILING ---
   const t0 = performance.now()
+  // --- END PROFILING ---
   const scorer = new RelicScorer()
   const characterIds = Object.values(getGameMetadata().characters).map((x) => x.id as CharacterId)
   const metadataByCharacter = new Map<CharacterId, ScorerMetadata>()
@@ -57,7 +75,6 @@ export function scoreRelicsAsync(
     metadataByCharacter.set(id, scorer.getMeta(id))
   }
 
-  // Pre-extract equipped relics for focus character delta comparison
   const equippedRelicByPart: Record<string, Relic | undefined> = {}
   if (focusCharacter) {
     const character = getCharacterById(focusCharacter)
@@ -68,9 +85,12 @@ export function scoreRelicsAsync(
     }
   }
 
+  // --- PROFILING ---
   console.log(`[TAB PROFILE]     scoreRelicsAsync prep: ${(performance.now() - t0).toFixed(1)}ms (${characterIds.length} chars metadata)`)
+  // --- END PROFILING ---
 
   const input: ScoreRelicsWorkerInput = {
+    generation: thisGeneration,
     relics,
     characterIds,
     metadataByCharacter,
@@ -79,17 +99,8 @@ export function scoreRelicsAsync(
     equippedRelicByPart,
   }
 
-  return new Promise((resolve, reject) => {
-    const w = getWorker()
-    w.onmessage = (e: MessageEvent<ScoreRelicsWorkerOutput>) => {
-      // Ignore stale results from superseded calls
-      if (thisGeneration !== generation) return
-      resolve(e.data.scoredRelics)
-    }
-    w.onerror = (e) => {
-      if (thisGeneration !== generation) return
-      reject(e)
-    }
-    w.postMessage(input)
+  return new Promise((resolve) => {
+    pendingResolve = resolve
+    getWorker().postMessage(input)
   })
 }

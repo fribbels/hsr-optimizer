@@ -82,6 +82,25 @@ export function scoreRelics(
   return scored.reverse()
 }
 
+export const DEFAULT_WEIGHTS: RelicScoringWeights = {
+  current: 0,
+  average: 0,
+  best: 0,
+  potentialSelected: { bestPct: 0, averagePct: 0, rerollAvgPct: 0, blockedRerollAvgPct: 0 },
+  potentialAllAll: { bestPct: 0, averagePct: 0 },
+  potentialAllCustom: { bestPct: 0, averagePct: 0 },
+  rerollAllAll: 0,
+  rerollAllCustom: 0,
+  rerollAvgSelected: 0,
+  rerollAvgSelectedDelta: 0,
+  rerollAvgSelectedEquippedDelta: 0,
+  blockedRerollAllAll: 0,
+  blockedRerollAllCustom: 0,
+  blockedRerollAvgSelected: 0,
+  blockedRerollAvgSelectedDelta: 0,
+  blockedRerollAvgSelectedEquippedDelta: 0,
+}
+
 function scoreSingleRelic(
   relic: Relic,
   characterIds: Array<CharacterId>,
@@ -89,35 +108,7 @@ function scoreSingleRelic(
   focusCharacter: Nullable<CharacterId>,
   relicScorer: RelicScorer,
 ): ScoredRelic {
-  let weights: RelicScoringWeights = {
-    current: 0,
-    average: 0,
-    best: 0,
-    potentialSelected: {
-      bestPct: 0,
-      averagePct: 0,
-      rerollAvgPct: 0,
-      blockedRerollAvgPct: 0,
-    },
-    potentialAllAll: {
-      bestPct: 0,
-      averagePct: 0,
-    },
-    potentialAllCustom: {
-      bestPct: 0,
-      averagePct: 0,
-    },
-    rerollAllAll: 0,
-    rerollAllCustom: 0,
-    rerollAvgSelected: 0,
-    rerollAvgSelectedDelta: 0,
-    rerollAvgSelectedEquippedDelta: 0,
-    blockedRerollAllAll: 0,
-    blockedRerollAllCustom: 0,
-    blockedRerollAvgSelected: 0,
-    blockedRerollAvgSelectedDelta: 0,
-    blockedRerollAvgSelectedEquippedDelta: 0,
-  }
+  let weights: RelicScoringWeights = { ...DEFAULT_WEIGHTS }
 
   if (focusCharacter) {
     const potentialSelected = relicScorer.scoreRelicPotential(relic, focusCharacter)

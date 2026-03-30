@@ -24,5 +24,5 @@ self.onmessage = function(e: MessageEvent<ScoreRelicsWorkerInput>) {
 
   console.log(`[TAB PROFILE]       scoreRelicsWorker: ${(performance.now() - t0).toFixed(1)}ms (${relics.length} relics, ${characterIds.length} chars)`)
 
-  self.postMessage({ scoredRelics })
+  self.postMessage({ generation: e.data.generation, scoredRelics })
 }

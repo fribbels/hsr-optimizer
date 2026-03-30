@@ -21,8 +21,11 @@ import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import { useRelicsTabStore, type ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { gridStore } from 'lib/stores/gridStore'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import React, {
+  startTransition,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -76,23 +79,54 @@ export function RelicsGrid() {
 
   // Score relics off the main thread via web worker. Starts immediately on mount
   // (during stagger) so data is often ready before the user navigates to the tab.
+  // Results are held in a pending ref until the tab is active, then applied via
+  // startTransition so AG Grid's data ingestion doesn't block the UI.
+  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
   const [scoredRelics, setScoredRelics] = useState<ScoredRelic[] | null>(null)
+  const pendingResultRef = useRef<ScoredRelic[] | null>(null)
+
+  // Apply pending results when the tab activates, delayed so the menu animation completes first
+  useEffect(() => {
+    let timerId: ReturnType<typeof setTimeout>
+    const unsub = addActivationListener(() => {
+      if (pendingResultRef.current) {
+        const result = pendingResultRef.current
+        pendingResultRef.current = null
+        timerId = setTimeout(() => {
+          startTransition(() => setScoredRelics(result))
+        }, 250)
+      }
+    })
+    return () => {
+      unsub()
+      clearTimeout(timerId)
+    }
+  }, [addActivationListener])
 
   useEffect(() => {
+    pendingResultRef.current = null
+
     if (relics.length === 0) {
       setScoredRelics(null)
       return
     }
 
     let cancelled = false
-    scoreRelicsAsync(relics, excludedRelicPotentialCharacters, focusCharacter, scoringVersion)
+    scoreRelicsAsync(relics, excludedRelicPotentialCharacters, focusCharacter)
       .then((result) => {
-        if (!cancelled) setScoredRelics(result)
+        if (cancelled || result.length === 0) return
+        if (isActiveRef.current) {
+          startTransition(() => setScoredRelics(result))
+        } else {
+          pendingResultRef.current = result
+        }
       })
       .catch((err) => {
         if (!cancelled) console.warn('scoreRelicsAsync error:', err)
       })
     return () => { cancelled = true }
+    // scoringVersion is not passed to the worker but triggers re-scoring via this dep array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [relics, scoringVersion, focusCharacter, excludedRelicPotentialCharacters])
 
   const columnDefs = useMemo(() => {
@@ -115,7 +149,7 @@ export function RelicsGrid() {
     const relic = node.data
     if (!relic) return false
     if (filters.part.length && !filters.part.includes(relic.part)) return false
-    if (filters.enhance.length && !filters.enhance.flatMap((x) => [x, x + 1, x + 2]).includes(relic.enhance)) return false
+    if (filters.enhance.length && !filters.enhance.some((x) => relic.enhance >= x && relic.enhance <= x + 2)) return false
     if (filters.grade.length && !filters.grade.includes(relic.grade)) return false
     if (filters.initialRolls.length && !filters.initialRolls.includes(relic.initialRolls ?? 3)) return false
     if (filters.verified.length && !filters.verified.includes(relic.verified ?? false)) return false

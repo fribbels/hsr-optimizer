@@ -12,41 +12,20 @@ import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedC
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { DeferCreate, DeferReveal, DeferCreateProvider } from 'lib/ui/DeferredRender'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { DeferCreate, DeferReveal, DeferCreateProvider, useDeferReveal } from 'lib/ui/DeferredRender'
+import React, { useContext, useEffect, useState } from 'react'
 
 export function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
   const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
   const [activated, setActivated] = useState(isActiveRef.current)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useDeferReveal()
 
   // First activation: enable DeferCreateProvider for progressive first mount
   useEffect(() => {
     if (activated) return
     return addActivationListener(() => setActivated(true))
   }, [activated, addActivationListener])
-
-  // Subsequent activations: imperatively stagger section visibility to spread
-  // browser layout across frames. Zero React re-renders.
-  useEffect(() => {
-    let rafId: number
-    return addActivationListener(() => {
-      const sections = containerRef.current?.querySelectorAll<HTMLElement>(':scope [data-defer-reveal]')
-      if (!sections?.length) return
-      for (const section of sections) section.style.display = 'none'
-      let i = 0
-      cancelAnimationFrame(rafId)
-      function tick() {
-        if (i < sections!.length) {
-          sections![i].style.display = ''
-          i++
-          rafId = requestAnimationFrame(tick)
-        }
-      }
-      rafId = requestAnimationFrame(tick)
-    })
-  }, [addActivationListener])
 
   // --- PROFILING ---
   const renderStart = performance.now()

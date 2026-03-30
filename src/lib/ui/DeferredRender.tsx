@@ -1,3 +1,4 @@
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import {
   createContext,
   useCallback,
@@ -286,6 +287,37 @@ export function DeferCreate({
  */
 export function DeferReveal({ children }: { children: ReactNode }) {
   return <div data-defer-reveal>{children}</div>
+}
+
+/**
+ * Hook that pairs with `<DeferReveal>`. Returns a ref to attach to the
+ * container element. On every tab activation, all `[data-defer-reveal]`
+ * descendants are hidden, then shown one per rAF frame.
+ */
+export function useDeferReveal() {
+  const { addActivationListener } = useContext(TabVisibilityContext)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    let rafId: number
+    return addActivationListener(() => {
+      const sections = containerRef.current?.querySelectorAll<HTMLElement>(':scope [data-defer-reveal]')
+      if (!sections?.length) return
+      for (const section of sections) section.style.display = 'none'
+      let i = 0
+      cancelAnimationFrame(rafId)
+      function tick() {
+        if (i < sections!.length) {
+          sections![i].style.display = ''
+          i++
+          rafId = requestAnimationFrame(tick)
+        }
+      }
+      rafId = requestAnimationFrame(tick)
+    })
+  }, [addActivationListener])
+
+  return containerRef
 }
 
 /** @deprecated Use `DeferCreate` instead */

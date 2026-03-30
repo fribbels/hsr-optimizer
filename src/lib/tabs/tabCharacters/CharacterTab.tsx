@@ -8,9 +8,8 @@ import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
-import { DeferReveal } from 'lib/ui/DeferredRender'
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import { useDeferReveal } from 'lib/ui/DeferredRender'
+import React, { useCallback } from 'react'
 import type { Character } from 'types/character'
 
 import { cardTotalW, defaultGap, parentH } from 'lib/constants/constantsUi'
@@ -18,29 +17,7 @@ import { cardTotalW, defaultGap, parentH } from 'lib/constants/constantsUi'
 export function CharacterTab() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
-  const { addActivationListener } = useContext(TabVisibilityContext)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  // Imperatively stagger deferred sections on tab activation to spread
-  // browser layout across frames. Zero React re-renders.
-  useEffect(() => {
-    let rafId: number
-    return addActivationListener(() => {
-      const sections = containerRef.current?.querySelectorAll<HTMLElement>(':scope [data-defer-reveal]')
-      if (!sections?.length) return
-      for (const section of sections) section.style.display = 'none'
-      let i = 0
-      cancelAnimationFrame(rafId)
-      function tick() {
-        if (i < sections!.length) {
-          sections![i].style.display = ''
-          i++
-          rafId = requestAnimationFrame(tick)
-        }
-      }
-      rafId = requestAnimationFrame(tick)
-    })
-  }, [addActivationListener])
+  const containerRef = useDeferReveal()
 
   // CharacterPreview calls setInitialCharacter(char) then setOpen(true) sequentially.
   // We open the overlay on setInitialCharacter and ignore setOpen(true) since it's already open.
@@ -79,9 +56,7 @@ export function CharacterTab() {
               height: parentH,
             }}
           >
-            <div data-defer-reveal style={{ height: '100%' }}>
-              <CharacterGrid />
-            </div>
+            <CharacterGrid />
           </div>
         </Flex>
       </Flex>
@@ -89,15 +64,13 @@ export function CharacterTab() {
       <Flex direction="column" gap={defaultGap} w={cardTotalW}>
         <FilterBar />
 
-        <DeferReveal>
-          <CharacterPreview
-            id='characterTabPreview'
-            source={ShowcaseSource.CHARACTER_TAB}
-            character={selectedCharacter}
-            setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-            setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-          />
-        </DeferReveal>
+        <CharacterPreview
+          id='characterTabPreview'
+          source={ShowcaseSource.CHARACTER_TAB}
+          character={selectedCharacter}
+          setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+          setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+        />
       </Flex>
     </Flex>
   )

@@ -93,10 +93,10 @@ export function initializeShowcaseOnMount(): void {
 
   if (urlId) {
     // URL parameter takes priority — load that profile
-    submitForm({ scorerId: urlId })
+    submitForm({ scorerId: urlId }, { skipCooldown: true })
   } else if (!availableCharacters?.length && savedSession.scorerId) {
     // No URL param, no data yet, but saved session has a UID — auto-load
-    submitForm({ scorerId: savedSession.scorerId })
+    submitForm({ scorerId: savedSession.scorerId }, { skipCooldown: true })
   }
   // Otherwise: stay on Landing screen, wait for user input
 }

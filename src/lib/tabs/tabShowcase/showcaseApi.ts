@@ -23,7 +23,7 @@ export type ShowcaseTabForm = {
   scorerId: string | null
 }
 
-export function submitForm(form: ShowcaseTabForm) {
+export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boolean }) {
   if (!form.scorerId) return
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
   const {
@@ -52,10 +52,12 @@ export function submitForm(form: ShowcaseTabForm) {
   }
 
   startFetch()
-  setLatestRefreshDate(new Date())
-  setTimeout(() => {
-    setLatestRefreshDate(null)
-  }, THROTTLE_SECONDS * 1000)
+  if (!options?.skipCooldown) {
+    setLatestRefreshDate(new Date())
+    setTimeout(() => {
+      setLatestRefreshDate(null)
+    }, THROTTLE_SECONDS * 1000)
+  }
 
   setScorerId(id)
   SaveState.delayedSave()

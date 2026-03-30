@@ -52,10 +52,10 @@ export interface NavDebugConfig {
 }
 
 export const NAV_DEBUG_DEFAULTS: NavDebugConfig = {
-  iconSize: 14,
-  fontSize: 13,
-  groupLabelSize: 9,
-  itemVPadding: 6,
+  iconSize: 16,
+  fontSize: 14,
+  groupLabelSize: 10,
+  itemVPadding: 8,
   itemHPadding: 14,
   iconLabelGap: 8,
   sidebarWidth: 160,

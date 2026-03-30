@@ -9,29 +9,38 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
-import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
-import React, { Suspense, useCallback, useContext, useEffect, useState } from 'react'
+import { DeferReveal } from 'lib/ui/DeferredRender'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import type { Character } from 'types/character'
 
-import { defaultGap, parentH } from 'lib/constants/constantsUi'
+import { cardTotalW, defaultGap, parentH } from 'lib/constants/constantsUi'
 
 export function CharacterTab() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
-  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
-  const [activated, setActivated] = useState(isActiveRef.current)
+  const { addActivationListener } = useContext(TabVisibilityContext)
+  const containerRef = useRef<HTMLDivElement>(null)
 
+  // Imperatively stagger deferred sections on tab activation to spread
+  // browser layout across frames. Zero React re-renders.
   useEffect(() => {
-    if (activated) return
-    return addActivationListener(() => setActivated(true))
-  }, [activated, addActivationListener])
-
-  // --- PROFILING ---
-  const renderStart = performance.now()
-  React.useEffect(() => {
-    console.log(`[TAB PROFILE] CharacterTab render: ${(performance.now() - renderStart).toFixed(1)}ms`)
-  })
-  // --- END PROFILING ---
+    let rafId: number
+    return addActivationListener(() => {
+      const sections = containerRef.current?.querySelectorAll<HTMLElement>(':scope [data-defer-reveal]')
+      if (!sections?.length) return
+      for (const section of sections) section.style.display = 'none'
+      let i = 0
+      cancelAnimationFrame(rafId)
+      function tick() {
+        if (i < sections!.length) {
+          sections![i].style.display = ''
+          i++
+          rafId = requestAnimationFrame(tick)
+        }
+      }
+      rafId = requestAnimationFrame(tick)
+    })
+  }, [addActivationListener])
 
   // CharacterPreview calls setInitialCharacter(char) then setOpen(true) sequentially.
   // We open the overlay on setInitialCharacter and ignore setOpen(true) since it's already open.
@@ -50,49 +59,46 @@ export function CharacterTab() {
   }, [])
 
   return (
-    <DeferredRenderProvider resetKey={null} enabled={activated}>
-      <Flex
-        style={{
-          height: '100%',
-          marginBottom: 200,
-          width: 1593,
-        }}
-        gap={defaultGap}
-      >
-        <Flex direction="column" gap={defaultGap}>
-          <CharacterMenu />
+    <Flex
+      ref={containerRef}
+      style={{
+        height: '100%',
+        marginBottom: 200,
+        width: 1593,
+      }}
+      gap={defaultGap}
+    >
+      <Flex direction="column" gap={defaultGap}>
+        <CharacterMenu />
 
-          <Flex direction="column" gap={defaultGap} miw={320}>
-            <div
-              id='characterGrid'
-              style={{
-                width: '100%',
-                height: parentH,
-              }}
-            >
-              <Deferred>
-                <CharacterGrid />
-              </Deferred>
+        <Flex direction="column" gap={defaultGap} miw={320}>
+          <div
+            id='characterGrid'
+            style={{
+              width: '100%',
+              height: parentH,
+            }}
+          >
+            <div data-defer-reveal style={{ height: '100%' }}>
+              <CharacterGrid />
             </div>
-          </Flex>
-        </Flex>
-
-        <Flex direction="column" gap={defaultGap}>
-          <FilterBar />
-
-          <Deferred>
-            <Suspense>
-              <CharacterPreview
-                id='characterTabPreview'
-                source={ShowcaseSource.CHARACTER_TAB}
-                character={selectedCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-              />
-            </Suspense>
-          </Deferred>
+          </div>
         </Flex>
       </Flex>
-    </DeferredRenderProvider>
+
+      <Flex direction="column" gap={defaultGap} w={cardTotalW}>
+        <FilterBar />
+
+        <DeferReveal>
+          <CharacterPreview
+            id='characterTabPreview'
+            source={ShowcaseSource.CHARACTER_TAB}
+            character={selectedCharacter}
+            setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+            setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+          />
+        </DeferReveal>
+      </Flex>
+    </Flex>
   )
 }

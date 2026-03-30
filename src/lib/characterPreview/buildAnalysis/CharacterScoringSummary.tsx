@@ -27,7 +27,7 @@ import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { memo } from 'react'
-import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
+import { DeferCreate, DeferCreateProvider } from 'lib/ui/DeferredRender'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { type CharacterId } from 'types/character'
@@ -133,7 +133,7 @@ function ScoringColumn(props: {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 25, margin: 'auto' }}>
       {/* Header + Basic stats */}
-      <Deferred>
+      <DeferCreate>
         <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
           <div>
             <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
@@ -156,10 +156,10 @@ function ScoringColumn(props: {
             scoringResult={null}
           />
         </div>
-      </Deferred>
+      </DeferCreate>
 
       {/* Combat stats */}
-      <Deferred>
+      <DeferCreate>
         <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
           <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
             <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
@@ -176,10 +176,10 @@ function ScoringColumn(props: {
             scoringResult={null}
           />
         </div>
-      </Deferred>
+      </DeferCreate>
 
       {/* Substats */}
-      <Deferred>
+      <DeferCreate>
         <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
           <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
@@ -191,10 +191,10 @@ function ScoringColumn(props: {
             columns={2}
           />
         </div>
-      </Deferred>
+      </DeferCreate>
 
       {/* Mainstats */}
-      <Deferred>
+      <DeferCreate>
         <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
@@ -208,10 +208,10 @@ function ScoringColumn(props: {
             </div>
           </div>
         </div>
-      </Deferred>
+      </DeferCreate>
 
       {/* Ability damage */}
-      <Deferred>
+      <DeferCreate>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
@@ -220,7 +220,7 @@ function ScoringColumn(props: {
             simResult={props.simulation.result!}
           />
         </div>
-      </Deferred>
+      </DeferCreate>
     </div>
   )
 }
@@ -246,10 +246,10 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   if (!simScoringResult || !result) return null
 
   return (
-    <DeferredRenderProvider resetKey={characterId}>
+    <DeferCreateProvider resetKey={characterId}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 15, alignItems: 'center' }} className={classes.rootContainer}>
         {/* Grade ruler */}
-        <Deferred>
+        <DeferCreate>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }}>
             <pre className={classes.mainTitle}>
               <ColorizedTitleWithInfo
@@ -265,30 +265,30 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
               benchmark={result.benchmarkSimScore}
             />
           </div>
-        </Deferred>
+        </DeferCreate>
 
         {/* Substat upgrade table */}
-        <Deferred>
+        <DeferCreate>
           <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
             </pre>
             <DpsScoreSubstatUpgradesTable simScore={result}/>
           </div>
-        </Deferred>
+        </DeferCreate>
 
         {/* Main stat upgrade table */}
-        <Deferred>
+        <DeferCreate>
           <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')}
             </pre>
             <DpsScoreMainStatUpgradesTable simScore={result}/>
           </div>
-        </Deferred>
+        </DeferCreate>
 
         {/* Relic rarity + individual relic cards (each deferred internally) */}
-        <Deferred>
+        <DeferCreate>
           <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', alignItems: 'center' }} className={classes.relicRaritySection}>
             <ColorizedTitleWithInfo
               text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
@@ -303,16 +303,16 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
               scoringType={ScoringType.COMBAT_SCORE}
             />
           </div>
-        </Deferred>
+        </DeferCreate>
 
         {/* Simulated benchmarks — outer row always rendered, each column deferred */}
-        <Deferred>
+        <DeferCreate>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 }} className={classes.deferredSection}>
             <pre className={classes.sectionTitle}>
               {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
             </pre>
             <div style={{ display: 'flex', gap: 25, width: '100%', justifyContent: 'space-around' }}>
-              <Deferred>
+              <DeferCreate>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
                   <pre style={{ margin: '5px auto' }}>
                     {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
@@ -323,11 +323,11 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                     <ScoringTeammate result={result} index={2}/>
                   </div>
                 </div>
-              </Deferred>
+              </DeferCreate>
 
               <VerticalDivider/>
 
-              <Deferred>
+              <DeferCreate>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
                   <pre style={{ margin: '5px auto' }}>
                     {t('CharacterPreview.BuildAnalysis.SimulationSets')}
@@ -340,11 +340,11 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                     <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
                   </div>
                 </div>
-              </Deferred>
+              </DeferCreate>
 
               <VerticalDivider/>
 
-              <Deferred>
+              <DeferCreate>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
                   <pre style={{ margin: '5px auto' }}>
                     {t('CharacterPreview.BuildAnalysis.Rotation.Header')}
@@ -353,11 +353,11 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                     simMetadata={result.simulationMetadata}
                   />
                 </div>
-              </Deferred>
+              </DeferCreate>
 
               <VerticalDivider/>
 
-              <Deferred>
+              <DeferCreate>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <pre style={{ margin: '5px auto' }}>
                     {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
@@ -377,15 +377,15 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                     <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
                   </div>
                 </div>
-              </Deferred>
+              </DeferCreate>
             </div>
           </div>
-        </Deferred>
+        </DeferCreate>
 
         {/* Scoring columns — each deferred individually */}
         {characterId && characterMetadata && elementalDmgValue && element && (
           <div style={{ display: 'flex' }} className={classes.deferredSection}>
-            <Deferred>
+            <DeferCreate>
               <ScoringColumn
                 simulation={result.originalSim}
                 originalSimResult={simScoringResult.originalSimResult}
@@ -397,13 +397,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred>
+            </DeferCreate>
 
             <div>
               <Divider orientation='vertical' className={classes.columnDivider}/>
             </div>
 
-            <Deferred>
+            <DeferCreate>
               <ScoringColumn
                 simulation={result.benchmarkSim}
                 originalSimResult={simScoringResult.benchmarkSimResult}
@@ -415,13 +415,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred>
+            </DeferCreate>
 
             <div>
               <Divider orientation='vertical' className={classes.columnDivider}/>
             </div>
 
-            <Deferred>
+            <DeferCreate>
               <ScoringColumn
                 simulation={result.maximumSim}
                 originalSimResult={simScoringResult.maximumSimResult}
@@ -433,12 +433,12 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
                 element={element}
                 characterMetadata={characterMetadata}
               />
-            </Deferred>
+            </DeferCreate>
           </div>
         )}
 
         {/* Buffs analysis */}
-        <Deferred>
+        <DeferCreate>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }} className={classes.deferredSection}>
             <pre className={classes.sectionTitle}>
               {
@@ -449,9 +449,9 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             </pre>
             <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE} twoColumn/>
           </div>
-        </Deferred>
+        </DeferCreate>
       </div>
-    </DeferredRenderProvider>
+    </DeferCreateProvider>
   )
 })
 

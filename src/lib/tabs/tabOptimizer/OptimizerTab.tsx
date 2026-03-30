@@ -12,18 +12,41 @@ import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedC
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
-import React, { useContext, useEffect, useState } from 'react'
+import { DeferCreate, DeferReveal, DeferCreateProvider } from 'lib/ui/DeferredRender'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 export function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
   const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
   const [activated, setActivated] = useState(isActiveRef.current)
+  const containerRef = useRef<HTMLDivElement>(null)
 
+  // First activation: enable DeferCreateProvider for progressive first mount
   useEffect(() => {
     if (activated) return
     return addActivationListener(() => setActivated(true))
   }, [activated, addActivationListener])
+
+  // Subsequent activations: imperatively stagger section visibility to spread
+  // browser layout across frames. Zero React re-renders.
+  useEffect(() => {
+    let rafId: number
+    return addActivationListener(() => {
+      const sections = containerRef.current?.querySelectorAll<HTMLElement>(':scope [data-defer-reveal]')
+      if (!sections?.length) return
+      for (const section of sections) section.style.display = 'none'
+      let i = 0
+      cancelAnimationFrame(rafId)
+      function tick() {
+        if (i < sections!.length) {
+          sections![i].style.display = ''
+          i++
+          rafId = requestAnimationFrame(tick)
+        }
+      }
+      rafId = requestAnimationFrame(tick)
+    })
+  }, [addActivationListener])
 
   // --- PROFILING ---
   const renderStart = performance.now()
@@ -33,27 +56,31 @@ export function OptimizerTab() {
   // --- END PROFILING ---
 
   return (
-    <DeferredRenderProvider resetKey={null} enabled={activated}>
-      <Flex>
+    <DeferCreateProvider resetKey={null} enabled={activated}>
+      <Flex ref={containerRef}>
         <Flex direction="column" gap={10} style={{ marginBottom: 100, width: 1302 }}>
           <OptimizerForm />
           <DPSScoreDisclaimer />
           <UnreleasedCharacterDisclaimer />
-          <Deferred>
-            <OptimizerGrid />
-          </Deferred>
-          <Deferred>
-            <Flex
-              gap={10}
-              style={{ flexDirection: expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
-            >
-              <OptimizerBuildPreview />
-              <ExpandedDataPanel />
-            </Flex>
-          </Deferred>
+          <DeferCreate>
+            <DeferReveal>
+              <OptimizerGrid />
+            </DeferReveal>
+          </DeferCreate>
+          <DeferCreate>
+            <DeferReveal>
+              <Flex
+                gap={10}
+                style={{ flexDirection: expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
+              >
+                <OptimizerBuildPreview />
+                <ExpandedDataPanel />
+              </Flex>
+            </DeferReveal>
+          </DeferCreate>
         </Flex>
         <Sidebar />
       </Flex>
-    </DeferredRenderProvider>
+    </DeferCreateProvider>
   )
 }

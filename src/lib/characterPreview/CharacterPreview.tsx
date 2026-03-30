@@ -56,6 +56,7 @@ import {
   pickBestSeed,
 } from 'lib/characterPreview/color/colorUtils'
 import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
+import { DeferReveal } from 'lib/ui/DeferredRender'
 import {
   memo,
   useCallback,
@@ -656,14 +657,16 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       {/* Showcase analysis footer — uses storedScoringType (user's preference) not resolved scoringType,
           so the SegmentedControl reflects their selection even when combat score is unavailable */}
       {source !== ShowcaseSource.BUILDS_MODAL && (
-        <ShowcaseBuildAnalysis
-          scoringDone={scoringDone}
-          scoringResult={scoringResult}
-          showcaseMetadata={showcaseMetadata}
-          scoringType={state.storedScoringType}
-          displayRelics={displayRelics}
-          setScoringType={state.setScoringType}
-        />
+        <DeferReveal>
+          <ShowcaseBuildAnalysis
+            scoringDone={scoringDone}
+            scoringResult={scoringResult}
+            showcaseMetadata={showcaseMetadata}
+            scoringType={state.storedScoringType}
+            displayRelics={displayRelics}
+            setScoringType={state.setScoringType}
+          />
+        </DeferReveal>
       )}
     </div>
   )

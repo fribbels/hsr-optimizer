@@ -29,7 +29,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { Deferred } from 'lib/ui/DeferredRender'
+import { DeferCreate, DeferReveal } from 'lib/ui/DeferredRender'
 import { memo, useEffect, useMemo } from 'react'
 import type { DBMetadata } from 'types/metadata'
 import { mergeDefinedValues } from 'lib/utils/objectUtils'
@@ -76,43 +76,41 @@ export function OptimizerForm() {
           </FormCard>
         </FormRow>
 
-        <Deferred>
-          <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
-            <FormCard>
-              <RelicMainSetFilters />
-            </FormCard>
+        <FormRow id={OptimizerMenuIds.relicAndStatFilters}>
+          <FormCard>
+            <RelicMainSetFilters />
+          </FormCard>
 
-            <FormCard>
-              <SubstatWeightFilters />
-            </FormCard>
+          <FormCard>
+            <SubstatWeightFilters />
+          </FormCard>
 
-            <FormCard>
-              <MinMaxStatFilters />
-            </FormCard>
+          <FormCard>
+            <MinMaxStatFilters />
+          </FormCard>
 
-            <FormCard>
-              <MinMaxRatingFilters />
-            </FormCard>
+          <FormCard>
+            <MinMaxRatingFilters />
+          </FormCard>
 
-            <FormCard>
-              <ComboFilters />
-            </FormCard>
-          </FormRow>
-        </Deferred>
+          <FormCard>
+            <ComboFilters />
+          </FormCard>
+        </FormRow>
 
-        <Deferred>
-          <TeammateFormRow id={OptimizerMenuIds.teammates}>
-            <TeammateCard index={0} dbMetadata={dbMetadata} />
-            <TeammateCard index={1} dbMetadata={dbMetadata} />
-            <TeammateCard index={2} dbMetadata={dbMetadata} />
-          </TeammateFormRow>
-        </Deferred>
+        <TeammateFormRow id={OptimizerMenuIds.teammates}>
+          <TeammateCard index={0} dbMetadata={dbMetadata} />
+          <TeammateCard index={1} dbMetadata={dbMetadata} />
+          <TeammateCard index={2} dbMetadata={dbMetadata} />
+        </TeammateFormRow>
 
-        <Deferred>
-          <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
-            <StatSimulationDisplay />
-          </FormRow>
-        </Deferred>
+        <DeferCreate>
+          <DeferReveal>
+            <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
+              <StatSimulationDisplay />
+            </FormRow>
+          </DeferReveal>
+        </DeferCreate>
       </FilterContainer>
     </div>
   )

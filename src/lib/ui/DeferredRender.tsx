@@ -102,10 +102,15 @@ function resetQueue(queue: DeferredQueue): void {
     cancelAnimationFrame(queue.rafId)
     queue.rafId = null
   }
+  // Snapshot existing listeners before clearing — DeferredDisplay components
+  // need to be notified so they re-check visibility and hide themselves.
+  const pendingListeners = [...queue.listeners.values()]
   queue.counter = 0
   queue.nextTicket = 0
   queue.generation++
   queue.listeners.clear()
+  // Notify after clearing so useSyncExternalStore detects the state change
+  for (const listener of pendingListeners) listener()
 }
 
 // ---------------------------------------------------------------------------
@@ -128,7 +133,7 @@ const DeferredContext = createContext<DeferredQueue | null>(null)
  *
  * Without this provider, `<Deferred>` and `useDeferredSlot()` render immediately.
  */
-export function DeferredRenderProvider({
+export function DeferCreateProvider({
   children,
   resetKey,
   batchSize = 1,
@@ -184,7 +189,7 @@ const noopSubscribe = () => () => {}
 const alwaysTrue = () => true
 
 /**
- * Claims a slot in the nearest `DeferredRenderProvider` queue.
+ * Claims a slot in the nearest `DeferCreateProvider` queue.
  * Returns `true` when this slot has been revealed by the rAF loop.
  *
  * Without a provider ancestor, returns `true` immediately (no deferral).
@@ -225,16 +230,17 @@ export function useDeferredSlot(): boolean {
 }
 
 // ---------------------------------------------------------------------------
-// Wrapper component: <Deferred>
+// Wrapper components
 // ---------------------------------------------------------------------------
 
 /**
- * Defers rendering of children until this slot's turn in the rAF queue.
+ * Defers **creating** children until this slot's turn in the rAF queue.
+ * Children are not mounted until revealed — use for first-mount progressive rendering.
  * Shows `fallback` (default: nothing) while waiting.
  *
- * Without a `DeferredRenderProvider` ancestor, renders children immediately.
+ * Without a `DeferCreateProvider` ancestor, renders children immediately.
  */
-export function Deferred({
+export function DeferCreate({
   children,
   fallback = null,
 }: {
@@ -244,3 +250,18 @@ export function Deferred({
   const visible = useDeferredSlot()
   return visible ? children : fallback
 }
+
+/**
+ * Marks a section for imperative progressive **reveal** on tab switches.
+ * Children are always mounted. On each tab activation, an imperative rAF loop
+ * hides all `[data-defer-reveal]` elements then shows them one per frame —
+ * spreading browser layout work across frames without any React re-renders.
+ *
+ * This is a plain wrapper div — no React state, no queue integration.
+ */
+export function DeferReveal({ children }: { children: ReactNode }) {
+  return <div data-defer-reveal>{children}</div>
+}
+
+/** @deprecated Use `DeferCreate` instead */
+export const Deferred = DeferCreate

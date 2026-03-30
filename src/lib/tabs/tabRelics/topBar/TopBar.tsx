@@ -95,6 +95,8 @@ export function TopBar() {
           onClick={resetFilters}
           color="dimmed"
           leftSection={<IconEraser size={12} />}
+          h="100%"
+          style={{ border: 'var(--border-subtle)' }}
         >
           {t('RelicFilterBar.Clear')}
         </Button>

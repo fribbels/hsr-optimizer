@@ -37,10 +37,11 @@
     border-color: var(--mantine-primary-color-filled);
 }
 
-/* Combobox/Select/MultiSelect dropdown background */
+/* Combobox/Select/MultiSelect/Menu dropdown background */
 .mantine-Combobox-dropdown,
 .mantine-Select-dropdown,
-.mantine-MultiSelect-dropdown {
+.mantine-MultiSelect-dropdown,
+[data-menu-dropdown] {
     background-color: var(--mantine-color-dark-5) !important;
 }
 

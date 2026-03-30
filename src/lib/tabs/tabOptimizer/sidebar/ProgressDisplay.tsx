@@ -36,7 +36,7 @@ export const ProgressDisplay = React.memo(function ProgressDisplay() {
               flex: 1,
               height: 5,
               borderRadius: 2,
-              backgroundColor: i < filledSegments ? 'var(--primary-active)' : 'var(--border-default)',
+              backgroundColor: i < filledSegments ? 'var(--mantine-color-primary-3)' : 'var(--border-default)',
             }}
           />
         ))}

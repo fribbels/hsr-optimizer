@@ -1,6 +1,6 @@
 import { Loader } from '@mantine/core'
 import { relicCardH } from 'lib/constants/constantsUi'
-import { Deferred, useDeferredSlot } from 'lib/ui/DeferredRender'
+import { DeferCreate, useDeferredSlot } from 'lib/ui/DeferredRender'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import type {
   EnrichedRelics,
@@ -179,17 +179,17 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className={styles.fullWidth}>
-      <Deferred>
+      <DeferCreate>
         <div style={{ display: 'flex', gap: 10 }} className={styles.metricRow}>
           <MetricCard relicAnalysis={relicAnalysis} index={0} t={t} />
           <MetricCard relicAnalysis={relicAnalysis} index={1} t={t} />
         </div>
-      </Deferred>
-      <Deferred>
+      </DeferCreate>
+      <DeferCreate>
         <div className={styles.rollsCard}>
           <RollsCard relicAnalysis={relicAnalysis} t={t} />
         </div>
-      </Deferred>
+      </DeferCreate>
     </div>
   )
 }

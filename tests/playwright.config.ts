@@ -27,7 +27,7 @@ export default defineConfig({
 
   use: {
     actionTimeout: 10000,
-    baseURL: 'http://localhost:3000/hsr-optimizer',
+    baseURL: 'http://127.0.0.1:3000/hsr-optimizer',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
@@ -40,9 +40,9 @@ export default defineConfig({
 
   webServer: {
     command: process.env.CI ? 'npx vite preview' : 'npm run start',
-    url: 'http://localhost:3000/hsr-optimizer',
+    url: 'http://127.0.0.1:3000/hsr-optimizer',
     reuseExistingServer: !process.env.CI,
-    timeout: 30 * 1000,
+    timeout: 60 * 1000,
   },
   reporter: [['html', { open: 'never' }]],
 })

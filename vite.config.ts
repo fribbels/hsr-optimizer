@@ -48,6 +48,8 @@ export default defineConfig({
   },
   preview: {
     port: 3000,
+    host: '127.0.0.1',
+    strictPort: true,
   },
   server: {
     open: true,

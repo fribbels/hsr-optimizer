@@ -28,11 +28,11 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const setConditionalsIconWidth = 40
+const setConditionalsIconWidth = 32
 const setConditionalsNameWidth = 255
 const setConditionalsWidth = 100
 const defaultGap = 5
-const columnGap = 2
+const columnGap = 6
 
 interface BaseConditionalSetOptionProps {
   description: string
@@ -104,10 +104,10 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
     <Popover width={400} position='left' withArrow>
       <Popover.Target>
         <Flex gap={defaultGap} align='center' style={{ cursor: 'pointer' }}>
-          <div style={{ width: setConditionalsIconWidth }}>
+          <div style={{ width: setConditionalsIconWidth, marginRight: 5 }}>
             <img
               src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)}
-              style={{ width: 36, height: 36 }}
+              style={{ width: setConditionalsIconWidth, height: setConditionalsIconWidth, display: 'block' }}
             />
           </div>
           <div
@@ -194,7 +194,7 @@ function FormSetConditionalsContent() {
   }, [tSelectOptions, t])
 
   return (
-    <Flex justify='center'>
+    <Flex justify='space-around'>
       <Flex direction="column" gap={columnGap}>
         <Flex gap={defaultGap} align='center'>
           <div style={{ width: setConditionalsIconWidth }} />
@@ -203,7 +203,7 @@ function FormSetConditionalsContent() {
         {relicOptions}
       </Flex>
       <VerticalDivider />
-      <Flex direction="column" gap={columnGap} style={{ marginLeft: 5 }}>
+      <Flex direction="column" gap={columnGap}>
         <Flex gap={defaultGap} align='center'>
           <div style={{ width: setConditionalsIconWidth }} />
           <div style={{ width: setConditionalsNameWidth }} />

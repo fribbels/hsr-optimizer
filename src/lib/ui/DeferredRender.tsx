@@ -9,6 +9,31 @@ import {
 } from 'react'
 
 // ---------------------------------------------------------------------------
+// Deferred Rendering — two complementary mechanisms
+//
+// DeferCreate — "don't CREATE this yet"
+//   Defers React mount via a rAF queue. Children don't exist until revealed.
+//   Requires DeferCreateProvider. Used for first-mount progressive rendering.
+//
+// DeferReveal — "don't SHOW this yet"
+//   Defers CSS display via imperative DOM. Children stay mounted, only
+//   visibility toggles. No provider needed. Used for tab-switch progressive
+//   reveal — an activation listener hides all [data-defer-reveal] elements,
+//   then a rAF loop shows them one per frame.
+//
+// Compose both when a section needs first-mount deferral AND tab-switch reveal:
+//   <DeferCreate><DeferReveal><Heavy /></DeferReveal></DeferCreate>
+//
+// When to use which:
+//   DeferCreate alone — scoring/analysis panel sections that mount once per
+//     character change (CharacterScoringSummary, BuffsAnalysisDisplay)
+//   DeferReveal alone — already-mounted content that's expensive to lay out
+//     on tab switch (CharacterGrid, ShowcaseBuildAnalysis)
+//   Both — tab sections that are heavy to mount AND heavy to lay out
+//     (OptimizerGrid, teammate cards, stat simulation)
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
 // Queue store (external, not React state — avoids parent re-renders)
 // ---------------------------------------------------------------------------
 

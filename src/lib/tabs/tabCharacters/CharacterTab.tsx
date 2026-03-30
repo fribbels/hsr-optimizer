@@ -9,7 +9,7 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useDeferReveal } from 'lib/ui/DeferredRender'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import type { Character } from 'types/character'
 
 import { cardTotalW, defaultGap, parentH } from 'lib/constants/constantsUi'

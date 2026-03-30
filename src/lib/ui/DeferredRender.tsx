@@ -128,7 +128,7 @@ function resetQueue(queue: DeferredQueue): void {
     cancelAnimationFrame(queue.rafId)
     queue.rafId = null
   }
-  // Snapshot existing listeners before clearing — DeferredDisplay components
+  // Snapshot existing listeners before clearing — DeferCreate components
   // need to be notified so they re-check visibility and hide themselves.
   const pendingListeners = [...queue.listeners.values()]
   queue.counter = 0
@@ -150,14 +150,16 @@ const DeferredContext = createContext<DeferredQueue | null>(null)
 // ---------------------------------------------------------------------------
 
 /**
- * Establishes a deferred render queue. Children wrapped in `<Deferred>` or
+ * Establishes a deferred render queue. Children wrapped in `<DeferCreate>` or
  * using `useDeferredSlot()` are revealed one per animation frame.
  *
  * - `resetKey`: when this changes, all slots reset and re-reveal progressively.
  * - `batchSize`: how many slots to reveal per frame (default 1).
- * - `enabled`: when false, the queue is paused (slots stay hidden until enabled).
+ * - `enabled`: when false, the queue is paused — slots stay hidden (render null/fallback)
+ *   until enabled. Common pattern: gate on first tab activation so the queue doesn't
+ *   run during background stagger mount.
  *
- * Without this provider, `<Deferred>` and `useDeferredSlot()` render immediately.
+ * Without this provider, `<DeferCreate>` and `useDeferredSlot()` render immediately.
  */
 export function DeferCreateProvider({
   children,
@@ -293,6 +295,10 @@ export function DeferReveal({ children }: { children: ReactNode }) {
  * Hook that pairs with `<DeferReveal>`. Returns a ref to attach to the
  * container element. On every tab activation, all `[data-defer-reveal]`
  * descendants are hidden, then shown one per rAF frame.
+ *
+ * **Important:** Only one `useDeferReveal` should be an ancestor of any given
+ * `<DeferReveal>` element. The selector finds ALL descendants at all depths,
+ * so nested `useDeferReveal` hooks would race to toggle the same elements.
  */
 export function useDeferReveal() {
   const { addActivationListener } = useContext(TabVisibilityContext)
@@ -300,7 +306,17 @@ export function useDeferReveal() {
 
   useEffect(() => {
     let rafId: number
-    return addActivationListener(() => {
+    let firstActivation = true
+
+    const unsub = addActivationListener(() => {
+      // First activation: content was in display:none during stagger mount and
+      // was never visible. Progressive reveal would just add extra layout passes
+      // (hide then re-show) with no benefit. Skip it.
+      if (firstActivation) {
+        firstActivation = false
+        return
+      }
+
       const sections = containerRef.current?.querySelectorAll<HTMLElement>(':scope [data-defer-reveal]')
       if (!sections?.length) return
       for (const section of sections) section.style.display = 'none'
@@ -315,10 +331,11 @@ export function useDeferReveal() {
       }
       rafId = requestAnimationFrame(tick)
     })
+    return () => {
+      unsub()
+      cancelAnimationFrame(rafId)
+    }
   }, [addActivationListener])
 
   return containerRef
 }
-
-/** @deprecated Use `DeferCreate` instead */
-export const Deferred = DeferCreate

@@ -59,14 +59,25 @@ export function scoreRelics(
 
   const excludedSet = new Set(excludedRelicPotentialCharacters)
 
+  // --- PROFILING ---
+  const t0 = performance.now()
+  let cacheHits = 0
+  let cacheMisses = 0
+  // --- END PROFILING ---
+
   const scored = relics.map((relic) => {
     const cached = scoreCache.get(relic)
-    if (cached) return cached
+    if (cached) { cacheHits++; return cached }
+    cacheMisses++
 
     const result = scoreSingleRelic(relic, characterIds, excludedSet, focusCharacter, relicScorer)
     scoreCache.set(relic, result)
     return result
   })
+
+  // --- PROFILING ---
+  console.log(`[TAB PROFILE]       scoreRelics inner: ${(performance.now() - t0).toFixed(1)}ms | ${relics.length} relics, ${characterIds.length} chars | hits=${cacheHits} misses=${cacheMisses}`)
+  // --- END PROFILING ---
 
   return scored.reverse()
 }

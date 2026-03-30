@@ -31,6 +31,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import React from 'react'
 import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
@@ -53,6 +54,9 @@ const paginationSettings: AgGridReactProps<ScoredRelic> = {
 }
 
 export function RelicsGrid() {
+  // --- PROFILING ---
+  const renderStart = performance.now()
+  // --- END PROFILING ---
   const { getLocaleText, paginationNumberFormatter } = useGridLocale('relicsTab', 'RelicGrid')
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicGrid' })
 
@@ -89,12 +93,26 @@ export function RelicsGrid() {
 
   const scoredRelics = useMemo(() => {
     if (!activated) return null
-    return scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringVersion)
+    // --- PROFILING ---
+    const t0 = performance.now()
+    // --- END PROFILING ---
+    const result = scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringVersion)
+    // --- PROFILING ---
+    console.log(`[TAB PROFILE]     scoreRelics: ${(performance.now() - t0).toFixed(1)}ms (${relics.length} relics)`)
+    // --- END PROFILING ---
+    return result
   }, [activated, relics, scoringVersion, focusCharacter, excludedRelicPotentialCharacters])
 
   const columnDefs = useMemo(() => {
-    return generateBaselineColDefs(t)
+    // --- PROFILING ---
+    const t0 = performance.now()
+    // --- END PROFILING ---
+    const result = generateBaselineColDefs(t)
       .concat(generateOptionalColDefs(t).filter((x) => valueColumns.includes(x.field as ValueColumnField)))
+    // --- PROFILING ---
+    console.log(`[TAB PROFILE]     columnDefs: ${(performance.now() - t0).toFixed(1)}ms`)
+    // --- END PROFILING ---
+    return result
   }, [valueColumns, t])
 
   const isExternalFilterPresent = useCallback((_params: IsExternalFilterPresentParams<ScoredRelic>) => {
@@ -122,6 +140,12 @@ export function RelicsGrid() {
     }
     return true
   }, [filters])
+
+  // --- PROFILING ---
+  React.useEffect(() => {
+    console.log(`[TAB PROFILE]   RelicsGrid render+commit: ${(performance.now() - renderStart).toFixed(1)}ms`)
+  })
+  // --- END PROFILING ---
 
   return (
     <div

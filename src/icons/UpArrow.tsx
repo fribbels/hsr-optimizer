@@ -1,5 +1,3 @@
-import type React from 'react'
-
 const IconSVG = () => (
   <svg
     aria-hidden='true'
@@ -13,6 +11,4 @@ const IconSVG = () => (
   </svg>
 )
 
-export const UpArrow = (props: React.HTMLAttributes<HTMLSpanElement>) => {
-  return <span role='img' {...props}><IconSVG /></span>
-}
+export const UpArrow = () => <IconSVG />

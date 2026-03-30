@@ -11,7 +11,7 @@ export default function globalSetup() {
   const storageState = {
     cookies: [],
     origins: [{
-      origin: 'http://localhost:3000',
+      origin: 'http://127.0.0.1:3000',
       localStorage: [{
         name: 'state',
         value: JSON.stringify(sampleSave),

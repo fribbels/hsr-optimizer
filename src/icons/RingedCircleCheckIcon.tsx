@@ -1,7 +1,3 @@
-import { Flex } from '@mantine/core'
-import type { Ref } from 'react'
-import type { IconExtractedProps } from 'types/components'
-
 const IconSVG = (props: { color?: string }) => {
   const { color } = props
 
@@ -20,10 +16,4 @@ const IconSVG = (props: { color?: string }) => {
   )
 }
 
-export function RingedCircleCheckIcon({ color, className, style, ref, ...restProps }: IconExtractedProps & { ref?: Ref<HTMLDivElement> }) {
-  return (
-    <Flex ref={ref} className={className} style={style} {...restProps}>
-      <IconSVG color={color} />
-    </Flex>
-  )
-}
+export const RingedCircleCheckIcon = ({ color }: { color?: string }) => <IconSVG color={color} />

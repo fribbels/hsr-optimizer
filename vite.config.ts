@@ -70,6 +70,10 @@ export default defineConfig({
   test: {
     environment: 'node',
     slowTestThreshold: 500,
+    exclude: [
+      '**/goldenData/**',
+      '**/searchTreeBenchmark*',
+    ],
   },
   worker: {
     format: 'es',

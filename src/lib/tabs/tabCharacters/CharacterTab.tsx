@@ -8,6 +8,7 @@ import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
 import React, { Suspense, useCallback } from 'react'
 import type { Character } from 'types/character'
 
@@ -41,43 +42,49 @@ export function CharacterTab() {
   }, [])
 
   return (
-    <Flex
-      style={{
-        height: '100%',
-        marginBottom: 200,
-        width: 1593,
-      }}
-      gap={defaultGap}
-    >
-      <Flex direction="column" gap={defaultGap}>
-        <CharacterMenu />
+    <DeferredRenderProvider resetKey={null}>
+      <Flex
+        style={{
+          height: '100%',
+          marginBottom: 200,
+          width: 1593,
+        }}
+        gap={defaultGap}
+      >
+        <Flex direction="column" gap={defaultGap}>
+          <CharacterMenu />
 
-        <Flex direction="column" gap={defaultGap} miw={320}>
-          <div
-            id='characterGrid'
-            style={{
-              width: '100%',
-              height: parentH,
-            }}
-          >
-            <CharacterGrid />
-          </div>
+          <Flex direction="column" gap={defaultGap} miw={320}>
+            <div
+              id='characterGrid'
+              style={{
+                width: '100%',
+                height: parentH,
+              }}
+            >
+              <Deferred>
+                <CharacterGrid />
+              </Deferred>
+            </div>
+          </Flex>
+        </Flex>
+
+        <Flex direction="column" gap={defaultGap}>
+          <FilterBar />
+
+          <Deferred>
+            <Suspense>
+              <CharacterPreview
+                id='characterTabPreview'
+                source={ShowcaseSource.CHARACTER_TAB}
+                character={selectedCharacter}
+                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+              />
+            </Suspense>
+          </Deferred>
         </Flex>
       </Flex>
-
-      <Flex direction="column" gap={defaultGap}>
-        <FilterBar />
-
-        <Suspense>
-          <CharacterPreview
-            id='characterTabPreview'
-            source={ShowcaseSource.CHARACTER_TAB}
-            character={selectedCharacter}
-            setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-            setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-          />
-        </Suspense>
-      </Flex>
-    </Flex>
+    </DeferredRenderProvider>
   )
 }

@@ -11,6 +11,7 @@ import { Sidebar } from 'lib/tabs/tabOptimizer/Sidebar'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { Deferred, DeferredRenderProvider } from 'lib/ui/DeferredRender'
 import React from 'react'
 
 export function OptimizerTab() {
@@ -24,21 +25,27 @@ export function OptimizerTab() {
   // --- END PROFILING ---
 
   return (
-    <Flex>
-      <Flex direction="column" gap={10} style={{ marginBottom: 100, width: 1302 }}>
-        <OptimizerForm />
-        <DPSScoreDisclaimer />
-        <UnreleasedCharacterDisclaimer />
-        <OptimizerGrid />
-        <Flex
-          gap={10}
-          style={{ flexDirection: expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
-        >
-          <OptimizerBuildPreview />
-          <ExpandedDataPanel />
+    <DeferredRenderProvider resetKey={null}>
+      <Flex>
+        <Flex direction="column" gap={10} style={{ marginBottom: 100, width: 1302 }}>
+          <OptimizerForm />
+          <DPSScoreDisclaimer />
+          <UnreleasedCharacterDisclaimer />
+          <Deferred>
+            <OptimizerGrid />
+          </Deferred>
+          <Deferred>
+            <Flex
+              gap={10}
+              style={{ flexDirection: expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
+            >
+              <OptimizerBuildPreview />
+              <ExpandedDataPanel />
+            </Flex>
+          </Deferred>
         </Flex>
+        <Sidebar />
       </Flex>
-      <Sidebar />
-    </Flex>
+    </DeferredRenderProvider>
   )
 }

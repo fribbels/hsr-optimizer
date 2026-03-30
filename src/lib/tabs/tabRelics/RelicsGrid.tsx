@@ -10,10 +10,8 @@ import {
 } from 'ag-grid-react'
 import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
 import { useTranslation } from 'react-i18next'
-import {
-  type ScoredRelic,
-  scoreRelics,
-} from 'lib/relics/scoreRelics'
+import type { ScoredRelic } from 'lib/relics/scoreRelics'
+import { scoreRelicsAsync } from 'lib/worker/scoreRelicsWorkerRunner'
 import {
   defaultRelicsGridColDefs,
   generateBaselineColDefs,
@@ -23,18 +21,15 @@ import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import { useRelicsTabStore, type ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { gridStore } from 'lib/stores/gridStore'
-import {
+import React, {
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
-import React from 'react'
 import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useShallow } from 'zustand/react/shallow'
 
 const gridOptions: GridOptions<ScoredRelic> = {
@@ -79,29 +74,26 @@ export function RelicsGrid() {
     gridStore.setRelicsGrid(gridRef)
   }, [])
 
-  // Defer scoring until the tab is visible — avoids ~1s main thread block on hidden mount.
-  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
-  const [activated, setActivated] = useState(isActiveRef.current)
+  // Score relics off the main thread via web worker. Starts immediately on mount
+  // (during stagger) so data is often ready before the user navigates to the tab.
+  const [scoredRelics, setScoredRelics] = useState<ScoredRelic[] | null>(null)
 
   useEffect(() => {
-    if (isActiveRef.current) {
-      setActivated(true)
+    if (relics.length === 0) {
+      setScoredRelics(null)
       return
     }
-    return addActivationListener(() => setActivated(true))
-  }, [isActiveRef, addActivationListener])
 
-  const scoredRelics = useMemo(() => {
-    if (!activated) return null
-    // --- PROFILING ---
-    const t0 = performance.now()
-    // --- END PROFILING ---
-    const result = scoreRelics(relics, excludedRelicPotentialCharacters, focusCharacter, scoringVersion)
-    // --- PROFILING ---
-    console.log(`[TAB PROFILE]     scoreRelics: ${(performance.now() - t0).toFixed(1)}ms (${relics.length} relics)`)
-    // --- END PROFILING ---
-    return result
-  }, [activated, relics, scoringVersion, focusCharacter, excludedRelicPotentialCharacters])
+    let cancelled = false
+    scoreRelicsAsync(relics, excludedRelicPotentialCharacters, focusCharacter, scoringVersion)
+      .then((result) => {
+        if (!cancelled) setScoredRelics(result)
+      })
+      .catch((err) => {
+        if (!cancelled) console.warn('scoreRelicsAsync error:', err)
+      })
+    return () => { cancelled = true }
+  }, [relics, scoringVersion, focusCharacter, excludedRelicPotentialCharacters])
 
   const columnDefs = useMemo(() => {
     // --- PROFILING ---

@@ -1,16 +1,16 @@
 import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
+import { FixedSizeNumericMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
-import { uniformCompatible } from 'lib/gpu/webgpuDevice'
 import {
   generateParamsMatrix,
   mergeRelicsIntoArray,
 } from 'lib/gpu/webgpuDataTransform'
+import { uniformCompatible } from 'lib/gpu/webgpuDevice'
 import {
   type GpuExecutionContext,
   type GpuResult,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
-import { FixedSizeNumericMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import { bitpackBooleanArray } from 'lib/optimization/relicSetSolver'
 import { type Form } from 'types/form'
 import { type OptimizerContext } from 'types/optimizer'
@@ -138,12 +138,16 @@ export function initializeGpuPipeline(
   const bindGroups2: [GPUBindGroup, GPUBindGroup] = [0, 1].map((i) =>
     device.createBindGroup({
       layout: computePipeline.getBindGroupLayout(2),
-      entries: (DEBUG
-          ? [{ binding: 0, resource: { buffer: resultMatrixBuffers[i] } }]
+      entries: (
+        DEBUG
+          ? [
+            { binding: 0, resource: { buffer: resultMatrixBuffers[i] } },
+          ]
           : [
             { binding: 1, resource: { buffer: compactCountBuffers[i] } },
             { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
-          ]),
+          ]
+      ),
     })
   ) as [GPUBindGroup, GPUBindGroup]
 

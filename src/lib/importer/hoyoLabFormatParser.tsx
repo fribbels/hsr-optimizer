@@ -9,12 +9,12 @@ import type {
 } from 'lib/constants/constants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { precisionRound } from 'lib/utils/mathUtils'
+import { uuid } from 'lib/utils/miscUtils'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { DBMetadataSets } from 'types/metadata'
 import type { Relic } from 'types/relic'
-import { uuid } from 'lib/utils/miscUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 type HoyolabRelic = {
   id: number,
@@ -86,6 +86,42 @@ type HoyolabCharacter = {
   lightConeLevel: number,
   lightConeSuperimposition: number,
 }
+
+/*
+
+ Sample data:
+
+ "id": 1309,
+ "level": 80,
+ "name": "Robin",
+ "element": "physical",
+ "rarity": 5,
+ "rank": 0,
+ "equip": {
+ "id": 22002,
+ "level": 70,
+ "rank": 5,
+ "rarity": 4
+ },
+ "relics": [{
+ "id": 61141,
+ "level": 15,
+ "pos": 1,
+ "rarity": 5,
+ "main_property": {
+ "property_type": 27,
+ "value": "705",
+ "times": 0
+ },
+ "properties": [{
+ "property_type": 29,
+ "value": "33",
+ "times": 2
+
+ ...
+ }]
+ }, {
+ */
 
 export function hoyolabParser(json: HoyolabData) {
   const relicData = getGameMetadata().relics.relicSets
@@ -237,7 +273,7 @@ function getSet(id: number, relicData: Record<string, DBMetadataSets>) {
   return relicData[setId].name
 }
 
-const tidOverrides: Record<number, { set: string; part: string; main: string }> = {
+const tidOverrides: Record<number, { set: string, part: string, main: string }> = {
   55001: { set: '101', part: '3', main: '436' },
   55002: { set: '101', part: '4', main: '441' },
   55003: { set: '102', part: '3', main: '434' },

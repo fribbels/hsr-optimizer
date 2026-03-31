@@ -156,12 +156,30 @@ export async function generateAllTests() {
   cache.metadata = getGameMetadata()
 
   return [
+    // ...generateSingleCharacterTest(device, { characterId: '1105', lightConeId: basicLc }),
+    // ...generateE0E1Tests(device),
     ...generateOrnamentSetTests(device),
     ...generateRelicSetTests(device),
     ...generateE6E5Tests(device),
     ...generateStarLcTests(device, 4),
     ...generateStarLcTests(device, 3),
   ]
+}
+
+export function generateSingleCharacterTest(
+  device: GPUDevice,
+  pair: { characterId: CharacterId, lightConeId: LightConeId },
+) {
+  return [
+    generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device),
+    generateE6S5CharacterTest(pair.characterId, pair.lightConeId, device),
+  ]
+}
+
+export function generateE0E1Tests(device: GPUDevice) {
+  return baseCharacterLightConeMappings.reverse().map((pair) => {
+    return generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device)
+  })
 }
 
 export function generateE6E5Tests(device: GPUDevice) {

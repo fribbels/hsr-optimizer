@@ -42,8 +42,8 @@ jobs:
       - name: Enable console.*
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: 'drop_console: true,'
-          replace: 'drop_console: false,'
+          find: 'dropConsole: true,'
+          replace: 'dropConsole: false,'
           include: 'vite.config.ts'
       - run: rm -rf .github/workflows
       - run: mv .github/drearyquibbles .github/workflows

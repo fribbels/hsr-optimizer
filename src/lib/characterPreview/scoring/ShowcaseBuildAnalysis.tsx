@@ -21,7 +21,6 @@ interface ShowcaseBuildAnalysisProps {
   scoringResult: SimulationScore | null
   showcaseMetadata: ShowcaseMetadata
   displayRelics: SingleRelicByPart
-  setScoringType: (s: ScoringType) => void
 }
 
 export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
@@ -30,7 +29,6 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   scoringResult,
   showcaseMetadata,
   displayRelics,
-  setScoringType,
 }: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -71,7 +69,6 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
             style={{ width: 354, height: 30 }}
             onChange={(selection) => {
               const value = Number(selection) as ScoringType
-              setScoringType(value)
               useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.scoringType, value)
               SaveState.delayedSave()
             }}

@@ -199,7 +199,6 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
 export function getShowcaseStats(
   character: Character,
   displayRelics: SingleRelicByPart,
-  showcaseMetadata: ShowcaseMetadata,
 ) {
   const statCalculationRelics = clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))

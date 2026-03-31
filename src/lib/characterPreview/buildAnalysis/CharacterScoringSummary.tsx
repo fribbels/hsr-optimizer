@@ -33,15 +33,7 @@ import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { type CharacterId } from 'types/character'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
 
-function ScoringSet(props: {
-  set: string
-}) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-      <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
-    </div>
-  )
-}
+// ─── Primitives used by ScoringColumn ────────────────────────────────────────
 
 function ScoringStat(props: {
   stat: string
@@ -56,49 +48,7 @@ function ScoringStat(props: {
   )
 }
 
-function ScoringNumber(props: {
-  label: string
-  number?: number
-  precision?: number
-  useGrouping?: boolean
-}) {
-  const precision = props.precision ?? 1
-  const value = props.number ?? 0
-  const show = value !== 0
-  return (
-    <div style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
-      <pre style={{ margin: 0 }}>{props.label}</pre>
-      <pre className={classes.preTextRight}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
-    </div>
-  )
-}
-
-function ScoringInteger(props: {
-  label: string
-  number?: number
-  valueWidth?: number
-}) {
-  const value = props.number ?? 0
-  return (
-    <div style={{ display: 'flex', gap: 9, justifyContent: 'space-between' }}>
-      <pre style={{ margin: 0 }}>{props.label}</pre>
-      <pre style={{ margin: 0, width: props.valueWidth }}>{value}</pre>
-    </div>
-  )
-}
-
-function ScoringText(props: {
-  label: string
-  text?: string
-}) {
-  const value = props.text ?? ''
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'space-between' }}>
-      <pre style={{ margin: 0 }}>{props.label}</pre>
-      <pre className={classes.preTextRight}>{value}</pre>
-    </div>
-  )
-}
+// ─── ScoringColumn ────────────────────────────────────────────────────────────
 
 function ScoringColumn(props: {
   simulation: Simulation
@@ -110,7 +60,6 @@ function ScoringColumn(props: {
   elementalDmgValue: string
   element: ElementName
   characterMetadata: { path: string }
-
 }) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
@@ -216,14 +165,220 @@ function ScoringColumn(props: {
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
           </pre>
-          <AbilityDamageSummary
-            simResult={props.simulation.result!}
-          />
+          <AbilityDamageSummary simResult={props.simulation.result!}/>
         </div>
       </DeferCreate>
     </div>
   )
 }
+
+// ─── Primitives used by ScoringBenchmarksPanel ───────────────────────────────
+
+function ScoringSet(props: {
+  set: string
+}) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+      <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
+    </div>
+  )
+}
+
+function ScoringNumber(props: {
+  label: string
+  number?: number
+  precision?: number
+  useGrouping?: boolean
+}) {
+  const precision = props.precision ?? 1
+  const value = props.number ?? 0
+  const show = value !== 0
+  return (
+    <div style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
+      <pre style={{ margin: 0 }}>{props.label}</pre>
+      <pre className={classes.preTextRight}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
+    </div>
+  )
+}
+
+function ScoringText(props: {
+  label: string
+  text?: string
+}) {
+  const value = props.text ?? ''
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'space-between' }}>
+      <pre style={{ margin: 0 }}>{props.label}</pre>
+      <pre className={classes.preTextRight}>{value}</pre>
+    </div>
+  )
+}
+
+function ScoringTeammate({ result, index }: {
+  result: SimulationScore
+  index: number
+}) {
+  const { t } = useTranslation('common')
+  const teammate = result.simulationMetadata.teammates[index]
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+      <img src={Assets.getCharacterAvatarById(teammate.characterId)} className={classes.teammateIcon}/>
+      <pre style={{ margin: 0 }}>
+        {t('EidolonNShort', { eidolon: teammate.characterEidolon })}
+      </pre>
+      <img src={Assets.getLightConeIconById(teammate.lightCone)} className={classes.teammateIcon}/>
+      <pre style={{ margin: 0 }}>
+        {t('SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
+      </pre>
+    </div>
+  )
+}
+
+// ─── ScoringBenchmarksPanel ──────────────────────────────────────────────────
+
+function ScoringBenchmarksPanel({ result }: { result: SimulationScore }) {
+  const { t } = useTranslation('charactersTab')
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 }} className={classes.deferredSection}>
+      <pre className={classes.sectionTitle}>
+        {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
+      </pre>
+      <div style={{ display: 'flex', gap: 25, width: '100%', justifyContent: 'space-around' }}>
+        <DeferCreate>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+            <pre style={{ margin: '5px auto' }}>
+              {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
+            </pre>
+            <div style={{ display: 'flex', gap: 15 }}>
+              <ScoringTeammate result={result} index={0}/>
+              <ScoringTeammate result={result} index={1}/>
+              <ScoringTeammate result={result} index={2}/>
+            </div>
+          </div>
+        </DeferCreate>
+
+        <VerticalDivider/>
+
+        <DeferCreate>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+            <pre style={{ margin: '5px auto' }}>
+              {t('CharacterPreview.BuildAnalysis.SimulationSets')}
+            </pre>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+              <div style={{ display: 'flex' }}>
+                <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
+                <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
+              </div>
+              <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
+            </div>
+          </div>
+        </DeferCreate>
+
+        <VerticalDivider/>
+
+        <DeferCreate>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+            <pre style={{ margin: '5px auto' }}>
+              {t('CharacterPreview.BuildAnalysis.Rotation.Header')}
+            </pre>
+            <ComboRotationSummary simMetadata={result.simulationMetadata}/>
+          </div>
+        </DeferCreate>
+
+        <VerticalDivider/>
+
+        <DeferCreate>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <pre style={{ margin: '5px auto' }}>
+              {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
+            </pre>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className={classes.combatResultsWidth}>
+              <ScoringText
+                label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
+                text={
+                  // @ts-expect-error - type of key is not specific enough
+                  t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
+                }
+              />
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
+              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
+            </div>
+          </div>
+        </DeferCreate>
+      </div>
+    </div>
+  )
+}
+
+// ─── ScoringColumnsSection ────────────────────────────────────────────────────
+
+function ScoringColumnsSection({ result }: { result: SimulationScore }) {
+  const characterId = result.simulationForm.characterId
+  const characterMetadata = getGameMetadata().characters[characterId]
+  if (!characterMetadata) return null
+  const elementalDmgValue = ElementToDamage[characterMetadata.element]
+  const element = characterMetadata.element as ElementName
+
+  return (
+    <div style={{ display: 'flex' }} className={classes.deferredSection}>
+      <DeferCreate>
+        <ScoringColumn
+          simulation={result.originalSim}
+          originalSimResult={result.originalSimResult}
+          percent={result.percent}
+          precision={2}
+          type='Character'
+          characterId={characterId}
+          elementalDmgValue={elementalDmgValue}
+          element={element}
+          characterMetadata={characterMetadata}
+        />
+      </DeferCreate>
+
+      <div>
+        <Divider orientation='vertical' className={classes.columnDivider}/>
+      </div>
+
+      <DeferCreate>
+        <ScoringColumn
+          simulation={result.benchmarkSim}
+          originalSimResult={result.benchmarkSimResult}
+          percent={1.00}
+          precision={0}
+          type='Benchmark'
+          characterId={characterId}
+          elementalDmgValue={elementalDmgValue}
+          element={element}
+          characterMetadata={characterMetadata}
+        />
+      </DeferCreate>
+
+      <div>
+        <Divider orientation='vertical' className={classes.columnDivider}/>
+      </div>
+
+      <DeferCreate>
+        <ScoringColumn
+          simulation={result.maximumSim}
+          originalSimResult={result.maximumSimResult}
+          percent={2.00}
+          precision={0}
+          type='Perfect'
+          characterId={characterId}
+          elementalDmgValue={elementalDmgValue}
+          element={element}
+          characterMetadata={characterMetadata}
+        />
+      </DeferCreate>
+    </div>
+  )
+}
+
+// ─── CharacterScoringSummary ──────────────────────────────────────────────────
 
 export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   simScoringResult,
@@ -234,20 +389,15 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) {
-  const { t } = useTranslation(['charactersTab', 'common'])
+  const { t } = useTranslation('charactersTab')
 
+  if (!simScoringResult) return null
   const result = simScoringResult
 
-  const characterId = result?.simulationForm.characterId
-  const characterMetadata = characterId ? getGameMetadata().characters[characterId] : undefined
-  const elementalDmgValue = characterMetadata ? ElementToDamage[characterMetadata.element] : undefined
-  const element = characterMetadata?.element as ElementName | undefined
-
-  if (!simScoringResult || !result) return null
-
   return (
-    <DeferCreateProvider resetKey={characterId}>
+    <DeferCreateProvider resetKey={result.simulationForm.characterId}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 15, alignItems: 'center' }} className={classes.rootContainer}>
+
         {/* Grade ruler */}
         <DeferCreate>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }}>
@@ -287,7 +437,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </div>
         </DeferCreate>
 
-        {/* Relic rarity + individual relic cards (each deferred internally) */}
+        {/* Relic rarity */}
         <DeferCreate>
           <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', alignItems: 'center' }} className={classes.relicRaritySection}>
             <ColorizedTitleWithInfo
@@ -305,172 +455,27 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </div>
         </DeferCreate>
 
-        {/* Simulated benchmarks — outer row always rendered, each column deferred */}
+        {/* Simulated benchmarks */}
         <DeferCreate>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 }} className={classes.deferredSection}>
-            <pre className={classes.sectionTitle}>
-              {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
-            </pre>
-            <div style={{ display: 'flex', gap: 25, width: '100%', justifyContent: 'space-around' }}>
-              <DeferCreate>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-                  <pre style={{ margin: '5px auto' }}>
-                    {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
-                  </pre>
-                  <div style={{ display: 'flex', gap: 15 }}>
-                    <ScoringTeammate result={result} index={0}/>
-                    <ScoringTeammate result={result} index={1}/>
-                    <ScoringTeammate result={result} index={2}/>
-                  </div>
-                </div>
-              </DeferCreate>
-
-              <VerticalDivider/>
-
-              <DeferCreate>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-                  <pre style={{ margin: '5px auto' }}>
-                    {t('CharacterPreview.BuildAnalysis.SimulationSets')}
-                  </pre>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-                    <div style={{ display: 'flex' }}>
-                      <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
-                      <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
-                    </div>
-                    <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
-                  </div>
-                </div>
-              </DeferCreate>
-
-              <VerticalDivider/>
-
-              <DeferCreate>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-                  <pre style={{ margin: '5px auto' }}>
-                    {t('CharacterPreview.BuildAnalysis.Rotation.Header')}
-                  </pre>
-                  <ComboRotationSummary
-                    simMetadata={result.simulationMetadata}
-                  />
-                </div>
-              </DeferCreate>
-
-              <VerticalDivider/>
-
-              <DeferCreate>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <pre style={{ margin: '5px auto' }}>
-                    {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
-                  </pre>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className={classes.combatResultsWidth}>
-                    <ScoringText
-                      label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
-                      text={
-                        // @ts-expect-error - type of key is not specific enough
-                        t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
-                      }
-                    />
-                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
-                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
-                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
-                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
-                    <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
-                  </div>
-                </div>
-              </DeferCreate>
-            </div>
-          </div>
+          <ScoringBenchmarksPanel result={result}/>
         </DeferCreate>
 
-        {/* Scoring columns — each deferred individually */}
-        {characterId && characterMetadata && elementalDmgValue && element && (
-          <div style={{ display: 'flex' }} className={classes.deferredSection}>
-            <DeferCreate>
-              <ScoringColumn
-                simulation={result.originalSim}
-                originalSimResult={simScoringResult.originalSimResult}
-                percent={result.percent}
-                precision={2}
-                type='Character'
-                characterId={characterId}
-                elementalDmgValue={elementalDmgValue}
-                element={element}
-                characterMetadata={characterMetadata}
-              />
-            </DeferCreate>
-
-            <div>
-              <Divider orientation='vertical' className={classes.columnDivider}/>
-            </div>
-
-            <DeferCreate>
-              <ScoringColumn
-                simulation={result.benchmarkSim}
-                originalSimResult={simScoringResult.benchmarkSimResult}
-                percent={1.00}
-                precision={0}
-                type='Benchmark'
-                characterId={characterId}
-                elementalDmgValue={elementalDmgValue}
-                element={element}
-                characterMetadata={characterMetadata}
-              />
-            </DeferCreate>
-
-            <div>
-              <Divider orientation='vertical' className={classes.columnDivider}/>
-            </div>
-
-            <DeferCreate>
-              <ScoringColumn
-                simulation={result.maximumSim}
-                originalSimResult={simScoringResult.maximumSimResult}
-                percent={2.00}
-                precision={0}
-                type='Perfect'
-                characterId={characterId}
-                elementalDmgValue={elementalDmgValue}
-                element={element}
-                characterMetadata={characterMetadata}
-              />
-            </DeferCreate>
-          </div>
-        )}
+        {/* Three-column scoring comparison */}
+        <ScoringColumnsSection result={result}/>
 
         {/* Buffs analysis */}
         <DeferCreate>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }} className={classes.deferredSection}>
             <pre className={classes.sectionTitle}>
-              {
-                result.simulationForm.deprioritizeBuffs
-                  ? t('CharacterPreview.BuildAnalysis.CombatBuffs.SubDpsHeader')
-                  : t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')
-              }
+              {result.simulationForm.deprioritizeBuffs
+                ? t('CharacterPreview.BuildAnalysis.CombatBuffs.SubDpsHeader')
+                : t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')}
             </pre>
             <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE} twoColumn/>
           </div>
         </DeferCreate>
+
       </div>
     </DeferCreateProvider>
   )
 })
-
-function ScoringTeammate({ result, index }: {
-  result: SimulationScore
-  index: number
-}) {
-  const { t } = useTranslation('common')
-  const teammate = result.simulationMetadata.teammates[index]
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-      <img src={Assets.getCharacterAvatarById(teammate.characterId)} className={classes.teammateIcon}/>
-      <pre style={{ margin: 0 }}>
-        {t('EidolonNShort', { eidolon: teammate.characterEidolon })}
-      </pre>
-      <img src={Assets.getLightConeIconById(teammate.lightCone)} className={classes.teammateIcon}/>
-      <pre style={{ margin: 0 }}>
-        {t('SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
-      </pre>
-    </div>
-  )
-}

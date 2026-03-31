@@ -1,9 +1,8 @@
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { getPreviewRelics, getShowcaseMetadata, getShowcaseStats } from 'lib/characterPreview/characterPreviewController'
+import { getPreviewRelics, getShowcaseStats, showcaseOnAddOk, showcaseOnEditOk } from 'lib/characterPreview/characterPreviewController'
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
-import { showcaseOnAddOk, showcaseOnEditOk } from 'lib/characterPreview/characterPreviewController'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
@@ -25,7 +24,7 @@ export function useCharacterPreviewState(
 ) {
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
 
-  // Stable ref for character ID — callbacks read at call time, not creation time
+  // Ref so callbacks always see the current character ID without stale closure issues
   const charIdRef = useRef(character?.id)
   charIdRef.current = character?.id
 
@@ -34,14 +33,7 @@ export function useCharacterPreviewState(
       useRelicModalStore.getState().openOverlay({
         selectedRelic: relic,
         defaultWearer: charIdRef.current,
-        onOk: (editedRelic: Relic) => {
-          const currentConfig = useRelicModalStore.getState().config
-          if (currentConfig?.selectedRelic) {
-            showcaseOnEditOk(editedRelic, currentConfig.selectedRelic, setSelectedRelic)
-          } else {
-            showcaseOnAddOk(editedRelic, setSelectedRelic)
-          }
-        },
+        onOk: (editedRelic: Relic) => showcaseOnEditOk(editedRelic, relic, setSelectedRelic),
       })
     }
   }, [setSelectedRelic])
@@ -56,9 +48,9 @@ export function useCharacterPreviewState(
     })
   }, [setSelectedRelic])
   const [editPortraitModalOpen, setEditPortraitModalOpen] = useState(false)
-  const [customPortrait, setCustomPortrait] = useState<CustomImageConfig>()
+  const [, setCustomPortrait] = useState<CustomImageConfig | undefined>()
 
-  // Safe narrowing: fallback to empty string for selector key when no character
+  // Fallback to '' when no character so store selectors have a stable key type
   const charId = (character?.id ?? '') as CharacterId
   const {
     teamSelection,
@@ -76,6 +68,7 @@ export function useCharacterPreviewState(
     })),
   )
 
+  // Global STANDARD mode — overrides per-character color preferences when active
   const globalColorMode = useGlobalStore((s) =>
     s.savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
   )
@@ -89,29 +82,24 @@ export function useCharacterPreviewState(
     return Object.fromEntries(ids.map((id) => [id, s.relicsById[id]])) as Partial<Record<string, Relic>>
   }))
 
-  const [storedScoringType, setScoringType] = useState(useGlobalStore.getState().savedSession.scoringType)
+  const storedScoringType = useGlobalStore((s) => s.savedSession.scoringType)
   const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
 
-  // Cache-buster: when scoring metadata overrides change (SPD weight, deprioritize buffs),
-  // the reference changes, busting both the layout memo (for combat score via
-  // resolveDpsScoreSimulationMetadata) and previewRelics memo (for substat score via
-  // RelicScorer.scoreCharacterWithRelics).
+  // Reference changes when scoring overrides change (SPD weight, deprioritize buffs) — busts the memos below
   const scoringMetadata = useScoringMetadata(character?.id)
 
-  // Safe narrowing: downstream functions expect Character, but handle ShowcaseTabCharacter
-  // correctly via the source parameter (source === SHOWCASE_TAB uses embedded relics, not IDs)
+  // ShowcaseTabCharacter is handled correctly downstream via the source param — cast is safe
   const narrowedCharacter = character as Character | null
 
   const previewRelics = useMemo(() => {
     if (!narrowedCharacter) return null
     return getPreviewRelics(source, narrowedCharacter, relicsById, savedBuildOverride)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- scoringMetadata is an intentional cache-buster, not used inside the callback
   }, [source, narrowedCharacter, relicsById, savedBuildOverride, scoringMetadata])
 
   const finalStats = useMemo(() => {
     if (!narrowedCharacter || !previewRelics) return undefined
-    const metadata = getShowcaseMetadata(narrowedCharacter)
-    return getShowcaseStats(narrowedCharacter, previewRelics.displayRelics, metadata)
+    return getShowcaseStats(narrowedCharacter, previewRelics.displayRelics)
   }, [narrowedCharacter, previewRelics])
 
   return {
@@ -121,7 +109,6 @@ export function useCharacterPreviewState(
     setAddModalOpen,
     editPortraitModalOpen,
     setEditPortraitModalOpen,
-    customPortrait,
     setCustomPortrait,
     teamSelection,
     showcasePreferences,
@@ -131,7 +118,6 @@ export function useCharacterPreviewState(
     globalColorMode,
     relicsById,
     storedScoringType,
-    setScoringType,
     darkMode,
     scoringMetadata,
     previewRelics,

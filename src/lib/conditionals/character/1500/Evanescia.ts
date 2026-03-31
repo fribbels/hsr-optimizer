@@ -464,8 +464,8 @@ const simulation = (): SimulationMetadata => ({
 
 const scoring = (): ScoringMetadata => ({
   stats: {
-    [Stats.ATK]: 0.75,
-    [Stats.ATK_P]: 0.75,
+    [Stats.ATK]: 0.25,
+    [Stats.ATK_P]: 0.25,
     [Stats.DEF]: 0,
     [Stats.DEF_P]: 0,
     [Stats.HP]: 0,

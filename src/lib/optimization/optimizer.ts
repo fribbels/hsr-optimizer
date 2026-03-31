@@ -234,8 +234,6 @@ export const Optimizer = {
       void getWebgpuDevice(true).then((device) => {
         if (device == null) {
           Message.error(t('Error.GPUNotAvailable'), 15)
-          // Intentionally not persisted — auto-fallback so user recovers when GPU becomes available
-          useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
           // DISPLAY-5: Must stop optimization — GPU path won't run and CPU path already skipped
           useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
         } else {

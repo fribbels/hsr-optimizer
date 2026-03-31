@@ -1,6 +1,7 @@
 import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { webgpuNotSupportedNotification } from 'lib/interactions/notifications'
+import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 
 // Firefox and some GPUs require storage address space — uniform array<f32> violates the 16-byte stride
@@ -32,10 +33,10 @@ export async function verifyWebgpuSupport(warn: boolean) {
   try {
     const device = await getWebgpuDevice(warn)
     if (!device) {
-      // Intentionally not persisted — auto-fallback so user recovers when GPU becomes available
+      // GPU unavailable at startup — no chance of recovery, so persist CPU so it survives reloads
       useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
+      SaveState.delayedSave()
     }
-
     return device
   } catch (e) {
     console.log(e)

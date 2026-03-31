@@ -151,23 +151,21 @@ function BuildsModalContent() {
       <Flex justify='flex-end' gap={8} className={styles.footerActions}>
         <Button
           key='download'
-          leftSection={<IconDownload style={{ fontSize: 30 }} size={16} />}
           loading={loading}
-          onClick={() => {
-            clipboardClicked('download')
-          }}
+          onClick={() => clipboardClicked('download')}
           className={styles.actionButton}
         >
+          <IconDownload size={16} />
         </Button>
         <Button
           key='clipboard'
-          leftSection={<IconCamera style={{ fontSize: 30 }} size={16} />}
           loading={loading}
           onClick={() => clipboardClicked('clipboard')}
           className={styles.actionButton}
         >
+          <IconCamera size={16} />
         </Button>
-        <Button key='delete' onClick={() => handleDeleteAllBuilds()}>
+        <Button key='delete' color='red' onClick={() => handleDeleteAllBuilds()}>
           {t('Builds.DeleteAll')}
         </Button>
         <Button key='back' onClick={handleCancel}>
@@ -303,7 +301,7 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
     <div
       className={styles.buildCard}
       style={{
-        backgroundColor: selected ? 'var(--layer-0)' : 'var(--layer-0)',
+        backgroundColor: selected ? 'var(--layer-3)' : 'var(--layer-1)',
         borderColor: 'var(--border-default)',
       }}
       onClick={(e) => {
@@ -335,11 +333,12 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
               </Button>
               <Button
                 className={styles.deleteButton}
-                leftSection={<IconTrash size={16} />}
                 onClick={() => {
                   handleDelete(build.name)
                 }}
-              />
+              >
+                <IconTrash size={16} />
+              </Button>
             </Flex>
           )}
         </Flex>

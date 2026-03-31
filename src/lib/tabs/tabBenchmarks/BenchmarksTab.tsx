@@ -164,8 +164,8 @@ function BenchmarkInputs({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
 function LeftPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'LeftPanel' })
-  const characterId = form.getValues().characterId ?? ''
-  const lightCone = form.getValues().lightCone ?? ''
+  const characterId = form.values.characterId ?? ''
+  const lightCone = form.values.lightCone ?? ''
 
   const lightConeMetadata = getGameMetadata().lightCones[lightCone]
   const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
@@ -192,7 +192,7 @@ function LeftPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
 function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'MiddlePanel' })
-  const characterId = form.getValues().characterId ?? ''
+  const characterId = form.values.characterId ?? ''
 
   return (
     <Flex direction="column" gap={GAP} className={styles.middlePanel} justify='space-between'>

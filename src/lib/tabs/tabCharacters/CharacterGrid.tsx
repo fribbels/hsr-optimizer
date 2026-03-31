@@ -318,6 +318,7 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
   return prev.character.id === next.character.id
     && prev.rank === next.rank
     && prev.character.form === next.character.form
+    && prev.character.equipped === next.character.equipped
     && prev.isFocused === next.isFocused
     && prev.toggles === next.toggles
     && prev.listColorConfig === next.listColorConfig

@@ -358,7 +358,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         chainsTo: [Stats.Elation],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return r.spdToElation
+          return r.spdToElation && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 150
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversionContainer(

@@ -20,7 +20,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(EncounterAtFloweringsComing.id)
 
-  const sValuesVulnerability = [0.15, 0.21, 0.28, 0.34, 0.40]
+  const sValuesVulnerability = [0.15, 0.1875, 0.225, 0.2625, 0.30]
   const sValuesErr = [0.10, 0.115, 0.13, 0.145, 0.16]
 
   const defaults = {

@@ -129,10 +129,12 @@ const LightConeConditionalDisplayWrapper = memo(function LightConeConditionalDis
 
   // Hook into light cone changes to set defaults
   useEffect(() => {
+    if (!charId || !lcId) return
+
     const conditionalResolverMetadata = generateConditionalResolverMetadata({
-      characterId: charId!,
+      characterId: charId,
       characterEidolon: 0, // Assuming eidolon is not needed for light cone metadata
-      lightCone: lcId!,
+      lightCone: lcId,
       lightConeSuperimposition: superimposition,
     }, metadata)
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)

@@ -25,8 +25,8 @@ describe('MinQueue', () => {
     q.push(2, 5)
     q.push(3, 15)
 
-    q.pop() // removes 5 (min), lazy
-    q.push(4, 8) // should use lazy push path
+    q.pop()      // removes key=2 (priority 5, the minimum); sets _hasPoppedElement=true
+    q.push(4, 8) // takes the lazy path: writes (4,8) directly to root slot, then sifts down
 
     expect(q.length).toBe(3)
     expect(q.peekPriority()).toBe(8)
@@ -38,14 +38,13 @@ describe('MinQueue', () => {
     q.push(1, 10)
     q.push(2, 20)
     q.push(3, 30)
-    // heap: [10, 20, 30], length=3
 
-    // Simulate fixedSizePushOvercapped: push, pop, peek
+    // Mirrors the fixedSizePushOvercapped sequence: push overcapacity, pop min, peek new min
     q.push(4, 25) // length=4
-    q.pop() // length=3, lazy
-    const newMin = q.peekPriority() // flush + return
+    q.pop()       // lazy — evicts 10 (the current min), length=3
+    const newMin = q.peekPriority() // flushes the lazy pop, returns new min
 
-    // Should have evicted 10 (old min), kept {20, 25, 30}
+    // Min 10 is gone; remaining {20, 25, 30} → new min is 20
     expect(newMin).toBe(20)
     expect(q.length).toBe(3)
   })
@@ -61,14 +60,14 @@ describe('MinQueue', () => {
     expect(q.length).toBe(100)
     expect(q.peekPriority()).toBe(1)
 
-    // Replace min repeatedly with higher values
+    // Replace min repeatedly with higher values.
+    // At step newVal we push newVal and evict the current minimum.
+    // Starting from {1..100}, after replacing 1→101, 2→102, ..., the min at step newVal is (newVal - 99).
     for (let newVal = 101; newVal <= 200; newVal++) {
       q.push(newVal, newVal) // push (length -> 101)
-      q.pop() // pop min (length -> 100, lazy)
+      q.pop()                // pop min (length -> 100, lazy)
       const min = q.peekPriority() // flush
 
-      // After replacing with newVal, the min should be (newVal - 99)
-      // because we started with 1..100, and replaced 1 with 101, 2 with 102, etc.
       expect(min).toBe(newVal - 99)
     }
 
@@ -102,7 +101,6 @@ describe('MinQueue', () => {
     const q = new MinQueue(2, Uint32Array)
     q.push(1, 10)
 
-    // push-pop-peek
     q.push(2, 20)
     q.pop()
     expect(q.peekPriority()).toBe(20)
@@ -127,9 +125,9 @@ describe('FixedSizeNumericMinQueue', () => {
     q.fixedSizePush(2, 20)
     q.fixedSizePush(3, 30)
 
-    q.fixedSizePush(4, 5) // below min (10), should be rejected
+    q.fixedSizePush(4, 5) // below min (10), rejected — queue unchanged
     expect(q.size()).toBe(3)
-    expect(q.topPriority()).toBe(10) // unchanged
+    expect(q.topPriority()).toBe(10)
   })
 
   it('accepts values above threshold when full', () => {
@@ -138,9 +136,9 @@ describe('FixedSizeNumericMinQueue', () => {
     q.fixedSizePush(2, 20)
     q.fixedSizePush(3, 30)
 
-    q.fixedSizePush(4, 25) // above min (10), should replace it
+    q.fixedSizePush(4, 25) // above min (10), evicts 10
     expect(q.size()).toBe(3)
-    expect(q.topPriority()).toBe(20) // new min is 20
+    expect(q.topPriority()).toBe(20) // new min
   })
 
   it('fixedSizePushOvercapped basic', () => {
@@ -158,14 +156,16 @@ describe('FixedSizeNumericMinQueue', () => {
     const limit = 100
     const q = new FixedSizeNumericMinQueue(limit)
 
-    // Fill the queue
+    // Fill the queue with values 1..100
     for (let i = 0; i < limit; i++) {
-      q.fixedSizePush(i, i + 1) // values 1..100
+      q.fixedSizePush(i, i + 1)
     }
     expect(q.size()).toBe(limit)
     expect(q.topPriority()).toBe(1)
 
-    // Simulate GPU hot loop: push values 101..10000 using fixedSizePushOvercapped
+    // Simulate GPU hot loop: push values 101..10000 using fixedSizePushOvercapped.
+    // The threshold (top) tightens each time a new value is accepted, so cheap
+    // comparisons gate the expensive push in the critical path.
     let top = q.topPriority()
     for (let i = limit; i < 10000; i++) {
       const value = i + 1 // values 101..10000
@@ -254,14 +254,14 @@ describe('FixedSizeNumericMinQueue', () => {
       top = q.topPriority()
     }
 
-    // Top 5 should be: 30, 40, 50, 60, 70, 80... wait let me work this out.
-    // Values: 50, 30, 10, 40, 20 fill queue. Min=10. top=10.
-    // 60: 60 > 10, push. Evicts 10. Min=20. top=20.
-    // 5: 5 <= 20 && size >= 5, skip.
-    // 70: 70 > 20, push. Evicts 20. Min=30. top=30.
-    // 15: 15 <= 30 && size >= 5, skip.
-    // 80: 80 > 30, push. Evicts 30. Min=40. top=40.
-    // Result: {40, 50, 60, 70, 80}
+    // Fill phase [50, 30, 10, 40, 20]: queue full, min=10, top=10
+    // Post-fill evictions:
+    //   60 > 10 → evicts 10, min=20, top=20
+    //    5 ≤ 20 → skip
+    //   70 > 20 → evicts 20, min=30, top=30
+    //   15 ≤ 30 → skip
+    //   80 > 30 → evicts 30, min=40, top=40
+    // Remaining: {40, 50, 60, 70, 80}
 
     expect(q.size()).toBe(5)
     const results = q.toResults().map((r) => r.value).sort((a, b) => a - b)
@@ -269,13 +269,12 @@ describe('FixedSizeNumericMinQueue', () => {
   })
 
   it('GPU optimizer pattern: threshold feedback simulation', () => {
-    // Simulate the GPU optimizer's full loop:
-    // - Process results in batches
-    // - After each batch, feed threshold back for next batch
+    // Simulates the GPU optimizer's batched processing loop:
+    // after each batch, the updated threshold gates the next batch.
     const limit = 10
     const q = new FixedSizeNumericMinQueue(limit)
 
-    // Batch 1: values 1-100 (should fill queue with top 10: 91-100)
+    // Batch 1: values 1-100 → queue fills with top 10: {91..100}
     let top = 0
     for (let i = 0; i < 100; i++) {
       const value = i + 1
@@ -289,8 +288,8 @@ describe('FixedSizeNumericMinQueue', () => {
     }
     expect(q.topPriority()).toBe(91)
 
-    // Batch 2: threshold is 91, GPU only sends values > 91
-    // Simulate: values 92-200 (some overlap with batch 1)
+    // Batch 2: GPU threshold is 91, only values > 91 are sent.
+    // Processing values 101-200 raises the top-10 to {191..200}.
     const threshold1 = q.topPriority()
     for (let i = 100; i < 200; i++) {
       const value = i + 1
@@ -300,7 +299,7 @@ describe('FixedSizeNumericMinQueue', () => {
     }
     expect(q.topPriority()).toBe(191)
 
-    // Batch 3: threshold is 191
+    // Batch 3: threshold is 191 → top-10 becomes {291..300}
     const threshold2 = q.topPriority()
     for (let i = 200; i < 300; i++) {
       const value = i + 1
@@ -361,7 +360,7 @@ describe('FixedSizeNumericMinQueue', () => {
       }
     }
 
-    // Top 5 from this list: 100, 95, 90, 85, 80
+    // Top 5 from this set: 100, 95, 90, 85, 80
     const results = q.toResults().map((r) => r.value).sort((a, b) => b - a)
     expect(results).toEqual([100, 95, 90, 85, 80])
   })
@@ -384,7 +383,7 @@ describe('FixedSizeNumericMinQueue', () => {
       if (value <= top) continue
       top = q.fixedSizePushOvercapped(i, value)
 
-      // Verify heap invariant: for each internal node, its priority <= both children
+      // Verify heap invariant: topPriority() must equal the actual minimum stored value
       verifyHeapInvariant(q)
     }
   })
@@ -402,9 +401,15 @@ function mulberry32(seed: number) {
 }
 
 // =====================================================================
-// BUG REPRODUCTION: Uint32Array overflow for large permutation indices
+// Key type overflow: Uint32Array vs Float64Array
+//
+// MinQueue accepts a KeyArray constructor to control key storage.
+// Uint32Array overflows at 2^32 (4,294,967,295), so callers expecting
+// permutation indices above that limit must use Float64Array.
+// FixedSizeNumericMinQueue uses Float64Array internally, which stores
+// integers up to 2^53 exactly and handles the full permutation space.
 // =====================================================================
-describe('Uint32Array overflow bug', () => {
+describe('key type overflow', () => {
   it('Uint32Array truncates keys > 2^32, Float64Array preserves them', () => {
     const q32 = new MinQueue(4, Uint32Array)
     const q64 = new MinQueue(4, Float64Array)
@@ -415,35 +420,37 @@ describe('Uint32Array overflow bug', () => {
 
     // Uint32Array wraps: 5000000000 % 2^32 = 705032704
     expect(q32.peekKey()).toBe(705032704)
-    // Float64Array preserves the full value
+    // Float64Array stores integers up to 2^53 exactly
     expect(q64.peekKey()).toBe(largeIndex)
   })
 
-  it('FixedSizeNumericMinQueue returns wrong indices for large permutation counts', () => {
+  it('FixedSizeNumericMinQueue preserves large indices for large permutation counts', () => {
+    // FixedSizeNumericMinQueue uses Float64Array for keys, so permutation indices
+    // above 2^32 are stored exactly. A user with ~50 relics/slot has 50^6 ≈ 15.6 billion
+    // permutations — well above Uint32's 4.3 billion limit.
     const limit = 3
     const q = new FixedSizeNumericMinQueue(limit)
 
-    // Simulate early iterations (indices < 2^32) — correct
     q.fixedSizePush(1000, 50)
     q.fixedSizePush(2000, 60)
     q.fixedSizePush(3000, 70)
 
-    // Simulate late iteration (index > 2^32) — overflow!
+    // Simulate a late-iteration result with index > 2^32
     const lateIndex = 5_000_000_000
-    const newTop = q.fixedSizePushOvercapped(lateIndex, 80)
+    q.fixedSizePushOvercapped(lateIndex, 80) // evicts 50 (min), inserts (5B, 80)
 
     // Queue should contain indices 2000, 3000, 5000000000 with values 60, 70, 80
     const results = q.toResults().sort((a, b) => a.value - b.value)
 
     expect(results[0]).toEqual({ index: 2000, value: 60 })
     expect(results[1]).toEqual({ index: 3000, value: 70 })
-    // THIS FAILS — the index is 705032704, not 5000000000
     expect(results[2]).toEqual({ index: 5_000_000_000, value: 80 })
   })
 
   it('simulates GPU optimizer pattern with large permutation space', () => {
-    // A user with ~50 relics per slot has 50^6 ≈ 15.6 billion permutations
-    // Later dispatches have offsets > 2^32
+    // A user with ~50 relics per slot has 50^6 ≈ 15.6 billion permutations.
+    // Later dispatches have offsets > 2^32, so the global index must survive
+    // round-trip through the queue for correct build reconstruction.
     const limit = 5
     const q = new FixedSizeNumericMinQueue(limit)
 
@@ -465,25 +472,19 @@ describe('Uint32Array overflow bug', () => {
       top = q.fixedSizePushOvercapped(globalIndex, value)
     }
 
-    // Reconstruct the result
+    // Reconstruct the result — global index must be exact for build identification
     const results = q.toResults()
     const bestResult = results.find((r) => r.value === 100)!
-
-    // The index should be 5,000,000,042 for correct build reconstruction
-    // But Uint32Array wraps it to 705,032,746
     expect(bestResult.index).toBe(5_000_000_042)
   })
 })
 
 function verifyHeapInvariant(q: FixedSizeNumericMinQueue) {
-  // Access the internal heap to check invariant
-  // We need to flush first, then check all parent-child relationships
-  const results = q.toResults() // this flushes internally
+  // Read all stored values and confirm topPriority() equals the actual minimum.
+  // toResults() calls flush() internally, so the heap is in a consistent state after.
+  const results = q.toResults()
   if (results.length <= 1) return
 
-  // Rebuild a sorted array and check that toResults contains the right values
-  // (We can't directly check heap order from toResults since it returns in heap order,
-  // but we CAN check that the reported topPriority matches the actual minimum)
   const minValue = Math.min(...results.map((r) => r.value))
   const reportedMin = q.topPriority()
   if (Math.abs(reportedMin - minValue) > 1e-10) {

@@ -1,5 +1,3 @@
-import type React from 'react'
-
 const IconSVG = (props: { color?: string }) => {
   const { color } = props
 
@@ -10,7 +8,4 @@ const IconSVG = (props: { color?: string }) => {
   )
 }
 
-export const CircleIcon = (props: React.HTMLAttributes<HTMLSpanElement> & { color?: string }) => {
-  const { color, ...rest } = props
-  return <span role='img' {...rest}><IconSVG color={color} /></span>
-}
+export const CircleIcon = ({ color }: { color?: string }) => <IconSVG color={color} />

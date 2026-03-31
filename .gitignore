@@ -155,3 +155,6 @@ shader.txt
 goldenSimBuildResults.json
 # Worktrees
 .worktrees/
+
+# PR review plans
+/plans/

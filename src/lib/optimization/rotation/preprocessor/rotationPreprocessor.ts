@@ -20,10 +20,12 @@ import {
   ScholarLostInEruditionPreprocessor,
   WavestriderCaptainPreprocessor,
 } from 'lib/optimization/rotation/preprocessor/preprocessSets'
+import { Sets } from 'lib/constants/constants'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilities } from 'lib/optimization/rotation/turnPreprocessor'
-import { ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
+import { ComboBooleanConditional, ComboState } from 'lib/tabs/tabOptimizer/combo/comboDrawerController'
 import { Form } from 'types/form'
 import { ThusBurnsTheDawnPreprocessor } from './preprocessLightCones'
 
@@ -56,11 +58,27 @@ export const lightConePreprocessors: AbilityPreprocessorBase[] = [
 ]
 
 /**
+ * Skip the preprocessor when a default-ON set is explicitly toggled OFF (character can't use it).
+ * Default-OFF sets with activations[0]=false are in their natural state — preprocessor still runs.
+ */
+function isSetPreprocessorEnabled(preprocessor: AbilityPreprocessorBase, comboState: ComboState): boolean {
+  const category = comboState.comboCharacter.setConditionals[preprocessor.id] as ComboBooleanConditional
+  if (!category) return true
+
+  const defaultValue = defaultSetConditionals[preprocessor.id as Sets]?.[1]
+  const userToggle = category.activations[0]
+
+  return userToggle || !defaultValue
+}
+
+/**
  * Some passives such as Scholar Lost In Erudition set only activate after abilities trigger them.
  * Use the simulation ability rotation to precompute when their activations are active.
  */
 export function precomputeConditionalActivations(comboState: ComboState, request: Form) {
-  const filteredSetPreprocessors = setPreprocessors
+  const filteredSetPreprocessors = setPreprocessors.filter((x) => {
+    return isSetPreprocessorEnabled(x, comboState)
+  })
   const filteredCharacterPreprocessors = characterPreprocessors.filter((x) => x.id == request.characterId)
   const filteredLightConePreprocessors = lightConePreprocessors.filter((x) => x.id == request.lightCone)
 

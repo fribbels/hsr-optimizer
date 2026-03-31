@@ -22,6 +22,14 @@ export const RELICS_2P_ATK = [
   Sets.HeroOfTriumphantSong,
 ]
 
+export const RELICS_2P_CRIT = [
+  Sets.TheWindSoaringValorous,
+  Sets.ScholarLostInErudition,
+  Sets.WavestriderCaptain,
+  Sets.WorldRemakingDeliverer,
+  Sets.EverGloriousMagicalGirl
+]
+
 export const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],

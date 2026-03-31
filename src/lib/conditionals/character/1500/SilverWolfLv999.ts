@@ -53,6 +53,8 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  RELICS_2P_CRIT,
+  RELICS_2P_SPEED,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
@@ -500,11 +502,14 @@ const simulation = (): SimulationMetadata => ({
   comboDot: 0,
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    RELICS_2P_CRIT,
+    RELICS_2P_SPEED
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,
     Sets.TengokuLivestream,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
     Sets.RutilantArena,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],

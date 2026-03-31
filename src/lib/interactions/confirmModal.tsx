@@ -1,6 +1,6 @@
 import { Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import React, { createContext, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 type ConfirmModalOptions = {
   content: React.ReactNode
@@ -8,14 +8,12 @@ type ConfirmModalOptions = {
   closeOnClickOutside?: boolean
 }
 
-type ConfirmModalContextType = {
+type ConfirmModalApi = {
   info: (options: ConfirmModalOptions) => void
 }
 
-const ConfirmModalContext = createContext<ConfirmModalContextType | null>(null)
-
 // Module-level ref for imperative access (replaces window.modalApi)
-let globalConfirmModal: ConfirmModalContextType | null = null
+let globalConfirmModal: ConfirmModalApi | null = null
 
 export function getConfirmModal() {
   return globalConfirmModal
@@ -27,7 +25,7 @@ export function ConfirmModalProvider(props: { children: React.ReactNode }) {
     content: null,
   })
 
-  const api = useMemo<ConfirmModalContextType>(() => ({
+  const api = useMemo<ConfirmModalApi>(() => ({
     info: (opts: ConfirmModalOptions) => {
       setOptions(opts)
       open()
@@ -39,7 +37,7 @@ export function ConfirmModalProvider(props: { children: React.ReactNode }) {
   }, [api])
 
   return (
-    <ConfirmModalContext.Provider value={api}>
+    <>
       {props.children}
       <Modal
         opened={opened}
@@ -50,6 +48,6 @@ export function ConfirmModalProvider(props: { children: React.ReactNode }) {
       >
         {options.content}
       </Modal>
-    </ConfirmModalContext.Provider>
+    </>
   )
 }

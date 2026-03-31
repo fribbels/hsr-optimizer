@@ -40,7 +40,8 @@ export function LanguageSelector() {
           .then(() => {
             if (value === 'aa_ER') {
               window.jipt?.start()
-              return console.log('beginning inContext translation')
+              console.log('beginning inContext translation')
+              return
             }
             console.log('setting language to:', i18n.resolvedLanguage)
           })

@@ -57,10 +57,15 @@ const DROP_ANIMATION_DURATION = 200
 
 // --- Equip dot indicator ---
 
-function EquipDotInline({ character, toggles }: { character: Character; toggles: DebugToggles }) {
+function EquipDotInline({ characterId, toggles }: { characterId: CharacterId; toggles: DebugToggles }) {
+  // Read equipped directly from store to bypass stale-prop issues caused by
+  // Mantine's flushSync in the relic modal save path. Without this, the
+  // CharacterRowContent memo can see stale fiber state and skip re-rendering
+  // EquipDotInline after an equipment change.
+  const equipped = useCharacterStore((s) => s.charactersById[characterId]?.equipped)
   if (!toggles.showEquipIndicator) return null
 
-  const count = PartsArray.filter((p) => character.equipped?.[p]).length
+  const count = PartsArray.filter((p) => equipped?.[p]).length
   if (count === 6) return null
 
   const color = count === 0 ? EQUIP_DOT_COLORS.empty : EQUIP_DOT_COLORS.partial
@@ -418,7 +423,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
             {toggles.showLightCone && (
               <span className={classes.subtitleBadge}>S{lightConeId ? superimposition : 0}</span>
             )}
-            <EquipDotInline character={character} toggles={toggles} />
+            <EquipDotInline characterId={character.id} toggles={toggles} />
           </div>
         </div>
 

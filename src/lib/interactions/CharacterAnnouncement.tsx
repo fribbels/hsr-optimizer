@@ -9,7 +9,7 @@ export function CharacterAnnouncement({ characterId, simulationMetadata }: {
 }) {
   const messages: string[] = []
 
-  if (characterId && CharacterAnnouncementMessages[characterId]) {
+  if (CharacterAnnouncementMessages[characterId]) {
     messages.push(CharacterAnnouncementMessages[characterId])
   }
 
@@ -24,7 +24,7 @@ export function CharacterAnnouncement({ characterId, simulationMetadata }: {
   const uniqueMessages = [...new Set(messages)]
 
   if (uniqueMessages.length === 0) {
-    return <></>
+    return null
   }
 
   return uniqueMessages.map((message, i) => (

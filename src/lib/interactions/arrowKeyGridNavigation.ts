@@ -20,14 +20,13 @@ export const arrowKeyGridNavigation = <T>(
   if (!grid.current) return null
   const previousCell = params.previousCellPosition
   const renderedRowCount = params.api.getDisplayedRowCount()
-  let nextRowIndex: number, newSelectedNode: IRowNode<T>
 
   function selectCell(nextRowIndex: number) {
     if (nextRowIndex >= renderedRowCount || nextRowIndex <= -1) {
       return null
     }
 
-    newSelectedNode = grid.current!.api.getDisplayedRowAtIndex(nextRowIndex)!
+    const newSelectedNode = grid.current!.api.getDisplayedRowAtIndex(nextRowIndex)!
     grid.current!.api.setNodesSelected({ nodes: [newSelectedNode], newValue: true })
     callback(newSelectedNode)
 
@@ -40,11 +39,9 @@ export const arrowKeyGridNavigation = <T>(
 
   switch (params.key) {
     case KEY_UP:
-      nextRowIndex = previousCell.rowIndex - 1
-      return selectCell(nextRowIndex)
+      return selectCell(previousCell.rowIndex - 1)
     case KEY_DOWN:
-      nextRowIndex = previousCell.rowIndex + 1
-      return selectCell(nextRowIndex)
+      return selectCell(previousCell.rowIndex + 1)
     case KEY_LEFT:
     case KEY_RIGHT:
     default:

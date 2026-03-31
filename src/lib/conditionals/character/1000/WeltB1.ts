@@ -102,19 +102,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     enemySlowed: true,
     enemyWeightless: true,
-    enemyDmgTakenDebuff: true,
+    retributionDmgStacks: 15,
     ehrToAtkBoost: true,
     traceAdditionalDmg: true,
     skillExtraHits: skillExtraHitsMax,
     e1WeightlessAdditionalDmg: true,
-    e4SlowedCrCdBoost: true,
-    e6WeightlessResPen: true,
+    e4WeightlessResPen: true,
+    e6SlowedCrCdBoost: true,
   }
 
   const teammateDefaults = {
     enemyWeightless: true,
-    enemyDmgTakenDebuff: true,
-    e6WeightlessResPen: true,
+    retributionDmgStacks: 15,
+    e4WeightlessResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -130,11 +130,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Enemy Weightless',
       content: betaContent,
     },
-    enemyDmgTakenDebuff: {
-      id: 'enemyDmgTakenDebuff',
-      formItem: 'switch',
-      text: t('Content.enemyDmgTakenDebuff.text'),
+    retributionDmgStacks: {
+      id: 'retributionDmgStacks',
+      formItem: 'slider',
+      text: 'Retribution DMG stacks',
       content: betaContent,
+      min: 0,
+      max: 15,
     },
     ehrToAtkBoost: {
       id: 'ehrToAtkBoost',
@@ -163,17 +165,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       disabled: (e < 1),
     },
-    e4SlowedCrCdBoost: {
-      id: 'e4SlowedCrCdBoost',
+    e4WeightlessResPen: {
+      id: 'e4WeightlessResPen',
       formItem: 'switch',
-      text: 'E4 Slowed CR/CD boost',
+      text: 'E4 RES PEN',
       content: betaContent,
       disabled: (e < 4),
     },
-    e6WeightlessResPen: {
-      id: 'e6WeightlessResPen',
+    e6SlowedCrCdBoost: {
+      id: 'e6SlowedCrCdBoost',
       formItem: 'switch',
-      text: 'E6 Weightless RES reduction',
+      text: 'E6 Slowed CR/CD boost',
       content: betaContent,
       disabled: (e < 6),
     },
@@ -181,8 +183,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     enemyWeightless: content.enemyWeightless,
-    enemyDmgTakenDebuff: content.enemyDmgTakenDebuff,
-    e6WeightlessResPen: content.e6WeightlessResPen,
+    retributionDmgStacks: content.retributionDmgStacks,
+    e4WeightlessResPen: content.e4WeightlessResPen,
   }
 
   return {
@@ -318,22 +320,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // E4: Skill/Ult hitting Slow target → CR +20%, CD +50%
-      x.buff(StatKey.CR, (e >= 4 && r.e4SlowedCrCdBoost) ? 0.20 : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E4))
-      x.buff(StatKey.CD, (e >= 4 && r.e4SlowedCrCdBoost) ? 0.50 : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E4))
+      // E6: Skill/Ult hitting Slow target → CR +30%, CD +60%
+      x.buff(StatKey.CR, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.30 : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E6))
+      x.buff(StatKey.CD, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.60 : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Trace: Retribution - Vulnerability 35%
-      x.buff(StatKey.VULNERABILITY, (m.enemyDmgTakenDebuff) ? 0.35 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      // Trace: Retribution - DMG boost 6% per stack when attacking Weightless, max 15 stacks
+      x.buff(StatKey.DMG_BOOST, (m.enemyWeightless) ? 0.06 * m.retributionDmgStacks : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Talent: Weightless DEF shred 40%
       x.buff(StatKey.DEF_PEN, (m.enemyWeightless) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
-      // E6: Weightless All-Type RES -30%
-      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6WeightlessResPen && m.enemyWeightless) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+      // E4: Weightless All-Type RES -30%
+      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4WeightlessResPen && m.enemyWeightless) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

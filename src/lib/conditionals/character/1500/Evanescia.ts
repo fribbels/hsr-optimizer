@@ -99,18 +99,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   } = Source.character(Evanescia.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const skillMainScaling = skill(e, 4.80, 5.28)
-  const ultAoeScaling = ult(e, 2.40, 2.592)
-  const ultBounceScaling = ult(e, 1.60, 1.728)
+  const skillMainScaling = skill(e, 3.00, 3.30)
+  const ultAoeScaling = ult(e, 1.60, 1.76)
+  const ultBounceScaling = ult(e, 1.20, 1.296)
 
-  const cdToElationRatio = talent(e, 0.25, 0.275)
+  const cdToElationRatio = 0.25
   const talentSkillElationScaling = talent(e, 0.16, 0.176)
-  const talentUltAoeElationScaling = talent(e, 0.22, 0.242)
+  const talentUltAoeElationScaling = talent(e, 0.24, 0.264)
   const talentUltBounceElationScaling = talent(e, 0.25, 0.276)
-  const foxTeacherElationScaling = 0.25
+  const foxTeacherAtkScaling = talent(e, 1.00, 1.10)
+  const foxTeacherElationScaling = talent(e, 0.25, 0.275)
 
   const elationSkillScaling = elationSkill(e, 1.00, 1.05, 1.10)
-  const foxTeacherVulnStacksMax = e >= 2 ? 2 : 1
+  const foxTeacherVulnStacksMax = 1
 
   const defaults = {
     certifiedBanger: true,
@@ -118,8 +119,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBangerStacks: 600,
     cdToElation: true,
     foxTeacherVulnStacks: foxTeacherVulnStacksMax,
-    e1ResPen: true,
-    e2Elation: true,
+    e1CritDmg: true,
+    e2ResPen: true,
     e4DefPen: true,
     e6Merrymake: true,
   }
@@ -165,17 +166,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: foxTeacherVulnStacksMax,
     },
-    e1ResPen: {
-      id: 'e1ResPen',
+    e1CritDmg: {
+      id: 'e1CritDmg',
       formItem: 'switch',
-      text: 'E1 RES PEN',
+      text: 'E1 Crit DMG',
       content: betaContent,
       disabled: e < 1,
     },
-    e2Elation: {
-      id: 'e2Elation',
+    e2ResPen: {
+      id: 'e2ResPen',
       formItem: 'switch',
-      text: 'E2 Elation boost',
+      text: 'E2 RES PEN',
       content: betaContent,
       disabled: e < 2,
     },
@@ -230,7 +231,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const totalBounceCount = 5 + traceBounceBonus
 
       // E1: extra Elation Skill trigger
-      const e1ElationSkillMultiplier = (e >= 1 && r.e1ResPen) ? 2 : 1
+      const e1ElationSkillMultiplier = (e >= 1 && r.e1CritDmg) ? 2 : 1
 
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Physical)
@@ -263,7 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ultHit = HitDefinitionBuilder.standardUlt()
         .damageElement(ElementTag.Physical)
         .atkScaling(ultAoeScaling + ultBounceScaling * totalBounceCount / context.enemyCount)
-        .toughnessDmg(10 + 10 * totalBounceCount / context.enemyCount)
+        .toughnessDmg(20 + 5 * totalBounceCount / context.enemyCount)
         .build()
 
       const ultHits: HitDefinition[] = [ultHit]
@@ -288,11 +289,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .damageElement(ElementTag.Physical)
         .elationScaling(elationSkillScaling * e1ElationSkillMultiplier)
         .punchlineStacks(punchlineStacks)
-        .toughnessDmg(20)
+        .toughnessDmg(20 * e1ElationSkillMultiplier)
         .build()
 
-      // Fox Teacher 240-energy passive
-      const foxTeacherHits: HitDefinition[] = []
+      // Master Fox FUA 240-energy passive
+      const foxTeacherHits: HitDefinition[] = [
+        HitDefinitionBuilder.standardFua()
+          .sourceEntity(EvanesciaEntities.Evanescia)
+          .damageElement(ElementTag.Physical)
+          .atkScaling(foxTeacherAtkScaling)
+          .toughnessDmg(10)
+          .build(),
+      ]
       if (r.certifiedBanger) {
         foxTeacherHits.push(
           HitDefinitionBuilder.elation()
@@ -325,10 +333,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.CR, 0.30, x.source(SOURCE_TRACE))
-      x.buff(StatKey.RES_PEN, (e >= 1 && r.e1ResPen) ? 0.20 : 0, x.source(SOURCE_E1))
-      x.buff(StatKey.ELATION, (e >= 2 && r.e2Elation) ? 0.25 : 0, x.source(SOURCE_E2))
+      x.buff(StatKey.CD, (e >= 1 && r.e1CritDmg) ? 0.36 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.RES_PEN, (e >= 2 && r.e2ResPen) ? 0.20 : 0, x.source(SOURCE_E2))
       x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefPen) ? 0.15 : 0, x.source(SOURCE_E4))
-      x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.25 : 0, x.source(SOURCE_E6))
+
+      const e6MerrymakeValue = 0.15 + Math.min(r.certifiedBangerStacks, 1000) / 100 * 0.02
+      x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? e6MerrymakeValue : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

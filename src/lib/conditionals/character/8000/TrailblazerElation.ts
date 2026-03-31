@@ -106,13 +106,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     atkToElation: true,
     e2UltElation: true,
     e4Vulnerability: true,
-    e6SelfUltBuff: true,
+    e6UltSpdBuff: false,
   }
 
   const teammateDefaults = {
     ultCdBuff: true,
     e2UltElation: true,
     e4Vulnerability: true,
+    e6UltSpdBuff: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -164,10 +165,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       disabled: e < 4,
     },
-    e6SelfUltBuff: {
-      id: 'e6SelfUltBuff',
+    e6UltSpdBuff: {
+      id: 'e6UltSpdBuff',
       formItem: 'switch',
-      text: 'E6 self Ult buff',
+      text: 'E6 Ult SPD buff',
       content: betaContent,
       disabled: e < 6,
     },
@@ -177,6 +178,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultCdBuff: content.ultCdBuff,
     e2UltElation: content.e2UltElation,
     e4Vulnerability: content.e4Vulnerability,
+    e6UltSpdBuff: content.e6UltSpdBuff,
   }
 
   return {
@@ -257,7 +259,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.CR, 0.15, x.source(SOURCE_TRACE))
-      x.buff(StatKey.CD, (e >= 6 && r.e6SelfUltBuff) ? ultCdBuffValue : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -266,6 +267,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, (m.ultCdBuff) ? ultCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.ELATION, (e >= 2 && m.e2UltElation) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vulnerability) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.SPD_P, (e >= 6 && m.e6UltSpdBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).deferrable().source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

@@ -18,9 +18,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import {
-  newConditionalWgslWrapper,
-} from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   p_containerActionVal,
@@ -274,7 +272,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // E4 additional vulnerability
       x.buff(StatKey.VULNERABILITY, (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0, x.source(SOURCE_E4))
-
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
@@ -348,6 +345,7 @@ const simulation = (): SimulationMetadata => ({
     [Parts.Body]: [
       Stats.CR,
       Stats.CD,
+      Stats.ATK_P,
     ],
     [Parts.Feet]: [
       Stats.SPD,
@@ -358,6 +356,7 @@ const simulation = (): SimulationMetadata => ({
     ],
     [Parts.LinkRope]: [
       Stats.BE,
+      Stats.ATK_P,
     ],
   },
   substats: [

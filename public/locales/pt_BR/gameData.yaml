@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
-  1004b1:
-    Name: Welt
-    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: Vaga-lume
     LongName: Vaga-lume
+  1004b1:
+    Name: Welt
+    LongName: Welt
 RelicSets:
   "101":
     Name: Transeunte da Nuvem Errante
@@ -496,11 +496,11 @@ RelicSets:
     Name: Tengoku@Stream
     Description2pc: Aumenta o Dano CRIT do usuário em 16%. Se 3 ou mais Pontos de Perícia forem consumidos na mesma rodada, aumenta adicionalmente o Dano CRIT do usuário em 32%, durando por 3 rodadas.
   "325":
-    Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.
+    Name: Estágio Zero de Punklorde
+    Description2pc: Aumenta a Euforia do usuário em 8%. Quando a Euforia atingir 40%/80% pela primeira vez no combate, aumenta o Dano CRIT do usuário em 20%/32%.
   "326":
-    Name: City of Converging Stars
-    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
+    Name: Cidade da Convergência Estelar
+    Description2pc: Quando o usuário usa um <u>Ataque Extra</u>, aumenta o ATQ em 24% por 2 rodadas. Quando um inimigo-alvo é derrotado, aumenta o Dano CRIT de todos os aliados em 12% pelo resto da batalha atual. Esse efeito não acumula.
 Lightcones:
   "20000":
     Name: Flechas
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: Rumo ao Amanhã Cor-de-Rosa
   "22007":
-    Name: We'll face the Hereafter together
+    Name: Tomorrow, Together
   "23000":
     Name: Noite na Via Láctea
   "23001":
@@ -805,11 +805,11 @@ Lightcones:
   "23054":
     Name: Quando Ela Decidiu Ver
   "23056":
-    Name: The Finale of a Lie
+    Name: O Fim de uma Mentira
   "23057":
-    Name: Welcome to Cosmic City
+    Name: Welcome to the Cosmic City
   "23058":
-    Name: A Rendezvous in the Next Flower Season
+    Name: Until the Flowers Bloom Again
   "24000":
     Name: Na Queda de Um Aeon
   "24001":
@@ -823,7 +823,7 @@ Lightcones:
   "24005":
     Name: As Cortinas da Memória Nunca Caem
   "24006":
-    Name: Elation Brimming With Blessings
+    Name: Euforia Repleta de Bênçãos
 Paths:
   Warrior: A Destruição
   Rogue: A Caça

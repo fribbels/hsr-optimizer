@@ -7740,50 +7740,50 @@
       },
       "traceTree": [
         {
-          "id": "1505201_4.1v4",
+          "id": "1505201_4.2v3",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1505202_4.1v4",
+          "id": "1505202_4.2v3",
           "stat": "Elation",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1505203_4.1v4",
+          "id": "1505203_4.2v3",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1505204_4.1v4",
+          "id": "1505204_4.2v3",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": []
         },
         {
-          "id": "1505205_4.1v4",
+          "id": "1505205_4.2v3",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1505206_4.1v4",
+              "id": "1505206_4.2v3",
               "stat": "Elation",
               "value": 0.06,
-              "pre": "1505205_4.1v4",
+              "pre": "1505205_4.2v3",
               "children": [
                 {
-                  "id": "1505207_4.1v4",
+                  "id": "1505207_4.2v3",
                   "stat": "CRIT Rate",
                   "value": 0.04,
-                  "pre": "1505206_4.1v4",
+                  "pre": "1505206_4.2v3",
                   "children": []
                 }
               ]
@@ -7791,22 +7791,22 @@
           ]
         },
         {
-          "id": "1505208_4.1v4",
+          "id": "1505208_4.2v3",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1505209_4.1v4",
+              "id": "1505209_4.2v3",
               "stat": "Elation",
               "value": 0.08,
-              "pre": "1505208_4.1v4",
+              "pre": "1505208_4.2v3",
               "children": [
                 {
-                  "id": "1505210_4.1v4",
+                  "id": "1505210_4.2v3",
                   "stat": "CRIT Rate",
                   "value": 0.053,
-                  "pre": "1505209_4.1v4",
+                  "pre": "1505209_4.2v3",
                   "children": []
                 }
               ]
@@ -7832,56 +7832,56 @@
       "path": "Elation",
       "element": "Imaginary",
       "traces": {
-        "CRIT DMG": 0.133,
-        "Elation": 0.18,
+        "Elation": 0.1,
+        "SPD": 9,
         "CRIT Rate": 0.187
       },
       "traceTree": [
         {
-          "id": "1506201_4.1v4",
+          "id": "1506201_4.2v3",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1506202_4.1v4",
+          "id": "1506202_4.2v3",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506203_4.2v3",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1506204_4.2v3",
           "stat": "Elation",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1506203_4.1v4",
-          "stat": "CRIT Rate",
-          "value": 0.027,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "1506204_4.1v4",
-          "stat": "CRIT DMG",
-          "value": 0.053,
-          "pre": null,
-          "children": []
-        },
-        {
-          "id": "1506205_4.1v4",
+          "id": "1506205_4.2v3",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1506206_4.1v4",
-              "stat": "Elation",
-              "value": 0.06,
-              "pre": "1506205_4.1v4",
+              "id": "1506206_4.2v3",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1506205_4.2v3",
               "children": [
                 {
-                  "id": "1506207_4.1v4",
+                  "id": "1506207_4.2v3",
                   "stat": "CRIT Rate",
                   "value": 0.04,
-                  "pre": "1506206_4.1v4",
+                  "pre": "1506206_4.2v3",
                   "children": []
                 }
               ]
@@ -7889,22 +7889,22 @@
           ]
         },
         {
-          "id": "1506208_4.1v4",
-          "stat": "CRIT DMG",
-          "value": 0.08,
+          "id": "1506208_4.2v3",
+          "stat": "Elation",
+          "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1506209_4.1v4",
-              "stat": "Elation",
-              "value": 0.08,
-              "pre": "1506208_4.1v4",
+              "id": "1506209_4.2v3",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1506208_4.2v3",
               "children": [
                 {
-                  "id": "1506210_4.1v4",
+                  "id": "1506210_4.2v3",
                   "stat": "CRIT Rate",
                   "value": 0.053,
-                  "pre": "1506209_4.1v4",
+                  "pre": "1506209_4.2v3",
                   "children": []
                 }
               ]
@@ -7912,12 +7912,12 @@
           ]
         }
       ],
-      "max_sp": 80,
+      "max_sp": 60,
       "stats": {
-        "HP": 1125.432,
-        "ATK": 543.312,
-        "DEF": 679.14,
-        "SPD": 99,
+        "HP": 1047.816,
+        "ATK": 388.08,
+        "DEF": 654.885,
+        "SPD": 110,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -8718,50 +8718,50 @@
       },
       "traceTree": [
         {
-          "id": "8009201_4.1v4",
+          "id": "8009201_4.2v3",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "8009202_4.1v4",
+          "id": "8009202_4.2v3",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "8009203_4.1v4",
+          "id": "8009203_4.2v3",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "8009204_4.1v4",
+          "id": "8009204_4.2v3",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "8009205_4.1v4",
+          "id": "8009205_4.2v3",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "8009206_4.1v4",
+              "id": "8009206_4.2v3",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "8009205_4.1v4",
+              "pre": "8009205_4.2v3",
               "children": [
                 {
-                  "id": "8009207_4.1v4",
+                  "id": "8009207_4.2v3",
                   "stat": "ATK%",
                   "value": 0.06,
-                  "pre": "8009206_4.1v4",
+                  "pre": "8009206_4.2v3",
                   "children": []
                 }
               ]
@@ -8769,22 +8769,22 @@
           ]
         },
         {
-          "id": "8009208_4.1v4",
+          "id": "8009208_4.2v3",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "8009209_4.1v4",
+              "id": "8009209_4.2v3",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "8009208_4.1v4",
+              "pre": "8009208_4.2v3",
               "children": [
                 {
-                  "id": "8009210_4.1v4",
+                  "id": "8009210_4.2v3",
                   "stat": "ATK%",
                   "value": 0.08,
-                  "pre": "8009209_4.1v4",
+                  "pre": "8009209_4.2v3",
                   "children": []
                 }
               ]
@@ -8816,50 +8816,50 @@
       },
       "traceTree": [
         {
-          "id": "8010201_4.1v4",
+          "id": "8010201_4.2v3",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "8010202_4.1v4",
+          "id": "8010202_4.2v3",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "8010203_4.1v4",
+          "id": "8010203_4.2v3",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "8010204_4.1v4",
+          "id": "8010204_4.2v3",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "8010205_4.1v4",
+          "id": "8010205_4.2v3",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "8010206_4.1v4",
+              "id": "8010206_4.2v3",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "8010205_4.1v4",
+              "pre": "8010205_4.2v3",
               "children": [
                 {
-                  "id": "8010207_4.1v4",
+                  "id": "8010207_4.2v3",
                   "stat": "ATK%",
                   "value": 0.06,
-                  "pre": "8010206_4.1v4",
+                  "pre": "8010206_4.2v3",
                   "children": []
                 }
               ]
@@ -8867,22 +8867,22 @@
           ]
         },
         {
-          "id": "8010208_4.1v4",
+          "id": "8010208_4.2v3",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "8010209_4.1v4",
+              "id": "8010209_4.2v3",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "8010208_4.1v4",
+              "pre": "8010208_4.2v3",
               "children": [
                 {
-                  "id": "8010210_4.1v4",
+                  "id": "8010210_4.2v3",
                   "stat": "ATK%",
                   "value": 0.08,
-                  "pre": "8010209_4.1v4",
+                  "pre": "8010209_4.2v3",
                   "children": []
                 }
               ]
@@ -12385,7 +12385,7 @@
     },
     "22007": {
       "id": "22007",
-      "name": "We'll face the Hereafter together",
+      "name": "Tomorrow, Together",
       "rarity": 4,
       "path": "Elation",
       "stats": {
@@ -14268,13 +14268,13 @@
     },
     "23057": {
       "id": "23057",
-      "name": "Welcome to Cosmic City",
+      "name": "Welcome to the Cosmic City",
       "rarity": 5,
       "path": "Elation",
       "stats": {
-        "HP": 952.56,
-        "ATK": 635.04,
-        "DEF": 463.05
+        "HP": 1164.24,
+        "ATK": 476.28,
+        "DEF": 529.2
       },
       "imageOffset": {
         "x": 10,
@@ -14283,26 +14283,26 @@
       },
       "superimpositions": {
         "1": {
-          "AttackAddedRatio": 0.64
+          "SpeedAddedRatio": 0.18
         },
         "2": {
-          "AttackAddedRatio": 0.8
+          "SpeedAddedRatio": 0.21
         },
         "3": {
-          "AttackAddedRatio": 0.96
+          "SpeedAddedRatio": 0.24
         },
         "4": {
-          "AttackAddedRatio": 1.12
+          "SpeedAddedRatio": 0.27
         },
         "5": {
-          "AttackAddedRatio": 1.28
+          "SpeedAddedRatio": 0.3
         }
       },
       "unreleased": true
     },
     "23058": {
       "id": "23058",
-      "name": "A Rendezvous in the Next Flower Season",
+      "name": "Until the Flowers Bloom Again",
       "rarity": 5,
       "path": "Elation",
       "stats": {
@@ -14320,16 +14320,16 @@
           "CriticalDamageBase": 0.6
         },
         "2": {
-          "CriticalDamageBase": 0.825
+          "CriticalDamageBase": 0.75
         },
         "3": {
-          "CriticalDamageBase": 1.05
+          "CriticalDamageBase": 0.9
         },
         "4": {
-          "CriticalDamageBase": 1.275
+          "CriticalDamageBase": 1.05
         },
         "5": {
-          "CriticalDamageBase": 1.5
+          "CriticalDamageBase": 1.2
         }
       },
       "unreleased": true

@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
-  1004b1:
-    Name: Welt
-    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: Luciérnaga
     LongName: Luciérnaga
+  1004b1:
+    Name: Welt
+    LongName: Welt
 RelicSets:
   "101":
     Name: Transeúnte de la nube pasajera
@@ -496,11 +496,11 @@ RelicSets:
     Name: Tengoku@sala de chat
     Description2pc: El Daño CRIT del portador aumenta en un 16%. Si el portador consume 3 o más pts. de habilidad básica en el mismo turno, su Daño CRIT aumenta en un 32% adicional durante 3 turnos.
   "325":
-    Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.
+    Name: Etapa cero de Punklorde
+    Description2pc: La Exultación del portador aumenta en un 8%. Cuando la Exultación alcanza 40%/80% por primera vez en una batalla, el Daño CRIT del portador aumenta en un 20%/32%.
   "326":
-    Name: City of Converging Stars
-    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
+    Name: Ciudad de las mil estrellas
+    Description2pc: Cuando el portador lanza un ataque adicional, el ATQ aumenta en un 24% durante 2 turnos. Cuando se elimina a un enemigo, el Daño CRIT de todos los aliados aumenta en un 12% durante la batalla actual. Este efecto no se puede acumular.
 Lightcones:
   "20000":
     Name: Flechas
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: Volando hacia un mañana rosado
   "22007":
-    Name: We'll face the Hereafter together
+    Name: Tomorrow, Together
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -805,11 +805,11 @@ Lightcones:
   "23054":
     Name: Cuando se decidió a ver
   "23056":
-    Name: The Finale of a Lie
+    Name: El final de una mentira
   "23057":
-    Name: Welcome to Cosmic City
+    Name: Welcome to the Cosmic City
   "23058":
-    Name: A Rendezvous in the Next Flower Season
+    Name: Until the Flowers Bloom Again
   "24000":
     Name: Sobre la caída de un Eón
   "24001":
@@ -823,7 +823,7 @@ Lightcones:
   "24005":
     Name: Sobre los recuerdos nunca cae el telón
   "24006":
-    Name: Elation Brimming With Blessings
+    Name: Exultación desbordante de bendiciones
 Paths:
   Warrior: Destrucción
   Rogue: Cacería

@@ -26,12 +26,20 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
+import {
+  newConditionalWgslWrapper,
+} from 'lib/gpu/conditionals/dynamicConditionals'
+import {
+  containerActionVal,
+  p_containerActionVal,
+} from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -91,41 +99,42 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   } = Source.character(SilverWolfLv999.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const enhancedBasicBounceScaling = basic(e, 1.60, 1.76)
-  const enhancedBasicFinalHitScaling = basic(e, 0.60, 0.66)
-  const hiddenRankingDmgBonus = 0.003
+  const enhancedBasicBounceScaling = basic(e, 2.20, 2.42)
+  const enhancedBasicFinalHitScaling = basic(e, 0.90, 0.99)
 
   const skillScaling = skill(e, 1.60, 1.76)
 
-  const mysteryBoxElationScaling = ult(e, 0.34, 0.374)
+  const mysteryBoxElationScaling = ult(e, 0.90, 0.99)
 
   const talentCBElationScaling = talent(e, 0.40, 0.44)
-  const talentCdBuff = talent(e, 0.30, 0.33)
+  const mmrCrPerPoint = talent(e, 0.003, 0.0033)
+  const mmrCdPerPoint = talent(e, 0.006, 0.0066)
 
-  const elationSkillEnhancedScaling = elationSkill(e, 2.00, 2.10, 2.20)
+  const elationSkillBounceScaling = elationSkill(e, 0.90, 0.945, 0.99)
+  const elationSkillBounceCount = 6
 
   const defaults = {
-    invinciblePlayer: true,
+    godmodePlayer: true,
     certifiedBanger: true,
     punchlineStacks: 30,
     certifiedBangerStacks: 60,
-    hiddenRanking: 80,
-    atkToElation: true,
-    e1MysteryBoxElation: true,
-    e2ResPen: true,
+    hiddenMmr: 300,
+    spdToElation: true,
+    e1Vulnerability: true,
     e4PunchlineBoost: true,
     e6Merrymake: true,
+    e6ResPen: true,
   }
 
   const teammateDefaults = {
-    e2ResPen: true,
+    e6ResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    invinciblePlayer: {
-      id: 'invinciblePlayer',
+    godmodePlayer: {
+      id: 'godmodePlayer',
       formItem: 'switch',
-      text: 'Invincible Player state',
+      text: 'Godmode Player state',
       content: betaContent,
     },
     punchlineStacks: {
@@ -150,33 +159,26 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: 200,
     },
-    hiddenRanking: {
-      id: 'hiddenRanking',
+    hiddenMmr: {
+      id: 'hiddenMmr',
       formItem: 'slider',
-      text: 'Hidden Ranking stacks',
+      text: 'Hidden MMR',
       content: betaContent,
       min: 0,
-      max: 160,
+      max: 300,
     },
-    atkToElation: {
-      id: 'atkToElation',
+    spdToElation: {
+      id: 'spdToElation',
       formItem: 'switch',
-      text: 'ATK to Elation conversion',
+      text: 'SPD to Elation conversion',
       content: betaContent,
     },
-    e1MysteryBoxElation: {
-      id: 'e1MysteryBoxElation',
+    e1Vulnerability: {
+      id: 'e1Vulnerability',
       formItem: 'switch',
-      text: 'E1 Mystery Box Elation',
+      text: 'E1 Vulnerability',
       content: betaContent,
       disabled: e < 1,
-    },
-    e2ResPen: {
-      id: 'e2ResPen',
-      formItem: 'switch',
-      text: 'E2 RES PEN',
-      content: betaContent,
-      disabled: e < 2,
     },
     e4PunchlineBoost: {
       id: 'e4PunchlineBoost',
@@ -192,10 +194,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       disabled: e < 6,
     },
+    e6ResPen: {
+      id: 'e6ResPen',
+      formItem: 'switch',
+      text: 'E6 RES PEN',
+      content: betaContent,
+      disabled: e < 6,
+    },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    e2ResPen: content.e2ResPen,
+    e6ResPen: content.e6ResPen,
   }
 
   return {
@@ -222,15 +231,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // E4: Elation Skill +999 Punchline
       const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? 999 : 0)
-      const hrMultiplier = 1 + hiddenRankingDmgBonus * r.hiddenRanking
+      const mmrDmgMultiplier = 1 + 0.15 * Math.min(Math.floor(r.hiddenMmr / 60), 2)
 
       const basicHits: HitDefinition[] = []
 
-      if (r.invinciblePlayer) {
+      if (r.godmodePlayer) {
         // Enhanced Basic: bounces + final hit averaged per enemy, converted to Elation
         const enhancedBasicElationScaling = (
           (enhancedBasicBounceScaling + enhancedBasicFinalHitScaling) / context.enemyCount
-        ) * hrMultiplier
+        ) * mmrDmgMultiplier
 
         basicHits.push(
           HitDefinitionBuilder.elation()
@@ -287,25 +296,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       const elationSkillHits: HitDefinition[] = []
 
-      if (r.invinciblePlayer) {
-        // Enhanced Elation Skill
+      if (r.godmodePlayer) {
+        // Enhanced Elation Skill: 6 bounces averaged per enemy
         elationSkillHits.push(
           HitDefinitionBuilder.elation()
             .damageType(DamageTag.ELATION)
             .damageElement(ElementTag.Imaginary)
-            .elationScaling(elationSkillEnhancedScaling)
+            .elationScaling(elationSkillBounceScaling * elationSkillBounceCount / context.enemyCount)
             .punchlineStacks(elationSkillPunchline)
-            .toughnessDmg(20)
+            .toughnessDmg(elationSkillBounceCount * 5 / context.enemyCount)
             .build(),
         )
       }
-      // Premium Supply Mystery Box
+      // Top Loot Box: split evenly among all enemies
       const uniqueHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Imaginary)
-        .elationScaling(mysteryBoxElationScaling)
+        .elationScaling(mysteryBoxElationScaling / context.enemyCount)
         .punchlineStacks(certifiedBangerStacks)
-        .toughnessDmg(5)
+        .toughnessDmg(10)
         .build()
 
       return {
@@ -325,62 +334,122 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.CD, (r.invinciblePlayer) ? talentCdBuff : 0, x.source(SOURCE_TALENT))
-      x.buff(StatKey.ELATION, (e >= 1 && r.e1MysteryBoxElation) ? 0.20 : 0, x.actionKind(AbilityKind.UNIQUE).source(SOURCE_E1))
-      x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.25 : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.VULNERABILITY, (e >= 1 && r.e1Vulnerability && r.godmodePlayer) ? 0.20 : 0, x.actionKind(AbilityKind.BASIC).source(SOURCE_E1))
+      x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.40 : 0, x.actionKind(AbilityKind.UNIQUE).source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResPen) ? context.enemyDamageResistance : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResPen) ? (context.enemyDamageResistance || 0.20) : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
-    // Trace: ATK to Elation conversion
-    dynamicConditionals: [{
-      id: 'SilverWolfLv999AtkElationConditional',
-      type: ConditionalType.ABILITY,
-      activation: ConditionalActivation.CONTINUOUS,
-      dependsOn: [Stats.ATK],
-      chainsTo: [Stats.Elation],
-      condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals as Conditionals<typeof content>
-        return r.atkToElation
-      },
-      effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-        dynamicStatConversionContainer(
-          Stats.ATK,
-          Stats.Elation,
-          this,
-          x,
-          action,
-          context,
-          SOURCE_TRACE,
-          (convertibleValue) => {
-            if (convertibleValue < 2000) return 0
-            return Math.min(1.20, Math.floor((convertibleValue - 2000) / 100) * 0.05)
-          },
-        )
-      },
-      gpu: function(action: OptimizerAction, context: OptimizerContext) {
-        const r = action.characterConditionals as Conditionals<typeof content>
+    // Trace: SPD to Elation conversion
+    dynamicConditionals: [
+      {
+        id: 'SilverWolfLv999SpdElationConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.SPD],
+        chainsTo: [Stats.Elation],
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.spdToElation && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 150
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          dynamicStatConversionContainer(
+            Stats.SPD,
+            Stats.Elation,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            (convertibleValue) => {
+              if (convertibleValue < 150) return 0
+              return 0.30 + Math.min(convertibleValue - 150, 100) * 0.02
+            },
+          )
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
 
-        return gpuDynamicStatConversion(
-          Stats.ATK,
-          Stats.Elation,
-          this,
-          action,
-          context,
-          `min(1.20, floor((convertibleValue - 2000.0) / 100.0) * 0.05)`,
-          `${wgslTrue(r.atkToElation)}`,
-          `convertibleValue >= 2000.0`,
-        )
+          return gpuDynamicStatConversion(
+            Stats.SPD,
+            Stats.Elation,
+            this,
+            action,
+            context,
+            `0.30 + min(convertibleValue - 150.0, 100.0) * 0.02`,
+            `${wgslTrue(r.spdToElation)}`,
+            `convertibleValue >= 150.0`,
+          )
+        },
       },
-    }],
+      // Talent: Hidden MMR → CR, overflow → CD
+      {
+        id: 'SilverWolfLv999HiddenMmrConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.CR],
+        chainsTo: [Stats.CR, Stats.CD],
+        condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.hiddenMmr > 0
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          const mmrPoints = r.hiddenMmr
+          if (mmrPoints <= 0) return
+
+          const prevCrBuff = action.conditionalState[this.id] || 0
+          const prevCrPoints = prevCrBuff / mmrCrPerPoint
+          const prevCdBuff = Math.max(0, mmrPoints - prevCrPoints) * mmrCdPerPoint
+
+          const totalCr = x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX)
+          const baseCr = totalCr - prevCrBuff
+          const crSpace = Math.max(0, 1.00 - baseCr)
+          const newCrBuff = Math.min(mmrPoints * mmrCrPerPoint, crSpace)
+          const newCrPoints = newCrBuff / mmrCrPerPoint
+          const newCdBuff = Math.max(0, mmrPoints - newCrPoints) * mmrCdPerPoint
+
+          action.conditionalState[this.id] = newCrBuff
+
+          x.buffDynamic(StatKey.CR, newCrBuff - prevCrBuff, action, context, x.source(SOURCE_TALENT))
+          x.buffDynamic(StatKey.CD, newCdBuff - prevCdBuff, action, context, x.source(SOURCE_TALENT))
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          const config = action.config
+
+          return newConditionalWgslWrapper(this, action, context, `
+if (${r.hiddenMmr} <= 0) {
+  return;
+}
+let mmrPoints: f32 = ${r.hiddenMmr}.0;
+let prevCrBuff: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
+let prevCrPoints = prevCrBuff / ${mmrCrPerPoint};
+let prevCdBuff = max(0.0, mmrPoints - prevCrPoints) * ${mmrCdPerPoint};
+
+let totalCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)};
+let baseCr = totalCr - prevCrBuff;
+let crSpace = max(0.0, 1.0 - baseCr);
+let newCrBuff = min(mmrPoints * ${mmrCrPerPoint}, crSpace);
+let newCrPoints = newCrBuff / ${mmrCrPerPoint};
+let newCdBuff = max(0.0, mmrPoints - newCrPoints) * ${mmrCdPerPoint};
+
+(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = newCrBuff;
+
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)} += newCrBuff - prevCrBuff;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += newCdBuff - prevCdBuff;
+`)
+        },
+      },
+    ],
   }
 }
 

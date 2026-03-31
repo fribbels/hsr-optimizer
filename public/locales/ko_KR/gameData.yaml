@@ -234,8 +234,8 @@ Characters:
     Name: 효광
     LongName: 효광
   "1504":
-    Name: Ashveil
-    LongName: Ashveil
+    Name: 애쉬베일
+    LongName: 애쉬베일
   "1505":
     Name: Evanescia
     LongName: Evanescia
@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: 스파클
     LongName: 스파클
-  1004b1:
-    Name: 웰트
-    LongName: 웰트
   1102b1:
     Name: 제레
     LongName: 제레
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: 반디
     LongName: 반디
+  1004b1:
+    Name: 웰트
+    LongName: 웰트
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"
@@ -496,11 +496,11 @@ RelicSets:
     Name: 텐고쿠@라이브스트리밍
     Description2pc: "장착한\_캐릭터의\_치명타\_피해가\_16%\_증가하며,\_같은\_턴에\_전투\_스킬\_포인트를\_3pt\_이상\_소모\_시\_추가로\_장착한\_캐릭터의\_치명타\_피해가\_32%\_증가한다,\_지속\_시간:\_3턴"
   "325":
-    Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.
+    Name: "0호\_스테이지\_펑크\_로드"
+    Description2pc: "장착한\_캐릭터의\_환락도가\_8%\_증가한다.\_전투\_중\_환락도가\_처음으로\_40%/80%\_도달\_시,\_장착한\_캐릭터의\_치명타\_피해가\_20%/32%\_증가한다"
   "326":
-    Name: City of Converging Stars
-    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
+    Name: "천\_개의\_별이\_모인\_도시"
+    Description2pc: "장착한\_캐릭터가\_추가\_공격\_발동\_시,\_공격력이\_24%\_증가한다,\_지속\_시간:\_2턴.\_적이\_처치될\_시,\_모든\_아군이\_이번\_전투에서\_치명타\_피해가\_12%\_증가하며,\_해당\_효과는\_중첩되지\_않는다"
 Lightcones:
   "20000":
     Name: 화살촉
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: "핑크빛\_내일을\_향해"
   "22007":
-    Name: We'll face the Hereafter together
+    Name: Tomorrow, Together
   "23000":
     Name: "은하철도의\_밤"
   "23001":
@@ -805,11 +805,11 @@ Lightcones:
   "23054":
     Name: "그녀가\_보기로\_결심했을\_때"
   "23056":
-    Name: The Finale of a Lie
+    Name: "거짓말의\_종막"
   "23057":
-    Name: Welcome to Cosmic City
+    Name: Welcome to the Cosmic City
   "23058":
-    Name: A Rendezvous in the Next Flower Season
+    Name: Until the Flowers Bloom Again
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":
@@ -823,7 +823,7 @@ Lightcones:
   "24005":
     Name: "기억은\_영원히\_막을\_내리지\_않는다"
   "24006":
-    Name: Elation Brimming With Blessings
+    Name: "넘치는\_환락의\_축복"
 Paths:
   Warrior: 파멸
   Rogue: 수렵

@@ -2,7 +2,10 @@ import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 
-import { getYaoguangAhaPunchlineValue, Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
+import {
+  getYaoguangAhaPunchlineValue,
+  Yaoguang,
+} from 'lib/conditionals/character/1500/Yaoguang'
 import {
   AbilityEidolon,
   Conditionals,
@@ -25,9 +28,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import {
-  newConditionalWgslWrapper,
-} from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   p_containerActionVal,
@@ -56,7 +57,6 @@ import {
   RELICS_2P_CRIT,
   RELICS_2P_SPEED,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -393,13 +393,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           )
         },
       },
-      // Talent: Hidden MMR → CR, overflow → CD
-            {
+      // Talent: Hidden MMR -> CR (capped at 100%), overflow -> CD
+      // State = -1 sentinel prevents re-entrant loops from buffDynamic(CR) - null vs 0 distinguishes first call
+      {
         id: 'SilverWolfLv999HiddenMmrConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         chainsTo: [Stats.CR, Stats.CD],
+        supplementalState: ['SilverWolfLv999HiddenMmrCr'],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.hiddenMmr > 0
@@ -409,65 +411,62 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const mmrPoints = r.hiddenMmr
           if (mmrPoints <= 0) return
 
-          // State is crPoints + 1 harcoded offset so 0 means uninitialized
-          const stateVal = action.conditionalState[this.id] || 0
-          const isInitialized = stateVal > 0
+          const crState = action.conditionalState[this.id]
+          if (crState === -1) return
 
-          const prevCrPoints = isInitialized ? stateVal - 1 : 0
-          const prevCdPoints = isInitialized ? mmrPoints - prevCrPoints : 0
-
-          const prevCrBuff = prevCrPoints * mmrCrPerPoint
-          const prevCdBuff = prevCdPoints * mmrCdPerPoint
+          const isFirstCall = crState == null
+          const prevCrBuff = isFirstCall ? 0 : crState
+          const maxCrBuff = mmrPoints * mmrCrPerPoint
+          const prevCdBuff = isFirstCall ? 0 : (maxCrBuff - prevCrBuff) * (mmrCdPerPoint / mmrCrPerPoint)
 
           const totalCr = x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX)
           const baseCr = totalCr - prevCrBuff
 
-          const desiredCrPoints = Math.min(Math.ceil(Math.max(0, 1.00 - baseCr) / mmrCrPerPoint), mmrPoints)
+          const crSpace = Math.max(0, 1.00 - baseCr)
+          const newCrBuff = Math.min(maxCrBuff, crSpace)
+          const newCdBuff = (maxCrBuff - newCrBuff) * (mmrCdPerPoint / mmrCrPerPoint)
 
-          const newCrBuff = desiredCrPoints * mmrCrPerPoint
-          const newCdBuff = (mmrPoints - desiredCrPoints) * mmrCdPerPoint
+          const crDelta = newCrBuff - prevCrBuff
+          const cdDelta = newCdBuff - prevCdBuff
 
-          action.conditionalState[this.id] = desiredCrPoints + 1
-
-          x.buffDynamic(StatKey.CR, newCrBuff - prevCrBuff, action, context, x.source(SOURCE_TALENT))
-          x.buffDynamic(StatKey.CD, newCdBuff - prevCdBuff, action, context, x.source(SOURCE_TALENT))
+          action.conditionalState[this.id] = -1
+          x.buffDynamic(StatKey.CR, crDelta, action, context, x.source(SOURCE_TALENT))
+          x.buffDynamic(StatKey.CD, cdDelta, action, context, x.source(SOURCE_TALENT))
+          action.conditionalState[this.id] = newCrBuff
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           const config = action.config
 
-          return newConditionalWgslWrapper(this, action, context, `
+          return newConditionalWgslWrapper(
+            this,
+            action,
+            context,
+            `
 if (${r.hiddenMmr} <= 0) {
   return;
 }
 let mmrPoints: f32 = f32(${r.hiddenMmr});
-let stateVal: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
-let isInitialized = stateVal > 0.0;
-
-var prevCrPoints: f32 = 0.0;
-var prevCdPoints: f32 = 0.0;
-
-if (isInitialized) {
-  prevCrPoints = stateVal - 1.0;
-  prevCdPoints = mmrPoints - prevCrPoints;
-}
-
-let prevCrBuff = prevCrPoints * ${mmrCrPerPoint};
-let prevCdBuff = prevCdPoints * ${mmrCdPerPoint};
+let maxCrBuff: f32 = mmrPoints * ${mmrCrPerPoint};
+let prevCrBuff: f32 = (*p_state).SilverWolfLv999HiddenMmrCr${action.actionIdentifier};
+let prevCdBuff: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
 
 let totalCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)};
 let baseCr = totalCr - prevCrBuff;
+let crSpace = max(0.0, 1.0 - baseCr);
+let newCrBuff = min(maxCrBuff, crSpace);
+let newCdBuff = (maxCrBuff - newCrBuff) * ${mmrCdPerPoint / mmrCrPerPoint};
 
-let desiredCrPoints = min(ceil(max(0.0, 1.0 - baseCr) / ${mmrCrPerPoint}), mmrPoints);
+let crDelta = newCrBuff - prevCrBuff;
+let cdDelta = newCdBuff - prevCdBuff;
 
-let newCrBuff = desiredCrPoints * ${mmrCrPerPoint};
-let newCdBuff = (mmrPoints - desiredCrPoints) * ${mmrCdPerPoint};
+(*p_state).SilverWolfLv999HiddenMmrCr${action.actionIdentifier} = newCrBuff;
+(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = newCdBuff;
 
-(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = desiredCrPoints + 1.0;
-
-${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)} += newCrBuff - prevCrBuff;
-${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += newCdBuff - prevCdBuff;
-`)
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)} += crDelta;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += cdDelta;
+`,
+          )
         },
       },
     ],
@@ -514,7 +513,7 @@ const simulation = (): SimulationMetadata => ({
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
     RELICS_2P_CRIT,
-    RELICS_2P_SPEED
+    RELICS_2P_SPEED,
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,

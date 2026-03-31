@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
-  1004b1:
-    Name: Welt
-    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: Firefly
     LongName: Firefly
+  1004b1:
+    Name: Welt
+    LongName: Welt
 RelicSets:
   "101":
     Name: Passerby of Wandering Cloud
@@ -500,7 +500,7 @@ RelicSets:
     Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.
   "326":
     Name: City of Converging Stars
-    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
+    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turns. When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Arrows
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: Fly Into a Pink Tomorrow
   "22007":
-    Name: We'll face the Hereafter together
+    Name: Tomorrow, Together
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -807,9 +807,9 @@ Lightcones:
   "23056":
     Name: The Finale of a Lie
   "23057":
-    Name: Welcome to Cosmic City
+    Name: Welcome to the Cosmic City
   "23058":
-    Name: A Rendezvous in the Next Flower Season
+    Name: Until the Flowers Bloom Again
   "24000":
     Name: On the Fall of an Aeon
   "24001":

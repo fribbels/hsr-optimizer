@@ -234,8 +234,8 @@ Characters:
     Name: Яо Гуан
     LongName: Яо Гуан
   "1504":
-    Name: Ashveil
-    LongName: Ashveil
+    Name: Эшвейл
+    LongName: Эшвейл
   "1505":
     Name: Evanescia
     LongName: Evanescia
@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: Искорка
     LongName: Искорка
-  1004b1:
-    Name: Вельт
-    LongName: Вельт
   1102b1:
     Name: Зеле
     LongName: Зеле
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: Светлячок
     LongName: Светлячок
+  1004b1:
+    Name: Вельт
+    LongName: Вельт
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака
@@ -496,11 +496,11 @@ RelicSets:
     Name: Тэнгоку @Стрим
     Description2pc: Повышает крит. урон владельца на 16%. Если в течение одного хода расходуется 3 или более очков навыков, крит. урон владельца дополнительно повышается на 32% на 3 хода.
   "325":
-    Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.
+    Name: Уровень Зеро Панклорда
+    Description2pc: Повышает уровень Радости владельца на 8%. Когда уровень Радости в бою впервые достигает 40%/80%, повышает крит. урон владельца на 20%/32%.
   "326":
-    Name: City of Converging Stars
-    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
+    Name: Город тысячи звёзд
+    Description2pc: При бонус-атаке повышает силу атаки владельца на 24% на 2 хода. После победы над противником повышает крит. урон всех союзников на 12% на весь бой. Этот эффект не складывается.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: Полёт к розовому завтра
   "22007":
-    Name: We'll face the Hereafter together
+    Name: Tomorrow, Together
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -805,11 +805,11 @@ Lightcones:
   "23054":
     Name: Когда она решилась увидеть
   "23056":
-    Name: The Finale of a Lie
+    Name: Эпилог лжи
   "23057":
-    Name: Welcome to Cosmic City
+    Name: Welcome to the Cosmic City
   "23058":
-    Name: A Rendezvous in the Next Flower Season
+    Name: Until the Flowers Bloom Again
   "24000":
     Name: О падении Эона
   "24001":
@@ -823,7 +823,7 @@ Lightcones:
   "24005":
     Name: Не падёт занавес памяти
   "24006":
-    Name: Elation Brimming With Blessings
+    Name: Переполненная благословением Радость
 Paths:
   Warrior: Разрушение
   Rogue: Охота

@@ -234,8 +234,8 @@ Characters:
     Name: 爻光
     LongName: 爻光
   "1504":
-    Name: Ashveil
-    LongName: Ashveil
+    Name: 不死途
+    LongName: 不死途
   "1505":
     Name: Evanescia
     LongName: Evanescia
@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: 花火
     LongName: 花火
-  1004b1:
-    Name: ヴェルト
-    LongName: ヴェルト
   1102b1:
     Name: ゼーレ
     LongName: ゼーレ
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: ホタル
     LongName: ホタル
+  1004b1:
+    Name: ヴェルト
+    LongName: ヴェルト
 RelicSets:
   "101":
     Name: 流雲無痕の過客
@@ -496,11 +496,11 @@ RelicSets:
     Name: 天国@配信ルーム
     Description2pc: 装備キャラの会心ダメージ+16%。1ターン以内にSPを3以上消費した場合、さらに会心ダメージ+32%、3ターン継続。
   "325":
-    Name: Punklorde Stage Zero
-    Description2pc: Increases the wearer's Elation by 8%. When Elation reaches 40%/80% for the first time in combat, increases the wearer's CRIT DMG by 20%/32%.
+    Name: ステージゼロ：パンクロード
+    Description2pc: 装備キャラの愉悦度+8%。戦闘中、愉悦度が初めて40%/80%に達した時、装備キャラの会心ダメージ+20%/32%。
   "326":
-    Name: City of Converging Stars
-    Description2pc: When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.
+    Name: 千の星が集う街
+    Description2pc: 装備キャラが追加攻撃を行う時、攻撃力+24%、2ターン継続。敵が倒された時、その戦闘中、味方全体の会心ダメージ+12%。この効果は累積できない。
 Lightcones:
   "20000":
     Name: 矢じり
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: ピンク色の明日へ
   "22007":
-    Name: We'll face the Hereafter together
+    Name: Tomorrow, Together
   "23000":
     Name: 銀河鉄道の夜
   "23001":
@@ -805,11 +805,11 @@ Lightcones:
   "23054":
     Name: 彼女が視ると決めた時
   "23056":
-    Name: The Finale of a Lie
+    Name: 或る嘘の終幕
   "23057":
-    Name: Welcome to Cosmic City
+    Name: Welcome to the Cosmic City
   "23058":
-    Name: A Rendezvous in the Next Flower Season
+    Name: Until the Flowers Bloom Again
   "24000":
     Name: とある星神の殞落を記す
   "24001":
@@ -823,7 +823,7 @@ Lightcones:
   "24005":
     Name: 尽きぬ追憶
   "24006":
-    Name: Elation Brimming With Blessings
+    Name: 愉悦溢れる祝福
 Paths:
   Warrior: 壊滅
   Rogue: 巡狩

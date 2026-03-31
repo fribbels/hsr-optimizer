@@ -25,13 +25,13 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const sValuesDefPen = [0.18, 0.21, 0.24, 0.27, 0.30]
 
   const defaults = {
-    superpowerState: true,
+    elationDefPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    superpowerState: {
+    elationDefPen: {
       lc: true,
-      id: 'superpowerState',
+      id: 'elationDefPen',
       formItem: 'switch',
       text: 'Elation DEF PEN',
       content: betaContent,
@@ -44,8 +44,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      // Superpower: Elation DMG ignores DEF
-      x.buff(StatKey.DEF_PEN, (r.superpowerState) ? sValuesDefPen[s] : 0, x.damageType(DamageTag.ELATION).source(SOURCE_LC))
+      // Elation DMG ignores DEF
+      x.buff(StatKey.DEF_PEN, (r.elationDefPen) ? sValuesDefPen[s] : 0, x.damageType(DamageTag.ELATION).source(SOURCE_LC))
     },
   }
 }

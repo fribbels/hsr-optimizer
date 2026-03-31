@@ -1,11 +1,5 @@
-/* ------------------------------------------------------------------ */
-/*  TeammateCard                                                       */
-/*                                                                     */
-/*  Single outer border. Two-tone columns via background only          */
-/*  (no internal borders to avoid double-border effect).               */
-/*    left  = layer-1 (card bg)                                        */
-/*    right = layer-1 (lighter)                                        */
-/* ------------------------------------------------------------------ */
+/* TeammateCard — single outer border, no internal borders to avoid double-border effect.
+ * Right columns set background explicitly so they stay opaque if the left area changes. */
 
 .card {
   border-radius: var(--radius-md);

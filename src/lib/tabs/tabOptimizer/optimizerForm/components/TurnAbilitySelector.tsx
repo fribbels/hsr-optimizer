@@ -16,9 +16,9 @@ import { CascaderSelect, type CascaderData, type CascaderGroup } from 'lib/ui/Ca
 import { useMemo, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterConditionalsController } from 'types/conditionals'
+import { toI18NVisual } from 'lib/utils/displayUtils'
 
-const start = '['
-const end = ']'
+
 
 const compactInputStyles = {
   input: {
@@ -34,8 +34,6 @@ const compactInputStyles = {
 function IndexLabel({ index }: { index: number }) {
   return <span style={{ fontSize: 12, whiteSpace: 'nowrap', width: '100%', textAlign: 'left' }}>{`${index}.`}</span>
 }
-
-import { toI18NVisual } from 'lib/utils/displayUtils'
 
 function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimizerTab', 'ComboFilter'>): CascaderGroup {
   return {

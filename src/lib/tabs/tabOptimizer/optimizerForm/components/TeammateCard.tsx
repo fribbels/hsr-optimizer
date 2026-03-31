@@ -19,6 +19,7 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import {
+  type OptionRender,
   renderTeammateOrnamentSetOptions,
   renderTeammateRelicSetOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
@@ -32,16 +33,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
-import type {
-  CharacterId,
-} from 'types/character'
-import type {
-  TeammateProperty,
-} from 'types/form'
-import type {
-  LightConeId,
-  SuperImpositionLevel,
-} from 'types/lightCone'
+import type { TeammateProperty } from 'types/form'
 import type { DBMetadata } from 'types/metadata'
 import { useShallow } from 'zustand/react/shallow'
 import classes from './TeammateCard.module.css'
@@ -52,11 +44,10 @@ const SI_DATA = ['1', '2', '3', '4', '5'].map((v) => ({ value: v, label: v }))
 const CARD_WIDTH = 420
 
 export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
-  index: number,
+  index: 0 | 1 | 2,
   dbMetadata: DBMetadata,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
-  const tmIndex = index as 0 | 1 | 2
   const {
     teammateCharacterId,
     teammateEidolon,
@@ -66,12 +57,12 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
     teammateTeamOrnamentSet,
   } = useOptimizerRequestStore(
     useShallow((s) => ({
-      teammateCharacterId: s.teammates[tmIndex].characterId as CharacterId,
-      teammateEidolon: s.teammates[tmIndex].characterEidolon,
-      teammateLightConeId: s.teammates[tmIndex].lightCone as LightConeId,
-      teammateSuperimposition: s.teammates[tmIndex].lightConeSuperimposition as SuperImpositionLevel,
-      teammateTeamRelicSet: s.teammates[tmIndex].teamRelicSet,
-      teammateTeamOrnamentSet: s.teammates[tmIndex].teamOrnamentSet,
+      teammateCharacterId: s.teammates[index].characterId,
+      teammateEidolon: s.teammates[index].characterEidolon,
+      teammateLightConeId: s.teammates[index].lightCone,
+      teammateSuperimposition: s.teammates[index].lightConeSuperimposition,
+      teammateTeamRelicSet: s.teammates[index].teamRelicSet,
+      teammateTeamOrnamentSet: s.teammates[index].teamOrnamentSet,
     })),
   )
 
@@ -82,13 +73,6 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
   const teammateRelicSetOptions = useMemo(renderTeammateRelicSetOptions(t), [t])
   const teammateOrnamentSetOptions = useMemo(renderTeammateOrnamentSetOptions(t), [t])
-
-  const teammateRelicSelectData = useMemo(() => teammateRelicSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc, text: opt.text })), [
-    teammateRelicSetOptions,
-  ])
-  const teammateOrnamentSelectData = useMemo(() => teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, desc: opt.desc, text: opt.text })), [
-    teammateOrnamentSetOptions,
-  ])
 
   return (
     <Flex
@@ -109,10 +93,10 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         >
           <Group gap={6} wrap='nowrap' mb={6}>
             <CharacterSelect
-              value={teammateCharacterId}
+              value={teammateCharacterId ?? null}
               onChange={(id) => {
                 if (id) {
-                  useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'characterId', id)
+                  useOptimizerRequestStore.getState().setTeammateField(index, 'characterId', id)
                   updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: id } })
                 } else {
                   updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: null } })
@@ -157,7 +141,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
             size='xs'
             data={EIDOLON_DATA}
             value={String(teammateEidolon ?? 0)}
-            onChange={(v) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'characterEidolon', Number(v))}
+            onChange={(v) => useOptimizerRequestStore.getState().setTeammateField(index, 'characterEidolon', Number(v))}
             fullWidth
             withItemsBorders={false}
             className={classes.segmented}
@@ -175,16 +159,16 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
           <Flex direction='column' w='100%' gap={6}>
             <ClearableCombobox
-              data={teammateRelicSelectData}
+              data={teammateRelicSetOptions}
               value={teammateTeamRelicSet}
-              onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamRelicSet', val ?? undefined)}
+              onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(index, 'teamRelicSet', val)}
               placeholder={t('RelicsPlaceholder')}
               disabled={disabled}
             />
             <ClearableCombobox
-              data={teammateOrnamentSelectData}
+              data={teammateOrnamentSetOptions}
               value={teammateTeamOrnamentSet}
-              onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'teamOrnamentSet', val ?? undefined)}
+              onChange={(val) => useOptimizerRequestStore.getState().setTeammateField(index, 'teamOrnamentSet', val)}
               placeholder={t('OrnamentsPlaceholder')}
               disabled={disabled}
             />
@@ -205,7 +189,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
               value={teammateLightConeId ?? null}
               onChange={(id) => {
                 if (id) {
-                  useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'lightCone', id)
+                  useOptimizerRequestStore.getState().setTeammateField(index, 'lightCone', id)
                   updateTeammate({ [`teammate${index}` as TeammateProperty]: { lightCone: id } })
                 } else {
                   updateTeammate({ [`teammate${index}` as TeammateProperty]: { lightCone: null } })
@@ -238,7 +222,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
             size='xs'
             data={SI_DATA}
             value={String(teammateSuperimposition ?? 1)}
-            onChange={(v) => useOptimizerRequestStore.getState().setTeammateField(tmIndex, 'lightConeSuperimposition', Number(v))}
+            onChange={(v) => useOptimizerRequestStore.getState().setTeammateField(index, 'lightConeSuperimposition', Number(v))}
             fullWidth
             withItemsBorders={false}
             className={classes.segmented}
@@ -259,7 +243,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 })
 
 function ClearableCombobox({ data, value, onChange, placeholder, disabled }: {
-  data: { value: string, desc: string, text: string }[],
+  data: OptionRender[],
   value: string | undefined,
   onChange: (val: string | undefined) => void,
   placeholder: string,

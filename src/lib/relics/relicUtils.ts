@@ -53,14 +53,14 @@ export function hashRelic(relic: Relic) {
     enhance: relic.enhance,
     mainStat: relic.main.stat,
     mainValue: Math.floor(relic.main.value),
-    substatValues: substatValues, // Match to 1 decimal point
-    substatStats: substatStats,
+    substatValues,
+    substatStats,
   }
 
   return objectHash(hashObject)
 }
 
-export function partialHashRelic(relic: Relic) {
+function partialHashRelic(relic: Relic) {
   const hashObject = {
     part: relic.part,
     set: relic.set,
@@ -90,8 +90,8 @@ export function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
     let exit = false
     let upgrades = 0
     for (let i = 0; i < partialMatch.substats.length; i++) {
-      const matchSubstat = partialMatch.substats[i] as Stat
-      const newSubstat = relic.substats.find((x) => x.stat === matchSubstat.stat) as Stat
+      const matchSubstat = partialMatch.substats[i]
+      const newSubstat = relic.substats.find((x) => x.stat === matchSubstat.stat)
 
       // Different substats mean different relics - break
       if (!newSubstat) {

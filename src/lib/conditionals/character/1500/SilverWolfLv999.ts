@@ -119,6 +119,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBanger: true,
     punchlineStacks: 30,
     certifiedBangerStacks: 60,
+    // TODO: hiddenMmr default should be lowered, waiting for v4 to get a vibe
     hiddenMmr: 300,
     spdToElation: true,
     e1Vulnerability: true,
@@ -335,7 +336,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.CD, r.hiddenMmr * mmrCdPerPoint, x.source(SOURCE_TALENT))
       x.buff(StatKey.VULNERABILITY, (e >= 1 && r.e1Vulnerability && r.godmodePlayer) ? 0.20 : 0, x.actionKind(AbilityKind.BASIC).source(SOURCE_E1))
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.40 : 0, x.actionKind(AbilityKind.UNIQUE).source(SOURCE_E6))
     },
@@ -394,7 +394,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
       },
       // Talent: Hidden MMR → CR, overflow → CD
-      {
+            {
         id: 'SilverWolfLv999HiddenMmrConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
@@ -409,22 +409,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const mmrPoints = r.hiddenMmr
           if (mmrPoints <= 0) return
 
-          const prevCrPoints = action.conditionalState[this.id] || 0
-          const prevCdPoints = mmrPoints - prevCrPoints
+          // State is crPoints + 1 harcoded offset so 0 means uninitialized
+          const stateVal = action.conditionalState[this.id] || 0
+          const isInitialized = stateVal > 0
+
+          const prevCrPoints = isInitialized ? stateVal - 1 : 0
+          const prevCdPoints = isInitialized ? mmrPoints - prevCrPoints : 0
+
+          const prevCrBuff = prevCrPoints * mmrCrPerPoint
+          const prevCdBuff = prevCdPoints * mmrCdPerPoint
 
           const totalCr = x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX)
-
-          const baseCr = totalCr - prevCrPoints * mmrCrPerPoint
+          const baseCr = totalCr - prevCrBuff
 
           const desiredCrPoints = Math.min(Math.ceil(Math.max(0, 1.00 - baseCr) / mmrCrPerPoint), mmrPoints)
 
-          const prevCrBuff = prevCrPoints * mmrCrPerPoint
           const newCrBuff = desiredCrPoints * mmrCrPerPoint
-
-          const prevCdBuff = prevCdPoints * mmrCdPerPoint
           const newCdBuff = (mmrPoints - desiredCrPoints) * mmrCdPerPoint
 
-          action.conditionalState[this.id] = desiredCrPoints
+          action.conditionalState[this.id] = desiredCrPoints + 1
 
           x.buffDynamic(StatKey.CR, newCrBuff - prevCrBuff, action, context, x.source(SOURCE_TALENT))
           x.buffDynamic(StatKey.CD, newCdBuff - prevCdBuff, action, context, x.source(SOURCE_TALENT))
@@ -437,23 +440,30 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 if (${r.hiddenMmr} <= 0) {
   return;
 }
-let mmrPoints: i32 = ${r.hiddenMmr};
-let prevCrPoints: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
-let prevCdPoints: f32 = mmrPoints - prevCrPoints;
+let mmrPoints: f32 = f32(${r.hiddenMmr});
+let stateVal: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
+let isInitialized = stateVal > 0.0;
+
+var prevCrPoints: f32 = 0.0;
+var prevCdPoints: f32 = 0.0;
+
+if (isInitialized) {
+  prevCrPoints = stateVal - 1.0;
+  prevCdPoints = mmrPoints - prevCrPoints;
+}
+
+let prevCrBuff = prevCrPoints * ${mmrCrPerPoint};
+let prevCdBuff = prevCdPoints * ${mmrCdPerPoint};
 
 let totalCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)};
-
 let baseCr = totalCr - prevCrBuff;
 
-let desiredCrPoints: i32 = min(ceil(max(0, 1.0 - baseCr)), mmrPoints);
+let desiredCrPoints = min(ceil(max(0.0, 1.0 - baseCr) / ${mmrCrPerPoint}), mmrPoints);
 
-let prevCrBuff: f32 = prevCrPoints * ${mmrCrPerPoint};
-let newCrBuff: f32 = desiredCrPoints * ${mmrCrPerPoint};
+let newCrBuff = desiredCrPoints * ${mmrCrPerPoint};
+let newCdBuff = (mmrPoints - desiredCrPoints) * ${mmrCdPerPoint};
 
-let prevCdBuff: f32 = prevCdPoints * ${mmrCdPerPoint};
-let newCdBuff: f32 = (mmrPoints - desiredCrPoints) * ${mmrCdPerPoint};
-
-(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = desiredCrPoints;
+(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = desiredCrPoints + 1.0;
 
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)} += newCrBuff - prevCrBuff;
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += newCdBuff - prevCdBuff;

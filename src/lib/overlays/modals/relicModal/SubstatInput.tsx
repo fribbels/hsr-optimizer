@@ -25,6 +25,13 @@ import { useTranslation } from 'react-i18next'
 import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 import { isFlat } from 'lib/utils/statUtils'
 
+const BUTTON_STYLE = { width: '100%', padding: 0 }
+const CONTENTS_STYLE = { display: 'contents' }
+const ICON_TOGGLE_STYLE = { cursor: 'pointer', display: 'flex', alignItems: 'center' }
+const TEXT_INPUT_STYLE = { width: 80 }
+const COMBOBOX_STYLE = { width: 210 }
+const TOOLTIP_EVENTS = { hover: false, focus: true, touch: false }
+
 function UpgradeButton({ value, label, onClick }: {
   value: number | undefined | null
   label: string
@@ -35,7 +42,7 @@ function UpgradeButton({ value, label, onClick }: {
     <Flex w="100%">
       <Button
         variant="default"
-        style={{ width: '100%', padding: 0 }}
+        style={BUTTON_STYLE}
         onClick={onClick}
         disabled={value === undefined}
         tabIndex={-1}
@@ -83,10 +90,10 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
   }
 
   const substatOptionsMemoized = useMemo(() => {
-    return Object.entries(Constants.SubStats).map((entry) => ({
-      label: tStats(entry[1]),
-      value: entry[1],
-      icon: Assets.getStatIcon(entry[1], true),
+    return Constants.SubStats.map((stat) => ({
+      label: tStats(stat),
+      value: stat,
+      icon: Assets.getStatIcon(stat, true),
     }))
   }, [tStats])
 
@@ -97,7 +104,7 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
     } else {
       const value = relicForm.getValues()[statValueField]
       if (value === '0' || !value) return
-      relicForm.setFieldValue(isPreviewField, value as unknown as RelicForm[typeof isPreviewField])
+      relicForm.setFieldValue(isPreviewField, Number(value) as RelicForm[typeof isPreviewField])
       relicForm.setFieldValue(statValueField, '0')
     }
   }
@@ -105,7 +112,7 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
   const stat = relicForm.getValues()[statTypeField] as RelicForm[typeof statTypeField]
 
   return (
-    <div style={{ display: 'contents' }}>
+    <div style={CONTENTS_STYLE}>
       <Flex gap={10}>
         <SearchableCombobox
           options={substatOptionsMemoized}
@@ -119,7 +126,7 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
             }
           }}
           placeholder={t('SubstatPlaceholder')}
-          style={{ width: 210 }}
+          style={COMBOBOX_STYLE}
           dropdownMaxHeight={750}
           clearable
         />
@@ -127,13 +134,13 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
         <Tooltip
           label={stat === Stats.SPD ? t('SpdInputWarning') : ''}
           position="top"
-          events={{ hover: false, focus: true, touch: false }}
+          events={TOOLTIP_EVENTS}
         >
           <TextInput
             disabled={Boolean(isPreview)}
             ref={inputRef}
             onFocus={handleFocus}
-            style={{ width: 80 }}
+            style={TEXT_INPUT_STYLE}
             value={relicForm.getValues()[statValueField] ?? ''}
             onChange={(e) => {
               relicForm.setFieldValue(statValueField, e.currentTarget.value)
@@ -144,7 +151,7 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
       </Flex>
 
       <Flex align="center" justify="center" h="100%">
-        <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+        <div style={ICON_TOGGLE_STYLE}>
           {isPreview
             ? <IconLock size={18} onClick={handlePreviewToggle} />
             : <IconChevronRight size={18} onClick={handlePreviewToggle} />}

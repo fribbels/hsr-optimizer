@@ -102,6 +102,7 @@ describe('migrateBuild', () => {
       expect(result.lightConeSuperimposition).toBe(3)
       expect((result as any).eidolon).toBeUndefined()
       expect((result as any).lightConeId).toBeUndefined()
+      expect((result as any).comboTurnAbilities).toHaveLength(2)
     })
 
     it('renames teammate fields', () => {
@@ -118,7 +119,7 @@ describe('migrateBuild', () => {
       expect('deprioritizeBuffs' in result).toBe(false)
     })
 
-    it('converts comboStateJson: null to empty string', () => {
+    it('converts comboStateJson: null to default empty-object JSON', () => {
       const buildWithNullCombo = { ...LAYER2_OPTIMIZER_BUILD, optimizerMetadata: { ...LAYER2_OPTIMIZER_BUILD.optimizerMetadata, comboStateJson: null } }
       const result = migrateBuild(buildWithNullCombo as any, CHAR_ID, CHAR_FORM, EMPTY_RELICS)!
       expect((result as any).comboStateJson).toBe('{}')
@@ -138,13 +139,31 @@ describe('migrateBuild', () => {
       expect((result as any).presets).toBeUndefined()
     })
 
-    it('infers comboType when missing', () => {
+    it('infers comboType ADVANCED when comboStateJson is non-empty', () => {
       const buildNoComboType = {
         ...LAYER2_OPTIMIZER_BUILD,
         optimizerMetadata: { ...LAYER2_OPTIMIZER_BUILD.optimizerMetadata, comboType: undefined, comboStateJson: '{"data":true}' },
       }
       const result = migrateBuild(buildNoComboType as any, CHAR_ID, CHAR_FORM, EMPTY_RELICS)!
       expect((result as any).comboType).toBe('advanced')
+    })
+
+    it('infers comboType SIMPLE when comboStateJson is empty object', () => {
+      const buildEmptyState = {
+        ...LAYER2_OPTIMIZER_BUILD,
+        optimizerMetadata: { ...LAYER2_OPTIMIZER_BUILD.optimizerMetadata, comboType: undefined, comboStateJson: '{}' },
+      }
+      const result = migrateBuild(buildEmptyState as any, CHAR_ID, CHAR_FORM, EMPTY_RELICS)!
+      expect((result as any).comboType).toBe('simple')
+    })
+
+    it('infers comboType SIMPLE when comboStateJson is null', () => {
+      const buildNullState = {
+        ...LAYER2_OPTIMIZER_BUILD,
+        optimizerMetadata: { ...LAYER2_OPTIMIZER_BUILD.optimizerMetadata, comboType: undefined, comboStateJson: null },
+      }
+      const result = migrateBuild(buildNullState as any, CHAR_ID, CHAR_FORM, EMPTY_RELICS)!
+      expect((result as any).comboType).toBe('simple')
     })
 
     it('relocates conditionals from optimizerMetadata.conditionals (old location)', () => {

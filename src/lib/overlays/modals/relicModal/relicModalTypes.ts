@@ -40,10 +40,8 @@ export type SubstatValues = Pick<
   `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`
 >
 
-type RelicFormStat = {
+export type RelicFormStat = {
   stat: string | undefined
   value: string | undefined
   isPreview: false | number | undefined
 }
-
-export type { RelicFormStat }

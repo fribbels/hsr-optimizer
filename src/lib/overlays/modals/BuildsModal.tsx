@@ -18,6 +18,7 @@ import { getCharacterById, useCharacterStore } from 'lib/stores/character/charac
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useConfirmAction } from 'lib/hooks/useConfirmAction'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
+import { useShallow } from 'zustand/react/shallow'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   type CSSProperties,
@@ -35,9 +36,9 @@ import type {
 import type { SavedBuild } from 'types/savedBuild'
 
 export function BuildsModal() {
-  const open = useBuildsModalStore((s) => s.open)
-  const closeOverlay = useBuildsModalStore((s) => s.closeOverlay)
-  const characterId = useBuildsModalStore((s) => s.config?.characterId)
+  const { open, closeOverlay, characterId } = useBuildsModalStore(
+    useShallow((s) => ({ open: s.open, closeOverlay: s.closeOverlay, characterId: s.config?.characterId }))
+  )
   const hasBuilds = useCharacterStore(
     useCallback((s) => characterId ? !!(s.charactersById[characterId]?.builds?.length) : false, [characterId]),
   )

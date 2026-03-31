@@ -5,7 +5,7 @@ import type { Relic } from 'types/relic'
 
 export type RelicModalConfig = {
   selectedRelic: Relic | null
-  selectedPart?: Parts | null
+  selectedPart?: Parts
   defaultWearer?: CharacterId
   onOk: (relic: Relic) => void
   next?: () => void

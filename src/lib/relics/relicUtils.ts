@@ -4,12 +4,12 @@ import { objectHash } from 'lib/utils/objectUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Relic, Stat } from 'types/relic'
 
-export function partIsOrnament(part: string) {
+export function partIsOrnament(part: Parts) {
   return part === Parts.PlanarSphere
     || part === Parts.LinkRope
 }
 
-export function partIsRelic(part: string) {
+export function partIsRelic(part: Parts) {
   return part === Parts.Head
     || part === Parts.Hands
     || part === Parts.Body
@@ -95,10 +95,6 @@ export function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
 
       // Different substats mean different relics - break
       if (!newSubstat) {
-        exit = true
-        break
-      }
-      if (matchSubstat.stat !== newSubstat.stat) {
         exit = true
         break
       }

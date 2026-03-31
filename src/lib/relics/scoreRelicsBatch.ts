@@ -24,8 +24,8 @@ export function scoreRelicsBatch(
   const excludedSet = new Set(excludedRelicPotentialCharacters)
   const cache = new PureScoringCache()
 
-  // Pre-compute equipped relic potentials for focus character (at most 6 results)
-  // instead of recomputing ~2579 times inside the per-relic loop.
+  // Pre-compute equipped relic potentials for focus character — equipped relics may not
+  // be in the relics input array, so this pass scores them before the main loop.
   const equippedPotentialByPart: Record<string, PotentialResult | undefined> = {}
   if (focusCharacter) {
     const focusMeta = metadataByCharacter.get(focusCharacter)
@@ -65,7 +65,8 @@ class PureScoringCache {
 
   getFutureScore(relic: Relic, meta: ScorerMetadata): FutureScoringResult {
     const metaHash = meta.hash
-    let cached = this.futureCache.get(relic.id)?.get(metaHash)
+    let innerMap = this.futureCache.get(relic.id)
+    let cached = innerMap?.get(metaHash)
     if (!cached) {
       if (!meta.sortedSubstats[0]?.[0]) {
         cached = {
@@ -77,10 +78,11 @@ class PureScoringCache {
         const idealScore = this.getOptimalScore(relic.part, relic.main.stat, meta)
         cached = computeFutureScores(relic, meta, idealScore, false)
       }
-      if (!this.futureCache.has(relic.id)) {
-        this.futureCache.set(relic.id, new Map())
+      if (!innerMap) {
+        innerMap = new Map()
+        this.futureCache.set(relic.id, innerMap)
       }
-      this.futureCache.get(relic.id)!.set(metaHash, cached)
+      innerMap.set(metaHash, cached)
     }
     return cached
   }

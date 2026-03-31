@@ -20,7 +20,6 @@ import { calculateRelicMainStatValue } from 'lib/relics/relicUtils'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
-import { clone } from 'lib/utils/objectUtils'
 import { arrayOfZeroes, arrayOfValue } from 'lib/utils/arrayUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 
@@ -100,14 +99,6 @@ export const RelicFilters = {
     weights[Constants.Stats.HP] = (weights[Constants.Stats.HP_P] || 0) * FLAT_STAT_SCALING.HP
 
     const rollThreshold = (weights.minWeightedRolls ?? 0) * 6.48 * 0.8
-    const minWeightScore: Record<string, number> = {
-      [Parts.Head]: rollThreshold,
-      [Parts.Hands]: rollThreshold,
-      [Parts.Body]: rollThreshold,
-      [Parts.Feet]: rollThreshold,
-      [Parts.PlanarSphere]: rollThreshold,
-      [Parts.LinkRope]: rollThreshold,
-    }
 
     // Main stat filters (Head/Hands have no main stat constraints)
     const mainFilters: Partial<Record<Parts, string[]>> = {
@@ -149,7 +140,7 @@ export const RelicFilters = {
       if (isRelic && relicSetsAllowed && relicSetsAllowed[RelicSetToIndex[relic.set as SetsRelics]] !== 1) continue
       if (!isRelic && ornamentSetsAllowed && ornamentSetsAllowed[OrnamentSetToIndex[relic.set as SetsOrnaments]] !== 1) continue
 
-      if (computeWeightScore(relic, weights, request.mainStatUpscaleLevel) < minWeightScore[part]) continue
+      if (computeWeightScore(relic, weights, request.mainStatUpscaleLevel) < rollThreshold) continue
 
       if (lockedParts[part]) {
         if (relic.id === lockedParts[part]) lockedFound[part] = true
@@ -404,7 +395,7 @@ export const RelicFilters = {
         if (enhance < maxEnhance && enhance < mainStatUpscaleLevel) {
           const newEnhance = maxEnhance < mainStatUpscaleLevel ? maxEnhance : mainStatUpscaleLevel
           const newValue = calculateRelicMainStatValue(stat, grade, newEnhance) / (isFlat(x.main.stat) ? 1 : 100)
-          return x.augmentedStats!.mainValue = newValue
+          x.augmentedStats!.mainValue = newValue
         }
       })
     }

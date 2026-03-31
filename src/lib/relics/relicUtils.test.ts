@@ -6,8 +6,8 @@ import type { Relic, RelicSubstatMetadata, Stat } from 'types/relic'
 
 // ---- Factories ----
 
-function makeStat(stat: string, value: number): RelicSubstatMetadata {
-  return { stat: stat as RelicSubstatMetadata['stat'], value }
+function makeStat(stat: RelicSubstatMetadata['stat'], value: number): RelicSubstatMetadata {
+  return { stat, value }
 }
 
 function makeRelic(overrides: Partial<Relic> = {}): Relic {
@@ -126,9 +126,9 @@ describe('compareSameTypeSubstat', () => {
 describe('indexRelics', () => {
   it('indexRelics assigns sequential ageIndex values starting from 0', () => {
     const relics = [
-      makeRelic({ ageIndex: undefined as unknown as number }),
-      makeRelic({ ageIndex: undefined as unknown as number }),
-      makeRelic({ ageIndex: undefined as unknown as number }),
+      makeRelic({ ageIndex: undefined }),
+      makeRelic({ ageIndex: undefined }),
+      makeRelic({ ageIndex: undefined }),
     ]
     indexRelics(relics)
     expect(relics[0].ageIndex).toBe(0)
@@ -138,8 +138,8 @@ describe('indexRelics', () => {
 
   it('indexRelics assigns ageIndex 0 to first relic without treating it as falsy', () => {
     const relics = [
-      makeRelic({ ageIndex: undefined as unknown as number }),
-      makeRelic({ ageIndex: undefined as unknown as number }),
+      makeRelic({ ageIndex: undefined }),
+      makeRelic({ ageIndex: undefined }),
     ]
     indexRelics(relics)
     // First relic gets ageIndex 0, second should be 0 + 1 = 1 (not re-assigned)
@@ -155,12 +155,34 @@ describe('indexRelics', () => {
   it('indexRelics preserves existing non-zero ageIndex values', () => {
     const relics = [
       makeRelic({ ageIndex: 10 }),
-      makeRelic({ ageIndex: undefined as unknown as number }),
+      makeRelic({ ageIndex: undefined }),
       makeRelic({ ageIndex: 20 }),
     ]
     indexRelics(relics)
     expect(relics[0].ageIndex).toBe(10)
     expect(relics[1].ageIndex).toBe(11)
     expect(relics[2].ageIndex).toBe(20)
+  })
+})
+
+describe('hashRelic (additional)', () => {
+  it('hashRelic produces different hashes for relics with different enhance values', () => {
+    const relicA = makeRelic({ enhance: 9 })
+    const relicB = makeRelic({ enhance: 12 })
+    expect(hashRelic(relicA)).not.toBe(hashRelic(relicB))
+  })
+})
+
+describe('findRelicMatch (additional)', () => {
+  it('findRelicMatch matches regardless of substat ordering', () => {
+    const oldRelic = makeRelic({
+      enhance: 9,
+      substats: [makeStat(Stats.CR, 3.2), makeStat(Stats.ATK, 30)],
+    })
+    const newRelic = makeRelic({
+      enhance: 12,
+      substats: [makeStat(Stats.ATK, 30), makeStat(Stats.CR, 6.4)],
+    })
+    expect(findRelicMatch(newRelic, [oldRelic])).toBe(oldRelic)
   })
 })

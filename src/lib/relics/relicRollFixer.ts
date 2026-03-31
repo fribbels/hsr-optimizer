@@ -21,7 +21,7 @@ export const RelicRollFixer = {
     const grade = relic.grade
     const query = `${grade}${partId}`
     const affixes = getGameMetadata().relics.relicMainAffixes[query].affixes
-    const affix = Object.values(affixes).find((x) => x.property == optimizerStatToAffixStat[stat])
+    const affix = Object.values(affixes).find((x) => x.property === optimizerStatToAffixStat[stat])
     if (!affix) return 0
 
     const step = affix.step
@@ -36,7 +36,7 @@ export const RelicRollFixer = {
     if (!initialized) RelicRollFixer.initialize()
 
     // Can't fix speed values
-    if (stat == Constants.Stats.SPD) return value
+    if (stat === Constants.Stats.SPD) return value
 
     const statsByGrade = relicRollValues[grade]
     if (!statsByGrade) return value
@@ -52,7 +52,7 @@ export const RelicRollFixer = {
     const rollCount = typeof rolls !== 'number' ? rolls[0] : rolls
 
     const affixes = getGameMetadata().relics.relicSubAffixes[grade].affixes
-    const matched = Object.values(affixes).find((x) => x.property == optimizerStatToAffixStat[stat])
+    const matched = Object.values(affixes).find((x) => x.property === optimizerStatToAffixStat[stat])
     if (!matched) return value
 
     const base = matched.base

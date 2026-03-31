@@ -63,7 +63,7 @@ export function computeApplySuggestionFixes(_state: OptimizerRequestState, fixes
  * Pure function: compute the new state for loadForm.
  * Converts an internal Form to display-format state, merging with defaults.
  */
-export function computeLoadForm(_state: OptimizerRequestState, form: Form): OptimizerRequestState {
+export function computeLoadForm(form: Form): OptimizerRequestState {
   const defaults = createDefaultFormState()
   const converted = internalFormToState(form)
   const merged = mergeDefinedValues({ ...defaults }, converted)

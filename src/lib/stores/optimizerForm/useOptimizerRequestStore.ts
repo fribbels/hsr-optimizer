@@ -190,7 +190,7 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
 
   setCharacterId: (id) => set({ characterId: id }),
 
-  loadForm: (form) => set((state) => computeLoadForm(state, form)),
+  loadForm: (form) => set(() => computeLoadForm(form)),
 
   setMainCharacterConditional: (condType, key, value) => set((state) =>
     computeSetMainCharacterConditional(state, condType, key, value),

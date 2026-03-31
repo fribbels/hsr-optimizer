@@ -20,33 +20,31 @@ import * as persistenceService from 'lib/services/persistenceService'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { SaveState } from 'lib/state/saveState'
-import { setSortColumn } from 'lib/stores/gridStore'
+import { gridStore, setSortColumn } from 'lib/stores/gridStore'
 import {
   getForm,
   validateForm,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { gridStore } from 'lib/stores/gridStore'
 import { objectHash } from 'lib/utils/objectUtils'
 import { uuid } from 'lib/utils/miscUtils'
-import type { Form } from 'types/form'
 
 export function saveStatSimulationBuildFromForm(startSim = true) {
-  const storeState = useOptimizerRequestStore.getState()
-  const form = { statSim: storeState.statSim } as Form
-
+  const statSim = useOptimizerRequestStore.getState().statSim
   const simType: StatSimTypes = useOptimizerDisplayStore.getState().statSimulationDisplay
 
-  // Check for invalid button presses
-  if (simType === StatSimTypes.Disabled || !form.statSim?.[simType]) {
-    console.warn('Invalid sim', form, simType)
+  const simRequest: SimulationRequest | undefined
+    = simType === StatSimTypes.SubstatRolls ? statSim?.substatRolls
+    : simType === StatSimTypes.Benchmarks ? statSim?.benchmarks
+    : undefined
+
+  if (!simRequest) {
+    console.warn('Invalid sim', statSim, simType)
     return null
   }
 
-  // Check for missing fields
-  const simRequest: SimulationRequest = form.statSim[simType]
   if (!validateRequest(simRequest)) {
-    console.warn('Invalid sim', form, simType)
+    console.warn('Invalid sim', statSim, simType)
     return null
   }
 
@@ -54,12 +52,10 @@ export function saveStatSimulationBuildFromForm(startSim = true) {
 }
 
 function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatSimTypes, startSim = false) {
-  const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
-  const key = uuid()
-  const name = simRequest.name ?? undefined
+  const existingSimulations = useOptimizerDisplayStore.getState().statSimulations
   const simulation: Simulation = {
-    name: name,
-    key: key,
+    name: simRequest.name,
+    key: uuid(),
     simType: simType,
     request: simRequest,
   }
@@ -106,30 +102,32 @@ function validateRequest(request: SimulationRequest) {
 }
 
 export function overwriteStatSimulationBuild() {
-  const storeState = useOptimizerRequestStore.getState()
-  const form = { statSim: storeState.statSim } as Form
+  const statSim = useOptimizerRequestStore.getState().statSim
   const simType: StatSimTypes = useOptimizerDisplayStore.getState().statSimulationDisplay
 
-  if (simType === StatSimTypes.Disabled || !form.statSim?.[simType]) {
-    console.warn('Invalid sim', form, simType)
+  const simRequest: SimulationRequest | undefined
+    = simType === StatSimTypes.SubstatRolls ? statSim?.substatRolls
+    : simType === StatSimTypes.Benchmarks ? statSim?.benchmarks
+    : undefined
+
+  if (!simRequest) {
+    console.warn('Invalid sim', statSim, simType)
     return
   }
-
-  const simRequest: SimulationRequest = form.statSim[simType]
   if (!validateRequest(simRequest)) return
 
   const selectedKey = useOptimizerDisplayStore.getState().selectedStatSimulations[0]
   if (!selectedKey) return
 
   const newSim: Simulation = {
-    name: simRequest.name ?? undefined,
+    name: simRequest.name,
     key: uuid(),
     simType: simType,
     request: simRequest,
   }
 
   // Check for dupes, excluding the sim being overwritten
-  const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
+  const existingSimulations = useOptimizerDisplayStore.getState().statSimulations
   const hash = hashSim(newSim)
   for (const sim of existingSimulations) {
     if (sim.key === selectedKey) continue
@@ -143,6 +141,7 @@ export function overwriteStatSimulationBuild() {
   useOptimizerDisplayStore.getState().setSelectedStatSimulations([newSim.key])
 
   startOptimizerStatSimulation()
+  SaveState.delayedSave()
 }
 
 export function deleteStatSimulationBuild(record: { key: string }) {
@@ -157,7 +156,7 @@ export function deleteAllStatSimulationBuilds() {
 
 export function startOptimizerStatSimulation() {
   const form = getForm()
-  const existingSimulations = useOptimizerDisplayStore.getState().statSimulations || []
+  const existingSimulations = useOptimizerDisplayStore.getState().statSimulations
 
   if (existingSimulations.length === 0) return
   if (!validateForm(form)) return

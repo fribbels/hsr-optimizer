@@ -21,10 +21,10 @@ import type {
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type { OptimizerContext } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 const defaultSimulationParams: RunSimulationsParams = {
   quality: 1,

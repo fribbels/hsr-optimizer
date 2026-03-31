@@ -32,14 +32,15 @@ function unequipRelic(id: string): void {
   const relic = getRelicById(id)
   if (!relic) return console.warn('No relic')
 
-  const characters = useCharacterStore.getState().characters
-    .map((c) => {
-      if (c.equipped?.[relic.part] && c.equipped[relic.part] === relic.id) {
-        return { ...c, equipped: { ...c.equipped, [relic.part]: undefined } }
-      }
-      return c
+  // Defensive scan by slot rather than equippedBy to catch state inconsistencies
+  const owner = useCharacterStore.getState().characters
+    .find((c) => c.equipped?.[relic.part] === relic.id)
+  if (owner) {
+    useCharacterStore.getState().setCharacter({
+      ...owner,
+      equipped: { ...owner.equipped, [relic.part]: undefined },
     })
-  useCharacterStore.getState().setCharacters(characters)
+  }
 
   const newRelic = { ...relic, equippedBy: undefined }
   upsertRelic(newRelic)
@@ -115,7 +116,8 @@ export function equipRelic(relic: Relic, characterId: CharacterId | undefined, f
 export function equipRelicIds(relicIds: string[], characterId: CharacterId, forceSwap = false): void {
   if (!characterId) return console.warn('No characterId to equip to')
   for (const relicId of relicIds) {
-    equipRelic({ id: relicId } as Relic, characterId, forceSwap)
+    const relic = getRelicById(relicId)
+    if (relic) equipRelic(relic, characterId, forceSwap)
   }
 }
 

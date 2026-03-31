@@ -10,7 +10,6 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
-import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { computeLoadForm } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
@@ -68,7 +67,7 @@ export function loadBuildInOptimizer(build: SavedBuild): void {
   const form = character?.form ?? getDefaultForm({ id: characterId })
 
   // Compute the full merged state atomically: DB form defaults + build overrides
-  const formState = computeLoadForm(createDefaultFormState(), form)
+  const formState = computeLoadForm(form)
   const buildPatch = deserializeBuild(build, form)
   const mergedState = { ...formState, ...buildPatch }
 

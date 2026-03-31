@@ -63,7 +63,9 @@ function captureSnapshot(x: ComputedStatsContainer): ActionBuffSnapshot {
   return { buffs: [...x.buffs], buffsMemo: [...x.buffsMemo] }
 }
 
-// To use after combo state and context has been initialized
+// To use after combo state and context has been initialized.
+// skipDefaults=true skips defaultActions processing (actionDamage, primaryActionStats,
+// calculateEhp). Use only when the caller only needs COMBO_DMG (e.g. scoring workers).
 export function simulateBuild(
   relics: SimulationRelicByPart,
   context: OptimizerContext,

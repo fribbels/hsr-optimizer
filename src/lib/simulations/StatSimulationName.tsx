@@ -1,4 +1,7 @@
 import { Flex } from '@mantine/core'
+import type { CSSProperties } from 'react'
+import type { TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import type { SubStats } from 'lib/constants/constants'
 import {
   Constants,
@@ -7,10 +10,21 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import type { TFunction } from 'i18next'
-import { useTranslation } from 'react-i18next'
 import type { Stat } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
+
+const IMG_SIZE = 22
+
+const SUBSTAT_TAG_STYLE: CSSProperties = {
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  borderRadius: 4,
+  paddingInline: 3,
+  paddingBlock: 1,
+  marginInlineEnd: 5,
+  fontSize: 11.5,
+  whiteSpace: 'nowrap',
+  background: 'rgba(255, 255, 255, 0.06)',
+}
 
 const substatToPriority: Record<string, number> = {
   [Stats.ATK_P]: 0,
@@ -27,7 +41,7 @@ const substatToPriority: Record<string, number> = {
   [Stats.RES]: 11,
 }
 
-function renderStat(x: Stat, simType: string, t: TFunction<'common', 'ShortStats'>) {
+function renderStat(x: Stat, simType: StatSimTypes, t: TFunction<'common', 'ShortStats'>) {
   return simType === StatSimTypes.SubstatRolls
     ? `${t(x.stat)} x ${x.value}`
     : `${t(x.stat)} ${x.value}${isFlat(x.stat) ? '' : '%'}`
@@ -55,31 +69,29 @@ export function StatSimulationName(props: { sim: Simulation }) {
 
 function SimSetsDisplay(props: { sim: Simulation }) {
   const request = props.sim.request
-  const imgSize = 22
   const relicImage1 = Assets.getSetImage(request.simRelicSet1)
   const relicImage2 = Assets.getSetImage(request.simRelicSet2)
   const ornamentImage = request.simOrnamentSet ? Assets.getSetImage(request.simOrnamentSet) : Assets.getBlank()
   return (
     <Flex gap={5}>
-      <Flex w={imgSize * 2 + 5} justify='center'>
-        <img style={{ width: request.simRelicSet1 ? imgSize : 0 }} src={relicImage1} />
-        <img style={{ width: request.simRelicSet2 ? imgSize : 0 }} src={relicImage2} />
+      <Flex w={IMG_SIZE * 2 + 5} justify='center'>
+        <img style={{ width: request.simRelicSet1 ? IMG_SIZE : 0 }} src={relicImage1} />
+        <img style={{ width: request.simRelicSet2 ? IMG_SIZE : 0 }} src={relicImage2} />
       </Flex>
 
-      <img style={{ width: imgSize }} src={ornamentImage} />
+      <img style={{ width: IMG_SIZE }} src={ornamentImage} />
     </Flex>
   )
 }
 
 function SimMainsDisplay(props: { sim: Simulation }) {
   const request = props.sim.request
-  const imgSize = 22
   return (
     <Flex>
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simBody, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simFeet, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simPlanarSphere, true)} />
-      <img style={{ width: imgSize }} src={Assets.getStatIcon(request.simLinkRope, true)} />
+      <img style={{ width: IMG_SIZE }} src={Assets.getStatIcon(request.simBody, true)} />
+      <img style={{ width: IMG_SIZE }} src={Assets.getStatIcon(request.simFeet, true)} />
+      <img style={{ width: IMG_SIZE }} src={Assets.getStatIcon(request.simPlanarSphere, true)} />
+      <img style={{ width: IMG_SIZE }} src={Assets.getStatIcon(request.simLinkRope, true)} />
     </Flex>
   )
 }
@@ -99,15 +111,11 @@ function SimSubstatsDisplay(props: { sim: Simulation }) {
 
   return (
     <Flex>
-      {renderArray.map((x) => {
-        return (
-          <Flex key={x.stat}>
-            <span style={{ border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: 4, paddingInline: 3, paddingBlock: 1, marginInlineEnd: 5, fontSize: 11.5, whiteSpace: 'nowrap', background: 'rgba(255, 255, 255, 0.06)' }}>
-              {renderStat(x, props.sim.simType, t)}
-            </span>
-          </Flex>
-        )
-      })}
+      {renderArray.map((x) => (
+        <span key={x.stat} style={SUBSTAT_TAG_STYLE}>
+          {renderStat(x, props.sim.simType, t)}
+        </span>
+      ))}
     </Flex>
   )
 }

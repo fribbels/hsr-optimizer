@@ -82,13 +82,12 @@ export async function isValidImageUrl(url: string): Promise<{ valid: boolean; di
 
   return new Promise((resolve) => {
     img.onerror = () => resolve({ valid: false })
-    img.onload = async () => {
-      const imageBitmap: ImageBitmap = await createImageBitmap(img)
+    img.onload = () => {
       resolve({
         valid: true,
         dimensions: {
-          width: imageBitmap.width,
-          height: imageBitmap.height,
+          width: img.naturalWidth,
+          height: img.naturalHeight,
         },
       })
     }

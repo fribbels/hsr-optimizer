@@ -25,6 +25,27 @@ import { useTranslation } from 'react-i18next'
 import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 import { isFlat } from 'lib/utils/statUtils'
 
+function UpgradeButton({ value, label, onClick }: {
+  value: number | undefined | null
+  label: string
+  onClick: () => void
+}) {
+  if (value === null) return null
+  return (
+    <Flex w="100%">
+      <Button
+        variant="default"
+        style={{ width: '100%', padding: 0 }}
+        onClick={onClick}
+        disabled={value === undefined}
+        tabIndex={-1}
+      >
+        {label}
+      </Button>
+    </Flex>
+  )
+}
+
 export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
   index: 0 | 1 | 2 | 3
   upgrades: RelicUpgradeValues[]
@@ -69,47 +90,16 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
     }))
   }, [tStats])
 
-  function PreviewToggle() {
-    const onClick = () => {
-      if (isPreview) {
-        relicForm.setFieldValue(isPreviewField, false as RelicForm[typeof isPreviewField])
-        relicForm.setFieldValue(statValueField, String(isPreview))
-      } else {
-        const value = relicForm.getValues()[statValueField]
-        if (value === '0' || !value) return
-        relicForm.setFieldValue(isPreviewField, value as unknown as RelicForm[typeof isPreviewField])
-        relicForm.setFieldValue(statValueField, '0')
-      }
+  function handlePreviewToggle() {
+    if (isPreview) {
+      relicForm.setFieldValue(isPreviewField, false as RelicForm[typeof isPreviewField])
+      relicForm.setFieldValue(statValueField, String(isPreview))
+    } else {
+      const value = relicForm.getValues()[statValueField]
+      if (value === '0' || !value) return
+      relicForm.setFieldValue(isPreviewField, value as unknown as RelicForm[typeof isPreviewField])
+      relicForm.setFieldValue(statValueField, '0')
     }
-    return (
-      <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-        {isPreview ? <IconLock size={18} onClick={onClick} /> : <IconChevronRight size={18} onClick={onClick} />}
-      </div>
-    )
-  }
-
-  function UpgradeButton(subProps: {
-    quality: 'low' | 'mid' | 'high'
-  }) {
-    const value = upgrades?.[index]?.[subProps.quality]
-
-    if (value === null) return null
-
-    const displayValue = formatStat(value)
-
-    return (
-      <Flex w="100%">
-        <Button
-          variant="default"
-          style={{ width: '100%', padding: 0 }}
-          onClick={() => upgradeClicked(subProps.quality)}
-          disabled={value === undefined}
-          tabIndex={-1}
-        >
-          {displayValue}
-        </Button>
-      </Flex>
-    )
   }
 
   const stat = relicForm.getValues()[statTypeField] as RelicForm[typeof statTypeField]
@@ -154,13 +144,25 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
       </Flex>
 
       <Flex align="center" justify="center" h="100%">
-        <PreviewToggle />
+        <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          {isPreview
+            ? <IconLock size={18} onClick={handlePreviewToggle} />
+            : <IconChevronRight size={18} onClick={handlePreviewToggle} />}
+        </div>
       </Flex>
 
       <Flex gap={5}>
-        <UpgradeButton quality="low" />
-        <UpgradeButton quality="mid" />
-        <UpgradeButton quality="high" />
+        {(['low', 'mid', 'high'] as const).map((quality) => {
+          const value = upgrades?.[index]?.[quality]
+          return (
+            <UpgradeButton
+              key={quality}
+              value={value}
+              label={value != null ? formatStat(value) : ''}
+              onClick={() => upgradeClicked(quality)}
+            />
+          )
+        })}
       </Flex>
     </div>
   )

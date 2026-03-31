@@ -84,18 +84,23 @@ export async function createSpineInstance(
     assetManager.loadTextureAtlas(atlasFile)
   }
 
-  await new Promise<void>((resolve, reject) => {
-    function check() {
-      if (assetManager.isLoadingComplete()) {
-        assetManager.hasErrors()
-          ? reject(new Error(JSON.stringify(assetManager.getErrors())))
-          : resolve()
-      } else {
-        requestAnimationFrame(check)
+  try {
+    await new Promise<void>((resolve, reject) => {
+      function check() {
+        if (assetManager.isLoadingComplete()) {
+          assetManager.hasErrors()
+            ? reject(new Error(JSON.stringify(assetManager.getErrors())))
+            : resolve()
+        } else {
+          requestAnimationFrame(check)
+        }
       }
-    }
-    check()
-  })
+      check()
+    })
+  } catch (err) {
+    assetManager.dispose()
+    throw err
+  }
 
   // --- Bounds calculation (scale=1) ---
 
@@ -168,6 +173,12 @@ export async function createSpineInstance(
 
   const renderer = new SceneRenderer(canvas, context)
 
+  renderer.camera.position.x = camX
+  renderer.camera.position.y = camY
+  renderer.camera.zoom = 1
+  renderer.camera.setViewport(canvasSize, canvasSize)
+  renderer.camera.update()
+
   let rafId: number | null = null
   let lastTime = performance.now()
 
@@ -184,12 +195,6 @@ export async function createSpineInstance(
     gl.viewport(0, 0, canvasSize, canvasSize)
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
-
-    renderer.camera.position.x = camX
-    renderer.camera.position.y = camY
-    renderer.camera.zoom = 1
-    renderer.camera.setViewport(canvasSize, canvasSize)
-    renderer.camera.update()
 
     renderer.begin()
     for (const entry of entries) {

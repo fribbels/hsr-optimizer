@@ -5,7 +5,6 @@ import {
 } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
@@ -40,8 +39,7 @@ export function convertRelicsToSimulation(
   speedRollValue = 2.6,
 ) {
   const relics = Object.values(relicsByPart)
-  const accumulatedSubstatRolls = {} as Record<SubStats, number>
-  SubStats.forEach((x) => accumulatedSubstatRolls[x] = 0)
+  const accumulatedSubstatRolls = Object.fromEntries(SubStats.map((x) => [x, 0])) as Record<SubStats, number>
 
   // Sum up substat rolls
   for (const relic of relics) {
@@ -87,8 +85,8 @@ function calculateRelicSets(relicSets: (string | number)[], nameProvided = false
   const relicSetNames: string[] = []
   while (relicSets.length > 0) {
     const value = relicSets[0]
-    if (relicSets.lastIndexOf(value)) {
-      const setName = nameProvided ? value : Object.entries(RelicSetToIndex).find((x) => x[1] == value)![0]
+    if (relicSets.indexOf(value) !== relicSets.lastIndexOf(value)) {
+      const setName = nameProvided ? value : Object.entries(RelicSetToIndex).find((x) => x[1] === value)![0]
       relicSetNames.push(setName as string)
 
       const otherIndex = relicSets.lastIndexOf(value)
@@ -101,11 +99,11 @@ function calculateRelicSets(relicSets: (string | number)[], nameProvided = false
 }
 
 function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = true): string | undefined {
-  if (ornamentSets[0] != null && ornamentSets[0] == ornamentSets[1]) {
+  if (ornamentSets[0] != null && ornamentSets[0] === ornamentSets[1]) {
     return (
       nameProvided
         ? ornamentSets[1] as string
-        : Object.entries(OrnamentSetToIndex).find((x) => x[1] == ornamentSets[1])![0]
+        : Object.entries(OrnamentSetToIndex).find((x) => x[1] === ornamentSets[1])![0]
     )
   }
   return undefined

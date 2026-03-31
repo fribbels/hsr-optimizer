@@ -1,5 +1,15 @@
 import { createOverlayStore } from 'lib/stores/infrastructure/createOverlayStore'
-import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+
+export type CharacterModalForm = {
+  characterId?: CharacterId | null
+  lightCone?: LightConeId | null
+  characterEidolon: number
+  lightConeSuperimposition: number
+  teamOrnamentSet?: string
+  teamRelicSet?: string
+}
 
 export type CharacterModalConfig = {
   initialCharacter?: { form: CharacterModalForm } | null

@@ -8,7 +8,7 @@ import { SaveState } from 'lib/state/saveState'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import type { CharacterId } from 'types/character'
-import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
+import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import type { Form } from 'types/form'
 
 export const CharacterTabController = {

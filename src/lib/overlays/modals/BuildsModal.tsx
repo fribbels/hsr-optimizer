@@ -56,8 +56,9 @@ export function BuildsModal() {
 }
 
 function BuildsModalContent() {
-  const config = useBuildsModalStore((s) => s.config)
-  const closeOverlay = useBuildsModalStore((s) => s.closeOverlay)
+  const { config, closeOverlay } = useBuildsModalStore(
+    useShallow((s) => ({ config: s.config, closeOverlay: s.closeOverlay }))
+  )
   const characterId = config?.characterId ?? null
   const character = useCharacterStore(
     useCallback((s) => characterId ? s.charactersById[characterId] ?? null : null, [characterId]),
@@ -85,10 +86,10 @@ function BuildsModalContent() {
     )
   }
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setSelectedBuild(null)
     closeOverlay()
-  }
+  }, [closeOverlay])
 
   const handleDeleteAllBuilds = async () => {
     const characterName = t(`gameData:Characters.${character.id}.Name`)
@@ -101,7 +102,7 @@ function BuildsModalContent() {
     }
   }
 
-  const handleDeleteSingleBuild = async (name: string) => {
+  const handleDeleteSingleBuild = useCallback(async (name: string) => {
     const result = await confirm(t('Builds.ConfirmDelete.DeleteSingle', { name }))
     if (result) {
       setSelectedBuild(null)
@@ -110,9 +111,9 @@ function BuildsModalContent() {
       const fresh = getCharacterById(character.id)
       if (!fresh?.builds?.length) closeOverlay()
     }
-  }
+  }, [character.id, closeOverlay, confirm, t])
 
-  const handleEquip = async (build: SavedBuild) => {
+  const handleEquip = useCallback(async (build: SavedBuild) => {
     const result = await confirm(t('Builds.ConfirmEquip.Content'))
     if (result) {
       buildService.equipBuildRelics(build.characterId, build.equipped)
@@ -121,7 +122,7 @@ function BuildsModalContent() {
       useCharacterTabStore.getState().setFocusCharacter(build.characterId)
       useGlobalStore.getState().setActiveKey(AppPages.CHARACTERS)
     }
-  }
+  }, [closeOverlay, confirm, handleCancel, t])
 
   function clipboardClicked(action: 'clipboard' | 'download') {
     if (selectedBuild === null || character === null) {
@@ -303,7 +304,6 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
       className={styles.buildCard}
       style={{
         backgroundColor: selected ? 'var(--layer-3)' : 'var(--layer-1)',
-        borderColor: 'var(--border-default)',
       }}
       onClick={(e) => {
         setSelectedBuild(build.name)
@@ -343,20 +343,20 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
             </Flex>
           )}
         </Flex>
-        <TeammatePreview build={build} display={true} />
+        <TeammatePreview build={build} />
       </Flex>
     </div>
   )
 })
 
-const TeammatePreview = memo(function TeammatePreview(props: { build: SavedBuild; display: boolean }) {
-  const { build, display } = props
+const TeammatePreview = memo(function TeammatePreview(props: { build: SavedBuild }) {
+  const { build } = props
   const hasTeammates = build.team.some(Boolean)
   if (!hasTeammates) return null
 
   const imgStyle: CSSProperties = {
-    opacity: display ? 1 : 0,
-    height: display ? 50 : 0,
+    opacity: 1,
+    height: 50,
   }
   return (
     <Flex

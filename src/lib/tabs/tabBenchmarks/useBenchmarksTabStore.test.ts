@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useBenchmarksTabStore, type SimpleCharacterSets } from './useBenchmarksTabStore'
-import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
+import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Robin } from 'lib/conditionals/character/1300/Robin'

@@ -1,6 +1,7 @@
 import { Button, Flex, Modal, SegmentedControl, Select } from '@mantine/core'
 import iconClasses from 'style/icons.module.css'
 import { useForm } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
 import { useFormOnOpen } from 'lib/overlays/modals/useFormOnOpen'
 import { Constants } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
@@ -8,7 +9,6 @@ import { getCharacterById } from 'lib/stores/character/characterStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
-  type OptionRender,
   renderTeammateOrnamentSetOptions,
   renderTeammateRelicSetOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
@@ -23,15 +23,7 @@ import type {
 } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
-
-export type CharacterModalForm = {
-  characterId?: CharacterId | null,
-  lightCone?: LightConeId | null,
-  characterEidolon: number,
-  lightConeSuperimposition: number,
-  teamOrnamentSet?: string,
-  teamRelicSet?: string,
-}
+import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 
 export function CharacterModal() {
   const open = useCharacterModalStore((s) => s.open)
@@ -73,10 +65,16 @@ function CharacterModalContent() {
 
   const [characterId, setCharacterId] = useState<CharacterId | null | undefined>(initialCharacter?.form.characterId ?? null)
 
-  const teammateRelicSetOptions: OptionRender[] = useMemo(renderTeammateRelicSetOptions(tTeammateCard), [tTeammateCard])
-  const teammateOrnamentSetOptions: OptionRender[] = useMemo(renderTeammateOrnamentSetOptions(tTeammateCard), [tTeammateCard])
+  const relicSetData = useMemo(
+    () => renderTeammateRelicSetOptions(tTeammateCard)().map((opt) => ({ value: opt.value, label: opt.desc })),
+    [tTeammateCard],
+  )
+  const ornamentSetData = useMemo(
+    () => renderTeammateOrnamentSetOptions(tTeammateCard)().map((opt) => ({ value: opt.value, label: opt.desc })),
+    [tTeammateCard],
+  )
 
-  useFormOnOpen(characterForm, true, () => {
+  useFormOnOpen(characterForm, () => {
     setCharacterId(initialCharacter?.form.characterId ?? null)
     return {
       characterId: initialCharacter?.form.characterId,
@@ -158,53 +156,17 @@ function CharacterModalContent() {
           {config.showSetSelection && (
             <Flex direction="column" gap={5}>
               <HeaderText>{t('Sets')}</HeaderText>
-
-              <Select
-                className='teammate-set-select'
-                data={teammateRelicSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
-                placeholder={tTeammateCard('RelicsPlaceholder')} // 'Relics'
-                clearable
-                maxDropdownHeight={500}
-                comboboxProps={{ keepMounted: false, width: 'auto' }}
-                renderOption={({ option }) => {
-                  if (!option.value) return option.label
-                  return (
-                    <Flex gap={10} align='center'>
-                      <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
-                      {option.label}
-                    </Flex>
-                  )
-                }}
-                leftSection={(() => {
-                  const val = characterForm.getValues().teamRelicSet
-                  return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : null
-                })()}
-                disabled={false}
-                {...characterForm.getInputProps('teamRelicSet')}
+              <SetSelect
+                data={relicSetData}
+                placeholder={tTeammateCard('RelicsPlaceholder')}
+                fieldKey='teamRelicSet'
+                form={characterForm}
               />
-
-              <Select
-                className='teammate-set-select'
-                data={teammateOrnamentSetOptions.map((opt) => ({ value: opt.value, label: opt.desc }))}
-                placeholder={tTeammateCard('OrnamentsPlaceholder')} // 'Ornaments'
-                clearable
-                maxDropdownHeight={500}
-                comboboxProps={{ keepMounted: false, width: 'auto' }}
-                renderOption={({ option }) => {
-                  if (!option.value) return option.label
-                  return (
-                    <Flex gap={10} align='center'>
-                      <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
-                      {option.label}
-                    </Flex>
-                  )
-                }}
-                leftSection={(() => {
-                  const val = characterForm.getValues().teamOrnamentSet
-                  return val ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} /> : null
-                })()}
-                disabled={false}
-                {...characterForm.getInputProps('teamOrnamentSet')}
+              <SetSelect
+                data={ornamentSetData}
+                placeholder={tTeammateCard('OrnamentsPlaceholder')}
+                fieldKey='teamOrnamentSet'
+                form={characterForm}
               />
             </Flex>
           )}
@@ -219,5 +181,42 @@ function CharacterModalContent() {
         </Button>
       </Flex>
     </>
+  )
+}
+
+function SetSelect({
+  data,
+  placeholder,
+  fieldKey,
+  form,
+}: {
+  data: { value: string; label: string }[]
+  placeholder: string
+  fieldKey: 'teamRelicSet' | 'teamOrnamentSet'
+  form: UseFormReturnType<CharacterModalForm>
+}) {
+  const val = form.getValues()[fieldKey]
+  return (
+    <Select
+      className='teammate-set-select'
+      data={data}
+      placeholder={placeholder}
+      clearable
+      maxDropdownHeight={500}
+      comboboxProps={{ keepMounted: false, width: 'auto' }}
+      renderOption={({ option }) => {
+        if (!option.value) return option.label
+        return (
+          <Flex gap={10} align='center'>
+            <img src={Assets.getSetImage(option.value, Constants.Parts.PlanarSphere)} className={iconClasses.icon26} />
+            {option.label}
+          </Flex>
+        )
+      }}
+      leftSection={val
+        ? <img src={Assets.getSetImage(val, Constants.Parts.PlanarSphere)} className={iconClasses.icon20} />
+        : null}
+      {...form.getInputProps(fieldKey)}
+    />
   )
 }

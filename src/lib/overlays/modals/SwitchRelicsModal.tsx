@@ -73,7 +73,7 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
     [characterOptions],
   )
 
-  useFormOnOpen(characterForm, true, () => ({
+  useFormOnOpen(characterForm, () => ({
     selectedCharacter: null,
   }))
 
@@ -94,7 +94,7 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
           <Flex gap={defaultGap}>
             <SearchableCombobox
               options={comboboxOptions}
-              value={characterForm.getValues().selectedCharacter}
+              value={characterForm.values.selectedCharacter}
               onChange={(val) => characterForm.setFieldValue('selectedCharacter', val)}
               placeholder={t('Placeholder')}
               style={{ width: panelWidth }}

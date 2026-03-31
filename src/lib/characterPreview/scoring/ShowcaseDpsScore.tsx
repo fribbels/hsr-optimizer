@@ -42,7 +42,7 @@ import { useTranslation } from 'react-i18next'
 import {
   type CharacterId,
 } from 'types/character'
-import type { CharacterModalForm } from 'lib/overlays/modals/CharacterModal'
+import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import { type PreparedState } from 'lib/scoring/scoringService'
 import { type SimulationMetadata } from 'types/metadata'
 import { truncate10ths } from 'lib/utils/mathUtils'

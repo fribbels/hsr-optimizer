@@ -206,7 +206,7 @@ function RollsCard({ relicAnalysis }: { relicAnalysis: RelicAnalysis }) {
         ))}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4 }} className={styles.perfectionSection}>
-        <HorizontalDivider style={{ margin: 0, paddingBottom: 2 }} />
+        <HorizontalDivider style={{ margin: 0, marginBlock: 0, marginTop: 13, marginBottom: 0, paddingBottom: 2 }} />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span className={styles.label}>{t('Perfection') /* Perfection */}</span>
           <span>{percentDisplay}%</span>

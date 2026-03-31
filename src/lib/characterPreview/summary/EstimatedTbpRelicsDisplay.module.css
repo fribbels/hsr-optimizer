@@ -44,7 +44,7 @@
 }
 
 .metricRow {
-  height: 111px;
+  height: 115px;
 }
 
 .rollsCard {
@@ -58,14 +58,13 @@
 }
 
 .perfectionSection {
-  height: 46px;
   padding-bottom: 10px;
 }
 
 .progressBarOuter {
-  height: 100%;
+  height: 6px;
   width: 100%;
-  background-color: var(--layer-2);
+  background-color: var(--layer-3);
   border-radius: 20px;
   overflow: hidden;
 }

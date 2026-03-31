@@ -8,8 +8,7 @@ import type { ShowcasePreferences } from 'types/metadata'
 
 const STANDARD_COLOR = '#799ef4'
 export const DEFAULT_SHOWCASE_COLOR = '#2473e1'
-// Neutral gray for custom portraits while the worker extracts the real color.
-// The CSS transition (background-color 0.35s) animates smoothly from gray → extracted color.
+// Placeholder shown while the worker extracts a custom portrait's color.
 const CUSTOM_PORTRAIT_PENDING_COLOR = '#6b7280'
 
 interface ResolvedShowcaseColor {
@@ -18,14 +17,12 @@ interface ResolvedShowcaseColor {
 }
 
 /**
- * Pure function that resolves the effective color for a character's showcase card.
+ * Resolves the effective seed color for a character's showcase card.
  *
  * Resolution order:
- * 1. Global STANDARD mode overrides everything → fixed blue
+ * 1. Global STANDARD mode → fixed blue
  * 2. Per-character CUSTOM mode → saved custom color (with fallback)
  * 3. AUTO mode → portrait-extracted color → character config color → default blue
- *
- * No refs, no module-level caches, no side effects.
  */
 export function resolveShowcaseColor(
   characterId: CharacterId,
@@ -34,8 +31,7 @@ export function resolveShowcaseColor(
   portraitExtractedColor: string | undefined,
   hasCustomPortrait?: boolean,
 ): ResolvedShowcaseColor {
-  // Resolve effective mode: global STANDARD overrides, otherwise use per-character preference.
-  // Guard: per-character STANDARD is invalid (STANDARD is global-only). Treat as AUTO.
+  // Per-character STANDARD is invalid (STANDARD is global-only) — treat as AUTO.
   const savedColorMode = perCharPreferences?.colorMode
   const effectiveColorMode = globalColorMode === ShowcaseColorMode.STANDARD
     ? ShowcaseColorMode.STANDARD
@@ -60,9 +56,6 @@ export function resolveShowcaseColor(
   }
 }
 
-/**
- * Derives the card theme (background + border colors) from a seed color and dark mode flag.
- */
 export function resolveShowcaseTheme(seedColor: string, darkMode: boolean, config?: ColorPipelineConfig): ShowcaseTheme {
   return {
     cardBackgroundColor: oklchCardBackgroundColor(seedColor, darkMode, config),

@@ -14,17 +14,8 @@ import { memo, useMemo } from 'react'
 import { type CharacterId } from 'types/character'
 import { type Relic } from 'types/relic'
 
-const leftParts = [
-  { key: 'Head' as const, part: Constants.Parts.Head },
-  { key: 'Body' as const, part: Constants.Parts.Body },
-  { key: 'PlanarSphere' as const, part: Constants.Parts.PlanarSphere },
-]
-
-const rightParts = [
-  { key: 'Hands' as const, part: Constants.Parts.Hands },
-  { key: 'Feet' as const, part: Constants.Parts.Feet },
-  { key: 'LinkRope' as const, part: Constants.Parts.LinkRope },
-]
+const leftParts: Parts[] = [Constants.Parts.Head, Constants.Parts.Body, Constants.Parts.PlanarSphere]
+const rightParts: Parts[] = [Constants.Parts.Hands, Constants.Parts.Feet, Constants.Parts.LinkRope]
 
 export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
   setSelectedRelic,
@@ -47,29 +38,29 @@ export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
 }) {
   const relicByPart = useMemo(() => {
     const map: Record<string, Relic> = {}
-    for (const { key, part } of [...leftParts, ...rightParts]) {
-      map[key] = { ...displayRelics[key], part }
+    for (const part of [...leftParts, ...rightParts]) {
+      map[part] = { ...displayRelics[part], part }
     }
     return map
   }, [displayRelics])
 
   const scoreByPart = useMemo(() => {
     const map: Record<string, RelicScoringResult | undefined> = {}
-    for (const { part } of [...leftParts, ...rightParts]) {
+    for (const part of [...leftParts, ...rightParts]) {
       map[part] = scoredRelics.find((x) => x.part === part)
     }
     return map
   }, [scoredRelics])
 
-  const renderColumn = (parts: typeof leftParts | typeof rightParts) => (
+  const renderColumn = (parts: Parts[]) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-      {parts.map(({ key, part }) => (
+      {parts.map((part) => (
         <RelicPreview
-          key={key}
+          key={part}
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           setAddModalOpen={setAddModalOpen}
-          relic={relicByPart[key]}
+          relic={relicByPart[part]}
           source={source}
           characterId={characterId}
           score={scoreByPart[part]}

@@ -1,8 +1,3 @@
-// ---------------------------------------------------------------------------
-// OKLCH-based color normalization pipeline
-// Pure functions: config in, color out. No side effects.
-// ---------------------------------------------------------------------------
-
 import chroma from 'chroma-js'
 import {
   type CardColorConfig,
@@ -10,9 +5,6 @@ import {
   DEFAULT_CONFIG,
 } from 'lib/characterPreview/color/colorPipelineConfig'
 
-// ---------------------------------------------------------------------------
-// Core: normalize any seed color to a target OKLCH range
-// ---------------------------------------------------------------------------
 export function normalizeOklch(seedColor: string, cfg: CardColorConfig): string {
   const [l, c, h] = chroma(seedColor).oklch()
 
@@ -25,16 +17,12 @@ export function normalizeOklch(seedColor: string, cfg: CardColorConfig): string 
     return chroma.oklch(outL, 0, 0).alpha(cfg.alpha).css()
   }
 
-  // Chroma: power curve then linear scale, clamped
-  const powered = Math.pow(c, cfg.chromaPower)
-  const scaledC = Math.max(cfg.minC, Math.min(powered * cfg.chromaScale, cfg.maxC))
+  // Chroma: linear scale, clamped
+  const scaledC = Math.max(cfg.minC, Math.min(c * cfg.chromaScale, cfg.maxC))
 
-  // Hue: shift
-  const outH = (h + cfg.hueShift) % 360
-
-  const result = chroma.oklch(outL, scaledC, outH).alpha(cfg.alpha)
+  const result = chroma.oklch(outL, scaledC, h).alpha(cfg.alpha)
   if (result.clipped()) {
-    return chroma.oklch(outL, scaledC * 0.5, outH).alpha(cfg.alpha).css()
+    return chroma.oklch(outL, scaledC * 0.5, h).alpha(cfg.alpha).css()
   }
   return result.css()
 }
@@ -49,10 +37,6 @@ function applyDarkMode(color: string, darkMode: boolean, config: ColorPipelineCo
     Number.isNaN(h) ? 0 : h,
   ).alpha(a).css()
 }
-
-// ---------------------------------------------------------------------------
-// Public API
-// ---------------------------------------------------------------------------
 
 export function oklchCardBackgroundColor(
   seedColor: string,

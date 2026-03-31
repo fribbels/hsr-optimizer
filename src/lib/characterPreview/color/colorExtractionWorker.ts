@@ -1,11 +1,11 @@
-// Runs in a dedicated Web Worker — image decode, downsample, and OKLCH quantization all happen here.
-
 import {
   extractPalette,
   classifySwatches,
   validateOptions,
   MmcqQuantizer,
 } from './colorthiefImports'
+
+// Runs in a dedicated Web Worker — image decode, downsample, and OKLCH quantization all happen here.
 
 export interface ColorWorkerRequest {
   id: number
@@ -25,18 +25,28 @@ export interface ColorWorkerResult {
   paletteHex: string[]
 }
 
+function hexLuminance(hex: string): number {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255
+}
+
 const DEFAULT_FALLBACK = '#2241be'
 const DOWNSAMPLE_SIZE = 150
 const EXTRACTION_OPTS = validateOptions({ colorCount: 20, quality: 1, colorSpace: 'oklch', minSaturation: 0.05 })
 
-let quantizer: MmcqQuantizer | null = null
+let quantizerPromise: Promise<MmcqQuantizer> | null = null
 
 async function ensureQuantizer(): Promise<MmcqQuantizer> {
-  if (!quantizer) {
-    quantizer = new MmcqQuantizer()
-    await quantizer.init()
+  if (!quantizerPromise) {
+    quantizerPromise = (async () => {
+      const q = new MmcqQuantizer()
+      await q.init()
+      return q
+    })()
   }
-  return quantizer
+  return quantizerPromise
 }
 
 async function fetchAndDownsample(url: string): Promise<ImageData> {
@@ -73,17 +83,10 @@ async function handleRequest(req: ColorWorkerRequest): Promise<ColorWorkerResult
     LightMuted: swatchMap.LightMuted?.color.hex() ?? DEFAULT_FALLBACK,
   }
 
-  const swatchSet = new Set(Object.values(swatchHex))
+  const swatchSet = new Set(Object.values(swatchHex).filter((hex) => hex !== DEFAULT_FALLBACK))
   const paletteHex = palette
     .map((c: { hex: () => string }) => c.hex())
-    .filter((hex: string) => {
-      if (swatchSet.has(hex)) return false
-      const r = parseInt(hex.slice(1, 3), 16)
-      const g = parseInt(hex.slice(3, 5), 16)
-      const b = parseInt(hex.slice(5, 7), 16)
-      const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-      return lum >= 0.12
-    })
+    .filter((hex: string) => !swatchSet.has(hex) && hexLuminance(hex) >= 0.12)
 
   return { swatchHex, paletteHex }
 }

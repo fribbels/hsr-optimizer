@@ -31,6 +31,17 @@ function zeroCounts(): PartCounts {
   return { Head: 0, Hands: 0, Body: 0, Feet: 0, PlanarSphere: 0, LinkRope: 0 }
 }
 
+// Returns true if at least one positively-weighted substat can appear on this relic
+// (i.e. is not blocked by the relic's main stat). When false, the weight filter
+// is impossible to satisfy and the relic should be exempt.
+function hasAchievableWeightedSubstat(weights: Record<string, number>, mainStat: string): boolean {
+  for (const stat in weights) {
+    if (stat === 'minWeightedRolls') continue
+    if (weights[stat] > 0 && stat !== mainStat) return true
+  }
+  return false
+}
+
 function computeWeightScore(relic: Relic, weights: Record<string, number>, upgradeLevel: number): number {
   let score = weightedSubstatScore(relic.substats, weights as Record<StatsValues, number>)
   if (upgradeLevel) {
@@ -140,7 +151,7 @@ export const RelicFilters = {
       if (isRelic && relicSetsAllowed && relicSetsAllowed[RelicSetToIndex[relic.set as SetsRelics]] !== 1) continue
       if (!isRelic && ornamentSetsAllowed && ornamentSetsAllowed[OrnamentSetToIndex[relic.set as SetsOrnaments]] !== 1) continue
 
-      if (computeWeightScore(relic, weights, request.mainStatUpscaleLevel) < rollThreshold) continue
+      if (hasAchievableWeightedSubstat(weights, relic.main.stat) && computeWeightScore(relic, weights, request.mainStatUpscaleLevel) < rollThreshold) continue
 
       if (lockedParts[part]) {
         if (relic.id === lockedParts[part]) lockedFound[part] = true
@@ -182,7 +193,7 @@ export const RelicFilters = {
 
     for (const part of Object.values(Constants.Parts)) {
       const partition: Relic[] = relics[part]
-      relics[part] = partition.filter((relic) => relic.weightScore >= minRolls)
+      relics[part] = partition.filter((relic) => !hasAchievableWeightedSubstat(weights, relic.main.stat) || relic.weightScore >= minRolls)
     }
 
     return relics

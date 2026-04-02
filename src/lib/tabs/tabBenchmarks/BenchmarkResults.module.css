@@ -76,6 +76,9 @@
 
 .expandedRow {
   margin: 8px;
+  background-color: var(--layer-1);
+  border-radius: var(--radius-md);
+  padding: 8px;
 }
 
 .statsColumn {

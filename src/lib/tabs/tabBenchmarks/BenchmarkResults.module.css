@@ -9,8 +9,8 @@
   border-top: none;
 }
 
-.benchmarkTable {
-  width: 1200px;
+.tableWrapper .benchmarkTable {
+  width: 100%;
   border: 1px solid var(--border-default);
   box-shadow: var(--shadow-card-flat);
   border-radius: var(--radius-md);

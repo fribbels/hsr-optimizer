@@ -76,8 +76,8 @@ export const Gradient = {
     return style
   },
 
-  setTheme(primaryColor: string) {
-    relicGridGradient = chroma.scale([chroma(primaryColor).darken(3).desaturate(2).hex(), primaryColor])
+  setTheme(darkBg: string, primaryLight: string) {
+    relicGridGradient = chroma.scale([darkBg, primaryLight])
     relicGradientCache = new Array(GRADIENT_BUCKETS)
   },
 

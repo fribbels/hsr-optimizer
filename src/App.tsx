@@ -15,13 +15,18 @@ import { Tabs } from 'lib/tabs/Tabs'
 import { useEffect, useMemo } from 'react'
 
 // Initial gradient setup before first render
-try { Gradient.setTheme(useThemeStore.getState().seedColor) } catch { Gradient.setTheme('#1668DC') }
+{
+  const initTheme = createMantineTheme(useThemeStore.getState().seedColor)
+  Gradient.setTheme(initTheme.colors!.dark![8], initTheme.colors!.primary![4])
+}
 
 export function App() {
   const seedColor = useThemeStore((s) => s.seedColor)
   const mantineTheme = useMemo(() => createMantineTheme(seedColor), [seedColor])
 
-  useEffect(() => { Gradient.setTheme(seedColor) }, [seedColor])
+  useEffect(() => {
+    Gradient.setTheme(mantineTheme.colors!.dark![8], mantineTheme.colors!.primary![4])
+  }, [mantineTheme])
 
   useEffect(() => {
     const timerId = setTimeout(() => checkForUpdatesNotification(useGlobalStore.getState().version), 5000)

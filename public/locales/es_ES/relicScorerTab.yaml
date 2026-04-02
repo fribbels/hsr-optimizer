@@ -8,7 +8,6 @@ Messages:
   CharacterAlreadyExists: El personaje seleccionado ya existe
   UnknownButtonClicked: Botón desconocido presionado
 Header:
-  DowntimeWarning: 'Puede que el evaluador de artefactos esté de baja por mantenimiento luego del parche {{game_version}}, por favor intenta más tarde'
   WithVersion: 'Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente. (Versión actual {{beta_version}})'
   WithoutVersion: Ingresa la UID de tu cuenta para evaluar los personajes de tu perfil que sean nivel 80 y tengan los rastros al máximo. Cierra sesión para actualizar instantáneamente.
 SubmissionBar:
@@ -16,7 +15,6 @@ SubmissionBar:
   AlgorithmButton: Algoritmo de puntuación
 CopyScreenshot: Copiar captura de pantalla
 ImportLabels:
-  Relics: Importar artefactos al optimizador
   SingleCharacter: Importar personaje seleccionado y todos los artefactos al optimizador
   AllCharacters: Importar todos los personajes y todos los artefactos al optimizador
 SimulateRelics: Simular artefactos en otro personaje

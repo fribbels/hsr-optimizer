@@ -4,7 +4,9 @@ RelicFilterBar:
   Grade: Grade
   InitialRolls: Initial Rolls
   Verified: Verified
+  Unverified: Unverified
   Equipped: Equipped
+  Unequipped: Unequipped
   Clear: Clear
   ClearButton: Clear all filters
   Set: Set
@@ -171,7 +173,7 @@ Toolbar:
   InsightOptions:
     Buckets: 'Relic Insight: Buckets'
     Top10: 'Relic Insight: Top 10'
-    ESTBP: 'Relic Insights: ESTBP'
+    ESTBP: 'Relic Insight: EST TBP'
   PlotOptions:
     PlotAll: Show all characters
     PlotCustom: Show custom characters

@@ -19,7 +19,6 @@ import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringS
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
-import { clone } from 'lib/utils/objectUtils'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
@@ -48,8 +47,7 @@ const statRenderOption: React.ComponentProps<typeof MultiSelect>['renderOption']
 
 // Cleans up 0's to not show up on the form
 function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata): ScoringAlgorithmForm {
-  scoringMetadata = clone(scoringMetadata)
-  const scoringMetadataForForm: ScoringAlgorithmForm = { ...scoringMetadata }
+  const scoringMetadataForForm: ScoringAlgorithmForm = { ...scoringMetadata, stats: { ...scoringMetadata.stats } }
   for (const x of Object.entries(scoringMetadataForForm.stats)) {
     if (x[1] === 0) {
       // @ts-expect-error - Setting stat weight to null for display (form shows empty instead of 0)
@@ -172,11 +170,12 @@ function ScoringModalContent({ close }: { close: () => void }) {
   const onFinish = (scoringMetadata: Partial<ScoringMetadata>) => {
     if (!scoringAlgorithmFocusCharacter) return
 
-    scoringMetadata.stats![Stats.ATK_P] = scoringMetadata.stats![Stats.ATK]
-    scoringMetadata.stats![Stats.DEF_P] = scoringMetadata.stats![Stats.DEF]
-    scoringMetadata.stats![Stats.HP_P] = scoringMetadata.stats![Stats.HP]
+    const stats = { ...scoringMetadata.stats! }
+    stats[Stats.ATK_P] = stats[Stats.ATK]
+    stats[Stats.DEF_P] = stats[Stats.DEF]
+    stats[Stats.HP_P] = stats[Stats.HP]
 
-    useScoringStore.getState().updateCharacterOverrides(scoringAlgorithmFocusCharacter, scoringMetadata)
+    useScoringStore.getState().updateCharacterOverrides(scoringAlgorithmFocusCharacter, { ...scoringMetadata, stats })
     SaveState.delayedSave()
   }
 

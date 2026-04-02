@@ -87,14 +87,14 @@ export function FilterPillBar() {
   [])
 
   const equippedOptions: FilterOption<boolean>[] = useMemo(() => [
-    { value: true, label: 'Equipped' },
-    { value: false, label: 'Unequipped' },
-  ], [])
+    { value: true, label: t('RelicFilterBar.Equipped') },
+    { value: false, label: t('RelicFilterBar.Unequipped') },
+  ], [t])
 
   const verifiedOptions: FilterOption<boolean>[] = useMemo(() => [
-    { value: true, label: 'Verified' },
-    { value: false, label: 'Unverified' },
-  ], [])
+    { value: true, label: t('RelicFilterBar.Verified') },
+    { value: false, label: t('RelicFilterBar.Unverified') },
+  ], [t])
 
   const relicSetOptions: FilterOption<Sets>[] = useMemo(() =>
     Object.values(SetsRelics).filter((x) => !UnreleasedSets[x]).map((set) => ({

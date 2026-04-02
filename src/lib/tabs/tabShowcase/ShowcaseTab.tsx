@@ -4,9 +4,7 @@ import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import {
-  CURRENT_DATA_VERSION,
   DOWNTIME_VERSION,
-  officialOnly,
   SHOWCASE_DOWNTIME,
 } from 'lib/constants/constants'
 import { AppPages } from 'lib/constants/appPages'
@@ -18,6 +16,7 @@ import {
   handleCharacterModalOk,
   importShowcaseCharacters,
   initializeShowcaseOnMount,
+  parseShowcaseUrlId,
   type Preset,
   syncShowcaseUrl,
 } from 'lib/tabs/tabShowcase/showcaseTabController'
@@ -98,7 +97,7 @@ function RedirectToHome() {
   useEffect(() => {
     // Don't redirect if there's a UID in the URL or a saved session —
     // initializeShowcaseOnMount will handle transitioning to Loading
-    const urlId = window.location.hash.split('id=')[1]?.split('&')[0]
+    const urlId = parseShowcaseUrlId()
     if (urlId || savedScorerId) return
 
     useGlobalStore.getState().setActiveKey(AppPages.HOME)
@@ -108,12 +107,13 @@ function RedirectToHome() {
 
 function ShowcaseLoading() {
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
+  const { t } = useTranslation('relicScorerTab')
 
   return (
     <div className={styles.loadingContainer}>
       <Loader size="lg" />
       <div className={styles.loadingText}>
-        Fetching showcase for {scorerId}
+        {t('Loading.FetchingShowcase', { scorerId })}
       </div>
     </div>
   )
@@ -135,7 +135,6 @@ function ShowcaseLoaded() {
   const setScoringAlgorithmFocusCharacter = useGlobalStore((s) => s.setScoringAlgorithmFocusCharacter)
 
   const { t } = useTranslation(['relicScorerTab', 'common'])
-  const { t: tCharacter } = useTranslation('gameData', { keyPrefix: 'Characters' })
 
   // Controlled UID input, synced from store
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
@@ -239,7 +238,7 @@ function ShowcaseLoaded() {
                   rightSection={<IconChevronDown size={14} />}
                   variant="default"
                 >
-                  Import
+                  {t('relicScorerTab:Buttons.Import')}
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>

@@ -17,12 +17,6 @@ import {
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 
-const relicInsightOptions = [
-  { value: String(RelicInsights.Buckets), label: 'Buckets' },
-  { value: String(RelicInsights.Top10), label: 'Top 10' },
-  { value: String(RelicInsights.ESTBP), label: 'EST TBP' },
-]
-
 export function BottomToolbar() {
   const { selectedRelicId, selectedRelicsIds, insightsMode, setInsightsMode, insightsCharacters, setInsightsCharacters } = useRelicsTabStore(
     useShallow((s) => ({
@@ -40,6 +34,12 @@ export function BottomToolbar() {
   const { t: tCommon } = useTranslation('common')
 
   const selectedRelic = useRelicById(selectedRelicId)
+
+  const relicInsightOptions = useMemo(() => [
+    { value: String(RelicInsights.Buckets), label: t('InsightOptions.Buckets') },
+    { value: String(RelicInsights.Top10), label: t('InsightOptions.Top10') },
+    { value: String(RelicInsights.ESTBP), label: t('InsightOptions.ESTBP') },
+  ], [t])
 
   const characterPlotOptions = useMemo(() => [
     { value: String(InsightCharacters.All), label: t('PlotOptions.PlotAll') },

@@ -42,9 +42,6 @@ import type {
   LightConeConditionalsController,
 } from 'types/conditionals'
 
-// Module-level cache for set conditional content
-let cachedSetContent: ReturnType<typeof generateSetConditionalContent> | null = null
-let cachedSetContentLanguage: string | undefined = undefined
 
 const ConditionalActivationRow = memo(function ConditionalActivationRow({
   contentItem,
@@ -138,12 +135,10 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
   const metadata = useComboDrawerStore((s) => resolveMetadata(s, originKey))
   const comboConditionals = useComboDrawerStore((s) => resolveConditionals(s, originKey))
 
-  // Module-level cache instead of per-row useMemo
-  if (!cachedSetContent || cachedSetContentLanguage !== i18n.resolvedLanguage) {
-    cachedSetContent = generateSetConditionalContent(setSelectOptionTFunction)
-    cachedSetContentLanguage = i18n.resolvedLanguage
-  }
-  const setContent = cachedSetContent
+  const setContent = useMemo(
+    () => generateSetConditionalContent(setSelectOptionTFunction),
+    [setSelectOptionTFunction],
+  )
 
   const resolverData = useMemo(() => {
     const route = resolveSourceKeyRoute(originKey)

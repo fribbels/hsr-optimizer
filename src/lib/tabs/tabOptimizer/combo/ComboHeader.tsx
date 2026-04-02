@@ -9,12 +9,14 @@ import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ReactElement } from 'types/components'
 
+const abilitySelectorStyle = { width: abilityWidth }
+
 function AbilitySelector({ index, value }: {
   index: number
   value: TurnAbilityName
 }) {
   if (index === 0) return null
-  return <ControlledTurnAbilitySelector index={index} value={value} style={{ width: abilityWidth }} />
+  return <ControlledTurnAbilitySelector index={index} value={value} style={abilitySelectorStyle} />
 }
 
 export function ComboDrawerTitle() {

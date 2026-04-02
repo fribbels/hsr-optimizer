@@ -58,6 +58,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
     if (clamped !== fieldValue) {
       handleConditionalChange(itemName as (string | number)[], clamped)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: only re-clamp when bounds change; storeValue read for current value, not as trigger
   }, [min, max])
 
   const displayValue = dragState ?? currentValue

@@ -79,7 +79,7 @@ export function presetCharacters(): Preset[] {
 
 // ── Initialization ──
 
-function parseShowcaseUrlId(): string | null {
+export function parseShowcaseUrlId(): string | null {
   return window.location.href.split('?')[1]?.split('id=')[1]?.split('&')[0] ?? null
 }
 

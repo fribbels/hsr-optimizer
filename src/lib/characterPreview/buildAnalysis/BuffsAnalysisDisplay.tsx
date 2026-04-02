@@ -87,9 +87,9 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
     return null
   }
 
-  const allBuffs = collectAllBuffs(buffGroups)
-  const relevantTags = computeRelevantTags(allBuffs)
-  const statSums = computeStatSums(allBuffs, selectedFilter)
+  const allBuffs = useMemo(() => collectAllBuffs(buffGroups), [buffGroups])
+  const relevantTags = useMemo(() => computeRelevantTags(allBuffs), [allBuffs])
+  const statSums = useMemo(() => computeStatSums(allBuffs, selectedFilter), [allBuffs, selectedFilter])
 
   const primaryGroup = buffGroups[BUFF_TYPE.PRIMARY]
   const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined

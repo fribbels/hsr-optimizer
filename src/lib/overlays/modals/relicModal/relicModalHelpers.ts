@@ -4,7 +4,7 @@ import {
   Stats,
   type SubStats,
 } from 'lib/constants/constants'
-import type { RelicForm, SubstatValues } from './relicModalTypes'
+import type { SubstatValues } from './relicModalTypes'
 import { objectHash } from 'lib/utils/objectUtils'
 import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'

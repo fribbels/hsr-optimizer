@@ -77,7 +77,7 @@ export async function isValidImageUrl(url: string): Promise<{ valid: boolean; di
     return { valid: false }
   }
 
-  const img = new Image() // Be careful not to import Image from antd, it'll conflict with this
+  const img = new Image() // Uses the native Image constructor — don't shadow with a component import
   img.src = url
 
   return new Promise((resolve) => {
@@ -104,7 +104,7 @@ export async function isValidImageFile(file: File): Promise<{ valid: boolean; di
     fileReader.onload = (e) => {
       const img = new Image()
       img.src = e.target?.result as string
-      img.onload = async () => {
+      img.onload = () => {
         resolve({
           valid: true,
           dimensions: {
@@ -144,9 +144,9 @@ export async function isValidImageFile(file: File): Promise<{ valid: boolean; di
 
  When the key goes down: https://api.imgur.com/oauth2/addclient
  *************************************************/
-export async function uploadToImgurByUrl(imageUrl: string): Promise<{ link: string; dimensions?: ImageDimensions } | null> {
+export async function uploadToImgur(image: string | File): Promise<{ link: string; dimensions?: ImageDimensions } | null> {
   const formData = new FormData()
-  formData.append('image', imageUrl)
+  formData.append('image', image)
 
   try {
     const response = await fetch(IMGUR_API_ENDPOINT, {
@@ -167,38 +167,7 @@ export async function uploadToImgurByUrl(imageUrl: string): Promise<{ link: stri
     if (data.success) {
       return { link: data.data.link, dimensions }
     } else {
-      throw new Error('Image url upload to Imgur failed but did not return a typical error response')
-    }
-  } catch (error) {
-    console.error('There was an error uploading the image to Imgur:', error)
-    return null
-  }
-}
-
-export async function uploadToImgurByFile(file: File): Promise<{ link: string; dimensions?: ImageDimensions } | null> {
-  const formData = new FormData()
-  formData.append('image', file)
-
-  try {
-    const response = await fetch(IMGUR_API_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Authorization: `Client-ID ${CLIENT_ID}`,
-      },
-      body: formData,
-    })
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(`Imgur API error: ${errorData.data.error}`)
-    }
-    const data = await response.json()
-    const dimensions = (data.data.width && data.data.height)
-      ? { width: data.data.width, height: data.data.height }
-      : undefined
-    if (data.success) {
-      return { link: data.data.link, dimensions }
-    } else {
-      throw new Error('Image file upload to Imgur failed but did not return a typical error response')
+      throw new Error('Upload to Imgur failed but did not return a typical error response')
     }
   } catch (error) {
     console.error('There was an error uploading the image to Imgur:', error)

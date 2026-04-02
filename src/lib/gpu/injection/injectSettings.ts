@@ -73,12 +73,10 @@ function generateRequest(request: Form) {
   for (const [key, value] of Object.entries(request)) {
     if ((key.startsWith('min') || key.startsWith('max'))) {
       // Guard against undefined/NaN from missing form fields — emit 0 for min, MAX_INT for max.
-      // For max=0: use EPSILON as threshold so trace-epsilon-boosted "zero" stats still pass.
       const n = Number(value)
       const isMin = key.startsWith('min')
       const safe = Number.isFinite(n) ? n : (isMin ? 0 : Constants.MAX_INT)
-      const threshold = (!isMin && safe === 0) ? EPSILON : safe
-      wgsl += `const ${key}: f32 = ${threshold};\n`
+      wgsl += `const ${key}: f32 = ${safe};\n`
     }
   }
   wgsl += '\n'
@@ -106,17 +104,11 @@ function generateElement(context: OptimizerContext) {
   return wgsl
 }
 
-const EPSILON = 0.00000001
-const EPSILON_STATS = new Set(['HP', 'ATK', 'DEF', 'SPD', 'CR', 'CD', 'EHR', 'RES', 'BE', 'ERR', 'OHB'])
-
 function generateCharacterStats(characterStats: { [key: string]: number }, prefix: string) {
   let wgsl = '\n'
 
   for (const [name, stat] of Object.entries(paramStatNames)) {
-    let value = characterStats[stat] ?? 0
-    if (prefix === 'trace' && EPSILON_STATS.has(name)) {
-      value += EPSILON
-    }
+    const value = characterStats[stat] ?? 0
     wgsl += `const ${prefix}${name}: f32 = ${value};\n`
   }
 

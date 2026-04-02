@@ -93,8 +93,9 @@ function ResetAllCharactersButton({ focusCharacter, form }: {
         stats: { ...defaultScoringMetadata.stats },
         parts: { ...defaultScoringMetadata.parts },
       }
-      useScoringStore.getState().updateCharacterOverrides(character, scoringMetadataToMerge); SaveState.delayedSave()
+      useScoringStore.getState().updateCharacterOverrides(character, scoringMetadataToMerge)
     }
+    SaveState.delayedSave()
 
     // Update values for current screen
     if (focusCharacter) {
@@ -175,7 +176,8 @@ function ScoringModalContent({ close }: { close: () => void }) {
     scoringMetadata.stats![Stats.DEF_P] = scoringMetadata.stats![Stats.DEF]
     scoringMetadata.stats![Stats.HP_P] = scoringMetadata.stats![Stats.HP]
 
-    useScoringStore.getState().updateCharacterOverrides(scoringAlgorithmFocusCharacter, scoringMetadata); SaveState.delayedSave()
+    useScoringStore.getState().updateCharacterOverrides(scoringAlgorithmFocusCharacter, scoringMetadata)
+    SaveState.delayedSave()
   }
 
   const handleResetDefault = () => {

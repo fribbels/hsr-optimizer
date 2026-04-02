@@ -69,7 +69,7 @@ export class ScoringCache {
     let cached = this.currentCache.get(relic.id)?.get(metaHash)
     if (!cached) {
       const idealScore = this._getOptimalWithMeta(relic.part, relic.main.stat, meta)
-      cached = scoreCurrentRelic(relic, id, meta, idealScore)
+      cached = scoreCurrentRelic(relic, meta, idealScore)
       if (!this.currentCache.has(relic.id)) {
         this.currentCache.set(relic.id, new Map())
       }

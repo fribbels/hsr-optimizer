@@ -1,5 +1,4 @@
 import type { Relic } from 'types/relic'
-import type { CharacterId } from 'types/character'
 import type { RelicScoringResult, ScorerMetadata } from './types'
 import { toFixed1 } from './scoringConstants'
 import {
@@ -11,7 +10,6 @@ import { scoreToRating } from './scoreFormatting'
 
 export function scoreCurrentRelic(
   relic: Relic,
-  id: CharacterId,
   meta: ScorerMetadata,
   idealScore: number,
 ): RelicScoringResult {

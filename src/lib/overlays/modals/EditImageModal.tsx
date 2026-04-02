@@ -18,8 +18,7 @@ import {
   isValidImageUrl,
   MAX_ZOOM,
   MIN_ZOOM,
-  uploadToImgurByFile,
-  uploadToImgurByUrl,
+  uploadToImgur,
   validateFileSize,
   validateUrlFileSize,
 } from 'lib/overlays/modals/editImageUtils'
@@ -195,7 +194,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
     }
 
     // Attempt to upload the file to Imgur
-    const imgurResult = await uploadToImgurByFile(file)
+    const imgurResult = await uploadToImgur(file)
     setIsVerificationLoading(false)
     if (!imgurResult) {
       Message.error(t('ImageUploadFailed'))
@@ -245,7 +244,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
       }
 
       // Attempt to upload image to Imgur when CORS is blocked
-      const imgurResult = await uploadToImgurByUrl(imageUrl)
+      const imgurResult = await uploadToImgur(imageUrl)
       if (imgurResult) {
         // Upload successful -> set the verified image URL and go to next step
         setVerifiedImageUrl(imgurResult.link)

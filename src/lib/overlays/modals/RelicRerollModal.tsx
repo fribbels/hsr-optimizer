@@ -57,7 +57,7 @@ function RelicRerollModalContent({ relic }: { relic: V4ParserRelic }) {
           <Text fw={700}>{t('OriginalSubstats') /* Original Substats */}</Text>
         </Flex>
 
-        <IconChevronsRight style={{ fontSize: '24px' }} />
+        <IconChevronsRight size={24} />
 
         <Flex direction="column" align='center' gap={4}>
           <RelicPreview

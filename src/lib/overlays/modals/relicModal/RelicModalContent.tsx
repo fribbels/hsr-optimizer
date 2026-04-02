@@ -3,9 +3,7 @@ import { Alert, Button, Flex, NumberInput, SegmentedControl } from '@mantine/cor
 import { SearchableCombobox, type SearchableComboboxOption } from 'lib/ui/SearchableCombobox'
 import {
   Constants,
-  type MainStats,
   Parts,
-  type Sets,
   UnreleasedSets,
 } from 'lib/constants/constants'
 import {

@@ -292,7 +292,7 @@ Sidebar:
     Save: crwdns46372:0crwdne46372:0
     Load: crwdns46374:0crwdne46374:0
 TeammateRow:
-  Header: 'crwdns42966:0{{teammateCount}}crwdne42966:0'
+  Header: 'crwdns46726:0crwdne46726:0'
 FormRowLabels:
   Character options: crwdns42968:0crwdne42968:0
   Relic & stat filters: crwdns42970:0crwdne42970:0
@@ -528,8 +528,9 @@ ComboFilter:
     ResetConfirm:
       Description: crwdns43264:0crwdne43264:0
     PresetsHeader: crwdns45440:0crwdne45440:0
-  CounterLabels:
-    Dot: crwdns43266:0crwdne43266:0
+  Presets:
+    Enabled: crwdns46728:0crwdne46728:0
+    Disabled: crwdns46730:0crwdne46730:0
   ComboOptions:
     None: 'crwdns45228:0crwdne45228:0'
     Basic: crwdns43270:0crwdne43270:0

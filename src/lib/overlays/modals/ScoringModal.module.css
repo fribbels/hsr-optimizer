@@ -6,6 +6,13 @@
   margin-left: 5px;
 }
 
+.partMultiSelect :global(.mantine-Pill-root ~ .mantine-PillsInputField-field) {
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 .statIcon {
   width: 25px;
   height: 25px;

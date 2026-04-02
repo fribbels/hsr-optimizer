@@ -1,5 +1,5 @@
 import { type UseFormReturnType, useForm } from '@mantine/form'
-import { Button, Divider, Flex, Modal, MultiSelect, NumberInput } from '@mantine/core'
+import { Button, CheckIcon, Combobox, Divider, Flex, Modal, MultiSelect, NumberInput } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import {
   Parts,
@@ -38,10 +38,13 @@ type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'character
 
 const panelWidth = 220
 
-const statRenderOption: React.ComponentProps<typeof MultiSelect>['renderOption'] = ({ option }) => (
-  <Flex align='center' gap={10}>
-    <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
-    {option.label}
+const statRenderOption: React.ComponentProps<typeof MultiSelect>['renderOption'] = ({ option, checked }) => (
+  <Flex align='center' gap={10} justify='space-between' w='100%'>
+    <Flex align='center' gap={10}>
+      <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+      {option.label}
+    </Flex>
+    {checked && <CheckIcon size={12} />}
   </Flex>
 )
 
@@ -208,6 +211,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
             <CharacterSelect
               value={scoringAlgorithmForm.getValues().characterId || null}
               onChange={characterSelectorChange}
+              showIcon={false}
             />
             <div className={classes.previewContainer} style={{ height: 230, width: panelWidth }}>
               <img src={previewSrc} style={{ width: panelWidth }} />
@@ -224,6 +228,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     {t('common:Parts.Body')}
                   </div>
                   <MultiSelect
+                    className={classes.partMultiSelect}
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.Body')}
@@ -246,6 +251,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     {t('common:Parts.Feet')}
                   </div>
                   <MultiSelect
+                    className={classes.partMultiSelect}
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.Feet')}
@@ -265,6 +271,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     {t('common:Parts.PlanarSphere')}
                   </div>
                   <MultiSelect
+                    className={classes.partMultiSelect}
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.PlanarSphere')}
@@ -291,6 +298,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                     {t('common:Parts.LinkRope')}
                   </div>
                   <MultiSelect
+                    className={classes.partMultiSelect}
                     clearable
                     style={{ width: selectWidth }}
                     placeholder={t('common:Parts.LinkRope')}

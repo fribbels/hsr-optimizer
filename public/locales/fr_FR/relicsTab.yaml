@@ -137,10 +137,6 @@ Toolbar:
     Width: Largeur de l'inventaire
     Filter: Ligne de filtre automatique
     NoneSelected: Sélectionnez une relique à repérer
-    Location: 'Position - Lgn {{rowIndex}} / Col {{columnIndex}}'
-  InsightOptions:
-    Buckets: 'Aperçu de relique: Seaux'
-    Top10: 'Aperçu de relique: Top 10'
   PlotOptions:
     PlotAll: Tous les personnages
     PlotCustom: Personnages custom

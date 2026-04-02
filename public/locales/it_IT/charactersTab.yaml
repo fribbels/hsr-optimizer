@@ -129,7 +129,6 @@ CharacterPreview:
       FUA: FUA
       MEMO_SKILL: ABILITÀᴹ
       MEMO_TALENT: TALENTOᴹ
-      DOTS: 'DOT:'
       BREAKS: 'BREAK:'
     CombatResults:
       Header: Risultato dei danni in combattimento

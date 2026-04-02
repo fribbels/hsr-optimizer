@@ -137,10 +137,6 @@ Toolbar:
     Width: Larghezza dell'inventario
     Filter: Filtra automaticamente le righe
     NoneSelected: Seleziona una reliquia da localizzare
-    Location: 'Posizione - Riga {{rowIndex}} / Colonna {{columnIndex}}'
-  InsightOptions:
-    Buckets: 'Reliquie Consigliate: Suddivisione'
-    Top10: 'Reliquie Consigliate: Top 10'
   PlotOptions:
     PlotAll: Mostra tutti i personaggi
     PlotCustom: Mostra personaggi personalizzati

@@ -494,4 +494,13 @@ export const Hint = {
       ),
     }
   },
+
+  showcaseUid: (): HintContent => {
+    return {
+      title: i18next.t('relicScorerTab:SubmissionBar.Placeholder'),
+      content: (
+        <p>{i18next.t('relicScorerTab:Header.WithoutVersion')}</p>
+      ),
+    }
+  },
 }

@@ -1,5 +1,7 @@
 import { IconChevronDown, IconSearch } from '@tabler/icons-react'
 import { Button, Flex, Loader, Menu, TextInput } from '@mantine/core'
+import { Hint } from 'lib/interactions/hint'
+import { TooltipImage } from 'lib/ui/TooltipImage'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
@@ -250,6 +252,7 @@ function ShowcaseLoaded() {
               </Menu.Dropdown>
             </Menu>
           )}
+          <TooltipImage type={Hint.showcaseUid()} />
         </Flex>
 
         {/* DPS Score Disclaimer */}

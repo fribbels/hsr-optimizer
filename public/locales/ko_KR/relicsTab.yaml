@@ -133,10 +133,6 @@ Toolbar:
     Width: 인벤토리 너비
     Filter: 자동 행 맞춤
     NoneSelected: 찾는 유물 선택
-    Location: '위치 - 행 {{rowIndex}} / 열 {{columnIndex}}'
-  InsightOptions:
-    Buckets: '유물 정렬 : 버켓'
-    Top10: '유물 정렬 : Top 10'
   PlotOptions:
     PlotAll: 모든 캐릭터 보기
     PlotCustom: 커스텀 캐릭터 보기

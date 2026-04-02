@@ -245,7 +245,7 @@ Sidebar:
     Header: Builds
     Save: Salvar
 TeammateRow:
-  Header: 'Membros de equipe {{teammateCount}}'
+  Header: 'Membros de equipe'
 FormRowLabels:
   Character options: Opções do personagem
   Relic & stat filters: Filtros de relíquias e atributos
@@ -453,8 +453,6 @@ ComboFilter:
     ResetConfirm:
       Description: Redefinir todas as configurações de rotação simples/avançadas para o padrão?
     PresetsHeader: Predefinições
-  CounterLabels:
-    Dot: DOTs
   ComboOptions:
     None: 'Nenhum'
     Basic: Basic

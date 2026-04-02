@@ -107,7 +107,7 @@ function FilterPillInner<T extends string | number | boolean>({
                       {opt.icon}
                     </div>
                   )}
-                  <span style={{ fontSize: 12, whiteSpace: 'nowrap' }}>{opt.label}</span>
+                  <span style={{ whiteSpace: 'nowrap' }}>{opt.label}</span>
                 </Group>
               </Combobox.Option>
             )

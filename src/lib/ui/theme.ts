@@ -33,7 +33,7 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       },
       InputBase: { defaultProps: { size: 'xs' } },
       InputWrapper: { defaultProps: { size: 'xs' } },
-      Combobox: { defaultProps: { width: 'target' } },
+      Combobox: { defaultProps: { width: 'target', size: 'xs' } },
       Select: {
         defaultProps: {
           size: 'xs',
@@ -104,6 +104,8 @@ export const themeResolver: CSSVariablesResolver = (theme) => {
     dark: {
       '--mantine-color-red-filled': '#a52d2d',
       '--mantine-color-red-filled-hover': '#952727',
+      '--mantine-color-primary-light': chroma(theme.colors.primary[5]).alpha(0.25).css(),
+      '--mantine-color-primary-light-hover': chroma(theme.colors.primary[5]).alpha(0.32).css(),
     },
   }
 }

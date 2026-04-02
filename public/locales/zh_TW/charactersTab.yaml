@@ -81,7 +81,6 @@ CharacterPreview:
       ULT: 終結技
       FUA: 追加攻擊
       MEMO_SKILL: 憶靈戰技
-      DOTS: '持續傷害次數'
       BREAKS: '擊破次數'
     CombatResults:
       Header: 戰鬥傷害結果

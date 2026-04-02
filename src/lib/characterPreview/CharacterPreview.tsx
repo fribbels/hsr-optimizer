@@ -25,7 +25,7 @@ import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/card/ShowcaseRelicsPanel'
 import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
-import { resolveShowcaseLayout } from 'lib/characterPreview/useShowcaseDerivedData'
+import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
 import { resolveShowcaseColor, resolveShowcaseTheme } from 'lib/characterPreview/color/showcaseColorService'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
@@ -47,7 +47,6 @@ import {
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
-import { getCharacterById } from 'lib/stores/character/characterStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import {
@@ -424,7 +423,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           setInsetBlur(2); setInsetOpacity(0.30)
           setDebugMaxC(0.09); setDebugMinC(0.05); setDebugChromaScale(0.50); setDebugTargetL(0.40); setDebugDarkCScale(0.80)
         }},
-{ label: 'Preset D (bright)', apply: () => {
+        { label: 'Preset D (bright)', apply: () => {
           setPortraitBlur(24); setPortraitBrightness(0.50); setPortraitSaturate(1.80); setCardBgAlpha(0.50)
           setShadowX(1); setShadowY(1); setShadowBlur(5); setShadowOpacity(0.75)
           setInsetBlur(2); setInsetOpacity(0.30)

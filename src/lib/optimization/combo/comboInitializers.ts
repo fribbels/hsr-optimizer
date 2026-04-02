@@ -86,12 +86,16 @@ export function initializeComboState(request: Form, merge: boolean) {
   comboState.comboTeammate2 = generateComboTeammate(request.teammate2, actionCount, dbMetadata)
 
   if (request.comboStateJson && merge) {
-    const savedComboState = JSON.parse(request.comboStateJson) as ComboState
-    comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
-    comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
+    try {
+      const savedComboState = JSON.parse(request.comboStateJson) as ComboState
+      comboState.comboCharacter.displayedOrnamentSets = savedComboState?.comboCharacter?.displayedOrnamentSets ?? []
+      comboState.comboCharacter.displayedRelicSets = savedComboState?.comboCharacter?.displayedRelicSets ?? []
 
-    if (savedComboState.version == COMBO_STATE_JSON_VERSION) {
-      mergeComboStates(comboState, savedComboState)
+      if (savedComboState.version === COMBO_STATE_JSON_VERSION) {
+        mergeComboStates(comboState, savedComboState)
+      }
+    } catch {
+      console.warn('comboStateJson parse failed — proceeding with fresh state')
     }
   }
 
@@ -124,7 +128,7 @@ function shiftDefaultConditionalToFirst(comboConditionals?: ComboConditionals) {
   if (!comboConditionals) return
 
   for (const [, conditionals] of Object.entries(comboConditionals)) {
-    if (conditionals.type == ConditionalDataType.NUMBER || conditionals.type == ConditionalDataType.SELECT) {
+    if (conditionals.type === ConditionalDataType.NUMBER || conditionals.type === ConditionalDataType.SELECT) {
       const numberCategory = conditionals
       for (let i = 0; i < numberCategory.partitions.length; i++) {
         const partition = numberCategory.partitions[i]
@@ -152,17 +156,17 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
     const comboSet = comboState.comboCharacter.setConditionals[key]
     if (!comboSet) {
       modified.push(key)
-    } else if (comboSet.type == ConditionalDataType.BOOLEAN) {
+    } else if (comboSet.type === ConditionalDataType.BOOLEAN) {
       for (let i = 0; i < comboState.comboTurnAbilities.length; i++) {
         const activation = comboSet.activations[i]
         if (activation == null) break
-        if (activation != defaultValue) {
+        if (activation !== defaultValue) {
           modified.push(key)
           break
         }
       }
-    } else if (comboSet.type == ConditionalDataType.SELECT) {
-      if (comboSet.partitions[0]?.value != defaultValue) {
+    } else if (comboSet.type === ConditionalDataType.SELECT) {
+      if (comboSet.partitions[0]?.value !== defaultValue) {
         modified.push(key)
       }
     }
@@ -176,7 +180,7 @@ function displayModifiedSets(request: Form, comboState: ComboState) {
 }
 
 function mergeComboStates(base: ComboState, update: ComboState) {
-  if (base.comboCharacter.metadata.characterId != update?.comboCharacter?.metadata?.characterId) return
+  if (base.comboCharacter.metadata.characterId !== update?.comboCharacter?.metadata?.characterId) return
 
   mergeConditionals(base.comboCharacter.characterConditionals, update?.comboCharacter?.characterConditionals)
   mergeConditionals(base.comboCharacter.lightConeConditionals, update?.comboCharacter?.lightConeConditionals)
@@ -201,9 +205,9 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
 
   for (const [key, conditional] of Object.entries(baseConditionals)) {
     const updateConditional = updateConditionals[key]
-    if (updateConditional && conditional.type == updateConditional.type) {
+    if (updateConditional && conditional.type === updateConditional.type) {
       // The initial value must always match the form
-      if (conditional.type == ConditionalDataType.BOOLEAN) {
+      if (conditional.type === ConditionalDataType.BOOLEAN) {
         const booleanBaseConditional = conditional
         const booleanUpdateConditional = updateConditional as ComboBooleanConditional
         booleanUpdateConditional.activations[0] = booleanBaseConditional.activations[0]
@@ -254,11 +258,11 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
           }
         }
 
-        const newUpdateIndex = newPartitions.findIndex((p) => p.value == activeUpdateValue)
-        const newBaseIndex = newPartitions.findIndex((p) => p.value == activeBaseValue)
+        const newUpdateIndex = newPartitions.findIndex((p) => p.value === activeUpdateValue)
+        const newBaseIndex = newPartitions.findIndex((p) => p.value === activeBaseValue)
 
         // Inherit the previous active conditional's activations
-        if (newUpdateIndex != newBaseIndex && newUpdateIndex >= 0 && newBaseIndex >= 0) {
+        if (newUpdateIndex !== newBaseIndex && newUpdateIndex >= 0 && newBaseIndex >= 0) {
           for (let i = 0; i <= ABILITY_LIMIT; i++) {
             newPartitions[newBaseIndex].activations[i] = newPartitions[newUpdateIndex].activations[i] || newPartitions[newBaseIndex].activations[i]
           }
@@ -269,7 +273,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
 
         // The only 0 index activation should be the base conditional
         for (let i = 0; i < newPartitions.length; i++) {
-          if (newPartitions[i].value == numberBaseConditional.partitions[0].value) {
+          if (newPartitions[i].value === numberBaseConditional.partitions[0].value) {
             newPartitions[i].activations[0] = true
           } else {
             newPartitions[i].activations[0] = false
@@ -278,7 +282,7 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
 
         // Move the base conditional to the front
         for (let i = 0; i < newPartitions.length; i++) {
-          if (newPartitions[i].value == numberBaseConditional.partitions[0].value) {
+          if (newPartitions[i].value === numberBaseConditional.partitions[0].value) {
             const partition = newPartitions.splice(i, 1)[0]
             newPartitions.unshift(partition)
             break
@@ -304,14 +308,14 @@ function generateComboConditionals(
     // Some preprocessors still need the variable to be passed through even if its disabled
     // if (content.disabled) continue
 
-    if (content.formItem == 'switch') {
+    if (content.formItem === 'switch') {
       const value = conditionals[content.id] ?? defaults[content.id] ?? false
       const activations: boolean[] = Array(actionCount).fill(value)
       output[content.id] = {
         type: ConditionalDataType.BOOLEAN,
         activations: activations,
       }
-    } else if (content.formItem == 'slider') {
+    } else if (content.formItem === 'slider') {
       const rawValue = (conditionals[content.id] ?? defaults[content.id] ?? 0) as number
       const value = Math.min(Math.max(rawValue, content.min ?? rawValue), content.max ?? rawValue)
       const activations: boolean[] = Array(actionCount).fill(true)
@@ -323,7 +327,7 @@ function generateComboConditionals(
         type: ConditionalDataType.NUMBER,
         partitions: [valuePartitions],
       }
-    } else if (content.formItem == 'select') {
+    } else if (content.formItem === 'select') {
       const value = (conditionals[content.id] ?? defaults[content.id] ?? 0) as number
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubSelectConditional = {
@@ -351,7 +355,7 @@ function generateSetComboConditionals(
   for (const setName of Object.keys(setConditionals) as Array<keyof SetConditionals>) {
     const setConditionalValue = setConditionals[setName]
     const p4Value = setConditionalValue[1]
-    if (ConditionalSetMetadata[setName].type == ConditionalDataType.SELECT) {
+    if (ConditionalSetMetadata[setName].type === ConditionalDataType.SELECT) {
       const value: number = p4Value as number
       const activations: boolean[] = Array(actionCount).fill(true)
       const valuePartitions: ComboSubSelectConditional = {

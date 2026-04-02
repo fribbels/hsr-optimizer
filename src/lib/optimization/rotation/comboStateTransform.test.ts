@@ -16,26 +16,26 @@ import {
 Metadata.initialize()
 
 // ---------------------------------------------------------------------------
-// B1: BUG-04 — BOOLEAN Out-of-Bounds
+// BOOLEAN out-of-bounds
 // ---------------------------------------------------------------------------
-describe('B1: BUG-04 — BOOLEAN out-of-bounds', () => {
-  test('B1a: BOOLEAN with activations length 5, accessing actionIndex 7 returns false', () => {
+describe('BOOLEAN out-of-bounds', () => {
+  test('BOOLEAN with activations length 5, accessing actionIndex 7 returns false', () => {
     const result = transformConditionals(7, {
       testKey: {
         type: ConditionalDataType.BOOLEAN,
         activations: [true, false, true, false, true],
       } satisfies ComboBooleanConditional,
     })
-    // Currently fails — returns undefined because activations[7] is out of bounds
+    // Out-of-bounds access should return false, not undefined
     expect(result.testKey).toBe(false)
   })
 })
 
 // ---------------------------------------------------------------------------
-// B2: BUG-05 — No Active Partition
+// No active partition fallback
 // ---------------------------------------------------------------------------
-describe('B2: BUG-05 — No active partition', () => {
-  test('B2a: NUMBER with 2 partitions, neither active at actionIndex 3, returns first partition value', () => {
+describe('no active partition', () => {
+  test('NUMBER with 2 partitions, neither active at actionIndex 3, returns first partition value', () => {
     const result = transformConditionals(3, {
       testKey: {
         type: ConditionalDataType.NUMBER,
@@ -45,16 +45,16 @@ describe('B2: BUG-05 — No active partition', () => {
         ],
       } satisfies ComboNumberConditional,
     })
-    // Currently fails — returns 0 because no partition has activations[3] === true
+    // When no partition is active, should fall back to first partition value
     expect(result.testKey).toBe(5)
   })
 })
 
 // ---------------------------------------------------------------------------
-// B3: Regression Tests (should pass now)
+// Regression tests
 // ---------------------------------------------------------------------------
-describe('B3: Regression tests', () => {
-  test('B3a: BOOLEAN, activations[2] = true returns true', () => {
+describe('regression tests', () => {
+  test('BOOLEAN, activations[2] = true returns true', () => {
     const result = transformConditionals(2, {
       testKey: {
         type: ConditionalDataType.BOOLEAN,
@@ -64,7 +64,7 @@ describe('B3: Regression tests', () => {
     expect(result.testKey).toBe(true)
   })
 
-  test('B3b: BOOLEAN, activations[2] = false returns false', () => {
+  test('BOOLEAN, activations[2] = false returns false', () => {
     const result = transformConditionals(2, {
       testKey: {
         type: ConditionalDataType.BOOLEAN,
@@ -74,7 +74,7 @@ describe('B3: Regression tests', () => {
     expect(result.testKey).toBe(false)
   })
 
-  test('B3c: NUMBER, partition 1 has activations[2] = true with value 5 returns 5', () => {
+  test('NUMBER, partition 1 has activations[2] = true with value 5 returns 5', () => {
     const result = transformConditionals(2, {
       testKey: {
         type: ConditionalDataType.NUMBER,
@@ -87,7 +87,7 @@ describe('B3: Regression tests', () => {
     expect(result.testKey).toBe(5)
   })
 
-  test('B3d: SELECT, partition 0 has activations[1] = true with value 3 returns 3', () => {
+  test('SELECT, partition 0 has activations[1] = true with value 3 returns 3', () => {
     const result = transformConditionals(1, {
       testKey: {
         type: ConditionalDataType.SELECT,
@@ -102,10 +102,10 @@ describe('B3: Regression tests', () => {
 })
 
 // ---------------------------------------------------------------------------
-// B4: transformConditionals multi-key (should pass now)
+// transformConditionals multi-key
 // ---------------------------------------------------------------------------
-describe('B4: transformConditionals multi-key', () => {
-  test('B4a: ComboConditionals map with 2 BOOLEAN + 1 NUMBER returns correct value map', () => {
+describe('transformConditionals multi-key', () => {
+  test('ComboConditionals map with 2 BOOLEAN + 1 NUMBER returns correct value map', () => {
     const result = transformConditionals(1, {
       boolA: {
         type: ConditionalDataType.BOOLEAN,

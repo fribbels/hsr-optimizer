@@ -79,7 +79,7 @@ describe('useRelicsTabStore', () => {
       expect(state().selectedRelicsIds).toBe(before)
     })
 
-    // RELICSTAB-1: Fixed — equality check now compares element-wise, not just length + last element.
+    // Equality check must compare element-wise, not just length + last element
     it('selecting different relic IDs with matching length and last element still updates selectedRelicsIds', () => {
       state().setSelectedRelicsIds([RELIC_1, RELIC_2])
       const before = state().selectedRelicsIds

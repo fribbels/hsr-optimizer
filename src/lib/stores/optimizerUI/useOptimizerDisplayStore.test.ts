@@ -211,9 +211,8 @@ describe('useOptimizerDisplayStore', () => {
       expect(state().optimizerStartTime).toBe(1000)
     })
 
-    // DISPLAY-5: GPU null device handler now sets optimizationInProgress=false.
-    // This test verifies the store correctly reflects the GPU-null recovery path.
-    it('GPU null device recovery: optimization stops after setOptimizationInProgress(false) (DISPLAY-5)', () => {
+    // GPU null device handler must set optimizationInProgress=false
+    it('GPU null device recovery: optimization stops after setOptimizationInProgress(false)', () => {
       // Simulate: startOptimization sets in-progress
       state().setOptimizationInProgress(true)
       state().setOptimizationId('gpu-run')
@@ -230,8 +229,8 @@ describe('useOptimizerDisplayStore', () => {
       expect(state().permutationsResults).toBe(0)
     })
 
-    // DISPLAY-3: startOptimization now resets stale timing from previous run.
-    it('startOptimization resets stale timing fields from previous run (DISPLAY-3)', () => {
+    // startOptimization must reset stale timing from previous run
+    it('startOptimization resets stale timing fields from previous run', () => {
       // Previous run left timing data
       state().setOptimizerStartTime(1000)
       state().setOptimizerEndTime(2000)

@@ -49,7 +49,7 @@ describe('scrollController', () => {
     })
   })
 
-  describe('reference-counted concurrent locks (UTILITY-1)', () => {
+  describe('reference-counted concurrent locks', () => {
     it('closing one of two overlays preserves scroll lock for the remaining one', () => {
       // Overlay A locks
       scrollLock()

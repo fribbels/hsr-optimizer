@@ -62,7 +62,7 @@ beforeEach(() => {
 // ---- Tests ----
 
 describe('optimizerFormActions', () => {
-  describe('C1: updateCharacter does not mutate store character', () => {
+  describe('updateCharacter does not mutate store character', () => {
     it('does not mutate the character store\'s form.characterConditionals', () => {
       const char = makeCharacter()
       useCharacterStore.getState().setCharacters([char])
@@ -77,7 +77,7 @@ describe('optimizerFormActions', () => {
     })
   })
 
-  describe('H4: resetFilters preserves non-filter state', () => {
+  describe('resetFilters preserves non-filter state', () => {
     it('preserves conditionals, teammates, and combo state while resetting filters', () => {
       // Set up non-filter state
       useOptimizerRequestStore.setState({

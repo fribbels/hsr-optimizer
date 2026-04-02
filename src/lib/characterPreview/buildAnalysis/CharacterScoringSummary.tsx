@@ -64,7 +64,8 @@ function ScoringColumn(props: {
   const { t } = useTranslation(['charactersTab', 'common'])
 
   const simRequest = props.simulation.request
-  const simResult = props.simulation.result!
+  const simResult = props.simulation.result
+  if (!simResult) return null
 
   const basicStats = toBasicStatsObject(simResult.ca)
   const combatStats = props.originalSimResult.x.toComputedStatsObject()
@@ -76,8 +77,6 @@ function ScoringColumn(props: {
   if (props.characterMetadata.path === PathNames.Elation) {
     combatStats[Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
   }
-
-  const precision = props.precision
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 25, margin: 'auto' }}>
@@ -135,7 +134,7 @@ function ScoringColumn(props: {
           </pre>
           <SubstatRollsSummary
             simRequest={props.simulation.request}
-            precision={precision}
+            precision={props.precision}
             diminish={props.type === 'Benchmark'}
             columns={2}
           />
@@ -165,7 +164,7 @@ function ScoringColumn(props: {
           <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
             {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
           </pre>
-          <AbilityDamageSummary simResult={props.simulation.result!}/>
+          <AbilityDamageSummary simResult={simResult}/>
         </div>
       </DeferCreate>
     </div>

@@ -5,7 +5,7 @@ import {
   DEFAULT_CONFIG,
 } from 'lib/characterPreview/color/colorPipelineConfig'
 
-export function normalizeOklch(seedColor: string, cfg: CardColorConfig): string {
+function normalizeOklch(seedColor: string, cfg: CardColorConfig): string {
   const [l, c, h] = chroma(seedColor).oklch()
 
   // Lightness: base target + input-relative scaling, clamped
@@ -29,8 +29,9 @@ export function normalizeOklch(seedColor: string, cfg: CardColorConfig): string 
 
 function applyDarkMode(color: string, darkMode: boolean, config: ColorPipelineConfig): string {
   if (!darkMode) return color
-  const [l, c, h] = chroma(color).oklch()
-  const a = chroma(color).alpha()
+  const parsed = chroma(color)
+  const [l, c, h] = parsed.oklch()
+  const a = parsed.alpha()
   return chroma.oklch(
     Math.max(0, l + config.darkMode.lOffset),
     c * config.darkMode.cScale,

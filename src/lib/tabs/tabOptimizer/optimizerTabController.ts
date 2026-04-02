@@ -172,6 +172,10 @@ export const OptimizerTabController = {
     return columnsToAggregateMap
   },
 
+  clearFilterModel: () => {
+    controllerState.filterModel = undefined
+  },
+
   resetDataSource: () => {
     gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource(controllerState.sortModel, controllerState.filterModel) })
   },

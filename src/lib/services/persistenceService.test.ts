@@ -107,11 +107,8 @@ beforeEach(() => {
 // ---- Tests ----
 
 describe('mergeRelics', () => {
-  // PERSIST-1: Multi-part remap accumulation bug.
-  // When newCharacters is empty, the remap loop is the ONLY mechanism to update
-  // character equipment IDs. Each iteration spreads from character.equipped (original)
-  // instead of the accumulated newEquipped, so only the last part's remap survives.
-  it('mergeRelics accumulates remap across multiple equipped parts (PERSIST-1)', () => {
+  // Remap loop must accumulate across parts, not spread from the original each time
+  it('mergeRelics accumulates remap across multiple equipped parts', () => {
     const headOld = makeRelic({ id: RELIC_HEAD_OLD, part: Parts.Head, equippedBy: Kafka.id })
     const bodyOld = makeRelic({
       id: RELIC_BODY_OLD, part: Parts.Body, equippedBy: Kafka.id,
@@ -169,9 +166,8 @@ describe('mergeRelics', () => {
     expect(kafka.equipped[Parts.Feet]).toBe(RELIC_FEET)
   })
 
-  // PERSIST-2: Saved build remap returns { ...savedBuild, build: updatedBuild }
-  // which adds a phantom 'build' key instead of updating 'equipped'.
-  it('mergeRelics saved build remap uses equipped key not phantom build key (PERSIST-2)', () => {
+  // Saved build remap must update 'equipped', not add a phantom 'build' key
+  it('mergeRelics saved build remap uses equipped key not phantom build key', () => {
     const headOld = makeRelic({ id: RELIC_HEAD_OLD, part: Parts.Head, equippedBy: Kafka.id })
 
     const char = makeCharacter({
@@ -203,9 +199,8 @@ describe('mergeRelics', () => {
     expect((build as any).build).toBeUndefined()
   })
 
-  // CHAR-2: mergeRelics calls getCharacters() returning the live store array,
-  // then mutates elements in-place via characters[idx] = ... in the remap loop.
-  it('mergeRelics clones character array instead of mutating live store reference (CHAR-2)', () => {
+  // mergeRelics must clone the character array, not mutate the live store reference
+  it('mergeRelics clones character array instead of mutating live store reference', () => {
     const headOld = makeRelic({ id: RELIC_HEAD_OLD, part: Parts.Head, equippedBy: Kafka.id })
 
     const char = makeCharacter({
@@ -231,9 +226,8 @@ describe('mergeRelics', () => {
 })
 
 describe('loadSaveData', () => {
-  // SCORING-3: resetAll calls loadSaveData with empty save format but the format
-  // has no scoringMetadataOverrides field, so existing overrides are never cleared.
-  it('resetAll clears scoring overrides from store (SCORING-3)', () => {
+  // resetAll must clear scoring overrides even though the empty save format has no overrides field
+  it('resetAll clears scoring overrides from store', () => {
     useScoringStore.getState().setScoringMetadataOverrides({
       [Kafka.id]: { stats: { [Stats.ATK_P]: 0.5 } } as ScoringMetadata,
     })
@@ -243,9 +237,8 @@ describe('loadSaveData', () => {
     expect(useScoringStore.getState().scoringMetadataOverrides).toEqual({})
   })
 
-  // SCORING-5: loadSaveData loads ALL scoring overrides from save data including
-  // ones for characters that don't exist in game metadata. They should be filtered.
-  it('loadSaveData filters scoring overrides for characters not in game metadata (SCORING-5)', () => {
+  // Scoring overrides for characters not in game metadata should be filtered out
+  it('loadSaveData filters scoring overrides for characters not in game metadata', () => {
     const saveData = emptySaveData({
       scoringMetadataOverrides: {
         [STALE_CHARACTER_ID]: { stats: { [Stats.ATK_P]: 1 } } as ScoringMetadata,
@@ -262,9 +255,8 @@ describe('loadSaveData', () => {
     expect(overrides[Kafka.id]).toBeDefined()
   })
 
-  // DISPLAY-1: menuState loading gets the store reference, mutates it in-place,
-  // then passes the same reference back to setMenuState.
-  it('loadSaveData creates new menuState object reference not in-place mutation (DISPLAY-1)', () => {
+  // menuState loading must create a new object, not mutate the store reference in-place
+  it('loadSaveData creates new menuState object reference not in-place mutation', () => {
     const menuStateBefore = useOptimizerDisplayStore.getState().menuState
 
     const saveData = emptySaveData({
@@ -280,7 +272,7 @@ describe('loadSaveData', () => {
     expect(menuStateBefore[OptimizerMenuIds.characterOptions]).toBeUndefined()
   })
 
-  it('loadSaveData merges settings with DefaultSettingOptions for missing keys (GLOBAL-3)', () => {
+  it('loadSaveData merges settings with DefaultSettingOptions for missing keys', () => {
     const partialSettings = {
       RelicEquippingBehavior: 'Replace',
     } as UserSettings
@@ -293,18 +285,18 @@ describe('loadSaveData', () => {
     expect(settings.RelicEquippingBehavior).toBe('Replace')
   })
 
-  it('H12: loadSaveData does not crash when characters field is missing', () => {
+  it('loadSaveData does not crash when characters field is missing', () => {
     const saveData = { relics: [] } as unknown as HsrOptimizerSaveFormat
     expect(() => loadSaveData(saveData, false, false)).not.toThrow()
   })
 
-  it('H12: loadSaveData does not crash when relics field is not an array', () => {
+  it('loadSaveData does not crash when relics field is not an array', () => {
     const saveData = { characters: [], relics: 'bad' } as unknown as HsrOptimizerSaveFormat
     expect(() => loadSaveData(saveData, false, false)).not.toThrow()
   })
 })
 
-describe('mergeRelics — H5: cleanup loop stale reference', () => {
+describe('mergeRelics — cleanup loop stale reference', () => {
   it('cleans multiple invalid equipped slots on same character', () => {
     const deletedHead = 'deleted-head-id'
     const deletedBody = 'deleted-body-id'
@@ -331,7 +323,7 @@ describe('mergeRelics — H5: cleanup loop stale reference', () => {
   })
 })
 
-describe('mergeRelics — H6: hash collision drops relics', () => {
+describe('mergeRelics — hash collision drops relics', () => {
   it('does not drop old relics with duplicate hashes', () => {
     // Two identical relics (same stats = same hash) with different IDs
     const relic1 = makeRelic({ id: RELIC_HEAD_OLD, ageIndex: 0 })
@@ -350,7 +342,7 @@ describe('mergeRelics — H6: hash collision drops relics', () => {
   })
 })
 
-describe('mergeRelics — H9: ageIndex dropped during merge', () => {
+describe('mergeRelics — ageIndex dropped during merge', () => {
   it('preserves new relic ageIndex when equippedBy is set', () => {
     const oldRelic = makeRelic({ id: RELIC_HEAD_OLD, ageIndex: 0, equippedBy: Kafka.id })
     const char = makeCharacter({ equipped: { [Parts.Head]: RELIC_HEAD_OLD } })
@@ -367,7 +359,7 @@ describe('mergeRelics — H9: ageIndex dropped during merge', () => {
   })
 })
 
-describe('mergePartialRelics — H7: match pool deduplication', () => {
+describe('mergePartialRelics — match pool deduplication', () => {
   it('does not match same old relic to two new relics', () => {
     // One old relic at enhance 0
     const oldRelic = makeRelic({ id: RELIC_HEAD_OLD, enhance: 0 })

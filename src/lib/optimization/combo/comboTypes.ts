@@ -3,6 +3,7 @@ import type { ElementName, PathName } from 'lib/constants/constants'
 import { type defaultSetConditionals } from 'lib/optimization/defaultForm'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 
 export type ComboConditionals = {
   [key: string]: ComboConditionalCategory,
@@ -42,7 +43,7 @@ export type ComboCharacterMetadata = {
   characterId: CharacterId,
   characterEidolon: number,
   path: PathName,
-  lightCone: string,
+  lightCone: LightConeId,
   lightConeSuperimposition: number,
   lightConePath: PathName,
   element: ElementName,

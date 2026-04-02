@@ -47,7 +47,7 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const hasSimulation = simulationMetadata != null
   const scoringType = resolveScoringType(storedScoringType, hasSimulation)
 
-  const portraitToUse = getCharacterById(character.id)?.portrait ?? undefined
+  const portraitToUse = getCharacterById(character.id)?.portrait
   const portraitUrl = portraitToUse?.imageUrl ?? Assets.getCharacterPortraitById(character.id)
 
   const displayDimensions = getShowcaseDisplayDimensions(character, scoringType === ScoringType.COMBAT_SCORE)

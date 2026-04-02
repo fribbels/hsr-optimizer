@@ -447,7 +447,7 @@ describe('useComboDrawerStore', () => {
       expect(boolCond.activations[prevLength]).toBe(boolCond.activations[0])
     })
 
-    it('overwrite preserves per-turn activations (BUG-24 fix)', () => {
+    it('overwrite preserves per-turn activations', () => {
       seedStore()
 
       // Set a custom activation at index 1
@@ -481,7 +481,7 @@ describe('useComboDrawerStore', () => {
       const cond = state.comboCharacter!.characterConditionals.testBool as ComboBooleanConditional
       expect(cond.activations[1]).toBe(true)
 
-      // COMBO-2 regression: activation array should shrink by 1 after deletion (no trailing push)
+      // Activation array should shrink by 1 after deletion (no trailing push)
       // Activations are pre-sized to ABILITY_LIMIT, so they're larger than comboTurnAbilities
       expect(cond.activations.length).toBe(4) // was 5, spliced 1, no push back to 5
     })

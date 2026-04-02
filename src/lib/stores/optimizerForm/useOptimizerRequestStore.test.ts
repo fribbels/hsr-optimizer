@@ -264,9 +264,8 @@ describe('useOptimizerRequestStore', () => {
   })
 
   describe('displayToInternal immutability', () => {
-    // FORM-1: displayToInternal must return cloned objects, not references to store state.
-    // Downstream code mutates the returned form — shared references would corrupt the store.
-    it('displayToInternal returns cloned setConditionals tuples (FORM-1)', () => {
+    // displayToInternal must return cloned objects — downstream code mutates the returned form
+    it('displayToInternal returns cloned setConditionals tuples', () => {
       state().setSetConditional(Sets.BrokenKeel, 1)
       const form = displayToInternal(state())
 

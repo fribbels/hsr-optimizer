@@ -85,21 +85,6 @@ function buildMergeForm(
 }
 
 /**
- * Build a merge form with teammates populated.
- */
-function buildMergeFormWithTeammates(
-  mutateSaved?: (saved: ComboState, form: Form) => void,
-  formOverrides?: Partial<Form>,
-): Form {
-  const form = buildAnaxaFormWithTeammates(formOverrides)
-  const saved = initializeComboState(form, false)
-  saved.version = COMBO_STATE_JSON_VERSION
-  if (mutateSaved) mutateSaved(saved, form)
-  form.comboStateJson = JSON.stringify(saved)
-  return form
-}
-
-/**
  * Shortcut: get a NUMBER conditional from comboCharacter.characterConditionals.
  */
 function getNumberConditional(state: ComboState, key: string): ComboNumberConditional {
@@ -121,11 +106,11 @@ function getSelectSetConditional(state: ComboState, key: string): ComboSelectCon
 }
 
 // ---------------------------------------------------------------------------
-// A1: Regression Tests (SHOULD PASS NOW)
+// Basic initializeComboState behaviour
 // ---------------------------------------------------------------------------
 
-describe('A1: Regression — basic initializeComboState behaviour', () => {
-  test('A1a: Valid form produces ComboState with non-null comboCharacter', () => {
+describe('Regression — basic initializeComboState behaviour', () => {
+  test('valid form produces ComboState with non-null comboCharacter', () => {
     const form = buildAnaxaForm()
     const state = initializeComboState(form, false)
 
@@ -138,7 +123,7 @@ describe('A1: Regression — basic initializeComboState behaviour', () => {
     expect(state.comboTurnAbilities.length).toBeGreaterThan(0)
   })
 
-  test('A1b: Form with teammates populates all teammate slots', () => {
+  test('form with teammates populates all teammate slots', () => {
     const form = buildAnaxaFormWithTeammates()
     const state = initializeComboState(form, false)
 
@@ -150,12 +135,12 @@ describe('A1: Regression — basic initializeComboState behaviour', () => {
     expect(state.comboTeammate2!.metadata.characterId).toBe(PermansorTerrae.id)
   })
 
-  test('A1c: merge=true with empty comboStateJson does not crash', () => {
+  test('merge=true with empty comboStateJson does not crash', () => {
     const form = buildAnaxaForm({ comboStateJson: '{}' })
     expect(() => initializeComboState(form, true)).not.toThrow()
   })
 
-  test('A1d: merge=true with valid saved JSON preserves BOOLEAN activations for indices 0..12', () => {
+  test('merge=true with valid saved JSON preserves BOOLEAN activations for indices 0..12', () => {
     // Build saved state, flip some boolean activations
     const form = buildMergeForm((saved) => {
       const boolCond = saved.comboCharacter.characterConditionals['exposedNature'] as ComboBooleanConditional
@@ -175,7 +160,7 @@ describe('A1: Regression — basic initializeComboState behaviour', () => {
     }
   })
 
-  test('A1e: merge=true with mismatched characterId produces fresh state (not merged)', () => {
+  test('merge=true with mismatched characterId produces fresh state (not merged)', () => {
     const form = buildAnaxaForm()
     // Create saved state, then change its characterId so it won't match
     const saved = initializeComboState(form, false)
@@ -199,15 +184,14 @@ describe('A1: Regression — basic initializeComboState behaviour', () => {
 })
 
 // ---------------------------------------------------------------------------
-// A2: BUG-03 — off-by-one in mergeConditionals NUMBER loops (< ABILITY_LIMIT vs <= ABILITY_LIMIT)
+// Index 12 (ABILITY_LIMIT boundary) handling in NUMBER conditional merge
 // ---------------------------------------------------------------------------
 
-describe('A2: BUG-03 — index 12 handling in NUMBER conditional merge', () => {
-  test('A2a: BUG-03: After merge with changed default value, activations[12] on old partition should be zeroed', () => {
-    // Strategy: Build saved state where skillHits=4 (Anaxa default).
-    // Then change form's skillHits to 3 so the merge sees a different base value.
-    // The OLD partition for value=4 should have ALL non-0 indices zeroed,
-    // but the zeroing loop uses `j < ABILITY_LIMIT` (1..11) so index 12 leaks.
+describe('index 12 handling in NUMBER conditional merge', () => {
+  test('after merge with changed default value, activations[12] on old partition should be zeroed', () => {
+    // Build saved state where skillHits=4 (Anaxa default), then change form's
+    // skillHits to 3 so the merge sees a different base value. The old partition
+    // for value=4 should have all non-0 indices zeroed including index 12.
 
     const form = buildMergeForm(
       (saved) => {
@@ -225,16 +209,13 @@ describe('A2: BUG-03 — index 12 handling in NUMBER conditional merge', () => {
     const oldPartition = numCond.partitions.find((p) => p.value === 4)
     expect(oldPartition).toBeDefined()
 
-    // The zeroing loop in mergeConditionals for the old active uses `i < ABILITY_LIMIT` (0..11),
-    // so index 12 is NOT zeroed and leaks as true.
-    // BUG-03: index 12 should be false but currently is true.
     expect(oldPartition!.activations[12]).toBe(false)
   })
 
-  test('A2b: BUG-03: OR-merge of two saved partitions with same value should include index 12', () => {
+  test('OR-merge of two saved partitions with same value should include index 12', () => {
     // Build saved state, then duplicate a partition with the same value so OR-merge fires.
     // Make the first partition have false at index 12, and the second have true at index 12.
-    // The OR-merge should set index 12 to true, but the loop only goes to index 11.
+    // The OR-merge should produce true at index 12.
     const form = buildMergeForm((saved) => {
       const numCond = saved.comboCharacter.characterConditionals['skillHits'] as ComboNumberConditional
       // Modify first partition: value=4, set index 12 to false
@@ -256,17 +237,13 @@ describe('A2: BUG-03 — index 12 handling in NUMBER conditional merge', () => {
     const partition4 = numCond.partitions.find((p) => p.value === 4)
     expect(partition4).toBeDefined()
 
-    // BUG-03: OR-merge loop uses `j < ABILITY_LIMIT` (0..11), missing index 12.
-    // First partition has false at 12, second has true at 12.
-    // OR should yield true, but the loop never reaches index 12.
     expect(partition4!.activations[12]).toBe(true)
   })
 
-  test('A2c: BUG-03: Activation inheritance — index 12 should be copied when default changes', () => {
-    // Build saved state with skillHits=4, set a distinctive pattern where
-    // index 12 is true and other indices are set up to be detectable after inheritance.
-    // Then change form to value=3 so inheritance fires.
-    // The OLD active partition (value=4) should be fully zeroed including index 12.
+  test('activation inheritance — index 12 should be zeroed when default changes', () => {
+    // Build saved state with skillHits=4, then change form to value=3 so
+    // inheritance fires. The old active partition (value=4) should be fully
+    // zeroed including index 12.
     const form = buildMergeForm((saved) => {
       const numCond = saved.comboCharacter.characterConditionals['skillHits'] as ComboNumberConditional
       // Set index 12 to true (all other indices are already true from Array.fill)
@@ -279,16 +256,12 @@ describe('A2: BUG-03 — index 12 handling in NUMBER conditional merge', () => {
     const merged = initializeComboState(form, true)
     const numCond = getNumberConditional(merged, 'skillHits')
 
-    // After inheritance, the old active partition (value=4) should be fully zeroed.
-    // The zeroing loop uses `i < ABILITY_LIMIT` (0..11), skipping index 12.
     const oldPartition = numCond.partitions.find((p) => p.value === 4)
     expect(oldPartition).toBeDefined()
-
-    // BUG-03: index 12 should be zeroed but isn't
     expect(oldPartition!.activations[12]).toBe(false)
   })
 
-  test('A2d: Simple round-trip (no value change) — preserved including index 12', () => {
+  test('simple round-trip (no value change) — preserved including index 12', () => {
     // Build saved state, set a distinctive pattern including index 12
     const form = buildMergeForm((saved) => {
       const numCond = saved.comboCharacter.characterConditionals['skillHits'] as ComboNumberConditional
@@ -313,7 +286,7 @@ describe('A2: BUG-03 — index 12 handling in NUMBER conditional merge', () => {
     }
   })
 
-  test('A2e: BOOLEAN conditional 13-activation round-trip preserves all slots', () => {
+  test('BOOLEAN conditional 13-activation round-trip preserves all slots', () => {
     const form = buildMergeForm((saved) => {
       const boolCond = saved.comboCharacter.characterConditionals['exposedNature'] as ComboBooleanConditional
       // Set a distinctive pattern for all 13 slots
@@ -334,11 +307,11 @@ describe('A2: BUG-03 — index 12 handling in NUMBER conditional merge', () => {
 })
 
 // ---------------------------------------------------------------------------
-// A3: BUG-09 — saved partition with all-false activations should survive merge
+// All-false partition preservation
 // ---------------------------------------------------------------------------
 
-describe('A3: BUG-09 — all-false partition preservation', () => {
-  test('A3a: BUG-09: Saved partition with all-false activations should survive merge', () => {
+describe('all-false partition preservation', () => {
+  test('saved partition with all-false activations should survive merge', () => {
     // Build saved state with NUMBER conditional having 2 partitions:
     //   partition[0]: value=4, activations all true (active)
     //   partition[1]: value=2, activations all false (inactive but intentional)
@@ -353,8 +326,6 @@ describe('A3: BUG-09 — all-false partition preservation', () => {
     const merged = initializeComboState(form, true)
     const numCond = getNumberConditional(merged, 'skillHits')
 
-    // BUG-09: The merge code skips partitions where
-    // `!partition.activations.some(a => a)` (all false). So partition for value=2 is dropped.
     const partition2 = numCond.partitions.find((p) => p.value === 2)
     expect(partition2).toBeDefined()
     expect(numCond.partitions.length).toBeGreaterThanOrEqual(2)
@@ -362,11 +333,11 @@ describe('A3: BUG-09 — all-false partition preservation', () => {
 })
 
 // ---------------------------------------------------------------------------
-// A4: BUG-22 — teammate merge with different characterId
+// Teammate characterId mismatch handling
 // ---------------------------------------------------------------------------
 
-describe('A4: BUG-22 — teammate characterId mismatch should not corrupt conditionals', () => {
-  test('A4a: BUG-22: Saved JSON has teammate0 with different characterId — base teammate conditionals should be unchanged', () => {
+describe('teammate characterId mismatch should not corrupt conditionals', () => {
+  test('saved JSON has teammate0 with different characterId — base teammate conditionals should be unchanged', () => {
     // Build a form with real teammates
     const form = buildAnaxaFormWithTeammates()
     const freshState = initializeComboState(form, false)
@@ -408,37 +379,33 @@ describe('A4: BUG-22 — teammate characterId mismatch should not corrupt condit
 
     const merged = initializeComboState(form, true)
 
-    // BUG-22: mergeTeammate does NOT check characterId — it blindly merges conditionals
-    // from the saved state even if the teammate has been swapped to a different character.
-    // The sentinel boolean at index 1 should still be the BASE value, not the flipped saved value.
+    // mergeTeammate checks characterId — mismatched teammates should not have their conditionals merged
     const mergedCond = merged.comboTeammate0!.characterConditionals[sentinelKey] as ComboBooleanConditional
     expect(mergedCond.activations[1]).toBe(baseSentinelValue)
   })
 })
 
 // ---------------------------------------------------------------------------
-// A7: BUG-13 — SELECT set conditional displayedRelicSets
+// SELECT set conditional display filtering
 // ---------------------------------------------------------------------------
 
-describe('A7: BUG-13 — SELECT set conditional display filtering', () => {
-  test('A7a: BUG-13: SELECT set conditional with non-default partition should NOT appear in displayedRelicSets when default partition matches', () => {
+describe('SELECT set conditional display filtering', () => {
+  test('SELECT set conditional with non-default partition should NOT appear in displayedRelicSets when default partition matches', () => {
     // PioneerDiverOfDeadWaters is a SELECT-type relic set.
     // For Anaxa, the preset sets its value to 4.
-    // We'll create saved state with two partitions: value=4 (default match) and value=1 (non-default).
-    // The non-default partition needs at least one true activation to survive BUG-09.
+    // Create saved state with two partitions: value=4 (default match) and value=1 (non-default).
 
     const form = buildMergeForm((saved) => {
       const pioneer = Sets.PioneerDiverOfDeadWaters
       const setCond = saved.comboCharacter.setConditionals[pioneer] as ComboSelectConditional
 
       // The initial state has one partition with the form's value (4 after preset).
-      // Add a second partition with a non-default value and some true activations
-      // so it survives the merge (avoids BUG-09 filtering).
+      // Add a second partition with a non-default value and some true activations.
       setCond.partitions.push({
         value: 1,
         activations: (() => {
           const a = Array(ACTION_COUNT).fill(false)
-          a[3] = true // give it at least one true so it's not dropped
+          a[3] = true
           return a
         })(),
       })
@@ -449,22 +416,19 @@ describe('A7: BUG-13 — SELECT set conditional display filtering', () => {
 
     const merged = initializeComboState(form, true)
 
-    // BUG-13: displayModifiedSets iterates ALL partitions and marks the set as
-    // modified if ANY partition.value != defaultValue. Since partition[1].value=1
-    // differs from the default value (4), the set incorrectly appears in displayedRelicSets.
-    // It should NOT appear because only the default partition is "active" at index 0.
+    // displayModifiedSets only checks partitions[0].value against the default,
+    // so a non-default partition at a later index should not mark the set as modified.
     expect(merged.comboCharacter.displayedRelicSets).not.toContain(Sets.PioneerDiverOfDeadWaters)
   })
 })
 
 // ---------------------------------------------------------------------------
-// A8: BUG-06 — SELECT conditional reordering (shiftDefaultConditionalToFirst)
+// SELECT conditional default partition reordering
 // ---------------------------------------------------------------------------
 
-describe('A8: BUG-06 — SELECT conditional default partition reordering', () => {
-  test('A8a: BUG-06: SELECT conditional with non-default first — after init, default should be at index 0', () => {
+describe('SELECT conditional default partition reordering', () => {
+  test('SELECT conditional with non-default first — after init, default should be at index 0', () => {
     // Build saved state, then reorder the Pioneer SELECT conditional so non-default is first.
-    // Both partitions need true activations to survive BUG-09.
     const form = buildMergeForm((saved) => {
       const pioneer = Sets.PioneerDiverOfDeadWaters
       const setCond = saved.comboCharacter.setConditionals[pioneer] as ComboSelectConditional
@@ -480,7 +444,7 @@ describe('A8: BUG-06 — SELECT conditional default partition reordering', () =>
           activations: (() => {
             const a = Array(ACTION_COUNT).fill(false)
             a[0] = false
-            a[3] = true // survive BUG-09
+            a[3] = true
             a[4] = true
             return a
           })(),
@@ -502,19 +466,17 @@ describe('A8: BUG-06 — SELECT conditional default partition reordering', () =>
     const pioneer = Sets.PioneerDiverOfDeadWaters
     const setCond = getSelectSetConditional(merged, pioneer)
 
-    // BUG-06: shiftDefaultConditionalToFirst only handles NUMBER type, not SELECT.
-    // So the SELECT conditional won't be reordered, and the non-default partition stays first.
-    // The partition at index 0 should be the one with activations[0]=true (the default).
+    // shiftDefaultConditionalToFirst should reorder so the default partition is at index 0
     expect(setCond.partitions[0].activations[0]).toBe(true)
   })
 })
 
 // ---------------------------------------------------------------------------
-// A9: Additional Regression Tests (SHOULD PASS NOW)
+// Additional regression tests
 // ---------------------------------------------------------------------------
 
-describe('A9: Additional regression tests', () => {
-  test('A9a: NUMBER conditional partitions reordered — default shifts to front', () => {
+describe('additional regression tests', () => {
+  test('NUMBER conditional partitions reordered — default shifts to front', () => {
     // Build saved state with NUMBER conditional where the default partition is NOT first
     const form = buildMergeForm((saved) => {
       const numCond = saved.comboCharacter.characterConditionals['skillHits'] as ComboNumberConditional
@@ -528,7 +490,7 @@ describe('A9: Additional regression tests', () => {
           activations: (() => {
             const a = Array(ACTION_COUNT).fill(false)
             a[0] = false
-            a[3] = true // survive BUG-09
+            a[3] = true
             return a
           })(),
         },
@@ -552,7 +514,7 @@ describe('A9: Additional regression tests', () => {
     expect(numCond.partitions[0].activations[0]).toBe(true)
   })
 
-  test('A9b: BOOLEAN round-trip via merge preserves activations', () => {
+  test('BOOLEAN round-trip via merge preserves activations', () => {
     const pattern = [true, false, true, true, false, false, true, false, true, false, true, true, false]
     expect(pattern.length).toBe(ACTION_COUNT) // sanity check
 
@@ -572,7 +534,7 @@ describe('A9: Additional regression tests', () => {
     }
   })
 
-  test('A9c: NUMBER round-trip via merge preserves partition values', () => {
+  test('NUMBER round-trip via merge preserves partition values', () => {
     const form = buildMergeForm((saved) => {
       const numCond = saved.comboCharacter.characterConditionals['enemyWeaknessTypes'] as ComboNumberConditional
       // Default value is 7 for Anaxa.

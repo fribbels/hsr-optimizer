@@ -141,6 +141,20 @@ describe('FixedSizeNumericMinQueue', () => {
     expect(q.topPriority()).toBe(20) // new min
   })
 
+  it('accepts values equal to threshold when full (>= semantics)', () => {
+    const q = new FixedSizeNumericMinQueue(3)
+    q.fixedSizePush(1, 10)
+    q.fixedSizePush(2, 20)
+    q.fixedSizePush(3, 30)
+
+    // priority == topPriority (10): the >= check accepts and evicts the old minimum.
+    // Caller guards use `<= top` to skip equal-priority before calling,
+    // but the implementation itself accepts ties.
+    q.fixedSizePush(4, 10)
+    expect(q.size()).toBe(3)
+    expect(q.topPriority()).toBe(10) // still 10; a different key now holds it
+  })
+
   it('fixedSizePushOvercapped basic', () => {
     const q = new FixedSizeNumericMinQueue(3)
     q.fixedSizePush(1, 10)

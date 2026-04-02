@@ -5,9 +5,8 @@ import { FormSwitchWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSw
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
 import type { ContentItem } from 'types/conditionals'
 
-// BUG-21 FIX: passes removeForm={true} and onChange that writes to the
-// combo drawer store, not the form store. This prevents the stale local
-// state overwrite on drawer close.
+// Passes removeForm={true} and onChange that writes to the combo drawer store,
+// not the form store, preventing stale local state overwrite on drawer close.
 export function BooleanSwitch({ contentItem, sourceKey, value }: {
   contentItem: ContentItem
   sourceKey: string

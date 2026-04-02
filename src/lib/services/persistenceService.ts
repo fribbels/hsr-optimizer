@@ -158,7 +158,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   useRelicStore.getState().setRelics(saveData.relics)
   useCharacterStore.getState().setCharacters(saveData.characters)
 
-  // Clear stale focusCharacter — the previous focus may not exist in the new data (CHARTAB-1)
+  // Clear stale focusCharacter — the previous focus may not exist in the new data
   useCharacterTabStore.getState().setFocusCharacter(null)
 
   if (autosave) {

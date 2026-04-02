@@ -2,7 +2,7 @@
  * Helpers to control screen scrolling when drawers are open. See ComboDrawer for usage.
  *
  * Uses reference counting so overlapping overlays (e.g. ComboDrawer + RelicModal)
- * keep scroll locked until ALL overlays close. UTILITY-1 fix.
+ * keep scroll locked until ALL overlays close.
  */
 
 import { useEffect, useRef } from 'react'
@@ -58,13 +58,13 @@ const useScrollLockStore = create<State>()((set, get) => ({
   unlock() {
     lockCount = Math.max(0, lockCount - 1)
     if (lockCount > 0) return // still has active locks from other overlays
-    const { isLocked, offset } = get()
-    if (!isLocked) return
+    const state = get()
+    if (!state.isLocked) return
     set({ isLocked: false, offset: null })
     document.body.style.position = ''
     document.body.style.top = ''
     document.body.style.width = ''
-    window.scrollTo(0, offset)
+    window.scrollTo(0, state.offset)
   },
 }))
 

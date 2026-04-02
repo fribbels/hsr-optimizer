@@ -316,10 +316,8 @@ export const useComboDrawerStore = createTabAwareStore<ComboDrawerStore>((set, g
     set(newState)
   },
 
-  // BUG-24 FIX: Only reset activations for NEW turns (append), not overwrites.
-  // Rationale: if the user carefully configured conditional activations for
-  // turn 5 and then changes its ability type from SKILL to ULT, their
-  // per-turn conditional settings should be preserved.
+  // Only reset activations for new turns (append), not overwrites — changing
+  // an existing turn's ability type should preserve the user's conditional settings.
   setAbilityRotation: (index, turnAbilityName) => {
     const state = get()
     const comboTurnAbilities = [...state.comboTurnAbilities]

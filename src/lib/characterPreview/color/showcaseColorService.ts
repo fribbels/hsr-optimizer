@@ -29,15 +29,18 @@ export function resolveShowcaseColor(
   globalColorMode: ShowcaseColorMode,
   perCharPreferences: ShowcasePreferences | undefined,
   portraitExtractedColor: string | undefined,
-  hasCustomPortrait?: boolean,
+  hasCustomPortrait: boolean,
 ): ResolvedShowcaseColor {
   // Per-character STANDARD is invalid (STANDARD is global-only) — treat as AUTO.
   const savedColorMode = perCharPreferences?.colorMode
-  const effectiveColorMode = globalColorMode === ShowcaseColorMode.STANDARD
-    ? ShowcaseColorMode.STANDARD
-    : (!savedColorMode || savedColorMode === ShowcaseColorMode.STANDARD)
-      ? ShowcaseColorMode.AUTO
-      : savedColorMode
+  let effectiveColorMode: ShowcaseColorMode
+  if (globalColorMode === ShowcaseColorMode.STANDARD) {
+    effectiveColorMode = ShowcaseColorMode.STANDARD
+  } else if (!savedColorMode || savedColorMode === ShowcaseColorMode.STANDARD) {
+    effectiveColorMode = ShowcaseColorMode.AUTO
+  } else {
+    effectiveColorMode = savedColorMode
+  }
 
   const characterConfigColor = getCharacterConfig(characterId)?.display.showcaseColor
   // Custom portraits use a neutral gray while the worker extracts the real color,
@@ -53,6 +56,8 @@ export function resolveShowcaseColor(
       return { effectiveColorMode, seedColor: perCharPreferences?.color ?? fallbackColor }
     case ShowcaseColorMode.AUTO:
       return { effectiveColorMode, seedColor: portraitExtractedColor ?? fallbackColor }
+    default:
+      return { effectiveColorMode: ShowcaseColorMode.AUTO, seedColor: portraitExtractedColor ?? fallbackColor }
   }
 }
 

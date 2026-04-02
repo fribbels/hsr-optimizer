@@ -72,7 +72,13 @@ function generateRequest(request: Form) {
   // Filters
   for (const [key, value] of Object.entries(request)) {
     if ((key.startsWith('min') || key.startsWith('max'))) {
-      wgsl += `const ${key}: f32 = ${Number(value) || (key.startsWith('min') ? 0 : Constants.MAX_INT)};\n`
+      // Guard against undefined/NaN from missing form fields — emit 0 for min, MAX_INT for max.
+      // For max=0: use EPSILON as threshold so trace-epsilon-boosted "zero" stats still pass.
+      const n = Number(value)
+      const isMin = key.startsWith('min')
+      const safe = Number.isFinite(n) ? n : (isMin ? 0 : Constants.MAX_INT)
+      const threshold = (!isMin && safe === 0) ? EPSILON : safe
+      wgsl += `const ${key}: f32 = ${threshold};\n`
     }
   }
   wgsl += '\n'

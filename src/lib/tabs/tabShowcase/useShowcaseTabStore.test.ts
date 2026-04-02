@@ -235,8 +235,7 @@ describe('useShowcaseTabStore', () => {
       expect(state().availableCharacters![1].id).toBe(Jingliu.id)
     })
 
-    // SHOWCASE-1: Fixed — guard before set() in the store action.
-    it('applyCharacterOverride does not crash when availableCharacters is null (SHOWCASE-1)', () => {
+    it('applyCharacterOverride does not crash when availableCharacters is null', () => {
       // availableCharacters is null by default
       expect(state().availableCharacters).toBeNull()
 

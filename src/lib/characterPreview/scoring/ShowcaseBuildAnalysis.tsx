@@ -11,7 +11,7 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
-import { memo } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 
@@ -34,16 +34,35 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
 
   const { characterMetadata } = showcaseMetadata
 
+  const simulationNull = characterMetadata.scoringMetadata.simulation == null
+  const segmentData = useMemo(() => [
+    {
+      label: simulationNull
+        ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD') /* Combat Score (TBD) */
+        : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
+      value: String(ScoringType.COMBAT_SCORE),
+      disabled: simulationNull,
+    },
+    {
+      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
+      value: String(ScoringType.SUBSTAT_SCORE),
+      disabled: false,
+    },
+    {
+      label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), /* None Score */
+      value: String(ScoringType.NONE),
+      disabled: false,
+    },
+  ], [simulationNull, t])
+
+  const handleScoringTypeChange = useCallback((selection: string) => {
+    const value = Number(selection) as ScoringType
+    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.scoringType, value)
+    SaveState.delayedSave()
+  }, [])
+
   if (!scoringDone) {
-    return (
-      <span
-        style={{
-          filter: 'blur(2px)',
-          minHeight: 182,
-        }}
-      >
-      </span>
-    )
+    return <div style={{ minHeight: 182 }} />
   }
 
   return (
@@ -67,32 +86,10 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           </div>
           <SegmentedControl
             style={{ width: 354, height: 30 }}
-            onChange={(selection) => {
-              const value = Number(selection) as ScoringType
-              useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.scoringType, value)
-              SaveState.delayedSave()
-            }}
+            onChange={handleScoringTypeChange}
             value={String(scoringType)}
             fullWidth
-            data={[
-              {
-                label: characterMetadata.scoringMetadata.simulation == null
-                  ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD') /* Combat Score (TBD) */
-                  : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
-                value: String(ScoringType.COMBAT_SCORE),
-                disabled: characterMetadata.scoringMetadata.simulation == null,
-              },
-              {
-                label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
-                value: String(ScoringType.SUBSTAT_SCORE),
-                disabled: false,
-              },
-              {
-                label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), /* None Score */
-                value: String(ScoringType.NONE),
-                disabled: false,
-              },
-            ]}
+            data={segmentData}
           />
         </div>
       </div>
@@ -104,7 +101,10 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
         />
       )}
       <StatScoringSummary
-        scoringType={scoringResult ? scoringType : ScoringType.SUBSTAT_SCORE}
+        // Fall back to SUBSTAT_SCORE only when combat scoring has no result yet — never override NONE
+        scoringType={scoringResult == null && scoringType === ScoringType.COMBAT_SCORE
+          ? ScoringType.SUBSTAT_SCORE
+          : scoringType}
         displayRelics={displayRelics}
         showcaseMetadata={showcaseMetadata}
       />

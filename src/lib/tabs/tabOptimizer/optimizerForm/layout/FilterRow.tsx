@@ -4,6 +4,12 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { FormStatTextStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
 import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 
+// Mantine NumberInput sends '' (empty string) when cleared.
+// Convert to undefined so displayToInternal correctly defaults to 0/MAX_INT.
+function filterValue(val: number | string): number | undefined {
+  return typeof val === 'number' ? val : undefined
+}
+
 export function FilterRow({ name, label, type }: { name: string; label: string; type?: 'stat' | 'rating' }) {
   const minKey = `min${name}` as keyof StatFilterState & keyof RatingFilterState
   const maxKey = `max${name}` as keyof StatFilterState & keyof RatingFilterState
@@ -17,9 +23,13 @@ export function FilterRow({ name, label, type }: { name: string; label: string; 
     isRating ? s.ratingFilters[maxKey as keyof RatingFilterState] : s.statFilters[maxKey as keyof StatFilterState],
   )
 
-  const setFilter = isRating
-    ? (key: keyof RatingFilterState, val: number | undefined) => useOptimizerRequestStore.getState().setRatingFilter(key, val)
-    : (key: keyof StatFilterState, val: number | undefined) => useOptimizerRequestStore.getState().setStatFilter(key, val)
+  const setFilter = (key: string, val: number | undefined) => {
+    if (isRating) {
+      useOptimizerRequestStore.getState().setRatingFilter(key as keyof RatingFilterState, val)
+    } else {
+      useOptimizerRequestStore.getState().setStatFilter(key as keyof StatFilterState, val)
+    }
+  }
 
   return (
     <Flex justify='space-between' style={{ margin: 0 }}>
@@ -27,14 +37,14 @@ export function FilterRow({ name, label, type }: { name: string; label: string; 
         hideControls
         style={{ margin: 0, width: 63 }}
         value={minValue}
-        onChange={(val: number | string) => setFilter(minKey as never, (val as number) ?? undefined)}
+        onChange={(val) => setFilter(minKey, filterValue(val))}
       />
       <FormStatTextStyled>{label}</FormStatTextStyled>
       <InputNumberStyled
         hideControls
         style={{ margin: 0, width: 63 }}
         value={maxValue}
-        onChange={(val: number | string) => setFilter(maxKey as never, (val as number) ?? undefined)}
+        onChange={(val) => setFilter(maxKey, filterValue(val))}
       />
     </Flex>
   )

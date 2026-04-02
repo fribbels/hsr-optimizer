@@ -24,28 +24,16 @@ import {
 Metadata.initialize()
 
 /**
- * BUG-01: LC preprocessor reset is missing.
+ * LC preprocessor singleton must be reset between runs.
  *
- * `precomputeConditionalActivations` resets set and character preprocessors
- * before each run but does NOT reset light cone preprocessors. Because the
- * preprocessors are module-level singletons, stale state from run 1 leaks
- * into run 2, producing different (wrong) activations on the second call
- * even when the inputs are identical.
+ * Without a reset, stale state from run 1 leaks into run 2. Here,
+ * ThusBurnsTheDawn's `buffActive` stays `true` after a DEFAULT_ULT
+ * (no END/WHOLE marker to trigger expiry), causing run 2's basic
+ * to incorrectly inherit the buff.
  *
- * Strategy:
- * Run 1 uses a combo that ends with DEFAULT_ULT (DEFAULT marker, not
- * END/WHOLE), which triggers the ThusBurnsTheDawn dmgBuff and leaves
- * `buffActive = true` in the singleton's state since there is no
- * END/WHOLE marker to run the expiry check.
- *
- * Run 2 uses a combo with only WHOLE_BASIC (no ULT at all). Without a
- * reset, the singleton still has `buffActive = true`, so the basic in
- * run 2 is incorrectly marked as active. With a proper reset,
- * `buffActive` starts as `false` and stays `false`.
- *
- * Both runs must execute in a SINGLE test block to preserve singleton state.
+ * Both runs execute in a single test to preserve singleton state.
  */
-test('BUG-01: LC preprocessor stale state — buffActive leaks across runs without reset', () => {
+test('LC preprocessor stale state — buffActive does not leak across runs', () => {
   // Disable comboPreprocessor so initializeComboState does NOT internally
   // call precomputeConditionalActivations — we need full control over when
   // it runs to observe singleton state leaking between calls.
@@ -83,14 +71,10 @@ test('BUG-01: LC preprocessor stale state — buffActive leaks across runs witho
 })
 
 /**
- * BUG-28: setComboBooleanCategorySetActivation has no null guard.
- *
- * Unlike the character and light cone variants, the set activation function
- * does not check whether the category exists before accessing `.activations`.
- * Calling it with a set key that doesn't exist in `setConditionals` causes a
- * TypeError: Cannot read properties of undefined (reading 'activations').
+ * setComboBooleanCategorySetActivation must handle missing set keys gracefully
+ * instead of throwing when the category doesn't exist in setConditionals.
  */
-test('BUG-28: setComboBooleanCategorySetActivation should not throw for a nonexistent set', () => {
+test('setComboBooleanCategorySetActivation should not throw for a nonexistent set', () => {
   // Build a minimal ComboState with empty setConditionals
   const comboState = {
     comboCharacter: {
@@ -98,8 +82,8 @@ test('BUG-28: setComboBooleanCategorySetActivation should not throw for a nonexi
     },
   } as unknown as ComboState
 
-  // Should not throw — currently fails with TypeError because there is no
-  // null guard on the looked-up category.
+  // Should not throw — the null guard on the looked-up category must
+  // prevent a TypeError when the set key doesn't exist.
   expect(() => {
     setComboBooleanCategorySetActivation(comboState, 'nonExistentSet', 1, true)
   }).not.toThrow()

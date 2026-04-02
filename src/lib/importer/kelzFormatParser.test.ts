@@ -57,7 +57,7 @@ function makeParser() {
 // ---- Tests ----
 
 describe('kelzFormatParser', () => {
-  describe('C5: ageIndex from UUID', () => {
+  describe('ageIndex from UUID', () => {
     it('parseRelic derives ageIndex from parseInt(_uid)', () => {
       const parser = makeParser()
       const relic = parser.parseRelic(makeParserRelic({ _uid: UUID_UID }), {})

@@ -59,7 +59,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
   portraitSwatches,
   cardBgAlpha,
 }: ShowcaseCustomizationSidebarProps) {
-  if (source === ShowcaseSource.BUILDS_MODAL) return <></>
+  if (source === ShowcaseSource.BUILDS_MODAL) return null
 
   return (
     <Flex
@@ -427,12 +427,10 @@ function sanitizePositiveNumberElseUndefined(n?: number) {
   return n == undefined || n < 0 ? undefined : n
 }
 
-const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
-
 const cardStyle = {
   backgroundColor: 'var(--layer-1)',
-  boxShadow: shadow,
-  borderRadius: 6,
+  boxShadow: 'var(--shadow-card)',
+  borderRadius: 'var(--radius-md)',
   padding: defaultPadding,
 }
 

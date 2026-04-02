@@ -228,13 +228,13 @@ export const Optimizer = {
 
     const clonedContext = clone(context) // Cloning this so the webgpu code doesnt insert conditionalRegistry with functions
 
-    let computeEngine = useGlobalStore.getState().savedSession[SavedSessionKeys.computeEngine]
+    const computeEngine = useGlobalStore.getState().savedSession[SavedSessionKeys.computeEngine]
 
     if (computeEngine != COMPUTE_ENGINE_CPU) {
       void getWebgpuDevice(true).then((device) => {
         if (device == null) {
           Message.error(t('Error.GPUNotAvailable'), 15)
-          // DISPLAY-5: Must stop optimization — GPU path won't run and CPU path already skipped
+          // GPU path won't run and CPU path already skipped — stop optimization
           useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
         } else {
           void sleep(200).then(() => {
@@ -354,6 +354,18 @@ export const Optimizer = {
           inProgress--
           // Buffer is lost when worker dies — create replacement for the pool
           releaseBuffer(BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH))
+
+          if (inProgress === 0 && nextRunIndex >= runs.length) {
+            useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
+            results = queueResults.toArray()
+            OptimizerTabController.setRows(results)
+            setSortColumn(gridSortColumn)
+            gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+            resultsShown = true
+            if (!results.length) activateZeroResultSuggestionsModal(request)
+            return
+          }
+
           dispatchNextRun()
         })
       }

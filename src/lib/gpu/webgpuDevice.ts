@@ -7,7 +7,7 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 // Firefox and some GPUs require storage address space — uniform array<f32> violates the 16-byte stride
 // requirement unless the 'uniform_buffer_standard_layout' feature is supported.
 export function uniformCompatible(): boolean {
-  return navigator.gpu?.wgslLanguageFeatures?.has('uniform_buffer_standard_layout')
+  return navigator.gpu?.wgslLanguageFeatures?.has('uniform_buffer_standard_layout') ?? false
 }
 
 export async function getWebgpuDevice(notify?: boolean) {

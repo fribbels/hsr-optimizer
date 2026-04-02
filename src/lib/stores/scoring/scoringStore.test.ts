@@ -44,8 +44,7 @@ describe('useScoringStore', () => {
   })
 
   describe('scoring metadata resolution', () => {
-    // SCORING-1 (CRITICAL): getScoringMetadata mutates the stored override in-place
-    // via mergeUndefinedValues. After the call, the override gains all default keys.
+    // getScoringMetadata must not mutate the stored override in-place via mergeUndefinedValues
     it('getScoringMetadata does not add default keys to the stored override after being called', () => {
       const override = statsOverride({ [Stats.ATK_P]: 1 })
       state().setScoringMetadataOverrides({ [Kafka.id]: override as ScoringMetadata })
@@ -58,7 +57,7 @@ describe('useScoringStore', () => {
       expect(keysAfter.length).toBe(keysBefore.length)
     })
 
-    // SCORING-1 (CRITICAL): getScoringMetadata deletes presets from the stored override
+    // getScoringMetadata must not delete presets from the stored override
     it('getScoringMetadata does not delete presets from the stored override', () => {
       const defaults = kafkaDefaults()
       const override = {
@@ -86,7 +85,7 @@ describe('useScoringStore', () => {
       expect(result.stats[Stats.ATK_P]).toBe(0.75)
     })
 
-    // SCORING-6: getScoringMetadata crashes on invalid character ID
+    // getScoringMetadata must handle invalid character IDs gracefully
     it('getScoringMetadata returns safely for an invalid character ID', () => {
       const result = getScoringMetadata(INVALID_CHARACTER_ID)
       expect(result).toBeDefined()
@@ -122,7 +121,7 @@ describe('useScoringStore', () => {
   })
 
   describe('override management', () => {
-    // SCORING-2: updateCharacterOverrides crashes when no prior override and no stats field
+    // updateCharacterOverrides must not crash when no prior override exists
     it('updateCharacterOverrides with traces-only and no prior override does not crash', () => {
       expect(() => {
         state().updateCharacterOverrides(Kafka.id, { traces: { deactivated: [] } })

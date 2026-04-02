@@ -68,9 +68,15 @@ export function useCharacterPreviewState(
     })),
   )
 
-  // Global STANDARD mode — overrides per-character color preferences when active
-  const globalColorMode = useGlobalStore((s) =>
-    s.savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO,
+  const { globalColorMode, storedScoringType, darkMode } = useGlobalStore(
+    useShallow((s) => ({
+      // STANDARD mode overrides per-character color preferences when active
+      globalColorMode: s.savedSession[SavedSessionKeys.showcaseStandardMode]
+        ? ShowcaseColorMode.STANDARD
+        : ShowcaseColorMode.AUTO,
+      storedScoringType: s.savedSession.scoringType,
+      darkMode: s.savedSession.showcaseDarkMode,
+    })),
   )
 
   // Source-aware relicsById: showcase characters have relics embedded, not in the store
@@ -81,9 +87,6 @@ export function useCharacterPreviewState(
       .filter((id): id is string => !!id)
     return Object.fromEntries(ids.map((id) => [id, s.relicsById[id]])) as Partial<Record<string, Relic>>
   }))
-
-  const storedScoringType = useGlobalStore((s) => s.savedSession.scoringType)
-  const darkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
 
   // Reference changes when scoring overrides change (SPD weight, deprioritize buffs) — busts the memos below
   const scoringMetadata = useScoringMetadata(character?.id)

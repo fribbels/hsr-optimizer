@@ -98,7 +98,7 @@ function ComboDrawerContent() {
       return
     }
 
-    // BUG-25: skip cross-type cells
+    // Skip cross-type cells
     const state = useComboDrawerStore.getState()
     const cond = locateConditional(state, dataKey.source, dataKey.id)
     if (cond && cond.type !== startCellType.current) {
@@ -131,7 +131,7 @@ function ComboDrawerContent() {
       }
     })
 
-    // BUG-19 FIX: e.removed uses opposite activation direction for drag reversal
+    // e.removed uses opposite activation direction for drag reversal
     e.removed.forEach((el) => {
       const keyStr = elementToDataKey(el)
       const key: ComboDataKey = JSON.parse(keyStr)

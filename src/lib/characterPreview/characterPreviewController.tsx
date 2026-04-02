@@ -246,6 +246,7 @@ export function showcaseOnEditPortraitOk(
       setCustomPortrait(config)
       let char = getCharacterById(character.id)
       if (!char) {
+        // Safe cast: upsertCharacterFromForm only reads characterId in the new-character path (merged over getDefaultForm).
         char = persistenceService.upsertCharacterFromForm({ characterId: character.id } as Form)
       }
       useCharacterStore.getState().setCharacter({ ...char, portrait: config })

@@ -140,7 +140,7 @@ export const CritDamageFunction: DamageFunction = {
     const elationAtkScaling = hit.elationAtkScaling
     const shouldRecord = hit.recorded !== false
 
-    const elementalDmgBoost = hit.damageElement == ElementTag.None
+    const elementalDmgBoost = hit.damageElement === ElementTag.None
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
 
@@ -245,7 +245,7 @@ export const DotDamageFunction: DamageFunction = {
     const defScaling = hit.defScaling ?? 0
     const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
-    const elementalDmgBoost = hit.damageElement == ElementTag.None
+    const elementalDmgBoost = hit.damageElement === ElementTag.None
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
 
@@ -526,7 +526,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     const defScaling = hit.defScaling ?? 0
     const hitTrueDmgModifier = hit.trueDmgModifier ?? 0
 
-    const elementalDmgBoost = hit.damageElement == ElementTag.None
+    const elementalDmgBoost = hit.damageElement === ElementTag.None
       ? '0.0'
       : getValue(elementTagToStatKeyBoost[hit.damageElement])
 

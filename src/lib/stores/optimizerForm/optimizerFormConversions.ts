@@ -93,7 +93,7 @@ export function displayToInternal(state: OptimizerRequestState): Form {
     enemyEffectResistance: state.enemyEffectResistance,
     enemyWeaknessBroken: state.enemyWeaknessBroken,
 
-    // Conditionals — shallow-clone to prevent downstream mutation of store state (FORM-1)
+    // Conditionals — shallow-clone to prevent downstream mutation of store state
     characterConditionals: { ...state.characterConditionals },
     lightConeConditionals: { ...state.lightConeConditionals },
     setConditionals: Object.fromEntries(

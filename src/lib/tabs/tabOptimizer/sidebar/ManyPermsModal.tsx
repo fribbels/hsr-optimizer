@@ -16,7 +16,7 @@ export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, star
       onClose={() => setManyPermsModalOpen(false)}
     >
       {manyPermsModalOpen && (
-        <Flex justify='space-between' align='center' style={{ height: 45, marginTop: 30, marginBottom: 15 }} gap={16}>
+        <Flex direction='column' style={{ marginTop: 30, marginBottom: 15 }} gap={16}>
           <div>
             {
               t('Text')
@@ -25,21 +25,23 @@ export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, star
               // or use the Substat weight filter to reduce the number of permutations.
             }
           </div>
-          <Button
-            onClick={() => setManyPermsModalOpen(false)}
-            style={{ width: 250 }}
-          >
-            {t('Cancel') /* Cancel search */}
-          </Button>
-          <Button
-            onClick={() => {
-              setManyPermsModalOpen(false)
-              startSearch()
-            }}
-            style={{ width: 250 }}
-          >
-            {t('Proceed') /* Proceed with search */}
-          </Button>
+          <Flex justify='flex-end' gap={16}>
+            <Button
+              onClick={() => setManyPermsModalOpen(false)}
+              style={{ width: 250 }}
+            >
+              {t('Cancel') /* Cancel search */}
+            </Button>
+            <Button
+              onClick={() => {
+                setManyPermsModalOpen(false)
+                startSearch()
+              }}
+              style={{ width: 250 }}
+            >
+              {t('Proceed') /* Proceed with search */}
+            </Button>
+          </Flex>
         </Flex>
       )}
     </Modal>

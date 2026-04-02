@@ -158,7 +158,7 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
 
 export function applyTeamAwareSetConditionalPresetsToStore() {
   const state = useOptimizerRequestStore.getState()
-  const form = displayToInternal(state) as Form
+  const form = displayToInternal(state)
   applyTeamAwareSetConditionalPresets(form)
 
   // Update the store with the modified set conditionals

@@ -1,10 +1,9 @@
 import type { TFunction } from 'i18next'
 import type { ComboboxNumberGroup } from 'lib/ui/ComboboxNumberInput'
-import type { ReactElement } from 'types/components'
 
 export type SpdPresets = Record<string, {
   key: string,
-  label: string | ReactElement,
+  label: string,
   value: number | undefined,
   disabled?: boolean,
 }>
@@ -126,7 +125,8 @@ export function buildSpdPresetOptions(
   const categoryItems = categories.map((category) => {
     let presetEntries = Object.values(category.presets)
     if (opts.skipNoMinimum) {
-      presetEntries = presetEntries.slice(1)
+      // Skip entries where value is absent or zero (the "no minimum speed" entries)
+      presetEntries = presetEntries.filter((p) => p.value != null && p.value > 0)
     }
 
     const items = presetEntries

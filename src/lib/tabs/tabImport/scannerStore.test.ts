@@ -164,8 +164,7 @@ describe('scannerStore', () => {
       expect(state().relics).toEqual({})
     })
 
-    // SCANNER-INC-3: Fixed — setConnected now resets activatedBuffs and lastScanData.
-    it('setConnected(false) resets activatedBuffs to empty object (SCANNER-INC-3)', () => {
+    it('setConnected(false) resets activatedBuffs to empty object', () => {
       state().updateActivatedBuffs({ [CHAR_ID_1]: CHAR_ID_2 as CharacterId })
 
       state().setConnected(false)
@@ -173,8 +172,7 @@ describe('scannerStore', () => {
       expect(state().activatedBuffs).toEqual({})
     })
 
-    // SCANNER-INC-3: Fixed — lastScanData also cleared on disconnect.
-    it('setConnected(false) resets lastScanData to null (SCANNER-INC-3)', () => {
+    it('setConnected(false) resets lastScanData to null', () => {
       state().updateInitialScan(makeScanData())
       expect(state().lastScanData).not.toBeNull()
 
@@ -228,8 +226,7 @@ describe('scannerStore', () => {
       expect(result.source).toBe('test')
     })
 
-    // SCANNER-1: Fixed — buildFullScanData now includes materials and gacha.
-    it('buildFullScanData includes current materials in the result (SCANNER-1)', () => {
+    it('buildFullScanData includes current materials in the result', () => {
       state().updateInitialScan(makeScanData())
 
       // Update a material after initial scan
@@ -241,7 +238,7 @@ describe('scannerStore', () => {
       expect(result.materials).toHaveLength(2)
     })
 
-    it('buildFullScanData includes current gachaFunds in the result (SCANNER-1)', () => {
+    it('buildFullScanData includes current gachaFunds in the result', () => {
       state().updateInitialScan(makeScanData())
 
       // Update gacha after initial scan
@@ -309,8 +306,7 @@ describe('scannerStore', () => {
       expect(state().lightCones[LC_UID_1]).toBeUndefined()
     })
 
-    // SCANNER-BUG-6: Fixed — added null guard before accessing relic.rarity.
-    it('handleDeleteRelic does not crash when relic is not found in state (SCANNER-BUG-6)', () => {
+    it('handleDeleteRelic does not crash when relic is not found in state', () => {
       // Seed with ingest enabled so we reach the relic.rarity check
       usePrivateScannerState.setState({ ingest: true })
 

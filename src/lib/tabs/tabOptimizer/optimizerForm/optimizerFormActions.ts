@@ -361,7 +361,7 @@ export function startOptimization(): void {
     return
   }
 
-  // DISPLAY-3: Reset all progress and timing fields to prevent stale data from previous run
+  // Reset all progress and timing fields to prevent stale data from previous run
   useOptimizerDisplayStore.setState({
     permutationsSearched: 0,
     permutationsResults: 0,
@@ -369,6 +369,9 @@ export function startOptimization(): void {
     optimizerEndTime: null,
     optimizationInProgress: true,
   })
+
+  // Clear any stale post-search row filter so new results aren't filtered by a previous run's thresholds
+  OptimizerTabController.clearFilterModel()
 
   // Delay the DB save so it doesn't block the optimizer start with a characters tab re-render
   requestIdleCallback(() => {

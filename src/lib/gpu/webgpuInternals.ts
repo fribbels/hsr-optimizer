@@ -8,7 +8,6 @@ import {
 import { uniformCompatible } from 'lib/gpu/webgpuDevice'
 import {
   type GpuExecutionContext,
-  type GpuResult,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
 import { bitpackBooleanArray } from 'lib/optimization/relicSetSolver'

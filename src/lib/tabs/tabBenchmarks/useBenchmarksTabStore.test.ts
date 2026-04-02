@@ -210,7 +210,7 @@ describe('useBenchmarksTabStore', () => {
       expect(state().teammate0).toEqual(tm0)
     })
 
-    // BENCH-INC-2: Fixed — handleResetBenchmarks calls clearBenchmarkCache + resetCache.
+    // handleResetBenchmarks must clear both store results and module-level computation cache
     it('handleResetBenchmarks clears both store results and module-level computation cache', async () => {
       const { handleResetBenchmarks, clearBenchmarkCache } = await import('./benchmarksTabController')
       expect(typeof clearBenchmarkCache).toBe('function')

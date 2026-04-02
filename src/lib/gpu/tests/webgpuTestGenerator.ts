@@ -177,7 +177,7 @@ export function generateSingleCharacterTest(
 }
 
 export function generateE0E1Tests(device: GPUDevice) {
-  return baseCharacterLightConeMappings.reverse().map((pair) => {
+  return [...baseCharacterLightConeMappings].reverse().map((pair) => {
     return generateE0S1CharacterTest(pair.characterId, pair.lightConeId, device)
   })
 }

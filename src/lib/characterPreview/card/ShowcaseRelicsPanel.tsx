@@ -16,6 +16,7 @@ import { type Relic } from 'types/relic'
 
 const leftParts: Parts[] = [Constants.Parts.Head, Constants.Parts.Body, Constants.Parts.PlanarSphere]
 const rightParts: Parts[] = [Constants.Parts.Hands, Constants.Parts.Feet, Constants.Parts.LinkRope]
+const ALL_PARTS: Parts[] = [...leftParts, ...rightParts]
 
 export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
   setSelectedRelic,
@@ -37,16 +38,16 @@ export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
   scoredRelics: RelicScoringResult[]
 }) {
   const relicByPart = useMemo(() => {
-    const map: Record<string, Relic> = {}
-    for (const part of [...leftParts, ...rightParts]) {
+    const map: Partial<Record<Parts, Relic>> = {}
+    for (const part of ALL_PARTS) {
       map[part] = { ...displayRelics[part], part }
     }
     return map
   }, [displayRelics])
 
   const scoreByPart = useMemo(() => {
-    const map: Record<string, RelicScoringResult | undefined> = {}
-    for (const part of [...leftParts, ...rightParts]) {
+    const map: Partial<Record<Parts, RelicScoringResult>> = {}
+    for (const part of ALL_PARTS) {
       map[part] = scoredRelics.find((x) => x.part === part)
     }
     return map

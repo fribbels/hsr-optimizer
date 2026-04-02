@@ -34,6 +34,7 @@ export function ConfirmModalProvider(props: { children: React.ReactNode }) {
 
   useEffect(() => {
     globalConfirmModal = api
+    return () => { globalConfirmModal = null }
   }, [api])
 
   return (
@@ -46,7 +47,7 @@ export function ConfirmModalProvider(props: { children: React.ReactNode }) {
         closeOnClickOutside={options.closeOnClickOutside ?? true}
         centered
       >
-        {options.content}
+        {opened && options.content}
       </Modal>
     </>
   )

@@ -25,10 +25,11 @@ interface LightConeConditionalDisplayProps {
 export const LightConeConditionalDisplay = memo(function LightConeConditionalDisplay({ id, superImposition, teammateIndex, dbMetadata }: LightConeConditionalDisplayProps) {
   const { t } = useTranslation('optimizerTab')
 
-  const storeState = useOptimizerRequestStore.getState()
-  const wearerId: CharacterId = teammateIndex == null
-    ? storeState.characterId!
-    : storeState.teammates[teammateIndex as 0 | 1 | 2].characterId!
+  const wearerId: CharacterId = useOptimizerRequestStore((s) =>
+    teammateIndex == null
+      ? s.characterId!
+      : s.teammates[teammateIndex as 0 | 1 | 2].characterId!,
+  )
 
   const conditionalResolverMetadata = generateConditionalResolverMetadata({
     characterId: wearerId,

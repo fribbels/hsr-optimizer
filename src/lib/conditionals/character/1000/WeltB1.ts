@@ -51,14 +51,14 @@ import {
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 
-import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
-import {
+import type { Eidolon } from 'types/character'
+import type { CharacterConfig } from 'types/characterConfig'
+import type { CharacterConditionalsController } from 'types/conditionals'
+import type {
   ScoringMetadata,
   SimulationMetadata,
 } from 'types/metadata'
-import {
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'

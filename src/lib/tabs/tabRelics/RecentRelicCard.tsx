@@ -21,19 +21,20 @@ interface RelicCardProps {
   isSelected?: boolean
 }
 
+const token = {
+  colorPrimary: 'var(--primary-subtle)',
+  colorPrimaryBg: 'color-mix(in srgb, var(--layer-inset) 25%, transparent)',
+  colorBgContainer: 'var(--layer-1)',
+  colorBorderSecondary: 'var(--border-default)',
+  colorTextSecondary: 'var(--text-secondary)',
+  colorText: 'var(--text-primary)',
+}
+
 export const RecentRelicCard = memo((props: RelicCardProps) => {
   const { relic, scoringCharacter, setSelectedRelicID, isSelected } = props
   const excludedRelicPotentialCharacters = useRelicsTabStore(
     (s) => s.excludedRelicPotentialCharacters,
   )
-  const token = {
-    colorPrimary: 'var(--primary-subtle)',
-    colorPrimaryBg: 'color-mix(in srgb, var(--layer-inset) 25%, transparent)',
-    colorBgContainer: 'var(--layer-1)',
-    colorBorderSecondary: 'var(--border-default)',
-    colorTextSecondary: 'var(--text-secondary)',
-    colorText: 'var(--text-primary)',
-  }
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RecentlyUpdatedRelics' })
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
 

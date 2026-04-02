@@ -39,9 +39,11 @@ function SetSelector({ selected, options, placeholder, submit }: {
   )
 }
 
+const EMPTY_SETS: string[] = []
+
 export function SetSelectors() {
-  const displayedRelicSets = useComboDrawerStore((s) => s.comboCharacter?.displayedRelicSets ?? [])
-  const displayedOrnamentSets = useComboDrawerStore((s) => s.comboCharacter?.displayedOrnamentSets ?? [])
+  const displayedRelicSets = useComboDrawerStore((s) => s.comboCharacter?.displayedRelicSets ?? EMPTY_SETS)
+  const displayedOrnamentSets = useComboDrawerStore((s) => s.comboCharacter?.displayedOrnamentSets ?? EMPTY_SETS)
   const { t, i18n } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer.Placeholders' })
   const ornamentOptions = useOrnamentsOptions()
   const relicSetOptions = useMemo(() => GenerateBasicSetsOptions(), [i18n.resolvedLanguage])

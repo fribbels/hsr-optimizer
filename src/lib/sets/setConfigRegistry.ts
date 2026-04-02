@@ -260,8 +260,10 @@ export const SetsOrnaments = Object.fromEntries(
 ) as ToNameMap<typeof ALL_ORNAMENT_CONFIGS>
 export type SetsOrnaments = typeof SetsOrnaments[keyof typeof SetsOrnaments]
 
-export const SetsRelicsNames = Object.values(SetsRelics) as SetsRelics[]
-export const SetsOrnamentsNames = Object.values(SetsOrnaments) as SetsOrnaments[]
+// All index-derived exports use info.index order (via the sorted config arrays)
+// as single source of truth, so *SetToIndex, *Names, and *IndexToSetConfig all agree.
+export const SetsRelicsNames = relicConfigs.map((c) => c.config.id) as SetsRelics[]
+export const SetsOrnamentsNames = ornamentConfigs.map((c) => c.config.id) as SetsOrnaments[]
 
 export const RelicSetToIndex = Object.fromEntries(
   SetsRelicsNames.map((name, i) => [name, i]),
@@ -272,10 +274,10 @@ export const OrnamentSetToIndex = Object.fromEntries(
 ) as Record<SetsOrnaments, number>
 
 export const RelicSetKeyToIndex: Record<string, number> = Object.fromEntries(
-  Object.keys(SetsRelics).map((key, i) => [key, i]),
+  relicConfigs.map((c, i) => [c.config.setKey, i]),
 )
 export const OrnamentSetKeyToIndex: Record<string, number> = Object.fromEntries(
-  Object.keys(SetsOrnaments).map((key, i) => [key, i]),
+  ornamentConfigs.map((c, i) => [c.config.setKey, i]),
 )
 
 export const RelicSetCount = ALL_RELIC_CONFIGS.length

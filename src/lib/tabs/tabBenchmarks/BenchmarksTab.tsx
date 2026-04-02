@@ -199,7 +199,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
       <Flex direction="column" gap={GAP}>
         <HeaderText>{t('CharacterHeader') /* Character */}</HeaderText>
         <CharacterSelect
-          value={form.getValues().characterId}
+          value={form.values.characterId}
           onChange={(id: CharacterId | null) => {
             if (id) form.setFieldValue('characterId', id)
             handleCharacterSelectChange(id, form)
@@ -213,7 +213,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
       <Flex direction="column" gap={GAP}>
         <HeaderText>{t('LCHeader') /* Light Cone */}</HeaderText>
         <LightConeSelect
-          value={form.getValues().lightCone}
+          value={form.values.lightCone}
           characterId={characterId}
           onChange={(id) => {
             if (id) form.setFieldValue('lightCone', id)

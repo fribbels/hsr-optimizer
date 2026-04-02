@@ -146,10 +146,6 @@ Toolbar:
     Width: Ancho de inventario
     Filter: Filtrar filas automáticamente
     NoneSelected: Selecciona artefacto a encontrar
-    Location: 'Ubicación - Fila {{rowIndex}} / Col. {{columnIndex}}'
-  InsightOptions:
-    Buckets: 'Análisis de artefacto: Rangos'
-    Top10: 'Análisis de artefacto: Top 10'
   PlotOptions:
     PlotAll: Mostrar todos los personajes
     PlotCustom: Mostrar personajes personalizados

@@ -121,7 +121,6 @@ CharacterPreview:
       FUA: Đòn Đánh Theo Sau
       MEMO_SKILL: SKILLᴹ
       MEMO_TALENT: THIÊN PHÚ LHKY
-      DOTS: 'Sát thương duy trì:'
       BREAKS: 'ST Kích Phá:'
     CombatResults:
       Header: Kết quả sát thương

@@ -332,7 +332,7 @@ Sidebar:
     Save: Сохранить
     Load: Загрузить
 TeammateRow:
-  Header: 'Союзников {{teammateCount}}'
+  Header: 'Союзники'
 FormRowLabels:
   Character options: Настройки персонажа
   Relic & stat filters: Фильтры реликвий и статов
@@ -568,8 +568,6 @@ ComboFilter:
     ResetConfirm:
       Description: Сбросить все (Простые / Продвинутые) настройки ротаций?
     PresetsHeader: Шаблоны
-  CounterLabels:
-    Dot: ДоТ'ы
   ComboOptions:
     None: 'Нет'
     Basic: БазАтака

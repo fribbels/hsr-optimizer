@@ -8,7 +8,6 @@ Messages:
   CharacterAlreadyExists: Nhân vật được chọn đã tồn tại
   UnknownButtonClicked: Nút được nhấn không xác định.
 Header:
-  DowntimeWarning: 'Chấm điểm di vật đang bảo trì cho phiên bản {{game_version}}, hãy thử lại sau'
   WithVersion: 'Hãy nhập UID của tài khoản để chấm điểm các nhân vật trên hồ sơ nhân vật ở level 80 với vết tích cấp tối đa. Đăng xuất trong game để tải lại hồ sơ. (Hiện tại phiên bản {{beta_version}})'
   WithoutVersion: Hãy nhập UID của tài khoản để chấm điểm các nhân vật trên hồ sơ nhân vật ở level 80 với vết tích cấp tối đa. Đăng xuất trong game để tải lại hồ sơ.
 SubmissionBar:
@@ -16,7 +15,6 @@ SubmissionBar:
   AlgorithmButton: Cách chấm điểm
 CopyScreenshot: Sao chép ảnh chụp màn hình
 ImportLabels:
-  Relics: Nhập di vật vào trình tối ưu hóa
   SingleCharacter: Nhập nhân vật được chọn và tất cả di vật vào trình tối ưu hóa
   AllCharacters: Nhập tất cả nhân vật và tất cả di vật vào trình tối ưu hóa
 SimulateRelics: Giả lập di vật lên nhân vật khác

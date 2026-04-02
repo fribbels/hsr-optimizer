@@ -129,7 +129,6 @@ CharacterPreview:
       FUA: ATQ. EXT.
       MEMO_SKILL: PERÍCIAᴹ
       MEMO_TALENT: TALENTOᴹ
-      DOTS: 'DOTS:'
       BREAKS: 'QUEBRAS:'
     CombatResults:
       Header: Resultados do dano de combate

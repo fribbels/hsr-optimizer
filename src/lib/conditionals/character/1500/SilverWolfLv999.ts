@@ -2,8 +2,10 @@ import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 
-import { getYaoguangAhaPunchlineValue } from 'lib/conditionals/character/1500/Yaoguang'
-import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
+import {
+  getYaoguangAhaPunchlineValue,
+  Yaoguang,
+} from 'lib/conditionals/character/1500/Yaoguang'
 import {
   AbilityEidolon,
   Conditionals,
@@ -15,7 +17,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { TomorrowWithUsAll } from 'lib/conditionals/lightcone/4star/TomorrowWithUsAll'
+import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
@@ -26,9 +28,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import {
-  newConditionalWgslWrapper,
-} from 'lib/gpu/conditionals/dynamicConditionals'
+import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
   p_containerActionVal,
@@ -54,8 +54,9 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
+  RELICS_2P_CRIT,
+  RELICS_2P_SPEED,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { Eidolon } from 'types/character'
 import { CharacterConfig } from 'types/characterConfig'
@@ -118,6 +119,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBanger: true,
     punchlineStacks: 30,
     certifiedBangerStacks: 60,
+    // TODO: hiddenMmr default should be lowered, waiting for v4 to get a vibe
     hiddenMmr: 300,
     spdToElation: true,
     e1Vulnerability: true,
@@ -345,6 +347,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
@@ -390,13 +393,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           )
         },
       },
-      // Talent: Hidden MMR → CR, overflow → CD
+      // Talent: Hidden MMR -> CR (capped at 100%), overflow -> CD
+      // State = -1 sentinel prevents re-entrant loops from buffDynamic(CR) - null vs 0 distinguishes first call
       {
         id: 'SilverWolfLv999HiddenMmrConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         chainsTo: [Stats.CR, Stats.CD],
+        supplementalState: ['SilverWolfLv999HiddenMmrCr'],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.hiddenMmr > 0
@@ -406,47 +411,62 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const mmrPoints = r.hiddenMmr
           if (mmrPoints <= 0) return
 
-          const prevCrBuff = action.conditionalState[this.id] || 0
-          const prevCrPoints = prevCrBuff / mmrCrPerPoint
-          const prevCdBuff = Math.max(0, mmrPoints - prevCrPoints) * mmrCdPerPoint
+          const crState = action.conditionalState[this.id]
+          if (crState === -1) return
+
+          const isFirstCall = crState == null
+          const prevCrBuff = isFirstCall ? 0 : crState
+          const maxCrBuff = mmrPoints * mmrCrPerPoint
+          const prevCdBuff = isFirstCall ? 0 : (maxCrBuff - prevCrBuff) * (mmrCdPerPoint / mmrCrPerPoint)
 
           const totalCr = x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX)
           const baseCr = totalCr - prevCrBuff
+
           const crSpace = Math.max(0, 1.00 - baseCr)
-          const newCrBuff = Math.min(mmrPoints * mmrCrPerPoint, crSpace)
-          const newCrPoints = newCrBuff / mmrCrPerPoint
-          const newCdBuff = Math.max(0, mmrPoints - newCrPoints) * mmrCdPerPoint
+          const newCrBuff = Math.min(maxCrBuff, crSpace)
+          const newCdBuff = (maxCrBuff - newCrBuff) * (mmrCdPerPoint / mmrCrPerPoint)
 
+          const crDelta = newCrBuff - prevCrBuff
+          const cdDelta = newCdBuff - prevCdBuff
+
+          action.conditionalState[this.id] = -1
+          x.buffDynamic(StatKey.CR, crDelta, action, context, x.source(SOURCE_TALENT))
+          x.buffDynamic(StatKey.CD, cdDelta, action, context, x.source(SOURCE_TALENT))
           action.conditionalState[this.id] = newCrBuff
-
-          x.buffDynamic(StatKey.CR, newCrBuff - prevCrBuff, action, context, x.source(SOURCE_TALENT))
-          x.buffDynamic(StatKey.CD, newCdBuff - prevCdBuff, action, context, x.source(SOURCE_TALENT))
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           const config = action.config
 
-          return newConditionalWgslWrapper(this, action, context, `
+          return newConditionalWgslWrapper(
+            this,
+            action,
+            context,
+            `
 if (${r.hiddenMmr} <= 0) {
   return;
 }
-let mmrPoints: f32 = ${r.hiddenMmr}.0;
-let prevCrBuff: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
-let prevCrPoints = prevCrBuff / ${mmrCrPerPoint};
-let prevCdBuff = max(0.0, mmrPoints - prevCrPoints) * ${mmrCdPerPoint};
+let mmrPoints: f32 = f32(${r.hiddenMmr});
+let maxCrBuff: f32 = mmrPoints * ${mmrCrPerPoint};
+let prevCrBuff: f32 = (*p_state).SilverWolfLv999HiddenMmrCr${action.actionIdentifier};
+let prevCdBuff: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
 
 let totalCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)};
 let baseCr = totalCr - prevCrBuff;
 let crSpace = max(0.0, 1.0 - baseCr);
-let newCrBuff = min(mmrPoints * ${mmrCrPerPoint}, crSpace);
-let newCrPoints = newCrBuff / ${mmrCrPerPoint};
-let newCdBuff = max(0.0, mmrPoints - newCrPoints) * ${mmrCdPerPoint};
+let newCrBuff = min(maxCrBuff, crSpace);
+let newCdBuff = (maxCrBuff - newCrBuff) * ${mmrCdPerPoint / mmrCrPerPoint};
 
-(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = newCrBuff;
+let crDelta = newCrBuff - prevCrBuff;
+let cdDelta = newCdBuff - prevCdBuff;
 
-${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)} += newCrBuff - prevCrBuff;
-${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += newCdBuff - prevCdBuff;
-`)
+(*p_state).SilverWolfLv999HiddenMmrCr${action.actionIdentifier} = newCrBuff;
+(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = newCdBuff;
+
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)} += crDelta;
+${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += cdDelta;
+`,
+          )
         },
       },
     ],
@@ -461,21 +481,17 @@ const simulation = (): SimulationMetadata => ({
     ],
     [Parts.Feet]: [
       Stats.SPD,
-      Stats.ATK_P,
     ],
     [Parts.PlanarSphere]: [
-      Stats.Imaginary_DMG,
-      Stats.ATK_P,
+      Stats.HP_P,
     ],
     [Parts.LinkRope]: [
-      Stats.ATK_P,
+      Stats.HP_P,
     ],
   },
   substats: [
     Stats.CD,
     Stats.CR,
-    Stats.ATK_P,
-    Stats.ATK,
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
@@ -493,14 +509,16 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_ELATION_SKILL,
   ],
   comboDot: 0,
-  errRopeEidolon: 0,
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
+    RELICS_2P_CRIT,
+    RELICS_2P_SPEED,
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,
     Sets.TengokuLivestream,
+    Sets.IzumoGenseiAndTakamaDivineRealm,
     Sets.RutilantArena,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
@@ -512,9 +530,9 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TrailblazerElationStelle.id,
-      lightCone: TomorrowWithUsAll.id,
-      characterEidolon: 6,
+      characterId: Yaoguang.id,
+      lightCone: MushyShroomysAdventures.id,
+      characterEidolon: 0,
       lightConeSuperimposition: 5,
     },
     {
@@ -528,8 +546,8 @@ const simulation = (): SimulationMetadata => ({
 
 const scoring = (): ScoringMetadata => ({
   stats: {
-    [Stats.ATK]: 0.75,
-    [Stats.ATK_P]: 0.75,
+    [Stats.ATK]: 0,
+    [Stats.ATK_P]: 0,
     [Stats.DEF]: 0,
     [Stats.DEF_P]: 0,
     [Stats.HP]: 0,
@@ -548,16 +566,9 @@ const scoring = (): ScoringMetadata => ({
     ],
     [Parts.Feet]: [
       Stats.SPD,
-      Stats.ATK_P,
     ],
-    [Parts.PlanarSphere]: [
-      Stats.Imaginary_DMG,
-      Stats.ATK_P,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-      Stats.ERR,
-    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [],
   },
   presets: [],
   sortOption: SortOption.BASIC,

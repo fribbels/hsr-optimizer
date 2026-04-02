@@ -15,9 +15,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
-import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -453,9 +453,9 @@ const simulation = (): SimulationMetadata => ({
     },
     {
       characterId: Yaoguang.id,
-      lightCone: WhenSheDecidedToSee.id,
+      lightCone: MushyShroomysAdventures.id,
       characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: 5,
     },
     {
       characterId: Huohuo.id,

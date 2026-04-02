@@ -121,8 +121,8 @@ export function resolveOptimalMainstat(part: Parts, mainstat: MainStats, meta: S
    * Need the specific optimal mainstat to remove it from possible substats. Find it by
    * - finding the highest multiplier mainstat of those valid for this relic
    * - looking at all stats with this exact multiplier and biasing towards
-   *   1 - ideal mainstats and
-   *   2 - mainstats that can't be substats in that order
+   *   1 - mainstats that can't be substats (choosing them doesn't shrink the substat pool) and
+   *   2 - ideal mainstats
    */
   // First candidate (i.e. has the highest weight)
   const possibleMainStats = PartsMainStats[part] as MainStats[]

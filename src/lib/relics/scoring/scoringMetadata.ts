@@ -20,7 +20,7 @@ import { clone } from 'lib/utils/objectUtils'
 export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
   const scoringMetadata = clone(getScoringMetadata(id)) as unknown as ScorerMetadata
 
-  const defaultScoringMetadata = getGameMetadata().characters[id].scoringMetadata
+  const defaultScoringMetadata = getGameMetadata().characters[id]?.scoringMetadata
   scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })
 
   scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * FLAT_STAT_SCALING.HP

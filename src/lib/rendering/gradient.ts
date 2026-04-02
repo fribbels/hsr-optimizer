@@ -63,7 +63,7 @@ export const Gradient = {
 
     const value = params.value
 
-    let range = max === min ? 0.5 : (value - min) / (max - min)
+    const range = max === min ? 0.5 : (value - min) / (max - min)
     const clamped = Math.min(Math.max(range, 0), 1)
     // Quantize to ~200 buckets to maximize cache hits
     const key = Math.round(clamped * 200)

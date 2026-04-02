@@ -334,7 +334,7 @@ Sidebar:
     Save: Save
     Load: Load
 TeammateRow:
-  Header: 'Teammates {{teammateCount}}'
+  Header: 'Teammates'
 FormRowLabels:
   Character options: Character options
   Relic & stat filters: Relic & stat filters
@@ -573,8 +573,9 @@ ComboFilter:
     ResetConfirm:
       Description: Reset all Simple / Advanced rotation settings to default?
     PresetsHeader: Presets
-  CounterLabels:
-    Dot: Dots
+  Presets:
+    Enabled: Conditional presets enabled
+    Disabled: Conditional presets disabled
   ComboOptions:
     None: 'None'
     Basic: Basic

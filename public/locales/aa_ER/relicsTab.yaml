@@ -4,10 +4,14 @@ RelicFilterBar:
   Grade: crwdns43460:0crwdne43460:0
   InitialRolls: crwdns45201:0crwdne45201:0
   Verified: crwdns43462:0crwdne43462:0
+  Unverified: crwdns46738:0crwdne46738:0
   Equipped: crwdns43464:0crwdne43464:0
+  Unequipped: crwdns46740:0crwdne46740:0
   Clear: crwdns43466:0crwdne43466:0
   ClearButton: crwdns43468:0crwdne43468:0
   Set: crwdns43470:0crwdne43470:0
+  RelicSets: crwdns46742:0crwdne46742:0
+  OrnamentSets: crwdns46744:0crwdne46744:0
   Mainstat: crwdns43472:0crwdne43472:0
   Substat: crwdns43474:0crwdne43474:0
   ScoringButton: crwdns43478:0crwdne43478:0
@@ -136,11 +140,11 @@ Toolbar:
     Width: crwdns43576:0crwdne43576:0
     Filter: crwdns43578:0crwdne43578:0
     NoneSelected: crwdns43580:0crwdne43580:0
-    Location: 'crwdns43582:0{{rowIndex}}crwdnd43582:0{{columnIndex}}crwdne43582:0'
+    Location: 'crwdns46746:0{{rowIndex}}crwdnd46746:0{{columnIndex}}crwdne46746:0'
   InsightOptions:
-    Buckets: 'crwdns43584:0crwdne43584:0'
-    Top10: 'crwdns43586:0crwdne43586:0'
-    ESTBP: 'crwdns46344:0crwdne46344:0'
+    Buckets: 'crwdns46748:0crwdne46748:0'
+    Top10: 'crwdns46750:0crwdne46750:0'
+    ESTBP: 'crwdns46752:0crwdne46752:0'
   PlotOptions:
     PlotAll: crwdns43588:0crwdne43588:0
     PlotCustom: crwdns43590:0crwdne43590:0

@@ -169,11 +169,6 @@ Toolbar:
     Width: Ширина инвентаря (столбцы)
     Filter: Автофильтр строк
     NoneSelected: Выберите реликвию для поиска
-    Location: 'Позиция: Строка {{rowIndex}} / столбец {{columnIndex}}'
-  InsightOptions:
-    Buckets: 'Анализ реликвии: Распределение'
-    Top10: 'Анализ реликвии: Топ-10'
-    ESTBP: 'Анализ реликвий: ESTBP'
   PlotOptions:
     PlotAll: Показать всех персонажей
     PlotCustom: Персонажи для расчёта потенциала

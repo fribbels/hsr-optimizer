@@ -129,7 +129,6 @@ CharacterPreview:
       FUA: ATQ. ADICIONAL
       MEMO_SKILL: HABILIDADᴹ
       MEMO_TALENT: TALENTOᴹ
-      DOTS: 'DOTS:'
       BREAKS: 'RUPTURAS:'
     CombatResults:
       Header: Resultados de daño de combate

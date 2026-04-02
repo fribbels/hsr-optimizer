@@ -131,7 +131,6 @@ CharacterPreview:
       FUA: Бонусная атака
       MEMO_SKILL: Навыкᴹ
       MEMO_TALENT: Талантᴹ
-      DOTS: 'Доты'
       BREAKS: 'Урон пробитием'
     CombatResults:
       Header: Значения урона в бою

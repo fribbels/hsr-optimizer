@@ -161,11 +161,6 @@ Toolbar:
     Width: インベントリの幅
     Filter: 行のしきい値
     NoneSelected: 遺物を選択して場所を確認
-    Location: '場所 - 行 {{rowIndex}} / 列 {{columnIndex}}'
-  InsightOptions:
-    Buckets: '遺物インサイト：バケツ'
-    Top10: '遺物インサイト：トップ10'
-    ESTBP: '遺物インサイト：推定開拓力'
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
     PlotCustom: 指定対象のみ表示

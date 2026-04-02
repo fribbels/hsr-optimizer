@@ -129,7 +129,6 @@ CharacterPreview:
       FUA: ADS
       MEMO_SKILL: COMPᴹ
       MEMO_TALENT: Talentᴹ
-      DOTS: 'DSD:'
       BREAKS: 'RUPTURES:'
     CombatResults:
       Header: Résultats des dégâts de combat

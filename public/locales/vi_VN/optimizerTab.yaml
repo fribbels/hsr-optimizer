@@ -230,7 +230,7 @@ Sidebar:
     Header: Lối lên đồ
     Save: Lưu
 TeammateRow:
-  Header: '{{teammateCount}} đồng đội'
+  Header: 'Đồng đội'
 FormRowLabels:
   Character options: Lựa chọn nhân vật
   Relic & stat filters: Bộ lọc di vật và chỉ số
@@ -431,8 +431,6 @@ ComboFilter:
     ResetConfirm:
       Description: Đặt lại tất cả thứ tự đơn giản / nâng cao thành mặc định?
     PresetsHeader: Mẫu Cho Sẵn
-  CounterLabels:
-    Dot: Dots
   ComboOptions:
     None: 'Không có'
     Basic: Tấn công thường

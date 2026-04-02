@@ -1,6 +1,6 @@
-/* ---- Debug wrapper ---- */
+/* ---- Wrapper ---- */
 
-.debugWrapper {
+.wrapper {
   height: 100%;
 }
 
@@ -21,13 +21,13 @@
   position: absolute;
   left: 0;
   right: 0;
-  background: var(--dbg-indicator-bg, linear-gradient(90deg, rgba(124, 92, 252, 0.18), rgba(124, 92, 252, 0.06)));
-  border-left: var(--dbg-indicator-thickness, 2px) solid var(--primary-default);
+  background: linear-gradient(90deg, hsla(215, 82%, 62%, 0.18), hsla(215, 82%, 62%, 0.06));
+  border-left: 3px solid var(--primary-default);
   pointer-events: none;
   z-index: 0;
   transition:
-    top var(--dbg-indicator-speed, 150ms) ease,
-    height var(--dbg-indicator-speed, 150ms) ease,
+    top 150ms ease,
+    height 150ms ease,
     opacity 0.1s ease;
 }
 
@@ -38,20 +38,34 @@
   z-index: 1;
 }
 
+/* ---- Group dividers (solid) ---- */
+
+.group + .group {
+  padding-top: 4px;
+}
+
+.group + .group::before {
+  content: '';
+  display: block;
+  height: 1px;
+  margin: 0 14px 4px;
+  background: rgba(255, 255, 255, 0.10);
+}
+
 .groupLabel {
-  font-size: var(--dbg-group-font-size, 10px);
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: var(--dbg-group-spacing, 0.08em);
+  letter-spacing: 0.08em;
   color: var(--text-muted);
-  padding: 10px calc(var(--dbg-item-h-pad, 14px) + var(--dbg-item-inset, 0px)) 4px;
+  padding: 10px 14px 4px;
   user-select: none;
 }
 
 .groupItems {
   display: flex;
   flex-direction: column;
-  gap: var(--dbg-item-gap, 1px);
+  gap: 0px;
 }
 
 /* ---- Nav items ---- */
@@ -67,22 +81,19 @@ a.itemCollapsed {
 .item.item {
   display: flex;
   align-items: center;
-  gap: var(--dbg-icon-gap, 9px);
+  gap: 8px;
   align-self: stretch;
-  padding: var(--dbg-item-v-pad, 7px) var(--dbg-item-h-pad, 14px);
-  margin: 0 var(--dbg-item-inset, 0px);
+  padding: 8px 14px;
+  margin: 0;
   position: relative;
   z-index: 1;
-  border-radius: var(--dbg-item-radius, 0px);
-  transition:
-    background 0.08s ease,
-    transform 0.15s ease;
+  border-radius: 3px;
+  transition: background 0.08s ease;
   cursor: pointer;
 }
 
 .item:hover {
-  background: var(--dbg-hover-bg, transparent);
-  transform: translateX(var(--dbg-hover-shift, 0px));
+  background: hsla(215, 82%, 62%, 0.08);
 }
 
 .item:hover .itemLabel {
@@ -95,7 +106,7 @@ a.itemCollapsed {
 
 .item[data-active] .itemLabel {
   color: var(--primary-light);
-  font-weight: var(--dbg-active-weight, 500);
+  font-weight: 500;
 }
 
 .item[data-active] .itemIcon {
@@ -105,7 +116,7 @@ a.itemCollapsed {
 /* Also highlight focused drawer items (Settings, Get Started) */
 .item[data-focused] .itemLabel {
   color: var(--primary-light);
-  font-weight: var(--dbg-active-weight, 500);
+  font-weight: 500;
 }
 
 .item[data-focused] .itemIcon {
@@ -113,9 +124,11 @@ a.itemCollapsed {
 }
 
 .itemIcon {
-  width: var(--dbg-icon-size, 16px);
-  min-width: var(--dbg-icon-size, 16px);
-  height: var(--dbg-icon-size, 16px);
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background: hsla(215, 30%, 50%, 0.15);
   color: var(--text-muted);
   transition: color 0.1s ease;
   display: flex;
@@ -125,13 +138,13 @@ a.itemCollapsed {
 
 /* Size the icon SVGs consistently */
 .itemIcon svg {
-  width: var(--dbg-icon-size, 16px);
-  height: var(--dbg-icon-size, 16px);
+  width: 16px;
+  height: 16px;
 }
 
 .itemLabel {
-  font-size: var(--dbg-font-size, 14px);
-  font-weight: var(--dbg-label-weight, 400);
+  font-size: 14px;
+  font-weight: 400;
   color: var(--text-muted);
   transition: color 0.1s ease;
   white-space: nowrap;
@@ -168,7 +181,7 @@ a.itemCollapsed {
 }
 
 .itemCollapsed:hover {
-  background: var(--dbg-hover-bg, rgba(124, 92, 252, 0.06));
+  background: hsla(215, 82%, 62%, 0.08);
 }
 
 .itemCollapsed:hover .itemIcon {
@@ -177,106 +190,4 @@ a.itemCollapsed {
 
 .itemCollapsed[data-active] .itemIcon {
   color: var(--primary-light);
-}
-
-/* ==================================================================
-   Data-attribute driven variants (set by debug panel)
-   ================================================================== */
-
-/* ---- Indicator position: right ---- */
-
-.debugWrapper[data-indicator="right"] .indicator {
-  border-left: none;
-  border-right: var(--dbg-indicator-thickness, 2px) solid var(--primary-default);
-  background: var(--dbg-indicator-bg-reverse, linear-gradient(270deg, rgba(124, 92, 252, 0.18), rgba(124, 92, 252, 0.06)));
-}
-
-/* ---- Indicator position: background (full-width highlight) ---- */
-
-.debugWrapper[data-indicator="background"] .indicator {
-  border-left: none;
-  left: var(--dbg-item-inset, 0px);
-  right: var(--dbg-item-inset, 0px);
-  border-radius: var(--dbg-item-radius, 0px);
-}
-
-/* ---- Indicator position: none ---- */
-
-.debugWrapper[data-indicator="none"] .indicator {
-  display: none;
-}
-
-/* ---- Group label case: titlecase ---- */
-
-.debugWrapper[data-group-case="titlecase"] .groupLabel {
-  text-transform: capitalize;
-}
-
-/* ---- Group label case: hidden ---- */
-
-.debugWrapper[data-group-case="hidden"] .groupLabel {
-  display: none;
-}
-
-/* ---- Group dividers ---- */
-
-.debugWrapper[data-dividers] .group + .group {
-  padding-top: 4px;
-}
-
-.debugWrapper[data-dividers] .group + .group::before {
-  content: '';
-  display: block;
-  margin: 0 calc(var(--dbg-item-h-pad, 14px) + var(--dbg-item-inset, 0px)) 4px;
-}
-
-.debugWrapper[data-dividers="solid"] .group + .group::before {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.10);
-}
-
-.debugWrapper[data-dividers="dashed"] .group + .group::before {
-  height: 0;
-  border-top: 1px dashed var(--layer-inset);
-}
-
-.debugWrapper[data-dividers="gradient"] .group + .group::before {
-  height: 1px;
-  background: var(--dbg-divider-gradient);
-}
-
-/* ---- Icon container: circle ---- */
-
-.debugWrapper[data-icon-container="circle"] .itemIcon {
-  width: var(--dbg-icon-container-size, 28px);
-  min-width: var(--dbg-icon-container-size, 28px);
-  height: var(--dbg-icon-container-size, 28px);
-  border-radius: 50%;
-  background: var(--dbg-icon-container-bg);
-}
-
-/* ---- Icon container: rounded-square ---- */
-
-.debugWrapper[data-icon-container="rounded-square"] .itemIcon {
-  width: var(--dbg-icon-container-size, 28px);
-  min-width: var(--dbg-icon-container-size, 28px);
-  height: var(--dbg-icon-container-size, 28px);
-  border-radius: var(--radius-md);
-  background: var(--dbg-icon-container-bg);
-}
-
-/* ---- Active glow ---- */
-
-.debugWrapper[data-active-glow] .item[data-active] {
-  box-shadow: 0 0 var(--dbg-glow-strength, 8px) var(--dbg-glow-color, transparent);
-}
-
-/* ---- Bottom-pinned links section ---- */
-
-.debugWrapper[data-bottom-pinned] .root {
-  min-height: 100%;
-}
-
-.debugWrapper[data-bottom-pinned] .root > .group:last-child {
-  margin-top: auto;
 }

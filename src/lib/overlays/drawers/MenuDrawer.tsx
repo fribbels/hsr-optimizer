@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Box, Portal, Tooltip, UnstyledButton } from '@mantine/core'
+import { Box, Tooltip, UnstyledButton } from '@mantine/core'
 import {
   IconBook,
   IconChartRadar,
@@ -23,8 +23,6 @@ import { OpenCloseIDs, setOpen, useIsOpen } from 'lib/hooks/useOpenClose'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import { configToCssVars, configToDataAttrs, useNavDebugStore } from './navDebugStore'
-import { NavDebugPanel } from './NavDebugPanel'
 import classes from './MenuDrawer.module.css'
 
 // ---- Types ----
@@ -85,7 +83,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
     return () => cancelAnimationFrame(frame)
   }, [activeKey, focusedKey, moveIndicator])
 
-  // Reposition indicator when layout shifts (debug panel CSS variable changes)
+  // Reposition indicator when layout shifts (e.g. sidebar expand/collapse)
   useEffect(() => {
     const nav = navRef.current
     if (!nav) return
@@ -265,21 +263,13 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
     setActiveKey(item.key as AppPages)
   }, [setActiveKey])
 
-  // Reads all config fields for CSS vars + data attrs — bare call is intentional
-  const debugConfig = useNavDebugStore()
-  const cssVars = configToCssVars(debugConfig)
-  const dataAttrs = configToDataAttrs(debugConfig)
-
   const nav = collapsed
     ? <SidebarNavCollapsed groups={groups} activeKey={activeKey} onNavigate={handleNavigate} />
     : <SidebarNavExpanded groups={groups} activeKey={activeKey} onNavigate={handleNavigate} anyDrawerOpen={anyDrawerOpen} />
 
   return (
-    <div className={classes.debugWrapper} style={cssVars} {...dataAttrs}>
+    <div className={classes.wrapper}>
       {nav}
-      <Portal>
-        <NavDebugPanel />
-      </Portal>
     </div>
   )
 }

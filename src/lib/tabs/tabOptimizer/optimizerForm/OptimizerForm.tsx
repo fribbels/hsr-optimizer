@@ -139,7 +139,7 @@ const LightConeConditionalDisplayWrapper = memo(function LightConeConditionalDis
     }, metadata)
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
     const defaults = { ...controller.defaults() }
-    const lightConeForm = getCharacterById(charId!)?.form.lightConeConditionals || {}
+    const lightConeForm = getCharacterById(charId)?.form.lightConeConditionals || {}
     mergeDefinedValues(defaults, lightConeForm)
 
     useOptimizerRequestStore.getState().setLightConeConditionals(defaults)

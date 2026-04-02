@@ -28,9 +28,9 @@ export function ComboDrawer() {
         useComboDrawerStore.getState().initialize(form)
       })
     } else {
+      flushComboDrawerToForm()
       afterPaint(() => {
         if (cancelled) return
-        flushComboDrawerToForm()
         useComboDrawerStore.getState().reset()
       })
     }

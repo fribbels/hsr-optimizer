@@ -1,7 +1,7 @@
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { useRelicStore } from 'lib/stores/relic/relicStore'
 
@@ -24,9 +24,9 @@ export const RecentRelics = memo(() => {
     .map((id) => allRelics[id])
     .filter((relic) => relic != null)
 
-  const setSelectedRelicID = (id: string) => {
+  const setSelectedRelicID = useCallback((id: string) => {
     setSelectedRelicsIds([id])
-  }
+  }, [setSelectedRelicsIds])
 
   return (
     <div

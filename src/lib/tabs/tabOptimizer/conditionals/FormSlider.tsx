@@ -68,8 +68,8 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
 
   const internalInputNumber = (
     <NumberInput
-      min={min}
-      max={max}
+      min={min * multiplier}
+      max={max * multiplier}
       hideControls
       style={{ width: numberWidth }}
       styles={{ input: { height: 24, minHeight: 24 } }}
@@ -106,7 +106,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
           handleChange(newValue)
         }
       }}
-      value={displayValue as number}
+      value={(displayValue ?? min) as number}
     />
   )
 

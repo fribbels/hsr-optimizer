@@ -13,7 +13,6 @@ import {
   getQueueCapacities,
   getSearchTreeConfig,
   pointToBitwiseId,
-  splitNode,
 } from 'lib/worker/maxima/tree/searchTreeUtils'
 import {
   isRegionFeasible,
@@ -312,7 +311,7 @@ export class SearchTree {
         const availablePieces = this.getAvailablePieces(statIdx)
         const maxPieces = Math.min(rolls, availablePieces)
         totalMaxAssignments += Math.ceil(maxPieces)
-        maxPiecesDiff[i] = Math.max(0, maxPieces - availablePieces)
+        maxPiecesDiff[i] = Math.max(0, rolls - availablePieces)
       }
       if (totalMaxAssignments < 24) {
         const maxPieceAssignmentsNeeded = 24 - totalMaxAssignments
@@ -343,6 +342,7 @@ export class SearchTree {
       }
     }
 
+    let looped = false
     for (let i = 0; i < this.activeStats.length; i++) {
       if (leftToDistribute > 0) {
         const statIdx = this.activeStats[i]
@@ -351,6 +351,7 @@ export class SearchTree {
         if (upgraded <= region.upper[statIdx]) {
           representative[statIdx] = upgraded
           leftToDistribute--
+          looped = false
         }
 
         if (upper && leftToDistribute > 0) {
@@ -358,6 +359,7 @@ export class SearchTree {
           if (upgraded <= region.upper[splitDimension]) {
             representative[splitDimension] = upgraded
             leftToDistribute--
+            looped = false
           }
         }
       } else {
@@ -366,6 +368,10 @@ export class SearchTree {
 
       if (i === this.activeStats.length - 1) {
         i = -1
+        if (looped) {
+          break
+        }
+        looped = true
       }
     }
 
@@ -560,18 +566,29 @@ export class SearchTree {
   private insertIntoTree(point: Float32Array, root: TreeStatNode): ProtoTreeStatNode {
     const dimension = root.splitDimension
     const value = root.splitValue
-    const upper = point[dimension] >= value
+    const isUpper = point[dimension] >= value
 
-    if (upper && root.upperChild) {
+    if (isUpper && root.upperChild) {
       return this.insertIntoTree(point, root.upperChild as TreeStatNode)
     }
-    if (!upper && root.lowerChild) {
+    if (!isUpper && root.lowerChild) {
       return this.insertIntoTree(point, root.lowerChild as TreeStatNode)
     }
 
-    const split = splitNode(root, dimension)
+    const midpoint = calculateRegionMidpoint(root.region, dimension)
+    let region: TreeStatRegion
+    if (isUpper) {
+      const upperLower = root.region.lower.slice() as Float32Array
+      upperLower[dimension] = midpoint
+      region = { lower: upperLower, upper: root.region.upper }
+    } else {
+      const lowerUpper = root.region.upper.slice() as Float32Array
+      lowerUpper[dimension] = midpoint - 1
+      region = { lower: root.region.lower, upper: lowerUpper }
+    }
+
     const childNode: ProtoTreeStatNode = {
-      region: upper ? split.upperRegion : split.lowerRegion,
+      region,
       representative: point,
       damage: 0,
       volume: 0,

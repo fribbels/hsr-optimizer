@@ -8,6 +8,7 @@ import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { gridStore } from 'lib/stores/gridStore'
 import { clone } from 'lib/utils/objectUtils'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function zeroesToNull<T extends Record<string, number | null | undefined>>(obj: T): T {
@@ -29,11 +30,17 @@ export function SimulatedBuildsGrid() {
 
   function onRowClick(key: string) {
     useOptimizerDisplayStore.getState().setSelectedStatSimulations([key])
+  }
 
-    const sim = statSimulations.find((s) => s.key === key)
+  // Sync form + grid whenever the selected sim changes (from row click or external trigger like optimizer grid click)
+  const selectedKey = selectedStatSimulations[0]
+  useEffect(() => {
+    if (!selectedKey) return
+
+    const sims = useOptimizerDisplayStore.getState().statSimulations as StoredSimulation[]
+    const sim = sims.find((s) => s.key === selectedKey)
     if (!sim) return
 
-    // Sync form with selected sim
     const cloneRequest = clone(sim.request)
     zeroesToNull(cloneRequest.stats)
     const currentStatSim = useOptimizerRequestStore.getState().statSim
@@ -45,13 +52,12 @@ export function SimulatedBuildsGrid() {
     }
     useOptimizerDisplayStore.getState().setStatSimulationDisplay(sim.simType)
 
-    // Select matching optimizer grid node
     gridStore.optimizerGridApi()?.forEachNode((node) => {
-      if (node.data?.statSim?.key === key) {
+      if (node.data?.statSim?.key === selectedKey) {
         node.setSelected(true, true)
       }
     })
-  }
+  }, [selectedKey])
 
   return (
     <div

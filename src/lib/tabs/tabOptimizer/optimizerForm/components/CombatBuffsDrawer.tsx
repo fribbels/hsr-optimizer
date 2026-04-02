@@ -57,7 +57,7 @@ function CombatBuff({ title, name }: { title: string; name: string }) {
       <InputNumberStyled
         hideControls
         value={value}
-        onChange={(val: number | string) => useOptimizerRequestStore.getState().setCombatBuff(name, (val as number) ?? 0)}
+        onChange={(val: number | string) => useOptimizerRequestStore.getState().setCombatBuff(name, typeof val === 'number' ? val : 0)}
       />
     </Flex>
   )

@@ -21,6 +21,9 @@ export function useAsyncComputation<TOutput>(
       if (cancelled) return
       setOutput(result)
       setReady(true)
+    }).catch(() => {
+      if (cancelled) return
+      setReady(true)
     })
 
     return () => {

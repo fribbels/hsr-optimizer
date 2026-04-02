@@ -1,4 +1,4 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import { STAT_INDEX, SUBSTAT_COUNT } from 'lib/worker/maxima/tree/statIndexMap'
 
 interface StatConstraints {
@@ -73,11 +73,7 @@ export class SubstatDistributionValidator {
         return false
       }
 
-      if (availablePieces === 0) {
-        return false
-      }
-
-      if (rolls > 0 && availablePieces < Math.ceil(rolls / this.maxSingleStatRollsPerPiece)) {
+      if (availablePieces < Math.ceil(rolls / this.maxSingleStatRollsPerPiece)) {
         return false
       }
 
@@ -111,12 +107,6 @@ export class SubstatDistributionValidator {
         availablePieces,
         minPieces: Math.ceil(rolls / this.maxSingleStatRollsPerPiece),
         maxPieces: Math.min(rolls, availablePieces),
-      }
-
-      for (const constraint of statConstraints) {
-        if (constraint.minPieces > constraint.availablePieces) {
-          return false
-        }
       }
 
       statConstraints.push(constraints)

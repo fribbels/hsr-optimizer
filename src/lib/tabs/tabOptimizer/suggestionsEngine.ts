@@ -241,7 +241,8 @@ export enum ZeroResultRootCause {
 
 function filterFixes(filter: ZeroResultRootCause) {
   const split = filter.split('_')
-  const formAddress = split[0].toLowerCase() + split[1][0] + split[1].slice(1).toLowerCase()
+  const formAddress = split[0].toLowerCase()
+    + split.slice(1).map((s) => s[0] + s.slice(1).toLowerCase()).join('')
   return {
     descriptionKey: `0Results.RootCauses.${filter}.Description` as const,
     buttonTextKey: `0Results.RootCauses.${filter}.ButtonText` as const,

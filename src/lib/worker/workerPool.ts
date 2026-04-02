@@ -45,7 +45,6 @@ export class WorkerPool {
   private queue: Array<QueuedTask<BaseWorkerInput, BaseWorkerOutput>> = []
   private poolSize: number
   private initialized = false
-  private staggerTimeouts: ReturnType<typeof setTimeout>[] = []
   /** Tracks in-flight task reject callbacks by worker index, so terminate() can reject them */
   private inFlightRejects = new Map<number, (reason?: unknown) => void>()
 
@@ -121,12 +120,6 @@ export class WorkerPool {
   }
 
   terminate(): void {
-    // Clear pending staggered worker creation timeouts
-    for (const timeout of this.staggerTimeouts) {
-      clearTimeout(timeout)
-    }
-    this.staggerTimeouts = []
-
     this.cancelQueue()
 
     // Reject in-flight task promises — workers are about to be terminated,

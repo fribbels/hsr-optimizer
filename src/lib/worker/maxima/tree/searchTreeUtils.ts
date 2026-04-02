@@ -2,7 +2,6 @@ import { SUBSTAT_COUNT } from 'lib/worker/maxima/tree/statIndexMap'
 import {
   type SearchTree,
   type TreeConfig,
-  type TreeStatNode,
   type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
 
@@ -25,30 +24,6 @@ export function calculateMinMaxMetadata(lower: Float32Array, upper: Float32Array
   }
 }
 
-export function splitNode(node: TreeStatNode, dimension: number) {
-  const midpoint = calculateRegionMidpoint(node.region, dimension)
-
-  const lowerUpper = node.region.upper.slice() as Float32Array
-  lowerUpper[dimension] = midpoint - 1
-  const lowerRegion: TreeStatRegion = {
-    lower: node.region.lower.slice() as Float32Array,
-    upper: lowerUpper,
-  }
-
-  const upperLower = node.region.lower.slice() as Float32Array
-  upperLower[dimension] = midpoint
-  const upperRegion: TreeStatRegion = {
-    lower: upperLower,
-    upper: node.region.upper.slice() as Float32Array,
-  }
-
-  return {
-    midpoint,
-    lowerRegion,
-    upperRegion,
-  }
-}
-
 export function calculateRegionMidpoint(region: TreeStatRegion, dimension: number) {
   return Math.ceil((region.upper[dimension] - region.lower[dimension]) / 2) + region.lower[dimension]
 }
@@ -56,7 +31,7 @@ export function calculateRegionMidpoint(region: TreeStatRegion, dimension: numbe
 export function pointToBitwiseId(point: Float32Array, activeStats: number[]) {
   let result = 0
   for (let i = 0; i < activeStats.length; i++) {
-    result |= point[activeStats[i]] << (i * 6)
+    result = result * 64 + point[activeStats[i]]
   }
   return result
 }

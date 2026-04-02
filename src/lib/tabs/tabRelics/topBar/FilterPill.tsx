@@ -15,7 +15,6 @@ type FilterPillProps<T> = {
   onChange: (values: T[]) => void
   searchable?: boolean
   flex?: number
-  popoverWidth?: number
   columns?: number
 }
 

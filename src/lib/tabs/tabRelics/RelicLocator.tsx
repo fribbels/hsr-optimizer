@@ -108,7 +108,10 @@ export function RelicLocator(props: { relic: Relic | null; compact?: boolean; st
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
               <LocatorFilterImage filters={locatorFilters} compact={compact} />
               <div style={compact ? { fontSize: 13 } : undefined}>
-                {`Row ${Math.ceil((relicPositionIndex + 1) / inventoryWidth)} / Col ${relicPositionIndex % inventoryWidth + 1}`}
+                {t('Location', {
+                  rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
+                  columnIndex: relicPositionIndex % inventoryWidth + 1,
+                })}
               </div>
               <IconSettings size={compact ? 20 : 24} />
             </div>

@@ -132,9 +132,9 @@ function LegendContent({ scores, compact }: { scores: PanelProps['scores']; comp
             ...(compact ? { fontSize: 12 } : undefined),
           }}
         >
-          {idx + '.'}
-          <svg height={compact ? 18 : 25} width={10}>
-            <rect height={10} width={10} fill={idxToColour(idx)} x={0} y={compact ? 4 : 5} />
+          {idx + 1 + '.'}
+          <svg height={10} width={10}>
+            <rect height={10} width={10} fill={idxToColour(idx)} />
           </svg>
           <img
             src={Assets.getCharacterAvatarById(s.id)}

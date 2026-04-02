@@ -7199,6 +7199,8 @@ interface Resources {
       "RecommendationHeader": "Relic recommendation character",
       "ScoringButton": "Scoring algorithm",
       "Set": "Set",
+      "RelicSets": "Relic sets",
+      "OrnamentSets": "Ornament sets",
       "Substat": "Substats",
       "Verified": "Verified"
     },

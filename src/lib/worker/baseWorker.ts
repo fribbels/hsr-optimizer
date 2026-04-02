@@ -7,7 +7,15 @@ import { WorkerType } from 'lib/worker/workerUtils'
 // implementations are lazy-loaded on first use via dynamic import().
 self.postMessage({ type: 'WORKER_READY' })
 
-self.onmessage = async function(e: MessageEvent) {
+self.onmessage = function(e: MessageEvent) {
+  handleMessage(e).catch((err) => {
+    // Throw synchronously so the worker error event fires
+    // and the pool can detect the failure and retry/replace
+    setTimeout(() => { throw err })
+  })
+}
+
+async function handleMessage(e: MessageEvent) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   switch (e.data.workerType) {
     case WorkerType.OPTIMIZER: {

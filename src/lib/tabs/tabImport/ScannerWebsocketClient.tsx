@@ -158,7 +158,7 @@ export function ScannerWebsocket() {
               const ids = Array.from(
                 new Set(
                   relicSelectionBuffer.current.filter(
-                    (id) => state.relics[id], // Ensure the relic still exists
+                    (id) => usePrivateScannerState.getState().relics[id], // Ensure the relic still exists
                   ),
                 ),
               )

@@ -12,7 +12,6 @@ const RESERVED_SPACE = 2 // px
 export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
   const { offset, isLocked } = useScrollLockState()
   const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE
-  const shadow = 'rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.15) 0px 0px 0px 1px inset'
   return (
     <Flex direction="column" style={{ overflow: 'clip' }}>
       <Flex
@@ -33,7 +32,7 @@ export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
             bottom: `${totalSideOffset}px`,
             left: `${totalSideOffset}px`,
             backgroundColor: 'var(--layer-2)',
-            boxShadow: shadow,
+            boxShadow: 'var(--shadow-card)',
             borderRadius: 6,
             padding: defaultPadding,
             zIndex: 3, /* prevent overlap with optimizer grid - ag-grid pinned top row has z-index 2 */
@@ -47,7 +46,7 @@ export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
               padding: defaultPadding,
               height: 'fit-content',
               width: 233,
-              boxShadow: shadow,
+              boxShadow: 'var(--shadow-card)',
               gap: defaultPadding,
             }
             : undefined}

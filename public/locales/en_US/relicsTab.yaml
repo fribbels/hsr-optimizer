@@ -8,6 +8,8 @@ RelicFilterBar:
   Clear: Clear
   ClearButton: Clear all filters
   Set: Set
+  RelicSets: Relic sets
+  OrnamentSets: Ornament sets
   Mainstat: Main stats
   Substat: Substats
   ScoringButton: Scoring algorithm

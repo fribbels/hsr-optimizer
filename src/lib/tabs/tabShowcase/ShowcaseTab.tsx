@@ -113,7 +113,7 @@ function ShowcaseLoading() {
     <div className={styles.loadingContainer}>
       <Loader size="lg" />
       <div className={styles.loadingText}>
-        {t('Loading.FetchingShowcase', { scorerId })}
+        {t('Loading.FetchingShowcase', { scorerId: scorerId ?? '' })}
       </div>
     </div>
   )

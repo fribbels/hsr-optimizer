@@ -28,7 +28,8 @@ function FilterPillInner<T extends string | number | boolean>({
   columns = 1,
 }: FilterPillProps<T>) {
   const [search, setSearch] = useState('')
-  const activeCount = selected.length
+  const optionValues = useMemo(() => new Set(options.map((o) => o.value)), [options])
+  const activeCount = useMemo(() => selected.filter((v) => optionValues.has(v)).length, [selected, optionValues])
 
   const combobox = useCombobox({
     onDropdownOpen: () => {

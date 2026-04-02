@@ -4965,7 +4965,7 @@ interface Resources {
         "Name": "Fly Into a Pink Tomorrow"
       },
       "22007": {
-        "Name": "We'll face the Hereafter together"
+        "Name": "Tomorrow, Together"
       },
       "23000": {
         "Name": "Night on the Milky Way"
@@ -5136,10 +5136,10 @@ interface Resources {
         "Name": "The Finale of a Lie"
       },
       "23057": {
-        "Name": "Welcome to Cosmic City"
+        "Name": "Welcome to the Cosmic City"
       },
       "23058": {
-        "Name": "A Rendezvous in the Next Flower Season"
+        "Name": "Until the Flowers Bloom Again"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -5426,7 +5426,7 @@ interface Resources {
         "Name": "Punklorde Stage Zero"
       },
       "326": {
-        "Description2pc": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turn(s). When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.",
+        "Description2pc": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turns. When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.",
         "Name": "City of Converging Stars"
       }
     }
@@ -7141,6 +7141,9 @@ interface Resources {
     }
   },
   "relicScorerTab": {
+    "Buttons": {
+      "Import": "Import"
+    },
     "CopyScreenshot": "Copy screenshot",
     "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!",
     "DisclaimerDescription": "Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team. Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc. This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.",
@@ -7152,6 +7155,9 @@ interface Resources {
     "ImportLabels": {
       "AllCharacters": "Import all characters & all relics into optimizer",
       "SingleCharacter": "Import selected character & all relics into optimizer"
+    },
+    "Loading": {
+      "FetchingShowcase": "Fetching showcase for {{scorerId}}"
     },
     "Messages": {
       "CharacterAlreadyExists": "Selected character already exists",
@@ -7194,14 +7200,16 @@ interface Resources {
       "Grade": "Grade",
       "InitialRolls": "Initial Rolls",
       "Mainstat": "Main stats",
+      "OrnamentSets": "Ornament sets",
       "Part": "Part",
       "Rating": "Relic ratings",
       "RecommendationHeader": "Relic recommendation character",
+      "RelicSets": "Relic sets",
       "ScoringButton": "Scoring algorithm",
       "Set": "Set",
-      "RelicSets": "Relic sets",
-      "OrnamentSets": "Ornament sets",
       "Substat": "Substats",
+      "Unequipped": "Unequipped",
+      "Unverified": "Unverified",
       "Verified": "Verified"
     },
     "RelicGrid": {
@@ -7322,7 +7330,7 @@ interface Resources {
       "EditRelic": "Edit relic",
       "InsightOptions": {
         "Buckets": "Relic Insight: Buckets",
-        "ESTBP": "Relic Insights: ESTBP",
+        "ESTBP": "Relic Insight: EST TBP",
         "Top10": "Relic Insight: Top 10"
       },
       "LiveImportTooltip": "Disabled in live import mode.",

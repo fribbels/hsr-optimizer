@@ -128,7 +128,6 @@ CharacterPreview:
       FUA: 추가 공격
       MEMO_SKILL: 기억 정령 스킬
       MEMO_TALENT: 기억정령 특성
-      DOTS: '지속 피해:'
       BREAKS: '격파 피해:'
     CombatResults:
       Header: 전투 중 피해량 집계

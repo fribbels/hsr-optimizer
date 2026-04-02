@@ -332,7 +332,7 @@ Sidebar:
     Save: 保存
     Load: 加载
 TeammateRow:
-  Header: '队友 {{teammateCount}}'
+  Header: '队友'
 FormRowLabels:
   Character options: 角色选项
   Relic & stat filters: 遗器和属性筛选
@@ -568,8 +568,6 @@ ComboFilter:
     ResetConfirm:
       Description: 重置所有简易 / 高级循环设置为默认值？
     PresetsHeader: 预设
-  CounterLabels:
-    Dot: 持续伤害数量
   ComboOptions:
     None: '无'
     Basic: 普攻

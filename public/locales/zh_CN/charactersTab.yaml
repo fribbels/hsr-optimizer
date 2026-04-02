@@ -130,7 +130,6 @@ CharacterPreview:
       FUA: 追加攻击
       MEMO_SKILL: 忆灵技
       MEMO_TALENT: 忆灵天赋
-      DOTS: '持续伤害次数'
       BREAKS: '击破次数'
     CombatResults:
       Header: 战斗伤害结果

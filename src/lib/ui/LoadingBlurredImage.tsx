@@ -59,12 +59,16 @@ export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
     return () => { img.onload = null }
   }, [src])
 
+  // During blur (src transition), freeze position so old image doesn't jump.
+  // Otherwise use live style so scoring-type changes recenter immediately.
+  const effectiveStyle = blur ? storedStyle : style
+
   return (
     <img
       src={storedSrc}
       loading='eager'
       style={{
-        ...storedStyle,
+        ...effectiveStyle,
         filter: blur ? 'blur(6px)' : 'none',
         transition: blur ? '' : 'filter 0.35s cubic-bezier(.41,.65,.39,.99)',
       }}

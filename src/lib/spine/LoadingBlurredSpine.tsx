@@ -46,11 +46,15 @@ export function LoadingBlurredSpine({
     setBlur(false)
   }, [])
 
+  // During blur (character transition), freeze position so old spine doesn't jump.
+  // Otherwise use live style so scoring-type changes recenter immediately.
+  const effectiveStyle = blur ? storedStyle : style
+
   return (
     <SpinePortrait
       characterId={characterId}
       style={{
-        ...storedStyle,
+        ...effectiveStyle,
         filter: blur ? `blur(${BLUR_PX}px)` : 'none',
         transition: blur ? '' : `filter ${BLUR_OUT_MS}ms ${BLUR_CURVE}`,
       }}

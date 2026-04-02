@@ -42,7 +42,7 @@ import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
   END_BASIC,
@@ -433,6 +433,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
           if (crDelta) {
             x.buffDynamic(StatKey.CR, crDelta, action, context, x.source(SOURCE_TALENT))
+          }
+          if (cdDelta) {
             x.buffDynamic(StatKey.CD, cdDelta, action, context, x.source(SOURCE_TALENT))
           }
         },

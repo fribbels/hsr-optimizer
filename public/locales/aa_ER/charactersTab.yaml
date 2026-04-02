@@ -50,6 +50,7 @@ CharacterPreview:
     Stats:
       Header: crwdns44470:0crwdne44470:0
       ButtonText: crwdns44472:0crwdne44472:0
+      WeightsButton: crwdns46718:0crwdne46718:0
     SpdPrecision:
       Header: crwdns44474:0crwdne44474:0
       Low: 'crwdns44476:0crwdne44476:0'
@@ -130,7 +131,6 @@ CharacterPreview:
       FUA: crwdns39722:0crwdne39722:0
       MEMO_SKILL: crwdns39724:0crwdne39724:0
       MEMO_TALENT: crwdns44748:0crwdne44748:0
-      DOTS: 'crwdns39726:0crwdne39726:0'
       BREAKS: 'crwdns39728:0crwdne39728:0'
     CombatResults:
       Header: crwdns39730:0crwdne39730:0

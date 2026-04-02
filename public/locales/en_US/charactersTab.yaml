@@ -50,6 +50,7 @@ CharacterPreview:
     Stats:
       Header: Stats
       ButtonText: Traces
+      WeightsButton: Weights
     SpdPrecision:
       Header: SPD precision
       Low: '.0'
@@ -131,7 +132,6 @@ CharacterPreview:
       FUA: FUA
       MEMO_SKILL: SKILLᴹ
       MEMO_TALENT: TALENTᴹ
-      DOTS: 'DOTS:'
       BREAKS: 'BREAKS:'
     CombatResults:
       Header: Combat damage results

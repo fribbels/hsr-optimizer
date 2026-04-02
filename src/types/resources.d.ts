@@ -7329,9 +7329,9 @@ interface Resources {
       },
       "EditRelic": "Edit relic",
       "InsightOptions": {
-        "Buckets": "Relic Insight: Buckets",
-        "ESTBP": "Relic Insight: EST TBP",
-        "Top10": "Relic Insight: Top 10"
+        "Buckets": "Buckets",
+        "ESTBP": "EST TBP",
+        "Top10": "Top 10"
       },
       "LiveImportTooltip": "Disabled in live import mode.",
       "PlotOptions": {
@@ -7341,7 +7341,7 @@ interface Resources {
       },
       "RelicLocator": {
         "Filter": "Auto filter rows",
-        "Location": "Location - Row {{rowIndex}} / Col {{columnIndex}}",
+        "Location": "Row {{rowIndex}} / Col {{columnIndex}}",
         "NoneSelected": "Select a relic to locate",
         "Width": "Inventory width"
       }

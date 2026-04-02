@@ -42,7 +42,6 @@ const RELIC_BODY_OLD = 'c3333333-3333-3333-3333-333333333333'
 const RELIC_BODY_NEW = 'd4444444-4444-4444-4444-444444444444'
 const RELIC_FEET = 'e5555555-5555-5555-5555-555555555555'
 
-const RELIC_HANDS = 'f6666666-6666-6666-6666-666666666666'
 const RELIC_HEAD_DUP = 'g7777777-7777-7777-7777-777777777777'
 const STALE_CHARACTER_ID = '9999' as CharacterId
 
@@ -177,7 +176,7 @@ describe('mergeRelics', () => {
         name: 'Test Build',
         characterId: Kafka.id,
         characterEidolon: 0,
-        lightCone: '21001' as any,
+        lightCone: '21001' as LightConeId,
         lightConeSuperimposition: 1,
         equipped: { [Parts.Head]: RELIC_HEAD_OLD },
         team: [null, null, null],
@@ -374,6 +373,6 @@ describe('mergePartialRelics — match pool deduplication', () => {
 
     // One should match the old relic (updating it), the other should be added as new
     const relics = getRelics()
-    expect(relics.length).toBeGreaterThanOrEqual(2)
+    expect(relics.length).toBe(2)
   })
 })

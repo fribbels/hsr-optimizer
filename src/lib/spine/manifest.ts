@@ -1,3 +1,4 @@
+import type { CharacterId } from 'types/character'
 import { BASE_PATH } from 'lib/constants/appPages'
 import manifest from './spineManifest.json' with { type: 'json' }
 
@@ -10,7 +11,7 @@ function toBaseCharacterId(characterId: string): string {
 /**
  * Returns the number of skeletons for a character, or null if not in manifest.
  */
-export function getSkeletonCount(characterId: string): number | null {
+export function getSkeletonCount(characterId: CharacterId): number | null {
   const count = (manifest as Record<string, number>)[toBaseCharacterId(characterId)]
   return count ?? null
 }
@@ -20,7 +21,7 @@ export function getSkeletonCount(characterId: string): number | null {
  * Single skeleton: {charId}.skel, {charId}.atlas
  * Multi skeleton:  {charId}_0.skel, {charId}_0.atlas, {charId}_1.skel, ...
  */
-export function getSkeletonFiles(characterId: string, count: number): { skelFile: string; atlasFile: string }[] {
+export function getSkeletonFiles(characterId: CharacterId, count: number): { skelFile: string; atlasFile: string }[] {
   const baseId = toBaseCharacterId(characterId)
   if (count === 1) {
     return [{ skelFile: `${baseId}.skel`, atlasFile: `${baseId}.atlas` }]
@@ -31,6 +32,6 @@ export function getSkeletonFiles(characterId: string, count: number): { skelFile
   }))
 }
 
-export function getSpineAssetBaseUrl(characterId: string): string {
+export function getSpineAssetBaseUrl(characterId: CharacterId): string {
   return `${SPINE_BASE}/${toBaseCharacterId(characterId)}/`
 }

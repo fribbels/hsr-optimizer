@@ -70,7 +70,7 @@ export function getScoringMetadata(id: CharacterId): ScoringMetadata {
   // Deep-merge simulation: partial overrides (e.g. deprioritizeBuffs) must inherit
   // default simulation properties (e.g. teammates) that weren't overridden
   if (override?.simulation && defaultScoringMetadata.simulation) {
-    returnScoringMetadata.simulation = { ...defaultScoringMetadata.simulation, ...override.simulation }
+    returnScoringMetadata.simulation = { ...clone(defaultScoringMetadata.simulation), ...returnScoringMetadata.simulation }
   }
 
   for (const stat of SubStats) {

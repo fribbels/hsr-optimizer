@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { Sets, Stats } from 'lib/constants/constants'
+import { Stats } from 'lib/constants/constants'
 import type { SetsOrnaments, SetsRelics } from 'lib/sets/setConfigRegistry'
 import { runDpsScoreBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { generateTestSingleRelicsByPart, testStatSpread } from 'lib/simulations/tests/simTestUtils'

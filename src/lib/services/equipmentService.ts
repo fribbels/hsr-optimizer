@@ -4,30 +4,21 @@ import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
-import { getRelicById, getRelics, useRelicStore } from 'lib/stores/relic/relicStore'
+import { getRelicById, useRelicStore } from 'lib/stores/relic/relicStore'
 import { debounceEffect } from 'lib/utils/frontendUtils'
 import { gridStore } from 'lib/stores/gridStore'
-import type { Character, CharacterId } from 'types/character'
-import type { Relic } from 'types/relic'
+import type { CharacterId } from 'types/character'
+import type { Relic, RelicId } from 'types/relic'
 
-/**
- * Reads the swap setting from the global store.
- */
 function getSwapSetting(): boolean {
   return useGlobalStore.getState().settings.RelicEquippingBehavior === SettingOptions.RelicEquippingBehavior.Swap
 }
 
-/**
- * Upserts a single relic into the relic store (no equipment logic).
- */
 function upsertRelic(relic: Relic): void {
   useRelicStore.getState().upsertRelic(relic)
 }
 
-/**
- * Unequips a relic by ID. Clears relic.equippedBy and the owning character's equipped slot.
- */
-function unequipRelic(id: string): void {
+function unequipRelic(id: RelicId): void {
   if (!id) return console.warn('No relic')
   const relic = getRelicById(id)
   if (!relic) return console.warn('No relic')
@@ -76,15 +67,14 @@ export function unequipCharacter(characterId: CharacterId): void {
 export function equipRelic(relic: Relic, characterId: CharacterId | undefined, forceSwap = false): void {
   if (!relic?.id) return console.warn('No relic')
   if (!characterId) return console.warn('No character')
-  const freshRelic = getRelicById(relic.id)
-  if (!freshRelic) return console.warn('Relic not found in store', relic.id)
-  relic = freshRelic
+  const storeRelic = getRelicById(relic.id)
+  if (!storeRelic) return console.warn('Relic not found in store', relic.id)
 
-  const prevOwnerId = relic.equippedBy
+  const prevOwnerId = storeRelic.equippedBy
   const prevCharacter = prevOwnerId ? getCharacterById(prevOwnerId) : undefined
   const character = getCharacterById(characterId)
   if (!character) return console.warn('Character not found in store', characterId)
-  const equippedId = character.equipped[relic.part]
+  const equippedId = character.equipped[storeRelic.part]
   const prevRelic = equippedId ? getRelicById(equippedId) : undefined
 
   if (prevRelic) {
@@ -96,16 +86,16 @@ export function equipRelic(relic: Relic, characterId: CharacterId | undefined, f
   // only re-equip prevRelic if it would go to a different character
   if (prevOwnerId !== characterId && prevCharacter) {
     const updatedEquipped = prevRelic && swap
-      ? { ...prevCharacter.equipped, [relic.part]: prevRelic.id }
-      : { ...prevCharacter.equipped, [relic.part]: undefined }
+      ? { ...prevCharacter.equipped, [storeRelic.part]: prevRelic.id }
+      : { ...prevCharacter.equipped, [storeRelic.part]: undefined }
     if (prevRelic && swap) {
       upsertRelic({ ...prevRelic, equippedBy: prevCharacter.id })
     }
     useCharacterStore.getState().setCharacter({ ...prevCharacter, equipped: updatedEquipped })
   }
 
-  useCharacterStore.getState().setCharacter({ ...character, equipped: { ...character.equipped, [relic.part]: relic.id } })
-  upsertRelic({ ...relic, equippedBy: character.id })
+  useCharacterStore.getState().setCharacter({ ...character, equipped: { ...character.equipped, [storeRelic.part]: storeRelic.id } })
+  upsertRelic({ ...storeRelic, equippedBy: character.id })
 
   debounceEffect('refreshRelics', 500, () => gridStore.relicsGridApi()?.refreshCells())
 }
@@ -113,7 +103,7 @@ export function equipRelic(relic: Relic, characterId: CharacterId | undefined, f
 /**
  * Batch equip multiple relics to a character.
  */
-export function equipRelicIds(relicIds: string[], characterId: CharacterId, forceSwap = false): void {
+export function equipRelicIds(relicIds: RelicId[], characterId: CharacterId, forceSwap = false): void {
   if (!characterId) return console.warn('No characterId to equip to')
   for (const relicId of relicIds) {
     const relic = getRelicById(relicId)
@@ -129,14 +119,14 @@ export function switchRelics(fromId: CharacterId, toId: CharacterId): void {
   if (!toId) return console.warn('No characterId to equip to')
   const fromCharacter = getCharacterById(fromId)
   if (!fromCharacter) return console.warn('Source character not found', fromId)
-  const relicIds = Object.values(fromCharacter.equipped).filter(Boolean) as string[]
+  const relicIds = Object.values(fromCharacter.equipped).filter((id): id is RelicId => id != null)
   equipRelicIds(relicIds, toId, true)
 }
 
 /**
  * Removes a relic: unequips it, then deletes from store.
  */
-export function removeRelic(relicId: string): void {
+export function removeRelic(relicId: RelicId): void {
   if (!relicId) return Message.error(i18next.t('relicsTab:Messages.UnableToDeleteRelic'))
   unequipRelic(relicId)
   useRelicStore.getState().deleteRelic(relicId)
@@ -169,11 +159,13 @@ export function upsertRelicWithEquipment(relic: Relic): void {
     const partChanged = oldRelic.part !== relic.part
     if (partChanged || !relic.equippedBy) {
       unequipRelic(relic.id)
+      // Write before equipRelic so it sees new equippedBy (old owner already cleaned by unequipRelic)
       upsertRelic(relic)
     }
     const relicIsNotEquippedByRelicOwner = relic.equippedBy
       && getCharacterById(relic.equippedBy)?.equipped[relic.part] !== relic.id
     if (relicIsNotEquippedByRelicOwner) {
+      // No upsert before this — equipRelic must read old equippedBy from store to handle previous owner swap
       equipRelic(relic, relic.equippedBy)
     }
     upsertRelic(relic)

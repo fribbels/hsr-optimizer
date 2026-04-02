@@ -64,7 +64,7 @@
 .paginationButton {
   padding: 4px 10px;
   cursor: pointer;
-  color: #fff;
+  color: var(--text-primary);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
 }

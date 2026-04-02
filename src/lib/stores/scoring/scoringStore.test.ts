@@ -110,6 +110,20 @@ describe('useScoringStore', () => {
       expect(kafkaDefaults().simulation!.teammates).toHaveLength(originalCount)
     })
 
+    it('mutating getScoringMetadata simulation does not corrupt game metadata when a partial simulation override exists', () => {
+      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+
+      const defaults = kafkaDefaults()
+      expect(defaults.simulation).toBeDefined()
+      const originalCount = defaults.simulation!.teammates.length
+
+      const result = getScoringMetadata(Kafka.id)
+      expect(result.simulation).toBeDefined()
+      result.simulation!.teammates.push({} as never)
+
+      expect(kafkaDefaults().simulation!.teammates).toHaveLength(originalCount)
+    })
+
     it('mutating getScoringMetadata stats does not corrupt the stored override', () => {
       state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.ATK_P]: 0.5 }) as ScoringMetadata })
 

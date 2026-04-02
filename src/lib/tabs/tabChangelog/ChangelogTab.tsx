@@ -8,7 +8,7 @@ const PAGE_SIZE = 3
 
 function ChangelogEntry(props: { contentUpdate: ChangelogContent }) {
   const contentUpdate = props.contentUpdate
-  const headerText = contentUpdate.date != '' ? `Update ${contentUpdate.date}` : contentUpdate.title
+  const headerText = contentUpdate.date !== '' ? `Update ${contentUpdate.date}` : contentUpdate.title
 
   return (
     <Flex direction='column'>

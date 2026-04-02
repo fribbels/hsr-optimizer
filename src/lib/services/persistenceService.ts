@@ -24,8 +24,7 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { clone } from 'lib/utils/objectUtils'
-import { findRelicMatch, hashRelic } from 'lib/relics/relicUtils'
+import { findRelicMatch, hashRelic, partialHashRelic } from 'lib/relics/relicUtils'
 import { migrateBuild } from 'lib/services/buildMigration'
 import type {
   Build,
@@ -55,7 +54,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     saveData.relics = []
   }
 
-  const charactersById: Record<string, Character> = {}
+  const charactersById: Partial<Record<CharacterId, Character>> = {}
   const dbCharacters = getGameMetadata().characters
 
   // Remove invalid characters
@@ -84,8 +83,8 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
     // Migrate builds from all legacy formats to new SavedBuild discriminated union
     character.builds = (character.builds ?? [])
-      .map((raw) => migrateBuild(
-        raw as unknown as Record<string, unknown>,
+      .map((raw: Record<string, unknown>) => migrateBuild(
+        raw,
         character.id,
         character.form,
         relicsById,
@@ -97,7 +96,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   processRelics(saveData.relics, charactersById)
 
   if (saveData.showcasePreferences) {
-    useShowcaseTabStore.getState().setShowcasePreferences(saveData.showcasePreferences || {})
+    useShowcaseTabStore.getState().setShowcasePreferences(saveData.showcasePreferences)
   }
 
   useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
@@ -120,9 +119,9 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
         session.optimizerCharacterId = null
       }
       // When new session items are added, set user's save to the default
-      const overiddenSavedSessionDefaults: GlobalSavedSession = { ...savedSessionDefaults, ...session }
+      const overriddenSavedSessionDefaults: GlobalSavedSession = { ...savedSessionDefaults, ...session }
 
-      useGlobalStore.getState().setSavedSession(overiddenSavedSessionDefaults)
+      useGlobalStore.getState().setSavedSession(overriddenSavedSessionDefaults)
     }
 
     if (saveData.savedSession.showcaseTab) { // Set showcase tab state
@@ -180,8 +179,6 @@ export function resetAll(): void {
 // We overwrite any existing relics with imported ones.
 export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
   const oldRelics = getRelics()
-  newRelics = clone(newRelics) ?? []
-  newCharacters = clone(newCharacters) ?? []
 
   // Add new characters
   if (newCharacters) {
@@ -346,8 +343,7 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
  * We keep the existing set of relics and only overwrite ones that match an imported one.
  */
 export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { id: CharacterId }[] = []): void {
-  const oldRelics = clone(getRelics()) || []
-  newRelics = clone(newRelics)
+  const oldRelics = [...getRelics()]
 
   // Tracking these for debug / messaging
   const updatedOldRelics: Relic[] = []
@@ -357,34 +353,51 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
     equippedBy: CharacterId | undefined
   }[] = []
 
+  // Build partial-hash map once instead of per-iteration
+  const partialHashBuckets: Record<string, Relic[]> = {}
+  for (const r of oldRelics) {
+    const h = partialHashRelic(r)
+    ;(partialHashBuckets[h] ??= []).push(r)
+  }
+
   const matchedIds = new Set<string>()
   for (const newRelic of newRelics) {
-    const match = findRelicMatch(newRelic, oldRelics.filter((r) => !matchedIds.has(r.id)))
+    const h = partialHashRelic(newRelic)
+    const candidates = (partialHashBuckets[h] ?? []).filter((r) => !matchedIds.has(r.id))
+    const match = findRelicMatch(newRelic, candidates)
 
     if (match) {
       matchedIds.add(match.id)
-      match.substats = newRelic.substats
-      match.previewSubstats = newRelic.previewSubstats
-      match.main = newRelic.main
-      match.enhance = newRelic.enhance
-      match.verified = true
-      updatedOldRelics.push(match)
+      const updated: Relic = {
+        ...match,
+        substats: newRelic.substats,
+        previewSubstats: newRelic.previewSubstats,
+        main: newRelic.main,
+        enhance: newRelic.enhance,
+        verified: true,
+      }
+      const matchIdx = oldRelics.indexOf(match)
+      if (matchIdx >= 0) oldRelics[matchIdx] = updated
+      updatedOldRelics.push(updated)
 
-      equipUpdates.push({ relic: match, equippedBy: newRelic.equippedBy })
+      equipUpdates.push({ relic: updated, equippedBy: newRelic.equippedBy })
     } else {
-      oldRelics.push(newRelic)
-      addedNewRelics.push(newRelic)
+      const added: Relic = { ...newRelic, equippedBy: undefined }
+      oldRelics.push(added)
+      addedNewRelics.push(added)
 
-      equipUpdates.push({ relic: newRelic, equippedBy: newRelic.equippedBy })
-      newRelic.equippedBy = undefined
+      equipUpdates.push({ relic: added, equippedBy: newRelic.equippedBy })
     }
   }
 
-  oldRelics.forEach((x) => RelicAugmenter.augment(x))
+  // Only augment relics that were modified or newly added
+  for (const relic of [...updatedOldRelics, ...addedNewRelics]) {
+    RelicAugmenter.augment(relic)
+  }
   useRelicStore.getState().setRelics(oldRelics)
 
   for (const equipUpdate of equipUpdates) {
-    if (sourceCharacters.find((character) => character.id === equipUpdate.equippedBy)) {
+    if (sourceCharacters.some((character) => character.id === equipUpdate.equippedBy)) {
       equipmentService.equipRelic(equipUpdate.relic, equipUpdate.equippedBy)
     }
   }
@@ -463,7 +476,7 @@ function deduplicateDbCharacterScoringParts(dbCharacters: DBMetadata['characters
 
 function processRelics(
   relics: Relic[],
-  charactersById: Record<string, Character>,
+  charactersById: Partial<Record<CharacterId, Character>>,
 ) {
   for (let i = relics.length - 1; i >= 0; i--) {
     const relic = relics[i]

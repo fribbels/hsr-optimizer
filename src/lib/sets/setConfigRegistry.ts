@@ -23,6 +23,7 @@ import { BelobogOfTheArchitects } from './ornaments/BelobogOfTheArchitects'
 import { BoneCollectionsSereneDemesne } from './ornaments/BoneCollectionsSereneDemesne'
 import { BrokenKeel } from './ornaments/BrokenKeel'
 import { CelestialDifferentiator } from './ornaments/CelestialDifferentiator'
+import { CityOfConvergingStars } from './ornaments/CityOfConvergingStars'
 import { DuranDynastyOfRunningWolves } from './ornaments/DuranDynastyOfRunningWolves'
 import { FirmamentFrontlineGlamoth } from './ornaments/FirmamentFrontlineGlamoth'
 import { FleetOfTheAgeless } from './ornaments/FleetOfTheAgeless'
@@ -33,6 +34,7 @@ import { IzumoGenseiAndTakamaDivineRealm } from './ornaments/IzumoGenseiAndTakam
 import { LushakaTheSunkenSeas } from './ornaments/LushakaTheSunkenSeas'
 import { PanCosmicCommercialEnterprise } from './ornaments/PanCosmicCommercialEnterprise'
 import { PenaconyLandOfTheDreams } from './ornaments/PenaconyLandOfTheDreams'
+import { PunklordeStageZero } from './ornaments/PunklordeStageZero'
 import { RevelryByTheSea } from './ornaments/RevelryByTheSea'
 import { RutilantArena } from './ornaments/RutilantArena'
 import { SigoniaTheUnclaimedDesolation } from './ornaments/SigoniaTheUnclaimedDesolation'
@@ -40,8 +42,6 @@ import { SpaceSealingStation } from './ornaments/SpaceSealingStation'
 import { SprightlyVonwacq } from './ornaments/SprightlyVonwacq'
 import { TaliaKingdomOfBanditry } from './ornaments/TaliaKingdomOfBanditry'
 import { TengokuLivestream } from './ornaments/TengokuLivestream'
-import { PunklordeStageZero } from './ornaments/PunklordeStageZero'
-import { CityOfConvergingStars } from './ornaments/CityOfConvergingStars'
 import { TheWondrousBananAmusementPark } from './ornaments/TheWondrousBananAmusementPark'
 import { BandOfSizzlingThunder } from './relics/BandOfSizzlingThunder'
 import { ChampionOfStreetwiseBoxing } from './relics/ChampionOfStreetwiseBoxing'
@@ -108,32 +108,32 @@ const ALL_RELIC_CONFIGS = [
 ] as const
 
 const ALL_ORNAMENT_CONFIGS = [
-  SpaceSealingStation,
-  FleetOfTheAgeless,
-  PanCosmicCommercialEnterprise,
-  BelobogOfTheArchitects,
-  CelestialDifferentiator,
-  InertSalsotto,
-  TaliaKingdomOfBanditry,
-  SprightlyVonwacq,
-  RutilantArena,
-  BrokenKeel,
-  FirmamentFrontlineGlamoth,
-  PenaconyLandOfTheDreams,
-  SigoniaTheUnclaimedDesolation,
-  IzumoGenseiAndTakamaDivineRealm,
-  DuranDynastyOfRunningWolves,
-  ForgeOfTheKalpagniLantern,
-  LushakaTheSunkenSeas,
-  TheWondrousBananAmusementPark,
-  BoneCollectionsSereneDemesne,
-  GiantTreeOfRaptBrooding,
-  ArcadiaOfWovenDreams,
-  RevelryByTheSea,
   AmphoreusTheEternalLand,
-  TengokuLivestream,
-  PunklordeStageZero,
+  ArcadiaOfWovenDreams,
+  BelobogOfTheArchitects,
+  BoneCollectionsSereneDemesne,
+  BrokenKeel,
+  CelestialDifferentiator,
   CityOfConvergingStars,
+  DuranDynastyOfRunningWolves,
+  FirmamentFrontlineGlamoth,
+  FleetOfTheAgeless,
+  ForgeOfTheKalpagniLantern,
+  GiantTreeOfRaptBrooding,
+  InertSalsotto,
+  IzumoGenseiAndTakamaDivineRealm,
+  LushakaTheSunkenSeas,
+  PanCosmicCommercialEnterprise,
+  PenaconyLandOfTheDreams,
+  PunklordeStageZero,
+  RevelryByTheSea,
+  RutilantArena,
+  SigoniaTheUnclaimedDesolation,
+  SpaceSealingStation,
+  SprightlyVonwacq,
+  TaliaKingdomOfBanditry,
+  TengokuLivestream,
+  TheWondrousBananAmusementPark,
 ] as const
 
 const ALL_CONFIGS = [...ALL_RELIC_CONFIGS, ...ALL_ORNAMENT_CONFIGS] as const
@@ -182,7 +182,9 @@ const boolFields: IndexedField[] = []
 const intFields: IndexedField[] = []
 export const teammateRelicOptions: TeammateOption[] = []
 export const teammateOrnamentOptions: TeammateOption[] = []
-export const setToId = {} as Record<Sets, RelicSetIngameId>
+export const setToId = Object.fromEntries(
+  ALL_CONFIGS.map((c) => [c.id, c.info.ingameId]),
+) as Record<Sets, RelicSetIngameId>
 
 for (const config of setConfigRegistry.values()) {
   const setName = config.id
@@ -195,9 +197,6 @@ for (const config of setConfigRegistry.values()) {
   } else {
     ornamentConfigs.push({ index: config.info.index, config })
   }
-
-  // ID mapping
-  setToId[setName] = config.info.ingameId as RelicSetIngameId
 
   // Conditional i18n keys
   if (config.display.conditionalI18nKey) {

@@ -60,7 +60,7 @@ export function hashRelic(relic: Relic) {
   return objectHash(hashObject)
 }
 
-function partialHashRelic(relic: Relic) {
+export function partialHashRelic(relic: Relic) {
   const hashObject = {
     part: relic.part,
     set: relic.set,

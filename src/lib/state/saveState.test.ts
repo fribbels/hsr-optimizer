@@ -48,12 +48,10 @@ function makeSavedState(overrides: Partial<HsrOptimizerSaveFormat> = {}): HsrOpt
 // ---- Setup / Teardown ----
 
 let setItemSpy: ReturnType<typeof vi.spyOn>
-let getItemSpy: ReturnType<typeof vi.spyOn>
 
 beforeEach(() => {
   localStorage.clear()
   setItemSpy = vi.spyOn(Storage.prototype, 'setItem')
-  getItemSpy = vi.spyOn(Storage.prototype, 'getItem')
 
   // Reset stores to empty defaults
   useCharacterStore.setState({ characters: [], charactersById: {} })

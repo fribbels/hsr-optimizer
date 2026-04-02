@@ -48,7 +48,7 @@ export function generateFullDefaultForm(
     simulationForm.lightConeConditionals = lightConeConditionals.defaults ? { ...lightConeConditionals.defaults() } : {}
   }
 
-  const simulationMetadata = getGameMetadata().characters[characterId].scoringMetadata?.simulation
+  const simulationMetadata = dbMetadata.characters[characterId].scoringMetadata?.simulation
   if (simulationMetadata) {
     simulationForm.comboTurnAbilities = [...simulationMetadata.comboTurnAbilities]
   } else {

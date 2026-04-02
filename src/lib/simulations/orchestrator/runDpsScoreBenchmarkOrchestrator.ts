@@ -6,7 +6,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { Character } from 'types/character'
-import type { SavedBuild, SavedTeammate } from 'types/savedBuild'
+import type { SavedBuild } from 'types/savedBuild'
 import type {
   ScoringMetadata,
   ShowcaseTemporaryOptions,

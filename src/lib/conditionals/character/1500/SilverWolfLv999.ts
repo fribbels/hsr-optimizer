@@ -394,7 +394,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
       },
       // Talent: Hidden MMR -> CR (capped at 100%), overflow -> CD
-      // State = -1 sentinel prevents re-entrant loops from buffDynamic(CR) - null vs 0 distinguishes first call
+      // Separate if-guards on crDelta/cdDelta prevent re-entrant loops, undefined vs 0 distinguishes first call
       {
         id: 'SilverWolfLv999HiddenMmrConditional',
         type: ConditionalType.ABILITY,

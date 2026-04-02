@@ -85,8 +85,8 @@
 }
 
 .root:hover {
-  transform: translateY(var(--cr-hover-lift, -1px));
-  box-shadow: var(--cr-hover-shadow, 0 1px 4px rgba(0, 0, 0, 0.2));
+  transform: translateY(var(--cr-hover-lift, -2px));
+  box-shadow: var(--cr-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
 .root[data-dragging='true'] {
@@ -135,26 +135,26 @@
 /* Frosted glass — mask fades out the blur toward the portrait face */
 .scrim[data-scrim-mode='frosted'] {
   backdrop-filter:
-    blur(var(--cr-frost-blur, 6.5px))
-    brightness(var(--cr-frost-brightness, 0.85))
+    blur(var(--cr-frost-blur, 16px))
+    brightness(var(--cr-frost-brightness, 0.8))
     saturate(var(--cr-frost-saturate, 1.2));
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, var(--cr-frost-tint, 0.33)) 0%,
-    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.33) * 0.5)) 50%,
+    rgba(0, 0, 0, var(--cr-frost-tint, 0.2)) 0%,
+    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.2) * 0.5)) 50%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     90deg,
     black 0%,
-    black var(--cr-frost-fade-start, 47%),
-    transparent var(--cr-frost-fade-end, 57%)
+    black var(--cr-frost-fade-start, 27%),
+    transparent var(--cr-frost-fade-end, 42%)
   );
   mask-image: linear-gradient(
     90deg,
     black 0%,
-    black var(--cr-frost-fade-start, 47%),
-    transparent var(--cr-frost-fade-end, 57%)
+    black var(--cr-frost-fade-start, 27%),
+    transparent var(--cr-frost-fade-end, 42%)
   );
 }
 
@@ -364,27 +364,27 @@
 
 .root[data-selected='true'] .scrim[data-scrim-mode='frosted'] {
   backdrop-filter:
-    blur(var(--cr-frost-blur, 6.5px))
-    brightness(calc(var(--cr-frost-brightness, 0.85) * 0.85))
+    blur(var(--cr-frost-blur, 16px))
+    brightness(calc(var(--cr-frost-brightness, 0.8) * 0.85))
     saturate(calc(var(--cr-frost-saturate, 1.2) * 1.1));
   background: linear-gradient(
     90deg,
     var(--cr-primary-tint) 0%,
-    rgba(0, 0, 0, var(--cr-frost-tint, 0.33)) 30%,
-    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.33) * 0.4)) 60%,
+    rgba(0, 0, 0, var(--cr-frost-tint, 0.2)) 30%,
+    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.2) * 0.4)) 60%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     90deg,
     black 0%,
-    black var(--cr-frost-fade-start, 47%),
-    transparent var(--cr-frost-fade-end, 57%)
+    black var(--cr-frost-fade-start, 27%),
+    transparent var(--cr-frost-fade-end, 42%)
   );
   mask-image: linear-gradient(
     90deg,
     black 0%,
-    black var(--cr-frost-fade-start, 47%),
-    transparent var(--cr-frost-fade-end, 57%)
+    black var(--cr-frost-fade-start, 27%),
+    transparent var(--cr-frost-fade-end, 42%)
   );
 }
 

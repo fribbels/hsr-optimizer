@@ -410,7 +410,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
-      <DebugSliderPanel presets={[
+      {globalThis.CARD_DEBUG && <DebugSliderPanel presets={[
         { label: 'Preset A (current)', apply: () => {
           setPortraitBlur(22); setPortraitBrightness(0.40); setPortraitSaturate(1.80); setCardBgAlpha(0.45)
           setShadowX(1); setShadowY(1); setShadowBlur(5); setShadowOpacity(0.75)
@@ -459,7 +459,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           { label: 'Target L', value: debugTargetL, min: 0.15, max: 0.60, step: 0.01, onChange: setDebugTargetL },
           { label: 'Dark C Scale', value: debugDarkCScale, min: 0.5, max: 1.0, step: 0.02, onChange: setDebugDarkCScale },
         ]},
-      ]} />
+      ]} />}
       {
         /*
         Will only render (<></>) if source == ShowcaseSource.BUILDS_MODAL

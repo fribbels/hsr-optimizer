@@ -60,7 +60,7 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       SegmentedControl: {
         defaultProps: { size: 'xs', withItemsBorders: false },
         styles: {
-          root: { backgroundColor: 'var(--control-bg)' },
+          root: { backgroundColor: 'rgba(0, 0, 0, 0.18)' },
           label: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: 22, paddingBlock: 0 },
           innerLabel: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
         },

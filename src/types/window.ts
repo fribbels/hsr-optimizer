@@ -39,4 +39,5 @@ declare global {
 
   var WEBGPU_DEBUG: boolean
   var SEQUENTIAL_BENCHMARKS: boolean
+  var CARD_DEBUG: boolean
 }

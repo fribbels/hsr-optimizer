@@ -46,9 +46,8 @@ import React, {
 } from 'react'
 import type { Character, CharacterId } from 'types/character'
 import { afterPaint } from 'lib/utils/frontendUtils'
-import { CharacterGridDebugPanel, type DebugToggles, EQUIP_DOT_COLORS, DEFAULT_TOGGLES } from './CharacterGridDebugPanel'
 import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
-import { DEFAULT_CONFIG, type CardColorConfig } from 'lib/characterPreview/color/colorPipelineConfig'
+import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import { PartsArray } from 'lib/constants/constants'
 import classes from './CharacterGrid.module.css'
 
@@ -57,13 +56,14 @@ const DROP_ANIMATION_DURATION = 200
 
 // --- Equip dot indicator ---
 
-function EquipDotInline({ characterId, toggles }: { characterId: CharacterId; toggles: DebugToggles }) {
+const EQUIP_DOT_COLORS = { partial: '#b89040', empty: '#903040', size: 5 }
+
+function EquipDotInline({ characterId }: { characterId: CharacterId }) {
   // Read equipped directly from store to bypass stale-prop issues caused by
   // Mantine's flushSync in the relic modal save path. Without this, the
   // CharacterRowContent memo can see stale fiber state and skip re-rendering
   // EquipDotInline after an equipment change.
   const equipped = useCharacterStore((s) => s.charactersById[characterId]?.equipped)
-  if (!toggles.showEquipIndicator) return null
 
   const count = PartsArray.filter((p) => equipped?.[p]).length
   if (count === 6) return null
@@ -106,8 +106,6 @@ export function CharacterGrid() {
 
   const [localFocus, setLocalFocus] = useState<CharacterId | null>(null)
   const [activeId, setActiveId] = useState<CharacterId | null>(null)
-  const [toggles, setToggles] = useState<DebugToggles>(DEFAULT_TOGGLES)
-  const [listColorConfig, setListColorConfig] = useState<CardColorConfig>({ ...DEFAULT_CONFIG.characterListBg })
 
   useEffect(() => {
     setLocalFocus(null)
@@ -203,12 +201,10 @@ export function CharacterGrid() {
   const itemIds = useMemo(() => filteredCharacters.map((c) => c.id), [filteredCharacters])
 
   return (
-    <>
-      <CharacterGridDebugPanel targetRef={gridRef} toggles={toggles} onTogglesChange={setToggles} listColorConfig={listColorConfig} onListColorConfigChange={setListColorConfig} />
       <OverlayScrollbarsComponent
         ref={osRef}
         className={classes.gridContainer}
-        data-container-border={toggles.showContainerBorder}
+        data-container-border="true"
         options={{ scrollbars: { autoHide: 'move', autoHideDelay: 500 } }}
         tabIndex={0}
       >
@@ -221,8 +217,6 @@ export function CharacterGrid() {
                 rank={rankMap.get(character.id) ?? 0}
                 isFocused={character.id === displayFocus}
                 loadDelay={i < INITIAL_LOAD_COUNT ? 0 : (i - INITIAL_LOAD_COUNT + 1) * TRICKLE_DELAY}
-                toggles={toggles}
-                listColorConfig={listColorConfig}
                 onClick={handleRowClick}
                 onDoubleClick={handleRowDoubleClick}
                 onEdit={handleEdit}
@@ -235,14 +229,11 @@ export function CharacterGrid() {
               <DragOverlayRow
                 character={getCharacterById(activeId)!}
                 rank={rankMap.get(activeId) ?? 0}
-                toggles={toggles}
-                listColorConfig={listColorConfig}
               />
             )}
           </DragOverlay>
         </DndContext>
       </OverlayScrollbarsComponent>
-    </>
   )
 }
 
@@ -251,15 +242,13 @@ type CharacterRowProps = {
   rank: number
   isFocused: boolean
   loadDelay: number
-  toggles: DebugToggles
-  listColorConfig: CardColorConfig
   onClick: (id: CharacterId) => void
   onDoubleClick: (id: CharacterId) => void
   onEdit: (id: CharacterId) => void
   onRemove: (id: CharacterId) => void
 }
 
-const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, loadDelay, toggles, listColorConfig, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, loadDelay, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: character.id,
     animateLayoutChanges: () => false,
@@ -286,8 +275,8 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
   const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
 
   const backgroundColor = useMemo(
-    () => showcaseColor ? oklchCharacterListColor(showcaseColor, true, { ...DEFAULT_CONFIG, characterListBg: listColorConfig }) : undefined,
-    [showcaseColor, listColorConfig],
+    () => showcaseColor ? oklchCharacterListColor(showcaseColor, true, DEFAULT_CONFIG) : undefined,
+    [showcaseColor],
   )
 
   const style: React.CSSProperties = {
@@ -302,7 +291,7 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
       ref={mergedRef}
       className={classes.root}
       data-selected={isFocused}
-      data-scrim-mode={toggles.scrimMode}
+      data-scrim-mode="frosted"
       style={style}
       onClick={() => onClick(character.id)}
       onDoubleClick={() => onDoubleClick(character.id)}
@@ -313,7 +302,6 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
         character={character}
         rank={rank}
         loadImages={loadImages}
-        toggles={toggles}
         onEdit={onEdit}
         onRemove={onRemove}
       />
@@ -325,20 +313,16 @@ const SortableCharacterRow = memo(function SortableCharacterRow({ character, ran
     && prev.character.form === next.character.form
     && prev.character.equipped === next.character.equipped
     && prev.isFocused === next.isFocused
-    && prev.toggles === next.toggles
-    && prev.listColorConfig === next.listColorConfig
 })
 
-function DragOverlayRow({ character, rank, toggles, listColorConfig }: {
+function DragOverlayRow({ character, rank }: {
   character: Character
   rank: number
-  toggles: DebugToggles
-  listColorConfig: CardColorConfig
 }) {
   const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
 
   const style: React.CSSProperties = {
-    backgroundColor: showcaseColor ? oklchCharacterListColor(showcaseColor, true, { ...DEFAULT_CONFIG, characterListBg: listColorConfig }) : undefined,
+    backgroundColor: showcaseColor ? oklchCharacterListColor(showcaseColor, true, DEFAULT_CONFIG) : undefined,
     cursor: 'grabbing',
   }
 
@@ -346,14 +330,13 @@ function DragOverlayRow({ character, rank, toggles, listColorConfig }: {
     <div
       className={classes.root}
       data-dragging="true"
-      data-scrim-mode={toggles.scrimMode}
+      data-scrim-mode="frosted"
       style={style}
     >
       <CharacterRowContent
         character={character}
         rank={rank}
         loadImages={true}
-        toggles={toggles}
         onEdit={noop}
         onRemove={noop}
       />
@@ -361,16 +344,14 @@ function DragOverlayRow({ character, rank, toggles, listColorConfig }: {
   )
 }
 
-const CharacterRowContent = memo(function CharacterRowContent({ character, rank, loadImages, toggles, onEdit, onRemove }: {
+const CharacterRowContent = memo(function CharacterRowContent({ character, rank, loadImages, onEdit, onRemove }: {
   character: Character
   rank: number
   loadImages: boolean
-  toggles: DebugToggles
   onEdit: (id: CharacterId) => void
   onRemove: (id: CharacterId) => void
 }) {
   const tGameData = i18next.getFixedT(null, 'gameData', 'Characters')
-  const meta = getGameMetadata().characters[character.id]
   const characterName = tGameData(`${character.id}.LongName`)
 
   // Form data for eidolon/LC
@@ -381,91 +362,79 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
   return (
     <>
       {/* Portrait background */}
-      {toggles.showPortrait && (
-        <div className={classes.portraitBg}>
-          <img src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined} alt="" draggable={false} decoding="async" />
-        </div>
-      )}
+      <div className={classes.portraitBg}>
+        <img src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined} alt="" draggable={false} decoding="async" />
+      </div>
 
       {/* Scrim gradient */}
-      <div className={classes.scrim} data-scrim-mode={toggles.scrimMode} />
+      <div className={classes.scrim} data-scrim-mode="frosted" />
 
       {/* Right-side frosted strip for LC area */}
-      {toggles.showLcStrip && (
-        <div className={classes.lcStrip} />
-      )}
+      <div className={classes.lcStrip} />
 
       {/* Content */}
       <div className={classes.inner}>
 
         {/* Rank / drag grip — grip replaces rank on hover */}
-        {toggles.showRank && (
-          <div className={classes.rankGripSlot}>
-            <span className={classes.rank}>{rank + 1}</span>
-            <div className={classes.dragGrip}>
-              <span className={classes.gripLine} />
-              <span className={classes.gripLine} />
-              <span className={classes.gripLine} />
-            </div>
+        <div className={classes.rankGripSlot}>
+          <span className={classes.rank}>{rank + 1}</span>
+          <div className={classes.dragGrip}>
+            <span className={classes.gripLine} />
+            <span className={classes.gripLine} />
+            <span className={classes.gripLine} />
           </div>
-        )}
+        </div>
 
         {/* Name + subtitle (E/S badges) */}
         <div
           className={classes.info}
-          data-name-shadow={toggles.nameShadow}
+          data-name-shadow="true"
         >
           <div className={classes.name}>{characterName}</div>
           <div className={classes.subtitle}>
-            {toggles.showEidolon && (
-              <span className={classes.subtitleBadge}>E{eidolon}</span>
-            )}
-            {toggles.showLightCone && (
-              <span className={classes.subtitleBadge}>S{lightConeId ? superimposition : 0}</span>
-            )}
-            <EquipDotInline characterId={character.id} toggles={toggles} />
+            <span className={classes.subtitleBadge}>E{eidolon}</span>
+            <span className={classes.subtitleBadge}>S{lightConeId ? superimposition : 0}</span>
+            <EquipDotInline characterId={character.id} />
           </div>
         </div>
 
         {/* Light cone icon */}
-        {toggles.showLightCone && lightConeId && (
-          <div className={classes.lcWrap} data-lc-style={toggles.lcStyle}>
+        {lightConeId && (
+          <div className={classes.lcWrap} data-lc-style="shadow">
             <img src={loadImages ? Assets.getLightConeIconById(lightConeId) : undefined} alt="" draggable={false} decoding="async" onLoad={showImageOnLoad} />
           </div>
         )}
       </div>
 
       {/* Hover action buttons — overlay on the left */}
-      {toggles.showActionButtons && (
-        <div className={classes.actions}>
-          <Tooltip label="Edit" position="top" withArrow>
-            <ActionIcon
-              size={24}
-              variant="subtle"
-              className={classes.actionBtn}
-              onClick={(e) => {
-                e.stopPropagation()
-                onEdit(character.id)
-              }}
-            >
-              <IconPencil size={12} />
-            </ActionIcon>
-          </Tooltip>
-          <Tooltip label="Remove" position="top" withArrow>
-            <ActionIcon
-              size={24}
-              variant="subtle"
-              className={classes.actionBtn}
-              onClick={(e) => {
-                e.stopPropagation()
-                onRemove(character.id)
-              }}
-            >
-              <IconX size={12} />
-            </ActionIcon>
-          </Tooltip>
-        </div>
-      )}
+      <div className={classes.actions}>
+        <Tooltip label="Edit" position="top" withArrow>
+          <ActionIcon
+            size={24}
+            variant="subtle"
+            className={classes.actionBtn}
+            onClick={(e) => {
+              e.stopPropagation()
+              onEdit(character.id)
+            }}
+          >
+            <IconPencil size={12} />
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip label="Remove" position="top" withArrow>
+          <ActionIcon
+            size={24}
+            variant="subtle"
+            className={classes.actionBtn}
+            onClick={(e) => {
+              e.stopPropagation()
+              onRemove(character.id)
+            }}
+          >
+            <IconX size={12} />
+          </ActionIcon>
+        </Tooltip>
+      </div>
     </>
   )
 }, (prev, next) => {
@@ -473,5 +442,4 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
     && prev.rank === next.rank
     && prev.character.form === next.character.form
     && prev.loadImages === next.loadImages
-    && prev.toggles === next.toggles
 })

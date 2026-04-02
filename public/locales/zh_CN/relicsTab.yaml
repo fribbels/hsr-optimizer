@@ -160,11 +160,6 @@ Toolbar:
     Width: 物品栏宽度
     Filter: 自动筛选行
     NoneSelected: 选择一个遗器进行定位
-    Location: '位置 - 第{{rowIndex}}行 / 第{{columnIndex}}列'
-  InsightOptions:
-    Buckets: '遗器洞察：分类'
-    Top10: '遗器洞察：前十'
-    ESTBP: '遗器洞察：预估开拓力'
   PlotOptions:
     PlotAll: 显示所有角色
     PlotCustom: 显示自定义角色

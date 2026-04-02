@@ -4,10 +4,14 @@ RelicFilterBar:
   Grade: Grade
   InitialRolls: Initial Rolls
   Verified: Verified
+  Unverified: Unverified
   Equipped: Equipped
+  Unequipped: Unequipped
   Clear: Clear
   ClearButton: Clear all filters
   Set: Set
+  RelicSets: Relic sets
+  OrnamentSets: Ornament sets
   Mainstat: Main stats
   Substat: Substats
   ScoringButton: Scoring algorithm
@@ -165,11 +169,11 @@ Toolbar:
     Width: Inventory width
     Filter: Auto filter rows
     NoneSelected: Select a relic to locate
-    Location: 'Location - Row {{rowIndex}} / Col {{columnIndex}}'
+    Location: 'Row {{rowIndex}} / Col {{columnIndex}}'
   InsightOptions:
-    Buckets: 'Relic Insight: Buckets'
-    Top10: 'Relic Insight: Top 10'
-    ESTBP: 'Relic Insights: ESTBP'
+    Buckets: 'Buckets'
+    Top10: 'Top 10'
+    ESTBP: 'EST TBP'
   PlotOptions:
     PlotAll: Show all characters
     PlotCustom: Show custom characters

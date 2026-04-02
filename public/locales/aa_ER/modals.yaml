@@ -340,6 +340,7 @@ SaveBuild:
     OverwriteDisabled: crwdns46366:0crwdne46366:0
 SwitchRelics:
   Title: crwdns42568:0crwdne42568:0
+  Placeholder: crwdns46724:0crwdne46724:0
 Builds:
   DeleteAll: crwdns42570:0crwdne42570:0
   Equip: crwdns42572:0crwdne42572:0

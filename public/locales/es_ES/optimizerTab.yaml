@@ -245,7 +245,7 @@ Sidebar:
     Header: Equipamientos
     Save: Guardar
 TeammateRow:
-  Header: 'Aliados {{teammateCount}}'
+  Header: 'Aliados'
 FormRowLabels:
   Character options: Opciones de personaje
   Relic & stat filters: Filtros de artefacto y atributo
@@ -466,8 +466,6 @@ ComboFilter:
     ResetConfirm:
       Description: '¿Restablecer todos los ajustes de Rotación simple / avanzada a los por defecto?'
     PresetsHeader: Preajustes
-  CounterLabels:
-    Dot: DoTs
   ComboOptions:
     None: 'Ninguno'
     Basic: Básico

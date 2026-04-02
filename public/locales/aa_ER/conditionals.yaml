@@ -21,6 +21,9 @@ Common:
     Ult: 'crwdns40160:0crwdne40160:0'
     Talent: 'crwdns40162:0crwdne40162:0'
     Trace: 'crwdns40164:0crwdne40164:0'
+  DotTickCoefficient:
+    Text: 'crwdns46720:0crwdne46720:0'
+    Content: 'crwdns46722:0crwdne46722:0'
 Lightcones:
   AGroundedAscent:
     Content:

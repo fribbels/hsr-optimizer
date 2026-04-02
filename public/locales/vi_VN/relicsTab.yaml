@@ -124,10 +124,6 @@ Toolbar:
     Width: Chiều rộng Túi
     Filter: Tự động lọc hàng
     NoneSelected: Chọn di vật để tìm vị trí
-    Location: 'Vị trí - Hàng {{rowIndex}} / Cột {{columnIndex}}'
-  InsightOptions:
-    Buckets: 'Thông tin di vật: Nhóm phân loại'
-    Top10: 'Thông tin di vật: Top 10'
   PlotOptions:
     PlotAll: Cho tất cả nhân vật
     PlotCustom: Cho nhân vật nhất định

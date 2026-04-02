@@ -8,8 +8,8 @@ import {
 } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
@@ -42,7 +42,7 @@ import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
   END_BASIC,
@@ -58,17 +58,17 @@ import {
   RELICS_2P_SPEED,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
-import { HitDefinition } from 'types/hitConditionalTypes'
+import { type Eidolon } from 'types/character'
+import { type CharacterConfig } from 'types/characterConfig'
+import { type CharacterConditionalsController } from 'types/conditionals'
+import { type HitDefinition } from 'types/hitConditionalTypes'
 import {
-  ScoringMetadata,
-  SimulationMetadata,
+  type ScoringMetadata,
+  type SimulationMetadata,
 } from 'types/metadata'
 import {
-  OptimizerAction,
-  OptimizerContext,
+  type OptimizerAction,
+  type OptimizerContext,
 } from 'types/optimizer'
 
 export const SilverWolfLv999Entities = createEnum('SilverWolfLv999')
@@ -401,7 +401,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.CR],
         chainsTo: [Stats.CR, Stats.CD],
-        supplementalState: ['SilverWolfLv999HiddenMmrCr'],
+        supplementalState: ['SilverWolfLv999HiddenMmrCrPoints'],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           return r.hiddenMmr > 0
@@ -411,28 +411,30 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const mmrPoints = r.hiddenMmr
           if (mmrPoints <= 0) return
 
-          const crState = action.conditionalState[this.id]
-          if (crState === -1) return
+          const prevCrPoints = action.conditionalState[this.id]
 
-          const isFirstCall = crState == null
-          const prevCrBuff = isFirstCall ? 0 : crState
-          const maxCrBuff = mmrPoints * mmrCrPerPoint
-          const prevCdBuff = isFirstCall ? 0 : (maxCrBuff - prevCrBuff) * (mmrCdPerPoint / mmrCrPerPoint)
+          const isFirstCall = prevCrPoints == undefined
+
+          const prevCrBuff = isFirstCall ? 0 : prevCrPoints * mmrCrPerPoint
+          const prevCdBuff = isFirstCall ? 0 : (mmrPoints - prevCrPoints) * mmrCdPerPoint
 
           const totalCr = x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX)
           const baseCr = totalCr - prevCrBuff
 
-          const crSpace = Math.max(0, 1.00 - baseCr)
-          const newCrBuff = Math.min(maxCrBuff, crSpace)
-          const newCdBuff = (maxCrBuff - newCrBuff) * (mmrCdPerPoint / mmrCrPerPoint)
+          const newCrPoints = Math.min(mmrPoints, Math.ceil(Math.max(0, 1.00 - baseCr) / mmrCrPerPoint))
+
+          const newCrBuff = newCrPoints * mmrCrPerPoint
+          const newCdBuff = (mmrPoints - newCrPoints) * mmrCdPerPoint
 
           const crDelta = newCrBuff - prevCrBuff
           const cdDelta = newCdBuff - prevCdBuff
 
-          action.conditionalState[this.id] = -1
-          x.buffDynamic(StatKey.CR, crDelta, action, context, x.source(SOURCE_TALENT))
-          x.buffDynamic(StatKey.CD, cdDelta, action, context, x.source(SOURCE_TALENT))
-          action.conditionalState[this.id] = newCrBuff
+          action.conditionalState[this.id] = newCrPoints
+
+          if (crDelta) {
+            x.buffDynamic(StatKey.CR, crDelta, action, context, x.source(SOURCE_TALENT))
+            x.buffDynamic(StatKey.CD, cdDelta, action, context, x.source(SOURCE_TALENT))
+          }
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
@@ -447,21 +449,27 @@ if (${r.hiddenMmr} <= 0) {
   return;
 }
 let mmrPoints: f32 = f32(${r.hiddenMmr});
-let maxCrBuff: f32 = mmrPoints * ${mmrCrPerPoint};
-let prevCrBuff: f32 = (*p_state).SilverWolfLv999HiddenMmrCr${action.actionIdentifier};
-let prevCdBuff: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
+
+let prevCrPoints: f32 = (*p_state).SilverWolfLv999HiddenMmrCrPoints${action.actionIdentifier};
+let prevCdPoints: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};
+
+let prevCrBuff = prevCrPoints * ${mmrCrPerPoint};
+let prevCdBuff = prevCdPoints * ${mmrCdPerPoint};
 
 let totalCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)};
 let baseCr = totalCr - prevCrBuff;
-let crSpace = max(0.0, 1.0 - baseCr);
-let newCrBuff = min(maxCrBuff, crSpace);
-let newCdBuff = (maxCrBuff - newCrBuff) * ${mmrCdPerPoint / mmrCrPerPoint};
+
+let newCrPoints = min(mmrPoints, ceil(max(0.0, 1.0 - baseCr) / ${mmrCrPerPoint}));
+let newCdPoints = mmrPoints - newCrPoints;
+
+let newCrBuff = newCrPoints * ${mmrCrPerPoint};
+let newCdBuff = newCdPoints * ${mmrCdPerPoint};
 
 let crDelta = newCrBuff - prevCrBuff;
 let cdDelta = newCdBuff - prevCdBuff;
 
-(*p_state).SilverWolfLv999HiddenMmrCr${action.actionIdentifier} = newCrBuff;
-(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = newCdBuff;
+(*p_state).SilverWolfLv999HiddenMmrCrPoints${action.actionIdentifier} = newCrPoints;
+(*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier} = newCdPoints;
 
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)} += crDelta;
 ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += cdDelta;
@@ -492,6 +500,7 @@ const simulation = (): SimulationMetadata => ({
   substats: [
     Stats.CD,
     Stats.CR,
+    Stats.SPD,
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,

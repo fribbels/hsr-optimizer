@@ -449,12 +449,8 @@ ComboFilter:
     Simple: Simple
     Advanced: Expert
   RowControls:
-    Header: Contrôles
-    Add: +
-    Remove: '-'
     ResetConfirm:
       Description: Réinitialiser tous les paramètres de rotation Simple / Expert?
-    PresetsHeader: Préréglages
   ComboOptions:
     None: 'Aucun'
     Basic: Norm

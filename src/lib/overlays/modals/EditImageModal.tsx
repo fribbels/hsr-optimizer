@@ -292,8 +292,9 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
       title: 'Provide image', // translation of this happens later on
       content: (
         <>
-          <Flex justify='center' className={styles.segmentedControlWrapper}>
+          <div className={styles.segmentedControlWrapper}>
             <SegmentedControl
+              fullWidth
               onChange={onRadioChange}
               value={radio}
               data={[
@@ -302,7 +303,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
                 ...(defaultImageUrl ? [{ label: t('Upload.Radio.Default') /* Use default image */, value: 'default' }] : []),
               ]}
             />
-          </Flex>
+          </div>
 
           {radio === 'upload' && (
             <>

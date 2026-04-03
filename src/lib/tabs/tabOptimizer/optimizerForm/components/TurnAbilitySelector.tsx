@@ -3,6 +3,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { type CharacterId } from 'types/character'
 import {
+  AbilityKind,
   ALL_ABILITIES,
   ComboOptionsLabelMapping,
   createAbility,
@@ -48,13 +49,18 @@ function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimize
   }
 }
 
+// SKILL and ULT are always included in rotation options because rotations represent
+// full character turns (including buff skills / transformation ults) — not just damage actions.
+const ALWAYS_INCLUDED_KINDS: AbilityKind[] = [AbilityKind.SKILL, AbilityKind.ULT]
+
 function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): CascaderData {
   if (characterId && characterEidolon != null) {
     const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
       characterId: characterId as CharacterId,
       characterEidolon: characterEidolon,
     })
-    const actions = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
+    const declared = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
+    const actions = [...new Set([...declared, ...ALWAYS_INCLUDED_KINDS])]
     return actions.map((kind) => mapKindToGroup(kind, kind, t))
   }
 

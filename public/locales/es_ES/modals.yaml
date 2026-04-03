@@ -311,7 +311,6 @@ EditImage:
       Default: Por defecto
     Upload:
       Method: Pulsa o arrastra una imagen a esta área para cargarla
-      Limit: 'Se acepta .jpg .jpeg .png .gif (Máx.: 20MB)'
     Url:
       Label: Imagen
       Rule: Por favor introduce una URL de imagen válida

@@ -425,12 +425,8 @@ ComboFilter:
     Simple: Đơn giản
     Advanced: Nâng cao
   RowControls:
-    Header: Điều khiển
-    Add: +
-    Remove: '-'
     ResetConfirm:
       Description: Đặt lại tất cả thứ tự đơn giản / nâng cao thành mặc định?
-    PresetsHeader: Mẫu Cho Sẵn
   ComboOptions:
     None: 'Không có'
     Basic: Tấn công thường

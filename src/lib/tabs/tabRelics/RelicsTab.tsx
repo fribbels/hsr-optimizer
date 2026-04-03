@@ -19,12 +19,31 @@ export function RelicsTab() {
       <TopBar />
 
       {recentRelics.length > 0 && (
-        <Accordion defaultValue={['1']} multiple>
-          <Accordion.Item value="1">
-            <Accordion.Control>{t('RecentlyUpdatedRelics.Header')}</Accordion.Control>
-            <Accordion.Panel><RecentRelics /></Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
+        <div style={{
+          overflow: 'hidden',
+          borderRadius: 'var(--radius-md)',
+          background: 'var(--layer-1)',
+          boxShadow: 'var(--shadow-card-flat)',
+          border: 'var(--border-subtle)',
+        }}>
+          <Accordion
+            defaultValue={['1']}
+            multiple
+            chevronPosition="right"
+            variant="default"
+            transitionDuration={200}
+            styles={{
+              control: { fontSize: 20, alignItems: 'baseline' },
+              content: { paddingBlock: 0, paddingBottom: 10 },
+              chevron: { paddingInlineStart: 12 },
+            }}
+          >
+            <Accordion.Item value="1">
+              <Accordion.Control>{t('RecentlyUpdatedRelics.Header')}</Accordion.Control>
+              <Accordion.Panel><RecentRelics /></Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        </div>
       )}
 
       <DeferReveal>

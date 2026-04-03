@@ -34,7 +34,7 @@ export const RecentRelics = memo(() => {
         display: 'flex',
         gap: 10,
         justifyContent: 'space-between',
-        padding: 10,
+        padding: '0px 10px 10px 10px',
       }}
     >
       {padArray(recentRelics.slice(0, 6), 6, undefined).map((relic, i) => (

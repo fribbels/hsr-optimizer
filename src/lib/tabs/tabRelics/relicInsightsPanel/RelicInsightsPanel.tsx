@@ -55,6 +55,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
         score: RelicScorer.scoreRelicPotential(selectedRelic, char.id, true),
         owned: getCharacterById(char.id) != undefined,
       }))
+      .filter((x) => x.score.bestPct > 0)
       .sort((a, b) => {
         if (b.score.bestPct === a.score.bestPct) {
           return sortAlphabeticEmojiLast('name')(a, b)

@@ -35,8 +35,6 @@ export const EstbpCard = memo(() => {
   const displayAnalysis = analysis ?? prevAnalysis.current
 
   return (
-    <div style={{ height: '100%' }}>
-      <RelicContainer ready={ready || !!displayAnalysis} relicAnalysis={displayAnalysis} withoutPreview />
-    </div>
+    <RelicContainer ready={ready || !!displayAnalysis} relicAnalysis={displayAnalysis} withoutPreview />
   )
 })

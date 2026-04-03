@@ -112,14 +112,34 @@ function LoadingSpinner() {
   )
 }
 
-export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysis, withoutPreview, horizontal }: {
+export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysis, withoutPreview }: {
   ready: boolean
   relicAnalysis?: RelicAnalysis
   withoutPreview?: boolean
-  horizontal?: boolean
 }) {
   const slotVisible = useDeferredSlot()
-  const dynamicStyle = withoutPreview ? { width: 320, height: relicCardH } : { minHeight: 302 }
+
+  if (withoutPreview) {
+    if (!ready || !slotVisible) {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', width: 320, minHeight: relicCardH }}>
+          <LoadingSpinner />
+        </div>
+      )
+    }
+
+    if (!relicAnalysis) {
+      return <div style={{ width: 320, minHeight: relicCardH }} />
+    }
+
+    return (
+      <div style={{ width: 320 }}>
+        <RelicAnalysisCard relicAnalysis={relicAnalysis} />
+      </div>
+    )
+  }
+
+  const dynamicStyle = { minHeight: 302 }
 
   if (!ready || !slotVisible) {
     return (
@@ -133,14 +153,6 @@ export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysi
 
   if (!relicAnalysis) {
     return <div className={styles.card} style={dynamicStyle} />
-  }
-
-  if (withoutPreview) {
-    return (
-      <div className={styles.card} style={dynamicStyle}>
-        <RelicAnalysisCard relicAnalysis={relicAnalysis} horizontal={horizontal} />
-      </div>
-    )
   }
 
   return (
@@ -176,7 +188,7 @@ function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: Reli
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className={styles.fullWidth}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, height: relicCardH }} className={styles.fullWidth}>
       <DeferCreate>
         <div style={{ display: 'flex', gap: 10 }} className={styles.metricRow}>
           <MetricCard relicAnalysis={relicAnalysis} index={0} />

@@ -57,6 +57,28 @@
     background: rgba(149, 149, 149, 0.55);
 }
 
+/* Overlay hover-fade — float scrollbars over content, show on hover */
+.ag-body-horizontal-scroll {
+    margin-top: -10px;
+    position: relative;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.ag-body-vertical-scroll {
+    margin-left: -10px;
+    position: relative;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.ag-theme-balham-dark:hover .ag-body-horizontal-scroll,
+.ag-theme-balham-dark:hover .ag-body-vertical-scroll {
+    opacity: 1;
+}
+
 /* ═══════════════════════════════════════════
    Header
    ═══════════════════════════════════════════ */
@@ -266,18 +288,6 @@
     max-width: 0 !important;
 }
 
-#relicGrid .ag-body-horizontal-scroll {
-    margin-top: -10px;
-    position: relative;
-    z-index: 3;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-#relicGrid:hover .ag-body-horizontal-scroll {
-    opacity: 1;
-}
-
 #relicGrid .ag-header {
     height: 48px !important;
     min-height: 48px !important;
@@ -319,10 +329,6 @@
 #optimizerGridContainer .ag-header-cell-sorted-asc {
     background-color: var(--layer-2) !important;
     color: #fff !important;
-}
-
-#optimizerGridContainer .ag-body-vertical-scroll {
-    display: none;
 }
 
 #optimizerGridContainer .ag-floating-top {

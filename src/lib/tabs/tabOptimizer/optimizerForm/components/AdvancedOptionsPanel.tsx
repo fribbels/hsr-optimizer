@@ -21,7 +21,7 @@ export function AdvancedOptionsPanel() {
   const buffsActive = useMemo(() => {
     if (!formCombatBuffs) return 0
 
-    return Object.values(formCombatBuffs).filter((x) => x != null).length
+    return Object.values(formCombatBuffs).filter((x) => x != null && x !== 0).length
   }, [formCombatBuffs])
 
   return (

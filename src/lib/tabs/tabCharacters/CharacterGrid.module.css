@@ -79,6 +79,7 @@
   border-radius: var(--cr-radius);
   overflow: hidden;
   cursor: grab;
+  transform: translateY(0);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: inset 0 0 0 1px transparent;
   user-select: none;
@@ -129,7 +130,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  transition: background 0.15s, backdrop-filter 0.15s;
+  transition: background 0.15s;
 }
 
 /* Frosted glass — mask fades out the blur toward the portrait face */

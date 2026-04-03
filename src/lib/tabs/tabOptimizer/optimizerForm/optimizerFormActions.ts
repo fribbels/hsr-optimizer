@@ -17,6 +17,7 @@ import { displayToInternal, patchComboConditionalDefault } from 'lib/stores/opti
 import { type MainConditionalType, type TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { syncFormToCharacterStore } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/stores/gridStore'
 import type { Build, CharacterId } from 'types/character'
@@ -377,6 +378,11 @@ export function startOptimization(): void {
   requestIdleCallback(() => {
     persistenceService.upsertCharacterFromForm(form)
   })
+
+  // Set the character tab's focus to the optimized character. Uses setState directly
+  // to bypass setFocusCharacter's existence check (the upsert may still be pending).
+  // The tab-aware store gates re-renders until the user switches to the Characters tab.
+  useCharacterTabStore.setState({ focusCharacter: form.characterId })
   SaveState.delayedSave()
 
   const optimizationId = uuid()

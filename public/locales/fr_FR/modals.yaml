@@ -311,7 +311,6 @@ EditImage:
       Default: Utiliser l’image par défaut
     Upload:
       Method: Cliquez ou faites glisser l'image dans cette zone pour le télécharger
-      Limit: 'Accepte .jpg .jpeg .png .gif (Max: 20 MO)'
     Url:
       Label: Image
       Rule: Veuillez saisir une URL d'image valide

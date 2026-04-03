@@ -6,13 +6,13 @@ import { VerticalDivider } from 'lib/ui/Dividers'
 
 export function BottomDock() {
   return (
-    <div style={{ display: 'flex', gap: 5 }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+    <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <BottomToolbarLeft />
         <ScoredRelicPreview />
       </div>
       <VerticalDivider />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: 1, minWidth: 0 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1, minWidth: 0 }}>
         <BottomToolbarRight />
         <div style={{ flex: 1, minHeight: relicCardH }}>
           <RelicInsightsPanel />

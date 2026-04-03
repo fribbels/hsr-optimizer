@@ -20,18 +20,14 @@
     scroll-behavior: auto;
 }
 
-/* AG Grid overlay scrollbar — shared style for both axes */
-.ag-body-horizontal-scroll,
-.ag-body-horizontal-scroll-viewport,
-.ag-body-horizontal-scroll-container {
+/* AG Grid overlay scrollbar — matches OverlayScrollbars style */
+[class^='ag-body-horizontal-scroll'] {
     min-height: 10px !important;
     max-height: 10px !important;
     height: 10px !important;
 }
 
-.ag-body-vertical-scroll,
-.ag-body-vertical-scroll-viewport,
-.ag-body-vertical-scroll-container {
+[class^='ag-body-vertical-scroll'] {
     min-width: 10px !important;
     max-width: 10px !important;
     width: 10px !important;
@@ -46,7 +42,6 @@
 .ag-body-horizontal-scroll-viewport::-webkit-scrollbar-track,
 .ag-body-vertical-scroll-viewport::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 10px;
 }
 
 .ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb,
@@ -264,6 +259,12 @@
 /* ═══════════════════════════════════════════
    #relicGrid
    ═══════════════════════════════════════════ */
+
+#relicGrid .ag-horizontal-right-spacer {
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+}
 
 #relicGrid .ag-body-horizontal-scroll {
     margin-top: -10px;

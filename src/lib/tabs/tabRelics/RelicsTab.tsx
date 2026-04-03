@@ -15,7 +15,7 @@ export function RelicsTab() {
   const containerRef = useDeferReveal()
 
   return (
-    <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', gap: 5, width: TAB_WIDTH, marginBottom: 100 }}>
+    <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', gap: 8, width: TAB_WIDTH, marginBottom: 100 }}>
       <TopBar />
 
       {recentRelics.length > 0 && (

@@ -311,7 +311,6 @@ EditImage:
       Default: デフォルトを使用
     Upload:
       Method: ここをクリックしてアップロードするか、画像ファイルをここにドラッグしてください
-      Limit: '対応フォーマット：.jpg .jpeg .png .gif (Max: 20MB)'
     Url:
       Label: 画像
       Rule: 有効な画像のURLを入力してください

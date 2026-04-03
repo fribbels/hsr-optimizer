@@ -79,13 +79,14 @@
   border-radius: var(--cr-radius);
   overflow: hidden;
   cursor: grab;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  top: 0;
+  transition: top 0.2s ease, box-shadow 0.2s ease;
   box-shadow: inset 0 0 0 1px transparent;
   user-select: none;
 }
 
 .root:hover {
-  transform: translateY(var(--cr-hover-lift, -2px));
+  top: var(--cr-hover-lift, -2px);
   box-shadow: var(--cr-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
@@ -132,12 +133,18 @@
   transition: background 0.15s;
 }
 
-/* Frosted glass — blurred duplicate image, masked to left side.
-   object-fit:cover fills the entire mask area with blur. A dark ::after
-   overlay on top darkens the left side, replicating the original look
-   where backdrop-filter was blurring mostly the dark row background. */
+/* Frosted glass — mask fades out the blur toward the portrait face */
 .scrim[data-scrim-mode='frosted'] {
-  overflow: hidden;
+  backdrop-filter:
+    blur(var(--cr-frost-blur, 16px))
+    brightness(var(--cr-frost-brightness, 0.8))
+    saturate(var(--cr-frost-saturate, 1.2));
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, var(--cr-frost-tint, 0.2)) 0%,
+    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.2) * 0.5)) 50%,
+    transparent 100%
+  );
   -webkit-mask-image: linear-gradient(
     90deg,
     black 0%,
@@ -152,37 +159,6 @@
   );
 }
 
-/* Blurred image inside scrim — replaces backdrop-filter */
-.scrimImg {
-  position: absolute;
-  inset: -20px;
-  width: calc(100% + 40px);
-  height: calc(100% + 40px);
-  object-fit: cover;
-  object-position: center 30%;
-  z-index: 0;
-  display: block;
-  filter:
-    blur(var(--cr-frost-blur, 16px))
-    brightness(var(--cr-frost-brightness, 0.8))
-    saturate(var(--cr-frost-saturate, 1.2));
-}
-
-/* Dark tint overlay — darkens the left side to simulate the original
-   backdrop-filter blurring the dark row background on the far left */
-.scrim[data-scrim-mode='frosted']::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, var(--cr-frost-tint, 0.2)) 0%,
-    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.2) * 0.5)) 50%,
-    transparent 100%
-  );
-}
-
 /* --- Right-side frosted strip (LC area) --- */
 
 .lcStrip {
@@ -192,19 +168,7 @@
   bottom: 0;
   width: var(--cr-lc-strip-width, 52px);
   z-index: 1;
-  overflow: hidden;
-}
-
-/* Blurred image inside lcStrip — replaces backdrop-filter */
-.lcStripImg {
-  position: absolute;
-  inset: -8px;
-  width: calc(100% + 16px);
-  height: calc(100% + 16px);
-  object-fit: cover;
-  object-position: center 30%;
-  display: block;
-  filter: blur(6px) brightness(0.7) saturate(1.2);
+  backdrop-filter: blur(6px) brightness(0.7) saturate(1.2);
 }
 
 /* --- Inner content layout --- */
@@ -303,10 +267,9 @@
   border-radius: var(--radius-md);
 }
 
-/* LC style: frosted glass backing — uses opaque tint instead of
-   backdrop-filter to avoid Firefox compositor bugs */
+/* LC style: frosted glass backing */
 .lcWrap[data-lc-style='frosted'] {
-  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px) brightness(0.5) saturate(1.2);
   padding: 3px;
   border-radius: var(--radius-md);
 }
@@ -401,6 +364,10 @@
 /* --- Selected frosted scrim --- */
 
 .root[data-selected='true'] .scrim[data-scrim-mode='frosted'] {
+  backdrop-filter:
+    blur(var(--cr-frost-blur, 16px))
+    brightness(calc(var(--cr-frost-brightness, 0.8) * 0.85))
+    saturate(calc(var(--cr-frost-saturate, 1.2) * 1.1));
   background: linear-gradient(
     90deg,
     var(--cr-primary-tint) 0%,
@@ -420,13 +387,6 @@
     black var(--cr-frost-fade-start, 27%),
     transparent var(--cr-frost-fade-end, 42%)
   );
-}
-
-.root[data-selected='true'] .scrimImg {
-  filter:
-    blur(var(--cr-frost-blur, 16px))
-    brightness(calc(var(--cr-frost-brightness, 0.8) * 0.85))
-    saturate(calc(var(--cr-frost-saturate, 1.2) * 1.1));
 }
 
 /* ============================================================

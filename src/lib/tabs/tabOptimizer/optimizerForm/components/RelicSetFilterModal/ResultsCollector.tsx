@@ -1,5 +1,5 @@
 import { Button, Group, Stack, Text } from '@mantine/core'
-import type { TwoPieceSlotNonAny, TwoPieceCombo } from 'lib/stores/optimizerForm/setFilterTypes'
+import type { TwoPieceSlot, TwoPieceCombo } from 'lib/stores/optimizerForm/setFilterTypes'
 import type { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
 import { FourPieceBadges, TwoPieceComboBadges, PendingSlotBadge, OrnamentBadges } from './SetFilterBadges'
 import classes from './RelicSetFilterModal.module.css'
@@ -8,7 +8,7 @@ export function ResultsCollector({ checked4p, combos, checkedOrnaments, pendingS
   checked4p: Set<SetsRelics>
   combos: TwoPieceCombo[]
   checkedOrnaments: Set<SetsOrnaments>
-  pendingSlotA: TwoPieceSlotNonAny | null
+  pendingSlotA: TwoPieceSlot | null
   onRemove4p: (name: SetsRelics) => void
   onRemoveCombo: (index: number) => void
   onRemoveOrnament: (name: SetsOrnaments) => void

@@ -2,27 +2,29 @@ import type { ReactNode } from 'react'
 import { Badge, CloseButton, Group } from '@mantine/core'
 import { IconSquareAsteriskFilled } from '@tabler/icons-react'
 import { Assets } from 'lib/rendering/assets'
-import type { TwoPieceSlotNonAny, TwoPieceSlotSet, TwoPieceSlotStat, TwoPieceCombo } from 'lib/stores/optimizerForm/setFilterTypes'
+import type { TwoPieceSlot, TwoPieceCombo } from 'lib/stores/optimizerForm/setFilterTypes'
 import { TwoPieceSlotType } from 'lib/stores/optimizerForm/setFilterTypes'
 import type { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
 import classes from './RelicSetFilterModal.module.css'
 
-function slotIcon(slot: TwoPieceSlotSet | TwoPieceSlotStat): string {
+function slotIcon(slot: TwoPieceSlot): string | null {
   switch (slot.type) {
     case TwoPieceSlotType.Set: return Assets.getSetImage(slot.value)
     case TwoPieceSlotType.Stat: return Assets.getStatIcon(slot.value)
+    case TwoPieceSlotType.Any: return null
   }
 }
 
-function slotKey(slot: TwoPieceSlotSet | TwoPieceSlotStat): string {
+function slotKey(slot: TwoPieceSlot): string {
   switch (slot.type) {
     case TwoPieceSlotType.Set: return `s:${slot.value}`
     case TwoPieceSlotType.Stat: return `t:${slot.value}`
+    case TwoPieceSlotType.Any: return 'any'
   }
 }
 
 function comboKey(combo: TwoPieceCombo): string {
-  return `2p-${slotKey(combo.a)}+${combo.b.type === TwoPieceSlotType.Any ? 'any' : slotKey(combo.b)}`
+  return `2p-${slotKey(combo.a)}+${slotKey(combo.b)}`
 }
 
 function IconBadge({ onRemove, children }: {
@@ -63,6 +65,13 @@ export function FourPieceBadges({ checked4p, onRemove }: {
   )
 }
 
+function SlotImage({ slot }: { slot: TwoPieceSlot }) {
+  if (slot.type === TwoPieceSlotType.Any) {
+    return <IconSquareAsteriskFilled size={22} opacity={0.5} />
+  }
+  return <img className={classes.collectorImg} src={slotIcon(slot)!} alt="" />
+}
+
 export function TwoPieceComboBadges({ combos, onRemove }: {
   combos: TwoPieceCombo[]
   onRemove: (index: number) => void
@@ -71,10 +80,8 @@ export function TwoPieceComboBadges({ combos, onRemove }: {
     <>
       {combos.map((combo, i) => (
         <IconBadge key={comboKey(combo)} onRemove={() => onRemove(i)}>
-          <img className={classes.collectorImg} src={slotIcon(combo.a)} alt="" />
-          {combo.b.type === TwoPieceSlotType.Any
-            ? <IconSquareAsteriskFilled size={22} opacity={0.5} />
-            : <img className={classes.collectorImg} src={slotIcon(combo.b)} alt="" />}
+          <SlotImage slot={combo.a} />
+          <SlotImage slot={combo.b} />
         </IconBadge>
       ))}
     </>
@@ -82,12 +89,12 @@ export function TwoPieceComboBadges({ combos, onRemove }: {
 }
 
 export function PendingSlotBadge({ slotA, onCancel }: {
-  slotA: TwoPieceSlotNonAny
+  slotA: TwoPieceSlot
   onCancel: () => void
 }) {
   return (
     <IconBadge onRemove={onCancel}>
-      <img className={classes.collectorImg} src={slotIcon(slotA)} alt="" />
+      <SlotImage slot={slotA} />
       <div className={classes.collectorBlank} />
     </IconBadge>
   )

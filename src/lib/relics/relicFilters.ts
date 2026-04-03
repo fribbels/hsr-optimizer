@@ -88,6 +88,8 @@ export const RelicFilters = {
           relicSetsAllowed[RelicSetToIndex[rs[1]]] = 1
         } else if (rs[0] === RelicSetFilterOptions.relic2PlusAny) {
           relicSetsAllowed = arrayOfValue(Object.values(SetsRelics).length, 1)
+        } else if (rs[0] === RelicSetFilterOptions.relic2Plus2Any) {
+          relicSetsAllowed = arrayOfValue(Object.values(SetsRelics).length, 1)
         } else if (rs[0] === RelicSetFilterOptions.relic2Plus2Piece && rs.length === 3) {
           relicSetsAllowed[RelicSetToIndex[rs[1]]] = 1
           relicSetsAllowed[RelicSetToIndex[rs[2]]] = 1
@@ -294,6 +296,10 @@ export const RelicFilters = {
         }
 
         if (relicSet[0] == RelicSetFilterOptions.relic2PlusAny) {
+          allowedSets = arrayOfValue(Object.values(SetsRelics).length, 1)
+        }
+
+        if (relicSet[0] == RelicSetFilterOptions.relic2Plus2Any) {
           allowedSets = arrayOfValue(Object.values(SetsRelics).length, 1)
         }
 

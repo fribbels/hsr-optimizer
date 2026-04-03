@@ -129,7 +129,7 @@ export type Form =
   & StatFilters
   & RatingFilters
 
-export type RelicSetFilters = Array<[pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>
+export type RelicSetFilters = Array<[pieces: string] | [pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>
 export type OrnamentSetFilters = Array<SetsOrnaments>
 
 export type StatFilters = {

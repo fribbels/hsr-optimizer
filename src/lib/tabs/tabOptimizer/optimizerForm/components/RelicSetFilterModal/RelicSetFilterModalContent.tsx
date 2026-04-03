@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useRef } from 'react'
 import { Box, Button, CloseButton, Divider, Group, SegmentedControl, Stack, TextInput } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { relicIndexToSetConfig, ornamentIndexToSetConfig, type SetsRelics, type SetsOrnaments } from 'lib/sets/setConfigRegistry'
-import type { TwoPieceSlot, TwoPieceSlotNonAny, TwoPieceCombo, ModalState } from 'lib/stores/optimizerForm/setFilterTypes'
+import type { TwoPieceSlot, TwoPieceCombo, ModalState } from 'lib/stores/optimizerForm/setFilterTypes'
 import { TwoPieceSlotType, RelicSetMode } from 'lib/stores/optimizerForm/setFilterTypes'
 import { parseDisplayToModalState, buildDisplayFromModalState } from 'lib/stores/optimizerForm/setFilterConversions'
 import { SetGrid } from './SetGrid'
@@ -36,7 +36,7 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
   const [checked4p, setChecked4p] = useState<Set<SetsRelics>>(initial.parsed.checked4p)
   const [combos, setCombos] = useState<TwoPieceCombo[]>(initial.parsed.combos)
   const [checkedOrnaments, setCheckedOrnaments] = useState<Set<SetsOrnaments>>(initial.parsed.checkedOrnaments)
-  const [slotA, setSlotA] = useState<TwoPieceSlotNonAny | null>(null)
+  const [slotA, setSlotA] = useState<TwoPieceSlot | null>(null)
   const [search, setSearch] = useState('')
 
   const checked4pRef = useRef(checked4p)
@@ -67,7 +67,6 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
   const pick2p = useCallback((slot: TwoPieceSlot) => {
     const prevSlotA = slotARef.current
     if (!prevSlotA) {
-      if (slot.type === TwoPieceSlotType.Any) return
       setSlotA(slot)
       return
     }

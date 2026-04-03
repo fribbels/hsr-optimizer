@@ -28,12 +28,11 @@ export type TwoPieceSlotStat = { type: 'Stat'; value: TwoPieceStatTag }
 export type TwoPieceSlotAny = { type: 'Any' }
 
 export type TwoPieceSlot = TwoPieceSlotSet | TwoPieceSlotStat | TwoPieceSlotAny
-export type TwoPieceSlotNonAny = TwoPieceSlotSet | TwoPieceSlotStat
 
-// ── A complete 2-piece combo (slot A is never 'Any') ──
+// ── A complete 2-piece combo ──
 
 export type TwoPieceCombo = {
-  a: TwoPieceSlotNonAny
+  a: TwoPieceSlot
   b: TwoPieceSlot
 }
 

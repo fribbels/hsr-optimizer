@@ -34,17 +34,15 @@ export function StatChips({ slotA, onPick }: {
           </Button>
         )
       })}
-      {slotA && (
-        <Button
-          variant='default'
-          size='compact-xs'
-          radius='xl'
-          styles={chipStyles}
-          onClick={() => onPick({ type: TwoPieceSlotType.Any })}
-        >
-          Any
-        </Button>
-      )}
+      <Button
+        variant='default'
+        size='compact-xs'
+        radius='xl'
+        styles={chipStyles}
+        onClick={() => onPick({ type: TwoPieceSlotType.Any })}
+      >
+        Any
+      </Button>
     </Group>
   )
 }

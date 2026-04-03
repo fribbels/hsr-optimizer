@@ -63,6 +63,18 @@ export function generateRelicSetSolutions(request: Form) {
         setIndices.push(indices)
       }
     }
+
+    if (setArr[0] == RelicSetFilterOptions.relic2Plus2Any) {
+      for (let i = 0; i < len; i++) {
+        for (let j = i + 1; j < len; j++) {
+          const arr: number[] = arrayOfZeroes(len)
+          arr[i] = 2
+          arr[j] = 2
+          const indices = relicSetAllowListToIndices(arr)
+          setIndices.push(indices)
+        }
+      }
+    }
   }
 
   return convertRelicSetIndicesTo1D(setIndices)

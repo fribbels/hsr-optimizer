@@ -108,6 +108,26 @@ describe('expandSetFilters', () => {
     }
   })
 
+  it('2P any + any produces 2+2 any tuple', () => {
+    const display: SetFilters = {
+      fourPiece: [],
+      twoPieceCombos: [{ a: { type: TwoPieceSlotType.Any }, b: { type: TwoPieceSlotType.Any } }],
+      ornaments: [],
+    }
+    const result = expandSetFilters(display)
+    expect(result.relicSets).toEqual([['2 + 2 Any']])
+  })
+
+  it('2P any + set produces 2+any tuple (reversed slot order)', () => {
+    const display: SetFilters = {
+      fourPiece: [],
+      twoPieceCombos: [{ a: { type: TwoPieceSlotType.Any }, b: { type: TwoPieceSlotType.Set, value: SET_A } }],
+      ornaments: [],
+    }
+    const result = expandSetFilters(display)
+    expect(result.relicSets).toEqual([['2 + Any', SET_A]])
+  })
+
   it('ornaments pass through unchanged', () => {
     const display: SetFilters = { fourPiece: [], twoPieceCombos: [], ornaments: [ORN_A, ORN_B] }
     const result = expandSetFilters(display)

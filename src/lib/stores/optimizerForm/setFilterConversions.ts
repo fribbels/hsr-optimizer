@@ -32,14 +32,27 @@ export function expandSetFilters(display: SetFilters): {
   }
 
   for (const combo of display.twoPieceCombos) {
+    if (combo.a.type === TwoPieceSlotType.Any && combo.b.type === TwoPieceSlotType.Any) {
+      relicSets.push([RelicSetFilterOptions.relic2Plus2Any])
+      continue
+    }
+
+    if (combo.a.type === TwoPieceSlotType.Any) {
+      const bSets = resolveSlot(combo.b)
+      for (const set of bSets) {
+        relicSets.push([RelicSetFilterOptions.relic2PlusAny, set])
+      }
+      continue
+    }
+
     const aSets = resolveSlot(combo.a)
-    const bSets = resolveSlot(combo.b)
 
     if (combo.b.type === TwoPieceSlotType.Any) {
       for (const set of aSets) {
         relicSets.push([RelicSetFilterOptions.relic2PlusAny, set])
       }
     } else {
+      const bSets = resolveSlot(combo.b)
       for (const a of aSets) {
         for (const b of bSets) {
           if (a === b) continue

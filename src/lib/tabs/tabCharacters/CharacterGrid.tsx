@@ -367,15 +367,11 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         <img src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined} alt="" draggable={false} decoding="async" />
       </div>
 
-      {/* Frosted scrim — blurred duplicate of portrait, masked to left side */}
-      <div className={classes.scrim} data-scrim-mode="frosted">
-        <img className={classes.scrimImg} src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined} alt="" draggable={false} decoding="async" />
-      </div>
+      {/* Scrim gradient */}
+      <div className={classes.scrim} data-scrim-mode="frosted" />
 
       {/* Right-side frosted strip for LC area */}
-      <div className={classes.lcStrip}>
-        <img className={classes.lcStripImg} src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined} alt="" draggable={false} decoding="async" />
-      </div>
+      <div className={classes.lcStrip} />
 
       {/* Content */}
       <div className={classes.inner}>

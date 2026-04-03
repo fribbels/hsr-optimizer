@@ -6,7 +6,7 @@ import {
   IconWand,
   IconWandOff,
 } from '@tabler/icons-react'
-import { ActionIcon, Button, Flex, rem, SegmentedControl } from '@mantine/core'
+import { ActionIcon, Button, Flex, rem, SegmentedControl, Tooltip } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { notifications } from '@mantine/notifications'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
@@ -164,58 +164,66 @@ function ComboBasicDefinition() {
 
       <Flex direction="column" gap={controlSize / 2} w={controlSize}>
         <Flex direction="column" gap={5}>
-          <ActionIcon
-            variant='default'
-            w='100%'
-            h={controlSize}
-            disabled={disabled}
-            onClick={() => modals.openConfirmModal({
-              title: tCommon('Confirm'),
-              children: t('RowControls.ResetConfirm.Description'),
-              labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-              centered: true,
-              onConfirm: () => resetClicked(),
-            })}
-          >
-            <IconRefresh size={16} />
-          </ActionIcon>
-          <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => add()} disabled={disabled}>
-            <IconPlus size={16} />
-          </ActionIcon>
-          <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => minus()} disabled={disabled}>
-            <IconMinus size={16} />
-          </ActionIcon>
+          <Tooltip label={t('RowControls.ResetTooltip')} position='right' openDelay={500} withArrow>
+            <ActionIcon
+              variant='default'
+              w='100%'
+              h={controlSize}
+              disabled={disabled}
+              onClick={() => modals.openConfirmModal({
+                title: tCommon('Confirm'),
+                children: t('RowControls.ResetConfirm.Description'),
+                labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                centered: true,
+                onConfirm: () => resetClicked(),
+              })}
+            >
+              <IconRefresh size={16} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label={t('RowControls.AddTooltip')} position='right' openDelay={500} withArrow>
+            <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => add()} disabled={disabled}>
+              <IconPlus size={16} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label={t('RowControls.RemoveTooltip')} position='right' openDelay={500} withArrow>
+            <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => minus()} disabled={disabled}>
+              <IconMinus size={16} />
+            </ActionIcon>
+          </Tooltip>
         </Flex>
 
-        <SegmentedControl
-          orientation='vertical'
-          fullWidth
-          disabled={disabled}
-          value={String(comboPreprocessor)}
-          onChange={(value) => {
-            const enabled = value === 'true'
-            useOptimizerRequestStore.getState().setComboPreprocessor(enabled)
-            notifications.show({
-              message: enabled ? t('Presets.Enabled') : t('Presets.Disabled'),
-              autoClose: 2000,
-            })
-          }}
-          styles={{
-            root: { padding: 0 },
-            label: {
-              padding: 0,
-              height: rem(controlSize),
-              width: rem(controlSize),
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            },
-          }}
-          data={[
-            { label: <IconWand size={16} />, value: 'true' },
-            { label: <IconWandOff size={16} />, value: 'false' },
-          ]}
-        />
+        <Tooltip label={t('RowControls.PresetsTooltip')} position='right' openDelay={500} withArrow>
+          <SegmentedControl
+            orientation='vertical'
+            fullWidth
+            disabled={disabled}
+            value={String(comboPreprocessor)}
+            onChange={(value) => {
+              const enabled = value === 'true'
+              useOptimizerRequestStore.getState().setComboPreprocessor(enabled)
+              notifications.show({
+                message: enabled ? t('Presets.Enabled') : t('Presets.Disabled'),
+                autoClose: 2000,
+              })
+            }}
+            styles={{
+              root: { padding: 0 },
+              label: {
+                padding: 0,
+                height: rem(controlSize),
+                width: rem(controlSize),
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              },
+            }}
+            data={[
+              { label: <IconWand size={16} />, value: 'true' },
+              { label: <IconWandOff size={16} />, value: 'false' },
+            ]}
+          />
+        </Tooltip>
       </Flex>
     </Flex>
   )

@@ -570,6 +570,10 @@ ComboFilter:
     Header: Controls
     Add: +
     Remove: '-'
+    ResetTooltip: Reset rotation to default
+    AddTooltip: Add ability
+    RemoveTooltip: Remove ability
+    PresetsTooltip: Enable / disable conditional presets
     ResetConfirm:
       Description: Reset all Simple / Advanced rotation settings to default?
     PresetsHeader: Presets

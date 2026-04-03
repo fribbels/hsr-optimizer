@@ -110,7 +110,7 @@
   position: absolute;
   width: var(--cr-portrait-scale, 70%);
   height: auto;
-  left: 50%;
+  left: calc(50% + 5px);
   top: 50%;
   transform: translate(
     calc(-1 * var(--cr-portrait-x, 40%)),

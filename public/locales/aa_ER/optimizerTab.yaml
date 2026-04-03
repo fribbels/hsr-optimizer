@@ -522,12 +522,12 @@ ComboFilter:
     Simple: crwdns43256:0crwdne43256:0
     Advanced: crwdns43258:0crwdne43258:0
   RowControls:
-    Header: crwdns45438:0crwdne45438:0
-    Add: crwdns43260:0crwdne43260:0
-    Remove: 'crwdns43262:0crwdne43262:0'
+    ResetTooltip: crwdns46756:0crwdne46756:0
+    AddTooltip: crwdns46758:0crwdne46758:0
+    RemoveTooltip: crwdns46760:0crwdne46760:0
+    PresetsTooltip: crwdns46762:0crwdne46762:0
     ResetConfirm:
       Description: crwdns43264:0crwdne43264:0
-    PresetsHeader: crwdns45440:0crwdne45440:0
   Presets:
     Enabled: crwdns46728:0crwdne46728:0
     Disabled: crwdns46730:0crwdne46730:0

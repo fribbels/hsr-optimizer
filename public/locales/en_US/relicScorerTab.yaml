@@ -16,6 +16,7 @@ SubmissionBar:
   AlgorithmButton: Scoring algorithm
 CopyScreenshot: Copy screenshot
 ImportLabels:
+  Relics: Import relics into optimizer
   SingleCharacter: Import selected character & all relics into optimizer
   AllCharacters: Import all characters & all relics into optimizer
 SimulateRelics: Simulate relics on another character

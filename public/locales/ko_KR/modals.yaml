@@ -311,7 +311,6 @@ EditImage:
       Default: 기본 이미지 사용
     Upload:
       Method: 끌어당겨 이미지를 해당 영역에 업로드
-      Limit: '사용 가능한 포멧 : .jpg .jpeg .png .gif (Max: 20MB)'
     Url:
       Label: 이미지
       Rule: 유효한 URL를 넣어주세요

@@ -20,41 +20,45 @@
     scroll-behavior: auto;
 }
 
-.ag-body-horizontal-scroll {
-    min-height: 10px !important;
-    max-height: 10px !important;
-    height: 10px !important;
-}
-
-.ag-body-horizontal-scroll-viewport {
-    min-height: 10px !important;
-    max-height: 10px !important;
-    height: 10px !important;
-}
-
+/* AG Grid overlay scrollbar — shared style for both axes */
+.ag-body-horizontal-scroll,
+.ag-body-horizontal-scroll-viewport,
 .ag-body-horizontal-scroll-container {
     min-height: 10px !important;
     max-height: 10px !important;
     height: 10px !important;
 }
 
-.ag-body-horizontal-scroll-viewport::-webkit-scrollbar {
-    height: 10px;
+.ag-body-vertical-scroll,
+.ag-body-vertical-scroll-viewport,
+.ag-body-vertical-scroll-container {
+    min-width: 10px !important;
+    max-width: 10px !important;
+    width: 10px !important;
 }
 
-.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-track {
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar,
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-track,
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 10px;
 }
 
-.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb {
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb,
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar-thumb {
     background: #95959552;
     border-radius: 10px;
     background-clip: padding-box;
     border: 3px solid transparent;
 }
 
-.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb:hover {
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb:hover,
+.ag-body-vertical-scroll-viewport::-webkit-scrollbar-thumb:hover {
     background: rgba(149, 149, 149, 0.55);
 }
 

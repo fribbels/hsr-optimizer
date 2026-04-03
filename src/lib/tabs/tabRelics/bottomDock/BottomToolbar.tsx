@@ -103,7 +103,7 @@ export function BottomToolbarRight() {
           value={String(insightsMode)}
           onChange={(value) => setInsightsMode(Number(value) as RelicInsights)}
           data={relicInsightOptions}
-          styles={{ label: { height: 28 } }}
+          styles={{ label: { height: 22 } }}
           style={{ width: 260 }}
         />
         <Select

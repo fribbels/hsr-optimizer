@@ -84,7 +84,7 @@ function PriorityCombobox(props: {
           {combobox.dropdownOpened && filteredOptions.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === rankStr} style={{ whiteSpace: 'nowrap' }}>
               <Group gap={6} justify='space-between' wrap='nowrap'>
-                <Flex align='center' gap={5}>
+                <Flex align='center' gap={10}>
                   <img src={Assets.getCharacterAvatarById(opt.characterId)} className={iconClasses.icon22} />
                   {opt.label}
                 </Flex>

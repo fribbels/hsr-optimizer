@@ -567,12 +567,12 @@ ComboFilter:
     Simple: Simple
     Advanced: Advanced
   RowControls:
-    Header: Controls
-    Add: +
-    Remove: '-'
+    ResetTooltip: Reset rotation to default
+    AddTooltip: Add ability
+    RemoveTooltip: Remove ability
+    PresetsTooltip: Enable / disable conditional presets
     ResetConfirm:
       Description: Reset all Simple / Advanced rotation settings to default?
-    PresetsHeader: Presets
   Presets:
     Enabled: Conditional presets enabled
     Disabled: Conditional presets disabled

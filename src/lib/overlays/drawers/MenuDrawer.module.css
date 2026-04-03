@@ -41,14 +41,14 @@
 /* ---- Group dividers (solid) ---- */
 
 .group + .group {
-  padding-top: 4px;
+  padding-top: 8px;
 }
 
 .group + .group::before {
   content: '';
   display: block;
   height: 1px;
-  margin: 0 14px 4px;
+  margin: 0 14px 8px;
   background: rgba(255, 255, 255, 0.10);
 }
 
@@ -160,6 +160,14 @@ a.itemCollapsed {
   flex-direction: column;
   align-items: center;
   gap: 1px;
+}
+
+.rootCollapsed .group {
+  width: 100%;
+}
+
+.rootCollapsed .group + .group::before {
+  margin: 0 8px 8px;
 }
 
 .rootCollapsed .groupLabel {

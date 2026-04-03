@@ -7154,6 +7154,7 @@ interface Resources {
     },
     "ImportLabels": {
       "AllCharacters": "Import all characters & all relics into optimizer",
+      "Relics": "Import relics into optimizer",
       "SingleCharacter": "Import selected character & all relics into optimizer"
     },
     "Loading": {

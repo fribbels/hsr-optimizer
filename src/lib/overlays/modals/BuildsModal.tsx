@@ -313,24 +313,26 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
         <HeaderText className={styles.buildName}>{build.name}</HeaderText>
         <TeammatePreview build={build} />
         {!preview && (
-          <Flex gap={5} justify='flex-end'>
-            <Button
-              size='xs'
-              onClick={() => {
-                void handleEquip(build)
-              }}
-            >
-              {t('Equip')}
-            </Button>
-            <Button
-              size='xs'
-              onClick={() => {
-                buildService.loadBuildInOptimizer(build)
-                closeModal?.()
-              }}
-            >
-              {t('Load')}
-            </Button>
+          <Flex gap={5} justify='space-between'>
+            <Flex gap={5}>
+              <Button
+                size='xs'
+                onClick={() => {
+                  void handleEquip(build)
+                }}
+              >
+                {t('Equip')}
+              </Button>
+              <Button
+                size='xs'
+                onClick={() => {
+                  buildService.loadBuildInOptimizer(build)
+                  closeModal?.()
+                }}
+              >
+                {t('Load')}
+              </Button>
+            </Flex>
             <Button
               size='xs'
               className={styles.deleteButton}

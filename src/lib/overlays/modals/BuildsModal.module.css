@@ -28,7 +28,7 @@
   border-width: 1px;
   border-style: solid;
   border-color: var(--border-default);
-  transition: all ease-in-out 0.2s;
+
 }
 
 .buildName {

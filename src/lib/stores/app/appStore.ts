@@ -20,6 +20,7 @@ export const savedSessionDefaults: GlobalSavedSession = {
   [SavedSessionKeys.showcaseDarkMode]: false,
   [SavedSessionKeys.showcaseUID]: true,
   [SavedSessionKeys.showcasePreciseSpd]: false,
+  [SavedSessionKeys.sidebarCollapsed]: false,
 }
 
 export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({

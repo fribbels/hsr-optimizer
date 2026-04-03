@@ -41,6 +41,7 @@ export type GlobalSavedSession = {
   showcaseDarkMode: boolean,
   showcaseUID: boolean,
   showcasePreciseSpd: boolean,
+  sidebarCollapsed: boolean,
 }
 
 export type UserSettings = {

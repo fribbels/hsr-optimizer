@@ -6,4 +6,5 @@ export enum SavedSessionKeys {
   showcaseDarkMode = 'showcaseDarkMode',
   showcaseUID = 'showcaseUID',
   showcasePreciseSpd = 'showcasePreciseSpd',
+  sidebarCollapsed = 'sidebarCollapsed',
 }

@@ -9,6 +9,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
 import * as equipmentService from 'lib/services/equipmentService'
+import { OpenCloseIDs, setClose, setOpen } from 'lib/hooks/useOpenClose'
 import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { savedSessionDefaults, useGlobalStore } from 'lib/stores/app/appStore'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -122,6 +123,13 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
       const overriddenSavedSessionDefaults: GlobalSavedSession = { ...savedSessionDefaults, ...session }
 
       useGlobalStore.getState().setSavedSession(overriddenSavedSessionDefaults)
+
+      // Restore sidebar collapsed state
+      if (overriddenSavedSessionDefaults.sidebarCollapsed) {
+        setClose(OpenCloseIDs.MENU_SIDEBAR)
+      } else {
+        setOpen(OpenCloseIDs.MENU_SIDEBAR)
+      }
     }
 
     if (saveData.savedSession.showcaseTab) { // Set showcase tab state

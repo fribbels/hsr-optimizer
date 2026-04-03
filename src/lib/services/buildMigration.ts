@@ -5,7 +5,7 @@ import type { LightConeId } from 'types/lightCone'
 import type { Relic } from 'types/relic'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { ComboType } from 'lib/optimization/rotation/comboType'
-import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   BuildSource,
   type Build,
@@ -128,6 +128,17 @@ function migrateCurrentFormat(
   const oldTeam = (raw.team as unknown[]) ?? []
   const team = migrateTeamWithConditionals(oldTeam, oldConditionals) as TeamTuple<SavedTeammateWithConditionals>
 
+  // Extract comboTurnAbilities from comboStateJson (old format stored it only there)
+  let comboTurnAbilities: TurnAbilityName[] = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
+  if (comboStateJson !== '{}') {
+    try {
+      const parsed = JSON.parse(comboStateJson)
+      if (Array.isArray(parsed.comboTurnAbilities) && parsed.comboTurnAbilities.length > 0) {
+        comboTurnAbilities = parsed.comboTurnAbilities
+      }
+    } catch { /* keep default */ }
+  }
+
   const result: OptimizerSavedBuild = {
     source: BuildSource.Optimizer,
     name,
@@ -143,7 +154,7 @@ function migrateCurrentFormat(
     comboType,
     comboStateJson,
     comboPreprocessor,
-    comboTurnAbilities: [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC],
+    comboTurnAbilities,
     deprioritizeBuffs: (raw.deprioritizeBuffs as boolean) ?? false,
   }
   return result

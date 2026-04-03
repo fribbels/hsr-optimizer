@@ -102,6 +102,7 @@ describe('migrateBuild', () => {
       expect(result.lightConeSuperimposition).toBe(3)
       expect((result as any).eidolon).toBeUndefined()
       expect((result as any).lightConeId).toBeUndefined()
+      // comboStateJson is '{}', so comboTurnAbilities falls back to default [NULL, BASIC]
       expect((result as any).comboTurnAbilities).toHaveLength(2)
     })
 
@@ -137,6 +138,27 @@ describe('migrateBuild', () => {
       const result = migrateBuild(LAYER2_OPTIMIZER_BUILD as any, CHAR_ID, CHAR_FORM, EMPTY_RELICS)!
       expect((result as any).comboPreprocessor).toBe(true)
       expect((result as any).presets).toBeUndefined()
+    })
+
+    it('extracts comboTurnAbilities from comboStateJson when present', () => {
+      const rotation = ['NULL', 'START_ULT', 'DEFAULT_SKILL', 'END_SKILL']
+      const comboStateJson = JSON.stringify({ comboTurnAbilities: rotation, version: '1.1' })
+      const buildWithRotation = {
+        ...LAYER2_OPTIMIZER_BUILD,
+        optimizerMetadata: { ...LAYER2_OPTIMIZER_BUILD.optimizerMetadata, comboStateJson },
+      }
+      const result = migrateBuild(buildWithRotation as any, CHAR_ID, CHAR_FORM, EMPTY_RELICS)!
+      expect((result as any).comboTurnAbilities).toEqual(rotation)
+    })
+
+    it('falls back to default comboTurnAbilities when comboStateJson has none', () => {
+      const comboStateJson = JSON.stringify({ version: '1.1' })
+      const buildNoAbilities = {
+        ...LAYER2_OPTIMIZER_BUILD,
+        optimizerMetadata: { ...LAYER2_OPTIMIZER_BUILD.optimizerMetadata, comboStateJson },
+      }
+      const result = migrateBuild(buildNoAbilities as any, CHAR_ID, CHAR_FORM, EMPTY_RELICS)!
+      expect((result as any).comboTurnAbilities).toHaveLength(2)
     })
 
     it('infers comboType ADVANCED when comboStateJson is non-empty', () => {

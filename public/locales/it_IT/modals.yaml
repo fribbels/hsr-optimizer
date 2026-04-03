@@ -49,7 +49,6 @@ EditImage:
       Default: Usa l'immagine predefinita
     Upload:
       Method: Clicca o trascina un file immagine in quest'area per caricarlo
-      Limit: 'Accetta .jpg .jpeg .png .gif (Massimo: 20MB)'
     Url:
       Label: Immagine
   Edit:

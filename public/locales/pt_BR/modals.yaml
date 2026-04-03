@@ -310,7 +310,6 @@ EditImage:
       Default: Usar imagem padrão
     Upload:
       Method: Clique ou arraste o arquivo de imagem para essa área para fazer o envio
-      Limit: 'Aceita .jpg .jpeg .png .gif (Max: 20MB)'
     Url:
       Label: Imagem
       Rule: Por gentileza ponha um URL de imagem válido

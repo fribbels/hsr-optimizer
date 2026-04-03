@@ -202,6 +202,10 @@ function ShowcaseLoaded() {
 
   const importMenuItems = [
     {
+      label: t('ImportLabels.Relics'),
+      key: 'relics' as const,
+    },
+    {
       label: t('ImportLabels.SingleCharacter'),
       key: 'singleCharacter' as const,
     },

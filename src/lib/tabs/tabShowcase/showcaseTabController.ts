@@ -140,7 +140,7 @@ export function handleCharacterModalOk(form: CharacterModalForm): void {
  * Handles importing showcase characters/relics into the optimizer.
  * Persistence side effects live here, not in the store.
  */
-export function importShowcaseCharacters(mode: 'singleCharacter' | 'multiCharacter'): void {
+export function importShowcaseCharacters(mode: 'relics' | 'singleCharacter' | 'multiCharacter'): void {
   const selectedCharacter = getSelectedCharacter()
   const { availableCharacters } = useShowcaseTabStore.getState()
   let newCharacters: ShowcaseTabCharacter[] = []

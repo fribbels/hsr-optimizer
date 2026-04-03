@@ -215,7 +215,7 @@
 }
 
 .ag-row-selected .ag-cell {
-    background: linear-gradient(color-mix(in srgb, var(--primary-hover) 30%, transparent), color-mix(in srgb, var(--primary-hover) 30%, transparent)), var(--cell-bg, transparent);
+    background: linear-gradient(rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.10)), linear-gradient(color-mix(in srgb, var(--primary-hover) 10%, transparent), color-mix(in srgb, var(--primary-hover) 10%, transparent)), var(--cell-bg, transparent);
 }
 
 /* Selected + hovered — both tints stack */

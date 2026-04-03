@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next'
 import classes from './OptimizerOptionsDisplay.module.css'
 
 function PriorityCombobox(props: {
-  options: { value: string; label: string }[]
+  options: { value: string; label: string; characterId: string }[]
   rank: number | undefined
   placeholder: string
 }) {
@@ -84,7 +84,10 @@ function PriorityCombobox(props: {
           {combobox.dropdownOpened && filteredOptions.map((opt) => (
             <Combobox.Option key={opt.value} value={opt.value} active={opt.value === rankStr} style={{ whiteSpace: 'nowrap' }}>
               <Group gap={6} justify='space-between' wrap='nowrap'>
-                {opt.label}
+                <Flex align='center' gap={5}>
+                  <img src={Assets.getCharacterAvatarById(opt.characterId)} className={iconClasses.icon22} />
+                  {opt.label}
+                </Flex>
                 {opt.value === rankStr && <CheckIcon size={12} />}
               </Group>
             </Combobox.Option>
@@ -132,6 +135,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
       return {
         value: String(i),
         label: t('Priority.Label', { rank: i + 1, id: x.id }),
+        characterId: x.id,
       }
     })
   }, [characters, t])

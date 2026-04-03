@@ -364,7 +364,15 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
     <>
       {/* Portrait background */}
       <div className={classes.portraitBg}>
-        <img src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined} alt="" draggable={false} decoding="async" />
+        <img
+          src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined}
+          alt=""
+          draggable={false}
+          decoding="async"
+          style={getCharacterConfig(character.id)?.display.gridPortraitOffset
+            ? { marginTop: -(getCharacterConfig(character.id)?.display.gridPortraitOffset ?? 0) }
+            : undefined}
+        />
       </div>
 
       {/* Scrim gradient */}

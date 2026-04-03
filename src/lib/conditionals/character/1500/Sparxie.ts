@@ -514,6 +514,7 @@ const display = {
     z: 1.10,
   },
   showcaseColor: '#ae86ed',
+  gridPortraitOffset: 20,
 }
 
 export const Sparxie: CharacterConfig = {

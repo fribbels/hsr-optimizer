@@ -18,6 +18,7 @@ export type CharacterDisplay = {
   },
   disableSpine?: boolean,
   showcaseColor?: string,
+  gridPortraitOffset?: number,
 }
 
 export type CharacterConfig = {

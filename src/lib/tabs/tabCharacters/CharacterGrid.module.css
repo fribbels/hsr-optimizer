@@ -128,7 +128,7 @@
 
 .scrim {
   position: absolute;
-  inset: 0;
+  inset: -1px;
   z-index: 1;
   transition: background 0.15s;
 }

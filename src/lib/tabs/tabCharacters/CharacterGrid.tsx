@@ -352,7 +352,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
   onRemove: (id: CharacterId) => void
 }) {
   const tGameData = i18next.getFixedT(null, 'gameData', 'Characters')
-  const characterName = tGameData(`${character.id}.LongName`)
+  const characterName = tGameData(`${character.id}.Name`)
 
   // Form data for eidolon/LC
   const eidolon = character.form?.characterEidolon ?? 0

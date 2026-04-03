@@ -1,4 +1,5 @@
 import { Combobox, Flex, NumberInput, useCombobox } from '@mantine/core'
+import { IconChevronDown } from '@tabler/icons-react'
 import { useRef, useState } from 'react'
 
 export interface ComboboxNumberOption {
@@ -37,6 +38,7 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
 
   const [localValue, setLocalValue] = useState<number | string>(value ?? '')
   const focusedRef = useRef(false)
+  const wasOpenRef = useRef(false)
 
   // Sync external value changes into local state, but not while the user is typing
   if (!focusedRef.current) {
@@ -86,12 +88,20 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
               justify='center'
               w='100%'
               h='60%'
-              style={{ borderLeft: '1px solid var(--border-default)', cursor: 'pointer' }}
-              onClick={() => combobox.toggleDropdown()}
+              style={{ borderLeft: '1px solid var(--border-default)', cursor: 'pointer', paddingRight: 1 }}
+              onMouseDown={() => {
+                wasOpenRef.current = combobox.dropdownOpened
+              }}
+              onClick={() => {
+                if (!wasOpenRef.current) {
+                  combobox.openDropdown()
+                }
+              }}
             >
-              <Combobox.Chevron />
+              <IconChevronDown size={14} />
             </Flex>
           }
+          rightSectionWidth={20}
           rightSectionPointerEvents='all'
         />
       </Combobox.Target>

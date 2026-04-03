@@ -10,8 +10,8 @@ export function SetGrid({ configs, checkedNames, onToggle, search }: {
   search: string
 }) {
   const columns = useMemo(() => {
-    const cols: SetConfig[][] = [[], [], [], []]
-    configs.forEach((c, i) => cols[i % 4].push(c))
+    const cols: SetConfig[][] = [[], [], [], [], [], []]
+    configs.forEach((c, i) => cols[i % 6].push(c))
     return cols
   }, [configs])
 

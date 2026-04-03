@@ -1,11 +1,10 @@
 .resultsCollector {
-  border-bottom: 1px solid var(--border-default);
 }
 
 .setGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 6px 12px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px 10px;
 }
 
 .gridColumn {

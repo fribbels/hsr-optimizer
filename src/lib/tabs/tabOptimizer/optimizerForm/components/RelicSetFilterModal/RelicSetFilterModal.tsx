@@ -9,7 +9,7 @@ export function RelicSetFilterModal() {
     <Modal
       opened={isOpen}
       onClose={close}
-      size={900}
+      size={1200}
       centered
     >
       {isOpen && <RelicSetFilterModalContent close={close} />}

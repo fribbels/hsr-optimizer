@@ -129,7 +129,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  transition: background 0.15s, backdrop-filter 0.15s;
+  transition: background 0.15s;
 }
 
 /* Frosted glass — blurred duplicate image, masked to left side */
@@ -149,18 +149,19 @@
   );
 }
 
-/* Blurred image inside scrim — replaces backdrop-filter */
+/* Blurred image inside scrim — replaces backdrop-filter.
+   Uses object-fit:cover + negative inset so the image fills the entire
+   masked area (the portrait position is right-biased and misses the
+   left region the mask reveals). The negative inset gives the blur
+   room to expand without creating hard-clipped halo edges. */
 .scrimImg {
   position: absolute;
+  inset: -20px;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  object-fit: cover;
+  object-position: center 30%;
   z-index: 0;
-  width: var(--cr-portrait-scale, 70%);
-  height: auto;
-  left: calc(50% + 5px);
-  top: 50%;
-  transform: translate(
-    calc(-1 * var(--cr-portrait-x, 40%)),
-    calc(-1 * var(--cr-portrait-y, 31%))
-  );
   display: block;
   filter:
     blur(var(--cr-frost-blur, 16px))
@@ -197,14 +198,11 @@
 /* Blurred image inside lcStrip — replaces backdrop-filter */
 .lcStripImg {
   position: absolute;
-  width: var(--cr-portrait-scale, 70%);
-  height: auto;
-  right: 0;
-  top: 50%;
-  transform: translate(
-    calc(var(--cr-portrait-x, 40%) - 50% + 5px),
-    calc(-1 * var(--cr-portrait-y, 31%))
-  );
+  inset: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  object-fit: cover;
+  object-position: center 30%;
   display: block;
   filter: blur(6px) brightness(0.7) saturate(1.2);
 }
@@ -305,9 +303,10 @@
   border-radius: var(--radius-md);
 }
 
-/* LC style: frosted glass backing */
+/* LC style: frosted glass backing — uses opaque tint instead of
+   backdrop-filter to avoid Firefox compositor bugs */
 .lcWrap[data-lc-style='frosted'] {
-  backdrop-filter: blur(6px) brightness(0.5) saturate(1.2);
+  background: rgba(0, 0, 0, 0.55);
   padding: 3px;
   border-radius: var(--radius-md);
 }

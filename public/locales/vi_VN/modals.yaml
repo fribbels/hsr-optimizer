@@ -305,7 +305,6 @@ EditImage:
       Default: Dùng ảnh mặc định
     Upload:
       Method: Kéo hoặc thả file vào khu vực để đăng tải
-      Limit: 'Nhận .jpg .jpeg .png .gif (Tối đa: 20MB)'
     Url:
       Label: Hình ảnh
       Rule: Hãy nhập URL của ảnh hợp lệ

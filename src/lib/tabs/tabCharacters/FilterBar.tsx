@@ -47,7 +47,7 @@ export function FilterBar() {
       </div>
       <div
         // Selected to align with relics panel
-        style={{ width: 408 }}
+        style={{ width: 421 }}
       >
         <SegmentedFilterRow
           tags={generateElementTags()}

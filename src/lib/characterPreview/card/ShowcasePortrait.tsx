@@ -95,8 +95,9 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
     width: tempInnerW * spineCenter.z,
   }
 
+  const hasCustomPortrait = !!(character.portrait ?? customPortrait)
   const hasSpineData = getSkeletonCount(character.id) != null
-  const useSpine = hasSpineData && !disableSpine && !spineFallback
+  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait
 
   return (
     <div

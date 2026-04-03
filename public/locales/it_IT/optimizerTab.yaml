@@ -449,12 +449,8 @@ ComboFilter:
     Simple: Semplice
     Advanced: Avanzata
   RowControls:
-    Header: Controlli
-    Add: +
-    Remove: '-'
     ResetConfirm:
       Description: Ripristinare tutte le impostazioni di rotazione semplice / avanzata a quelle predefinite?
-    PresetsHeader: Preset
   ComboOptions:
     None: 'Nessuno'
     Basic: Att. Base

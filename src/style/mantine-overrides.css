@@ -45,13 +45,8 @@
     background-color: var(--mantine-color-dark-5) !important;
 }
 
-/*
- * Bump dropdown option font size from xs (12px) to 13px.
- * Mantine's Select (size="xs") and Combobox set --combobox-option-fz as an
- * inline style tied to the size prop, so theme-level `styles` can't override it.
- * 13px splits the difference between xs (12px) and sm (14px) — xs felt too
- * cramped while sm felt oversized for dense option lists.
- */
+/* Override dropdown option font size — Mantine ties --combobox-option-fz to the
+ * size prop via inline styles, so theme-level `styles` can't reach it. */
 .mantine-Combobox-dropdown,
 .mantine-Combobox-options,
 .mantine-Select-dropdown,

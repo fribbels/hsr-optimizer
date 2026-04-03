@@ -166,8 +166,12 @@ a.itemCollapsed {
   width: 100%;
 }
 
+.rootCollapsed .group + .group {
+  padding-top: 16px;
+}
+
 .rootCollapsed .group + .group::before {
-  margin: 0 8px 8px;
+  margin: 0 8px 16px;
 }
 
 .rootCollapsed .groupLabel {
@@ -178,9 +182,9 @@ a.itemCollapsed {
 .itemCollapsed.itemCollapsed {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
-  padding: 8px 0;
+  padding: 8px 14px;
   position: relative;
   z-index: 1;
   border-radius: 0;
@@ -193,7 +197,12 @@ a.itemCollapsed {
 }
 
 .itemCollapsed:hover .itemIcon {
-  color: var(--primary-subtle);
+  color: var(--text-muted);
+}
+
+.itemCollapsed[data-active] {
+  background: linear-gradient(90deg, hsla(215, 82%, 62%, 0.18), hsla(215, 82%, 62%, 0.06));
+  box-shadow: inset 3px 0 0 var(--primary-default);
 }
 
 .itemCollapsed[data-active] .itemIcon {

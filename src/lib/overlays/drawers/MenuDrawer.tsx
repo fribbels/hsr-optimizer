@@ -169,7 +169,7 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
               const isActive = item.key === activeKey
               const iconContent = <Box className={classes.itemIcon}>{item.icon}</Box>
               return (
-                <Tooltip key={item.key} label={item.label} position="right" withArrow>
+                <Tooltip key={item.key} label={item.label} position="right" withArrow openDelay={300}>
                   {item.href ? (
                     <a
                       className={classes.itemCollapsed}

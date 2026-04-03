@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 export const TAB_WIDTH = 1460
 
 export function RelicsTab() {
-  const recentRelics = useScannerState((s) => s.recentRelics)
+  const hasRecentRelics = useScannerState((s) => s.connected && s.recentRelics.length > 0)
   const { t } = useTranslation('relicsTab')
   const containerRef = useDeferReveal()
 
@@ -18,7 +18,7 @@ export function RelicsTab() {
     <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', gap: 8, width: TAB_WIDTH, marginBottom: 100 }}>
       <TopBar />
 
-      {recentRelics.length > 0 && (
+      {hasRecentRelics && (
         <div style={{
           overflow: 'hidden',
           borderRadius: 'var(--radius-md)',

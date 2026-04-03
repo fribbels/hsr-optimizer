@@ -31,7 +31,7 @@ export function LayoutHeader() {
     <header className={classes.header} style={{ height: HEADER_HEIGHT }}>
       <Flex align='center' justify='space-between' className={classes.headerInner}>
         <Flex gap={8} align='center'>
-          <Flex align='center' justify='center' style={{ width: HEADER_HEIGHT, minWidth: HEADER_HEIGHT }}>
+          <Flex align='center' justify='center' style={{ width: 56, minWidth: 56 }}>
             <Button
               variant='transparent'
               onClick={handleToggleSidebar}

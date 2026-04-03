@@ -562,12 +562,8 @@ ComboFilter:
     Simple: Простой
     Advanced: Продвинутый
   RowControls:
-    Header: Управление
-    Add: +
-    Remove: '-'
     ResetConfirm:
       Description: Сбросить все (Простые / Продвинутые) настройки ротаций?
-    PresetsHeader: Шаблоны
   ComboOptions:
     None: 'Нет'
     Basic: БазАтака

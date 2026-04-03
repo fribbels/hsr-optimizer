@@ -199,14 +199,14 @@
 
 /* Hover — subtle white lift composited over gradient cells */
 .ag-row-hover .ag-cell {
-    background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), var(--cell-bg, transparent);
+    background: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)), var(--cell-bg, transparent);
 }
 
 /* Selection — left accent + blue tint */
 .ag-row-selected {
     outline: none !important;
     z-index: 1 !important;
-    background: rgba(99, 130, 191, 0.08) !important;
+    background: transparent !important;
     box-shadow: inset 3px 0 0 0 var(--primary-hover);
 }
 
@@ -215,12 +215,12 @@
 }
 
 .ag-row-selected .ag-cell {
-    background: linear-gradient(rgba(99, 130, 191, 0.22), rgba(99, 130, 191, 0.22)), var(--cell-bg, transparent);
+    background: linear-gradient(color-mix(in srgb, var(--primary-hover) 30%, transparent), color-mix(in srgb, var(--primary-hover) 30%, transparent)), var(--cell-bg, transparent);
 }
 
 /* Selected + hovered — both tints stack */
 .ag-row-selected.ag-row-hover .ag-cell {
-    background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), linear-gradient(rgba(99, 130, 191, 0.22), rgba(99, 130, 191, 0.22)), var(--cell-bg, transparent);
+    background: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)), linear-gradient(color-mix(in srgb, var(--primary-hover) 30%, transparent), color-mix(in srgb, var(--primary-hover) 30%, transparent)), var(--cell-bg, transparent);
 }
 
 /* ═══════════════════════════════════════════

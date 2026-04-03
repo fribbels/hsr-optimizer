@@ -541,12 +541,8 @@ ComboFilter:
     Simple: シンプル
     Advanced: 高度
   RowControls:
-    Header: 制御
-    Add: +
-    Remove: '-'
     ResetConfirm:
       Description: すべてのシンプル・高度なスキル回しの設定をデフォルトに戻しますか？
-    PresetsHeader: プリセット
   ComboOptions:
     None: 'なし'
     Basic: 通常

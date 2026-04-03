@@ -4,6 +4,26 @@ const IMGUR_API_ENDPOINT = 'https://api.imgur.com/3/image'
 // https://api.imgur.com/oauth2/addclient
 const CLIENT_ID = '13bf25a25cf82e9'
 
+const isLocalhost = () => location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+
+function fileToDataUrl(file: File): Promise<{ link: string; dimensions?: ImageDimensions } | null> {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onerror = () => resolve(null)
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string
+      const img = new Image()
+      img.onload = () => resolve({
+        link: dataUrl,
+        dimensions: { width: img.naturalWidth, height: img.naturalHeight },
+      })
+      img.onerror = () => resolve(null)
+      img.src = dataUrl
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
 export const DEFAULT_IMAGE_DIMENSIONS: ImageDimensions = { width: 0, height: 0 }
 export const DEFAULT_CROP = { x: 0, y: 0 }
 export const DEFAULT_ZOOM = 1
@@ -145,6 +165,12 @@ export async function isValidImageFile(file: File): Promise<{ valid: boolean; di
  When the key goes down: https://api.imgur.com/oauth2/addclient
  *************************************************/
 export async function uploadToImgur(image: string | File): Promise<{ link: string; dimensions?: ImageDimensions } | null> {
+  // Localhost bypass: imgur blocks requests from localhost/127.0.0.1
+  if (isLocalhost() && image instanceof File) {
+    console.log('[editImageUtils] Localhost detected, using data URL instead of imgur')
+    return fileToDataUrl(image)
+  }
+
   const formData = new FormData()
   formData.append('image', image)
 

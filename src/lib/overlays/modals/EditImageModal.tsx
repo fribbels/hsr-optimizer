@@ -308,6 +308,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
           {radio === 'upload' && (
             <>
               <Dropzone
+                className={styles.dropzone}
                 accept={IMAGE_MIME_TYPE}
                 onDrop={(files) => void handleBeforeUpload(files[0])}
                 disabled={isVerificationLoading}
@@ -325,7 +326,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
                         <IconInbox />
                       </p>
                       <p>{t('Upload.Upload.Method') /* Click or drag image file to this area to upload */}</p>
-                      <p className={styles.dimmedText}>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif (Max: 20MB) */}</p>
+                      <p className={styles.dimmedText}>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif .webp (Max: 20MB) */}</p>
                     </Flex>
                   )}
               </Dropzone>
@@ -401,29 +402,28 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
               value={zoom}
             />
           </Flex>
-          <Flex className={styles.editInfoRow}>
-            <Flex direction="column" className={styles.flexOne}>
-              <div>
-                <IconGripVertical className={styles.iconSpacing} />
+          <div className={styles.editInfoRow}>
+            <div className={styles.hintGroup}>
+              <div className={styles.hintRow}>
+                <IconGripVertical size={18} />
                 {t('Edit.Drag') /* Drag to move */}
               </div>
-              <div className={styles.pinchRow}>
-                <IconZoomIn className={styles.iconSpacing} />
+              <div className={styles.hintRow}>
+                <IconZoomIn size={18} />
                 {t('Edit.Pinch') /* Pinch or scroll to zoom */}
               </div>
-            </Flex>
-            <Flex direction="column" className={styles.flexOne}>
-              <div className={styles.artByLabel}>
+            </div>
+            <div className={styles.artistGroup}>
+              <div className={styles.artistLabel}>
                 {t('Edit.ArtBy') /* (Optional) Art by: */}
               </div>
               <TextInput
-                className={styles.artistInput}
                 placeholder={t('Edit.CreditPlaceholder') /* Credit the artist if possible */}
                 autoComplete='off'
                 {...customImageForm.getInputProps('artistName')}
               />
-            </Flex>
-          </Flex>
+            </div>
+          </div>
         </>
       ),
     },

@@ -311,7 +311,7 @@ EditImage:
       Default: Use default image
     Upload:
       Method: Click or drag image file to this area to upload
-      Limit: 'Accepts .jpg .jpeg .png .gif (Max: 20MB)'
+      Limit: 'Accepts .jpg .jpeg .png .gif .webp (Max: 20MB)'
     Url:
       Label: Image
       Rule: Please input a valid image URL

@@ -166,25 +166,9 @@ export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysi
   )
 })
 
-function RelicAnalysisCard({ relicAnalysis, horizontal }: { relicAnalysis?: RelicAnalysis; horizontal?: boolean }) {
+function RelicAnalysisCard({ relicAnalysis }: { relicAnalysis?: RelicAnalysis }) {
   if (!relicAnalysis) {
     return <div className={styles.innerCard} />
-  }
-
-  if (horizontal) {
-    return (
-      <div style={{ display: 'flex', gap: 10, height: '100%' }} className={styles.fullWidth}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: 260, flexShrink: 0 }}>
-          <div style={{ display: 'flex', gap: 10, height: 'auto', flex: 1 }} className={styles.metricRow}>
-            <MetricCard relicAnalysis={relicAnalysis} index={0} />
-            <MetricCard relicAnalysis={relicAnalysis} index={1} />
-          </div>
-        </div>
-        <div className={styles.rollsCard} style={{ flex: 1 }}>
-          <RollsCard relicAnalysis={relicAnalysis} />
-        </div>
-      </div>
-    )
   }
 
   return (

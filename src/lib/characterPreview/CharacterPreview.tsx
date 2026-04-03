@@ -501,17 +501,40 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           gap: defaultGap,
         } as React.CSSProperties}
       >
-        {/* Background — positioned using charCenter so the color hotspot aligns with the portrait */}
+        {/* Background — blurred portrait fill behind the card */}
         {(() => {
-          const bgZoom = displayDimensions.charCenter.z * 1.75
-          const bgScale = bgZoom / 2 * cardTotalW / 1024
+          let bgSize: string
+          let bgPos: string
+
+          if (portraitToUse) {
+            // Custom portrait: CSS cover guarantees no visible edges,
+            // percentage position centers on the crop focal point
+            const crop = portraitToUse.customImageParams.croppedAreaPixels
+            const origW = portraitToUse.originalDimensions.width
+            const origH = portraitToUse.originalDimensions.height
+            bgSize = 'cover'
+            if (origW > 0 && origH > 0) {
+              const pctX = (crop.x + crop.width / 2) / origW * 100
+              const pctY = (crop.y + crop.height / 2) / origH * 100
+              bgPos = `${pctX}% ${pctY}%`
+            } else {
+              bgPos = 'center'
+            }
+          } else {
+            // Default portrait: pixel positioning using curated charCenter values
+            const bgZoom = displayDimensions.charCenter.z * 1.75
+            const bgScale = bgZoom / 2 * cardTotalW / 1024
+            bgSize = `${cardTotalW * bgZoom}px auto`
+            bgPos = `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2}px`
+          }
+
           return <div
             data-portrait-bg
             style={{
               backgroundImage: `url(${portraitUrl})`,
-              backgroundPosition: `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2}px`,
+              backgroundPosition: bgPos,
               backgroundRepeat: 'no-repeat',
-              backgroundSize: `${cardTotalW * bgZoom}px auto`,
+              backgroundSize: bgSize,
             position: 'absolute',
             top: 0,
             left: 0,

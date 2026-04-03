@@ -31,16 +31,20 @@
 
 /* LayoutSider */
 
-.siderPanel {
+.siderBackground {
   background: var(--layer-1);
   border-right: 1px solid var(--layer-1);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(12px);
+  transition: width 0.2s;
+}
+
+.siderPanel {
   height: 100vh;
+  height: 100dvh;
   position: sticky;
   top: 0;
   overflow: hidden;
-  transition: width 0.2s;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(12px);
 }
 
 .scrollContainer {

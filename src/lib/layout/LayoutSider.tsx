@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -22,20 +21,21 @@ export function LayoutSider() {
   }
 
   return (
-    <Flex
-      style={{
-        position: isLocked ? 'relative' : 'sticky',
-        top: isLocked && offset > HEADER_HEIGHT ? offset - HEADER_HEIGHT : 0,
-      }}
+    <div
+      className={classes.siderBackground}
+      style={siderStyle}
     >
       <div
         className={classes.siderPanel}
-        style={siderStyle}
+        style={{
+          position: isLocked ? 'relative' : 'sticky',
+          top: isLocked && offset > HEADER_HEIGHT ? offset - HEADER_HEIGHT : 0,
+        }}
       >
         <div className={`${classes.scrollContainer} layout-sider-scroll`}>
           <MenuDrawer collapsed={!isOpenMenuSidebar} />
         </div>
       </div>
-    </Flex>
+    </div>
   )
 }

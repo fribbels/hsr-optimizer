@@ -45,7 +45,7 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-.teamSelectPanel :global(.mantine-SegmentedControl-label[data-disabled][data-active]) {
+.teamSelectPanel :global(.mantine-SegmentedControl-control[data-active]) :global(.mantine-SegmentedControl-label[data-disabled]) {
   color: rgba(255, 255, 255, 0.75);
 }
 

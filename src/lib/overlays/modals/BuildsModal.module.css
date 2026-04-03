@@ -23,12 +23,19 @@
 
 .buildCard {
   cursor: pointer;
-  padding: 24px;
+  padding: 12px;
   border-radius: var(--radius-md);
   border-width: 1px;
   border-style: solid;
   border-color: var(--border-default);
   transition: all ease-in-out 0.2s;
+}
+
+.buildName {
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .deleteButton {

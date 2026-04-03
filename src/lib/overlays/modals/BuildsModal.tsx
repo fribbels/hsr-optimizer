@@ -22,7 +22,6 @@ import { useShallow } from 'zustand/react/shallow'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   type CSSProperties,
-  Fragment,
   memo,
   useCallback,
   useEffect,
@@ -310,66 +309,64 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
         e.stopPropagation()
       }}
     >
-      <Flex direction="column" gap={8}>
-        <Flex justify='space-between' gap={8} align='center'>
-          <Flex direction="column" align='flex-start'>
-            <HeaderText style={{ flex: 1, fontSize: 16, fontWeight: 600, maxWidth: preview ? 350 : 85, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{build.name}</HeaderText>
-          </Flex>
-          {!preview && (
-            <Flex gap={5}>
-              <Button
-                onClick={() => {
-                  void handleEquip(build)
-                }}
-              >
-                {t('Equip')}
-              </Button>
-              <Button
-                onClick={() => {
-                  buildService.loadBuildInOptimizer(build)
-                  closeModal?.()
-                }}
-              >
-                {t('Load')}
-              </Button>
-              <Button
-                className={styles.deleteButton}
-                onClick={() => {
-                  handleDelete(build.name)
-                }}
-              >
-                <IconTrash size={16} />
-              </Button>
-            </Flex>
-          )}
-        </Flex>
+      <Flex direction="column" gap={6}>
+        <HeaderText className={styles.buildName}>{build.name}</HeaderText>
         <TeammatePreview build={build} />
+        {!preview && (
+          <Flex gap={5} justify='flex-end'>
+            <Button
+              size='xs'
+              onClick={() => {
+                void handleEquip(build)
+              }}
+            >
+              {t('Equip')}
+            </Button>
+            <Button
+              size='xs'
+              onClick={() => {
+                buildService.loadBuildInOptimizer(build)
+                closeModal?.()
+              }}
+            >
+              {t('Load')}
+            </Button>
+            <Button
+              size='xs'
+              className={styles.deleteButton}
+              onClick={() => {
+                handleDelete(build.name)
+              }}
+            >
+              <IconTrash size={16} />
+            </Button>
+          </Flex>
+        )}
       </Flex>
     </div>
   )
 })
+
+const teammateImgStyle: CSSProperties = { height: 42 }
+const teammateRowStyle: CSSProperties = { marginBlock: 4 }
 
 const TeammatePreview = memo(function TeammatePreview(props: { build: SavedBuild }) {
   const { build } = props
   const hasTeammates = build.team.some(Boolean)
   if (!hasTeammates) return null
 
-  const imgStyle: CSSProperties = {
-    opacity: 1,
-    height: 50,
-  }
   return (
     <Flex
-      justify='space-around'
-      gap={8}
+      justify='space-between'
+      style={teammateRowStyle}
     >
       {build.team.map((ally, idx) => (
         ally
           ? (
-            <Fragment key={idx}>
-              <img src={Assets.getCharacterAvatarById(ally.characterId)} className={styles.teammateImg} style={imgStyle} />
-              <img src={Assets.getLightConeIconById(ally.lightCone)} className={styles.teammateImg} style={imgStyle} />
-            </Fragment>
+            <Flex key={idx} gap={10}>
+              <img src={Assets.getCharacterAvatarById(ally.characterId)} className={styles.teammateImg} style={teammateImgStyle} />
+              <img src={Assets.getLightConeIconById(ally.lightCone)} className={styles.teammateImg} style={teammateImgStyle} />
+            </Flex>
           )
           : null
       ))}

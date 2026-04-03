@@ -6,7 +6,7 @@ import {
   UnreleasedSets,
 } from 'lib/constants/constants'
 import {
-  SetsRelics,
+  SetsRelicsNames,
   setToId,
 } from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
@@ -14,7 +14,7 @@ import { Assets } from 'lib/rendering/assets'
 // This should be memoised with either the t function or resolved language as a dependency
 export function GenerateBasicSetsOptions(): { value: string; label: ReactElement }[] {
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
-  return Object.values(SetsRelics)
+  return SetsRelicsNames
     .filter((x) => !UnreleasedSets[x])
     .map((x) => {
       return {

@@ -11,7 +11,7 @@ export function BottomDock() {
         <BottomToolbarLeft />
         <ScoredRelicPreview />
       </div>
-      <VerticalDivider />
+      <VerticalDivider width={4} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1, minWidth: 0 }}>
         <BottomToolbarRight />
         <div style={{ flex: 1, minHeight: relicCardH }}>

@@ -82,7 +82,7 @@ export function TopBar() {
         </Button>
       </div>
 
-      <Divider orientation="vertical" mx={4} />
+      <Divider orientation="vertical" mx={0} />
 
       {/* Filters (top) / Ratings + Custom characters (bottom) */}
       <FilterPillBar />

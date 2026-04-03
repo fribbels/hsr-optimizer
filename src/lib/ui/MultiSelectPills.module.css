@@ -1,11 +1,7 @@
 .columnOptions {
-  column-count: 2;
-  column-rule: 1px solid var(--mantine-color-dark-4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   column-gap: 8px;
-}
-
-.columnOptions > * {
-  break-inside: avoid;
 }
 
 .activeOption.activeOption {

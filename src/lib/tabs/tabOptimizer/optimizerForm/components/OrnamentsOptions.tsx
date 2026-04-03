@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import { Constants, UnreleasedSets } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { SetsOrnaments, setToId } from 'lib/sets/setConfigRegistry'
+import { SetsOrnamentsNames, setToId } from 'lib/sets/setConfigRegistry'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './OrnamentsOptions.module.css'
@@ -9,7 +9,7 @@ import classes from './OrnamentsOptions.module.css'
 export function useOrnamentsOptions() {
   const { t } = useTranslation('gameData')
   return useMemo(() => {
-    return Object.values(SetsOrnaments)
+    return SetsOrnamentsNames
       .filter((x) => !UnreleasedSets[x])
       .map((x) => ({
         value: x,

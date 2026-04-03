@@ -461,12 +461,8 @@ ComboFilter:
     Simple: 심플
     Advanced: 고급
   RowControls:
-    Header: 조작
-    Add: +
-    Remove: '-'
     ResetConfirm:
       Description: 모든 심플 / 고급 사이클 셋팅을 기본 값으로 변경할까요?
-    PresetsHeader: 사전 설정
   ComboOptions:
     None: '없음'
     Basic: 기본 공격

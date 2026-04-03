@@ -17,10 +17,18 @@ import {
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 
-export function BottomToolbar() {
-  const { selectedRelicId, selectedRelicsIds, insightsMode, setInsightsMode, insightsCharacters, setInsightsCharacters } = useRelicsTabStore(
+export function BottomToolbarLeft() {
+  const selectedRelicId = useRelicsTabStore((s) => s.selectedRelicId)
+  const selectedRelic = useRelicById(selectedRelicId)
+
+  return (
+    <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-default)', height: 30 }} />
+  )
+}
+
+export function BottomToolbarRight() {
+  const { selectedRelicsIds, insightsMode, setInsightsMode, insightsCharacters, setInsightsCharacters } = useRelicsTabStore(
     useShallow((s) => ({
-      selectedRelicId: s.selectedRelicId,
       selectedRelicsIds: s.selectedRelicsIds,
       insightsMode: s.insightsMode,
       setInsightsMode: s.setInsightsMode,
@@ -32,8 +40,6 @@ export function BottomToolbar() {
   const isLiveImport = useScannerState((s) => s.ingest)
   const { t } = useTranslation('relicsTab', { keyPrefix: 'Toolbar' })
   const { t: tCommon } = useTranslation('common')
-
-  const selectedRelic = useRelicById(selectedRelicId)
 
   const relicInsightOptions = useMemo(() => [
     { value: String(RelicInsights.Buckets), label: t('InsightOptions.Buckets') },
@@ -48,9 +54,8 @@ export function BottomToolbar() {
   ], [t])
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Group gap={5} justify='space-between'>
       <Group gap={5}>
-        <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-default)', height: 30 }} />
         <Button
           variant="default"
           size="xs"
@@ -110,6 +115,6 @@ export function BottomToolbar() {
           comboboxProps={{ keepMounted: false }}
         />
       </Group>
-    </div>
+    </Group>
   )
 }

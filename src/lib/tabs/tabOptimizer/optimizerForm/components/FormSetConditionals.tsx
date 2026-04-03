@@ -12,9 +12,6 @@ import {
   type OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
-import {
-  ConditionalSetMetadata,
-} from 'lib/optimization/rotation/setConditionalContent'
 import type { SelectOptionContent } from 'types/setConfig'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -157,30 +154,28 @@ function FormSetConditionalsContent() {
   const { relicOptions, ornamentOptions } = useMemo(() => {
     const relicOptions = relicIndexToSetConfig.map((config) => {
       const set = config.id as SetsRelics
-      const meta = ConditionalSetMetadata[set]
       return (
         <ConditionalSetOption
           key={set}
           set={set}
-          p4Checked={!meta.modifiable}
+          p4Checked={!config.display.modifiable}
           description={t('RelicDescription', { id: setToId[set] })}
           conditional={t(setToConditionalKey(set))}
-          selectOptions={meta.selectionOptions?.(tSelectOptions)}
+          selectOptions={config.display.selectionOptions?.(tSelectOptions)}
         />
       )
     })
 
     const ornamentOptions = ornamentIndexToSetConfig.map((config) => {
       const set = config.id as SetsOrnaments
-      const meta = ConditionalSetMetadata[set]
       return (
         <ConditionalSetOption
           key={set}
           set={set}
-          p2Checked={!meta.modifiable}
+          p2Checked={!config.display.modifiable}
           description={t('PlanarDescription', { id: setToId[set] })}
           conditional={t(setToConditionalKey(set))}
-          selectOptions={meta.selectionOptions?.(tSelectOptions)}
+          selectOptions={config.display.selectionOptions?.(tSelectOptions)}
         />
       )
     })

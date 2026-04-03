@@ -21,21 +21,41 @@
 }
 
 .ag-body-horizontal-scroll {
-    min-height: 5px !important;
-    max-height: 5px !important;
-    height: 5px !important;
+    min-height: 10px !important;
+    max-height: 10px !important;
+    height: 10px !important;
 }
 
 .ag-body-horizontal-scroll-viewport {
-    min-height: 5px !important;
-    max-height: 5px !important;
-    height: 5px !important;
+    min-height: 10px !important;
+    max-height: 10px !important;
+    height: 10px !important;
 }
 
 .ag-body-horizontal-scroll-container {
-    min-height: 5px !important;
-    max-height: 5px !important;
-    height: 5px !important;
+    min-height: 10px !important;
+    max-height: 10px !important;
+    height: 10px !important;
+}
+
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar {
+    height: 10px;
+}
+
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb {
+    background: #95959552;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 3px solid transparent;
+}
+
+.ag-body-horizontal-scroll-viewport::-webkit-scrollbar-thumb:hover {
+    background: rgba(149, 149, 149, 0.55);
 }
 
 /* ═══════════════════════════════════════════
@@ -242,7 +262,15 @@
    ═══════════════════════════════════════════ */
 
 #relicGrid .ag-body-horizontal-scroll {
-    display: none !important;
+    margin-top: -10px;
+    position: relative;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#relicGrid:hover .ag-body-horizontal-scroll {
+    opacity: 1;
 }
 
 #relicGrid .ag-header {

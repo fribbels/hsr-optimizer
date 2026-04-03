@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import type { TwoPieceSlot } from 'lib/stores/optimizerForm/setFilterTypes'
 import { TwoPieceSlotType, TwoPieceStatTags } from 'lib/stores/optimizerForm/setFilterTypes'
 
-const chipStyles = { root: { backgroundColor: 'var(--layer-3)' }, label: { fontSize: 12, fontWeight: 'normal' } } as const
+const chipStyles = { root: { backgroundColor: 'var(--layer-4)' }, label: { fontSize: 12, fontWeight: 'normal' } } as const
 
 export function StatChips({ slotA, onPick }: {
   slotA: TwoPieceSlot | null,

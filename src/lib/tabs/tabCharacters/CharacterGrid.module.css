@@ -133,19 +133,11 @@
 }
 
 /* Frosted glass — blurred duplicate image, masked to left side.
-   Matches the original backdrop-filter design: the portrait image is
-   positioned right-of-center, so on the far left the scrim blurs mostly
-   the dark row background, creating a natural "fade from dark" effect.
-   The dark background-color on .scrim fills where the blurred portrait
-   doesn't reach, matching what backdrop-filter would have shown. */
+   object-fit:cover fills the entire mask area with blur. A dark ::after
+   overlay on top darkens the left side, replicating the original look
+   where backdrop-filter was blurring mostly the dark row background. */
 .scrim[data-scrim-mode='frosted'] {
   overflow: hidden;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, var(--cr-frost-tint, 0.2)) 0%,
-    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.2) * 0.5)) 50%,
-    transparent 100%
-  );
   -webkit-mask-image: linear-gradient(
     90deg,
     black 0%,
@@ -160,25 +152,35 @@
   );
 }
 
-/* Blurred image inside scrim — replaces backdrop-filter.
-   Positioned to match the portrait so the blur naturally fades in from
-   the left (dark background) as more portrait content appears rightward. */
+/* Blurred image inside scrim — replaces backdrop-filter */
 .scrimImg {
   position: absolute;
+  inset: -20px;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  object-fit: cover;
+  object-position: center 30%;
   z-index: 0;
-  width: var(--cr-portrait-scale, 70%);
-  height: auto;
-  left: calc(50% + 5px);
-  top: 50%;
-  transform: translate(
-    calc(-1 * var(--cr-portrait-x, 40%)),
-    calc(-1 * var(--cr-portrait-y, 31%))
-  );
   display: block;
   filter:
     blur(var(--cr-frost-blur, 16px))
     brightness(var(--cr-frost-brightness, 0.8))
     saturate(var(--cr-frost-saturate, 1.2));
+}
+
+/* Dark tint overlay — darkens the left side to simulate the original
+   backdrop-filter blurring the dark row background on the far left */
+.scrim[data-scrim-mode='frosted']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, var(--cr-frost-tint, 0.2)) 0%,
+    rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.2) * 0.5)) 50%,
+    transparent 100%
+  );
 }
 
 /* --- Right-side frosted strip (LC area) --- */
@@ -196,14 +198,11 @@
 /* Blurred image inside lcStrip — replaces backdrop-filter */
 .lcStripImg {
   position: absolute;
-  width: var(--cr-portrait-scale, 70%);
-  height: auto;
-  right: 0;
-  top: 50%;
-  transform: translate(
-    calc(var(--cr-portrait-x, 40%) - 50% + 5px),
-    calc(-1 * var(--cr-portrait-y, 31%))
-  );
+  inset: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  object-fit: cover;
+  object-position: center 30%;
   display: block;
   filter: blur(6px) brightness(0.7) saturate(1.2);
 }

@@ -336,12 +336,11 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
             <Button
               size='xs'
               className={styles.deleteButton}
+              leftSection={<IconTrash size={16} />}
               onClick={() => {
                 handleDelete(build.name)
               }}
-            >
-              <IconTrash size={16} />
-            </Button>
+            />
           </Flex>
         )}
       </Flex>

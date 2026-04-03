@@ -8,13 +8,26 @@ import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useDeferReveal } from 'lib/ui/DeferredRender'
-import { useCallback } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import type { Character } from 'types/character'
 
 import { cardTotalW, defaultGap, parentH } from 'lib/constants/constantsUi'
 
 export function CharacterTab() {
+  // Sync selected character from optimizer tab on activation
+  const { addActivationListener } = useContext(TabVisibilityContext)
+  useEffect(() => {
+    return addActivationListener(() => {
+      const id = useOptimizerDisplayStore.getState().focusCharacterId
+      if (id) {
+        useCharacterTabStore.setState({ focusCharacter: id })
+      }
+    })
+  }, [addActivationListener])
+
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
   const containerRef = useDeferReveal()

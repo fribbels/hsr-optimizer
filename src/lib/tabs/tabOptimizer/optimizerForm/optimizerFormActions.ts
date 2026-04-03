@@ -17,7 +17,6 @@ import { displayToInternal, patchComboConditionalDefault } from 'lib/stores/opti
 import { type MainConditionalType, type TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { syncFormToCharacterStore } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
-import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { gridStore } from 'lib/stores/gridStore'
 import type { Build, CharacterId } from 'types/character'
@@ -27,12 +26,6 @@ import { uuid } from 'lib/utils/miscUtils'
 // Sync optimizer form to character store before page unload so SaveState.save() has latest data
 window.addEventListener('beforeunload', () => syncFormToCharacterStore())
 
-// Sync optimizer's selected character to the character tab (gated by tab-aware store — no re-render until tab switch)
-useOptimizerDisplayStore.subscribe((state, prev) => {
-  if (state.focusCharacterId && state.focusCharacterId !== prev.focusCharacterId) {
-    useCharacterTabStore.setState({ focusCharacter: state.focusCharacterId })
-  }
-})
 
 const OPTIMIZER_FORM_CACHE_MAX = 50
 const _optimizerFormCacheMap = new Map<string, Form>()

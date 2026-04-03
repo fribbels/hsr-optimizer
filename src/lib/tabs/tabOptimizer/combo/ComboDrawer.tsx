@@ -2,15 +2,15 @@ import { Drawer } from '@mantine/core'
 import { ConditionalDataType } from 'lib/constants/constants'
 import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { useScrollLock } from 'lib/layout/scrollController'
-import { ComboDrawerTitle } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
+import comboStyles from 'lib/tabs/tabOptimizer/combo/ComboDrawer.module.css'
+import { ComboHeader } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
 import { StateDisplay } from 'lib/tabs/tabOptimizer/combo/StateDisplay'
 import { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import type { ComboDataKey, ComboNumberConditional } from 'lib/optimization/combo/comboTypes'
 import { useComboDrawerStore, locateConditional } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { flushComboDrawerToForm } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { afterPaint } from 'lib/utils/frontendUtils'
-import { useCallback, useEffect, useRef, type RefObject } from 'react'
+import { useCallback, useLayoutEffect, useRef, type RefObject } from 'react'
 import Selecto from 'react-selecto'
 
 const drawerContentStyle = { width: 1560, height: '100%' } as const
@@ -18,34 +18,29 @@ const drawerContentStyle = { width: 1560, height: '100%' } as const
 export function ComboDrawer() {
   const { close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
 
-  useEffect(() => {
-    let cancelled = false
-
+  useLayoutEffect(() => {
     if (isOpenComboDrawer) {
-      afterPaint(() => {
-        if (cancelled) return
-        const form = getForm()
-        useComboDrawerStore.getState().initialize(form)
-      })
+      useComboDrawerStore.getState().initialize(getForm())
     } else {
       flushComboDrawerToForm()
-      afterPaint(() => {
-        if (cancelled) return
-        useComboDrawerStore.getState().reset()
-      })
+      useComboDrawerStore.getState().reset()
     }
-
-    return () => { cancelled = true }
   }, [isOpenComboDrawer])
 
   return (
     <Drawer
-      title={<ComboDrawerTitle />}
+      title={<ComboHeader />}
       position='right'
       onClose={() => closeComboDrawer()}
       opened={isOpenComboDrawer}
       size={1625}
-      styles={{ body: { paddingTop: 0 } }}
+      transitionProps={{ duration: 0 }}
+      overlayProps={{ transitionProps: { duration: 500 } }}
+      classNames={{ content: comboStyles.drawerContent }}
+      styles={{
+        header: { position: 'sticky', top: 0, zIndex: 10, backgroundColor: 'var(--layer-2)' },
+        body: { paddingTop: 0 },
+      }}
     >
       {isOpenComboDrawer && <ComboDrawerContent />}
     </Drawer>

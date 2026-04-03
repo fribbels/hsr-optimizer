@@ -39,7 +39,7 @@ export const ComboHeader = memo(function ComboHeader() {
 
   const length = comboTurnAbilities.length
   const render: ReactElement[] = [
-    <div key='controls' style={{ width: 380 }} />,
+    <div key='controls' style={{ width: 380 }}><ComboDrawerTitle /></div>,
     <div key='base' style={{ width: abilityWidth }} />,
     ...Array(Math.min(ABILITY_LIMIT + 1, length + 1))
       .fill(false)

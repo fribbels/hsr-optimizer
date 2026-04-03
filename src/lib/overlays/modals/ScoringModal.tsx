@@ -212,6 +212,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
               value={scoringAlgorithmForm.getValues().characterId || null}
               onChange={characterSelectorChange}
               showIcon={false}
+              clearable={false}
             />
             <div className={classes.previewContainer} style={{ height: 230, width: panelWidth }}>
               <img src={previewSrc} style={{ width: panelWidth }} />

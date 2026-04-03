@@ -1,0 +1,9 @@
+@keyframes combo-drawer-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+.drawerContent {
+  animation: combo-drawer-slide-in 500ms ease;
+}

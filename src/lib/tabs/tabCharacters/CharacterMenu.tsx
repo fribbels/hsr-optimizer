@@ -43,10 +43,10 @@ export function CharacterMenu() {
           <Button
             style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 4 }}
             leftSection={<IconUser size={16} />}
+            rightSection={<IconChevronDown size={16} />}
             variant='default'
           >
             {t('CharacterMenu.ButtonText') /* Character menu */}
-            <IconChevronDown />
           </Button>
         </Menu.Target>
         <Menu.Dropdown>

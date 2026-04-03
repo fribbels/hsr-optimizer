@@ -151,6 +151,7 @@ export function CharacterSelectorDisplay() {
           opened={optimizerTabFocusCharacterSelectModalOpen}
           onOpenChange={setOptimizerTabFocusCharacterSelectModalOpen}
           showIcon={false}
+          clearable={false}
         />
         <SegmentedControl
           fullWidth

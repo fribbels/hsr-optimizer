@@ -4,7 +4,7 @@ import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/compone
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
 import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { persistSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
-import { useMemo } from 'react'
+import { type ReactNode, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ReactElement } from 'types/components'
 
@@ -24,17 +24,29 @@ function SetSelector({ selected, options, placeholder, submit }: {
     label: typeof opt.label === 'string' ? opt.label : opt.value,
   }))
 
+  const labelMap = useMemo(
+    () => new Map(options.map((opt) => [opt.value, opt.label])),
+    [options],
+  )
+
+  const renderOption = useCallback(
+    (opt: { value: string; label: string }): ReactNode => labelMap.get(opt.value) ?? opt.label,
+    [labelMap],
+  )
+
   return (
     <MultiSelectPills
-      dropdownWidth={300}
+      dropdownWidth={600}
       maxDisplayedValues={1}
-      maxDropdownHeight={800}
+      maxDropdownHeight={600}
+      columns={2}
       clearable
       style={{ flex: 1 }}
       data={stringOptions}
       placeholder={placeholder}
       value={values}
       onChange={(val) => submit(val)}
+      renderOption={renderOption}
     />
   )
 }

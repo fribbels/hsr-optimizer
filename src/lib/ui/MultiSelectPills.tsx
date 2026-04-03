@@ -1,11 +1,14 @@
 import { CheckIcon, CloseButton, Combobox, Group, Input, type MantineSize, Pill, PillsInput, type PillsInputProps, useCombobox } from '@mantine/core'
 import { type CSSProperties, type ReactNode, useMemo, useState } from 'react'
+import classes from './MultiSelectPills.module.css'
 
 type SimpleOption = { value: string; label: string }
 type GroupedOption = { group: string; items: SimpleOption[] }
 type DataItem = SimpleOption | GroupedOption
 
 const compactPillStyle = { '--pill-height': '20px' } as CSSProperties
+const ellipsisOptionStyle: CSSProperties = { overflow: 'hidden' }
+const ellipsisTextStyle: CSSProperties = { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }
 
 function isGrouped(item: DataItem): item is GroupedOption {
   return 'group' in item
@@ -25,6 +28,7 @@ export function MultiSelectPills({
   maxDropdownHeight,
   maxDisplayedValues = 2,
   dropdownWidth,
+  columns,
   style,
   leftSection,
   leftSectionWidth,
@@ -44,6 +48,7 @@ export function MultiSelectPills({
   maxDropdownHeight?: number
   maxDisplayedValues?: number
   dropdownWidth?: number | string
+  columns?: number
   style?: CSSProperties
   leftSection?: ReactNode
   leftSectionWidth?: number
@@ -121,11 +126,11 @@ export function MultiSelectPills({
   function renderOptionItem(opt: SimpleOption) {
     const active = value.includes(opt.value)
     return (
-      <Combobox.Option value={opt.value} key={opt.value} active={active}>
+      <Combobox.Option value={opt.value} key={opt.value} active={active} className={active ? classes.activeOption : undefined} style={columns ? ellipsisOptionStyle : undefined}>
         <Group gap="sm" justify="space-between" wrap="nowrap">
-          {renderOption
-            ? renderOption(opt, active)
-            : <span>{opt.label}</span>}
+          <span style={columns ? ellipsisTextStyle : undefined}>
+            {renderOption ? renderOption(opt, active) : opt.label}
+          </span>
           {active && <CheckIcon size={12} />}
         </Group>
       </Combobox.Option>
@@ -203,7 +208,7 @@ export function MultiSelectPills({
       </Combobox.DropdownTarget>
 
       <Combobox.Dropdown>
-        <Combobox.Options mah={maxDropdownHeight} style={{ overflowY: 'auto' }}>
+        <Combobox.Options mah={maxDropdownHeight} className={columns ? classes.columnOptions : undefined} style={{ overflowY: 'auto' }}>
           {combobox.dropdownOpened && renderOptions()}
         </Combobox.Options>
       </Combobox.Dropdown>

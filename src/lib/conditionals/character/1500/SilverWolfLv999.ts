@@ -394,7 +394,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
       },
       // Talent: Hidden MMR -> CR (capped at 100%), overflow -> CD
-      // Separate if-guards on crDelta/cdDelta prevent re-entrant loops, undefined vs 0 distinguishes first call
+      // Stores crPoints and cdPoints separately (mirroring GPU) so that reset-to-0 correctly means "no previous buff"
       {
         id: 'SilverWolfLv999HiddenMmrConditional',
         type: ConditionalType.ABILITY,
@@ -411,25 +411,26 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const mmrPoints = r.hiddenMmr
           if (mmrPoints <= 0) return
 
-          const prevCrPoints = action.conditionalState[this.id]
+          const prevCrPoints = action.conditionalState['SilverWolfLv999HiddenMmrCrPoints'] ?? 0
+          const prevCdPoints = action.conditionalState[this.id] ?? 0
 
-          const isFirstCall = prevCrPoints == undefined
-
-          const prevCrBuff = isFirstCall ? 0 : prevCrPoints * mmrCrPerPoint
-          const prevCdBuff = isFirstCall ? 0 : (mmrPoints - prevCrPoints) * mmrCdPerPoint
+          const prevCrBuff = prevCrPoints * mmrCrPerPoint
+          const prevCdBuff = prevCdPoints * mmrCdPerPoint
 
           const totalCr = x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX)
           const baseCr = totalCr - prevCrBuff
 
           const newCrPoints = Math.min(mmrPoints, Math.ceil(Math.max(0, 1.00 - baseCr) / mmrCrPerPoint))
+          const newCdPoints = mmrPoints - newCrPoints
 
           const newCrBuff = newCrPoints * mmrCrPerPoint
-          const newCdBuff = (mmrPoints - newCrPoints) * mmrCdPerPoint
+          const newCdBuff = newCdPoints * mmrCdPerPoint
 
           const crDelta = newCrBuff - prevCrBuff
           const cdDelta = newCdBuff - prevCdBuff
 
-          action.conditionalState[this.id] = newCrPoints
+          action.conditionalState['SilverWolfLv999HiddenMmrCrPoints'] = newCrPoints
+          action.conditionalState[this.id] = newCdPoints
 
           if (crDelta) {
             x.buffDynamic(StatKey.CR, crDelta, action, context, x.source(SOURCE_TALENT))

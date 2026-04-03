@@ -562,12 +562,8 @@ ComboFilter:
     Simple: 简易
     Advanced: 高级
   RowControls:
-    Header: 控制
-    Add: +
-    Remove: '-'
     ResetConfirm:
       Description: 重置所有简易 / 高级循环设置为默认值？
-    PresetsHeader: 预设
   ComboOptions:
     None: '无'
     Basic: 普攻

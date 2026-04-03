@@ -311,7 +311,6 @@ EditImage:
       Default: 使用默认图片
     Upload:
       Method: 点击或将图片文件拖到此区域上传
-      Limit: '支持 .jpg .jpeg .png .gif 格式（最大: 20MB）'
     Url:
       Label: 图片
       Rule: 请输入有效的图片网址

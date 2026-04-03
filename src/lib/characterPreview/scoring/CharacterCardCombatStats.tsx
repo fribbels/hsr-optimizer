@@ -5,7 +5,6 @@ import { StatTextSm } from 'lib/characterPreview/StatText'
 import {
   type ElementName,
   ElementToDamage,
-  ElementToStatKeyDmgBoost,
   PathNames,
   Stats,
   type StatsValues,
@@ -13,6 +12,7 @@ import {
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import iconClasses from 'style/icons.module.css'
+import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
@@ -197,20 +197,16 @@ function getStatValue(
 
 // Get basic stat value from Container's basic stats array
 function getBasicStatValue(x: ComputedStatsContainer, stat: StatsValues, element: ElementName): number {
-  // Handle Elation DMG stat separately - it's not tied to the character's element
+  // Elation is in damageStats but not element-specific
   if (stat === Stats.Elation) {
-    const statKey = StatsToStatKey[stat]
-    return x.c.a[statKey]
+    return x.c.a[BasicStatToKey[stat]]
   }
 
-  // Handle elemental DMG stats
   if (damageStats[stat]) {
-    return x.c.a[ElementToStatKeyDmgBoost[element]]
+    return x.c.a[BasicStatToKey[ElementToDamage[element] as StatsValues]]
   }
 
-  const statKey = StatsToStatKey[stat]
-  // Basic stats use the same indices 0-14 for core stats
-  return x.c.a[statKey]
+  return x.c.a[BasicStatToKey[stat]]
 }
 
 function Arrow() {

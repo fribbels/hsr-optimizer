@@ -164,7 +164,7 @@ function ComboBasicDefinition() {
 
       <Flex direction="column" gap={controlSize / 2} w={controlSize}>
         <Flex direction="column" gap={5}>
-          <Tooltip label={t('RowControls.ResetTooltip')} position='right' openDelay={500} withArrow>
+          <Tooltip label={t('RowControls.ResetTooltip')} position='right' openDelay={300} withArrow>
             <ActionIcon
               variant='default'
               w='100%'
@@ -181,19 +181,19 @@ function ComboBasicDefinition() {
               <IconRefresh size={16} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('RowControls.AddTooltip')} position='right' openDelay={500} withArrow>
+          <Tooltip label={t('RowControls.AddTooltip')} position='right' openDelay={300} withArrow>
             <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => add()} disabled={disabled}>
               <IconPlus size={16} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('RowControls.RemoveTooltip')} position='right' openDelay={500} withArrow>
+          <Tooltip label={t('RowControls.RemoveTooltip')} position='right' openDelay={300} withArrow>
             <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => minus()} disabled={disabled}>
               <IconMinus size={16} />
             </ActionIcon>
           </Tooltip>
         </Flex>
 
-        <Tooltip label={t('RowControls.PresetsTooltip')} position='right' openDelay={500} withArrow>
+        <Tooltip label={t('RowControls.PresetsTooltip')} position='right' openDelay={300} withArrow>
           <SegmentedControl
             orientation='vertical'
             fullWidth

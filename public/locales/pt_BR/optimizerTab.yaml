@@ -447,12 +447,8 @@ ComboFilter:
     Simple: Simples
     Advanced: Avançado
   RowControls:
-    Header: Controles
-    Add: +
-    Remove: '-'
     ResetConfirm:
       Description: Redefinir todas as configurações de rotação simples/avançadas para o padrão?
-    PresetsHeader: Predefinições
   ComboOptions:
     None: 'Nenhum'
     Basic: Basic

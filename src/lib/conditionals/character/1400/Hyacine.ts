@@ -1,3 +1,6 @@
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { Evernight } from 'lib/conditionals/character/1400/Evernight'
 import {
   BuffPriority,
   SKILL_DMG_TYPE,
@@ -10,10 +13,14 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   ConditionalActivation,
   ConditionalType,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -34,20 +41,35 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_MEMO_SKILL,
+  END_MEMO_SKILL,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+  WHOLE_SKILL,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const HyacineEntities = createEnum('Hyacine', 'Ica')
 export const HyacineAbilities: AbilityKind[] = [
@@ -91,6 +113,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const memoSkillScaling = memoSkill(e, 0.20, 0.22)
 
+  // E0: 20, E1+: 30 (attack-triggered heals), E6: 50 (12% tally clear)
+  const healTallyMultiplierDefault = (e >= 6)
+    ? 50
+    : (e >= 1)
+    ? 30
+    : 20
+
   const defaults = {
     healAbility: SKILL_DMG_TYPE,
     buffPriority: BuffPriority.MEMO,
@@ -99,7 +128,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     resBuff: true,
     spd200HpBuff: true,
     healingDmgStacks: 3,
-    healTallyMultiplier: 20,
+    healTallyMultiplier: healTallyMultiplierDefault,
     e1HpBuff: true,
     e2SpdBuff: true,
     e4CdBuff: true,
@@ -419,7 +448,7 @@ if (
           const unconvertibleValue = x.getActionValueByIndex(StatKey.UNCONVERTIBLE_SPD_BUFF, SELF_ENTITY_INDEX)
 
           const stateValue = action.conditionalState[this.id] ?? 0
-          const convertibleValue = Math.min(400, statValue - unconvertibleValue)
+          const convertibleValue = Math.min(400, Math.floor(statValue - unconvertibleValue))
 
           if (convertibleValue <= 0) return
 
@@ -459,7 +488,7 @@ if (convertibleValue <= 0.0) {
   return;
 }
 
-let buffFull = max(0.0, 0.01 * (convertibleValue - 200.0));
+let buffFull = max(0.0, 0.01 * floor(convertibleValue - 200.0));
 let buffDelta = buffFull - stateValue;
 
 (*p_state).${this.id}${action.actionIdentifier} = buffFull;
@@ -483,6 +512,75 @@ if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
   }
 }
 
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.CD,
+      Stats.HP_P,
+      Stats.OHB,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.HP_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+      Stats.Wind_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.HP_P,
+    Stats.HP,
+    Stats.SPD,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_MEMO_SKILL,
+    START_SKILL,
+    END_MEMO_SKILL,
+    START_SKILL,
+    END_MEMO_SKILL,
+  ],
+  breakpoints: {
+    [Stats.SPD]: 200,
+  },
+  relicSets: [
+    [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.GiantTreeOfRaptBrooding,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Evernight.id,
+      lightCone: ToEvernightsStars.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -493,34 +591,38 @@ const scoring = (): ScoringMetadata => ({
     [Stats.HP_P]: 1,
     [Stats.SPD]: 1,
     [Stats.CR]: 0,
-    [Stats.CD]: 0.50,
+    [Stats.CD]: 1,
     [Stats.EHR]: 0,
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
   parts: {
     [Parts.Body]: [
-      Stats.OHB,
+      Stats.CD,
       Stats.HP_P,
+      Stats.OHB,
     ],
     [Parts.Feet]: [
       Stats.SPD,
+      Stats.HP_P,
     ],
     [Parts.PlanarSphere]: [
       Stats.HP_P,
+      Stats.Wind_DMG,
     ],
     [Parts.LinkRope]: [
-      Stats.ERR,
       Stats.HP_P,
+      Stats.ERR,
     ],
   },
   presets: [
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,
   ],
-  sortOption: SortOption.SKILL_HEAL,
-  addedColumns: [SortOption.OHB, SortOption.MEMO_SKILL],
+  sortOption: SortOption.MEMO_SKILL,
+  addedColumns: [SortOption.MEMO_SKILL, SortOption.SKILL_HEAL, SortOption.OHB],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
+  simulation: simulation(),
 })
 
 const display = {

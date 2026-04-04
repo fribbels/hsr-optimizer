@@ -70,7 +70,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
     const navRect = navRef.current.getBoundingClientRect()
     const elRect = el.getBoundingClientRect()
     const top = elRect.top - navRect.top
-    indicatorRef.current.style.top = `${top}px`
+    indicatorRef.current.style.transform = `translateY(${top}px)`
     indicatorRef.current.style.height = `${elRect.height}px`
     setIndicatorVisible(true)
   }, [])

@@ -52,6 +52,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -113,7 +114,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const memoSkillScaling = memoSkill(e, 0.20, 0.22)
 
-  // E0: 20, E1+: 30 (attack-triggered heals), E6: 50 (12% tally clear)
+  // E1: extra heals, E6: tally increase
   const healTallyMultiplierDefault = (e >= 6)
     ? 50
     : (e >= 1)
@@ -553,10 +554,16 @@ const simulation = (): SimulationMetadata => ({
   },
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+    [Sets.HeroOfTriumphantSong, Sets.HeroOfTriumphantSong],
+    [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    relics2pByStats(Stats.CD, Stats.SPD_P, Stats.HP_P, Stats.OHB),
   ],
   ornamentSets: [
     Sets.GiantTreeOfRaptBrooding,
+    Sets.BoneCollectionsSereneDemesne,
+    Sets.ArcadiaOfWovenDreams,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [

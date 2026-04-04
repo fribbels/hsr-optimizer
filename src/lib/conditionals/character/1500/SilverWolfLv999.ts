@@ -54,10 +54,9 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
-  RELICS_2P_CRIT,
-  RELICS_2P_SPEED,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -524,8 +523,8 @@ const simulation = (): SimulationMetadata => ({
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-    RELICS_2P_CRIT,
-    RELICS_2P_SPEED,
+    relics2pByStats(Stats.CR, Stats.CD),
+    relics2pByStats(Stats.SPD_P),
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,

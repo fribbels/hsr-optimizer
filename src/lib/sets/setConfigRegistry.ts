@@ -351,3 +351,7 @@ function buildStatTagToSets(): Partial<Record<TwoPieceStatTag, SetsRelics[]>> {
 }
 
 export const STAT_TAG_TO_SETS = buildStatTagToSets()
+
+export function relics2pByStats(...tags: TwoPieceStatTag[]): SetsRelics[] {
+  return tags.flatMap((tag) => STAT_TAG_TO_SETS[tag] ?? [])
+}

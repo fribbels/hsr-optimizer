@@ -40,12 +40,12 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
-  RELICS_2P_SPEED,
   SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -354,7 +354,7 @@ const simulation = (): SimulationMetadata => ({
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-    RELICS_2P_SPEED,
+    relics2pByStats(Stats.SPD_P),
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [

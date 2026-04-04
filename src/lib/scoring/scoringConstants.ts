@@ -1,36 +1,5 @@
 import { Sets } from 'lib/constants/constants'
 
-export const RELICS_2P_BREAK_EFFECT_SPEED = [
-  Sets.MessengerTraversingHackerspace,
-  Sets.SacerdosRelivedOrdeal,
-  Sets.ThiefOfShootingMeteor,
-  Sets.WatchmakerMasterOfDreamMachinations,
-  Sets.IronCavalryAgainstTheScourge,
-  Sets.WarriorGoddessOfSunAndThunder,
-]
-
-export const RELICS_2P_SPEED = [
-  Sets.MessengerTraversingHackerspace,
-  Sets.SacerdosRelivedOrdeal,
-  Sets.WarriorGoddessOfSunAndThunder,
-]
-
-export const RELICS_2P_ATK = [
-  Sets.MusketeerOfWildWheat,
-  Sets.PrisonerInDeepConfinement,
-  Sets.TheWindSoaringValorous,
-  Sets.HeroOfTriumphantSong,
-]
-
-export const RELICS_2P_CRIT = [
-  Sets.TheWindSoaringValorous,
-  Sets.ScholarLostInErudition,
-  Sets.WavestriderCaptain,
-  Sets.WorldRemakingDeliverer,
-  Sets.EverGloriousMagicalGirl,
-]
-
-
 export const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
   [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],

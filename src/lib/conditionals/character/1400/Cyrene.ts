@@ -51,10 +51,10 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
-  RELICS_2P_SPEED,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   type CharacterId,
@@ -478,7 +478,7 @@ const simulation = (): SimulationMetadata => ({
   deprioritizeBuffs: true,
   relicSets: [
     [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
-    RELICS_2P_SPEED,
+    relics2pByStats(Stats.SPD_P),
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [

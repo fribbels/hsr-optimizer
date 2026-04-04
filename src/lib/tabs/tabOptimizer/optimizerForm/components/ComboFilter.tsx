@@ -64,7 +64,7 @@ export function ComboFilters() {
       <Flex direction="column" gap={8} className={classes.advancedButtonContainer}>
         <Button
           variant="default"
-          onClick={() => setOpen(OpenCloseIDs.COMBO_DRAWER)}
+          onMouseDown={(e: React.MouseEvent) => { if (e.button === 0) setOpen(OpenCloseIDs.COMBO_DRAWER) }}
           leftSection={<IconSettings size={16} stroke={1.5} />}
           disabled={comboType === ComboType.SIMPLE}
         >

@@ -141,7 +141,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
                   {content}
                 </a>
               ) : (
-                <UnstyledButton key={item.key} ref={ref as React.Ref<HTMLButtonElement>} {...dataProps} onClick={() => handleClick(item)}>
+                <UnstyledButton key={item.key} ref={ref as React.Ref<HTMLButtonElement>} {...dataProps} onMouseDown={(e: React.MouseEvent) => { if (e.button === 0) handleClick(item) }}>
                   {content}
                 </UnstyledButton>
               )
@@ -184,7 +184,7 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
                     <UnstyledButton
                       className={classes.itemCollapsed}
                       data-active={isActive || undefined}
-                      onClick={() => onNavigate(item)}
+                      onMouseDown={(e: React.MouseEvent) => { if (e.button === 0) onNavigate(item) }}
                     >
                       {iconContent}
                     </UnstyledButton>

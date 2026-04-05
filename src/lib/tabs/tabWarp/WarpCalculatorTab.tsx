@@ -1,12 +1,12 @@
 import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Badge, Button, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
+import { Badge, Button, Divider, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeOptions, WarpIncomeType, type WarpMilestoneResult, type WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, enrichWarpRequest, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeOptions, WarpIncomeType, type WarpMilestoneResult, type WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -24,7 +24,7 @@ export function WarpCalculatorTab() {
   const { t } = useTranslation('warpCalculatorTab')
 
   return (
-    <Flex direction="column" style={{ height: 1400, width: 950 }} align='center'>
+    <Flex direction="column" style={{ maxWidth: 950, width: '100%' }} align='center'>
       <ColorizedTitleWithInfo
         text={t('SectionTitles.Planner')/* Warp Planner */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
@@ -108,8 +108,8 @@ function Inputs() {
   }, [form])
 
   return (
-    <div style={{ width: 930 }}>
-      <Paper style={{ width: 930 }} p="xl" withBorder>
+    <div style={{ maxWidth: 930, width: '100%' }}>
+      <Paper style={{ width: '100%' }} p="xl" withBorder>
         <Flex style={{ marginBottom: 30 }}>
           <Flex direction="column" flex={1}>
             <Title>
@@ -249,6 +249,8 @@ function Inputs() {
           </Flex>
         </Flex>
 
+        <WarpSummary form={form}/>
+
         <Flex w='100%' gap={20}>
           <Button
             fullWidth
@@ -275,8 +277,34 @@ function Title(props: { children: ReactNode }) {
   )
 }
 
+function WarpSummary(props: { form: UseFormReturnType<WarpRequest> }) {
+  const enriched = enrichWarpRequest(props.form.getValues())
+
+  return (
+    <Divider
+      mt={8} mb={14}
+      label={
+        <Flex align='center' gap={4} style={{ fontSize: 14 }}>
+          {localeNumberComma(enriched.totalJade)}
+          <img style={{ height: 16 }} src={Assets.getJade()}/>
+          <span>+</span>
+          {localeNumberComma(enriched.totalPasses)}
+          <img style={{ height: 16 }} src={Assets.getPass()}/>
+          <span>+</span>
+          {localeNumberComma(enriched.totalStarlight)}
+          <img style={{ height: 16 }} src={Assets.getStarlight()}/>
+          <span>=</span>
+          {localeNumberComma(enriched.warps)}
+          <img style={{ height: 16 }} src={Assets.getPass()}/>
+        </Flex>
+      }
+      labelPosition='center'
+    />
+  )
+}
+
 function Results() {
-  const { t, i18n } = useTranslation('warpCalculatorTab')
+  const { t } = useTranslation('warpCalculatorTab')
   const warpResult = useWarpCalculatorStore((s) => s.result)
 
   if (!warpResult?.request) {
@@ -287,34 +315,7 @@ function Results() {
     .map(([label, result]) => ({ key: label, warps: result.warps, wins: result.wins }))
 
   return (
-    <Flex direction="column" gap={20} style={{}} align='center'>
-      <Flex justify='space-around' style={{ marginTop: 15 }}>
-        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          {t('SectionTitles.Results')/* Results */}
-        </pre>
-      </Flex>
-
-      <div style={{ fontSize: 18 }}>
-        <pre style={{ margin: 0 }}>
-          <Flex align='center' gap={5}>
-            <span>{t('TotalAvailable')/* Total warps available: */}</span>
-
-            {`( ${localeNumberComma(warpResult.request.totalJade ?? 0)}`}
-            <img style={{ height: 24 }} src={Assets.getJade()}/>
-            <span>) + (</span>
-            {localeNumberComma(warpResult.request.totalPasses ?? 0)}
-            <img style={{ height: 24 }} src={Assets.getPass()}/>
-            <span>) + (</span>
-            {localeNumberComma(warpResult.request.totalStarlight ?? 0)}
-            <img style={{ height: 24 }} src={Assets.getStarlight()}/>
-            <span>) </span>
-            <span>= </span>
-            {localeNumberComma(warpResult.request.warps ?? 0)}
-            <img style={{ height: 24 }} src={Assets.getPass()}/>
-          </Flex>
-        </pre>
-      </div>
-
+    <Flex direction="column" gap={20} style={{ maxWidth: 930, width: '100%', marginTop: 15 }} align='center'>
       <Flex direction="column" gap={10} w='100%'>
         <Table className={classes.warpTable} style={{ width: '100%' }}>
           <Table.Thead>
@@ -325,7 +326,7 @@ function Results() {
                   <Trans<'ColumnTitles.Chance', 'warpCalculatorTab'>
                     t={t}
                     i18nKey='ColumnTitles.Chance'
-                    values={{ ticketCount: warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0]) }}
+                    values={{ ticketCount: localeNumberComma(warpResult.request.warps) }}
                   >
                     Success chance with [[ticketCount]]
                     <img style={{ height: 18 }} src={Assets.getPass()}/>
@@ -347,7 +348,7 @@ function Results() {
             {warpTableData.map((record) => (
               <Table.Tr
                 key={record.key}
-                className={`${classes.warpRow} ${record.wins < chanceThreshold ? 'warp-table-row-disabled' : ''}`}
+                className={record.wins < chanceThreshold ? classes.warpRowDisabled : classes.warpRow}
               >
                 <Table.Td className={classes.goalCell}>
                   <Flex className={classes.goalBarOverlay} align='center'>
@@ -361,22 +362,19 @@ function Results() {
                       />
                     )}
                     <Flex className={classes.goalContent} justify='center' align='center'>
-                      <Badge color='#000000aa' className={classes.goalBadge} style={{ opacity: opacity(record.wins), fontWeight: 'normal', fontSize: 12 }}>
+                      <Badge color='#000000aa' className={classes.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
                         {translateLabel(record.key)}
                       </Badge>
                     </Flex>
                   </Flex>
                 </Table.Td>
                 <Table.Td style={{ textAlign: 'center' }}>
-                  {`${precisionRound(record.wins * 100, 1).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  })}%`}
+                  {`${localeNumber_0(precisionRound(record.wins * 100, 1))}%`}
                 </Table.Td>
                 <Table.Td style={{ textAlign: 'center' }}>
                   <Flex align='center' justify='center' gap={HEADER_LABEL_GAP}>
                     {`${Math.ceil(record.warps)}`}
-                    <img style={{ height: 16, opacity: opacity(record.wins) }} src={Assets.getPass()}/>
+                    <img style={{ height: 16 }} src={Assets.getPass()}/>
                   </Flex>
                 </Table.Td>
               </Table.Tr>
@@ -393,10 +391,6 @@ const chanceThreshold = 0.001
 type WarpTableData = {
   key: string
 } & WarpMilestoneResult
-
-function opacity(n: number) {
-  return n < chanceThreshold ? 0.10 : 1.0
-}
 
 function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest> }) {
   const { t } = useTranslation(['warpCalculatorTab', 'common'])
@@ -452,7 +446,6 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
 
 function generateIncomeOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
-  const locale = i18next.resolvedLanguage?.split('_')[0]
   const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]
 
   return types.map((type) => ({
@@ -469,7 +462,7 @@ function generateIncomeOptions() {
         })
         return {
           value: option.id,
-          label: `${labelPrefix} +${option.passes.toLocaleString(locale)}`,
+          label: `${labelPrefix} +${localeNumberComma(option.passes)}`,
         }
       }),
   }))

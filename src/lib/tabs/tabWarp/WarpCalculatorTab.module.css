@@ -9,12 +9,17 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.warpRow td {
+.warpRow td,
+.warpRowDisabled td {
   height: 45px;
   padding: 0;
   padding-top: 6px;
   padding-bottom: 6px;
   font-size: 16px;
+}
+
+.warpRow:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 .goalCell {
@@ -49,4 +54,8 @@
   border: 0;
   padding: 2px 12px;
   font-weight: normal;
+}
+
+.warpRowDisabled td {
+  opacity: 0.10;
 }

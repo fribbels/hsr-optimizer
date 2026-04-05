@@ -359,7 +359,7 @@ export type EnrichedWarpRequest = {
   totalJade: number,
 } & WarpRequest
 
-function enrichWarpRequest(originalRequest: WarpRequest) {
+export function enrichWarpRequest(originalRequest: WarpRequest) {
   const request: WarpRequest = {
     ...originalRequest,
     jades: Number(originalRequest.jades) || 0,

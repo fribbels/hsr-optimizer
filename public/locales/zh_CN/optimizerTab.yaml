@@ -562,8 +562,15 @@ ComboFilter:
     Simple: 简易
     Advanced: 高级
   RowControls:
+    ResetTooltip: 重置连招为默认状态
+    AddTooltip: 添加技能
+    RemoveTooltip: 移除技能
+    PresetsTooltip: 启用/禁用条件预设
     ResetConfirm:
       Description: 重置所有简易 / 高级循环设置为默认值？
+  Presets:
+    Enabled: 已启用条件预设
+    Disabled: 已禁用条件预设
   ComboOptions:
     None: '无'
     Basic: 普攻

@@ -17,6 +17,7 @@ import React, {
   type ReactElement,
   Suspense,
   lazy,
+  startTransition,
   useEffect,
   useRef,
   useState,
@@ -87,11 +88,15 @@ const Tabs = () => {
   }
   const fallbackKey = fallbackKeyRef.current
 
-  // Immediately mount any tab the user navigates to, even if the stagger hasn't reached it yet.
+  // Mount any tab the user navigates to, even if the stagger hasn't reached it yet.
+  // Wrapped in startTransition so React can yield during heavy first-mount work,
+  // allowing the browser to paint the fallback tab instead of freezing.
   useEffect(() => {
-    setMountedTabs((prev) => {
-      if (prev.has(activeKey)) return prev
-      return new Set(prev).add(activeKey)
+    startTransition(() => {
+      setMountedTabs((prev) => {
+        if (prev.has(activeKey)) return prev
+        return new Set(prev).add(activeKey)
+      })
     })
   }, [activeKey])
 
@@ -102,7 +107,9 @@ const Tabs = () => {
 
     function mountNext() {
       if (i < queue.length) {
-        setMountedTabs((prev) => new Set(prev).add(queue[i]))
+        startTransition(() => {
+          setMountedTabs((prev) => new Set(prev).add(queue[i]))
+        })
         i++
         // Space out mounts so the browser stays responsive between heavy tabs
         timerId = setTimeout(mountNext, 100)

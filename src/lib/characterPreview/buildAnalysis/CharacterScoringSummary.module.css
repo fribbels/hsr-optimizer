@@ -31,8 +31,6 @@
 }
 
 .deferredSection {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 400px;
 }
 
 .mainTitle {

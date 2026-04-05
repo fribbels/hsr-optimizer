@@ -33,7 +33,7 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       },
       InputBase: { defaultProps: { size: 'xs' } },
       InputWrapper: { defaultProps: { size: 'xs' } },
-      Combobox: { defaultProps: { width: 'target', size: 'xs' } },
+      Combobox: { defaultProps: { width: 'target', size: 'xs', middlewares: { flip: true, shift: true } } },
       Select: {
         defaultProps: {
           size: 'xs',

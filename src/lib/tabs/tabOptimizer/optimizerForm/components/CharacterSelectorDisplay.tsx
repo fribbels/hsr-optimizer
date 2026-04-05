@@ -24,6 +24,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
+import classes from './CharacterSelectorDisplay.module.css'
 import { useShallow } from 'zustand/react/shallow'
 
 const sortKeyToStat: Record<string, string> = {
@@ -218,7 +219,12 @@ export function CharacterSelectorDisplay() {
         value={resultSort}
         onChange={(val) => useOptimizerRequestStore.getState().setResultSort((val ?? undefined) as keyof typeof SortOption | undefined)}
         maxDropdownHeight={900}
-        comboboxProps={{ keepMounted: false, styles: { groupLabel: { textAlign: 'center' } } }}
+        classNames={{ dropdown: classes.sortTargetDropdown }}
+        comboboxProps={{
+          keepMounted: false,
+          width: 'auto',
+          styles: { groupLabel: { textAlign: 'center' } },
+        }}
         placeholder={t('CharacterSelector.TargetPlaceholder')} // 'Sorted by'
       />
     </Flex>

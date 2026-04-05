@@ -42,11 +42,15 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
           </span>
         </Popover.Target>
         <Popover.Dropdown data-testid="conditional-popover">
-          <Text fw={600} mb={4} size="sm">{props.title}</Text>
-          <Text component="div" size="sm" style={{ width: 400, display: 'block' }}>
-            <hr />
-            {props.content}
-          </Text>
+          {open && (
+            <>
+              <Text fw={600} mb={4} size="sm">{props.title}</Text>
+              <Text component="div" size="sm" style={{ width: 400, display: 'block' }}>
+                <hr />
+                {props.content}
+              </Text>
+            </>
+          )}
         </Popover.Dropdown>
       </Popover>
     )

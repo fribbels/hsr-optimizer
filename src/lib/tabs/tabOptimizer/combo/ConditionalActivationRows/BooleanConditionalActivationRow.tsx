@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import { Flex } from '@mantine/core'
 import { BoxArray } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BoxArray'
 import { BooleanSwitch } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BooleanSwitch'
+import { comboRowStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
 import type { ContentItem } from 'types/conditionals'
 
 export function BooleanConditionalActivationRow({
@@ -23,7 +23,7 @@ export function BooleanConditionalActivationRow({
   )
 
   return (
-    <Flex h={45}>
+    <div style={comboRowStyle}>
       <BooleanSwitch contentItem={contentItem} sourceKey={sourceKey} value={activations[0]} />
       <BoxArray
         activations={activations}
@@ -32,6 +32,6 @@ export function BooleanConditionalActivationRow({
         partition={false}
         unselectable={contentItem.disabled}
       />
-    </Flex>
+    </div>
   )
 }

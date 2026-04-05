@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
-import { Flex } from '@mantine/core'
 import { BoxArray } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/BoxArray'
 import { NumberSelect } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/NumberSelect'
 import { NumberSlider } from 'lib/tabs/tabOptimizer/combo/ConditionalInputs/NumberSlider'
+import { comboRowStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
 import type { ComboSubNumberConditional } from 'lib/optimization/combo/comboTypes'
 import type { ContentItem } from 'types/conditionals'
 
@@ -52,7 +52,7 @@ export function Partition({
     )
 
   return (
-    <Flex h={45}>
+    <div style={comboRowStyle}>
       {numberInput}
       <BoxArray
         activations={activations}
@@ -60,6 +60,6 @@ export function Partition({
         dataKeys={dataKeys}
         partition={true}
       />
-    </Flex>
+    </div>
   )
 }

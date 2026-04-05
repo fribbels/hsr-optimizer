@@ -23,10 +23,16 @@ export function StateDisplay() {
       <Flex direction="column" gap={8}>
         {hasCharacter && (
           <>
-            <ComboConditionalsGroupRow conditionalType='character' actionCount={actionCount} originKey='comboCharacter' />
-            <ComboConditionalsGroupRow conditionalType='lightCone' actionCount={actionCount} originKey='comboCharacterLightCone' />
-            <GroupDivider text={t('GroupHeaders.Sets')} />
-            <SetSelectors />
+            <DeferCreate>
+              <ComboConditionalsGroupRow conditionalType='character' actionCount={actionCount} originKey='comboCharacter' />
+            </DeferCreate>
+            <DeferCreate>
+              <ComboConditionalsGroupRow conditionalType='lightCone' actionCount={actionCount} originKey='comboCharacterLightCone' />
+            </DeferCreate>
+            <DeferCreate>
+              <GroupDivider text={t('GroupHeaders.Sets')} />
+              <SetSelectors />
+            </DeferCreate>
             <SetDisplayRows actionCount={actionCount} />
           </>
         )}

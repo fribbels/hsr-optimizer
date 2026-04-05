@@ -1,6 +1,6 @@
-import { Flex } from '@mantine/core'
 import { Partition } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/Partition'
 import { PartitionDivider } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/PartitionDivider'
+import { comboColumnStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
 import type { ComboSelectConditional } from 'lib/optimization/combo/comboTypes'
 import type { ContentItem } from 'types/conditionals'
 
@@ -16,10 +16,7 @@ export function SelectConditionalActivationRow({
   sourceKey: string
 }) {
   return (
-    <Flex
-      direction="column"
-      style={{ position: 'relative' }}
-    >
+    <div style={comboColumnStyle}>
       <PartitionDivider />
       {comboConditional.partitions.map((partition, i) => (
         <Partition
@@ -33,6 +30,6 @@ export function SelectConditionalActivationRow({
         />
       ))}
       <PartitionDivider bottom />
-    </Flex>
+    </div>
   )
 }

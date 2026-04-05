@@ -32,7 +32,6 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
   const characterCount = useCharacterStore((s) => s.characters.length)
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const selectedRelic = useRelicById(selectedRelicId)
-  const { ref: containerRef, width: containerWidth } = useElementSize()
 
   const scores: Score[] = useMemo(() => {
     if (!selectedRelic) return []
@@ -63,11 +62,20 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
       })
   }, [insightsCharacters, selectedRelic, excludedRelicPotentialCharacters, t, scoringVersion, characterCount])
 
+  if (!selectedRelic) {
+    return <div style={{ width: '100%', overflow: 'hidden' }} />
+  }
+
+  return <RelicInsightsPanelContent scores={scores} insightsMode={insightsMode} />
+})
+
+function RelicInsightsPanelContent({ scores, insightsMode }: { scores: Score[]; insightsMode: RelicInsights }) {
+  const { ref: containerRef, width: containerWidth } = useElementSize()
   const chartWidth = containerWidth || undefined
 
   return (
     <div ref={containerRef} style={{ width: '100%', overflow: 'hidden' }}>
-      {selectedRelic && (() => {
+      {(() => {
         switch (insightsMode) {
           case RelicInsights.Buckets:
             return <BucketsPanel scores={scores} width={chartWidth} />
@@ -79,7 +87,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
       })()}
     </div>
   )
-})
+}
 
 type Score = {
   id: CharacterId,

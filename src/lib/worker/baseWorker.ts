@@ -1,5 +1,7 @@
 import type { ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type { EstTbpWorkerInput } from 'lib/worker/estTbpWorkerRunner'
+import type { OptimizerWorkerInput } from 'lib/worker/optimizerWorker'
+import type { BaseWorkerInput } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 
 // Signal to the pool that this worker has loaded and is ready to accept tasks.
@@ -11,16 +13,17 @@ self.onmessage = function(e: MessageEvent) {
   handleMessage(e).catch((err) => {
     // Throw synchronously so the worker error event fires
     // and the pool can detect the failure and retry/replace
-    setTimeout(() => { throw err })
+    setTimeout(() => {
+      throw err
+    })
   })
 }
 
-async function handleMessage(e: MessageEvent) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+async function handleMessage(e: MessageEvent<BaseWorkerInput>) {
   switch (e.data.workerType) {
     case WorkerType.OPTIMIZER: {
       const { optimizerWorker } = await import('lib/worker/optimizerWorker')
-      optimizerWorker(e)
+      optimizerWorker(e as MessageEvent<OptimizerWorkerInput>)
       break
     }
     case WorkerType.EST_TBP: {
@@ -34,7 +37,6 @@ async function handleMessage(e: MessageEvent) {
       break
     }
     default:
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       console.warn(`[baseWorker] Unhandled worker type: ${e.data.workerType}`)
       break
   }

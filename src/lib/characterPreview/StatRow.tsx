@@ -4,8 +4,8 @@ import {
   Constants,
   type StatsValues,
 } from 'lib/constants/constants'
-import iconClasses from 'style/icons.module.css'
 import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import iconClasses from 'style/icons.module.css'
 
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -13,10 +13,17 @@ import {
   localeNumber_0,
   localeNumber_000,
 } from 'lib/utils/i18nUtils'
-import { memo, type ReactElement } from 'react'
-import { useTranslation } from 'react-i18next'
+import {
+  precisionRound,
+  truncate1000ths,
+  truncate10ths,
+} from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths, truncate1000ths, precisionRound } from 'lib/utils/mathUtils'
+import {
+  memo,
+  type ReactElement,
+} from 'react'
+import { useTranslation } from 'react-i18next'
 
 const breakpointPresets = [
   [111.1, 111.2],
@@ -70,14 +77,12 @@ export const StatRow = memo(function StatRow({
   value: customValue,
   edits,
   preciseSpd,
-  loading,
 }: {
-  stat: string
-  finalStats: BasicStatsObject | ComputedStatsObjectExternal
-  value?: number
-  edits?: Record<string, boolean>
-  preciseSpd?: boolean
-  loading?: boolean
+  stat: string,
+  finalStats: BasicStatsObject | ComputedStatsObjectExternal,
+  value?: number,
+  edits?: Record<string, boolean>,
+  preciseSpd?: boolean,
 }): ReactElement {
   const value = precisionRound(finalStats[stat as keyof typeof finalStats])
 
@@ -95,13 +100,14 @@ export const StatRow = memo(function StatRow({
     return null as unknown as ReactElement
   }
   return (
-    <div title={value1000thsPrecision} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16, filter: loading ? 'blur(2px)' : 'none' }}>
+    <div
+      title={value1000thsPrecision}
+      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16 }}
+    >
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
-      {loading
-        ? '...'
-        : `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
+      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant='dashed' />
+      {`${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
     </div>
   )
 })

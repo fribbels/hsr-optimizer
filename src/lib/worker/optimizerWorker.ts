@@ -1,19 +1,16 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants } from 'lib/constants/constants'
-import {
-  OrnamentSetToIndex,
-  RelicSetToIndex,
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
 import { type DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   type BasicStatsArray,
   BasicStatsArrayCore,
 } from 'lib/optimization/basicStatsArray'
+import {
+  BasicKey,
+  type BasicKeyType,
+} from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
-import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
   calculateContextConditionalRegistry,
   wrapTeammateDynamicConditional,
@@ -28,17 +25,35 @@ import {
   calculateRelicStats,
   calculateSetCountsInPlace,
 } from 'lib/optimization/calculateStats'
-import { type SetCounts } from 'lib/optimization/setMatching'
-import { BasicKey, type BasicKeyType } from 'lib/optimization/basicStatsArray'
-import { GlobalRegister, StatKey, type StatKeyValue } from 'lib/optimization/engine/config/keys'
+import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
+import {
+  GlobalRegister,
+  StatKey,
+  type StatKeyValue,
+} from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer, rebuildEntityRegistry } from 'lib/optimization/engine/container/computedStatsContainer'
-import { calculateEhp, getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import {
+  ComputedStatsContainer,
+  rebuildEntityRegistry,
+} from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  calculateEhp,
+  getDamageFunction,
+} from 'lib/optimization/engine/damage/damageCalculator'
+import { type SetCounts } from 'lib/optimization/setMatching'
 import {
   SortOption,
   type SortOptionProperties,
 } from 'lib/optimization/sortOptions'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { type SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
+import type { BaseWorkerInput } from 'lib/worker/workerPool'
+import type { WorkerType } from 'lib/worker/workerUtils'
 import { type Form } from 'types/form'
 import {
   type CharacterMetadata,
@@ -49,6 +64,10 @@ import { type Relic } from 'types/relic'
 
 const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
+
+export interface OptimizerWorkerInput extends BaseWorkerInput, OptimizerEventData {
+  workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION
+}
 
 type OptimizerEventData = {
   relics: {
@@ -69,7 +88,7 @@ type OptimizerEventData = {
   skip: number,
 }
 
-export function optimizerWorker(e: MessageEvent) {
+export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
   // console.log('Message received from main script', e.data)
   // console.log("Request received from main script", JSON.stringify(e.data.request.characterConditionals, null, 4));
 

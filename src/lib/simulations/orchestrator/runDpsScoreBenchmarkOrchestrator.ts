@@ -1,17 +1,17 @@
 import { CUSTOM_TEAM } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
+import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { Character } from 'types/character'
-import type { SavedBuild } from 'types/savedBuild'
 import type {
   ScoringMetadata,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
+import type { SavedBuild } from 'types/savedBuild'
 
 /**
  * Prepare phase (steps 1-8): synchronous, ~5ms.
@@ -51,7 +51,6 @@ export function prepareOrchestrator(
  */
 export async function executeOrchestrator(
   orchestrator: BenchmarkSimulationOrchestrator,
-  onScoreReady?: () => void,
 ): Promise<BenchmarkSimulationOrchestrator> {
   // JSON clone strips closures (conditional registries, controllers) that
   // postMessage's structured clone can't handle. The worker rebuilds them
@@ -69,10 +68,11 @@ export async function executeOrchestrator(
   orchestrator.setUpgradeResults ??= []
   orchestrator.mainUpgradeResults ??= []
   orchestrator.calculateResults()
-  onScoreReady?.()
 
-  // Yield to browser before computing upgrades (~42ms of synchronous simulations)
-  await new Promise((r) => setTimeout(r, 0))
+  return orchestrator
+}
+
+export async function executeUpgradeOrchestrator(orchestrator: BenchmarkSimulationOrchestrator) {
   orchestrator.calculateUpgrades()
   orchestrator.calculateResults()
 

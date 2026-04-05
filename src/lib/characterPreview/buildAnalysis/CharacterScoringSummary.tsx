@@ -26,12 +26,15 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import { memo } from 'react'
+import { memo, use, useContext } from 'react'
 import { DeferCreate, DeferCreateProvider } from 'lib/ui/DeferredRender'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
-import { type CharacterId } from 'types/character'
+import { type Character, type CharacterId } from 'types/character'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
+import { type Nullable } from 'types/common'
+import { SimScoringContext } from '../SimScoringContext'
+import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 
 // ─── Primitives used by ScoringColumn ────────────────────────────────────────
 
@@ -100,8 +103,7 @@ function ScoringColumn(props: {
             elementalDmgValue={props.elementalDmgValue}
             simScore={simResult.simScore}
             showAll={true}
-            scoringDone={true}
-            scoringResult={null}
+            hasScoring
           />
         </div>
       </DeferCreate>
@@ -120,8 +122,7 @@ function ScoringColumn(props: {
             elementalDmgValue={props.elementalDmgValue}
             simScore={simResult.simScore}
             showAll={true}
-            scoringDone={true}
-            scoringResult={null}
+            hasScoring
           />
         </div>
       </DeferCreate>
@@ -380,18 +381,18 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
 // ─── CharacterScoringSummary ──────────────────────────────────────────────────
 
 export const CharacterScoringSummary = memo(function CharacterScoringSummary({
-  simScoringResult,
   displayRelics,
   showcaseMetadata,
 }: {
-  simScoringResult?: SimulationScore
   displayRelics: SingleRelicByPart
   showcaseMetadata: ShowcaseMetadata
 }) {
   const { t } = useTranslation('charactersTab')
 
-  if (!simScoringResult) return null
-  const result = simScoringResult
+  const { cacheKey, character } = useContext(SimScoringContext)
+  const result = useScoringExecution(cacheKey, character)
+
+  if (!result) return null
 
   return (
     <DeferCreateProvider resetKey={result.simulationForm.characterId}>

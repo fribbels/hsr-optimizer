@@ -1,21 +1,5 @@
-import {
-  showcaseShadow,
-  showcaseShadowInsetAddition,
-  showcaseTransition,
-  ShowcaseSource,
-} from 'lib/characterPreview/CharacterPreviewComponents'
-import {
-  showcaseOnEditPortraitOk,
-} from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
-import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/card/ShowcaseCharacterHeader'
-import { ShowcaseCustomizationSidebar } from 'lib/characterPreview/customization/ShowcaseCustomizationSidebar'
-import {
-  ShowcaseCombatScoreDetailsFooter,
-  ShowcaseDpsScoreHeader,
-  ShowcaseDpsScorePanel,
-} from 'lib/characterPreview/scoring/ShowcaseDpsScore'
 import {
   ShowcaseLightConeLarge,
   ShowcaseLightConeLargeName,
@@ -23,22 +7,48 @@ import {
 } from 'lib/characterPreview/card/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/card/ShowcaseRelicsPanel'
-import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
-import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
-import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
-import { resolveShowcaseColor, resolveShowcaseTheme } from 'lib/characterPreview/color/showcaseColorService'
-import { withAlpha } from 'lib/characterPreview/color/colorUtils'
+import {
+  showcaseShadow,
+  showcaseShadowInsetAddition,
+  ShowcaseSource,
+  showcaseTransition,
+} from 'lib/characterPreview/CharacterPreviewComponents'
+import {
+  showcaseOnEditPortraitOk,
+} from 'lib/characterPreview/characterPreviewController'
+import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
+import { withAlpha } from 'lib/characterPreview/color/colorUtils'
+import {
+  modifyCustomColor,
+  organizeColors,
+  pickBestSeed,
+} from 'lib/characterPreview/color/colorUtils'
+import {
+  resolveShowcaseColor,
+  resolveShowcaseTheme,
+} from 'lib/characterPreview/color/showcaseColorService'
+import { ShowcaseCustomizationSidebar } from 'lib/characterPreview/customization/ShowcaseCustomizationSidebar'
+import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
+import {
+  ShowcaseCombatScoreDetailsFooter,
+  ShowcaseDpsScoreHeader,
+  ShowcaseDpsScorePanel,
+} from 'lib/characterPreview/scoring/ShowcaseDpsScore'
+import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
+import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
+import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import {
   cardTotalW,
   defaultGap,
   middleColumnWidth,
   parentH,
 } from 'lib/constants/constantsUi'
-import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
-import { Assets } from 'lib/rendering/assets'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
+import type { RelicScoringResult } from 'lib/relics/scoring/types'
+import { Assets } from 'lib/rendering/assets'
 import {
   computeScoringCacheKey,
   getOrComputePreview,
@@ -47,14 +57,8 @@ import {
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
-import {
-  modifyCustomColor,
-  organizeColors,
-  pickBestSeed,
-} from 'lib/characterPreview/color/colorUtils'
-import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { DeferReveal } from 'lib/ui/DeferredRender'
 import {
   memo,
@@ -70,10 +74,12 @@ import {
 import {
   type CustomImagePayload,
 } from 'types/customImage'
+import type { ShowcaseTemporaryOptions } from 'types/metadata'
+import { SimScoringContext } from './SimScoringContext'
 
 const EMPTY_SWATCHES: string[] = []
-const EMPTY_OPTIONS = {}
-const EMPTY_SCORED: import('lib/relics/scoring/relicScorer').RelicScoringResult[] = []
+const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
+const EMPTY_SCORED: RelicScoringResult[] = []
 
 interface InteractiveCharacterPreviewProps {
   setOriginalCharacterModalOpen: (open: boolean) => void
@@ -122,10 +128,9 @@ function buildInsetShadow(blur: number, opacity: number) {
   return `, inset rgba(255, 255, 255, ${opacity.toFixed(2)}) 0px 0px ${blur}px`
 }
 
-
-type SliderDef = { label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void }
-type SliderGroup = { title: string; sliders: SliderDef[] }
-type DebugPreset = { label: string; apply: () => void }
+type SliderDef = { label: string, value: number, min: number, max: number, step: number, onChange: (v: number) => void }
+type SliderGroup = { title: string, sliders: SliderDef[] }
+type DebugPreset = { label: string, apply: () => void }
 
 const pillStyle: React.CSSProperties = {
   padding: '3px 10px',
@@ -140,7 +145,7 @@ const pillStyle: React.CSSProperties = {
 }
 
 // Debug slider panel for tuning card visuals — hidden by default, click [+] to show
-function DebugSliderPanel({ groups, presets }: { groups: SliderGroup[]; presets?: DebugPreset[] }) {
+function DebugSliderPanel({ groups, presets }: { groups: SliderGroup[], presets?: DebugPreset[] }) {
   const [open, setOpen] = useState(false)
 
   if (!open) {
@@ -167,32 +172,32 @@ function DebugSliderPanel({ groups, presets }: { groups: SliderGroup[]; presets?
   }
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 10,
-      right: 10,
-      zIndex: 9999,
-      background: 'rgba(0,0,0,0.85)',
-      borderRadius: 8,
-      padding: '14px 20px',
-      color: '#ddd',
-      fontSize: 13,
-      minWidth: 520,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 6,
-      maxHeight: '90vh',
-      overflowY: 'auto',
-    }}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 10,
+        right: 10,
+        zIndex: 9999,
+        background: 'rgba(0,0,0,0.85)',
+        borderRadius: 8,
+        padding: '14px 20px',
+        color: '#ddd',
+        fontSize: 13,
+        minWidth: 520,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 6,
+        maxHeight: '90vh',
+        overflowY: 'auto',
+      }}
+    >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
         <span style={{ fontWeight: 600, fontSize: 14 }}>Card Debug Sliders</span>
         <span onClick={() => setOpen(false)} style={{ cursor: 'pointer', padding: '0 4px' }}>x</span>
       </div>
       {presets && presets.length > 0 && (
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 4 }}>
-          {presets.map((p) => (
-            <span key={p.label} onClick={p.apply} style={pillStyle}>{p.label}</span>
-          ))}
+          {presets.map((p) => <span key={p.label} onClick={p.apply} style={pillStyle}>{p.label}</span>)}
         </div>
       )}
       {groups.map((g) => (
@@ -202,7 +207,15 @@ function DebugSliderPanel({ groups, presets }: { groups: SliderGroup[]; presets?
             <label key={s.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
               <span style={{ minWidth: 100 }}>{s.label}</span>
               <span style={{ minWidth: 40, textAlign: 'right', fontFamily: 'monospace' }}>{s.value.toFixed(2)}</span>
-              <input type="range" min={s.min} max={s.max} step={s.step} value={s.value} onChange={(e) => s.onChange(Number(e.target.value))} style={{ width: 300 }} />
+              <input
+                type='range'
+                min={s.min}
+                max={s.max}
+                step={s.step}
+                value={s.value}
+                onChange={(e) => s.onChange(Number(e.target.value))}
+                style={{ width: 300 }}
+              />
             </label>
           ))}
         </div>
@@ -283,20 +296,20 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   const state = useCharacterPreviewState(source, rawCharacter, savedBuildOverride)
 
-  const displayRelics = state.previewRelics?.displayRelics ?? null
-  const scoringResults = state.previewRelics?.scoringResults ?? null
+  const { displayRelics, scoringResults } = state.previewRelics
 
   // ===== Layout (character-dependent, no color) =====
   // scoringMetadata is not a direct input — it busts the memo cache when scoring overrides
   // change (SPD weight, buff priority), ensuring resolveShowcaseLayout re-reads the latest
   // values from the scoring store via resolveDpsScoreSimulationMetadata.
   const layout = useMemo(
-    () => resolveShowcaseLayout({
-      character,
-      teamSelection: state.teamSelection,
-      storedScoringType: state.storedScoringType,
-      savedBuildOverride,
-    }),
+    () =>
+      resolveShowcaseLayout({
+        character,
+        teamSelection: state.teamSelection,
+        storedScoringType: state.storedScoringType,
+        savedBuildOverride,
+      }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [character, state.teamSelection, state.storedScoringType, savedBuildOverride, state.scoringMetadata],
   )
@@ -304,13 +317,14 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // ===== Color + Theme (color-dependent, cheap) =====
   const portraitImageUrl = character.portrait?.imageUrl
   const { effectiveColorMode, seedColor } = useMemo(
-    () => resolveShowcaseColor(
-      character.id,
-      state.globalColorMode,
-      state.showcasePreferences,
-      state.portraitColor,
-      !!portraitImageUrl,
-    ),
+    () =>
+      resolveShowcaseColor(
+        character.id,
+        state.globalColorMode,
+        state.showcasePreferences,
+        state.portraitColor,
+        !!portraitImageUrl,
+      ),
     [character.id, state.globalColorMode, state.showcasePreferences, state.portraitColor, portraitImageUrl],
   )
 
@@ -333,7 +347,9 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       useShowcaseTabStore.getState().setPortraitPalette(character.id, color, swatches)
     })()
 
-    return () => { aborted = true }
+    return () => {
+      aborted = true
+    }
   }, [character.id, portraitImageUrl])
 
   // ===== Stable callback refs for child components =====
@@ -355,45 +371,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
   const tempOptions = state.showcaseTemporaryOptions ?? EMPTY_OPTIONS
 
-  const cacheKey = useMemo(
-    () => {
-      if (!displayRelics) return null
-      return computeScoringCacheKey(
-        character, layout.simulationMetadata, displayRelics as SingleRelicByPart, tempOptions,
-      )
-    },
-    [character, layout.simulationMetadata, displayRelics, state.showcaseTemporaryOptions],
-  )
-
-  // Compute preview synchronously — runs prepareOrchestrator (~5ms) on cache miss.
-  // Returns null if inputs are missing or if preparation fails (try/catch inside).
-  const preview = useMemo(
-    () => {
-      if (!cacheKey || !layout.simulationMetadata || !displayRelics) return null
-      return getOrComputePreview(
-        cacheKey, character, layout.simulationMetadata,
-        displayRelics as SingleRelicByPart, tempOptions,
-      )
-    },
-    // cacheKey is a content hash of all inputs — sufficient proxy
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cacheKey],
-  )
-
-  const requestFn = useMemo(() => {
-    if (!cacheKey || !layout.simulationMetadata || !displayRelics) return null
-    return () => requestScore(
-      cacheKey, character, layout.simulationMetadata!,
-      displayRelics as SingleRelicByPart, tempOptions,
-    )
-    // cacheKey is a content hash of all scoring inputs — sufficient proxy for deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cacheKey])
-
-  const { done: scoringDone, result: scoringResult } = useScoringExecution(cacheKey, requestFn)
+  const { preview, cacheKey } = useScoringExecution(character, layout.simulationMetadata, displayRelics, tempOptions)
 
   // ===== Early return after all hooks =====
-  if (!state.previewRelics || !state.finalStats || !displayRelics || !scoringResults) {
+  if (!state.previewRelics || !state.finalStats) {
     return null
   }
 
@@ -409,280 +390,358 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const scoredRelics = scoringResults.relics ?? EMPTY_SCORED
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
-      {globalThis.CARD_DEBUG && <DebugSliderPanel presets={[
-        { label: 'Preset A (current)', apply: () => {
-          setPortraitBlur(22); setPortraitBrightness(0.40); setPortraitSaturate(1.80); setCardBgAlpha(0.45)
-          setShadowX(1); setShadowY(1); setShadowBlur(5); setShadowOpacity(0.75)
-          setInsetBlur(2); setInsetOpacity(0.30)
-          setDebugMaxC(0.052); setDebugMinC(0.034); setDebugChromaScale(0.58); setDebugTargetL(0.42); setDebugDarkCScale(0.80)
-        }},
-        { label: 'Preset B (vivid)', apply: () => {
-          setPortraitBlur(24); setPortraitBrightness(0.45); setPortraitSaturate(1.80); setCardBgAlpha(0.50)
-          setShadowX(1); setShadowY(1); setShadowBlur(5); setShadowOpacity(0.75)
-          setInsetBlur(2); setInsetOpacity(0.30)
-          setDebugMaxC(0.09); setDebugMinC(0.05); setDebugChromaScale(0.50); setDebugTargetL(0.40); setDebugDarkCScale(0.80)
-        }},
-        { label: 'Preset D (bright)', apply: () => {
-          setPortraitBlur(24); setPortraitBrightness(0.50); setPortraitSaturate(1.80); setCardBgAlpha(0.50)
-          setShadowX(1); setShadowY(1); setShadowBlur(5); setShadowOpacity(0.75)
-          setInsetBlur(2); setInsetOpacity(0.30)
-          setDebugMaxC(0.09); setDebugMinC(0.05); setDebugChromaScale(0.50); setDebugTargetL(0.35); setDebugDarkCScale(0.80)
-        }},
-        { label: 'Preset E (mid)', apply: () => {
-          setPortraitBlur(26); setPortraitBrightness(0.475); setPortraitSaturate(1.75); setCardBgAlpha(0.50)
-          setShadowX(1); setShadowY(1); setShadowBlur(5); setShadowOpacity(0.75)
-          setInsetBlur(2); setInsetOpacity(0.30)
-          setDebugMaxC(0.09); setDebugMinC(0.05); setDebugChromaScale(0.50); setDebugTargetL(0.375); setDebugDarkCScale(0.80)
-        }},
-      ]} groups={[
-        { title: 'Portrait BG Filter', sliders: [
-          { label: 'Blur', value: portraitBlur, min: 0, max: 50, step: 1, onChange: setPortraitBlur },
-          { label: 'Brightness', value: portraitBrightness, min: 0, max: 1, step: 0.01, onChange: setPortraitBrightness },
-          { label: 'Saturate', value: portraitSaturate, min: 0, max: 4, step: 0.05, onChange: setPortraitSaturate },
-          { label: 'Card BG Alpha', value: cardBgAlpha, min: 0, max: 1, step: 0.01, onChange: setCardBgAlpha },
-        ]},
-        { title: 'Outer Shadow', sliders: [
-          { label: 'X', value: shadowX, min: -5, max: 5, step: 0.5, onChange: setShadowX },
-          { label: 'Y', value: shadowY, min: -5, max: 5, step: 0.5, onChange: setShadowY },
-          { label: 'Blur', value: shadowBlur, min: 0, max: 15, step: 0.5, onChange: setShadowBlur },
-          { label: 'Opacity', value: shadowOpacity, min: 0, max: 1, step: 0.05, onChange: setShadowOpacity },
-        ]},
-        { title: 'Inset Glow', sliders: [
-          { label: 'Blur', value: insetBlur, min: 0, max: 8, step: 0.5, onChange: setInsetBlur },
-          { label: 'Opacity', value: insetOpacity, min: 0, max: 1, step: 0.05, onChange: setInsetOpacity },
-        ]},
-        { title: 'OKLCH Pipeline', sliders: [
-          { label: 'Max Chroma', value: debugMaxC, min: 0.03, max: 0.18, step: 0.002, onChange: setDebugMaxC },
-          { label: 'Min Chroma', value: debugMinC, min: 0.00, max: 0.10, step: 0.002, onChange: setDebugMinC },
-          { label: 'Chroma Scale', value: debugChromaScale, min: 0.1, max: 2.0, step: 0.02, onChange: setDebugChromaScale },
-          { label: 'Target L', value: debugTargetL, min: 0.15, max: 0.60, step: 0.01, onChange: setDebugTargetL },
-          { label: 'Dark C Scale', value: debugDarkCScale, min: 0.5, max: 1.0, step: 0.02, onChange: setDebugDarkCScale },
-        ]},
-      ]} />}
-      {
-        /*
+    <SimScoringContext value={{ cacheKey, character }}>
+      <div style={{ display: 'flex', flexDirection: 'column', width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
+        {globalThis.CARD_DEBUG && (
+          <DebugSliderPanel
+            presets={[
+              {
+                label: 'Preset A (current)',
+                apply: () => {
+                  setPortraitBlur(22)
+                  setPortraitBrightness(0.40)
+                  setPortraitSaturate(1.80)
+                  setCardBgAlpha(0.45)
+                  setShadowX(1)
+                  setShadowY(1)
+                  setShadowBlur(5)
+                  setShadowOpacity(0.75)
+                  setInsetBlur(2)
+                  setInsetOpacity(0.30)
+                  setDebugMaxC(0.052)
+                  setDebugMinC(0.034)
+                  setDebugChromaScale(0.58)
+                  setDebugTargetL(0.42)
+                  setDebugDarkCScale(0.80)
+                },
+              },
+              {
+                label: 'Preset B (vivid)',
+                apply: () => {
+                  setPortraitBlur(24)
+                  setPortraitBrightness(0.45)
+                  setPortraitSaturate(1.80)
+                  setCardBgAlpha(0.50)
+                  setShadowX(1)
+                  setShadowY(1)
+                  setShadowBlur(5)
+                  setShadowOpacity(0.75)
+                  setInsetBlur(2)
+                  setInsetOpacity(0.30)
+                  setDebugMaxC(0.09)
+                  setDebugMinC(0.05)
+                  setDebugChromaScale(0.50)
+                  setDebugTargetL(0.40)
+                  setDebugDarkCScale(0.80)
+                },
+              },
+              {
+                label: 'Preset D (bright)',
+                apply: () => {
+                  setPortraitBlur(24)
+                  setPortraitBrightness(0.50)
+                  setPortraitSaturate(1.80)
+                  setCardBgAlpha(0.50)
+                  setShadowX(1)
+                  setShadowY(1)
+                  setShadowBlur(5)
+                  setShadowOpacity(0.75)
+                  setInsetBlur(2)
+                  setInsetOpacity(0.30)
+                  setDebugMaxC(0.09)
+                  setDebugMinC(0.05)
+                  setDebugChromaScale(0.50)
+                  setDebugTargetL(0.35)
+                  setDebugDarkCScale(0.80)
+                },
+              },
+              {
+                label: 'Preset E (mid)',
+                apply: () => {
+                  setPortraitBlur(26)
+                  setPortraitBrightness(0.475)
+                  setPortraitSaturate(1.75)
+                  setCardBgAlpha(0.50)
+                  setShadowX(1)
+                  setShadowY(1)
+                  setShadowBlur(5)
+                  setShadowOpacity(0.75)
+                  setInsetBlur(2)
+                  setInsetOpacity(0.30)
+                  setDebugMaxC(0.09)
+                  setDebugMinC(0.05)
+                  setDebugChromaScale(0.50)
+                  setDebugTargetL(0.375)
+                  setDebugDarkCScale(0.80)
+                },
+              },
+            ]}
+            groups={[
+              {
+                title: 'Portrait BG Filter',
+                sliders: [
+                  { label: 'Blur', value: portraitBlur, min: 0, max: 50, step: 1, onChange: setPortraitBlur },
+                  { label: 'Brightness', value: portraitBrightness, min: 0, max: 1, step: 0.01, onChange: setPortraitBrightness },
+                  { label: 'Saturate', value: portraitSaturate, min: 0, max: 4, step: 0.05, onChange: setPortraitSaturate },
+                  { label: 'Card BG Alpha', value: cardBgAlpha, min: 0, max: 1, step: 0.01, onChange: setCardBgAlpha },
+                ],
+              },
+              {
+                title: 'Outer Shadow',
+                sliders: [
+                  { label: 'X', value: shadowX, min: -5, max: 5, step: 0.5, onChange: setShadowX },
+                  { label: 'Y', value: shadowY, min: -5, max: 5, step: 0.5, onChange: setShadowY },
+                  { label: 'Blur', value: shadowBlur, min: 0, max: 15, step: 0.5, onChange: setShadowBlur },
+                  { label: 'Opacity', value: shadowOpacity, min: 0, max: 1, step: 0.05, onChange: setShadowOpacity },
+                ],
+              },
+              {
+                title: 'Inset Glow',
+                sliders: [
+                  { label: 'Blur', value: insetBlur, min: 0, max: 8, step: 0.5, onChange: setInsetBlur },
+                  { label: 'Opacity', value: insetOpacity, min: 0, max: 1, step: 0.05, onChange: setInsetOpacity },
+                ],
+              },
+              {
+                title: 'OKLCH Pipeline',
+                sliders: [
+                  { label: 'Max Chroma', value: debugMaxC, min: 0.03, max: 0.18, step: 0.002, onChange: setDebugMaxC },
+                  { label: 'Min Chroma', value: debugMinC, min: 0.00, max: 0.10, step: 0.002, onChange: setDebugMinC },
+                  { label: 'Chroma Scale', value: debugChromaScale, min: 0.1, max: 2.0, step: 0.02, onChange: setDebugChromaScale },
+                  { label: 'Target L', value: debugTargetL, min: 0.15, max: 0.60, step: 0.01, onChange: setDebugTargetL },
+                  { label: 'Dark C Scale', value: debugDarkCScale, min: 0.5, max: 1.0, step: 0.02, onChange: setDebugDarkCScale },
+                ],
+              },
+            ]}
+          />
+        )}
+        {
+          /*
         Will only render (<></>) if source == ShowcaseSource.BUILDS_MODAL
         It still needs to be mounted in order to provide colour to the build modals opened from the optimizer tab
       */
-      }
-      <ShowcaseCustomizationSidebar
-        source={source}
-        id={id}
-        characterId={character.id}
-        originalSpd={preview?.originalSpd}
-        scoringType={scoringType}
-        seedColor={seedColor}
-        effectiveColorMode={effectiveColorMode}
-        portraitSwatches={state.portraitSwatches ?? EMPTY_SWATCHES}
-        cardBgAlpha={cardBgAlpha}
-      />
+        }
+        <ShowcaseCustomizationSidebar
+          source={source}
+          id={id}
+          characterId={character.id}
+          originalSpd={preview?.originalSpd}
+          scoringType={scoringType}
+          seedColor={seedColor}
+          effectiveColorMode={effectiveColorMode}
+          portraitSwatches={state.portraitSwatches ?? EMPTY_SWATCHES}
+          cardBgAlpha={cardBgAlpha}
+        />
 
-      {/* Showcase full card — CSS custom properties for card theme allow imperative
-          color updates during drag without React re-renders */}
-      <div
-        id={id}
-        className='characterPreview'
-        style={{
-          '--showcase-card-bg': withAlpha(derivedShowcaseTheme.cardBackgroundColor, cardBgAlpha),
-          '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
-          '--showcase-shadow': buildShadow(shadowX, shadowY, shadowBlur, shadowOpacity),
-          '--showcase-shadow-inset': buildInsetShadow(insetBlur, insetOpacity),
-          color: 'rgba(220, 220, 220, 1)',
-          textShadow: '0px 0px 3px rgba(0,0,0,0.9), 0px 0px 1px rgba(0,0,0,0.7)',
-          position: 'relative',
-          display: 'flex',
-          height: parentH,
-          background: 'var(--layer-inset)',
-          backgroundBlendMode: 'screen',
-          overflow: 'hidden',
-          borderRadius: 6,
-          transition: showcaseTransition,
-          gap: defaultGap,
-        } as React.CSSProperties}
-      >
-        {/* Background — blurred portrait fill behind the card */}
-        {(() => {
-          let bgSize: string
-          let bgPos: string
+        {
+          /* Showcase full card — CSS custom properties for card theme allow imperative
+          color updates during drag without React re-renders */
+        }
+        <div
+          id={id}
+          className='characterPreview'
+          style={{
+            '--showcase-card-bg': withAlpha(derivedShowcaseTheme.cardBackgroundColor, cardBgAlpha),
+            '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
+            '--showcase-shadow': buildShadow(shadowX, shadowY, shadowBlur, shadowOpacity),
+            '--showcase-shadow-inset': buildInsetShadow(insetBlur, insetOpacity),
+            'color': 'rgba(220, 220, 220, 1)',
+            'textShadow': '0px 0px 3px rgba(0,0,0,0.9), 0px 0px 1px rgba(0,0,0,0.7)',
+            'position': 'relative',
+            'display': 'flex',
+            'height': parentH,
+            'background': 'var(--layer-inset)',
+            'backgroundBlendMode': 'screen',
+            'overflow': 'hidden',
+            'borderRadius': 6,
+            'transition': showcaseTransition,
+            'gap': defaultGap,
+          } as React.CSSProperties}
+        >
+          {/* Background — blurred portrait fill behind the card */}
+          {(() => {
+            let bgSize: string
+            let bgPos: string
 
-          if (portraitToUse) {
-            // Custom portrait: CSS cover guarantees no visible edges,
-            // percentage position centers on the crop focal point
-            const crop = portraitToUse.customImageParams.croppedAreaPixels
-            const origW = portraitToUse.originalDimensions.width
-            const origH = portraitToUse.originalDimensions.height
-            bgSize = 'cover'
-            if (origW > 0 && origH > 0) {
-              const pctX = (crop.x + crop.width / 2) / origW * 100
-              const pctY = (crop.y + crop.height / 2) / origH * 100
-              bgPos = `${pctX}% ${pctY}%`
+            if (portraitToUse) {
+              // Custom portrait: CSS cover guarantees no visible edges,
+              // percentage position centers on the crop focal point
+              const crop = portraitToUse.customImageParams.croppedAreaPixels
+              const origW = portraitToUse.originalDimensions.width
+              const origH = portraitToUse.originalDimensions.height
+              bgSize = 'cover'
+              if (origW > 0 && origH > 0) {
+                const pctX = (crop.x + crop.width / 2) / origW * 100
+                const pctY = (crop.y + crop.height / 2) / origH * 100
+                bgPos = `${pctX}% ${pctY}%`
+              } else {
+                bgPos = 'center'
+              }
             } else {
-              bgPos = 'center'
+              // Default portrait: pixel positioning using curated charCenter values
+              const bgZoom = displayDimensions.charCenter.z * 1.75
+              const bgScale = bgZoom / 2 * cardTotalW / 1024
+              bgSize = `${cardTotalW * bgZoom}px auto`
+              bgPos = `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2}px`
             }
-          } else {
-            // Default portrait: pixel positioning using curated charCenter values
-            const bgZoom = displayDimensions.charCenter.z * 1.75
-            const bgScale = bgZoom / 2 * cardTotalW / 1024
-            bgSize = `${cardTotalW * bgZoom}px auto`
-            bgPos = `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2}px`
-          }
 
-          return <div
-            data-portrait-bg
-            style={{
-              backgroundImage: `url(${portraitUrl})`,
-              backgroundPosition: bgPos,
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: bgSize,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 0,
-            filter: portraitFilter,
-            WebkitFilter: portraitFilter,
-          }}
-          />
-        })()}
+            return (
+              <div
+                data-portrait-bg
+                style={{
+                  backgroundImage: `url(${portraitUrl})`,
+                  backgroundPosition: bgPos,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: bgSize,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: 0,
+                  filter: portraitFilter,
+                  WebkitFilter: portraitFilter,
+                }}
+              />
+            )
+          })()}
 
-        {/* Portrait left panel */}
-        <div className='character-build-portrait' style={{ display: 'flex', flexDirection: 'column', gap: 8, zIndex: 1 }}>
-          <ShowcasePortrait
-            source={source}
-            character={character}
-            scoringType={scoringType}
-            displayDimensions={displayDimensions}
-            customPortrait={portraitToUse}
-            editPortraitModalOpen={state.editPortraitModalOpen}
-            setEditPortraitModalOpen={state.setEditPortraitModalOpen}
-            onEditPortraitOk={handleEditPortraitOk}
-            artistName={artistName}
-            setOriginalCharacterModalInitialCharacter={handleSetOriginalCharacterModalInitialCharacter}
-            setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
-          />
-
-          {scoringType === ScoringType.COMBAT_SCORE && (
-            <ShowcaseLightConeSmall
+          {/* Portrait left panel */}
+          <div className='character-build-portrait' style={{ display: 'flex', flexDirection: 'column', gap: 8, zIndex: 1 }}>
+            <ShowcasePortrait
+              source={source}
               character={character}
-              showcaseMetadata={showcaseMetadata}
+              scoringType={scoringType}
               displayDimensions={displayDimensions}
-              setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-              setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-            />
-          )}
-        </div>
-
-        {/* Character details middle panel */}
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 8 }}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              width: middleColumnWidth,
-              height: '100%',
-              borderRadius: 6,
-              zIndex: 10,
-              backgroundColor: 'var(--showcase-card-bg)',
-              transition: showcaseTransition,
-              flex: 1,
-              paddingRight: 2,
-              paddingLeft: 2,
-              paddingBottom: 3,
-              boxShadow: showcaseShadow + showcaseShadowInsetAddition,
-              border: '1px solid var(--showcase-card-border)',
-            }}
-          >
-            <ShowcaseCharacterHeader
-              showcaseMetadata={showcaseMetadata}
-              scoringType={scoringType}
-            />
-
-            <CharacterStatSummary
-              characterId={character.id}
-              finalStats={state.finalStats}
-              elementalDmgValue={showcaseMetadata.elementalDmgType}
-              scoringType={scoringType}
-              scoringDone={scoringDone}
-              scoringResult={scoringResult}
-              simScore={preview?.originalSimResult.simScore}
+              customPortrait={portraitToUse}
+              editPortraitModalOpen={state.editPortraitModalOpen}
+              setEditPortraitModalOpen={state.setEditPortraitModalOpen}
+              onEditPortraitOk={handleEditPortraitOk}
+              artistName={artistName}
+              setOriginalCharacterModalInitialCharacter={handleSetOriginalCharacterModalInitialCharacter}
+              setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
             />
 
             {scoringType === ScoringType.COMBAT_SCORE && (
-              <>
-                <ShowcaseDpsScoreHeader scoringDone={scoringDone} scoringResult={scoringResult} relics={displayRelics} />
-
-                <ShowcaseDpsScorePanel
-                  characterId={showcaseMetadata.characterId}
-                  simulationMetadata={layout.simulationMetadata!}
-                  teamSelection={layout.currentSelection}
-                  source={source}
-                />
-
-                <ShowcaseCombatScoreDetailsFooter preview={preview} />
-              </>
-            )}
-
-            {scoringType !== ScoringType.COMBAT_SCORE && (
-              <>
-                {scoringType !== ScoringType.NONE && (
-                  <ShowcaseStatScore
-                    scoringResults={scoringResults}
-                  />
-                )}
-
-                <ShowcaseLightConeLargeName
-                  showcaseMetadata={showcaseMetadata}
-                />
-              </>
+              <ShowcaseLightConeSmall
+                character={character}
+                showcaseMetadata={showcaseMetadata}
+                displayDimensions={displayDimensions}
+                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+              />
             )}
           </div>
 
-          {scoringType !== ScoringType.COMBAT_SCORE && (
-            <ShowcaseLightConeLarge
-              character={character}
-              showcaseMetadata={showcaseMetadata}
-              displayDimensions={displayDimensions}
-              setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-              setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-            />
-          )}
+          {/* Character details middle panel */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 8 }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                width: middleColumnWidth,
+                height: '100%',
+                borderRadius: 6,
+                zIndex: 10,
+                backgroundColor: 'var(--showcase-card-bg)',
+                transition: showcaseTransition,
+                flex: 1,
+                paddingRight: 2,
+                paddingLeft: 2,
+                paddingBottom: 3,
+                boxShadow: showcaseShadow + showcaseShadowInsetAddition,
+                border: '1px solid var(--showcase-card-border)',
+              }}
+            >
+              <ShowcaseCharacterHeader
+                showcaseMetadata={showcaseMetadata}
+                scoringType={scoringType}
+              />
+
+              <CharacterStatSummary
+                characterId={character.id}
+                finalStats={state.finalStats}
+                elementalDmgValue={showcaseMetadata.elementalDmgType}
+                scoringType={scoringType}
+                simScore={preview?.originalSimResult.simScore}
+                hasScoring={layout.simulationMetadata !== null}
+              />
+
+              {scoringType === ScoringType.COMBAT_SCORE && (
+                <>
+                  <ShowcaseDpsScoreHeader relics={displayRelics} tempOptions={tempOptions} />
+
+                  <ShowcaseDpsScorePanel
+                    characterId={showcaseMetadata.characterId}
+                    simulationMetadata={layout.simulationMetadata!}
+                    teamSelection={layout.currentSelection}
+                    source={source}
+                  />
+
+                  <ShowcaseCombatScoreDetailsFooter preview={preview} />
+                </>
+              )}
+
+              {scoringType !== ScoringType.COMBAT_SCORE && (
+                <>
+                  {scoringType !== ScoringType.NONE && (
+                    <ShowcaseStatScore
+                      scoringResults={scoringResults}
+                    />
+                  )}
+
+                  <ShowcaseLightConeLargeName
+                    showcaseMetadata={showcaseMetadata}
+                  />
+                </>
+              )}
+            </div>
+
+            {scoringType !== ScoringType.COMBAT_SCORE && (
+              <ShowcaseLightConeLarge
+                character={character}
+                showcaseMetadata={showcaseMetadata}
+                displayDimensions={displayDimensions}
+                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+              />
+            )}
+          </div>
+
+          {/* Relics right panel */}
+          <ShowcaseRelicsPanel
+            setSelectedRelic={state.setSelectedRelic}
+            setEditModalOpen={state.setEditModalOpen}
+            setAddModalOpen={state.setAddModalOpen}
+            displayRelics={displayRelics}
+            source={source}
+            scoringType={scoringType}
+            characterId={showcaseMetadata.characterId}
+            scoredRelics={scoredRelics}
+          />
         </div>
 
-        {/* Relics right panel */}
-        <ShowcaseRelicsPanel
-          setSelectedRelic={state.setSelectedRelic}
-          setEditModalOpen={state.setEditModalOpen}
-          setAddModalOpen={state.setAddModalOpen}
-          displayRelics={displayRelics}
-          source={source}
-          scoringType={scoringType}
+        <CharacterAnnouncement
           characterId={showcaseMetadata.characterId}
-          scoredRelics={scoredRelics}
+          simulationMetadata={layout.simulationMetadata}
         />
+
+        {
+          /* Showcase analysis footer — uses storedScoringType (user's preference) not resolved scoringType,
+          so the SegmentedControl reflects their selection even when combat score is unavailable */
+        }
+        {source !== ShowcaseSource.BUILDS_MODAL && (
+          <DeferReveal>
+            <ShowcaseBuildAnalysis
+              showcaseMetadata={showcaseMetadata}
+              scoringType={state.storedScoringType}
+              displayRelics={displayRelics}
+            />
+          </DeferReveal>
+        )}
       </div>
-
-      <CharacterAnnouncement
-        characterId={showcaseMetadata.characterId}
-        simulationMetadata={layout.simulationMetadata}
-      />
-
-      {/* Showcase analysis footer — uses storedScoringType (user's preference) not resolved scoringType,
-          so the SegmentedControl reflects their selection even when combat score is unavailable */}
-      {source !== ShowcaseSource.BUILDS_MODAL && (
-        <DeferReveal>
-          <ShowcaseBuildAnalysis
-            scoringDone={scoringDone}
-            scoringResult={scoringResult}
-            showcaseMetadata={showcaseMetadata}
-            scoringType={state.storedScoringType}
-            displayRelics={displayRelics}
-          />
-        </DeferReveal>
-      )}
-    </div>
+    </SimScoringContext>
   )
 })
 

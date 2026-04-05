@@ -1,10 +1,11 @@
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import {
   executeOrchestrator,
+  executeUpgradeOrchestrator,
   prepareOrchestrator,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import type { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { objectHash } from 'lib/utils/objectUtils'
@@ -20,54 +21,31 @@ import type {
 // --- Types ---
 
 export type PreparedState = {
-  originalSimResult: RunStatSimulationsResult
-  originalSpd: number
-  characterMetadata: DBMetadataCharacter
-  deprioritizeBuffs: boolean
+  originalSimResult: RunStatSimulationsResult,
+  originalSpd: number,
+  characterMetadata: DBMetadataCharacter,
+  deprioritizeBuffs: boolean,
 }
 
 // --- Cache ---
 
-const resultCache: Record<string, SimulationScore> = {}
-const promiseCache: Record<string, Promise<SimulationScore | null>> = {}
+const resultCache = new Map<string, SimulationScore>()
+const upgradeResultCache = new Map<string, SimulationScore>()
+const promiseCache = new Map<string, Promise<SimulationScore | null>>()
+const upgradePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 const MAX_RETRIES = 3
 const failedRetries = new Map<string, number>()
+const failedUpgradeRetries = new Map<string, number>()
 
 // Orchestrator cache: holds prepared orchestrators for requestScore to consume.
 // Entries are deleted on consumption. Content-addressed — orphans are harmless.
-const orchestratorCache: Record<string, BenchmarkSimulationOrchestrator> = {}
+const orchestratorCache = new Map<string, BenchmarkSimulationOrchestrator>()
 
 // Preview cache: holds PreparedState for synchronous reads during render.
 // Cleaned up when the full result arrives (preview data becomes redundant).
-const previewCache: Record<string, PreparedState> = {}
-
-// --- Listeners (for useSyncExternalStore) ---
-// Per-key listeners: only the subscriber watching a specific cacheKey is notified,
-// avoiding spurious re-renders of components watching different keys.
-
-const listenersByKey = new Map<string, Set<() => void>>()
-const noop = () => {}
-
-export function subscribeToCacheUpdates(cacheKey: string | null, listener: () => void): () => void {
-  if (!cacheKey) return noop
-  let set = listenersByKey.get(cacheKey)
-  if (!set) {
-    set = new Set()
-    listenersByKey.set(cacheKey, set)
-  }
-  set.add(listener)
-  return () => {
-    set!.delete(listener)
-    if (set!.size === 0) listenersByKey.delete(cacheKey)
-  }
-}
-
-function notifyListeners(cacheKey: string) {
-  listenersByKey.get(cacheKey)?.forEach((cb) => cb())
-}
+const previewCache = new Map<string, PreparedState>()
 
 // --- Public API ---
-
 export function computeScoringCacheKey(
   character: Character,
   simulationMetadata: SimulationMetadata | null,
@@ -85,11 +63,15 @@ export function computeScoringCacheKey(
 }
 
 export function getCachedResult(cacheKey: string): SimulationScore | null {
-  return resultCache[cacheKey] ?? null
+  return resultCache.get(cacheKey) ?? null
 }
 
 export function hasExceededRetries(cacheKey: string): boolean {
   return (failedRetries.get(cacheKey) ?? 0) >= MAX_RETRIES
+}
+
+export function hasExceededUpgradeRetries(cacheKey: string): boolean {
+  return (failedUpgradeRetries.get(cacheKey) ?? 0) >= MAX_RETRIES
 }
 
 // Called synchronously during render (useMemo). The cache write is an acceptable
@@ -108,11 +90,15 @@ export function getOrComputePreview(
   singleRelicByPart: SingleRelicByPart,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): PreparedState | null {
-  if (previewCache[cacheKey]) return previewCache[cacheKey]
+  if (cacheKey === null) return null
+  if (previewCache.has(cacheKey)) return previewCache.get(cacheKey)!
 
   try {
     const orchestrator = prepareOrchestrator(
-      character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions,
+      character,
+      simulationMetadata,
+      singleRelicByPart,
+      showcaseTemporaryOptions,
     )
 
     const preview: PreparedState = {
@@ -122,11 +108,11 @@ export function getOrComputePreview(
       deprioritizeBuffs: orchestrator.metadata.deprioritizeBuffs ?? false,
     }
 
-    previewCache[cacheKey] = preview
+    previewCache.set(cacheKey, preview)
     // Only cache the orchestrator if the full pipeline hasn't already completed.
     // This prevents orphaned orchestrator entries when revisiting already-scored characters.
-    if (!(cacheKey in resultCache)) {
-      orchestratorCache[cacheKey] = orchestrator
+    if (!upgradeResultCache.has(cacheKey)) {
+      orchestratorCache.set(cacheKey, orchestrator)
     }
     return preview
   } catch (error) {
@@ -136,15 +122,16 @@ export function getOrComputePreview(
 }
 
 export function requestScore(
-  cacheKey: string,
-  character: Character,
-  simulationMetadata: SimulationMetadata,
-  singleRelicByPart: SingleRelicByPart,
-  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+  cacheKey: string | null,
+  character?: Character,
+  simulationMetadata?: SimulationMetadata,
+  singleRelicByPart?: SingleRelicByPart,
+  showcaseTemporaryOptions?: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
+  if (cacheKey === null) return Promise.resolve(null)
   // Return cached result as resolved promise
-  if (resultCache[cacheKey]) {
-    return Promise.resolve(resultCache[cacheKey])
+  if (resultCache.has(cacheKey)) {
+    return Promise.resolve(resultCache.get(cacheKey)!)
   }
 
   // Don't retry after max retries exceeded
@@ -153,8 +140,8 @@ export function requestScore(
   }
 
   // Deduplicate in-flight requests
-  if (cacheKey in promiseCache) {
-    return promiseCache[cacheKey]
+  if (promiseCache.has(cacheKey)) {
+    return promiseCache.get(cacheKey)!
   }
 
   // Defer expensive work off the current task
@@ -163,47 +150,88 @@ export function requestScore(
       try {
         // Reuse prepared orchestrator if available (from getOrComputePreview),
         // otherwise prepare fresh. This eliminates all duplication.
-        let orchestrator = orchestratorCache[cacheKey]
-        if (orchestrator) {
-          delete orchestratorCache[cacheKey]
-        } else {
-          orchestrator = prepareOrchestrator(
-            character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions,
-          )
-        }
-
-        await executeOrchestrator(orchestrator, () => {
-          // Score is available — deliver before upgrades finish
-          const earlyScore = orchestrator.simulationScore ?? null
-          if (earlyScore) {
-            earlyScore.characterMetadata = getGameMetadata().characters[character.id]
-            resultCache[cacheKey] = earlyScore
-            delete previewCache[cacheKey]
-            delete orchestratorCache[cacheKey]
+        // orchestrator is needed for, and removed from cache by, requestScoreUpgrades
+        const orchestrator = orchestratorCache.getOrInsertComputed(cacheKey, () => {
+          if (!character || !simulationMetadata || !singleRelicByPart || !showcaseTemporaryOptions) {
+            throw new Error('Orchestrator was asserted to already exist but no orchestrator was found')
           }
-          notifyListeners(cacheKey)
+          return prepareOrchestrator(
+            character,
+            simulationMetadata,
+            singleRelicByPart,
+            showcaseTemporaryOptions,
+          )
         })
 
-        // Upgrades now included — update cache and notify again
-        const score = orchestrator.simulationScore ?? null
-        if (score) {
-          score.characterMetadata = getGameMetadata().characters[character.id]
-          resultCache[cacheKey] = score
-        }
-        notifyListeners(cacheKey)
+        await executeOrchestrator(orchestrator)
+
+        const score = orchestrator.simulationScore!
+        resultCache.set(cacheKey, score)
+        previewCache.delete(cacheKey)
         resolve(score)
       } catch (error) {
         console.error('Scoring error:', error)
         failedRetries.set(cacheKey, (failedRetries.get(cacheKey) ?? 0) + 1)
-        notifyListeners(cacheKey)
         resolve(null)
       } finally {
-        delete promiseCache[cacheKey]
+        promiseCache.delete(cacheKey)
       }
     }, 0)
   })
 
-  promiseCache[cacheKey] = promise
+  promiseCache.set(cacheKey, promise)
+  return promise
+}
+
+export function requestScoreUpgrades(
+  cacheKey: string | null,
+  character: Character,
+  simulationMetadata?: SimulationMetadata,
+  singleRelicByPart?: SingleRelicByPart,
+  showcaseTemporaryOptions?: ShowcaseTemporaryOptions,
+): Promise<SimulationScore | null> {
+  if (cacheKey === null) return Promise.resolve(null)
+  // Return cached result as resolved promise
+  if (upgradeResultCache.has(cacheKey)) {
+    return Promise.resolve(upgradeResultCache.get(cacheKey)!)
+  }
+
+  // Don't retry after max retries exceeded
+  if (hasExceededUpgradeRetries(cacheKey)) {
+    return Promise.resolve(null)
+  }
+
+  // Deduplicate in-flight requests
+  if (upgradePromiseCache.has(cacheKey)) {
+    return upgradePromiseCache.get(cacheKey)!
+  }
+
+  const promise = new Promise<SimulationScore | null>((resolve) => {
+    requestScore(cacheKey, character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+      .then(async () => {
+        try {
+          // requestScore ensures an orchestrator is always available in the cache by this point
+          const orchestrator = orchestratorCache.get(cacheKey)!
+          orchestratorCache.delete(cacheKey)
+
+          await executeUpgradeOrchestrator(orchestrator)
+
+          const score = orchestrator.simulationScore!
+          score.characterMetadata = getGameMetadata().characters[character.id]
+          upgradeResultCache.set(cacheKey, score)
+          resolve(score)
+        } catch (error) {
+          console.error('Scoring upgrades error:', error)
+          failedUpgradeRetries.set(cacheKey, (failedUpgradeRetries.get(cacheKey) ?? 0) + 1)
+          resolve(null)
+        } finally {
+          orchestratorCache.delete(cacheKey)
+          upgradePromiseCache.delete(cacheKey)
+        }
+      })
+  })
+
+  upgradePromiseCache.set(cacheKey, promise)
   return promise
 }
 

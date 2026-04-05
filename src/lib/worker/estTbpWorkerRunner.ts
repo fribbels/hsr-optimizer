@@ -1,6 +1,10 @@
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
-import { type BaseWorkerInput, WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
+import {
+  type BaseWorkerInput,
+  WorkerCancelledError,
+  workerPool,
+} from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { type Relic } from 'types/relic'
 
@@ -21,7 +25,7 @@ export type EstTbpRunnerOutput = {
 export type EstTbpWorkerInput = {
   relic: Relic,
   weights: Record<string, number>,
-  workerType: WorkerType,
+  workerType: WorkerType.EST_TBP,
 }
 
 export type EstTbpWorkerOutput = {

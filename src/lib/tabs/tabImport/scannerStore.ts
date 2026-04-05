@@ -1,4 +1,3 @@
-import { objectHash } from 'lib/utils/objectUtils'
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import {
   getActivatedBuffs,
@@ -10,13 +9,17 @@ import {
   type V4ParserMaterial,
   type V4ParserRelic,
 } from 'lib/importer/kelzFormatParser'
-import { SaveState } from 'lib/state/saveState'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
-import { getRelicById, getRelics } from 'lib/stores/relic/relicStore'
-import { EventEmitter } from 'lib/utils/frontendUtils'
-import type { CharacterId } from 'types/character'
+import { SaveState } from 'lib/state/saveState'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
+import {
+  getRelicById,
+  getRelics,
+} from 'lib/stores/relic/relicStore'
+import { EventEmitter } from 'lib/utils/frontendUtils'
+import { objectHash } from 'lib/utils/objectUtils'
+import type { CharacterId } from 'types/character'
 
 type ScannerState = {
   // The websocket url to connect to
@@ -524,7 +527,7 @@ export function handleUpdateCharacter(
     if (mappedCharacter !== previousMappedCharacter) {
       const oldRelics = getRelics().filter((relic) => relic.equippedBy === previousMappedCharacter)
       for (const relic of oldRelics) {
-        equipmentService.equipRelic(relic, mappedCharacter as CharacterId)
+        equipmentService.equipRelic(relic, mappedCharacter)
       }
     }
   }

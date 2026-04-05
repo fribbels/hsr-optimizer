@@ -49,7 +49,7 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
         },
       },
       TextInput: { defaultProps: { size: 'xs' } },
-      NumberInput: { defaultProps: { size: 'xs' } },
+      NumberInput: { defaultProps: { size: 'xs', allowDecimal: true } },
       ColorInput: { defaultProps: { size: 'xs' } },
       Checkbox: { defaultProps: { size: 'xs' } },
       Switch: { defaultProps: { size: 'sm' } },

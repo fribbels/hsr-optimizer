@@ -4,10 +4,12 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { FormStatTextStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
 import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 
-// Mantine NumberInput sends '' (empty string) when cleared.
-// Convert to undefined so displayToInternal correctly defaults to 0/MAX_INT.
-function filterValue(val: number | string): number | undefined {
-  return typeof val === 'number' ? val : undefined
+// Mantine NumberInput sends '' when cleared and intermediate strings like '133.' while typing decimals.
+// Only update the store for final numeric values or explicit clears.
+function filterValue(val: number | string): number | undefined | null {
+  if (typeof val === 'number') return val
+  if (val === '') return undefined
+  return null // intermediate string — don't update store
 }
 
 export function FilterRow({ name, label, type }: { name: string; label: string; type?: 'stat' | 'rating' }) {
@@ -37,14 +39,14 @@ export function FilterRow({ name, label, type }: { name: string; label: string; 
         hideControls
         style={{ margin: 0, width: 63 }}
         value={minValue}
-        onChange={(val) => setFilter(minKey, filterValue(val))}
+        onChange={(val) => { const v = filterValue(val); if (v !== null) setFilter(minKey, v as number | undefined) }}
       />
       <FormStatTextStyled>{label}</FormStatTextStyled>
       <InputNumberStyled
         hideControls
         style={{ margin: 0, width: 63 }}
         value={maxValue}
-        onChange={(val) => setFilter(maxKey, filterValue(val))}
+        onChange={(val) => { const v = filterValue(val); if (v !== null) setFilter(maxKey, v as number | undefined) }}
       />
     </Flex>
   )

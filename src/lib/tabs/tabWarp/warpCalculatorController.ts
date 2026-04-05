@@ -356,6 +356,7 @@ export type EnrichedWarpRequest = {
   warps: number,
   totalStarlight: number,
   totalPasses: number,
+  additionalPasses: number,
   totalJade: number,
 } & WarpRequest
 
@@ -391,6 +392,7 @@ export function enrichWarpRequest(originalRequest: WarpRequest) {
     warps: totalWarps,
     totalJade: totalJade,
     totalPasses: totalPasses,
+    additionalPasses: additionalPasses,
     totalStarlight: totalStarlight,
   }
 

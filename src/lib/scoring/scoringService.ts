@@ -123,10 +123,10 @@ export function getOrComputePreview(
 
 export function requestScore(
   cacheKey: string | null,
-  character?: Character,
-  simulationMetadata?: SimulationMetadata,
-  singleRelicByPart?: SingleRelicByPart,
-  showcaseTemporaryOptions?: ShowcaseTemporaryOptions,
+  character: Character,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: SingleRelicByPart,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
   if (cacheKey === null) return Promise.resolve(null)
   // Return cached result as resolved promise
@@ -152,9 +152,6 @@ export function requestScore(
         // otherwise prepare fresh. This eliminates all duplication.
         // orchestrator is needed for, and removed from cache by, requestScoreUpgrades
         const orchestrator = orchestratorCache.getOrInsertComputed(cacheKey, () => {
-          if (!character || !simulationMetadata || !singleRelicByPart || !showcaseTemporaryOptions) {
-            throw new Error('Orchestrator was asserted to already exist but no orchestrator was found')
-          }
           return prepareOrchestrator(
             character,
             simulationMetadata,
@@ -186,9 +183,9 @@ export function requestScore(
 export function requestScoreUpgrades(
   cacheKey: string | null,
   character: Character,
-  simulationMetadata?: SimulationMetadata,
-  singleRelicByPart?: SingleRelicByPart,
-  showcaseTemporaryOptions?: ShowcaseTemporaryOptions,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: SingleRelicByPart,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
   if (cacheKey === null) return Promise.resolve(null)
   // Return cached result as resolved promise

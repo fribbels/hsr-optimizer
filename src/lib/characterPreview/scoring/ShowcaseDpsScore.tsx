@@ -13,13 +13,16 @@ import {
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/CharacterCardCombatStats'
+import {
+  ScoringSelector,
+  useSimScoringContext,
+} from 'lib/characterPreview/SimScoringContext'
 import { StatText } from 'lib/characterPreview/StatText'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
   SETTINGS_TEAM,
 } from 'lib/constants/constants'
-import { defaultGap } from 'lib/constants/constantsUi'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
@@ -30,8 +33,6 @@ import {
   getSimScoreGrade,
 } from 'lib/scoring/dpsScore'
 import { type PreparedState } from 'lib/scoring/scoringService'
-import { type SimulationScore } from 'lib/scoring/simScoringUtils'
-import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import {
@@ -45,8 +46,6 @@ import { truncate10ths } from 'lib/utils/mathUtils'
 import {
   memo,
   Suspense,
-  use,
-  useContext,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -58,7 +57,6 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import { SimScoringContext } from '../SimScoringContext'
 import styles from './ShowcaseDpsScore.module.css'
 
 export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
@@ -102,9 +100,8 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   )
 })
 
-export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScoreDetailsFooter({ preview }: {
-  preview: PreparedState | null,
-}) {
+export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScoreDetailsFooter() {
+  const preview = useSimScoringContext(ScoringSelector.Preview)
   if (!preview) {
     return (
       <span className={styles.loadingBlurSmall}>
@@ -220,8 +217,7 @@ function ShowcaseDpsScoreHeaderReady({ relics, t }: {
   relics: SingleRelicByPart,
   t: TFunction<'charactersTab', undefined>,
 }) {
-  const cacheKey = useContext(SimScoringContext).cacheKey
-  const result = useScoringExecution(cacheKey)
+  const result = useSimScoringContext(ScoringSelector.Score)
 
   const verified = Object.values(relics).filter((x) => x?.verified).length === 6
   const numRelics = Object.values(relics).filter((x) => !!x).length

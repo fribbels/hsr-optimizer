@@ -1,4 +1,10 @@
 import {
+  Button,
+  ColorInput,
+  Flex,
+  SegmentedControl,
+} from '@mantine/core'
+import {
   IconCamera,
   IconCheck,
   IconDownload,
@@ -7,40 +13,65 @@ import {
   IconSun,
   IconX,
 } from '@tabler/icons-react'
-import { Button, ColorInput, Flex, SegmentedControl } from '@mantine/core'
 import i18next from 'i18next'
-import { DEFAULT_SHOWCASE_COLOR, resolveShowcaseTheme } from 'lib/characterPreview/color/showcaseColorService'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
+import {
+  DEFAULT_SHOWCASE_COLOR,
+  resolveShowcaseTheme,
+} from 'lib/characterPreview/color/showcaseColorService'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
-import { ShowcaseColorMode, Stats } from 'lib/constants/constants'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
-import { Assets } from 'lib/rendering/assets'
-import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import {
+  ScoringSelector,
+  useSimScoringContext,
+} from 'lib/characterPreview/SimScoringContext'
 import { AppPages } from 'lib/constants/appPages'
+import {
+  ShowcaseColorMode,
+  Stats,
+} from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import {
+  cardTotalW,
+  defaultGap,
+  defaultPadding,
+} from 'lib/constants/constantsUi'
+import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
+import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
+import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
+import { Assets } from 'lib/rendering/assets'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringStore'
+import {
+  getScoringMetadata,
+  useScoringStore,
+} from 'lib/stores/scoring/scoringStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
-import { cardTotalW, defaultGap, defaultPadding } from 'lib/constants/constantsUi'
-import { getSelectedCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import {
+  getSelectedCharacter,
+  useShowcaseTabStore,
+} from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
-import React, { memo, useMemo, useState } from 'react'
+import React, {
+  memo,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { type CharacterId } from 'types/character'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import classes from './ShowcaseCustomizationSidebar.module.css'
 
 interface ShowcaseCustomizationSidebarProps {
   id: string
   source: ShowcaseSource
   characterId: CharacterId
-  originalSpd: number | undefined
   scoringType: ScoringType
   seedColor: string
   effectiveColorMode: ShowcaseColorMode
@@ -52,7 +83,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
   id,
   source,
   characterId,
-  originalSpd,
   scoringType,
   seedColor,
   effectiveColorMode,
@@ -63,13 +93,13 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
 
   return (
     <Flex
-      direction="column"
+      direction='column'
       gap={defaultGap + 2}
       className={classes.sidebarContainer}
       style={{ marginLeft: cardTotalW + 8 }}
     >
       <ScreenshotPanel id={id} />
-      <ScoringPanel characterId={characterId} scoringType={scoringType} originalSpd={originalSpd} />
+      <ScoringPanel characterId={characterId} scoringType={scoringType} />
       <CustomizationPanel
         id={id}
         characterId={characterId}
@@ -89,7 +119,7 @@ const ScreenshotPanel = memo(function ScreenshotPanel({ id }: { id: string }) {
   const { loading, trigger: screenshot } = useScreenshotAction(id)
 
   return (
-    <Flex direction="column" gap={6} style={cardStyle}>
+    <Flex direction='column' gap={6} style={cardStyle}>
       <Flex gap={6}>
         <Button
           loading={loading}
@@ -114,10 +144,9 @@ const ScreenshotPanel = memo(function ScreenshotPanel({ id }: { id: string }) {
 
 // =============================================================================
 
-const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType, originalSpd }: {
-  characterId: CharacterId
-  scoringType: ScoringType
-  originalSpd: number | undefined
+const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
+  characterId: CharacterId,
+  scoringType: ScoringType,
 }) {
   const { t: tScoring } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar' })
   const showcasePreciseSpd = useGlobalStore((s) => s.savedSession.showcasePreciseSpd)
@@ -170,7 +199,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType, orig
   }), [tScoring])
 
   return (
-    <Flex direction="column" gap={6} style={cardStyle}>
+    <Flex direction='column' gap={6} style={cardStyle}>
       <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
         <span></span>
         <HeaderText className={classes.centeredHeader}>
@@ -236,7 +265,6 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType, orig
           </HeaderText>
           <SpdBenchmarkCombobox
             spdBenchmark={spdBenchmark}
-            spdFilter={originalSpd}
             onSpdBenchmarkChange={onSpdBenchmarkChange}
           />
         </>
@@ -247,7 +275,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType, orig
       <Button
         leftSection={<IconSettings size={16} />}
         onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
-        variant="default"
+        variant='default'
       >
         {tScoring('Stats.WeightsButton') /* Weights */}
       </Button>
@@ -255,7 +283,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType, orig
       <Button
         leftSection={<IconSettings size={16} />}
         onClick={onTraceClick}
-        variant="default"
+        variant='default'
       >
         {tScoring('Stats.ButtonText') /* Traces */}
       </Button>
@@ -274,13 +302,13 @@ const CustomizationPanel = memo(function CustomizationPanel({
   cardBgAlpha,
   source,
 }: {
-  id: string
-  characterId: CharacterId
-  seedColor: string
-  effectiveColorMode: ShowcaseColorMode
-  portraitSwatches: string[]
-  cardBgAlpha: number
-  source: ShowcaseSource
+  id: string,
+  characterId: CharacterId,
+  seedColor: string,
+  effectiveColorMode: ShowcaseColorMode,
+  portraitSwatches: string[],
+  cardBgAlpha: number,
+  source: ShowcaseSource,
 }) {
   const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
   const showcaseDarkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
@@ -325,7 +353,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
   }
 
   return (
-    <Flex direction="column" gap={6} style={cardStyle}>
+    <Flex direction='column' gap={6} style={cardStyle}>
       <HeaderText className={classes.headerCentered}>
         {tCustomization('Label')}
       </HeaderText>
@@ -337,7 +365,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
         value={localColor}
         onChange={onColorDrag}
         onChangeEnd={onColorChangeEnd}
-        format="hex"
+        format='hex'
         styles={{
           input: { textTransform: 'uppercase', fontFamily: 'monospace' },
           colorPreview: { '--cs-radius': '4px' } as React.CSSProperties,
@@ -359,7 +387,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
       <HorizontalDivider />
 
       <SegmentedControl
-        orientation="vertical"
+        orientation='vertical'
         fullWidth
         data={[
           { value: ShowcaseColorMode.AUTO, label: tCustomization('Modes.Auto') },
@@ -394,24 +422,26 @@ const CustomizationPanel = memo(function CustomizationPanel({
 // =============================================================================
 
 function SpdBenchmarkCombobox(props: {
-  spdBenchmark: number | undefined
-  spdFilter?: number
-  onSpdBenchmarkChange: (n: number | undefined) => void
+  spdBenchmark: number | undefined,
+  onSpdBenchmarkChange: (n: number | undefined) => void,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
-  const options = useMemo(() => buildSpdPresetOptions(t, {
-    skipNoMinimum: true,
-    disableAbove: props.spdFilter,
-    extraGroups: [{
-      group: tCharacterTab('BenchmarkOptionsLabel'),
-      items: [
-        { label: tCharacterTab('CurrentSpdLabel'), value: '-1' },
-        { label: tCharacterTab('BaseSpdLabel'), value: '0' },
-      ],
-    }],
-  }), [t, tCharacterTab, props.spdFilter])
+  const spdFilter = useSimScoringContext(ScoringSelector.Preview)?.originalSpd
+
+  const options = useMemo(() =>
+    buildSpdPresetOptions(t, {
+      skipNoMinimum: true,
+      disableAbove: spdFilter,
+      extraGroups: [{
+        group: tCharacterTab('BenchmarkOptionsLabel'),
+        items: [
+          { label: tCharacterTab('CurrentSpdLabel'), value: '-1' },
+          { label: tCharacterTab('BaseSpdLabel'), value: '0' },
+        ],
+      }],
+    }), [t, tCharacterTab, spdFilter])
 
   return (
     <ComboboxNumberInput

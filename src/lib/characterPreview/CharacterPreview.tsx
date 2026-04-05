@@ -45,17 +45,10 @@ import {
   middleColumnWidth,
   parentH,
 } from 'lib/constants/constantsUi'
-import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import type { RelicScoringResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
-import {
-  computeScoringCacheKey,
-  getOrComputePreview,
-  requestScore,
-} from 'lib/scoring/scoringService'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { useScoringExecution } from 'lib/scoring/useScoringExecution'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
@@ -75,7 +68,7 @@ import {
   type CustomImagePayload,
 } from 'types/customImage'
 import type { ShowcaseTemporaryOptions } from 'types/metadata'
-import { SimScoringContext } from './SimScoringContext'
+import { SimScoringContextProvider } from './SimScoringContext'
 
 const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
@@ -371,8 +364,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
   const tempOptions = state.showcaseTemporaryOptions ?? EMPTY_OPTIONS
 
-  const { preview, cacheKey } = useScoringExecution(character, layout.simulationMetadata, displayRelics, tempOptions)
-
   // ===== Early return after all hooks =====
   if (!state.previewRelics || !state.finalStats) {
     return null
@@ -390,7 +381,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const scoredRelics = scoringResults.relics ?? EMPTY_SCORED
 
   return (
-    <SimScoringContext value={{ cacheKey, character }}>
+    <SimScoringContextProvider
+      character={character}
+      simulationMetadata={layout.simulationMetadata}
+      showcaseTemporaryOptions={tempOptions}
+      singleRelicByPart={displayRelics}
+    >
       <div style={{ display: 'flex', flexDirection: 'column', width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
         {globalThis.CARD_DEBUG && (
           <DebugSliderPanel
@@ -525,7 +521,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           source={source}
           id={id}
           characterId={character.id}
-          originalSpd={preview?.originalSpd}
           scoringType={scoringType}
           seedColor={seedColor}
           effectiveColorMode={effectiveColorMode}
@@ -664,7 +659,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 finalStats={state.finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 scoringType={scoringType}
-                simScore={preview?.originalSimResult.simScore}
                 hasScoring={layout.simulationMetadata !== null}
               />
 
@@ -679,7 +673,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                     source={source}
                   />
 
-                  <ShowcaseCombatScoreDetailsFooter preview={preview} />
+                  <ShowcaseCombatScoreDetailsFooter />
                 </>
               )}
 
@@ -741,7 +735,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           </DeferReveal>
         )}
       </div>
-    </SimScoringContext>
+    </SimScoringContextProvider>
   )
 })
 

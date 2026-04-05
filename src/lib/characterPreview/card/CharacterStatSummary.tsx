@@ -2,27 +2,24 @@ import {
   StatRow,
 } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
-import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import classes from 'lib/CharacterStatSummary.module.css'
+import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   PathNames,
   Stats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
-import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
   memo,
   useMemo,
 } from 'react'
-
-import {
-  ScoringType,
-} from 'lib/scoring/simScoringUtils'
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import { useGlobalStore } from 'lib/stores/app/appStore'
-import { precisionRound } from 'lib/utils/mathUtils'
-import { type CharacterId } from 'types/character'
-import classes from './CharacterStatSummary.module.css'
+import type { CharacterId } from 'types/character'
 
 const epsilon = 0.001
 
@@ -32,16 +29,16 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   elementalDmgValue,
   hasScoring,
   scoringType,
-  simScore,
   showAll,
+  simScore,
 }: {
   characterId: CharacterId,
   finalStats: BasicStatsObject | ComputedStatsObjectExternal,
   elementalDmgValue: string,
   hasScoring?: boolean,
   scoringType?: ScoringType,
-  simScore?: number,
   showAll?: boolean,
+  simScore?: number,
 }) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])

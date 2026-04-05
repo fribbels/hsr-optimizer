@@ -1,7 +1,7 @@
 import { Alert, Divider } from '@mantine/core'
 import classes from './CharacterScoringSummary.module.css'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
-import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
@@ -12,7 +12,7 @@ import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/Estimate
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import { type ElementName, ElementToDamage, type MainStats, PathNames, Parts, Stats } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -21,20 +21,18 @@ import {
   type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { type RunStatSimulationsResult, type Simulation } from 'lib/simulations/statSimulationTypes'
+import type { RunStatSimulationsResult, Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import { memo, use, useContext } from 'react'
+import { memo } from 'react'
 import { DeferCreate, DeferCreateProvider } from 'lib/ui/DeferredRender'
 import { Trans, useTranslation } from 'react-i18next'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
-import { type Character, type CharacterId } from 'types/character'
+import type { CharacterId } from 'types/character'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
-import { type Nullable } from 'types/common'
-import { SimScoringContext } from '../SimScoringContext'
-import { useScoringExecution } from 'lib/scoring/useScoringExecution'
+import { ScoringSelector, useSimScoringContext } from '../SimScoringContext'
 
 // ─── Primitives used by ScoringColumn ────────────────────────────────────────
 
@@ -389,8 +387,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 }) {
   const { t } = useTranslation('charactersTab')
 
-  const { cacheKey, character } = useContext(SimScoringContext)
-  const result = useScoringExecution(cacheKey, character)
+  const result = useSimScoringContext(ScoringSelector.Upgrades)
 
   if (!result) return null
 

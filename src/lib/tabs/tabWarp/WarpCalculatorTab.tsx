@@ -65,7 +65,7 @@ function WarpPlanner() {
     initialValues: warpRequest,
     onValuesChange: (values) => {
       useWarpCalculatorStore.getState().setRequest(values)
-      SaveState.delayedSave()
+      SaveState.delayedSave(10_000)
     },
   })
 
@@ -376,7 +376,7 @@ function WarpResultsTable(props: { warpResult: Exclude<WarpResult, null> }) {
   )
 }
 
-const chanceThreshold = 0.001
+const chanceThreshold = 0.0005
 
 type WarpTableData = {
   key: string

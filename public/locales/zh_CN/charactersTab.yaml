@@ -50,6 +50,7 @@ CharacterPreview:
     Stats:
       Header: 属性
       ButtonText: 行迹
+      WeightsButton: 权重
     SpdPrecision:
       Header: 速度精准度
       Low: '.0'

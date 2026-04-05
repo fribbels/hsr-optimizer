@@ -21,6 +21,9 @@ Common:
     Ult: '护盾技能：终结技'
     Talent: '护盾技能：天赋'
     Trace: '护盾技能：行迹'
+  DotTickCoefficient:
+    Text: '持续伤害跳数系数'
+    Content: '表示每轮行动中的持续伤害占比，已包含敌方回合、引爆及其他来源产生的全部跳数。100% = 1 次（跳数）持续伤害。'
 Lightcones:
   AGroundedAscent:
     Content:

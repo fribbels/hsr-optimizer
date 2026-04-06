@@ -44,7 +44,7 @@ function ScoringAbility({ comboTurnAbilities, index }: {
 
   return (
     <div>
-      <pre className={classes.preText}>{`#${index} - ${displayValue}`}</pre>
+      <span className={classes.rotationStep}>{`#${index} - ${displayValue}`}</span>
     </div>
   )
 }

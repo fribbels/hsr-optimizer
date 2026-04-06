@@ -44,6 +44,7 @@ import type {
   ActionDamage,
   PrimaryActionStats,
   RotationBuffStep,
+  RotationDamageStep,
   SimulateBuildResult,
   SimulationRelic,
   SimulationRelicByPart,
@@ -174,6 +175,7 @@ export function simulateBuild(
   }
 
   const actionDamage: ActionDamage = {}
+  const rotationDamage: RotationDamageStep[] = []
 
   if (!skipDefaults) {
     for (let i = 0; i < context.defaultActions.length; i++) {
@@ -237,6 +239,14 @@ export function simulateBuild(
     for (const action of defaultActions) {
       actionDamage[action.actionName as AbilityKind] = x.getActionRegisterValue(action.registerIndex)
     }
+
+    // Capture per-step rotation damage
+    for (const action of context.rotationActions) {
+      rotationDamage.push({
+        actionType: action.actionType,
+        damage: x.getActionRegisterValue(action.registerIndex),
+      })
+    }
   }
 
   x.setGlobalRegisterValue(GlobalRegister.COMBO_DMG, comboDmg)
@@ -245,6 +255,7 @@ export function simulateBuild(
     x,
     primaryActionStats,
     actionDamage,
+    rotationDamage,
     actionBuffSnapshots,
     rotationBuffSteps,
   }

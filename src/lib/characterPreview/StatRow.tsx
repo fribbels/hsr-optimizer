@@ -94,14 +94,19 @@ export const StatRow = memo(function StatRow({
   if (!finalStats) {
     return null as unknown as ReactElement
   }
+
+  const divider = <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
+
+  const valueText = loading
+    ? '...'
+    : `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
+
   return (
     <div title={value1000thsPrecision} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16, filter: loading ? 'blur(2px)' : 'none' }}>
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
-      {loading
-        ? '...'
-        : `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
+      {divider}
+      {valueText}
     </div>
   )
 })

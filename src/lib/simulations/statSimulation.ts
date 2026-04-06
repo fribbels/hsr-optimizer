@@ -68,7 +68,7 @@ export function runStatSimulations(
     const simRelics = generateSimRelics(sim, params)
     const basicStatsArray = trace ? new BasicStatsArrayCore(true) : cachedBasicStatsArray
 
-    const { x, primaryActionStats, actionDamage, actionBuffSnapshots, rotationBuffSteps } = simulateBuild(
+    const { x, primaryActionStats, actionDamage, rotationDamage, actionBuffSnapshots, rotationBuffSteps } = simulateBuild(
       simRelics,
       context,
       basicStatsArray,
@@ -86,6 +86,7 @@ export function runStatSimulations(
       key: sim.key,
       primaryActionStats,
       actionDamage,
+      rotationDamage,
       actionBuffSnapshots,
       rotationBuffSteps,
     }

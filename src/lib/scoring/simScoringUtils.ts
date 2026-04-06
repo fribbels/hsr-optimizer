@@ -339,6 +339,9 @@ export function cloneSimResult(result: RunStatSimulationsResult) {
   if (result.actionDamage) {
     result.actionDamage = { ...result.actionDamage }
   }
+  if (result.rotationDamage) {
+    result.rotationDamage = [...result.rotationDamage]
+  }
 
   return result
 }

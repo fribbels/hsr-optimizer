@@ -25,6 +25,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   scoringType,
   simScore,
   showAll,
+  zebra,
 }: {
   characterId: CharacterId
   finalStats: BasicStatsObject | ComputedStatsObjectExternal
@@ -34,6 +35,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   scoringType?: ScoringType
   simScore?: number
   showAll?: boolean
+  zebra?: boolean
 }) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
@@ -44,7 +46,10 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
 
   return (
     <StatText className={classes.statSummary}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}>
+      <div
+        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}
+        className={zebra ? classes.zebra : undefined}
+      >
         <StatRow finalStats={finalStats} stat={Stats.HP} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.ATK} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.DEF} edits={edits} />

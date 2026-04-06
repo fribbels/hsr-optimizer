@@ -188,7 +188,7 @@ function WarpPlanner() {
                   <Select
                     data={generateStrategyOptions()}
                     value={String(form.getValues().strategy)}
-                    styles={{ input: { height: 'auto', minHeight: 36 } }}
+                    styles={{ input: { height: 30, minHeight: 30 } }}
                     onChange={(val) => {
                       if (val != null) form.setFieldValue('strategy', Number(val) as WarpStrategy)
                     }}

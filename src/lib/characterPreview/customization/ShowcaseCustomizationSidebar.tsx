@@ -373,13 +373,13 @@ const CustomizationPanel = memo(function CustomizationPanel({
       {source === ShowcaseSource.SHOWCASE_TAB && (
         <>
           <HorizontalDivider />
-          <HeaderText className={classes.headerCenteredMb}>
+          <HeaderText className={classes.headerCenteredMb} style={{ marginBottom: 1 }}>
             {tCustomization('ShowUID') /* Show UID */}
           </HeaderText>
           <SegmentedControl
             data={[
-              { value: 'true', label: <IconCheck /> },
-              { value: 'false', label: <IconX /> },
+              { value: 'true', label: <IconCheck size={14} /> },
+              { value: 'false', label: <IconX size={14} /> },
             ]}
             fullWidth
             value={String(showcaseUID)}

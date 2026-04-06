@@ -31,14 +31,13 @@ export function ColorizedTitleWithInfo(props: {
   noUnderline?: boolean,
   linkIcon?: boolean,
   onClick?: () => void,
+  fontSize?: number,
 }) {
   return (
     <a href={props.url} target='_blank' onClick={props.onClick} rel='noreferrer'>
-      <Flex style={{ textDecoration: props.noUnderline ? '' : 'underline', color: 'var(--color-link)', margin: 15 }} align='center' gap={10}>
-        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          {props.text}
-        </pre>
-        <IconInfoCircle style={{ fontSize: 22 }} />
+      <Flex style={{ textDecoration: props.noUnderline ? '' : 'underline', color: 'var(--color-link)', margin: 15, fontSize: props.fontSize ?? 28, fontWeight: 600 }} align='center' gap={10}>
+        <span>{props.text}</span>
+        <IconInfoCircle size='1em' style={{ flexShrink: 0 }} />
       </Flex>
     </a>
   )

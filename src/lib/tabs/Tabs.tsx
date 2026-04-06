@@ -17,6 +17,7 @@ import React, {
   type ReactElement,
   Suspense,
   lazy,
+  startTransition,
   useEffect,
   useRef,
   useState,
@@ -62,6 +63,7 @@ let optimizerInitialized = false
 
 const Tabs = () => {
   const activeKey = useGlobalStore((s) => s.activeKey).split('?')[0] as AppPages
+  const prevKeyRef = useRef(activeKey)
 
   // Create all element descriptions once (stable references, but not mounted until included in tree)
   const tabElements = React.useMemo(
@@ -73,11 +75,28 @@ const Tabs = () => {
   // with a delay between each to keep the main thread responsive.
   const [mountedTabs, setMountedTabs] = useState<Set<AppPages>>(() => new Set([activeKey]))
 
-  // Immediately mount any tab the user navigates to, even if the stagger hasn't reached it yet.
+  // Keep the previous tab visible while an unmounted tab is being prepared.
+  // Without this, switching to a tab that hasn't been stagger-mounted yet
+  // shows a blank page until the useEffect adds it to mountedTabs.
+  const fallbackKeyRef = useRef<AppPages | null>(null)
+  const newTabMounted = mountedTabs.has(activeKey)
+  if (newTabMounted) {
+    fallbackKeyRef.current = null
+    prevKeyRef.current = activeKey
+  } else if (activeKey !== prevKeyRef.current) {
+    fallbackKeyRef.current = prevKeyRef.current
+  }
+  const fallbackKey = fallbackKeyRef.current
+
+  // Mount any tab the user navigates to, even if the stagger hasn't reached it yet.
+  // Wrapped in startTransition so React can yield during heavy first-mount work,
+  // allowing the browser to paint the fallback tab instead of freezing.
   useEffect(() => {
-    setMountedTabs((prev) => {
-      if (prev.has(activeKey)) return prev
-      return new Set(prev).add(activeKey)
+    startTransition(() => {
+      setMountedTabs((prev) => {
+        if (prev.has(activeKey)) return prev
+        return new Set(prev).add(activeKey)
+      })
     })
   }, [activeKey])
 
@@ -88,7 +107,9 @@ const Tabs = () => {
 
     function mountNext() {
       if (i < queue.length) {
-        setMountedTabs((prev) => new Set(prev).add(queue[i]))
+        startTransition(() => {
+          setMountedTabs((prev) => new Set(prev).add(queue[i]))
+        })
         i++
         // Space out mounts so the browser stays responsive between heavy tabs
         timerId = setTimeout(mountNext, 100)
@@ -125,7 +146,7 @@ const Tabs = () => {
   return (
     <Flex justify='space-around' w='100%'>
       {TAB_COMPONENTS.map(([tabKey]) => (
-        <TabRenderer key={tabKey} activeKey={activeKey} tabKey={tabKey}>
+        <TabRenderer key={tabKey} activeKey={activeKey} fallbackKey={fallbackKey} tabKey={tabKey}>
           {mountedTabs.has(tabKey) ? tabElements.get(tabKey)! : null}
         </TabRenderer>
       ))}
@@ -136,12 +157,14 @@ const Tabs = () => {
 export { Tabs }
 
 
-function TabRenderer({ activeKey, tabKey, children }: {
+function TabRenderer({ activeKey, fallbackKey, tabKey, children }: {
   activeKey: AppPages
+  fallbackKey: AppPages | null
   tabKey: AppPages
   children: ReactElement | null
 }) {
   const isActive = activeKey === tabKey
+  const isFallback = fallbackKey === tabKey
   const prevActiveRef = useRef(isActive)
   const listenersRef = useRef(new Set<() => void>())
   const isActiveRef = useRef(isActive)
@@ -159,22 +182,25 @@ function TabRenderer({ activeKey, tabKey, children }: {
     },
   }))
 
-  // On activation (hidden → visible): notify listeners after one frame.
-  // Single rAF is sufficient — activation listeners are nearly zero-cost
-  // (changedWhileHidden optimization skips unchanged stores).
+  // On activation (hidden → visible): fire listeners in a macrotask (setTimeout)
+  // so the browser can paint the display toggle first. rAF runs BEFORE paint,
+  // which would block the tab from appearing until all catch-up re-renders finish.
+  // setTimeout runs AFTER paint, so the tab appears immediately with stale content,
+  // then catch-ups update it.
   if (isActive && !prevActiveRef.current) {
-    requestAnimationFrame(() => {
+    setTimeout(() => {
+      if (!isActiveRef.current) return // tab already hidden (rapid switch)
       for (const listener of listenersRef.current) {
         listener()
       }
-    })
+    }, 0)
   }
   prevActiveRef.current = isActive
 
   return (
     <ErrorBoundary fallbackRender={defaultErrorRender}>
       <TabVisibilityContext value={contextValue}>
-        <div style={{ display: isActive ? 'contents' : 'none' }} id={tabKey}>
+        <div style={{ display: (isActive || isFallback) ? 'contents' : 'none' }} id={tabKey}>
           <Suspense fallback={null}>
             {children}
           </Suspense>

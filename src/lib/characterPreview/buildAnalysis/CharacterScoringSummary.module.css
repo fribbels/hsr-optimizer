@@ -1,19 +1,6 @@
 .setImage {
   height: 60px;
-}
-
-.partImage {
-  height: 30px;
-}
-
-.preTextRight {
-  margin: 0;
-  text-align: right;
-}
-
-.columnDivider {
-  flex-grow: 1;
-  margin: 10px 30px;
+  align-self: center;
 }
 
 .statPreviewSection {
@@ -30,20 +17,18 @@
   contain: layout style;
 }
 
-.deferredSection {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 400px;
-}
-
 .mainTitle {
+  font-family: var(--font-ui);
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 600;
   margin: 0;
 }
 
 .sectionTitle {
-  font-size: 22px;
-  text-decoration: underline;
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 .relicRaritySection {
@@ -51,20 +36,84 @@
   margin-top: 10px;
 }
 
-.relicRarityAlert {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
 .combatResultsWidth {
   width: 255px;
 }
 
 .scoringColumnHeader {
-  font-size: 20px;
-  font-weight: bold;
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Typography for data rows and labels */
+.dataLabel {
+  composes: label from '../summary/summaryStyles.module.css';
+  color: var(--text-secondary);
+}
+
+.dataValue {
+  composes: value from '../summary/summaryStyles.module.css';
+}
+
+.sectionLabel {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-tertiary);
+  margin: 0 auto;
+}
+
+.annotation {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  text-align: center;
 }
 
 .teammateIcon {
   height: 60px;
 }
+
+/* ─── Column Cards ───────────────────────────────────────────────────────── */
+
+.columnCardFilled {
+  border-radius: var(--radius-md);
+  padding: 0;
+  background: var(--layer-2);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.columnFilledHeader {
+  padding: 10px 16px;
+  background: var(--layer-3);
+  border-bottom: var(--border-subtle);
+  text-align: center;
+}
+
+.columnFilledBody {
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.columnFilledSection {
+  padding-bottom: 16px;
+  border-bottom: var(--border-subtle);
+}
+
+.columnFilledSection:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Character column highlight */
+.columnHighlightFilled {
+  outline: 1px solid rgba(225, 165, 100, 0.2);
+}
+

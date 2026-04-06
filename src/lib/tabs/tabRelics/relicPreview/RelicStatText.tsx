@@ -8,14 +8,12 @@ function generateStyling(language?: Languages): CSSProperties {
     case 'vi_VN':
       return {
         whiteSpace: 'nowrap',
-        letterSpacing: '-0.2px',
         fontSize: 13,
         lineHeight: '22px',
       }
     default:
       return {
         whiteSpace: 'nowrap',
-        letterSpacing: '-0.2px',
       }
   }
 }

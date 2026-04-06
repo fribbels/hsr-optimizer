@@ -1,16 +1,16 @@
-import { Alert, Divider } from '@mantine/core'
 import classes from './CharacterScoringSummary.module.css'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
-import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
+import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
+import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
-import { type ElementName, ElementToDamage, type MainStats, PathNames, Parts, Stats } from 'lib/constants/constants'
+import { type ElementName, ElementToDamage, PathNames, Stats } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
@@ -34,21 +34,6 @@ import type { CharacterId } from 'types/character'
 import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
 import { ScoringSelector, useSimScoringContext } from '../SimScoringContext'
 
-// ─── Primitives used by ScoringColumn ────────────────────────────────────────
-
-function ScoringStat(props: {
-  stat: string
-  part: string
-}) {
-  const display = props.stat?.replace('Boost', '') || ''
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <img src={Assets.getPart(props.part)} className={classes.partImage}/>
-      <pre style={{ margin: 0 }}>{display}</pre>
-    </div>
-  )
-}
-
 // ─── ScoringColumn ────────────────────────────────────────────────────────────
 
 function ScoringColumn(props: {
@@ -61,6 +46,8 @@ function ScoringColumn(props: {
   elementalDmgValue: string
   element: ElementName
   characterMetadata: { path: string }
+  columnClassName?: string
+  comboTurnAbilities: TurnAbilityName[]
 }) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
@@ -79,107 +66,115 @@ function ScoringColumn(props: {
     combatStats[Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
   }
 
+  const headerText = t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: truncate10ths(precisionRound(props.percent * 100)) })
+
+  const basicStatsBlock = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
+      <div className={classes.sectionLabel} style={{ color: highlight ? color : '' }}>
+        <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.BasicStats`}>
+          build type <u>basic stats</u>
+        </Trans>
+      </div>
+      <CharacterStatSummary
+        characterId={props.characterId}
+        finalStats={basicStats}
+        elementalDmgValue={props.elementalDmgValue}
+        simScore={simResult.simScore}
+        showAll={true}
+        zebra
+      />
+    </div>
+  )
+
+  const combatStatsBlock = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
+      <div className={classes.sectionLabel} style={{ color: highlight ? color : '' }}>
+        <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
+          build type <u>combat stats</u>
+        </Trans>
+      </div>
+      <CharacterStatSummary
+        characterId={props.characterId}
+        finalStats={combatStats}
+        elementalDmgValue={props.elementalDmgValue}
+        simScore={simResult.simScore}
+        showAll={true}
+        zebra
+      />
+    </div>
+  )
+
+  const substatsBlock = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+      <div className={classes.sectionLabel} style={{ color: highlight ? color : '' }}>
+        {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
+      </div>
+      <SubstatRollsSummary
+        simRequest={props.simulation.request}
+        precision={props.precision}
+        diminish={props.type === 'Benchmark'}
+        columns={2}
+      />
+    </div>
+  )
+
+  const mainstatsBlock = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+      <div className={classes.sectionLabel} style={{ color: highlight ? color : '' }}>
+        {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
+      </div>
+      <div style={{ display: 'flex', gap: defaultGap, justifyContent: 'space-around' }}>
+        <MainStatsSummary
+          simBody={simRequest.simBody}
+          simFeet={simRequest.simFeet}
+          simPlanarSphere={simRequest.simPlanarSphere}
+          simLinkRope={simRequest.simLinkRope}
+        />
+      </div>
+    </div>
+  )
+
+  const abilityBlock = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
+      <div className={classes.sectionLabel} style={{ color: highlight ? color : '' }}>
+        {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
+      </div>
+      <AbilityDamageSummary rotationDamage={simResult.rotationDamage ?? []} comboTurnAbilities={props.comboTurnAbilities}/>
+    </div>
+  )
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 25, margin: 'auto' }}>
-      {/* Header + Basic stats */}
-      <DeferCreate>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-          <div>
-            <pre className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
-              <u>{t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: truncate10ths(precisionRound(props.percent * 100)) })}</u>
-            </pre>
-          </div>
+    <div className={props.columnClassName}>
+      <div className={classes.columnFilledHeader}>
+        <div className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
+          {headerText}
         </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
-          <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
-            {t(`CharacterPreview.ScoringColumn.${props.type}.BasicStats`)}
-          </pre>
-          <CharacterStatSummary
-            characterId={props.characterId}
-            finalStats={basicStats}
-            elementalDmgValue={props.elementalDmgValue}
-            simScore={simResult.simScore}
-            showAll={true}
-            hasScoring
-          />
-        </div>
-      </DeferCreate>
-
-      {/* Combat stats */}
-      <DeferCreate>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
-          <pre style={{ margin: 'auto', color: highlight ? color : '' }}>
-            <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
-              build type <u>combat stats</u>
-            </Trans>
-          </pre>
-          <CharacterStatSummary
-            characterId={props.characterId}
-            finalStats={combatStats}
-            elementalDmgValue={props.elementalDmgValue}
-            simScore={simResult.simScore}
-            showAll={true}
-            hasScoring
-          />
-        </div>
-      </DeferCreate>
-
-      {/* Substats */}
-      <DeferCreate>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-          <pre style={{ margin: '10px auto', color: highlight ? color : '' }}>
-            {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
-          </pre>
-          <SubstatRollsSummary
-            simRequest={props.simulation.request}
-            precision={props.precision}
-            diminish={props.type === 'Benchmark'}
-            columns={2}
-          />
-        </div>
-      </DeferCreate>
-
-      {/* Mainstats */}
-      <DeferCreate>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-          <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
-            {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
-          </pre>
-          <div style={{ display: 'flex', gap: defaultGap, justifyContent: 'space-around' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <ScoringStat stat={simRequest.simBody ? t(`common:ReadableStats.${simRequest.simBody as MainStats}`) : ''} part={Parts.Body}/>
-              <ScoringStat stat={simRequest.simFeet ? t(`common:ReadableStats.${simRequest.simFeet as MainStats}`) : ''} part={Parts.Feet}/>
-              <ScoringStat stat={simRequest.simPlanarSphere ? t(`common:ReadableStats.${simRequest.simPlanarSphere as MainStats}`) : ''} part={Parts.PlanarSphere}/>
-              <ScoringStat stat={simRequest.simLinkRope ? t(`common:ReadableStats.${simRequest.simLinkRope as MainStats}`) : ''} part={Parts.LinkRope}/>
-            </div>
-          </div>
-        </div>
-      </DeferCreate>
-
-      {/* Ability damage */}
-      <DeferCreate>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
-          <pre style={{ margin: '0 auto', color: highlight ? color : '' }}>
-            {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
-          </pre>
-          <AbilityDamageSummary simResult={simResult}/>
-        </div>
-      </DeferCreate>
+      </div>
+      <div className={classes.columnFilledBody}>
+        <DeferCreate>
+          <div className={classes.columnFilledSection}>{basicStatsBlock}</div>
+        </DeferCreate>
+        <DeferCreate>
+          <div className={classes.columnFilledSection}>{combatStatsBlock}</div>
+        </DeferCreate>
+        <DeferCreate>
+          <div className={classes.columnFilledSection}>{substatsBlock}</div>
+        </DeferCreate>
+        <DeferCreate>
+          <div className={classes.columnFilledSection}>{mainstatsBlock}</div>
+        </DeferCreate>
+        <DeferCreate>
+          <div className={classes.columnFilledSection}>{abilityBlock}</div>
+        </DeferCreate>
+      </div>
     </div>
   )
 }
 
 // ─── Primitives used by ScoringBenchmarksPanel ───────────────────────────────
 
-function ScoringSet(props: {
-  set: string
-}) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-      <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
-    </div>
-  )
+function ScoringSet(props: { set: string }) {
+  return <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
 }
 
 function ScoringNumber(props: {
@@ -187,14 +182,15 @@ function ScoringNumber(props: {
   number?: number
   precision?: number
   useGrouping?: boolean
+  suffix?: string
 }) {
   const precision = props.precision ?? 1
   const value = props.number ?? 0
   const show = value !== 0
   return (
     <div style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
-      <pre style={{ margin: 0 }}>{props.label}</pre>
-      <pre className={classes.preTextRight}>{show && numberToLocaleString(value, precision, props.useGrouping)}</pre>
+      <span className={classes.dataLabel}>{props.label}</span>
+      <span className={classes.dataValue}>{show && `${numberToLocaleString(value, precision, props.useGrouping)}${props.suffix ?? ''}`}</span>
     </div>
   )
 }
@@ -206,8 +202,8 @@ function ScoringText(props: {
   const value = props.text ?? ''
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'space-between' }}>
-      <pre style={{ margin: 0 }}>{props.label}</pre>
-      <pre className={classes.preTextRight}>{value}</pre>
+      <span className={classes.dataLabel}>{props.label}</span>
+      <span className={classes.dataValue}>{value}</span>
     </div>
   )
 }
@@ -221,13 +217,13 @@ function ScoringTeammate({ result, index }: {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
       <img src={Assets.getCharacterAvatarById(teammate.characterId)} className={classes.teammateIcon}/>
-      <pre style={{ margin: 0 }}>
+      <span className={classes.annotation}>
         {t('EidolonNShort', { eidolon: teammate.characterEidolon })}
-      </pre>
+      </span>
       <img src={Assets.getLightConeIconById(teammate.lightCone)} className={classes.teammateIcon}/>
-      <pre style={{ margin: 0 }}>
+      <span className={classes.annotation}>
         {t('SuperimpositionNShort', { superimposition: teammate.lightConeSuperimposition })}
-      </pre>
+      </span>
     </div>
   )
 }
@@ -238,75 +234,75 @@ function ScoringBenchmarksPanel({ result }: { result: SimulationScore }) {
   const { t } = useTranslation('charactersTab')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 }} className={classes.deferredSection}>
-      <pre className={classes.sectionTitle}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 }}>
+      <div className={classes.sectionTitle}>
         {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
-      </pre>
-      <div style={{ display: 'flex', gap: 25, width: '100%', justifyContent: 'space-around' }}>
-        <DeferCreate>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-            <pre style={{ margin: '5px auto' }}>
-              {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
-            </pre>
-            <div style={{ display: 'flex', gap: 15 }}>
-              <ScoringTeammate result={result} index={0}/>
-              <ScoringTeammate result={result} index={1}/>
-              <ScoringTeammate result={result} index={2}/>
-            </div>
-          </div>
-        </DeferCreate>
+      </div>
+      <BenchmarkDefaultLayout result={result} />
+    </div>
+  )
+}
 
-        <VerticalDivider/>
-
-        <DeferCreate>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-            <pre style={{ margin: '5px auto' }}>
-              {t('CharacterPreview.BuildAnalysis.SimulationSets')}
-            </pre>
+function BenchmarkDefaultLayout({ result }: { result: SimulationScore }) {
+  const { t } = useTranslation('charactersTab')
+  return (
+    <div className={classes.columnCardFilled} style={{ width: '100%' }}>
+      <div className={classes.columnFilledBody}>
+        <div style={{ display: 'flex', gap: 25, justifyContent: 'space-around' }}>
+          <DeferCreate>
             <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-              <div style={{ display: 'flex' }}>
-                <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
-                <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
+              <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
+                {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
               </div>
-              <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
+              <div style={{ display: 'flex', gap: 15 }}>
+                <ScoringTeammate result={result} index={0}/>
+                <ScoringTeammate result={result} index={1}/>
+                <ScoringTeammate result={result} index={2}/>
+              </div>
             </div>
-          </div>
-        </DeferCreate>
+          </DeferCreate>
 
-        <VerticalDivider/>
+          <VerticalDivider/>
 
-        <DeferCreate>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-            <pre style={{ margin: '5px auto' }}>
-              {t('CharacterPreview.BuildAnalysis.Rotation.Header')}
-            </pre>
-            <ComboRotationSummary simMetadata={result.simulationMetadata}/>
-          </div>
-        </DeferCreate>
-
-        <VerticalDivider/>
-
-        <DeferCreate>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <pre style={{ margin: '5px auto' }}>
-              {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
-            </pre>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }} className={classes.combatResultsWidth}>
-              <ScoringText
-                label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
-                text={
-                  // @ts-expect-error - type of key is not specific enough
-                  t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
-                }
-              />
-              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
-              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
-              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
-              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
-              <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
+          <DeferCreate>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+              <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
+                {t('CharacterPreview.BuildAnalysis.SimulationSets')}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+                <div style={{ display: 'flex' }}>
+                  <ScoringSet set={result.maximumSim.request.simRelicSet1}/>
+                  <ScoringSet set={result.maximumSim.request.simRelicSet2}/>
+                </div>
+                <ScoringSet set={result.maximumSim.request.simOrnamentSet}/>
+              </div>
             </div>
-          </div>
-        </DeferCreate>
+          </DeferCreate>
+
+          <VerticalDivider/>
+
+          <DeferCreate>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
+                {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
+                <ScoringText
+                  label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
+                  text={
+                    // @ts-expect-error - type of key is not specific enough
+                    t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
+                  }
+                />
+                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1}/>
+                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
+                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
+                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
+                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2} suffix=" %"/>
+              </div>
+            </div>
+          </DeferCreate>
+        </div>
       </div>
     </div>
   )
@@ -321,8 +317,12 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
   const element = characterMetadata.element as ElementName
 
+  const comboTurnAbilities = result.simulationMetadata.comboTurnAbilities
+  const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
+  const defaultClass = classes.columnCardFilled
+
   return (
-    <div style={{ display: 'flex' }} className={classes.deferredSection}>
+    <div style={{ display: 'flex', gap: 12 }}>
       <DeferCreate>
         <ScoringColumn
           simulation={result.originalSim}
@@ -334,12 +334,10 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
           elementalDmgValue={elementalDmgValue}
           element={element}
           characterMetadata={characterMetadata}
+          columnClassName={highlightClass}
+          comboTurnAbilities={comboTurnAbilities}
         />
       </DeferCreate>
-
-      <div>
-        <Divider orientation='vertical' className={classes.columnDivider}/>
-      </div>
 
       <DeferCreate>
         <ScoringColumn
@@ -352,12 +350,10 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
           elementalDmgValue={elementalDmgValue}
           element={element}
           characterMetadata={characterMetadata}
+          columnClassName={defaultClass}
+          comboTurnAbilities={comboTurnAbilities}
         />
       </DeferCreate>
-
-      <div>
-        <Divider orientation='vertical' className={classes.columnDivider}/>
-      </div>
 
       <DeferCreate>
         <ScoringColumn
@@ -370,6 +366,8 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
           elementalDmgValue={elementalDmgValue}
           element={element}
           characterMetadata={characterMetadata}
+          columnClassName={defaultClass}
+          comboTurnAbilities={comboTurnAbilities}
         />
       </DeferCreate>
     </div>
@@ -397,13 +395,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 
         {/* Grade ruler */}
         <DeferCreate>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }}>
-            <pre className={classes.mainTitle}>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
+            <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
                 text={t('CharacterPreview.BuildAnalysis.Header')}
                 url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
               />
-            </pre>
+            </div>
             <DPSScoreDisclaimer/>
             <DpsScoreGradeRuler
               score={result.originalSimScore}
@@ -417,9 +415,9 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         {/* Substat upgrade table */}
         <DeferCreate>
           <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-            <pre className={classes.sectionTitle}>
+            <div className={classes.sectionTitle}>
               {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
-            </pre>
+            </div>
             <DpsScoreSubstatUpgradesTable simScore={result}/>
           </div>
         </DeferCreate>
@@ -427,9 +425,9 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         {/* Main stat upgrade table */}
         <DeferCreate>
           <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-            <pre className={classes.sectionTitle}>
+            <div className={classes.sectionTitle}>
               {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')}
-            </pre>
+            </div>
             <DpsScoreMainStatUpgradesTable simScore={result}/>
           </div>
         </DeferCreate>
@@ -440,10 +438,8 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             <ColorizedTitleWithInfo
               text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
               url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
+              fontSize={24}
             />
-            <Alert color='blue' className={classes.relicRarityAlert}>
-              {t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
-            </Alert>
             <EstimatedTbpRelicsDisplay
               displayRelics={displayRelics}
               showcaseMetadata={showcaseMetadata}
@@ -462,12 +458,12 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 
         {/* Buffs analysis */}
         <DeferCreate>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }} className={classes.deferredSection}>
-            <pre className={classes.sectionTitle}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+            <div className={classes.sectionTitle}>
               {result.simulationForm.deprioritizeBuffs
                 ? t('CharacterPreview.BuildAnalysis.CombatBuffs.SubDpsHeader')
                 : t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')}
-            </pre>
+            </div>
             <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE} twoColumn/>
           </div>
         </DeferCreate>

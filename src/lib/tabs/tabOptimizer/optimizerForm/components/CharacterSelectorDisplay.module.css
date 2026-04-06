@@ -1,0 +1,12 @@
+.sortTargetDropdown :global(.mantine-ScrollArea-content) {
+  display: flex;
+}
+
+.sortTargetDropdown :global(.mantine-Select-group) {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.sortTargetDropdown :global(.mantine-Select-option) {
+  white-space: nowrap;
+}

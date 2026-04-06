@@ -1,11 +1,10 @@
 .outerCard {
-  border-radius: var(--radius-md);
-  width: 730px;
+  width: 100%;
 }
 
 .statsPanel {
   border-radius: var(--radius-md);
-  width: 730px;
+  flex: 1;
   overflow: hidden;
   padding: 10px;
   background: var(--layer-2);
@@ -17,7 +16,7 @@
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
   height: 100%;
-  background: var(--layer-2);
+  max-width: 233px;
 }
 
 .oldStatColumn {

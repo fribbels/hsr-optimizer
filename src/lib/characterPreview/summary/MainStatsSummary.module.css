@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.partImage {
+  height: 30px;
+}
+
+.statName {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  white-space: nowrap;
+}

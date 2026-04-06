@@ -30,7 +30,7 @@ export function calculateProgressText(
     return i18next.t('optimizerTab:Sidebar.ProgressText.CalculatingETA') // Progress  (calculating ETA..)
   }
 
-  const msRemaining = msDiff / permutationsSearched * (permutations - permutationsSearched)
+  const msRemaining = Math.max(0, msDiff / permutationsSearched * (permutations - permutationsSearched))
   const perSecond = searched / (msDiff / 1000)
   return optimizationInProgress
     ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', {

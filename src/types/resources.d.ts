@@ -116,13 +116,13 @@ interface Resources {
             "ULT": "ULT DMG",
             "UNIQUE": "UNIQUE DMG"
           },
-          "Baseline": "Baseline DMG:",
-          "Benchmark": "Benchmark DMG:",
-          "Character": "Character DMG:",
-          "Header": "Combat damage results",
-          "Maximum": "Maximum DMG:",
-          "Primary": "Primary ability:",
-          "Score": "DPS score %:"
+          "Baseline": "Baseline",
+          "Benchmark": "Benchmark",
+          "Character": "Character",
+          "Header": "Benchmark Results",
+          "Maximum": "Maximum",
+          "Primary": "Primary Ability",
+          "Score": "DPS Score"
         },
         "Header": "DPS Score Calculations",
         "RelicRarityHeader": "Relic rarity upgrade comparisons",
@@ -189,7 +189,7 @@ interface Resources {
       "ScoringColumn": {
         "Benchmark": {
           "Abilities": "100% benchmark ability damage",
-          "BasicStats": "100% benchmark basic stats",
+          "BasicStats": "100% benchmark <1>basic stats</1>",
           "CombatStats": "100% benchmark <1>combat stats</1>",
           "Header": "Benchmark build ({{score}}%)",
           "Mainstats": "100% benchmark main stats",
@@ -197,7 +197,7 @@ interface Resources {
         },
         "Character": {
           "Abilities": "Character ability damage",
-          "BasicStats": "Character basic stats",
+          "BasicStats": "Character <1>basic stats</1>",
           "CombatStats": "Character <1>combat stats</1>",
           "Header": "Character build ({{score}}%)",
           "Mainstats": "Character main stats",
@@ -205,7 +205,7 @@ interface Resources {
         },
         "Perfect": {
           "Abilities": "200% perfect ability damage",
-          "BasicStats": "200% perfect basic stats",
+          "BasicStats": "200% perfect <1>basic stats</1>",
           "CombatStats": "200% perfect <1>combat stats</1>",
           "Header": "Perfect build ({{score}}%)",
           "Mainstats": "200% perfect main stats",
@@ -6333,13 +6333,13 @@ interface Resources {
       },
       "RotationButton": "Advanced rotation",
       "RowControls": {
-        "Add": "+",
-        "Header": "Controls",
-        "PresetsHeader": "Presets",
-        "Remove": "-",
+        "AddTooltip": "Add ability",
+        "PresetsTooltip": "Enable / disable conditional presets",
+        "RemoveTooltip": "Remove ability",
         "ResetConfirm": {
           "Description": "Reset all Simple / Advanced rotation settings to default?"
-        }
+        },
+        "ResetTooltip": "Reset rotation to default"
       }
     },
     "EnemyConfiguration": {

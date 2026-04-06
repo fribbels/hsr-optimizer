@@ -1,8 +1,8 @@
+import classes from 'lib/characterPreview/card/CharacterStatSummary.module.css'
 import {
   StatRow,
 } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
-import classes from 'lib/CharacterStatSummary.module.css'
 import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   PathNames,
@@ -31,6 +31,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   scoringType,
   showAll,
   simScore,
+  zebra,
 }: {
   characterId: CharacterId,
   finalStats: BasicStatsObject | ComputedStatsObjectExternal,
@@ -39,13 +40,17 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   scoringType?: ScoringType,
   showAll?: boolean,
   simScore?: number,
+  zebra?: boolean,
 }) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
   return (
     <StatText className={classes.statSummary}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}>
+      <div
+        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 6 : 3 }}
+        className={zebra ? classes.zebra : undefined}
+      >
         <StatRow finalStats={finalStats} stat={Stats.HP} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.ATK} edits={edits} />
         <StatRow finalStats={finalStats} stat={Stats.DEF} edits={edits} />

@@ -1,5 +1,6 @@
-import { Flex } from '@mantine/core'
 import React from 'react'
+
+const flexRow: React.CSSProperties = { display: 'flex' }
 
 export const BoxComponent = React.memo(function BoxComponent({ active, index, disabled, dataKey, partition, unselectable }: {
   active: boolean
@@ -43,7 +44,7 @@ export function BoxArray({ activations, actionCount, dataKeys, partition, unsele
   unselectable?: boolean
 }) {
   return (
-    <Flex>
+    <div style={flexRow}>
       {activations.map((value, index) => (
         <BoxComponent
           dataKey={dataKeys[index]}
@@ -55,6 +56,6 @@ export function BoxArray({ activations, actionCount, dataKeys, partition, unsele
           unselectable={unselectable}
         />
       ))}
-    </Flex>
+    </div>
   )
 }

@@ -2,7 +2,6 @@ import { Drawer } from '@mantine/core'
 import { ConditionalDataType } from 'lib/constants/constants'
 import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
 import { useScrollLock } from 'lib/layout/scrollController'
-import comboStyles from 'lib/tabs/tabOptimizer/combo/ComboDrawer.module.css'
 import { ComboHeader } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
 import { StateDisplay } from 'lib/tabs/tabOptimizer/combo/StateDisplay'
 import { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
@@ -10,20 +9,31 @@ import type { ComboDataKey, ComboNumberConditional } from 'lib/optimization/comb
 import { useComboDrawerStore, locateConditional } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { flushComboDrawerToForm } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { useCallback, useLayoutEffect, useRef, type RefObject } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import Selecto from 'react-selecto'
 
 const drawerContentStyle = { width: 1560, height: '100%' } as const
 
+const ENTER_DURATION = 500
+const EXIT_DURATION = 250
+
 export function ComboDrawer() {
   const { close: closeComboDrawer, isOpen: isOpenComboDrawer } = useOpenClose(OpenCloseIDs.COMBO_DRAWER)
+  const [contentMounted, setContentMounted] = useState(false)
 
   useLayoutEffect(() => {
     if (isOpenComboDrawer) {
       useComboDrawerStore.getState().initialize(getForm())
+      setContentMounted(true)
     } else {
+      // Flush form data immediately (save state), but delay store reset
+      // and content unmount so the exit transition can play with real content.
       flushComboDrawerToForm()
-      useComboDrawerStore.getState().reset()
+      const timer = setTimeout(() => {
+        useComboDrawerStore.getState().reset()
+        setContentMounted(false)
+      }, EXIT_DURATION)
+      return () => clearTimeout(timer)
     }
   }, [isOpenComboDrawer])
 
@@ -34,22 +44,20 @@ export function ComboDrawer() {
       onClose={() => closeComboDrawer()}
       opened={isOpenComboDrawer}
       size={1625}
-      transitionProps={{ duration: 0 }}
-      overlayProps={{ transitionProps: { duration: 500 } }}
-      classNames={{ content: comboStyles.drawerContent }}
+      transitionProps={{ duration: ENTER_DURATION, exitDuration: EXIT_DURATION, transition: 'slide-left' }}
+      overlayProps={{ transitionProps: { duration: ENTER_DURATION, exitDuration: EXIT_DURATION } }}
       styles={{
         header: { position: 'sticky', top: 0, zIndex: 10, backgroundColor: 'var(--layer-2)' },
         body: { paddingTop: 0 },
       }}
     >
-      {isOpenComboDrawer && <ComboDrawerContent />}
+      {contentMounted && <ComboDrawerContent />}
     </Drawer>
   )
 }
 
 function ComboDrawerContent() {
   useScrollLock(true)
-
   const initialized = useComboDrawerStore((s) => s.initialized)
 
   const selectoRef: RefObject<Selecto | null> = useRef<Selecto>(null)

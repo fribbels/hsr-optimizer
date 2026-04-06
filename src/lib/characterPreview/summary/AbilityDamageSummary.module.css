@@ -1,8 +1,18 @@
-.preText {
-  margin: 0;
+.label {
+  composes: label from './summaryStyles.module.css';
 }
 
-.preTextRight {
-  margin: 0;
-  text-align: right;
+.value {
+  composes: value from './summaryStyles.module.css';
+}
+
+.zebraContainer {
+  composes: zebraContainer from './summaryStyles.module.css';
+}
+
+.row {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  padding: 2px 5px;
 }

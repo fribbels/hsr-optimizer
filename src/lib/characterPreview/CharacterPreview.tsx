@@ -109,6 +109,39 @@ const SHADOW_OPACITY = 0.75
 const INSET_BLUR_DEFAULT = 2
 const INSET_OPACITY = 0.30
 
+// Text shadow presets for readability tuning
+const TEXT_SHADOW_DEFAULT = '1px 1px 0 rgba(0,0,0,0.3), -1px -1px 0 rgba(0,0,0,0.3), 1px -1px 0 rgba(0,0,0,0.3), -1px 1px 0 rgba(0,0,0,0.3)'
+
+const TEXT_SHADOW_PRESETS: { label: string, value: string }[] = [
+  { label: 'Current (blur only)', value: TEXT_SHADOW_DEFAULT },
+  { label: 'A: Faint outline 0.20', value: '1px 1px 0 rgba(0,0,0,0.2), -1px -1px 0 rgba(0,0,0,0.2), 1px -1px 0 rgba(0,0,0,0.2), -1px 1px 0 rgba(0,0,0,0.2)' },
+  { label: 'B: Subtle outline 0.30', value: '1px 1px 0 rgba(0,0,0,0.3), -1px -1px 0 rgba(0,0,0,0.3), 1px -1px 0 rgba(0,0,0,0.3), -1px 1px 0 rgba(0,0,0,0.3)' },
+  { label: 'C: Light outline 0.40', value: '1px 1px 0 rgba(0,0,0,0.4), -1px -1px 0 rgba(0,0,0,0.4), 1px -1px 0 rgba(0,0,0,0.4), -1px 1px 0 rgba(0,0,0,0.4)' },
+  { label: 'B: Medium outline', value: '1px 1px 0 rgba(0,0,0,0.6), -1px -1px 0 rgba(0,0,0,0.6), 1px -1px 0 rgba(0,0,0,0.6), -1px 1px 0 rgba(0,0,0,0.6)' },
+  {
+    label: 'C: Outline + soft glow',
+    value: '1px 1px 0 rgba(0,0,0,0.5), -1px -1px 0 rgba(0,0,0,0.5), 1px -1px 0 rgba(0,0,0,0.5), -1px 1px 0 rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.4)',
+  },
+  {
+    label: 'D: 8-dir light',
+    value:
+      '-1px 0 0 rgba(0,0,0,0.35), 1px 0 0 rgba(0,0,0,0.35), 0 -1px 0 rgba(0,0,0,0.35), 0 1px 0 rgba(0,0,0,0.35), -1px -1px 0 rgba(0,0,0,0.35), 1px -1px 0 rgba(0,0,0,0.35), -1px 1px 0 rgba(0,0,0,0.35), 1px 1px 0 rgba(0,0,0,0.35)',
+  },
+  {
+    label: 'E: 8-dir medium',
+    value:
+      '-1px 0 0 rgba(0,0,0,0.55), 1px 0 0 rgba(0,0,0,0.55), 0 -1px 0 rgba(0,0,0,0.55), 0 1px 0 rgba(0,0,0,0.55), -1px -1px 0 rgba(0,0,0,0.55), 1px -1px 0 rgba(0,0,0,0.55), -1px 1px 0 rgba(0,0,0,0.55), 1px 1px 0 rgba(0,0,0,0.55)',
+  },
+  {
+    label: 'F: 8-dir + glow',
+    value:
+      '-1px 0 0 rgba(0,0,0,0.45), 1px 0 0 rgba(0,0,0,0.45), 0 -1px 0 rgba(0,0,0,0.45), 0 1px 0 rgba(0,0,0,0.45), -1px -1px 0 rgba(0,0,0,0.45), 1px -1px 0 rgba(0,0,0,0.45), -1px 1px 0 rgba(0,0,0,0.45), 1px 1px 0 rgba(0,0,0,0.45), 0 0 6px rgba(0,0,0,0.35)',
+  },
+  { label: 'G: None', value: 'none' },
+]
+
+// globalThis.CARD_DEBUG = true
+
 function buildPortraitFilter(blur: number, brightness: number, saturate: number) {
   return `blur(${blur}px) brightness(${brightness.toFixed(2)}) saturate(${saturate.toFixed(2)})`
 }
@@ -124,6 +157,7 @@ function buildInsetShadow(blur: number, opacity: number) {
 type SliderDef = { label: string, value: number, min: number, max: number, step: number, onChange: (v: number) => void }
 type SliderGroup = { title: string, sliders: SliderDef[] }
 type DebugPreset = { label: string, apply: () => void }
+type PillGroup = { title: string, active: string, options: { label: string, value: string, apply: () => void }[] }
 
 const pillStyle: React.CSSProperties = {
   padding: '3px 10px',
@@ -137,8 +171,15 @@ const pillStyle: React.CSSProperties = {
   userSelect: 'none',
 }
 
+const pillActiveStyle: React.CSSProperties = {
+  ...pillStyle,
+  border: '1px solid #88f',
+  background: 'rgba(100,100,255,0.25)',
+  color: '#fff',
+}
+
 // Debug slider panel for tuning card visuals — hidden by default, click [+] to show
-function DebugSliderPanel({ groups, presets }: { groups: SliderGroup[], presets?: DebugPreset[] }) {
+function DebugSliderPanel({ groups, presets, pillGroups }: { groups: SliderGroup[], presets?: DebugPreset[], pillGroups?: PillGroup[] }) {
   const [open, setOpen] = useState(false)
 
   if (!open) {
@@ -193,6 +234,14 @@ function DebugSliderPanel({ groups, presets }: { groups: SliderGroup[], presets?
           {presets.map((p) => <span key={p.label} onClick={p.apply} style={pillStyle}>{p.label}</span>)}
         </div>
       )}
+      {pillGroups && pillGroups.map((pg) => (
+        <div key={pg.title} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          <div style={{ fontWeight: 600, fontSize: 12, color: '#aaa', borderBottom: '1px solid #444', paddingBottom: 2, marginTop: 4 }}>{pg.title}</div>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {pg.options.map((o) => <span key={o.label} onClick={o.apply} style={pg.active === o.value ? pillActiveStyle : pillStyle}>{o.label}</span>)}
+          </div>
+        </div>
+      ))}
       {groups.map((g) => (
         <div key={g.title} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           <div style={{ fontWeight: 600, fontSize: 12, color: '#aaa', borderBottom: '1px solid #444', paddingBottom: 2, marginTop: 4 }}>{g.title}</div>
@@ -263,6 +312,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const [shadowOpacity, setShadowOpacity] = useState(SHADOW_OPACITY)
   const [insetBlur, setInsetBlur] = useState(INSET_BLUR_DEFAULT)
   const [insetOpacity, setInsetOpacity] = useState(INSET_OPACITY)
+  const [textShadowPreset, setTextShadowPreset] = useState(TEXT_SHADOW_DEFAULT)
   const portraitFilter = buildPortraitFilter(portraitBlur, portraitBrightness, portraitSaturate)
 
   // OKLCH pipeline debug sliders
@@ -472,6 +522,17 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 },
               },
             ]}
+            pillGroups={[
+              {
+                title: 'Text Shadow',
+                active: textShadowPreset,
+                options: TEXT_SHADOW_PRESETS.map((p) => ({
+                  label: p.label,
+                  value: p.value,
+                  apply: () => setTextShadowPreset(p.value),
+                })),
+              },
+            ]}
             groups={[
               {
                 title: 'Portrait BG Filter',
@@ -541,7 +602,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             '--showcase-shadow': buildShadow(shadowX, shadowY, shadowBlur, shadowOpacity),
             '--showcase-shadow-inset': buildInsetShadow(insetBlur, insetOpacity),
             'color': 'rgba(220, 220, 220, 1)',
-            'textShadow': '0px 0px 3px rgba(0,0,0,0.9), 0px 0px 1px rgba(0,0,0,0.7)',
+            'textShadow': textShadowPreset,
             'position': 'relative',
             'display': 'flex',
             'height': parentH,

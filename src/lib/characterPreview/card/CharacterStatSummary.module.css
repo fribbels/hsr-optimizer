@@ -3,3 +3,15 @@
   padding-right: 6px;
   width: 100%;
 }
+
+.zebra > div:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 2px;
+  padding: 2px 6px;
+  margin-left: -6px;
+  margin-right: -6px;
+}
+
+.zebra [role="separator"] {
+  border-color: transparent !important;
+}

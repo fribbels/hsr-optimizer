@@ -19,14 +19,16 @@
 
 .indicator {
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   background: linear-gradient(90deg, hsla(215, 82%, 62%, 0.18), hsla(215, 82%, 62%, 0.06));
   border-left: 3px solid var(--primary-default);
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
   transition:
-    top 150ms ease,
+    transform 150ms ease,
     height 150ms ease,
     opacity 0.1s ease;
 }

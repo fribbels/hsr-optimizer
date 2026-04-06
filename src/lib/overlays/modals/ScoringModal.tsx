@@ -49,12 +49,14 @@ const statRenderOption: React.ComponentProps<typeof MultiSelect>['renderOption']
 )
 
 // Cleans up 0's to not show up on the form
+// Uses empty string instead of null — react-number-format treats null as "use internal state"
+// which causes stale values to persist when switching characters
 function getScoringValuesForDisplay(scoringMetadata: ScoringMetadata): ScoringAlgorithmForm {
   const scoringMetadataForForm: ScoringAlgorithmForm = { ...scoringMetadata, stats: { ...scoringMetadata.stats } }
   for (const x of Object.entries(scoringMetadataForForm.stats)) {
     if (x[1] === 0) {
-      // @ts-expect-error - Setting stat weight to null for display (form shows empty instead of 0)
-      scoringMetadataForForm.stats[x[0]] = null
+      // @ts-expect-error - Setting stat weight to '' for display (form shows empty instead of 0)
+      scoringMetadataForForm.stats[x[0]] = ''
     }
   }
   return scoringMetadataForForm

@@ -99,6 +99,11 @@ export const StatRow = memo(function StatRow({
   if (!finalStats) {
     return null as unknown as ReactElement
   }
+
+  const divider = <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant='dashed' />
+
+  const valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
+
   return (
     <div
       title={value1000thsPrecision}
@@ -106,8 +111,8 @@ export const StatRow = memo(function StatRow({
     >
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
-      <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant='dashed' />
-      {`${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
+      {divider}
+      {valueText}
     </div>
   )
 })

@@ -1,0 +1,27 @@
+/* ─── Shared typography for summary data rows ────────────────────────────── */
+
+.label {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ─── Zebra striping ─────────────────────────────────────────────────────── */
+
+.zebraContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.zebraContainer > div:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 2px;
+}

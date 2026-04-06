@@ -356,10 +356,11 @@ export type EnrichedWarpRequest = {
   warps: number,
   totalStarlight: number,
   totalPasses: number,
+  additionalPasses: number,
   totalJade: number,
 } & WarpRequest
 
-function enrichWarpRequest(originalRequest: WarpRequest) {
+export function enrichWarpRequest(originalRequest: WarpRequest) {
   const request: WarpRequest = {
     ...originalRequest,
     jades: Number(originalRequest.jades) || 0,
@@ -391,6 +392,7 @@ function enrichWarpRequest(originalRequest: WarpRequest) {
     warps: totalWarps,
     totalJade: totalJade,
     totalPasses: totalPasses,
+    additionalPasses: additionalPasses,
     totalStarlight: totalStarlight,
   }
 

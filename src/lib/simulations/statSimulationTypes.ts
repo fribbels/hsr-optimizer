@@ -60,6 +60,11 @@ export type PrimaryActionStats = {
 
 export type ActionDamage = Partial<Record<AbilityKind, number>>
 
+export type RotationDamageStep = {
+  actionType: AbilityKind
+  damage: number
+}
+
 export type ActionBuffSnapshot = {
   buffs: Buff[]
   buffsMemo: Buff[]
@@ -74,6 +79,7 @@ export type SimulateBuildResult = {
   x: ComputedStatsContainer
   primaryActionStats: PrimaryActionStats
   actionDamage: ActionDamage
+  rotationDamage: RotationDamageStep[]
   actionBuffSnapshots?: Record<string, ActionBuffSnapshot>
   rotationBuffSteps?: RotationBuffStep[]
 }
@@ -86,6 +92,7 @@ export type RunStatSimulationsResult = {
   key?: string,
   primaryActionStats?: PrimaryActionStats,
   actionDamage?: ActionDamage,
+  rotationDamage?: RotationDamageStep[],
   actionBuffSnapshots?: Record<string, ActionBuffSnapshot>,
   rotationBuffSteps?: RotationBuffStep[],
 }

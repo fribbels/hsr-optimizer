@@ -1,12 +1,13 @@
-import { IconBoltFilled, IconCheck, IconX } from '@tabler/icons-react'
-import { Badge, Button, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
+import { IconCheck, IconX } from '@tabler/icons-react'
+import { Badge, Divider, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
+import { SaveState } from 'lib/state/saveState'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { BannerRotation, DEFAULT_WARP_REQUEST, EidolonLevel, handleWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeOptions, WarpIncomeType, type WarpMilestoneResult, type WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { BannerRotation, calculateWarps, DEFAULT_WARP_REQUEST, EidolonLevel, type EnrichedWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeOptions, WarpIncomeType, type WarpMilestoneResult, type WarpRequest, type WarpResult, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -19,20 +20,19 @@ import classes from './WarpCalculatorTab.module.css'
 import { precisionRound } from 'lib/utils/mathUtils'
 
 const HEADER_LABEL_GAP = 4
+const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
 
 export function WarpCalculatorTab() {
   const { t } = useTranslation('warpCalculatorTab')
 
   return (
-    <Flex direction="column" style={{ height: 1400, width: 950 }} align='center'>
+    <Flex direction="column" style={{ maxWidth: 950, width: '100%' }} align='center' gap="xl">
       <ColorizedTitleWithInfo
         text={t('SectionTitles.Planner')/* Warp Planner */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
       />
 
-      <Inputs/>
-
-      <Results/>
+      <WarpPlanner/>
     </Flex>
   )
 }
@@ -55,7 +55,7 @@ function sanitizeWarpRequest(warpRequest: WarpRequest) {
   return sanitized
 }
 
-function Inputs() {
+function WarpPlanner() {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
   const storedWarpRequest = useWarpCalculatorStore((s) => s.request)
 
@@ -63,6 +63,10 @@ function Inputs() {
 
   const form = useForm<WarpRequest>({
     initialValues: warpRequest,
+    onValuesChange: (values) => {
+      useWarpCalculatorStore.getState().setRequest(values)
+      SaveState.delayedSave(10_000)
+    },
   })
 
   scannerChannel.use((event) => {
@@ -107,9 +111,11 @@ function Inputs() {
     }
   }, [form])
 
+  const warpResult = calculateWarps(form.getValues())
+
   return (
-    <div style={{ width: 930 }}>
-      <Paper style={{ width: 930 }} p="xl" withBorder>
+    <div style={{ maxWidth: 930, width: '100%' }}>
+      <Paper style={{ width: '100%' }} p="xl" withBorder>
         <Flex style={{ marginBottom: 30 }}>
           <Flex direction="column" flex={1}>
             <Title>
@@ -182,6 +188,7 @@ function Inputs() {
                   <Select
                     data={generateStrategyOptions()}
                     value={String(form.getValues().strategy)}
+                    styles={{ input: { height: 30, minHeight: 30 } }}
                     onChange={(val) => {
                       if (val != null) form.setFieldValue('strategy', Number(val) as WarpStrategy)
                     }}
@@ -249,19 +256,9 @@ function Inputs() {
           </Flex>
         </Flex>
 
-        <Flex w='100%' gap={20}>
-          <Button
-            fullWidth
-            style={{ height: 45 }}
-            onClick={() => {
-              useWarpCalculatorStore.getState().setResult(null)
-              setTimeout(() => handleWarpRequest(form.getValues()), 50)
-            }}
-            leftSection={<IconBoltFilled size={16}/>}
-          >
-            {t('Calculate')/* Calculate */}
-          </Button>
-        </Flex>
+        <WarpSummary enriched={warpResult.request}/>
+
+        <WarpResultsTable warpResult={warpResult}/>
       </Paper>
     </div>
   )
@@ -275,128 +272,115 @@ function Title(props: { children: ReactNode }) {
   )
 }
 
-function Results() {
-  const { t, i18n } = useTranslation('warpCalculatorTab')
-  const warpResult = useWarpCalculatorStore((s) => s.result)
+function WarpSummary(props: { enriched: EnrichedWarpRequest }) {
+  const { enriched } = props
 
-  if (!warpResult?.request) {
-    return <></>
-  }
+  return (
+    <Divider
+      mt={30} mb={30}
+      label={
+        <Flex align='center' gap={4} style={{ fontSize: 14 }}>
+          {localeNumberComma(enriched.totalJade)}
+          <img style={{ height: 16 }} src={Assets.getJade()}/>
+          <span>+</span>
+          {localeNumberComma(enriched.passes)}
+          <img style={{ height: 16 }} src={Assets.getPass()}/>
+          <span>+</span>
+          {localeNumberComma(enriched.additionalPasses)}
+          <img style={{ height: 16 }} src={Assets.getPass()}/>
+          <span>+</span>
+          {localeNumberComma(enriched.totalStarlight)}
+          <img style={{ height: 16 }} src={Assets.getStarlight()}/>
+          <span>=</span>
+          {localeNumberComma(enriched.warps)}
+          <img style={{ height: 16 }} src={Assets.getPass()}/>
+        </Flex>
+      }
+      labelPosition='center'
+    />
+  )
+}
+
+function WarpResultsTable(props: { warpResult: Exclude<WarpResult, null> }) {
+  const { t } = useTranslation('warpCalculatorTab')
+  const { warpResult } = props
 
   const warpTableData: WarpTableData[] = Object.entries(warpResult.milestoneResults ?? {})
     .map(([label, result]) => ({ key: label, warps: result.warps, wins: result.wins }))
 
   return (
-    <Flex direction="column" gap={20} style={{}} align='center'>
-      <Flex justify='space-around' style={{ marginTop: 15 }}>
-        <pre style={{ fontSize: 28, fontWeight: 'bold', margin: 0 }}>
-          {t('SectionTitles.Results')/* Results */}
-        </pre>
-      </Flex>
-
-      <div style={{ fontSize: 18 }}>
-        <pre style={{ margin: 0 }}>
-          <Flex align='center' gap={5}>
-            <span>{t('TotalAvailable')/* Total warps available: */}</span>
-
-            {`( ${localeNumberComma(warpResult.request.totalJade ?? 0)}`}
-            <img style={{ height: 24 }} src={Assets.getJade()}/>
-            <span>) + (</span>
-            {localeNumberComma(warpResult.request.totalPasses ?? 0)}
-            <img style={{ height: 24 }} src={Assets.getPass()}/>
-            <span>) + (</span>
-            {localeNumberComma(warpResult.request.totalStarlight ?? 0)}
-            <img style={{ height: 24 }} src={Assets.getStarlight()}/>
-            <span>) </span>
-            <span>= </span>
-            {localeNumberComma(warpResult.request.warps ?? 0)}
-            <img style={{ height: 24 }} src={Assets.getPass()}/>
-          </Flex>
-        </pre>
-      </div>
-
-      <Flex direction="column" gap={10} w='100%'>
-        <Table className={classes.warpTable} style={{ width: '100%' }}>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('ColumnTitles.Goal')}</Table.Th>
-              <Table.Th style={{ textAlign: 'center', width: 250 }}>
-                <Flex justify='center' align='center' gap={5}>
-                  <Trans<'ColumnTitles.Chance', 'warpCalculatorTab'>
-                    t={t}
-                    i18nKey='ColumnTitles.Chance'
-                    values={{ ticketCount: warpResult.request.warps.toLocaleString(i18n.resolvedLanguage!.split('_')[0]) }}
-                  >
-                    Success chance with [[ticketCount]]
-                    <img style={{ height: 18 }} src={Assets.getPass()}/>
-                  </Trans>
-                </Flex>
-              </Table.Th>
-              <Table.Th style={{ textAlign: 'center', width: 250 }}>
-                <Flex justify='center' align='center' gap={5}>
-                  <Trans t={t} i18nKey='ColumnTitles.Average'>
-                    Average # of
-                    <img style={{ height: 18 }} src={Assets.getPass()}/>
-                    required
-                  </Trans>
-                </Flex>
-              </Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {warpTableData.map((record) => (
-              <Table.Tr
-                key={record.key}
-                className={`${classes.warpRow} ${record.wins < chanceThreshold ? 'warp-table-row-disabled' : ''}`}
+    <Table className={classes.warpTable} style={{ width: '100%' }}>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('ColumnTitles.Goal')}</Table.Th>
+          <Table.Th style={{ textAlign: 'center', width: 250 }}>
+            <Flex justify='center' align='center' gap={5}>
+              <Trans<'ColumnTitles.Chance', 'warpCalculatorTab'>
+                t={t}
+                i18nKey='ColumnTitles.Chance'
+                values={{ ticketCount: localeNumberComma(warpResult.request.warps) }}
               >
-                <Table.Td className={classes.goalCell}>
-                  <Flex className={classes.goalBarOverlay} align='center'>
-                    {record.wins >= chanceThreshold && (
-                      <div
-                        className={classes.goalBar}
-                        style={{
-                          width: `${record.wins * 100}%`,
-                          backgroundColor: chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])(record.wins).hex(),
-                        }}
-                      />
-                    )}
-                    <Flex className={classes.goalContent} justify='center' align='center'>
-                      <Badge color='#000000aa' className={classes.goalBadge} style={{ opacity: opacity(record.wins), fontWeight: 'normal', fontSize: 12 }}>
-                        {translateLabel(record.key)}
-                      </Badge>
-                    </Flex>
-                  </Flex>
-                </Table.Td>
-                <Table.Td style={{ textAlign: 'center' }}>
-                  {`${precisionRound(record.wins * 100, 1).toLocaleString(i18n.resolvedLanguage!.split('_')[0], {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  })}%`}
-                </Table.Td>
-                <Table.Td style={{ textAlign: 'center' }}>
-                  <Flex align='center' justify='center' gap={HEADER_LABEL_GAP}>
-                    {`${Math.ceil(record.warps)}`}
-                    <img style={{ height: 16, opacity: opacity(record.wins) }} src={Assets.getPass()}/>
-                  </Flex>
-                </Table.Td>
-              </Table.Tr>
-            ))}
-          </Table.Tbody>
-        </Table>
-      </Flex>
-    </Flex>
+                Success chance with [[ticketCount]]
+                <img style={{ height: 18 }} src={Assets.getPass()}/>
+              </Trans>
+            </Flex>
+          </Table.Th>
+          <Table.Th style={{ textAlign: 'center', width: 250 }}>
+            <Flex justify='center' align='center' gap={5}>
+              <Trans t={t} i18nKey='ColumnTitles.Average'>
+                Average # of
+                <img style={{ height: 18 }} src={Assets.getPass()}/>
+                required
+              </Trans>
+            </Flex>
+          </Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        {warpTableData.map((record) => (
+          <Table.Tr
+            key={record.key}
+            className={record.wins < chanceThreshold ? classes.warpRowDisabled : classes.warpRow}
+          >
+            <Table.Td className={classes.goalCell}>
+              <Flex className={classes.goalBarOverlay} align='center'>
+                {record.wins >= chanceThreshold && (
+                  <div
+                    className={classes.goalBar}
+                    style={{
+                      width: `${record.wins * 100}%`,
+                      backgroundColor: warpChanceColorScale(record.wins).hex(),
+                    }}
+                  />
+                )}
+                <Flex className={classes.goalContent} justify='center' align='center'>
+                  <Badge color='#000000aa' className={classes.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
+                    {translateLabel(record.key)}
+                  </Badge>
+                </Flex>
+              </Flex>
+            </Table.Td>
+            <Table.Td style={{ textAlign: 'center' }}>
+              {`${localeNumber_0(precisionRound(record.wins * 100, 1))}%`}
+            </Table.Td>
+            <Table.Td style={{ textAlign: 'center' }}>
+              <Flex align='center' justify='center' gap={HEADER_LABEL_GAP}>
+                {`${Math.ceil(record.warps)}`}
+                <img style={{ height: 16 }} src={Assets.getPass()}/>
+              </Flex>
+            </Table.Td>
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
   )
 }
 
-const chanceThreshold = 0.001
+const chanceThreshold = 0.0005
 
 type WarpTableData = {
   key: string
 } & WarpMilestoneResult
-
-function opacity(n: number) {
-  return n < chanceThreshold ? 0.10 : 1.0
-}
 
 function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest> }) {
   const { t } = useTranslation(['warpCalculatorTab', 'common'])
@@ -452,7 +436,6 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
 
 function generateIncomeOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'IncomeOptions')
-  const locale = i18next.resolvedLanguage?.split('_')[0]
   const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]
 
   return types.map((type) => ({
@@ -469,7 +452,7 @@ function generateIncomeOptions() {
         })
         return {
           value: option.id,
-          label: `${labelPrefix} +${option.passes.toLocaleString(locale)}`,
+          label: `${labelPrefix} +${localeNumberComma(option.passes)}`,
         }
       }),
   }))

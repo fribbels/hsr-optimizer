@@ -1,3 +1,6 @@
-.preText {
-  margin: 0;
+.rotationStep {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text-secondary);
+  display: block;
 }

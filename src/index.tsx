@@ -2,8 +2,12 @@ import { App } from 'App'
 import 'lib/i18n/i18n'
 import { Constants } from 'lib/constants/constants'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
-import '@mantine/core/styles.css'
-import '@mantine/notifications/styles.css'
+// Use .layer.css variants to wrap Mantine styles in @layer mantine { ... }.
+// Without this, Vite dev and prod builds can order CSS chunks differently,
+// causing CSS module overrides to win in dev but lose in prod (or vice versa).
+// Layered styles always lose to unlayered styles regardless of source order.
+import '@mantine/core/styles.layer.css'
+import '@mantine/notifications/styles.layer.css'
 import 'overlayscrollbars/overlayscrollbars.css'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Hint } from 'lib/interactions/hint'

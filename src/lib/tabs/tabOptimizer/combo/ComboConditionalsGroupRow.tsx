@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -42,6 +41,9 @@ import type {
   LightConeConditionalsController,
 } from 'types/conditionals'
 
+
+const columnStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column' }
+const groupRowStyle: React.CSSProperties = { display: 'flex', gap: 10, alignItems: 'center', padding: 8, background: 'var(--layer-3)', borderRadius: 6 }
 
 const ConditionalActivationRow = memo(function ConditionalActivationRow({
   contentItem,
@@ -111,11 +113,11 @@ export function ContentRows({
   }, [comboConditionals, contentItems, actionCount, sourceKey])
 
   return (
-    <Flex direction="column">
+    <div style={columnStyle}>
       {content.length === 0
         ? <div style={{ marginLeft: 5 }}>{t('NoConditionals') /* No conditional passives */}</div>
         : content}
-    </Flex>
+    </div>
   )
 }
 
@@ -248,7 +250,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
   }
 
   return (
-    <Flex gap={10} align='center' style={{ padding: 8, background: 'var(--layer-3)', borderRadius: 6 }}>
+    <div style={groupRowStyle}>
       <img src={resolverData.src} style={{ width: 80, height: 80 }} />
       <ContentRows
         contentItems={resolverData.content}
@@ -256,6 +258,6 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
         actionCount={actionCount}
         sourceKey={originKey}
       />
-    </Flex>
+    </div>
   )
 })

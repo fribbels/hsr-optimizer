@@ -3,8 +3,9 @@
 }
 
 .actionButton {
-  height: 50px;
-  width: 50px;
+  height: 30px;
+  width: 30px;
+  padding: 0;
   border-radius: var(--radius-md);
 }
 
@@ -40,6 +41,7 @@
 
 .deleteButton {
   width: 35px;
+  padding: 0;
 }
 
 .teammateImg {

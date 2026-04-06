@@ -134,13 +134,13 @@ CharacterPreview:
       MEMO_TALENT: TALENTᴹ
       BREAKS: 'BREAKS:'
     CombatResults:
-      Header: Combat damage results
-      Primary: 'Primary ability:'
-      Character: 'Character DMG:'
-      Benchmark: 'Benchmark DMG:'
-      Baseline: 'Baseline DMG:'
-      Maximum: 'Maximum DMG:'
-      Score: 'DPS score %:'
+      Header: Benchmark Results
+      Primary: Primary Ability
+      Character: Character
+      Benchmark: Benchmark
+      Baseline: Baseline
+      Maximum: Maximum
+      Score: DPS Score
       Abilities:
         BASIC: BASIC DMG
         SKILL: SKILL DMG
@@ -159,21 +159,21 @@ CharacterPreview:
   ScoringColumn:
     Character:
       Header: 'Character build ({{score}}%)'
-      BasicStats: Character basic stats
+      BasicStats: Character <1>basic stats</1>
       CombatStats: Character <1>combat stats</1>
       Substats: Character subs (min rolls)
       Mainstats: Character main stats
       Abilities: Character ability damage
     Benchmark:
       Header: 'Benchmark build ({{score}}%)'
-      BasicStats: 100% benchmark basic stats
+      BasicStats: 100% benchmark <1>basic stats</1>
       CombatStats: 100% benchmark <1>combat stats</1>
       Substats: 100% benchmark subs (min rolls)
       Mainstats: 100% benchmark main stats
       Abilities: 100% benchmark ability damage
     Perfect:
       Header: 'Perfect build ({{score}}%)'
-      BasicStats: 200% perfect basic stats
+      BasicStats: 200% perfect <1>basic stats</1>
       CombatStats: 200% perfect <1>combat stats</1>
       Substats: 200% perfect subs (max rolls)
       Mainstats: 200% perfect main stats

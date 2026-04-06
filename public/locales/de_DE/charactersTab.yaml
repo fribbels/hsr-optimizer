@@ -8,3 +8,7 @@ GridHeaders:
   Icon: Icon
   Priority: Priorität
   Character: Charakter
+CharacterPreview:
+  BuildAnalysis:
+    CombatResults:
+      Character: Charakter

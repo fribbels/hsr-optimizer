@@ -1,5 +1,6 @@
 .setImage {
   height: 60px;
+  align-self: center;
 }
 
 .statPreviewSection {
@@ -14,9 +15,6 @@
 .rootContainer {
   width: 1100px;
   contain: layout style;
-}
-
-.deferredSection {
 }
 
 .mainTitle {

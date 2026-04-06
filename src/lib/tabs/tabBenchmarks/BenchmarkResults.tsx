@@ -268,7 +268,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
         <Flex direction="column" align='center' gap={5}>
           <HeaderText className={styles.sectionHeader}>{t('Damage') /* Ability Damage */}</HeaderText>
-          <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} />
+          <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} comboTurnAbilities={orchestrator.metadata.comboTurnAbilities} />
         </Flex>
       </Flex>
     </Flex>

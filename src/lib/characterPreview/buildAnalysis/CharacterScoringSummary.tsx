@@ -4,6 +4,7 @@ import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewCont
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
+import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
@@ -45,6 +46,7 @@ function ScoringColumn(props: {
   element: ElementName
   characterMetadata: { path: string }
   columnClassName?: string
+  comboTurnAbilities: TurnAbilityName[]
 }) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
@@ -140,7 +142,7 @@ function ScoringColumn(props: {
       <div className={classes.sectionLabel} style={{ color: highlight ? color : '' }}>
         {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
       </div>
-      <AbilityDamageSummary rotationDamage={simResult.rotationDamage ?? []}/>
+      <AbilityDamageSummary rotationDamage={simResult.rotationDamage ?? []} comboTurnAbilities={props.comboTurnAbilities}/>
     </div>
   )
 
@@ -174,14 +176,8 @@ function ScoringColumn(props: {
 
 // ─── Primitives used by ScoringBenchmarksPanel ───────────────────────────────
 
-function ScoringSet(props: {
-  set: string
-}) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-      <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
-    </div>
-  )
+function ScoringSet(props: { set: string }) {
+  return <img src={Assets.getSetImage(props.set)} className={classes.setImage}/>
 }
 
 function ScoringNumber(props: {
@@ -241,7 +237,7 @@ function ScoringBenchmarksPanel({ result }: { result: SimulationScore }) {
   const { t } = useTranslation('charactersTab')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 }} className={classes.deferredSection}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15 }}>
       <div className={classes.sectionTitle}>
         {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
       </div>
@@ -324,11 +320,12 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
   const element = characterMetadata.element as ElementName
 
+  const comboTurnAbilities = result.simulationMetadata.comboTurnAbilities
   const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
   const defaultClass = classes.columnCardFilled
 
   return (
-    <div className={classes.deferredSection} style={{ display: 'flex', gap: 12 }}>
+    <div style={{ display: 'flex', gap: 12 }}>
       <DeferCreate>
         <ScoringColumn
           simulation={result.originalSim}
@@ -341,6 +338,7 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
           element={element}
           characterMetadata={characterMetadata}
           columnClassName={highlightClass}
+          comboTurnAbilities={comboTurnAbilities}
         />
       </DeferCreate>
 
@@ -356,6 +354,7 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
           element={element}
           characterMetadata={characterMetadata}
           columnClassName={defaultClass}
+          comboTurnAbilities={comboTurnAbilities}
         />
       </DeferCreate>
 
@@ -371,6 +370,7 @@ function ScoringColumnsSection({ result }: { result: SimulationScore }) {
           element={element}
           characterMetadata={characterMetadata}
           columnClassName={defaultClass}
+          comboTurnAbilities={comboTurnAbilities}
         />
       </DeferCreate>
     </div>
@@ -462,7 +462,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 
         {/* Buffs analysis */}
         <DeferCreate>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }} className={classes.deferredSection}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             <div className={classes.sectionTitle}>
               {result.simulationForm.deprioritizeBuffs
                 ? t('CharacterPreview.BuildAnalysis.CombatBuffs.SubDpsHeader')

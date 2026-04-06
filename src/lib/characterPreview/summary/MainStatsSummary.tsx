@@ -3,10 +3,7 @@ import { Assets } from 'lib/rendering/assets'
 import { useTranslation } from 'react-i18next'
 import classes from './MainStatsSummary.module.css'
 
-type MainStatEntry = {
-  part: string
-  stat: string
-}
+const mainStatParts = [Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope] as const
 
 export function MainStatsSummary({ simBody, simFeet, simPlanarSphere, simLinkRope }: {
   simBody: string
@@ -15,23 +12,21 @@ export function MainStatsSummary({ simBody, simFeet, simPlanarSphere, simLinkRop
   simLinkRope: string
 }) {
   const { t } = useTranslation('common')
-
-  const entries: MainStatEntry[] = [
-    { part: Parts.Body, stat: simBody ? t(`ReadableStats.${simBody as MainStats}`) : '' },
-    { part: Parts.Feet, stat: simFeet ? t(`ReadableStats.${simFeet as MainStats}`) : '' },
-    { part: Parts.PlanarSphere, stat: simPlanarSphere ? t(`ReadableStats.${simPlanarSphere as MainStats}`) : '' },
-    { part: Parts.LinkRope, stat: simLinkRope ? t(`ReadableStats.${simLinkRope as MainStats}`) : '' },
-  ]
+  const statByPart = [simBody, simFeet, simPlanarSphere, simLinkRope]
 
   return (
     <div className={classes.container}>
       <div className={classes.list}>
-        {entries.map((e) => (
-          <div key={e.part} className={classes.row}>
-            <img src={Assets.getPart(e.part)} className={classes.partImage} />
-            <span className={classes.statName}>{e.stat?.replace('Boost', '') || ''}</span>
-          </div>
-        ))}
+        {mainStatParts.map((part, i) => {
+          const stat = statByPart[i]
+          const display = stat ? t(`ReadableStats.${stat as MainStats}`).replace('Boost', '') : ''
+          return (
+            <div key={part} className={classes.row}>
+              <img src={Assets.getPart(part)} className={classes.partImage} />
+              <span className={classes.statName}>{display}</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

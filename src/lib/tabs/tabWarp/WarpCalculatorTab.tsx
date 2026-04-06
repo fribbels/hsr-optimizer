@@ -26,7 +26,7 @@ export function WarpCalculatorTab() {
   const { t } = useTranslation('warpCalculatorTab')
 
   return (
-    <Flex direction="column" style={{ maxWidth: 950, width: '100%' }} align='center'>
+    <Flex direction="column" style={{ maxWidth: 950, width: '100%' }} align='center' gap="xl">
       <ColorizedTitleWithInfo
         text={t('SectionTitles.Planner')/* Warp Planner */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
@@ -277,7 +277,7 @@ function WarpSummary(props: { enriched: EnrichedWarpRequest }) {
 
   return (
     <Divider
-      mt={16} mb={20}
+      mt={30} mb={30}
       label={
         <Flex align='center' gap={4} style={{ fontSize: 14 }}>
           {localeNumberComma(enriched.totalJade)}

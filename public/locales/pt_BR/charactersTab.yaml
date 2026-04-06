@@ -131,13 +131,8 @@ CharacterPreview:
       MEMO_TALENT: TALENTOᴹ
       BREAKS: 'QUEBRAS:'
     CombatResults:
-      Header: Resultados do dano de combate
-      Primary: 'Habilidade primária:'
-      Character: 'Dano do personagem:'
-      Benchmark: 'Dano do benchmark:'
-      Baseline: 'Dano base:'
-      Maximum: 'Dano máximo:'
-      Score: 'Pontuação de DPS %:'
+      Character: Personagem 
+      Benchmark: Benchmark
       Abilities:
         BASIC: Dano básico
         SKILL: Dano perícia
@@ -154,21 +149,18 @@ CharacterPreview:
   ScoringColumn:
     Character:
       Header: 'Build do personagem ({{score}}%)'
-      BasicStats: Atributos básicos do personagem
       CombatStats: <1>Atributos de combate</1> do personagem
       Substats: Subatributos do personagem (roll mínimo)
       Mainstats: Atributos principais do personagem
       Abilities: Dano de habilidade do personagem
     Benchmark:
       Header: 'Build de benchmark ({{score}}%)'
-      BasicStats: 100% benchmark atributos básicos
       CombatStats: 100% benchmark <1>atributos de combate</1>
       Substats: 100% benchmark subs (roll mínimo)
       Mainstats: 100% benchmark atributos principais
       Abilities: 100% benchmark dano de habilidade
     Perfect:
       Header: 'Build perfeita ({{score}}%)'
-      BasicStats: 200% perfeito atributos base
       CombatStats: 200% perfeito <1>atributos de combate</1>
       Substats: 200% perfeito subs (roll máximo)
       Mainstats: 200% perfeito atributos principais

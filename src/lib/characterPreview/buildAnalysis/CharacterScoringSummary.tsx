@@ -1,4 +1,3 @@
-import { Alert } from '@mantine/core'
 import classes from './CharacterScoringSummary.module.css'
 import { BuffDisplaySize, BuffsAnalysisDisplay } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
 import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
@@ -400,7 +399,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 
         {/* Grade ruler */}
         <DeferCreate>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5 }}>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
             <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
                 text={t('CharacterPreview.BuildAnalysis.Header')}
@@ -443,10 +442,8 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             <ColorizedTitleWithInfo
               text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
               url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
+              fontSize={24}
             />
-            <Alert color='blue' className={classes.relicRarityAlert}>
-              {t('CharacterPreview.BuildAnalysis.RelicRarityNote')}
-            </Alert>
             <EstimatedTbpRelicsDisplay
               displayRelics={displayRelics}
               showcaseMetadata={showcaseMetadata}

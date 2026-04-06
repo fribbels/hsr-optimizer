@@ -87,43 +87,30 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           />
         </div>
       </div>
-      {scoringType === ScoringType.COMBAT_SCORE && (
-        <Suspense
-          fallback={
-            <>
-              <StatScoringSummary
-                displayRelics={displayRelics}
-                showcaseMetadata={showcaseMetadata}
-              />
-              <span>DPS Score analysis loading...</span>
-            </>
-          }
-        >
+      {scoringType === ScoringType.COMBAT_SCORE
+        // && !simulationNull
+        && (
           <CharacterScoringSummary
             displayRelics={displayRelics}
             showcaseMetadata={showcaseMetadata}
           />
-        </Suspense>
-      )}
-      <StatScoringSummary
-        scoringType={scoringType}
-        displayRelics={displayRelics}
-        showcaseMetadata={showcaseMetadata}
-      />
+        )}
+      {(scoringType === ScoringType.SUBSTAT_SCORE) // || simulationNull)
+        && (
+          <StatScoringSummary
+            displayRelics={displayRelics}
+            showcaseMetadata={showcaseMetadata}
+          />
+        )}
     </div>
   )
 })
 
-function StatScoringSummary({ scoringType = ScoringType.SUBSTAT_SCORE, displayRelics, showcaseMetadata }: {
-  scoringType?: ScoringType,
+function StatScoringSummary({ displayRelics, showcaseMetadata }: {
   displayRelics: SingleRelicByPart,
   showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })
-
-  if (scoringType !== ScoringType.SUBSTAT_SCORE) {
-    return null
-  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -132,7 +119,6 @@ function StatScoringSummary({ scoringType = ScoringType.SUBSTAT_SCORE, displayRe
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
       />
       <EstimatedTbpRelicsDisplay
-        scoringType={scoringType}
         displayRelics={displayRelics}
         showcaseMetadata={showcaseMetadata}
       />

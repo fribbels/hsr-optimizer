@@ -75,7 +75,6 @@
   "excludes": [
     "**/node_modules",
     "**/*-lock.json",
-    "**/CharacterScoringSummary.tsx",
     "**/WarpCalculatorTab.tsx",
     "**/resources.d.ts",
     "**/gameData.yaml",

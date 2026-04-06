@@ -29,8 +29,8 @@ export type PreparedState = {
 
 // --- Cache ---
 
-const resultCache = new Map<string, SimulationScore>()
-const upgradeResultCache = new Map<string, SimulationScore>()
+export const resultCache = new Map<string, SimulationScore>()
+export const upgradeResultCache = new Map<string, SimulationScore>()
 const promiseCache = new Map<string, Promise<SimulationScore | null>>()
 const upgradePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 const MAX_RETRIES = 3
@@ -163,6 +163,7 @@ export function requestScore(
         await executeOrchestrator(orchestrator)
 
         const score = orchestrator.simulationScore!
+        score.characterMetadata = getGameMetadata().characters[character.id]
         resultCache.set(cacheKey, score)
         previewCache.delete(cacheKey)
         resolve(score)
@@ -214,7 +215,6 @@ export function requestScoreUpgrades(
           await executeUpgradeOrchestrator(orchestrator)
 
           const score = orchestrator.simulationScore!
-          score.characterMetadata = getGameMetadata().characters[character.id]
           upgradeResultCache.set(cacheKey, score)
           resolve(score)
         } catch (error) {

@@ -1,5 +1,9 @@
 import { Table } from '@mantine/core'
 import {
+  ScoringSelector,
+  useSimScoringContext,
+} from 'lib/characterPreview/SimScoringContext'
+import {
   sharedScoreUpgradeColumns,
   sharedSimResultComparator,
   tableStyle,
@@ -8,8 +12,12 @@ import styles from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable.mo
 import type { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
-import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import {
+  memo,
+  Suspense,
+} from 'react'
 import { useTranslation } from 'react-i18next'
+import type { SimulationMetadata } from 'types/metadata'
 
 export type SubstatUpgradeItem = {
   key: string,
@@ -20,11 +28,25 @@ export type SubstatUpgradeItem = {
   damageValueUpgrade: number,
 }
 
-export function DpsScoreSubstatUpgradesTable({ simScore }: {
-  simScore: SimulationScore
-}) {
+export const DpsScoreSubstatUpgradesTable = memo(function(props: { meta: SimulationMetadata }) {
+  return (
+    <Suspense fallback={<DpsScoreSubstatUpgradesShimmer {...props} />}>
+      <DpsScoreSubstatUpgradesTableReady />
+    </Suspense>
+  )
+})
+
+function DpsScoreSubstatUpgradesShimmer({ meta }: { meta: SimulationMetadata }) {
+  return <></>
+}
+
+const DpsScoreSubstatUpgradesTableReady = memo(function() {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
+
+  const simScore = useSimScoringContext(ScoringSelector.Upgrades)
+
+  if (simScore === null) return null
 
   const upgrades = simScore.substatUpgrades
   const dataSource: SubstatUpgradeItem[] = upgrades.map((upgrade) => {
@@ -46,9 +68,7 @@ export function DpsScoreSubstatUpgradesTable({ simScore }: {
       <Table.Thead>
         <Table.Tr>
           <Table.Th className={styles.headerCell}>{t('SubStatUpgrade')}</Table.Th>
-          {sharedCols.map((col) => (
-            <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>
-          ))}
+          {sharedCols.map((col) => <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>)}
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -72,4 +92,4 @@ export function DpsScoreSubstatUpgradesTable({ simScore }: {
       </Table.Tbody>
     </Table>
   )
-}
+})

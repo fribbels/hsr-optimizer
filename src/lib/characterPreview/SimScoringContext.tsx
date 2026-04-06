@@ -5,6 +5,8 @@ import {
   type PreparedState,
   requestScore,
   requestScoreUpgrades,
+  resultCache,
+  upgradeResultCache,
 } from 'lib/scoring/scoringService'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
@@ -24,6 +26,8 @@ interface SimScoringContext {
   preview: PreparedState | null
   scoringPromise: Promise<SimulationScore | null>
   upgradePromise: Promise<SimulationScore | null>
+  scoringDone: boolean
+  upgradesDone: boolean
 }
 
 const nullPromise = Promise.resolve(null)
@@ -32,10 +36,12 @@ const nullPromise = Promise.resolve(null)
 const scorePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 const scoreUpgradePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 
-const SimScoringContext = createContext<SimScoringContext>({
+export const SimScoringContext = createContext<SimScoringContext>({
   preview: null,
   scoringPromise: Promise.resolve(null),
   upgradePromise: Promise.resolve(null),
+  scoringDone: false,
+  upgradesDone: false,
 })
 
 interface SimScoringContextProps extends PropsWithChildren {
@@ -49,7 +55,15 @@ export const SimScoringContextProvider = memo(function(props: SimScoringContextP
   const cacheKey = computeScoringCacheKey(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
 
   const context = useMemo(() => {
-    if (cacheKey === null) return { preview: null, scoringPromise: nullPromise, upgradePromise: nullPromise }
+    if (cacheKey === null) {
+      return {
+        preview: null,
+        scoringPromise: nullPromise,
+        upgradePromise: nullPromise,
+        scoringDone: false,
+        upgradesDone: false,
+      }
+    }
     // if simulationMetadata is null then cacheKey will be null
     // therefore the above guard is sufficient and simulationMetada can safely have null excluded via `!`
     const preview = getOrComputePreview(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
@@ -64,7 +78,11 @@ export const SimScoringContextProvider = memo(function(props: SimScoringContextP
       () => requestScoreUpgrades(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions),
     )
 
-    return { preview, scoringPromise, upgradePromise }
+    const scoringDone = resultCache.has(cacheKey)
+
+    const upgradesDone = upgradeResultCache.has(cacheKey)
+
+    return { preview, scoringPromise, upgradePromise, scoringDone, upgradesDone }
 
     // a change in any of the other arguments leads to a change in cacheKey, no need to add them in the dependancy array
     // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps

@@ -1,6 +1,4 @@
 import { Loader } from '@mantine/core'
-import { relicCardH } from 'lib/constants/constantsUi'
-import { DeferCreate, useDeferredSlot } from 'lib/ui/DeferredRender'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import type {
   EnrichedRelics,
@@ -11,12 +9,16 @@ import {
   flatReduction,
   hashEstTbpRun,
 } from 'lib/characterPreview/summary/statScoringSummaryController'
-import iconClasses from 'style/icons.module.css'
+import { relicCardH } from 'lib/constants/constantsUi'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
+import {
+  DeferCreate,
+  useDeferredSlot,
+} from 'lib/ui/DeferredRender'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import {
   localeNumber_0,
@@ -34,6 +36,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
 import type { ReactElement } from 'types/components'
 import type { RelicSubstatMetadata } from 'types/relic'
 import styles from './EstimatedTbpRelicsDisplay.module.css'
@@ -43,13 +46,11 @@ const IN_PROGRESS = {} as EnrichedRelics
 let cachedId = ''
 
 export function EstimatedTbpRelicsDisplay({
-  scoringType,
   displayRelics,
   showcaseMetadata,
 }: {
-  scoringType: ScoringType
-  displayRelics: SingleRelicByPart
-  showcaseMetadata: ShowcaseMetadata
+  displayRelics: SingleRelicByPart,
+  showcaseMetadata: ShowcaseMetadata,
 }) {
   const [enrichedRelics, setEnrichedRelics] = useState<EnrichedRelics | null>(null)
   const [loading, setLoading] = useState(false)
@@ -64,7 +65,7 @@ export function EstimatedTbpRelicsDisplay({
     }
 
     cachedId = characterId
-    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringType, scoringMetadata)
+    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringMetadata)
     const cached = cachedRelics[cacheKey]
     if (cached) {
       // Deduplicate any requests against the static IN_PROGRESS object
@@ -86,7 +87,7 @@ export function EstimatedTbpRelicsDisplay({
       setEnrichedRelics(enrichedRelics)
       setLoading(false)
     })
-  }, [displayRelics, showcaseMetadata, scoringMetadata, scoringType])
+  }, [displayRelics, showcaseMetadata, scoringMetadata])
 
   const ready = !(loading || !enrichedRelics)
 
@@ -107,15 +108,15 @@ export function EstimatedTbpRelicsDisplay({
 function LoadingSpinner() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} className={styles.spinnerContainer}>
-      <Loader size="lg" />
+      <Loader size='lg' />
     </div>
   )
 }
 
 export const RelicContainer = memo(function RelicContainer({ ready, relicAnalysis, withoutPreview }: {
-  ready: boolean
-  relicAnalysis?: RelicAnalysis
-  withoutPreview?: boolean
+  ready: boolean,
+  relicAnalysis?: RelicAnalysis,
+  withoutPreview?: boolean,
 }) {
   const slotVisible = useDeferredSlot()
 
@@ -271,21 +272,15 @@ const midRollColor = '#63a9ff'
 const lowRollColor = '#a5bcd9'
 
 function HighRoll() {
-  return (
-    <div className={styles.rollHigh} />
-  )
+  return <div className={styles.rollHigh} />
 }
 
 function MidRoll() {
-  return (
-    <div className={styles.rollMid} />
-  )
+  return <div className={styles.rollMid} />
 }
 
 function LowRoll() {
-  return (
-    <div className={styles.rollLow} />
-  )
+  return <div className={styles.rollLow} />
 }
 
 function RollLine({ substat, weights }: { substat: RelicSubstatMetadata | null, weights: RelicAnalysis['weights'] }) {

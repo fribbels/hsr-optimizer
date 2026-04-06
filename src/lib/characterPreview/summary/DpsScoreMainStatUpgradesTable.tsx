@@ -1,5 +1,12 @@
-import { Table, Tooltip } from '@mantine/core'
+import {
+  Table,
+  Tooltip,
+} from '@mantine/core'
 import type { TFunction } from 'i18next'
+import {
+  ScoringSelector,
+  useSimScoringContext,
+} from 'lib/characterPreview/SimScoringContext'
 import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import type { SubstatUpgradeItem } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import type {
@@ -8,10 +15,10 @@ import type {
   Sets,
 } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
-import { setToId } from 'lib/sets/setConfigRegistry'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import { setToId } from 'lib/sets/setConfigRegistry'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import {
@@ -36,11 +43,13 @@ type MainStatUpgradeItem = {
   damageValueUpgrade: number,
 }
 
-export function DpsScoreMainStatUpgradesTable({ simScore }: {
-  simScore: SimulationScore
-}) {
+export function DpsScoreMainStatUpgradesTable() {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
+
+  const simScore = useSimScoringContext(ScoringSelector.Upgrades)
+  if (simScore === null) return null
+
   const upgrades = simScore.mainUpgrades
 
   const dataSource: MainStatUpgradeItem[] = upgrades.map((upgrade: SimulationStatUpgrade) => {
@@ -72,9 +81,7 @@ export function DpsScoreMainStatUpgradesTable({ simScore }: {
       <Table.Thead>
         <Table.Tr>
           <Table.Th className={styles.headerCell}>{t('MainStatUpgrade')}</Table.Th>
-          {sharedCols.map((col) => (
-            <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>
-          ))}
+          {sharedCols.map((col) => <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>)}
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -85,9 +92,7 @@ export function DpsScoreMainStatUpgradesTable({ simScore }: {
                 ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                     {upgrade.setUpgradeRequest.simRelicSet1 === upgrade.setUpgradeRequest.simRelicSet2
-                      ? (
-                        <RelicDoubleImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
-                      )
+                      ? <RelicDoubleImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
                       : (
                         <>
                           <RelicImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />
@@ -159,10 +164,10 @@ export function sharedSimResultComparator(simScore: SimulationScore, upgrade: Si
 }
 
 export type SharedScoreColumn = {
-  key: string
-  title: string
-  dataIndex: string
-  render: (value: number, record: unknown) => ReactNode
+  key: string,
+  title: string,
+  dataIndex: string,
+  render: (value: number, record: unknown) => ReactNode,
 }
 
 export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): SharedScoreColumn[] {

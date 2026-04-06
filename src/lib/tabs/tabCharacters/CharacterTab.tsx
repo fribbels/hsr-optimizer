@@ -1,9 +1,13 @@
-import { Flex } from '@mantine/core'
+import { Flex, SegmentedControl } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
+import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
+import { type CharacterGridDensity, characterGridPresets, precomputedCssVars } from 'lib/tabs/tabCharacters/characterGridPresets'
 import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
@@ -15,6 +19,11 @@ import { useCallback, useContext, useEffect } from 'react'
 import type { Character } from 'types/character'
 
 import { cardTotalW, defaultGap, parentH } from 'lib/constants/constantsUi'
+
+const densityOptions = [
+  { value: 'default', label: 'Default' },
+  { value: 'compact', label: 'Compact' },
+]
 
 export function CharacterTab() {
   // Sync selected character from optimizer tab on activation
@@ -32,8 +41,16 @@ export function CharacterTab() {
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
   const containerRef = useDeferReveal()
 
-  // CharacterPreview calls setInitialCharacter(char) then setOpen(true) sequentially.
-  // We open the overlay on setInitialCharacter and ignore setOpen(true) since it's already open.
+  const density = useGlobalStore((s) => s.savedSession.characterGridDensity)
+  const preset = characterGridPresets[density]
+  const gridCssVars = precomputedCssVars[density]
+
+  const onDensityChange = useCallback((value: string) => {
+    if (!(value in characterGridPresets)) return
+    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.characterGridDensity, value as CharacterGridDensity)
+    SaveState.delayedSave()
+  }, [])
+
   const setOriginalCharacterModalInitialCharacter = useCallback((character: Character | null) => {
     useCharacterModalStore.getState().openOverlay({
       initialCharacter: character,
@@ -45,7 +62,6 @@ export function CharacterTab() {
     if (!open) {
       useCharacterModalStore.getState().closeOverlay()
     }
-    // open=true is handled by setOriginalCharacterModalInitialCharacter above
   }, [])
 
   return (
@@ -61,16 +77,23 @@ export function CharacterTab() {
       <Flex direction="column" gap={defaultGap}>
         <CharacterMenu />
 
-        <Flex direction="column" gap={defaultGap} miw={320}>
+        <Flex direction="column" gap={defaultGap} miw={preset.listWidth}>
           <div
             id='characterGrid'
             style={{
               width: '100%',
               height: parentH,
+              ...gridCssVars,
             }}
           >
             <CharacterGrid />
           </div>
+          <SegmentedControl
+            data={densityOptions}
+            value={density}
+            onChange={onDensityChange}
+            fullWidth
+          />
         </Flex>
       </Flex>
 

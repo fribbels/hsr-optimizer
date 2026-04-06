@@ -14,6 +14,7 @@ import type {
   ShowcasePreferences,
 } from 'types/metadata'
 import type { Relic } from 'types/relic'
+import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 
 export type HsrOptimizerStore = {
   version: string,
@@ -42,6 +43,7 @@ export type GlobalSavedSession = {
   showcaseUID: boolean,
   showcasePreciseSpd: boolean,
   sidebarCollapsed: boolean,
+  characterGridDensity: CharacterGridDensity,
 }
 
 export type UserSettings = {

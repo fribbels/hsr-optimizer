@@ -134,8 +134,8 @@ CharacterPreview:
       MEMO_TALENT: TALENTᴹ
       BREAKS: 'BREAKS:'
     CombatResults:
-      Header: Combat results
-      Primary: Primary
+      Header: Benchmark Results
+      Primary: Primary Ability
       Character: Character
       Benchmark: Benchmark
       Baseline: Baseline

@@ -190,6 +190,7 @@ function ScoringNumber(props: {
   number?: number
   precision?: number
   useGrouping?: boolean
+  suffix?: string
 }) {
   const precision = props.precision ?? 1
   const value = props.number ?? 0
@@ -197,7 +198,7 @@ function ScoringNumber(props: {
   return (
     <div style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
       <span className={classes.dataLabel}>{props.label}</span>
-      <span className={classes.dataValue}>{show && numberToLocaleString(value, precision, props.useGrouping)}</span>
+      <span className={classes.dataValue}>{show && `${numberToLocaleString(value, precision, props.useGrouping)}${props.suffix ?? ''}`}</span>
     </div>
   )
 }
@@ -305,7 +306,7 @@ function BenchmarkDefaultLayout({ result }: { result: SimulationScore }) {
                 <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1}/>
                 <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1}/>
                 <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1}/>
-                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2}/>
+                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2} suffix=" %"/>
               </div>
             </div>
           </DeferCreate>

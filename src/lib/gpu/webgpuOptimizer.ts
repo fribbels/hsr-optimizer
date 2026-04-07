@@ -60,7 +60,7 @@ export async function gpuOptimize(props: {
   useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
   useOptimizerDisplayStore.getState().setOptimizerRunningEngine(computeEngine as ComputeEngine)
 
-  const gpuContext = initializeGpuPipeline(
+  const gpuContext = await initializeGpuPipeline(
     device,
     relics,
     request,

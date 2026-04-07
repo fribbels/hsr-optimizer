@@ -14,7 +14,7 @@ import { bitpackBooleanArray } from 'lib/optimization/relicSetSolver'
 import { type Form } from 'types/form'
 import { type OptimizerContext } from 'types/optimizer'
 
-export function initializeGpuPipeline(
+export async function initializeGpuPipeline(
   device: GPUDevice,
   relics: RelicsByPart,
   request: Form,
@@ -25,7 +25,7 @@ export function initializeGpuPipeline(
   ornamentSetSolutions: number[],
   debug = false,
   silent = false,
-): GpuExecutionContext {
+): Promise<GpuExecutionContext> {
   const DEBUG = debug
 
   // Threads per workgroup
@@ -68,7 +68,7 @@ export function initializeGpuPipeline(
     console.log(wgsl)
   }
 
-  const computePipeline = generatePipeline(device, wgsl)
+  const computePipeline = await generatePipeline(device, wgsl)
 
   const paramsMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * 8
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
@@ -255,12 +255,12 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   return { gpuReadBuffer, compactReadBuffer }
 }
 
-function generatePipeline(device: GPUDevice, wgsl: string) {
+async function generatePipeline(device: GPUDevice, wgsl: string) {
   const shaderModule = device.createShaderModule({
     code: wgsl,
   })
 
-  return device.createComputePipeline({
+  return device.createComputePipelineAsync({
     layout: 'auto',
     compute: {
       module: shaderModule,

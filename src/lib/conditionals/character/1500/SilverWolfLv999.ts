@@ -129,6 +129,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const teammateDefaults = {
+    e1Vulnerability: true,
     e6ResPen: true,
   }
 
@@ -206,6 +207,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    e1Vulnerability: content.e1Vulnerability,
     e6ResPen: content.e6ResPen,
   }
 
@@ -336,13 +338,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.VULNERABILITY, (e >= 1 && r.e1Vulnerability && r.godmodePlayer) ? 0.20 : 0, x.source(SOURCE_E1))
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.50 : 0, x.actionKind(AbilityKind.BASIC).source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      x.buff(StatKey.VULNERABILITY, (e >= 1 && m.e1Vulnerability) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
       x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResPen) ? (context.enemyDamageResistance || 0.20) : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
@@ -361,7 +363,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         chainsTo: [Stats.Elation],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return r.spdToElation && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 150
+          return r.spdToElation && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 160
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversionContainer(
@@ -373,8 +375,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             context,
             SOURCE_TRACE,
             (convertibleValue) => {
-              if (convertibleValue < 150) return 0
-              return 0.30 + Math.min(convertibleValue - 150, 100) * 0.02
+              if (convertibleValue < 160) return 0
+              return 0.50 + Math.min(convertibleValue - 160, 100) * 0.02
             },
           )
         },
@@ -387,9 +389,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             this,
             action,
             context,
-            `0.30 + min(convertibleValue - 150.0, 100.0) * 0.02`,
+            `0.50 + min(convertibleValue - 160.0, 100.0) * 0.02`,
             `${wgslTrue(r.spdToElation)}`,
-            `convertibleValue >= 150.0`,
+            `convertibleValue >= 160.0`,
           )
         },
       },

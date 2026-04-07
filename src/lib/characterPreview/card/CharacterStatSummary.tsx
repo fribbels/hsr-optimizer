@@ -20,6 +20,10 @@ import {
   useMemo,
 } from 'react'
 import type { CharacterId } from 'types/character'
+import {
+  ScoringSelector,
+  useSimScoringContext,
+} from '../SimScoringContext'
 
 const epsilon = 0.001
 
@@ -30,7 +34,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   hasScoring,
   scoringType,
   showAll,
-  simScore,
+  simScore: simScoreProp,
   zebra,
 }: {
   characterId: CharacterId,
@@ -44,6 +48,8 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
 }) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
+  const contextSimScore = useSimScoringContext(ScoringSelector.Preview)
+  const simScore = simScoreProp ?? contextSimScore?.originalSimResult.simScore
 
   return (
     <StatText className={classes.statSummary}>

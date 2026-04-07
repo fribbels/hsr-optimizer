@@ -443,17 +443,20 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </div>
         </DeferCreate>
 
-        <Suspense fallback={'DPS score loading...'}>
-          {/* Main stat upgrade table */}
-          <DeferCreate>
-            <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-              <div className={classes.sectionTitle}>
-                {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')}
-              </div>
-              <DpsScoreMainStatUpgradesTable />
+        {/* Main stat upgrade table */}
+        <DeferCreate>
+          <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+            <div className={classes.sectionTitle}>
+              {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')}
             </div>
-          </DeferCreate>
+            <DpsScoreMainStatUpgradesTable
+              meta={showcaseMetadata}
+              relics={displayRelics}
+            />
+          </div>
+        </DeferCreate>
 
+        <Suspense fallback={'DPS score loading...'}>
           {/* Relic rarity */}
           <DeferCreate>
             <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', alignItems: 'center' }} className={classes.relicRaritySection}>

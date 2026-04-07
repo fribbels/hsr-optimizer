@@ -1,24 +1,32 @@
 import {
+  Skeleton,
   Table,
   Tooltip,
 } from '@mantine/core'
 import type { TFunction } from 'i18next'
+import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import {
   ScoringSelector,
   useSimScoringContext,
 } from 'lib/characterPreview/SimScoringContext'
 import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import type { SubstatUpgradeItem } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
-import type {
-  MainStats,
+import {
+  type MainStats,
   Parts,
-  Sets,
+  PartsArray,
+  type Sets,
 } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
+import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
-import { setToId } from 'lib/sets/setConfigRegistry'
+import {
+  type SetsOrnaments,
+  type SetsRelics,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import {
@@ -29,7 +37,12 @@ import {
   localeNumber_0,
   localeNumber_00,
 } from 'lib/utils/i18nUtils'
-import type { ReactNode } from 'react'
+import {
+  memo,
+  type ReactNode,
+  Suspense,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 type MainStatUpgradeItem = {
@@ -43,8 +56,105 @@ type MainStatUpgradeItem = {
   damageValueUpgrade: number,
 }
 
-export function DpsScoreMainStatUpgradesTable() {
+export const DpsScoreMainStatUpgradesTable = memo(function({ meta, relics }: {
+  meta: ShowcaseMetadata,
+  relics: SingleRelicByPart,
+}) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
+  const sharedCols = sharedScoreUpgradeColumns(t)
+  return (
+    <Suspense fallback={<DpsScoreMainStatUpgradesTableShimmer t={t} sharedCols={sharedCols} meta={meta} relics={relics} />}>
+      <DpsScoreMainStatUpgradesTableReady t={t} sharedCols={sharedCols} />
+    </Suspense>
+  )
+})
+
+const DpsScoreMainStatUpgradesTableShimmer = memo(function({ t, sharedCols, meta, relics }: {
+  t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>,
+  sharedCols: SharedScoreColumn[],
+  meta: ShowcaseMetadata,
+  relics: SingleRelicByPart,
+}) {
+  const setIsMatched = useMemo(() => {
+    const simMeta = meta.characterMetadata.scoringMetadata.simulation!
+
+    if (relics[Parts.LinkRope].set !== relics[Parts.PlanarSphere].set) return false
+    if (!simMeta.ornamentSets.includes(relics[Parts.LinkRope].set as SetsOrnaments)) return false
+
+    const relicSets = new Map<SetsRelics, number>()
+    for (const part of PartsArray) {
+      if (part === Parts.PlanarSphere || part === Parts.LinkRope) continue
+      relicSets.set(relics[part].set as SetsRelics, relicSets.getOrInsert(relics[part].set as SetsRelics, 0) + 1)
+    }
+    if (relicSets.size > 2) return false
+
+    for (const cnt of relicSets.values()) {
+      if (cnt === 1 || cnt === 3) return false
+    }
+
+    if (relicSets.size === 1) {
+      const set4pc = relics[Parts.Body].set as SetsRelics
+      if (!simMeta.relicSets.some((matchedSet) => matchedSet.includes(set4pc))) return false
+    } else {
+      const [set1, set2] = relicSets.keys()
+      if (!simMeta.relicSets.some((matchedSets) => matchedSets.includes(set1) && matchedSets.includes(set2))) return false
+    }
+    return true
+  }, [meta, relics])
+
+  const mainstatUpgradeCount = useMemo(() => {
+    const simMeta = meta.characterMetadata.scoringMetadata.simulation!
+    let cnt = 0
+    for (const part of PartsArray) {
+      if (relics[part].main.stat === Stats.SPD) continue
+
+      if (
+        simMeta.errRopeEidolon != undefined
+        && meta.characterEidolon >= simMeta.errRopeEidolon
+        && relics[part].main.stat === Stats.ERR
+      ) continue
+
+      for (const upgradeMainstat of simMeta.parts[part] ?? []) {
+        if (upgradeMainstat === relics[part].main.stat) continue
+        if (upgradeMainstat === Stats.SPD) continue
+        cnt++
+      }
+    }
+    return cnt
+  }, [meta, relics])
+
+  const shimmerRowCnt = mainstatUpgradeCount + (setIsMatched ? 0 : 1)
+
+  return (
+    <Table className={styles.table}>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th className={styles.headerCell}>{t('MainStatUpgrade')}</Table.Th>
+          {sharedCols.map((col) => <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>)}
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        {Array.from({ length: shimmerRowCnt }).map((_, idx) => (
+          <Table.Tr key={idx}>
+            <Table.Td className={styles.centeredCell}>
+              <Skeleton width='60%' height='100%' style={{ margin: 'auto' }}>foo</Skeleton>
+            </Table.Td>
+            {sharedCols.map((col) => (
+              <Table.Td key={col.key} className={styles.centeredCell}>
+                <Skeleton width='60%' height='100%' style={{ margin: 'auto' }}>foo</Skeleton>
+              </Table.Td>
+            ))}
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
+  )
+})
+
+const DpsScoreMainStatUpgradesTableReady = memo(function DpsScoreMainStatUpgradesTable({ t, sharedCols }: {
+  t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>,
+  sharedCols: SharedScoreColumn[],
+}) {
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
 
   const simScore = useSimScoringContext(ScoringSelector.Upgrades)
@@ -71,8 +181,6 @@ export function DpsScoreMainStatUpgradesTable() {
       ...sharedSimResultComparator(simScore, setUpgrade),
     } as unknown as MainStatUpgradeItem)
   }
-
-  const sharedCols = sharedScoreUpgradeColumns(t)
 
   return (
     <Table
@@ -122,7 +230,7 @@ export function DpsScoreMainStatUpgradesTable() {
       </Table.Tbody>
     </Table>
   )
-}
+})
 
 function RelicDoubleImageWithTooltip({ name, width, height }: { name: Sets, height: number, width: number }) {
   const id = setToId[name]

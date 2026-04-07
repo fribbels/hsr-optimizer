@@ -9,7 +9,7 @@ import {
 export const CURRENT_OPTIMIZER_VERSION = 'v4.1.5'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.2v3'
+export const CURRENT_DATA_VERSION = '4.2v4'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false

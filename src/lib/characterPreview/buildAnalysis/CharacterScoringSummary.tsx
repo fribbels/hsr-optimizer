@@ -456,22 +456,22 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </div>
         </DeferCreate>
 
-        <Suspense fallback={'DPS score loading...'}>
-          {/* Relic rarity */}
-          <DeferCreate>
-            <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', alignItems: 'center' }} className={classes.relicRaritySection}>
-              <ColorizedTitleWithInfo
-                text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
-                url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
-                fontSize={24}
-              />
-              <EstimatedTbpRelicsDisplay
-                displayRelics={displayRelics}
-                showcaseMetadata={showcaseMetadata}
-              />
-            </div>
-          </DeferCreate>
+        {/* Relic rarity */}
+        <DeferCreate>
+          <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', alignItems: 'center' }} className={classes.relicRaritySection}>
+            <ColorizedTitleWithInfo
+              text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
+              url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
+              fontSize={24}
+            />
+            <EstimatedTbpRelicsDisplay
+              displayRelics={displayRelics}
+              showcaseMetadata={showcaseMetadata}
+            />
+          </div>
+        </DeferCreate>
 
+        <Suspense fallback={'DPS score loading...'}>
           {/* Simulated benchmarks */}
           <DeferCreate>
             <ScoringBenchmarksPanel />
@@ -479,28 +479,33 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 
           {/* Three-column scoring comparison */}
           <ScoringColumnsSection />
-
-          {/* Buffs analysis */}
-          <DeferCreate>
-            <WrappedBuffAnalysisDisplay t={t} />
-          </DeferCreate>
         </Suspense>
+
+        {/* Buffs analysis */}
+        <DeferCreate>
+          <WrappedBuffAnalysisDisplay t={t} />
+        </DeferCreate>
       </div>
     </DeferCreateProvider>
   )
 })
 
 const WrappedBuffAnalysisDisplay = memo(function({ t }: { t: TFunction<'charactersTab', undefined> }) {
-  const result = useSimScoringContext(ScoringSelector.Score)
-  if (result === null) return null
+  const preview = useSimScoringContext(ScoringSelector.Preview)
+  if (preview === null) return null
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       <div className={classes.sectionTitle}>
-        {result.simulationForm.deprioritizeBuffs
+        {preview.simForm.deprioritizeBuffs
           ? t('CharacterPreview.BuildAnalysis.CombatBuffs.SubDpsHeader')
           : t('CharacterPreview.BuildAnalysis.CombatBuffs.Header')}
       </div>
-      <BuffsAnalysisDisplay result={result} size={BuffDisplaySize.LARGE} twoColumn />
+      <BuffsAnalysisDisplay
+        originalSim={preview.originalSim}
+        simulationForm={preview.simForm}
+        size={BuffDisplaySize.LARGE}
+        twoColumn
+      />
     </div>
   )
 })

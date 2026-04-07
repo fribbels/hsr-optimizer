@@ -7,11 +7,11 @@ import {
   GROUP_ORDER,
   GROUP_SPACING,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
+import { EnemyPanel } from 'lib/characterPreview/buffsAnalysis/EnemyPanel'
 import {
   computeRelevantTags,
   FilterBar,
 } from 'lib/characterPreview/buffsAnalysis/FilterBar'
-import { EnemyPanel } from 'lib/characterPreview/buffsAnalysis/EnemyPanel'
 import {
   collectAllBuffs,
   computeStatSums,
@@ -30,18 +30,20 @@ import type {
   PerActionBuffGroups,
 } from 'lib/simulations/combatBuffsAnalysis'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
+import { type Simulation } from 'lib/simulations/statSimulationTypes'
+import { DeferCreate } from 'lib/ui/DeferredRender'
 import type { ReactElement } from 'react'
 import {
   memo,
-
   useMemo,
   useState,
 } from 'react'
-import { DeferCreate } from 'lib/ui/DeferredRender'
+import { type Form } from 'types/form'
 import type { OptimizerContext } from 'types/optimizer'
 
 type BuffsAnalysisProps = {
-  result?: SimulationScore,
+  originalSim?: Simulation,
+  simulationForm?: Form,
   perActionBuffGroups?: PerActionBuffGroups,
   size?: BuffDisplaySize,
   context?: OptimizerContext,
@@ -54,15 +56,16 @@ export enum BuffDisplaySize {
 }
 
 export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
-  result,
+  originalSim,
+  simulationForm,
   perActionBuffGroups: perActionBuffGroupsProp,
   size,
   context: contextProp,
   twoColumn,
 }: BuffsAnalysisProps) {
   const rerunResult = useMemo(
-    () => perActionBuffGroupsProp ? null : rerunSim(result),
-    [perActionBuffGroupsProp, result],
+    () => perActionBuffGroupsProp ? null : rerunSim({ originalSim, simulationForm }),
+    [perActionBuffGroupsProp, originalSim, simulationForm],
   )
   const perActionBuffGroups = perActionBuffGroupsProp ?? rerunResult?.perActionBuffGroups
   const context = contextProp ?? rerunResult?.context
@@ -191,19 +194,22 @@ function GroupedLayout({ buffGroups }: { buffGroups: BuffGroups }) {
 }
 
 type RerunResult = {
-  perActionBuffGroups: PerActionBuffGroups
-  context: OptimizerContext
+  perActionBuffGroups: PerActionBuffGroups,
+  context: OptimizerContext,
 }
 
-function rerunSim(result?: SimulationScore): RerunResult | null {
-  if (!result) return null
+function rerunSim({ simulationForm, originalSim }: {
+  simulationForm: Form | undefined,
+  originalSim: Simulation | undefined,
+}): RerunResult | null {
+  if (!simulationForm || !originalSim) return null
 
   const form = {
-    ...result.simulationForm,
+    ...simulationForm,
     trace: true,
   }
   const context = generateContext(form)
-  const rerun = runStatSimulations([result.originalSim], form, context, originalScoringParams)[0]
+  const rerun = runStatSimulations([originalSim], form, context, originalScoringParams)[0]
   if (!rerun.actionBuffSnapshots) return null
 
   const perActionBuffGroups = aggregatePerActionBuffs(rerun.actionBuffSnapshots, rerun.rotationBuffSteps ?? [], rerun.x, form, context.primaryAbilityKey)

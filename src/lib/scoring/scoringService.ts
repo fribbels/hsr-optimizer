@@ -6,12 +6,16 @@ import {
   executeUpgradeOrchestrator,
   prepareOrchestrator,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import type { RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
+import type {
+  RunStatSimulationsResult,
+  Simulation,
+} from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { objectHash } from 'lib/utils/objectUtils'
 import type {
   Character,
 } from 'types/character'
+import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
   ShowcaseTemporaryOptions,
@@ -25,6 +29,8 @@ export type PreparedState = {
   originalSpd: number,
   characterMetadata: DBMetadataCharacter,
   deprioritizeBuffs: boolean,
+  originalSim: Simulation,
+  simForm: Form,
 }
 
 // --- Cache ---
@@ -106,6 +112,8 @@ export function getOrComputePreview(
       originalSpd: orchestrator.originalSpd!,
       characterMetadata: getGameMetadata().characters[character.id],
       deprioritizeBuffs: orchestrator.metadata.deprioritizeBuffs ?? false,
+      originalSim: orchestrator.originalSim!,
+      simForm: orchestrator.form!,
     }
 
     previewCache.set(cacheKey, preview)

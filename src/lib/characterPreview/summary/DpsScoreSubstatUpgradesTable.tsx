@@ -1,9 +1,14 @@
-import { Table } from '@mantine/core'
+import {
+  Skeleton,
+  Table,
+} from '@mantine/core'
+import type { TFunction } from 'i18next'
 import {
   ScoringSelector,
   useSimScoringContext,
 } from 'lib/characterPreview/SimScoringContext'
 import {
+  type SharedScoreColumn,
   sharedScoreUpgradeColumns,
   sharedSimResultComparator,
   tableStyle,
@@ -28,23 +33,55 @@ export type SubstatUpgradeItem = {
   damageValueUpgrade: number,
 }
 
-export const DpsScoreSubstatUpgradesTable = memo(function(props: { meta: SimulationMetadata }) {
+export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
+  meta: SimulationMetadata,
+}) {
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
+  const sharedCols = sharedScoreUpgradeColumns(t)
   return (
-    <Suspense fallback={<DpsScoreSubstatUpgradesShimmer {...props} />}>
-      <DpsScoreSubstatUpgradesTableReady />
+    <Suspense fallback={<DpsScoreSubstatUpgradesShimmer meta={meta} t={t} sharedCols={sharedCols} />}>
+      <DpsScoreSubstatUpgradesTableReady t={t} sharedCols={sharedCols} />
     </Suspense>
   )
 })
 
-function DpsScoreSubstatUpgradesShimmer({ meta }: { meta: SimulationMetadata }) {
-  return <></>
+function DpsScoreSubstatUpgradesShimmer({ meta, t, sharedCols }: {
+  meta: SimulationMetadata,
+  t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>,
+  sharedCols: SharedScoreColumn[],
+}) {
+  return (
+    <Table className={styles.table} style={tableStyle}>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th className={styles.headerCell}>{t('SubStatUpgrade')}</Table.Th>
+          {sharedCols.map((col) => <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>)}
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        {(meta.substats as SubStats[]).map((stat) => (
+          <Table.Tr key={stat}>
+            <Table.Td className={styles.centeredCell}>
+              <Skeleton width='60%' height='100%' style={{ margin: 'auto' }}>foo</Skeleton>
+            </Table.Td>
+            {sharedCols.map((col) => (
+              <Table.Td key={col.key} className={styles.centeredCell}>
+                <Skeleton width='60%' height='100%' style={{ margin: 'auto' }}>foo</Skeleton>
+              </Table.Td>
+            ))}
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
+  )
 }
 
-const DpsScoreSubstatUpgradesTableReady = memo(function() {
-  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
-
+const DpsScoreSubstatUpgradesTableReady = memo(function({ t, sharedCols }: {
+  t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>,
+  sharedCols: SharedScoreColumn[],
+}) {
   const simScore = useSimScoringContext(ScoringSelector.Upgrades)
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
 
   if (simScore === null) return null
 
@@ -57,8 +94,6 @@ const DpsScoreSubstatUpgradesTableReady = memo(function() {
       ...sharedSimResultComparator(simScore, upgrade),
     }
   })
-
-  const sharedCols = sharedScoreUpgradeColumns(t)
 
   return (
     <Table

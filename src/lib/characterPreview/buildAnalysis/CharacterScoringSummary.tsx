@@ -433,17 +433,17 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </div>
         </DeferCreate>
 
-        <Suspense fallback={'DPS score loading...'}>
-          {/* Substat upgrade table */}
-          <DeferCreate>
-            <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-              <div className={classes.sectionTitle}>
-                {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
-              </div>
-              <DpsScoreSubstatUpgradesTable meta={showcaseMetadata.characterMetadata.scoringMetadata.simulation!} />
+        {/* Substat upgrade table */}
+        <DeferCreate>
+          <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+            <div className={classes.sectionTitle}>
+              {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
             </div>
-          </DeferCreate>
+            <DpsScoreSubstatUpgradesTable meta={showcaseMetadata.characterMetadata.scoringMetadata.simulation!} />
+          </div>
+        </DeferCreate>
 
+        <Suspense fallback={'DPS score loading...'}>
           {/* Main stat upgrade table */}
           <DeferCreate>
             <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>

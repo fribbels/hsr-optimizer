@@ -26,6 +26,7 @@ import type {
 
 export type PreparedState = {
   originalSimResult: RunStatSimulationsResult,
+  baselineSimResult: RunStatSimulationsResult,
   originalSpd: number,
   characterMetadata: DBMetadataCharacter,
   deprioritizeBuffs: boolean,
@@ -109,6 +110,7 @@ export function getOrComputePreview(
 
     const preview: PreparedState = {
       originalSimResult: orchestrator.originalSimResult!,
+      baselineSimResult: orchestrator.baselineSimResult!,
       originalSpd: orchestrator.originalSpd!,
       characterMetadata: getGameMetadata().characters[character.id],
       deprioritizeBuffs: orchestrator.metadata.deprioritizeBuffs ?? false,

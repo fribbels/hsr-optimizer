@@ -1,3 +1,4 @@
+import { Skeleton } from '@mantine/core'
 import { type TFunction } from 'i18next'
 import {
   BuffDisplaySize,
@@ -55,6 +56,7 @@ import {
   useTranslation,
 } from 'react-i18next'
 import type { CharacterId } from 'types/character'
+import { type Form } from 'types/form'
 import {
   ScoringSelector,
   useSimScoringContext,
@@ -235,12 +237,12 @@ function ScoringText(props: {
   )
 }
 
-function ScoringTeammate({ result, index }: {
-  result: SimulationScore,
-  index: number,
+function ScoringTeammate({ form, index }: {
+  form: Form,
+  index: 0 | 1 | 2,
 }) {
   const { t } = useTranslation('common')
-  const teammate = result.simulationMetadata.teammates[index]
+  const teammate = form[`teammate${index}`]
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
       <img src={Assets.getCharacterAvatarById(teammate.characterId)} className={classes.teammateIcon} />
@@ -271,9 +273,10 @@ function ScoringBenchmarksPanel() {
 }
 
 function BenchmarkDefaultLayout() {
-  const { t } = useTranslation('charactersTab')
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.BuildAnalysis' })
   const result = useSimScoringContext(ScoringSelector.Score)
-  if (result === null) return null
+  const preview = useSimScoringContext(ScoringSelector.Preview)
+  if (result === null || preview === null) return null
   return (
     <div className={classes.columnCardFilled} style={{ width: '100%' }}>
       <div className={classes.columnFilledBody}>
@@ -281,12 +284,12 @@ function BenchmarkDefaultLayout() {
           <DeferCreate>
             <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
               <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('CharacterPreview.BuildAnalysis.SimulationTeammates')}
+                {t('SimulationTeammates')}
               </div>
               <div style={{ display: 'flex', gap: 15 }}>
-                <ScoringTeammate result={result} index={0} />
-                <ScoringTeammate result={result} index={1} />
-                <ScoringTeammate result={result} index={2} />
+                <ScoringTeammate form={preview.simForm} index={0} />
+                <ScoringTeammate form={preview.simForm} index={1} />
+                <ScoringTeammate form={preview.simForm} index={2} />
               </div>
             </div>
           </DeferCreate>
@@ -296,15 +299,9 @@ function BenchmarkDefaultLayout() {
           <DeferCreate>
             <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
               <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('CharacterPreview.BuildAnalysis.SimulationSets')}
+                {t('SimulationSets')}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-                <div style={{ display: 'flex' }}>
-                  <ScoringSet set={result.maximumSim.request.simRelicSet1} />
-                  <ScoringSet set={result.maximumSim.request.simRelicSet2} />
-                </div>
-                <ScoringSet set={result.maximumSim.request.simOrnamentSet} />
-              </div>
+              <SimSetPreview />
             </div>
           </DeferCreate>
 
@@ -313,26 +310,91 @@ function BenchmarkDefaultLayout() {
           <DeferCreate>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('CharacterPreview.BuildAnalysis.CombatResults.Header')}
+                {t('CombatResults.Header')}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
-                  label={t('CharacterPreview.BuildAnalysis.CombatResults.Primary')}
+                  label={t('CombatResults.Primary')}
                   text={
                     // @ts-expect-error - type of key is not specific enough
-                    t(`CharacterPreview.BuildAnalysis.CombatResults.Abilities.${result.characterMetadata.scoringMetadata.sortOption.key}`)
+                    t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)
                   }
                 />
-                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Character')} number={result.originalSimScore} precision={1} />
-                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Baseline')} number={result.baselineSimScore} precision={1} />
-                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1} />
-                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Maximum')} number={result.maximumSimScore} precision={1} />
-                <ScoringNumber label={t('CharacterPreview.BuildAnalysis.CombatResults.Score')} number={result.percent * 100} precision={2} suffix=' %' />
+                <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} precision={1} />
+                <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} precision={1} />
+                <SuspendedScoringNumbers t={t} />
               </div>
             </div>
           </DeferCreate>
         </div>
       </div>
+    </div>
+  )
+}
+
+function SuspendedScoringNumbers({ t }: { t: TFunction<'charactersTab', 'CharacterPreview.BuildAnalysis'> }) {
+  return (
+    <Suspense fallback={<ScoringNumbersPending t={t} />}>
+      <ScoringNumbersReady t={t} />
+    </Suspense>
+  )
+}
+
+const idxToLabel = ['Benchmark', 'Maximum', 'Score'] as const
+function ScoringNumbersPending({ t }: { t: TFunction<'charactersTab', 'CharacterPreview.BuildAnalysis'> }) {
+  return (
+    <>
+      {Array.from({ length: 3 }).map((_, idx) => (
+        <div key={idx} style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
+          <span className={classes.dataLabel}>{t(`CombatResults.${idxToLabel[idx]}`)}</span>
+          <Skeleton style={{ justifySelf: 'right' }} width={80} />
+        </div>
+      ))}
+    </>
+  )
+}
+
+function ScoringNumbersReady({ t }: { t: TFunction<'charactersTab', 'CharacterPreview.BuildAnalysis'> }) {
+  const result = useSimScoringContext(ScoringSelector.Score)
+  if (result === null) return null
+  return (
+    <>
+      <ScoringNumber label={t('CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1} />
+      <ScoringNumber label={t('CombatResults.Maximum')} number={result.maximumSimScore} precision={1} />
+      <ScoringNumber label={t('CombatResults.Score')} number={result.percent * 100} precision={2} suffix=' %' />
+    </>
+  )
+}
+
+function SimSetPreview() {
+  return (
+    <Suspense fallback={<SimSetPreviewPending />}>
+      <SimSetPreviewReady />
+    </Suspense>
+  )
+}
+
+function SimSetPreviewPending() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+      <div style={{ display: 'flex' }}>
+        <Skeleton height={60} width={120} radius={30} />
+      </div>
+      <Skeleton height={60} circle style={{ margin: 'auto' }} />
+    </div>
+  )
+}
+
+function SimSetPreviewReady() {
+  const result = useSimScoringContext(ScoringSelector.Score)
+  if (result === null) return null
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
+      <div style={{ display: 'flex' }}>
+        <ScoringSet set={result.maximumSim.request.simRelicSet1} />
+        <ScoringSet set={result.maximumSim.request.simRelicSet2} />
+      </div>
+      <ScoringSet set={result.maximumSim.request.simOrnamentSet} />
     </div>
   )
 }
@@ -471,12 +533,12 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </div>
         </DeferCreate>
 
-        <Suspense fallback={'DPS score loading...'}>
-          {/* Simulated benchmarks */}
-          <DeferCreate>
-            <ScoringBenchmarksPanel />
-          </DeferCreate>
+        {/* Simulated benchmarks */}
+        <DeferCreate>
+          <ScoringBenchmarksPanel />
+        </DeferCreate>
 
+        <Suspense fallback={'DPS score loading...'}>
           {/* Three-column scoring comparison */}
           <ScoringColumnsSection />
         </Suspense>
@@ -493,6 +555,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 const WrappedBuffAnalysisDisplay = memo(function({ t }: { t: TFunction<'charactersTab', undefined> }) {
   const preview = useSimScoringContext(ScoringSelector.Preview)
   if (preview === null) return null
+  console.log(preview.simForm)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       <div className={classes.sectionTitle}>

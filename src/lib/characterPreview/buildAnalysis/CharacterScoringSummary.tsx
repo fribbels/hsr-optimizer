@@ -7,6 +7,10 @@ import {
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
+import {
+  ScoringSelector,
+  useSimScoringContext,
+} from 'lib/characterPreview/SimScoringContext'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
@@ -27,8 +31,6 @@ import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfi
 import { Assets } from 'lib/rendering/assets'
 import {
   getElementalDmgFromContainer,
-  ScoringType,
-  type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
 import type {
@@ -57,18 +59,22 @@ import {
 } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import { type Form } from 'types/form'
-import {
-  ScoringSelector,
-  useSimScoringContext,
-} from '../SimScoringContext'
 import classes from './CharacterScoringSummary.module.css'
+import {
+  CharacterScoringColumn,
+  SimulationScoringColumn,
+} from './ScoringColumns'
 
 // ─── ScoringColumn ────────────────────────────────────────────────────────────
+
+function ScoringColumnReady() {}
+
+function ScoringColumnPending() {}
 
 function ScoringColumn(props: {
   simulation: Simulation,
   originalSimResult: RunStatSimulationsResult,
-  percent: number,
+  percent: number | null,
   precision: number,
   type: 'Character' | 'Benchmark' | 'Perfect',
   characterId: CharacterId,
@@ -95,7 +101,13 @@ function ScoringColumn(props: {
     combatStats[Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
   }
 
-  const headerText = t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: truncate10ths(precisionRound(props.percent * 100)) })
+  // only the character scoring column will pass as null (when waiting for scores to load)
+  // others have an entirely seperate column for loading state as there is far less information available
+  const headerText = props.percent !== null
+    ? t(`CharacterPreview.ScoringColumn.${props.type}.Header`, {
+      score: truncate10ths(precisionRound(props.percent * 100)),
+    })
+    : t('CharacterPreview.ScoringColumn.Character.LoadingHeader')
 
   const basicStatsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
@@ -177,6 +189,7 @@ function ScoringColumn(props: {
       <div className={classes.columnFilledHeader}>
         <div className={classes.scoringColumnHeader} style={{ color: highlight ? color : '' }}>
           {headerText}
+          {props.percent === null && <Skeleton width={60} />}
         </div>
       </div>
       <div className={classes.columnFilledBody}>
@@ -274,9 +287,8 @@ function ScoringBenchmarksPanel() {
 
 function BenchmarkDefaultLayout() {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.BuildAnalysis' })
-  const result = useSimScoringContext(ScoringSelector.Score)
   const preview = useSimScoringContext(ScoringSelector.Preview)
-  if (result === null || preview === null) return null
+  if (preview === null) return null
   return (
     <div className={classes.columnCardFilled} style={{ width: '100%' }}>
       <div className={classes.columnFilledBody}>
@@ -402,67 +414,42 @@ function SimSetPreviewReady() {
 // ─── ScoringColumnsSection ────────────────────────────────────────────────────
 
 function ScoringColumnsSection() {
-  const result = useSimScoringContext(ScoringSelector.Score)
-  if (result === null) return null
-  const characterId = result.simulationForm.characterId
-  const characterMetadata = getGameMetadata().characters[characterId]
-  if (!characterMetadata) return null
+  const preview = useSimScoringContext(ScoringSelector.Preview)
+  if (preview === null) return null
+  const characterId = preview.characterMetadata.id
+  const characterMetadata = preview.characterMetadata
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
-  const element = characterMetadata.element as ElementName
+  const element = characterMetadata.element
 
-  const comboTurnAbilities = result.simulationMetadata.comboTurnAbilities
-  const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
-  const defaultClass = classes.columnCardFilled
+  const comboTurnAbilities = preview.simForm.comboTurnAbilities
 
   return (
     <div style={{ display: 'flex', gap: 12 }}>
-      <DeferCreate>
-        <ScoringColumn
-          simulation={result.originalSim}
-          originalSimResult={result.originalSimResult}
-          percent={result.percent}
-          precision={2}
-          type='Character'
-          characterId={characterId}
-          elementalDmgValue={elementalDmgValue}
-          element={element}
-          characterMetadata={characterMetadata}
-          columnClassName={highlightClass}
-          comboTurnAbilities={comboTurnAbilities}
-        />
-      </DeferCreate>
+      <CharacterScoringColumn
+        characterId={characterId}
+        elementalDmgValue={elementalDmgValue}
+        element={element}
+        characterMetadata={characterMetadata}
+        comboTurnAbilities={comboTurnAbilities}
+      />
 
-      <DeferCreate>
-        <ScoringColumn
-          simulation={result.benchmarkSim}
-          originalSimResult={result.benchmarkSimResult}
-          percent={1.00}
-          precision={0}
-          type='Benchmark'
-          characterId={characterId}
-          elementalDmgValue={elementalDmgValue}
-          element={element}
-          characterMetadata={characterMetadata}
-          columnClassName={defaultClass}
-          comboTurnAbilities={comboTurnAbilities}
-        />
-      </DeferCreate>
+      <SimulationScoringColumn
+        characterId={characterId}
+        elementalDmgValue={elementalDmgValue}
+        element={element}
+        characterMetadata={characterMetadata}
+        comboTurnAbilities={comboTurnAbilities}
+        type='Benchmark'
+      />
 
-      <DeferCreate>
-        <ScoringColumn
-          simulation={result.maximumSim}
-          originalSimResult={result.maximumSimResult}
-          percent={2.00}
-          precision={0}
-          type='Perfect'
-          characterId={characterId}
-          elementalDmgValue={elementalDmgValue}
-          element={element}
-          characterMetadata={characterMetadata}
-          columnClassName={defaultClass}
-          comboTurnAbilities={comboTurnAbilities}
-        />
-      </DeferCreate>
+      <SimulationScoringColumn
+        characterId={characterId}
+        elementalDmgValue={elementalDmgValue}
+        element={element}
+        characterMetadata={characterMetadata}
+        comboTurnAbilities={comboTurnAbilities}
+        type='Perfect'
+      />
     </div>
   )
 }
@@ -538,10 +525,10 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           <ScoringBenchmarksPanel />
         </DeferCreate>
 
-        <Suspense fallback={'DPS score loading...'}>
-          {/* Three-column scoring comparison */}
+        {/* Three-column scoring comparison */}
+        <DeferCreate>
           <ScoringColumnsSection />
-        </Suspense>
+        </DeferCreate>
 
         {/* Buffs analysis */}
         <DeferCreate>

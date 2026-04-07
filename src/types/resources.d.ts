@@ -200,6 +200,7 @@ interface Resources {
           "BasicStats": "Character <1>basic stats</1>",
           "CombatStats": "Character <1>combat stats</1>",
           "Header": "Character build ({{score}}%)",
+          "LoadingHeader": "Character build",
           "Mainstats": "Character main stats",
           "Substats": "Character subs (min rolls)"
         },

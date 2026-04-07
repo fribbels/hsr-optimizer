@@ -158,6 +158,7 @@ CharacterPreview:
       SubDpsHeader: Combat buffs (Sub DPS)
   ScoringColumn:
     Character:
+      LoadingHeader: Character build
       Header: 'Character build ({{score}}%)'
       BasicStats: Character <1>basic stats</1>
       CombatStats: Character <1>combat stats</1>

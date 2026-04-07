@@ -44,6 +44,9 @@
   font-family: var(--font-ui);
   font-size: 18px;
   font-weight: 600;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 /* Typography for data rows and labels */

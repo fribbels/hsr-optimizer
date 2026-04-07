@@ -100,16 +100,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   } = Source.character(SilverWolfLv999.id)
 
   const basicScaling = basic(e, 1.00, 1.10)
-  const enhancedBasicBounceScaling = basic(e, 2.20, 2.42)
-  const enhancedBasicFinalHitScaling = basic(e, 0.90, 0.99)
+  const enhancedBasicBounceScaling = basic(e, 2.40, 2.64)
+  const enhancedBasicFinalHitScaling = basic(e, 1.00, 1.10)
 
   const skillScaling = skill(e, 1.60, 1.76)
 
   const mysteryBoxElationScaling = ult(e, 0.90, 0.99)
 
   const talentCBElationScaling = talent(e, 0.40, 0.44)
-  const mmrCrPerPoint = talent(e, 0.003, 0.0033)
-  const mmrCdPerPoint = talent(e, 0.006, 0.0066)
+  const mmrCrPerPoint = talent(e, 0.004, 0.0044)
+  const mmrCdPerPoint = talent(e, 0.008, 0.0088)
 
   const elationSkillBounceScaling = elationSkill(e, 0.90, 0.945, 0.99)
   const elationSkillBounceCount = 6
@@ -231,8 +231,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
 
-      // E4: Elation Skill +999 Punchline
-      const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? 999 : 0)
+      // E4: Elation Skill Punchline x5
+      const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? punchlineStacks * 5 : 0)
       const mmrDmgMultiplier = 1 + 0.15 * Math.min(Math.floor(r.hiddenMmr / 60), 2)
 
       const basicHits: HitDefinition[] = []
@@ -306,7 +306,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .damageElement(ElementTag.Imaginary)
             .elationScaling(elationSkillBounceScaling * elationSkillBounceCount / context.enemyCount)
             .punchlineStacks(elationSkillPunchline)
-            .toughnessDmg(elationSkillBounceCount * 5 / context.enemyCount)
+            .toughnessDmg(elationSkillBounceCount * 10 / context.enemyCount)
             .build(),
         )
       }
@@ -336,8 +336,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.VULNERABILITY, (e >= 1 && r.e1Vulnerability && r.godmodePlayer) ? 0.20 : 0, x.actionKind(AbilityKind.BASIC).source(SOURCE_E1))
-      x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.40 : 0, x.actionKind(AbilityKind.UNIQUE).source(SOURCE_E6))
+      x.buff(StatKey.VULNERABILITY, (e >= 1 && r.e1Vulnerability && r.godmodePlayer) ? 0.20 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.50 : 0, x.actionKind(AbilityKind.BASIC).source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

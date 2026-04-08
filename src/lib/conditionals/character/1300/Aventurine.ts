@@ -24,6 +24,7 @@ import {
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -286,7 +287,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           action,
           context,
           SOURCE_TRACE,
-          (convertibleValue) => Math.min(0.48, 0.02 * Math.floor((convertibleValue - 1600) / 100)),
+          (convertibleValue) => Math.min(0.48, 0.02 * floorSafe((convertibleValue - 1600) / 100)),
         )
       },
       gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -299,7 +300,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           this,
           action,
           context,
-          `min(0.48, 0.02 * floor((convertibleValue - 1600) / 100))`,
+          `min(0.48, 0.02 * floorSafe((convertibleValue - 1600) / 100))`,
           `${wgslTrue(r.defToCrBoost)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, config)} > 1600`,
         )
       },

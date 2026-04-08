@@ -63,7 +63,10 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
+import {
+  floorSafe,
+  precisionRound,
+} from 'lib/utils/mathUtils'
 
 export const RappaEntities = createEnum('Rappa')
 export const RappaAbilities: AbilityKind[] = [
@@ -304,7 +307,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       if (r.atkToBreakVulnerability) {
         const atk = x.getActionValue(StatKey.ATK, RappaEntities.Rappa)
-        const atkOverStacks = Math.floor(precisionRound((atk - 2400) / 100))
+        const atkOverStacks = floorSafe((atk - 2400) / 100)
         const buffValue = Math.min(0.08, Math.max(0, atkOverStacks) * 0.01) + 0.02
 
         x.buff(StatKey.VULNERABILITY, buffValue, x.damageType(DamageTag.BREAK).source(SOURCE_TRACE))
@@ -316,7 +319,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       return wgsl`
 if (${wgslTrue(r.atkToBreakVulnerability)}) {
-  let atkOverStacks = floor((${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} - 2400.0) / 100.0);
+  let atkOverStacks = floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} - 2400.0) / 100.0);
   let breakVulnBuff = min(0.08, max(0.0, atkOverStacks) * 0.01) + 0.02;
   ${buff.hit(HKey.VULNERABILITY, 'breakVulnBuff').damageType(DamageTag.BREAK).wgsl(action)}
 }

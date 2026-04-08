@@ -53,6 +53,7 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { type CharacterConfig } from 'types/characterConfig'
 import {
   type ScoringMetadata,
@@ -254,7 +255,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     newCalculateBasicEffects: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const crBuff = (r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * Math.floor((x.c.a[BasicKey.HP] - 5000) / 100))) : 0
+      const crBuff = (r.hpToCrConversion) ? Math.max(0, Math.min(0.48, 0.016 * floorSafe((x.c.a[BasicKey.HP] - 5000) / 100))) : 0
       x.buff(StatKey.UNCONVERTIBLE_CR_BUFF, crBuff, x.source(SOURCE_TRACE))
       x.buff(StatKey.CR, crBuff, x.source(SOURCE_TRACE))
     },
@@ -263,7 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       return `
 if (${wgslTrue(r.hpToCrConversion)}) {
-  let buffValue: f32 = max(0, min(0.48, 0.016 * floor(((*p_c).HP - 5000) / 100)));
+  let buffValue: f32 = max(0, min(0.48, 0.016 * floorSafe(((*p_c).HP - 5000) / 100)));
   ${buff.action(AKey.CR, 'buffValue').wgsl(action)}
   ${buff.action(AKey.UNCONVERTIBLE_CR_BUFF, 'buffValue').wgsl(action)}
 }

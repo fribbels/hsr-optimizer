@@ -49,7 +49,7 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
+import { floorSafe, precisionRound } from 'lib/utils/mathUtils'
 
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
@@ -363,7 +363,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           action,
           context,
           SOURCE_TRACE,
-          (convertibleValue) => Math.min(0.80, 0.20 * Math.floor((convertibleValue - 0.40) / 0.10)) * context.baseATK,
+          (convertibleValue) => Math.min(0.80, 0.20 * floorSafe((convertibleValue - 0.40) / 0.10)) * context.baseATK,
         )
       },
       gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -376,7 +376,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           this,
           action,
           context,
-          `min(0.80, 0.20 * floor((convertibleValue - 0.40) / 0.10)) * baseATK`,
+          `min(0.80, 0.20 * floorSafe((convertibleValue - 0.40) / 0.10)) * baseATK`,
           `${wgslTrue(r.ehrToAtkBoost)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)} > 0.40`,
         )
       },

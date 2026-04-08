@@ -34,6 +34,7 @@ import {
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { ceilSafe } from 'lib/utils/mathUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -419,7 +420,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const totalCr = x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX)
           const baseCr = totalCr - prevCrBuff
 
-          const newCrPoints = Math.min(mmrPoints, Math.ceil(Math.max(0, 1.00 - baseCr) / mmrCrPerPoint))
+          const newCrPoints = Math.min(mmrPoints, ceilSafe(Math.max(0, 1.00 - baseCr) / mmrCrPerPoint))
           const newCdPoints = mmrPoints - newCrPoints
 
           const newCrBuff = newCrPoints * mmrCrPerPoint
@@ -461,7 +462,7 @@ let prevCdBuff = prevCdPoints * ${mmrCdPerPoint};
 let totalCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)};
 let baseCr = totalCr - prevCrBuff;
 
-let newCrPoints = min(mmrPoints, ceil(max(0.0, 1.0 - baseCr) / ${mmrCrPerPoint}));
+let newCrPoints = min(mmrPoints, ceilSafe(max(0.0, 1.0 - baseCr) / ${mmrCrPerPoint}));
 let newCdPoints = mmrPoints - newCrPoints;
 
 let newCrBuff = newCrPoints * ${mmrCrPerPoint};

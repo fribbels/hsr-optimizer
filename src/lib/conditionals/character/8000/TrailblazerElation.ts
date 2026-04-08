@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
@@ -296,7 +297,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           SOURCE_TRACE,
           (convertibleValue) => {
             if (convertibleValue < 1000) return 0
-            return Math.min(0.60, Math.floor((convertibleValue - 1000) / 200) * 0.10)
+            return Math.min(0.60, floorSafe((convertibleValue - 1000) / 200) * 0.10)
           },
         )
       },
@@ -309,7 +310,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           this,
           action,
           context,
-          `min(0.60, floor((convertibleValue - 1000.0) / 200.0) * 0.10)`,
+          `min(0.60, floorSafe((convertibleValue - 1000.0) / 200.0) * 0.10)`,
           `${wgslTrue(r.atkToElation)}`,
           `convertibleValue >= 1000.0`,
         )

@@ -56,6 +56,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 import {
   type CharacterId,
   type Eidolon,
@@ -419,7 +420,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         x.buff(StatKey.DMG_BOOST, 0.20, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
         x.buff(
           StatKey.RES_PEN,
-          Math.floor(Math.min(60, spd - 180)) * 0.02,
+          floorSafe(Math.min(60, spd - 180)) * 0.02,
           x.elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE),
         )
       }
@@ -431,7 +432,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 180.0 && ${wgslTrue(r.traceSpdBasedBuff)}) {
   ${buff.action(AKey.DMG_BOOST, 0.20).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 
-  let penBuff = floor(min(60.0, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} - 180.0)) * 0.02;
+  let penBuff = floorSafe(min(60.0, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} - 180.0)) * 0.02;
   ${buff.hit(HKey.RES_PEN, 'penBuff').elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 }
       `

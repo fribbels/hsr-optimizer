@@ -34,7 +34,10 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
+import {
+  floorSafe,
+  precisionRound,
+} from 'lib/utils/mathUtils'
 
 export const RuanMeiEntities = createEnum('RuanMei')
 export const RuanMeiAbilities: AbilityKind[] = [
@@ -217,14 +220,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       // Trace: DMG boost based on BE over 120%
       const be = x.getActionValue(StatKey.BE, RuanMeiEntities.RuanMei)
-      const beOver = Math.floor(precisionRound((be * 100 - 120) / 10))
+      const beOver = floorSafe((be * 100 - 120) / 10)
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
       x.buff(StatKey.DMG_BOOST, buffValue, x.source(SOURCE_TRACE))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return wgsl`
-let beOver = (${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} * 100.0 - 120.0) / 10.0;
-let beDmgBuff = min(0.36, floor(max(0.0, beOver)) * 0.06);
+let beOver = floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} * 100.0 - 120.0) / 10.0);
+let beDmgBuff = min(0.36, max(0.0, beOver) * 0.06);
 ${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
       `
     },

@@ -58,7 +58,7 @@ export function enrichSingleRelicAnalysis(relic: Relic, days: number, scoringMet
   const score = scorer.getCurrentRelicScore(relic, characterId)
   const potentials = scorer.scoreRelicPotential(relic, characterId)
 
-  const weightedRolls = countRelicRolls(relic, scoringMetadata)
+  const weightedRolls = countRelicRolls(relic, scoringMetadata.stats)
   const valid = validMainStat(relic, scoringMetadata)
 
   if (!valid) {
@@ -94,7 +94,7 @@ function validMainStat(relic: Relic, scoringMetadata: ScoringMetadata) {
   return acceptableStats.includes(relic.main.stat)
 }
 
-function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
+export function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata['stats']) {
   let weightedRolls = 0
   for (const substat of relic.substats) {
     const stat = substat.stat
@@ -113,7 +113,7 @@ function countRelicRolls(relic: Relic, scoringMetadata: ScoringMetadata) {
       substat.rolls = result.rolls
     }
 
-    weightedRolls += scoringMetadata.stats[stat] * flatReduction(stat) * (substat.rolls.high + substat.rolls.mid * 0.9 + substat.rolls.low * 0.8)
+    weightedRolls += scoringMetadata[stat] * flatReduction(stat) * (substat.rolls.high + substat.rolls.mid * 0.9 + substat.rolls.low * 0.8)
   }
 
   return weightedRolls

@@ -1,5 +1,7 @@
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
+import { hashRelic } from 'lib/relics/relicUtils'
+import { objectHash } from 'lib/utils/objectUtils'
 import {
   type BaseWorkerInput,
   WorkerCancelledError,
@@ -32,6 +34,8 @@ export type EstTbpWorkerOutput = {
   days: number,
 }
 
+export const estbpOutputCache = new Map<string, Promise<EstTbpWorkerOutput>>()
+
 export async function runEstTbpWorker(
   input: EstTbpRunnerInput,
   callback: (output: EstTbpRunnerOutput) => void,
@@ -60,23 +64,31 @@ export async function runEstTbpWorker(
   callback(output)
 }
 
-const errorResult = { days: 0 }
+const errorResult = Promise.resolve({ days: 0 })
 
-export async function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstTbpWorkerOutput> {
+export function handleWork(relic: Relic, weights: Record<string, number>): Promise<EstTbpWorkerOutput> {
   if (!relic || relic.grade !== 5) return errorResult
 
   RelicRollGrader.calculateRelicSubstatRolls(relic)
 
-  try {
-    const input: EstTbpWorkerInput = {
-      relic: relic,
-      weights: weights,
-      workerType: WorkerType.EST_TBP,
+  const runHash = hashRun(relic, weights)
+
+  return estbpOutputCache.getOrInsertComputed(runHash, () => {
+    try {
+      const input: EstTbpWorkerInput = {
+        relic: relic,
+        weights: weights,
+        workerType: WorkerType.EST_TBP,
+      }
+      return workerPool.runTask<BaseWorkerInput, EstTbpWorkerOutput>(input)
+    } catch (error) {
+      if (error instanceof WorkerCancelledError) throw error
+      console.warn('EstTbp worker error:', error)
+      return errorResult
     }
-    return await workerPool.runTask<BaseWorkerInput, EstTbpWorkerOutput>(input)
-  } catch (error) {
-    if (error instanceof WorkerCancelledError) throw error
-    console.warn('EstTbp worker error:', error)
-    return errorResult
-  }
+  })
+}
+
+function hashRun(relic: Relic, weights: Record<string, number>): string {
+  return objectHash({ relic: hashRelic(relic), weights: objectHash(weights) })
 }

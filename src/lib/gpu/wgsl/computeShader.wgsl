@@ -26,8 +26,8 @@
 
 // Safe floor/ceil: bias protects against f32 rounding causing off-by-one
 // when accumulated stat values land just below exact thresholds.
-fn floorSafe(x: f32) -> f32 { return floor(x + 0.001); }
-fn ceilSafe(x: f32) -> f32 { return ceil(x - 0.001); }
+fn floorSafe(x: f32) -> f32 { return floor(x + 0.0001); }
+fn ceilSafe(x: f32) -> f32 { return ceil(x - 0.0001); }
 
 @compute @workgroup_size(WORKGROUP_SIZE)
 fn main(

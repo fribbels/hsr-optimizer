@@ -76,7 +76,7 @@ test('Anaxa benchmark', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1.358472235588175,
+    1.3582890219856043,
   )
 }, TIMEOUT)
 
@@ -107,7 +107,7 @@ test('Anaxa benchmarked @ 133.333 spd', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1.1385434694255276,
+    1.1384697633660261,
     133.333,
   )
 }, TIMEOUT)
@@ -123,7 +123,7 @@ test('Anaxa benchmarked @ 200 spd', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1.358472235588175,
+    1.3582890219856043,
     200,
   )
 }, TIMEOUT)

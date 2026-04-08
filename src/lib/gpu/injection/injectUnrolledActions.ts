@@ -43,75 +43,78 @@ import type {
 } from 'types/optimizer'
 
 export function injectUnrolledActions(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  let unrolledActionCallsWgsl = '\n    var comboDmg: f32 = 0;\n'
-  let unrolledActionFunctionsWgsl = ''
+  const { calls, functions } = generateUnrolledActions(request, context, gpuParams)
 
-  // Execute default actions (don't add to comboDmg)
+  return wgsl
+    .replace('/* INJECT UNROLLED ACTIONS */', calls)
+    .replace('/* INJECT UNROLLED ACTION FUNCTIONS */', functions)
+}
+
+function generateUnrolledActions(request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
+  let calls = '\n    var comboDmg: f32 = 0;\n'
+  let functions = ''
+
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
+    const result = unrollAction(i, action, context, gpuParams, false)
 
-    const { actionCall, actionFunction } = unrollAction(i, action, context, gpuParams, false)
+    calls += result.actionCall
+    functions += result.actionFunction
 
-    unrolledActionCallsWgsl += actionCall
-    unrolledActionFunctionsWgsl += actionFunction
-
-    // Combat stat filters execute after the first default action (includes EHP calculation)
     if (i === 0) {
-      unrolledActionCallsWgsl += generateCombatStatFilters(request, context, gpuParams)
+      calls += generateCombatStatFilters(request, context, gpuParams)
     }
 
-    // DEBUG: Copy entire container0 (after combat stat filters for EHP), then copy registers from other actions
     if (gpuParams.DEBUG) {
-      if (i === 0) {
-        // Copy entire container0 to get all action stats and hit stats (after EHP calculation)
-        unrolledActionCallsWgsl += `\n    var debugContainer: array<f32, ${context.maxContainerArrayLength}> = container0;\n\n`
-      } else {
-        // Copy only registers from actions 1+
-        unrolledActionCallsWgsl += generateRegisterCopy(i, action, context)
-      }
+      calls += i === 0
+        ? `\n    var debugContainer: array<f32, ${context.maxContainerArrayLength}> = container0;\n\n`
+        : generateRegisterCopy(i, action, context)
+    }
+
+    // For ability-damage sorts (BASIC, SKILL, ULT, etc.), the sort value is fully determined
+    // by this single default action. Threshold-check it and skip all remaining actions.
+    // Note: rating filters for other abilities (e.g., minSkill when sorting by BASIC) are
+    // not enforced since those abilities' damage values are never computed.
+    if (!gpuParams.DEBUG && isAbilitySortAction(request, action)) {
+      calls += generateSortOptionReturn(request, context)
+      calls += '    continue;\n'
+      return { calls, functions }
     }
   }
 
-  // Execute rotation actions (add to comboDmg)
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
     const actionIndex = context.defaultActions.length + i
+    const result = unrollAction(actionIndex, action, context, gpuParams, true)
 
-    const { actionCall, actionFunction } = unrollAction(actionIndex, action, context, gpuParams, true)
+    calls += result.actionCall
+    functions += result.actionFunction
 
-    unrolledActionCallsWgsl += actionCall
-    unrolledActionFunctionsWgsl += actionFunction
-
-    // DEBUG: Copy registers after execution
     if (gpuParams.DEBUG) {
-      unrolledActionCallsWgsl += generateRegisterCopy(actionIndex, action, context)
+      calls += generateRegisterCopy(actionIndex, action, context)
     }
   }
 
-  // Write comboDmg to global register for debug mode
-  const comboGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_DMG, context)
-
   if (!gpuParams.DEBUG) {
-    unrolledActionCallsWgsl += generateRatingFilters(request, context, gpuParams)
-    unrolledActionCallsWgsl += generateSortOptionReturn(request, context)
+    calls += generateRatingFilters(request, context, gpuParams)
+    calls += generateSortOptionReturn(request, context)
   } else {
-    unrolledActionCallsWgsl += `    debugContainer[${comboGlobalRegIdx}] = comboDmg; // GlobalRegister[COMBO_DMG]\n`
-    unrolledActionCallsWgsl += `
+    const comboGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_DMG, context)
+    calls += `    debugContainer[${comboGlobalRegIdx}] = comboDmg; // GlobalRegister[COMBO_DMG]\n`
+    calls += `
     results[index] = debugContainer;
 `
   }
 
-  wgsl = wgsl.replace(
-    '/* INJECT UNROLLED ACTIONS */',
-    unrolledActionCallsWgsl,
-  )
+  return { calls, functions }
+}
 
-  wgsl = wgsl.replace(
-    '/* INJECT UNROLLED ACTION FUNCTIONS */',
-    unrolledActionFunctionsWgsl,
-  )
-
-  return wgsl
+function isAbilitySortAction(request: Form, action: OptimizerAction): boolean {
+  const sortOption = SortOption[request.resultSort!]
+  return !!sortOption?.isComputedRating
+    && sortOption.key !== SortOption.COMBO.key
+    && sortOption.key !== SortOption.EHP.key
+    && action.actionName === sortOption.key
 }
 
 const SortOptionToAKey: Partial<Record<SortOptionKey, AKeyValue>> = {

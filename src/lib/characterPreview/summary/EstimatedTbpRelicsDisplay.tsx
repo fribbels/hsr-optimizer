@@ -1,14 +1,7 @@
-import { Loader } from '@mantine/core'
 import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
-import type {
-  EnrichedRelics,
-  RelicAnalysis,
-} from 'lib/characterPreview/summary/statScoringSummaryController'
 import {
   countRelicRolls,
-  enrichRelicAnalysis,
   flatReduction,
-  hashEstTbpRun,
 } from 'lib/characterPreview/summary/statScoringSummaryController'
 import { type SubStats } from 'lib/constants/constants'
 import { relicCardH } from 'lib/constants/constantsUi'
@@ -16,16 +9,11 @@ import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import {
   type PotentialResult,
-  RelicScorer,
   ScoringCache,
 } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
-import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import {
-  DeferCreate,
-  useDeferredSlot,
-} from 'lib/ui/DeferredRender'
+import { DeferCreate } from 'lib/ui/DeferredRender'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { SuspenseText } from 'lib/ui/SuspenseText'
 import {
@@ -33,20 +21,11 @@ import {
   localeNumber_00,
   localeNumberComma,
 } from 'lib/utils/i18nUtils'
-import type {
-  EstTbpRunnerInput,
-  EstTbpRunnerOutput,
-  EstTbpWorkerOutput,
-} from 'lib/worker/estTbpWorkerRunner'
-import {
-  handleWork,
-  runEstTbpWorker,
-} from 'lib/worker/estTbpWorkerRunner'
+import type { EstTbpWorkerOutput } from 'lib/worker/estTbpWorkerRunner'
+import { handleWork } from 'lib/worker/estTbpWorkerRunner'
 import {
   memo,
   useCallback,
-  useEffect,
-  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
@@ -59,10 +38,6 @@ import type {
 } from 'types/relic'
 import styles from './EstimatedTbpRelicsDisplay.module.css'
 
-const cachedRelics: Record<string, EnrichedRelics> = {}
-const IN_PROGRESS = {} as EnrichedRelics
-let cachedId = ''
-
 export function EstimatedTbpRelicsDisplay({
   displayRelics,
   showcaseMetadata,
@@ -71,33 +46,6 @@ export function EstimatedTbpRelicsDisplay({
   showcaseMetadata: ShowcaseMetadata,
 }) {
   const scoringMetadata = useScoringMetadata(showcaseMetadata.characterId)
-
-  useEffect(() => {
-    const characterId = showcaseMetadata.characterId
-
-    const input: EstTbpRunnerInput = {
-      displayRelics,
-      weights: scoringMetadata.stats,
-    }
-
-    cachedId = characterId
-    const cacheKey = hashEstTbpRun(displayRelics, characterId, scoringMetadata)
-    const cached = cachedRelics[cacheKey]
-    if (cached) {
-      // Deduplicate any requests against the static IN_PROGRESS object
-      if (cached !== IN_PROGRESS) {
-      }
-      return
-    }
-
-    cachedRelics[cacheKey] = IN_PROGRESS
-    void runEstTbpWorker(input, (output: EstTbpRunnerOutput) => {
-      const enrichedRelics = enrichRelicAnalysis(displayRelics, output, scoringMetadata, characterId)
-      cachedRelics[cacheKey] = enrichedRelics
-
-      if (cachedId !== characterId) return
-    })
-  }, [displayRelics, showcaseMetadata, scoringMetadata])
 
   const scorer = new ScoringCache()
 

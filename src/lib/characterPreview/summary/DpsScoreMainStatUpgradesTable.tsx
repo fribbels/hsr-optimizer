@@ -26,7 +26,7 @@ import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { setToId } from 'lib/sets/setConfigRegistry'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
-import { SuspenseText } from 'lib/ui/SuspenseText'
+import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   arrowColor,
   arrowDirection,
@@ -177,7 +177,7 @@ const SuspendedValues = memo(function({ sharedCols, part, stat, promise }: {
 }) {
   return sharedCols.map((col) => (
     <Table.Td key={col.key} className={styles.centeredCell}>
-      <SuspenseText
+      <SuspenseNode
         promise={promise}
         selector={(score) => selector(score, stat, part, col)}
       />

@@ -12,7 +12,7 @@ import type { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { type SimulationScore } from 'lib/scoring/simScoringUtils'
-import { SuspenseText } from 'lib/ui/SuspenseText'
+import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   memo,
   useCallback,
@@ -118,7 +118,7 @@ const SuspendedValues = memo(function({ stat, promise, sharedCols }: {
     } else {
       return (
         <Table.Td key={col.key} className={styles.centeredCell}>
-          <SuspenseText
+          <SuspenseNode
             promise={promise}
             selector={(score) => selector(stat, col, score)}
           />

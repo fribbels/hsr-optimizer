@@ -15,7 +15,7 @@ import { Assets } from 'lib/rendering/assets'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { DeferCreate } from 'lib/ui/DeferredRender'
 import { HorizontalDivider } from 'lib/ui/Dividers'
-import { SuspenseText } from 'lib/ui/SuspenseText'
+import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   localeNumber_0,
   localeNumber_00,
@@ -253,7 +253,7 @@ const EstbpMetricCard = memo(function EstbpMetricCard({ relic, weights }: {
         </span>
         {estbpPromise !== null
           ? (
-            <SuspenseText
+            <SuspenseNode
               width={'60%'}
               height={27.9}
               textSpanClassName={styles.metricValue}
@@ -269,7 +269,7 @@ const EstbpMetricCard = memo(function EstbpMetricCard({ relic, weights }: {
         </span>
         {estbpPromise !== null
           ? (
-            <SuspenseText
+            <SuspenseNode
               width={'60%'}
               height={27.9}
               textSpanClassName={styles.metricValue}

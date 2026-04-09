@@ -1,13 +1,7 @@
+import { Table } from '@mantine/core'
+import { SimScoringContext } from 'lib/characterPreview/SimScoringContext'
 import {
-  Skeleton,
-  Table,
-} from '@mantine/core'
-import type { TFunction } from 'i18next'
-import {
-  ScoringSelector,
-  useSimScoringContext,
-} from 'lib/characterPreview/SimScoringContext'
-import {
+  isStatWithoutScoreUpgrade,
   type SharedScoreColumn,
   sharedScoreUpgradeColumns,
   sharedSimResultComparator,
@@ -17,15 +11,21 @@ import styles from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable.mo
 import type { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
+import { type SimulationScore } from 'lib/scoring/simScoringUtils'
+import { SuspenseText } from 'lib/ui/SuspenseText'
 import {
   memo,
-  Suspense,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SimulationMetadata } from 'types/metadata'
 
 export type SubstatUpgradeItem = {
-  key: string,
+  key: SubStats,
   stat: SubStats,
   scorePercentUpgrade: number,
   scoreValueUpgrade: number,
@@ -36,64 +36,37 @@ export type SubstatUpgradeItem = {
 export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
   meta: SimulationMetadata,
 }) {
+  const upgradePromise = useContext(SimScoringContext).upgradePromise
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
-  const sharedCols = sharedScoreUpgradeColumns(t)
-  return (
-    <Suspense fallback={<DpsScoreSubstatUpgradesShimmer meta={meta} t={t} sharedCols={sharedCols} />}>
-      <DpsScoreSubstatUpgradesTableReady t={t} sharedCols={sharedCols} />
-    </Suspense>
-  )
-})
-
-function DpsScoreSubstatUpgradesShimmer({ meta, t, sharedCols }: {
-  meta: SimulationMetadata,
-  t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>,
-  sharedCols: SharedScoreColumn[],
-}) {
-  return (
-    <Table className={styles.table} style={tableStyle}>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th className={styles.headerCell}>{t('SubStatUpgrade')}</Table.Th>
-          {sharedCols.map((col) => <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>)}
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {(meta.substats as SubStats[]).map((stat) => (
-          <Table.Tr key={stat}>
-            <Table.Td className={styles.centeredCell}>
-              <Skeleton width='60%' height='100%' style={{ margin: 'auto' }}>foo</Skeleton>
-            </Table.Td>
-            {sharedCols.map((col) => (
-              <Table.Td key={col.key} className={styles.centeredCell}>
-                <Skeleton width='60%' height='100%' style={{ margin: 'auto' }}>foo</Skeleton>
-              </Table.Td>
-            ))}
-          </Table.Tr>
-        ))}
-      </Table.Tbody>
-    </Table>
-  )
-}
-
-const DpsScoreSubstatUpgradesTableReady = memo(function({ t, sharedCols }: {
-  t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>,
-  sharedCols: SharedScoreColumn[],
-}) {
-  const simScore = useSimScoringContext(ScoringSelector.Upgrades)
+  const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
 
-  if (simScore === null) return null
+  const initialRanks = meta.substats.reduce((acc, stat, idx) => {
+    acc[stat] = idx
+    return acc
+  }, {} as Record<SubStats, number>)
 
-  const upgrades = simScore.substatUpgrades
-  const dataSource: SubstatUpgradeItem[] = upgrades.map((upgrade) => {
-    const stat = upgrade.stat! as SubStats
-    return {
-      key: stat,
-      stat,
-      ...sharedSimResultComparator(simScore, upgrade),
-    }
-  })
+  const [statToRank, setStatToRank] = useState(initialRanks)
+
+  useEffect(() => {
+    upgradePromise.then((score) => {
+      if (score === null) return
+      setStatToRank(
+        score.substatUpgrades.reduce((acc, cur, idx) => {
+          if (cur.stat) acc[cur.stat as SubStats] = idx
+          return acc
+        }, {} as Record<SubStats, number>),
+      )
+    })
+  }, [upgradePromise])
+
+  const rankFromStat = useCallback((stat: SubStats) => {
+    const totalRanks = meta.substats.length
+    let baseOffset = (statToRank[stat] - initialRanks[stat]) * 36
+    // +2 is necessary due to weird clipping with the row borders
+    if (statToRank[stat] === totalRanks - 1) baseOffset += 2
+    return baseOffset
+  }, [meta, statToRank, initialRanks])
 
   return (
     <Table
@@ -107,24 +80,63 @@ const DpsScoreSubstatUpgradesTableReady = memo(function({ t, sharedCols }: {
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {dataSource.map((upgrade) => (
-          <Table.Tr key={upgrade.key}>
+        {meta.substats.map((stat) => (
+          <Table.Tr
+            key={stat}
+            style={{
+              position: 'relative',
+              top: rankFromStat(stat),
+              transition: 'top ease-in-out 0.5s',
+            }}
+          >
             <Table.Td className={styles.centeredCell}>
               <div style={{ display: 'flex' }}>
-                <img src={Assets.getStatIcon(upgrade.stat)} className={styles.statIcon} style={{ width: iconSize, height: iconSize }} />
+                <img src={Assets.getStatIcon(stat)} className={styles.statIcon} style={{ width: iconSize, height: iconSize }} />
                 <span className={styles.statLabel}>
-                  {t('AddedRoll', { stat: tCommon(upgrade.stat) })}
+                  {t('AddedRoll', { stat: tCommon(stat) })}
                 </span>
               </div>
             </Table.Td>
-            {sharedCols.map((col) => (
-              <Table.Td key={col.key} className={styles.centeredCell}>
-                {col.render(upgrade[col.dataIndex as keyof SubstatUpgradeItem] as number, upgrade)}
-              </Table.Td>
-            ))}
+            <SuspendedValues stat={stat} promise={upgradePromise} sharedCols={sharedCols} />
           </Table.Tr>
         ))}
       </Table.Tbody>
     </Table>
   )
 })
+
+const SuspendedValues = memo(function({ stat, promise, sharedCols }: {
+  stat: SubStats,
+  promise: Promise<SimulationScore | null>,
+  sharedCols: SharedScoreColumn[],
+}) {
+  return sharedCols.map((col) => {
+    if (isStatWithoutScoreUpgrade(stat) && col.type === 'scoreUpgrade') {
+      return (
+        <Table.Td key={col.key} className={styles.centeredCell}>
+          <>-</>
+        </Table.Td>
+      )
+    } else {
+      return (
+        <Table.Td key={col.key} className={styles.centeredCell}>
+          <SuspenseText
+            key={col.key}
+            promise={promise}
+            selector={(score) => selector(stat, col, score)}
+          />
+        </Table.Td>
+      )
+    }
+  })
+})
+
+const selector = (stat: SubStats, col: SharedScoreColumn, arg: SimulationScore | null) => {
+  if (!arg) return null
+  const upgrade = arg.substatUpgrades.find((upgrade) => upgrade.stat === stat)
+  if (!upgrade) return null
+  const foo = { key: stat, stat, ...sharedSimResultComparator(arg, upgrade) }
+  return (
+    col.render(foo[col.dataIndex as keyof SubstatUpgradeItem] as number, stat)
+  )
+}

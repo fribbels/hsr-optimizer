@@ -1,9 +1,8 @@
 import {
-  type MantineRadius,
   Skeleton,
+  type SkeletonProps,
 } from '@mantine/core'
 import {
-  type CSSProperties,
   memo,
   type ReactNode,
   Suspense,
@@ -11,14 +10,6 @@ import {
 } from 'react'
 import { DeferCreate } from './DeferredRender'
 
-interface SkeletonProps {
-  animate?: boolean
-  cicrle?: boolean
-  height?: string | number
-  raidus?: MantineRadius | number
-  visible?: boolean
-  width?: CSSProperties['width']
-}
 interface CommonProps extends SkeletonProps {
   skeletonClassName?: string
   textSpanClassName?: string
@@ -51,6 +42,6 @@ function SuspenseTextPending(props: Props) {
 }
 
 function SuspenseTextReady(props: Props) {
-  const text = props.nodePromise ? use(props.nodePromise) : props.selector(use(props.promise))
-  return <span className={props.textSpanClassName}>{text}</span>
+  const node = props.nodePromise ? use(props.nodePromise) : props.selector(use(props.promise))
+  return <span className={props.textSpanClassName}>{node}</span>
 }

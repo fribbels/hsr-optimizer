@@ -9,14 +9,14 @@ import type {
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import type {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
 import type { statConversion } from 'lib/importer/characterConverter'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { SortOptionProperties } from 'lib/optimization/sortOptions'
 import type { PresetDefinition } from 'lib/scoring/presetEffects'
+import type {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
@@ -46,7 +46,7 @@ export type SimulationMetadata = {
   parts: {
     [part: string]: string[],
   },
-  substats: string[],
+  substats: SubStats[],
   errRopeEidolon?: number,
   deprioritizeBuffs?: boolean,
   comboTurnAbilities: TurnAbilityName[],

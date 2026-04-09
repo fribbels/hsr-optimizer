@@ -16,6 +16,8 @@ import {
   Parts,
   PartsArray,
   type Sets,
+  type StatsValues,
+  SubStats,
 } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
@@ -77,6 +79,8 @@ const DpsScoreMainStatUpgradesTableShimmer = memo(function({ t, sharedCols, meta
 }) {
   const setIsMatched = useMemo(() => {
     const simMeta = meta.characterMetadata.scoringMetadata.simulation!
+
+    if (Object.entries(relics).length !== 6) return false
 
     if (relics[Parts.LinkRope].set !== relics[Parts.PlanarSphere].set) return false
     if (!simMeta.ornamentSets.includes(relics[Parts.LinkRope].set as SetsOrnaments)) return false
@@ -222,7 +226,7 @@ const DpsScoreMainStatUpgradesTableReady = memo(function DpsScoreMainStatUpgrade
             </Table.Td>
             {sharedCols.map((col) => (
               <Table.Td key={col.key} className={styles.centeredCell}>
-                {col.render(upgrade[col.dataIndex as keyof MainStatUpgradeItem] as number, upgrade)}
+                {col.render(upgrade[col.dataIndex as keyof MainStatUpgradeItem] as number, upgrade.stat)}
               </Table.Td>
             ))}
           </Table.Tr>
@@ -275,7 +279,8 @@ export type SharedScoreColumn = {
   key: string,
   title: string,
   dataIndex: string,
-  render: (value: number, record: unknown) => ReactNode,
+  type: 'scoreUpgrade' | 'damageUpgrade',
+  render: (value: number, stat: StatsValues) => ReactNode,
 }
 
 export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): SharedScoreColumn[] {
@@ -284,8 +289,9 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       key: 'scorePercentUpgrade',
       title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
       dataIndex: 'scorePercentUpgrade',
-      render: (n: number, record: unknown) => (
-        (record as SubstatUpgradeItem)?.stat === Stats.SPD ? <>-</> : (
+      type: 'scoreUpgrade',
+      render: (n: number, stat: StatsValues) => (
+        isStatWithoutScoreUpgrade(stat) ? <>-</> : (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
             <Arrow up={n >= 0} />
             {` ${localeNumber_00(n)}%`}
@@ -297,6 +303,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       key: 'damagePercentUpgrade',
       title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
       dataIndex: 'damagePercentUpgrade',
+      type: 'damageUpgrade',
       render: (n: number) => (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
           <Arrow up={n >= 0} />
@@ -308,8 +315,9 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       key: 'scoreValueUpgrade',
       title: t('UpgradedDpsScore'), // Upgraded DPS Score
       dataIndex: 'scoreValueUpgrade',
-      render: (n: number, record: unknown) => (
-        (record as SubstatUpgradeItem)?.stat === Stats.SPD ? <>-</> : (
+      type: 'scoreUpgrade',
+      render: (n: number, stat: StatsValues) => (
+        isStatWithoutScoreUpgrade(stat) ? <>-</> : (
           <>
             {`${localeNumber_0(Math.max(0, n))}%`}
           </>
@@ -320,6 +328,7 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       key: 'damageValueUpgrade',
       title: t('ComboDmgUpgrade'), // Combo DMG Δ
       dataIndex: 'damageValueUpgrade',
+      type: 'damageUpgrade',
       render: (n: number) => (
         <>
           {localeNumber_0(n)}
@@ -342,4 +351,8 @@ function Arrow({ up }: { up: boolean }) {
       {arrowDirection(up)}
     </span>
   )
+}
+
+export function isStatWithoutScoreUpgrade(stat: StatsValues) {
+  return stat === Stats.SPD
 }

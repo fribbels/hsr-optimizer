@@ -44,7 +44,7 @@ export type ScoringMetadata = {
 
 export type SimulationMetadata = {
   parts: {
-    [part: string]: string[],
+    [part: string]: MainStats[],
   },
   substats: SubStats[],
   errRopeEidolon?: number,

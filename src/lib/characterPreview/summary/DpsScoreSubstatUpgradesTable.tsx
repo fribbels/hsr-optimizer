@@ -60,13 +60,11 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
     })
   }, [upgradePromise])
 
-  const rankFromStat = useCallback((stat: SubStats) => {
-    const totalRanks = meta.substats.length
-    let baseOffset = (statToRank[stat] - initialRanks[stat]) * 36
-    // +2 is necessary due to weird clipping with the row borders
-    if (statToRank[stat] === totalRanks - 1) baseOffset += 2
-    return baseOffset
-  }, [meta, statToRank, initialRanks])
+  const rankFromStat = useCallback((
+    stat: SubStats,
+    initialRanks: Record<SubStats, number>,
+    actualRanks: Record<SubStats, number>,
+  ) => calculateOffset(meta)(stat, initialRanks, actualRanks), [meta])
 
   return (
     <Table
@@ -85,7 +83,7 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
             key={stat}
             style={{
               position: 'relative',
-              top: rankFromStat(stat),
+              top: rankFromStat(stat, initialRanks, statToRank),
               transition: 'top ease-in-out 0.5s',
             }}
           >
@@ -121,7 +119,6 @@ const SuspendedValues = memo(function({ stat, promise, sharedCols }: {
       return (
         <Table.Td key={col.key} className={styles.centeredCell}>
           <SuspenseText
-            key={col.key}
             promise={promise}
             selector={(score) => selector(stat, col, score)}
           />
@@ -139,4 +136,10 @@ const selector = (stat: SubStats, col: SharedScoreColumn, arg: SimulationScore |
   return (
     col.render(foo[col.dataIndex as keyof SubstatUpgradeItem] as number, stat)
   )
+}
+
+export function calculateOffset(meta: SimulationMetadata) {
+  return (stat: SubStats, initialRanks: Record<SubStats, number>, actualRanks: Record<SubStats, number>) => {
+    return (actualRanks[stat] - initialRanks[stat]) * 36
+  }
 }

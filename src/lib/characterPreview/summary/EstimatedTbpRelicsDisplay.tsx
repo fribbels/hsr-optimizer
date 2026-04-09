@@ -106,7 +106,7 @@ export const RelicContainer = memo(function RelicContainer({ relic, weights, cha
   scorer?: ScoringCache,
   withoutPreview?: boolean,
 }) {
-  if (relic === null) return <div style={{ width: 320, minHeight: relicCardH }} />
+  if (relic === null) return <div style={{ minHeight: relicCardH }} className={styles.card} />
   scorer ??= new ScoringCache()
   const score = characterId ? scorer.getCurrentRelicScore(relic, characterId) : undefined
   const potential = characterId ? scorer.scoreRelicPotential(relic, characterId) : null

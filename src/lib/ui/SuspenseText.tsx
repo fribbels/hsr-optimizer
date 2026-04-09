@@ -15,12 +15,10 @@ interface CommonProps extends SkeletonProps {
   textSpanClassName?: string
 }
 interface SimpleProps extends CommonProps {
-  nodePromise: Promise<ReactNode>
-  promise?: never
+  promise: Promise<ReactNode>
   selector?: never
 }
 interface ComplexProps<T = any> extends CommonProps {
-  nodePromise?: never
   promise: Promise<T>
   selector(arg: NoInfer<T>): ReactNode
 }
@@ -36,12 +34,12 @@ export const SuspenseText = memo(function SuspenseText(props: Props) {
 })
 
 function SuspenseTextPending(props: Props) {
-  const { promise, nodePromise, selector, skeletonClassName, textSpanClassName, ...skeletonProps } = props
+  const { promise, selector, skeletonClassName, textSpanClassName, ...skeletonProps } = props
   // for some reason the skeleton doesn't render unless dummy text is inserted as a child
   return <Skeleton {...skeletonProps} className={skeletonClassName}>foo</Skeleton>
 }
 
 function SuspenseTextReady(props: Props) {
-  const node = props.nodePromise ? use(props.nodePromise) : props.selector(use(props.promise))
+  const node = props.selector ? props.selector(use(props.promise)) : use(props.promise)
   return <span className={props.textSpanClassName}>{node}</span>
 }

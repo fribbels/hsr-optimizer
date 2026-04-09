@@ -23,7 +23,7 @@ import type { OptimizerContext } from 'types/optimizer'
 export type SimulationStatUpgrade = {
   simulation: Simulation,
   simulationResult: RunStatSimulationsResult,
-  part?: string,
+  part?: MainStatParts,
   stat?: string,
   percent?: number,
 }

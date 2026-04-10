@@ -15,8 +15,8 @@ import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStor
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useDeferReveal } from 'lib/ui/DeferredRender'
-import { useCallback, useContext, useEffect } from 'react'
-import type { Character } from 'types/character'
+import { useCallback, useContext, useEffect, useRef } from 'react'
+import type { Character, CharacterId } from 'types/character'
 
 import { cardTotalW, defaultGap, parentH } from 'lib/constants/constantsUi'
 
@@ -26,14 +26,16 @@ const densityOptions = [
 ]
 
 export function CharacterTab() {
-  // Sync selected character from optimizer tab on activation
+  // Only sync when optimizer focus changed — otherwise tab revisits stomp the user's selection.
   const { addActivationListener } = useContext(TabVisibilityContext)
+  const lastSyncedFocusRef = useRef<CharacterId | undefined>(undefined)
   useEffect(() => {
     return addActivationListener(() => {
       const id = useOptimizerDisplayStore.getState().focusCharacterId
-      if (id) {
-        useCharacterTabStore.setState({ focusCharacter: id })
-      }
+      if (!id) return
+      if (id === lastSyncedFocusRef.current) return
+      lastSyncedFocusRef.current = id
+      useCharacterTabStore.getState().setFocusCharacter(id)
     })
   }, [addActivationListener])
 

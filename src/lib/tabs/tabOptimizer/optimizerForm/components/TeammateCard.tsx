@@ -77,19 +77,18 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
   return (
     <Flex
       direction='column'
-      className={classes.card}
+      className={`${classes.card} hide-scrollbar`}
       w={CARD_WIDTH}
       h={490}
-      style={{ borderRadius: 6 }}
+      style={{ borderRadius: 6, overflowY: 'auto' }}
     >
       {/* ======== Character area ======== */}
-      <Flex style={{ overflow: 'hidden' }} gap={0}>
+      <Flex style={{ flexShrink: 0 }} gap={0}>
         {/* Left — character select + conditionals */}
         <Flex
           direction='column'
-          className='hide-scrollbar'
           p={11}
-          style={{ flex: 1, minWidth: 0, overflow: 'auto' }}
+          style={{ flex: 1, minWidth: 0 }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
             <CharacterSelect
@@ -177,7 +176,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
       </Flex>
 
       {/* ======== LC area ======== */}
-      <Flex style={{ flex: 1, overflow: 'hidden' }} gap={0}>
+      <Flex style={{ flexShrink: 0 }} gap={0}>
         {/* Left — LC select + conditionals */}
         <Flex
           direction='column'

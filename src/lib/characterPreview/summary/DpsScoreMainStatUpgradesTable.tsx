@@ -83,7 +83,7 @@ export function DpsScoreMainStatUpgradesTable({ simScore }: {
             <Table.Td className={styles.centeredCell}>
               {upgrade.setUpgradeRequest
                 ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 3, paddingLeft: 4 }}>
                     {upgrade.setUpgradeRequest.simRelicSet1 === upgrade.setUpgradeRequest.simRelicSet2
                       ? (
                         <RelicDoubleImageWithTooltip name={upgrade.setUpgradeRequest.simRelicSet1} height={iconSize} width={iconSize} />

@@ -33,6 +33,7 @@
 /* Single-column zebra */
 .zebraContainer {
   composes: zebraContainer from './summaryStyles.module.css';
+  min-width: 150px;
 }
 
 .zebraContainer > div {

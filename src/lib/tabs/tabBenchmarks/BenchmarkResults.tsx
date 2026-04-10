@@ -225,6 +225,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           scoringResult={null}
           simScore={result.simScore}
           showAll={true}
+          zebra={true}
         />
       </Flex>
 
@@ -241,6 +242,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           scoringResult={null}
           simScore={result.simScore}
           showAll={true}
+          zebra={true}
         />
       </Flex>
 

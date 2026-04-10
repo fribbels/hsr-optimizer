@@ -17,13 +17,11 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
   memo,
+  use,
   useMemo,
 } from 'react'
 import type { CharacterId } from 'types/character'
-import {
-  ScoringSelector,
-  useSimScoringContext,
-} from '../SimScoringContext'
+import { SimScoringContext } from '../SimScoringContext'
 
 const epsilon = 0.001
 
@@ -48,8 +46,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
 }) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
-  const contextSimScore = useSimScoringContext(ScoringSelector.Preview)
-  const simScore = simScoreProp ?? contextSimScore?.originalSimResult.simScore
+  const simScore = simScoreProp ?? use(SimScoringContext).preview?.originalSimResult.simScore
 
   return (
     <StatText className={classes.statSummary}>

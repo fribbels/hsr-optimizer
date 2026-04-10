@@ -231,12 +231,13 @@ export const MainStatsValues: Record<string, Record<number, { base: number, incr
   },
 }
 
+// order of array is relevant for SubStatRollsSummary.tsx
 export const SubStats = [
-  Stats.HP_P,
   Stats.ATK_P,
-  Stats.DEF_P,
-  Stats.HP,
   Stats.ATK,
+  Stats.HP_P,
+  Stats.HP,
+  Stats.DEF_P,
   Stats.DEF,
   Stats.SPD,
   Stats.CR,
@@ -347,6 +348,7 @@ export const MainStatParts = {
   LinkRope: 'LinkRope',
 } as const
 export type MainStatParts = typeof MainStatParts[keyof typeof MainStatParts]
+export const MainStatPartsArray = [Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope] as const
 
 export const PartsMainStats = {
   [Parts.Head]: [Stats.HP],

@@ -27,7 +27,6 @@ import {
 } from 'lib/ui/DeferredRender'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { SuspenseNode } from 'lib/ui/SuspenseNode'
-import { sleep } from 'lib/utils/frontendUtils'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import {
   memo,

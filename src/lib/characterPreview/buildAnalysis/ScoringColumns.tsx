@@ -1,40 +1,34 @@
 import { Skeleton } from '@mantine/core'
-import { type TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import {
   ScoringSelector,
+  SimScoringContext,
   useSimScoringContext,
 } from 'lib/characterPreview/SimScoringContext'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
-import {
-  type ElementName,
-  ElementToDamage,
-  type PathName,
-  PathNames,
-  Stats,
+import type {
+  ElementName,
+  PathName,
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
-import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { Assets } from 'lib/rendering/assets'
-import {
-  getElementalDmgFromContainer,
-  StatsToStatKey,
-} from 'lib/scoring/simScoringUtils'
+import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type {
   RunStatSimulationsResult,
   Simulation,
 } from 'lib/simulations/statSimulationTypes'
 import { DeferCreate } from 'lib/ui/DeferredRender'
+import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   precisionRound,
   truncate10ths,
 } from 'lib/utils/mathUtils'
 import {
   memo,
-  Suspense,
+  useContext,
 } from 'react'
 import {
   Trans,
@@ -45,7 +39,7 @@ import classes from './CharacterScoringSummary.module.css'
 
 const highlightColor = 'rgb(225, 165, 100)'
 
-interface SharedScoringColumnProps {
+interface ExternalScoringColumnProps {
   characterId: CharacterId
   elementalDmgValue: string
   element: ElementName
@@ -53,59 +47,39 @@ interface SharedScoringColumnProps {
   comboTurnAbilities: TurnAbilityName[]
 }
 
-interface SimulationScoringColumnProps extends SharedScoringColumnProps {
+interface ExternalSimulationScoringColumnProps extends ExternalScoringColumnProps {
   type: 'Benchmark' | 'Perfect'
 }
 
-function ScoringColumnPending(props: { type: 'Benchmark' | 'Perfect' }) {
-  const { t } = useTranslation(['charactersTab', 'common'])
-  const headerText = t(`CharacterPreview.ScoringColumn.${props.type}.Header`, { score: props.type === 'Benchmark' ? '100' : '200' })
-
-  return (
-    <div className={defaultClass} style={{ width: 300, display: 'flex', flexDirection: 'column' }}>
-      <div className={classes.columnFilledHeader}>
-        <div className={classes.scoringColumnHeader}>
-          {headerText}
-        </div>
-      </div>
-      <div className={classes.columnFilledBody} style={{ height: '100%' }}>
-        <Skeleton height='100%'>foo</Skeleton>
-      </div>
-    </div>
-  )
+interface SharedScoringColumnProps extends ExternalScoringColumnProps {
+  percent: number | null
+  precision: number
+  columnClassName: string
 }
 
-function ScoringColumn(props: {
-  simulation: Simulation,
-  originalSimResult: RunStatSimulationsResult,
-  percent: number | null,
-  precision: number,
-  type: 'Character' | 'Benchmark' | 'Perfect',
-  characterId: CharacterId,
-  elementalDmgValue: string,
-  element: ElementName,
-  characterMetadata: { path: string },
-  columnClassName?: string,
-  comboTurnAbilities: TurnAbilityName[],
-}) {
+interface SynchronousScoringColumnProps extends SharedScoringColumnProps {
+  type: 'Character'
+  simulation: Simulation
+  originalSimResult: RunStatSimulationsResult
+}
+
+interface AsynchronousScoringColumnProps extends SharedScoringColumnProps {
+  type: 'Benchmark' | 'Perfect'
+  simulation: Promise<SimulationScore | null>
+}
+
+type ScoringColumnProps = SynchronousScoringColumnProps | AsynchronousScoringColumnProps
+
+function isAsyncProps(props: ScoringColumnProps): props is AsynchronousScoringColumnProps {
+  return props.type !== 'Character'
+}
+
+function ScoringColumn(props: ScoringColumnProps) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
-  const simRequest = props.simulation.request
-  const simResult = props.simulation.result
-  if (!simResult) return null
-
-  const basicStats = toBasicStatsObject(simResult.ca)
-  const combatStats = props.originalSimResult.x.toComputedStatsObject()
-
   const highlight = props.type === 'Character'
-  ;(combatStats as Record<string, number>)[props.elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, props.element)
 
-  if (props.characterMetadata.path === PathNames.Elation) {
-    combatStats[Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
-  }
-
-  // only the character scoring column will pass as null (when waiting for scores to load)
-  // others have an entirely seperate column for loading state as there is far less information available
+  // only the character scoring column will pass as null as all other info is available synchronously
   const headerText = props.percent !== null
     ? t(`CharacterPreview.ScoringColumn.${props.type}.Header`, {
       score: truncate10ths(precisionRound(props.percent * 100)),
@@ -153,12 +127,24 @@ function ScoringColumn(props: {
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
         {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
       </div>
-      <SubstatRollsSummary
-        simRequest={props.simulation.request}
-        precision={props.precision}
-        diminish={props.type === 'Benchmark'}
-        columns={2}
-      />
+      {isAsyncProps(props)
+        ? (
+          <SubstatRollsSummary
+            promise={props.simulation}
+            precision={props.precision}
+            diminish={props.type === 'Benchmark'}
+            type={props.type}
+            columns={2}
+          />
+        )
+        : (
+          <SubstatRollsSummary
+            simRequest={props.simulation.request}
+            precision={props.precision}
+            diminish
+            columns={2}
+          />
+        )}
     </div>
   )
 
@@ -168,12 +154,16 @@ function ScoringColumn(props: {
         {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
       </div>
       <div style={{ display: 'flex', gap: defaultGap, justifyContent: 'space-around' }}>
-        <MainStatsSummary
-          simBody={simRequest.simBody}
-          simFeet={simRequest.simFeet}
-          simPlanarSphere={simRequest.simPlanarSphere}
-          simLinkRope={simRequest.simLinkRope}
-        />
+        {isAsyncProps(props)
+          ? <MainStatsSummary promise={props.simulation} mode={props.type} />
+          : (
+            <MainStatsSummary
+              simBody={props.simulation.request.simBody}
+              simFeet={props.simulation.request.simFeet}
+              simPlanarSphere={props.simulation.request.simPlanarSphere}
+              simLinkRope={props.simulation.request.simLinkRope}
+            />
+          )}
       </div>
     </div>
   )
@@ -183,7 +173,20 @@ function ScoringColumn(props: {
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
         {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
       </div>
-      <AbilityDamageSummary rotationDamage={simResult.rotationDamage ?? []} comboTurnAbilities={props.comboTurnAbilities} />
+      {isAsyncProps(props)
+        ? (
+          <AbilityDamageSummary
+            promise={props.simulation}
+            comboTurnAbilities={props.comboTurnAbilities}
+            mode={props.type}
+          />
+        )
+        : (
+          <AbilityDamageSummary
+            rotationDamage={props.simulation.result?.rotationDamage ?? []}
+            comboTurnAbilities={props.comboTurnAbilities}
+          />
+        )}
     </div>
   )
 
@@ -219,43 +222,42 @@ function ScoringColumn(props: {
   )
 }
 
-function SuspendedHeader({ t }: { t: TFunction<readonly ['charactersTab', 'common'], undefined> }) {
-  return (
-    <Suspense fallback={<SuspendedHeaderShimmer t={t} />}>
-      <SuspendedHeaderReady t={t} />
-    </Suspense>
-  )
-}
-
-function SuspendedHeaderShimmer({ t }: { t: TFunction<readonly ['charactersTab', 'common'], undefined> }) {
-  const headerText = t('CharacterPreview.ScoringColumn.Character.LoadingHeader')
+const SuspendedHeader = memo(function SuspendedHeader({ t }: {
+  t: TFunction<readonly ['charactersTab', 'common'], undefined>,
+}) {
+  const promise = useContext(SimScoringContext).scoringPromise
   return (
     <div className={classes.columnFilledHeader}>
       <div className={classes.scoringColumnHeader} style={{ color: highlightColor, display: 'flex' }}>
-        {headerText}
-        <Skeleton height='100%' width={50}>foo</Skeleton>
+        <SuspenseNode
+          fallback={<Fallback t={t} />}
+          promise={promise}
+          selector={(result: SimulationScore | null) => {
+            if (!result) return null
+            return t('CharacterPreview.ScoringColumn.Character.Header', {
+              score: truncate10ths(precisionRound(result.percent * 100)),
+            })
+          }}
+        />
       </div>
     </div>
   )
-}
+})
 
-function SuspendedHeaderReady({ t }: { t: TFunction<readonly ['charactersTab', 'common'], undefined> }) {
-  const result = useSimScoringContext(ScoringSelector.Score)
-  if (result === null) return null
-  const headerText = t('CharacterPreview.ScoringColumn.Character.Header', {
-    score: truncate10ths(precisionRound(result.percent * 100)),
-  })
+function Fallback({ t }: {
+  t: TFunction<readonly ['charactersTab', 'common'], undefined>,
+}) {
+  const headerText = t('CharacterPreview.ScoringColumn.Character.LoadingHeader')
   return (
-    <div className={classes.columnFilledHeader}>
-      <div className={classes.scoringColumnHeader} style={{ color: highlightColor }}>
-        {headerText}
-      </div>
-    </div>
+    <>
+      {headerText}
+      <Skeleton height='100%' width={50}>foo</Skeleton>
+    </>
   )
 }
 
 const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
-export const CharacterScoringColumn = memo(function CharacterScoringColumn(props: SharedScoringColumnProps) {
+export const CharacterScoringColumn = memo(function(props: ExternalScoringColumnProps) {
   const preview = useSimScoringContext(ScoringSelector.Preview)
   if (preview === null) return null
   return (
@@ -275,23 +277,13 @@ export const CharacterScoringColumn = memo(function CharacterScoringColumn(props
   )
 })
 
-export const SimulationScoringColumn = memo(function(props: SimulationScoringColumnProps) {
-  return (
-    <Suspense fallback={<ScoringColumnPending type={props.type} />}>
-      <SimulationScoringColumnReady {...props} />
-    </Suspense>
-  )
-})
-
 const defaultClass = classes.columnCardFilled
-function SimulationScoringColumnReady(props: SimulationScoringColumnProps) {
-  const result = useSimScoringContext(ScoringSelector.Score)
-  if (result === null) return null
+export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps) {
+  const ctx = useContext(SimScoringContext)
   const isBenchmark = props.type === 'Benchmark'
   return (
     <ScoringColumn
-      simulation={isBenchmark ? result.benchmarkSim : result.maximumSim}
-      originalSimResult={isBenchmark ? result.benchmarkSimResult : result.maximumSimResult}
+      simulation={ctx.scoringPromise}
       percent={isBenchmark ? 1.00 : 2.00}
       precision={0}
       type={props.type}
@@ -303,4 +295,4 @@ function SimulationScoringColumnReady(props: SimulationScoringColumnProps) {
       comboTurnAbilities={props.comboTurnAbilities}
     />
   )
-}
+})

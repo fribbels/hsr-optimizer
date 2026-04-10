@@ -1,6 +1,3 @@
-/* TeammateCard — single outer border, no internal borders to avoid double-border effect.
- * Right columns set background explicitly so they stay opaque if the left area changes. */
-
 .card {
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
@@ -9,16 +6,12 @@
   box-shadow: var(--shadow-card-flat);
 }
 
-/* ---- Right columns (bg only, no border) ---- */
-
 .rightCol {
   flex-shrink: 0;
-  background: var(--layer-2);
 }
 
 .rightColLc {
   flex-shrink: 0;
-  background: var(--layer-2);
 }
 
 /* ---- Avatar ---- */

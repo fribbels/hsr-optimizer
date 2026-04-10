@@ -87,7 +87,9 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         {/* Left — character select + conditionals */}
         <Flex
           direction='column'
-          p={11}
+          py={10}
+          pl={10}
+          pr={5}
           style={{ flex: 1, minWidth: 0 }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
@@ -132,7 +134,9 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         <Flex
           direction='column'
           w={135}
-          p={11}
+          py={10}
+          pl={5}
+          pr={10}
           gap={16}
           className={classes.rightCol}
         >
@@ -176,11 +180,13 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
       </Flex>
 
       {/* ======== LC area ======== */}
-      <Flex style={{ flexShrink: 0 }} gap={0}>
+      <Flex style={{ flex: '1 0 auto' }} gap={0}>
         {/* Left — LC select + conditionals */}
         <Flex
           direction='column'
-          p={11}
+          py={10}
+          pl={10}
+          pr={5}
           style={{ flex: 1, minWidth: 0 }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
@@ -213,7 +219,9 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         <Flex
           direction='column'
           w={135}
-          p={11}
+          py={10}
+          pl={5}
+          pr={10}
           gap={6}
           className={classes.rightColLc}
         >

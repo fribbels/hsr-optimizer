@@ -86,7 +86,6 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
         && meta.characterEidolon >= simMeta.errRopeEidolon
         && relics[part]?.main.stat === Stats.ERR
       ) continue
-
       ;(simMeta.parts[part] ?? []).forEach((mainstat) => {
         if (mainstat === relics[part]?.main.stat) return
         if (mainstat === Stats.SPD) return
@@ -120,14 +119,6 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
       })
     })
 
-  const rankFromStatPart = useCallback((
-    stat: MainStats,
-    part: MainStatParts,
-    actualRanks: Record<MainStatParts, Partial<Record<MainStats, number>>>,
-  ) => {
-    return calculateOffset(initialRankMapping)(stat, part, actualRanks)
-  }, [initialRankMapping])
-
   return (
     <Table
       className={styles.table}
@@ -148,7 +139,7 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
               key={part + stat}
               style={{
                 position: 'relative',
-                top: rankFromStatPart(stat, part, sortedRankMapping),
+                top: calculateOffset(initialRankMapping, stat, part, sortedRankMapping),
                 transition: 'top ease-in-out 0.5s',
               }}
             >
@@ -357,12 +348,9 @@ export function isStatWithoutScoreUpgrade(stat?: StatsValues) {
 
 export function calculateOffset(
   initialRanks: Record<MainStatParts, Partial<Record<MainStats, number>>>,
+  stat: MainStats,
+  part: MainStatParts,
+  actualRanks: Record<MainStatParts, Partial<Record<MainStats, number>>>,
 ) {
-  return (
-    stat: MainStats,
-    part: MainStatParts,
-    actualRanks: Record<MainStatParts, Partial<Record<MainStats, number>>>,
-  ) => {
-    return (actualRanks[part][stat]! - initialRanks[part][stat]!) * 37
-  }
+  return (actualRanks[part][stat]! - initialRanks[part][stat]!) * 37
 }

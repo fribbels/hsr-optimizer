@@ -60,12 +60,6 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
     })
   }, [upgradePromise])
 
-  const rankFromStat = useCallback((
-    stat: SubStats,
-    initialRanks: Record<SubStats, number>,
-    actualRanks: Record<SubStats, number>,
-  ) => calculateOffset(stat, initialRanks, actualRanks), [])
-
   return (
     <Table
       className={styles.table}
@@ -83,7 +77,7 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
             key={stat}
             style={{
               position: 'relative',
-              top: rankFromStat(stat, initialRanks, statToRank),
+              top: calculateOffset(stat, initialRanks, statToRank),
               transition: 'top ease-in-out 0.5s',
             }}
           >

@@ -364,6 +364,6 @@ export function calculateOffset(
     part: MainStatParts,
     actualRanks: Record<MainStatParts, Partial<Record<MainStats, number>>>,
   ) => {
-    return (actualRanks[part][stat]! - initialRanks[part][stat]!) * 36
+    return (actualRanks[part][stat]! - initialRanks[part][stat]!) * 37
   }
 }

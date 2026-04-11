@@ -140,6 +140,6 @@ const selector = (stat: SubStats, col: SharedScoreColumn, arg: SimulationScore |
 
 export function calculateOffset(meta: SimulationMetadata) {
   return (stat: SubStats, initialRanks: Record<SubStats, number>, actualRanks: Record<SubStats, number>) => {
-    return (actualRanks[stat] - initialRanks[stat]) * 36
+    return (actualRanks[stat] - initialRanks[stat]) * 37
   }
 }

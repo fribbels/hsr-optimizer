@@ -7,4 +7,5 @@ export enum SavedSessionKeys {
   showcaseUID = 'showcaseUID',
   showcasePreciseSpd = 'showcasePreciseSpd',
   sidebarCollapsed = 'sidebarCollapsed',
+  characterGridDensity = 'characterGridDensity',
 }

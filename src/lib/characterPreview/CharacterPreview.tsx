@@ -813,7 +813,7 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
   scoringType: ScoringType,
   hasScoring: boolean,
 }) {
-  const simScore = useSimScoringContext(ScoringSelector.Preview)?.originalSimResult.simScore
+  const simScore = useSimScoringContext(ScoringSelector.Preview)?.originalSimResult.simScore!
   return (
     <CharacterStatSummary
       characterId={characterId}

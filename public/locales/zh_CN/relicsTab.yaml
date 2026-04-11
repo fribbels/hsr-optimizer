@@ -4,10 +4,14 @@ RelicFilterBar:
   Grade: 稀有度
   InitialRolls: 初始副词条
   Verified: 已验证
+  Unverified: 未验证
   Equipped: 已装备
+  Unequipped: 未装备
   Clear: 清除
   ClearButton: 清除全部筛选
   Set: 套装
+  RelicSets: 遗器套装
+  OrnamentSets: 饰品套装
   Mainstat: 主属性
   Substat: 副词条
   ScoringButton: 评分算法
@@ -160,6 +164,11 @@ Toolbar:
     Width: 物品栏宽度
     Filter: 自动筛选行
     NoneSelected: 选择一个遗器进行定位
+    Location: '{{rowIndex}}行 / {{columnIndex}}列'
+  InsightOptions:
+    Buckets: '分组'
+    Top10: '前10'
+    ESTBP: '预估开拓力'
   PlotOptions:
     PlotAll: 显示所有角色
     PlotCustom: 显示自定义角色

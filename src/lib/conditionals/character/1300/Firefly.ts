@@ -1,4 +1,5 @@
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import {
@@ -323,7 +324,7 @@ if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.60) {
             action,
             context,
             SOURCE_TRACE,
-            (convertibleValue) => 0.008 * Math.floor((convertibleValue - 1800) / 10),
+            (convertibleValue) => 0.008 * floorSafe((convertibleValue - 1800) / 10),
           )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -335,7 +336,7 @@ if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.60) {
             this,
             action,
             context,
-            `0.008 * floor((convertibleValue - 1800.0) / 10.0)`,
+            `0.008 * floorSafe((convertibleValue - 1800.0) / 10.0)`,
             `${wgslTrue(r.atkToBeConversion)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} > 1800.0`,
           )
         },

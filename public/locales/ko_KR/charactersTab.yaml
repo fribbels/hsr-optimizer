@@ -130,13 +130,8 @@ CharacterPreview:
       MEMO_TALENT: 기억정령 특성
       BREAKS: '격파 피해:'
     CombatResults:
-      Header: 전투 중 피해량 집계
-      Primary: '주요 공격 수단:'
-      Character: '캐릭터 피해:'
-      Benchmark: '벤치마크 피해:'
-      Baseline: '유물 제외 피해:'
-      Maximum: '최고 피해:'
-      Score: 'DPS 점수(%):'
+      Character: 캐릭터
+      Benchmark: 벤치마크
       Abilities:
         BASIC: 일반 공격 피해량
         SKILL: 전투 스킬 피해량
@@ -153,21 +148,18 @@ CharacterPreview:
   ScoringColumn:
     Character:
       Header: '캐릭터 빌드({{score}}%)'
-      BasicStats: 캐릭터 마을 스탯
       CombatStats: 캐릭터 <1>전투 중 능력치</1>
       Substats: 캐릭터 부옵 (최소)
       Mainstats: 캐릭터 주옵
       Abilities: 캐릭터 피해량
     Benchmark:
       Header: '벤치마크 빌드 ({{score}}%)'
-      BasicStats: 100% 벤치마크 마을 스탯
       CombatStats: 100% 벤치마크 <1>전투 능력치</1>
       Substats: 100% 벤치마크 부옵(최소 유효옵)
       Mainstats: 100% 벤치마크 주옵
       Abilities: 100% 벤치마크 피해량
     Perfect:
       Header: '종결 빌드({{score}}%)'
-      BasicStats: 200% 종결 마을 스탯
       CombatStats: 200% 종결 <1>전투 중 스탯</1>
       Substats: 200% 종결 부옵(최대 유효옵)
       Mainstats: 200% 종결 주옵

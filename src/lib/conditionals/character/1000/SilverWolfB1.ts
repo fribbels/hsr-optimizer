@@ -1,4 +1,5 @@
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
@@ -291,7 +292,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             action,
             context,
             SOURCE_TRACE,
-            (convertibleValue) => Math.min(0.50, 0.10 * Math.floor(convertibleValue / 0.10)) * context.baseATK,
+            (convertibleValue) => Math.min(0.50, 0.10 * floorSafe(convertibleValue / 0.10)) * context.baseATK,
           )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -303,7 +304,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             this,
             action,
             context,
-            `min(0.50, 0.10 * floor(convertibleValue / 0.10)) * baseATK`,
+            `min(0.50, 0.10 * floorSafe(convertibleValue / 0.10)) * baseATK`,
             `${wgslTrue(r.ehrToAtkConversion)}`,
           )
         },

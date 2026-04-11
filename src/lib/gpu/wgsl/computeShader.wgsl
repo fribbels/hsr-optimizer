@@ -24,6 +24,11 @@
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
 // END RESULTS BUFFER
 
+// Safe floor/ceil: bias protects against f32 rounding causing off-by-one
+// when accumulated stat values land just below exact thresholds.
+fn floorSafe(x: f32) -> f32 { return floor(x + 0.0001); }
+fn ceilSafe(x: f32) -> f32 { return ceil(x - 0.0001); }
+
 @compute @workgroup_size(WORKGROUP_SIZE)
 fn main(
   @builtin(workgroup_id) workgroup_id : vec3<u32>,

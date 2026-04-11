@@ -35,7 +35,6 @@ export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   cacheBlockSize: 500,
   maxBlocksInCache: 2,
   alwaysShowVerticalScroll: false,
-  suppressCellFocus: true,
   suppressDragLeaveHidesColumns: true,
   suppressScrollOnNewData: true,
   suppressMultiSort: true,

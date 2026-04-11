@@ -277,7 +277,7 @@ function WarpSummary(props: { enriched: EnrichedWarpRequest }) {
 
   return (
     <Divider
-      mt={30} mb={30}
+      mt={40} mb={30}
       label={
         <Flex align='center' gap={4} style={{ fontSize: 14 }}>
           {localeNumberComma(enriched.totalJade)}

@@ -36,7 +36,7 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   const ornamentSetSolutions = new Array<number>(Math.pow(Object.keys(SetsOrnaments).length, 2)).fill(1)
   const permutations = 1
 
-  const gpuContext = initializeGpuPipeline(
+  const gpuContext = await initializeGpuPipeline(
     device,
     relics,
     request,

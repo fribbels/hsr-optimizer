@@ -102,14 +102,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultAoeScaling = ult(e, 1.60, 1.76)
   const ultBounceScaling = ult(e, 1.20, 1.296)
 
-  const cdToElationRatio = 0.25
+  const cdToElationRatio = 0.20
   const talentSkillElationScaling = talent(e, 0.16, 0.176)
   const talentUltAoeElationScaling = talent(e, 0.24, 0.264)
-  const talentUltBounceElationScaling = talent(e, 0.25, 0.276)
+  const talentUltBounceElationScaling = talent(e, 0.28, 0.308)
   const foxTeacherAtkScaling = talent(e, 1.00, 1.10)
   const foxTeacherElationScaling = talent(e, 0.25, 0.275)
 
-  const elationSkillScaling = elationSkill(e, 1.00, 1.05, 1.10)
+  const elationSkillScaling = elationSkill(e, 1.10, 1.155, 1.21)
   const foxTeacherVulnStacksMax = 1
 
   const defaults = {
@@ -118,8 +118,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBangerStacks: 600,
     cdToElation: true,
     foxTeacherVulnStacks: foxTeacherVulnStacksMax,
-    e1CritDmg: true,
-    e2ResPen: true,
+    e1ResPen: true,
+    e2CritDmg: true,
     e4DefPen: true,
     e6Merrymake: true,
   }
@@ -165,17 +165,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: foxTeacherVulnStacksMax,
     },
-    e1CritDmg: {
-      id: 'e1CritDmg',
+    e1ResPen: {
+      id: 'e1ResPen',
       formItem: 'switch',
-      text: 'E1 Crit DMG',
+      text: 'E1 RES PEN',
       content: betaContent,
       disabled: e < 1,
     },
-    e2ResPen: {
-      id: 'e2ResPen',
+    e2CritDmg: {
+      id: 'e2CritDmg',
       formItem: 'switch',
-      text: 'E2 RES PEN',
+      text: 'E2 Crit DMG',
       content: betaContent,
       disabled: e < 2,
     },
@@ -230,7 +230,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const totalBounceCount = 5 + traceBounceBonus
 
       // E1: extra Elation Skill trigger
-      const e1ElationSkillMultiplier = (e >= 1 && r.e1CritDmg) ? 2 : 1
+      const e1ElationSkillMultiplier = (e >= 1 && r.e1ResPen) ? 2 : 1
 
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Physical)
@@ -332,8 +332,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.CR, 0.30, x.source(SOURCE_TRACE))
-      x.buff(StatKey.CD, (e >= 1 && r.e1CritDmg) ? 0.36 : 0, x.source(SOURCE_E1))
-      x.buff(StatKey.RES_PEN, (e >= 2 && r.e2ResPen) ? 0.20 : 0, x.source(SOURCE_E2))
+      x.buff(StatKey.RES_PEN, (e >= 1 && r.e1ResPen) ? 0.20 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.CD, (e >= 2 && r.e2CritDmg) ? 0.36 : 0, x.source(SOURCE_E2))
       x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefPen) ? 0.15 : 0, x.source(SOURCE_E4))
 
       const e6MerrymakeValue = 0.15 + Math.min(r.certifiedBangerStacks, 1000) / 100 * 0.02

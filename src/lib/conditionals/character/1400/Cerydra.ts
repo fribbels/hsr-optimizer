@@ -41,7 +41,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
+import { floorSafe, precisionRound } from 'lib/utils/mathUtils'
 
 export const CerydraEntities = createEnum('Cerydra')
 export const CerydraAbilities: AbilityKind[] = [
@@ -321,7 +321,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             action,
             context,
             SOURCE_TRACE,
-            (convertibleValue) => Math.min(3.60, 0.18 * Math.floor((convertibleValue - 2000) / 100)),
+            (convertibleValue) => Math.min(3.60, 0.18 * floorSafe((convertibleValue - 2000) / 100)),
           )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -334,7 +334,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             this,
             action,
             context,
-            `min(3.60, 0.18 * floor((convertibleValue - 2000) / 100))`,
+            `min(3.60, 0.18 * floorSafe((convertibleValue - 2000) / 100))`,
             `${wgslTrue(r.atkToCd)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} > 2000`,
           )
         },

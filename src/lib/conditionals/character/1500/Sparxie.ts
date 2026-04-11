@@ -1,4 +1,5 @@
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import {
   getYaoguangAhaPunchlineValue,
@@ -373,7 +374,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
             SOURCE_TRACE,
             (convertibleValue) => {
               if (convertibleValue < 2000) return 0
-              return Math.min(0.80, Math.floor((convertibleValue - 2000) / 100) * 0.05)
+              return Math.min(0.80, floorSafe((convertibleValue - 2000) / 100) * 0.05)
             },
           )
         },
@@ -386,7 +387,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
             this,
             action,
             context,
-            `min(0.80, floor((convertibleValue - 2000.0) / 100.0) * 0.05)`,
+            `min(0.80, floorSafe((convertibleValue - 2000.0) / 100.0) * 0.05)`,
             `${wgslTrue(r.atkToElation)}`,
             `convertibleValue >= 2000.0`,
           )

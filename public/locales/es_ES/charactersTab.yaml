@@ -131,13 +131,8 @@ CharacterPreview:
       MEMO_TALENT: TALENTOᴹ
       BREAKS: 'RUPTURAS:'
     CombatResults:
-      Header: Resultados de daño de combate
-      Primary: 'Habilidad princ.:'
-      Character: 'Daño del personaje:'
-      Benchmark: 'Daño de la eval.:'
-      Baseline: 'Daño base:'
-      Maximum: 'Daño máximo:'
-      Score: 'Puntaje DPS %:'
+      Character: Personaje
+      Benchmark: Evaluación
       Abilities:
         BASIC: DAÑO BÁSICO
         SKILL: DAÑO HABILIDAD
@@ -154,21 +149,18 @@ CharacterPreview:
   ScoringColumn:
     Character:
       Header: 'Equip. del personaje ({{score}}%)'
-      BasicStats: Atributos base del personaje
       CombatStats: <1>Atributos de combate</1> del personaje
       Substats: Atr. sec. del personje (mín. mejoras)
       Mainstats: Atributos principales del personaje
       Abilities: Daño de habilidad del personaje
     Benchmark:
       Header: 'Equip. del evaluador ({{score}}%)'
-      BasicStats: Evaluación al 100% de atributos básicos
       CombatStats: Evaluación al 100% de <1>atributos de combate</1>
       Substats: Eval. 100% de atr. sec. (mín. mejoras)
       Mainstats: Eval. al 100% de atributos principales
       Abilities: Evaluación al 100% de daño de habilidad
     Perfect:
       Header: 'Equip. perfecto ({{score}}%)'
-      BasicStats: 200% Atributos básicos perfectos
       CombatStats: 200% <1>Atributos de combate</1> perfectos
       Substats: 200% Atr. sec. perfectos (máx. mejoras)
       Mainstats: 200% Atributos principales perfectos

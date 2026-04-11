@@ -12,7 +12,6 @@ import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
-import { ComboRotationSummary } from 'lib/characterPreview/summary/ComboRotationSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import {
   type ElementName,
@@ -234,6 +233,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           hasScoring
           simScore={result.simScore}
           showAll={true}
+          zebra={true}
         />
       </Flex>
 
@@ -249,6 +249,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           hasScoring
           simScore={result.simScore}
           showAll={true}
+          zebra={true}
         />
       </Flex>
 
@@ -267,16 +268,9 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex direction='column' align='center' justify='space-between'>
-        <Flex direction='column' align='center' gap={5}>
-          <HeaderText className={styles.sectionHeader}>{t('Combo') /* Combo Rotation */}</HeaderText>
-          <ComboRotationSummary simMetadata={orchestrator.metadata} />
-        </Flex>
-
-        <Flex direction='column' align='center' gap={5}>
-          <HeaderText className={styles.sectionHeader}>{t('Damage') /* Ability Damage */}</HeaderText>
-          <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} comboTurnAbilities={orchestrator.metadata.comboTurnAbilities} />
-        </Flex>
+      <Flex direction='column' align='center' gap={5}>
+        <HeaderText className={styles.sectionHeader}>{t('Damage') /* Ability Damage */}</HeaderText>
+        <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} comboTurnAbilities={orchestrator.metadata.comboTurnAbilities} />
       </Flex>
     </Flex>
   )

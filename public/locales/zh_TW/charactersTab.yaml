@@ -83,13 +83,7 @@ CharacterPreview:
       MEMO_SKILL: 憶靈戰技
       BREAKS: '擊破次數'
     CombatResults:
-      Header: 戰鬥傷害結果
-      Primary: '主要傷害'
-      Character: '角色傷害'
-      Benchmark: '基準傷害'
-      Baseline: '基礎傷害'
-      Maximum: '最高傷害'
-      Score: 'DPS評分%:'
+      Character: 角色
       Abilities:
         BASIC: 普攻傷害
         SKILL: 戰技傷害
@@ -101,21 +95,18 @@ CharacterPreview:
   ScoringColumn:
     Character:
       Header: '角色配裝 ({{score}}%)'
-      BasicStats: 角色基礎屬性
       CombatStats: 角色<1>戰鬥屬性</1>
       Substats: 角色遺器副詞條 (最少升級次數)
       Mainstats: 角色遺器主詞條
       Abilities: 角色技能傷害
     Benchmark:
       Header: '基準配裝 ({{score}}%)'
-      BasicStats: 100% 基準基礎屬性
       CombatStats: 100% 基準<1>戰鬥屬性</1>
       Substats: 100% 基準副詞條 (最少升級次數)
       Mainstats: 100% 基準主詞條
       Abilities: 100% 基準技能傷害
     Perfect:
       Header: '完美配装 ({{score}}%)'
-      BasicStats: 200% 完美基礎屬性
       CombatStats: 200% 完美<1>戰鬥屬性</1>
       Substats: 200% 完美副詞條 (最大升級次數)
       Mainstats: 200% 完美主詞條

@@ -48,6 +48,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -359,7 +360,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const ehrValue = x.getActionValue(StatKey.EHR, HysilensEntities.Hysilens)
-      const ehrBoost = (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * Math.floor((ehrValue - 0.60) / 0.10))) : 0
+      const ehrBoost = (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * floorSafe((ehrValue - 0.60) / 0.10))) : 0
 
       x.buff(StatKey.DMG_BOOST, ehrBoost, x.source(SOURCE_TRACE))
     },
@@ -368,7 +369,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       return `
 if (${wgslTrue(r.ehrToDmg)}) {
-  let dmgBuff = min(0.90, 0.15 * floor((${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} - 0.60) / 0.10));
+  let dmgBuff = min(0.90, 0.15 * floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} - 0.60) / 0.10));
   ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
 }
 `

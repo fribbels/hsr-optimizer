@@ -12,6 +12,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { floorSafe } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const { SOURCE_LC } = Source.lightCone(DestinysThreadsForewoven.id)
@@ -24,12 +25,12 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     defaults: () => ({}),
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const defValue = x.getActionValueByIndex(StatKey.DEF, SELF_ENTITY_INDEX)
-      x.buff(StatKey.DMG_BOOST, Math.min(sValuesMax[s], Math.floor(defValue / 100) * sValues[s]), x.source(SOURCE_LC))
+      x.buff(StatKey.DMG_BOOST, Math.min(sValuesMax[s], floorSafe(defValue / 100) * sValues[s]), x.source(SOURCE_LC))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return wgsl`
 let defValue = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, action.config)};
-let dmgBuff = min(${sValuesMax[s]}, floor(defValue / 100.0) * ${sValues[s]});
+let dmgBuff = min(${sValuesMax[s]}, floorSafe(defValue / 100.0) * ${sValues[s]});
 ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
       `
     },

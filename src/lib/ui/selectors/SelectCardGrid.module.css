@@ -51,6 +51,7 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  word-break: break-all;
 }
 
 .rarity5Card {

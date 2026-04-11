@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
@@ -106,14 +107,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     atkToElation: true,
     e2UltElation: true,
     e4Vulnerability: true,
-    e6UltSpdBuff: false,
+    e6CritDmg: true,
   }
 
   const teammateDefaults = {
     ultCdBuff: true,
     e2UltElation: true,
     e4Vulnerability: true,
-    e6UltSpdBuff: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -165,10 +165,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       disabled: e < 4,
     },
-    e6UltSpdBuff: {
-      id: 'e6UltSpdBuff',
+    e6CritDmg: {
+      id: 'e6CritDmg',
       formItem: 'switch',
-      text: 'E6 Ult SPD buff',
+      text: 'E6 Crit DMG',
       content: betaContent,
       disabled: e < 6,
     },
@@ -178,7 +178,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultCdBuff: content.ultCdBuff,
     e2UltElation: content.e2UltElation,
     e4Vulnerability: content.e4Vulnerability,
-    e6UltSpdBuff: content.e6UltSpdBuff,
   }
 
   return {
@@ -259,15 +258,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.CR, 0.15, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CD, (e >= 6 && r.e6CritDmg) ? 1.00 : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.CD, (m.ultCdBuff) ? ultCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.CD, (m.ultCdBuff) ? ultCdBuffValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_ULT))
       x.buff(StatKey.ELATION, (e >= 2 && m.e2UltElation) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vulnerability) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
-      x.buff(StatKey.SPD_P, (e >= 6 && m.e6UltSpdBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).deferrable().source(SOURCE_E6))
+
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -296,7 +296,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           SOURCE_TRACE,
           (convertibleValue) => {
             if (convertibleValue < 1000) return 0
-            return Math.min(0.60, Math.floor((convertibleValue - 1000) / 200) * 0.10)
+            return Math.min(0.60, floorSafe((convertibleValue - 1000) / 200) * 0.10)
           },
         )
       },
@@ -309,7 +309,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           this,
           action,
           context,
-          `min(0.60, floor((convertibleValue - 1000.0) / 200.0) * 0.10)`,
+          `min(0.60, floorSafe((convertibleValue - 1000.0) / 200.0) * 0.10)`,
           `${wgslTrue(r.atkToElation)}`,
           `convertibleValue >= 1000.0`,
         )

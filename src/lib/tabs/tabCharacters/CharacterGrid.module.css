@@ -68,8 +68,6 @@
   --cr-primary-tint: color-mix(in srgb, var(--cr-primary) 10%, transparent);
   --cr-primary-border: color-mix(in srgb, var(--cr-primary) 15%, transparent);
   --cr-radius: 0;
-  --cr-gap: var(--mantine-spacing-sm);
-  --cr-padding: 6px;
 
   /* Layout — box-shadow for border so it doesn't affect row height */
   position: relative;
@@ -230,13 +228,14 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-top: 1px;
+  margin-top: var(--cr-subtitle-gap, 1px);
 }
 
 .subtitleBadge {
-  font-size: 12px;
+  font-size: var(--cr-subtitle-font-size, 12px);
+  line-height: var(--cr-subtitle-line-height, 1.4);
   font-weight: 500;
-  font-family: var(--mantine-font-family-monospace, monospace);
+  font-family: var(--cr-subtitle-font-family, var(--mantine-font-family-monospace, monospace));
   color: var(--text-secondary);
 }
 
@@ -304,7 +303,8 @@
 }
 
 .name {
-  font-size: calc(var(--mantine-font-size-sm) - 0.5px);
+  font-size: var(--cr-font-size, calc(var(--mantine-font-size-sm) - 0.5px));
+  line-height: var(--cr-line-height, 1.4);
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;

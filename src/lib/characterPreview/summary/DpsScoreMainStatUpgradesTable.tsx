@@ -212,7 +212,7 @@ const SetUpgradeRow = memo(function({ sharedCols }: { sharedCols: SharedScoreCol
   return (
     <Table.Tr key='setUpgrade'>
       <Table.Td className={styles.centeredCell}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 3, paddingLeft: 4 }}>
           {simRelicSet1 === simRelicSet2
             ? <RelicDoubleImageWithTooltip name={simRelicSet1} height={iconSize} width={iconSize} />
             : (

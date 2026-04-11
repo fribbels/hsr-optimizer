@@ -133,13 +133,13 @@ CharacterPreview:
       MEMO_TALENT: crwdns44748:0crwdne44748:0
       BREAKS: 'crwdns39728:0crwdne39728:0'
     CombatResults:
-      Header: crwdns39730:0crwdne39730:0
-      Primary: 'crwdns39732:0crwdne39732:0'
-      Character: 'crwdns39734:0crwdne39734:0'
-      Benchmark: 'crwdns39736:0crwdne39736:0'
-      Baseline: 'crwdns39738:0crwdne39738:0'
-      Maximum: 'crwdns39740:0crwdne39740:0'
-      Score: 'crwdns39742:0crwdne39742:0'
+      Header: crwdns46766:0crwdne46766:0
+      Primary: crwdns46768:0crwdne46768:0
+      Character: crwdns46770:0crwdne46770:0
+      Benchmark: crwdns46772:0crwdne46772:0
+      Baseline: crwdns46774:0crwdne46774:0
+      Maximum: crwdns46776:0crwdne46776:0
+      Score: crwdns46778:0crwdne46778:0
       Abilities:
         BASIC: crwdns39744:0crwdne39744:0
         SKILL: crwdns39746:0crwdne39746:0
@@ -158,21 +158,21 @@ CharacterPreview:
   ScoringColumn:
     Character:
       Header: 'crwdns39758:0{{score}}crwdne39758:0'
-      BasicStats: crwdns39760:0crwdne39760:0
+      BasicStats: crwdns46780:0crwdne46780:0
       CombatStats: crwdns39762:0crwdne39762:0
       Substats: crwdns39764:0crwdne39764:0
       Mainstats: crwdns39766:0crwdne39766:0
       Abilities: crwdns39768:0crwdne39768:0
     Benchmark:
       Header: 'crwdns39770:0{{score}}crwdne39770:0'
-      BasicStats: crwdns39772:0crwdne39772:0
+      BasicStats: crwdns46782:0crwdne46782:0
       CombatStats: crwdns39774:0crwdne39774:0
       Substats: crwdns39776:0crwdne39776:0
       Mainstats: crwdns39778:0crwdne39778:0
       Abilities: crwdns39780:0crwdne39780:0
     Perfect:
       Header: 'crwdns39782:0{{score}}crwdne39782:0'
-      BasicStats: crwdns39784:0crwdne39784:0
+      BasicStats: crwdns46784:0crwdne46784:0
       CombatStats: crwdns39786:0crwdne39786:0
       Substats: crwdns39788:0crwdne39788:0
       Mainstats: crwdns39790:0crwdne39790:0

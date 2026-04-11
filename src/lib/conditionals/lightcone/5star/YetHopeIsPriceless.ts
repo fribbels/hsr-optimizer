@@ -17,7 +17,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
+import { floorSafe, precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.YetHopeIsPriceless')
@@ -60,7 +60,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       const cdValue = x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX)
-      x.buff(StatKey.DMG_BOOST, (r.fuaDmgBoost) ? sValuesFuaDmg[s] * Math.min(4, Math.floor((cdValue - 1.20) / 0.20)) : 0, x.damageType(DamageTag.FUA).source(SOURCE_LC))
+      x.buff(StatKey.DMG_BOOST, (r.fuaDmgBoost) ? sValuesFuaDmg[s] * Math.min(4, floorSafe((cdValue - 1.20) / 0.20)) : 0, x.damageType(DamageTag.FUA).source(SOURCE_LC))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
@@ -68,7 +68,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       return wgsl`
 if (${wgslTrue(r.fuaDmgBoost)}) {
   let cdValue = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)};
-  let fuaDmgBuff = ${sValuesFuaDmg[s]} * min(4.0, floor((cdValue - 1.20) / 0.20));
+  let fuaDmgBuff = ${sValuesFuaDmg[s]} * min(4.0, floorSafe((cdValue - 1.20) / 0.20));
   ${buff.hit(HKey.DMG_BOOST, 'fuaDmgBuff').damageType(DamageTag.FUA).wgsl(action)}
 }
     `

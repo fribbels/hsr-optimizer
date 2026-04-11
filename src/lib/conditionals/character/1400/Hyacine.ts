@@ -64,7 +64,7 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
-import { precisionRound } from 'lib/utils/mathUtils'
+import { floorSafe, precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -449,11 +449,11 @@ if (
           const unconvertibleValue = x.getActionValueByIndex(StatKey.UNCONVERTIBLE_SPD_BUFF, SELF_ENTITY_INDEX)
 
           const stateValue = action.conditionalState[this.id] ?? 0
-          const convertibleValue = Math.min(400, Math.floor(statValue - unconvertibleValue))
+          const convertibleValue = Math.min(400, floorSafe(statValue - unconvertibleValue))
 
           if (convertibleValue <= 0) return
 
-          const buffFull = Math.max(0, 0.01 * Math.floor(convertibleValue - 200))
+          const buffFull = Math.max(0, 0.01 * floorSafe(convertibleValue - 200))
           const buffDelta = buffFull - stateValue
 
           action.conditionalState[this.id] = buffFull
@@ -481,7 +481,7 @@ if (${wgslFalse(r.spd200HpBuff)}) {
 }
 
 let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
-let convertibleValue: f32 = min(400.0, floor(${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} - ${
+let convertibleValue: f32 = min(400.0, floorSafe(${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} - ${
               containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_SPD_BUFF, config)
             }));
 
@@ -489,7 +489,7 @@ if (convertibleValue <= 0.0) {
   return;
 }
 
-let buffFull = max(0.0, 0.01 * floor(convertibleValue - 200.0));
+let buffFull = max(0.0, 0.01 * floorSafe(convertibleValue - 200.0));
 let buffDelta = buffFull - stateValue;
 
 (*p_state).${this.id}${action.actionIdentifier} = buffFull;

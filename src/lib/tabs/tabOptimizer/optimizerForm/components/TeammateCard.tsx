@@ -77,19 +77,20 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
   return (
     <Flex
       direction='column'
-      className={classes.card}
+      className={`${classes.card} hide-scrollbar`}
       w={CARD_WIDTH}
       h={490}
-      style={{ borderRadius: 6 }}
+      style={{ borderRadius: 6, overflowY: 'auto' }}
     >
       {/* ======== Character area ======== */}
-      <Flex style={{ overflow: 'hidden' }} gap={0}>
+      <Flex style={{ flexShrink: 0 }} gap={0}>
         {/* Left — character select + conditionals */}
         <Flex
           direction='column'
-          className='hide-scrollbar'
-          p={11}
-          style={{ flex: 1, minWidth: 0, overflow: 'auto' }}
+          py={10}
+          pl={10}
+          pr={5}
+          style={{ flex: 1, minWidth: 0 }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
             <CharacterSelect
@@ -133,7 +134,9 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         <Flex
           direction='column'
           w={135}
-          p={11}
+          py={10}
+          pl={5}
+          pr={10}
           gap={16}
           className={classes.rightCol}
         >
@@ -177,11 +180,13 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
       </Flex>
 
       {/* ======== LC area ======== */}
-      <Flex style={{ flex: 1, overflow: 'hidden' }} gap={0}>
+      <Flex style={{ flex: '1 0 auto' }} gap={0}>
         {/* Left — LC select + conditionals */}
         <Flex
           direction='column'
-          p={11}
+          py={10}
+          pl={10}
+          pr={5}
           style={{ flex: 1, minWidth: 0 }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
@@ -214,7 +219,9 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
         <Flex
           direction='column'
           w={135}
-          p={11}
+          py={10}
+          pl={5}
+          pr={10}
           gap={6}
           className={classes.rightColLc}
         >

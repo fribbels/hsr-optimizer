@@ -311,6 +311,7 @@ EditImage:
       Default: 使用默认图片
     Upload:
       Method: 点击或将图片文件拖到此区域上传
+      Limit: '支持 .jpg .jpeg .png .gif .webp 格式（最大 20MB）'
     Url:
       Label: 图片
       Rule: 请输入有效的图片网址
@@ -339,6 +340,7 @@ SaveBuild:
     OverwriteDisabled: 不存在该名称的配装。请选择已有配装或输入其名称后再进行覆盖。
 SwitchRelics:
   Title: 与角色交换遗器
+  Placeholder: 搜索角色
 Builds:
   DeleteAll: 删除全部
   Equip: 装备

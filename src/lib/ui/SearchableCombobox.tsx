@@ -58,7 +58,7 @@ export function SearchableCombobox(props: {
   }, [options, search])
 
   const resolvedLeftSection = leftSection
-    ?? (selected?.icon ? <img src={selected.icon} className={iconClasses.icon20} /> : null)
+    ?? (selected?.icon ? <img src={selected.icon} className={iconClasses.icon20} style={{ marginLeft: 2, marginRight: 2 }} /> : null)
 
   return (
     <Combobox

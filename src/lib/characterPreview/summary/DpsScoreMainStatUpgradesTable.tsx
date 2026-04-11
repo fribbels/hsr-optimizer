@@ -68,7 +68,7 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
 
   const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])
 
-  const { upgradeCount, rankMapping: initialRankMapping } = useMemo(() => {
+  const initialRankMapping = useMemo(() => {
     const simMeta = meta.characterMetadata.scoringMetadata.simulation!
     const rankMapping: Record<MainStatParts, Partial<Record<MainStats, number>>> = {
       [Parts.Body]: {},
@@ -87,13 +87,13 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
         && relics[part]?.main.stat === Stats.ERR
       ) continue
 
-      for (const upgradeMainstat of simMeta.parts[part] ?? []) {
-        if (upgradeMainstat === relics[part]?.main.stat) continue
-        if (upgradeMainstat === Stats.SPD) continue
-        rankMapping[part][upgradeMainstat] = upgradeCount++
-      }
+      ;(simMeta.parts[part] ?? []).forEach((mainstat) => {
+        if (mainstat === relics[part]?.main.stat) return
+        if (mainstat === Stats.SPD) return
+        rankMapping[part][mainstat] = upgradeCount++
+      })
     }
-    return { upgradeCount, rankMapping }
+    return rankMapping
   }, [meta, relics])
 
   const [sortedRankMapping, setSortedRankMapping] = useState(initialRankMapping)
@@ -125,8 +125,8 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
     part: MainStatParts,
     actualRanks: Record<MainStatParts, Partial<Record<MainStats, number>>>,
   ) => {
-    return calculateOffset(initialRankMapping, upgradeCount)(stat, part, actualRanks)
-  }, [initialRankMapping, upgradeCount])
+    return calculateOffset(initialRankMapping)(stat, part, actualRanks)
+  }, [initialRankMapping])
 
   return (
     <Table
@@ -357,7 +357,6 @@ export function isStatWithoutScoreUpgrade(stat?: StatsValues) {
 
 export function calculateOffset(
   initialRanks: Record<MainStatParts, Partial<Record<MainStats, number>>>,
-  totalMainstats: number,
 ) {
   return (
     stat: MainStats,

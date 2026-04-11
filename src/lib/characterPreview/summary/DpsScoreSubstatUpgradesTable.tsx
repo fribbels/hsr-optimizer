@@ -64,7 +64,7 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
     stat: SubStats,
     initialRanks: Record<SubStats, number>,
     actualRanks: Record<SubStats, number>,
-  ) => calculateOffset(meta)(stat, initialRanks, actualRanks), [meta])
+  ) => calculateOffset(stat, initialRanks, actualRanks), [])
 
   return (
     <Table
@@ -138,8 +138,10 @@ const selector = (stat: SubStats, col: SharedScoreColumn, arg: SimulationScore |
   )
 }
 
-export function calculateOffset(meta: SimulationMetadata) {
-  return (stat: SubStats, initialRanks: Record<SubStats, number>, actualRanks: Record<SubStats, number>) => {
-    return (actualRanks[stat] - initialRanks[stat]) * 37
-  }
+export function calculateOffset(
+  stat: SubStats,
+  initialRanks: Record<SubStats, number>,
+  actualRanks: Record<SubStats, number>,
+) {
+  return (actualRanks[stat] - initialRanks[stat]) * 37
 }

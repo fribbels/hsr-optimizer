@@ -88,14 +88,14 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
         </div>
       </div>
       {scoringType === ScoringType.COMBAT_SCORE
-        // && !simulationNull
+        && !simulationNull
         && (
           <CharacterScoringSummary
             displayRelics={displayRelics}
             showcaseMetadata={showcaseMetadata}
           />
         )}
-      {(scoringType === ScoringType.SUBSTAT_SCORE) // || simulationNull)
+      {(scoringType === ScoringType.SUBSTAT_SCORE || simulationNull)
         && (
           <StatScoringSummary
             displayRelics={displayRelics}

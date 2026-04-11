@@ -7,6 +7,8 @@ import {
   type ReactNode,
   Suspense,
   use,
+  useEffect,
+  useState,
 } from 'react'
 import { DeferCreate } from './DeferredRender'
 
@@ -43,13 +45,17 @@ export const SuspenseNode = memo(function SuspenseText(props: Props) {
 })
 
 function SuspenseTextPending(props: Props) {
-  const { promise, selector, skeletonClassName, fallback, ...skeletonProps } = props
+  const { promise, selector, skeletonClassName, textSpanClassName, disableDefer, fallback, ...skeletonProps } = props
   // for some reason the skeleton doesn't render unless dummy text is inserted as a child
   return <Skeleton {...skeletonProps} className={skeletonClassName}>foo</Skeleton>
 }
 
-function SuspenseTextReady(props: Props) {
-  const node = props.selector ? props.selector(use(props.promise)) : use(props.promise)
-  if (props.textSpanClassName) return <span className={props.textSpanClassName}>{node}</span>
+function SuspenseTextReady({ selector, promise, textSpanClassName }: Props) {
+  const [node, setNode] = useState<ReactNode>(null)
+  const res = use(promise)
+  useEffect(() => {
+    setNode(selector ? selector(res) : res)
+  }, [res, selector])
+  if (textSpanClassName) return <span className={textSpanClassName}>{node}</span>
   return node
 }

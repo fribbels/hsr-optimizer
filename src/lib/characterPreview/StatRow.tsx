@@ -2,12 +2,27 @@ import { Divider } from '@mantine/core'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   Constants,
+  type ElementName,
+  type PathName,
+  PathNames,
+  Stats,
   type StatsValues,
 } from 'lib/constants/constants'
 import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import iconClasses from 'style/icons.module.css'
 
+import {
+  type i18n,
+  type TFunction,
+} from 'i18next'
+import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
+import {
+  getElementalDmgFromContainer,
+  type SimulationScore,
+  StatsToStatKey,
+} from 'lib/scoring/simScoringUtils'
+import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   localeNumber,
   localeNumber_0,
@@ -21,7 +36,9 @@ import {
 import { isFlat } from 'lib/utils/statUtils'
 import {
   memo,
-  type ReactElement,
+  type ReactNode,
+  useCallback,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -71,6 +88,10 @@ const displayTextMap: Record<string, string> = {
   'DOT': 'DoT Damage',
 }
 
+function StatRowDivider() {
+  return <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant='dashed' />
+}
+
 export const StatRow = memo(function StatRow({
   stat,
   finalStats,
@@ -83,24 +104,18 @@ export const StatRow = memo(function StatRow({
   value?: number,
   edits?: Record<string, boolean>,
   preciseSpd?: boolean,
-}): ReactElement {
+}): ReactNode {
   const value = precisionRound(finalStats[stat as keyof typeof finalStats])
 
   const { t, i18n } = useTranslation('common')
 
-  const readableStat: string = (displayTextMap[stat] || stat === 'CV')
-    ? (i18n.exists(`ReadableStats.${stat}`)
-      ? t(`ReadableStats.${stat as StatsValues}`)
-      : t(`DMGTypes.${stat}` as never))
-    : t(`Stats.${stat as StatsValues}`)
+  const readableStat: string = statToLabel(stat, t, i18n)
 
   const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, customValue ?? 0, stat, preciseSpd)
 
   if (!finalStats) {
-    return null as unknown as ReactElement
+    return null
   }
-
-  const divider = <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant='dashed' />
 
   const valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
 
@@ -111,8 +126,64 @@ export const StatRow = memo(function StatRow({
     >
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
-      {divider}
+      <StatRowDivider />
       {valueText}
+    </div>
+  )
+})
+
+export const AsyncStatRow = memo(function({ promise, type, subType, stat, element, path, elementalDmgValue, edits, preciseSpd }: {
+  promise: Promise<SimulationScore | null>,
+  type: 'Character' | 'Benchmark' | 'Perfect',
+  subType: 'Basic' | 'Combat',
+  stat: string,
+  element: ElementName,
+  path: PathName,
+  elementalDmgValue: string,
+  edits?: Record<string, boolean>,
+  preciseSpd?: boolean,
+}) {
+  const { t, i18n } = useTranslation('common')
+
+  const readableStat: string = (displayTextMap[stat] || stat === 'CV')
+    ? (i18n.exists(`ReadableStats.${stat}`)
+      ? t(`ReadableStats.${stat as StatsValues}`)
+      : t(`DMGTypes.${stat}` as never))
+    : t(`Stats.${stat as StatsValues}`)
+
+  const [title, setTitle] = useState<string | undefined>(undefined)
+
+  const selector = useCallback((result: SimulationScore | null) => {
+    if (!result) return null
+    const simResult = result[type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'].result
+    if (!simResult) return null
+    const stats = subType === 'Basic'
+      ? toBasicStatsObject(simResult.ca)
+      : (() => {
+        const combatStats = simResult.x.toComputedStatsObject()
+        ;(combatStats as Record<string, number>)[elementalDmgValue] = getElementalDmgFromContainer(simResult.x, element)
+        if (path === PathNames.Elation) {
+          combatStats![Stats.Elation] = simResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
+        }
+        return combatStats
+      })()
+
+    const value = precisionRound(stats[stat as keyof typeof stats])
+    const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, 0, stat, preciseSpd)
+    setTitle(value1000thsPrecision)
+    const display = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
+    return display
+  }, [type, subType, stat, preciseSpd, elementalDmgValue, element, path, t])
+
+  return (
+    <div
+      title={title}
+      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16 }}
+    >
+      <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
+      {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
+      <StatRowDivider />
+      <SuspenseNode width={70} promise={promise} selector={selector} />
     </div>
   )
 })
@@ -121,10 +192,7 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
   let valueDisplay: string
   let value1000thsPrecision: string
 
-  if (stat === 'CV') {
-    valueDisplay = localeNumber_0(precisionRound(customValue))
-    value1000thsPrecision = localeNumber_000(precisionRound(customValue))
-  } else if (stat === 'simScore' || stat === 'COMBO_DMG') {
+  if (stat === 'simScore' || stat === 'COMBO_DMG') {
     valueDisplay = localeNumber_0(truncate10ths(precisionRound((customValue ?? 0) / 1000)))
     value1000thsPrecision = localeNumber_000(precisionRound(customValue))
   } else if (stat === Constants.Stats.SPD) {
@@ -142,4 +210,12 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
   }
 
   return { valueDisplay, value1000thsPrecision }
+}
+
+function statToLabel(stat: string, t: TFunction<'common'>, i18n: i18n) {
+  return (displayTextMap[stat] || stat === 'CV')
+    ? (i18n.exists(`ReadableStats.${stat}`)
+      ? t(`ReadableStats.${stat as StatsValues}`)
+      : t(`DMGTypes.${stat}` as never))
+    : t(`Stats.${stat as StatsValues}`)
 }

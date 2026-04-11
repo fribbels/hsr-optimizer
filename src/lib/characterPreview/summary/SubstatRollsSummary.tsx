@@ -99,7 +99,7 @@ function ScoringNumberParens({ label, number, parens: parensValue, precision = 1
       <span className={styles.label}>{label}</span>
       <span className={styles.value}>
         {suspended
-          ? <Skeleton />
+          ? <Skeleton width={70}>foo</Skeleton>
           : (
             <>
               {show && numberToLocaleString(value, precision)}
@@ -166,8 +166,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: A
       diminishingReturns={diminishingReturns}
       precision={precision}
       columns={columns}
-      // TODO: read suspended from state
-      suspended
+      suspended={suspended}
     />
   )
 }

@@ -1,6 +1,9 @@
 import { Skeleton } from '@mantine/core'
 import type { TFunction } from 'i18next'
-import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
+import {
+  AsyncCharacterStatSummary,
+  CharacterStatSummary,
+} from 'lib/characterPreview/card/CharacterStatSummary'
 import {
   ScoringSelector,
   SimScoringContext,
@@ -9,13 +12,20 @@ import {
 import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
-import type {
-  ElementName,
-  PathName,
+import {
+  type ElementName,
+  type PathName,
+  PathNames,
+  Stats,
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
+import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import {
+  getElementalDmgFromContainer,
+  type SimulationScore,
+  StatsToStatKey,
+} from 'lib/scoring/simScoringUtils'
 import type {
   RunStatSimulationsResult,
   Simulation,
@@ -86,6 +96,8 @@ function ScoringColumn(props: ScoringColumnProps) {
     })
     : null
 
+  if (!isAsyncProps(props) && !props.simulation.result) return null
+
   const basicStatsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
@@ -93,16 +105,37 @@ function ScoringColumn(props: ScoringColumnProps) {
           build type <u>basic stats</u>
         </Trans>
       </div>
-      <CharacterStatSummary
-        characterId={props.characterId}
-        finalStats={basicStats}
-        elementalDmgValue={props.elementalDmgValue}
-        simScore={simResult.simScore}
-        showAll={true}
-        zebra
-      />
+      {isAsyncProps(props)
+        ? (
+          <AsyncCharacterStatSummary
+            characterId={props.characterId}
+            elementalDmgValue={props.elementalDmgValue}
+            zebra
+            promise={props.simulation}
+            type={props.type}
+            subType='Basic'
+          />
+        )
+        : (
+          <CharacterStatSummary
+            characterId={props.characterId}
+            finalStats={toBasicStatsObject(props.simulation.result!.ca)}
+            elementalDmgValue={props.elementalDmgValue}
+            simScore={props.simulation.result!.simScore}
+            showAll={true}
+            zebra
+          />
+        )}
     </div>
   )
+
+  const combatStats = isAsyncProps(props) ? null : props.originalSimResult.x.toComputedStatsObject()
+  if (!isAsyncProps(props)) {
+    ;(combatStats as Record<string, number>)[props.elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, props.element)
+    if (props.characterMetadata.path === PathNames.Elation) {
+      combatStats![Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
+    }
+  }
 
   const combatStatsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
@@ -111,14 +144,27 @@ function ScoringColumn(props: ScoringColumnProps) {
           build type <u>combat stats</u>
         </Trans>
       </div>
-      <CharacterStatSummary
-        characterId={props.characterId}
-        finalStats={combatStats}
-        elementalDmgValue={props.elementalDmgValue}
-        simScore={simResult.simScore}
-        showAll={true}
-        zebra
-      />
+      {isAsyncProps(props)
+        ? (
+          <AsyncCharacterStatSummary
+            characterId={props.characterId}
+            elementalDmgValue={props.elementalDmgValue}
+            zebra
+            promise={props.simulation}
+            type={props.type}
+            subType='Combat'
+          />
+        )
+        : (
+          <CharacterStatSummary
+            characterId={props.characterId}
+            finalStats={combatStats!}
+            elementalDmgValue={props.elementalDmgValue}
+            simScore={props.simulation.result!.simScore}
+            showAll={true}
+            zebra
+          />
+        )}
     </div>
   )
 
@@ -141,7 +187,7 @@ function ScoringColumn(props: ScoringColumnProps) {
           <SubstatRollsSummary
             simRequest={props.simulation.request}
             precision={props.precision}
-            diminish
+            diminish={false}
             columns={2}
           />
         )}

@@ -39,6 +39,7 @@ import {
 import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
+import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   cardTotalW,
   defaultGap,
@@ -62,13 +63,18 @@ import {
 } from 'react'
 import {
   type Character,
+  type CharacterId,
   type SavedBuild,
 } from 'types/character'
 import {
   type CustomImagePayload,
 } from 'types/customImage'
 import type { ShowcaseTemporaryOptions } from 'types/metadata'
-import { SimScoringContextProvider } from './SimScoringContext'
+import {
+  ScoringSelector,
+  SimScoringContextProvider,
+  useSimScoringContext,
+} from './SimScoringContext'
 
 const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
@@ -715,7 +721,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 scoringType={scoringType}
               />
 
-              <CharacterStatSummary
+              <WrappedCharacterStatSummary
                 characterId={character.id}
                 finalStats={state.finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
@@ -797,6 +803,26 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         )}
       </div>
     </SimScoringContextProvider>
+  )
+})
+
+const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, elementalDmgValue, scoringType, hasScoring }: {
+  characterId: CharacterId,
+  finalStats: BasicStatsObject,
+  elementalDmgValue: string,
+  scoringType: ScoringType,
+  hasScoring: boolean,
+}) {
+  const simScore = useSimScoringContext(ScoringSelector.Preview)?.originalSimResult.simScore
+  return (
+    <CharacterStatSummary
+      characterId={characterId}
+      finalStats={finalStats}
+      elementalDmgValue={elementalDmgValue}
+      scoringType={scoringType}
+      hasScoring={hasScoring}
+      simScore={simScore}
+    />
   )
 })
 

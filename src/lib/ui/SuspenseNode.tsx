@@ -12,6 +12,7 @@ import { DeferCreate } from './DeferredRender'
 
 interface CommonProps extends SkeletonProps {
   skeletonClassName?: string
+  textSpanClassName?: string
   fallback?: ReactNode
   disableDefer?: boolean
 }
@@ -49,5 +50,6 @@ function SuspenseTextPending(props: Props) {
 
 function SuspenseTextReady(props: Props) {
   const node = props.selector ? props.selector(use(props.promise)) : use(props.promise)
+  if (props.textSpanClassName) return <span className={props.textSpanClassName}>{node}</span>
   return node
 }

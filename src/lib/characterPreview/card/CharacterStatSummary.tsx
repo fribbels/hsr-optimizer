@@ -1,5 +1,6 @@
 import classes from 'lib/characterPreview/card/CharacterStatSummary.module.css'
 import {
+  AsyncStatRow,
   StatRow,
 } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
@@ -11,7 +12,10 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import {
+  ScoringType,
+  type SimulationScore,
+} from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -25,6 +29,26 @@ import { SimScoringContext } from '../SimScoringContext'
 
 const epsilon = 0.001
 
+interface CommonStatSummaryProps {
+  characterId: CharacterId
+  elementalDmgValue: string
+  scoringType?: ScoringType
+  showAll?: boolean
+  zebra?: boolean
+}
+
+interface SyncStatSumaryProps extends CommonStatSummaryProps {
+  simScore: number
+  finalStats: BasicStatsObject | ComputedStatsObjectExternal
+  hasScoring?: boolean
+}
+
+interface AsyncStatSummaryProps extends CommonStatSummaryProps {
+  promise: Promise<SimulationScore | null>
+  type: 'Benchmark' | 'Perfect'
+  subType: 'Combat' | 'Basic'
+}
+
 export const CharacterStatSummary = memo(function CharacterStatSummary({
   characterId,
   finalStats,
@@ -32,21 +56,11 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   hasScoring,
   scoringType,
   showAll,
-  simScore: simScoreProp,
+  simScore,
   zebra,
-}: {
-  characterId: CharacterId,
-  finalStats: BasicStatsObject | ComputedStatsObjectExternal,
-  elementalDmgValue: string,
-  hasScoring?: boolean,
-  scoringType?: ScoringType,
-  showAll?: boolean,
-  simScore?: number,
-  zebra?: boolean,
-}) {
+}: SyncStatSumaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
-  const simScore = simScoreProp ?? use(SimScoringContext).preview?.originalSimResult.simScore
 
   return (
     <StatText className={classes.statSummary}>
@@ -81,6 +95,169 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
               finalStats={finalStats}
               stat='simScore'
               value={simScore}
+            />
+          )}
+      </div>
+    </StatText>
+  )
+})
+
+export const AsyncCharacterStatSummary = memo(function({
+  characterId,
+  elementalDmgValue,
+  scoringType,
+  zebra,
+  promise,
+  type,
+  subType,
+}: AsyncStatSummaryProps) {
+  const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
+  const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
+
+  const charMeta = getGameMetadata().characters[characterId]
+
+  return (
+    <StatText className={classes.statSummary}>
+      <div
+        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 6 : 3 }}
+        className={zebra ? classes.zebra : undefined}
+      >
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.HP}
+          edits={edits}
+        />
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.ATK}
+          edits={edits}
+        />
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.DEF}
+          edits={edits}
+        />
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.SPD}
+          edits={edits}
+          preciseSpd={preciseSpd}
+        />
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.CR}
+          edits={edits}
+        />
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.CD}
+          edits={edits}
+        />
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.EHR}
+          edits={edits}
+        />
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.RES}
+          edits={edits}
+        />
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.BE}
+          edits={edits}
+        />
+
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.OHB}
+          edits={edits}
+        />
+
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={Stats.ERR}
+          edits={edits}
+        />
+
+        <AsyncStatRow
+          path={charMeta.path}
+          element={charMeta.element}
+          elementalDmgValue={elementalDmgValue}
+          promise={promise}
+          type={type}
+          subType={subType}
+          stat={elementalDmgValue}
+          edits={edits}
+        />
+
+        {charMeta.path === PathNames.Elation
+          && (
+            <AsyncStatRow
+              path={charMeta.path}
+              element={charMeta.element}
+              elementalDmgValue={elementalDmgValue}
+              promise={promise}
+              type={type}
+              subType={subType}
+              stat={Stats.Elation}
+              edits={edits}
             />
           )}
       </div>

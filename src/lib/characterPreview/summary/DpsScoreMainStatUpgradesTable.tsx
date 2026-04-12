@@ -97,6 +97,11 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
 
   const [sortedRankMapping, setSortedRankMapping] = useState(initialRankMapping)
 
+  // need to resync when changing character
+  useEffect(() => {
+    setSortedRankMapping(initialRankMapping)
+  }, [initialRankMapping])
+
   useEffect(() => {
     upgradesPromise.then((upgrade) => {
       if (!upgrade) return

@@ -41,12 +41,18 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
   const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })
 
-  const initialRanks = meta.substats.reduce((acc, stat, idx) => {
-    acc[stat] = idx
-    return acc
-  }, {} as Record<SubStats, number>)
+  const initialRanks = useMemo(() =>
+    meta.substats.reduce((acc, stat, idx) => {
+      acc[stat] = idx
+      return acc
+    }, {} as Record<SubStats, number>), [meta])
 
   const [statToRank, setStatToRank] = useState(initialRanks)
+
+  // need to resync when changing character
+  useEffect(() => {
+    setStatToRank(initialRanks)
+  }, [initialRanks])
 
   useEffect(() => {
     upgradePromise.then((score) => {

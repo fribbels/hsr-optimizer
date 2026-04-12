@@ -66,7 +66,7 @@ const relicSetCount = Object.values(SetsRelics).length
 const ornamentSetCount = Object.values(SetsOrnaments).length
 
 export interface OptimizerWorkerInput extends BaseWorkerInput, OptimizerEventData {
-  workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION
+  workerType: WorkerType.OPTIMIZER
 }
 
 type OptimizerEventData = {

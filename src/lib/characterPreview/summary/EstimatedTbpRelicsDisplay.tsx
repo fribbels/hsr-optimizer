@@ -38,7 +38,7 @@ import type {
 } from 'types/relic'
 import styles from './EstimatedTbpRelicsDisplay.module.css'
 
-export function EstimatedTbpRelicsDisplay({
+export const EstimatedTbpRelicsDisplay = memo(function EstimatedTbpRelicsDisplay({
   displayRelics,
   showcaseMetadata,
 }: {
@@ -97,7 +97,7 @@ export function EstimatedTbpRelicsDisplay({
       </div>
     </div>
   )
-}
+})
 
 export const RelicContainer = memo(function RelicContainer({ relic, weights, characterId, scorer, withoutPreview }: {
   relic: Relic | null,

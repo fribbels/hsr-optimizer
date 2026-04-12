@@ -46,7 +46,3 @@ export function isVersionOutdated(current: string, latest: string): boolean {
   }
   return false
 }
-
-export function isPromise(test: any): test is Promise<unknown> {
-  return typeof test?.then === 'function'
-}

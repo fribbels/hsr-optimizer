@@ -596,7 +596,11 @@ const display = {
     y: 900,
     z: 1.10,
   },
-  disableSpine: true,
+  spineCenter: {
+    x: 1179,
+    y: 936,
+    z: 1.28,
+  },
   showcaseColor: '#968ff7',
 }
 

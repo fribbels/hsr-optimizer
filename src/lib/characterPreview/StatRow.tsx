@@ -145,15 +145,15 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
 }) {
   const { t, i18n } = useTranslation('common')
 
+  const [title, setTitle] = useState<string | undefined>(undefined)
+
   const readableStat: string = (displayTextMap[stat] || stat === 'CV')
     ? (i18n.exists(`ReadableStats.${stat}`)
       ? t(`ReadableStats.${stat as StatsValues}`)
       : t(`DMGTypes.${stat}` as never))
     : t(`Stats.${stat as StatsValues}`)
 
-  const [title, setTitle] = useState<string | undefined>(undefined)
-
-  const selector = useCallback((result: SimulationScore | null) => {
+  const init = useCallback((result: SimulationScore | null) => {
     if (!result) return null
     const simResult = result[type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'].result
     if (!simResult) return null
@@ -169,11 +169,23 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
       })()
 
     const value = precisionRound(stats[stat as keyof typeof stats])
-    const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, 0, stat, preciseSpd)
-    setTitle(value1000thsPrecision)
+    return getStatRenderValues(value, 0, stat, preciseSpd)
+  }, [type, subType, stat, preciseSpd, elementalDmgValue, element, path])
+
+  const selector = useCallback(({ valueDisplay }: {
+    valueDisplay: string,
+    value1000thsPrecision: string,
+  }) => {
     const display = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
-    return display
-  }, [type, subType, stat, preciseSpd, elementalDmgValue, element, path, t])
+    return <span>{display}</span>
+  }, [t, stat])
+
+  const callback = useCallback(({ value1000thsPrecision }: {
+    valueDisplay: string,
+    value1000thsPrecision: string,
+  }) => {
+    setTitle(value1000thsPrecision)
+  }, [])
 
   return (
     <div
@@ -183,7 +195,7 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
       <StatRowDivider />
-      <SuspenseNode width={70} promise={promise} selector={selector} />
+      <SuspenseNode width={70} promise={promise} selector={selector} init={init} callback={callback} />
     </div>
   )
 })

@@ -50,7 +50,7 @@ interface SimScoringContextProps extends PropsWithChildren {
   singleRelicByPart: SingleRelicByPart
   showcaseTemporaryOptions: ShowcaseTemporaryOptions
 }
-export const SimScoringContextProvider = memo(function(props: SimScoringContextProps) {
+export const SimScoringContextProvider = memo(function SimScoringContextProvider(props: SimScoringContextProps) {
   const { character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
   const cacheKey = computeScoringCacheKey(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
 

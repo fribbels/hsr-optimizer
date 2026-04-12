@@ -20,11 +20,15 @@ interface CommonProps extends SkeletonProps {
 }
 interface SimpleProps extends CommonProps {
   promise: Promise<ReactNode>
+  init?: never
+  callback?: never
   selector?: never
 }
-interface ComplexProps<T = any> extends CommonProps {
+interface ComplexProps<T = any, A = any> extends CommonProps {
   promise: Promise<T>
-  selector(arg: NoInfer<T>): ReactNode
+  init?: (arg: T) => A
+  selector(arg: A): ReactNode
+  callback?: (arg: A) => void
 }
 type Props = SimpleProps | ComplexProps
 export const SuspenseNode = memo(function SuspenseText(props: Props) {
@@ -44,18 +48,23 @@ export const SuspenseNode = memo(function SuspenseText(props: Props) {
   )
 })
 
-function SuspenseTextPending(props: Props) {
-  const { promise, selector, skeletonClassName, textSpanClassName, disableDefer, fallback, ...skeletonProps } = props
-  // for some reason the skeleton doesn't render unless dummy text is inserted as a child
-  return <Skeleton {...skeletonProps} className={skeletonClassName}>foo</Skeleton>
+function SuspenseSkeleton(props: SkeletonProps & { skeletonClassName?: string }) {
+  const { skeletonClassName, ...rest } = props
+  return <Skeleton {...rest} className={skeletonClassName}>foo</Skeleton>
 }
 
-function SuspenseTextReady({ selector, promise, textSpanClassName }: Props) {
-  const [node, setNode] = useState<ReactNode>(null)
+function SuspenseTextPending(props: Props) {
+  const { promise, selector, textSpanClassName, disableDefer, fallback, init, callback, ...skeletonProps } = props
+  // for some reason the skeleton doesn't render unless dummy text is inserted as a child
+  return <SuspenseSkeleton {...skeletonProps} />
+}
+
+function SuspenseTextReady(props: Props) {
+  const { promise, selector, textSpanClassName, init, callback } = props
   const res = use(promise)
-  useEffect(() => {
-    setNode(selector ? selector(res) : res)
-  }, [res, selector])
+  const initRes = init ? init(res) : res
+  const node = selector ? selector(initRes) : initRes
+  useEffect(() => callback?.(initRes), [callback, initRes])
   if (textSpanClassName) return <span className={textSpanClassName}>{node}</span>
   return node
 }

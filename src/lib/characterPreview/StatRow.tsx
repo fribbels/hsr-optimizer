@@ -22,7 +22,8 @@ import {
   type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { SuspenseNode } from 'lib/ui/SuspenseNode'
+import { usePromise } from 'hooks/usePromise'
+import { Skeleton } from '@mantine/core'
 import {
   localeNumber,
   localeNumber_0,
@@ -37,8 +38,7 @@ import { isFlat } from 'lib/utils/statUtils'
 import {
   memo,
   type ReactNode,
-  useCallback,
-  useState,
+  useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -145,17 +145,17 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
 }) {
   const { t, i18n } = useTranslation('common')
 
-  const [title, setTitle] = useState<string | undefined>(undefined)
-
   const readableStat: string = (displayTextMap[stat] || stat === 'CV')
     ? (i18n.exists(`ReadableStats.${stat}`)
       ? t(`ReadableStats.${stat as StatsValues}`)
       : t(`DMGTypes.${stat}` as never))
     : t(`Stats.${stat as StatsValues}`)
 
-  const init = useCallback((result: SimulationScore | null) => {
-    if (!result) return null
-    const simResult = result[type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'].result
+  const output = usePromise(promise)
+
+  const transformed = useMemo(() => {
+    if (!output) return null
+    const simResult = output[type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'].result
     if (!simResult) return null
     const stats = subType === 'Basic'
       ? toBasicStatsObject(simResult.ca)
@@ -170,32 +170,21 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
 
     const value = precisionRound(stats[stat as keyof typeof stats])
     return getStatRenderValues(value, 0, stat, preciseSpd)
-  }, [type, subType, stat, preciseSpd, elementalDmgValue, element, path])
+  }, [output, type, subType, stat, preciseSpd, elementalDmgValue, element, path])
 
-  const selector = useCallback(({ valueDisplay }: {
-    valueDisplay: string,
-    value1000thsPrecision: string,
-  }) => {
-    const display = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
-    return <span>{display}</span>
-  }, [t, stat])
-
-  const callback = useCallback(({ value1000thsPrecision }: {
-    valueDisplay: string,
-    value1000thsPrecision: string,
-  }) => {
-    setTitle(value1000thsPrecision)
-  }, [])
+  const valueNode = transformed
+    ? <span>{`${transformed.valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}</span>
+    : <Skeleton width={70} />
 
   return (
     <div
-      title={title}
+      title={transformed?.value1000thsPrecision}
       style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16 }}
     >
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
       {`${readableStat}${edits?.[stat] ? ' *' : ''}`}
       <StatRowDivider />
-      <SuspenseNode width={70} promise={promise} selector={selector} init={init} callback={callback} />
+      {valueNode}
     </div>
   )
 })

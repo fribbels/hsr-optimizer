@@ -6,10 +6,8 @@ import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { RotationDamageStep } from 'lib/simulations/statSimulationTypes'
 import { toI18NVisual } from 'lib/utils/displayUtils'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import {
-  memo,
-  use,
-} from 'react'
+import { usePromise } from 'hooks/usePromise'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './AbilityDamageSummary.module.css'
 
@@ -45,8 +43,8 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
 })
 
 export const AsyncAbilityDamageSummary = memo(function AsyncAbilityDamageSummary({ promise, mode }: AsynchronousAbilityDamageSummaryProps) {
-  const result = use(promise)
-  const rotationDamage = result?.[mode === 'Benchmark' ? 'benchmarkSim' : 'maximumSim']?.result?.rotationDamage
+  const output = usePromise(promise)
+  const rotationDamage = output?.[mode === 'Benchmark' ? 'benchmarkSim' : 'maximumSim']?.result?.rotationDamage
   if (!rotationDamage) return null
   return <AbilityDamageSummary rotationDamage={rotationDamage} />
 })

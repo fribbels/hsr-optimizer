@@ -38,7 +38,6 @@ import {
 import {
   memo,
   type ReactNode,
-  Suspense,
   useCallback,
   useContext,
   useEffect,
@@ -135,9 +134,7 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        <Suspense>
-          <SetUpgradeRow sharedCols={sharedCols} />
-        </Suspense>
+        <SetUpgradeRow sharedCols={sharedCols} />
         {iterator.map(([part, stat]) => {
           return (
             <Table.Tr

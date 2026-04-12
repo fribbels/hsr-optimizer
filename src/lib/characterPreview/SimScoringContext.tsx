@@ -1,4 +1,5 @@
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { usePromise } from 'hooks/usePromise'
 import {
   computeScoringCacheKey,
   getOrComputePreview,
@@ -30,16 +31,17 @@ interface SimScoringContext {
   upgradesDone: boolean
 }
 
+// Stable reference to avoid re-renders when no promise exists
 const nullPromise = Promise.resolve(null)
 
-// top level promises need to be cached in order to play nicely with the `use` hook
+// Promise caches for deduplication
 const scorePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 const scoreUpgradePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 
 export const SimScoringContext = createContext<SimScoringContext>({
   preview: null,
-  scoringPromise: Promise.resolve(null),
-  upgradePromise: Promise.resolve(null),
+  scoringPromise: nullPromise,
+  upgradePromise: nullPromise,
   scoringDone: false,
   upgradesDone: false,
 })
@@ -50,6 +52,7 @@ interface SimScoringContextProps extends PropsWithChildren {
   singleRelicByPart: SingleRelicByPart
   showcaseTemporaryOptions: ShowcaseTemporaryOptions
 }
+
 export const SimScoringContextProvider = memo(function SimScoringContextProvider(props: SimScoringContextProps) {
   const { character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
   const cacheKey = computeScoringCacheKey(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
@@ -64,30 +67,22 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
         upgradesDone: false,
       }
     }
-    // if simulationMetadata is null then cacheKey will be null
-    // therefore the above guard is sufficient and simulationMetada can safely have null excluded via `!`
+
     const preview = getOrComputePreview(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
 
     const scoringPromise = scorePromiseCache.get(cacheKey) ?? scorePromiseCache
-      .set(
-        cacheKey,
-        requestScore(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions),
-      ).get(cacheKey)!
+      .set(cacheKey, requestScore(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions))
+      .get(cacheKey)!
 
     const upgradePromise = scoreUpgradePromiseCache.get(cacheKey) ?? scoreUpgradePromiseCache
-      .set(
-        cacheKey,
-        requestScoreUpgrades(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions),
-      ).get(cacheKey)!
+      .set(cacheKey, requestScoreUpgrades(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions))
+      .get(cacheKey)!
 
     const scoringDone = resultCache.has(cacheKey)
-
     const upgradesDone = upgradeResultCache.has(cacheKey)
 
     return { preview, scoringPromise, upgradePromise, scoringDone, upgradesDone }
-
-    // a change in any of the other arguments leads to a change in cacheKey, no need to add them in the dependancy array
-    // oxlint-disable-next-line eslint-plugin-react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [cacheKey])
 
   return (
@@ -103,16 +98,14 @@ export enum ScoringSelector {
   Upgrades,
 }
 
+// Uses usePromise instead of use() to avoid Suspense and React profiler crashes
 export function useSimScoringContext(selector: ScoringSelector.Preview): PreparedState | null
 export function useSimScoringContext(selector: ScoringSelector.Score | ScoringSelector.Upgrades): SimulationScore | null
 export function useSimScoringContext(selector: ScoringSelector) {
   const ctx = use(SimScoringContext)
-  switch (selector) {
-    case ScoringSelector.Preview:
-      return ctx.preview
-    case ScoringSelector.Score:
-      return use(ctx.scoringPromise)
-    case ScoringSelector.Upgrades:
-      return use(ctx.upgradePromise)
-  }
+  const promise = selector === ScoringSelector.Score ? ctx.scoringPromise
+    : selector === ScoringSelector.Upgrades ? ctx.upgradePromise
+    : null
+  const output = usePromise(promise)
+  return selector === ScoringSelector.Preview ? ctx.preview : output
 }

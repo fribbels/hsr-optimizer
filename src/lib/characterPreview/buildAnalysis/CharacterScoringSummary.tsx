@@ -30,7 +30,6 @@ import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import {
   memo,
-  Suspense,
   useContext,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -145,36 +144,33 @@ function BenchmarkDefaultLayout() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
                 <div style={{ display: 'flex' }}>
                   <SuspenseNode
-                    disableDefer
                     selector={(score: SimulationScore | null) =>
                       score
                         ? <ScoringSet set={score.maximumSim.request.simRelicSet1} />
                         : null}
                     promise={scoringPromise}
                     circle
-                    skeletonClassName={classes.setImage}
+                    className={classes.setImage}
                   />
                   <SuspenseNode
-                    disableDefer
                     selector={(score: SimulationScore | null) =>
                       score
                         ? <ScoringSet set={score.maximumSim.request.simRelicSet2} />
                         : null}
                     promise={scoringPromise}
                     circle
-                    skeletonClassName={classes.setImage}
+                    className={classes.setImage}
                   />
                 </div>
 
                 <SuspenseNode
-                  disableDefer
                   selector={(score: SimulationScore | null) =>
                     score
                       ? <ScoringSet set={score.maximumSim.request.simOrnamentSet} />
                       : null}
                   promise={scoringPromise}
                   circle
-                  skeletonClassName={classes.setImage}
+                  className={classes.setImage}
                 />
               </div>
             </div>
@@ -190,10 +186,7 @@ function BenchmarkDefaultLayout() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
                   label={t('CombatResults.Primary')}
-                  text={
-                    // @ts-expect-error - type of key is not specific enough
-                    t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)
-                  }
+                  text={t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)}
                 />
                 <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} precision={1} />
                 <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} precision={1} />
@@ -248,41 +241,6 @@ function BenchmarkDefaultLayout() {
     </div>
   )
 }
-
-function SuspendedScoringNumbers({ t }: { t: TFunction<'charactersTab', 'CharacterPreview.BuildAnalysis'> }) {
-  return (
-    <Suspense fallback={<ScoringNumbersPending t={t} />}>
-      <ScoringNumbersReady t={t} />
-    </Suspense>
-  )
-}
-
-const idxToLabel = ['Benchmark', 'Maximum', 'Score'] as const
-function ScoringNumbersPending({ t }: { t: TFunction<'charactersTab', 'CharacterPreview.BuildAnalysis'> }) {
-  return (
-    <>
-      {Array.from({ length: 3 }).map((_, idx) => (
-        <div key={idx} style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
-          <span className={classes.dataLabel}>{t(`CombatResults.${idxToLabel[idx]}`)}</span>
-          <Skeleton style={{ justifySelf: 'right' }} width={80} />
-        </div>
-      ))}
-    </>
-  )
-}
-
-function ScoringNumbersReady({ t }: { t: TFunction<'charactersTab', 'CharacterPreview.BuildAnalysis'> }) {
-  const result = useSimScoringContext(ScoringSelector.Score)
-  if (result === null) return null
-  return (
-    <>
-      <ScoringNumber label={t('CombatResults.Benchmark')} number={result.benchmarkSimScore} precision={1} />
-      <ScoringNumber label={t('CombatResults.Maximum')} number={result.maximumSimScore} precision={1} />
-      <ScoringNumber label={t('CombatResults.Score')} number={result.percent * 100} precision={2} suffix=' %' />
-    </>
-  )
-}
-
 // ─── ScoringColumnsSection ────────────────────────────────────────────────────
 
 function ScoringColumnsSection() {

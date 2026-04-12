@@ -45,7 +45,6 @@ import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
 import {
   memo,
-  Suspense,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -206,9 +205,7 @@ export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader(props
       <StatText className={styles.scoreHeaderText}>
         {titleRender}
       </StatText>
-      <Suspense fallback={<ShowcaseDpsScoreHeaderPending t={t} />}>
-        <ShowcaseDpsScoreHeaderReady {...props} t={t} />
-      </Suspense>
+      <ShowcaseDpsScoreHeaderReady {...props} t={t} />
     </div>
   )
 })
@@ -219,10 +216,14 @@ function ShowcaseDpsScoreHeaderReady({ relics, t }: {
 }) {
   const result = useSimScoringContext(ScoringSelector.Score)
 
+  // Return loading state while result is null
+  if (result === null) {
+    return <ShowcaseDpsScoreHeaderPending t={t} />
+  }
+
   const verified = Object.values(relics).filter((x) => x?.verified).length === 6
   const numRelics = Object.values(relics).filter((x) => !!x).length
-
-  const lightCone = !!result?.simulationForm.lightCone
+  const lightCone = !!result.simulationForm.lightCone
 
   return (
     <StatText className={styles.scoreHeaderText}>
@@ -230,8 +231,8 @@ function ShowcaseDpsScoreHeaderReady({ relics, t }: {
         t(
           'CharacterPreview.ScoreHeader.Score',
           {
-            score: localeNumber_0(truncate10ths(Math.max(0, (result?.percent ?? 0) * 100))),
-            grade: getSimScoreGrade(result?.percent ?? 0, verified, numRelics, lightCone),
+            score: localeNumber_0(truncate10ths(Math.max(0, result.percent * 100))),
+            grade: getSimScoreGrade(result.percent, verified, numRelics, lightCone),
           },
         )
         /* DPS Score {{score}}% {{grade}} */

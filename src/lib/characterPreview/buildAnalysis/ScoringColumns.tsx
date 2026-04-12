@@ -9,7 +9,10 @@ import {
   SimScoringContext,
   useSimScoringContext,
 } from 'lib/characterPreview/SimScoringContext'
-import { AbilityDamageSummary } from 'lib/characterPreview/summary/AbilityDamageSummary'
+import {
+  AbilityDamageSummary,
+  AsyncAbilityDamageSummary,
+} from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import {
@@ -20,7 +23,6 @@ import {
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
-import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   getElementalDmgFromContainer,
   type SimulationScore,
@@ -38,6 +40,7 @@ import {
 } from 'lib/utils/mathUtils'
 import {
   memo,
+  Suspense,
   useContext,
 } from 'react'
 import {
@@ -54,7 +57,6 @@ interface ExternalScoringColumnProps {
   elementalDmgValue: string
   element: ElementName
   characterMetadata: { path: PathName }
-  comboTurnAbilities: TurnAbilityName[]
 }
 
 interface ExternalSimulationScoringColumnProps extends ExternalScoringColumnProps {
@@ -221,18 +223,11 @@ function ScoringColumn(props: ScoringColumnProps) {
       </div>
       {isAsyncProps(props)
         ? (
-          <AbilityDamageSummary
-            promise={props.simulation}
-            comboTurnAbilities={props.comboTurnAbilities}
-            mode={props.type}
-          />
+          <Suspense>
+            <AsyncAbilityDamageSummary promise={props.simulation} mode={props.type} />
+          </Suspense>
         )
-        : (
-          <AbilityDamageSummary
-            rotationDamage={props.simulation.result?.rotationDamage ?? []}
-            comboTurnAbilities={props.comboTurnAbilities}
-          />
-        )}
+        : <AbilityDamageSummary rotationDamage={props.simulation.result?.rotationDamage ?? []} />}
     </div>
   )
 
@@ -318,7 +313,6 @@ export const CharacterScoringColumn = memo(function(props: ExternalScoringColumn
       element={props.element}
       characterMetadata={props.characterMetadata}
       columnClassName={highlightClass}
-      comboTurnAbilities={props.comboTurnAbilities}
     />
   )
 })
@@ -338,7 +332,6 @@ export const SimulationScoringColumn = memo(function(props: ExternalSimulationSc
       element={props.element}
       characterMetadata={props.characterMetadata}
       columnClassName={defaultClass}
-      comboTurnAbilities={props.comboTurnAbilities}
     />
   )
 })

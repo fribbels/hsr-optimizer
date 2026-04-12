@@ -8,7 +8,6 @@ import type { BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
-import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
   calculateBaseStats,
   calculateBasicEffects,
@@ -18,6 +17,7 @@ import {
   calculateRelicStats,
   calculateSetCounts,
 } from 'lib/optimization/calculateStats'
+import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
   GlobalRegister,
   StatKey,
@@ -28,7 +28,10 @@ import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import { type AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  type AbilityKind,
+  type TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   SetsOrnaments,
   SetsRelics,
@@ -244,6 +247,7 @@ export function simulateBuild(
     for (const action of context.rotationActions) {
       rotationDamage.push({
         actionType: action.actionType,
+        actionName: action.actionName as TurnAbilityName,
         damage: x.getActionRegisterValue(action.registerIndex),
       })
     }

@@ -293,8 +293,6 @@ function ScoringColumnsSection() {
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
   const element = characterMetadata.element
 
-  const comboTurnAbilities = preview.simForm.comboTurnAbilities
-
   return (
     <div style={{ display: 'flex', gap: 12 }}>
       <CharacterScoringColumn
@@ -302,7 +300,6 @@ function ScoringColumnsSection() {
         elementalDmgValue={elementalDmgValue}
         element={element}
         characterMetadata={characterMetadata}
-        comboTurnAbilities={comboTurnAbilities}
       />
 
       <SimulationScoringColumn
@@ -310,7 +307,6 @@ function ScoringColumnsSection() {
         elementalDmgValue={elementalDmgValue}
         element={element}
         characterMetadata={characterMetadata}
-        comboTurnAbilities={comboTurnAbilities}
         type='Benchmark'
       />
 
@@ -319,7 +315,6 @@ function ScoringColumnsSection() {
         elementalDmgValue={elementalDmgValue}
         element={element}
         characterMetadata={characterMetadata}
-        comboTurnAbilities={comboTurnAbilities}
         type='Perfect'
       />
     </div>

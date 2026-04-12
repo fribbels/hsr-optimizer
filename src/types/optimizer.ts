@@ -69,8 +69,8 @@ export type TeammateAction = {
 }
 
 export type SetConditional = {
-  [key: `enabled${string}`]: boolean
-  [key: `value${string}`]: number
+  [key: `enabled${string}`]: boolean,
+  [key: `value${string}`]: number,
 }
 
 export type CharacterStatsBreakdown = {

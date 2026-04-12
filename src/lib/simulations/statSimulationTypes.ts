@@ -1,6 +1,9 @@
 import type { Buff } from 'lib/optimization/basicStatsArray'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import type {
+  AbilityKind,
+  TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import type { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import type {
   SetsOrnaments,
@@ -61,6 +64,7 @@ export type ActionDamage = Partial<Record<AbilityKind, number>>
 
 export type RotationDamageStep = {
   actionType: AbilityKind,
+  actionName: TurnAbilityName,
   damage: number,
 }
 

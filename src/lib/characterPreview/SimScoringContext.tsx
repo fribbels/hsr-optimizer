@@ -68,15 +68,17 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
     // therefore the above guard is sufficient and simulationMetada can safely have null excluded via `!`
     const preview = getOrComputePreview(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
 
-    const scoringPromise = scorePromiseCache.getOrInsertComputed(
-      cacheKey,
-      () => requestScore(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions),
-    )
+    const scoringPromise = scorePromiseCache.get(cacheKey) ?? scorePromiseCache
+      .set(
+        cacheKey,
+        requestScore(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions),
+      ).get(cacheKey)!
 
-    const upgradePromise = scoreUpgradePromiseCache.getOrInsertComputed(
-      cacheKey,
-      () => requestScoreUpgrades(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions),
-    )
+    const upgradePromise = scoreUpgradePromiseCache.get(cacheKey) ?? scoreUpgradePromiseCache
+      .set(
+        cacheKey,
+        requestScoreUpgrades(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions),
+      ).get(cacheKey)!
 
     const scoringDone = resultCache.has(cacheKey)
 

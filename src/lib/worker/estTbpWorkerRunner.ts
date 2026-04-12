@@ -73,20 +73,23 @@ export function handleWork(relic: Relic, weights: Record<string, number>): Promi
 
   const runHash = hashRun(relic, weights)
 
-  return estbpOutputCache.getOrInsertComputed(runHash, () => {
-    try {
-      const input: EstTbpWorkerInput = {
-        relic: relic,
-        weights: weights,
-        workerType: WorkerType.EST_TBP,
+  return estbpOutputCache.get(runHash) ?? estbpOutputCache.set(
+    runHash,
+    (() => {
+      try {
+        const input: EstTbpWorkerInput = {
+          relic: relic,
+          weights: weights,
+          workerType: WorkerType.EST_TBP,
+        }
+        return workerPool.runTask<BaseWorkerInput, EstTbpWorkerOutput>(input)
+      } catch (error) {
+        if (error instanceof WorkerCancelledError) throw error
+        console.warn('EstTbp worker error:', error)
+        return errorResult
       }
-      return workerPool.runTask<BaseWorkerInput, EstTbpWorkerOutput>(input)
-    } catch (error) {
-      if (error instanceof WorkerCancelledError) throw error
-      console.warn('EstTbp worker error:', error)
-      return errorResult
-    }
-  })
+    })(),
+  ).get(runHash)!
 }
 
 function hashRun(relic: Relic, weights: Record<string, number>): string {

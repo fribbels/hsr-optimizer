@@ -161,14 +161,12 @@ export function requestScore(
         // Reuse prepared orchestrator if available (from getOrComputePreview),
         // otherwise prepare fresh. This eliminates all duplication.
         // orchestrator is needed for, and removed from cache by, requestScoreUpgrades
-        const orchestrator = orchestratorCache.getOrInsertComputed(cacheKey, () => {
-          return prepareOrchestrator(
-            character,
-            simulationMetadata,
-            singleRelicByPart,
-            showcaseTemporaryOptions,
+        const orchestrator = orchestratorCache.get(cacheKey) ?? orchestratorCache
+          .set(
+            cacheKey,
+            prepareOrchestrator(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions),
           )
-        })
+          .get(cacheKey)!
 
         await executeOrchestrator(orchestrator)
 

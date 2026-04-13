@@ -1,28 +1,24 @@
-import type { CSSProperties } from 'react'
+import { memo, useMemo, type CSSProperties } from 'react'
 import { type Languages } from 'lib/utils/i18nUtils'
 
-function generateStyling(language?: Languages): CSSProperties {
-  switch (language) {
-    case 'fr_FR':
-    case 'pt_BR':
-    case 'vi_VN':
-      return {
-        whiteSpace: 'nowrap',
-        fontSize: 13,
-        lineHeight: '22px',
-      }
-    default:
-      return {
-        whiteSpace: 'nowrap',
-      }
-  }
+// Pre-computed styles
+const LANGUAGE_STYLES: Record<string, CSSProperties> = {
+  fr_FR: { whiteSpace: 'nowrap', fontSize: 13, lineHeight: '22px' },
+  pt_BR: { whiteSpace: 'nowrap', fontSize: 13, lineHeight: '22px' },
+  vi_VN: { whiteSpace: 'nowrap', fontSize: 13, lineHeight: '22px' },
 }
+const DEFAULT_STYLE: CSSProperties = { whiteSpace: 'nowrap' }
 
 type RelicStatTextProps = React.HTMLAttributes<HTMLDivElement> & { language?: Languages }
 
-export function RelicStatText(props: RelicStatTextProps) {
+export const RelicStatText = memo(function RelicStatText(props: RelicStatTextProps) {
   const { language, style, ...rest } = props
-  return (
-    <div style={{ ...generateStyling(language), ...style as CSSProperties }} {...rest} />
+  const baseStyle = language ? (LANGUAGE_STYLES[language] ?? DEFAULT_STYLE) : DEFAULT_STYLE
+
+  const mergedStyle = useMemo(
+    () => (style ? { ...baseStyle, ...style as CSSProperties } : baseStyle),
+    [baseStyle, style],
   )
-}
+
+  return <div style={mergedStyle} {...rest} />
+})

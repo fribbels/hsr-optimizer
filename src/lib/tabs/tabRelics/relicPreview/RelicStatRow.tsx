@@ -4,6 +4,7 @@ import iconClasses from 'style/icons.module.css'
 import { Renderer } from 'lib/rendering/renderer'
 import { isFlat } from 'lib/utils/statUtils'
 import type { TFunction } from 'i18next'
+import React, { memo } from 'react'
 import type {
   Relic,
   StatRolls,
@@ -17,7 +18,7 @@ export type SubstatDetails = {
   addedRolls?: number,
 }
 
-export function RelicStatRow({ stat, main, relic, isPreview = false, t }: { stat: SubstatDetails; main: boolean; relic: Relic; isPreview?: boolean; t: TFunction }) {
+export const RelicStatRow = memo(function RelicStatRow({ stat, main, relic, isPreview = false, t }: { stat: SubstatDetails; main: boolean; relic: Relic; isPreview?: boolean; t: TFunction }) {
   if (!stat?.stat || stat.value == null) {
     return (
       <img
@@ -56,28 +57,51 @@ export function RelicStatRow({ stat, main, relic, isPreview = false, t }: { stat
         : <>{displayValue}</>}
     </div>
   )
+})
+
+// Pre-computed SVG chevrons
+const chevronStyle = { opacity: 0.75 }
+const chevronPath = <path fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="3" d="M8 12L15 5M8 12L15 19" />
+const scale = 10 / 24
+
+const CHEVRON_SVGS: Record<number, React.JSX.Element> = {
+  1: (
+    <svg xmlns="http://www.w3.org/2000/svg" width={10} height={10} viewBox="0 0 10 10" style={chevronStyle}>
+      <g transform={`scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+    </svg>
+  ),
+  2: (
+    <svg xmlns="http://www.w3.org/2000/svg" width={15} height={10} viewBox="0 0 15 10" style={chevronStyle}>
+      <g transform={`translate(0 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(5 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+    </svg>
+  ),
+  3: (
+    <svg xmlns="http://www.w3.org/2000/svg" width={20} height={10} viewBox="0 0 20 10" style={chevronStyle}>
+      <g transform={`translate(0 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(5 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(10 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+    </svg>
+  ),
+  4: (
+    <svg xmlns="http://www.w3.org/2000/svg" width={25} height={10} viewBox="0 0 25 10" style={chevronStyle}>
+      <g transform={`translate(0 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(5 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(10 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(15 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+    </svg>
+  ),
+  5: (
+    <svg xmlns="http://www.w3.org/2000/svg" width={30} height={10} viewBox="0 0 30 10" style={chevronStyle}>
+      <g transform={`translate(0 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(5 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(10 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(15 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+      <g transform={`translate(20 0) scale(${scale})`}><g transform="translate(24 1) scale(-1 1)">{chevronPath}</g></g>
+    </svg>
+  ),
 }
 
 function generateRolls(stat: SubstatDetails) {
-  if (!stat.addedRolls) {
-    return <div></div>
-  }
-
-  const count = stat.addedRolls
-  const step = 5
-  const chevronSize = 10
-  const totalWidth = step * (count - 1) + chevronSize
-  const scale = chevronSize / 24
-
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={totalWidth} height={chevronSize} viewBox={`0 0 ${totalWidth} ${chevronSize}`} style={{ opacity: 0.75 }}>
-      {Array.from({ length: count }, (_, i) => (
-        <g key={i} transform={`translate(${i * step} 0) scale(${scale})`}>
-          <g transform="translate(24 1) scale(-1 1)">
-            <path fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="3" d="M8 12L15 5M8 12L15 19" />
-          </g>
-        </g>
-      ))}
-    </svg>
-  )
+  return stat.addedRolls ? CHEVRON_SVGS[stat.addedRolls] : null
 }

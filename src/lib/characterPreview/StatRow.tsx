@@ -1,4 +1,3 @@
-import { Divider } from '@mantine/core'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   Constants,
@@ -89,7 +88,7 @@ const displayTextMap: Record<string, string> = {
 }
 
 function StatRowDivider() {
-  return <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant='dashed' />
+  return <span style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: '1px dashed var(--mantine-color-default-border)' }} />
 }
 
 export const StatRow = memo(function StatRow({

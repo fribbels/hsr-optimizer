@@ -9,13 +9,15 @@ import { Assets } from 'lib/rendering/assets'
 import type { ReactElement } from 'react'
 import classes from './CardSelectModalComponents.module.css'
 
-export function generatePathTags() {
-  return Object.keys(PathNames).map((x) => {
-    return {
-      key: x as PathName,
-      display: <img className={classes.pathImage} src={Assets.getPath(x)} />,
-    }
-  })
+type PathTag = { key: PathName; display: ReactElement }
+let cachedPathTags: PathTag[] | null = null
+export function generatePathTags(): PathTag[] {
+  if (cachedPathTags) return cachedPathTags
+  cachedPathTags = Object.keys(PathNames).map((x) => ({
+    key: x as PathName,
+    display: <img className={classes.pathImage} src={Assets.getPath(x)} />,
+  }))
+  return cachedPathTags
 }
 
 export function generateRarityTags() {
@@ -31,13 +33,15 @@ export function generateRarityTags() {
   }))
 }
 
-export function generateElementTags() {
-  return Object.keys(ElementToDamage).map((x) => {
-    return {
-      key: x as ElementName,
-      display: <img className={classes.elementImage} src={Assets.getElement(x)} />,
-    }
-  })
+type ElementTag = { key: ElementName; display: ReactElement }
+let cachedElementTags: ElementTag[] | null = null
+export function generateElementTags(): ElementTag[] {
+  if (cachedElementTags) return cachedElementTags
+  cachedElementTags = Object.keys(ElementToDamage).map((x) => ({
+    key: x as ElementName,
+    display: <img className={classes.elementImage} src={Assets.getElement(x)} />,
+  }))
+  return cachedElementTags
 }
 
 export function SegmentedFilterRow<T extends string | number | boolean>({

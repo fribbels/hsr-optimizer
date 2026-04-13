@@ -5,10 +5,11 @@ import {
   generatePathTags,
   SegmentedFilterRow,
 } from 'lib/ui/selectors/CardSelectModalComponents'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
-export function FilterBar() {
+export const FilterBar = memo(function FilterBar() {
   const { t } = useTranslation('charactersTab')
   const { pathFilter, setPathFilter, elementFilter, setElementFilter, setNameFilter } = useCharacterTabStore(
     useShallow((s) => ({
@@ -58,4 +59,4 @@ export function FilterBar() {
       </div>
     </Flex>
   )
-}
+})

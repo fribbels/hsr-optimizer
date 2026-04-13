@@ -1,10 +1,9 @@
-import { SimScoringContext } from 'lib/characterPreview/SimScoringContext'
+import { ScoringSelector, useSimScoringContext } from 'lib/characterPreview/SimScoringContext'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { renderThousandsK } from 'lib/utils/i18nUtils'
 import {
   memo,
-  useContext,
   useEffect,
   useState,
 } from 'react'
@@ -113,7 +112,7 @@ const smoothTransition = 'all 0.5s ease-in-out'
 export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
   const { t, i18n } = useTranslation('common')
 
-  const { scoringPromise, scoringDone } = useContext(SimScoringContext)
+  const scoringResult = useSimScoringContext(ScoringSelector.Score)
 
   const [transition, setTransition] = useState<string | undefined>(smoothTransition)
 
@@ -128,8 +127,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
   const [maxPercent, setMaxPercent] = useState('0%')
 
   useEffect(() => {
-    let stale = false
-    if (!scoringDone) {
+    if (!scoringResult) {
       resetGradient()
       setBarPercent('0%')
       setScorePercent('0%')
@@ -140,36 +138,30 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
       setBenchmark(0)
       setMaximum(0)
       setTransition(undefined)
+      return
     }
 
-    scoringPromise.then((scoringResult) => {
-      if (!scoringResult || stale) return
-      setTransition(smoothTransition)
-      const minimum = scoringResult.baselineSimScore
-      const benchmark = scoringResult.benchmarkSimScore
-      const maximum = scoringResult.maximumSimScore
-      const score = Math.min(maximum, Math.max(scoringResult.originalSimScore, minimum))
+    setTransition(smoothTransition)
+    const minimum = scoringResult.baselineSimScore
+    const benchmark = scoringResult.benchmarkSimScore
+    const maximum = scoringResult.maximumSimScore
+    const score = Math.min(maximum, Math.max(scoringResult.originalSimScore, minimum))
 
-      setGradient(minimum, benchmark, maximum)
+    setGradient(minimum, benchmark, maximum)
 
-      // Min bar width = 5px equivalent (matching Recharts minPointSize={5})
-      const scoreRatio = (score - minimum) / (maximum - minimum)
-      const minBarRatio = 5 / CHART_AREA_WIDTH
-      setBarPercent(`${Math.max(scoreRatio, minBarRatio) * 100}%`)
+    const scoreRatio = (score - minimum) / (maximum - minimum)
+    const minBarRatio = 5 / CHART_AREA_WIDTH
+    setBarPercent(`${Math.max(scoreRatio, minBarRatio) * 100}%`)
 
-      setMinimum(minimum)
-      setBenchmark(benchmark)
-      setMaximum(maximum)
+    setMinimum(minimum)
+    setBenchmark(benchmark)
+    setMaximum(maximum)
 
-      setScorePercent(toPercent(score, minimum, maximum))
-      setMinPercent(toPercent(minimum, minimum, maximum)) // '0%'
-      setBenchPercent(toPercent(benchmark, minimum, maximum))
-      setMaxPercent(toPercent(maximum, minimum, maximum)) // '100%'
-    })
-    return () => {
-      stale = true
-    }
-  }, [scoringPromise, scoringDone])
+    setScorePercent(toPercent(score, minimum, maximum))
+    setMinPercent(toPercent(minimum, minimum, maximum))
+    setBenchPercent(toPercent(benchmark, minimum, maximum))
+    setMaxPercent(toPercent(maximum, minimum, maximum))
+  }, [scoringResult])
 
   const dmgLabel = t('Damage')
   const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]

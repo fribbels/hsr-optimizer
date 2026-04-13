@@ -86,7 +86,7 @@ function isAsyncProps(props: ScoringColumnProps): props is AsynchronousScoringCo
   return props.type !== 'Character'
 }
 
-function ScoringColumn(props: ScoringColumnProps) {
+const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
   const highlight = props.type === 'Character'
@@ -261,7 +261,7 @@ function ScoringColumn(props: ScoringColumnProps) {
       </div>
     </div>
   )
-}
+})
 
 const SuspendedHeader = memo(function SuspendedHeader({ t }: {
   t: TFunction<readonly ['charactersTab', 'common'], undefined>,

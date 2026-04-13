@@ -157,6 +157,7 @@ CharacterPreview:
       SubDpsHeader: 战斗增益（副C）
   ScoringColumn:
     Character:
+      LoadingHeader: 角色配装
       Header: '角色配装 ({{score}}%)'
       BasicStats: 角色 <1>基础属性</1>
       CombatStats: 角色<1>战斗属性</1>

@@ -36,6 +36,8 @@ export type ShowcaseTheme = {
   cardBorderColor: string,
 }
 
+const FULL_HEIGHT_STYLE: React.CSSProperties = { height: '100%' }
+
 const PLACEHOLDER_RELIC: Partial<Relic> = {
   enhance: 0,
   part: undefined,
@@ -129,7 +131,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
         outline: 0,
       }}
     >
-      <RelicStatText language={i18next.resolvedLanguage as Languages} style={{ height: '100%' }}>
+      <RelicStatText language={i18next.resolvedLanguage as Languages} style={FULL_HEIGHT_STYLE}>
         <div
           style={{
             display: 'flex',
@@ -183,7 +185,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
 })
 
 // CSS divider - lighter than Mantine Divider component
-const relicDividerStyle: React.CSSProperties = { margin: '6px 0', borderBottom: '1px solid var(--mantine-color-default-border)' }
+const relicDividerStyle: React.CSSProperties = { margin: '6px 0', borderBottom: '1px solid rgba(255, 255, 255, 0.10)' }
 
 function RelicDivider() {
   return <span style={relicDividerStyle} />

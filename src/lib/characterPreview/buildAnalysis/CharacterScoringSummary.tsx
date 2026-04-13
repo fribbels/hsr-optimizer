@@ -186,7 +186,10 @@ function BenchmarkDefaultLayout() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
                   label={t('CombatResults.Primary')}
-                  text={t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)}
+                  text={
+                    // @ts-expect-error - type of key is not specific enough
+                    t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)
+                  }
                 />
                 <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} precision={1} />
                 <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} precision={1} />

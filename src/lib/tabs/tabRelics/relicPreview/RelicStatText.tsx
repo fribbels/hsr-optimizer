@@ -1,13 +1,14 @@
 import { memo, useMemo, type CSSProperties } from 'react'
 import { type Languages } from 'lib/utils/i18nUtils'
 
-// Pre-computed styles
-const LANGUAGE_STYLES: Record<string, CSSProperties> = {
-  fr_FR: { whiteSpace: 'nowrap', fontSize: 13, lineHeight: '22px' },
-  pt_BR: { whiteSpace: 'nowrap', fontSize: 13, lineHeight: '22px' },
-  vi_VN: { whiteSpace: 'nowrap', fontSize: 13, lineHeight: '22px' },
-}
+// Pre-computed styles for languages with longer text
+const COMPACT_STYLE: CSSProperties = { whiteSpace: 'nowrap', fontSize: 13, lineHeight: '22px' }
 const DEFAULT_STYLE: CSSProperties = { whiteSpace: 'nowrap' }
+const LANGUAGE_STYLES: Partial<Record<Languages, CSSProperties>> = {
+  fr_FR: COMPACT_STYLE,
+  pt_BR: COMPACT_STYLE,
+  vi_VN: COMPACT_STYLE,
+}
 
 type RelicStatTextProps = React.HTMLAttributes<HTMLDivElement> & { language?: Languages }
 

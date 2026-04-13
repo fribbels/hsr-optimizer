@@ -1,4 +1,3 @@
-import { Divider } from '@mantine/core'
 import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
@@ -72,7 +71,7 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
           </StatTextSm>
           {upgraded && <Arrow />}
         </div>
-        <Divider style={{ margin: 'auto 10px', flexGrow: 1, width: 'unset', minWidth: 'unset' }} variant="dashed" />
+        <CombatStatDivider />
         <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
       </div>,
     )
@@ -84,7 +83,7 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
-      <HeaderText style={{ fontSize: 16 }}>
+      <HeaderText style={{ fontSize: 16, textDecoration: 'none' }}>
         {titleRender}
       </HeaderText>
       {rows}
@@ -215,4 +214,8 @@ function Arrow() {
       <UpArrow />
     </div>
   )
+}
+
+function CombatStatDivider() {
+  return <span style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: '1px dashed rgba(255, 255, 255, 0.10)' }} />
 }

@@ -157,6 +157,7 @@ CharacterPreview:
       SubDpsHeader: crwdns44885:0crwdne44885:0
   ScoringColumn:
     Character:
+      LoadingHeader: crwdns46786:0crwdne46786:0
       Header: 'crwdns39758:0{{score}}crwdne39758:0'
       BasicStats: crwdns46780:0crwdne46780:0
       CombatStats: crwdns39762:0crwdne39762:0

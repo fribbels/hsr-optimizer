@@ -43,8 +43,8 @@ export const MainStatsSummary = memo(function MainStatsSummary({
   const partToStat: Record<MainStatParts, MainStats> | null = promise ? null : {
     [Parts.Body]: simBody as MainStats,
     [Parts.Feet]: simFeet as MainStats,
-    [Parts.LinkRope]: simPlanarSphere as MainStats,
-    [Parts.PlanarSphere]: simLinkRope as MainStats,
+    [Parts.LinkRope]: simLinkRope as MainStats,
+    [Parts.PlanarSphere]: simPlanarSphere as MainStats,
   }
 
   return (

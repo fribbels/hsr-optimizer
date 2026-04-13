@@ -12,10 +12,8 @@ import type { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { type SimulationScore } from 'lib/scoring/simScoringUtils'
-import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   memo,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -49,13 +47,19 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
 
   const [statToRank, setStatToRank] = useState(initialRanks)
 
+  const [resolvedScore, setResolvedScore] = useState<SimulationScore | null>(null)
+
   // need to resync when changing character
   useEffect(() => {
     setStatToRank(initialRanks)
+    setResolvedScore(null)
   }, [initialRanks])
 
   useEffect(() => {
+    let cancelled = false
     upgradePromise.then((score) => {
+      if (cancelled) return
+      setResolvedScore(score)
       if (score === null) return
       setStatToRank(
         score.substatUpgrades.reduce((acc, cur, idx) => {
@@ -64,7 +68,17 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
         }, {} as Record<SubStats, number>),
       )
     })
+    return () => { cancelled = true }
   }, [upgradePromise])
+
+  const upgradeByStatMap = useMemo(() => {
+    if (!resolvedScore) return null
+    const map = new Map<SubStats, typeof resolvedScore.substatUpgrades[0]>()
+    for (const upgrade of resolvedScore.substatUpgrades) {
+      if (upgrade.stat) map.set(upgrade.stat as SubStats, upgrade)
+    }
+    return map
+  }, [resolvedScore])
 
   return (
     <Table
@@ -95,7 +109,7 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
                 </span>
               </div>
             </Table.Td>
-            <SuspendedValues stat={stat} promise={upgradePromise} sharedCols={sharedCols} />
+            <SuspendedValues stat={stat} resolvedScore={resolvedScore} upgradeByStatMap={upgradeByStatMap} sharedCols={sharedCols} />
           </Table.Tr>
         ))}
       </Table.Tbody>
@@ -103,9 +117,10 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
   )
 })
 
-const SuspendedValues = memo(function({ stat, promise, sharedCols }: {
+const SuspendedValues = memo(function({ stat, resolvedScore, upgradeByStatMap, sharedCols }: {
   stat: SubStats,
-  promise: Promise<SimulationScore | null>,
+  resolvedScore: SimulationScore | null,
+  upgradeByStatMap: Map<SubStats, SimulationScore['substatUpgrades'][0]> | null,
   sharedCols: SharedScoreColumn[],
 }) {
   return sharedCols.map((col) => {
@@ -115,27 +130,30 @@ const SuspendedValues = memo(function({ stat, promise, sharedCols }: {
           <>-</>
         </Table.Td>
       )
-    } else {
-      return (
-        <Table.Td key={col.key} className={styles.centeredCell}>
-          <SuspenseNode
-            promise={promise}
-            selector={(score) => selector(stat, col, score)}
-          />
-        </Table.Td>
-      )
     }
+
+    const content = resolvedScore && upgradeByStatMap
+      ? renderCell(stat, col, resolvedScore, upgradeByStatMap)
+      : null
+
+    return (
+      <Table.Td key={col.key} className={styles.centeredCell}>
+        {content}
+      </Table.Td>
+    )
   })
 })
 
-const selector = (stat: SubStats, col: SharedScoreColumn, arg: SimulationScore | null) => {
-  if (!arg) return null
-  const upgrade = arg.substatUpgrades.find((upgrade) => upgrade.stat === stat)
+function renderCell(
+  stat: SubStats,
+  col: SharedScoreColumn,
+  score: SimulationScore,
+  upgradeMap: Map<SubStats, SimulationScore['substatUpgrades'][0]>,
+) {
+  const upgrade = upgradeMap.get(stat)
   if (!upgrade) return null
-  const foo = { key: stat, stat, ...sharedSimResultComparator(arg, upgrade) }
-  return (
-    col.render(foo[col.dataIndex as keyof SubstatUpgradeItem] as number, stat)
-  )
+  const data = { key: stat, stat, ...sharedSimResultComparator(score, upgrade) }
+  return col.render(data[col.dataIndex as keyof SubstatUpgradeItem] as number, stat)
 }
 
 export function calculateOffset(

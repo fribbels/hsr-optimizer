@@ -9,6 +9,7 @@ import {
   SimScoringContext,
   useSimScoringContext,
 } from 'lib/characterPreview/SimScoringContext'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import {
   type MainStatParts,
@@ -22,11 +23,9 @@ import { Stats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
-import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { setToId } from 'lib/sets/setConfigRegistry'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
-import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   arrowColor,
   arrowDirection,
@@ -95,16 +94,21 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
   }, [meta, relics])
 
   const [sortedRankMapping, setSortedRankMapping] = useState(initialRankMapping)
+  const [resolvedScore, setResolvedScore] = useState<SimulationScore | null>(null)
 
   // need to resync when changing character
   useEffect(() => {
     setSortedRankMapping(initialRankMapping)
+    setResolvedScore(null)
   }, [initialRankMapping])
 
   useEffect(() => {
-    upgradesPromise.then((upgrade) => {
-      if (!upgrade) return
-      setSortedRankMapping(upgrade.mainUpgrades.reduce((acc, cur, idx) => {
+    let cancelled = false
+    upgradesPromise.then((score) => {
+      if (cancelled) return
+      setResolvedScore(score)
+      if (score === null) return
+      setSortedRankMapping(score.mainUpgrades.reduce((acc, cur, idx) => {
         if (cur.stat && cur.part) acc[cur.part][cur.stat as MainStats] = idx
         return acc
       }, {
@@ -114,6 +118,7 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
         [Parts.LinkRope]: {},
       } as Record<MainStatParts, Partial<Record<MainStats, number>>>))
     })
+    return () => { cancelled = true }
   }, [upgradesPromise])
 
   const iterator: Array<[MainStatParts, MainStats]> = (Object.keys(initialRankMapping) as MainStatParts[])
@@ -153,7 +158,7 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
                   <span>{`${tCommon(`ShortReadableStats.${stat}`)}`}</span>
                 </div>
               </Table.Td>
-              <SuspendedValues sharedCols={sharedCols} part={part} stat={stat} promise={upgradesPromise} />
+              <SuspendedValues sharedCols={sharedCols} part={part} stat={stat} resolvedScore={resolvedScore} />
             </Table.Tr>
           )
         })}
@@ -162,29 +167,23 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
   )
 })
 
-const SuspendedValues = memo(function({ sharedCols, part, stat, promise }: {
+const SuspendedValues = memo(function({ sharedCols, part, stat, resolvedScore }: {
   sharedCols: SharedScoreColumn[],
   part: MainStatParts,
   stat: MainStats,
-  promise: Promise<SimulationScore | null>,
+  resolvedScore: SimulationScore | null,
 }) {
+  const upgrade = resolvedScore?.mainUpgrades.find((u) => u.part === part && u.stat === stat)
+  const data = upgrade
+    ? { key: stat + part, stat, part, ...sharedSimResultComparator(resolvedScore!, upgrade) } as MainStatUpgradeItem
+    : null
+
   return sharedCols.map((col) => (
     <Table.Td key={col.key} className={styles.centeredCell}>
-      <SuspenseNode
-        promise={promise}
-        selector={(score) => selector(score, stat, part, col)}
-      />
+      {data && col.render(data[col.dataIndex as keyof MainStatUpgradeItem] as number, stat)}
     </Table.Td>
   ))
 })
-
-function selector(score: SimulationScore | null, stat: MainStats, part: MainStatParts, col: SharedScoreColumn) {
-  if (!score) return null
-  const upgrade = score.mainUpgrades.find((upgrade) => upgrade.part === part && upgrade.stat === stat)
-  if (!upgrade) return null
-  const foo: MainStatUpgradeItem = { key: stat + part, stat, part, ...sharedSimResultComparator(score, upgrade) }
-  return col.render(foo[col.dataIndex as keyof MainStatUpgradeItem] as number, stat)
-}
 
 const SetUpgradeRow = memo(function({ sharedCols }: { sharedCols: SharedScoreColumn[] }) {
   const result = useSimScoringContext(ScoringSelector.Upgrades)

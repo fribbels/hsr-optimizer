@@ -510,7 +510,7 @@ const display = {
     y: 950,
     z: 1.10,
   },
-  showcaseColor: '#eb7287',
+  showcaseColor: '#c47edb',
 }
 
 export const Evanescia: CharacterConfig = {

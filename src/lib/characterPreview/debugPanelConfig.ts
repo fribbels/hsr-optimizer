@@ -25,6 +25,8 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
     {
       title: 'Experimental',
       presets: [
+        { label: 'Coral', apply: () => store.applyPreset({ portraitBlur: 25, portraitBrightness: 0.28, portraitSaturate: 2.00, cardBgAlpha: 0.20, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 1.00, debugTargetL: 0.425, debugMinL: 0.04, debugMaxL: 0.50, blendMode: 'screen' }) },
+        { label: 'Matte', apply: () => store.applyPreset({ portraitBlur: 25, portraitBrightness: 0.40, portraitSaturate: 1.75, cardBgAlpha: 0.40, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.45, debugMinL: 0.05, debugMaxL: 0.47, blendMode: 'normal' }) },
         { label: 'AvgNormal', apply: () => store.applyPreset({ portraitBlur: 29, portraitBrightness: 0.54, portraitSaturate: 1.63, cardBgAlpha: 0.39, debugMaxC: 0.077, debugMinC: 0.043, debugChromaScale: 0.52, debugTargetL: 0.46, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
         { label: 'AvgScreen', apply: () => store.applyPreset({ portraitBlur: 30, portraitBrightness: 0.34, portraitSaturate: 2.08, cardBgAlpha: 0.33, debugMaxC: 0.089, debugMinC: 0.042, debugChromaScale: 0.75, debugTargetL: 0.49, debugMinL: 0.04, debugMaxL: 0.52, blendMode: 'screen' }) },
         { label: 'CurSilk', apply: () => store.applyPreset({ portraitBlur: 27, portraitBrightness: 0.47, portraitSaturate: 1.67, cardBgAlpha: 0.42, debugMaxC: 0.060, debugMinC: 0.036, debugChromaScale: 0.53, debugTargetL: 0.45, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
@@ -63,7 +65,7 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
     {
       title: 'Screen Warm',
       presets: [
-        { label: 'Coral', apply: () => store.applyPreset({ portraitBlur: 26, portraitBrightness: 0.275, portraitSaturate: 2.00, cardBgAlpha: 0.25, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 1.00, debugTargetL: 0.425, debugMinL: 0.04, debugMaxL: 0.50, blendMode: 'screen' }) },
+        { label: 'CoralSilk', apply: () => store.applyPreset({ portraitBlur: 28, portraitBrightness: 0.36, portraitSaturate: 1.88, cardBgAlpha: 0.28, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.78, debugTargetL: 0.46, debugMinL: 0.045, debugMaxL: 0.49, blendMode: 'screen' }) },
       ],
     },
   ]

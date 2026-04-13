@@ -30,11 +30,11 @@ export interface DebugVisualConfig {
 // Canonical defaults - single source of truth for all visual config
 // ============================================================
 
-// Portrait background filter defaults (Coral preset)
-export const PORTRAIT_BLUR = 26
-export const PORTRAIT_BRIGHTNESS = 0.275
-export const PORTRAIT_SATURATE = 2.00
-export const CARD_BG_ALPHA_DEFAULT = 0.25
+// Portrait background filter defaults (Matte preset)
+export const PORTRAIT_BLUR = 25
+export const PORTRAIT_BRIGHTNESS = 0.40
+export const PORTRAIT_SATURATE = 1.75
+export const CARD_BG_ALPHA_DEFAULT = 0.40
 
 // Shadow/glow defaults
 export const SHADOW_X = 1
@@ -94,7 +94,7 @@ export const useDebugVisualConfigStore = create<DebugVisualConfigStore>((set) =>
   debugTargetL: DEFAULT_CONFIG.cardBg.targetL,
   debugMinL: DEFAULT_CONFIG.cardBg.minL,
   debugMaxL: DEFAULT_CONFIG.cardBg.maxL,
-  blendMode: 'screen',
+  blendMode: 'normal',
   shadowX: SHADOW_X,
   shadowY: SHADOW_Y,
   shadowBlur: SHADOW_BLUR,

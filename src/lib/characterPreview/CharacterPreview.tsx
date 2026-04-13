@@ -119,7 +119,7 @@ interface CharacterPreviewPropsBase {
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
-globalThis.CARD_DEBUG = true
+globalThis.CARD_DEBUG = false
 
 function buildPortraitFilter(blur: number, brightness: number, saturate: number) {
   return `blur(${blur}px) brightness(${brightness.toFixed(2)}) saturate(${saturate.toFixed(2)})`

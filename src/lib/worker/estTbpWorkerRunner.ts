@@ -72,24 +72,19 @@ export function handleWork(relic: Relic, weights: Record<string, number>): Promi
   RelicRollGrader.calculateRelicSubstatRolls(relic)
 
   const runHash = hashRun(relic, weights)
+  const cached = estbpOutputCache.get(runHash)
+  if (cached) return cached
 
-  return estbpOutputCache.get(runHash) ?? estbpOutputCache.set(
-    runHash,
-    (() => {
-      try {
-        const input: EstTbpWorkerInput = {
-          relic: relic,
-          weights: weights,
-          workerType: WorkerType.EST_TBP,
-        }
-        return workerPool.runTask<BaseWorkerInput, EstTbpWorkerOutput>(input)
-      } catch (error) {
-        if (error instanceof WorkerCancelledError) throw error
-        console.warn('EstTbp worker error:', error)
-        return errorResult
-      }
-    })(),
-  ).get(runHash)!
+  const input: EstTbpWorkerInput = { relic, weights, workerType: WorkerType.EST_TBP }
+  const promise = workerPool.runTask<BaseWorkerInput, EstTbpWorkerOutput>(input).catch((error) => {
+    estbpOutputCache.delete(runHash)
+    if (error instanceof WorkerCancelledError) throw error
+    console.warn('EstTbp worker error:', error)
+    return { days: 0 }
+  })
+
+  estbpOutputCache.set(runHash, promise)
+  return promise
 }
 
 function hashRun(relic: Relic, weights: Record<string, number>): string {

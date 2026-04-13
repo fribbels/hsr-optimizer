@@ -185,6 +185,11 @@
     padding: 0px !important;
 }
 
+.ag-cell-value > span {
+    display: flex;
+    align-items: center;
+}
+
 /* ═══════════════════════════════════════════
    Rows
    ═══════════════════════════════════════════ */

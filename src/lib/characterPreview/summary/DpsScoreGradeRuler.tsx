@@ -5,6 +5,7 @@ import { renderThousandsK } from 'lib/utils/i18nUtils'
 import {
   memo,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -109,59 +110,86 @@ function setGradient(minimum: number, benchmark: number, maximum: number) {
 }
 
 const smoothTransition = 'all 0.5s ease-in-out'
+type RulerState = {
+  transition: string | undefined
+  minimum: number
+  benchmark: number
+  maximum: number
+  barPercent: string
+  scorePercent: string
+  minPercent: string
+  benchPercent: string
+  maxPercent: string
+}
+
+const initialState: RulerState = {
+  transition: smoothTransition,
+  minimum: 0,
+  benchmark: 0,
+  maximum: 0,
+  barPercent: '0%',
+  scorePercent: '0%',
+  minPercent: '0%',
+  benchPercent: '50%',
+  maxPercent: '100%',
+}
+
+const emptyState: RulerState = {
+  transition: undefined,
+  minimum: 0,
+  benchmark: 0,
+  maximum: 0,
+  barPercent: '0%',
+  scorePercent: '0%',
+  minPercent: '0%',
+  benchPercent: '50%',
+  maxPercent: '100%',
+}
+
 export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
   const { t, i18n } = useTranslation('common')
 
   const scoringResult = useSimScoringContext(ScoringSelector.Score)
 
-  const [transition, setTransition] = useState<string | undefined>(smoothTransition)
+  const [state, setState] = useState<RulerState>(initialState)
 
-  const [minimum, setMinimum] = useState(0)
-  const [benchmark, setBenchmark] = useState(0)
-  const [maximum, setMaximum] = useState(0)
-
-  const [barPercent, setBarPercent] = useState('0%')
-  const [scorePercent, setScorePercent] = useState('0%')
-  const [minPercent, setMinPercent] = useState('0%')
-  const [benchPercent, setBenchPercent] = useState('0%')
-  const [maxPercent, setMaxPercent] = useState('0%')
-
-  useEffect(() => {
+  const derivedState = useMemo<RulerState>(() => {
     if (!scoringResult) {
-      resetGradient()
-      setBarPercent('0%')
-      setScorePercent('0%')
-      setMinPercent('0%')
-      setBenchPercent('50%')
-      setMaxPercent('100%')
-      setMinimum(0)
-      setBenchmark(0)
-      setMaximum(0)
-      setTransition(undefined)
-      return
+      return emptyState
     }
 
-    setTransition(smoothTransition)
     const minimum = scoringResult.baselineSimScore
     const benchmark = scoringResult.benchmarkSimScore
     const maximum = scoringResult.maximumSimScore
     const score = Math.min(maximum, Math.max(scoringResult.originalSimScore, minimum))
 
-    setGradient(minimum, benchmark, maximum)
-
     const scoreRatio = (score - minimum) / (maximum - minimum)
     const minBarRatio = 5 / CHART_AREA_WIDTH
-    setBarPercent(`${Math.max(scoreRatio, minBarRatio) * 100}%`)
 
-    setMinimum(minimum)
-    setBenchmark(benchmark)
-    setMaximum(maximum)
-
-    setScorePercent(toPercent(score, minimum, maximum))
-    setMinPercent(toPercent(minimum, minimum, maximum))
-    setBenchPercent(toPercent(benchmark, minimum, maximum))
-    setMaxPercent(toPercent(maximum, minimum, maximum))
+    return {
+      transition: smoothTransition,
+      minimum,
+      benchmark,
+      maximum,
+      barPercent: `${Math.max(scoreRatio, minBarRatio) * 100}%`,
+      scorePercent: toPercent(score, minimum, maximum),
+      minPercent: toPercent(minimum, minimum, maximum),
+      benchPercent: toPercent(benchmark, minimum, maximum),
+      maxPercent: toPercent(maximum, minimum, maximum),
+    }
   }, [scoringResult])
+
+  // Update gradient CSS vars
+  useEffect(() => {
+    if (!scoringResult) {
+      resetGradient()
+    } else {
+      setGradient(derivedState.minimum, derivedState.benchmark, derivedState.maximum)
+    }
+    setState(derivedState)
+  }, [derivedState, scoringResult])
+
+  const { transition, minimum, benchmark, maximum, barPercent, scorePercent, minPercent, benchPercent, maxPercent } = state
 
   const dmgLabel = t('Damage')
   const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]

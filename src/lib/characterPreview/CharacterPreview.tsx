@@ -55,20 +55,34 @@ import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { DeferReveal } from 'lib/ui/DeferredRender'
 import {
+  type DebugVisualConfig,
+  PORTRAIT_BLUR,
+  PORTRAIT_BRIGHTNESS,
+  PORTRAIT_SATURATE,
+  CARD_BG_ALPHA_DEFAULT,
+  SHADOW_X,
+  SHADOW_Y,
+  SHADOW_BLUR,
+  SHADOW_OPACITY,
+  INSET_BLUR,
+  INSET_OPACITY,
+  TEXT_SHADOW_DEFAULT,
+  useDebugVisualConfigStore,
+} from 'lib/characterPreview/debugVisualConfigStore'
+import { DebugSliderPanel } from 'lib/characterPreview/DebugSliderPanel'
+import { useDebugPanelConfig } from 'lib/characterPreview/debugPanelConfig'
+import {
   memo,
   useCallback,
   useEffect,
   useMemo,
-  useState,
 } from 'react'
 import {
   type Character,
   type CharacterId,
   type SavedBuild,
 } from 'types/character'
-import {
-  type CustomImagePayload,
-} from 'types/customImage'
+import type { CustomImageConfig, CustomImagePayload } from 'types/customImage'
 import type { ShowcaseTemporaryOptions } from 'types/metadata'
 import {
   ScoringSelector,
@@ -97,56 +111,15 @@ interface SavedBuildPreviewProps {
 interface CharacterPreviewPropsBase {
   id: string
   character: Character | ShowcaseTabCharacter | null
+  /** Debug mode: disables L2D, forces stat score, hides analysis footer */
+  forceDebug?: boolean
+  /** Override debug visual config (for shared debug panel across multiple cards) */
+  debugVisualConfig?: DebugVisualConfig
 }
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
-// Portrait background filter defaults
-const PORTRAIT_BLUR = 22
-const PORTRAIT_BRIGHTNESS = 0.40
-const PORTRAIT_SATURATE = 1.80
-const CARD_BG_ALPHA_DEFAULT = 0.45
-
-// Shadow defaults
-const SHADOW_X = 1
-const SHADOW_Y = 1
-const SHADOW_BLUR_DEFAULT = 5
-const SHADOW_OPACITY = 0.75
-const INSET_BLUR_DEFAULT = 2
-const INSET_OPACITY = 0.30
-
-// Text shadow presets for readability tuning
-const TEXT_SHADOW_DEFAULT = '1px 1px 0 rgba(0,0,0,0.3), -1px -1px 0 rgba(0,0,0,0.3), 1px -1px 0 rgba(0,0,0,0.3), -1px 1px 0 rgba(0,0,0,0.3)'
-
-const TEXT_SHADOW_PRESETS: { label: string, value: string }[] = [
-  { label: 'Current (blur only)', value: TEXT_SHADOW_DEFAULT },
-  { label: 'A: Faint outline 0.20', value: '1px 1px 0 rgba(0,0,0,0.2), -1px -1px 0 rgba(0,0,0,0.2), 1px -1px 0 rgba(0,0,0,0.2), -1px 1px 0 rgba(0,0,0,0.2)' },
-  { label: 'B: Subtle outline 0.30', value: '1px 1px 0 rgba(0,0,0,0.3), -1px -1px 0 rgba(0,0,0,0.3), 1px -1px 0 rgba(0,0,0,0.3), -1px 1px 0 rgba(0,0,0,0.3)' },
-  { label: 'C: Light outline 0.40', value: '1px 1px 0 rgba(0,0,0,0.4), -1px -1px 0 rgba(0,0,0,0.4), 1px -1px 0 rgba(0,0,0,0.4), -1px 1px 0 rgba(0,0,0,0.4)' },
-  { label: 'B: Medium outline', value: '1px 1px 0 rgba(0,0,0,0.6), -1px -1px 0 rgba(0,0,0,0.6), 1px -1px 0 rgba(0,0,0,0.6), -1px 1px 0 rgba(0,0,0,0.6)' },
-  {
-    label: 'C: Outline + soft glow',
-    value: '1px 1px 0 rgba(0,0,0,0.5), -1px -1px 0 rgba(0,0,0,0.5), 1px -1px 0 rgba(0,0,0,0.5), -1px 1px 0 rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.4)',
-  },
-  {
-    label: 'D: 8-dir light',
-    value:
-      '-1px 0 0 rgba(0,0,0,0.35), 1px 0 0 rgba(0,0,0,0.35), 0 -1px 0 rgba(0,0,0,0.35), 0 1px 0 rgba(0,0,0,0.35), -1px -1px 0 rgba(0,0,0,0.35), 1px -1px 0 rgba(0,0,0,0.35), -1px 1px 0 rgba(0,0,0,0.35), 1px 1px 0 rgba(0,0,0,0.35)',
-  },
-  {
-    label: 'E: 8-dir medium',
-    value:
-      '-1px 0 0 rgba(0,0,0,0.55), 1px 0 0 rgba(0,0,0,0.55), 0 -1px 0 rgba(0,0,0,0.55), 0 1px 0 rgba(0,0,0,0.55), -1px -1px 0 rgba(0,0,0,0.55), 1px -1px 0 rgba(0,0,0,0.55), -1px 1px 0 rgba(0,0,0,0.55), 1px 1px 0 rgba(0,0,0,0.55)',
-  },
-  {
-    label: 'F: 8-dir + glow',
-    value:
-      '-1px 0 0 rgba(0,0,0,0.45), 1px 0 0 rgba(0,0,0,0.45), 0 -1px 0 rgba(0,0,0,0.45), 0 1px 0 rgba(0,0,0,0.45), -1px -1px 0 rgba(0,0,0,0.45), 1px -1px 0 rgba(0,0,0,0.45), -1px 1px 0 rgba(0,0,0,0.45), 1px 1px 0 rgba(0,0,0,0.45), 0 0 6px rgba(0,0,0,0.35)',
-  },
-  { label: 'G: None', value: 'none' },
-]
-
-// globalThis.CARD_DEBUG = true
+globalThis.CARD_DEBUG = true
 
 function buildPortraitFilter(blur: number, brightness: number, saturate: number) {
   return `blur(${blur}px) brightness(${brightness.toFixed(2)}) saturate(${saturate.toFixed(2)})`
@@ -160,120 +133,95 @@ function buildInsetShadow(blur: number, opacity: number) {
   return `, inset rgba(255, 255, 255, ${opacity.toFixed(2)}) 0px 0px ${blur}px`
 }
 
-type SliderDef = { label: string, value: number, min: number, max: number, step: number, onChange: (v: number) => void }
-type SliderGroup = { title: string, sliders: SliderDef[] }
-type DebugPreset = { label: string, apply: () => void }
-type PillGroup = { title: string, active: string, options: { label: string, value: string, apply: () => void }[] }
+/** Blurred portrait background fill behind the card */
+function ShowcaseBackgroundBlur({
+  portraitUrl,
+  portraitToUse,
+  displayDimensions,
+  portraitFilter,
+  blendMode,
+}: {
+  portraitUrl: string
+  portraitToUse: CustomImageConfig | undefined
+  displayDimensions: { charCenter: { x: number; y: number; z: number } }
+  portraitFilter: string
+  blendMode: 'screen' | 'normal'
+}) {
+  let bgSize: string
+  let bgPos: string
 
-const pillStyle: React.CSSProperties = {
-  padding: '3px 10px',
-  borderRadius: 12,
-  fontSize: 11,
-  fontWeight: 600,
-  cursor: 'pointer',
-  border: '1px solid #555',
-  background: 'rgba(255,255,255,0.08)',
-  color: '#ccc',
-  userSelect: 'none',
-}
-
-const pillActiveStyle: React.CSSProperties = {
-  ...pillStyle,
-  border: '1px solid #88f',
-  background: 'rgba(100,100,255,0.25)',
-  color: '#fff',
-}
-
-// Debug slider panel for tuning card visuals — hidden by default, click [+] to show
-function DebugSliderPanel({ groups, presets, pillGroups }: { groups: SliderGroup[], presets?: DebugPreset[], pillGroups?: PillGroup[] }) {
-  const [open, setOpen] = useState(false)
-
-  if (!open) {
-    return (
-      <div
-        onClick={() => setOpen(true)}
-        style={{
-          position: 'fixed',
-          top: 10,
-          right: 10,
-          zIndex: 9999,
-          background: 'rgba(0,0,0,0.7)',
-          borderRadius: 6,
-          padding: '4px 10px',
-          color: '#ddd',
-          fontSize: 16,
-          cursor: 'pointer',
-          userSelect: 'none',
-        }}
-      >
-        +
-      </div>
-    )
+  if (portraitToUse) {
+    // Custom portrait: CSS cover guarantees no visible edges,
+    // percentage position centers on the crop focal point
+    const crop = portraitToUse.customImageParams.croppedAreaPixels
+    const origW = portraitToUse.originalDimensions.width
+    const origH = portraitToUse.originalDimensions.height
+    bgSize = 'cover'
+    if (origW > 0 && origH > 0) {
+      const pctX = (crop.x + crop.width / 2) / origW * 100
+      const pctY = (crop.y + crop.height / 2) / origH * 100
+      bgPos = `${pctX}% ${pctY}%`
+    } else {
+      bgPos = 'center'
+    }
+  } else {
+    // Default portrait: pixel positioning using curated charCenter values
+    const bgZoom = displayDimensions.charCenter.z * 1.75
+    const bgScale = bgZoom / 2 * cardTotalW / 1024
+    bgSize = `${cardTotalW * bgZoom}px auto`
+    bgPos = `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2}px`
   }
 
   return (
     <div
+      data-portrait-bg
       style={{
-        position: 'fixed',
-        top: 10,
-        right: 10,
-        zIndex: 9999,
-        background: 'rgba(0,0,0,0.85)',
-        borderRadius: 8,
-        padding: '14px 20px',
-        color: '#ddd',
-        fontSize: 13,
-        minWidth: 520,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 6,
-        maxHeight: '90vh',
-        overflowY: 'auto',
+        backgroundImage: `url(${portraitUrl})`,
+        backgroundPosition: bgPos,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: bgSize,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 0,
+        filter: portraitFilter,
+        WebkitFilter: portraitFilter,
+        mixBlendMode: blendMode,
       }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-        <span style={{ fontWeight: 600, fontSize: 14 }}>Card Debug Sliders</span>
-        <span onClick={() => setOpen(false)} style={{ cursor: 'pointer', padding: '0 4px' }}>x</span>
-      </div>
-      {presets && presets.length > 0 && (
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 4 }}>
-          {presets.map((p) => <span key={p.label} onClick={p.apply} style={pillStyle}>{p.label}</span>)}
-        </div>
-      )}
-      {pillGroups && pillGroups.map((pg) => (
-        <div key={pg.title} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-          <div style={{ fontWeight: 600, fontSize: 12, color: '#aaa', borderBottom: '1px solid #444', paddingBottom: 2, marginTop: 4 }}>{pg.title}</div>
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-            {pg.options.map((o) => <span key={o.label} onClick={o.apply} style={pg.active === o.value ? pillActiveStyle : pillStyle}>{o.label}</span>)}
-          </div>
-        </div>
-      ))}
-      {groups.map((g) => (
-        <div key={g.title} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-          <div style={{ fontWeight: 600, fontSize: 12, color: '#aaa', borderBottom: '1px solid #444', paddingBottom: 2, marginTop: 4 }}>{g.title}</div>
-          {g.sliders.map((s) => (
-            <label key={s.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-              <span style={{ minWidth: 100 }}>{s.label}</span>
-              <span style={{ minWidth: 40, textAlign: 'right', fontFamily: 'monospace' }}>{s.value.toFixed(2)}</span>
-              <input
-                type='range'
-                min={s.min}
-                max={s.max}
-                step={s.step}
-                value={s.value}
-                onChange={(e) => s.onChange(Number(e.target.value))}
-                style={{ width: 300 }}
-              />
-            </label>
-          ))}
-        </div>
-      ))}
-    </div>
+    />
   )
+}
+
+/** Resolve debug visual config with defaults - single source of truth for fallback values */
+function resolveDebugVisualConfig(config: DebugVisualConfig | undefined) {
+  return {
+    portraitBlur: config?.portraitBlur ?? PORTRAIT_BLUR,
+    portraitBrightness: config?.portraitBrightness ?? PORTRAIT_BRIGHTNESS,
+    portraitSaturate: config?.portraitSaturate ?? PORTRAIT_SATURATE,
+    cardBgAlpha: config?.cardBgAlpha ?? CARD_BG_ALPHA_DEFAULT,
+    debugMaxC: config?.debugMaxC ?? DEFAULT_CONFIG.cardBg.maxC,
+    debugMinC: config?.debugMinC ?? DEFAULT_CONFIG.cardBg.minC,
+    debugChromaScale: config?.debugChromaScale ?? DEFAULT_CONFIG.cardBg.chromaScale,
+    debugTargetL: config?.debugTargetL ?? DEFAULT_CONFIG.cardBg.targetL,
+    debugMinL: config?.debugMinL ?? DEFAULT_CONFIG.cardBg.minL,
+    debugMaxL: config?.debugMaxL ?? DEFAULT_CONFIG.cardBg.maxL,
+    blendMode: config?.blendMode ?? 'screen' as const,
+    shadowX: config?.shadowX ?? SHADOW_X,
+    shadowY: config?.shadowY ?? SHADOW_Y,
+    shadowBlur: config?.shadowBlur ?? SHADOW_BLUR,
+    shadowOpacity: config?.shadowOpacity ?? SHADOW_OPACITY,
+    insetBlur: config?.insetBlur ?? INSET_BLUR,
+    insetOpacity: config?.insetOpacity ?? INSET_OPACITY,
+    textShadow: config?.textShadow ?? TEXT_SHADOW_DEFAULT,
+  }
 }
 
 export function CharacterPreview({
   character,
+  forceDebug,
+  debugVisualConfig,
   ...rest
 }: CharacterPreviewProps) {
   if (!character) {
@@ -290,7 +238,30 @@ export function CharacterPreview({
     )
   }
 
-  return <CharacterPreviewInner character={character} {...rest} />
+  // Development debug mode: subscribe to store and show panel
+  // Only when CARD_DEBUG is on AND no external config is provided AND not in forceDebug mode
+  if (globalThis.CARD_DEBUG && !debugVisualConfig && !forceDebug) {
+    return <CharacterPreviewWithDebug character={character} forceDebug={forceDebug} {...rest} />
+  }
+
+  return <CharacterPreviewInner character={character} forceDebug={forceDebug} debugVisualConfig={debugVisualConfig} {...rest} />
+}
+
+/** Wrapper that subscribes to debug store and renders panel - only used when CARD_DEBUG */
+function CharacterPreviewWithDebug(props: Omit<CharacterPreviewProps, 'debugVisualConfig'> & { character: Character | ShowcaseTabCharacter }) {
+  const debugConfig = useDebugVisualConfigStore()
+  const { savedPresetGroups, pillGroups, groups } = useDebugPanelConfig()
+
+  return (
+    <>
+      <DebugSliderPanel
+        savedPresetGroups={savedPresetGroups}
+        pillGroups={pillGroups}
+        groups={groups}
+      />
+      <CharacterPreviewInner {...props} debugVisualConfig={debugConfig} />
+    </>
+  )
 }
 
 type CharacterPreviewInnerProps = Omit<CharacterPreviewProps, 'character'> & { character: Character | ShowcaseTabCharacter }
@@ -302,65 +273,57 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   setOriginalCharacterModalInitialCharacter,
   savedBuildOverride,
   id,
+  forceDebug,
+  debugVisualConfig,
 }: CharacterPreviewInnerProps) {
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
   // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
   // handles the equipped field difference (Relic objects vs string IDs).
   const character = rawCharacter as Character
 
-  const [portraitBlur, setPortraitBlur] = useState(PORTRAIT_BLUR)
-  const [portraitBrightness, setPortraitBrightness] = useState(PORTRAIT_BRIGHTNESS)
-  const [portraitSaturate, setPortraitSaturate] = useState(PORTRAIT_SATURATE)
-  const [cardBgAlpha, setCardBgAlpha] = useState(CARD_BG_ALPHA_DEFAULT)
-  const [shadowX, setShadowX] = useState(SHADOW_X)
-  const [shadowY, setShadowY] = useState(SHADOW_Y)
-  const [shadowBlur, setShadowBlur] = useState(SHADOW_BLUR_DEFAULT)
-  const [shadowOpacity, setShadowOpacity] = useState(SHADOW_OPACITY)
-  const [insetBlur, setInsetBlur] = useState(INSET_BLUR_DEFAULT)
-  const [insetOpacity, setInsetOpacity] = useState(INSET_OPACITY)
-  const [textShadowPreset, setTextShadowPreset] = useState(TEXT_SHADOW_DEFAULT)
-  const portraitFilter = buildPortraitFilter(portraitBlur, portraitBrightness, portraitSaturate)
+  // Debug visual config with defaults
+  const visual = resolveDebugVisualConfig(debugVisualConfig)
 
-  // OKLCH pipeline debug sliders
-  const [debugMaxC, setDebugMaxC] = useState(DEFAULT_CONFIG.cardBg.maxC)
-  const [debugMinC, setDebugMinC] = useState(DEFAULT_CONFIG.cardBg.minC)
-  const [debugChromaScale, setDebugChromaScale] = useState(DEFAULT_CONFIG.cardBg.chromaScale)
-  const [debugTargetL, setDebugTargetL] = useState(DEFAULT_CONFIG.cardBg.targetL)
-  const [debugDarkCScale, setDebugDarkCScale] = useState(DEFAULT_CONFIG.darkMode.cScale)
-
-  const debugConfig = useMemo<ColorPipelineConfig>(() => ({
+  const colorPipelineConfig = useMemo<ColorPipelineConfig>(() => ({
     ...DEFAULT_CONFIG,
     cardBg: {
       ...DEFAULT_CONFIG.cardBg,
-      maxC: debugMaxC,
-      minC: debugMinC,
-      chromaScale: debugChromaScale,
-      targetL: debugTargetL,
+      maxC: visual.debugMaxC,
+      minC: visual.debugMinC,
+      chromaScale: visual.debugChromaScale,
+      targetL: visual.debugTargetL,
+      minL: visual.debugMinL,
+      maxL: visual.debugMaxL,
     },
-    darkMode: {
-      ...DEFAULT_CONFIG.darkMode,
-      cScale: debugDarkCScale,
-    },
-  }), [debugMaxC, debugMinC, debugChromaScale, debugTargetL, debugDarkCScale])
+  }), [visual.debugMaxC, visual.debugMinC, visual.debugChromaScale, visual.debugTargetL, visual.debugMinL, visual.debugMaxL])
 
   const state = useCharacterPreviewState(source, rawCharacter, savedBuildOverride)
 
+  // Portrait filter with dark mode brightness offset
+  const effectiveBrightness = visual.portraitBrightness + (state.darkMode ? DEFAULT_CONFIG.darkMode.brightnessOffset : 0)
+  const portraitFilter = buildPortraitFilter(visual.portraitBlur, effectiveBrightness, visual.portraitSaturate)
+
   const { displayRelics, scoringResults } = state.previewRelics
 
-  // ===== Layout (character-dependent, no color) =====
-  // scoringMetadata is not a direct input — it busts the memo cache when scoring overrides
-  // change (SPD weight, buff priority), ensuring resolveShowcaseLayout re-reads the latest
-  // values from the scoring store via resolveDpsScoreSimulationMetadata.
+  // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
+  const effectiveScoringType = forceDebug ? ScoringType.SUBSTAT_SCORE : state.storedScoringType
+  // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
+  const _scoringMetadataCacheBuster = state.scoringMetadata
   const layout = useMemo(
-    () =>
-      resolveShowcaseLayout({
+    () => {
+      void _scoringMetadataCacheBuster // explicit cache invalidation dependency
+      const baseLayout = resolveShowcaseLayout({
         character,
         teamSelection: state.teamSelection,
-        storedScoringType: state.storedScoringType,
+        storedScoringType: effectiveScoringType,
         savedBuildOverride,
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character, state.teamSelection, state.storedScoringType, savedBuildOverride, state.scoringMetadata],
+      })
+      if (forceDebug) {
+        return { ...baseLayout, displayDimensions: { ...baseLayout.displayDimensions, disableSpine: true } }
+      }
+      return baseLayout
+    },
+    [character, state.teamSelection, effectiveScoringType, savedBuildOverride, _scoringMetadataCacheBuster, forceDebug],
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====
@@ -378,8 +341,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   const derivedShowcaseTheme = useMemo(
-    () => resolveShowcaseTheme(seedColor, state.darkMode, debugConfig),
-    [seedColor, state.darkMode, debugConfig],
+    () => resolveShowcaseTheme(seedColor, state.darkMode, colorPipelineConfig),
+    [seedColor, state.darkMode, colorPipelineConfig],
   )
 
   useEffect(() => {
@@ -443,157 +406,26 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       showcaseTemporaryOptions={tempOptions}
       singleRelicByPart={displayRelics}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', width: cardTotalW, minHeight: source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000 }}>
-        {globalThis.CARD_DEBUG && (
-          <DebugSliderPanel
-            presets={[
-              {
-                label: 'Preset A (current)',
-                apply: () => {
-                  setPortraitBlur(22)
-                  setPortraitBrightness(0.40)
-                  setPortraitSaturate(1.80)
-                  setCardBgAlpha(0.45)
-                  setShadowX(1)
-                  setShadowY(1)
-                  setShadowBlur(5)
-                  setShadowOpacity(0.75)
-                  setInsetBlur(2)
-                  setInsetOpacity(0.30)
-                  setDebugMaxC(0.052)
-                  setDebugMinC(0.034)
-                  setDebugChromaScale(0.58)
-                  setDebugTargetL(0.42)
-                  setDebugDarkCScale(0.80)
-                },
-              },
-              {
-                label: 'Preset B (vivid)',
-                apply: () => {
-                  setPortraitBlur(24)
-                  setPortraitBrightness(0.45)
-                  setPortraitSaturate(1.80)
-                  setCardBgAlpha(0.50)
-                  setShadowX(1)
-                  setShadowY(1)
-                  setShadowBlur(5)
-                  setShadowOpacity(0.75)
-                  setInsetBlur(2)
-                  setInsetOpacity(0.30)
-                  setDebugMaxC(0.09)
-                  setDebugMinC(0.05)
-                  setDebugChromaScale(0.50)
-                  setDebugTargetL(0.40)
-                  setDebugDarkCScale(0.80)
-                },
-              },
-              {
-                label: 'Preset D (bright)',
-                apply: () => {
-                  setPortraitBlur(24)
-                  setPortraitBrightness(0.50)
-                  setPortraitSaturate(1.80)
-                  setCardBgAlpha(0.50)
-                  setShadowX(1)
-                  setShadowY(1)
-                  setShadowBlur(5)
-                  setShadowOpacity(0.75)
-                  setInsetBlur(2)
-                  setInsetOpacity(0.30)
-                  setDebugMaxC(0.09)
-                  setDebugMinC(0.05)
-                  setDebugChromaScale(0.50)
-                  setDebugTargetL(0.35)
-                  setDebugDarkCScale(0.80)
-                },
-              },
-              {
-                label: 'Preset E (mid)',
-                apply: () => {
-                  setPortraitBlur(26)
-                  setPortraitBrightness(0.475)
-                  setPortraitSaturate(1.75)
-                  setCardBgAlpha(0.50)
-                  setShadowX(1)
-                  setShadowY(1)
-                  setShadowBlur(5)
-                  setShadowOpacity(0.75)
-                  setInsetBlur(2)
-                  setInsetOpacity(0.30)
-                  setDebugMaxC(0.09)
-                  setDebugMinC(0.05)
-                  setDebugChromaScale(0.50)
-                  setDebugTargetL(0.375)
-                  setDebugDarkCScale(0.80)
-                },
-              },
-            ]}
-            pillGroups={[
-              {
-                title: 'Text Shadow',
-                active: textShadowPreset,
-                options: TEXT_SHADOW_PRESETS.map((p) => ({
-                  label: p.label,
-                  value: p.value,
-                  apply: () => setTextShadowPreset(p.value),
-                })),
-              },
-            ]}
-            groups={[
-              {
-                title: 'Portrait BG Filter',
-                sliders: [
-                  { label: 'Blur', value: portraitBlur, min: 0, max: 50, step: 1, onChange: setPortraitBlur },
-                  { label: 'Brightness', value: portraitBrightness, min: 0, max: 1, step: 0.01, onChange: setPortraitBrightness },
-                  { label: 'Saturate', value: portraitSaturate, min: 0, max: 4, step: 0.05, onChange: setPortraitSaturate },
-                  { label: 'Card BG Alpha', value: cardBgAlpha, min: 0, max: 1, step: 0.01, onChange: setCardBgAlpha },
-                ],
-              },
-              {
-                title: 'Outer Shadow',
-                sliders: [
-                  { label: 'X', value: shadowX, min: -5, max: 5, step: 0.5, onChange: setShadowX },
-                  { label: 'Y', value: shadowY, min: -5, max: 5, step: 0.5, onChange: setShadowY },
-                  { label: 'Blur', value: shadowBlur, min: 0, max: 15, step: 0.5, onChange: setShadowBlur },
-                  { label: 'Opacity', value: shadowOpacity, min: 0, max: 1, step: 0.05, onChange: setShadowOpacity },
-                ],
-              },
-              {
-                title: 'Inset Glow',
-                sliders: [
-                  { label: 'Blur', value: insetBlur, min: 0, max: 8, step: 0.5, onChange: setInsetBlur },
-                  { label: 'Opacity', value: insetOpacity, min: 0, max: 1, step: 0.05, onChange: setInsetOpacity },
-                ],
-              },
-              {
-                title: 'OKLCH Pipeline',
-                sliders: [
-                  { label: 'Max Chroma', value: debugMaxC, min: 0.03, max: 0.18, step: 0.002, onChange: setDebugMaxC },
-                  { label: 'Min Chroma', value: debugMinC, min: 0.00, max: 0.10, step: 0.002, onChange: setDebugMinC },
-                  { label: 'Chroma Scale', value: debugChromaScale, min: 0.1, max: 2.0, step: 0.02, onChange: setDebugChromaScale },
-                  { label: 'Target L', value: debugTargetL, min: 0.15, max: 0.60, step: 0.01, onChange: setDebugTargetL },
-                  { label: 'Dark C Scale', value: debugDarkCScale, min: 0.5, max: 1.0, step: 0.02, onChange: setDebugDarkCScale },
-                ],
-              },
-            ]}
-          />
-        )}
+      <div style={{ display: 'flex', flexDirection: 'column', width: cardTotalW, minHeight: forceDebug ? 'auto' : (source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000) }}>
         {
           /*
         Will only render (<></>) if source == ShowcaseSource.BUILDS_MODAL
-        It still needs to be mounted in order to provide colour to the build modals opened from the optimizer tab
+        It still needs to be mounted in order to provide colour to the build modals opened from the optimizer tab.
+        Hidden in forceDebug mode.
       */
         }
-        <ShowcaseCustomizationSidebar
-          source={source}
-          id={id}
-          characterId={character.id}
-          scoringType={scoringType}
-          seedColor={seedColor}
-          effectiveColorMode={effectiveColorMode}
-          portraitSwatches={state.portraitSwatches ?? EMPTY_SWATCHES}
-          cardBgAlpha={cardBgAlpha}
-        />
+        {!forceDebug && (
+          <ShowcaseCustomizationSidebar
+            source={source}
+            id={id}
+            characterId={character.id}
+            scoringType={scoringType}
+            seedColor={seedColor}
+            effectiveColorMode={effectiveColorMode}
+            portraitSwatches={state.portraitSwatches ?? EMPTY_SWATCHES}
+            cardBgAlpha={visual.cardBgAlpha}
+          />
+        )}
 
         {
           /* Showcase full card — CSS custom properties for card theme allow imperative
@@ -603,70 +435,30 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           id={id}
           className='characterPreview'
           style={{
-            '--showcase-card-bg': withAlpha(derivedShowcaseTheme.cardBackgroundColor, cardBgAlpha),
+            '--showcase-card-bg': withAlpha(derivedShowcaseTheme.cardBackgroundColor, visual.cardBgAlpha),
             '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
-            '--showcase-shadow': buildShadow(shadowX, shadowY, shadowBlur, shadowOpacity),
-            '--showcase-shadow-inset': buildInsetShadow(insetBlur, insetOpacity),
+            '--showcase-shadow': buildShadow(visual.shadowX, visual.shadowY, visual.shadowBlur, visual.shadowOpacity),
+            '--showcase-shadow-inset': buildInsetShadow(visual.insetBlur, visual.insetOpacity),
             'color': 'rgba(220, 220, 220, 1)',
-            'textShadow': textShadowPreset,
+            'textShadow': visual.textShadow,
             'position': 'relative',
             'display': 'flex',
             'height': parentH,
             'background': 'var(--layer-inset)',
-            'backgroundBlendMode': 'screen',
+            'backgroundBlendMode': visual.blendMode,
             'overflow': 'hidden',
             'borderRadius': 6,
             'transition': showcaseTransition,
             'gap': defaultGap,
           } as React.CSSProperties}
         >
-          {/* Background — blurred portrait fill behind the card */}
-          {(() => {
-            let bgSize: string
-            let bgPos: string
-
-            if (portraitToUse) {
-              // Custom portrait: CSS cover guarantees no visible edges,
-              // percentage position centers on the crop focal point
-              const crop = portraitToUse.customImageParams.croppedAreaPixels
-              const origW = portraitToUse.originalDimensions.width
-              const origH = portraitToUse.originalDimensions.height
-              bgSize = 'cover'
-              if (origW > 0 && origH > 0) {
-                const pctX = (crop.x + crop.width / 2) / origW * 100
-                const pctY = (crop.y + crop.height / 2) / origH * 100
-                bgPos = `${pctX}% ${pctY}%`
-              } else {
-                bgPos = 'center'
-              }
-            } else {
-              // Default portrait: pixel positioning using curated charCenter values
-              const bgZoom = displayDimensions.charCenter.z * 1.75
-              const bgScale = bgZoom / 2 * cardTotalW / 1024
-              bgSize = `${cardTotalW * bgZoom}px auto`
-              bgPos = `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2}px`
-            }
-
-            return (
-              <div
-                data-portrait-bg
-                style={{
-                  backgroundImage: `url(${portraitUrl})`,
-                  backgroundPosition: bgPos,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: bgSize,
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  zIndex: 0,
-                  filter: portraitFilter,
-                  WebkitFilter: portraitFilter,
-                }}
-              />
-            )
-          })()}
+          <ShowcaseBackgroundBlur
+            portraitUrl={portraitUrl}
+            portraitToUse={portraitToUse}
+            displayDimensions={displayDimensions}
+            portraitFilter={portraitFilter}
+            blendMode={visual.blendMode}
+          />
 
           {/* Portrait left panel */}
           <div className='character-build-portrait' style={{ display: 'flex', flexDirection: 'column', gap: 8, zIndex: 1 }}>
@@ -790,9 +582,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
         {
           /* Showcase analysis footer — uses storedScoringType (user's preference) not resolved scoringType,
-          so the SegmentedControl reflects their selection even when combat score is unavailable */
+          so the SegmentedControl reflects their selection even when combat score is unavailable.
+          Hidden in forceDebug mode. */
         }
-        {source !== ShowcaseSource.BUILDS_MODAL && (
+        {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
           <DeferReveal>
             <ShowcaseBuildAnalysis
               showcaseMetadata={showcaseMetadata}

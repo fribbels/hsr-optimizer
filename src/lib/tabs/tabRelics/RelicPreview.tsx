@@ -1,4 +1,3 @@
-import { Divider, Paper } from '@mantine/core'
 import i18next from 'i18next'
 import {
   showcaseShadow,
@@ -24,7 +23,7 @@ import {
   type Languages,
   localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type {
@@ -74,10 +73,12 @@ export const RelicPreview = memo(function RelicPreview(props: {
     unhoverable,
     fill,
   } = props
-  const relic: Relic = {
+
+  // Memoize merged relic object to avoid recreation on every render
+  const relic = useMemo<Relic>(() => ({
     ...PLACEHOLDER_RELIC,
     ...props.relic,
-  } as Relic
+  }) as Relic, [props.relic])
 
   const relicSrc = relic.set ? Assets.getSetImage(relic.set, relic.part) : Assets.getBlank()
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
@@ -101,14 +102,16 @@ export const RelicPreview = memo(function RelicPreview(props: {
   const STAT_GAP = scoringType === ScoringType.NONE ? 6 : 0
   const ICON_SIZE = scoringType === ScoringType.NONE ? 54 : 50
   const JUSTIFY = scoringType === ScoringType.NONE ? 'space-around' : 'space-between'
-  const DIVIDER_MARGIN = '6px 0px 6px 0px'
 
-  const fillerStats = Array.from<RelicSubstatMetadata>({ length: 4 - relic.substats.length - relic.previewSubstats.length })
+  // Memoize filler stats array to avoid recreation on every render
+  const fillerStats = useMemo(
+    () => Array.from<RelicSubstatMetadata>({ length: 4 - relic.substats.length - relic.previewSubstats.length }),
+    [relic.substats.length, relic.previewSubstats.length],
+  )
 
   return (
-    <Paper
+    <div
       data-testid="relic-preview"
-      withBorder={source != null}
       onClick={cardClicked}
       style={{
         flex: fill ? 1 : undefined,
@@ -117,11 +120,13 @@ export const RelicPreview = memo(function RelicPreview(props: {
         height: relicCardH,
         padding: 12,
         backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : 'var(--layer-2)',
+        border: source != null ? '1px solid var(--mantine-color-default-border)' : undefined,
         borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,
         transition: showcaseTransition,
         borderRadius: 6,
         boxShadow: source == null ? 'inset 0 0 0 1px var(--border-default)' : showcaseShadow + showcaseShadowInsetAddition,
         cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
+        outline: 0,
       }}
     >
       <RelicStatText language={i18next.resolvedLanguage as Languages} style={{ height: '100%' }}>
@@ -158,11 +163,11 @@ export const RelicPreview = memo(function RelicPreview(props: {
             />
           </div>
 
-          <Divider style={{ margin: DIVIDER_MARGIN }} />
+          <RelicDivider />
 
           <RelicStatRow stat={relic.main as SubstatDetails} main={true} relic={relic} t={t} />
 
-          <Divider style={{ margin: DIVIDER_MARGIN }} />
+          <RelicDivider />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: STAT_GAP }}>
             {relic.substats.map((s, idx) => <RelicStatRow key={`substats-${idx}`} stat={s} main={false} relic={relic} t={t} />)}
@@ -170,19 +175,22 @@ export const RelicPreview = memo(function RelicPreview(props: {
             {fillerStats.map((x, idx) => <RelicStatRow key={`fillers-${idx}`} stat={x} main={false} relic={relic} t={t} />)}
           </div>
 
-          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} dividerMargin={DIVIDER_MARGIN} />}
+          {scoringType !== ScoringType.NONE && <ScoreFooter score={score} />}
         </div>
       </RelicStatText>
-    </Paper>
+    </div>
   )
 })
 
-function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string }) {
+// CSS divider - lighter than Mantine Divider component
+const relicDividerStyle: React.CSSProperties = { margin: '6px 0', borderBottom: '1px solid var(--mantine-color-default-border)' }
+
+function RelicDivider() {
+  return <span style={relicDividerStyle} />
+}
+
+const ScoreFooter = memo(function ScoreFooter({ score }: { score?: RelicScoringResult }) {
   const { t } = useTranslation('common')
-  const {
-    score,
-    dividerMargin,
-  } = props
 
   let icon: string = Assets.getBlank()
   let asterisk: boolean = false
@@ -202,7 +210,7 @@ function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string 
 
   return (
     <>
-      <Divider style={{ margin: dividerMargin }} />
+      <RelicDivider />
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex' }}>
@@ -213,4 +221,4 @@ function ScoreFooter(props: { score?: RelicScoringResult; dividerMargin: string 
       </div>
     </>
   )
-}
+})

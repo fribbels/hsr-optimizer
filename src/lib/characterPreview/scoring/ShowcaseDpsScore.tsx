@@ -119,7 +119,7 @@ export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScor
   )
 })
 
-function CharacterPreviewScoringTeammate({
+const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTeammate({
   index,
   simulationMetadata,
   characterId,
@@ -188,7 +188,7 @@ function CharacterPreviewScoringTeammate({
       </div>
     </div>
   )
-}
+})
 
 export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader(props: {
   relics: SingleRelicByPart,
@@ -279,7 +279,7 @@ function createOnCharacterModalOk(
   }
 }
 
-function ShowcaseTeamSelectPanel({
+const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
   characterId,
   teamSelection,
   readonly,
@@ -389,4 +389,4 @@ function ShowcaseTeamSelectPanel({
       {tabsDisplay}
     </div>
   )
-}
+})

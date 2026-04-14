@@ -459,7 +459,6 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
         </div>
         <Flex key={1} justify='flex-end'>
           <Flex className={styles.footerActions} justify='center' align='center' gap={8}>
-            {isVerificationLoading && radio !== 'upload' && <Loader className={styles.loaderCenter} size="lg" />}
             <Button onClick={() => setOpen(false)}>
               {tCommon('Cancel') /* Cancel */}
             </Button>
@@ -474,7 +473,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
               </Button>
             )}
             {current < steps.length - 1 && (
-              <Button onClick={next} disabled={radio === 'upload'}>
+              <Button onClick={next} loading={isVerificationLoading && radio !== 'upload'} disabled={radio === 'upload'}>
                 {t('Footer.Next') /* Next */}
               </Button>
             )}

@@ -15,8 +15,9 @@ export interface CardColorConfig {
 }
 
 export interface DarkModeConfig {
-  lOffset: number       // added to L (negative = darker)
-  cScale: number        // multiplied with C (< 1 = desaturate)
+  lOffset: number           // added to L (negative = darker)
+  cScale: number            // multiplied with C (< 1 = desaturate)
+  brightnessOffset: number  // added to portrait filter brightness (negative = darker)
 }
 
 export interface ColorPipelineConfig {
@@ -34,14 +35,14 @@ export interface ColorPipelineConfig {
 // Score: 2.204 avg deltaE across 87 characters (ignoring worst 10 outliers).
 export const DEFAULT_CONFIG: ColorPipelineConfig = {
   cardBg: {
-    targetL: 0.42,
+    targetL: 0.45,
     lInputScale: 0.02,
     minL: 0.05,
-    maxL: 0.45,
-    chromaScale: 0.58,
-    minC: 0.034,
-    maxC: 0.052,
-    alpha: 0.45,
+    maxL: 0.47,
+    chromaScale: 0.55,
+    minC: 0.040,
+    maxC: 0.080,
+    alpha: 0.40,
   },
   cardBorder: {
     targetL: 0.58,
@@ -54,17 +55,18 @@ export const DEFAULT_CONFIG: ColorPipelineConfig = {
     alpha: 0.80,
   },
   characterListBg: {
-    targetL: 0.50,
+    targetL: 0.55,
     lInputScale: 0.0,
-    minL: 0.10,
-    maxL: 0.60,
-    chromaScale: 1.00,
-    minC: 0.10,
-    maxC: 0.20,
+    minL: 0.40,
+    maxL: 0.70,
+    chromaScale: 0.85,
+    minC: 0.08,
+    maxC: 0.18,
     alpha: 0.50,
   },
   darkMode: {
     lOffset: -0.05,
-    cScale: 0.80,
+    cScale: 0.90,
+    brightnessOffset: -0.05,
   },
 }

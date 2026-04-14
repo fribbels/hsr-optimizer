@@ -339,7 +339,7 @@ const display = {
     y: 900,
     z: 1.1,
   },
-  showcaseColor: '#ed7668',
+  showcaseColor: '#f2d0cb',
 }
 
 export const Jiaoqiu: CharacterConfig = {

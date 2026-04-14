@@ -389,7 +389,7 @@ const display = {
     y: 1026,
     z: 1.17,
   },
-  showcaseColor: '#00babd',
+  showcaseColor: '#71ded9',
 }
 
 export const JingYuan: CharacterConfig = {

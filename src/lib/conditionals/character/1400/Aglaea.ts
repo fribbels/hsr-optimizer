@@ -567,7 +567,7 @@ const display = {
     y: 723,
     z: 1.1,
   },
-  showcaseColor: '#669dfb',
+  showcaseColor: '#e3e3c5',
 }
 
 export const Aglaea: CharacterConfig = {

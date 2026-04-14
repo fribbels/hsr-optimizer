@@ -446,7 +446,7 @@ const display = {
     y: 1059,
     z: 1,
   },
-  showcaseColor: '#00bba3',
+  showcaseColor: '#00b3dc',
 }
 
 export const Anaxa: CharacterConfig = {

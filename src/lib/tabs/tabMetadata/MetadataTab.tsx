@@ -16,6 +16,7 @@ import { Assets } from 'lib/rendering/assets'
 import { toI18NVisual } from 'lib/utils/displayUtils'
 import {
   Fragment,
+  useCallback,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -24,6 +25,14 @@ import type { ReactElement } from 'types/components'
 import type { DBMetadataCharacter } from 'types/metadata'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { ImageCenterEditorSection } from 'lib/tabs/tabMetadata/ImageCenterEditor'
+import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { DebugSliderPanel } from 'lib/characterPreview/DebugSliderPanel'
+import { useDebugPanelConfig } from 'lib/characterPreview/debugPanelConfig'
+import { useDebugVisualConfigStore } from 'lib/characterPreview/debugVisualConfigStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { cardTotalW } from 'lib/constants/constantsUi'
+import type { Character } from 'types/character'
 
 const iconSize = 40
 
@@ -36,7 +45,11 @@ export function MetadataTab(): ReactElement {
       <h1 style={{ marginLeft: 20 }}>
         Metadata viewer
       </h1>
-      <Accordion multiple>
+      <Accordion multiple defaultValue={['color-grid']}>
+        <Accordion.Item value="color-grid">
+          <Accordion.Control>Character Color Grid</Accordion.Control>
+          <Accordion.Panel><CharacterColorGridDashboard /></Accordion.Panel>
+        </Accordion.Item>
         <Accordion.Item value="image-center">
           <Accordion.Control>Image center editor</Accordion.Control>
           <Accordion.Panel><ImageCenterEditorSection /></Accordion.Panel>
@@ -380,5 +393,53 @@ function GridDisplay(props: {
         ))}
       </tbody>
     </table>
+  )
+}
+
+// =========================================== CharacterColorGridDashboard ===========================================
+
+function CharacterColorGridDashboard() {
+  const characters = useCharacterStore((s) => s.characters)
+  const { savedPresetGroups, pillGroups, groups } = useDebugPanelConfig()
+  const debugVisualConfig = useDebugVisualConfigStore()
+
+  // No-op callbacks since we don't need modal functionality in the grid view
+  const setOriginalCharacterModalOpen = useCallback(() => {}, [])
+  const setOriginalCharacterModalInitialCharacter = useCallback(() => {}, [])
+
+  if (characters.length === 0) {
+    return <div style={{ padding: 20 }}>No characters imported. Import characters to see the color grid.</div>
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 10 }}>
+      {/* Single floating debug panel that controls all cards via global store */}
+      <DebugSliderPanel
+        savedPresetGroups={savedPresetGroups}
+        pillGroups={pillGroups}
+        groups={groups}
+      />
+      {/* Character grid */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(3, ${cardTotalW}px)`,
+          gap: 10,
+        }}
+      >
+        {characters.map((character: Character, index: number) => (
+          <CharacterPreview
+            key={character.id}
+            id={`colorGrid-${character.id}-${index}`}
+            source={ShowcaseSource.CHARACTER_TAB}
+            character={character}
+            setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+            setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+            forceDebug
+            debugVisualConfig={debugVisualConfig}
+          />
+        ))}
+      </div>
+    </div>
   )
 }

@@ -186,10 +186,8 @@ function BenchmarkDefaultLayout() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
                   label={t('CombatResults.Primary')}
-                  text={
-                    // @ts-expect-error - type of key is not specific enough
-                    t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)
-                  }
+                  // @ts-expect-error - sortOption.key is always an ability key in combat scoring context
+                  text={t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)}
                 />
                 <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} precision={1} />
                 <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} precision={1} />
@@ -370,7 +368,6 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 const WrappedBuffAnalysisDisplay = memo(function({ t }: { t: TFunction<'charactersTab', undefined> }) {
   const preview = useSimScoringContext(ScoringSelector.Preview)
   if (preview === null) return null
-  console.log(preview.simForm)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       <div className={classes.sectionTitle}>

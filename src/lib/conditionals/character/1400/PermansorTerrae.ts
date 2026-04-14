@@ -340,7 +340,7 @@ const display = {
     y: 1042,
     z: 1.1,
   },
-  showcaseColor: '#00bbb4',
+  showcaseColor: '#73e4fb',
 }
 
 export const PermansorTerrae: CharacterConfig = {

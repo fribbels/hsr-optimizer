@@ -48,9 +48,10 @@ export function ChartTooltipContent({ children }: { children: ReactNode }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        background: 'var(--layer-2)',
+        background: 'var(--layer-3)',
+        border: '1px solid var(--border-default)',
         padding: 8,
-        borderRadius: 2,
+        borderRadius: 4,
       }}
     >
       {children}

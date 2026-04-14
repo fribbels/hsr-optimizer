@@ -207,7 +207,7 @@ function resolveDebugVisualConfig(config: DebugVisualConfig | undefined) {
     debugTargetL: config?.debugTargetL ?? DEFAULT_CONFIG.cardBg.targetL,
     debugMinL: config?.debugMinL ?? DEFAULT_CONFIG.cardBg.minL,
     debugMaxL: config?.debugMaxL ?? DEFAULT_CONFIG.cardBg.maxL,
-    blendMode: config?.blendMode ?? 'screen' as const,
+    blendMode: config?.blendMode ?? 'normal' as const,
     shadowX: config?.shadowX ?? SHADOW_X,
     shadowY: config?.shadowY ?? SHADOW_Y,
     shadowBlur: config?.shadowBlur ?? SHADOW_BLUR,

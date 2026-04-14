@@ -19,7 +19,7 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
     {
       title: 'Reference',
       presets: [
-        { label: 'Current', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.50, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.45, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
+        { label: 'Legacy', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.50, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.45, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
       ],
     },
     {

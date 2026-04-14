@@ -36,7 +36,7 @@ export interface ColorPipelineConfig {
 export const DEFAULT_CONFIG: ColorPipelineConfig = {
   cardBg: {
     targetL: 0.45,
-    lInputScale: 0.02,
+    lInputScale: 0.25,
     minL: 0.05,
     maxL: 0.47,
     chromaScale: 0.55,

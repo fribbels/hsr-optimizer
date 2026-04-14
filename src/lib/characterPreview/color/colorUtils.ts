@@ -110,17 +110,16 @@ function sortColorsByGroups(colors: string[], groupSize: number): string[] {
 /**
  * Builds the full color swatch grid shown in the showcase customization sidebar.
  *
- * All palette colors (named swatches + extras) are normalized to a fixed
- * OKLCH lightness and chroma while preserving their hue. This ensures every
- * swatch is equally readable regardless of how dark or saturated the source
- * color was. Achromatic colors (NaN hue) are mapped to hue 0.
+ * All palette colors (named swatches + extras) are normalized to fixed
+ * OKLCH lightness values while preserving their hue. Two tiers are generated:
+ * light (L=0.70) and dark (L=0.50), then combined into a single array.
  *
  * After normalization, duplicates are removed (multiple input hues can round to
- * the same output hex), the list is capped, and the result is sorted into
- * fixed-width lightness bands with hue ordering within each band.
+ * the same output hex), and the result is sorted into fixed-width lightness
+ * bands with hue ordering within each band.
  */
-export function organizeColors(palette: PaletteResponse) {
-  const colors = [...new Set([
+export function organizeColors(palette: PaletteResponse): string[] {
+  const sourceColors = [...new Set([
     palette.Vibrant,
     palette.DarkVibrant,
     palette.Muted,
@@ -128,13 +127,22 @@ export function organizeColors(palette: PaletteResponse) {
     palette.LightVibrant,
     palette.LightMuted,
     ...palette.colors,
-  ])].map((hex) => {
-    // Preserve hue; normalize lightness and chroma for uniform readability
+  ])]
+
+  // Light tier: L=0.70
+  const lightColors = sourceColors.map((hex) => {
     const [, , h] = chroma(hex).oklch()
     return chroma.oklch(0.70, 0.15, Number.isNaN(h) ? 0 : h).hex()
-  }).slice(0, 64)
+  })
 
-  return sortColorsByGroups([...new Set(colors)], 8)
+  // Dark tier: L=0.50
+  const darkColors = sourceColors.map((hex) => {
+    const [, , h] = chroma(hex).oklch()
+    return chroma.oklch(0.50, 0.15, Number.isNaN(h) ? 0 : h).hex()
+  })
+
+  const combined = [...new Set([...lightColors, ...darkColors])]
+  return sortColorsByGroups(combined, 8)
 }
 
 /**

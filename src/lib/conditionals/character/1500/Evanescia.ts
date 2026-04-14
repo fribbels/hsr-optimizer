@@ -482,21 +482,14 @@ const scoring = (): ScoringMetadata => ({
       Stats.CR,
       Stats.CD,
     ],
-    [Parts.Feet]: [
-      Stats.SPD,
-      Stats.ATK_P,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.Physical_DMG,
-      Stats.ATK_P,
-    ],
+    [Parts.Feet]: [],
+    [Parts.PlanarSphere]: [],
     [Parts.LinkRope]: [
       Stats.ATK_P,
       Stats.ERR,
     ],
   },
   presets: [
-    PresetEffects.BANANA_SET,
     PresetEffects.fnPioneerSet(4),
   ],
   sortOption: SortOption.ELATION_SKILL,

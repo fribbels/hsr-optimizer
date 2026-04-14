@@ -525,7 +525,6 @@ const simulation = (): SimulationMetadata => ({
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-    relics2pByStats(Stats.CR, Stats.CD, Stats.SPD_P),
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,

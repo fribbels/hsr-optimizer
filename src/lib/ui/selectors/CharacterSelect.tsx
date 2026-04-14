@@ -92,7 +92,7 @@ export function CharacterSelect({
         rightSection={clearable && value
           ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(null) }} />
           : null}
-        styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: clearable && value ? 28 : undefined, fontSize: 14 } }}
+        styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: clearable && value ? 28 : undefined, fontSize: 13 } }}
       />
 
       <Modal

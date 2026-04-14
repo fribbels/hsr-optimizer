@@ -53,7 +53,15 @@
 .mantine-Select-options,
 .mantine-MultiSelect-dropdown,
 .mantine-MultiSelect-options {
-    --combobox-option-fz: 14px !important;
+    --combobox-option-fz: 13px !important;
+}
+
+/* Match input font size to dropdown */
+.mantine-Select-input,
+.mantine-MultiSelect-input,
+.mantine-Combobox-input,
+.mantine-Combobox-target .mantine-InputBase-input {
+    font-size: 13px !important;
 }
 
 /* Modal/Drawer header: inherit content panel background instead of --mantine-color-body */

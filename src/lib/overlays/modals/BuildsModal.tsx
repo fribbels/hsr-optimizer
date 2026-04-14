@@ -1,24 +1,37 @@
 import {
+  Button,
+  Flex,
+  Modal,
+} from '@mantine/core'
+import {
   IconCamera,
   IconDownload,
   IconTrash,
 } from '@tabler/icons-react'
-import { Button, Flex, Modal } from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { AppPages } from 'lib/constants/appPages'
+import {
+  CUSTOM_TEAM,
+  PartsArray,
+} from 'lib/constants/constants'
+import { useConfirmAction } from 'lib/hooks/useConfirmAction'
+import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { Message } from 'lib/interactions/message'
+import { useScrollLock } from 'lib/layout/scrollController'
 import styles from 'lib/overlays/modals/BuildsModal.module.css'
 import { useBuildsModalStore } from 'lib/overlays/modals/buildsModalStore'
 import { Assets } from 'lib/rendering/assets'
-import { useScrollLock } from 'lib/layout/scrollController'
-import { AppPages } from 'lib/constants/appPages'
 import * as buildService from 'lib/services/buildService'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
+import { getRelicById } from 'lib/stores/relic/relicStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { useConfirmAction } from 'lib/hooks/useConfirmAction'
-import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
-import { useShallow } from 'zustand/react/shallow'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   type CSSProperties,
@@ -32,11 +45,15 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import type { SavedBuild } from 'types/savedBuild'
+import type {
+  SavedBuild,
+  SavedTeammate,
+} from 'types/savedBuild'
+import { useShallow } from 'zustand/react/shallow'
 
 export function BuildsModal() {
   const { open, closeOverlay, characterId } = useBuildsModalStore(
-    useShallow((s) => ({ open: s.open, closeOverlay: s.closeOverlay, characterId: s.config?.characterId }))
+    useShallow((s) => ({ open: s.open, closeOverlay: s.closeOverlay, characterId: s.config?.characterId })),
   )
   const hasBuilds = useCharacterStore(
     useCallback((s) => characterId ? !!(s.charactersById[characterId]?.builds?.length) : false, [characterId]),
@@ -56,7 +73,7 @@ export function BuildsModal() {
 
 function BuildsModalContent() {
   const { config, closeOverlay } = useBuildsModalStore(
-    useShallow((s) => ({ config: s.config, closeOverlay: s.closeOverlay }))
+    useShallow((s) => ({ config: s.config, closeOverlay: s.closeOverlay })),
   )
   const characterId = config?.characterId ?? null
   const character = useCharacterStore(
@@ -113,15 +130,23 @@ function BuildsModalContent() {
   }, [character.id, closeOverlay, confirm, t])
 
   const handleEquip = useCallback(async (build: SavedBuild) => {
-    const result = await confirm(t('Builds.ConfirmEquip.Content'))
-    if (result) {
+    const needsConfirm = stealsRelics(build)
+    const confirmed = needsConfirm ? await confirm(t('Builds.ConfirmEquip.Content')) : true
+    if (confirmed) {
       buildService.equipBuildRelics(build.characterId, build.equipped)
       Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }))
+
+      if (build.team.filter((x) => x !== null).length === 3) {
+        const update = { teammates: build.team as SavedTeammate[] }
+        useScoringStore.getState().updateSimulationOverrides(build.characterId, update)
+        useShowcaseTabStore.getState().setShowcaseTeamPreference(build.characterId, CUSTOM_TEAM)
+      }
+
       handleCancel()
       useCharacterTabStore.getState().setFocusCharacter(build.characterId)
       useGlobalStore.getState().setActiveKey(AppPages.CHARACTERS)
     }
-  }, [closeOverlay, confirm, handleCancel, t])
+  }, [confirm, handleCancel, t])
 
   function clipboardClicked(action: 'clipboard' | 'download') {
     if (selectedBuild === null || character === null) {
@@ -177,7 +202,7 @@ function BuildsModalContent() {
   )
 }
 
-export const BuildPreview = memo(function BuildPreview(props: { character: Character | null; build: SavedBuild | null }) {
+export const BuildPreview = memo(function BuildPreview(props: { character: Character | null, build: SavedBuild | null }) {
   if (props.character !== null) {
     return (
       <CharacterPreview
@@ -227,7 +252,7 @@ export function BuildList(props: BuildListProps) {
   } = props
   return (
     <Flex
-      direction="column"
+      direction='column'
       className={styles.buildList}
       style={style}
       gap={8}
@@ -309,7 +334,7 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
         e.stopPropagation()
       }}
     >
-      <Flex direction="column" gap={6}>
+      <Flex direction='column' gap={6}>
         <HeaderText className={styles.buildName}>{build.name}</HeaderText>
         <TeammatePreview build={build} />
         {!preview && (
@@ -375,3 +400,16 @@ const TeammatePreview = memo(function TeammatePreview(props: { build: SavedBuild
     </Flex>
   )
 })
+
+function stealsRelics(build: SavedBuild) {
+  const charId = build.characterId
+  let takes = false
+  for (const part of PartsArray) {
+    const relic = getRelicById(build.equipped[part])
+    if (relic?.equippedBy && relic.equippedBy !== charId) {
+      takes = true
+      break
+    }
+  }
+  return takes
+}

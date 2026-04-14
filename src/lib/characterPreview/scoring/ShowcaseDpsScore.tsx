@@ -72,8 +72,6 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   const readonly = source === ShowcaseSource.BUILDS_MODAL
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
 
-  const [selectedTeammateIndex, setSelectedTeammateIndex] = useState<number | undefined>()
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', justifyContent: 'space-around' }} className={styles.teammatesPadding}>
@@ -83,8 +81,6 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
             index={index}
             simulationMetadata={simulationMetadata}
             characterId={characterId}
-            teamSelection={teamSelection}
-            setSelectedTeammateIndex={setSelectedTeammateIndex}
             readonly={readonly}
           />
         ))}
@@ -123,15 +119,11 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
   index,
   simulationMetadata,
   characterId,
-  teamSelection,
-  setSelectedTeammateIndex,
   readonly,
 }: {
   index: number,
   simulationMetadata: SimulationMetadata,
   characterId: CharacterId,
-  teamSelection: string,
-  setSelectedTeammateIndex: (i: number | undefined) => void,
   readonly?: boolean,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
@@ -144,10 +136,9 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
       style={{ cursor: readonly ? 'default' : 'pointer' }}
       onClick={() => {
         if (readonly) return
-        setSelectedTeammateIndex(index)
         useCharacterModalStore.getState().openOverlay({
           initialCharacter: teammate ? { form: teammate } : null,
-          onOk: createOnCharacterModalOk(characterId, index, teamSelection),
+          onOk: createOnCharacterModalOk(characterId, index),
           showSetSelection: true,
         })
       }}
@@ -256,7 +247,6 @@ function formatSpd(n: number) {
 function createOnCharacterModalOk(
   characterId: CharacterId,
   selectedTeammateIndex: number,
-  teamSelection: string,
 ) {
   return (form: CharacterModalForm) => {
     const t = i18next.getFixedT(null, 'charactersTab', 'CharacterPreview.Messages')

@@ -1,13 +1,12 @@
 import i18next from 'i18next'
-import { floorSafe } from 'lib/utils/mathUtils'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import { getYaoguangAhaPunchlineValue } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
+  type Conditionals,
+  type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
@@ -34,7 +33,7 @@ import {
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
   NULL_TURN_ABILITY_NAME,
@@ -48,17 +47,19 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_SUPPORT,
 } from 'lib/scoring/scoringConstants'
+import { floorSafe } from 'lib/utils/mathUtils'
 
-import { Eidolon } from 'types/character'
-import { CharacterConfig } from 'types/characterConfig'
-import { CharacterConditionalsController } from 'types/conditionals'
-import { HitDefinition } from 'types/hitConditionalTypes'
-import {
+import type { Eidolon } from 'types/character'
+import type { CharacterConfig } from 'types/characterConfig'
+import type { CharacterConditionalsController } from 'types/conditionals'
+import type { HitDefinition } from 'types/hitConditionalTypes'
+import type {
   ScoringMetadata,
   SimulationMetadata,
 } from 'types/metadata'
-import {
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
@@ -267,7 +268,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, (m.ultCdBuff) ? ultCdBuffValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_ULT))
       x.buff(StatKey.ELATION, (e >= 2 && m.e2UltElation) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vulnerability) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
-
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -356,6 +356,7 @@ const simulation = (): SimulationMetadata => ({
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    ...SPREAD_RELICS_4P_SUPPORT,
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,

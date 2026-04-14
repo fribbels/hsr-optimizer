@@ -1,5 +1,4 @@
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
-import { floorSafe } from 'lib/utils/mathUtils'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import {
   getYaoguangAhaPunchlineValue,
@@ -51,6 +50,7 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
   type CharacterConditionalFunction,
@@ -436,7 +436,6 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
-    // TODO: Add Sets.PunklordeStageZero to index 0 during 4.1
     Sets.TengokuLivestream,
     Sets.PunklordeStageZero,
     Sets.RutilantArena,

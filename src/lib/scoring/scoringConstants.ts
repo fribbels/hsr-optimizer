@@ -7,6 +7,11 @@ export const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
   [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
 ]
 
+export const SPREAD_RELICS_4P_SUPPORT = [
+  [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+  [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
+]
+
 export const SPREAD_ORNAMENTS_2P_FUA = [
   Sets.DuranDynastyOfRunningWolves,
   Sets.SigoniaTheUnclaimedDesolation,

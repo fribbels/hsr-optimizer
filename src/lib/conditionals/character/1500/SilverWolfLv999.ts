@@ -34,7 +34,6 @@ import {
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { ceilSafe } from 'lib/utils/mathUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -58,6 +57,7 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
+import { ceilSafe } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -119,8 +119,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBanger: true,
     punchlineStacks: 30,
     certifiedBangerStacks: 60,
-    // TODO: hiddenMmr default should be lowered, waiting for v4 to get a vibe
-    hiddenMmr: 300,
+    hiddenMmr: 120,
     spdToElation: true,
     e1Vulnerability: true,
     e4PunchlineBoost: true,
@@ -526,8 +525,7 @@ const simulation = (): SimulationMetadata => ({
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-    relics2pByStats(Stats.CR, Stats.CD),
-    relics2pByStats(Stats.SPD_P),
+    relics2pByStats(Stats.CR, Stats.CD, Stats.SPD_P),
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,

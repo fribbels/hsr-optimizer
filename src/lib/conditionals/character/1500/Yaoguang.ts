@@ -52,6 +52,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
   type CharacterConditionalFunction,
   type CharacterConfig,
@@ -65,7 +66,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const YaoguangEntities = createEnum('Yaoguang')
 export const YaoguangAbilities: AbilityKind[] = [
@@ -506,7 +506,6 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
-    // TODO: Add Sets.PunklordeStageZero during 4.1
     Sets.TengokuLivestream,
     Sets.PunklordeStageZero,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,

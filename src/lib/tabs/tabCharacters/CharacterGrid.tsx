@@ -11,30 +11,49 @@ import {
 } from '@dnd-kit/core'
 import type { DropAnimation } from '@dnd-kit/core'
 import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from '@dnd-kit/modifiers'
+import {
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { OverlayScrollbarsComponent, type OverlayScrollbarsComponentRef } from 'overlayscrollbars-react'
-import { ActionIcon, Tooltip } from '@mantine/core'
-import { modals } from '@mantine/modals'
+import {
+  ActionIcon,
+  Tooltip,
+} from '@mantine/core'
 import { useMergedRef } from '@mantine/hooks'
-import { IconPencil, IconX } from '@tabler/icons-react'
+import { modals } from '@mantine/modals'
+import {
+  IconPencil,
+  IconX,
+} from '@tabler/icons-react'
 import i18next from 'i18next'
-import { Assets } from 'lib/rendering/assets'
-import { showImageOnLoad } from 'lib/utils/frontendUtils'
+import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
+import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { AppPages } from 'lib/constants/appPages'
+import { PartsArray } from 'lib/constants/constants'
+import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
+import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
-import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
-import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+import { showImageOnLoad } from 'lib/utils/frontendUtils'
+import { afterPaint } from 'lib/utils/frontendUtils'
+import {
+  OverlayScrollbarsComponent,
+  type OverlayScrollbarsComponentRef,
+} from 'overlayscrollbars-react'
 import React, {
   memo,
   startTransition,
@@ -44,11 +63,11 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import type { Character, CharacterId } from 'types/character'
-import { afterPaint } from 'lib/utils/frontendUtils'
-import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
-import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
-import { PartsArray } from 'lib/constants/constants'
+import { useTranslation } from 'react-i18next'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import classes from './CharacterGrid.module.css'
 
 const noop = () => {}
@@ -98,7 +117,7 @@ const TRICKLE_DELAY = 50
 export function CharacterGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
   const osRef = useCallback((instance: OverlayScrollbarsComponentRef<'div'> | null) => {
-    (gridRef as React.MutableRefObject<HTMLDivElement | null>).current = instance?.getElement() ?? null
+    ;(gridRef as React.MutableRefObject<HTMLDivElement | null>).current = instance?.getElement() ?? null
   }, [])
   const characters = useCharacterStore((s) => s.characters)
   const filters = useCharacterTabStore((s) => s.filters)
@@ -201,123 +220,133 @@ export function CharacterGrid() {
   const itemIds = useMemo(() => filteredCharacters.map((c) => c.id), [filteredCharacters])
 
   return (
-      <OverlayScrollbarsComponent
-        ref={osRef}
-        className={classes.gridContainer}
-        data-container-border="true"
-        options={{ scrollbars: { autoHide: 'move', autoHideDelay: 500 } }}
-        tabIndex={0}
+    <OverlayScrollbarsComponent
+      ref={osRef}
+      className={classes.gridContainer}
+      data-container-border='true'
+      options={{ scrollbars: { autoHide: 'move', autoHideDelay: 500 } }}
+      tabIndex={0}
+    >
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancel}
       >
-        <DndContext sensors={sensors} collisionDetection={closestCenter} modifiers={[restrictToVerticalAxis, restrictToParentElement]} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={handleDragCancel}>
-          <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
-            {filteredCharacters.map((character, i) => (
-              <SortableCharacterRow
-                key={character.id}
-                character={character}
-                rank={rankMap.get(character.id) ?? 0}
-                isFocused={character.id === displayFocus}
-                loadDelay={i < INITIAL_LOAD_COUNT ? 0 : (i - INITIAL_LOAD_COUNT + 1) * TRICKLE_DELAY}
-                onClick={handleRowClick}
-                onDoubleClick={handleRowDoubleClick}
-                onEdit={handleEdit}
-                onRemove={handleRemove}
-              />
-            ))}
-          </SortableContext>
-          <DragOverlay dropAnimation={dropAnimationConfig} modifiers={[restrictToVerticalAxis]}>
-            {activeId && getCharacterById(activeId) && (
-              <DragOverlayRow
-                character={getCharacterById(activeId)!}
-                rank={rankMap.get(activeId) ?? 0}
-              />
-            )}
-          </DragOverlay>
-        </DndContext>
-      </OverlayScrollbarsComponent>
+        <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
+          {filteredCharacters.map((character, i) => (
+            <SortableCharacterRow
+              key={character.id}
+              character={character}
+              rank={rankMap.get(character.id) ?? 0}
+              isFocused={character.id === displayFocus}
+              loadDelay={i < INITIAL_LOAD_COUNT ? 0 : (i - INITIAL_LOAD_COUNT + 1) * TRICKLE_DELAY}
+              onClick={handleRowClick}
+              onDoubleClick={handleRowDoubleClick}
+              onEdit={handleEdit}
+              onRemove={handleRemove}
+            />
+          ))}
+        </SortableContext>
+        <DragOverlay dropAnimation={dropAnimationConfig} modifiers={[restrictToVerticalAxis]}>
+          {activeId && getCharacterById(activeId) && (
+            <DragOverlayRow
+              character={getCharacterById(activeId)!}
+              rank={rankMap.get(activeId) ?? 0}
+            />
+          )}
+        </DragOverlay>
+      </DndContext>
+    </OverlayScrollbarsComponent>
   )
 }
 
 type CharacterRowProps = {
-  character: Character
-  rank: number
-  isFocused: boolean
-  loadDelay: number
-  onClick: (id: CharacterId) => void
-  onDoubleClick: (id: CharacterId) => void
-  onEdit: (id: CharacterId) => void
-  onRemove: (id: CharacterId) => void
+  character: Character,
+  rank: number,
+  isFocused: boolean,
+  loadDelay: number,
+  onClick: (id: CharacterId) => void,
+  onDoubleClick: (id: CharacterId) => void,
+  onEdit: (id: CharacterId) => void,
+  onRemove: (id: CharacterId) => void,
 }
 
-const SortableCharacterRow = memo(function SortableCharacterRow({ character, rank, isFocused, loadDelay, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: character.id,
-    animateLayoutChanges: () => false,
-  })
-  const scrollRef = useRef<HTMLDivElement>(null)
+const SortableCharacterRow = memo(
+  function SortableCharacterRow({ character, rank, isFocused, loadDelay, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+      id: character.id,
+      animateLayoutChanges: () => false,
+    })
+    const scrollRef = useRef<HTMLDivElement>(null)
 
-  // Per-row staggered image loading — replaces parent-level trickle to avoid parent re-renders
-  const [loadImages, setLoadImages] = useState(loadDelay === 0)
-  useEffect(() => {
-    if (loadDelay === 0) return
-    const timer = setTimeout(() => setLoadImages(true), loadDelay)
-    return () => clearTimeout(timer)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // mount-only: delay is captured from initial render
+    // Per-row staggered image loading — replaces parent-level trickle to avoid parent re-renders
+    const [loadImages, setLoadImages] = useState(loadDelay === 0)
+    useEffect(() => {
+      if (loadDelay === 0) return
+      const timer = setTimeout(() => setLoadImages(true), loadDelay)
+      return () => clearTimeout(timer)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []) // mount-only: delay is captured from initial render
 
-  useEffect(() => {
-    if (isFocused) {
-      scrollRef.current?.scrollIntoView({ block: 'nearest' })
+    useEffect(() => {
+      if (isFocused) {
+        scrollRef.current?.scrollIntoView({ block: 'nearest' })
+      }
+    }, [isFocused])
+
+    const mergedRef = useMergedRef(setNodeRef, scrollRef)
+
+    const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
+
+    const backgroundColor = useMemo(
+      () => showcaseColor ? oklchCharacterListColor(showcaseColor, true, DEFAULT_CONFIG) : undefined,
+      [showcaseColor],
+    )
+
+    const style: React.CSSProperties = {
+      transform: CSS.Translate.toString(transform),
+      transition: transform ? transition : undefined,
+      backgroundColor,
+      opacity: isDragging ? 0.4 : undefined,
     }
-  }, [isFocused])
 
-  const mergedRef = useMergedRef(setNodeRef, scrollRef)
-
-  const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
-
-  const backgroundColor = useMemo(
-    () => showcaseColor ? oklchCharacterListColor(showcaseColor, true, DEFAULT_CONFIG) : undefined,
-    [showcaseColor],
-  )
-
-  const style: React.CSSProperties = {
-    transform: CSS.Translate.toString(transform),
-    transition: transform ? transition : undefined,
-    backgroundColor,
-    opacity: isDragging ? 0.4 : undefined,
-  }
-
-  return (
-    <div
-      ref={mergedRef}
-      className={classes.root}
-      data-selected={isFocused}
-      data-scrim-mode="frosted"
-      style={style}
-      onClick={() => onClick(character.id)}
-      onDoubleClick={() => onDoubleClick(character.id)}
-      {...attributes}
-      {...listeners}
-    >
-      <CharacterRowContent
-        character={character}
-        rank={rank}
-        loadImages={loadImages}
-        onEdit={onEdit}
-        onRemove={onRemove}
-      />
-    </div>
-  )
-}, (prev, next) => {
-  return prev.character.id === next.character.id
-    && prev.rank === next.rank
-    && prev.character.form === next.character.form
-    && prev.character.equipped === next.character.equipped
-    && prev.isFocused === next.isFocused
-})
+    return (
+      <div
+        ref={mergedRef}
+        className={classes.root}
+        data-selected={isFocused}
+        data-scrim-mode='frosted'
+        style={style}
+        onClick={() => onClick(character.id)}
+        onDoubleClick={() => onDoubleClick(character.id)}
+        {...attributes}
+        {...listeners}
+      >
+        <CharacterRowContent
+          character={character}
+          rank={rank}
+          loadImages={loadImages}
+          onEdit={onEdit}
+          onRemove={onRemove}
+        />
+      </div>
+    )
+  },
+  (prev, next) => {
+    return prev.character.id === next.character.id
+      && prev.rank === next.rank
+      && prev.character.form === next.character.form
+      && prev.character.equipped === next.character.equipped
+      && prev.isFocused === next.isFocused
+  },
+)
 
 function DragOverlayRow({ character, rank }: {
-  character: Character
-  rank: number
+  character: Character,
+  rank: number,
 }) {
   const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
 
@@ -329,8 +358,8 @@ function DragOverlayRow({ character, rank }: {
   return (
     <div
       className={classes.root}
-      data-dragging="true"
-      data-scrim-mode="frosted"
+      data-dragging='true'
+      data-scrim-mode='frosted'
       style={style}
     >
       <CharacterRowContent
@@ -345,20 +374,21 @@ function DragOverlayRow({ character, rank }: {
 }
 
 const CharacterRowContent = memo(function CharacterRowContent({ character, rank, loadImages, onEdit, onRemove }: {
-  character: Character
-  rank: number
-  loadImages: boolean
-  onEdit: (id: CharacterId) => void
-  onRemove: (id: CharacterId) => void
+  character: Character,
+  rank: number,
+  loadImages: boolean,
+  onEdit: (id: CharacterId) => void,
+  onRemove: (id: CharacterId) => void,
 }) {
-  const tGameData = i18next.getFixedT(null, 'gameData', 'Characters')
+  const { t } = useTranslation('common')
+  const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const longName = tGameData(`${character.id}.LongName`) as string
   const characterName = longName.includes('(') ? longName : tGameData(`${character.id}.Name`)
 
   // Form data for eidolon/LC
   const eidolon = character.form?.characterEidolon ?? 0
   const lightConeId = character.form?.lightCone
-  const superimposition = character.form?.lightConeSuperimposition ?? 1
+  const superimposition = lightConeId ? character.form.lightConeSuperimposition : 0
 
   return (
     <>
@@ -366,9 +396,9 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
       <div className={classes.portraitBg}>
         <img
           src={loadImages ? Assets.getCharacterPreviewById(character.id) : undefined}
-          alt=""
+          alt=''
           draggable={false}
-          decoding="async"
+          decoding='async'
           style={getCharacterConfig(character.id)?.display.gridPortraitOffset
             ? { marginTop: -(getCharacterConfig(character.id)?.display.gridPortraitOffset ?? 0) }
             : undefined}
@@ -376,14 +406,13 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
       </div>
 
       {/* Scrim gradient */}
-      <div className={classes.scrim} data-scrim-mode="frosted" />
+      <div className={classes.scrim} data-scrim-mode='frosted' />
 
       {/* Right-side frosted strip for LC area */}
       <div className={classes.lcStrip} />
 
       {/* Content */}
       <div className={classes.inner}>
-
         {/* Rank / drag grip — grip replaces rank on hover */}
         <div className={classes.rankGripSlot}>
           <span className={classes.rank}>{rank + 1}</span>
@@ -397,30 +426,30 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         {/* Name + subtitle (E/S badges) */}
         <div
           className={classes.info}
-          data-name-shadow="true"
+          data-name-shadow='true'
         >
           <div className={classes.name}>{characterName}</div>
           <div className={classes.subtitle}>
-            <span className={classes.subtitleBadge}>E{eidolon}</span>
-            <span className={classes.subtitleBadge}>S{lightConeId ? superimposition : 0}</span>
+            <span className={classes.subtitleBadge}>{t('EidolonNShort', { eidolon })}</span>
+            <span className={classes.subtitleBadge}>{t('SuperimpositionNShort', { superimposition })}</span>
             <EquipDotInline characterId={character.id} />
           </div>
         </div>
 
         {/* Light cone icon */}
         {lightConeId && (
-          <div className={classes.lcWrap} data-lc-style="shadow">
-            <img src={loadImages ? Assets.getLightConeIconById(lightConeId) : undefined} alt="" draggable={false} decoding="async" onLoad={showImageOnLoad} />
+          <div className={classes.lcWrap} data-lc-style='shadow'>
+            <img src={loadImages ? Assets.getLightConeIconById(lightConeId) : undefined} alt='' draggable={false} decoding='async' onLoad={showImageOnLoad} />
           </div>
         )}
       </div>
 
       {/* Hover action buttons — overlay on the left */}
       <div className={classes.actions}>
-        <Tooltip label="Edit" position="top" withArrow>
+        <Tooltip label='Edit' position='top' withArrow>
           <ActionIcon
             size={24}
-            variant="subtle"
+            variant='subtle'
             className={classes.actionBtn}
             onClick={(e) => {
               e.stopPropagation()
@@ -430,10 +459,10 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
             <IconPencil size={12} />
           </ActionIcon>
         </Tooltip>
-        <Tooltip label="Remove" position="top" withArrow>
+        <Tooltip label='Remove' position='top' withArrow>
           <ActionIcon
             size={24}
-            variant="subtle"
+            variant='subtle'
             className={classes.actionBtn}
             onClick={(e) => {
               e.stopPropagation()

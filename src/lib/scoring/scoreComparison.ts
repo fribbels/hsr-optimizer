@@ -2,7 +2,6 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { nullUndefinedToZero } from 'lib/utils/mathUtils'
 import type { ScoringMetadata } from 'types/metadata'
 
 export enum ScoreCategory {
@@ -34,13 +33,4 @@ export function getScoreCategory(defaultMeta: Metadata, customMeta: Metadata) {
   if (!difference && defaultMeta.stats[Stats.SPD] == 0) return ScoreCategory.DEFAULT_NO_SPEED
   if (difference) return ScoreCategory.MODIFIED
   return ScoreCategory.DEFAULT
-}
-
-export function setModifiedScoringMetadata(defaultMeta: Metadata, customMeta: Metadata) {
-  customMeta.modified = false
-  for (const stat of SubStats) {
-    if (nullUndefinedToZero(customMeta.stats[stat]) != nullUndefinedToZero(defaultMeta.stats[stat])) {
-      customMeta.modified = true
-    }
-  }
 }

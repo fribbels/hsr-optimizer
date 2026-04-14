@@ -161,8 +161,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
   }
 
   function onSpdValueChange(value: number) {
-    const meta = getScoringMetadata(characterId)
-    useScoringStore.getState().updateCharacterOverrides(characterId, { stats: { ...meta.stats, [Stats.SPD]: value } })
+    useScoringStore.getState().updateCharacterOverrides(characterId, { stats: { [Stats.SPD]: value } })
     SaveState.delayedSave()
   }
 

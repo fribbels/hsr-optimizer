@@ -10,7 +10,7 @@ import type {
   CharacterId,
 } from 'types/character'
 import type {
-  ScoringMetadata,
+  ScoringMetadataOverride,
   ShowcasePreferences,
 } from 'types/metadata'
 import type { Relic } from 'types/relic'
@@ -58,7 +58,7 @@ export type UserSettings = {
 export type HsrOptimizerSaveFormat = {
   relics: Relic[],
   characters: Character[],
-  scoringMetadataOverrides?: Record<string, ScoringMetadata>,
+  scoringMetadataOverrides?: Record<string, ScoringMetadataOverride>,
   showcasePreferences?: Record<string, ShowcasePreferences>,
   optimizerMenuState?: OptimizerMenuState,
   excludedRelicPotentialCharacters?: CharacterId[],

@@ -14,7 +14,6 @@ import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
@@ -89,22 +88,13 @@ function ResetAllCharactersButton({ focusCharacter, form }: {
   const { t } = useTranslation(['modals', 'common'])
 
   const resetAllCharacters = () => {
-    const charactersById = useCharacterStore.getState().charactersById
-    for (const character of Object.keys(charactersById) as CharacterId[]) {
-      const defaultScoringMetadata = getGameMetadata().characters[character].scoringMetadata
-      const scoringMetadataToMerge: Partial<ScoringMetadata> = {
-        stats: { ...defaultScoringMetadata.stats },
-        parts: { ...defaultScoringMetadata.parts },
-      }
-      useScoringStore.getState().updateCharacterOverrides(character, scoringMetadataToMerge)
-    }
+    useScoringStore.getState().setScoringMetadataOverrides({})
     SaveState.delayedSave()
 
-    // Update values for current screen
+    // Update form values for current screen
     if (focusCharacter) {
-      const defaultScoringMetadata = getGameMetadata().characters[focusCharacter].scoringMetadata
-      const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
-      form.setValues(displayScoringMetadata)
+      const defaults = getGameMetadata().characters[focusCharacter].scoringMetadata
+      form.setValues(getScoringValuesForDisplay(defaults))
     }
   }
 
@@ -187,15 +177,11 @@ function ScoringModalContent({ close }: { close: () => void }) {
   const handleResetDefault = () => {
     if (!scoringAlgorithmFocusCharacter) return
 
-    const defaultScoringMetadata = getGameMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
-    const displayScoringMetadata = getScoringValuesForDisplay(defaultScoringMetadata)
-    const scoringMetadataToMerge: Partial<ScoringMetadata> = {
-      stats: { ...defaultScoringMetadata.stats },
-      parts: { ...defaultScoringMetadata.parts },
-    }
+    useScoringStore.getState().clearCharacterOverrides(scoringAlgorithmFocusCharacter)
 
-    scoringAlgorithmForm.setValues(displayScoringMetadata)
-    useScoringStore.getState().updateCharacterOverrides(scoringAlgorithmFocusCharacter, scoringMetadataToMerge); SaveState.delayedSave()
+    const defaults = getGameMetadata().characters[scoringAlgorithmFocusCharacter].scoringMetadata
+    scoringAlgorithmForm.setValues(getScoringValuesForDisplay(defaults))
+    SaveState.delayedSave()
   }
 
   const previewSrc = scoringAlgorithmFocusCharacter ? Assets.getCharacterPreviewById(scoringAlgorithmFocusCharacter) : Assets.getBlank()

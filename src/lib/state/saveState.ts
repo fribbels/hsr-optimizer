@@ -114,6 +114,13 @@ export const SaveState = {
     }, ms)
   },
 
+  clearPendingTimeout: () => {
+    if (saveTimeout) {
+      clearTimeout(saveTimeout)
+      saveTimeout = null
+    }
+  },
+
   // Bypass the empty-save guard for the next save (used by "Clear data")
   permitEmptySave: () => {
     allowEmptySave = true

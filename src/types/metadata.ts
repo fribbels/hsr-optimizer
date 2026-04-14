@@ -42,6 +42,14 @@ export type ScoringMetadata = {
   /*      dps score       */ simulation?: SimulationMetadata,
 }
 
+export type ScoringParts = Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>
+export type ScoringMetadataOverride = {
+  stats?: Partial<Record<SubStats, number>>
+  parts?: Partial<Record<ScoringParts, MainStats[]>>
+  simulation?: Partial<SimulationMetadata>
+  traces?: { deactivated: string[] }
+}
+
 export type SimulationMetadata = {
   parts: {
     [part: string]: MainStats[],

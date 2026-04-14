@@ -7,7 +7,7 @@ import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { setModifiedScoringMetadata } from 'lib/scoring/scoreComparison'
+import { pruneOverridesOnLoad } from 'lib/stores/scoring/scoringDelta'
 import * as equipmentService from 'lib/services/equipmentService'
 import { OpenCloseIDs, setClose, setOpen } from 'lib/hooks/useOpenClose'
 import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
@@ -35,7 +35,7 @@ import type {
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import type { SavedBuild } from 'types/savedBuild'
-import type { DBMetadata, ScoringMetadata } from 'types/metadata'
+import type { DBMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
 import type {
   GlobalSavedSession,
@@ -61,17 +61,20 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   // Remove invalid characters
   saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
-  {
-    const validOverrides: Record<string, ScoringMetadata> = {}
-    for (const [key, scoringMetadataOverrides] of Object.entries(saveData.scoringMetadataOverrides ?? {}) as [CharacterId, ScoringMetadata][]) {
-      if (!dbCharacters[key]?.scoringMetadata) continue
-      if (!scoringMetadataOverrides?.stats) continue
-      const defaultScoringMetadata = dbCharacters[key].scoringMetadata
-      setModifiedScoringMetadata(defaultScoringMetadata, scoringMetadataOverrides)
-      validOverrides[key] = scoringMetadataOverrides
-    }
+  // Clear any pending save to avoid race condition
+  SaveState.clearPendingTimeout()
 
-    useScoringStore.getState().setScoringMetadataOverrides(validOverrides)
+  // Prune overrides to delta format (converts old full-snapshots)
+  const { result: prunedOverrides, changed } = pruneOverridesOnLoad(
+    saveData.scoringMetadataOverrides ?? {},
+    (id) => dbCharacters[id as CharacterId]?.scoringMetadata,
+  )
+
+  useScoringStore.getState().setScoringMetadataOverrides(prunedOverrides)
+
+  // Save if anything was pruned (triggers save outside of the normal autosave check)
+  if (changed && autosave) {
+    SaveState.delayedSave()
   }
 
   const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))

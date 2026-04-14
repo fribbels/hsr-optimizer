@@ -6,7 +6,7 @@ import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { SubStats, Stats } from 'lib/constants/constants'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import type { ScoringMetadata, SimulationMetadata } from 'types/metadata'
+import type { ScoringMetadata, ScoringMetadataOverride, SimulationMetadata } from 'types/metadata'
 import type { CharacterId } from 'types/character'
 
 // ---- Setup ----
@@ -23,8 +23,8 @@ function kafkaDefaults(): ScoringMetadata {
   return getGameMetadata().characters[Kafka.id].scoringMetadata
 }
 
-function statsOverride(stats: Partial<Record<string, number>>): Partial<ScoringMetadata> {
-  return { stats: stats as ScoringMetadata['stats'] }
+function statsOverride(stats: Partial<Record<string, number>>): Partial<ScoringMetadataOverride> {
+  return { stats: stats as ScoringMetadataOverride['stats'] }
 }
 
 // ---- Reset ----
@@ -47,7 +47,7 @@ describe('useScoringStore', () => {
     // getScoringMetadata must not mutate the stored override in-place via mergeUndefinedValues
     it('getScoringMetadata does not add default keys to the stored override after being called', () => {
       const override = statsOverride({ [Stats.ATK_P]: 1 })
-      state().setScoringMetadataOverrides({ [Kafka.id]: override as ScoringMetadata })
+      state().setScoringMetadataOverrides({ [Kafka.id]: override as ScoringMetadataOverride })
 
       const keysBefore = Object.keys(state().scoringMetadataOverrides[Kafka.id] ?? {})
 
@@ -55,20 +55,6 @@ describe('useScoringStore', () => {
 
       const keysAfter = Object.keys(state().scoringMetadataOverrides[Kafka.id] ?? {})
       expect(keysAfter.length).toBe(keysBefore.length)
-    })
-
-    // getScoringMetadata must not delete presets from the stored override
-    it('getScoringMetadata does not delete presets from the stored override', () => {
-      const defaults = kafkaDefaults()
-      const override = {
-        ...statsOverride({ [Stats.ATK_P]: 1 }),
-        presets: defaults.presets,
-      }
-      state().setScoringMetadataOverrides({ [Kafka.id]: override as ScoringMetadata })
-
-      getScoringMetadata(Kafka.id)
-
-      expect(state().scoringMetadataOverrides[Kafka.id]?.presets).toBeDefined()
     })
 
     it('getScoringMetadata returns a numeric weight for every SubStat when no override exists', () => {
@@ -79,7 +65,7 @@ describe('useScoringStore', () => {
     })
 
     it('getScoringMetadata merges override stat weights over defaults where they exist', () => {
-      state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.ATK_P]: 0.75 }) as ScoringMetadata })
+      state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.ATK_P]: 0.75 }) as ScoringMetadataOverride })
 
       const result = getScoringMetadata(Kafka.id)
       expect(result.stats[Stats.ATK_P]).toBe(0.75)
@@ -125,12 +111,12 @@ describe('useScoringStore', () => {
     })
 
     it('mutating getScoringMetadata stats does not corrupt the stored override', () => {
-      state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.ATK_P]: 0.5 }) as ScoringMetadata })
+      state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.ATK_P]: 0.5 }) as ScoringMetadataOverride })
 
       const result = getScoringMetadata(Kafka.id)
       result.stats[Stats.ATK_P] = 999
 
-      expect(state().scoringMetadataOverrides[Kafka.id]?.stats[Stats.ATK_P]).toBe(0.5)
+      expect(state().scoringMetadataOverrides[Kafka.id]?.stats?.[Stats.ATK_P]).toBe(0.5)
     })
   })
 
@@ -143,11 +129,13 @@ describe('useScoringStore', () => {
     })
 
     it('updateCharacterOverrides merges new stat weights into an existing override', () => {
+      // Use values that differ from Kafka's defaults (ATK_P=1, SPD=1) to avoid delta pruning
       state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.ATK_P]: 0.5 }))
-      state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.SPD]: 1 }))
+      state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.SPD]: 0.75 }))
 
       const override = state().scoringMetadataOverrides[Kafka.id]
-      expect(override?.stats[Stats.SPD]).toBe(1)
+      expect(override?.stats?.[Stats.ATK_P]).toBe(0.5)
+      expect(override?.stats?.[Stats.SPD]).toBe(0.75)
     })
 
     it('updateCharacterOverrides increments scoringVersion on each call', () => {
@@ -162,9 +150,9 @@ describe('useScoringStore', () => {
       state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.ATK_P]: 0.5 }))
       state().updateCharacterOverrides(Jingliu.id, statsOverride({ [Stats.ATK_P]: 0.8 }))
 
-      state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.HP_P]: 1 }) as ScoringMetadata })
+      state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.HP_P]: 1 }) as ScoringMetadataOverride })
 
-      expect(state().scoringMetadataOverrides[Kafka.id]?.stats[Stats.HP_P]).toBe(1)
+      expect(state().scoringMetadataOverrides[Kafka.id]?.stats?.[Stats.HP_P]).toBe(1)
       expect(state().scoringMetadataOverrides[Jingliu.id]).toBeUndefined()
       expect(state().scoringVersion).toBe(3)
     })
@@ -194,7 +182,62 @@ describe('useScoringStore', () => {
       state().clearSimulationOverrides(Kafka.id)
 
       expect(state().scoringMetadataOverrides[Kafka.id]?.simulation).toBeUndefined()
-      expect(state().scoringMetadataOverrides[Kafka.id]?.stats[Stats.ATK_P]).toBe(0.5)
+      expect(state().scoringMetadataOverrides[Kafka.id]?.stats?.[Stats.ATK_P]).toBe(0.5)
+    })
+
+    it('clearSimulationOverrides removes entire override when only simulation existed', () => {
+      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+
+      expect(state().scoringMetadataOverrides[Kafka.id]?.simulation).toBeDefined()
+
+      state().clearSimulationOverrides(Kafka.id)
+
+      expect(state().scoringMetadataOverrides[Kafka.id]).toBeUndefined()
+    })
+  })
+
+  describe('clearCharacterOverrides', () => {
+    it('removes all overrides for a character', () => {
+      state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.ATK_P]: 0.5 }))
+      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+
+      expect(state().scoringMetadataOverrides[Kafka.id]).toBeDefined()
+
+      state().clearCharacterOverrides(Kafka.id)
+
+      expect(state().scoringMetadataOverrides[Kafka.id]).toBeUndefined()
+    })
+
+    it('increments scoringVersion', () => {
+      state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.ATK_P]: 0.5 }))
+      const versionBefore = state().scoringVersion
+
+      state().clearCharacterOverrides(Kafka.id)
+
+      expect(state().scoringVersion).toBe(versionBefore + 1)
+    })
+
+    it('is idempotent when no override exists', () => {
+      expect(state().scoringMetadataOverrides[Kafka.id]).toBeUndefined()
+
+      state().clearCharacterOverrides(Kafka.id)
+
+      expect(state().scoringMetadataOverrides[Kafka.id]).toBeUndefined()
+    })
+  })
+
+  describe('delta pruning behavior', () => {
+    it('updateCharacterOverrides removes override when all values match defaults', () => {
+      const defaults = kafkaDefaults()
+      // Set an override different from defaults
+      state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.ATK_P]: 0.5 }))
+      expect(state().scoringMetadataOverrides[Kafka.id]).toBeDefined()
+
+      // Now set it back to the default value
+      state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.ATK_P]: defaults.stats[Stats.ATK_P] }))
+
+      // The override should be completely removed
+      expect(state().scoringMetadataOverrides[Kafka.id]).toBeUndefined()
     })
   })
 })

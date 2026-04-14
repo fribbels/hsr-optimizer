@@ -52,11 +52,11 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type CharacterConfig } from 'types/characterConfig'
 import {
@@ -64,7 +64,10 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
-import { floorSafe, precisionRound } from 'lib/utils/mathUtils'
+import {
+  floorSafe,
+  precisionRound,
+} from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -638,7 +641,7 @@ const display = {
     y: 1025,
     z: 1.05,
   },
-  showcaseColor: '#00bab6',
+  showcaseColor: '#00bb87',
 }
 
 export const Hyacine: CharacterConfig = {

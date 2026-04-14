@@ -5,7 +5,7 @@ const clear = <T>(prev: T | null): T | null => prev === null ? prev : null
 
 /**
  * Workaround for React DevTools Profiler crash with Suspense.
- * See: https://github.com/facebook/react/issues/34337
+ * See: https://github.com/facebook/react/issues/35818
  *
  * Resolves a promise without suspending. Returns null while pending, result when resolved.
  * When the profiler bug is fixed, migrate back to React's use() hook + Suspense boundaries.

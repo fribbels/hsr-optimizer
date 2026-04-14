@@ -27,8 +27,8 @@ interface SimScoringContext {
   preview: PreparedState | null
   scoringPromise: Promise<SimulationScore | null>
   upgradePromise: Promise<SimulationScore | null>
-  scoringDone: boolean
-  upgradesDone: boolean
+  cachedScore: SimulationScore | null
+  cachedUpgrades: SimulationScore | null
 }
 
 // Stable reference to avoid re-renders when no promise exists
@@ -42,8 +42,8 @@ export const SimScoringContext = createContext<SimScoringContext>({
   preview: null,
   scoringPromise: nullPromise,
   upgradePromise: nullPromise,
-  scoringDone: false,
-  upgradesDone: false,
+  cachedScore: null,
+  cachedUpgrades: null,
 })
 
 interface SimScoringContextProps extends PropsWithChildren {
@@ -63,8 +63,8 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
         preview: null,
         scoringPromise: nullPromise,
         upgradePromise: nullPromise,
-        scoringDone: false,
-        upgradesDone: false,
+        cachedScore: null,
+        cachedUpgrades: null,
       }
     }
 
@@ -78,10 +78,10 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
       .set(cacheKey, requestScoreUpgrades(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions))
       .get(cacheKey)!
 
-    const scoringDone = resultCache.has(cacheKey)
-    const upgradesDone = upgradeResultCache.has(cacheKey)
+    const cachedScore = resultCache.get(cacheKey) ?? null
+    const cachedUpgrades = upgradeResultCache.get(cacheKey) ?? null
 
-    return { preview, scoringPromise, upgradePromise, scoringDone, upgradesDone }
+    return { preview, scoringPromise, upgradePromise, cachedScore, cachedUpgrades }
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [cacheKey])
 
@@ -99,6 +99,7 @@ export enum ScoringSelector {
 }
 
 // Uses usePromise instead of use() to avoid Suspense and React profiler crashes
+// Returns cached result immediately if available, avoiding flash during transitions
 export function useSimScoringContext(selector: ScoringSelector.Preview): PreparedState | null
 export function useSimScoringContext(selector: ScoringSelector.Score | ScoringSelector.Upgrades): SimulationScore | null
 export function useSimScoringContext(selector: ScoringSelector) {
@@ -106,6 +107,9 @@ export function useSimScoringContext(selector: ScoringSelector) {
   const promise = selector === ScoringSelector.Score ? ctx.scoringPromise
     : selector === ScoringSelector.Upgrades ? ctx.upgradePromise
     : null
-  const output = usePromise(promise)
-  return selector === ScoringSelector.Preview ? ctx.preview : output
+  const cached = selector === ScoringSelector.Score ? ctx.cachedScore
+    : selector === ScoringSelector.Upgrades ? ctx.cachedUpgrades
+    : null
+  const promised = usePromise(promise)
+  return selector === ScoringSelector.Preview ? ctx.preview : cached ?? promised
 }

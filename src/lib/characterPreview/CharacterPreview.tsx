@@ -61,6 +61,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   type Character,
   type CharacterId,
@@ -308,6 +309,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // handles the equipped field difference (Relic objects vs string IDs).
   const character = rawCharacter as Character
 
+  const { t } = useTranslation('gameData')
+
   const [portraitBlur, setPortraitBlur] = useState(PORTRAIT_BLUR)
   const [portraitBrightness, setPortraitBrightness] = useState(PORTRAIT_BRIGHTNESS)
   const [portraitSaturate, setPortraitSaturate] = useState(PORTRAIT_SATURATE)
@@ -358,9 +361,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         teamSelection: state.teamSelection,
         storedScoringType: state.storedScoringType,
         savedBuildOverride,
+        t,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character, state.teamSelection, state.storedScoringType, savedBuildOverride, state.scoringMetadata],
+    [character, state.teamSelection, state.storedScoringType, savedBuildOverride, state.scoringMetadata, t],
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====

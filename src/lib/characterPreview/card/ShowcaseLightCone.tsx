@@ -1,3 +1,4 @@
+import styles from 'lib/characterPreview/card/ShowcaseLightCone.module.css'
 import {
   showcaseShadow,
 } from 'lib/characterPreview/CharacterPreviewComponents'
@@ -5,7 +6,6 @@ import {
   type ShowcaseDisplayDimensions,
   type ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
-import styles from 'lib/characterPreview/card/ShowcaseLightCone.module.css'
 import { StatText } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
@@ -29,7 +29,7 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
   setOriginalCharacterModalOpen,
   showcaseMetadata,
 }: ShowcaseLightConeProps) {
-  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+  const { t } = useTranslation('common')
 
   const {
     tempLcParentW,
@@ -67,7 +67,7 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
               boxShadow: showcaseShadow,
             }}
           >
-            {`${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })} - ${lightConeName}`}
+            {`${t('SuperimpositionNShort', { superimposition: lightConeSuperimposition })} - ${lightConeName}`}
           </div>
         </div>
       )}
@@ -140,9 +140,9 @@ export const ShowcaseLightConeLarge = memo(function ShowcaseLightConeLarge({
 })
 
 export const ShowcaseLightConeLargeName = memo(function ShowcaseLightConeLargeName({ showcaseMetadata }: {
-  showcaseMetadata: ShowcaseMetadata
+  showcaseMetadata: ShowcaseMetadata,
 }) {
-  const { t } = useTranslation(['charactersTab', 'modals', 'common'])
+  const { t } = useTranslation('common')
 
   const {
     lightConeName,
@@ -157,7 +157,7 @@ export const ShowcaseLightConeLargeName = memo(function ShowcaseLightConeLargeNa
       </StatText>
       <StatText className={styles.lcLevelText}>
         {
-          `${t('common:LevelShort', { level: lightConeLevel })} ${t('common:SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
+          `${t('LevelShort', { level: lightConeLevel })} ${t('SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
           /* Lv 80 S5 */
         }
       </StatText>

@@ -1,4 +1,4 @@
-import i18next from 'i18next'
+import i18next, { type TFunction } from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
@@ -30,16 +30,22 @@ import {
 } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import * as equipmentService from 'lib/services/equipmentService'
+import * as persistenceService from 'lib/services/persistenceService'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import type { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
-import * as equipmentService from 'lib/services/equipmentService'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { clone, objectHash } from 'lib/utils/objectUtils'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import {
+  clone,
+  objectHash,
+} from 'lib/utils/objectUtils'
 import type {
   Character,
   CharacterId,
@@ -49,13 +55,13 @@ import type {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
+import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
   DBMetadataLightCone,
   ElementalDamageType,
   ImageCenter,
 } from 'types/metadata'
-import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
 
 export type ShowcaseMetadata = {
@@ -84,7 +90,7 @@ export type ShowcaseDisplayDimensions = {
   tempParentH: number,
   newLcHeight: number,
   newLcMargin: number,
-  lcImageOffset: { x: number; y: number; s: number },
+  lcImageOffset: { x: number, y: number, s: number },
   charCenter: ImageCenter,
   spineCenter: ImageCenter,
   disableSpine: boolean,
@@ -256,7 +262,10 @@ export function showcaseOnEditPortraitOk(
     }
     case 'delete': {
       const charToDelete = getCharacterById(character.id)
-      if (!charToDelete) { console.warn('No character selected'); break }
+      if (!charToDelete) {
+        console.warn('No character selected')
+        break
+      }
       useCharacterStore.getState().setCharacter({ ...charToDelete, portrait: undefined })
       setCustomPortrait(undefined)
       Message.success(t('CharacterPreview.Messages.RevertedPortrait') /* Successfully reverted portrait */)
@@ -290,9 +299,7 @@ export function handleTeamSelection(
   return currentSelection ?? DEFAULT_TEAM
 }
 
-export function getShowcaseMetadata(character: Character) {
-  const t = i18next.getFixedT(null, 'gameData')
-
+export function getShowcaseMetadata(character: Character, t: TFunction<'gameData'>) {
   const characterId = character.form.characterId
   const characterMetadata = getGameMetadata().characters[characterId]
   const characterElement = characterMetadata.element

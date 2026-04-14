@@ -1,3 +1,4 @@
+import { type TFunction } from 'i18next'
 import {
   getArtistName,
   getShowcaseDisplayDimensions,
@@ -9,11 +10,14 @@ import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { resolveDpsScoreSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getCharacterById } from 'lib/stores/character/characterStore'
-import { Assets } from 'lib/rendering/assets'
-import type { Character, SavedBuild } from 'types/character'
+import type {
+  Character,
+  SavedBuild,
+} from 'types/character'
 import type { CustomImageConfig } from 'types/customImage'
 import type { SimulationMetadata } from 'types/metadata'
 
@@ -24,6 +28,7 @@ interface ShowcaseLayoutParams {
   teamSelection: string | undefined
   storedScoringType: ScoringType
   savedBuildOverride?: SavedBuild | null
+  t: TFunction<'gameData'>
 }
 
 export interface ShowcaseLayout {
@@ -39,9 +44,9 @@ export interface ShowcaseLayout {
 }
 
 export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLayout {
-  const { character, teamSelection, storedScoringType, savedBuildOverride } = params
+  const { character, teamSelection, storedScoringType, savedBuildOverride, t } = params
 
-  const showcaseMetadata = getShowcaseMetadata(character)
+  const showcaseMetadata = getShowcaseMetadata(character, t)
   const currentSelection = handleTeamSelection(character, teamSelection)
   const simulationMetadata = resolveDpsScoreSimulationMetadata(character, currentSelection, savedBuildOverride)
   const hasSimulation = simulationMetadata != null

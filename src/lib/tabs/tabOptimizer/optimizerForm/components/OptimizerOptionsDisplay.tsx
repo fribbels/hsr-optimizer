@@ -126,6 +126,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
         excludeCharacters: [getCharacterById(optimizerTabFocusCharacter!)!],
         withNobodyOption: false,
         longNameLabel: true,
+        longNameTitle: true,
       },
       tCharacters,
     ), [characters, optimizerTabFocusCharacter, tCharacters])

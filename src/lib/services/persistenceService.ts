@@ -61,9 +61,6 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   // Remove invalid characters
   saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
-  // Clear any pending save to avoid race condition
-  SaveState.clearPendingTimeout()
-
   // Prune overrides to delta format (converts old full-snapshots)
   const { result: prunedOverrides, changed } = pruneOverridesOnLoad(
     saveData.scoringMetadataOverrides ?? {},

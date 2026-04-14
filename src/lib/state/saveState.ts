@@ -96,6 +96,7 @@ export const SaveState = {
     const stateString = JSON.stringify(state)
     try {
       localStorage.setItem(STATE_KEY, stateString)
+      console.log('SaveState: Saved')
     } catch (e) {
       console.error('Failed to save state (storage quota exceeded?)', e)
     }
@@ -112,13 +113,6 @@ export const SaveState = {
     saveTimeout = setTimeout(() => {
       SaveState.save()
     }, ms)
-  },
-
-  clearPendingTimeout: () => {
-    if (saveTimeout) {
-      clearTimeout(saveTimeout)
-      saveTimeout = null
-    }
   },
 
   // Bypass the empty-save guard for the next save (used by "Clear data")

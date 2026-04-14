@@ -2,7 +2,7 @@ import { MainStatPartsArray, SubStats } from 'lib/constants/constants'
 import type { MainStats } from 'lib/constants/constants'
 import type { ScoringMetadata, ScoringMetadataOverride, ScoringParts, SimulationMetadata } from 'types/metadata'
 import { clone } from 'lib/utils/objectUtils'
-import { arraysEqual } from 'lib/utils/arrayUtils'
+import { arraysShallowEqual } from 'lib/utils/arrayUtils'
 
 // ─── Delta Extraction ────────────────────────────────────────────
 
@@ -49,7 +49,7 @@ export function extractPartsDelta(
     const value = parts[part]
     if (value === undefined) continue
 
-    if (!arraysEqual(value, defaults[part])) {
+    if (!arraysShallowEqual(value, defaults[part])) {
       delta[part] = value
     }
   }

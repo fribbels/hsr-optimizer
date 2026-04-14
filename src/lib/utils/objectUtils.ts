@@ -59,3 +59,14 @@ export function mergeUndefinedValues<T extends Record<string, unknown>>(target: 
   }
   return target
 }
+
+/** Remove a key from an object, returning a new object. */
+export function omit<T extends Record<string, unknown>>(obj: T, key: string): T {
+  const { [key]: _, ...rest } = obj
+  return rest as T
+}
+
+/** Set a key if value is truthy, otherwise remove it. */
+export function setOrOmit<T>(record: Record<string, T>, key: string, value: T | undefined): Record<string, T> {
+  return value ? { ...record, [key]: value } : omit(record, key)
+}

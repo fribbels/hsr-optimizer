@@ -2,7 +2,7 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { COMBO_STATE_JSON_VERSION } from 'lib/optimization/combo/comboTypes'
-import { arraysEqual } from 'lib/utils/arrayUtils'
+import { arraysShallowEqual } from 'lib/utils/arrayUtils'
 import { persistFormToCharacterStore } from './comboDrawerUtils'
 import { useComboDrawerStore } from './useComboDrawerStore'
 
@@ -15,7 +15,7 @@ function syncToStores(comboState: ComboState) {
   if (requestStore.comboStateJson !== newJson) {
     requestStore.setComboStateJson(newJson)
   }
-  if (!arraysEqual(requestStore.comboTurnAbilities, comboState.comboTurnAbilities)) {
+  if (!arraysShallowEqual(requestStore.comboTurnAbilities, comboState.comboTurnAbilities)) {
     requestStore.setComboTurnAbilities(comboState.comboTurnAbilities)
   }
 

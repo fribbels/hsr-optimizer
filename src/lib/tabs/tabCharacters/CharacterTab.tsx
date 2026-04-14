@@ -27,8 +27,10 @@ const densityOptions = [
 
 export function CharacterTab() {
   // Only sync when optimizer focus changed — otherwise tab revisits stomp the user's selection.
+  // Initialize to saved session character so session restore doesn't trigger a sync on first visit.
   const { addActivationListener } = useContext(TabVisibilityContext)
-  const lastSyncedFocusRef = useRef<CharacterId | undefined>(undefined)
+  const savedSessionCharacterId = useGlobalStore.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
+  const lastSyncedFocusRef = useRef<CharacterId | undefined>(savedSessionCharacterId)
   useEffect(() => {
     return addActivationListener(() => {
       const id = useOptimizerDisplayStore.getState().focusCharacterId

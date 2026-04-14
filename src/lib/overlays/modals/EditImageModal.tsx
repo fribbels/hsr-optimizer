@@ -139,12 +139,11 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
       case 'url': {
         const validation = customImageForm.validate()
         if (!validation.hasErrors) {
-          const values = customImageForm.getValues()
           onOk({
             type: 'add',
             config: {
               ...baseConfig,
-              imageUrl: values.imageUrl,
+              imageUrl: verifiedImageUrl,
               artistName: artistName,
             } as CustomImageConfig,
           })

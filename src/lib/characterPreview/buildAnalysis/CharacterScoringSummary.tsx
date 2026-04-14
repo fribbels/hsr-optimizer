@@ -186,7 +186,7 @@ function BenchmarkDefaultLayout() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
                   label={t('CombatResults.Primary')}
-                  // @ts-expect-error - not all sortOption keys have translations yet
+                  // @ts-ignore - not all sortOption keys have translations yet
                   text={t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)}
                 />
                 <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} precision={1} />

@@ -273,7 +273,10 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
 
       <Button
         leftSection={<IconSettings size={16} />}
-        onClick={() => setOpen(OpenCloseIDs.SCORING_MODAL)}
+        onClick={() => {
+          useGlobalStore.getState().setScoringAlgorithmFocusCharacter(characterId)
+          setOpen(OpenCloseIDs.SCORING_MODAL)
+        }}
         variant='default'
       >
         {tScoring('Stats.WeightsButton') /* Weights */}

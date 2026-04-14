@@ -191,10 +191,11 @@ export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>):
       cellRenderer: AnySetCellRenderer,
     },
     {
-      field: 'grade',
       headerName: '★',
       width: 30,
       cellRenderer: GradeCellRenderer,
+      // Unique identifier so AG Grid detects changes to grade/initialRolls/verified
+      valueGetter: (p) => p.data ? p.data.grade + (p.data.initialRolls ?? 3) * 10 + (p.data.verified ? 100 : 0) : 0,
     },
     {
       field: 'enhance',

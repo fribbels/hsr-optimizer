@@ -9,18 +9,28 @@ import {
   setToId,
 } from 'lib/sets/setConfigRegistry'
 import {
-  type OpenCloseIDs,
+  OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import type { SelectOptionContent } from 'types/setConfig'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
+
+/**
+ * Enum for identifying which store to use for set conditionals.
+ */
+export enum SetConditionalsStoreType {
+  Optimizer = 'optimizer',
+  Benchmark = 'benchmark',
+}
 
 const setConditionalsIconWidth = 32
 const setConditionalsNameWidth = 255
@@ -28,10 +38,21 @@ const setConditionalsWidth = 100
 const defaultGap = 5
 const columnGap = 6
 
+function getSetConditionalValue(
+  setConditionals: SetConditionals,
+  set: string,
+  storeType: SetConditionalsStoreType,
+  forStore: SetConditionalsStoreType,
+): boolean | number | undefined {
+  if (storeType !== forStore) return undefined
+  return (setConditionals as Record<string, [unknown, boolean | number]>)[set]?.[1]
+}
+
 interface BaseConditionalSetOptionProps {
   description: string
   conditional: string
   selectOptions?: Array<SelectOptionContent>
+  storeType: SetConditionalsStoreType
 }
 interface RelicConditionalSetOptionProps extends BaseConditionalSetOptionProps {
   set: SetsRelics
@@ -43,14 +64,27 @@ interface OrnamentConditionalSetOptionProps extends BaseConditionalSetOptionProp
 }
 type ConditionalSetOptionsProps = OrnamentConditionalSetOptionProps | RelicConditionalSetOptionProps
 
-function ConditionalSetOption({ set, description, conditional, selectOptions, ...rest }: ConditionalSetOptionsProps) {
+function ConditionalSetOption({ set, description, conditional, selectOptions, storeType, ...rest }: ConditionalSetOptionsProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
-  const itemName = ['setConditionals', set, 1] as (string | number)[]
-  const value = useOptimizerRequestStore((s) => {
-    const setData = (s.setConditionals as Record<string, [undefined, boolean | number]>)[set]
-    return setData?.[1]
-  })
+  const fromOptimizer = useOptimizerRequestStore((s) =>
+    getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Optimizer)
+  )
+  const fromBenchmark = useBenchmarksTabStore((s) =>
+    getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Benchmark)
+  )
+
+  const value = storeType === SetConditionalsStoreType.Optimizer ? fromOptimizer : fromBenchmark
+
+  const handleChange = (newValue: boolean | number | null) => {
+    if (newValue == null) return
+
+    if (storeType === SetConditionalsStoreType.Optimizer) {
+      handleConditionalChange(['setConditionals', set, 1], newValue) // Also patches comboStateJson
+    } else {
+      useBenchmarksTabStore.getState().setSetConditional(set, newValue)
+    }
+  }
 
   const content = (
     <Flex direction="column" gap={12}>
@@ -81,7 +115,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
         comboboxProps={{ keepMounted: false, width: 160 }}
         data={stringSelectOptions}
         value={value != null ? String(value) : null}
-        onChange={(val) => handleConditionalChange(itemName, val != null ? Number(val) : val)}
+        onChange={(val) => handleChange(val != null ? Number(val) : null)}
       />
     )
   } else {
@@ -89,7 +123,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, ..
       <Switch
         disabled={disabled}
         checked={value as boolean}
-        onChange={(event) => handleConditionalChange(itemName, event.currentTarget.checked)}
+        onChange={(event) => handleChange(event.currentTarget.checked)}
       />
     )
   }
@@ -133,6 +167,10 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
   const [hasOpened, setHasOpened] = useState(false)
   if (isOpen && !hasOpened) setHasOpened(true)
 
+  const storeType = id === OpenCloseIDs.BENCHMARKS_SETS_DRAWER
+    ? SetConditionalsStoreType.Benchmark
+    : SetConditionalsStoreType.Optimizer
+
   return (
     <Drawer
       title={t('Title')} // 'Conditional set effects'
@@ -142,12 +180,12 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
       size={900}
       keepMounted
     >
-      {hasOpened && <FormSetConditionalsContent />}
+      {hasOpened && <FormSetConditionalsContent storeType={storeType} />}
     </Drawer>
   )
 }
 
-function FormSetConditionalsContent() {
+function FormSetConditionalsContent({ storeType }: { storeType: SetConditionalsStoreType }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
   const { t: tSelectOptions } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
 
@@ -158,6 +196,7 @@ function FormSetConditionalsContent() {
         <ConditionalSetOption
           key={set}
           set={set}
+          storeType={storeType}
           p4Checked={!config.display.modifiable}
           description={t('RelicDescription', { id: setToId[set] })}
           conditional={t(setToConditionalKey(set))}
@@ -172,6 +211,7 @@ function FormSetConditionalsContent() {
         <ConditionalSetOption
           key={set}
           set={set}
+          storeType={storeType}
           p2Checked={!config.display.modifiable}
           description={t('PlanarDescription', { id: setToId[set] })}
           conditional={t(setToConditionalKey(set))}
@@ -181,7 +221,7 @@ function FormSetConditionalsContent() {
     })
 
     return { relicOptions, ornamentOptions }
-  }, [tSelectOptions, t])
+  }, [tSelectOptions, t, storeType])
 
   return (
     <Flex justify='space-around'>

@@ -5,6 +5,7 @@ import type { MainConditionalType, TeammateConditionalType } from 'lib/stores/op
 import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import { mergeDefinedValues } from 'lib/utils/objectUtils'
 import { type Form } from 'types/form'
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 
 export type SuggestionFixes = {
   setFilters?: SetFilters
@@ -117,10 +118,10 @@ export function computeSetTeammateConditional(
  * Set conditionals use the legacy [undefined, value] tuple format.
  */
 export function computeSetSetConditional(
-  state: OptimizerRequestState,
+  state: { setConditionals: SetConditionals },
   key: string,
   value: boolean | number,
-): Partial<OptimizerRequestState> {
+): { setConditionals: SetConditionals } {
   const setConditionals = { ...state.setConditionals } as Record<string, [undefined, boolean | number]>
   const existing = setConditionals[key]
   const tuple: [undefined, boolean | number] = existing ? [...existing] : [undefined, value]

@@ -5,6 +5,9 @@ import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
+import { clone } from 'lib/utils/objectUtils'
+import { computeSetSetConditional } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import type {
   SetsOrnaments,
   SetsRelics,
@@ -75,6 +78,10 @@ type BenchmarksTabState = {
   ) => void,
   resetCache: () => void,
   setLoading: (loading: boolean) => void,
+
+  setConditionals: SetConditionals,
+  setSetConditional: (key: string, value: boolean | number) => void,
+  setSetConditionals: (conditionals: SetConditionals) => void,
 }
 
 export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((set, get) => ({
@@ -88,6 +95,7 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
   loading: false,
 
   orchestrators: [],
+  setConditionals: clone(defaultSetConditionals),
 
   updateTeammate: (index, data?: SimpleCharacterSets) =>
     set((state) => ({
@@ -138,4 +146,11 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
     set({
       loading,
     }),
+
+  setSetConditional: (key, value) => set((state) =>
+    computeSetSetConditional(state, key, value)
+  ),
+
+  setSetConditionals: (conditionals: SetConditionals) =>
+    set({ setConditionals: conditionals }),
 }))

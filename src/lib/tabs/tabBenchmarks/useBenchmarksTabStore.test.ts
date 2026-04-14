@@ -8,6 +8,8 @@ import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { IShallBeMyOwnSword } from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
 import { Sets } from 'lib/constants/constants'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
+import { clone } from 'lib/utils/objectUtils'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 
 // ---- Constants ----
@@ -66,6 +68,11 @@ describe('useBenchmarksTabStore', () => {
       expect(state().storedOrnaments).toEqual([])
       expect(state().loading).toBe(false)
       expect(state().orchestrators).toEqual([])
+    })
+
+    it('store initializes with default setConditionals', () => {
+      // clone() converts undefined to null, so compare cloned values
+      expect(state().setConditionals).toEqual(clone(defaultSetConditionals))
     })
   })
 
@@ -235,6 +242,29 @@ describe('useBenchmarksTabStore', () => {
       expect(state().loading).toBe(true)
       state().setLoading(false)
       expect(state().loading).toBe(false)
+    })
+  })
+
+  describe('setConditionals management', () => {
+    it('setSetConditional updates a single set conditional value', () => {
+      // Get current value (don't assume specific default)
+      const initialValue = state().setConditionals[Sets.BandOfSizzlingThunder]?.[1]
+
+      // Toggle to opposite of current value
+      const newValue = !initialValue
+      state().setSetConditional(Sets.BandOfSizzlingThunder, newValue)
+
+      expect(state().setConditionals[Sets.BandOfSizzlingThunder][1]).toBe(newValue)
+    })
+
+    it('setSetConditionals replaces entire setConditionals object', () => {
+      const newConditionals = clone(defaultSetConditionals)
+      // clone converts undefined to null, so use type assertion
+      newConditionals[Sets.BandOfSizzlingThunder] = [null as unknown as undefined, true]
+
+      state().setSetConditionals(newConditionals)
+
+      expect(state().setConditionals).toEqual(newConditionals)
     })
   })
 

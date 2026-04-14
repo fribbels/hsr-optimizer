@@ -24,10 +24,7 @@ import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
-import type {
-  BenchmarkForm,
-  SimpleCharacter,
-} from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import type { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import type { PresetDefinition } from 'lib/scoring/presetEffects'
 import { setSortColumn } from 'lib/stores/gridStore'
 import { clone, mergeDefinedValues, mergeUndefinedValues } from 'lib/utils/objectUtils'
@@ -163,24 +160,4 @@ export function applyTeamAwareSetConditionalPresetsToStore() {
 
   // Update the store with the modified set conditionals
   useOptimizerRequestStore.getState().setSetConditionals(form.setConditionals)
-}
-
-export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
-  formInstance: UseFormReturnType<BenchmarkForm>,
-  teammate0?: SimpleCharacter,
-  teammate1?: SimpleCharacter,
-  teammate2?: SimpleCharacter,
-) {
-  const form = formInstance.getValues()
-  const teammateIds = [
-    teammate0?.characterId,
-    teammate1?.characterId,
-    teammate2?.characterId,
-  ]
-
-  applyTeamAwareSetConditionalPresets(form, teammateIds)
-
-  if (form.setConditionals) {
-    formInstance.setFieldValue(`setConditionals.${Sets.ArcadiaOfWovenDreams}.1` as never, form.setConditionals[Sets.ArcadiaOfWovenDreams][1] as never)
-  }
 }

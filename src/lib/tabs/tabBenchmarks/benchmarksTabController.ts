@@ -3,6 +3,7 @@ import i18next from 'i18next'
 import {
   applyScoringMetadataPresets,
   applySetConditionalPresets,
+  applyTeamAwareSetConditionalPresets,
 } from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
@@ -38,7 +39,7 @@ export function handleResetBenchmarks() {
 }
 
 export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
-  const { teammate0, teammate1, teammate2, setResults, storedRelics, storedOrnaments, setLoading } = useBenchmarksTabStore.getState()
+  const { teammate0, teammate1, teammate2, setResults, storedRelics, storedOrnaments, setLoading, setConditionals } = useBenchmarksTabStore.getState()
 
   const validationForm: BenchmarkForm = {
     ...benchmarkForm,
@@ -80,6 +81,7 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
           teammate0,
           teammate1,
           teammate2,
+          setConditionals, // Must be after spread
         }
 
         const fullHash = objectHash(mergedBenchmarkForm)
@@ -192,4 +194,28 @@ export function handleCharacterSelectChange(id: CharacterId | null, formInstance
   state.updateTeammate(2, simulationMetadata.teammates[2])
 
   formInstance.setValues(form)
+  state.setSetConditionals(form.setConditionals)
+}
+
+export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
+  formInstance: UseFormReturnType<BenchmarkForm>,
+  teammate0?: SimpleCharacter,
+  teammate1?: SimpleCharacter,
+  teammate2?: SimpleCharacter,
+) {
+  // Clone from store (source of truth) - applyTeamAwareSetConditionalPresets mutates
+  const currentSetConditionals = clone(useBenchmarksTabStore.getState().setConditionals)
+  const form = { ...formInstance.getValues(), setConditionals: currentSetConditionals }
+
+  const teammateIds = [
+    teammate0?.characterId,
+    teammate1?.characterId,
+    teammate2?.characterId,
+  ]
+
+  applyTeamAwareSetConditionalPresets(form, teammateIds)
+
+  if (form.setConditionals) {
+    useBenchmarksTabStore.getState().setSetConditionals(form.setConditionals)
+  }
 }

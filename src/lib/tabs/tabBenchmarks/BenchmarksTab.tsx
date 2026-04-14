@@ -11,7 +11,6 @@ import type { UseFormReturnType } from '@mantine/form'
 import {
   OverlayText,
 } from 'lib/characterPreview/CharacterPreviewComponents'
-import { applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance } from 'lib/conditionals/evaluation/applyPresets'
 import { Sets } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -32,6 +31,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import {
+  applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance,
   handleBenchmarkFormSubmit,
   handleCharacterSelectChange,
   handleResetBenchmarks,

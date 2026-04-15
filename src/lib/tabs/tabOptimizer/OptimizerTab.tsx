@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { SettingOptions } from 'lib/constants/settingsConstants'
 import { ExpandedDataPanel } from 'lib/tabs/tabOptimizer/analysis/ExpandedDataPanel'
 import { OptimizerBuildPreview } from 'lib/tabs/tabOptimizer/OptimizerBuildPreview'
 import { OptimizerGrid } from 'lib/tabs/tabOptimizer/optimizerForm/grid/OptimizerGrid'

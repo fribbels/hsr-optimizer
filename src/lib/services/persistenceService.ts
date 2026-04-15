@@ -11,7 +11,7 @@ import {
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { DefaultSettingOptions } from 'lib/constants/settingsConstants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import {
   findRelicMatch,

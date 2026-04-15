@@ -3,7 +3,7 @@ import {
   Button,
 } from '@mantine/core'
 import { IconEyeOff } from '@tabler/icons-react'
-import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { SettingOptions } from 'lib/constants/settingsConstants'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import {

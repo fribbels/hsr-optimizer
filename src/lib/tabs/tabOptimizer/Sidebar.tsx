@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mantine/hooks'
-import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { SettingOptions } from 'lib/constants/settingsConstants'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { OptimizerSidebar } from 'lib/tabs/tabOptimizer/sidebar/OptimizerSidebar'
 

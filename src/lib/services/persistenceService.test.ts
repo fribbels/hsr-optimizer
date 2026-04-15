@@ -6,7 +6,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { DefaultSettingOptions } from 'lib/constants/settingsConstants'
 import {
   loadSaveData,
   mergePartialRelics,

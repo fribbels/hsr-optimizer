@@ -1,5 +1,7 @@
+import { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import {
   Parts,
+  type Sets,
 } from 'lib/constants/constants'
 import type {
   RelicBuild,
@@ -13,7 +15,9 @@ import {
   RelicSetToIndex,
 } from 'lib/sets/setConfigRegistry'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { type Nullable } from 'types/common'
 import type { SimulationMetadata } from 'types/metadata'
+import { type Relic } from 'types/relic'
 
 export type SimulationSets = {
   relicSet1: SetsRelics,
@@ -63,17 +67,17 @@ export function calculateSimSets(
   return { relicSet1, relicSet2, ornamentSet }
 }
 
-export function calculateSetNames(relicsByPart: RelicBuild) {
-  Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] || emptyRelicWithSetAndSubstats())
+export function calculateSetNames(relicsByPart: Record<Parts, Nullable<{ set: Sets | null }>>) {
+  Object.values(Parts).forEach((x) => relicsByPart[x] = relicsByPart[x] ?? { set: null })
   const relicSets = [
-    relicsByPart[Parts.Head].set,
-    relicsByPart[Parts.Hands].set,
-    relicsByPart[Parts.Body].set,
-    relicsByPart[Parts.Feet].set,
+    relicsByPart[Parts.Head]!.set,
+    relicsByPart[Parts.Hands]!.set,
+    relicsByPart[Parts.Body]!.set,
+    relicsByPart[Parts.Feet]!.set,
   ].filter((x) => x != null)
   const ornamentSets = [
-    relicsByPart[Parts.PlanarSphere].set,
-    relicsByPart[Parts.LinkRope].set,
+    relicsByPart[Parts.PlanarSphere]!.set,
+    relicsByPart[Parts.LinkRope]!.set,
   ].filter((x) => x != null)
   const relicSetNames = calculateRelicSets(relicSets, true)
   const ornamentSetName: string | undefined = calculateOrnamentSets(ornamentSets, true)
@@ -108,13 +112,6 @@ export function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = tr
     )
   }
   return undefined
-}
-
-function emptyRelicWithSetAndSubstats() {
-  return {
-    set: null,
-    substats: [],
-  }
 }
 
 // Gradual scale

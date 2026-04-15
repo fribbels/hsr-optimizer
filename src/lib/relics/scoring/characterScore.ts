@@ -4,6 +4,7 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
+import { type Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
 import { scoreToRating } from './scoreFormatting'
 import { MIN_ROLL_VALUE } from './scoringConstants'
@@ -32,8 +33,8 @@ function countPairs<T extends string | number | symbol>(arr: T[]): number {
  */
 export function scoreCharacterWithRelicsUsingScorer(
   character: Character | undefined,
-  relics: (Relic | undefined)[],
-  getCurrentRelicScore: (relic: Relic | undefined, id: CharacterId) => RelicScoringResult,
+  relics: (Nullable<Relic>)[],
+  getCurrentRelicScore: (relic: Nullable<Relic>, id: CharacterId) => RelicScoringResult,
 ): CharacterScoringResult {
   if (!character?.id) {
     return {
@@ -62,7 +63,7 @@ export function scoreCharacterWithRelicsUsingScorer(
  */
 export function scoreCharacterUsingScorer(
   character: Character | undefined,
-  getCurrentRelicScore: (relic: Relic | undefined, id: CharacterId) => RelicScoringResult,
+  getCurrentRelicScore: (relic: Nullable<Relic>, id: CharacterId) => RelicScoringResult,
 ): CharacterScoringResult {
   if (!character) {
     return {

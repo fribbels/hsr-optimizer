@@ -4,7 +4,10 @@ import {
   BuffDisplaySize,
   BuffsAnalysisDisplay,
 } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
-import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import type {
+  PreviewRelics,
+  ShowcaseMetadata,
+} from 'lib/characterPreview/characterPreviewController'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import {
   ScoringSelector,
@@ -286,7 +289,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   displayRelics,
   showcaseMetadata,
 }: {
-  displayRelics: SingleRelicByPart,
+  displayRelics: PreviewRelics,
   showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation('charactersTab')

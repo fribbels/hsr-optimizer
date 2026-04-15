@@ -1,3 +1,4 @@
+import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
@@ -56,7 +57,7 @@ const previewCache = new Map<string, PreparedState>()
 export function computeScoringCacheKey(
   character: Character,
   simulationMetadata: SimulationMetadata | null,
-  singleRelicByPart: SingleRelicByPart,
+  singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): string | null {
   if (!simulationMetadata) return null
@@ -94,7 +95,7 @@ export function getOrComputePreview(
   cacheKey: string,
   character: Character,
   simulationMetadata: SimulationMetadata,
-  singleRelicByPart: SingleRelicByPart,
+  singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): PreparedState | null {
   if (cacheKey === null) return null
@@ -135,7 +136,7 @@ export function requestScore(
   cacheKey: string | null,
   character: Character,
   simulationMetadata: SimulationMetadata,
-  singleRelicByPart: SingleRelicByPart,
+  singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
   if (cacheKey === null) return Promise.resolve(null)
@@ -193,7 +194,7 @@ export function requestScoreUpgrades(
   cacheKey: string | null,
   character: Character,
   simulationMetadata: SimulationMetadata,
-  singleRelicByPart: SingleRelicByPart,
+  singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
   if (cacheKey === null) return Promise.resolve(null)

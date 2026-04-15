@@ -1,6 +1,9 @@
 import { SegmentedControl } from '@mantine/core'
 import { CharacterScoringSummary } from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary'
-import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import type {
+  PreviewRelics,
+  ShowcaseMetadata,
+} from 'lib/characterPreview/characterPreviewController'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
@@ -20,7 +23,7 @@ import { useTranslation } from 'react-i18next'
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType
   showcaseMetadata: ShowcaseMetadata
-  displayRelics: SingleRelicByPart
+  displayRelics: PreviewRelics
 }
 
 export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
@@ -107,7 +110,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
 })
 
 function StatScoringSummary({ displayRelics, showcaseMetadata }: {
-  displayRelics: SingleRelicByPart,
+  displayRelics: PreviewRelics,
   showcaseMetadata: ShowcaseMetadata,
 }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.EST-TBP' })

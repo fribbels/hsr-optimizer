@@ -6,6 +6,7 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
+import { type Nullable } from 'types/common'
 import type {
   Relic,
   RelicId,
@@ -67,7 +68,7 @@ export class ScoringCache {
     return score
   }
 
-  getCurrentRelicScore(relic: Relic | undefined, id: CharacterId): RelicScoringResult {
+  getCurrentRelicScore(relic: Nullable<Relic>, id: CharacterId): RelicScoringResult {
     if (!relic) {
       return {
         score: '0',
@@ -128,7 +129,7 @@ export class ScoringCache {
 
   scoreCharacterWithRelics(
     character: Character | undefined,
-    relics: (Relic | undefined)[],
+    relics: Nullable<Relic>[],
   ): CharacterScoringResult {
     return scoreCharacterWithRelicsUsingScorer(
       character,
@@ -162,7 +163,7 @@ export class RelicScorer extends ScoringCache {
     return new RelicScorer().getCurrentRelicScore(relic, id)
   }
 
-  static scoreCharacterWithRelics(character: Character, relics: (Relic | undefined)[]) {
+  static scoreCharacterWithRelics(character: Character, relics: (Nullable<Relic>)[]) {
     return new RelicScorer().scoreCharacterWithRelics(character, relics)
   }
 

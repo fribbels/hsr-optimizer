@@ -1,3 +1,4 @@
+import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
@@ -198,7 +199,7 @@ export class BenchmarkSimulationOrchestrator {
     }
   }
 
-  public setOriginalSimRequestWithRelics(relicsByPart: SingleRelicByPart) {
+  public setOriginalSimRequestWithRelics(relicsByPart: PreviewRelics) {
     const relics = clone(relicsByPart)
     const { relicSetNames, ornamentSetName } = calculateSetNames(relics)
     const scoringParams = benchmarkScoringParams

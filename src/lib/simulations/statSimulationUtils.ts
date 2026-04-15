@@ -1,3 +1,4 @@
+import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import {
   Parts,
   Stats,
@@ -12,6 +13,8 @@ import {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { type Nullable } from 'types/common'
+import { Relic } from 'types/relic'
 
 export function relicSetIndexToNames(relicSetIndex: number) {
   const numSetsR = Object.values(SetsRelics).length
@@ -31,7 +34,7 @@ export function ornamentSetIndexToName(ornamentSetIndex: number) {
 }
 
 export function convertRelicsToSimulation(
-  relicsByPart: Partial<SingleRelicByPart>,
+  relicsByPart: Partial<PreviewRelics>,
   relicSet1: string,
   relicSet2: string,
   ornamentSet?: string,

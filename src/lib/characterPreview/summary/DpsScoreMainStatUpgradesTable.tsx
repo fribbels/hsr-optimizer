@@ -3,7 +3,10 @@ import {
   Tooltip,
 } from '@mantine/core'
 import type { TFunction } from 'i18next'
-import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import type {
+  PreviewRelics,
+  ShowcaseMetadata,
+} from 'lib/characterPreview/characterPreviewController'
 import {
   ScoringSelector,
   SimScoringContext,
@@ -58,7 +61,7 @@ type MainStatUpgradeItem = {
 
 export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgradesTable({ meta, relics }: {
   meta: ShowcaseMetadata,
-  relics: SingleRelicByPart,
+  relics: PreviewRelics,
 }) {
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })

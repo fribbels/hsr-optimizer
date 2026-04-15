@@ -1,3 +1,4 @@
+import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { CUSTOM_TEAM } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
@@ -21,7 +22,7 @@ import type { SavedBuild } from 'types/savedBuild'
 export function prepareOrchestrator(
   character: Character,
   simulationMetadata: SimulationMetadata,
-  singleRelicByPart: SingleRelicByPart,
+  singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): BenchmarkSimulationOrchestrator {
   // Clone metadata because setMetadata() mutates substats, parts, relicSets, ornamentSets in-place.

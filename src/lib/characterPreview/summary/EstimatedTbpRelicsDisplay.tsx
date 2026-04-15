@@ -1,4 +1,7 @@
-import type { ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
+import type {
+  PreviewRelics,
+  ShowcaseMetadata,
+} from 'lib/characterPreview/characterPreviewController'
 import {
   countRelicRolls,
   flatReduction,
@@ -30,6 +33,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import { type CharacterId } from 'types/character'
+import { type Nullable } from 'types/common'
 import type { ReactElement } from 'types/components'
 import { type ScoringMetadata } from 'types/metadata'
 import type {
@@ -42,7 +46,7 @@ export const EstimatedTbpRelicsDisplay = memo(function EstimatedTbpRelicsDisplay
   displayRelics,
   showcaseMetadata,
 }: {
-  displayRelics: SingleRelicByPart,
+  displayRelics: PreviewRelics,
   showcaseMetadata: ShowcaseMetadata,
 }) {
   const scoringMetadata = useScoringMetadata(showcaseMetadata.characterId)

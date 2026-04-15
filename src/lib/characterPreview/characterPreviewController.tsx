@@ -102,6 +102,8 @@ export type ScoringResults = {
   totalRating: string,
 }
 
+export type PreviewRelics = Record<Parts, Relic | null>
+
 export function getPreviewRelics(
   source: ShowcaseSource,
   character: Character,
@@ -109,20 +111,20 @@ export function getPreviewRelics(
   buildOverride?: SavedBuild | null,
 ) {
   let scoringResults: ScoringResults
-  let displayRelics: SingleRelicByPart
+  let displayRelics: PreviewRelics
   // Showcase tab relics are stored in equipped as relics instead of ids
   if (source !== ShowcaseSource.SHOWCASE_TAB) {
     displayRelics = {
-      Head: getRelic(relicsById, character, Parts.Head, buildOverride)!,
-      Hands: getRelic(relicsById, character, Parts.Hands, buildOverride)!,
-      Body: getRelic(relicsById, character, Parts.Body, buildOverride)!,
-      Feet: getRelic(relicsById, character, Parts.Feet, buildOverride)!,
-      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildOverride)!,
-      LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildOverride)!,
+      Head: getRelic(relicsById, character, Parts.Head, buildOverride),
+      Hands: getRelic(relicsById, character, Parts.Hands, buildOverride),
+      Body: getRelic(relicsById, character, Parts.Body, buildOverride),
+      Feet: getRelic(relicsById, character, Parts.Feet, buildOverride),
+      PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildOverride),
+      LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildOverride),
     }
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
   } else {
-    const equipped = character.equipped as unknown as SingleRelicByPart
+    const equipped = character.equipped as unknown as PreviewRelics
     const relicsArray = Object.values(equipped)
     scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
     displayRelics = equipped
@@ -204,7 +206,7 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
 
 export function getShowcaseStats(
   character: Character,
-  displayRelics: SingleRelicByPart,
+  displayRelics: PreviewRelics,
 ) {
   const statCalculationRelics = clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))

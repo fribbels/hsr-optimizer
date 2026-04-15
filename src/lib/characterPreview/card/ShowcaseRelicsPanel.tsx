@@ -16,6 +16,7 @@ import {
 } from 'react'
 import { type CharacterId } from 'types/character'
 import { type Relic } from 'types/relic'
+import { type PreviewRelics } from '../characterPreviewController'
 
 const leftParts: Parts[] = [Constants.Parts.Head, Constants.Parts.Body, Constants.Parts.PlanarSphere]
 const rightParts: Parts[] = [Constants.Parts.Hands, Constants.Parts.Feet, Constants.Parts.LinkRope]
@@ -34,16 +35,16 @@ export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
   setSelectedRelic: (r: Relic) => void,
   setEditModalOpen: (b: boolean, relic?: Relic) => void,
   setAddModalOpen: (b: boolean, part: Parts, relic?: Relic) => void,
-  displayRelics: SingleRelicByPart,
+  displayRelics: PreviewRelics,
   source: ShowcaseSource,
   scoringType: ScoringType,
   characterId: CharacterId,
   scoredRelics: RelicScoringResult[],
 }) {
   const relicByPart = useMemo(() => {
-    const map: Partial<Record<Parts, Relic>> = {}
+    const map: Partial<Record<Parts, Relic | null>> = {}
     for (const part of ALL_PARTS) {
-      map[part] = { ...displayRelics[part], part }
+      map[part] = displayRelics[part] ? { ...displayRelics[part], part } : null
     }
     return map
   }, [displayRelics])

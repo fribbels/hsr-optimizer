@@ -56,6 +56,7 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
+import { type PreviewRelics } from '../characterPreviewController'
 import styles from './ShowcaseDpsScore.module.css'
 
 export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
@@ -182,7 +183,7 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
 })
 
 export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader(props: {
-  relics: SingleRelicByPart,
+  relics: PreviewRelics,
   tempOptions: ShowcaseTemporaryOptions,
 }) {
   const { t } = useTranslation(['charactersTab'])
@@ -202,7 +203,7 @@ export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader(props
 })
 
 function ShowcaseDpsScoreHeaderReady({ relics, t }: {
-  relics: SingleRelicByPart,
+  relics: PreviewRelics,
   t: TFunction<'charactersTab', undefined>,
 }) {
   const result = useSimScoringContext(ScoringSelector.Score)

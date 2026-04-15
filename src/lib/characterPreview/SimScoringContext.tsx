@@ -22,6 +22,7 @@ import type {
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
+import { type PreviewRelics } from './characterPreviewController'
 
 interface SimScoringContext {
   preview: PreparedState | null
@@ -49,7 +50,7 @@ export const SimScoringContext = createContext<SimScoringContext>({
 interface SimScoringContextProps extends PropsWithChildren {
   character: Character
   simulationMetadata: SimulationMetadata | null
-  singleRelicByPart: SingleRelicByPart
+  singleRelicByPart: PreviewRelics
   showcaseTemporaryOptions: ShowcaseTemporaryOptions
 }
 

@@ -88,7 +88,7 @@ const displayTextMap: Record<string, string> = {
 }
 
 function StatRowDivider() {
-  return <span style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: '1px dashed rgba(255, 255, 255, 0.10)' }} />
+  return <span role="separator" style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: '1px dashed rgba(255, 255, 255, 0.10)' }} />
 }
 
 export const StatRow = memo(function StatRow({

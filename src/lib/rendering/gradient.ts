@@ -13,11 +13,11 @@ export type GridAggregations = {
 const optimizerGridGradient = chroma.scale(['#5A1A06', '#343127', '#38821F']).domain([0, 0.35, 1])
 const NEUTRAL_OPTIMIZER_STYLE = { '--cell-bg': optimizerGridGradient(0.5).hex() } as const
 const GRADIENT_BUCKETS = 201 // 0-200 inclusive
-let optimizerGradientCache: Array<{ '--cell-bg': string } | undefined> = new Array(GRADIENT_BUCKETS)
+let optimizerGradientCache: Array<{ '--cell-bg': string } | undefined> = Array.from({ length: GRADIENT_BUCKETS })
 
 // this default is overwritten on page load, Gradient.setTheme() in App.tsx
 let relicGridGradient = chroma.scale(['#343127', '#38821F'])
-let relicGradientCache: Array<{ '--cell-bg': string } | undefined> = new Array(GRADIENT_BUCKETS)
+let relicGradientCache: Array<{ '--cell-bg': string } | undefined> = Array.from({ length: GRADIENT_BUCKETS })
 
 const relicColumnRanges = {
   'augmentedStats.HP': 169.35,
@@ -46,7 +46,7 @@ export const Gradient = {
   },
 
   clearOptimizerGradientCache() {
-    optimizerGradientCache = new Array(GRADIENT_BUCKETS)
+    optimizerGradientCache = Array.from({ length: GRADIENT_BUCKETS })
   },
 
   getOptimizerColumnGradient: (params: CellClassParams<OptimizerDisplayDataStatSim, number>) => {
@@ -78,7 +78,7 @@ export const Gradient = {
 
   setTheme(darkBg: string, primaryLight: string) {
     relicGridGradient = chroma.scale([darkBg, primaryLight])
-    relicGradientCache = new Array(GRADIENT_BUCKETS)
+    relicGradientCache = Array.from({ length: GRADIENT_BUCKETS })
   },
 
   getRelicGradient(params: CellClassParams<ScoredRelic>) {

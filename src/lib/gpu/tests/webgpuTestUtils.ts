@@ -32,8 +32,8 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   request.resultSort = SortOption.COMBO.key
   const context = generateContext(request)
 
-  const relicSetSolutions = new Array<number>(Math.pow(Object.keys(SetsRelics).length, 4)).fill(1)
-  const ornamentSetSolutions = new Array<number>(Math.pow(Object.keys(SetsOrnaments).length, 2)).fill(1)
+  const relicSetSolutions = Array.from<number>({ length: Math.pow(Object.keys(SetsRelics).length, 4) }).fill(1)
+  const ornamentSetSolutions = Array.from<number>({ length: Math.pow(Object.keys(SetsOrnaments).length, 2) }).fill(1)
   const permutations = 1
 
   const gpuContext = await initializeGpuPipeline(

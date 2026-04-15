@@ -195,7 +195,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
   const failsEhpFilter = ehpFilter(request)
   const failsRatingFilter = ratingFilter(request, context)
 
-  const sets = new Array(6)
+  const sets = Array.from<number>({ length: 6 })
   const setCounts: SetCounts = { relicMatch2: 0, relicMatch4: 0, ornamentMatch2: 0 }
 
   for (let col = 0; col < limit; col++) {

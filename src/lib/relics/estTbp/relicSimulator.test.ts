@@ -130,7 +130,7 @@ test('Simulated relics', () => {
     }
   }
 
-  const histogram = new Array(80).fill(0)
+  const histogram = Array.from({ length: 80 }, () => 0)
   for (const result of results) {
     histogram[Math.floor(result * 10)]++
   }

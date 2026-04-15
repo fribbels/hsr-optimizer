@@ -44,8 +44,7 @@ let _toFixed1Table: string[] | undefined
 
 export function toFixed1(n: number): string {
   if (!_toFixed1Table) {
-    _toFixed1Table = new Array(600)
-    for (let i = 0; i < 600; i++) _toFixed1Table[i] = (i / 10).toFixed(1)
+    _toFixed1Table = Array.from({ length: 600 }, (_, i) => (i / 10).toFixed(1))
   }
   const idx = Math.round(n * 10)
   return idx >= 0 && idx < 600 ? _toFixed1Table[idx] : n.toFixed(1)

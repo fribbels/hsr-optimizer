@@ -43,7 +43,7 @@ export function setComboNumberCategoryCharacterActivation(comboState: ComboState
       category.partitions.forEach((x) => x.activations[index] = false)
       const newPartition = {
         value,
-        activations: new Array(ABILITY_LIMIT + 1).fill(false),
+        activations: Array.from({ length: ABILITY_LIMIT + 1 }, () => false),
       }
       newPartition.activations[index] = true
       category.partitions.push(newPartition)

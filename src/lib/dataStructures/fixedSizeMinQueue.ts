@@ -77,7 +77,7 @@ export class FixedSizeMinQueue<T> {
   constructor(limit: number) {
     this.limit = limit
     this.heap = new MinQueue(limit + 1, Uint32Array)
-    this.objects = new Array(limit + 1)
+    this.objects = Array.from<T>({ length: limit + 1 })
   }
 
   size(): number {

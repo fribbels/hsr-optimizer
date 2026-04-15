@@ -49,11 +49,11 @@ export const ArrayFilters = {
 }
 
 export function arrayOfZeroes(n: number): number[] {
-  return new Array(n).fill(0)
+  return Array.from({ length: n }, () => 0)
 }
 
 export function arrayOfValue<T>(n: number, x: T): T[] {
-  return new Array(n).fill(x)
+  return Array.from({ length: n }, () => x)
 }
 
 /** Check if two arrays have equal elements (shallow comparison) */

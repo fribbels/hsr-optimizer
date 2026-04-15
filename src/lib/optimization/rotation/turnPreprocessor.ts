@@ -44,12 +44,12 @@ export function preprocessTurnAbilities(input: TurnAbility[]): TurnAbility[] {
   inputAbilities.shift()
 
   const state: TurnState = {
-    turnStarts: new Array(inputAbilities.length).fill(false),
-    turnEnds: new Array(inputAbilities.length).fill(false),
+    turnStarts: Array.from({ length: inputAbilities.length }, () => false),
+    turnEnds: Array.from({ length: inputAbilities.length }, () => false),
     turnRanges: [],
     originalAbilities: inputAbilities,
     normalizedAbilities: [],
-    inTurn: new Array(inputAbilities.length).fill(false),
+    inTurn: Array.from({ length: inputAbilities.length }, () => false),
     hasBasicOrSkill: [],
   }
 

@@ -1,5 +1,6 @@
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import type {
   Character,
   CharacterId,
@@ -78,12 +79,13 @@ export function getCharacterById(id: CharacterId | undefined): Character | undef
 // Optimizer rank sync: when characters change, update the optimizer's rank filter
 useCharacterStore.subscribe((state, prev) => {
   if (state.characters === prev.characters) return
-  const focusId = useOptimizerDisplayStore.getState().focusCharacterId
-  if (!focusId) return
-  const rank = state.characters.findIndex((c) => c.id === focusId)
-  if (rank >= 0) {
-    void import('lib/stores/optimizerForm/useOptimizerRequestStore').then(({ useOptimizerRequestStore }) => {
-      useOptimizerRequestStore.getState().setRelicFilterField('rank', rank)
-    })
+
+  const currentFocusId = useOptimizerDisplayStore.getState().focusCharacterId
+  if (!currentFocusId) return
+
+  const rank = state.characters.findIndex((c) => c.id === currentFocusId)
+
+  if (rank >= 0 && useOptimizerRequestStore.getState().rank !== rank) {
+    useOptimizerRequestStore.getState().setRelicFilterField('rank', rank)
   }
 })

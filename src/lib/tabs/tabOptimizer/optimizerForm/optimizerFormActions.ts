@@ -174,12 +174,7 @@ export function recalculatePermutations(): void {
   }
   useOptimizerDisplayStore.getState().setPermutationDetails(permutationDetails)
   useOptimizerDisplayStore.getState().setPermutations(
-    counts.Head
-      * counts.Hands
-      * counts.Body
-      * counts.Feet
-      * counts.PlanarSphere
-      * counts.LinkRope,
+    counts.Head * counts.Hands * counts.Body * counts.Feet * counts.PlanarSphere * counts.LinkRope,
   )
 }
 
@@ -362,6 +357,13 @@ export function updateCharacter(characterId: CharacterId): void {
 
   // Load form into store (replaces formToDisplay + setFieldsValue)
   useOptimizerRequestStore.getState().loadForm(form)
+
+  // Sync rank to character's current position in the list (saved rank may be stale if characters were reordered)
+  const characters = useCharacterStore.getState().characters
+  const currentRank = characters.findIndex((c) => c.id === characterId)
+  if (currentRank >= 0) {
+    useOptimizerRequestStore.getState().setRelicFilterField('rank', currentRank)
+  }
 
   useOptimizerDisplayStore.getState().setFocusCharacterId(characterId)
   useOptimizerRequestStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
